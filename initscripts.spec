@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.97
+Version: 6.98
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -15,7 +15,7 @@ Requires: modutils >= 2.3.11-5
 Requires: util-linux >= 2.10s-11, mount >= 2.11l
 Requires: bash >= 2.0, SysVinit
 Requires: /sbin/ip, /sbin/arping, net-tools
-Requires: /sbin/update, /etc/redhat-release
+Requires: /etc/redhat-release
 Conflicts: kernel <= 2.4.11, timeconfig < 3.0, pppd < 2.3.9, wvdial < 1.40-3
 Conflicts: ypbind < 1.6-12, psacct < 6.3.2-12, kbd < 1.06-19, lokkit < 0.50-14
 Obsoletes: rhsound sapinit
@@ -256,6 +256,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Wed Dec 11 2002 Bill Nottingham <notting@redhat.com> 6.98-1
+- remove call to /sbin/update
+- fix netprofile
+
 * Mon Dec  2 2002 Bill Nottingham <notting@redhat.com> 6.97-1
 - IPv6 update (<pekkas@netcore.fi>, <pb@bieringer.de>)
 - devlabel support (<Gary_Lerhaupt@Dell.com>)
