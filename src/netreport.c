@@ -21,9 +21,12 @@ int main(int argc, char ** argv) {
 
     if (argc > 2) usage();
 
-    if ((argc > 1) && !strcmp(argv[1], "-r")) {
-	action = DEL;
-    }
+    if (argc > 1)
+	  if (!strcmp(argv[1], "-r")) {
+		  action = DEL;
+	  } else {
+		  usage();
+	  }
 
     sprintf(netreport_name, "/var/run/netreport/%d", getppid());
     if (action == ADD) {
