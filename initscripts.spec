@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.89
+%define version 4.90
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
@@ -228,6 +228,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Feb  4 2000 Bill Nottingham <notting@redhat.com>
+- if LC_ALL/LINGUAS == LANG, don't set them
+
 * Wed Feb  2 2000 Bill Nottingham <notting@redhat.com>
 - fix problems with linuxconf static routes
 
