@@ -1,13 +1,13 @@
 #!/bin/sh
 
-# Set preferred X display manager link
+# Run preferred X display manager
 preferred=
 if [ -f /etc/sysconfig/desktop ]; then
-	if [ -n "grep GNOME /etc/sysconfig/desktop" ]; then
+	if grep -q GNOME /etc/sysconfig/desktop 2>/dev/null; then
 		preferred=gdm
-	elif [ -n "grep KDE /etc/sysconfig/desktop" ]; then
+	elif grep -q KDE /etc/sysconfig/desktop 2> /dev/null; then
 		preferred=kdm
-	elif [ -n "grep AnotherLevel /etc/sysconfig/desktop" ]; then
+	elif grep -q AnotherLevel /etc/sysconfig/desktop 2> /dev/null; then
                 preferred=xdm
 	fi
 fi
