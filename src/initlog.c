@@ -25,6 +25,7 @@ static int logfacility=LOG_DAEMON;
 static int logpriority=LOG_NOTICE;
 static int reexec=0;
 static int quiet=0;
+int debug=0;
 
 static int logEntries = 0;
 struct logInfo *logData = NULL;
@@ -87,8 +88,10 @@ int startDaemon() {
     if ( pid ) {
 	/* parent */
 	waitpid(pid,&rc,0);
-	if (WIFEXITED(rc))
+	if (WIFEXITED(rc)) {
+	  DDEBUG("minilogd returned %d!\n",WEXITSTATUS(rc));
 	  return WEXITSTATUS(rc);
+	}
 	else
 	  return -1;
     } else {
@@ -101,27 +104,30 @@ int startDaemon() {
 	/* kid */
 	execlp("minilogd","minilogd",NULL);
 	perror("exec");
+	abort();
 	exit(-1);
     }
 }
 
 int logLine(struct logInfo *logEnt) {
     /* Logs a line... somewhere. */
-    int x,y,z;
+    int x=0,y=0,z=0;
     struct stat statbuf;
     
     /* Don't log empty or null lines */
     if (!logEnt->line || !strcmp(logEnt->line,"\n")) return 0;
-
-    if  ( ((stat(_PATH_LOG,&statbuf)==-1)||(access(_PATH_LOG,W_OK)==-1))
-	  && (x=startDaemon())
+    
+    if  ( ((stat(_PATH_LOG,&statbuf)==-1) ||(access("/",W_OK)==-1))
+	  && startDaemon()
 	) {
+	DDEBUG("starting daemon failed, pooling entry %d\n",logEntries);
 	logData=realloc(logData,(logEntries+1)*sizeof(struct logInfo));
 	logData[logEntries]= (*logEnt);
 	logEntries++;
     } else {
 	if (logEntries>0) {
 	    for (x=0;x<logEntries;x++) {
+		DDEBUG("flushing log entry %d =%s=\n",x,logData[x].line);
 		openlog(logData[x].cmd,0,logData[x].fac);
 		syslog(logData[x].pri,"%s",logData[x].line);
 		closelog();
@@ -129,6 +135,7 @@ int logLine(struct logInfo *logEnt) {
 	    free(logData);
 	    logEntries = 0;
 	}
+	DDEBUG("logging =%s= via syslog\n",logEnt->line);
 	openlog(logEnt->cmd,0,logEnt->fac);
 	syslog(logEnt->pri,"%s",logEnt->line);
 	closelog();
@@ -207,6 +214,9 @@ int processArgs(int argc, char **argv, int silent) {
 	},
 	{ "cmd", 'c', POPT_ARG_STRING, &cmd, 0,
 	  "command to run, logging output", NULL
+	},
+        { "debug", 'd', POPT_ARG_NONE, &debug, 0,
+	  "print lots of verbose debugging info", NULL
 	},
 	{ "run", 'r', POPT_ARG_STRING, &cmd, 3,
 	  "command to run, accepting input on open fd", NULL
@@ -289,7 +299,7 @@ int processArgs(int argc, char **argv, int silent) {
     } else if (logstring) {
 	logString(cmdname,logstring);
     } else if ( cmd ) {
-	return(runCommand(cmd,reexec,quiet));
+	return(runCommand(cmd,reexec,quiet,debug));
     } else {
         if (!silent)
 	 fprintf(stderr,"nothing to do!\n");

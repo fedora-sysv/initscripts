@@ -97,7 +97,7 @@ int forkCommand(char **args, int *outfd, int *errfd, int *cmdfd, int quiet) {
     }
 }
 
-int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet) {
+int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet, int debug) {
     struct pollfd *pfds;
     char *buf=malloc(2048*sizeof(char));
     int outpipe[2];
@@ -144,6 +144,7 @@ int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet)
 		     if (!reexec) {
 			 if (getenv("IN_INITLOG")) {
 			     char *buffer=calloc(2048,sizeof(char));
+			     DDEBUG("sending =%s= to initlog parent\n",tmpstr);
 			     snprintf(buffer,2048,"-n %s -s \"%s\"\n",
 				      cmdname,tmpstr);
 			     write(CMD_FD,buffer,strlen(buffer));
@@ -151,8 +152,7 @@ int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet)
 			 } else {
 			     logString(cmdname,tmpstr);
 			 }
-		     }
-		     else {
+		     } else {
 			char **cmdargs=NULL;
 			char **tmpargs=NULL;
 			int cmdargc,x;
@@ -191,7 +191,7 @@ int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet)
    return 0;
 }
 
-int runCommand(char *cmd, int reexec, int quiet) {
+int runCommand(char *cmd, int reexec, int quiet, int debug) {
     int fds[2];
     int pid,x;
     char **args, **tmpargs;
@@ -212,12 +212,12 @@ int runCommand(char *cmd, int reexec, int quiet) {
       cmdname+=3;
     if (!reexec) {
        pid=forkCommand(args,&fds[0],&fds[1],NULL,quiet);
-       x=monitor(cmdname,pid,2,fds,reexec,quiet);
+       x=monitor(cmdname,pid,2,fds,reexec,quiet,debug);
     } else {
        setenv("IN_INITLOG","yes",1);
        pid=forkCommand(args,NULL,NULL,&fds[0],quiet);
        unsetenv("IN_INITLOG");
-       x=monitor(cmdname,pid,1,&fds[0],reexec,quiet);
+       x=monitor(cmdname,pid,1,&fds[0],reexec,quiet,debug);
     }
     return x;
 }

@@ -23,6 +23,8 @@ static int we_own_log=0;
 static char **buffer=NULL;
 static int buflines=0;
 
+int debug;
+
 void freeBuffer() {
    struct sockaddr_un addr;
    int sock;
@@ -50,7 +52,6 @@ void cleanup(int exitcode) {
       unlink(_PATH_LOG);
    }
    /* Don't try to free buffer if we were called from a signal handler */
-   perror("foo");
    if (exitcode<=0) {
        if (buffer) freeBuffer();
        exit(exitcode);
@@ -121,11 +122,13 @@ void runDaemon(int sock) {
    cleanup(0);
 }
 
-int main() {
+int main(int argc, char **argv) {
    struct sockaddr_un addr;
    int sock;
    int pid;
     
+   /* option processing made simple... */
+   if (argc>1) debug=1;
    /* just in case */
    sock = open("/dev/null",O_RDWR);
    dup2(sock,0);
@@ -143,16 +146,16 @@ int main() {
       listen(sock,5);
       if ((pid=fork())==-1) {
 	 perror("fork");
-	 exit(-1);
+	 exit(3);
       }
       if (pid) {
 	 exit(0);
       } else {
 	  runDaemon(sock);
 	  /* shouldn't get back here... */
-	  exit(-1);
+	  exit(4);
       }
    } else {
-      exit(-1);
+      exit(5);
    }
 }
