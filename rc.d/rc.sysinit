@@ -384,6 +384,44 @@ fi
 # filesystems are NOT unmounted in single user mode.
 action "Mounting local filesystems" mount -a -t nonfs,smbfs,ncpfs,proc
 
+# Configure machine if necessary.
+if [ -f /.unconfigured ]; then
+    if [ -x /usr/sbin/rootconfig ]; then
+	/usr/sbin/rootconfig
+    else if [ -x /usr/bin/passwd ]; then 
+        /usr/bin/passwd root
+    fi
+    if [ -x /usr/sbin/netconfig ]; then
+	/usr/sbin/netconfig
+    fi
+    if [ -x /usr/sbin/timeconfig ]; then
+	/usr/sbin/timeconfig
+    fi
+    if [ -x /usr/sbin/authconfig ]; then
+	/usr/sbin/authconfig --nostart
+    fi
+    if [ -x /usr/sbin/ntsysv ]; then
+	/usr/sbin/ntsysv --level 35
+    fi
+
+    # Reread in network configuration data.
+    if [ -f /etc/sysconfig/network ]; then
+	. /etc/sysconfig/network
+
+	# Reset the hostname.
+	action "Resetting hostname ${HOSTNAME}" hostname ${HOSTNAME}
+
+	# Reset the NIS domain name.
+	if [ -n "$NISDOMAIN" ]; then
+	    action "Resetting NIS domain name $NISDOMAIN" domainname $NISDOMAIN
+	else
+	    domainname ""
+	fi
+    fi
+
+    rm -f /.unconfigured
+fi
+
 if [ -x /sbin/quotaon ]; then
     action "Turning on user and group quotas for local filesystems" /sbin/quotaon -a
 fi
