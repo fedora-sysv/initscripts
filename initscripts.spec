@@ -66,7 +66,7 @@ touch $RPM_BUILD_ROOT/var/log/wtmp
 
 %pre
 /usr/sbin/groupadd -g 22 -r -f utmp
-if [ -e /etc/rc.d ! -L /etc/rc.d -a -d /etc/init.d ]; then
+if [ -e /etc/rc.d -a ! -L /etc/rc.d -a -d /etc/init.d ]; then
    echo "can't move /etc/rc.d/init.d -> /etc/init.d - bailing"
    exit 1
 fi
