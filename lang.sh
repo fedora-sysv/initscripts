@@ -18,11 +18,6 @@ if [ -f /etc/sysconfig/i18n ]; then
 	export TERM=$SYSTERM
     fi
 
-    # Set console font map, but should be loaded by font.
-    if [ -n "$UNIMAP" ]; then
-	loadunimap $UNIMAP
-    fi
-    
     if [ -n "$SYSFONTACM" ]; then
         case $SYSFONTACM in
 	   iso01*|iso02*|iso15*|koi*)
