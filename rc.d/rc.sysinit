@@ -161,7 +161,7 @@ if ! grep -iq "nousb" /proc/cmdline 2>/dev/null && ! grep -q "usb" /proc/devices
       for alias in $aliases ; do 
       	action $"Initializing USB controller ($alias): " modprobe $alias
       done
-      [ $? -eq 0 ] && usb=1
+      [ $? -eq 0 -a -n "$aliases" ] && usb=1
     fi
 fi
 
@@ -171,8 +171,8 @@ fi
 
 if [ $usb = "1" ]; then
     sleep 5
-    mouseoutput=`cat /proc/bus/usb/devices|grep -E "^I.*Cls=03.*Prot=02"`
-    kbdoutput=`cat /proc/bus/usb/devices|grep -E "^I.*Cls=03.*Prot=01"`
+    mouseoutput=`cat /proc/bus/usb/devices 2>/dev/null|grep -E "^I.*Cls=03.*Prot=02"`
+    kbdoutput=`cat /proc/bus/usb/devices 2>/dev/null|grep -E "^I.*Cls=03.*Prot=01"`
     if [ -n "$kbdoutput" ] || [ -n "$mouseoutput" ]; then
 	action $"Initializing USB HID interface: " modprobe hid 2> /dev/null
     fi
