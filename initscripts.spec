@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.10
+Version: 7.11
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -17,7 +17,7 @@ Requires: bash >= 2.0, SysVinit
 Requires: /sbin/ip, /sbin/arping, net-tools
 Requires: /etc/redhat-release, dev
 Conflicts: kernel <= 2.4, timeconfig < 3.0, pppd < 2.3.9, wvdial < 1.40-3
-Conflicts: ypbind < 1.6-12, psacct < 6.3.2-12, kbd < 1.06-19, lokkit < 0.50-14
+Conflicts: ypbind < 1.6-12, psacct < 6.3.2-12, kbd < 1.06-19, lokkit < 0.50-21
 Obsoletes: rhsound sapinit
 Prereq: /sbin/chkconfig, /usr/sbin/groupadd, gawk, fileutils, sh-utils
 BuildPrereq: glib2-devel popt gettext pkgconfig
@@ -246,6 +246,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Feb 24 2003 Bill Nottingham <notting@redhat.com> 7.11-1
+- handle changed chain name
+
 * Fri Feb 21 2003 Bill Nottingham <notting@redhat.com> 7.10-1
 - handle LANGUAGE specially for zh_CN.GB18030 and gdm (#84773)
 
