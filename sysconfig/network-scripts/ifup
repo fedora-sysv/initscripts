@@ -56,8 +56,8 @@ fi
 
 # figure out more about what we are dealing with
 DEVICETYPE=`echo ${DEVICE} | sed "s/[0-9]*$//"`
-[ -z "$REALDEVICE" ] && REALDEVICE=`echo ${DEVICE} | sed 's/:.*//g'`
-if echo ${DEVICE} | grep -q ':' ; then
+[ -z "$REALDEVICE" ] && REALDEVICE=${DEVICE%%:*}
+if [ "${DEVICE}" != "${REALDEVICE}" ]; then
     ISALIAS=yes
 else
     ISALIAS=no
@@ -190,7 +190,7 @@ fi
 
 # Is there a firewall running, and does it look like one we configured?
 FWACTIVE=
-if iptables -L -n 2>/dev/null | grep -q RH-Lokkit-0-50-INPUT ; then
+if iptables -L -n 2>/dev/null | LC_ALL=C grep -q RH-Lokkit-0-50-INPUT ; then
     FWACTIVE=1
 else
     modprobe -r iptable_filter >/dev/null 2>&1
@@ -198,7 +198,7 @@ fi
 
 # Remove any temporary references which were previously added to dhclient config
 if [ -w /etc/dhclient-${DEVICE}.conf ] && [ -x /sbin/dhclient ] ; then
-   grep -v "# temporary RHL ifup addition" /etc/dhclient-${DEVICE}.conf > /etc/dhclient-${DEVICE}.conf.ifupnew 2> /dev/null
+   LC_ALL=C grep -v "# temporary RHL ifup addition" /etc/dhclient-${DEVICE}.conf > /etc/dhclient-${DEVICE}.conf.ifupnew 2> /dev/null
    cat /etc/dhclient-${DEVICE}.conf.ifupnew > /etc/dhclient-${DEVICE}.conf
    rm -f /etc/dhclient-${DEVICE}.conf.ifupnew
 fi
@@ -213,7 +213,7 @@ if [ -n "${DYNCONFIG}" ]; then
        DHCPCDARGS="${DHCPCDARGS} -h ${DHCP_HOSTNAME}"
        if [ -x /sbin/dhclient ] ; then
           if [ -w /etc/dhclient-${DEVICE}.conf ] ; then
-             if ! grep "send *host-name *\"${DHCP_HOSTNAME}\"" /etc/dhclient-${DEVICE}.conf > /dev/null 2>&1 ; then
+             if ! LC_ALL=C grep "send *host-name *\"${DHCP_HOSTNAME}\"" /etc/dhclient-${DEVICE}.conf > /dev/null 2>&1 ; then
                 echo "send host-name \"${DHCP_HOSTNAME}\";  # temporary RHL ifup addition" >> /etc/dhclient-${DEVICE}.conf
              fi
           elif ! [ -e /etc/dhclient-${DEVICE}.conf ] ; then
@@ -306,7 +306,7 @@ else
        SRC=
     fi
     
-    if ! LC_ALL=C ip addr ls ${REALDEVICE} | grep -q "${IPADDR}/${PREFIX}" ; then
+    if ! LC_ALL=C ip addr ls ${REALDEVICE} | LC_ALL=C grep -q "${IPADDR}/${PREFIX}" ; then
 	 if ! ip addr add ${IPADDR}/${PREFIX} \
 	    brd ${BROADCAST:-+} dev ${REALDEVICE} ${SCOPE} label ${DEVICE}; then
 	    echo $"Error adding address ${IPADDR} for ${DEVICE}."
