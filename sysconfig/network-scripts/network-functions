@@ -1,5 +1,7 @@
-# This is not a shell script; it provides functions to network scripts
-# that source it.
+# -*-Shell-script-*-
+#
+# This file is not a stand-alone shell script; it provides functions 
+# to network scripts that source it.
 
 need_config()
 {
@@ -98,6 +100,8 @@ check_link_down ()
 	if echo $output | grep -q "Operation not supported"; then
 	    return 1
 	elif echo $output | grep -q "link ok"; then
+	    return 1
+	elif echo $output | grep -q "No MII transceiver present"; then
 	    return 1
 	else
 	    return 0
