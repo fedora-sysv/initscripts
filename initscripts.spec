@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.44
+Version: 7.45
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -249,6 +249,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Jan 30 2004 Bill Nottingham <notting@redhat.com> 7.45-1
+- fix rc.sysinit typo
+- rc.d/init.d/network: clear out environment (#113937, #111584)
+
 * Wed Jan 28 2004 Bill Nottingham <notting@redhat.com> 7.44-1
 - NFSv4 support (<chucklever@bigfoot.com>, <steved@redhat.com>)
 - handle 2.6-style 'install ethX ...' lines correctly
