@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.72
+%define version 4.80
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
@@ -8,7 +8,7 @@ Release: 1
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /%{_tmppath}/%{name}-%{version}-%{release}-root
 Requires: mingetty, /bin/awk, /bin/sed, mktemp, e2fsprogs >= 1.15, console-tools
-Requires: procps, modutils >= 2.1.121, sysklogd >= 1.3.31
+Requires: procps >= 2.0.3, modutils >= 2.1.121, sysklogd >= 1.3.31
 Requires: setup >= 2.0.3, /sbin/fuser
 %ifarch alpha
 Requires: util-linux >= 2.9w-26
@@ -16,7 +16,7 @@ Requires: util-linux >= 2.9w-26
 Conflicts: kernel <= 2.2, timeconfig < 3.0, pppd < 2.3.9, wvdial < 1.40-3
 Conflicts: initscripts < 1.22.1-5
 Obsoletes: rhsound
-Prereq: /sbin/chkconfig, /usr/sbin/groupadd, gawk
+Prereq: /sbin/chkconfig, /usr/sbin/groupadd, gawk, sh-utils
 
 %description
 The initscripts package contains the basic system scripts used to boot
@@ -126,6 +126,34 @@ if [ $1 = 0 ]; then
   chkconfig --del network
 fi
 
+%triggerpostun -- initscripts <= 4.72
+
+. /etc/sysconfig/init
+. /etc/sysconfig/network
+
+# These are the non-default settings. By putting them at the end
+# of the /etc/sysctl.conf file, it will override the default
+# settings earlier in the file.
+
+if [ -n "$FORWARD_IPV4" -a "$FORWARD_IPV4" != "no" -a "$FORWARD_IPV4" != "false" ]; then
+	echo "# added by initscripts install on `date`" >> /etc/sysctl.conf
+	echo "net.ipv4.ip_forward = 1" >> /etc/sysctl.conf
+fi
+if [ "$DEFRAG_IPV4" = "yes" -o "$DEFRAG_IPV4" = "true" ]; then
+	echo "# added by initscripts install on `date`" >> /etc/sysctl.conf
+	echo "net.ipv4.ip_always_defrag = 1" >> /etc/sysctl.conf
+fi
+if [ -n "$MAGIC_SYSRQ" -a "$MAGIC_SYSRQ" != "no" ]; then
+	echo "# added by initscripts install on `date`" >> /etc/sysctl.conf
+	echo "kernel.sysrq = 1" >> /etc/sysctl.conf
+fi
+if uname -m | grep -q sparc ; then
+   if [ -n "$STOP_A" -a "$STOP_A" != "no" ]; then
+	echo "# added by initscripts install on `date`" >> /etc/sysctl.conf
+	echo "kernel. = 1" >> /etc/sysctl.conf
+   fi
+fi
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -173,6 +201,7 @@ rm -rf $RPM_BUILD_ROOT
 %config(missingok) /etc/rc.d/init.d/*
 %config /etc/rc.d/rc
 %config(noreplace) /etc/rc.d/rc.local
+%config(noreplace) /etc/sysctl.conf
 %config /etc/profile.d/lang.sh
 %config /etc/profile.d/lang.csh
 /usr/sbin/sys-unconfig

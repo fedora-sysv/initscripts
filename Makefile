@@ -17,6 +17,11 @@ install:
 	install -m755  service $(ROOT)/sbin
 	install -m755  sys-unconfig $(ROOT)/usr/sbin
 	install -m644  sys-unconfig.8 $(ROOT)/usr/man/man8
+	( if uname -m | grep -q sparc ; then \
+	  install -m644 sysctl.conf.sparc $(ROOT)/etc/sysctl.conf ; \
+	  else \
+	  install -m644 sysctl.conf $(ROOT)/etc/sysctl.conf ; \
+	  fi )
 	mkdir -p $(ROOT)/etc/X11
 	install -m755 prefdm $(ROOT)/etc/X11/prefdm
 	mkdir -p $(ROOT)/etc/sysconfig

@@ -44,22 +44,14 @@ fi
 
 action "Mounting proc filesystem" mount -n -t proc /proc /proc
 
-# Turn off sysrq
-if [ -f /proc/sys/kernel/sysrq -a "$MAGIC_SYSRQ" = "no" ]; then
-	echo "0" > /proc/sys/kernel/sysrq
-	action "Turning off Magic SysRq key" /bin/true
-fi
-# Turn off Stop-A
-if [ -f /proc/sys/kernel/stop-a -a "$STOP_A" = "no" ]; then
-	echo "0" > /proc/sys/kernel/stop-a
-	action "Turning off Stop-A/Break-A" /bin/true
-fi
+# Configure kernel parameters
+
+action "Configuring kernel parameters" sysctl -p /etc/sysctl.conf
 
 # Set the system clock.
 ARC=0
 SRM=0
 UTC=0
-
 
 if [ -f /etc/sysconfig/clock ]; then
    . /etc/sysconfig/clock
@@ -293,9 +285,10 @@ fi
 
 if [ -f /proc/sys/kernel/modprobe ]; then
    if [ -n "$USEMODULES" ]; then
-       echo "/sbin/modprobe" > /proc/sys/kernel/modprobe
+       sysctl -w kernel.modprobe="/sbin/modprobe" >/dev/null 2>&1
    else
-       echo "" > /proc/sys/kernel/modprobe
+       # We used to set this to NULL, but that causes 'failed to exec' messages"
+       sysctl -w kernel.modprobe="/bin/true" >/dev/null 2>&1
    fi
 fi
 

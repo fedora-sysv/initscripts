@@ -43,64 +43,9 @@ for inter in `ls ifcfg* | egrep -v '(ifcfg-lo|:)' | egrep 'ifcfg-[a-z0-9]+$'`; d
       [ -n "$int" ] && interfaces_boot="$interfaces_boot $int"
 done
 
-ipv4_forward_set ()
-{
-	# Turn IP forwarding on or off. We do this before bringing up the
-	# interfaces to make sure we don't forward when we shouldn't, and
-	# we do it even if networking isn't configured (why not?).
-	if [ -d /proc/sys/net/ipv4 ]; then
-	    # people could have left this out of their kernel, which isn't
-	    # exactly an error
-	    if [ ! -f /proc/sys/net/ipv4/ip_forward ] ; then
-		echo "/proc/sys/net/ipv4/ip_forward is missing --" \
-			"cannot control IP forwarding" >&2
-	    else
-		if [ "$FORWARD_IPV4" = "no" -o "$FORWARD_IPV4" = "false" ]; then
-		    value=0
-		    message="Disabling IPv4 packet forwarding"
-		else
-		    value=1
-		    message="Enabling IPv4 packet forwarding"
-		fi
-
-		if [ $value != `cat /proc/sys/net/ipv4/ip_forward` ]; then
-		    action "$message"  /bin/true
-		    echo "$value" > /proc/sys/net/ipv4/ip_forward
-		fi
-	    fi
-	fi
-}
-
-ipv4_defrag_set ()
-{
-	# Sets whether or not to always defrag packets.
-	# Good for masquerading. Not so good otherwise.
-	if [ -d /proc/sys/net/ipv4 ]; then
-	    if [ ! -f /proc/sys/net/ipv4/ip_always_defrag ]; then
-	       echo "/proc/sys/net/ipv4/ip_always_defrag is missing --" \
-	            "cannot control IP defragmentation" >&2
-	    else
-	       if [ "$DEFRAG_IPV4" = "yes" -o "$DEFRAG_IPV4" = "true" ]; then
-	          value=1
-		  message="Enabling IPv4 automatic defragmentation"
-	       else
-	          value=0
-		  message="Disabling IPv4 automatic defragmentation"
-	       fi
-	       
-	       if [ $value != `cat /proc/sys/net/ipv4/ip_always_defrag` ]; then
-	          action "$message" /bin/true
-		  echo "$value" > /proc/sys/net/ipv4/ip_always_defrag
-	       fi
-	    fi
-	fi
-}
-
 # See how we were called.
 case "$1" in
   start)
-	ipv4_forward_set
-	ipv4_defrag_set
 
 	action "Bringing up interface lo" ./ifup ifcfg-lo
 
@@ -142,14 +87,12 @@ case "$1" in
 	if [ -d /proc/sys/net/ipv4 ]; then
 	  if [ -f /proc/sys/net/ipv4/ip_forward ]; then
 		if [ `cat /proc/sys/net/ipv4/ip_forward` != 0 ]; then
-			action "Disabling IPv4 packet forwarding" /bin/true
-			echo 0 > /proc/sys/net/ipv4/ip_forward
+			action "Disabling IPv4 packet forwarding" sysctl -w net.ipv4.ip_forward=0
 		fi
 	  fi
 	  if [ -f /proc/sys/net/ipv4/ip_always_defrag ]; then
 	        if [ `cat /proc/sys/net/ipv4/ip_always_defrag` != 0 ]; then
-		        action "Disabling IPv4 automatic defragmentation" /bin/true
-			echo 0 > /proc/sys/net/ipv4/ip_always_defrag
+		        action "Disabling IPv4 automatic defragmentation" sysctl -w net.ipv4.ip_always_defrag=0
 		fi
 	  fi
 	fi
