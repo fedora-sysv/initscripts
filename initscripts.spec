@@ -64,7 +64,7 @@ ln -s ../rc.local $RPM_BUILD_ROOT/etc/rc.d/rc5.d/S99local
 for i in 0 1 2 3 4 5 6 ; do
   ln -s rc.d/rc$i.d $RPM_BUILD_ROOT/etc/rc$i.d
 done
-for i in init.d rc rc.sysinit rc.local ; do
+for i in rc rc.sysinit rc.local ; do
   ln -s rc.d/$i $RPM_BUILD_ROOT/etc/$i
 done
 
@@ -196,7 +196,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/rc.d
 %dir /etc/rc.d/rc[0-9].d
 %config(missingok) /etc/rc.d/rc[0-9].d/*
-/etc/init.d
 /etc/rc[0-9].d
 /etc/rc
 %dir /etc/rc.d/init.d
@@ -232,6 +231,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Sun Sep  3 2000 Florian La Roche <Florian.LaRoche@redhat.com>
+- /etc/init.d is already provided by chkconfig
+
 * Wed Aug 23 2000 Nalin Dahyabhai <nalin@redhat.com>
 - set "holdoff ${RETRYTIMEOUT} ktune" for demand-dialed PPP links
 
