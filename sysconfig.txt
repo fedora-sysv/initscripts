@@ -168,9 +168,13 @@ Files in /etc/sysconfig/network-scripts/
     USERCTL=yes|no
     BOOTPROTO=none|bootp|dhcp
 
+  If BOOTPROTO is not "none", then the only other item that
+  must be set is the DEVICE item; all the rest will be determined
+  by the boot protocol.  No "dummy" entries need to be created.
+
   Base items being deprecated:
-    NETWORK=<will be calculated automatically>
-    BROADCAST=<will be calculated automatically>
+    NETWORK=<will be calculated automatically with ifcalc>
+    BROADCAST=<will be calculated automatically with ifcalc>
 
   PPP/SLIP items:
     PERSIST=yes|no
