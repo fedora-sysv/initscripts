@@ -188,8 +188,10 @@ if [ ! -f /fastboot ]; then
 	echo "Checking filesystems."
 	fsck -R -A -V -a $fsckoptions
 
+	rc=$?
+
 	# A return of 2 or higher means there were serious problems.
-	if [ $? -gt 1 ]; then
+	if [ $rc -gt 1 ]; then
 		echo
 		echo
 		echo "*** An error occurred during the file system check."
