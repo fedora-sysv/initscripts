@@ -266,7 +266,7 @@ else
     if [ -z "${GATEWAYDEV}" -o "${GATEWAYDEV}" = "${REALDEVICE}" ]; then
 	# set up default gateway
 	if [ -n "${GATEWAY}" -a "`ipcalc --network ${GATEWAY} ${NETMASK} 2>/dev/null`" = "NETWORK=${NETWORK}" ]; then
-	    ip route add default via ${GATEWAY} ${SRC}
+	    ip route add default via ${GATEWAY} ${SRC} ${GATEWAYDEV:dev $GATEWAYDEV}
 	    DEFGW=${GATEWAY}
 	elif [ "${GATEWAYDEV}" = "${DEVICE}" ]; then
 	    ip route add default ${SRC} dev ${REALDEVICE} 
