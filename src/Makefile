@@ -1,6 +1,8 @@
 CFLAGS+=-Wall -D_GNU_SOURCE -g
 
-PROGS=usernetctl doexec netreport testd usleep ipcalc initlog minilogd loglevel getkey
+PROGS=usernetctl doexec netreport testd usleep ipcalc initlog minilogd \
+	loglevel getkey ppp-watch
+PPPWATCH_OBJS=ppp-watch.o shvar.o
 INITLOG_OBJS=initlog.o process.o
 USLEEP_OBJS=usleep.o
 
@@ -20,6 +22,7 @@ install:
 	install -s -m 755 minilogd $(ROOT)/sbin/minilogd
 	install -s -m 755 loglevel $(ROOT)/sbin/loglevel
 	install -s -m 755 getkey $(ROOT)/sbin/getkey
+	install -s -m 755 ppp-watch $(ROOT)/sbin/ppp-watch
 	install -m 644 initlog.1 $(ROOT)/usr/man/man1
 	install -m 644 doexec.1 $(ROOT)/usr/man/man1
 	install -m 644 netreport.1 $(ROOT)/usr/man/man1
@@ -42,3 +45,10 @@ initlog: $(INITLOG_OBJS)
 
 usleep: $(USLEEP_OBJS)
 	$(CC) $(LDFLAGS) -o $@ $(USLEEP_OBJS) -lpopt
+
+ppp-watch: $(PPPWATCH_OBJS)
+	$(CC) $(LDFLAGS) -o $@ $(PPPWATCH_OBJS) -lglib
+shvar.o: shvar.c
+	$(CC) $(CFLAGS) `glib-config --cflags` -c shvar.c -o shvar.o
+ppp-watch.o: ppp-watch.c
+	$(CC) $(CFLAGS) `glib-config --cflags` -c ppp-watch.c -o ppp-watch.o
