@@ -35,14 +35,24 @@ stdout or stderr.
 .I "\-e, \-\-event=[number]"
 Logs that the specified event happened. Used in conjuction
 with \fB\-\-name\fR. Currently specified events are:
-.nf
- \fB1\fR  the action completed successfully
- \fB2\fR  the action failed
- \fB3\fR  the action was cancelled at user request
- \fB4\fR  the action failed due to the failure of a dependent action
+.PD 0
+.RS 8n
+.TP 3n
+.B 1
+the action completed successfully
+.TP
+.B 2
+the action failed
+.TP
+.B 3
+the action was cancelled at user request
+.TP
+.B 4
+the action failed due to the failure of a dependent action
+.RE
+.PD
 .TP
 .I "\-f, \-\-facility=[facility]"
-
 Log at the specified syslog facility. The default
 is \fBdaemon\fR (see syslog(3)).
 .TP
