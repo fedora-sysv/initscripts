@@ -6,7 +6,7 @@
 LOGDEVICE=$6
 REALDEVICE=$1
 
-[ -x /etc/ppp/ip-down.local ] && /etc/ppp/ip-down.local $*
+[ -x /etc/ppp/ip-down.local ] && /etc/ppp/ip-down.local "$@"
 
 /etc/sysconfig/network-scripts/ifdown-post ifcfg-${LOGDEVICE}
 
