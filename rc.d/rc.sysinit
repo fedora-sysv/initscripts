@@ -431,11 +431,19 @@ if [ -f /proc/mdstat -a -f /etc/raidtab ]; then
 		RAIDDEV=`basename $i`
                 RAIDSTAT=`grep "^$RAIDDEV : active" /proc/mdstat`
 		if [ -z "$RAIDSTAT" ]; then
-			# Try raidstart first...if that fails then
+			# First scan the /etc/fstab for the "noauto"-flag
+			# for this device. If found, skip the initialization
+			# for it to avoid dropping to a shell on errors.
+			# If not, try raidstart...if that fails then
 			# fall back to raidadd, raidrun.  If that
 			# also fails, then we drop to a shell
 			RESULT=1
-			if [ -x /sbin/raidstart ]; then
+			NOAUTO=`grep "^$i" /etc/fstab | grep -c "noauto"`
+			if [ $NOAUTO -gt 0 ]; then
+			    RESULT=0
+			    RAIDDEV="$RAIDDEV(skipped)"
+			fi
+			if [ $RESULT -gt 0 -a -x /sbin/raidstart ]; then
 				/sbin/raidstart $i
 				RESULT=$?
 			fi
