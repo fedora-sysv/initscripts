@@ -259,6 +259,7 @@ rm -rf $RPM_BUILD_ROOT
 - disable hotplug during network initscript
 - don't munge wireless keys in ifup; that will be done with the
   PCMCIA wireless stuff
+- run sndconfig --mungepnp for non-native-isapnp soundcards
 
 * Wed Feb 21 2001 Bill Nottingham <notting@redhat.com>
 - initialize multiple USB controllers if necessary
