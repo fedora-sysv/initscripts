@@ -1,6 +1,6 @@
 Summary: inittab and /etc/rc.d scripts
 Name: initscripts
-%define version 3.17
+%define version 3.18
 Version: %{version}
 Copyright: GPL
 Group: Base
@@ -231,12 +231,9 @@ if [ ! -f /var/log/wtmp ]; then
   touch /var/log/wtmp
 fi
 
-chkconfig --add random 2345 20 80 "Saves and restores system entropy pool \
-for higher quality random number generation."
-chkconfig --add nfsfs 345 15 95 "[Un]Mounts all Network File System (NFS) \
-mount points."
-chkconfig --add network 345 10 97 "Activates/Deactivates all network \
-interfaces configured to start at boot time."
+chkconfig --add random 
+chkconfig --add nfsfs 
+chkconfig --add network 
 
 %postun
 if [ $1 = 0 ]; then
