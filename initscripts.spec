@@ -189,6 +189,7 @@ rm -rf $RPM_BUILD_ROOT
 /etc/sysconfig/network-scripts/ifdown-isdn
 %ifarch s390 s390x
 %config /etc/sysconfig/network-scripts/ifup-ctc
+%config /etc/sysconfig/network-scripts/ifup-escon
 %config /etc/sysconfig/network-scripts/ifup-iucv
 %endif
 %config /etc/X11/prefdm
