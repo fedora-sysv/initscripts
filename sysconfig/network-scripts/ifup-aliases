@@ -38,9 +38,19 @@ if [ -x /bin/linuxconf ] ; then
 else
     # we don't have linuxconf to fall back on, so presumably we do
     # not have to parse linuxconf ipalias ranges, either.
-    allow_null_glob_expansion=foo
+    
+    # bash 2 is so much fun. 
+    if [ "$BASH_VERSINFO" ]; then 
+       shopt -s nullglob
+    else
+       allow_null_glob_expansion=foo
+    fi
     for alias in /etc/sysconfig/network-scripts/ifcfg-$1:* ; do
 	[ -f $alias ] && /etc/sysconfig/network-scripts/ifup $alias
     done
-    unset allow_null_glob_expansion
+    if [ "$BASH_VERSINFO" ]; then 
+       shopt -u nullglob
+    else
+       unset allow_null_glob_expansion
+    fi
 fi
