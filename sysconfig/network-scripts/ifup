@@ -169,6 +169,10 @@ if [ -n "${DYNCONFIG}" ]; then
     fi
     echo -n $"Determining IP information for ${DEVICE}..."
 
+    if [ -n "$ETHTOOL_OPTS" ] ; then
+        /sbin/ethtool -s ${REALDEVICE} $ETHTOOL_OPTS
+    fi
+
     # DHCP clients need DNS to be available, and we don't know
     # what DNS server they're using until they are done.
     FWHACK=
@@ -208,6 +212,10 @@ else
     if ! ip link set ${REALDEVICE} up ; then
 	echo $"Failed to bring up ${DEVICE}."
 	exit 1
+    fi
+    
+    if [ -n "$ETHTOOL_OPTS" ] ; then
+        /sbin/ethtool -s ${REALDEVICE} $ETHTOOL_OPTS
     fi
 
     if ! arping -q -c 2 -w 3 -D -I ${REALDEVICE} ${IPADDR} ; then
