@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.86
+Version: 5.87
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -218,7 +218,7 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
-* Mon May 14 2001 Nalin Dahyabhai <nalin@redhat.com>
+* Wed May 16 2001 Nalin Dahyabhai <nalin@redhat.com>
 - copyright: GPL -> license: GPL
 - fix a syntax error in lang.csh
 - skip commented-out i18n configuration lines in lang.csh
