@@ -49,7 +49,7 @@ if [ "$BOOTP" = "yes" ]; then
     BOOTPROTO=bootp
 fi
 
-if [ "$BOOTPROTO" = bootp -r "$BOOTPROTO" = dhcp ]; then
+if [ "$BOOTPROTO" = bootp -o "$BOOTPROTO" = dhcp ]; then
     PUMP=true
 fi
 
@@ -78,7 +78,7 @@ if [ "$SLAVE" = yes -a "$ISALIAS" = no -a "$MASTER" != "" -a \
 fi
 
 if [ -n "$PUMP" ]; then
-    echo "Determing IP information for $DEVICE..."
+    echo -n "Determing IP information for $DEVICE..."
     if /sbin/pump -i $DEVICE ; then
 	echo " done."
     else
