@@ -291,18 +291,27 @@ touch /var/log/wtmp
 chgrp utmp /var/run/utmp /var/log/wtmp
 chmod 0664 /var/run/utmp /var/log/wtmp
 
+# Clean up /var
+for afile in /var/lock/* /var/run/*; do
+   if [ -d $afile ]; then
+      rm -f $afile/*
+   else
+      rm -f $afile
+   fi
+done
+
 # Delete pam_console lock and refcount files
-rm -f /var/lock/console.lock
-rm -f /var/lock/console/*
+#rm -f /var/lock/console.lock
+#rm -f /var/lock/console/*
 
 # Delete UUCP lock files.
-rm -f /var/lock/LCK*
+#rm -f /var/lock/LCK*
 
 # Delete stale subsystem files.
-rm -f /var/lock/subsys/*
+#rm -f /var/lock/subsys/*
 
 # Delete stale pid files
-rm -f /var/run/*.pid
+#rm -f /var/run/*.pid
 
 # Delete X locks
 rm -f /tmp/.X*-lock
