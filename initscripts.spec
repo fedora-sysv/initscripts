@@ -17,6 +17,10 @@ that activate and deactivate most network interfaces.
 
 %changelog
 
+* Thu Oct 09 1997 Erik Troan <ewt@redhat.com>
+
+- run 'ulimit -c 0' before running scripts in daemon function
+
 * Wed Oct 08 1997 Donnie Barnes <djb@redhat.com>
 
 - added chkconfig support

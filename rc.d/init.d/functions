@@ -29,6 +29,10 @@ daemon() {
 	# echo basename of the program.
 	echo -n "$base "
 
+	# make sure it doesn't core dump anywhere; while this could mask
+	# problems with the daemon, it also closes some security problems
+	ulimit -c 0
+
 	# And start it up.
 	$*
 }
