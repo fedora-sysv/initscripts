@@ -470,8 +470,8 @@ fi
 
 # If a SCSI tape has been detected, load the st module unconditionally
 # since many SCSI tapes don't deal well with st being loaded and unloaded
-if [ -f /proc/scsi/scsi ] && cat /proc/scsi/scsi | grep -q 'Type:   Sequential-Access' 2>/dev/null ; then
-	if cat /proc/devices | grep -qv ' 9 st' ; then
+if [ -f /proc/scsi/scsi ] && grep -q 'Type:   Sequential-Access' /proc/scsi/scsi 2>/dev/null ; then
+	if grep -qv ' 9 st' /proc/devices ; then
 		if [ -n "$USEMODULES" ] ; then
 			# Try to load the module.  If it fails, ignore it...
 			insmod -p st >/dev/null 2>&1 && modprobe st >/dev/null 2>&1
