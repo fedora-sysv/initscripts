@@ -541,6 +541,11 @@ if [ -f /proc/mdstat -a -f /etc/raidtab ]; then
 	fi
 fi
 
+# LVM initialization, take 2 (it could be on top of RAID)
+if [ -e /proc/lvm -a -x /sbin/vgchange -a -f /etc/lvmtab ]; then
+        action $"Setting up Logical Volume Management:" /sbin/vgscan && /sbin/vgchange -a y
+fi
+
 _RUN_QUOTACHECK=0
 # Check filesystems
 if [ -z "$fastboot" ]; then
