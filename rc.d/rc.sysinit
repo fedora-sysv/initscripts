@@ -82,6 +82,8 @@ if [ -x /sbin/isapnp -a -f /etc/isapnp.conf ]; then
     fi
 fi
 
+umount -n /proc
+
 # Remount the root filesystem read-write.
 echo "Remounting root filesystem in read-write mode."
 mount -n -o remount,rw /
@@ -95,6 +97,7 @@ fi
 
 # Enter root into mtab.
 mount -f /
+mount -t proc /proc /proc
 
 if [ -f /proc/ksyms ]; then
     USEMODULES=y
