@@ -116,11 +116,11 @@ fi
 
 if [ "$IPSETUP" != yes ]; then
     if [ -z "$BROADCAST" ]; then
-	eval `/sbin/ipcalc --broadcast ${IPADDR} ${NETMASK}`
+	eval `/bin/ipcalc --broadcast ${IPADDR} ${NETMASK}`
     fi
 
     if [ -z "$NETMASK" ]; then
-	eval `/sbin/ipcalc --netmask ${IPADDR} ${NETMASK}`
+	eval `/bin/ipcalc --netmask ${IPADDR} ${NETMASK}`
     fi
 
     ifconfig ${DEVICE} ${MACADDR:+hw ether $MACADDR} ${IPADDR} \

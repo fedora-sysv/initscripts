@@ -29,7 +29,7 @@ fi
 if [ -n "$NEEDHOSTNAME" -a ${DEVICE} != lo ]; then
     IPADDR=`ifconfig ${DEVICE} | grep 'inet addr' | 
 	    awk -F: '{ print $2 } ' | awk '{ print $1 }'`
-    eval `/sbin/ipcalc --silent --hostname ${IPADDR}` && set_hostname $HOSTNAME
+    eval `/bin/ipcalc --silent --hostname ${IPADDR}` && set_hostname $HOSTNAME
 fi
 
 # Notify programs that have requested notification
