@@ -1,0 +1,49 @@
+# chkconfig: <startlevellist> <startpriority> <endpriority>
+
+	Required.  <startlevellist> is a list of levels in which
+	the service should be started by default.  <startpriority>
+	and <endpriority> are priority numbers.  For example:
+	# chkconfig: 2345 20 80
+
+# description: <multi-line description of service>
+
+	Required.  Several lines of description, continued with '\'
+	characters.  The initial comment and following whitespace
+	on the following lines is ignored.
+
+# autoreload: true
+
+	Optional.  If this line exists, the daemon checks its
+	configuration files and reloads them automatically when
+	they change.
+
+# processname:
+
+	Optional, multiple entries allowed.  For each process name
+	started by the script, there should be a processname entry.
+	For example, the samba service starts two daemons:
+	# processname: smdb
+	# processname: nmdb
+
+# config:
+
+	Optional, multiple entries allowed.  For each static config
+	file used by the daemon, use a single entry.  For example:
+	# config: /etc/httpd/conf/httpd.conf
+	# config: /etc/httpd/conf/srm.conf
+
+# pidfile:
+
+	Optional, multiple entries allowed.  Use just like the config
+	entry, except that it points at pidfiles.  It is assumed that
+	the pidfiles are only updated at process creation time, and
+	not later.  The contents are not examined.
+
+# probe: true
+
+	Optional, used IN PLACE of autoreload, processname, config,
+	and pidfile.  If it exists, then a proper reload-if-necessary
+	cycle may be acheived by running this command:
+	/etc/rc.d/init.d/SCRIPT `/etc/rd.d/init.d/SCRIPT probe`
+	where SCRIPT is the name of the service's sysv init script.
+
