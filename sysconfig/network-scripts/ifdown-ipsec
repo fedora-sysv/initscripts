@@ -8,6 +8,32 @@ CONFIG=$1
 [ -f "${CONFIG}" ] || CONFIG=ifcfg-${1}
 source_config
 
+if [ -n "$IKE_PSK" ]; then
+  KEYING=automatic
+  IKE_METHOD=PSK
+fi
+ 
+if [ -n "$IKE_CERTFILE" ]; then
+  KEYING=automatic
+  IKE_METHOD=X509
+fi
+ 
+if [ -n "$IKE_PEER_CERTFILE" ]; then
+  KEYING=automatic
+  IKE_METHOD=X509
+fi
+
+if [ -n "$IKE_DNSSEC" ]; then
+  KEYING=automatic
+  IKE_METHOD=X509
+fi
+if [ -n "$RSA_KEY" ]; then
+  KEYING=automatic
+  IKE_METHOD=RSA
+fi
+
+[ -z "$KEYING" ] && KEYING=manual
+
 if [ -z "$SRC" ]; then
     SRC=`ip -o route get to $DST | sed "s|.*src \([^ ]*\).*|\1|"`
 fi
@@ -25,5 +51,12 @@ setkey -c << EOF
 spddelete $SRC $DST any -P out;
 spddelete $DST $SRC any -P in;
 EOF
+
+if [ "$KEYING" = "automatic" ]; then
+   racoontmp=`mktemp /etc/racoon/racoon.XXXXXX`
+   grep -v "^include \"/etc/racoon/$DST.conf\"" /etc/racoon/racoon.conf >> $racoontmp
+   mv -f $racoontmp /etc/racoon/racoon.conf
+   pidof -x /usr/sbin/racoon > /dev/null 2>&1 && killall -HUP /usr/sbin/racoon
+fi
 
 /etc/sysconfig/network-scripts/ifdown-post $CONFIG
