@@ -1,4 +1,5 @@
 
+#include <ctype.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <libintl.h>
@@ -416,13 +417,16 @@ int processArgs(int argc, char **argv, int silent) {
     } else {
 	readConfiguration("/etc/initlog.conf");
     }
+    if (cmd) {
+	    while (isspace(*cmd)) cmd++;
+    }
     if (lpri!=-1) logpriority=lpri;
     if (lfac!=-1) logfacility=lfac;
     if (cmdevent) {
 	logEvent(cmdname,cmdevent,logstring);
     } else if (logstring) {
 	logString(cmdname,logstring);
-    } else if ( cmd ) {
+    } else if ( cmd && *cmd) {
 	return(runCommand(cmd,reexec,quiet,debug));
     } else {
         if (!silent)
