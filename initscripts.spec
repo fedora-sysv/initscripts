@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.03
+Version: 6.04
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -240,6 +240,9 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Tue Jul 17 2001 Bill Nottingham <notting@redhat.com>
 - own some more directories
+- use -O nonetdev, require mount package that understands this
+- fix do_netreport when called as non-root
+- remove ip addresses from interfaces on ifdown
 
 * Mon Jul 16 2001 Than Ngo <than@redhat.com>
 - fix country_code for ISDN
