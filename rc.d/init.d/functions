@@ -22,7 +22,11 @@ export PATH="/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin"
 
 if [ -f /etc/sysconfig/i18n ] ; then
   . /etc/sysconfig/i18n
-  export LANG
+  if [ "$LANG" = "ja_JP.eucJP" -a "`/sbin/consoletype`" != "pty" ]; then
+    unset LANG
+  else
+    export LANG
+  fi
 fi
 
 # Read in our configuration
