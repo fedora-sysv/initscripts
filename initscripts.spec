@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-Version: 5.00
+Version: 5.01
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
