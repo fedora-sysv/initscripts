@@ -97,6 +97,7 @@ fi
 
 if [ -x /sbin/kerneld -a -n "$USEMODULES" ]; then
     /sbin/kerneld
+    KERNELD=yse
 fi
 
 # Check filesystems
@@ -137,6 +138,9 @@ if [ -x /sbin/quotaon ]; then
     /sbin/quotaon -a
 fi
 
+if [ -z "$KERNELD" ]; then
+    touch /var/lock/subsys/kerneld
+fi
 
 # Clean out /etc.
 rm -f /etc/mtab~ /fastboot /etc/nologin
