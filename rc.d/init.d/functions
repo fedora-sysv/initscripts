@@ -100,10 +100,6 @@ daemon() {
 	           user=${1#--user=}
 		   shift
 		   ;;
-	    --bg|--background)
-	           bg="&"
-		   shift
-		   ;;
 	    [-+][0-9]*)
 	    	   nice="nice -n $1"
 	           shift
@@ -130,9 +126,9 @@ daemon() {
 
 	# And start it up.
 	if [ -z "$user" ]; then
-	   $nice initlog $INITLOG_ARGS -c "$*" "$bg"
+	   $nice initlog $INITLOG_ARGS -c "$*"
 	else
-	   $nice initlog $INITLOG_ARGS -c "su - $user -c \"$*\"" "$bg" && success $"$base startup" || failure $"$base startup"
+	   $nice initlog $INITLOG_ARGS -c "su - $user -c \"$*\"" && success $"$base startup" || failure $"$base startup"
 	fi
 	[ $? = 0 ] && success $"$base startup" || failure $"$base startup"
 }
