@@ -17,6 +17,10 @@ that activate and deactivate most network interfaces.
 
 %changelog
 
+* Mon Mar 09 1998 Erik Troan <ewt@redhat.com>
+
+- added check for mktemp failure
+
 * Thu Feb 05 1998 Erik Troan <ewt@redhat.com>
 
 - fixed support for user manageable cloned devices
