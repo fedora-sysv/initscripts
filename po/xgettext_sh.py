@@ -39,7 +39,10 @@ def xgettext(arq, tokens_i18n):
 		elif l[0:1] == '\n':    continue
 		else:
 			for token in tokens_i18n:
-				pos = find(l, token + ' $"')
+			        if token == '=':
+				    pos = find(l, token + '$"')
+				else
+				    pos = find(l, token + ' $"')
 				if pos != -1:
 					text = split(l[pos:], '"')[1]
 					#if find (text, '$') != -1:
@@ -86,6 +89,7 @@ def main():
 	i18n_tokens.append('runcmd')
 	i18n_tokens.append('success')
 	i18n_tokens.append('/sbin/getkey -c $AUTOFSCK_TIMEOUT -m')
+	i18n_tokens.append('=')
 
 	for a in argv:
 		xgettext(a, i18n_tokens)
