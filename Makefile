@@ -7,7 +7,7 @@ all:
 	(cd src; make CFLAGS="$(CFLAGS)")
 
 install:
-	mkdir -p $(ROOT)/etc
+	mkdir -p $(ROOT)/etc $(ROOT)/sbin
 	install -m644 -o root -g root inittab $(ROOT)/etc
 	install -m644 -o root -g root adjtime $(ROOT)/etc
 	install -m755 -o root -g root setsysfont $(ROOT)/sbin
