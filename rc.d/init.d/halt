@@ -48,7 +48,7 @@ umount -a
 mount -n -o remount,ro /
 
 # turn off raid
-if [ -x /sbin/raidstop && -f /etc/raidtab ]; then
+if [ -x /sbin/raidstop -a -f /etc/raidtab ]; then
     /sbin/raidstop -a
 fi
 
