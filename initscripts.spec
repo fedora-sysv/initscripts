@@ -175,6 +175,7 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/profile.d/lang.sh
 %config /etc/profile.d/lang.csh
 /usr/sbin/sys-unconfig
+/sbin/redhat-support-check
 /sbin/setsysfont
 /bin/doexec
 /bin/ipcalc
