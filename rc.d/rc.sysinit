@@ -125,15 +125,14 @@ if [ -n "$LOGLEVEL" ]; then
 	/bin/dmesg -n $LOGLEVEL
 fi
 
-if [ -f /etc/udev/udev.conf ];then
-	. /etc/udev/udev.conf
-fi
-
 [ -x /sbin/start_udev ] && /sbin/start_udev
+
+# Only read this once.
+cmdline=$(cat /proc/cmdline)
 
 # Initialize hardware
 if [ -f /proc/sys/kernel/modprobe ]; then
-   if ! strstr cmdline nomodules && [ -f /proc/modules ] ; then
+   if ! strstr "$cmdline" nomodules && [ -f /proc/modules ] ; then
        sysctl -w kernel.modprobe="/sbin/modprobe" >/dev/null 2>&1
        sysctl -w kernel.hotplug="/sbin/hotplug" >/dev/null 2>&1
    else
@@ -166,19 +165,19 @@ eval `kmodule | while read devtype mod ; do
 done`
 
 load_module () {
-	LC_ALL=C fgrep -q "$1" /etc/hotplug/blacklist || modprobe $1 >/dev/null 2>&1
+	LC_ALL=C fgrep -q "$1" /etc/hotplug/blacklist 2>/dev/null || modprobe $1 >/dev/null 2>&1
 }
 
 # IDE
 for module in $ide ; do
-	load_module $module >/dev/null 2>&1
+	load_module $module
 done
 
 # SCSI
 for module in `/sbin/modprobe -c | awk '/^alias[[:space:]]+scsi_hostadapter[[:space:]]/ { print $3 }'` $scsi; do
-	load_module $module >/dev/null 2>&1
+	load_module $module
 done
-load_module floppy >/dev/null 2>&1
+load_module floppy
 
 echo -n $" storage"
 
@@ -192,26 +191,26 @@ interfaces=`ls ifcfg* | LC_ALL=C egrep -v '(ifcfg-lo|:|rpmsave|rpmorig|rpmnew)' 
 
 for i in $interfaces ; do
 	eval $(LC_ALL=C fgrep "DEVICE=" ifcfg-$i)
-	load_module $DEVICE >/dev/null 2>&1
+	load_module $DEVICE
 done
 popd >/dev/null 2>&1
 
 for module in $network ; do
-	load_module $module >/dev/null 2>&1
+	load_module $module
 done
 
 echo -n $" network"
 
 # Sound
 for module in `/sbin/modprobe -c | awk '/^alias[[:space:]]+snd-card-[[:digit:]]+[[:space:]]/ { print $3 }'` $audio; do
-	load_module $module >/dev/null 2>&1
+	load_module $module
 done
 
 echo -n $" audio"
 
 # Everything else (duck and cover)
 for module in $other ; do
-	load_module $module >/dev/null 2>&1
+	load_module $module
 done
 
 echo -n $" done"
@@ -225,7 +224,7 @@ echo "raidautorun /dev/md0" | nash --quiet
 RHGB_STARTED=0
 mount -n /dev/pts
 
-if LC_ALL=C fgrep rhgb /proc/cmdline > /dev/null 2>&1 && [ "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
+if strstr "$cmdline" rhgb && [ "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
    LC_MESSAGES= /usr/bin/rhgb
    RHGB_STARTED=1
 fi
@@ -302,9 +301,6 @@ fi
 # Set the hostname.
 update_boot_stage RChostname
 action $"Setting hostname ${HOSTNAME}: " hostname ${HOSTNAME}
-
-# Only read this once.
-cmdline=$(cat /proc/cmdline)
 
 # Initialiaze ACPI bits
 if [ -d /proc/acpi ]; then
@@ -383,7 +379,7 @@ if [ -z "$fastboot" -a "$READONLY" != "yes" -a "X$ROOTFSTYPE" != "Xnfs" -a "X$RO
 	else
 		rootdev=/
 	fi
-	if [ "${RHGB_STARTED}" != "" -a -w /etc/rhgb/temp/rhgb-console ]; then
+	if [ "${RHGB_STARTED}" != "0" -a -w /etc/rhgb/temp/rhgb-console ]; then
 		fsck -T -a $rootdev $fsckoptions > /etc/rhgb/temp/rhgb-console
 	else
 		initlog -c "fsck -T -a $rootdev $fsckoptions"
@@ -646,7 +642,7 @@ _RUN_QUOTACHECK=0
 if [ -z "$fastboot" ]; then
         STRING=$"Checking filesystems"
 	echo $STRING
-	if [ "${RHGB_STARTED}" != "" -a -w /etc/rhgb/temp/rhgb-console ]; then
+	if [ "${RHGB_STARTED}" != "0" -a -w /etc/rhgb/temp/rhgb-console ]; then
 		fsck -T -R -A -a $fsckoptions > /etc/rhgb/temp/rhgb-console
 	else
 		initlog -c "fsck -T -R -A -a $fsckoptions"
@@ -700,7 +696,7 @@ fi
 action $"Mounting local filesystems: " mount -a -t nonfs,nfs4,smbfs,ncpfs,cifs,gfs -O no_netdev
 
 # Start the graphical boot, if necessary and not done yet.
-if LC_ALL=C fgrep rhgb /proc/cmdline > /dev/null 2>&1 && [ "$RHGB_STARTED" -eq 0 -a "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
+if strstr "$cmdline" rhgb && [ "$RHGB_STARTED" -eq 0 -a "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
    LC_MESSAGES= /usr/bin/rhgb
    RHGB_STARTED=1
 fi
