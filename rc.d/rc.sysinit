@@ -207,7 +207,7 @@ fi
 if [ -f /forcefsck ]; then
 	fsckoptions="-f $fsckoptions"
 elif [ -f /.autofsck ]; then
-	echo $"Your system appears to have shut down in an uncertain state"
+	echo $"Your system appears to have shut down uncleanly"
 	AUTOFSCK_TIMEOUT=5
 	AUTOFSCK_DEF_CHECK=no
 	[ -f /etc/sysconfig/autofsck ] && . /etc/sysconfig/autofsck
@@ -221,9 +221,9 @@ elif [ -f /.autofsck ]; then
 		(
 			while [ "$AUTOFSCK_TIMEOUT" -gt 0 ] do
 				if [ "$AUTOFSCK_DEF_CHECK" = "yes" ] ; then
-					echo -e -n $"\rPress N within $AUTOFSCK_TIMEOUT seconds to skip filesystem check..."
+					echo -ne $"\rPress N within $AUTOFSCK_TIMEOUT seconds to skip filesystem check..."
 				else
-					echo -e -n $"\rPress Y within $AUTOFSCK_TIMEOUT seconds to force filesystem check..."
+					echo -ne $"\rPress Y within $AUTOFSCK_TIMEOUT seconds to force filesystem check..."
 				fi
 				sleep 1
 				AUTOFSCK_TIMEOUT=$(($AUTOFSCK_TIMEOUT-1))
