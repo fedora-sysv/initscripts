@@ -257,6 +257,7 @@ if [ -z "$fastboot" -a "X$ROOTFSTYPE" != "Xnfs" ]; then
 	
         # A return of 2 or higher means there were serious problems.
 	if [ $rc -gt 1 ]; then
+		local str
 	        if [ "$BOOTUP" = "graphical" ]; then
 		    chvt 1
 		fi
@@ -268,7 +269,8 @@ if [ -z "$fastboot" -a "X$ROOTFSTYPE" != "Xnfs" ]; then
 		echo $"*** Dropping you to a shell; the system will reboot"
 		echo $"*** when you leave the shell."
 
-		PS1=$"(Repair filesystem) \# # "; export PS1
+                str=$"(Repair filesystem)"
+		PS1="$str \# # "; export PS1
 		sulogin
 
 		echo $"Unmounting file systems"
@@ -469,13 +471,15 @@ if [ -f /etc/raidtab -a -f /proc/mdstat ]; then
 
 	# A non-zero return means there were problems.
 	if [ $rc -gt 0 ]; then
+		local str=
 		echo
 		echo
 		echo $"*** An error occurred during the RAID startup"
 		echo $"*** Dropping you to a shell; the system will reboot"
 		echo $"*** when you leave the shell."
 
-		PS1=$"(RAID Repair) \# # "; export PS1
+ 		str=$"(RAID Repair)"
+		PS1="$str \# # "; export PS1
 		sulogin
 
 		echo $"Unmounting file systems"
@@ -511,6 +515,7 @@ if [ -z "$fastboot" ]; then
 
 	# A return of 2 or higher means there were serious problems.
 	if [ $rc -gt 1 ]; then
+		local str=
 	        if [ "$BOOTUP" = "graphical" ]; then
 		    chvt 1
 		fi
@@ -522,7 +527,8 @@ if [ -z "$fastboot" ]; then
 		echo $"*** Dropping you to a shell; the system will reboot"
 		echo $"*** when you leave the shell."
 
-		PS1=$"(Repair filesystem) \# # "; export PS1
+		str=$"(Repair filesystem)"
+		PS1="$str \# # "; export PS1
 		sulogin
 
 		echo $"Unmounting file systems"
