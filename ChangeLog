@@ -1,3 +1,31 @@
+2000-10-10  Nalin Dahyabhai  <nalin@redhat.com>
+
+	* initscripts.spec, src/usernetctl.c:
+	make usernetctl just fall-through if getuid() == 0
+
+	* initscripts.spec, Makefile:
+	fix top-level makefile install target
+
+	* initscripts.spec: add bug ID
+
+	* initscripts.spec, sysconfig/network-scripts/ifup-routes:
+	handle "gw x.x.x.x" as the last pair of flags in ifup-routes
+
+2000-10-04  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/network, sysconfig/network-scripts/network-functions:
+	fix the grep for 'UP' so it doesn't report strange results on german PPP devices
+
+2000-10-02  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec:
+	up util-linux requirement to 2.10 (#18004)
+
+2000-09-29  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/halt:
+	don't turn off raid on shutdown ; the kernel will do it
+
 2000-09-27  Tim Waugh  <twaugh@redhat.com>
 
 	* prefdm: eat messages from display managers
