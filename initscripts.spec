@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.31.9.EL.r
+Version: 7.31.10.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -249,6 +249,11 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Feb 19 2003 Bill Nottingham <notting@redhat.com> 7.31.10.EL-1
+- merge in rhgb changes
+- fix handling of bonding interfaces (#113937)
+- fix warning on sourcing of keys files
+
 * Tue Nov 11 2003 Bill Nottingham <notting@redhat.com> 7.31.8.EL-1
 - fix handling of xDSL interfaces (#109601)
 - fix extraneous ethtool error message
