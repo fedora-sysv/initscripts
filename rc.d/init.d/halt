@@ -25,6 +25,11 @@ runcmd() {
    echo
 }
 
+halt_get_remaining() {
+	awk '!/(^#|proc|loopfs|autofs|^none|^\/dev\/root| \/ )/ {print $2}' /proc/mounts
+	awk '{ if ($3 ~ /^proc$/ && $2 !~ /^\/proc/) print $2; }' /proc/mounts
+}
+
 # See how we were called.
 case "$0" in
   *halt)
@@ -145,10 +150,7 @@ remaining=`awk '!/^#/ && $1 ~ /^\/dev\/loop/ && $2 != "/" {print $2}' /proc/moun
 sig=
 retry=3
 remaining=`halt_get_remaining`
-halt_get_remaining() {
-	awk '!/(^#|proc|loopfs|autofs|^none|^\/dev\/root| \/ )/ {print $2}' /proc/mounts
-	awk '{ if ($3 ~ /^proc$/ && $2 !~ /^\/proc/) print $2; }' /proc/mounts
-}
+
 while [ -n "$remaining" -a "$retry" -gt 0 ]
 do
 	if [ "$retry" -lt 3 ]; then
