@@ -240,8 +240,8 @@ static void
 cleanExit(int exitCode) {
     fork_exec(1, "/sbin/netreport", "-r", NULL, NULL);
     detach(1, exitCode, NULL);
-    exit(exitCode);
     doPidFile(NULL);
+    exit(exitCode);
 }
 
 
