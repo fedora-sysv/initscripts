@@ -1,6 +1,6 @@
 Summary: inittab and /etc/rc.d scripts
 Name: initscripts
-%define version 3.69
+%define version 3.70
 Version: %{version}
 Copyright: GPL
 Group: Base
@@ -8,6 +8,7 @@ Release: 1
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /var/tmp/initbld
 Requires: mingetty, bash, mktemp, modutils >= 2.1.85-3
+Conflicts: redhat-release <= 5.1
 Prereq: /sbin/chkconfig
 
 %description
@@ -153,6 +154,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc sysconfig.txt
 
 %changelog
+* Mon Aug 17 1998 Erik Troan <ewt@redhat.com>
+- don't add 'Red Hat Linux' to /etc/issue; use /etc/redhat-release as is
+
 * Sun Aug 16 1998 Jeff Johnson <jbj@redhat.com>
 - paranoia improvements to .rhkmvtag
 - if psacct with /sbin/accton, than turn off accounting
