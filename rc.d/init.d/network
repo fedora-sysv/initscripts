@@ -175,30 +175,30 @@ case "$1" in
 	if [ -x /sbin/linuxconf ] ; then
 		eval `/sbin/linuxconf --hint netdev`
 		for device in $DEV_UP ; do
-			action $"Bringing up device %s: " $device ./ifup $device
+			action $"Bringing up device $device: " ./ifup $device
 		done
 		for device in $DEV_DOWN ; do
-			action $"Shutting down device %s: " $device ./ifdown $device
+			action $"Shutting down device $device: " ./ifdown $device
 		done
 		for device in $DEV_RECONF ; do
-			action $"Shutting down device %s: " $device ./ifdown $device
-			action $"Bringing up device %s: " $device ./ifup $device
+			action $"Shutting down device $device: " ./ifdown $device
+			action $"Bringing up device $device: " ./ifup $device
 		done
 		for device in $DEV_RECONF_ALIASES ; do
-			action $"Bringing up alias %s: " $device /etc/sysconfig/network-scripts/ifup-aliases $device
+			action $"Bringing up alias $device: " /etc/sysconfig/network-scripts/ifup-aliases $device
 		done
 		for device in $DEV_RECONF_ROUTES ; do
-			action $"Bringing up route %s: " $device /etc/sysconfig/network-scripts/ifup-routes $device
+			action $"Bringing up route $device: " /etc/sysconfig/network-scripts/ifup-routes $device
 		done
 		case $IPX in yes|true)
 		  case $IPXINTERNALNET in
 		    reconf)
 			action $"Deleting internal IPX network: " /sbin/ipx_internal_net del
-			action $"Adding internal IPX network %s %s: " $IPXINTERNALNETNUM $IPXINTERNALNODENUM /sbin/ipx_internal_net add $IPXINTERNALNETNUM \
+			action $"Adding internal IPX network $IPXINTERNALNETNUM $IPXINTERNALNODENUM: " /sbin/ipx_internal_net add $IPXINTERNALNETNUM \
 						      $IPXINTERNALNODENUM
 			;;
 		    add)
-			action $"Adding internal IPX network $IPXINTERNALNETNUM $IPXINTERNALNODENUM: "/sbin/ipx_internal_net add $IPXINTERNALNETNUM \
+			action $"Adding internal IPX network $IPXINTERNALNETNUM $IPXINTERNALNODENUM: " /sbin/ipx_internal_net add $IPXINTERNALNETNUM \
 						      $IPXINTERNALNODENUM
 			;;
 		    del)
