@@ -12,11 +12,11 @@ Requires: mingetty, /bin/awk, /bin/sed, mktemp, e2fsprogs >= 1.15
 Requires: /sbin/sysctl, sysklogd >= 1.3.31
 Requires: setup >= 2.0.3, /sbin/fuser, which, /bin/grep
 Requires: modutils >= 2.3.11-5
-Requires: util-linux >= 2.10s-11, mount >= 2.11g-5
+Requires: util-linux >= 2.10s-11, mount >= 2.11l
 Requires: bash >= 2.0, SysVinit
 Requires: /sbin/ip, /sbin/arping, net-tools
 Requires: /sbin/update, /etc/redhat-release
-Conflicts: kernel <= 2.2, timeconfig < 3.0, pppd < 2.3.9, wvdial < 1.40-3
+Conflicts: kernel <= 2.4.11, timeconfig < 3.0, pppd < 2.3.9, wvdial < 1.40-3
 Conflicts: ypbind < 1.6-12, psacct < 6.3.2-12, kbd < 1.06-19, lokkit < 0.50-14
 Obsoletes: rhsound sapinit
 Prereq: /sbin/chkconfig, /usr/sbin/groupadd, gawk, fileutils, sh-utils
