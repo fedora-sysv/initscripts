@@ -168,7 +168,7 @@ for module in $ide ; do
 done
 
 # SCSI
-for module in `/sbin/modprobe -c | LC_ALL=C awk '/^alias[[:space:]]+scsi_hostadapter[[:space:]]/ { print $3 }'` $scsi; do
+for module in `/sbin/modprobe -c | LC_ALL=C awk '/^alias[[:space:]]+scsi_hostadapter[0-9]*[[:space:]]/ { print $3 }'` $scsi; do
 	load_module $module
 done
 load_module floppy
