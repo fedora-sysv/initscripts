@@ -1,4 +1,14 @@
 #!/bin/bash
+# Network Interface Configuration System
+# Copyright (c) 1996-2001 Red Hat, Inc. all rights reserved.
+#
+# This software may be freely redistributed under the terms of the GNU
+# public license.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 TEXTDOMAIN=initscripts
 
@@ -6,18 +16,28 @@ cd /etc/sysconfig/network-scripts
 . network-functions
 . /etc/rc.d/init.d/functions
 
+[ -f ../network ] && . ../network
+[ -f ../networking/network ] && . ../networking/network
+
 need_hostname
 
 CONFIG=${1}
 
 [ -z "${CONFIG}" ] && {
-    echo $"usage: ifup <device name>" >&2
+    echo $"Usage: ifup <device name>" >&2
     exit 1
 }
 
-[ -f "${CONFIG}" ] || CONFIG=ifcfg-${CONFIG}
+[ -f "${CONFIG}" ] || \
+    CONFIG=../networking/`current_profile`/${1}
+[ -f "${CONFIG}" ] || \
+    CONFIG=../networking/`current_profile`/"ifcfg-${1}"
+[ -f "${CONFIG}" ] || \
+    CONFIG="ifcfg-${1}"
+
 [ -f "${CONFIG}" ] || {
-    echo $"usage: ifup <device name>" >&2
+    echo $"$0: configuration for \"${1}\" not found." >&2
+    echo $"Usage: ifup <device name>" >&2
     exit 1
 }
 
@@ -38,8 +58,7 @@ then
     exit
 fi
 
-IPSETUP=no
-
+# figure out more about what we are dealing with
 DEVICETYPE=`echo ${DEVICE} | sed "s/[0-9]*$//"`
 REALDEVICE=`echo ${DEVICE} | sed 's/:.*//g'`
 if echo ${DEVICE} | grep -q ':' ; then
@@ -68,11 +87,22 @@ if [ -x ${OTHERSCRIPT} ]; then
 fi
 
 # is this device available? (this catches PCMCIA devices for us)
-LC_ALL= LANG= /sbin/ifconfig ${REALDEVICE} 2>&1 | grep -s "not found" > /dev/null
-if [ "$?" = "0" ]; then
-    echo $"Delaying ${DEVICE} initialization."
+LC_ALL= LANG= ip -o link | grep -q ${REALDEVICE}
+if [ "$?" = "1" ]; then
+    echo $"Device does not seem to be present, delaying ${DEVICE} initialization."
     exit 1
 fi
+if [ -n "${MACADDR}" ]; then
+    FOUNDMACADDR=`LC_ALL= LANG= ip -o link show ${REALDEVICE} | \
+	sed 's/.*link\/ether \([[:alnum:]:]*\).*/\1/'`
+    if [ "${FOUNDMACADDR}" != "${MACADDR}" ]; then
+	echo $"Device ${DEVICE} has different MAC address than expected, ignoring."
+	exit 1
+    fi
+fi
+
+# is the device wireless? If so, configure wireless device specifics
+is_wireless_device ${DEVICE} && ./ifup-wireless ${CONFIG}
 
 if [ "${SLAVE}" = yes -a "${ISALIAS}" = no -a "${MASTER}" != "" -a \
      -x /sbin/ifenslave ]; then
@@ -85,15 +115,20 @@ if [ "${SLAVE}" = yes -a "${ISALIAS}" = no -a "${MASTER}" != "" -a \
     exit 0
 fi
 
+# this isn't the same as the MAC in the configuration filename.  It is
+# available as a configuration option in the config file, forcing the kernel
+# to think an ethernet card has a different MAC address than it really has.
 if [ -n "${MACADDR}" ]; then
-   ifconfig ${DEVICE} hw ether ${MACADDR}
+   ip link set ${DEVICE} address ${MACADDR}
 fi
 
 # Is there a firewall running, and does it look like one we configured?
 FWACTIVE=
-if [ -f /etc/sysconfig/ipchains -a "`ipchains -L input -n 2>&1 | awk 'END { print NR }'`" -gt 1 ]; then
-	FWACTIVE=1
-	export FWACTIVE
+if [ -f /etc/sysconfig/ipchains -a \
+    "`ipchains -L input -n 2>&1 | \
+    awk 'END { print NR }'`" -gt 1 ]; then
+    FWACTIVE=1
+    export FWACTIVE
 fi
 			     
 if [ -n "${DYNCONFIG}" ]; then
@@ -130,16 +165,21 @@ if [ -n "${DYNCONFIG}" ]; then
 	[ -n "$FWHACK" ] && ipchains -D input -s 0/0 53 -p udp -j ACCEPT
 	exit 1
     fi
+
     [ -n "$FWHACK" ] && ipchains -D input -s 0/0 53 -p udp -j ACCEPT
 else 
     if [ -z "${IPADDR}" ]; then
          # enable device without IP, useful for e.g. PPPoE
-         ifconfig ${DEVICE} up ${MTU:+mtu $MTU}
+	 ip link set ${DEVICE} up ${MTU:+mtu $MTU}
 	 exec /etc/sysconfig/network-scripts/ifup-post ${CONFIG} ${2}
     fi
   
     if [ -z "${NETMASK}" ]; then
-	eval `/bin/ipcalc --netmask ${IPADDR}`
+	eval `/bin/ipcalc --prefix ${IPADDR}`
+    fi
+
+    if [ -z "${PREFIX}" ]; then
+	eval `/bin/ipcalc --prefix ${NETMASK}`
     fi
 
     if [ -z "${BROADCAST}" ]; then
@@ -150,20 +190,45 @@ else
 	eval `/bin/ipcalc --network ${IPADDR} ${NETMASK}`
     fi
     
-    ifconfig ${DEVICE} ${IPADDR} netmask ${NETMASK} broadcast ${BROADCAST} \
-    	$(toggle_value arp $ARP) \
-	$(toggle_value promisc $PROMISC) \
-	$(toggle_value allmulti $ALLMULTI)
-	
-    # don't re-add subnet route on 2.2 kernels, but add a route
-    # to a non-local subnet.
-    # stupid hack, but it should work
-    if [ "$ISALIAS" = no ] && [ -z "`route -n | sed "s/ .*//" | grep ${NETWORK}`" ]; then
-	route add -net ${NETWORK} netmask ${NETMASK} dev ${DEVICE}
+    [ -n "${ARP}" ] && \
+	ip link set ${DEVICE} $(toggle_value arp $ARP)
+   
+    if ! ip link set ${DEVICE} up ; then
+	echo $"Failed to bring up ${DEVICE}."
+	exit 1
     fi
 
-    . /etc/sysconfig/network
+    if ! arping -q -c 2 -w 3 -D -I ${DEVICE} ${IPADDR} ; then
+	echo $"Error, some other host already uses address ${IPADDR}."
+	exit 1
+    fi
 
+
+    if ! ip addr ls ${DEVICE} | grep -q "${IPADDR}/${PREFIX}" ; then
+	if ! ip addr add ${IPADDR}/${PREFIX} \
+	    brd ${BROADCAST:-+} dev ${DEVICE} ; then
+	    echo $"Error adding address ${IPADDR} for ${DEVICE}."
+	fi
+    fi
+
+    # update ARP cache of neighboring computers
+    arping -q -A -c 1 -I ${DEVICE} ${IPADDR}
+    ( sleep 2;
+      arping -q -U -c 1 -I ${DEVICE} ${IPADDR} ) >& /dev/null < /dev/null &
+    ip route add unreachable 224.0.0.0/24 >& /dev/null
+    ip route add unreachable 255.255.255.255 >& /dev/null
+
+    # if the device is multicast enabled, add a default multicast route
+    if [ `ip link ls ${DEVICE} | grep -c MULTICAST` -ge 1 ]; then
+	ip route add 224.0.0.0/4 dev ${DEVICE} scope global >& /dev/null
+    fi
+
+    # Add a route for the subnet.  Replace any existing route.
+    if [ "${ISALIAS}" = no ]; then
+	ip route replace ${NETWORK}/${PREFIX} dev ${DEVICE}
+    fi
+
+    # Set a default route.
     if [ -z "${GATEWAYDEV}" -o "${GATEWAYDEV}" = "${DEVICE}" ]; then
 	# set up default gateway
 	if [ -n "${GATEWAY}" -a "`ipcalc --network ${GATEWAY} ${NETMASK} 2>/dev/null`" = "NETWORK=${NETWORK}" ]; then
@@ -175,16 +240,10 @@ else
     fi
 fi
 
-. /etc/sysconfig/network
-
 # IPv6 initialisation?
 if [ "${NETWORKING_IPV6}" = "yes" ]; then
-	/etc/sysconfig/network-scripts/ifup-ipv6 $DEVICE
-fi
-
-
-if [ "${IPX}" = yes ]; then
-	/etc/sysconfig/network-scripts/ifup-ipx ${DEVICE}
+    /etc/sysconfig/network-scripts/ifup-ipv6 $DEVICE
 fi
 
 exec /etc/sysconfig/network-scripts/ifup-post ${CONFIG} ${2}
+
