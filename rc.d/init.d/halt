@@ -116,4 +116,10 @@ if [ -f /fastboot ]; then
 elif [ -f /forcefsck ]; then
  echo "On the next boot fsck will be forced."
 fi
-eval $command -i -d -p
+
+HALTARGS="-i -d"
+if [ -f /poweroff -o ! -f /halt]; then
+ HALTARGS="$HALTARGS -p"
+fi
+
+eval $command $HALTARGS
