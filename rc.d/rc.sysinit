@@ -188,14 +188,10 @@ fi
 
 if [ -f /fastboot ] || grep -iq "fastboot" /proc/cmdline 2>/dev/null ; then
 	fastboot=yes
-    else
-        fastboot=
 fi
 
 if [ -f /fsckoptions ]; then
 	fsckoptions=`cat /fsckoptions`
-    else
-	fsckoptions=
 fi
 
 if [ -f /forcefsck ]; then
@@ -203,16 +199,13 @@ if [ -f /forcefsck ]; then
 elif [ -f /.autofsck ]; then
 	echo $"Your system appears to have shut down uncleanly"
 	AUTOFSCK_TIMEOUT=5
-	AUTOFSCK_DEF_CHECK=no
 	[ -f /etc/sysconfig/autofsck ] && . /etc/sysconfig/autofsck
 	if [ "$AUTOFSCK_DEF_CHECK" = "yes" ] ; then
 		AUTOFSCK_OPT=-f
-	else
-		AUTOFSCK_OPT=
 	fi
 
 	if [ "$PROMPT" != "no" ]; then
-		if [ "$AUTOFSCK_DEF_CHECK" = "yes" ] ; then
+		if [ "$AUTOFSCK_DEF_CHECK" = "yes" ]; then
 			if /sbin/getkey -c $AUTOFSCK_TIMEOUT -m $"Press N within %d seconds to not force file system integrity check..." n ; then
 				AUTOFSCK_OPT=
 			fi
@@ -224,7 +217,7 @@ elif [ -f /.autofsck ]; then
 		echo
 	else
 		# PROMPT not allowed
-		if [ "$AUTOFSCK_DEF_CHECK" = "yes" ] ; then
+		if [ "$AUTOFSCK_DEF_CHECK" = "yes" ]; then
 			echo $"Forcing file system integrity check due to default setting"
 		else
 			echo $"Not forcing file system integrity check due to default setting"
@@ -242,7 +235,7 @@ fi
 
 _RUN_QUOTACHECK=0
 ROOTFSTYPE=`grep " / " /proc/mounts | awk '{ print $3 }'`
-if [ -z "$fastboot" -a "$ROOTFSTYPE" != "nfs" ]; then 
+if [ -z "$fastboot" -a "X$ROOTFSTYPE" != "Xnfs" ]; then 
 
         STRING=$"Checking root filesystem"
 	echo $STRING
@@ -253,7 +246,7 @@ if [ -z "$fastboot" -a "$ROOTFSTYPE" != "nfs" ]; then
 		success "$STRING"
 		echo
 	elif [ "$rc" = "1" ]; then
-	        passed $"$STRING"
+	        passed "$STRING"
 		echo
         fi
 	
@@ -301,7 +294,6 @@ if [ X"$_RUN_QUOTACHECK" = X1 -a \
 fi
 
 # check for arguments passed from kernel
-
 if grep -iq nopnp /proc/cmdline >/dev/null 2>&1 ; then
     PNP=
 else
