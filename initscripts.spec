@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.26
+Version: 5.27
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -219,9 +219,8 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
-* Mon Jul 03 2000 Bernhard Rosenkraenzer <bero@redhat.com>
-- Comment out /sbin/update in inittab - it has been replaced with a kernel
-  process since kernel 2.2.7.
+* Mon Jul  3 2000 Bill Nottingham <notting@redhat.com>
+- rebuild; allow 'fastboot' kernel command line option to skip fsck
 
 * Mon Jul 03 2000 Nalin Dahyabhai <nalin@redhat.com>
 - fix demand-dialing with PPP
