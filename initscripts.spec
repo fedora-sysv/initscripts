@@ -71,8 +71,7 @@ if [ -d /etc/rc.d -a -d /etc/init.d ]; then
    exit 1
 fi
 if [ -d /etc/rc.d ]; then
-   mv -f /etc/rc.d/* /etc
-   ln -snf . /etc/rc.d
+   mv -f /etc/rc.d/* /etc && rm -rf /etc/rc.d && ln -snf . /etc/rc.d
 fi
 
 %post

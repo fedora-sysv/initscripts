@@ -29,7 +29,7 @@ install:
 	mkdir -p $(ROOT)/etc/sysconfig/console
 	install -m644 sysconfig/init $(ROOT)/etc/sysconfig/init
 	cp -af rc.d/* sysconfig ppp $(ROOT)/etc
-	ln -s /etc $(ROOT)/etc/rc.d
+	ln -s . $(ROOT)/etc/rc.d
 	mkdir -p $(ROOT)/sbin
 	mv $(ROOT)/etc/sysconfig/network-scripts/ifup $(ROOT)/sbin
 	mv $(ROOT)/etc/sysconfig/network-scripts/ifdown $(ROOT)/sbin
