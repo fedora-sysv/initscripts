@@ -259,11 +259,6 @@ function new_interface ()
 
                if [ "$NO_ALIASROUTING" != yes ]; then
 
-                       # this is broken! it's only here for compatibility with old RH systems
-                       if [ "${GATEWAY}" != "" -a "${GATEWAY}" != "none" ]; then
-                               route add default gw ${GATEWAY} metric 1 ${DEVICE}
-                       fi
-
                        GATEWAY=$network_GATEWAY;
                        GATEWAYDEV=$network_GATEWAYDEV;
 
