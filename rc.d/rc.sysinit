@@ -24,7 +24,7 @@ fi
 . /etc/init.d/functions
 
 # Start the graphical boot, if necessary
-if [ "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
+if ! fgrep -q nogui /proc/cmdline && [ "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
      /usr/bin/rhgb
 fi
 
