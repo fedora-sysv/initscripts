@@ -1,0 +1,290 @@
+#! /bin/sh
+#
+# ifup-ippp
+# 
+# This script is normally called from the ifup script when it detects a ippp device. 
+
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
+
+DEBUG="no"
+
+# set device
+CONFIG=$1
+
+# load device net config
+. $CONFIG
+
+# check that ipppd is available for syncppp 
+if [ "$ENCAP" = "syncppp" ]; then
+    if [ ! -x /usr/sbin/ipppd -a ! -x /sbin/ipppd ] ; then
+        logger -p daemon.info -t ifup-ippp "ipppd does not exist or is not executable"
+        exit 1
+    fi
+fi
+
+# check that isdnctrl is available
+if [ ! -x /usr/sbin/isdnctrl -a ! -x /sbin/isdnctrl ] ; then
+    logger -p daemon.info -t ifup-ippp "isdnctrl does not exist or is not executable"
+    exit 1
+fi
+
+# load provider config
+#[ -f /etc/sysconfig/networking/devices/$DEVICE.d/dialup ] || exit 1
+#. /etc/sysconfig/networking/devices/$DEVICE.d/dialup
+
+# check if device already is configured
+isdnctrl list $DEVICE >/dev/null 2>&1 && exit 0
+
+function log_echo()
+{
+    logger -p daemon.info -t ifup-ppp $"$*"
+}
+
+function log_isdnctrl()
+{
+    logger -p daemon.info -t ifup-ppp isdnctrl $*
+    isdnctrl $* >/dev/null 2>&1
+}
+
+function start_ibod()
+{
+    # don't start ibod, if it's running
+    [ -f /var/lock/subsys/ibod ] && return
+
+    device=$1
+    if [ -f /etc/isdn/ibod.cf -a -x /usr/sbin/ibod ] ; then
+        ibod $device &
+        pid=`pidof ibod`
+        [ -n "$pid" ] && touch /var/lock/subsys/ibod
+    fi
+}
+
+function addprovider()
+{
+    options=
+    if [ -z "$MSN" ]; then
+        log_echo "Error: $1: MSN not set"
+        return 1
+    fi
+    if [ -z "$PHONE_OUT" ]; then
+        log_echo "Error: $1: no outgoing phone number set"
+        return 1
+    fi
+
+    # set the encapsulation mode
+    [ -z "$ENCAP" ] && ENCAP="syncppp"
+
+    # set the dial mode
+    [ -z "$DIALMODE" ] && DIALMODE="off"
+
+    [ "$AUTH" = "none" ] && AUTH=""
+
+    # set layer-2/3 protocol 
+    [ -z "$L2_PROT" ] && L2_PROT="hdlc"
+    [ -z "$L3_PROT" ] && L3_PROT="trans"
+
+    # check local/remote IP
+    [ -z "$LOCAL_IP" ] && LOCAL_IP="0.0.0.0"
+    [ -z "$REMOTE_IP" ] && REMOTE_IP="0.0.0.0"
+
+    # set default route
+    [ "$DELDEFAULTROUTE" = "enabled" -o -z "$DELDEFAULTROUTE" ] && options="$options deldefaultroute"
+
+    # set authentication
+    [ -z "$USER" ] && USER="dialup"
+    if [ "$AUTH" = "-pap +chap" ]; then
+        options="$options name $USER"
+    else
+        options="$options user $USER"
+    fi
+
+    # add ISDN device 
+    log_isdnctrl addif $DEVICE
+
+    # set local MSN
+    log_isdnctrl eaz $DEVICE $MSN
+
+    # set dialout numbers
+    for i in $PHONE_OUT; do
+        log_isdnctrl addphone $DEVICE out $COUNTRYCODE$PREFIX$AREACODE$i
+    done
+    for i in $PHONE_IN; do
+        log_isdnctrl addphone $DEVICE in $i
+    done
+
+    # set layer-2/3 protocol
+    log_isdnctrl l2_prot $DEVICE $L2_PROT
+    log_isdnctrl l3_prot $DEVICE $L3_PROT
+
+    # set encapsulation
+    log_isdnctrl encap $DEVICE $ENCAP
+
+    # set dialmode
+    log_isdnctrl dialmode $DEVICE $DIALMODE
+ 
+    [ -n "$SECURE" ] && log_isdnctrl secure $DEVICE $SECURE
+    [ -n "$HUPTIMEOUT" ] && log_isdnctrl huptimeout $DEVICE $HUPTIMEOUT
+    [ -n "$CHARGEHUP" ] && log_isdnctrl chargehup $DEVICE $CHARGEHUP
+    [ -n "$CHARGEINT" ] && log_isdnctrl chargeint $DEVICE $CHARGEINT
+
+    [ -n "$IHUP" ] && log_isdnctrl ihup $DEVICE $IHUP
+
+    # set the number of dial atempts for each number
+    [ -n "$DIALMAX" ] && log_isdnctrl dialmax $DEVICE $DIALMAX
+
+    # set callback
+    if [ "$CALLBACK" = "out" ]; then
+        log_isdnctrl callback $DEVICE $CALLBACK
+    else
+        log_isdnctrl callback $DEVICE off
+    fi
+    [ -n "$CBDELAY" ] && log_isdnctrl cbdelay $DEVICE $CBDELAY
+    [ -n "$CBHUP" ] && log_isdnctrl cbhup $DEVICE $CBHUP
+ 
+    options="$options ipparam $DEVICE"
+    log_isdnctrl pppbind $DEVICE
+    if [ -z "$LOCAL_IP" ]; then
+        LOCAL_IP="0.0.0.0"
+        options="$options ipcp-accept-local"
+    else
+        options="$options noipdefault"
+    fi
+    # Add device
+    options="$options /dev/$DEVICE"
+ 
+    # set channel bundling
+    if [ "$BUNDLING" = "yes" -a -n "$SLAVE_DEVICE" ]; then
+        [ -z "$SLAVE_MSN" ] && SLAVE_MSN="$MSN"
+        [ -z "$SLAVE_PHONE_OUT" ] && SLAVE_PHONE_OUT="$PHONE_OUT"
+        [ -z "$SLAVE_PHONE_IN" ] && SLAVE_PHONE_IN="$PHONE_IN"
+        [ -z "$SLAVE_HUPTIMEOUT" ] && SLAVE_HUPTIMEOUT="$HUPTIMEOUT"
+        [ -z "$SLAVE_CHARGEHUP" ] && SLAVE_CHARGEHUP="$CHARGEHUP"
+        [ -z "$SLAVE_CHARGEINT" ] && SLAVE_CHARGEINT="$CHARGEINT"
+        [ -z "$SLAVE_CBHUP" ] && SLAVE_CBHUP="$CBHUP"
+        [ -z "$SLAVE_IHUP" ] && SLAVE_IHUP="$IHUP"
+        [ -z "$SLAVE_DIALMAX" ] && SLAVE_DIALMAX="$DIALMAX"
+        [ -z "$SLAVE_CALLBACK" ] && SLAVE_CALLBACK="$CALLBACK"
+        [ -z "$SLAVE_CBDELAY" ] && SLAVE_CBDELAY="$CBDELAY"
+        [ -z "$SLAVE_DIALMODE" ] && SLAVE_DIALMODE="auto"
+
+        slave=$SLAVE_DEVICE
+        options="$options /dev/$slave +mp"
+
+        # Create slave and set options
+        log_isdnctrl addslave $DEVICE $slave
+        log_isdnctrl eaz $slave $SLAVE_MSN
+
+        # set phone number
+        for i in $SLAVE_PHONE_OUT; do
+            log_isdnctrl addphone $slave out $COUNTRYCODE$PREFIX$AREACODE$i
+        done
+        for i in $SLAVE_PHONE_IN; do
+            log_isdnctrl addphone $slave in $i
+        done
+
+        # set layer-2/3 protocol
+        log_isdnctrl l2_prot $slave $L2_PROT
+        log_isdnctrl l3_prot $slave $L3_PROT
+
+        # set encapsulation
+        log_isdnctrl encap $slave $ENCAP
+
+        # set dial mode
+        log_isdnctrl dialmode $slave $SLAVE_DIALMODE
+
+        [ -n "$SECURE" ] && log_isdnctrl secure $slave $SECURE
+        [ -n "$SLAVE_HUPTIMEOUT" ] && log_isdnctrl huptimeout $slave $SLAVE_HUPTIMEOUT
+        [ -n "$SLAVE_CHARGEHUP" ] && log_isdnctrl chargehup $slave $SLAVE_CHARGEHUP
+        [ -n "$SLAVE_CHARGEINT" ] && log_isdnctrl chargeint $slave $SLAVE_CHARGEINT
+        [ -n "$SLAVE_IHUP" ] && log_isdnctrl ihup $slave $SLAVE_IHUP
+        [ -n "$SLAVE_DIALMAX" ] && log_isdnctrl dialmax $slave $SLAVE_DIALMAX
+
+        # set callback
+        [ -n "$SLAVE_CBHUP" ] && log_isdnctrl cbhup $slave $SLAVE_CBHUP
+        [ -n "$SLAVE_CALLBACK" ] || SLAVE_CALLBACK="off"
+        log_isdnctrl callback $slave $SLAVE_CALLBACK
+        [ -n "$SLAVE_CBDELAY" ] && log_isdnctrl cbdelay $DEVICE $SLAVE_CBDELAY
+
+        # options for master device
+        [ -n "$SLAVE_DELAY" ] && log_isdnctrl sdelay $DEVICE $SLAVE_DELAY
+        [ -n "$SLAVE_TRIGGER" ] && log_isdnctrl trigger $DEVICE $SLAVE_TRIGGER
+    fi
+ 
+    if [ -z "$REMOTE_IP" ]; then
+        REMOTE_IP="0.0.0.0"
+        options="$options ipcp-accept-remote"
+        options="$LOCAL_IP:$REMOTE_IP $options"
+    else
+        options="$options $LOCAL_IP:$REMOTE_IP"
+    fi
+
+    # Add default route while connection
+    options="$options defaultroute"
+ 
+    # configure Van Jacobson style TCP/IP header compression and
+    # VJ connection-ID compression
+    [ "$VJ" = "off" ] && options="$options -vj"
+    [ "$VJCCOMP" = "off" ] && options="$options -vjccomp"
+ 
+    # configure Address/Control compression, protocol field compression and
+    # BSD-Compression scheme
+    [ "$AC" = "off" ] && options="$options -ac"
+    [ "$PC" = "off" ] && options="$options -pc"
+    [ "$BSDCOMP" = "off" ] && options="$options -bsdcomp"
+ 
+    # Set max receive and max transmit units
+    [ -n "$MRU" ] && options="$options mru $MRU"
+    [ -n "$MTU" ] && options="$options mtu $MTU"
+
+    # set CBCP protocoll
+    [ "$CBCP" = "on" ] && options="$options callback 6"
+
+    # set CCP protocoll
+    [ "$CCP" = "off" ] && options="$options noccp"
+ 
+    # set host name
+    [ -n "$ISDN_HOSTNAME" ] && options="$options hostname $ISDN_HOSTNAME"
+ 
+    # Set authentication
+    for i in $AUTH ; do
+        options="$options $i"
+    done
+ 
+    # check dns entry
+    if [ -z "$DNS1" -a -z "$DNS2" ]; then
+        options="$options ms-get-dns"
+    else
+        options="$options ms-dns $DNS1 $DNS2"
+    fi
+
+    # set debug 
+    [ "$DEBUG" = "yes" ] && options="-d $options"
+
+    # activate ISDN device
+    ifconfig $DEVICE $LOCAL_IP pointopoint $REMOTE_IP up >/dev/null 2>&1
+
+    if [ "$ENCAP" = "syncppp" ]; then
+        # start ipppd daemon
+        ipppd $options
+
+        # start ibod daemon
+        [ "$BUNDLING" = "yes" -a -n "$SLAVE_DEVICE" ] && start_ibod $DEVICE
+    fi
+
+    # set default gateway for dial on demand
+    if [ "$DIALMODE" = "auto" ]; then
+        echo 1 > /proc/sys/net/ipv4/ip_dynaddr
+        route del default >/dev/null 2>&1
+        if [ -z "$REMOTE_IP" -o "$REMOTE_IP" = "0.0.0.0" ]; then
+            route add default $DEVICE >/dev/null 2>&1
+        else
+            route add default gw $REMOTE_IP >/dev/null 2>&1
+        fi
+    fi
+}
+
+addprovider || exit 1
+
+/etc/sysconfig/network-scripts/ifup-post $CONFIG
+
+exit 0

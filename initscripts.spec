@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.90
+Version: 5.91
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -172,6 +172,10 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/sysconfig/network-scripts/ifup-sit
 %config /etc/sysconfig/network-scripts/ifdown-sit
 %config /etc/sysconfig/network-scripts/ifup-aliases
+%config /etc/sysconfig/network-scripts/ifup-ippp
+%config /etc/sysconfig/network-scripts/ifdown-ippp
+/etc/sysconfig/network-scripts/ifup-isdn
+/etc/sysconfig/network-scripts/ifdown-isdn
 %ifarch s390 s390x
 %config /etc/sysconfig/network-scripts/ifup-ctc
 %config /etc/sysconfig/network-scripts/ifup-iucv
@@ -217,6 +221,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Jun 21 2001 Than Ngo <than@redhat.com>
+- add support ISDN
+
 * Wed Jun 20 2001 Bill Nottingham <notting@redhat.com>
 - fix extremely broken new network scripts
 

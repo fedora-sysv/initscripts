@@ -45,6 +45,8 @@ install:
 	mv $(ROOT)/etc/sysconfig/network-scripts/ifup $(ROOT)/sbin
 	mv $(ROOT)/etc/sysconfig/network-scripts/ifdown $(ROOT)/sbin
 	(cd $(ROOT)/etc/sysconfig/network-scripts; \
+	  ln -sf ifup-ippp ifup-isdn ; \
+	  ln -sf ifdown-ippp ifdown-isdn ; \
 	  ln -sf ../../../sbin/ifup . ; \
 	  ln -sf ../../../sbin/ifdown . )
 	(cd src; make install ROOT=$(ROOT) mandir=$(mandir))
