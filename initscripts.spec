@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.13
+Version: 6.14
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -238,6 +238,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Fri Aug 10 2001 Than Ngo <than@redhat.com>
+- don't set MSN if it' empty (it's now optional)
+- don't give login name as a cmdline-option (Bug #23066)
+	
 * Thu Aug  9 2001 Bill Nottingham <notting@redhat.com>
 - require SysVinit (#51335)
 

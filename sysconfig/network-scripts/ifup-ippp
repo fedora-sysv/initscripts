@@ -46,6 +46,13 @@ function log_isdnctrl()
     isdnctrl $* >/dev/null 2>&1
 }
 
+function create_option_file()
+{
+    umask 066
+    echo "$1" > /etc/ppp/ioption-secret-$DEVICE
+    umask 022
+}
+
 function start_ibod()
 {
     # don't start ibod, if it's running
@@ -62,10 +69,6 @@ function start_ibod()
 function addprovider()
 {
     options=
-    if [ -z "$MSN" ]; then
-        log_echo "Error: $1: MSN not set"
-        return 1
-    fi
     if [ -z "$PHONE_OUT" ]; then
         log_echo "Error: $1: no outgoing phone number set"
         return 1
@@ -77,7 +80,7 @@ function addprovider()
     # set the dial mode
     [ -z "$DIALMODE" ] && DIALMODE="off"
 
-    [ "$AUTH" = "none" ] && AUTH=""
+    [ "$AUTH" = "none" ] && AUTH="noauth"
 
     # set layer-2/3 protocol 
     [ -z "$L2_PROT" ] && L2_PROT="hdlc"
@@ -93,16 +96,17 @@ function addprovider()
     # set authentication
     [ -z "$USER" ] && USER="dialup"
     if [ "$AUTH" = "-pap +chap" ]; then
-        options="$options name $USER"
+        create_option_file "name \"$USER\""
     else
-        options="$options user $USER"
+        create_option_file "user \"$USER\""
     fi
+    options="$options file /etc/ppp/ioption-secret-$DEVICE"
 
     # add ISDN device 
     log_isdnctrl addif $DEVICE
 
     # set local MSN
-    log_isdnctrl eaz $DEVICE $MSN
+    [ -z "$MSN" ]  || log_isdnctrl eaz $DEVICE $MSN
 
     # set dialout numbers
     if echo $COUNTRYCODE | grep ":" >/dev/null 2>&1 ; then
@@ -178,7 +182,7 @@ function addprovider()
 
         # Create slave and set options
         log_isdnctrl addslave $DEVICE $slave
-        log_isdnctrl eaz $slave $SLAVE_MSN
+        [ -z $SLAVE_MSN ] || log_isdnctrl eaz $slave $SLAVE_MSN
 
         # set phone number
         for i in $SLAVE_PHONE_OUT; do
@@ -252,9 +256,9 @@ function addprovider()
     [ -n "$ISDN_HOSTNAME" ] && options="$options hostname $ISDN_HOSTNAME"
  
     # Set authentication
-    #for i in $AUTH ; do
-    #    options="$options $i"
-    #done
+    for i in $AUTH ; do
+        options="$options $i"
+    done
 
     # add ppp options
     for i in $PPPOPTIONS ; do
