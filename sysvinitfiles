@@ -1,7 +1,7 @@
 Writing System V init scripts for Red Hat Linux
 ===============================================
 
-All System V init scripts are named /etc/rc.d/init.d/<servicename>
+All System V init scripts are named /etc/init.d/<servicename>
 where <servicename> is the name of the service.  There must be no
 ".init" suffix.
 
@@ -11,7 +11,7 @@ Sample Script
 
 #!/bin/bash
 #
-#	/etc/rc.d/init.d/<servicename>
+#	/etc/init.d/<servicename>
 #
 #	<description of the *service*>
 #	<any general comments about this init script>
@@ -23,7 +23,7 @@ Sample Script
 #  mistaken for tags, should they happen to fit the pattern.>
 
 # Source function library.
-. /etc/rc.d/init.d/functions
+. /etc/init.d/functions
 
 <define any local shell functions used by the code that follows>
 
@@ -72,7 +72,7 @@ which you intend to be used interactively to the usage message.
 
 
 
-Functions in /etc/rc.d/init.d/functions
+Functions in /etc/init.d/functions
 =======================================
 
 daemon [+/-nicelevel] program [arguments] [&]
@@ -165,7 +165,7 @@ Tags
 	acheived by running these commands:
 
 	command=$(/etc/rd.d/init.d/SCRIPT probe)
-	[ -n "$command" ] && /etc/rc.d/init.d/SCRIPT $command
+	[ -n "$command" ] && /etc/init.d/SCRIPT $command
 
 	where SCRIPT is the name of the service's sysv init script.
 

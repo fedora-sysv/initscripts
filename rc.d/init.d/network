@@ -8,7 +8,7 @@
 # probe: true
 
 # Source function library.
-. /etc/rc.d/init.d/functions
+. /etc/init.d/functions
 
 if [ ! -f /etc/sysconfig/network ]; then
     exit 0
@@ -88,7 +88,7 @@ case "$1" in
 		SMBMTAB=`grep -v '^#' /proc/mounts | awk '{ if ($3 ~ /^smbfs$/ ) print $2}'`
 		NCPMTAB=`grep -v '^#' /proc/mounts | awk '{ if ($3 ~ /^ncpfs$/ ) print $2}'`
 		if [ -n "$NFSMTAB" -o -n "$SMBMTAB" -o -n "$NCPMTAB" ] ; then
-			/etc/rc.d/init.d/netfs stop
+			/etc/init.d/netfs stop
 		fi
 	fi
 	

@@ -1,6 +1,6 @@
-Summary: The inittab file and the /etc/rc.d/init.d scripts.
+Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.36
+Version: 5.35
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -229,9 +229,6 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
-* Mon Jul 24 2000 Bernhard Rosenkraenzer <bero@redhat.com>
-- Some files were still trying to source /etc/init.d/*
-
 * Tue Jul 18 2000 Trond Eivind Glomsrød <teg@redhat.com>
 - add "nousb" command line parameter
 - fix some warnings when mounting /proc/bus/usb

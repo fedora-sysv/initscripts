@@ -39,7 +39,7 @@ install:
 # not installed by default, only comes from sources.
 install-test:
 	install -s -m 755 testd $(ROOT)/usr/sbin/testd
-	install -m 755 testdinit $(ROOT)/etc/rc.d/init.d/testd
+	install -m 755 testdinit $(ROOT)/etc/init.d/testd
 
 ipcalc: ipcalc.o
 	$(CC) $(LDFLAGS) -o $@ $< /usr/lib/libpopt.a
