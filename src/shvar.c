@@ -40,7 +40,7 @@
 
 /* Open the file <name>, return shvarFile on success, NULL on failure */
 shvarFile *
-svNewFile(char *name)
+svNewFile(const char *name)
 {
     shvarFile *s = NULL;
     int closefd = 0;
@@ -87,7 +87,7 @@ bail:
 /* Create a new file structure, returning actual data if the file exists,
  * and a suitable starting point if it doesn't. */
 shvarFile *
-svCreateFile(char *name)
+svCreateFile(const char *name)
 {
     shvarFile *s = NULL;
     int closefd = 0;
@@ -159,7 +159,7 @@ unescape(char *s) {
 static const char escapees[] = "\"'\\$~`";	/* must be escaped */
 static const char spaces[] = " \t";		/* only require "" */
 static char *
-escape(char *s) {
+escape(const char *s) {
     char *new;
     int i, j, mangle = 0, space = 0;
     int newlen, slen;
@@ -167,27 +167,28 @@ escape(char *s) {
 
     if (!esclen) esclen = strlen(escapees);
     if (!splen) splen = strlen(spaces);
-    for (i = 0; i < esclen; i++) {
-	if (strchr(s, escapees[i])) mangle++;
-    }
-    for (i = 0; i < splen; i++) {
-	if (strchr(s, spaces[i])) space++;
+    slen = strlen(s);
+
+    for (i = 0; i < slen; i++) {
+	if (strchr(escapees, s[i])) mangle++;
+	if (strchr(spaces, s[i])) space++;
     }
     if (!mangle && !space) return strdup(s);
 
-    slen = strlen(s);
     newlen = slen + mangle + 3;	/* 3 is extra ""\0 */
-    new = g_malloc(newlen);
+    new = g_malloc0(newlen);
     if (!new) return NULL;
 
-    new[0] = '"';
-    for (i = 0, j = 1; i < slen; i++, j++) {
+    j = 0;
+    new[j++] = '"';
+    for (i = 0; i < slen; i++) {
 	if (strchr(escapees, s[i])) {
 	    new[j++] = '\\';
 	}
-	new[j] = s[i];
+	new[j++] = s[i];
     }
-    new[j] = '"';
+    new[j++] = '"';
+    g_assert(j == slen + mangle + 2); /* j is the index of the '\0' */
 
     return new;
 }
@@ -197,7 +198,7 @@ escape(char *s) {
  * be freed by the caller.
  */
 char *
-svGetValue(shvarFile *s, char *key)
+svGetValue(shvarFile *s, const char *key)
 {
     char *value = NULL;
     char *line;
@@ -239,7 +240,7 @@ svGetValue(shvarFile *s, char *key)
  * return <default> otherwise
  */
 int
-svTrueValue(shvarFile *s, char *key, int def)
+svTrueValue(shvarFile *s, const char *key, int def)
 {
     char *tmp;
     int returnValue = def;
@@ -286,23 +287,23 @@ svTrueValue(shvarFile *s, char *key, int def)
  *
  */
 void
-svSetValue(shvarFile *s, char *key, char *value)
+svSetValue(shvarFile *s, const char *key, const char *value)
 {
-    char *val1 = NULL, *val2 = NULL;
+    char *newval = NULL, *val1 = NULL, *val2 = NULL;
     char *keyValue;
 
     g_assert(s);
     g_assert(key);
     /* value may be NULL */
 
-    if (value) value = escape(value);
-    keyValue = g_strdup_printf("%s=%s", key, value ? value : "");
+    if (value) newval = escape(value);
+    keyValue = g_strdup_printf("%s=%s", key, newval ? newval : "");
 
     val1 = svGetValue(s, key);
-    if (val1 && value && !strcmp(val1, value)) goto bail;
+    if (val1 && newval && !strcmp(val1, newval)) goto bail;
     if (s->parent) val2 = svGetValue(s->parent, key);
 
-    if (!value) {
+    if (!newval) {
 	/* delete value somehow */
 	if (val2) {
 	    /* change/append line to get key= */
@@ -321,7 +322,7 @@ svSetValue(shvarFile *s, char *key, char *value)
     }
 
     if (!val1) {
-	if (val2 && !strcmp(val2, value)) goto end;
+	if (val2 && !strcmp(val2, newval)) goto end;
 	/* append line */
 	s->lineList = g_list_append(s->lineList, keyValue);
 	s->freeList = g_list_append(s->freeList, keyValue);
@@ -330,10 +331,10 @@ svSetValue(shvarFile *s, char *key, char *value)
     }
 
     /* deal with a whole line of noops */
-    if (val1 && !strcmp(val1, value)) goto end;
+    if (val1 && !strcmp(val1, newval)) goto end;
 
     /* At this point, val1 && val1 != value */
-    if (val2 && !strcmp(val2, value)) {
+    if (val2 && !strcmp(val2, newval)) {
 	/* delete line */
 	s->lineList = g_list_remove_link(s->lineList, s->current);
 	g_list_free_1(s->current);
@@ -348,7 +349,7 @@ svSetValue(shvarFile *s, char *key, char *value)
     }
 
 end:
-    if (value) free(value);
+    if (newval) free(newval);
     if (val1) free(val1);
     if (val2) free(val2);
     return;

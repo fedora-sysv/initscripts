@@ -52,25 +52,25 @@ struct _shvarFile {
 
 /* Create the file <name>, return shvarFile on success, NULL on failure */
 shvarFile *
-svCreateFile(char *name);
+svCreateFile(const char *name);
 
 /* Open the file <name>, return shvarFile on success, NULL on failure */
 shvarFile *
-svNewFile(char *name);
+svNewFile(const char *name);
 
 /* Get the value associated with the key, and leave the current pointer
  * pointing at the line containing the value.  The char* returned MUST
  * be freed by the caller.
  */
 char *
-svGetValue(shvarFile *s, char *key);
+svGetValue(shvarFile *s, const char *key);
 
 /* return 1 if <key> resolves to any truth value (e.g. "yes", "y", "true")
  * return 0 if <key> resolves to any non-truth value (e.g. "no", "n", "false")
  * return <def> otherwise
  */
 int
-svTrueValue(shvarFile *s, char *key, int def);
+svTrueValue(shvarFile *s, const char *key, int def);
 
 /* Set the variable <key> equal to the value <value>.
  * If <key> does not exist, and the <current> pointer is set, append
@@ -78,7 +78,7 @@ svTrueValue(shvarFile *s, char *key, int def);
  * to the top of the file.
  */
 void
-svSetValue(shvarFile *s, char *key, char *value);
+svSetValue(shvarFile *s, const char *key, const char *value);
 
 
 /* Write the current contents iff modified.  Returns -1 on error
