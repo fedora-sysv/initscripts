@@ -94,7 +94,7 @@ void waitForConnection(struct device **devlist)
 
 int main(int argc, char **argv) 
 {
-	char *bus = NULL, *class = NULL, *buf = NULL;
+	char *bus = NULL, *class = NULL;
 	int x, rc, isdaemon = 0;
 	enum deviceBus probeBus = BUS_UNSPEC & ~BUS_SERIAL;
 	enum deviceClass probeClass = CLASS_UNSPEC;
@@ -156,6 +156,7 @@ int main(int argc, char **argv)
 			printf("%s %s\n",classes[i].string,devs[x]->driver);
 		}
 	}
+	fflush(stdout);
 	if (isdaemon) {
 		daemon(0,0);
 		waitForConnection(devs);
