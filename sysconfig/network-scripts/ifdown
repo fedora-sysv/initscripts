@@ -105,6 +105,7 @@ retcode=0
 	 	pump -r -i ${DEVICE}
 		retcode=$?
 	}
+if ! [ "$BOOTPROTO" = bootp -o "$BOOTPROTO" = dhcp ]; then
 	# we can't just delete the configured address because that address
 	# may have been changed in the config file since the device was
 	# brought up.  Flush all addresses associated with this
@@ -114,6 +115,7 @@ retcode=0
 	else
 		ip addr flush dev ${REALDEVICE} label ${DEVICE} 2>/dev/null
 	fi
+fi
 
 if [ "${REALDEVICE}" = "${DEVICE}" ]; then
   ip link set dev ${DEVICE} down
