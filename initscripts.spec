@@ -8,7 +8,7 @@ Release: 1
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /var/tmp/initbld
 Requires: mingetty, /bin/awk, /bin/sed, mktemp, e2fsprogs >= 1.15, console-tools
-Requires: procps, modutils >= 2.1.85-3, sysklogd >= 1.3.31
+Requires: procps, modutils >= 2.1.121, sysklogd >= 1.3.31
 Requires: setup >= 2.0.3, /sbin/fuser
 %ifarch alpha
 Requires: util-linux >= 2.9w-26
