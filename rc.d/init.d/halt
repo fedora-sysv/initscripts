@@ -173,7 +173,7 @@ done
 rm -f /.autofsck
 
 # Try all file systems other than root and RAM disks, one last time.
-mount |  awk '!/( \/ |^\/dev\/root|^\/dev\/ram)/ { print $3 }' | \
+mount |  awk '!/( \/ |^\/dev\/root|^\/dev\/ram| \/proc )/ { print $3 }' | \
   while read line; do
     umount -f $line
 done
