@@ -25,6 +25,14 @@ static int buflines=0;
 
 int debug;
 
+int recvsock;
+
+void alarm_handler(int x) {
+	alarm(0);
+	close(recvsock);
+	recvsock = -1;
+}
+
 void freeBuffer() {
    struct sockaddr_un addr;
    int sock;
@@ -61,7 +69,7 @@ void cleanup(int exitcode) {
 
 void runDaemon(int sock) {
    struct sockaddr_un addr;
-   int x,len,addrlen,recvsock,done=0;
+   int x,len,addrlen,done=0;
    char *message;
    struct stat s1,s2;
    struct pollfd pfds;
@@ -94,7 +102,10 @@ void runDaemon(int sock) {
       if ( (x>0) && pfds.revents & (POLLIN | POLLPRI)) {
 	 message = calloc(8192,sizeof(char));
 	 recvsock = accept(sock,(struct sockaddr *) &addr, &addrlen);
+	 alarm(2);
+	 signal(SIGALRM, alarm_handler);
 	 len = read(recvsock,message,8192);
+	 alarm(0);
 	 close(recvsock);
 	 if (len>0) {
 		 if (buflines < 200000) {
