@@ -254,7 +254,9 @@ if [ -x /sbin/isapnp -a -f /etc/isapnp.conf ]; then
 fi
 
 # Remount the root filesystem read-write.
-action "Remounting root filesystem in read-write mode: " mount -n -o remount,rw /
+state=`awk '/(^\/dev\/root| \/ )/ { print $4 }' /proc/mounts`
+[ "$state" != "rw" ] && \
+  action "Remounting root filesystem in read-write mode: " mount -n -o remount,rw /
 
 # Clear mtab
 >/etc/mtab
