@@ -10,6 +10,10 @@ if [ -z "$IN_INITLOG" -a -x /sbin/initlog ]; then
     exec /sbin/initlog -r /etc/rc.d/rc.sysinit
 fi
 
+if [ -x /sbin/checkselinux ]; then
+    /sbin/checkselinux 
+fi
+
 # If we're using devfs, start devfsd now - we need the old device names
 [ -e /dev/.devfsd -a -x /sbin/devfsd ] && /sbin/devfsd /dev
 
