@@ -28,7 +28,7 @@ if [ "$2" = "boot" -a -n "$NEEDHOSTNAME" -a "${DEVICE}" != lo -a "${DEVICETYPE}"
     eval `/bin/ipcalc --silent --hostname ${IPADDR}` && set_hostname $HOSTNAME
 fi
 
-if [ "$PEERDNS" != "no" -o "$RESOLV_MODS" != "no" ]; then
+if [ "$PEERDNS" != "no" -o -n "$RESOLV_MODS" -a "$RESOLV_MODS" != "no" ]; then
   [ -n "$MS_DNS1" ] && DNS1=$MS_DNS1
   [ -n "$MS_DNS2" ] && DNS2=$MS_DNS2
   if [ -n "$DNS1" ] && ! grep -q "^nameserver $DNS1" /etc/resolv.conf &&
