@@ -1,6 +1,6 @@
 Summary: inittab and /etc/rc.d scripts
 Name: initscripts
-%define version 3.90
+%define version 3.91
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
@@ -84,6 +84,14 @@ chkconfig --add random
 chkconfig --add nfsfs 
 chkconfig --add network 
 
+if [ $1 = 0 ]; then
+  if [ "$TERM" = "vt100" ]; then
+      tmpfile=/etc/sysconfig/tmp.$$
+      sed -e '/BOOTUP=color/BOOTUP=serial/' /etc/sysconfig/init > $tmpfile
+      mv -f $tmpfile /etc/sysconfig/init
+  fi
+fi
+
 %postun
 if [ $1 = 0 ]; then
   chkconfig --del random
@@ -98,6 +106,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 %dir /etc/sysconfig/network-scripts
 %config %verify(not md5 mtime size) /etc/adjtime
+%config(noreplace) /etc/sysconfig/init
 /etc/sysconfig/network-scripts/ifdown
 %config /sbin/ifdown
 %config /etc/sysconfig/network-scripts/ifdown-post

@@ -18,10 +18,15 @@ if [ -f /etc/sysconfig/init ]; then
     . /etc/sysconfig/init
 else
     BOOTUP=color
+    COLOR_SUCCESS=2
+    COLOR_FAILURE=1
+    RES_COL=60
     LOGLEVEL=1
 fi
 
-if [ "$BOOTUP" = "color" ]; then
+[ -z "$COLUMNS" ] && COLUMNS=80
+
+if [ "$BOOTUP" != "verbose" ]; then
    INITLOG_ARGS="-q"
 else
    INITLOG_ARGS=
@@ -50,7 +55,7 @@ daemon() {
 	ulimit -c 0
 	
 	# Echo daemon
-        [ $BOOTUP != "color" ] && echo -n " $base"
+        [ "$BOOTUP" = "verbose" ] && echo -n " $base"
 
 	# And start it up.
 	nice -n $nicelevel initlog $INITLOG_ARGS -c "$*" && success "$base startup" || failure "$base startup"
@@ -81,7 +86,7 @@ killproc() {
 
         # Kill it.
         if [ "$pid" != "" ] ; then
-                [ $BOOTUP != "color" ] && echo -n "$base "
+                [ $BOOTUP = "verbose" ] && echo -n "$base "
 		if [ "$notset" = 1 ] ; then
 			# TERM first, then KILL if not dead
 			kill -TERM $pid && success "$base shutdown" || failure "$base shutdown"
@@ -172,12 +177,22 @@ status() {
 }
 
 echo_success() {
-  echo -n "[300C[20D[  [1;32mOK[0;39m  ]"
+  [ "$BOOTUP" = "color" ] && echo -en "\\033[300C\\033[$[${COLUMNS}-${RES_COL}]D"
+  echo -n "[  "
+  [ "$BOOTUP" = "color" ] && echo -en "\\033[1;3${COLOR_SUCCESS}m"
+  echo -n "OK"
+  [ "$BOOTUP" = "color" ] && echo -en "\\033[0;39m"
+  echo -n "  ]"
   return 0
 }
 
 echo_failure() {
-  echo -n "[300C[20D[[1;31mFAILED[0;39m]"
+  [ "$BOOTUP" = "color" ] && echo -en "\\033[300C\\033[$[${COLUMNS}-${RES_COL}]D"
+  echo -n "["
+  [ "$BOOTUP" = "color" ] && echo -en "\\033[1;3${COLOR_FAILURE}m"
+  echo -n "FAILED"
+  [ "$BOOTUP" = "color" ] && echo -en "\\033[0;39m"
+  echo -n "]"
   return 1
 }
 
@@ -188,7 +203,7 @@ success() {
   else
      echo "-n $0 -s \"$1\" -e 1" >&21
   fi
-  [ "$BOOTUP" = "color" ] && echo_success
+  [ "$BOOTUP" != "verbose" ] && echo_success
   return 0
 }
 
@@ -200,7 +215,7 @@ failure() {
   else
      echo "-n $0 -s \"$1\" -e 2" >&21
   fi
-  [ "$BOOTUP" = "color" ] && echo_failure
+  [ "$BOOTUP" != "verbose" ] && echo_failure
   return $rc
 }
 
@@ -212,7 +227,6 @@ action() {
   if [ -z "$IN_INITLOG" ]; then
       initlog $INITLOG_ARGS -c "$*" && success "$STRING" || failure "$STRING"
       rc=$?
-#      [ "$BOOTUP" = "color" ] && echo
       echo
       return $rc
   else
@@ -226,7 +240,7 @@ action() {
       fi
 
       if [ $rc ]; then
-	 [ "$BOOTUP" != "color" ] && {
+	 [ "$BOOTUP" = "verbose" ] && {
 	    if [ -n "$output" ]; then
 	      echo
 	      echo $output
@@ -239,7 +253,7 @@ action() {
          echo $output
          failure "$STRING"
       fi
-      [ "$BOOTUP" = "color" ] && echo
+      [ "$BOOTUP" != "verbose" ] && echo
       return $rc
   fi
 }

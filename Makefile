@@ -13,6 +13,7 @@ install:
 	install -m644  inputrc $(ROOT)/etc
 	install -m755  setsysfont $(ROOT)/sbin
 	install -m755  lang.sh $(ROOT)/etc/profile.d
+	install -m644 sysconfig/init $(ROOT)/etc/sysconfig/init
 	cp -af rc.d sysconfig ppp $(ROOT)/etc
 	mkdir -p $(ROOT)/sbin
 	mv $(ROOT)/etc/sysconfig/network-scripts/ifup $(ROOT)/sbin
