@@ -4,7 +4,6 @@ cd /etc/sysconfig/network-scripts
 . network-functions
 
 [ -f ../network ] && . ../network
-[ -f ../networking/network ] && . ../networking/network
 
 CONFIG=$1
 source_config
@@ -21,7 +20,7 @@ if [ "$ISALIAS" = no ] ; then
     /etc/sysconfig/network-scripts/ifup-aliases ${DEVICE} ${CONFIG}
 fi
 
-/etc/sysconfig/network-scripts/ifup-routes ${DEVICE} ${NAME}
+/etc/sysconfig/network-scripts/ifup-routes ${DEVICE} ${DEVNAME}
 
 
 if [ "$PEERDNS" != "no" -o -n "$RESOLV_MODS" -a "$RESOLV_MODS" != "no" ]; then

@@ -6,7 +6,6 @@ cd /etc/sysconfig/network-scripts
 . network-functions
 
 [ -f ../network ] && . ../network
-[ -f ../networking/network ] && . ../networking/network
 
 CONFIG=$1
 
@@ -25,8 +24,8 @@ need_config $CONFIG
 if [ $UID != 0 ]; then
     if [ -x /usr/sbin/usernetctl ]; then
 	source_config
-	if /usr/sbin/usernetctl ${DEVICE} report ; then
-	    exec /usr/sbin/usernetctl ${DEVICE} down
+	if /usr/sbin/usernetctl ${CONFIG} report ; then
+	    exec /usr/sbin/usernetctl ${CONFIG} down
 	fi
     fi
     echo $"Users cannot control this device." >&2

@@ -15,7 +15,6 @@ cd /etc/sysconfig/network-scripts
 . network-functions
 
 [ -f ../network ] && . ../network
-[ -f ../networking/network ] && . ../networking/network
 
 CONFIG=${1}
 
@@ -35,8 +34,8 @@ need_config ${CONFIG}
 if [ ${UID} != 0 ]; then
     if [ -x /usr/sbin/usernetctl ]; then
 	source_config
-	if /usr/sbin/usernetctl ${DEVICE} report ; then
-	    exec /usr/sbin/usernetctl ${DEVICE} up
+	if /usr/sbin/usernetctl ${CONFIG} report ; then
+	    exec /usr/sbin/usernetctl ${CONFIG} up
 	fi
     fi
     echo $"Users cannot control this device." >&2
@@ -135,7 +134,7 @@ if [ "${BOOTPROTO}" = "bootp" -o "${BOOTPROTO}" = "dhcp" ]; then
 fi
 
 if [ -x /sbin/ifup-pre-local ]; then
-    /sbin/ifup-pre-local ${DEVICE}
+    /sbin/ifup-pre-local ${CONFIG} $2
 fi
 
 OTHERSCRIPT="/etc/sysconfig/network-scripts/ifup-${DEVICETYPE}"
@@ -144,6 +143,24 @@ if [ -x ${OTHERSCRIPT} ]; then
     exec ${OTHERSCRIPT} ${CONFIG} $2
 fi
 
+# load the module associated with that device
+# /sbin/modprobe ${REALDEVICE}
+is_available ${REALDEVICE}
+
+# remap, if the device is bound with a MAC address and not the right device num
+# bail out, if the MAC does not fit
+if [ -n "${HWADDR}" ]; then
+    FOUNDMACADDR=`LC_ALL= LANG= ip -o link show ${REALDEVICE} | \
+	sed 's/.*link\/ether \([[:alnum:]:]*\).*/\1/'`
+    if [ "${FOUNDMACADDR}" != "${HWADDR}" ]; then
+	/sbin/nameif "${REALDEVICE}" "${HWADDR}" || {
+	    echo $"Device ${DEVICE} has different MAC address than expected, ignoring."
+	    exit 1
+	}
+    fi
+fi
+
+# now check the real state
 is_available ${REALDEVICE} || {
       if [ "$?" = "1" ] ; then
          echo $"$alias device ${DEVICE} does not seem to be present, delaying initialization."
@@ -152,16 +169,6 @@ is_available ${REALDEVICE} || {
          exit 0
       fi
 }
-if [ -n "${HWADDR}" ]; then
-    FOUNDMACADDR=`LC_ALL= LANG= ip -o link show ${REALDEVICE} | \
-	sed 's/.*link\/ether \([[:alnum:]:]*\).*/\1/'`
-    if [ "${FOUNDMACADDR}" != "${HWADDR}" ]; then
-        /sbin/nameif "${REALDEVICE}" "${HWADDR}" || {
-	   echo $"Device ${DEVICE} has different MAC address than expected, ignoring."
-	   exit 1
-	}
-    fi
-fi
 
 # is the device wireless? If so, configure wireless device specifics
 is_wireless_device ${DEVICE} && . ./ifup-wireless

@@ -9,13 +9,7 @@ export PATH
 
 need_config ()
 {
-    CURRENT_PROFILE=${CURRENT_PROFILE:-default}
-    CURRENT_PROFILE=${CURRENT_PROFILE##*/}
-    CONFIG=../networking/profiles/$CURRENT_PROFILE/ifcfg-${1}
-    [ -f "${CONFIG}" ] && return || CONFIG=../networking/profiles/$CURRENT_PROFILE/${1}
-    [ -f "${CONFIG}" ] && return || CONFIG=../networking/default/ifcfg-${1}
-    [ -f "${CONFIG}" ] && return || CONFIG=../networking/default/${1}
-    [ -f "${CONFIG}" ] && return || CONFIG="ifcfg-${1}"
+    CONFIG="ifcfg-${1}"
     [ -f "${CONFIG}" ] && return || CONFIG="${1}"
 }
 
@@ -93,6 +87,7 @@ is_available ()
         return 2
     fi
     modprobe $1 > /dev/null 2>&1 || return 1
+
     LC_ALL= LANG= ip -o link | grep -q $1
     return $?
 }

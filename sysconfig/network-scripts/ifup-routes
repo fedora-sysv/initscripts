@@ -2,7 +2,7 @@
 #
 # adds static routes which go through device $1
 if [ -z "$1" ]; then
-    echo $"usage: ifup-routes <net-device>"
+    echo $"usage: ifup-routes <net-device> [<nickname>]"
     exit 1
 fi
 
@@ -22,22 +22,19 @@ if [ -n "$2" -a "$2" != "$1" ]; then
 fi
 
 # Red Hat network configuration format
-
-CONFIG="/etc/sysconfig/networking/devices/$1.route"
-[ -f $CONFIG ] || CONFIG="/etc/sysconfig/networking/devices/$2.route"
-[ -f $CONFIG ] || exit 0
-
-. $CONFIG
-
-routenum=0
-while [ "x$(eval echo '$'ADDRESS$routenum)x" != "xx" ]; do
-    eval `ipcalc -p $(eval echo '$'ADDRESS$routenum) $(eval echo '$'NETMASK$routenum)`
-    line="$(eval echo '$'ADDRESS$routenum)/$PREFIX"
-    if [ "x$(eval echo '$'GATEWAY$routenum)x" != "xx" ]; then
-	line="$line via $(eval echo '$'GATEWAY$routenum)"
-    fi
-    line="$line dev $1"
-    /sbin/ip route add $line
-    routenum=$(($routenum+1))
-done
-
+NICK=${2:-$1}
+CONFIG="/etc/sysconfig/network-scripts/$NICK.route"
+if [ -f $CONFIG ]; then 
+    . $CONFIG
+    routenum=0
+    while [ "x$(eval echo '$'ADDRESS$routenum)x" != "xx" ]; do
+	eval `ipcalc -p $(eval echo '$'ADDRESS$routenum) $(eval echo '$'NETMASK$routenum)`
+	line="$(eval echo '$'ADDRESS$routenum)/$PREFIX"
+	if [ "x$(eval echo '$'GATEWAY$routenum)x" != "xx" ]; then
+	    line="$line via $(eval echo '$'GATEWAY$routenum)"
+	fi
+	line="$line dev $1"
+	/sbin/ip route add $line
+	routenum=$(($routenum+1))
+    done
+fi
