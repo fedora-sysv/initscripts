@@ -16,6 +16,7 @@ install:
 	mkdir -p $(ROOT)/etc/profile.d $(ROOT)/sbin $(ROOT)/usr/sbin
 	mkdir -p $(ROOT)$(mandir)/man8
 
+	install -m755 redhat-support-check.py $(ROOT)/sbin/redhat-support-check
 	install -m644  inittab adjtime $(ROOT)/etc
 	if uname -m | grep -q s390 ; then \
 	  install -m644 inittab.s390 $(ROOT)/etc/inittab ; \
