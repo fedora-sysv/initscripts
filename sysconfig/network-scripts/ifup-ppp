@@ -4,8 +4,11 @@ PATH=/sbin:/usr/sbin:/bin:/usr/bin
 # ifup-post for PPP is handled through /etc/ppp/ip-up
 
 if [ "$1" != daemon ] ; then
+  # just in case a full path to the configuration file is passed in
+  ifcfg=$(basename $1)
+  shift
   # let ppp-watch do the right thing
-  exec /sbin/ppp-watch "$@"
+  exec /sbin/ppp-watch "$ifcfg" "$@"
 fi
 shift
 
