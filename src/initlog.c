@@ -43,8 +43,9 @@ void readConfiguration(char *fname) {
     
     if ((fd=open(fname,O_RDONLY))==-1) return;
     if (fstat(fd,&sbuf)) return;
-    data=malloc(sbuf.st_size);
+    data=malloc(sbuf.st_size+1);
     if (read(fd,data,sbuf.st_size)!=sbuf.st_size) return;
+    data[sbuf.st_size] = '\0';
     while ((line=getLine(&data))) {
 	if (line[0]=='#') continue;
 	if (!strncmp(line,"ignore ",7)) {
