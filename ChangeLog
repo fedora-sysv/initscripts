@@ -1,16 +1,67 @@
+2001-07-31  Bill Nottingham  <notting@redhat.com>
+
+	* ChangeLog, initscripts.spec: 6.11-1
+
+	* rc.d/init.d/halt:
+	more FS umounting cleanups (<sopwith@redhat.com>)
+
+	* rc.d/init.d/halt:
+	remount *everything* ro on halt (#50461)
+
+	* sysconfig/network-scripts/ifup:
+	don't check for the link to be down; it's not reliable enough
+
+2001-07-31  Karsten Hopp  <karsten@redhat.com>
+
+	* rc.d/rc.sysinit, initscripts-s390.patch:
+	fix typo
+
+2001-07-31  kmaraas  <kmaraas@redhat.com>
+
+	* po/nn.po: Update nynorsk too :)
+
+	* po/no.po: Update bokmål
+
+2001-07-30  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/network-functions-ipv6:
+	clarify message (#50365)
+
+	* sysconfig/network-scripts/network-functions-ipv6:
+	fix typo (#50363)
+
+	* sysconfig/network-scripts/ifup:
+	take embedded quotes out - it confuses gettext
+
+	* po/uk.po, po/wa.po, po/zh_CN.GB2312.po, po/zh.po, po/sk.po, po/sl.po, po/sr.po, po/sv.po, po/tr.po, po/gl.po, po/hu.po, po/id.po, po/initscripts.pot, po/is.po, po/it.po, po/ja.po, po/ko.po, po/nn.po, po/no.po, po/pl.po, po/pt_BR.po, po/pt.po, po/ro.po, po/ru.po, po/cs.po, po/da.po, po/de.po, po/es.po, po/eu_ES.po, po/fi.po, po/fr.po, po/Makefile:
+	refresh from public beta
+
+2001-07-29  menthos  <menthos@redhat.com>
+
+	* po/sv.po:
+	2001-07-29  Christian Rose  <menthos@menthos.com>
+
+		* sv.po: Some fixes to the Swedish translation.
+
+2001-07-28  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/network-functions:
+	return link up in check_link_down for EINVAL too; in fact, return link up if mii-tool fails for any reason
+
 2001-07-26  Bill Nottingham  <notting@redhat.com>
 
-	* ChangeLog, initscripts.spec: 6.10-1
+	* ChangeLog, initscripts.spec:
+	6.10-1
 
 	* sysconfig/network-scripts/ifdown, sysconfig/network-scripts/ifup, sysconfig/network-scripts/network-functions:
 	- only bring link down if check_link_down fails
 	- add a sleep in check_link_down; some cards take time to negotiate
 	- only expand_config for the static IP case in ifdown
 
-	* ChangeLog, initscripts.spec: 6.09-1
+	* ChangeLog, initscripts.spec:
+	6.09-1
 
-	* setsysfont:
-	don't use kbd commands now that we've switched back to console-tools (#50075)
+	* setsysfont: don't use kbd commands
 
 2001-07-25  Bill Nottingham  <notting@redhat.com>
 

@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.10
+Version: 6.11
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -238,6 +238,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Tue Jul 31 2001 Bill Nottingham <notting@redhat.com>
+- mount all FS types r/o at halt (#50461)
+- don't use mii-tool at all (#various)
+
 * Thu Jul 26 2001 Bill Nottingham <notting@redhat.com>
 - don't use kbd commands in setsysfont now that we've switched back to
   console-tools (#50075)
