@@ -127,7 +127,7 @@ fi
 rm -f /lib/modules/preferred
 if [ -x /sbin/depmod -a -n "$USEMODULES" ]; then
     # Get ready for kerneld/kmod if module support in the kernel
-    if [ -z `uname -r | grep "-"`]; then
+    if [ -z `uname -r | grep "-"` ]; then
        # we're using a new kernel, no preferred needed
        mver=`uname -r`
     else
