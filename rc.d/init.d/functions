@@ -100,9 +100,12 @@ killproc() {
 			   kill -TERM $pid && success "$base shutdown" || failure "$base shutdown"
 			   usleep 100000
 			   if ps h $pid >/dev/null 2>&1 ; then
-				sleep 3
+				sleep 1
 				if ps h $pid >/dev/null 2>&1 ; then
-					kill -KILL $pid && success "$base shutdown" || failure "$base shutdown"
+				        sleep 3
+					if ps h $pid >/dev/null 2>&1 ; then
+					   kill -KILL $pid && success "$base shutdown" || failure "$base shutdown"
+					fi
 				fi
 			   fi
 		        fi
