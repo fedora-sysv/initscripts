@@ -8,10 +8,8 @@ if [ "$1" = "" ]; then
 	exit 1
 fi
 
-if [ ! -x /sbin/ipx_interface ] ; then
-	# cannot configure IPX with non-existant utilities
-	exit 0
-fi
+# cannot configure IPX with non-existant utilities
+[ -x /sbin/ipx_interface ] || exit 0
 
 . /etc/sysconfig/network
 

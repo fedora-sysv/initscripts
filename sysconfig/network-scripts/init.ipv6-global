@@ -45,13 +45,8 @@ POSITION="$2"
 # Test whether IPv6 should be configured, else stop
 [ "${NETWORKING_IPV6}" = "yes" ] || exit 0
 
-if [ ! -f /etc/sysconfig/network-scripts/network-functions-ipv6 ]; then
-	exit 1
-fi
-
-# Source IPv6 helper functions
+[ -f /etc/sysconfig/network-scripts/network-functions-ipv6 ] || exit 1
 . /etc/sysconfig/network-scripts/network-functions-ipv6
-
 
 # Initialize IPv6, depending on caller option
 case $ACTION in
@@ -115,9 +110,9 @@ case $ACTION in
 
 		# Set default route for autotunnel, if specified
 		if [ "$IPV6_DEFAULTDEV" = "sit0" -a "$IPV6_AUTOTUNNEL" = "yes" ]; then
-			if [ ! -z "$IPV6_DEFAULTGW" ]; then
+			if [ -n "$IPV6_DEFAULTGW" ]; then
 				ipv6_set_default_route $IPV6_DEFAULTGW $IPV6_DEFAULTDEV sit0
-			elif [ ! -z "$IPV6_DEFAULTDEV" ]; then
+			elif [ -n "$IPV6_DEFAULTDEV" ]; then
 				ipv6_set_default_route "" $IPV6_DEFAULTDEV sit0
 			fi
 		fi
