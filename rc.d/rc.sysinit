@@ -29,7 +29,7 @@ mount -n -t sysfs /sys /sys >/dev/null 2>&1
 . /etc/init.d/functions
 
 # Check SELinux status
-selinuxfs=`awk '/ selinuxfs / { print $2 }' /proc/mounts`
+selinuxfs=`LC_ALL=C awk '/ selinuxfs / { print $2 }' /proc/mounts`
 SELINUX=
 if [ -n "$selinuxfs" ] && [ "`cat /proc/self/attr/current`" != "kernel" ]; then
 	if [ -r $selinuxfs/enforce ] ; then
@@ -173,7 +173,7 @@ for module in $ide ; do
 done
 
 # SCSI
-for module in `/sbin/modprobe -c | awk '/^alias[[:space:]]+scsi_hostadapter[[:space:]]/ { print $3 }'` $scsi; do
+for module in `/sbin/modprobe -c | LC_ALL=C awk '/^alias[[:space:]]+scsi_hostadapter[[:space:]]/ { print $3 }'` $scsi; do
 	load_module $module
 done
 load_module floppy
@@ -201,7 +201,7 @@ done
 echo -n $" network"
 
 # Sound
-for module in `/sbin/modprobe -c | awk '/^alias[[:space:]]+snd-card-[[:digit:]]+[[:space:]]/ { print $3 }'` $audio; do
+for module in `/sbin/modprobe -c | LC_ALL=C awk '/^alias[[:space:]]+snd-card-[[:digit:]]+[[:space:]]/ { print $3 }'` $audio; do
 	load_module $module
 done
 
@@ -451,7 +451,7 @@ fi
 
 # Remount the root filesystem read-write.
 update_boot_stage RCmountfs
-state=`awk '/ \/ / && ($3 !~ /rootfs/) { print $4 }' /proc/mounts`
+state=`LC_ALL=C awk '/ \/ / && ($3 !~ /rootfs/) { print $4 }' /proc/mounts`
 [ "$state" != "rw" -a "$READONLY" != "yes" ] && \
   action $"Remounting root filesystem in read-write mode: " mount -n -o remount,rw /
 
