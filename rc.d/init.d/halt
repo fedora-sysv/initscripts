@@ -43,9 +43,9 @@ esac
 # Kill all processes.
 [ "${BASH+bash}" = bash ] && enable kill
 
-runcmd "Sending all processes the TERM signal..." kill -15 -1
+runcmd "Sending all processes the TERM signal..." /sbin/killall5 -15
 sleep 5
-runcmd "Sending all processes the KILL signal.."  kill -9 -1
+runcmd "Sending all processes the KILL signal.."  /sbin/killall5 -9
 
 # Write to wtmp file before unmounting /var
 halt -w
