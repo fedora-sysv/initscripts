@@ -22,7 +22,7 @@ extern regex_t **regList;
 int forkCommand(char **args, int *outfd, int *errfd, int *cmdfd, int quiet) {
    /* Fork command 'cmd', returning pid, and optionally pointer
     * to open file descriptor fd */
-    int fdin, fdout, fderr, fdcmd, pid;
+    int fdout, fderr, fdcmd, pid;
     int outpipe[2], errpipe[2], fdpipe[2];
     int ourpid;
     
@@ -32,22 +32,43 @@ int forkCommand(char **args, int *outfd, int *errfd, int *cmdfd, int quiet) {
     }
     
     if (outfd) {
+       if (pipe(outpipe)==-1) {
+	       perror("pipe");
+	       return -1;
+       }
        fdout = outpipe[1];
       *outfd = outpipe[0];
     } else {
-       if (!quiet)
-	 fdout=dup(1);
+       if (!quiet) 
+	 if ((fdout=dup(1))==-1) {
+		 perror("dup");
+		 return -1;
+	 }
     }
     if (errfd) {
+       if (pipe(errpipe)==-1) {
+	       perror("pipe");
+	       return -1;
+       }
        fderr = errpipe[1];
       *errfd = errpipe[0];
     } else {
        if (!quiet)
-	 fderr=dup(2);
+	 if ((fderr=dup(2))==-1) {
+		 perror("dup");
+		 return -1;
+	 }
     }
-    fdcmd = fdpipe[1];
-    if (cmdfd)
-      *cmdfd = fdpipe[0];
+    if (cmdfd) {
+	    if (pipe(fdpipe)==-1) {
+		    perror("pipe");
+		    return -1;
+	    }
+	    fdcmd = fdpipe[1];
+	    *cmdfd = fdpipe[0];
+    } else {
+	    fdcmd = open("/dev/null",O_WRONLY");
+    }
     ourpid = getpid();
     if ((pid = fork())==-1) {
 	perror("fork");
@@ -112,7 +133,7 @@ int forkCommand(char **args, int *outfd, int *errfd, int *cmdfd, int quiet) {
 
 int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet, int debug) {
     struct pollfd *pfds;
-    char *buf=malloc(8192*sizeof(char));
+    char *buf;=malloc(8192*sizeof(char));
     char *outbuf=NULL;
     char *tmpstr=NULL;
     int x,y,rc=-1;
@@ -121,14 +142,18 @@ int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet,
     char **cmdargs=NULL;
     char **tmpargs=NULL;
     int cmdargc;
-    char *procpath;
+    char procpath[20];
     
     if (reexec) {
-	procpath=malloc(20*sizeof(char));
 	snprintf(procpath,20,"/proc/%d",pid);
     }
-    
+
+    buf=malloc(8192*sizeof(char));    
     pfds = malloc(numfds*sizeof(struct pollfd));
+    if (!buf || !pfds) {
+	    perror("malloc");
+	    exit(errno);
+    }
     for (x=0;x<numfds;x++) {
 	pfds[x].fd = fds[x];
 	pfds[x].events = POLLIN | POLLPRI;
@@ -155,7 +180,7 @@ int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet,
 	     int bytesread = 0;
 	     
 	     do {
-		buf=calloc(8192,sizeof(char));
+		memset(buf,'\0',8192);
 		bytesread = read(pfds[y].fd,buf,8192);
 		if (bytesread==-1) {
 		   perror("read");
@@ -187,15 +212,16 @@ int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet,
 		      if (!ignore) {
 			  if (!reexec) {
 			      if (getenv("IN_INITLOG")) {
-				  char *buffer=calloc(8192,sizeof(char));
+				  char *buffer=alloca(8192);
 				  DDEBUG("sending =%s= to initlog parent\n",tmpstr);
-				  snprintf(buffer,8192,"-n %s -s \"%s\"\n",
+				  if (buffer) {
+					  snprintf(buffer,8192,"-n %s -s \"%s\"\n",
 					   cmdname,tmpstr);
-				  /* don't blow up if parent isn't there */
-				  signal(SIGPIPE,SIG_IGN);
-				  write(CMD_FD,buffer,strlen(buffer));
-				  signal(SIGPIPE,SIG_DFL);
-				  free(buffer);
+					  /* don't blow up if parent isn't there */
+					  signal(SIGPIPE,SIG_IGN);
+					  write(CMD_FD,buffer,strlen(buffer));
+					  signal(SIGPIPE,SIG_DFL);
+				  }
 			      } else {
 				  logString(cmdname,tmpstr);
 			      }
@@ -255,10 +281,14 @@ int runCommand(char *cmd, int reexec, int quiet, int debug) {
       cmdname+=3;
     if (!reexec) {
        pid=forkCommand(args,&fds[0],&fds[1],NULL,quiet);
+       if (pid==-1)
+	      exit(-1);
        x=monitor(cmdname,pid,2,fds,reexec,quiet,debug);
     } else {
        setenv("IN_INITLOG","yes",1);
        pid=forkCommand(args,NULL,NULL,&fds[0],quiet);
+       if (pid==-1)
+	      exit(-1);
        unsetenv("IN_INITLOG");
        x=monitor(cmdname,pid,1,&fds[0],reexec,quiet,debug);
     }
