@@ -4,7 +4,7 @@ Name: initscripts
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
-Release: 1
+Release: 2
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /var/tmp/initbld
 Requires: mingetty, bash, mktemp, modutils >= 2.1.85-3, e2fsprogs, console-tools, sysklogd >= 1.3.31
@@ -169,6 +169,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc sysconfig.txt
 
 %changelog
+* Wed Mar 10 1999 Bill Nottingham <notting@redhat.com>
+- Mmm. Must always remove debugging code. before release. *thwap*
+
 * Thu Feb 25 1999 Bill Nottingham <notting@redhat.com>
 - put preferred support back in
 
