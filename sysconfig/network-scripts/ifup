@@ -52,6 +52,10 @@ if [ "foo$2" = "fooboot" -a "${ONBOOT}" = "no" -o "${ONBOOT}" = "NO" ]
 then
     exit
 fi
+if [ -n "$IN_HOTPLUG" -a "${HOTPLUG}" = "no" -o "${HOTPLUG}" = "NO" ]
+then
+    exit
+fi
 
 # figure out more about what we are dealing with
 DEVICETYPE=`echo ${DEVICE} | sed "s/[0-9]*$//"`
