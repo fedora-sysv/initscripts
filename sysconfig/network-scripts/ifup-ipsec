@@ -134,8 +134,8 @@ spdadd $DST $SRC any -P in ipsec
 	    ;
 EOF
     else
-      [ -n "$SRCNET" ] && SRCNET="$SRC/32"
-      [ -n "$DSTNET" ] && DSTNET="$DST/32"
+      [ -z "$SRCNET" ] && SRCNET="$SRC/32"
+      [ -z "$DSTNET" ] && DSTNET="$DST/32"
       
       /sbin/setkey -c >/dev/null 2>&1 << EOF
 delete $SRC $DST ah $SPI_AH_OUT;
@@ -186,8 +186,8 @@ spdadd $DST $SRC any -P in ipsec
 	    ;
 EOF
     else
-      [ -n "$SRCNET" ] && SRCNET="$SRC/32"
-      [ -n "$DSTNET" ] && DSTNET="$DST/32"
+      [ -z "$SRCNET" ] && SRCNET="$SRC/32"
+      [ -z "$DSTNET" ] && DSTNET="$DST/32"
       
       /sbin/setkey -c >/dev/null 2>&1 << EOF
 spddelete $SRCNET $DSTNET any -P out;
