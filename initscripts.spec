@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.82
+Version: 7.83
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -20,6 +20,7 @@ Requires: ethtool >= 1.8-2, kernel >= 2.6, /sbin/nash
 Conflicts: mkinitrd < 4.0
 Conflicts: timeconfig < 3.0, ppp < 2.3.9, wvdial < 1.40-3
 Conflicts: ypbind < 1.6-12, psacct < 6.3.2-12, kbd < 1.06-19, lokkit < 0.50-14
+Conflicts: udev < 0:032
 Obsoletes: rhsound sapinit
 Prereq: /sbin/chkconfig, /usr/sbin/groupadd, gawk, fileutils, sh-utils
 BuildPrereq: glib2-devel popt gettext pkgconfig
@@ -205,6 +206,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Sep 22 2004 Jeremy Katz <katzj@redhat.com> - 7.83-1
+- conflict with old udev
+- use udev if it's present
+
 * Fri Sep 17 2004 Bill Nottingham <notting@redhat.com> - 7.82-1
 - fix handling of nonexistent devices (#132839)
 - rhgb enhancements (<veillard@redhat.com>, #132665)
