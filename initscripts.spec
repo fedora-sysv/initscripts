@@ -1,6 +1,6 @@
 Summary: inittab and /etc/rc.d scripts
 Name: initscripts
-%define version 3.58
+%define version 3.60
 Version: %{version}
 Copyright: GPL
 Group: Base
@@ -16,6 +16,10 @@ levels, and shut the system down cleanly. It also contains the scripts
 that activate and deactivate most network interfaces.
 
 %changelog
+* Wed May 06 1998 Donnie Barnes <djb@redhat.com>
+
+- added system font and language setting
+
 * Mon May 04 1998 Michael K. Johnson <johnsonm@redhat.com>
 
 - Added missing files to packagelist.
@@ -399,6 +403,7 @@ rm -rf $RPM_BUILD_ROOT
 %config(missingok) /etc/rc.d/init.d/*
 %config /etc/rc.d/rc
 %config /etc/rc.d/rc.local
+/sbin/setsysfont
 /bin/doexec
 /bin/ipcalc
 /bin/usleep

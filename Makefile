@@ -10,6 +10,7 @@ install:
 	mkdir -p $(ROOT)/etc
 	install -m644 -o root -g root inittab $(ROOT)/etc
 	install -m644 -o root -g root adjtime $(ROOT)/etc
+	install -m755 -o root -g root setsysfont $(ROOT)/sbin
 	cp -af rc.d sysconfig ppp $(ROOT)/etc
 	mkdir -p $(ROOT)/sbin
 	mv $(ROOT)/etc/sysconfig/network-scripts/ifup $(ROOT)/sbin

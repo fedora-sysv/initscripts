@@ -32,6 +32,22 @@ else
     domainname ""
 fi
 
+if [ -f /etc/sysconfig/i18n ]; then
+	. /etc/sysconfig/i18n
+fi
+
+if [ -n "$LANG" ]; then
+	export LANG
+fi
+
+if [ -n "$LINGUAS" ]; then
+	export LINGUAS
+fi
+
+if [ -n "$SYSTERM" ]; then
+	export TERM=$SYSTERM
+fi
+
 if [ -f /fsckoptions ]; then
 	fsckoptions=`cat /fsckoptions`
     else
@@ -198,6 +214,11 @@ fi
 # filesystems are NOT unmounted in single user mode.
 echo "Mounting local filesystems."
 mount -a -t nonfs,proc
+
+# set the console font
+if [ -x /sbin/setsysfont ]; then
+    /sbin/setsysfont
+fi
 
 if [ -x /sbin/quotaon ]; then
     echo "Turning on user and group quotas for local filesystems"
