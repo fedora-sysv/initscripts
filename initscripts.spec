@@ -244,6 +244,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Tue Jul 16 2002 Florian La Roche <Florian.LaRoche@redhat.de>
+- /sbin/service: set PATH before calling startup scripts
+  HOME and TERM are also set during bootup, but they should not make
+  a difference for well-written daemons.
+
 * Mon Jul 15 2002 Bill Nottingham <notting@redhat.com>
 - fix boot-time cleanup of /var
 - update po files

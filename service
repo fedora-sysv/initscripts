@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# Set up a default search path.
+PATH="/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin"
+export PATH
+
 VERSION="`basename $0` ver. 0.91"
 USAGE="Usage: `basename $0` < option > | --status-all | \
 [ service_name [ command | --full-restart ] ]"
@@ -32,7 +36,7 @@ while [ $# -gt 0 ]; do
                   ;;
               *)
                 if [ -x "${SERVICEDIR}/${SERVICE}" ]; then
-                  env -i LANG=$LANG "${SERVICEDIR}/${SERVICE}" status
+                  env -i LANG=$LANG PATH=$PATH "${SERVICEDIR}/${SERVICE}" status
                 fi
                 ;;
             esac
@@ -42,8 +46,8 @@ while [ $# -gt 0 ]; do
           SERVICE="${1}"
           cd /
           if [ -x "${SERVICEDIR}/${SERVICE}" ]; then
-            env -i LANG=$LANG "${SERVICEDIR}/${SERVICE}" stop
-            env -i LANG=$LANG "${SERVICEDIR}/${SERVICE}" start
+            env -i LANG=$LANG PATH=$PATH "${SERVICEDIR}/${SERVICE}" stop
+            env -i LANG=$LANG PATH=$PATH "${SERVICEDIR}/${SERVICE}" start
             exit $?
           fi
        elif [ -z "${SERVICE}" ]; then
@@ -57,7 +61,7 @@ while [ $# -gt 0 ]; do
 done
 
 if [ -x "${SERVICEDIR}/${SERVICE}" ]; then
-   env -i LANG=$LANG "${SERVICEDIR}/${SERVICE}" ${OPTIONS}
+   env -i LANG=$LANG PATH=$PATH "${SERVICEDIR}/${SERVICE}" ${OPTIONS}
 else
    echo $"${SERVICE}: unrecognized service" >&2
    exit 1
