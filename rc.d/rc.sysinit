@@ -196,9 +196,8 @@ else
 	fsckoptions="-V $fsckoptions"
 fi
  
-# LVM Setting
 if [ -e /proc/lvm -a -x /sbin/vgchange ]; then
-        /sbin/vgchange -a y
+        action "Setting up LVM:" /sbin/vgchange -a y
 fi
 
 _RUN_QUOTACHECK=0
