@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.87
+Version: 5.89
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -218,6 +218,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Jun 20 2001 Bill Nottingham <notting@redhat.com>
+- bump version to 5.89
+- make it build
+
 * Thu May 17 2001 Bill Nottingham <notting@redhat.com>
 - don't run ifup ppp0 if ppp-watch gets SIGINT (#40585, ak@cave.hop.stu.neva.ru)
 - fix do_netreport (#37716, #39603 <crlf@aeiou.pt>)
