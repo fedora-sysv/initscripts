@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.47
+Version: 5.48
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -232,11 +232,15 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Aug 22 2000 Bill Nottingham <notting@redhat.com>
+- update documentation (#15475)
+
 * Tue Aug 22 2000 Than Ngo <than@redhat.de>
 - add KDE2 support to prefdm
 
 * Mon Aug 21 2000 Bill Nottingham <notting@redhat.com>
 - add usleep after kill -KILL in pidofproc, works around lockd issues (#14847)
+- add some fallback logic to prefdm (#16464)
 
 * Fri Aug 18 2000 Bill Nottingham <notting@redhat.com>
 - don't load usb drivers if they're compiled statically
