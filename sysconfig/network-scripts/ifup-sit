@@ -100,7 +100,7 @@ fi
 	
 # Setup additional static IPv6 routes on specified interface, if given		
 if [ -f /etc/sysconfig/static-routes-ipv6 ]; then
-	LC_ALL=C grep -w "^$DEVICE" /etc/sysconfig/static-routes-ipv6 | while read device ipv6route args; do
+	LC_ALL=C grep -w "^$DEVICE" /etc/sysconfig/static-routes-ipv6 2>/dev/null | while read device ipv6route args; do
 		ipv6_add_route $ipv6route :: $DEVICE
 	done
 fi

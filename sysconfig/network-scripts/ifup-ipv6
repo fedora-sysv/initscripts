@@ -149,7 +149,7 @@ fi
 
 # Setup additional static IPv6 routes on specified interface, if given
 if [ -f /etc/sysconfig/static-routes-ipv6 ]; then
-	LC_ALL=C grep -w "^$DEVICE" /etc/sysconfig/static-routes-ipv6 | while read device args; do
+	LC_ALL=C grep -w "^$DEVICE" /etc/sysconfig/static-routes-ipv6 2>/dev/null | while read device args; do
 		ipv6_add_route $args $DEVICE
 	done
 fi
@@ -245,7 +245,7 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 
 		# Add static routes
 		if [ -f /etc/sysconfig/static-routes-ipv6 ]; then
-			LC_ALL=C grep -w "^tun6to4" /etc/sysconfig/static-routes-ipv6 | while read device network gateway; do
+			LC_ALL=C grep -w "^tun6to4" /etc/sysconfig/static-routes-ipv6 2>/dev/null | while read device network gateway; do
 				if [ -z "$network" ]; then
 					continue
 				fi
@@ -258,8 +258,8 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 
 		# Setup additional static IPv6 routes (newer config style)
 		if [ -f "/etc/sysconfig/network-scripts/route6-tun6to4" ]; then
-			cat "/etc/sysconfig/network-scripts/route6-tun6to4" | sed 's/#.*//g' | grep -v '^[[:space:]]*$' | while read line; do
-				if echo "$line" | grep -vq 'via'; then
+			cat "/etc/sysconfig/network-scripts/route6-tun6to4" | sed 's/#.*//g' | LC_ALL=C grep -v '^[[:space:]]*$' | while read line; do
+				if echo "$line" | LC_ALL=C grep -vq 'via'; then
 					# Add gateway if missing
 					line="$line via $ipv6to4_relay"
 				fi

@@ -573,9 +573,9 @@ ipv6_test_addr_exists_on_device() {
 		local test_prefixlength="`echo $convertresult | awk '{ print $3 }'`"
 
 		if [ -z "$test_prefixlength" ]; then
-			local testresult="`LC_ALL=C grep "$test_addr .. .. $test_scope .." /proc/net/if_inet6 | LC_ALL=C grep $testdevice$`"
+			local testresult="`LC_ALL=C grep "$test_addr .. .. $test_scope .." /proc/net/if_inet6 2>/dev/null | LC_ALL=C grep $testdevice$`"
 		else
-			local testresult="`LC_ALL=C grep "$test_addr .. $test_prefixlength $test_scope .." /proc/net/if_inet6 | LC_ALL=C grep $testdevice$`"
+			local testresult="`LC_ALL=C grep "$test_addr .. $test_prefixlength $test_scope .." /proc/net/if_inet6 2>/dev/null | LC_ALL=C grep $testdevice$`"
 		fi
 		if [ -n "$testresult" ]; then
 			# exists
