@@ -88,8 +88,11 @@ case "$1" in
 
 		if [ "${DEVICE##cipcb}" != "$DEVICE" ] ; then
 			cipeinterfaces="$cipeinterfaces $DEVICE"
+			continue
 		fi
 		if LANG=C egrep -L "^ONBOOT=\"?[Nn][Oo]\"?" ifcfg-$i > /dev/null ; then
+		        # this loads the module, to preserve ordering
+			is_available $i
 			continue
 		fi
 		# If we're in confirmation mode, get user confirmation
