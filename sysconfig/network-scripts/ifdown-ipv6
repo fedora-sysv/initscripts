@@ -1,11 +1,13 @@
-#!/bin/bash
+#!/bin/sh
 #
 # ifdown-ipv6
 #
-# Taken from scripts from:
 #
-# (P) & (C) 2000 Peter Bieringer <pb@bieringer.de>
-#  some hints taken from RedHat scripts
+# Taken from:
+# (P) & (C) 2000-2001 by Peter Bieringer <pb@bieringer.de>
+#
+# Version 2001-02-02
+#
 
 . /etc/sysconfig/network 
 
@@ -14,44 +16,44 @@ cd /etc/sysconfig/network-scripts
 
 CONFIG=$1
 [ -f "$CONFIG" ] || CONFIG=ifcfg-$CONFIG
-source_config
+source_config                                                                   
 
-# Test if IPv6 configuration is enabled for this interface
+# Test if IPv6 configuration is enabled
 if [ ! "$IPV6INIT" = "yes" ]; then
-        # not enabled, stop here
-        exit 0
+	# not enabled, stop here
+	exit 0
 fi
   
 # Test if IPv6 is up
 if [ "${NETWORKING_IPV6}" = "yes" ]; then
+
 	. /etc/sysconfig/network-scripts/network-functions-ipv6
 
 	# Delete additional static IPv6 routes on specified interface
-        if [ -f /etc/sysconfig/static-routes-ipv6 ]; then
+	if [ -f /etc/sysconfig/static-routes-ipv6 ]; then
 		grep "^$DEVICE" /etc/sysconfig/static-routes-ipv6 | while read device args; do
-                  if [ "$device" = "$DEVICE" ]; then
-			ifdown_ipv6_route $args $DEVICE 
-		  fi
+			if [ "$device" = "$DEVICE" ]; then
+				ifdown_ipv6_route $args $DEVICE 
+			fi
 		done
 	fi
 
-	# Delete tunnel
-	if ! [ -z "$IPV6TUNNELIPV4" -o -z "$IPV6TUNNELROUTE" ]; then
-		ifdown_ipv6_tunnel $DEVICE $IPV6TUNNELIPV4 $IPV6TUNNELROUTE
-	fi
+	# Switch off forwarding per device (packets received on this
+	#  interface aren't forwarded
+	forwarding_ipv6 no $DEVICE
 
-	# Shutdown additional (1) IPv6 address on specified interface
-	if ! [ -z "$IPV6ADDR_0" -o -z "$IPV6PREFIXLENGTH_0" ]; then
-		ifdown_ipv6_real $DEVICE $IPV6ADDR_0 $IPV6PREFIXLENGTH_0
+	# Delete additional IPv6 addresses from list
+	if [ ! -z "$IPV6ADDR_SECONDARIES" ]; then
+		for ipv6addr in $IPV6ADDR_SECONDARIES; do
+			ifdown_ipv6_real $DEVICE $ipv6addr $IPV6PREFIXLENGTH
+		done
 	fi
-
-	# Shutdown additional (2) IPv6 address on specified interface
-	if ! [ -z "$IPV6ADDR_1" -o -z "$IPV6PREFIXLENGTH_1" ]; then
-		ifdown_ipv6_real $DEVICE $IPV6ADDR_1 $IPV6PREFIXLENGTH_1
-	fi
-
-	# Shutdown IPv6 address on specified interface
-	if ! [ -z "$IPV6ADDR" -o -z "$IPV6PREFIXLENGTH" ]; then
+          
+	# Shutdown basic configured IPv6 address on specified interface
+	if ! [ -z "$IPV6ADDR" ]; then
 		ifdown_ipv6_real $DEVICE $IPV6ADDR $IPV6PREFIXLENGTH
 	fi
+
+	# Cleanup all IPv6 configuration on specified interface (prevents from kernel crashing)
+	ifdown_ipv6_real_all $DEVICE
 fi 

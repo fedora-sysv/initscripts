@@ -2,10 +2,14 @@
 #
 # ifdown-sit
 #
-# Taken from:
 #
-# (P) & (C) 2000 Peter Bieringer <pb@bieringer.de>
-#  some hints taken from RedHat scripts
+# Taken from:
+# (P) & (C) 2000-2001 by Peter Bieringer <pb@bieringer.de>
+#
+# Version 2001-02-03
+#
+
+# Filter tags (for stripping, empty lines following if all is stripped)
 
 . /etc/sysconfig/network 
 
@@ -14,29 +18,35 @@ cd /etc/sysconfig/network-scripts
 
 CONFIG=$1
 [ -f "$CONFIG" ] || CONFIG=ifcfg-$CONFIG
-source_config
+source_config                                                                   
 
 # Test if IPv6 configuration is enabled for this interface
 if [ ! "$IPV6INIT" = "yes" ]; then
-        # not enabled, stop here
-        exit 0
+	# not enabled, stop here
+	exit 0
 fi
   
 # Test if IPv6 is up
 if [ "${NETWORKING_IPV6}" = "yes" ]; then
+
 	. /etc/sysconfig/network-scripts/network-functions-ipv6
 
-	# Delete additional static IPv6 routes on specified interface
-        if [ -f /etc/sysconfig/static-routes-ipv6 ]; then
-		grep "^$DEVICE" /etc/sysconfig/static-routes-ipv6 | while read device ipv6route args; do
-			if [ "$device" = "$DEVICE" ]; then
-				ifdown_ipv6_tunnel $DEVICE $IPV6TUNNELIPV4 $ipv6route
-			fi
-		done
-	fi
+	# Delete IPv6-in-IPv4 tunnel(s)
+	if [ "$DEVICE" = "sit0" ]; then
+		ifdown_ipv6_autotunnel
+	elif [ ! -z "$IPV6TUNNELIPV4" ]; then
+		# Delete static IPv6 tunnel routes on specified virtual interface
+		if [ -f /etc/sysconfig/static-routes-ipv6 ]; then
+			grep "^$DEVICE" /etc/sysconfig/static-routes-ipv6 | while read device ipv6route args; do
+				if [ "$device" = "$DEVICE" ]; then
+					ifdown_ipv6_tunnel $DEVICE $IPV6TUNNELIPV4 $ipv6route
+				fi
+			done
+		fi
 
-	# Delete tunnel
-	if ! [ -z "$IPV6TUNNELIPV4" -o -z "$IPV6TUNNELROUTE" ]; then
-		ifdown_ipv6_tunnel $DEVICE $IPV6TUNNELIPV4 $IPV6TUNNELROUTE
+        if [ ! -z "$IPV6ADDR" ]; then
+            # Numbered tunnel
+            ifdown_ipv6_real sit0 $IPV6ADDR $IPV6PREFIXLENGTH
+        fi
 	fi
 fi 

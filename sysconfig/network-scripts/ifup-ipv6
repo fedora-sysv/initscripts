@@ -2,9 +2,14 @@
 #
 # ifup-ipv6
 #
-# Taken from:
 #
-# (P) & (C) 2000 Peter Bieringer <pb@bieringer.de>
+# Taken from:
+# (P) & (C) 2000-2001 by Peter Bieringer <pb@bieringer.de>
+#
+# Version 2001-02-02
+#
+
+# Filter tags (for stripping, empty lines following if all is stripped)
 
 . /etc/sysconfig/network 
 
@@ -15,7 +20,7 @@ CONFIG=$1
 [ -f "$CONFIG" ] || CONFIG=ifcfg-$CONFIG
 source_config  
 
-# Test if IPv6 configuration is enabled for this interface
+# Test if IPv6 configuration is enabled
 if [ ! "$IPV6INIT" = "yes" ]; then
 	# not enabled, stop here
 	exit 0
@@ -23,34 +28,39 @@ fi
 
 # Test if IPv6 is up
 if [ "${NETWORKING_IPV6}" = "yes" ]; then
+
 	. /etc/sysconfig/network-scripts/network-functions-ipv6
 		
 	# Setup IPv6 address on specified interface
-	if ! [ -z "$IPV6ADDR" -o -z "$IPV6PREFIXLENGTH" ]; then
+	if ! [ -z "$IPV6ADDR" ]; then
 		ifup_ipv6_real $DEVICE $IPV6ADDR $IPV6PREFIXLENGTH
 	fi
-		
-	# Setup additional (1) IPv6 address on specified interface
-	if ! [ -z "$IPV6ADDR_0" -o -z "$IPV6PREFIXLENGTH_0" ]; then
-		ifup_ipv6_real $DEVICE $IPV6ADDR_0 $IPV6PREFIXLENGTH_0
+	
+	# Switch forwarding per device like defined
+	#  Packets received on selected interface are forwarded
+	if ! [ -z "$IPV6FORWARDING" ]; then
+		if [ "$IPV6FORWARDING" = "yes" ]; then
+			forwarding_ipv6 yes $DEVICE
+			# also for all (otherwise, nothing is forwarded)
+			forwarding_ipv6 yes
+		else
+			forwarding_ipv6 no $DEVICE
+		fi
 	fi
-
-	# Setup additional (2) IPv6 address on specified interface
-	if ! [ -z "$IPV6ADDR_1" -o -z "$IPV6PREFIXLENGTH_1" ]; then
-		ifup_ipv6_real $DEVICE $IPV6ADDR_1 $IPV6PREFIXLENGTH_1
+		
+	# Setup additional IPv6 addresses from list
+	if [ ! -z "$IPV6ADDR_SECONDARIES" ]; then
+		for ipv6addr in $IPV6ADDR_SECONDARIES; do
+			ifup_ipv6_real $DEVICE $ipv6addr $IPV6PREFIXLENGTH
+		done
 	fi
 
 	# Setup additional static IPv6 routes on specified interface
-        if [ -f /etc/sysconfig/static-routes-ipv6 ]; then
+	if [ -f /etc/sysconfig/static-routes-ipv6 ]; then
 		grep "^$DEVICE" /etc/sysconfig/static-routes-ipv6 | while read device args; do
 			if [ "$device" = "$DEVICE" ]; then
 				ifup_ipv6_route $args $DEVICE
 			fi
 		done
-	fi
-		
-	# Setup tunnel
-	if ! [ -z "$IPV6TUNNELIPV4" -o -z "$IPV6TUNNELROUTE" ]; then
-		ifup_ipv6_tunnel $DEVICE $IPV6TUNNELIPV4 $IPV6TUNNELROUTE
 	fi
 fi 
