@@ -154,7 +154,7 @@ action $"Setting hostname ${HOSTNAME}: " hostname ${HOSTNAME}
 # Initialize USB controller and HID devices
 usb=0
 if ! grep -iq "nousb" /proc/cmdline 2>/dev/null && ! grep -q "usb" /proc/devices 2>/dev/null ; then
-    alias=`/sbin/modprobe -c | egrep -s "^alias[[:space:]]+usb-controller[[:space:]]+" | awk '{ print $3 }'`
+    alias=`/sbin/modprobe -c | egrep -s "^alias[[:space:]]+usb-controller" | awk '{ print $3 }'`
     if [ -n "$alias" -a "$alias" != "off" ] ; then
       action $"Initializing USB controller ($alias): " modprobe $alias
       [ $? -eq 0 ] && usb=1
