@@ -1,13 +1,58 @@
 #!/bin/sh
 
-if [ -z "$1" ]; then
-	echo "no service specified" >&2
-	exit 1
-elif [ -x "/etc/rc.d/init.d/$1" ]; then
-	service=$1
-	shift
-	exec "/etc/rc.d/init.d/$service" $*
+VERSION="`basename $0` ver. 0.9"
+USAGE="Usage: `basename $0` < option > | --status-all | \
+[ service_name [ command ] ]"
+SERVICE=
+SERVICEDIR="/etc/rc.d/init.d"
+PWD=`pwd`
+
+if [ $# -eq 0 ]; then
+   echo "${USAGE}" >&2
+   exit 1
+fi
+
+while [ $# -gt 0 ]
+do
+  case "${1}" in
+    --help | -h | --h* )
+       echo "${USAGE}" >&2
+       exit 0
+       ;;
+    --version | -V )
+       echo "${VERSION}" >&2
+       exit 0
+       ;;
+    *)
+       if [ -z "${SERVICE}" -a $# -eq 1 -a "${1}" = "--status-all" ]; then
+          cd "${SERVICEDIR}"
+          for SERVICE in *; do
+            case "${SERVICE}" in
+              functions | halt | killall | single| linuxconf| kudzu | \
+                  *rpmorig | *rpmnew | *rpmsave | *~ | *.orig)
+                  ;;
+              *)
+                if [ -x "${SERVICEDIR}/${SERVICE}" ]; then
+                  "${SERVICEDIR}/${SERVICE}" status
+                fi
+                ;;
+            esac
+          done
+          cd "${PWD}"
+          exit 0
+       elif [ -z "${SERVICE}" ]; then
+         SERVICE="${1}"
+       else
+         OPTIONS="${OPTIONS} ${1}"
+       fi
+       shift
+       ;;
+   esac
+done
+
+if [ -x "${SERVICEDIR}/${SERVICE}" ]; then
+   "${SERVICEDIR}/${SERVICE}" ${OPTIONS}
 else
-	echo "$1: unrecognized service" >&2
-	exit 1
+   echo "${SERVICE}: unrecognized service" >&2
+   exit 1
 fi
