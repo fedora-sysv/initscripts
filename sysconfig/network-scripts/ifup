@@ -217,10 +217,8 @@ else
   
     expand_config
     
-    [ -n "${ARP}${PROMISC}${ALLMULTI}" ] && \
-	ip link set ${REALDEVICE} $(toggle_value arp $ARP) \
-	   $(toggle_value promisc $PROMISC) \
-	   $(toggle_value allmulti $ALLMULTI)
+    [ -n "${ARP}" ] && \
+	ip link set ${REALDEVICE} $(toggle_value arp $ARP)
    
     if ! ip link set ${REALDEVICE} up ; then
 	echo $"Failed to bring up ${DEVICE}."
