@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.00
+%define version 4.01
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
@@ -181,6 +181,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Apr 07 1999 Bill Nottingham <notting@redhat.com>
+- fix daemon() function so you can specify pid to look for
+
 * Wed Apr 07 1999 Erik Troan <ewt@redhat.com>
 - changed utmp,wtmp to be group writeable and owned by group utmp
 

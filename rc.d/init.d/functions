@@ -43,12 +43,14 @@ fi
 # A function to start a program.
 daemon() {
 	# Test syntax.
+	gotbase=
 	case $1 in
 	    '')    echo '$0: Usage: daemon [+/-nicelevel] {program}'
 	           return 1;;
 	    --check)
 	           shift
 		   base=$1
+		   gotbase="yes"
 		   shift;;
 	          
 	    -*|+*) nicelevel=$1
@@ -57,7 +59,7 @@ daemon() {
 	esac
 
         # Save basename.
-        [ -z $base ] && base=`basename $1`
+        [ -z $gotbase ] && base=`basename $1`
 
         # See if it's already running.
 	pid=`pidofproc $base`
