@@ -23,10 +23,6 @@ fi
 
 . /etc/init.d/functions
 
-# Start the graphical boot, if necessary
-if ! fgrep -q nogui /proc/cmdline && [ "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
-     /usr/bin/rhgb
-fi
 
 if [ "$HOSTTYPE" != "s390" -a "$HOSTTYPE" != "s390x" ]; then
   last=0
@@ -75,8 +71,13 @@ if [ -n "$LOGLEVEL" ]; then
 fi
 
 # Mount /proc (done here so volume labels can work with fsck)
-update_boot_stage RCproc
+#update_boot_stage RCproc
 action $"Mounting proc filesystem: " mount -n -t proc /proc /proc
+
+# Start the graphical boot, if necessary
+if ! fgrep -q nogui /proc/cmdline && [ "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
+     /usr/bin/rhgb
+fi
 
 # Unmount the initrd, if necessary
 if LC_ALL=C grep -q /initrd /proc/mounts && ! LC_ALL=C grep -q /initrd/loopfs /proc/mounts ; then
