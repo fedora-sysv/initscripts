@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.28
+Version: 7.29
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -247,6 +247,12 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Aug  8 2003 Bill Nottingham <notting@redhat.com> 7.29-1
+- setsysfont: don't echo to /dev/console (#102004)
+- fix ethernet device renaming deadlock (#101566)
+- consoletype: don't return 'vt' on vioconsole (#90465)
+- ifup: fix short-circuit (#101445)
+
 * Fri Jul 18 2003 Nalin Dahyabhai <nalin@redhat.com>
 - ifup-routes: pass the interface name to handle_file() so that we don't try
   to use the routes file's name as an interface name
