@@ -19,11 +19,11 @@
 # Check that networking is up.
 [ "${NETWORKING}" = "no" ] && exit 0
 
-NFSFSTAB=`LC_ALL=C awk '!/^#/ && $3 == "nfs" && $4 !~ /noauto/ { print $2 }' /etc/fstab`
+NFSFSTAB=`LC_ALL=C awk '!/^#/ && $3 ~ /^nfs/ && $4 !~ /noauto/ { print $2 }' /etc/fstab`
 SMBFSTAB=`LC_ALL=C awk '!/^#/ && $3 == "smbfs" && $4 !~ /noauto/ { print $2 }' /etc/fstab`
 NCPFSTAB=`LC_ALL=C awk '!/^#/ && $3 == "ncpfs" && $4 !~ /noauto/ { print $2 }' /etc/fstab`
 NETDEVMTAB=`LC_ALL=C awk '!/^#/ && $4 ~ /_netdev/ && $2 != "/" { print $2 }' /proc/mounts`
-NFSMTAB=`LC_ALL=C awk '!/^#/ && $3 == "nfs" && $2 != "/" { print $2 }' /proc/mounts`
+NFSMTAB=`LC_ALL=C awk '!/^#/ && $3 ~ /^nfs/ && $2 != "/" { print $2 }' /proc/mounts`
 SMBMTAB=`LC_ALL=C awk '!/^#/ && $3 == "smbfs" { print $2 }' /proc/mounts`
 NCPMTAB=`LC_ALL=C awk '!/^#/ && $3 == "ncpfs" { print $2 }' /proc/mounts`
 
@@ -33,12 +33,12 @@ case "$1" in
         [ -n "$NFSFSTAB" ] && 
 	  {
 	    [ ! -f /var/lock/subsys/portmap ] && service portmap start
-	    action $"Mounting NFS filesystems: " mount -a -t nfs
+	    action $"Mounting NFS filesystems: " mount -a -t nfs,nfs4
 	  }
         [ -n "$SMBFSTAB" ] && action $"Mounting SMB filesystems: " mount -a -t smbfs
         [ -n "$NCPFSTAB" ] && action $"Mounting NCP filesystems: " mount -a -t ncpfs
 	touch /var/lock/subsys/netfs
-	action $"Mounting other filesystems: " mount -a -t nonfs,smbfs,ncpfs
+	action $"Mounting other filesystems: " mount -a -t nonfs,nonfs4,smbfs,ncpfs
 	;;
   stop)
         # Unmount loopback stuff first
@@ -94,9 +94,9 @@ case "$1" in
 		while [ -n "$remaining" -a "$retry" -gt 0 ]
 		do
 			if [ "$retry" -lt 3 ]; then
-				action $"Unmounting NFS filesystems (retry): " umount -f -l -a -t nfs
+				action $"Unmounting NFS filesystems (retry): " umount -f -l -a -t nfs,nfs4
 			else
-				action $"Unmounting NFS filesystems: " umount -f -l -a -t nfs
+				action $"Unmounting NFS filesystems: " umount -f -l -a -t nfs,nfs4
 			fi
 			sleep 2
 			remaining=`LC_ALL=C awk '!/^#/ && $3 ~ /^nfs/ && $2 != "/" {print $2}' /proc/mounts`
