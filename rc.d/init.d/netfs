@@ -94,9 +94,9 @@ case "$1" in
 		while [ -n "$remaining" -a "$retry" -gt 0 ]
 		do
 			if [ "$retry" -lt 3 ]; then
-				action $"Unmounting NFS filesystems (retry): " umount -f -l -a -t nfs
+				action $"Unmounting NFS filesystems (retry): " umount -f -l $remaining
 			else
-				action $"Unmounting NFS filesystems: " umount -f -l -a -t nfs
+				action $"Unmounting NFS filesystems: " umount -f -l $remaining
 			fi
 			sleep 2
 			remaining=`LC_ALL=C awk '!/^#/ && $3 ~ /^nfs/ && $2 != "/" {print $2}' /proc/mounts`
