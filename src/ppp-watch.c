@@ -85,6 +85,9 @@ static int theSigio = 0;
 static int theSigchld = 0;
 static int theSigalrm = 0;
 
+// patch to respect the maxfail parameter to ppp
+// Scott Sharkey <ssharkey@linux-no-limits.com>
+static int dialCount = 0;
 static int theChild;
 
 
@@ -454,6 +457,7 @@ main(int argc, char **argv) {
     int dieing = 0;
     int sendsig;
     int connectedOnce = 0;
+    int maxfail = 0;		// MAXFAIL Patch <ssharkey@linux-no-limits.com>
 
     if (argc < 2) {
 	fprintf (stderr, "usage: ppp-watch [ifcfg-]<logical-name> [boot]\n");
@@ -636,7 +640,25 @@ main(int argc, char **argv) {
 		    tv.tv_sec = timeout;
 		    select(0, NULL, NULL, NULL, &tv);
 		}
-		fork_exec(0, "/etc/sysconfig/network-scripts/ifup-ppp", "daemon", device, theBoot);
+// Scott Sharkey <ssharkey@linux-no-limits.com>
+// MAXFAIL Patch...
+		temp = svGetValue(ifcfg, "MAXFAIL");
+		if (temp) {
+		    maxfail = atoi(temp);
+		    free(temp);
+		} else {
+		    maxfail = 0;
+		}
+		if ( maxfail != 0 ) {
+		    dialCount++;
+		    if ( dialCount < maxfail ) {
+			fork_exec(0, "/etc/sysconfig/network-scripts/ifup-ppp", "daemon", device, theBoot);
+	   	    } else {
+			cleanExit(WEXITSTATUS(status));
+		    }	
+		} else {	
+	   	    fork_exec(0, "/etc/sysconfig/network-scripts/ifup-ppp", "daemon", device, theBoot);
+		} 
 	    } else {
 		cleanExit(WEXITSTATUS(status));
 	    }
