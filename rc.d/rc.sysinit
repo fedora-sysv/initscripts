@@ -32,9 +32,15 @@ else
     domainname ""
 fi
 
+if [ -f /fsckoptions ]; then
+	fsckoptions=`cat /fsckoptions`
+    else
+	fsckoptions=''
+fi
+
 if [ ! -f /fastboot ]; then
 	echo "Checking root filesystems."
-	fsck -V -a /
+	fsck -V -a $fsckoptions /
 
 	rc=$?
 
@@ -84,8 +90,6 @@ if [ -x /sbin/isapnp -a -f /etc/isapnp.conf ]; then
     fi
 fi
 
-umount -n /proc
-
 # Remount the root filesystem read-write.
 echo "Remounting root filesystem in read-write mode."
 mount -n -o remount,rw /
@@ -97,9 +101,9 @@ fi
 # Clear mtab
 >/etc/mtab
 
-# Enter root into mtab.
+# Enter root and /proc into mtab.
 mount -f /
-mount -t proc /proc /proc
+mount -f /proc
 
 if [ -f /proc/ksyms ]; then
     USEMODULES=y
@@ -128,13 +132,13 @@ fi
 
 if [ -x /sbin/kerneld -a -n "$USEMODULES" ]; then
     /sbin/kerneld
-    KERNELD=yse
+    KERNELD=yes
 fi
 
 # Check filesystems
 if [ ! -f /fastboot ]; then
 	echo "Checking filesystems."
-	fsck -R -A -V -a
+	fsck -R -A -V -a $fsckoptions
 
 	# A return of 2 or higher means there were serious problems.
 	if [ $? -gt 1 ]; then
@@ -158,13 +162,11 @@ if [ ! -f /fastboot ]; then
 	fi
 fi
 
-# this avoids an error when mounting local filesystems
-umount /proc
-
-# Mount all other filesystems (except for NFS). Contrary to standard usage,
+# Mount all other filesystems (except for NFS and /proc, which is already
+# mounted). Contrary to standard usage,
 # filesystems are NOT unmounted in single user mode.
 echo "Mounting local filesystems."
-mount -a -t nonfs
+mount -a -t nonfs,proc
 
 if [ -x /sbin/quotaon ]; then
     echo "Turning on user and group quotas for local filesystems"
@@ -176,7 +178,7 @@ if [ -z "$KERNELD" ]; then
 fi
 
 # Clean out /etc.
-rm -f /etc/mtab~ /fastboot /etc/nologin
+rm -f /etc/mtab~ /fastboot /etc/nologin /fsckoptions
 >/var/run/utmp
 
 # Delete UUCP lock files.
