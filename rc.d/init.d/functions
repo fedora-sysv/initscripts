@@ -246,14 +246,14 @@ action() {
   else
       # This sucks.
       output=`$*`
-      rc=$?
+      returncode=$?
       if [ -n "$output" ]; then
         cmdname=`basename $1`
         initlogcmds=`echo $output | sed -e "s/^/ -n $cmdname -s \"/" | sed -e "s/$/\"/"`
         echo "$initlogcmds" >&21
       fi
 
-      if [ $rc -eq 0 ]; then
+      if [ $returncode -eq 0 ]; then
 	 [ "$BOOTUP" = "verbose" ] && {
 	    if [ -n "$output" ]; then
 	      echo
@@ -268,7 +268,7 @@ action() {
          failure "$STRING"
       fi
       [ "$BOOTUP" != "verbose" ] && echo
-      return $rc
+      return $returncode
   fi
 }
 
