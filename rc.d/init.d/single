@@ -24,6 +24,12 @@ kill -9 -1
 
 rm -f /var/lock/subsys/*
 
+# this looks nices
+[ -x /usr/bin/clear ] && /usr/bin/clear
+
+# we just killed kerneld :-(
+/etc/rc.d/init.d/kerneld start
+
 # Now go to the single user level.
 echo "Telling INIT to go to single user mode."
 exec init -t1 S
