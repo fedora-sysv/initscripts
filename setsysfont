@@ -6,7 +6,9 @@ fi
 
 if [ -x /usr/bin/setfont ]; then
 
-  if [ -n "$SYSFONT" ]; then
+  if [ -n "$SYSFONT" -a -n "$UNIMAP" ]; then
+    /usr/bin/setfont $SYSFONT -u $UNIMAP
+  elif [ -n "$SYSFONT" ]; then
     /usr/bin/setfont $SYSFONT
   fi
 
