@@ -188,7 +188,7 @@ int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet,
 	     int bytesread = 0;
 	     
 	     do {
-		char *b, *buf=calloc(8192,sizeof(char));
+		char *b, *buf=calloc(8193,sizeof(char));
 		b = buf;
 		bytesread = read(pfds[y].fd,buf,8192);
 		if (bytesread==-1) {
