@@ -82,6 +82,7 @@ static int theSigint = 0;
 static int theSighup = 0;
 static int theSigio = 0;
 static int theSigchld = 0;
+static int theSigalrm = 0;
 
 
 
@@ -119,8 +120,16 @@ detach(int now, int parentExitCode, char *device) {
 		    default: exit (27); /* this will catch EIO in particular */
 		}
 	    }
-	    if (exitCode)
+	    switch (exitCode) {
+	    case 0:
+		break;
+	    case 34:
+		fprintf(stderr, "Failed to activate %s, retrying in the background\n", device);
+		break;
+	    default:
 		fprintf(stderr, "Failed to activate %s\n", device);
+		break;
+	    }
 	    exit(exitCode);
 
 	} else {
@@ -244,6 +253,8 @@ signal_handler (int signum) {
 	theSigio = 1; break;
     case SIGCHLD:
 	theSigchld = 1; break;
+    case SIGALRM:
+	theSigalrm = 1; break;
     }
 }
 
@@ -378,6 +389,10 @@ main(int argc, char **argv) {
     signal(SIGHUP, signal_handler);
     signal(SIGIO, signal_handler);
     signal(SIGCHLD, signal_handler);
+    if (theBoot) {
+	signal(SIGALRM, signal_handler);
+	alarm(30);
+    }
 
     fork_exec(1, "/sbin/netreport", NULL, NULL, NULL);
     theSigchld = 0;
@@ -391,6 +406,7 @@ main(int argc, char **argv) {
     sigaddset(&sigs, SIGHUP);
     sigaddset(&sigs, SIGIO);
     sigaddset(&sigs, SIGCHLD);
+    if (theBoot) sigaddset(&sigs, SIGALRM);
     sigprocmask(SIG_BLOCK, &sigs, NULL);
 
     /* prepare for sigsuspend later */
@@ -400,6 +416,7 @@ main(int argc, char **argv) {
     sigdelset(&sigs, SIGHUP);
     sigdelset(&sigs, SIGIO);
     sigdelset(&sigs, SIGCHLD);
+    if (theBoot) sigdelset(&sigs, SIGALRM);
 
 
     ifcfg = shvarfilesGet(device);
@@ -487,6 +504,9 @@ main(int argc, char **argv) {
 	    } else {
 		cleanExit(WEXITSTATUS(status));
 	    }
+	}
+	if (theSigalrm) {
+	    detach(1, 34, NULL);
 	}
     }
 }
