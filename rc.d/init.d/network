@@ -220,7 +220,7 @@ case "$1" in
 	echo `/sbin/ip -o link show | awk -F ": " '/UP>/ { print $2 }'`
 	;;
   restart|reload)
-        cd $CWD
+        cd "$CWD"
 	$0 stop
 	$0 start
 	;;
