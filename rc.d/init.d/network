@@ -82,7 +82,7 @@ case "$1" in
 	esac
 
 	case "$VLAN" in
-	  yes|true)
+	  yes)
 	    if [ -d /proc/net/vlan ] || modprobe 8021q >/dev/null 2>&1 ; then
 		action $"Setting 802.1Q VLAN parameters: " /sbin/vconfig set_name_type DEV_PLUS_VID_NO_PAD
 	    else
