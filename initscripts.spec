@@ -1,6 +1,6 @@
 Summary: inittab and /etc/rc.d scripts
 Name: initscripts
-%define version 3.66
+%define version 3.67
 Version: %{version}
 Copyright: GPL
 Group: Base
@@ -152,6 +152,10 @@ rm -rf $RPM_BUILD_ROOT
 %doc sysconfig.txt
 
 %changelog
+* Wed Jul  1 1998 Jeff Johnson <jbj@redhat.com>
+- Use /proc/version to find preferred modules.
+- Numerous buglets fixed.
+
 * Sun Jun 07 1998 Erik Troan <ewt@redhat.com> 
 - rc.sysinit looks for bootfile= as well as BOOT_IMAGE to set 
   /lib/modules/preferred symlink
