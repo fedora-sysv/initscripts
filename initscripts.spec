@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.47.13
+Version: 6.47.14
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -240,10 +240,20 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Thu Feb  3 2005 Bill Nottingham <notting@redhat.com> 6.47.14-1
+- fix ONxxx (#136531, <cww@redhat.com>)
+- fix various fgreps to not catch commented lines (#136531, expanded
+  from <cww@redhat.com>)
+- kill dhcp client even if BOOTOPROTO is now static (#127726, others)
+- set ETHTOOL_OPTS on addressless devices (#144682, <mpoole@redhat.com>)
+
 * Fri Dec  3 2004 Bill Nottingham <notting@redhat.com> 6.47.13-1
-- more fix for #140639
+- continued fix for #140639
+
 * Tue Nov 23 2004 Bill Nottingham <notting@redhat.com> 6.47.12-1
 - backport Makefile fix for (#140639)
+- fix various minilogd bogosities (#106338)
+- fix typo (#134787, <bnocera@redhat.com>)
 
 * Thu Oct 28 2004 Bill Nottingham <notting@redhat.com> 6.47.11-1
 - fix ETHTOOL_OPTS & dhcp (#134811, <nhorman@redhat.com>)
