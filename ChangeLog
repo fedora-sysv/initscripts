@@ -1,3 +1,48 @@
+1999-09-07  Bill Nottingham  <notting@redhat.com>
+
+	* prefdm: add path to prefdm
+
+1999-09-07  Michael K. Johnson  <johnsonm@redhat.com>
+
+	* sysconfig/network-scripts/network-functions:
+	work right in the background
+
+	* sysconfig/network-scripts/ifup-ppp:
+	work with ppp-watch
+
+	* src/ppp-watch.c:
+	do not overload physicalDevice
+	sleep only when appropriate
+
+1999-09-07  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit:
+	add an 'unconfigure' sort of thing.
+
+1999-09-07  Michael K. Johnson  <johnsonm@redhat.com>
+
+	* src/Makefile: link statically
+
+	* src/ppp-watch.c:
+	seems to work for basic operation
+
+	* sysconfig/network-scripts/ifup-post:
+	do not read /etc/resolv.conf forever...
+
+	* initscripts.spec, ppp/ip-up, src/ppp-watch.c, sysconfig/network-scripts/ifdown-ppp, sysconfig/network-scripts/ifup-ppp:
+	first attempt at integrating ppp-watch
+
+1999-09-06  Michael K. Johnson  <johnsonm@redhat.com>
+
+	* src/Makefile, src/ppp-watch.c, src/shvar.c, src/shvar.h:
+	first pass at ppp-watch
+
+	* sysconfig/network-scripts/ifup-post, sysconfig/network-scripts/ifup-ppp, sysconfig.txt:
+	DEFROUTE defaults on; PEERDNS documented and defaults on
+
+	* sysconfig/network-scripts/ifup-ppp:
+	chat script only needs to exist if wvdial not in use
+
 1999-09-04  Bill Nottingham  <notting@redhat.com>
 
 	* prefdm:

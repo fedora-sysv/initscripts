@@ -377,8 +377,6 @@ if [ ! -f /fastboot ]; then
 	fi
 fi
 
-
-{
 # Mount all other filesystems (except for NFS and /proc, which is already
 # mounted). Contrary to standard usage,
 # filesystems are NOT unmounted in single user mode.
@@ -388,7 +386,7 @@ action "Mounting local filesystems" mount -a -t nonfs,smbfs,ncpfs,proc
 if [ -f /.unconfigured ]; then
     if [ -x /usr/sbin/rootconfig ]; then
 	/usr/sbin/rootconfig
-    else if [ -x /usr/bin/passwd ]; then 
+    elif [ -x /usr/bin/passwd ]; then 
         /usr/bin/passwd root
     fi
     if [ -x /usr/sbin/netconfig ]; then
@@ -426,6 +424,7 @@ if [ -x /sbin/quotaon ]; then
     action "Turning on user and group quotas for local filesystems" /sbin/quotaon -a
 fi
 
+{
 # Clean out /etc.
 rm -f /etc/mtab~ /fastboot /fsckoptions /forcefsck
 

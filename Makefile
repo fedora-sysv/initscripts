@@ -7,13 +7,14 @@ all:
 	(cd src; make CFLAGS="$(CFLAGS)")
 
 install:
-	mkdir -p $(ROOT)/etc/profile.d $(ROOT)/sbin
+	mkdir -p $(ROOT)/etc/profile.d $(ROOT)/sbin $(ROOT)/usr/sbin
 	install -m644  inittab $(ROOT)/etc
 	install -m644  adjtime $(ROOT)/etc
 	install -m755  setsysfont $(ROOT)/sbin
 	install -m755  lang.sh $(ROOT)/etc/profile.d
 	install -m755  lang.csh $(ROOT)/etc/profile.d
 	install -m755  service $(ROOT)/sbin
+	install -m755  sys-unconfig $(ROOT)/usr/sbin
 	mkdir -p $(ROOT)/etc/X11
 	install -m755 prefdm $(ROOT)/etc/X11/prefdm
 	mkdir -p $(ROOT)/etc/sysconfig

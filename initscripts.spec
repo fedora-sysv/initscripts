@@ -170,6 +170,7 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) /etc/rc.d/rc.local
 %config /etc/profile.d/lang.sh
 %config /etc/profile.d/lang.csh
+/usr/sbin/sys-unconfig
 /sbin/setsysfont
 /bin/doexec
 /bin/ipcalc
@@ -197,8 +198,11 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Sep  7 1999 Bill Nottingham <notting@redhat.com>
+- add an 'unconfigure' sort of thing
+
 * Mon Sep 06 1999 Michael K. Johnson <johnsonm@redhat.com>
-- added ppp-watch to make "ifup ppp*" syncronous
+- added ppp-watch to make "ifup ppp*" synchronous
 
 * Fri Sep  3 1999 Bill Nottingham <notting@redhat.com>
 - require lsof
