@@ -8,20 +8,22 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: /etc/rc.d/init.d/functions:444
+#: /etc/rc.d/init.d/functions:455
 msgid "Start service $1 (Y)es/(N)o/(C)ontinue? [Y] "
 msgstr "Start tjeneste $1 Ja(Y)/Nei(N)/Fortsett(C)? [Y] "
 
-#: /etc/rc.d/init.d/ups:46
+#: /etc/rc.d/init.d/ups:48
 msgid "Starting UPS monitor (slave): "
 msgstr "Stater UPS-overvåkning (slave): "
 
-#: /etc/rc.d/init.d/ip6tables:100 /etc/rc.d/init.d/ip6tables:184
-#: /etc/rc.d/init.d/ip6tables:185 /etc/rc.d/init.d/ipchains:103
-#: /etc/rc.d/init.d/iptables:102 /etc/rc.d/init.d/iptables:186
-#: /etc/rc.d/init.d/iptables:187
-msgid "Removing user defined chains:"
-msgstr "Fjerner brukerdefinerte regelsett:"
+#: /etc/rc.d/rc.sysinit:504
+#, fuzzy
+msgid "Checking filesystems"
+msgstr "Sjekker kvoter på rot-filsystemet: "
+
+#: /etc/rc.d/init.d/crond:51
+msgid "Reloading cron daemon configuration: "
+msgstr "Leser konfigurasjonen på nytt for cron daemonen: "
 
 #: /etc/rc.d/init.d/ip6tables:193 /etc/rc.d/init.d/ip6tables:194
 #: /etc/rc.d/init.d/iptables:195 /etc/rc.d/init.d/iptables:196
@@ -33,7 +35,7 @@ msgid "Stopping YP map server: "
 msgstr "Avslutter YP-map tjener: "
 
 #: /etc/rc.d/init.d/amd:96 /etc/rc.d/init.d/autofs:320
-#: /etc/rc.d/init.d/bgpd:56 /etc/rc.d/init.d/irda:66
+#: /etc/rc.d/init.d/bgpd:56 /etc/rc.d/init.d/irda:69
 #: /etc/rc.d/init.d/keytable:72 /etc/rc.d/init.d/ospfd:57
 #: /etc/rc.d/init.d/ripd:56 /etc/rc.d/init.d/ripngd:56
 #: /etc/rc.d/init.d/sshd:151 /etc/rc.d/init.d/zebra:54
@@ -48,6 +50,10 @@ msgstr "Start $x"
 msgid "Starting console mouse services: "
 msgstr "Starter mustjenester for konsollet: "
 
+#: /etc/rc.d/init.d/ntpd:69
+msgid "$prog: Opening firewall for input from $server port 123"
+msgstr ""
+
 #: /etc/rc.d/init.d/rhnsd:38
 msgid "Starting Red Hat Network Daemon: "
 msgstr "Starter Red Hat Network Daemon: "
@@ -56,11 +62,11 @@ msgstr "Starter Red Hat Network Daemon: "
 msgid "Reloading INN Service: "
 msgstr "Starter INND-tjeneste på nytt: "
 
-#: /etc/rc.d/init.d/keytable:34
-msgid "Loading system font: "
-msgstr "Laster systemfont: "
+#: /etc/rc.d/init.d/firstboot:31
+msgid "X is not configured.  Running redhat-config-xfree86"
+msgstr ""
 
-#: /etc/rc.d/init.d/ups:66
+#: /etc/rc.d/init.d/ups:68
 msgid "Shutting down $MODEL: "
 msgstr "Tar ned $MODEL: "
 
@@ -76,15 +82,12 @@ msgstr ""
 msgid "Starting YP passwd service: "
 msgstr "Starter YP-passordtjeneste: "
 
-#: /etc/rc.d/init.d/ypbind:70
-msgid "Shutting down NIS services: "
-msgstr "Avslutter NIS-tjenester: "
+#: /etc/rc.d/init.d/postgresql:93
+#, fuzzy
+msgid "Starting ${NAME} service: "
+msgstr "Starter $KIND-tjenester: "
 
-#: /etc/rc.d/init.d/kadmin:35
-msgid "Extracting kadm5 Service Keys: "
-msgstr "Henter ut kadm5 tjenestenøkler: "
-
-#: /etc/rc.d/init.d/functions:235
+#: /etc/rc.d/init.d/functions:234
 msgid "Usage: pidfileofproc {program}"
 msgstr "Bruk: pidfileofproc {program}"
 
@@ -109,15 +112,16 @@ msgstr "Lager SSH2 RSA vertsnøkkel: "
 msgid "Starting routed (RIP) services: "
 msgstr "Starter routed: "
 
-#: /etc/rc.d/init.d/functions:340
-msgid "PASSED"
-msgstr "UTFØRT"
+#: /etc/rc.d/init.d/crond:78 /etc/rc.d/init.d/krb5kdc:76
+#: /etc/rc.d/init.d/saslauthd:68 /etc/rc.d/init.d/squid:160
+msgid "Usage: $0 {start|stop|status|reload|restart|condrestart}"
+msgstr "Bruk: $0 {start|stop|status|reload|restart|condrestart}"
 
 #: /etc/rc.d/init.d/innd:33
 msgid "Starting INND system: "
 msgstr "Starter INND-system: "
 
-#: /etc/rc.d/init.d/halt:132 /etc/rc.d/init.d/netfs:53
+#: /etc/rc.d/init.d/halt:133 /etc/rc.d/init.d/netfs:53
 msgid "Unmounting loopback filesystems (retry):"
 msgstr "Avmonterer loopback-filsystemer (nytt forsøk):"
 
@@ -133,11 +137,11 @@ msgstr "Konfigurerte SMB-monteringspunkter: "
 msgid " cardmgr is already running."
 msgstr " cardmgr kjører allerede."
 
-#: /etc/rc.d/init.d/postgresql:123
+#: /etc/rc.d/init.d/postgresql:136
 msgid "Initializing database: "
 msgstr "Initierer database: "
 
-#: /etc/sysconfig/network-scripts/ifup-sit:63
+#: /etc/sysconfig/network-scripts/ifup-sit:64
 msgid "Missing remote IPv4 address of tunnel, configuration is not valid"
 msgstr ""
 "Mangler IPv4-adress for den andre enden av tunnelen, konfigurasjonen er ikke "
@@ -147,11 +151,11 @@ msgstr ""
 msgid "Shutting down PCMCIA services:"
 msgstr "Avslutter PCMCIA-tjenester:"
 
-#: /etc/rc.d/rc.sysinit:708
+#: /etc/rc.d/rc.sysinit:741
 msgid "Setting hard drive parameters for ${disk[$device]}: "
 msgstr "Setter harddiskparametere for ${disk[$device]}: "
 
-#: /etc/rc.d/init.d/privoxy:202
+#: /etc/rc.d/init.d/privoxy:203
 msgid "Starting $PRIVOXY_PRG: "
 msgstr "Starter $PRIVOXY_PRG: "
 
@@ -168,7 +172,7 @@ msgstr "Enhet ${DEVICE} har forskjellig MAC-adresse en forventet, ignorerer."
 msgid "Error, some other host already uses address ${IPADDR}."
 msgstr "Feil. En annen vert bruker allerede adressen ${IPADDR}."
 
-#: /etc/rc.d/init.d/rawdevices:49
+#: /etc/rc.d/init.d/rawdevices:51
 msgid "Assigning devices: "
 msgstr "Tildeler enheter: "
 
@@ -176,7 +180,7 @@ msgstr "Tildeler enheter: "
 msgid "Configured NCP mountpoints: "
 msgstr "Konfigurerte NCP-monteringspunkter: "
 
-#: /etc/rc.d/init.d/privoxy:264
+#: /etc/rc.d/init.d/privoxy:265
 msgid "Usage: $PRIVOXY_PRG {start|stop|reload|restart|condrestart|status|top}"
 msgstr "Bruk: $PRIVOXY_PRG {start|stop|reload|restart|condrestart|status|top}"
 
@@ -192,7 +196,7 @@ msgstr "Starter APM-daemon: "
 msgid "Usage: $0 {start|stop|restart|condrestart|status|panic|save}"
 msgstr "Bruk: $0 {start|stop|restart|condrestart|status|panic|save}"
 
-#: /etc/rc.d/init.d/functions:318
+#: /etc/rc.d/init.d/functions:317
 msgid "OK"
 msgstr "OK"
 
@@ -217,7 +221,7 @@ msgid "cardmgr is stopped"
 msgstr "cardmgr er stoppet"
 
 #: /etc/rc.d/init.d/rhnsd:82 /etc/rc.d/init.d/snmpd:76
-#: /etc/rc.d/init.d/snmptrapd:74 /etc/rc.d/init.d/xinetd:119
+#: /etc/rc.d/init.d/snmptrapd:74 /etc/rc.d/init.d/xinetd:118
 msgid "Usage: $0 {start|stop|status|restart|condrestart|reload}"
 msgstr "Bruk: $0 {start|stop|status|restart|condrestart|reload}"
 
@@ -226,21 +230,22 @@ msgstr "Bruk: $0 {start|stop|status|restart|condrestart|reload}"
 msgid "Flushing all current rules and user defined chains:"
 msgstr "Tømmer alle aktive regler og brukerdefinerte regelsett:"
 
-#: /etc/rc.d/init.d/nfslock:108 /etc/rc.d/init.d/rawdevices:71
+#: /etc/rc.d/init.d/nfslock:110 /etc/rc.d/init.d/rawdevices:73
 #: /etc/rc.d/init.d/rstatd:63 /etc/rc.d/init.d/rusersd:66
 #: /etc/rc.d/init.d/rwalld:64 /etc/rc.d/init.d/rwhod:63
 msgid "Usage: $0 {start|stop|status|restart}"
 msgstr "Bruk: $0 {start|stop|status|restart}"
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:210
-msgid "Warning: interface 'tun6to4' does not support 'IPV6_DEFAULTGW', ignored"
-msgstr "Advarsel: enhet 'tun6to4' støtter ikke 'IPV6_DEFAULTGW', ignorert"
+#: /etc/sysconfig/network-scripts/ifup-aliases:225
+#: /etc/sysconfig/network-scripts/ifup-aliases:235
+msgid "error in ifcfg-${parent_device}: files"
+msgstr "feil i ifcfg-${parent_device}: filer"
 
-#: /etc/rc.d/init.d/wine:33
-msgid "Wine binary format handlers are registered."
-msgstr "Wine binærformathåndterer er registrert."
+#: /etc/rc.d/init.d/isicom:27
+msgid "Failed to load firmware."
+msgstr ""
 
-#: /etc/rc.d/rc.sysinit:220
+#: /etc/rc.d/rc.sysinit:226
 msgid "Forcing file system integrity check due to default setting"
 msgstr "Tvungen integritetssjekk av filsystem pga. innstilling"
 
@@ -248,11 +253,11 @@ msgstr "Tvungen integritetssjekk av filsystem pga. innstilling"
 msgid "Disabling IPv4 automatic defragmentation: "
 msgstr "Slår av automatisk defragmentering for IPv4: "
 
-#: /etc/sysconfig/network-scripts/ifup-routes:6
+#: /etc/sysconfig/network-scripts/ifup-routes:5
 msgid "usage: ifup-routes <net-device>"
 msgstr "bruk: ifup-routes <nettverksenhet>"
 
-#: /etc/rc.d/rc.sysinit:29
+#: /etc/rc.d/rc.sysinit:52
 msgid "\t\tWelcome to "
 msgstr "\t\tVelkommen til "
 
@@ -264,13 +269,19 @@ msgstr "Avslutter rstat-tjenester: "
 msgid "mdadm"
 msgstr "mdadm"
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:315
+#: /etc/sysconfig/network-scripts/ifup-aliases:310
 msgid "error in $FILE: IPADDR_START and IPADDR_END don't argree"
 msgstr "feil i $FILE: IPADDR_START og IPADDR_END stemmer ikke overens"
 
-#: /etc/sysconfig/network-scripts/ifup-sit:71
+#: /etc/sysconfig/network-scripts/ifup-sit:72
 msgid "Device '$DEVICE' is already up, please shutdown first"
 msgstr "Enhet '$DEVICE' er allerede oppe, ta den ned først"
+
+#: /etc/sysconfig/network-scripts/ifup:188
+#: /etc/sysconfig/network-scripts/ifup:190
+#: /etc/sysconfig/network-scripts/ifup:192
+msgid " done."
+msgstr " ferdig."
 
 #: /etc/rc.d/init.d/innd:112 /etc/rc.d/init.d/kprop:67
 #: /etc/rc.d/init.d/krb524:66 /etc/rc.d/init.d/syslog:80
@@ -278,15 +289,20 @@ msgstr "Enhet '$DEVICE' er allerede oppe, ta den ned først"
 msgid "Usage: $0 {start|stop|status|restart|condrestart}"
 msgstr "Bruk: $0 {start|stop|status|restart|condrestart}"
 
+#: /etc/rc.d/init.d/isicom:16
+#, fuzzy
+msgid "Loading PLX (isicom) modules... "
+msgstr "Laster ISDN-moduler"
+
 #: /etc/rc.d/init.d/nfs:123
 msgid "Shutting down NFS mountd: "
 msgstr "Avslutter NFS mountd: "
 
-#: /etc/rc.d/init.d/halt:188
+#: /etc/rc.d/init.d/halt:189
 msgid "On the next boot fsck will be forced."
 msgstr "Tvungen kjøring av fsck ved neste oppstart."
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:122
+#: /etc/sysconfig/network-scripts/ifup-ipv6:119
 msgid ""
 "Global IPv6 forwarding is disabled in configuration, but not currently "
 "disabled in kernel"
@@ -294,11 +310,11 @@ msgstr ""
 "Global videresending for IPv6 er deaktivert i konfigurasjonen, men er ikke "
 "deaktivert i kjernen"
 
-#: /etc/rc.d/init.d/halt:42
+#: /etc/rc.d/init.d/halt:43
 msgid "$0: call me as 'halt' or 'reboot' please!"
 msgstr "$0: vennligst kall meg som «halt» eller «reboot»!"
 
-#: /etc/rc.d/init.d/functions:351
+#: /etc/rc.d/init.d/functions:359
 msgid "WARNING"
 msgstr "ADVARSEL"
 
@@ -306,11 +322,11 @@ msgstr "ADVARSEL"
 msgid "$NAME is attached to $DEVICE"
 msgstr "$NAME er koblet opp mot $DEVICE"
 
-#: /etc/rc.d/init.d/named:112
+#: /etc/rc.d/init.d/named:104
 msgid "Usage: $0 {start|stop|status|restart|condrestart|reload|probe}"
 msgstr "Bruk: $0 {start|stop|status|restart|condrestart|reload|probe}"
 
-#: /etc/rc.d/init.d/postgresql:107
+#: /etc/rc.d/init.d/postgresql:120
 msgid ""
 "An old version of the database format was found.\n"
 "You need to upgrade the data format before using PostgreSQL.\n"
@@ -322,40 +338,48 @@ msgstr ""
 
 #: /etc/rc.d/init.d/bgpd:33 /etc/rc.d/init.d/dhcpd:38
 #: /etc/rc.d/init.d/dhcrelay:45 /etc/rc.d/init.d/FreeWnn:43
-#: /etc/rc.d/init.d/irda:28 /etc/rc.d/init.d/ntpd:54
+#: /etc/rc.d/init.d/irda:31 /etc/rc.d/init.d/ntpd:121
 #: /etc/rc.d/init.d/ospf6d:33 /etc/rc.d/init.d/ospfd:34
 #: /etc/rc.d/init.d/ripd:33 /etc/rc.d/init.d/ripngd:33
-#: /etc/rc.d/init.d/sendmail:71 /etc/rc.d/init.d/vncserver:41
-#: /etc/rc.d/init.d/xfs:70 /etc/rc.d/init.d/zebra:31
+#: /etc/rc.d/init.d/sendmail:73 /etc/rc.d/init.d/vncserver:41
+#: /etc/rc.d/init.d/vsftpd:54 /etc/rc.d/init.d/xfs:70
+#: /etc/rc.d/init.d/zebra:31
 msgid "Shutting down $prog: "
 msgstr "Avslutter $prog: "
 
-#: /etc/rc.d/init.d/halt:157
+#: /etc/rc.d/init.d/halt:158
 msgid "Unmounting file systems (retry): "
 msgstr "Avmonterer filsystemer (på nytt): "
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:319
+#: /etc/sysconfig/network-scripts/ifup-aliases:314
 msgid "error in $FILE: IPADDR_START greater than IPADDR_END"
 msgstr "feil i $FILE: IPADDR_START større enn IPADDR_END"
 
-#: /etc/sysconfig/network-scripts/ifup:250
-msgid "Error adding address ${IPADDR} for ${DEVICE}."
-msgstr "Feil ved tildeling av ${IPADDR} for ${DEVICE}."
+#: /etc/rc.d/init.d/ip6tables:100 /etc/rc.d/init.d/ip6tables:184
+#: /etc/rc.d/init.d/ip6tables:185 /etc/rc.d/init.d/ipchains:103
+#: /etc/rc.d/init.d/iptables:102 /etc/rc.d/init.d/iptables:186
+#: /etc/rc.d/init.d/iptables:187
+msgid "Removing user defined chains:"
+msgstr "Fjerner brukerdefinerte regelsett:"
 
 #: /etc/rc.d/init.d/atalk:91 /etc/rc.d/init.d/isdn:261
 #: /etc/rc.d/init.d/ldap:115
 msgid "Usage: $0 {start|stop|restart|status|condrestart}"
 msgstr "Bruk: $0 {start|stop|restart|status|condrestart}"
 
-#: /etc/rc.d/init.d/halt:58
+#: /etc/rc.d/init.d/halt:59
 msgid "Sending all processes the TERM signal..."
 msgstr "Sender alle prosesser TERM-signalet..."
+
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:124
+msgid "INFO     "
+msgstr ""
 
 #: /etc/rc.d/init.d/netfs:77
 msgid "Unmounting network block filesystems (retry): "
 msgstr "Avmonterer nettverks-blokkfilsystemer (nytt forsøk): "
 
-#: /etc/rc.d/rc.sysinit:258 /etc/rc.d/rc.sysinit:454 /etc/rc.d/rc.sysinit:494
+#: /etc/rc.d/rc.sysinit:269 /etc/rc.d/rc.sysinit:478 /etc/rc.d/rc.sysinit:527
 msgid "*** Dropping you to a shell; the system will reboot"
 msgstr "*** Slipper deg ut til et skall; systemet vil startes på nytt"
 
@@ -363,22 +387,18 @@ msgstr "*** Slipper deg ut til et skall; systemet vil startes på nytt"
 msgid "Checking for changes to /etc/auto.master ...."
 msgstr "Ser etter endringer i /etc/auto.master ...."
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:106
-#: /etc/sysconfig/network-scripts/ifup-ipv6:123
+#: /etc/sysconfig/network-scripts/ifup-ipv6:103
+#: /etc/sysconfig/network-scripts/ifup-ipv6:120
 msgid "Please restart network with '/sbin/service network restart'"
 msgstr "Start nettverket på nytt med '/sbin/service network restart'"
 
-#: /etc/rc.d/rc.sysinit:288 /etc/rc.d/rc.sysinit:526
+#: /etc/rc.d/rc.sysinit:300 /etc/rc.d/rc.sysinit:560
 msgid "Converting old group quota files: "
 msgstr "Konverterer gamle filer for gruppekvoter: "
 
-#: /etc/rc.d/init.d/network:226
-msgid "Configured devices:"
-msgstr "Konfigurerte enheter:"
-
-#: /etc/rc.d/init.d/iscsi:125
-msgid "The iSCSI module could not be unloaded."
-msgstr "iSCSI-modulen kunne ikke fjernes."
+#: /etc/rc.d/init.d/kudzu:49
+msgid "Hardware configuration timed out."
+msgstr "Tidsavbrudd for maskinvarekonfigurasjonen."
 
 #: /etc/rc.d/init.d/ospf6d:56
 msgid "Usage: $prog {start|stop|restart|reload|condrestart|status}"
@@ -388,7 +408,7 @@ msgstr "Bruk: $prog {start|stop|restart|reload|condrestart|status}"
 msgid "Mounting other filesystems: "
 msgstr "Monterer andre filsystemer: "
 
-#: /etc/rc.d/init.d/lpd:34
+#: /etc/rc.d/init.d/lpd:33
 msgid "No Printers Defined"
 msgstr "Ingen definerte skrivere"
 
@@ -404,21 +424,17 @@ msgstr "Avmonterer NFS-filsystemer: "
 msgid "Shutting down NFS daemon: "
 msgstr "Avslutter NFS-daemonen: "
 
-#: /etc/rc.d/rc.sysinit:144 /etc/rc.d/rc.sysinit:147
-msgid "Setting default font ($SYSFONT): "
-msgstr "Setter standard skrifttype ($SYSFONT): "
-
 #: /etc/rc.d/init.d/netfs:111
 msgid "Unmounting NCP filesystems: "
 msgstr "Avmonterer NCP-filsystemer: "
 
-#: /etc/rc.d/init.d/netdump:167
+#: /etc/rc.d/init.d/netdump:171
 msgid "disabling netdump"
 msgstr "deaktiverer netdump"
 
-#: /etc/rc.d/init.d/kudzu:51
-msgid "Hardware configuration timed out."
-msgstr "Tidsavbrudd for maskinvarekonfigurasjonen."
+#: /etc/rc.d/init.d/network:226
+msgid "Configured devices:"
+msgstr "Konfigurerte enheter:"
 
 #: /etc/rc.d/init.d/innd:59
 msgid "Stopping INNFeed service: "
@@ -435,11 +451,16 @@ msgstr "Fjerner alle regler:"
 msgid "/etc/sysconfig/network-scripts/dip-$DEVICE does not exist"
 msgstr "/etc/sysconfig/network-scripts/dip-$DEVICE eksisterer ikke"
 
-#: /etc/rc.d/init.d/mysqld:28
-msgid "Initializing MySQL database: "
-msgstr "Initialiserer MySQL-database: "
+#: /etc/rc.d/init.d/keytable:34
+msgid "Loading system font: "
+msgstr "Laster systemfont: "
 
-#: /etc/rc.d/init.d/smb:113 /etc/rc.d/init.d/winbind:96
+#: /etc/rc.d/init.d/isdn:149 /etc/rc.d/init.d/isdn:151
+msgid "Loading Firmware"
+msgstr "Laster firmware"
+
+#: /etc/rc.d/init.d/iscsi:185 /etc/rc.d/init.d/smb:113
+#: /etc/rc.d/init.d/winbind:96
 msgid "Usage: $0 {start|stop|restart|reload|status|condrestart}"
 msgstr "Bruk: $0 {start|stop|restart|reload|status|condrestart}"
 
@@ -447,7 +468,7 @@ msgstr "Bruk: $0 {start|stop|restart|reload|status|condrestart}"
 msgid "Starting AppleTalk services: "
 msgstr "Starter AppleTalk-tjenester: "
 
-#: /etc/rc.d/init.d/halt:138 /etc/rc.d/init.d/netfs:59
+#: /etc/rc.d/init.d/halt:139 /etc/rc.d/init.d/netfs:59
 msgid "Detaching loopback device $dev: "
 msgstr "Kobler fra loopback-enhet $dev: "
 
@@ -460,11 +481,11 @@ msgstr "Avmonterer nettverks-blokkfilsystemer: "
 msgid "Users cannot control this device."
 msgstr "Brukere kan ikke kontrollere denne enheten."
 
-#: /etc/rc.d/rc.sysinit:62
+#: /etc/rc.d/rc.sysinit:85
 msgid "Configuring kernel parameters: "
 msgstr "Konfigurerer kjerneparametere: "
 
-#: /etc/sysconfig/network-scripts/ifup-ppp:75
+#: /etc/sysconfig/network-scripts/ifup-ppp:79
 msgid "ifup-ppp for ${DEVNAME} exiting"
 msgstr "ipup-ppp for ${DEVNAME} avslutter"
 
@@ -477,7 +498,7 @@ msgstr "Påfører regelsett for brannvegg(iptables): "
 msgid "ifup-sl for $DEVICE exiting"
 msgstr "ipup-sl for $DEVICE avslutter"
 
-#: /etc/rc.d/init.d/kudzu:75
+#: /etc/rc.d/init.d/kudzu:77
 msgid "Usage: $0 {start|stop}"
 msgstr "Bruk: $0 {start|stop}"
 
@@ -489,23 +510,19 @@ msgstr "Avslutter emulering av NetWare-tjener: "
 msgid "The random data source exists"
 msgstr "Kilde for tilfeldige data eksisterer"
 
-#: /etc/rc.d/rc.sysinit:177
+#: /etc/rc.d/rc.sysinit:181
 msgid "Mounting USB filesystem: "
 msgstr "Monterer USB-filsystem: "
+
+#: /etc/rc.d/rc.sysinit:481
+msgid "(RAID Repair)"
+msgstr ""
 
 #: /etc/rc.d/init.d/vncserver:50 /etc/rc.d/init.d/vncserver:51
 msgid "vncserver shutdown"
 msgstr "vncserver nedkjøring"
 
-#: /etc/rc.d/init.d/wine:21
-msgid "Unregistering binary handler for Windows applications"
-msgstr "Avregistrerer binærhåndterer for Windows applikasjoner"
-
-#: /etc/rc.d/rc.sysinit:33
-msgid "\\033[0;39m"
-msgstr "\\033[0;39m"
-
-#: /etc/rc.d/init.d/psacct:20
+#: /etc/rc.d/init.d/psacct:18
 msgid "Starting process accounting: "
 msgstr "Slår på bokføring for prosesser: "
 
@@ -513,19 +530,19 @@ msgstr "Slår på bokføring for prosesser: "
 msgid "Starting YP map server: "
 msgstr "Starter YP-map tjener: "
 
-#: /etc/rc.d/rc.sysinit:513
+#: /etc/rc.d/rc.sysinit:547
 msgid "Mounting local filesystems: "
 msgstr "Monterer lokale filsystemer: "
+
+#: /etc/rc.d/init.d/ypbind:70
+msgid "Shutting down NIS services: "
+msgstr "Avslutter NIS-tjenester: "
 
 #: /etc/rc.d/init.d/keytable:54
 msgid "No status available for this package"
 msgstr "Ingen status er tilgjengelig for denne pakken"
 
-#: /etc/rc.d/init.d/postgresql:167
-msgid "Stopping postgresql service: "
-msgstr "Avslutter postgresql-tjenesten: "
-
-#: /etc/rc.d/rc.sysinit:127
+#: /etc/rc.d/rc.sysinit:150
 msgid "Loading default keymap ($KEYTABLE): "
 msgstr "Laster standard tastaturkart ($KEYTABLE): "
 
@@ -542,7 +559,7 @@ msgstr ""
 msgid "(no mouse is configured)"
 msgstr "(ingen mus er konfigurert)"
 
-#: /etc/rc.d/init.d/iscsi:28
+#: /etc/rc.d/init.d/iscsi:22
 msgid "iSCSI daemon already running"
 msgstr "iSCSI-daemon kjører allerede"
 
@@ -550,7 +567,7 @@ msgstr "iSCSI-daemon kjører allerede"
 msgid "ERROR: [ipv6_log] Loglevel isn't valid '$level' (arg 2)"
 msgstr "FEIL: [ipv6_log] Loggnivå er ikke gyldig '$level' (arg 2)"
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:105
+#: /etc/sysconfig/network-scripts/ifup-ipv6:102
 msgid ""
 "Global IPv6 forwarding is enabled in configuration, but not currently "
 "enabled in kernel"
@@ -562,6 +579,10 @@ msgstr ""
 msgid "Usage: $0 {start|stop|restart|status|panic|save}"
 msgstr "Bruk: $0 {start|stop|restart|status|panic|save}"
 
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:127
+msgid "NOTICE   "
+msgstr ""
+
 #: /etc/rc.d/init.d/autofs:285
 msgid "$prog not running"
 msgstr "$prog kjører ikke"
@@ -571,7 +592,7 @@ msgstr "$prog kjører ikke"
 msgid "Clearing all current rules and user defined chains:"
 msgstr "Tømmer alle aktive regler og brukerdefinerte regelsett:"
 
-#: /etc/rc.d/init.d/rawdevices:26 /etc/rc.d/init.d/rawdevices:33
+#: /etc/rc.d/init.d/rawdevices:28 /etc/rc.d/init.d/rawdevices:35
 msgid "     rawdevices are now located in the directory /dev/raw/ "
 msgstr "     rawdevices er nå plassert i katalogen /dev/raw/"
 
@@ -579,24 +600,27 @@ msgstr "     rawdevices er nå plassert i katalogen /dev/raw/"
 msgid "Shutting down APM daemon: "
 msgstr "Avslutter apmd: "
 
-#: /etc/sysconfig/network-scripts/ifup:192
+#: /etc/sysconfig/network-scripts/ifup:194
 msgid " failed."
 msgstr " feilet."
 
-#: /etc/rc.d/init.d/functions:152 /etc/rc.d/init.d/named:51
-#: /etc/rc.d/init.d/named:52
+#: /etc/rc.d/init.d/functions:151
 msgid "$base startup"
 msgstr "$base oppstart"
+
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:121
+msgid "CRITICAL "
+msgstr ""
 
 #: /etc/rc.d/init.d/netfs:117
 msgid "Configured NFS mountpoints: "
 msgstr "Konfigurerte NFS-monteringspunkter:"
 
-#: /etc/sysconfig/network-scripts/ifup-ppp:74
+#: /etc/sysconfig/network-scripts/ifup-ppp:78
 msgid "/etc/sysconfig/network-scripts/chat-${DEVNAME} does not exist"
 msgstr "/etc/sysconfig/network-scripts/chat-${DEVNAME} eksisterer ikke"
 
-#: /etc/rc.d/rc.sysinit:257 /etc/rc.d/rc.sysinit:493
+#: /etc/rc.d/rc.sysinit:268 /etc/rc.d/rc.sysinit:526
 msgid "*** An error occurred during the file system check."
 msgstr "*** En feil oppsto under sjekk av filsystem."
 
@@ -604,7 +628,12 @@ msgstr "*** En feil oppsto under sjekk av filsystem."
 msgid "Changing target policies to DROP: "
 msgstr "Endrer regelsett til DROP: "
 
-#: /etc/rc.d/init.d/ups:55
+#: /etc/rc.d/init.d/xfs:122
+#, fuzzy
+msgid "Usage: $prog {start|stop|status|restart|reload|condrestart}"
+msgstr "Bruk: $0 {start|stop|status|restart|reload|condrestart}"
+
+#: /etc/rc.d/init.d/ups:57
 msgid "Stopping UPS monitor: "
 msgstr "Avslutter UPS-overvåkning: "
 
@@ -616,11 +645,11 @@ msgstr "PCIC er ikke definert i oppstartsparameterne!"
 msgid "Shutting down system logger: "
 msgstr "Avslutter systemlogger: "
 
-#: /etc/rc.d/init.d/functions:285
+#: /etc/rc.d/init.d/functions:284
 msgid "Usage: status {program}"
 msgstr "Bruk: status {program}"
 
-#: /etc/rc.d/init.d/functions:214
+#: /etc/rc.d/init.d/functions:213
 msgid "$base $killlevel"
 msgstr "$base $killlevel"
 
@@ -628,11 +657,11 @@ msgstr "$base $killlevel"
 msgid "$0: reading microcode status is not yet supported"
 msgstr "$0: Lesing av mikrokode-status er foreløpig ikke støttet"
 
-#: /etc/rc.d/init.d/amd:93 /etc/rc.d/init.d/sshd:115
-msgid "Reloading $prog:"
-msgstr "Laster konfigurasjonsdata for $prog: "
+#: /etc/rc.d/init.d/nfs:168
+msgid "Usage: nfs {start|stop|status|restart|reload}"
+msgstr "Bruk: nfs {start|stop|status|restart|reload}"
 
-#: /etc/rc.d/init.d/ups:32
+#: /etc/rc.d/init.d/ups:34
 msgid "Starting $MODEL: "
 msgstr "Starter $MODEL: "
 
@@ -644,19 +673,19 @@ msgstr "Avslutter $prog"
 msgid "cardmgr (pid $pid) is running..."
 msgstr "cardmgr (pid $pid) kjører..."
 
-#: /etc/sysconfig/network-scripts/ifup:172
+#: /etc/sysconfig/network-scripts/ifup:174
 msgid " failed; no link present.  Check cable?"
 msgstr " feilet; ikke link. Sjekk kabelen?"
 
-#: /etc/rc.d/init.d/isdn:149 /etc/rc.d/init.d/isdn:151
-msgid "Loading Firmware"
-msgstr "Laster firmware"
+#: /etc/rc.d/init.d/mysqld:28
+msgid "Initializing MySQL database: "
+msgstr "Initialiserer MySQL-database: "
 
-#: /etc/rc.d/init.d/iscsi:25
+#: /etc/rc.d/init.d/iscsi:19
 msgid "Could not find /etc/iscsi.conf!"
 msgstr "Kunne ikke finne /etc/iscsi.conf!"
 
-#: /etc/rc.d/init.d/sendmail:77
+#: /etc/rc.d/init.d/sendmail:79
 msgid "Shutting down sm-client: "
 msgstr "Stopper sm-client: "
 
@@ -664,27 +693,33 @@ msgstr "Stopper sm-client: "
 msgid "Starting PCMCIA services:"
 msgstr "Starter PCMCIA-tjenester:"
 
-#: /etc/rc.d/init.d/iscsi:84
-msgid " iscsilun"
-msgstr " iscsilun"
+#: /etc/rc.d/init.d/isicom:30
+#, fuzzy
+msgid "Failed to load module: isicom"
+msgstr "Kunne ikke laste modul iscsi.o"
 
-#: /etc/rc.d/init.d/halt:60
+#: /etc/rc.d/init.d/halt:61
 msgid "Sending all processes the KILL signal..."
 msgstr "Sender alle prosesser KILL-signalet..."
 
-#: /etc/rc.d/rc.sysinit:301
+#: /etc/rc.d/rc.sysinit:313
 msgid "Setting up ISA PNP devices: "
 msgstr "Setter opp ISA PNP enheter: "
 
-#: /etc/rc.d/rc.sysinit:405
+#: /etc/sysconfig/network-scripts/ifup:250
+msgid "Error adding address ${IPADDR} for ${DEVICE}."
+msgstr "Feil ved tildeling av ${IPADDR} for ${DEVICE}."
+
+#: /etc/rc.d/rc.sysinit:423
 msgid "Starting up RAID devices: "
 msgstr "Starter opp RAID-enheter: "
 
 #: /etc/rc.d/init.d/anacron:58 /etc/rc.d/init.d/atd:80
 #: /etc/rc.d/init.d/canna:59 /etc/rc.d/init.d/dhcpd:71
 #: /etc/rc.d/init.d/dhcrelay:78 /etc/rc.d/init.d/gpm:86
-#: /etc/rc.d/init.d/ntpd:87 /etc/rc.d/init.d/sendmail:112
-#: /etc/rc.d/init.d/ups:100 /etc/rc.d/init.d/vncserver:78
+#: /etc/rc.d/init.d/ntpd:154 /etc/rc.d/init.d/sendmail:114
+#: /etc/rc.d/init.d/ups:102 /etc/rc.d/init.d/vncserver:78
+#: /etc/rc.d/init.d/vsftpd:87
 msgid "Usage: $0 {start|stop|restart|condrestart|status}"
 msgstr "Bruk: $0 {start|stop|restart|condrestart|status}"
 
@@ -705,11 +740,11 @@ msgstr "Bruk: ifup <enhetsnavn>"
 msgid "Stopping YP passwd service: "
 msgstr "Avslutter YP-passordtjenesten: "
 
-#: /etc/rc.d/init.d/nfs:72
-msgid "Starting NFS daemon: "
-msgstr "Starter NFS-daemonen: "
+#: /etc/rc.d/init.d/autofs:220
+msgid "Configured Mount Points:"
+msgstr "Konfigurerte monteringspunkter:"
 
-#: /etc/rc.d/rc.sysinit:532
+#: /etc/rc.d/rc.sysinit:566
 msgid "Checking local filesystem quotas: "
 msgstr "Sjekker kvoter for lokale filsystem: "
 
@@ -717,56 +752,59 @@ msgstr "Sjekker kvoter for lokale filsystem: "
 msgid "Telling INIT to go to single user mode."
 msgstr "Ber INIT om å gå til enbrukermodus."
 
-#: /etc/rc.d/init.d/halt:184
+#: /etc/rc.d/init.d/halt:185
 msgid "$message"
 msgstr "$message"
 
-#: /etc/rc.d/init.d/ntpd:34
+#: /etc/rc.d/init.d/ntpd:79
 msgid "$prog: Synchronizing with time server: "
 msgstr "$prog: Synkroniserer med tidstjener: "
 
-#: /etc/rc.d/rc.sysinit:284 /etc/rc.d/rc.sysinit:521
+#: /etc/rc.d/rc.sysinit:296 /etc/rc.d/rc.sysinit:555
 msgid "Converting old user quota files: "
 msgstr "Konverterer gamle filer for brukerkvoter: "
 
-#: /etc/sysconfig/network-scripts/ifup:186
-#: /etc/sysconfig/network-scripts/ifup:188
-#: /etc/sysconfig/network-scripts/ifup:190
-msgid " done."
-msgstr " ferdig."
+#: /etc/rc.d/init.d/vsftpd:38
+#, fuzzy
+msgid "Starting $prog for $site: "
+msgstr "Starter $prog: "
 
-#: /etc/rc.d/rc.sysinit:536
+#: /etc/rc.d/rc.sysinit:570
 msgid "Enabling local filesystem quotas: "
 msgstr "Aktiverer kvoter for lokale filsystemer: "
+
+#: /etc/rc.d/init.d/routed:41
+msgid "Stopping routed (RIP) services: "
+msgstr "Avslutter routed: "
 
 #: /etc/rc.d/init.d/aep1000:56 /etc/rc.d/init.d/amd:30
 #: /etc/rc.d/init.d/anacron:15 /etc/rc.d/init.d/arpwatch:28
 #: /etc/rc.d/init.d/atd:29 /etc/rc.d/init.d/bgpd:26
 #: /etc/rc.d/init.d/bootparamd:29 /etc/rc.d/init.d/canna:26
-#: /etc/rc.d/init.d/crond:24 /etc/rc.d/init.d/cWnn:31
+#: /etc/rc.d/init.d/crond:24 /etc/rc.d/init.d/cups:57
 #: /etc/rc.d/init.d/dhcpd:28 /etc/rc.d/init.d/dhcrelay:33
 #: /etc/rc.d/init.d/FreeWnn:32 /etc/rc.d/init.d/httpd:50
-#: /etc/rc.d/init.d/identd:48 /etc/rc.d/init.d/irda:20
+#: /etc/rc.d/init.d/identd:48 /etc/rc.d/init.d/irda:23
 #: /etc/rc.d/init.d/kadmin:40 /etc/rc.d/init.d/kprop:30
 #: /etc/rc.d/init.d/krb524:30 /etc/rc.d/init.d/krb5kdc:30
-#: /etc/rc.d/init.d/kWnn:31 /etc/rc.d/init.d/ldap:38 /etc/rc.d/init.d/ldap:50
-#: /etc/rc.d/init.d/lpd:28 /etc/rc.d/init.d/mdmonitor:37
+#: /etc/rc.d/init.d/ldap:38 /etc/rc.d/init.d/ldap:50 /etc/rc.d/init.d/lisa:35
+#: /etc/rc.d/init.d/lpd:43 /etc/rc.d/init.d/mdmonitor:37
 #: /etc/rc.d/init.d/mysqld:40 /etc/rc.d/init.d/mysqld:42
-#: /etc/rc.d/init.d/named:35 /etc/rc.d/init.d/nscd:49 /etc/rc.d/init.d/ntpd:44
+#: /etc/rc.d/init.d/named:36 /etc/rc.d/init.d/nscd:49 /etc/rc.d/init.d/ntpd:91
 #: /etc/rc.d/init.d/ospf6d:26 /etc/rc.d/init.d/ospfd:27
 #: /etc/rc.d/init.d/portmap:55 /etc/rc.d/init.d/pxe:23
 #: /etc/rc.d/init.d/radvd:38 /etc/rc.d/init.d/rarpd:22
 #: /etc/rc.d/init.d/ripd:26 /etc/rc.d/init.d/ripngd:26
 #: /etc/rc.d/init.d/rwalld:24 /etc/rc.d/init.d/saslauthd:29
-#: /etc/rc.d/init.d/sendmail:38 /etc/rc.d/init.d/snmpd:20
+#: /etc/rc.d/init.d/sendmail:40 /etc/rc.d/init.d/snmpd:20
 #: /etc/rc.d/init.d/snmptrapd:21 /etc/rc.d/init.d/squid:60
-#: /etc/rc.d/init.d/tWnn:31 /etc/rc.d/init.d/ups:37
-#: /etc/rc.d/init.d/vncserver:22 /etc/rc.d/init.d/xfs:58
-#: /etc/rc.d/init.d/xinetd:49 /etc/rc.d/init.d/zebra:24
+#: /etc/rc.d/init.d/ups:39 /etc/rc.d/init.d/vncserver:22
+#: /etc/rc.d/init.d/xfs:58 /etc/rc.d/init.d/xinetd:48
+#: /etc/rc.d/init.d/zebra:24
 msgid "Starting $prog: "
 msgstr "Starter $prog: "
 
-#: /etc/rc.d/init.d/functions:310
+#: /etc/rc.d/init.d/functions:309
 msgid "${base} is stopped"
 msgstr "${base} kjører ikke"
 
@@ -779,13 +817,14 @@ msgstr "Manglende konfigurasjonsfil $PARENTCONFIG."
 msgid "Generating ident key: "
 msgstr "Lagrer ident-nøkkel: "
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:248
+#: /etc/sysconfig/network-scripts/ifup-ipv6:281
 msgid "Error occured while calculating the IPv6to4 prefix"
 msgstr "Feil oppsto under utregning av IPv6til4-prefiks"
 
-#: /etc/rc.d/init.d/rawdevices:27 /etc/rc.d/init.d/rawdevices:34
-msgid "  If the command 'raw' still refers to /dev/raw as a file."
-msgstr "  Hvis kommandoen 'raw' fremdeles refererer til /dev/raw som en fil."
+#: /etc/rc.d/init.d/firstboot:36
+#, fuzzy
+msgid "Running system reconfiguration tool"
+msgstr "Leser konfigurasjonen på nytt: "
 
 #: /etc/rc.d/init.d/sshd:70 /etc/rc.d/init.d/sshd:73
 msgid "DSA key generation"
@@ -794,10 +833,6 @@ msgstr "Lager DSA-nøkkel"
 #: /etc/rc.d/init.d/ypserv:44
 msgid "Stopping YP server services: "
 msgstr "Avslutter YP-tjenester: "
-
-#: /etc/rc.d/init.d/wine:14
-msgid "Registering binary handler for Windows applications"
-msgstr "Registrerer binærhåndterer for Windows applikasjoner"
 
 #: /etc/rc.d/init.d/sshd:54 /etc/rc.d/init.d/sshd:57
 msgid "RSA key generation"
@@ -810,11 +845,11 @@ msgstr ""
 "$alias-enheten ser ikke ut til å være tilstede, venter med initiering av "
 "${DEVICE}."
 
-#: /etc/rc.d/init.d/halt:186
+#: /etc/rc.d/init.d/halt:187
 msgid "On the next boot fsck will be skipped."
 msgstr "Hopper over kjøring av fsck ved neste oppstart."
 
-#: /etc/rc.d/init.d/halt:120
+#: /etc/rc.d/init.d/halt:121
 msgid "Turning off quotas: "
 msgstr "Slår av diskkvoter: "
 
@@ -822,7 +857,7 @@ msgstr "Slår av diskkvoter: "
 msgid "Failed to bring up ${DEVICE}."
 msgstr "Feil under oppsett av ${DEVICE}."
 
-#: /etc/rc.d/init.d/halt:68
+#: /etc/rc.d/init.d/halt:69
 msgid "Saving mixer settings"
 msgstr "Lagrer mikserinnstillinger"
 
@@ -830,23 +865,15 @@ msgstr "Lagrer mikserinnstillinger"
 msgid "Mounting NFS filesystems: "
 msgstr "Monterer NFS-filsystemer: "
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:199
-msgid ""
-"IPv6to4 configuration needs an IPv4 address on related interface or "
-"otherwise specified, 6to4 configuration is not valid"
-msgstr ""
-"IPv6to4-konfigurasjon må ha en IPv4-adresse på det relaterte grensesnittet "
-"eller et ekstra oppgitt; 6to4-konfigurasjonen er ikke gyldig."
-
-#: /etc/rc.d/rc.sysinit:41
+#: /etc/rc.d/rc.sysinit:64
 msgid "\t\tPress 'I' to enter interactive startup."
 msgstr "\t\tTrykk 'I' for å gå til interaktiv oppstart."
 
-#: /etc/rc.d/init.d/sshd:66
-msgid "Generating SSH2 DSA host key: "
-msgstr "Lager SSH2 DSA-vertsnøkkel: "
+#: /etc/rc.d/init.d/netfs:152 /etc/rc.d/init.d/network:238
+msgid "Usage: $0 {start|stop|restart|reload|status}"
+msgstr "Bruk: $0 {start|stop|restart|reload|status}"
 
-#: /etc/rc.d/init.d/postgresql:146
+#: /etc/rc.d/init.d/postgresql:162
 msgid "Postmaster already running."
 msgstr "Postmaster kjører allerede."
 
@@ -858,7 +885,7 @@ msgstr "Starter kjernelogger: "
 msgid "/usr/sbin/dip does not exist or is not executable"
 msgstr "/usr/sbin/dip eksisterer ikke eller er ikke kjørbar"
 
-#: /etc/rc.d/rc.sysinit:565
+#: /etc/rc.d/rc.sysinit:603
 msgid "Resetting hostname ${HOSTNAME}: "
 msgstr "Nullstiller hostnavn ${HOSTNAME}: "
 
@@ -866,23 +893,29 @@ msgstr "Nullstiller hostnavn ${HOSTNAME}: "
 msgid "Unmounting SMB filesystems: "
 msgstr "Avmonterer SMB-filsystemer: "
 
-#: /etc/rc.d/init.d/halt:159
+#: /etc/rc.d/init.d/halt:160
 msgid "Unmounting file systems: "
 msgstr "Avmonterer filsystemer: "
 
-#: /etc/rc.d/rc.sysinit:184
+#: /etc/rc.d/rc.sysinit:189
 msgid "Initializing USB keyboard: "
 msgstr "Initierer USB-tastatur: "
 
-#: /etc/rc.d/init.d/functions:160
+#: /etc/sysconfig/network-scripts/ifup-ipv6:218
+msgid ""
+"Warning: configured MTU '$IPV6TO4_MTU' for 6to4 exceeds maximum limit of "
+"'$tunnelmtu', ignored"
+msgstr ""
+
+#: /etc/rc.d/init.d/functions:159
 msgid "Usage: killproc {program} [signal]"
 msgstr "Bruk: killproc {program} [signal]"
 
-#: /etc/rc.d/rc.sysinit:157
+#: /etc/rc.d/rc.sysinit:161
 msgid "Setting hostname ${HOSTNAME}: "
 msgstr "Setter vertsnavn ${HOSTNAME}: "
 
-#: /etc/rc.d/init.d/kudzu:52
+#: /etc/rc.d/init.d/kudzu:50
 msgid "Run '/usr/sbin/kudzu' from the command line to re-detect."
 msgstr "Kjør '/usr/sbin/kudzu' fra kommandolinjen for å søke på nytt."
 
@@ -898,15 +931,15 @@ msgstr "bruk: ifup-aliases <nettverksenhet> [<forelder-konfigurasjon>]\n"
 msgid "ERROR: [ipv6_log] Missing 'message' (arg 1)"
 msgstr "Feil: [ipv6_log] Mangler 'message' (arg1)"
 
-#: /etc/sysconfig/network-scripts/ifup-ipx:7
-msgid "usage: $0 <net-device>"
-msgstr "bruk: $0 <nettverksenhet>"
+#: /etc/rc.d/init.d/portmap:33
+msgid "Networking not configured - exiting"
+msgstr "Nettverket er ikke konfigurert - avslutter"
 
 #: /etc/rc.d/init.d/ipchains:76 /etc/rc.d/init.d/ipchains:77
 msgid "Resetting built-in chains to the default ACCEPT policy"
 msgstr "Nullstiller innebygde regelsett til forvalgt ACCEPT-regel"
 
-#: /etc/rc.d/rc.sysinit:132
+#: /etc/rc.d/rc.sysinit:155
 msgid "Loading default keymap"
 msgstr "Laster standard tastaturkart"
 
@@ -930,11 +963,11 @@ msgstr "Setter opp loopback-grensesnittet: "
 msgid "Reopening $prog log file: "
 msgstr "Gjenåpner loggfil for $prog: "
 
-#: /etc/rc.d/init.d/privoxy:196
+#: /etc/rc.d/init.d/privoxy:197
 msgid "Can't find $PRIVOXY_CONF, exit."
 msgstr "Kan ikke finne $PRIVOXY_CONF, avslutter."
 
-#: /etc/rc.d/init.d/functions:207 /etc/rc.d/init.d/functions:218
+#: /etc/rc.d/init.d/functions:206 /etc/rc.d/init.d/functions:217
 msgid "$base shutdown"
 msgstr "$base avsluttes"
 
@@ -946,17 +979,27 @@ msgstr "Leser smb.conf på nytt: "
 msgid "Saving current rules to $IPCHAINS_CONFIG: "
 msgstr "Lagrer aktivt regelsett til $IPCHAINS_CONFIG: "
 
-#: /etc/rc.d/rc.sysinit:259 /etc/rc.d/rc.sysinit:455 /etc/rc.d/rc.sysinit:495
+#: /etc/rc.d/rc.sysinit:270 /etc/rc.d/rc.sysinit:479 /etc/rc.d/rc.sysinit:528
 msgid "*** when you leave the shell."
 msgstr "*** når du forlater skallet."
 
-#: /etc/rc.d/init.d/sendmail:56
+#: /etc/rc.d/init.d/sendmail:58
 msgid "Starting sm-client: "
 msgstr "Starter sm-client: "
 
-#: /etc/sysconfig/network-scripts/ifup:170
+#: /etc/sysconfig/network-scripts/ifup:172
 msgid "Determining IP information for ${DEVICE}..."
 msgstr "Bestemmer IP-informasjon for ${DEVICE}..."
+
+#: /etc/rc.d/init.d/postgresql:184
+#, fuzzy
+msgid "Stopping ${NAME} service: "
+msgstr "Avslutter INND-tjeneste: "
+
+#: /etc/rc.d/init.d/lisa:87
+#, fuzzy
+msgid "Usage: $prog {start|stop|restart|status|condrestart}"
+msgstr "Bruk: $0 {start|stop|restart|status|condrestart}"
 
 #: /etc/rc.d/init.d/ipchains:95
 msgid "Changing target policies to DENY: "
@@ -968,7 +1011,7 @@ msgstr "Endrer regelsett til DENY: "
 msgid "Usage: $0 {start|stop|status|restart|reload|condrestart}"
 msgstr "Bruk: $0 {start|stop|status|restart|reload|condrestart}"
 
-#: /etc/rc.d/init.d/functions:259
+#: /etc/rc.d/init.d/functions:258
 msgid "Usage: pidofproc {program}"
 msgstr "Bruk: pidofproc {program}"
 
@@ -976,9 +1019,14 @@ msgstr "Bruk: pidofproc {program}"
 msgid "Starting rusers services: "
 msgstr "Starter rusers-tjenester: "
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:251
+#: /etc/sysconfig/network-scripts/ifup-ipv6:284
 msgid "radvd control enabled, but config is not complete"
 msgstr "radvd-kontroll aktivert, men konfigurasjonen er ikke fullført"
+
+#: /etc/rc.d/rc.sysinit:245
+#, fuzzy
+msgid "Checking root filesystem"
+msgstr "Sjekker kvoter på rot-filsystemet: "
 
 #: /etc/rc.d/init.d/isdn:226
 msgid "$0: Link is down"
@@ -988,19 +1036,19 @@ msgstr "$0: oppkoblingen er nede"
 msgid "Active NFS mountpoints: "
 msgstr "Aktive NFS-monteringspunkter: "
 
-#: /etc/rc.d/init.d/psacct:31
+#: /etc/rc.d/init.d/psacct:38
 msgid "Process accounting is disabled."
 msgstr "Bokføring av prosesser er skrudd av."
 
-#: /etc/rc.d/init.d/autofs:220
-msgid "Configured Mount Points:"
-msgstr "Konfigurerte monteringspunkter:"
+#: /etc/rc.d/init.d/nfs:72
+msgid "Starting NFS daemon: "
+msgstr "Starter NFS-daemonen: "
 
-#: /etc/rc.d/rc.sysinit:166
+#: /etc/rc.d/rc.sysinit:170
 msgid "Initializing USB controller ($alias): "
 msgstr "Initierer USB-kontroller ($alias): "
 
-#: /etc/rc.d/init.d/xinetd:80
+#: /etc/rc.d/init.d/xinetd:79
 msgid "Reloading configuration: "
 msgstr "Leser konfigurasjonen på nytt: "
 
@@ -1008,11 +1056,20 @@ msgstr "Leser konfigurasjonen på nytt: "
 msgid "Please run makehistory and/or makedbz before starting innd."
 msgstr "Vennligst kjør makehistory og/eller makedbz før du starter innd."
 
-#: /etc/rc.d/init.d/privoxy:217
+#: /etc/sysconfig/network-scripts/ifup-ipv6:203
+#, fuzzy
+msgid ""
+"IPv6to4 configuration needs an IPv4 address on related interface or "
+"otherwise specified"
+msgstr ""
+"IPv6to4-konfigurasjon må ha en IPv4-adresse på det relaterte grensesnittet "
+"eller et ekstra oppgitt; 6to4-konfigurasjonen er ikke gyldig."
+
+#: /etc/rc.d/init.d/privoxy:218
 msgid "Stopping $PRIVOXY_PRG: "
 msgstr "Stopper $PRIVOXY_PRG: "
 
-#: /etc/rc.d/rc.sysinit:222
+#: /etc/rc.d/rc.sysinit:228
 msgid "Not forcing file system integrity check due to default setting"
 msgstr "Utfører ikke integritetssjekk av filsystem pga. innstilling"
 
@@ -1024,6 +1081,10 @@ msgstr "Starter NFS-tjenester: "
 msgid "Active NCP mountpoints: "
 msgstr "Aktive NCP-monteringspunkter: "
 
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:118
+msgid "WARN     "
+msgstr ""
+
 #: /etc/rc.d/init.d/nfs:136
 msgid "Shutting down NFS services: "
 msgstr "Avslutter NFS-tjenester: "
@@ -1033,42 +1094,41 @@ msgstr "Avslutter NFS-tjenester: "
 msgid "Changing target policies to DROP"
 msgstr "Endrer regelsett til DROP"
 
-#: /etc/rc.d/rc.sysinit:373 /etc/rc.d/rc.sysinit:378
+#: /etc/rc.d/rc.sysinit:391 /etc/rc.d/rc.sysinit:396
 msgid "Loading sound module ($alias): "
 msgstr "Laster lydmoduler ($alias): "
 
-#: /etc/rc.d/init.d/xfs:122
-msgid "*** Usage: $prog {start|stop|status|restart|reload|condrestart}"
-msgstr "Bruk: $0 {start|stop|status|restart|reload|condrestart}"
+#: /etc/rc.d/init.d/ntpd:115
+msgid "$prog: Removing firewall opening for $server port 123"
+msgstr ""
 
-#: /etc/rc.d/rc.sysinit:109
+#: /etc/rc.d/rc.sysinit:132
 msgid "Setting clock $CLOCKDEF: `date`"
 msgstr "Setter klokken $CLOCKDEF: `date`"
 
-#: /etc/rc.d/init.d/bootparamd:69 /etc/rc.d/init.d/cWnn:70
-#: /etc/rc.d/init.d/FreeWnn:71 /etc/rc.d/init.d/pcmcia:52
-#: /etc/rc.d/init.d/psacct:41 /etc/rc.d/init.d/random:55
-#: /etc/rc.d/init.d/routed:72 /etc/rc.d/init.d/tWnn:70
+#: /etc/rc.d/init.d/bootparamd:69 /etc/rc.d/init.d/FreeWnn:71
+#: /etc/rc.d/init.d/pcmcia:52 /etc/rc.d/init.d/psacct:48
+#: /etc/rc.d/init.d/random:55 /etc/rc.d/init.d/routed:72
 msgid "Usage: $0 {start|stop|status|restart|reload}"
 msgstr "Bruk: $0 {start|stop|status|restart|reload}"
 
-#: /etc/rc.d/init.d/halt:50
-msgid "Usage: $0 {start}"
-msgstr "Bruk: $0 {start}"
+#: /etc/rc.d/init.d/halt:39
+msgid "Please stand by while rebooting the system..."
+msgstr ""
 
-#: /etc/rc.d/rc.sysinit:264 /etc/rc.d/rc.sysinit:460 /etc/rc.d/rc.sysinit:500
+#: /etc/rc.d/rc.sysinit:276 /etc/rc.d/rc.sysinit:485 /etc/rc.d/rc.sysinit:534
 msgid "Unmounting file systems"
 msgstr "Avmonterer filsystemer"
 
-#: /etc/rc.d/init.d/functions:92 /etc/rc.d/init.d/functions:120
+#: /etc/rc.d/init.d/functions:88 /etc/rc.d/init.d/functions:116
 msgid "$0: Usage: daemon [+/-nicelevel] {program}"
 msgstr "$0: Bruk: daemon [+/-nicenivå] {program}"
 
-#: /etc/rc.d/init.d/functions:307
+#: /etc/rc.d/init.d/functions:306
 msgid "${base} dead but subsys locked"
 msgstr "${base} er død, men delsystemet er låst"
 
-#: /etc/rc.d/init.d/named:32
+#: /etc/rc.d/init.d/named:33
 msgid "$prog: already running"
 msgstr "$prog: kjører allerede"
 
@@ -1088,24 +1148,25 @@ msgstr "vncserver oppstart"
 msgid "Bringing up interface $i: "
 msgstr "Setter opp grensesnitt $i: "
 
-#: /etc/rc.d/rc.sysinit:199
-msgid "Your system appears to have shut down uncleanly"
-msgstr "Systemet ser ikke ut til å ha stengt ned på riktig måte"
+#: /etc/sysconfig/network-scripts/init.ipv6-global:181
+msgid "Usage: $0 {start|stop|reload|restart|showsysctl}"
+msgstr "Bruk: $0 {start|stop|reload|restart|showsysctl}"
 
 #: /etc/rc.d/init.d/network:206
 msgid "Disabling IPv4 packet forwarding: "
 msgstr "Slår av videresending av pakker for IPv4: "
 
-#: /etc/rc.d/init.d/halt:134 /etc/rc.d/init.d/netfs:55
+#: /etc/rc.d/init.d/halt:135 /etc/rc.d/init.d/netfs:55
 msgid "Unmounting loopback filesystems: "
 msgstr "Avmonterer loopback-filsystemer: "
 
-#: /etc/rc.d/rc.sysinit:292
+#: /etc/rc.d/rc.sysinit:304
 msgid "Checking root filesystem quotas: "
 msgstr "Sjekker kvoter på rot-filsystemet: "
 
-#: /etc/rc.d/init.d/httpd:66 /etc/rc.d/init.d/lpd:92 /etc/rc.d/init.d/snmpd:38
-#: /etc/rc.d/init.d/xfs:84
+#: /etc/rc.d/init.d/cups:97 /etc/rc.d/init.d/httpd:66 /etc/rc.d/init.d/lisa:61
+#: /etc/rc.d/init.d/lpd:101 /etc/rc.d/init.d/named:67
+#: /etc/rc.d/init.d/snmpd:38 /etc/rc.d/init.d/xfs:84
 msgid "Reloading $prog: "
 msgstr "Laster konfigurasjonsdata for $prog: "
 
@@ -1113,19 +1174,23 @@ msgstr "Laster konfigurasjonsdata for $prog: "
 msgid "Applying ipchains firewall rules"
 msgstr "Påfører regelsett for brannvegg(ipchains)"
 
-#: /etc/rc.d/rc.sysinit:303
+#: /etc/rc.d/rc.sysinit:315
 msgid "Skipping ISA PNP configuration at users request: "
 msgstr "Hopper over ISA PNP-konfigurasjon etter brukers ønske: "
 
-#: /etc/rc.d/init.d/functions:329
-msgid "FAILED"
-msgstr "FEILET"
+#: /etc/rc.d/init.d/halt:51
+msgid "Usage: $0 {start}"
+msgstr "Bruk: $0 {start}"
+
+#: /etc/rc.d/init.d/nfs:164
+msgid "reload"
+msgstr "last på nytt"
 
 #: /etc/rc.d/init.d/netfs:39
 msgid "Mounting NCP filesystems: "
 msgstr "Monterer NCP-filsystemer: "
 
-#: /etc/rc.d/rc.sysinit:314 /etc/rc.d/rc.sysinit:470
+#: /etc/rc.d/rc.sysinit:329 /etc/rc.d/rc.sysinit:493
 msgid "Setting up Logical Volume Management:"
 msgstr "Setter opp logisk volumhåndtering:"
 
@@ -1133,25 +1198,31 @@ msgstr "Setter opp logisk volumhåndtering:"
 msgid "Active SMB mountpoints: "
 msgstr "Aktive SMB-monteringspunkter:"
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:225
-#: /etc/sysconfig/network-scripts/ifup-aliases:235
-msgid "error in ifcfg-${parent_device}: files"
-msgstr "feil i ifcfg-${parent_device}: filer"
+#: /etc/rc.d/init.d/kadmin:35
+msgid "Extracting kadm5 Service Keys: "
+msgstr "Henter ut kadm5 tjenestenøkler: "
 
 #: /etc/rc.d/init.d/pcmcia:115
 msgid " module directory $PC not found."
 msgstr " modulkatalog $PC ikke funnet."
 
-#: /etc/rc.d/init.d/crond:78 /etc/rc.d/init.d/krb5kdc:76
-#: /etc/rc.d/init.d/saslauthd:68 /etc/rc.d/init.d/squid:160
-msgid "Usage: $0 {start|stop|status|reload|restart|condrestart}"
-msgstr "Bruk: $0 {start|stop|status|reload|restart|condrestart}"
+#: /etc/rc.d/init.d/functions:345
+msgid "PASSED"
+msgstr "UTFØRT"
+
+#: /etc/rc.d/init.d/rawdevices:29 /etc/rc.d/init.d/rawdevices:36
+msgid "  If the command 'raw' still refers to /dev/raw as a file."
+msgstr "  Hvis kommandoen 'raw' fremdeles refererer til /dev/raw som en fil."
+
+#: /etc/rc.d/init.d/functions:450
+msgid "yY"
+msgstr ""
 
 #: /etc/rc.d/init.d/xfs:97
 msgid "Restarting $prog:"
 msgstr "Starter $prog på nytt:"
 
-#: /etc/sysconfig/network-scripts/ifup-ppp:42
+#: /etc/sysconfig/network-scripts/ifup-ppp:46
 msgid "pppd does not exist or is not executable"
 msgstr "pppd eksisterer ikke eller er ikke kjørbar"
 
@@ -1162,6 +1233,11 @@ msgstr "Avslutter tjeneste aktivert av INN: "
 #: /etc/rc.d/init.d/sshd:34
 msgid "Generating SSH1 RSA host key: "
 msgstr "Lager SSH1 RSA vertsnøkkel: "
+
+#: /etc/rc.d/init.d/named:69
+#, fuzzy
+msgid "$prog reload"
+msgstr "last på nytt"
 
 #: /etc/sysconfig/network-scripts/ifup-aliases:155
 msgid "error in $FILE: already seen device $parent_device:$DEVNUM in $devseen"
@@ -1175,11 +1251,11 @@ msgstr "Laster $module-modul"
 msgid "Shutting down kernel logger: "
 msgstr "Avslutter kjernelogger: "
 
-#: /etc/rc.d/init.d/ups:42
+#: /etc/rc.d/init.d/ups:44
 msgid "Starting UPS monitor (master): "
 msgstr "Starter overvåkning av UPS: "
 
-#: /etc/rc.d/init.d/halt:118
+#: /etc/rc.d/init.d/halt:119
 msgid "Turning off swap: "
 msgstr "Slår av swap: "
 
@@ -1187,15 +1263,24 @@ msgstr "Slår av swap: "
 msgid "Stop $command"
 msgstr "Stopp $command"
 
-#: /etc/rc.d/init.d/privoxy:195
+#: /etc/rc.d/init.d/privoxy:196
 msgid "Can't find $PRIVOXY_BIN, exit."
 msgstr "Kan ikke finne $PRIVOXY_BIN, avslutter."
+
+#: /etc/rc.d/init.d/halt:35
+#, fuzzy
+msgid "Halting system..."
+msgstr "Starter INND-system: "
+
+#: /etc/sysconfig/network-scripts/ifup-aliases:151
+msgid "error in $FILE: already seen ipaddr $IPADDR in $ipseen"
+msgstr "feil i $FILE: allerede sett ipaddr $IPADDR i $ipseen"
 
 #: /etc/rc.d/init.d/innd:52
 msgid "Stopping INNWatch service: "
 msgstr "Avslutter INNWatch-tjeneste: "
 
-#: /etc/rc.d/rc.sysinit:208
+#: /etc/rc.d/rc.sysinit:214
 #, c-format
 msgid "Press N within %d seconds to not force file system integrity check..."
 msgstr ""
@@ -1209,23 +1294,23 @@ msgstr "Starter YP-tjenester: "
 msgid "Usage: $0 {start|stop|status|condrestart|reload|restart}"
 msgstr "Bruk: $0 {start|stop|status|condrestart|reload|restart}"
 
-#: /etc/rc.d/init.d/nfs:168
-msgid "Usage: nfs {start|stop|status|restart|reload}"
-msgstr "Bruk: nfs {start|stop|status|restart|reload}"
+#: /etc/rc.d/init.d/amd:93 /etc/rc.d/init.d/sshd:115
+msgid "Reloading $prog:"
+msgstr "Laster konfigurasjonsdata for $prog: "
 
 #: /etc/rc.d/init.d/rhnsd:46
 msgid "Stopping Red Hat Network Daemon: "
 msgstr "Avslutter Red Hat Network Daemon: "
 
-#: /etc/rc.d/rc.sysinit:183
+#: /etc/rc.d/rc.sysinit:188
 msgid "Initializing USB HID interface: "
 msgstr "Initierer USB HID-grensesnitt: "
 
-#: /etc/rc.d/init.d/nfslock:52
+#: /etc/rc.d/init.d/nfslock:53
 msgid "Starting NFS statd: "
 msgstr "Starter NFS statd: "
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:235
+#: /etc/sysconfig/network-scripts/ifup-ipv6:268
 msgid ""
 "Using 6to4 and RADVD IPv6 forwarding usually should be enabled, but it isn't"
 msgstr ""
@@ -1236,15 +1321,15 @@ msgstr ""
 msgid "Stopping rusers services: "
 msgstr "Avslutter rusers-tjenester: "
 
-#: /etc/rc.d/rc.sysinit:621
+#: /etc/rc.d/rc.sysinit:659
 msgid "Enabling swap space: "
 msgstr "Slår på swap-område: "
 
-#: /etc/rc.d/init.d/functions:301
+#: /etc/rc.d/init.d/functions:300
 msgid "${base} dead but pid file exists"
 msgstr "${base} er død, men pid-filen eksisterer"
 
-#: /etc/rc.d/init.d/psacct:29
+#: /etc/rc.d/init.d/psacct:36
 msgid "Process accounting is enabled."
 msgstr "Bokføring av prosesser er slått på."
 
@@ -1256,15 +1341,15 @@ msgstr "$0: konfigurasjon for ${1} ikke funnet."
 msgid "Changing target policies to DENY"
 msgstr "Endrer regelsett til DENY"
 
-#: /etc/rc.d/rc.sysinit:154
+#: /etc/rc.d/rc.sysinit:333
 msgid "Activating swap partitions: "
 msgstr "Aktiver swap-partisjoner: "
 
-#: /etc/rc.d/init.d/iscsi:104
+#: /etc/rc.d/init.d/iscsi:131
 msgid " umount"
 msgstr " avmonter"
 
-#: /etc/rc.d/init.d/rawdevices:51
+#: /etc/rc.d/init.d/rawdevices:53
 msgid "done"
 msgstr "ferdig"
 
@@ -1272,35 +1357,43 @@ msgstr "ferdig"
 msgid "Stopping $prog:"
 msgstr "Avslutter $prog:"
 
-#: /etc/rc.d/rc.sysinit:357 /etc/rc.d/rc.sysinit:359
+#: /etc/rc.d/rc.sysinit:375 /etc/rc.d/rc.sysinit:377
 msgid "Finding module dependencies: "
 msgstr "Finner avhengigheter for modules: "
 
-#: /etc/sysconfig/network-scripts/ifup-ppp:43
+#: /etc/sysconfig/network-scripts/ifup-ppp:47
 msgid "ifup-ppp for ${DEVICE} exiting"
 msgstr "ipup-ppp for ${DEVICE} avslutter"
 
-#: /etc/rc.d/init.d/iscsi:43
+#: /etc/rc.d/init.d/iscsi:42
 msgid "Starting iSCSI: iscsi"
 msgstr "Starter iSCSI: iscsi"
 
-#: /etc/rc.d/rc.sysinit:129
+#: /etc/rc.d/rc.sysinit:152
 msgid "Loading default keymap: "
 msgstr "Laster standard tastaturkart: "
 
-#: /etc/rc.d/rc.sysinit:50
+#: /etc/rc.d/rc.sysinit:73
 msgid "Mounting proc filesystem: "
 msgstr "Monterer proc-filsystem: "
 
-#: /etc/rc.d/rc.sysinit:645
+#: /etc/rc.d/rc.sysinit:684
 msgid "Initializing firewire controller ($alias): "
 msgstr "Initierer firewire-kontroller ($alias): "
 
-#: /etc/rc.d/rc.sysinit:185
+#: /etc/rc.d/init.d/isicom:36
+msgid "Disabling PLX devices... "
+msgstr ""
+
+#: /etc/rc.d/rc.sysinit:190
 msgid "Initializing USB mouse: "
 msgstr "Initierer USB-mus: "
 
-#: /etc/rc.d/init.d/iscsi:99
+#: /etc/rc.d/init.d/functions:331
+msgid "FAILED"
+msgstr "FEILET"
+
+#: /etc/rc.d/init.d/iscsi:126
 msgid "Stopping iSCSI:"
 msgstr "Stopper iSCSI:"
 
@@ -1308,7 +1401,7 @@ msgstr "Stopper iSCSI:"
 msgid "Unmounting NFS filesystems (retry): "
 msgstr "Avmonterer NFS-filsystemer (på nytt): "
 
-#: /etc/rc.d/init.d/rawdevices:62
+#: /etc/rc.d/init.d/rawdevices:64
 msgid "You need to be root to use this command ! "
 msgstr "Du må være root for å bruke denne kommandoen!"
 
@@ -1316,16 +1409,8 @@ msgstr "Du må være root for å bruke denne kommandoen!"
 msgid "Currently active devices:"
 msgstr "Aktive enheter:"
 
-#: /etc/rc.d/init.d/crond:51
-msgid "Reloading cron daemon configuration: "
-msgstr "Leser konfigurasjonen på nytt for cron daemonen: "
-
-#: /etc/rc.d/init.d/wine:36
-msgid "Wine binary format handlers are not registered."
-msgstr "Wine binærformathåndterere er ikke registrert."
-
-#: /etc/sysconfig/network-scripts/ifdown-sit:52
-#: /etc/sysconfig/network-scripts/ifup-sit:58
+#: /etc/sysconfig/network-scripts/ifdown-sit:46
+#: /etc/sysconfig/network-scripts/ifup-sit:59
 msgid ""
 "Device '$DEVICE' isn't supported here, use IPV6_AUTOTUNNEL setting and "
 "restart (IPv6) networking"
@@ -1341,21 +1426,17 @@ msgstr "start"
 msgid "Shutting down interface $i: "
 msgstr "Tar ned grensesnitt $i: "
 
-#: /etc/rc.d/init.d/lpd:98 /etc/rc.d/init.d/rarpd:65
+#: /etc/rc.d/init.d/lpd:111 /etc/rc.d/init.d/rarpd:65
 msgid "Usage: $0 {start|stop|restart|condrestart|reload|status}"
 msgstr "Bruk: $0 {start|stop|restart|condrestart|reload|status}"
 
-#: /etc/rc.d/rc.sysinit:31
-msgid "\\033[0;31m"
-msgstr "\\033[0;31m"
+#: /etc/sysconfig/network-scripts/ifup-ipv6:232
+msgid "Warning: interface 'tun6to4' does not support 'IPV6_DEFAULTGW', ignored"
+msgstr "Advarsel: enhet 'tun6to4' støtter ikke 'IPV6_DEFAULTGW', ignorert"
 
-#: /etc/rc.d/init.d/nfslock:63
+#: /etc/rc.d/init.d/nfslock:65
 msgid "Stopping NFS locking: "
 msgstr "Stopper NFS-låsmekanisme: "
-
-#: /etc/sysconfig/network-scripts/init.ipv6-global:183
-msgid "Usage: $0 {start|stop|reload|restart|showsysctl}"
-msgstr "Bruk: $0 {start|stop|reload|restart|showsysctl}"
 
 #: /etc/rc.d/init.d/random:25
 msgid "Initializing random number generator: "
@@ -1369,7 +1450,11 @@ msgstr " cardmgr."
 msgid "Listening for an NIS domain server."
 msgstr "Lytter etter en NIS-domenetjener."
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:168
+#: /etc/rc.d/rc.sysinit:272 /etc/rc.d/rc.sysinit:530
+msgid "(Repair filesystem)"
+msgstr ""
+
+#: /etc/sysconfig/network-scripts/ifup-ipv6:172
 msgid "Device 'tun6to4' (from '$DEVICE') is already up, shutdown first"
 msgstr "Enheten 'tun6to4' (fra '$DEVICE') er allerede oppe, ta den ned først"
 
@@ -1390,15 +1475,19 @@ msgstr "Bruk: $0 {start|stop|status|condrestart|restart}"
 msgid "RSA1 key generation"
 msgstr "Lager RSA1 nøkkel"
 
-#: /etc/rc.d/init.d/nfs:164
-msgid "reload"
-msgstr "last på nytt"
+#: /etc/rc.d/init.d/vncserver:19
+msgid "VNC server"
+msgstr ""
+
+#: /etc/rc.d/init.d/iscsi:27
+msgid "InitiatorName file /etc/initiatorname.iscsi is missing!"
+msgstr ""
 
 #: /etc/rc.d/init.d/isdn:138
 msgid "Unloading ISDN modules"
 msgstr "Fjerner ISDN-moduler"
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:258
+#: /etc/sysconfig/network-scripts/ifup-ipv6:291
 msgid "6to4 configuration is not valid"
 msgstr "6to4 konfigurasjon er ikke gyldig"
 
@@ -1414,23 +1503,11 @@ msgstr ""
 "Feil: [ipv6_log] Syslog er valgt, men filen 'logger' eksisterer ikke eller "
 "ikke kjørbar"
 
-#: /etc/rc.d/init.d/halt:15
-msgid "$1 "
-msgstr "$1 "
-
-#: /etc/sysconfig/network-scripts/ifup-ipv6:186
-msgid ""
-"Given IPv4 address '$ipv4addr' is not globally usable, 6to4 configuration is "
-"not valid"
-msgstr ""
-"Oppgitt IPv4-adresse '$ipv4addr' kan ikke brukes globalt. 6til4 "
-"konfigurasjon er ikke gyldig"
-
-#: /etc/rc.d/init.d/postgresql:224
+#: /etc/rc.d/init.d/postgresql:235
 msgid "Usage: $0 {start|stop|status|restart|condrestart|reload|force-reload}"
 msgstr "Bruk: $0 {start|stop|status|restart|condrestart|reload|force-reload}"
 
-#: /etc/rc.d/init.d/netdump:160
+#: /etc/rc.d/init.d/netdump:164
 msgid "initializing netdump"
 msgstr "initierer netdump"
 
@@ -1438,15 +1515,19 @@ msgstr "initierer netdump"
 msgid "$0: kernel does not have microcode device support"
 msgstr "$0: kjernen har ikke støtte for mikrokode-enheten"
 
+#: /etc/rc.d/init.d/firstboot:33
+msgid "X is now configured.  Starting Setup Agent"
+msgstr ""
+
 #: /etc/rc.d/init.d/mars-nwe:23
 msgid "Starting NetWare emulator-server: "
 msgstr "Starter emulering av NetWare-tjener: "
 
-#: /etc/rc.d/init.d/wine:63
-msgid "Usage: $prog {start|stop|status|restart|condrestart}"
-msgstr "Bruk: $prog {start|stop|status|restart|condrestart}"
+#: /etc/rc.d/init.d/functions:451
+msgid "nN"
+msgstr ""
 
-#: /etc/rc.d/rc.sysinit:310
+#: /etc/rc.d/rc.sysinit:322
 msgid "Remounting root filesystem in read-write mode: "
 msgstr "Monterer rot-filsystemet på nytt i skrivemodus: "
 
@@ -1468,11 +1549,11 @@ msgstr "Advarsel: Linken støtter ikke IPv6 med innkapsling 'rawip'"
 msgid "usage: ifdown <device name>"
 msgstr "bruk: ifdown <enhetsnavn>"
 
-#: /etc/rc.d/init.d/nfslock:48
+#: /etc/rc.d/init.d/nfslock:49
 msgid "Starting NFS locking: "
 msgstr "Starter NFS-låsmekanisme: "
 
-#: /etc/rc.d/init.d/halt:114
+#: /etc/rc.d/init.d/halt:115
 msgid "Syncing hardware clock to system time"
 msgstr "Synkroniserer maskinvareklokken med systemtiden"
 
@@ -1480,27 +1561,42 @@ msgstr "Synkroniserer maskinvareklokken med systemtiden"
 msgid "Configuration file or keys are invalid"
 msgstr "Konfigurasjonsfil eller nøkkel er ugyldig"
 
-#: /etc/rc.d/init.d/rawdevices:25 /etc/rc.d/init.d/rawdevices:32
+#: /etc/rc.d/init.d/rawdevices:27 /etc/rc.d/init.d/rawdevices:34
 msgid "  Please correct your /etc/sysconfig/rawdevices:"
 msgstr "  Korriger din /etc/sysconfig/rawdevices:"
 
-#: /etc/rc.d/init.d/routed:41
-msgid "Stopping routed (RIP) services: "
-msgstr "Avslutter routed: "
+#: /etc/rc.d/init.d/functions:452
+msgid "cC"
+msgstr ""
 
-#: /etc/rc.d/init.d/netfs:152 /etc/rc.d/init.d/network:238
-msgid "Usage: $0 {start|stop|restart|reload|status}"
-msgstr "Bruk: $0 {start|stop|restart|reload|status}"
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:112
+msgid "DEBUG    "
+msgstr ""
 
-#: /etc/rc.d/init.d/portmap:33
-msgid "Networking not configured - exiting"
-msgstr "Nettverket er ikke konfigurert - avslutter"
+#: /etc/rc.d/init.d/sshd:66
+msgid "Generating SSH2 DSA host key: "
+msgstr "Lager SSH2 DSA-vertsnøkkel: "
+
+#: /etc/rc.d/init.d/isicom:63
+#, fuzzy
+msgid "Usage: isicom {start|stop|status|restart|reload|condrestart}"
+msgstr "Bruk: $0 {start|stop|status|restart|reload|condrestart}"
+
+#: /etc/sysconfig/network-scripts/ifdown-aliases:7
+#: /etc/sysconfig/network-scripts/ifup-ipx:7
+msgid "usage: $0 <net-device>"
+msgstr "bruk: $0 <nettverksenhet>"
+
+#: /etc/rc.d/init.d/isicom:20
+#, fuzzy
+msgid "Loading isicom firmware... "
+msgstr "Laster firmware"
 
 #: /etc/rc.d/init.d/netfs:38
 msgid "Mounting SMB filesystems: "
 msgstr "Monterer SMB-filsystemer: "
 
-#: /etc/rc.d/init.d/rawdevices:28 /etc/rc.d/init.d/rawdevices:35
+#: /etc/rc.d/init.d/rawdevices:30 /etc/rc.d/init.d/rawdevices:37
 msgid "   you'll have to upgrade your util-linux package"
 msgstr "   du må oppgradere din util-linux pakke"
 
@@ -1512,7 +1608,7 @@ msgstr "Starter $prog:"
 msgid "Starting rwho services: "
 msgstr "Starter rwho: "
 
-#: /etc/rc.d/rc.sysinit:267 /etc/rc.d/rc.sysinit:463 /etc/rc.d/rc.sysinit:503
+#: /etc/rc.d/rc.sysinit:279 /etc/rc.d/rc.sysinit:488 /etc/rc.d/rc.sysinit:537
 msgid "Automatic reboot in progress."
 msgstr "Automatisk omstart pågår."
 
@@ -1520,25 +1616,29 @@ msgstr "Automatisk omstart pågår."
 msgid "Stopping INND service: "
 msgstr "Avslutter INND-tjeneste: "
 
-#: /etc/rc.d/init.d/psacct:24
+#: /etc/rc.d/init.d/psacct:23
 msgid "Shutting down process accounting: "
 msgstr "Slår på bokføring for prosesser: "
 
-#: /etc/rc.d/init.d/iscsi:49
+#: /etc/rc.d/init.d/iscsi:48
 msgid "Could not load module iscsi.o"
 msgstr "Kunne ikke laste modul iscsi.o"
 
-#: /etc/rc.d/init.d/functions:419
+#: /etc/rc.d/init.d/functions:430
 msgid "$STRING"
 msgstr "$STRING"
+
+#: /etc/rc.d/init.d/kudzu:57
+msgid "Updating /etc/fstab"
+msgstr ""
 
 #: /etc/rc.d/init.d/keytable:22
 msgid "Loading keymap: "
 msgstr "Laster tastaturkart: "
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:151
-msgid "error in $FILE: already seen ipaddr $IPADDR in $ipseen"
-msgstr "feil i $FILE: allerede sett ipaddr $IPADDR i $ipseen"
+#: /etc/rc.d/rc.sysinit:205
+msgid "Your system appears to have shut down uncleanly"
+msgstr "Systemet ser ikke ut til å ha stengt ned på riktig måte"
 
 #: /etc/rc.d/init.d/gpm:54
 msgid "Shutting down console mouse services: "
@@ -1548,11 +1648,11 @@ msgstr "Avslutter mustjenester for konsollet: "
 msgid "Setting NIS domain name $NISDOMAIN: "
 msgstr "Setter NIS-domenenavn til $NISDOMAIN: "
 
-#: /etc/rc.d/init.d/kudzu:39
+#: /etc/rc.d/init.d/kudzu:37
 msgid "Checking for new hardware"
 msgstr "Ser etter ny maskinvare"
 
-#: /etc/rc.d/init.d/nfslock:67
+#: /etc/rc.d/init.d/nfslock:69
 msgid "Stopping NFS statd: "
 msgstr "Stopper NFS statd: "
 
@@ -1564,11 +1664,11 @@ msgstr "/proc-filsystemet er ikke tilgjengelig"
 msgid "Starting NFS mountd: "
 msgstr "Starter NFS mountd: "
 
-#: /etc/rc.d/rc.sysinit:57
+#: /etc/rc.d/rc.sysinit:80
 msgid "Unmounting initrd: "
 msgstr "Avmonterer initrd: "
 
-#: /etc/rc.d/rc.sysinit:453
+#: /etc/rc.d/rc.sysinit:477
 msgid "*** An error occurred during the RAID startup"
 msgstr "*** En feil oppsto under oppstart av RAID"
 
@@ -1576,9 +1676,16 @@ msgstr "*** En feil oppsto under oppstart av RAID"
 msgid "error in $FILE: didn't specify device or ipaddr"
 msgstr "feil i $FILE: spesifiserte ikke enhet eller ipaddr"
 
-#: /etc/rc.d/init.d/functions:293
+#: /etc/rc.d/init.d/functions:292
 msgid "${base} (pid $pid) is running..."
 msgstr "${base} (pid $pid) kjører..."
+
+#: /etc/sysconfig/network-scripts/ifup-ipv6:190
+#, fuzzy
+msgid "Given IPv4 address '$ipv4addr' is not globally usable"
+msgstr ""
+"Oppgitt IPv4-adresse '$ipv4addr' kan ikke brukes globalt. 6til4 "
+"konfigurasjon er ikke gyldig"
 
 #: /etc/rc.d/init.d/aep1000:73 /etc/rc.d/init.d/amd:39
 #: /etc/rc.d/init.d/anacron:25 /etc/rc.d/init.d/arpwatch:35
@@ -1587,13 +1694,14 @@ msgstr "${base} (pid $pid) kjører..."
 #: /etc/rc.d/init.d/identd:57 /etc/rc.d/init.d/kadmin:47
 #: /etc/rc.d/init.d/kprop:37 /etc/rc.d/init.d/krb524:37
 #: /etc/rc.d/init.d/krb5kdc:37 /etc/rc.d/init.d/ldap:63
-#: /etc/rc.d/init.d/ldap:70 /etc/rc.d/init.d/lpd:57 /etc/rc.d/init.d/mysqld:52
-#: /etc/rc.d/init.d/mysqld:54 /etc/rc.d/init.d/named:58
-#: /etc/rc.d/init.d/nscd:58 /etc/rc.d/init.d/portmap:65
-#: /etc/rc.d/init.d/pxe:32 /etc/rc.d/init.d/radvd:45 /etc/rc.d/init.d/rarpd:32
+#: /etc/rc.d/init.d/ldap:70 /etc/rc.d/init.d/lisa:48 /etc/rc.d/init.d/lpd:66
+#: /etc/rc.d/init.d/mysqld:52 /etc/rc.d/init.d/mysqld:54
+#: /etc/rc.d/init.d/named:47 /etc/rc.d/init.d/nscd:58
+#: /etc/rc.d/init.d/portmap:65 /etc/rc.d/init.d/pxe:32
+#: /etc/rc.d/init.d/radvd:45 /etc/rc.d/init.d/rarpd:32
 #: /etc/rc.d/init.d/rwalld:33 /etc/rc.d/init.d/saslauthd:38
 #: /etc/rc.d/init.d/snmpd:29 /etc/rc.d/init.d/snmptrapd:30
-#: /etc/rc.d/init.d/tWnn:42 /etc/rc.d/init.d/ups:61 /etc/rc.d/init.d/xinetd:70
+#: /etc/rc.d/init.d/ups:63 /etc/rc.d/init.d/xinetd:69
 msgid "Stopping $prog: "
 msgstr "Avslutter $prog: "
 
@@ -1605,11 +1713,15 @@ msgstr "Binder til NIS-domene: "
 msgid "Shutting down $KIND services: "
 msgstr "Avslutter $KIND-tjenester: "
 
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:115
+msgid "ERROR    "
+msgstr ""
+
 #: /etc/rc.d/init.d/atalk:53
 msgid "Shutting down AppleTalk services: "
 msgstr "Avsluter AppleTalk-tjenester: "
 
-#: /etc/rc.d/rc.sysinit:212
+#: /etc/rc.d/rc.sysinit:218
 #, c-format
 msgid "Press Y within %d seconds to force file system integrity check..."
 msgstr "Trykk Y innen %d sekunder for å kjøre tvungen sjekk av filsystem..."
@@ -1618,3 +1730,39 @@ msgstr "Trykk Y innen %d sekunder for å kjøre tvungen sjekk av filsystem..."
 #: /etc/rc.d/init.d/iptables:112
 msgid "Resetting built-in chains to the default ACCEPT policy:"
 msgstr "Nullstiller innebygde regelsett til forvalgt ACCEPT-regel:"
+
+#~ msgid "Wine binary format handlers are registered."
+#~ msgstr "Wine binærformathåndterer er registrert."
+
+#~ msgid "The iSCSI module could not be unloaded."
+#~ msgstr "iSCSI-modulen kunne ikke fjernes."
+
+#~ msgid "Setting default font ($SYSFONT): "
+#~ msgstr "Setter standard skrifttype ($SYSFONT): "
+
+#~ msgid "Unregistering binary handler for Windows applications"
+#~ msgstr "Avregistrerer binærhåndterer for Windows applikasjoner"
+
+#~ msgid "\\033[0;39m"
+#~ msgstr "\\033[0;39m"
+
+#~ msgid "Stopping postgresql service: "
+#~ msgstr "Avslutter postgresql-tjenesten: "
+
+#~ msgid " iscsilun"
+#~ msgstr " iscsilun"
+
+#~ msgid "Registering binary handler for Windows applications"
+#~ msgstr "Registrerer binærhåndterer for Windows applikasjoner"
+
+#~ msgid "Wine binary format handlers are not registered."
+#~ msgstr "Wine binærformathåndterere er ikke registrert."
+
+#~ msgid "\\033[0;31m"
+#~ msgstr "\\033[0;31m"
+
+#~ msgid "$1 "
+#~ msgstr "$1 "
+
+#~ msgid "Usage: $prog {start|stop|status|restart|condrestart}"
+#~ msgstr "Bruk: $prog {start|stop|status|restart|condrestart}"

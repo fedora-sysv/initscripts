@@ -10,20 +10,22 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.0beta1\n"
 
-#: /etc/rc.d/init.d/functions:444
+#: /etc/rc.d/init.d/functions:455
 msgid "Start service $1 (Y)es/(N)o/(C)ontinue? [Y] "
 msgstr "サービス $1 を開始しますか? (Y)es/(N)o/(C)ontinue [Y] "
 
-#: /etc/rc.d/init.d/ups:46
+#: /etc/rc.d/init.d/ups:48
 msgid "Starting UPS monitor (slave): "
 msgstr "UPSモニタ(スレーブ)を起動中: "
 
-#: /etc/rc.d/init.d/ip6tables:100 /etc/rc.d/init.d/ip6tables:184
-#: /etc/rc.d/init.d/ip6tables:185 /etc/rc.d/init.d/ipchains:103
-#: /etc/rc.d/init.d/iptables:102 /etc/rc.d/init.d/iptables:186
-#: /etc/rc.d/init.d/iptables:187
-msgid "Removing user defined chains:"
-msgstr "ユーザ定義チェインを削除: "
+#: /etc/rc.d/rc.sysinit:504
+#, fuzzy
+msgid "Checking filesystems"
+msgstr "ルートファイルシステムクォータを検査中: "
+
+#: /etc/rc.d/init.d/crond:51
+msgid "Reloading cron daemon configuration: "
+msgstr "cronデーモン設定を再読み込み中: "
 
 #: /etc/rc.d/init.d/ip6tables:193 /etc/rc.d/init.d/ip6tables:194
 #: /etc/rc.d/init.d/iptables:195 /etc/rc.d/init.d/iptables:196
@@ -35,7 +37,7 @@ msgid "Stopping YP map server: "
 msgstr "YPマップサーバを停止中: "
 
 #: /etc/rc.d/init.d/amd:96 /etc/rc.d/init.d/autofs:320
-#: /etc/rc.d/init.d/bgpd:56 /etc/rc.d/init.d/irda:66
+#: /etc/rc.d/init.d/bgpd:56 /etc/rc.d/init.d/irda:69
 #: /etc/rc.d/init.d/keytable:72 /etc/rc.d/init.d/ospfd:57
 #: /etc/rc.d/init.d/ripd:56 /etc/rc.d/init.d/ripngd:56
 #: /etc/rc.d/init.d/sshd:151 /etc/rc.d/init.d/zebra:54
@@ -50,6 +52,10 @@ msgstr "$xを起動"
 msgid "Starting console mouse services: "
 msgstr "コンソールマウスサービスを起動中: "
 
+#: /etc/rc.d/init.d/ntpd:69
+msgid "$prog: Opening firewall for input from $server port 123"
+msgstr ""
+
 #: /etc/rc.d/init.d/rhnsd:38
 msgid "Starting Red Hat Network Daemon: "
 msgstr "Red Hat ネットワークデーモンを起動中: "
@@ -58,11 +64,11 @@ msgstr "Red Hat ネットワークデーモンを起動中: "
 msgid "Reloading INN Service: "
 msgstr "INNサービスを再読み込み中: "
 
-#: /etc/rc.d/init.d/keytable:34
-msgid "Loading system font: "
-msgstr "システムフォントを読み込み中: "
+#: /etc/rc.d/init.d/firstboot:31
+msgid "X is not configured.  Running redhat-config-xfree86"
+msgstr ""
 
-#: /etc/rc.d/init.d/ups:66
+#: /etc/rc.d/init.d/ups:68
 msgid "Shutting down $MODEL: "
 msgstr "$MODELを停止中: "
 
@@ -78,15 +84,12 @@ msgstr ""
 msgid "Starting YP passwd service: "
 msgstr "YPパスワードサービスを起動中： "
 
-#: /etc/rc.d/init.d/ypbind:70
-msgid "Shutting down NIS services: "
-msgstr "NISサービスを停止中: "
+#: /etc/rc.d/init.d/postgresql:93
+#, fuzzy
+msgid "Starting ${NAME} service: "
+msgstr "$KINDサービスを起動中: "
 
-#: /etc/rc.d/init.d/kadmin:35
-msgid "Extracting kadm5 Service Keys: "
-msgstr "kadm5 サービスキーを取得中: "
-
-#: /etc/rc.d/init.d/functions:235
+#: /etc/rc.d/init.d/functions:234
 msgid "Usage: pidfileofproc {program}"
 msgstr "使い方: pidfileofproc {program}"
 
@@ -111,15 +114,16 @@ msgstr "SSH2 RSAホストキーを生成中: "
 msgid "Starting routed (RIP) services: "
 msgstr "routed(RIP)サービスを起動中: "
 
-#: /etc/rc.d/init.d/functions:340
-msgid "PASSED"
-msgstr "パスワード"
+#: /etc/rc.d/init.d/crond:78 /etc/rc.d/init.d/krb5kdc:76
+#: /etc/rc.d/init.d/saslauthd:68 /etc/rc.d/init.d/squid:160
+msgid "Usage: $0 {start|stop|status|reload|restart|condrestart}"
+msgstr "使い方: $0 {start|stop|status|reload|restart|condrestart}"
 
 #: /etc/rc.d/init.d/innd:33
 msgid "Starting INND system: "
 msgstr "INNDシステムを起動中: "
 
-#: /etc/rc.d/init.d/halt:132 /etc/rc.d/init.d/netfs:53
+#: /etc/rc.d/init.d/halt:133 /etc/rc.d/init.d/netfs:53
 msgid "Unmounting loopback filesystems (retry):"
 msgstr "ループバックファイルシステムをアンマウント中 (再試行):"
 
@@ -135,11 +139,11 @@ msgstr "設定されたSMBマウントポイント: "
 msgid " cardmgr is already running."
 msgstr " カードマネージャは既に実行中です"
 
-#: /etc/rc.d/init.d/postgresql:123
+#: /etc/rc.d/init.d/postgresql:136
 msgid "Initializing database: "
 msgstr "データベースを初期化中: "
 
-#: /etc/sysconfig/network-scripts/ifup-sit:63
+#: /etc/sysconfig/network-scripts/ifup-sit:64
 msgid "Missing remote IPv4 address of tunnel, configuration is not valid"
 msgstr "トンネルのリモートIPv4 アドレスがありません。設定は無効です。"
 
@@ -147,11 +151,11 @@ msgstr "トンネルのリモートIPv4 アドレスがありません。設定�
 msgid "Shutting down PCMCIA services:"
 msgstr "PCMCIAサービスを停止中:"
 
-#: /etc/rc.d/rc.sysinit:708
+#: /etc/rc.d/rc.sysinit:741
 msgid "Setting hard drive parameters for ${disk[$device]}: "
 msgstr "${disk[$device]}についてのハードディスクパラメータを設定中: "
 
-#: /etc/rc.d/init.d/privoxy:202
+#: /etc/rc.d/init.d/privoxy:203
 msgid "Starting $PRIVOXY_PRG: "
 msgstr "$PRIVOXY_PRGを起動中: "
 
@@ -170,7 +174,7 @@ msgstr ""
 msgid "Error, some other host already uses address ${IPADDR}."
 msgstr "エラー、既に他のホストがアドレス ${IPADDR}を使用中です"
 
-#: /etc/rc.d/init.d/rawdevices:49
+#: /etc/rc.d/init.d/rawdevices:51
 msgid "Assigning devices: "
 msgstr "デバイス割り当て中: "
 
@@ -178,9 +182,10 @@ msgstr "デバイス割り当て中: "
 msgid "Configured NCP mountpoints: "
 msgstr "設定されたNCPマウントポイント: "
 
-#: /etc/rc.d/init.d/privoxy:264
+#: /etc/rc.d/init.d/privoxy:265
 msgid "Usage: $PRIVOXY_PRG {start|stop|reload|restart|condrestart|status|top}"
-msgstr "使い方: $PRIVOXY_PRG {start|stop|reload|restart|condrestart|status|top}"
+msgstr ""
+"使い方: $PRIVOXY_PRG {start|stop|reload|restart|condrestart|status|top}"
 
 #: /etc/rc.d/init.d/ip6tables:79
 msgid "Applying ip6tables firewall rules: "
@@ -194,7 +199,7 @@ msgstr "APMデーモンを起動中: "
 msgid "Usage: $0 {start|stop|restart|condrestart|status|panic|save}"
 msgstr "使い方: $0 {start|stop|restart|condrestart|status|panic|save}"
 
-#: /etc/rc.d/init.d/functions:318
+#: /etc/rc.d/init.d/functions:317
 msgid "OK"
 msgstr "OK"
 
@@ -219,7 +224,7 @@ msgid "cardmgr is stopped"
 msgstr "カードマネージャ停止"
 
 #: /etc/rc.d/init.d/rhnsd:82 /etc/rc.d/init.d/snmpd:76
-#: /etc/rc.d/init.d/snmptrapd:74 /etc/rc.d/init.d/xinetd:119
+#: /etc/rc.d/init.d/snmptrapd:74 /etc/rc.d/init.d/xinetd:118
 msgid "Usage: $0 {start|stop|status|restart|condrestart|reload}"
 msgstr "使い方: $0 {start|stop|status|restart|condrestart|reload}"
 
@@ -228,23 +233,22 @@ msgstr "使い方: $0 {start|stop|status|restart|condrestart|reload}"
 msgid "Flushing all current rules and user defined chains:"
 msgstr "現在のすべてのルールとユーザ定義チェインを初期化中:"
 
-#: /etc/rc.d/init.d/nfslock:108 /etc/rc.d/init.d/rawdevices:71
+#: /etc/rc.d/init.d/nfslock:110 /etc/rc.d/init.d/rawdevices:73
 #: /etc/rc.d/init.d/rstatd:63 /etc/rc.d/init.d/rusersd:66
 #: /etc/rc.d/init.d/rwalld:64 /etc/rc.d/init.d/rwhod:63
 msgid "Usage: $0 {start|stop|status|restart}"
 msgstr "使い方: $0 {start|stop|status|restart}"
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:210
-msgid "Warning: interface 'tun6to4' does not support 'IPV6_DEFAULTGW', ignored"
+#: /etc/sysconfig/network-scripts/ifup-aliases:225
+#: /etc/sysconfig/network-scripts/ifup-aliases:235
+msgid "error in ifcfg-${parent_device}: files"
+msgstr "ifcfg-${parent_device}:ファイル 内にエラー "
+
+#: /etc/rc.d/init.d/isicom:27
+msgid "Failed to load firmware."
 msgstr ""
-"警告：インターフェースtun6to4'はIPV6_DEFAULTGW',をサポートしません。無視しま"
-"す。"
 
-#: /etc/rc.d/init.d/wine:33
-msgid "Wine binary format handlers are registered."
-msgstr "Wineバイナリ形式のハンドラーが登録されています。"
-
-#: /etc/rc.d/rc.sysinit:220
+#: /etc/rc.d/rc.sysinit:226
 msgid "Forcing file system integrity check due to default setting"
 msgstr "標準設定によるファイルシステム完全性検査を強制"
 
@@ -252,11 +256,11 @@ msgstr "標準設定によるファイルシステム完全性検査を強制"
 msgid "Disabling IPv4 automatic defragmentation: "
 msgstr "IPv4自動デフラグを無効化中: "
 
-#: /etc/sysconfig/network-scripts/ifup-routes:6
+#: /etc/sysconfig/network-scripts/ifup-routes:5
 msgid "usage: ifup-routes <net-device>"
 msgstr "使い方: ifup-routes <net-device>"
 
-#: /etc/rc.d/rc.sysinit:29
+#: /etc/rc.d/rc.sysinit:52
 msgid "\t\tWelcome to "
 msgstr "\t\tようこそ"
 
@@ -268,13 +272,19 @@ msgstr "rstatサービスを停止中: "
 msgid "mdadm"
 msgstr "mdadm"
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:315
+#: /etc/sysconfig/network-scripts/ifup-aliases:310
 msgid "error in $FILE: IPADDR_START and IPADDR_END don't argree"
 msgstr "$FILE内にエラー: IPADDR_STARTとIPADDR_ENDが一致しません"
 
-#: /etc/sysconfig/network-scripts/ifup-sit:71
+#: /etc/sysconfig/network-scripts/ifup-sit:72
 msgid "Device '$DEVICE' is already up, please shutdown first"
 msgstr "デバイス$DEVICE'はすでに動作中です。先ず終了してください。"
+
+#: /etc/sysconfig/network-scripts/ifup:188
+#: /etc/sysconfig/network-scripts/ifup:190
+#: /etc/sysconfig/network-scripts/ifup:192
+msgid " done."
+msgstr "  完了"
 
 #: /etc/rc.d/init.d/innd:112 /etc/rc.d/init.d/kprop:67
 #: /etc/rc.d/init.d/krb524:66 /etc/rc.d/init.d/syslog:80
@@ -282,15 +292,20 @@ msgstr "デバイス$DEVICE'はすでに動作中です。先ず終了してく�
 msgid "Usage: $0 {start|stop|status|restart|condrestart}"
 msgstr "使い方: $0 {start|stop|status|restart|condrestart}"
 
+#: /etc/rc.d/init.d/isicom:16
+#, fuzzy
+msgid "Loading PLX (isicom) modules... "
+msgstr "ISDNモジュールを読み込み中"
+
 #: /etc/rc.d/init.d/nfs:123
 msgid "Shutting down NFS mountd: "
 msgstr "NFS mountdを終了中:  "
 
-#: /etc/rc.d/init.d/halt:188
+#: /etc/rc.d/init.d/halt:189
 msgid "On the next boot fsck will be forced."
 msgstr "次回の起動時にはfsckが実行されます"
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:122
+#: /etc/sysconfig/network-scripts/ifup-ipv6:119
 msgid ""
 "Global IPv6 forwarding is disabled in configuration, but not currently "
 "disabled in kernel"
@@ -298,11 +313,11 @@ msgstr ""
 "広域IPv6転送は設定で無効になっていますが、カーネル内では適切に無効にされてい"
 "ません"
 
-#: /etc/rc.d/init.d/halt:42
+#: /etc/rc.d/init.d/halt:43
 msgid "$0: call me as 'halt' or 'reboot' please!"
 msgstr "$0: 'halt'又は 'reboot'として呼び出して下さい!"
 
-#: /etc/rc.d/init.d/functions:351
+#: /etc/rc.d/init.d/functions:359
 msgid "WARNING"
 msgstr "警告"
 
@@ -310,11 +325,11 @@ msgstr "警告"
 msgid "$NAME is attached to $DEVICE"
 msgstr "$NAMEは$DEVICE に接続されています"
 
-#: /etc/rc.d/init.d/named:112
+#: /etc/rc.d/init.d/named:104
 msgid "Usage: $0 {start|stop|status|restart|condrestart|reload|probe}"
 msgstr "使い方: $0 {start|stop|status|restart|condrestart|reload|probe}"
 
-#: /etc/rc.d/init.d/postgresql:107
+#: /etc/rc.d/init.d/postgresql:120
 msgid ""
 "An old version of the database format was found.\n"
 "You need to upgrade the data format before using PostgreSQL.\n"
@@ -328,40 +343,48 @@ msgstr ""
 
 #: /etc/rc.d/init.d/bgpd:33 /etc/rc.d/init.d/dhcpd:38
 #: /etc/rc.d/init.d/dhcrelay:45 /etc/rc.d/init.d/FreeWnn:43
-#: /etc/rc.d/init.d/irda:28 /etc/rc.d/init.d/ntpd:54
+#: /etc/rc.d/init.d/irda:31 /etc/rc.d/init.d/ntpd:121
 #: /etc/rc.d/init.d/ospf6d:33 /etc/rc.d/init.d/ospfd:34
 #: /etc/rc.d/init.d/ripd:33 /etc/rc.d/init.d/ripngd:33
-#: /etc/rc.d/init.d/sendmail:71 /etc/rc.d/init.d/vncserver:41
-#: /etc/rc.d/init.d/xfs:70 /etc/rc.d/init.d/zebra:31
+#: /etc/rc.d/init.d/sendmail:73 /etc/rc.d/init.d/vncserver:41
+#: /etc/rc.d/init.d/vsftpd:54 /etc/rc.d/init.d/xfs:70
+#: /etc/rc.d/init.d/zebra:31
 msgid "Shutting down $prog: "
 msgstr "$progを停止中: "
 
-#: /etc/rc.d/init.d/halt:157
+#: /etc/rc.d/init.d/halt:158
 msgid "Unmounting file systems (retry): "
 msgstr "ファイルシステムをアンマウント中 (再試行): "
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:319
+#: /etc/sysconfig/network-scripts/ifup-aliases:314
 msgid "error in $FILE: IPADDR_START greater than IPADDR_END"
 msgstr "$FILE内にエラー: IPADDR_STARTがIPADDR_ENDよりも大きくなっています"
 
-#: /etc/sysconfig/network-scripts/ifup:250
-msgid "Error adding address ${IPADDR} for ${DEVICE}."
-msgstr "${DEVICE}についてアドレス${IPADDR}を追加中にエラー"
+#: /etc/rc.d/init.d/ip6tables:100 /etc/rc.d/init.d/ip6tables:184
+#: /etc/rc.d/init.d/ip6tables:185 /etc/rc.d/init.d/ipchains:103
+#: /etc/rc.d/init.d/iptables:102 /etc/rc.d/init.d/iptables:186
+#: /etc/rc.d/init.d/iptables:187
+msgid "Removing user defined chains:"
+msgstr "ユーザ定義チェインを削除: "
 
 #: /etc/rc.d/init.d/atalk:91 /etc/rc.d/init.d/isdn:261
 #: /etc/rc.d/init.d/ldap:115
 msgid "Usage: $0 {start|stop|restart|status|condrestart}"
 msgstr "使い方: $0 {start|stop|restart|status|condrestart}"
 
-#: /etc/rc.d/init.d/halt:58
+#: /etc/rc.d/init.d/halt:59
 msgid "Sending all processes the TERM signal..."
 msgstr "すべてのプロセスにTERMシグナルを送信中..."
+
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:124
+msgid "INFO     "
+msgstr ""
 
 #: /etc/rc.d/init.d/netfs:77
 msgid "Unmounting network block filesystems (retry): "
 msgstr "ネットワークブロックファイルシステムをアンマウント中 (再試行): "
 
-#: /etc/rc.d/rc.sysinit:258 /etc/rc.d/rc.sysinit:454 /etc/rc.d/rc.sysinit:494
+#: /etc/rc.d/rc.sysinit:269 /etc/rc.d/rc.sysinit:478 /etc/rc.d/rc.sysinit:527
 msgid "*** Dropping you to a shell; the system will reboot"
 msgstr "*** シェルに移行し、システムは再起動します"
 
@@ -369,22 +392,18 @@ msgstr "*** シェルに移行し、システムは再起動します"
 msgid "Checking for changes to /etc/auto.master ...."
 msgstr "/etc/auto.masterの変更を走査中 ...."
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:106
-#: /etc/sysconfig/network-scripts/ifup-ipv6:123
+#: /etc/sysconfig/network-scripts/ifup-ipv6:103
+#: /etc/sysconfig/network-scripts/ifup-ipv6:120
 msgid "Please restart network with '/sbin/service network restart'"
 msgstr "/sbin/service network restart'でネットワークを再起動してください。"
 
-#: /etc/rc.d/rc.sysinit:288 /etc/rc.d/rc.sysinit:526
+#: /etc/rc.d/rc.sysinit:300 /etc/rc.d/rc.sysinit:560
 msgid "Converting old group quota files: "
 msgstr "旧グループクォータファイルを変換中: "
 
-#: /etc/rc.d/init.d/network:226
-msgid "Configured devices:"
-msgstr "設定されたデバイス:"
-
-#: /etc/rc.d/init.d/iscsi:125
-msgid "The iSCSI module could not be unloaded."
-msgstr "iSCSIモジュールはアンロードできませんでした。"
+#: /etc/rc.d/init.d/kudzu:49
+msgid "Hardware configuration timed out."
+msgstr "ハードウェア設定、時間ぎれ"
 
 #: /etc/rc.d/init.d/ospf6d:56
 msgid "Usage: $prog {start|stop|restart|reload|condrestart|status}"
@@ -394,7 +413,7 @@ msgstr "使い方: $prog {start|stop|restart|reload|condrestart|status}"
 msgid "Mounting other filesystems: "
 msgstr "他のファイルシステムをマウント中: "
 
-#: /etc/rc.d/init.d/lpd:34
+#: /etc/rc.d/init.d/lpd:33
 msgid "No Printers Defined"
 msgstr "プリンタ定義なし"
 
@@ -410,21 +429,17 @@ msgstr "NFSファイルシステムをアンマウント中: "
 msgid "Shutting down NFS daemon: "
 msgstr "NFSデーモンを終了中: "
 
-#: /etc/rc.d/rc.sysinit:144 /etc/rc.d/rc.sysinit:147
-msgid "Setting default font ($SYSFONT): "
-msgstr "標準フォント($SYSFONT)を設定中: "
-
 #: /etc/rc.d/init.d/netfs:111
 msgid "Unmounting NCP filesystems: "
 msgstr "NCPファイルシステムをアンマウント中: "
 
-#: /etc/rc.d/init.d/netdump:167
+#: /etc/rc.d/init.d/netdump:171
 msgid "disabling netdump"
 msgstr "netdumpを無効にしています。"
 
-#: /etc/rc.d/init.d/kudzu:51
-msgid "Hardware configuration timed out."
-msgstr "ハードウェア設定、時間ぎれ"
+#: /etc/rc.d/init.d/network:226
+msgid "Configured devices:"
+msgstr "設定されたデバイス:"
 
 #: /etc/rc.d/init.d/innd:59
 msgid "Stopping INNFeed service: "
@@ -441,11 +456,16 @@ msgstr "すべてのチェインを初期化: "
 msgid "/etc/sysconfig/network-scripts/dip-$DEVICE does not exist"
 msgstr "/etc/sysconfig/network-scripts/dip-$DEVICEは存在しません"
 
-#: /etc/rc.d/init.d/mysqld:28
-msgid "Initializing MySQL database: "
-msgstr "MySQLデータベースを初期化中: "
+#: /etc/rc.d/init.d/keytable:34
+msgid "Loading system font: "
+msgstr "システムフォントを読み込み中: "
 
-#: /etc/rc.d/init.d/smb:113 /etc/rc.d/init.d/winbind:96
+#: /etc/rc.d/init.d/isdn:149 /etc/rc.d/init.d/isdn:151
+msgid "Loading Firmware"
+msgstr "ファームウェアを読み込み中"
+
+#: /etc/rc.d/init.d/iscsi:185 /etc/rc.d/init.d/smb:113
+#: /etc/rc.d/init.d/winbind:96
 msgid "Usage: $0 {start|stop|restart|reload|status|condrestart}"
 msgstr "使い方: $0 {start|stop|restart|reload|status|condrestart}"
 
@@ -453,7 +473,7 @@ msgstr "使い方: $0 {start|stop|restart|reload|status|condrestart}"
 msgid "Starting AppleTalk services: "
 msgstr "AppleTalkサービスを開始中: "
 
-#: /etc/rc.d/init.d/halt:138 /etc/rc.d/init.d/netfs:59
+#: /etc/rc.d/init.d/halt:139 /etc/rc.d/init.d/netfs:59
 msgid "Detaching loopback device $dev: "
 msgstr "ループバックデバイス $dev を停止中: "
 
@@ -466,11 +486,11 @@ msgstr "ネットワークブロックファイルシステムをアンマウン
 msgid "Users cannot control this device."
 msgstr "ユーザはこのデバイスを制御できません"
 
-#: /etc/rc.d/rc.sysinit:62
+#: /etc/rc.d/rc.sysinit:85
 msgid "Configuring kernel parameters: "
 msgstr "カーネルパラメータを設定中l: "
 
-#: /etc/sysconfig/network-scripts/ifup-ppp:75
+#: /etc/sysconfig/network-scripts/ifup-ppp:79
 msgid "ifup-ppp for ${DEVNAME} exiting"
 msgstr "${DEVNAME}に対するifup-pppを終了中"
 
@@ -483,7 +503,7 @@ msgstr "iptablesファイアウォールルールを適用中: "
 msgid "ifup-sl for $DEVICE exiting"
 msgstr "$DEVICEに対するifup-slが存在しています"
 
-#: /etc/rc.d/init.d/kudzu:75
+#: /etc/rc.d/init.d/kudzu:77
 msgid "Usage: $0 {start|stop}"
 msgstr "使い方: $0 {start|stop}"
 
@@ -495,23 +515,19 @@ msgstr "NetWareエミュレートサーバを停止中: "
 msgid "The random data source exists"
 msgstr "乱数生成発生源が既に存在しています"
 
-#: /etc/rc.d/rc.sysinit:177
+#: /etc/rc.d/rc.sysinit:181
 msgid "Mounting USB filesystem: "
 msgstr "USBファイルシステムをマウント中: "
+
+#: /etc/rc.d/rc.sysinit:481
+msgid "(RAID Repair)"
+msgstr ""
 
 #: /etc/rc.d/init.d/vncserver:50 /etc/rc.d/init.d/vncserver:51
 msgid "vncserver shutdown"
 msgstr "vncserver停止"
 
-#: /etc/rc.d/init.d/wine:21
-msgid "Unregistering binary handler for Windows applications"
-msgstr "Windowsアプリケーション用にバイナリハンドラーを登録解除しています。"
-
-#: /etc/rc.d/rc.sysinit:33
-msgid "\\033[0;39m"
-msgstr "\\033[0;39m"
-
-#: /etc/rc.d/init.d/psacct:20
+#: /etc/rc.d/init.d/psacct:18
 msgid "Starting process accounting: "
 msgstr "プロセスアカウントを開始中"
 
@@ -519,19 +535,19 @@ msgstr "プロセスアカウントを開始中"
 msgid "Starting YP map server: "
 msgstr "YPマップサーバを起動中: "
 
-#: /etc/rc.d/rc.sysinit:513
+#: /etc/rc.d/rc.sysinit:547
 msgid "Mounting local filesystems: "
 msgstr "ローカルファイルシステムをマウント中: "
+
+#: /etc/rc.d/init.d/ypbind:70
+msgid "Shutting down NIS services: "
+msgstr "NISサービスを停止中: "
 
 #: /etc/rc.d/init.d/keytable:54
 msgid "No status available for this package"
 msgstr "このパッケージについてはステータスを利用できません"
 
-#: /etc/rc.d/init.d/postgresql:167
-msgid "Stopping postgresql service: "
-msgstr "PostgreSQLサービスを停止中: "
-
-#: /etc/rc.d/rc.sysinit:127
+#: /etc/rc.d/rc.sysinit:150
 msgid "Loading default keymap ($KEYTABLE): "
 msgstr "標準キーマップ($KEYTABLE)を読み込み中: "
 
@@ -548,7 +564,7 @@ msgstr ""
 msgid "(no mouse is configured)"
 msgstr "(マウスは設定されません)"
 
-#: /etc/rc.d/init.d/iscsi:28
+#: /etc/rc.d/init.d/iscsi:22
 msgid "iSCSI daemon already running"
 msgstr "iSCSIデーモンは既に実行中です"
 
@@ -556,7 +572,7 @@ msgstr "iSCSIデーモンは既に実行中です"
 msgid "ERROR: [ipv6_log] Loglevel isn't valid '$level' (arg 2)"
 msgstr "エラー:[ipv6_log] ログレベルは有効な'$level' (arg 2)ではありません。"
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:105
+#: /etc/sysconfig/network-scripts/ifup-ipv6:102
 msgid ""
 "Global IPv6 forwarding is enabled in configuration, but not currently "
 "enabled in kernel"
@@ -568,6 +584,10 @@ msgstr ""
 msgid "Usage: $0 {start|stop|restart|status|panic|save}"
 msgstr "使い方: $0 {start|stop|restart|status|panic|save}"
 
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:127
+msgid "NOTICE   "
+msgstr ""
+
 #: /etc/rc.d/init.d/autofs:285
 msgid "$prog not running"
 msgstr "$progは実行中ではありません"
@@ -577,7 +597,7 @@ msgstr "$progは実行中ではありません"
 msgid "Clearing all current rules and user defined chains:"
 msgstr "現在のすべてのルールとユーザ定義チェインを破棄中:"
 
-#: /etc/rc.d/init.d/rawdevices:26 /etc/rc.d/init.d/rawdevices:33
+#: /etc/rc.d/init.d/rawdevices:28 /etc/rc.d/init.d/rawdevices:35
 msgid "     rawdevices are now located in the directory /dev/raw/ "
 msgstr "    rawデバイスは今では/dev/raw/以下に置かれるようになっています"
 
@@ -585,24 +605,27 @@ msgstr "    rawデバイスは今では/dev/raw/以下に置かれるように�
 msgid "Shutting down APM daemon: "
 msgstr "APMデーモンを停止中: "
 
-#: /etc/sysconfig/network-scripts/ifup:192
+#: /etc/sysconfig/network-scripts/ifup:194
 msgid " failed."
 msgstr " 失敗"
 
-#: /etc/rc.d/init.d/functions:152 /etc/rc.d/init.d/named:51
-#: /etc/rc.d/init.d/named:52
+#: /etc/rc.d/init.d/functions:151
 msgid "$base startup"
 msgstr "$base起動"
+
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:121
+msgid "CRITICAL "
+msgstr ""
 
 #: /etc/rc.d/init.d/netfs:117
 msgid "Configured NFS mountpoints: "
 msgstr "NFSマウントポイントを設定中: "
 
-#: /etc/sysconfig/network-scripts/ifup-ppp:74
+#: /etc/sysconfig/network-scripts/ifup-ppp:78
 msgid "/etc/sysconfig/network-scripts/chat-${DEVNAME} does not exist"
 msgstr "/etc/sysconfig/network-scripts/chat-${DEVNAME}は存在しません"
 
-#: /etc/rc.d/rc.sysinit:257 /etc/rc.d/rc.sysinit:493
+#: /etc/rc.d/rc.sysinit:268 /etc/rc.d/rc.sysinit:526
 msgid "*** An error occurred during the file system check."
 msgstr "*** ファイルシステム検査中にエラー"
 
@@ -610,7 +633,12 @@ msgstr "*** ファイルシステム検査中にエラー"
 msgid "Changing target policies to DROP: "
 msgstr "ターゲットポリシーをDROPに変更中: "
 
-#: /etc/rc.d/init.d/ups:55
+#: /etc/rc.d/init.d/xfs:122
+#, fuzzy
+msgid "Usage: $prog {start|stop|status|restart|reload|condrestart}"
+msgstr "*** 使い方: $prog {start|stop|status|restart|reload|condrestart}"
+
+#: /etc/rc.d/init.d/ups:57
 msgid "Stopping UPS monitor: "
 msgstr "UPSモニタを停止中: "
 
@@ -622,11 +650,11 @@ msgstr "PCICモジュールが起動オプション内で未定義です!"
 msgid "Shutting down system logger: "
 msgstr "システムロガーを停止中: "
 
-#: /etc/rc.d/init.d/functions:285
+#: /etc/rc.d/init.d/functions:284
 msgid "Usage: status {program}"
 msgstr "使い方: status {program}"
 
-#: /etc/rc.d/init.d/functions:214
+#: /etc/rc.d/init.d/functions:213
 msgid "$base $killlevel"
 msgstr "$base $killlevel"
 
@@ -634,11 +662,11 @@ msgstr "$base $killlevel"
 msgid "$0: reading microcode status is not yet supported"
 msgstr "$0: マイクロコードステータスの読み込みはまだサポートされていません。"
 
-#: /etc/rc.d/init.d/amd:93 /etc/rc.d/init.d/sshd:115
-msgid "Reloading $prog:"
-msgstr "$progを再読み込み中:"
+#: /etc/rc.d/init.d/nfs:168
+msgid "Usage: nfs {start|stop|status|restart|reload}"
+msgstr "使い方: nfs {start|stop|status|restart|reload}"
 
-#: /etc/rc.d/init.d/ups:32
+#: /etc/rc.d/init.d/ups:34
 msgid "Starting $MODEL: "
 msgstr "$MODELを起動中: "
 
@@ -650,19 +678,19 @@ msgstr "$prog停止中"
 msgid "cardmgr (pid $pid) is running..."
 msgstr "カードマネージャ (PID $pid) 実行中..."
 
-#: /etc/sysconfig/network-scripts/ifup:172
+#: /etc/sysconfig/network-scripts/ifup:174
 msgid " failed; no link present.  Check cable?"
 msgstr "失敗しました；インクがありません。ケーブルを確認?"
 
-#: /etc/rc.d/init.d/isdn:149 /etc/rc.d/init.d/isdn:151
-msgid "Loading Firmware"
-msgstr "ファームウェアを読み込み中"
+#: /etc/rc.d/init.d/mysqld:28
+msgid "Initializing MySQL database: "
+msgstr "MySQLデータベースを初期化中: "
 
-#: /etc/rc.d/init.d/iscsi:25
+#: /etc/rc.d/init.d/iscsi:19
 msgid "Could not find /etc/iscsi.conf!"
 msgstr "/etc/iscsi.confをみつけることができませんでした!"
 
-#: /etc/rc.d/init.d/sendmail:77
+#: /etc/rc.d/init.d/sendmail:79
 msgid "Shutting down sm-client: "
 msgstr "sm-clientを停止中: "
 
@@ -670,27 +698,33 @@ msgstr "sm-clientを停止中: "
 msgid "Starting PCMCIA services:"
 msgstr "PCMCIAサービスを起動中:"
 
-#: /etc/rc.d/init.d/iscsi:84
-msgid " iscsilun"
-msgstr " iscsilun"
+#: /etc/rc.d/init.d/isicom:30
+#, fuzzy
+msgid "Failed to load module: isicom"
+msgstr "モジュールiscsi.oをロード出来ませんでした。"
 
-#: /etc/rc.d/init.d/halt:60
+#: /etc/rc.d/init.d/halt:61
 msgid "Sending all processes the KILL signal..."
 msgstr "すべてのプロセスにKILLシグナルを送信中..."
 
-#: /etc/rc.d/rc.sysinit:301
+#: /etc/rc.d/rc.sysinit:313
 msgid "Setting up ISA PNP devices: "
 msgstr "ISA PNPデバイスを設定中: "
 
-#: /etc/rc.d/rc.sysinit:405
+#: /etc/sysconfig/network-scripts/ifup:250
+msgid "Error adding address ${IPADDR} for ${DEVICE}."
+msgstr "${DEVICE}についてアドレス${IPADDR}を追加中にエラー"
+
+#: /etc/rc.d/rc.sysinit:423
 msgid "Starting up RAID devices: "
 msgstr "RAIDデバイスを起動中: "
 
 #: /etc/rc.d/init.d/anacron:58 /etc/rc.d/init.d/atd:80
 #: /etc/rc.d/init.d/canna:59 /etc/rc.d/init.d/dhcpd:71
 #: /etc/rc.d/init.d/dhcrelay:78 /etc/rc.d/init.d/gpm:86
-#: /etc/rc.d/init.d/ntpd:87 /etc/rc.d/init.d/sendmail:112
-#: /etc/rc.d/init.d/ups:100 /etc/rc.d/init.d/vncserver:78
+#: /etc/rc.d/init.d/ntpd:154 /etc/rc.d/init.d/sendmail:114
+#: /etc/rc.d/init.d/ups:102 /etc/rc.d/init.d/vncserver:78
+#: /etc/rc.d/init.d/vsftpd:87
 msgid "Usage: $0 {start|stop|restart|condrestart|status}"
 msgstr "使い方: $0 {start|stop|restart|condrestart|status}"
 
@@ -711,11 +745,11 @@ msgstr "使い方: ifup <デバイス名>"
 msgid "Stopping YP passwd service: "
 msgstr "YPパスワードサービスを停止中: "
 
-#: /etc/rc.d/init.d/nfs:72
-msgid "Starting NFS daemon: "
-msgstr "NFSデーモンを起動中: "
+#: /etc/rc.d/init.d/autofs:220
+msgid "Configured Mount Points:"
+msgstr "マウントポイントを設定: "
 
-#: /etc/rc.d/rc.sysinit:532
+#: /etc/rc.d/rc.sysinit:566
 msgid "Checking local filesystem quotas: "
 msgstr "ローカルファイルシステムクォータを検査中: "
 
@@ -723,56 +757,59 @@ msgstr "ローカルファイルシステムクォータを検査中: "
 msgid "Telling INIT to go to single user mode."
 msgstr "INITにシングルユーザモードに移行するよう宣告"
 
-#: /etc/rc.d/init.d/halt:184
+#: /etc/rc.d/init.d/halt:185
 msgid "$message"
 msgstr "$message"
 
-#: /etc/rc.d/init.d/ntpd:34
+#: /etc/rc.d/init.d/ntpd:79
 msgid "$prog: Synchronizing with time server: "
 msgstr "$prog:時間サーバと同期中: "
 
-#: /etc/rc.d/rc.sysinit:284 /etc/rc.d/rc.sysinit:521
+#: /etc/rc.d/rc.sysinit:296 /etc/rc.d/rc.sysinit:555
 msgid "Converting old user quota files: "
 msgstr "旧ユーザクォータファイルを変換中: "
 
-#: /etc/sysconfig/network-scripts/ifup:186
-#: /etc/sysconfig/network-scripts/ifup:188
-#: /etc/sysconfig/network-scripts/ifup:190
-msgid " done."
-msgstr "  完了"
+#: /etc/rc.d/init.d/vsftpd:38
+#, fuzzy
+msgid "Starting $prog for $site: "
+msgstr "$progを起動中: "
 
-#: /etc/rc.d/rc.sysinit:536
+#: /etc/rc.d/rc.sysinit:570
 msgid "Enabling local filesystem quotas: "
 msgstr "ローカルファイルシステムクォータを有効化中: "
+
+#: /etc/rc.d/init.d/routed:41
+msgid "Stopping routed (RIP) services: "
+msgstr "routed(RIP)サービスを停止中: "
 
 #: /etc/rc.d/init.d/aep1000:56 /etc/rc.d/init.d/amd:30
 #: /etc/rc.d/init.d/anacron:15 /etc/rc.d/init.d/arpwatch:28
 #: /etc/rc.d/init.d/atd:29 /etc/rc.d/init.d/bgpd:26
 #: /etc/rc.d/init.d/bootparamd:29 /etc/rc.d/init.d/canna:26
-#: /etc/rc.d/init.d/crond:24 /etc/rc.d/init.d/cWnn:31
+#: /etc/rc.d/init.d/crond:24 /etc/rc.d/init.d/cups:57
 #: /etc/rc.d/init.d/dhcpd:28 /etc/rc.d/init.d/dhcrelay:33
 #: /etc/rc.d/init.d/FreeWnn:32 /etc/rc.d/init.d/httpd:50
-#: /etc/rc.d/init.d/identd:48 /etc/rc.d/init.d/irda:20
+#: /etc/rc.d/init.d/identd:48 /etc/rc.d/init.d/irda:23
 #: /etc/rc.d/init.d/kadmin:40 /etc/rc.d/init.d/kprop:30
 #: /etc/rc.d/init.d/krb524:30 /etc/rc.d/init.d/krb5kdc:30
-#: /etc/rc.d/init.d/kWnn:31 /etc/rc.d/init.d/ldap:38 /etc/rc.d/init.d/ldap:50
-#: /etc/rc.d/init.d/lpd:28 /etc/rc.d/init.d/mdmonitor:37
+#: /etc/rc.d/init.d/ldap:38 /etc/rc.d/init.d/ldap:50 /etc/rc.d/init.d/lisa:35
+#: /etc/rc.d/init.d/lpd:43 /etc/rc.d/init.d/mdmonitor:37
 #: /etc/rc.d/init.d/mysqld:40 /etc/rc.d/init.d/mysqld:42
-#: /etc/rc.d/init.d/named:35 /etc/rc.d/init.d/nscd:49 /etc/rc.d/init.d/ntpd:44
+#: /etc/rc.d/init.d/named:36 /etc/rc.d/init.d/nscd:49 /etc/rc.d/init.d/ntpd:91
 #: /etc/rc.d/init.d/ospf6d:26 /etc/rc.d/init.d/ospfd:27
 #: /etc/rc.d/init.d/portmap:55 /etc/rc.d/init.d/pxe:23
 #: /etc/rc.d/init.d/radvd:38 /etc/rc.d/init.d/rarpd:22
 #: /etc/rc.d/init.d/ripd:26 /etc/rc.d/init.d/ripngd:26
 #: /etc/rc.d/init.d/rwalld:24 /etc/rc.d/init.d/saslauthd:29
-#: /etc/rc.d/init.d/sendmail:38 /etc/rc.d/init.d/snmpd:20
+#: /etc/rc.d/init.d/sendmail:40 /etc/rc.d/init.d/snmpd:20
 #: /etc/rc.d/init.d/snmptrapd:21 /etc/rc.d/init.d/squid:60
-#: /etc/rc.d/init.d/tWnn:31 /etc/rc.d/init.d/ups:37
-#: /etc/rc.d/init.d/vncserver:22 /etc/rc.d/init.d/xfs:58
-#: /etc/rc.d/init.d/xinetd:49 /etc/rc.d/init.d/zebra:24
+#: /etc/rc.d/init.d/ups:39 /etc/rc.d/init.d/vncserver:22
+#: /etc/rc.d/init.d/xfs:58 /etc/rc.d/init.d/xinetd:48
+#: /etc/rc.d/init.d/zebra:24
 msgid "Starting $prog: "
 msgstr "$progを起動中: "
 
-#: /etc/rc.d/init.d/functions:310
+#: /etc/rc.d/init.d/functions:309
 msgid "${base} is stopped"
 msgstr "${base}は停止しています"
 
@@ -785,13 +822,14 @@ msgstr "設定ファイル$PARENTCONFIGがありません"
 msgid "Generating ident key: "
 msgstr "identキーを生成中: "
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:248
+#: /etc/sysconfig/network-scripts/ifup-ipv6:281
 msgid "Error occured while calculating the IPv6to4 prefix"
 msgstr "IPv6to4 prefixを計算中にエラー発生"
 
-#: /etc/rc.d/init.d/rawdevices:27 /etc/rc.d/init.d/rawdevices:34
-msgid "  If the command 'raw' still refers to /dev/raw as a file."
-msgstr "  コマンド'raw'はなおも/dev/rawをファイルとして参照しています"
+#: /etc/rc.d/init.d/firstboot:36
+#, fuzzy
+msgid "Running system reconfiguration tool"
+msgstr "設定を再読み込み: "
 
 #: /etc/rc.d/init.d/sshd:70 /etc/rc.d/init.d/sshd:73
 msgid "DSA key generation"
@@ -801,23 +839,20 @@ msgstr "DSAキー生成"
 msgid "Stopping YP server services: "
 msgstr "YPサーバサービスを停止中: "
 
-#: /etc/rc.d/init.d/wine:14
-msgid "Registering binary handler for Windows applications"
-msgstr "Windowsアプリケーション用にバイナリハンドラーを登録中です"
-
 #: /etc/rc.d/init.d/sshd:54 /etc/rc.d/init.d/sshd:57
 msgid "RSA key generation"
 msgstr "RSAキー生成"
 
 #: /etc/sysconfig/network-scripts/ifup:86
-msgid "$alias device does not seem to be present, delaying ${DEVICE} initialization."
+msgid ""
+"$alias device does not seem to be present, delaying ${DEVICE} initialization."
 msgstr "$aliasデバイスは存在しないようですので${DEVICE}初期化を遅らせます"
 
-#: /etc/rc.d/init.d/halt:186
+#: /etc/rc.d/init.d/halt:187
 msgid "On the next boot fsck will be skipped."
 msgstr "次の起動時にはfsckはとばされます"
 
-#: /etc/rc.d/init.d/halt:120
+#: /etc/rc.d/init.d/halt:121
 msgid "Turning off quotas: "
 msgstr "クォータを無効化中: "
 
@@ -825,7 +860,7 @@ msgstr "クォータを無効化中: "
 msgid "Failed to bring up ${DEVICE}."
 msgstr "${DEVICE}の活性化に失敗"
 
-#: /etc/rc.d/init.d/halt:68
+#: /etc/rc.d/init.d/halt:69
 msgid "Saving mixer settings"
 msgstr "ミキサー設定を保存中"
 
@@ -833,23 +868,15 @@ msgstr "ミキサー設定を保存中"
 msgid "Mounting NFS filesystems: "
 msgstr "NFSファイルシステムをマウント中: "
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:199
-msgid ""
-"IPv6to4 configuration needs an IPv4 address on related interface or "
-"otherwise specified, 6to4 configuration is not valid"
-msgstr ""
-"IPv6to4設定は関連づけられた,又は 他の方法で指定されたインターフェースの IPv4"
-"アドレス を必要とします。6to4設定は無効です。"
-
-#: /etc/rc.d/rc.sysinit:41
+#: /etc/rc.d/rc.sysinit:64
 msgid "\t\tPress 'I' to enter interactive startup."
 msgstr "\\t\\t対話起動モードに移るには 'I'を押して下さい"
 
-#: /etc/rc.d/init.d/sshd:66
-msgid "Generating SSH2 DSA host key: "
-msgstr "SSH2 DSAホストキーを生成中: "
+#: /etc/rc.d/init.d/netfs:152 /etc/rc.d/init.d/network:238
+msgid "Usage: $0 {start|stop|restart|reload|status}"
+msgstr "使い方: $0 {start|stop|restart|reload|status}"
 
-#: /etc/rc.d/init.d/postgresql:146
+#: /etc/rc.d/init.d/postgresql:162
 msgid "Postmaster already running."
 msgstr "Postmasterは既に実行中です"
 
@@ -861,7 +888,7 @@ msgstr "カーネルロガーを起動中: "
 msgid "/usr/sbin/dip does not exist or is not executable"
 msgstr "/usr/sbin/dip は存在しないか、実行可能になっていません"
 
-#: /etc/rc.d/rc.sysinit:565
+#: /etc/rc.d/rc.sysinit:603
 msgid "Resetting hostname ${HOSTNAME}: "
 msgstr "ホスト名 ${HOSTNAME}を再設定中: "
 
@@ -869,23 +896,29 @@ msgstr "ホスト名 ${HOSTNAME}を再設定中: "
 msgid "Unmounting SMB filesystems: "
 msgstr "SMBファイルシステムをアンマウント中: "
 
-#: /etc/rc.d/init.d/halt:159
+#: /etc/rc.d/init.d/halt:160
 msgid "Unmounting file systems: "
 msgstr "ファイルシステムをアンマウント中: "
 
-#: /etc/rc.d/rc.sysinit:184
+#: /etc/rc.d/rc.sysinit:189
 msgid "Initializing USB keyboard: "
 msgstr "USBキーボードを初期化中"
 
-#: /etc/rc.d/init.d/functions:160
+#: /etc/sysconfig/network-scripts/ifup-ipv6:218
+msgid ""
+"Warning: configured MTU '$IPV6TO4_MTU' for 6to4 exceeds maximum limit of "
+"'$tunnelmtu', ignored"
+msgstr ""
+
+#: /etc/rc.d/init.d/functions:159
 msgid "Usage: killproc {program} [signal]"
 msgstr "使い方: killproc {program} [signal]"
 
-#: /etc/rc.d/rc.sysinit:157
+#: /etc/rc.d/rc.sysinit:161
 msgid "Setting hostname ${HOSTNAME}: "
 msgstr "ホストネームを${HOSTNAME}に設定中: "
 
-#: /etc/rc.d/init.d/kudzu:52
+#: /etc/rc.d/init.d/kudzu:50
 msgid "Run '/usr/sbin/kudzu' from the command line to re-detect."
 msgstr "再検出のために'/usr/sbin/kudzu'をコマンド行から実行して下さい"
 
@@ -901,15 +934,15 @@ msgstr "使い方: ifup-aliases <net-device> [<parent-config>]\n"
 msgid "ERROR: [ipv6_log] Missing 'message' (arg 1)"
 msgstr "エラー: [ipv6_log]メッセージ(arg 1)がありません"
 
-#: /etc/sysconfig/network-scripts/ifup-ipx:7
-msgid "usage: $0 <net-device>"
-msgstr "使い方:  $0 <net-device>"
+#: /etc/rc.d/init.d/portmap:33
+msgid "Networking not configured - exiting"
+msgstr "ネットワークが設定されていません - 終了中"
 
 #: /etc/rc.d/init.d/ipchains:76 /etc/rc.d/init.d/ipchains:77
 msgid "Resetting built-in chains to the default ACCEPT policy"
 msgstr "組込みチェインを標準のACCEPTポリシーに再設定中"
 
-#: /etc/rc.d/rc.sysinit:132
+#: /etc/rc.d/rc.sysinit:155
 msgid "Loading default keymap"
 msgstr "標準キーマップを読み込み中"
 
@@ -933,11 +966,11 @@ msgstr "ループバックインターフェイスを呼び込み中"
 msgid "Reopening $prog log file: "
 msgstr "$progログファイルを再読み込み: "
 
-#: /etc/rc.d/init.d/privoxy:196
+#: /etc/rc.d/init.d/privoxy:197
 msgid "Can't find $PRIVOXY_CONF, exit."
 msgstr "$PRIVOXY_CONFが見付かりません、終了します。"
 
-#: /etc/rc.d/init.d/functions:207 /etc/rc.d/init.d/functions:218
+#: /etc/rc.d/init.d/functions:206 /etc/rc.d/init.d/functions:217
 msgid "$base shutdown"
 msgstr "$base停止"
 
@@ -949,17 +982,27 @@ msgstr "smb.confファイルを再読み込み中: "
 msgid "Saving current rules to $IPCHAINS_CONFIG: "
 msgstr "現在のルールを$IPCHAINS_CONFIGに保存中: "
 
-#: /etc/rc.d/rc.sysinit:259 /etc/rc.d/rc.sysinit:455 /etc/rc.d/rc.sysinit:495
+#: /etc/rc.d/rc.sysinit:270 /etc/rc.d/rc.sysinit:479 /etc/rc.d/rc.sysinit:528
 msgid "*** when you leave the shell."
 msgstr "*** シェルを抜けるとき"
 
-#: /etc/rc.d/init.d/sendmail:56
+#: /etc/rc.d/init.d/sendmail:58
 msgid "Starting sm-client: "
 msgstr "sm-clientを起動中: "
 
-#: /etc/sysconfig/network-scripts/ifup:170
+#: /etc/sysconfig/network-scripts/ifup:172
 msgid "Determining IP information for ${DEVICE}..."
 msgstr "${DEVICE}のIP情報を検出中..."
+
+#: /etc/rc.d/init.d/postgresql:184
+#, fuzzy
+msgid "Stopping ${NAME} service: "
+msgstr "INNDサービスを停止中: "
+
+#: /etc/rc.d/init.d/lisa:87
+#, fuzzy
+msgid "Usage: $prog {start|stop|restart|status|condrestart}"
+msgstr "使い方: $0 {start|stop|restart|status|condrestart}"
 
 #: /etc/rc.d/init.d/ipchains:95
 msgid "Changing target policies to DENY: "
@@ -971,7 +1014,7 @@ msgstr "ターゲットポリシーをDENYに変更中: "
 msgid "Usage: $0 {start|stop|status|restart|reload|condrestart}"
 msgstr "使い方: $0 {start|stop|status|restart|reload|condrestart}"
 
-#: /etc/rc.d/init.d/functions:259
+#: /etc/rc.d/init.d/functions:258
 msgid "Usage: pidofproc {program}"
 msgstr "使い方: pidofproc {program}"
 
@@ -979,9 +1022,14 @@ msgstr "使い方: pidofproc {program}"
 msgid "Starting rusers services: "
 msgstr "rusersサービスを起動中: "
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:251
+#: /etc/sysconfig/network-scripts/ifup-ipv6:284
 msgid "radvd control enabled, but config is not complete"
 msgstr "radvdコントロールは有効になっていますが、configが不完全です"
+
+#: /etc/rc.d/rc.sysinit:245
+#, fuzzy
+msgid "Checking root filesystem"
+msgstr "ルートファイルシステムクォータを検査中: "
 
 #: /etc/rc.d/init.d/isdn:226
 msgid "$0: Link is down"
@@ -991,19 +1039,19 @@ msgstr "$0: リンクがダウンしています"
 msgid "Active NFS mountpoints: "
 msgstr "NFSマウントポイントを活性化: "
 
-#: /etc/rc.d/init.d/psacct:31
+#: /etc/rc.d/init.d/psacct:38
 msgid "Process accounting is disabled."
 msgstr "プロセスアカウントは停止しています。"
 
-#: /etc/rc.d/init.d/autofs:220
-msgid "Configured Mount Points:"
-msgstr "マウントポイントを設定: "
+#: /etc/rc.d/init.d/nfs:72
+msgid "Starting NFS daemon: "
+msgstr "NFSデーモンを起動中: "
 
-#: /etc/rc.d/rc.sysinit:166
+#: /etc/rc.d/rc.sysinit:170
 msgid "Initializing USB controller ($alias): "
 msgstr "USBコントローラ($alias)を初期化中: "
 
-#: /etc/rc.d/init.d/xinetd:80
+#: /etc/rc.d/init.d/xinetd:79
 msgid "Reloading configuration: "
 msgstr "設定を再読み込み: "
 
@@ -1011,11 +1059,20 @@ msgstr "設定を再読み込み: "
 msgid "Please run makehistory and/or makedbz before starting innd."
 msgstr "inndを起動する前に、makehistory、makedbzを実行しておいて下さい"
 
-#: /etc/rc.d/init.d/privoxy:217
+#: /etc/sysconfig/network-scripts/ifup-ipv6:203
+#, fuzzy
+msgid ""
+"IPv6to4 configuration needs an IPv4 address on related interface or "
+"otherwise specified"
+msgstr ""
+"IPv6to4設定は関連づけられた,又は 他の方法で指定されたインターフェースの IPv4"
+"アドレス を必要とします。6to4設定は無効です。"
+
+#: /etc/rc.d/init.d/privoxy:218
 msgid "Stopping $PRIVOXY_PRG: "
 msgstr "$PRIVOXY_PRGを停止中: "
 
-#: /etc/rc.d/rc.sysinit:222
+#: /etc/rc.d/rc.sysinit:228
 msgid "Not forcing file system integrity check due to default setting"
 msgstr "標準設定によるファイルシステム完全性検査を強制しない"
 
@@ -1027,6 +1084,10 @@ msgstr "NFSサービスを起動中: "
 msgid "Active NCP mountpoints: "
 msgstr "NCPマウントポイントを活性化: "
 
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:118
+msgid "WARN     "
+msgstr ""
+
 #: /etc/rc.d/init.d/nfs:136
 msgid "Shutting down NFS services: "
 msgstr "NFSサービスを終了中: "
@@ -1036,42 +1097,41 @@ msgstr "NFSサービスを終了中: "
 msgid "Changing target policies to DROP"
 msgstr "ターゲットポリシーをDROPに変更中"
 
-#: /etc/rc.d/rc.sysinit:373 /etc/rc.d/rc.sysinit:378
+#: /etc/rc.d/rc.sysinit:391 /etc/rc.d/rc.sysinit:396
 msgid "Loading sound module ($alias): "
 msgstr "サウンドモジュールを読み込み中 ($alias): "
 
-#: /etc/rc.d/init.d/xfs:122
-msgid "*** Usage: $prog {start|stop|status|restart|reload|condrestart}"
-msgstr "*** 使い方: $prog {start|stop|status|restart|reload|condrestart}"
+#: /etc/rc.d/init.d/ntpd:115
+msgid "$prog: Removing firewall opening for $server port 123"
+msgstr ""
 
-#: /etc/rc.d/rc.sysinit:109
+#: /etc/rc.d/rc.sysinit:132
 msgid "Setting clock $CLOCKDEF: `date`"
 msgstr "時計 $CLOCKDEF を設定中: `date`"
 
-#: /etc/rc.d/init.d/bootparamd:69 /etc/rc.d/init.d/cWnn:70
-#: /etc/rc.d/init.d/FreeWnn:71 /etc/rc.d/init.d/pcmcia:52
-#: /etc/rc.d/init.d/psacct:41 /etc/rc.d/init.d/random:55
-#: /etc/rc.d/init.d/routed:72 /etc/rc.d/init.d/tWnn:70
+#: /etc/rc.d/init.d/bootparamd:69 /etc/rc.d/init.d/FreeWnn:71
+#: /etc/rc.d/init.d/pcmcia:52 /etc/rc.d/init.d/psacct:48
+#: /etc/rc.d/init.d/random:55 /etc/rc.d/init.d/routed:72
 msgid "Usage: $0 {start|stop|status|restart|reload}"
 msgstr "使い方: $0 {start|stop|status|restart|reload}"
 
-#: /etc/rc.d/init.d/halt:50
-msgid "Usage: $0 {start}"
-msgstr "使い方: $0 {start}"
+#: /etc/rc.d/init.d/halt:39
+msgid "Please stand by while rebooting the system..."
+msgstr ""
 
-#: /etc/rc.d/rc.sysinit:264 /etc/rc.d/rc.sysinit:460 /etc/rc.d/rc.sysinit:500
+#: /etc/rc.d/rc.sysinit:276 /etc/rc.d/rc.sysinit:485 /etc/rc.d/rc.sysinit:534
 msgid "Unmounting file systems"
 msgstr "ファイルシステムをアンマウント中"
 
-#: /etc/rc.d/init.d/functions:92 /etc/rc.d/init.d/functions:120
+#: /etc/rc.d/init.d/functions:88 /etc/rc.d/init.d/functions:116
 msgid "$0: Usage: daemon [+/-nicelevel] {program}"
 msgstr "$0: 使い方: daemon [+/-nicelevel] {program}"
 
-#: /etc/rc.d/init.d/functions:307
+#: /etc/rc.d/init.d/functions:306
 msgid "${base} dead but subsys locked"
 msgstr "${base}は停止していますがサブシテムがロックされています"
 
-#: /etc/rc.d/init.d/named:32
+#: /etc/rc.d/init.d/named:33
 msgid "$prog: already running"
 msgstr "$prog： 既に実行中です"
 
@@ -1091,24 +1151,25 @@ msgstr "vncserver起動"
 msgid "Bringing up interface $i: "
 msgstr "インターフェース $iを活性化中: "
 
-#: /etc/rc.d/rc.sysinit:199
-msgid "Your system appears to have shut down uncleanly"
-msgstr "システムは正常に終了されなかったようです"
+#: /etc/sysconfig/network-scripts/init.ipv6-global:181
+msgid "Usage: $0 {start|stop|reload|restart|showsysctl}"
+msgstr "使い方: $0 {start|stop|reload|restart|showsysctl}"
 
 #: /etc/rc.d/init.d/network:206
 msgid "Disabling IPv4 packet forwarding: "
 msgstr "IPv4パケット転送を無効化中: "
 
-#: /etc/rc.d/init.d/halt:134 /etc/rc.d/init.d/netfs:55
+#: /etc/rc.d/init.d/halt:135 /etc/rc.d/init.d/netfs:55
 msgid "Unmounting loopback filesystems: "
 msgstr "ループバックファイルシステムをアンマウント中: "
 
-#: /etc/rc.d/rc.sysinit:292
+#: /etc/rc.d/rc.sysinit:304
 msgid "Checking root filesystem quotas: "
 msgstr "ルートファイルシステムクォータを検査中: "
 
-#: /etc/rc.d/init.d/httpd:66 /etc/rc.d/init.d/lpd:92 /etc/rc.d/init.d/snmpd:38
-#: /etc/rc.d/init.d/xfs:84
+#: /etc/rc.d/init.d/cups:97 /etc/rc.d/init.d/httpd:66 /etc/rc.d/init.d/lisa:61
+#: /etc/rc.d/init.d/lpd:101 /etc/rc.d/init.d/named:67
+#: /etc/rc.d/init.d/snmpd:38 /etc/rc.d/init.d/xfs:84
 msgid "Reloading $prog: "
 msgstr "$progを再読み込み中: "
 
@@ -1116,19 +1177,23 @@ msgstr "$progを再読み込み中: "
 msgid "Applying ipchains firewall rules"
 msgstr "ipchainsファイアウォールルールを適用中"
 
-#: /etc/rc.d/rc.sysinit:303
+#: /etc/rc.d/rc.sysinit:315
 msgid "Skipping ISA PNP configuration at users request: "
 msgstr "ユーザに要請されたISA PNP設定をとばします:"
 
-#: /etc/rc.d/init.d/functions:329
-msgid "FAILED"
-msgstr "失敗"
+#: /etc/rc.d/init.d/halt:51
+msgid "Usage: $0 {start}"
+msgstr "使い方: $0 {start}"
+
+#: /etc/rc.d/init.d/nfs:164
+msgid "reload"
+msgstr "再読み込み"
 
 #: /etc/rc.d/init.d/netfs:39
 msgid "Mounting NCP filesystems: "
 msgstr "NCPファイルシステムをマウント中: "
 
-#: /etc/rc.d/rc.sysinit:314 /etc/rc.d/rc.sysinit:470
+#: /etc/rc.d/rc.sysinit:329 /etc/rc.d/rc.sysinit:493
 msgid "Setting up Logical Volume Management:"
 msgstr "論理ボリューム管理を設定中:"
 
@@ -1136,25 +1201,31 @@ msgstr "論理ボリューム管理を設定中:"
 msgid "Active SMB mountpoints: "
 msgstr "SMBマウントポイントを活性化中: "
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:225
-#: /etc/sysconfig/network-scripts/ifup-aliases:235
-msgid "error in ifcfg-${parent_device}: files"
-msgstr "ifcfg-${parent_device}:ファイル 内にエラー "
+#: /etc/rc.d/init.d/kadmin:35
+msgid "Extracting kadm5 Service Keys: "
+msgstr "kadm5 サービスキーを取得中: "
 
 #: /etc/rc.d/init.d/pcmcia:115
 msgid " module directory $PC not found."
 msgstr "モジュールディレクトリ $PC は存在しません"
 
-#: /etc/rc.d/init.d/crond:78 /etc/rc.d/init.d/krb5kdc:76
-#: /etc/rc.d/init.d/saslauthd:68 /etc/rc.d/init.d/squid:160
-msgid "Usage: $0 {start|stop|status|reload|restart|condrestart}"
-msgstr "使い方: $0 {start|stop|status|reload|restart|condrestart}"
+#: /etc/rc.d/init.d/functions:345
+msgid "PASSED"
+msgstr "パスワード"
+
+#: /etc/rc.d/init.d/rawdevices:29 /etc/rc.d/init.d/rawdevices:36
+msgid "  If the command 'raw' still refers to /dev/raw as a file."
+msgstr "  コマンド'raw'はなおも/dev/rawをファイルとして参照しています"
+
+#: /etc/rc.d/init.d/functions:450
+msgid "yY"
+msgstr ""
 
 #: /etc/rc.d/init.d/xfs:97
 msgid "Restarting $prog:"
 msgstr "$prog:を再起動中"
 
-#: /etc/sysconfig/network-scripts/ifup-ppp:42
+#: /etc/sysconfig/network-scripts/ifup-ppp:46
 msgid "pppd does not exist or is not executable"
 msgstr "pppdは存在しないか、実行可能になっていません"
 
@@ -1165,6 +1236,11 @@ msgstr "INNサービスを停止中: "
 #: /etc/rc.d/init.d/sshd:34
 msgid "Generating SSH1 RSA host key: "
 msgstr "SSH1 RSAホストキーを生成中: "
+
+#: /etc/rc.d/init.d/named:69
+#, fuzzy
+msgid "$prog reload"
+msgstr "再読み込み"
 
 #: /etc/sysconfig/network-scripts/ifup-aliases:155
 msgid "error in $FILE: already seen device $parent_device:$DEVNUM in $devseen"
@@ -1180,11 +1256,11 @@ msgstr "モジュール$moduleを読み込み中"
 msgid "Shutting down kernel logger: "
 msgstr "カーネルロガーを停止中: "
 
-#: /etc/rc.d/init.d/ups:42
+#: /etc/rc.d/init.d/ups:44
 msgid "Starting UPS monitor (master): "
 msgstr "UPSモニタ(マスタ)を起動中: "
 
-#: /etc/rc.d/init.d/halt:118
+#: /etc/rc.d/init.d/halt:119
 msgid "Turning off swap: "
 msgstr "スワップを無効化: "
 
@@ -1192,18 +1268,28 @@ msgstr "スワップを無効化: "
 msgid "Stop $command"
 msgstr "$command を停止"
 
-#: /etc/rc.d/init.d/privoxy:195
+#: /etc/rc.d/init.d/privoxy:196
 msgid "Can't find $PRIVOXY_BIN, exit."
 msgstr "$PRIVOXY_BINが見付かりません、終了します。"
+
+#: /etc/rc.d/init.d/halt:35
+#, fuzzy
+msgid "Halting system..."
+msgstr "INNDシステムを起動中: "
+
+#: /etc/sysconfig/network-scripts/ifup-aliases:151
+msgid "error in $FILE: already seen ipaddr $IPADDR in $ipseen"
+msgstr "$FILE内にエラー: $ipseen 内に既に存在するアドレス $IPADDR"
 
 #: /etc/rc.d/init.d/innd:52
 msgid "Stopping INNWatch service: "
 msgstr "INNWatchサービスを停止中: "
 
-#: /etc/rc.d/rc.sysinit:208
+#: /etc/rc.d/rc.sysinit:214
 #, c-format
 msgid "Press N within %d seconds to not force file system integrity check..."
-msgstr "ファイルシステム統一性検査を強制しないなら、%d秒の間にNを押して下さい..."
+msgstr ""
+"ファイルシステム統一性検査を強制しないなら、%d秒の間にNを押して下さい..."
 
 #: /etc/rc.d/init.d/ypserv:35
 msgid "Starting YP server services: "
@@ -1213,24 +1299,25 @@ msgstr "YPサーバサービスを起動中: "
 msgid "Usage: $0 {start|stop|status|condrestart|reload|restart}"
 msgstr "使い方: $0 {start|stop|status|condrestart|reload|restart}"
 
-#: /etc/rc.d/init.d/nfs:168
-msgid "Usage: nfs {start|stop|status|restart|reload}"
-msgstr "使い方: nfs {start|stop|status|restart|reload}"
+#: /etc/rc.d/init.d/amd:93 /etc/rc.d/init.d/sshd:115
+msgid "Reloading $prog:"
+msgstr "$progを再読み込み中:"
 
 #: /etc/rc.d/init.d/rhnsd:46
 msgid "Stopping Red Hat Network Daemon: "
 msgstr "Red Hat ネットワークデーモンを停止中: "
 
-#: /etc/rc.d/rc.sysinit:183
+#: /etc/rc.d/rc.sysinit:188
 msgid "Initializing USB HID interface: "
 msgstr "USB HIDインターフェースを初期化中: "
 
-#: /etc/rc.d/init.d/nfslock:52
+#: /etc/rc.d/init.d/nfslock:53
 msgid "Starting NFS statd: "
 msgstr "NFS statdを起動中: "
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:235
-msgid "Using 6to4 and RADVD IPv6 forwarding usually should be enabled, but it isn't"
+#: /etc/sysconfig/network-scripts/ifup-ipv6:268
+msgid ""
+"Using 6to4 and RADVD IPv6 forwarding usually should be enabled, but it isn't"
 msgstr ""
 "6to4とRADVD IPv6転送の使用は通常は有効にしておくべきです。有効になっていませ"
 "ん"
@@ -1239,15 +1326,15 @@ msgstr ""
 msgid "Stopping rusers services: "
 msgstr "rusersサービスを停止中: "
 
-#: /etc/rc.d/rc.sysinit:621
+#: /etc/rc.d/rc.sysinit:659
 msgid "Enabling swap space: "
 msgstr "スワップスペースを有効化中: "
 
-#: /etc/rc.d/init.d/functions:301
+#: /etc/rc.d/init.d/functions:300
 msgid "${base} dead but pid file exists"
 msgstr "${base} が停止していますがPIDファイルが残っています"
 
-#: /etc/rc.d/init.d/psacct:29
+#: /etc/rc.d/init.d/psacct:36
 msgid "Process accounting is enabled."
 msgstr "プロセスアカウントが有効になっています。"
 
@@ -1259,15 +1346,15 @@ msgstr "$0: ${1}に対する設定がみつかりません"
 msgid "Changing target policies to DENY"
 msgstr "ターゲットポリシーをDENYに変更中"
 
-#: /etc/rc.d/rc.sysinit:154
+#: /etc/rc.d/rc.sysinit:333
 msgid "Activating swap partitions: "
 msgstr "スワップパーティションを活性化中: "
 
-#: /etc/rc.d/init.d/iscsi:104
+#: /etc/rc.d/init.d/iscsi:131
 msgid " umount"
 msgstr " umount"
 
-#: /etc/rc.d/init.d/rawdevices:51
+#: /etc/rc.d/init.d/rawdevices:53
 msgid "done"
 msgstr "完了"
 
@@ -1275,35 +1362,43 @@ msgstr "完了"
 msgid "Stopping $prog:"
 msgstr "$progを停止中:"
 
-#: /etc/rc.d/rc.sysinit:357 /etc/rc.d/rc.sysinit:359
+#: /etc/rc.d/rc.sysinit:375 /etc/rc.d/rc.sysinit:377
 msgid "Finding module dependencies: "
 msgstr "モジュール依存関係を検索中: "
 
-#: /etc/sysconfig/network-scripts/ifup-ppp:43
+#: /etc/sysconfig/network-scripts/ifup-ppp:47
 msgid "ifup-ppp for ${DEVICE} exiting"
 msgstr "${DEVICE}のifup-pppを終了中"
 
-#: /etc/rc.d/init.d/iscsi:43
+#: /etc/rc.d/init.d/iscsi:42
 msgid "Starting iSCSI: iscsi"
 msgstr "iSCSI: iscsiを起動中: "
 
-#: /etc/rc.d/rc.sysinit:129
+#: /etc/rc.d/rc.sysinit:152
 msgid "Loading default keymap: "
 msgstr "標準キーマップを読み込み中: "
 
-#: /etc/rc.d/rc.sysinit:50
+#: /etc/rc.d/rc.sysinit:73
 msgid "Mounting proc filesystem: "
 msgstr "procファイルシステムをマウント中: "
 
-#: /etc/rc.d/rc.sysinit:645
+#: /etc/rc.d/rc.sysinit:684
 msgid "Initializing firewire controller ($alias): "
 msgstr "firewireコントローラ($alias)を初期化中: "
 
-#: /etc/rc.d/rc.sysinit:185
+#: /etc/rc.d/init.d/isicom:36
+msgid "Disabling PLX devices... "
+msgstr ""
+
+#: /etc/rc.d/rc.sysinit:190
 msgid "Initializing USB mouse: "
 msgstr "USBマウスを初期化中: "
 
-#: /etc/rc.d/init.d/iscsi:99
+#: /etc/rc.d/init.d/functions:331
+msgid "FAILED"
+msgstr "失敗"
+
+#: /etc/rc.d/init.d/iscsi:126
 msgid "Stopping iSCSI:"
 msgstr "iSCSI停止中:"
 
@@ -1311,7 +1406,7 @@ msgstr "iSCSI停止中:"
 msgid "Unmounting NFS filesystems (retry): "
 msgstr "NFSファイルシステムをアンマウント中(再試行): "
 
-#: /etc/rc.d/init.d/rawdevices:62
+#: /etc/rc.d/init.d/rawdevices:64
 msgid "You need to be root to use this command ! "
 msgstr "このコマンドを使うにはrootでなければなりません!"
 
@@ -1319,16 +1414,8 @@ msgstr "このコマンドを使うにはrootでなければなりません!"
 msgid "Currently active devices:"
 msgstr "現在活動中のデバイス:"
 
-#: /etc/rc.d/init.d/crond:51
-msgid "Reloading cron daemon configuration: "
-msgstr "cronデーモン設定を再読み込み中: "
-
-#: /etc/rc.d/init.d/wine:36
-msgid "Wine binary format handlers are not registered."
-msgstr "Wineバイナリ形式のハンドラーは登録されていません。"
-
-#: /etc/sysconfig/network-scripts/ifdown-sit:52
-#: /etc/sysconfig/network-scripts/ifup-sit:58
+#: /etc/sysconfig/network-scripts/ifdown-sit:46
+#: /etc/sysconfig/network-scripts/ifup-sit:59
 msgid ""
 "Device '$DEVICE' isn't supported here, use IPV6_AUTOTUNNEL setting and "
 "restart (IPv6) networking"
@@ -1344,21 +1431,19 @@ msgstr "起動"
 msgid "Shutting down interface $i: "
 msgstr "インターフェース $iを終了中: "
 
-#: /etc/rc.d/init.d/lpd:98 /etc/rc.d/init.d/rarpd:65
+#: /etc/rc.d/init.d/lpd:111 /etc/rc.d/init.d/rarpd:65
 msgid "Usage: $0 {start|stop|restart|condrestart|reload|status}"
 msgstr "使い方: $0 {start|stop|restart|condrestart|reload|status}"
 
-#: /etc/rc.d/rc.sysinit:31
-msgid "\\033[0;31m"
-msgstr "\\033[0;31m"
+#: /etc/sysconfig/network-scripts/ifup-ipv6:232
+msgid "Warning: interface 'tun6to4' does not support 'IPV6_DEFAULTGW', ignored"
+msgstr ""
+"警告：インターフェースtun6to4'はIPV6_DEFAULTGW',をサポートしません。無視しま"
+"す。"
 
-#: /etc/rc.d/init.d/nfslock:63
+#: /etc/rc.d/init.d/nfslock:65
 msgid "Stopping NFS locking: "
 msgstr "NFS lockingを停止中: "
-
-#: /etc/sysconfig/network-scripts/init.ipv6-global:183
-msgid "Usage: $0 {start|stop|reload|restart|showsysctl}"
-msgstr "使い方: $0 {start|stop|reload|restart|showsysctl}"
 
 #: /etc/rc.d/init.d/random:25
 msgid "Initializing random number generator: "
@@ -1372,9 +1457,14 @@ msgstr "カードマネージャ"
 msgid "Listening for an NIS domain server."
 msgstr "NISドメインサーバを検索中"
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:168
+#: /etc/rc.d/rc.sysinit:272 /etc/rc.d/rc.sysinit:530
+msgid "(Repair filesystem)"
+msgstr ""
+
+#: /etc/sysconfig/network-scripts/ifup-ipv6:172
 msgid "Device 'tun6to4' (from '$DEVICE') is already up, shutdown first"
-msgstr "('$DEVICE'の) Device 'tun6to4' はすでに動作中です。まず停止してください。"
+msgstr ""
+"('$DEVICE'の) Device 'tun6to4' はすでに動作中です。まず停止してください。"
 
 #: /etc/rc.d/init.d/autofs:246 /etc/rc.d/init.d/autofs:290
 #: /etc/rc.d/init.d/autofs:291
@@ -1393,15 +1483,19 @@ msgstr "使い方: $0 {start|stop|status|condrestart|restart}"
 msgid "RSA1 key generation"
 msgstr "RSA1キー生成"
 
-#: /etc/rc.d/init.d/nfs:164
-msgid "reload"
-msgstr "再読み込み"
+#: /etc/rc.d/init.d/vncserver:19
+msgid "VNC server"
+msgstr ""
+
+#: /etc/rc.d/init.d/iscsi:27
+msgid "InitiatorName file /etc/initiatorname.iscsi is missing!"
+msgstr ""
 
 #: /etc/rc.d/init.d/isdn:138
 msgid "Unloading ISDN modules"
 msgstr "ISDNモジュールを取り外し中"
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:258
+#: /etc/sysconfig/network-scripts/ifup-ipv6:291
 msgid "6to4 configuration is not valid"
 msgstr "6to4設定は無効です。"
 
@@ -1417,23 +1511,11 @@ msgstr ""
 " エラー：[ipv6_log] Syslogが選択されました。しかしバイナリ'logger' は存在しな"
 "いか または実行できません。'"
 
-#: /etc/rc.d/init.d/halt:15
-msgid "$1 "
-msgstr "$1"
-
-#: /etc/sysconfig/network-scripts/ifup-ipv6:186
-msgid ""
-"Given IPv4 address '$ipv4addr' is not globally usable, 6to4 configuration is "
-"not valid"
-msgstr ""
-"与えられたIPv4アドレス $ipv4addr はグローバルでは使用できません。6to4設定は有"
-"効ではありません。"
-
-#: /etc/rc.d/init.d/postgresql:224
+#: /etc/rc.d/init.d/postgresql:235
 msgid "Usage: $0 {start|stop|status|restart|condrestart|reload|force-reload}"
 msgstr "使い方: $0 {start|stop|status|restart|condrestart|reload|force-reload}"
 
-#: /etc/rc.d/init.d/netdump:160
+#: /etc/rc.d/init.d/netdump:164
 msgid "initializing netdump"
 msgstr "netdumpを初期化中: "
 
@@ -1441,15 +1523,19 @@ msgstr "netdumpを初期化中: "
 msgid "$0: kernel does not have microcode device support"
 msgstr "$0:カーナルはマイクロコードデバイスのサポートを持ちません。"
 
+#: /etc/rc.d/init.d/firstboot:33
+msgid "X is now configured.  Starting Setup Agent"
+msgstr ""
+
 #: /etc/rc.d/init.d/mars-nwe:23
 msgid "Starting NetWare emulator-server: "
 msgstr "NetWareエミュレータサーバを起動中: "
 
-#: /etc/rc.d/init.d/wine:63
-msgid "Usage: $prog {start|stop|status|restart|condrestart}"
-msgstr "使い方: $prog {start|stop|status|restart|condrestart}"
+#: /etc/rc.d/init.d/functions:451
+msgid "nN"
+msgstr ""
 
-#: /etc/rc.d/rc.sysinit:310
+#: /etc/rc.d/rc.sysinit:322
 msgid "Remounting root filesystem in read-write mode: "
 msgstr "ルートファイルシステムを読み書きモードで再マウント中: "
 
@@ -1464,18 +1550,19 @@ msgstr "マウントポイントをアクティブ化:"
 #: /etc/sysconfig/network-scripts/ifup-ippp:351
 #: /etc/sysconfig/network-scripts/ifup-isdn:351
 msgid "Warning: link doesn't support IPv6 using encapsulation 'rawip'"
-msgstr "警告：リンクはIPv6をサポートしません。カプセル化の'rawip'を使用しています。"
+msgstr ""
+"警告：リンクはIPv6をサポートしません。カプセル化の'rawip'を使用しています。"
 
 #: /etc/sysconfig/network-scripts/ifdown:11
 #: /etc/sysconfig/network-scripts/ifdown:18
 msgid "usage: ifdown <device name>"
 msgstr "使い方: ifdown <デバイス名>"
 
-#: /etc/rc.d/init.d/nfslock:48
+#: /etc/rc.d/init.d/nfslock:49
 msgid "Starting NFS locking: "
 msgstr "NFS lockingを起動中: "
 
-#: /etc/rc.d/init.d/halt:114
+#: /etc/rc.d/init.d/halt:115
 msgid "Syncing hardware clock to system time"
 msgstr "ハードウェア時間をシステム時間に同期中"
 
@@ -1483,27 +1570,42 @@ msgstr "ハードウェア時間をシステム時間に同期中"
 msgid "Configuration file or keys are invalid"
 msgstr "設定ファイルまたはキーが無効です。"
 
-#: /etc/rc.d/init.d/rawdevices:25 /etc/rc.d/init.d/rawdevices:32
+#: /etc/rc.d/init.d/rawdevices:27 /etc/rc.d/init.d/rawdevices:34
 msgid "  Please correct your /etc/sysconfig/rawdevices:"
 msgstr "  /etc/sysconfig/rawdevices を修正して下さい:"
 
-#: /etc/rc.d/init.d/routed:41
-msgid "Stopping routed (RIP) services: "
-msgstr "routed(RIP)サービスを停止中: "
+#: /etc/rc.d/init.d/functions:452
+msgid "cC"
+msgstr ""
 
-#: /etc/rc.d/init.d/netfs:152 /etc/rc.d/init.d/network:238
-msgid "Usage: $0 {start|stop|restart|reload|status}"
-msgstr "使い方: $0 {start|stop|restart|reload|status}"
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:112
+msgid "DEBUG    "
+msgstr ""
 
-#: /etc/rc.d/init.d/portmap:33
-msgid "Networking not configured - exiting"
-msgstr "ネットワークが設定されていません - 終了中"
+#: /etc/rc.d/init.d/sshd:66
+msgid "Generating SSH2 DSA host key: "
+msgstr "SSH2 DSAホストキーを生成中: "
+
+#: /etc/rc.d/init.d/isicom:63
+#, fuzzy
+msgid "Usage: isicom {start|stop|status|restart|reload|condrestart}"
+msgstr "使い方: $0 {start|stop|status|restart|reload|condrestart}"
+
+#: /etc/sysconfig/network-scripts/ifdown-aliases:7
+#: /etc/sysconfig/network-scripts/ifup-ipx:7
+msgid "usage: $0 <net-device>"
+msgstr "使い方:  $0 <net-device>"
+
+#: /etc/rc.d/init.d/isicom:20
+#, fuzzy
+msgid "Loading isicom firmware... "
+msgstr "ファームウェアを読み込み中"
 
 #: /etc/rc.d/init.d/netfs:38
 msgid "Mounting SMB filesystems: "
 msgstr "SMBファイルシステムをマウント中: "
 
-#: /etc/rc.d/init.d/rawdevices:28 /etc/rc.d/init.d/rawdevices:35
+#: /etc/rc.d/init.d/rawdevices:30 /etc/rc.d/init.d/rawdevices:37
 msgid "   you'll have to upgrade your util-linux package"
 msgstr "  util-linuxパッケージをアップグレードして下さい"
 
@@ -1515,7 +1617,7 @@ msgstr "$progを起動中:"
 msgid "Starting rwho services: "
 msgstr "rwhoサービス起動中: "
 
-#: /etc/rc.d/rc.sysinit:267 /etc/rc.d/rc.sysinit:463 /etc/rc.d/rc.sysinit:503
+#: /etc/rc.d/rc.sysinit:279 /etc/rc.d/rc.sysinit:488 /etc/rc.d/rc.sysinit:537
 msgid "Automatic reboot in progress."
 msgstr "自動再起動実行中"
 
@@ -1523,25 +1625,29 @@ msgstr "自動再起動実行中"
 msgid "Stopping INND service: "
 msgstr "INNDサービスを停止中: "
 
-#: /etc/rc.d/init.d/psacct:24
+#: /etc/rc.d/init.d/psacct:23
 msgid "Shutting down process accounting: "
 msgstr "プロセスアカウントを終了中"
 
-#: /etc/rc.d/init.d/iscsi:49
+#: /etc/rc.d/init.d/iscsi:48
 msgid "Could not load module iscsi.o"
 msgstr "モジュールiscsi.oをロード出来ませんでした。"
 
-#: /etc/rc.d/init.d/functions:419
+#: /etc/rc.d/init.d/functions:430
 msgid "$STRING"
 msgstr "$STRING"
+
+#: /etc/rc.d/init.d/kudzu:57
+msgid "Updating /etc/fstab"
+msgstr ""
 
 #: /etc/rc.d/init.d/keytable:22
 msgid "Loading keymap: "
 msgstr "キーマップを読み込み中: "
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:151
-msgid "error in $FILE: already seen ipaddr $IPADDR in $ipseen"
-msgstr "$FILE内にエラー: $ipseen 内に既に存在するアドレス $IPADDR"
+#: /etc/rc.d/rc.sysinit:205
+msgid "Your system appears to have shut down uncleanly"
+msgstr "システムは正常に終了されなかったようです"
 
 #: /etc/rc.d/init.d/gpm:54
 msgid "Shutting down console mouse services: "
@@ -1551,11 +1657,11 @@ msgstr "コンソールマウスサービスを停止中: "
 msgid "Setting NIS domain name $NISDOMAIN: "
 msgstr "NISドメイン名 $NISDOMAINを設定中: "
 
-#: /etc/rc.d/init.d/kudzu:39
+#: /etc/rc.d/init.d/kudzu:37
 msgid "Checking for new hardware"
 msgstr "新規ハードウェアを検査中"
 
-#: /etc/rc.d/init.d/nfslock:67
+#: /etc/rc.d/init.d/nfslock:69
 msgid "Stopping NFS statd: "
 msgstr "NFS statdを停止中: "
 
@@ -1567,11 +1673,11 @@ msgstr "/procファイルシステムが利用できません"
 msgid "Starting NFS mountd: "
 msgstr "NFS mountdを起動中:  "
 
-#: /etc/rc.d/rc.sysinit:57
+#: /etc/rc.d/rc.sysinit:80
 msgid "Unmounting initrd: "
 msgstr "initrdをアンマウント中: "
 
-#: /etc/rc.d/rc.sysinit:453
+#: /etc/rc.d/rc.sysinit:477
 msgid "*** An error occurred during the RAID startup"
 msgstr "*** RAID開始時に何らかのエラーが発生しました"
 
@@ -1579,9 +1685,16 @@ msgstr "*** RAID開始時に何らかのエラーが発生しました"
 msgid "error in $FILE: didn't specify device or ipaddr"
 msgstr "$FILE内にエラー: デバイスまたはIPアドレスが未指定です"
 
-#: /etc/rc.d/init.d/functions:293
+#: /etc/rc.d/init.d/functions:292
 msgid "${base} (pid $pid) is running..."
 msgstr "${base} (pid $pid) を実行中..."
+
+#: /etc/sysconfig/network-scripts/ifup-ipv6:190
+#, fuzzy
+msgid "Given IPv4 address '$ipv4addr' is not globally usable"
+msgstr ""
+"与えられたIPv4アドレス $ipv4addr はグローバルでは使用できません。6to4設定は有"
+"効ではありません。"
 
 #: /etc/rc.d/init.d/aep1000:73 /etc/rc.d/init.d/amd:39
 #: /etc/rc.d/init.d/anacron:25 /etc/rc.d/init.d/arpwatch:35
@@ -1590,13 +1703,14 @@ msgstr "${base} (pid $pid) を実行中..."
 #: /etc/rc.d/init.d/identd:57 /etc/rc.d/init.d/kadmin:47
 #: /etc/rc.d/init.d/kprop:37 /etc/rc.d/init.d/krb524:37
 #: /etc/rc.d/init.d/krb5kdc:37 /etc/rc.d/init.d/ldap:63
-#: /etc/rc.d/init.d/ldap:70 /etc/rc.d/init.d/lpd:57 /etc/rc.d/init.d/mysqld:52
-#: /etc/rc.d/init.d/mysqld:54 /etc/rc.d/init.d/named:58
-#: /etc/rc.d/init.d/nscd:58 /etc/rc.d/init.d/portmap:65
-#: /etc/rc.d/init.d/pxe:32 /etc/rc.d/init.d/radvd:45 /etc/rc.d/init.d/rarpd:32
+#: /etc/rc.d/init.d/ldap:70 /etc/rc.d/init.d/lisa:48 /etc/rc.d/init.d/lpd:66
+#: /etc/rc.d/init.d/mysqld:52 /etc/rc.d/init.d/mysqld:54
+#: /etc/rc.d/init.d/named:47 /etc/rc.d/init.d/nscd:58
+#: /etc/rc.d/init.d/portmap:65 /etc/rc.d/init.d/pxe:32
+#: /etc/rc.d/init.d/radvd:45 /etc/rc.d/init.d/rarpd:32
 #: /etc/rc.d/init.d/rwalld:33 /etc/rc.d/init.d/saslauthd:38
 #: /etc/rc.d/init.d/snmpd:29 /etc/rc.d/init.d/snmptrapd:30
-#: /etc/rc.d/init.d/tWnn:42 /etc/rc.d/init.d/ups:61 /etc/rc.d/init.d/xinetd:70
+#: /etc/rc.d/init.d/ups:63 /etc/rc.d/init.d/xinetd:69
 msgid "Stopping $prog: "
 msgstr "$progを停止中: "
 
@@ -1608,19 +1722,60 @@ msgstr "NISドメインにバインド中: "
 msgid "Shutting down $KIND services: "
 msgstr "$KINDサービスを停止中: "
 
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:115
+msgid "ERROR    "
+msgstr ""
+
 #: /etc/rc.d/init.d/atalk:53
 msgid "Shutting down AppleTalk services: "
 msgstr "AppleTalk サービスを停止中: "
 
-#: /etc/rc.d/rc.sysinit:212
+#: /etc/rc.d/rc.sysinit:218
 #, c-format
 msgid "Press Y within %d seconds to force file system integrity check..."
-msgstr "ファイルシステム統一性検査を強制するためには、%d秒の間にYを押して下さい..."
+msgstr ""
+"ファイルシステム統一性検査を強制するためには、%d秒の間にYを押して下さい..."
 
 #: /etc/rc.d/init.d/ip6tables:110 /etc/rc.d/init.d/ipchains:72
 #: /etc/rc.d/init.d/iptables:112
 msgid "Resetting built-in chains to the default ACCEPT policy:"
 msgstr "組込みチェインを標準ACCEPTポリシーに再設定:"
+
+#~ msgid "Wine binary format handlers are registered."
+#~ msgstr "Wineバイナリ形式のハンドラーが登録されています。"
+
+#~ msgid "The iSCSI module could not be unloaded."
+#~ msgstr "iSCSIモジュールはアンロードできませんでした。"
+
+#~ msgid "Setting default font ($SYSFONT): "
+#~ msgstr "標準フォント($SYSFONT)を設定中: "
+
+#~ msgid "Unregistering binary handler for Windows applications"
+#~ msgstr "Windowsアプリケーション用にバイナリハンドラーを登録解除しています。"
+
+#~ msgid "\\033[0;39m"
+#~ msgstr "\\033[0;39m"
+
+#~ msgid "Stopping postgresql service: "
+#~ msgstr "PostgreSQLサービスを停止中: "
+
+#~ msgid " iscsilun"
+#~ msgstr " iscsilun"
+
+#~ msgid "Registering binary handler for Windows applications"
+#~ msgstr "Windowsアプリケーション用にバイナリハンドラーを登録中です"
+
+#~ msgid "Wine binary format handlers are not registered."
+#~ msgstr "Wineバイナリ形式のハンドラーは登録されていません。"
+
+#~ msgid "\\033[0;31m"
+#~ msgstr "\\033[0;31m"
+
+#~ msgid "$1 "
+#~ msgstr "$1"
+
+#~ msgid "Usage: $prog {start|stop|status|restart|condrestart}"
+#~ msgstr "使い方: $prog {start|stop|status|restart|condrestart}"
 
 #~ msgid "Stopping NFS mountd: "
 #~ msgstr "NFS mountdを停止中: "
@@ -1678,4 +1833,3 @@ msgstr "組込みチェインを標準ACCEPTポリシーに再設定:"
 
 #~ msgid "$prog: No servers in $ntpconf and $ntpstep"
 #~ msgstr "$prog：$ntpconfと$ntpstepにはサーバはありません。"
-

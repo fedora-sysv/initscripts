@@ -18,20 +18,22 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: /etc/rc.d/init.d/functions:444
+#: /etc/rc.d/init.d/functions:455
 msgid "Start service $1 (Y)es/(N)o/(C)ontinue? [Y] "
 msgstr "¿Iniciar o servicio $1 (S)i/(N)on/(C)ontinuar? [S] "
 
-#: /etc/rc.d/init.d/ups:46
+#: /etc/rc.d/init.d/ups:48
 msgid "Starting UPS monitor (slave): "
 msgstr "Iniciando o monitor UPS (escravo): "
 
-#: /etc/rc.d/init.d/ip6tables:100 /etc/rc.d/init.d/ip6tables:184
-#: /etc/rc.d/init.d/ip6tables:185 /etc/rc.d/init.d/ipchains:103
-#: /etc/rc.d/init.d/iptables:102 /etc/rc.d/init.d/iptables:186
-#: /etc/rc.d/init.d/iptables:187
-msgid "Removing user defined chains:"
-msgstr "Eliminando os chains definidos por usuario:"
+#: /etc/rc.d/rc.sysinit:504
+#, fuzzy
+msgid "Checking filesystems"
+msgstr "Verificando as quotas do sistema de ficheiros raíz: "
+
+#: /etc/rc.d/init.d/crond:51
+msgid "Reloading cron daemon configuration: "
+msgstr "Recargando a configuración do daemon cron: "
 
 #: /etc/rc.d/init.d/ip6tables:193 /etc/rc.d/init.d/ip6tables:194
 #: /etc/rc.d/init.d/iptables:195 /etc/rc.d/init.d/iptables:196
@@ -43,7 +45,7 @@ msgid "Stopping YP map server: "
 msgstr "Parando o servidor de mapeo YP: "
 
 #: /etc/rc.d/init.d/amd:96 /etc/rc.d/init.d/autofs:320
-#: /etc/rc.d/init.d/bgpd:56 /etc/rc.d/init.d/irda:66
+#: /etc/rc.d/init.d/bgpd:56 /etc/rc.d/init.d/irda:69
 #: /etc/rc.d/init.d/keytable:72 /etc/rc.d/init.d/ospfd:57
 #: /etc/rc.d/init.d/ripd:56 /etc/rc.d/init.d/ripngd:56
 #: /etc/rc.d/init.d/sshd:151 /etc/rc.d/init.d/zebra:54
@@ -58,6 +60,10 @@ msgstr "Inicio de $x"
 msgid "Starting console mouse services: "
 msgstr "Iniciando os servicios de rato para consola: "
 
+#: /etc/rc.d/init.d/ntpd:69
+msgid "$prog: Opening firewall for input from $server port 123"
+msgstr ""
+
 #: /etc/rc.d/init.d/rhnsd:38
 msgid "Starting Red Hat Network Daemon: "
 msgstr "Iniciando o daemon Red Hat Network: "
@@ -66,11 +72,11 @@ msgstr "Iniciando o daemon Red Hat Network: "
 msgid "Reloading INN Service: "
 msgstr "Recargando o servicio INN: "
 
-#: /etc/rc.d/init.d/keytable:34
-msgid "Loading system font: "
-msgstr "Cargando a fonte de sistema: "
+#: /etc/rc.d/init.d/firstboot:31
+msgid "X is not configured.  Running redhat-config-xfree86"
+msgstr ""
 
-#: /etc/rc.d/init.d/ups:66
+#: /etc/rc.d/init.d/ups:68
 msgid "Shutting down $MODEL: "
 msgstr "Parando $MODEL: "
 
@@ -85,15 +91,12 @@ msgstr "Uso: $0 {start|stop|restart|condrestart|reload|status}"
 msgid "Starting YP passwd service: "
 msgstr "Iniciando o servicio passwd de YP: "
 
-#: /etc/rc.d/init.d/ypbind:70
-msgid "Shutting down NIS services: "
-msgstr "Parando os servicios NIS: "
+#: /etc/rc.d/init.d/postgresql:93
+#, fuzzy
+msgid "Starting ${NAME} service: "
+msgstr "Iniciando os servicios $KIND: "
 
-#: /etc/rc.d/init.d/kadmin:35
-msgid "Extracting kadm5 Service Keys: "
-msgstr "Extraendo as Claves do Servicio kadm5: "
-
-#: /etc/rc.d/init.d/functions:235
+#: /etc/rc.d/init.d/functions:234
 msgid "Usage: pidfileofproc {program}"
 msgstr "Uso: pidfileofproc {programa}"
 
@@ -118,15 +121,16 @@ msgstr "Xerando a chave RSA para SSH2: "
 msgid "Starting routed (RIP) services: "
 msgstr "Iniciando os servicios routed (RIP): "
 
-#: /etc/rc.d/init.d/functions:340
-msgid "PASSED"
-msgstr "SUPERADO"
+#: /etc/rc.d/init.d/crond:78 /etc/rc.d/init.d/krb5kdc:76
+#: /etc/rc.d/init.d/saslauthd:68 /etc/rc.d/init.d/squid:160
+msgid "Usage: $0 {start|stop|status|reload|restart|condrestart}"
+msgstr "Uso: $0 {start|stop|status|reload|restart|condrestart}"
 
 #: /etc/rc.d/init.d/innd:33
 msgid "Starting INND system: "
 msgstr "Iniciando o sistema INND: "
 
-#: /etc/rc.d/init.d/halt:132 /etc/rc.d/init.d/netfs:53
+#: /etc/rc.d/init.d/halt:133 /etc/rc.d/init.d/netfs:53
 msgid "Unmounting loopback filesystems (retry):"
 msgstr "Desmontando os sistemas de ficheiros loopback (reintento):"
 
@@ -143,11 +147,11 @@ msgstr "Puntos de montaxe SMB configurados: "
 msgid " cardmgr is already running."
 msgstr " cardmgr xa está a se executar."
 
-#: /etc/rc.d/init.d/postgresql:123
+#: /etc/rc.d/init.d/postgresql:136
 msgid "Initializing database: "
 msgstr "Inicializando a base de datos: "
 
-#: /etc/sysconfig/network-scripts/ifup-sit:63
+#: /etc/sysconfig/network-scripts/ifup-sit:64
 #, fuzzy
 msgid "Missing remote IPv4 address of tunnel, configuration is not valid"
 msgstr ""
@@ -158,11 +162,11 @@ msgstr ""
 msgid "Shutting down PCMCIA services:"
 msgstr "Parando os servicios PCMCIA:"
 
-#: /etc/rc.d/rc.sysinit:708
+#: /etc/rc.d/rc.sysinit:741
 msgid "Setting hard drive parameters for ${disk[$device]}: "
 msgstr "Establecendo os parámetros do disco duro ${disk[$device]}: "
 
-#: /etc/rc.d/init.d/privoxy:202
+#: /etc/rc.d/init.d/privoxy:203
 #, fuzzy
 msgid "Starting $PRIVOXY_PRG: "
 msgstr "Iniciando $MODEL: "
@@ -182,7 +186,7 @@ msgstr ""
 msgid "Error, some other host already uses address ${IPADDR}."
 msgstr "Erro, algunha outra máquina xa está a usar o enderezo ${IPADDR}."
 
-#: /etc/rc.d/init.d/rawdevices:49
+#: /etc/rc.d/init.d/rawdevices:51
 msgid "Assigning devices: "
 msgstr "Asignando os dispositivos: "
 
@@ -190,7 +194,7 @@ msgstr "Asignando os dispositivos: "
 msgid "Configured NCP mountpoints: "
 msgstr "Puntos de montaxe NCP configurados: "
 
-#: /etc/rc.d/init.d/privoxy:264
+#: /etc/rc.d/init.d/privoxy:265
 #, fuzzy
 msgid "Usage: $PRIVOXY_PRG {start|stop|reload|restart|condrestart|status|top}"
 msgstr "Uso: $0 {start|stop|reload|restart|condrestart|status}"
@@ -208,7 +212,7 @@ msgstr "Iniciando o daemon de APM: "
 msgid "Usage: $0 {start|stop|restart|condrestart|status|panic|save}"
 msgstr "Uso: $0 {start|stop|restart|condrestart|status|panic|save}"
 
-#: /etc/rc.d/init.d/functions:318
+#: /etc/rc.d/init.d/functions:317
 msgid "OK"
 msgstr "CORRECTO"
 
@@ -233,7 +237,7 @@ msgid "cardmgr is stopped"
 msgstr "cardmgr está parado"
 
 #: /etc/rc.d/init.d/rhnsd:82 /etc/rc.d/init.d/snmpd:76
-#: /etc/rc.d/init.d/snmptrapd:74 /etc/rc.d/init.d/xinetd:119
+#: /etc/rc.d/init.d/snmptrapd:74 /etc/rc.d/init.d/xinetd:118
 msgid "Usage: $0 {start|stop|status|restart|condrestart|reload}"
 msgstr "Uso: $0 {start|stop|status|restart|condrestart|reload}"
 
@@ -242,21 +246,22 @@ msgstr "Uso: $0 {start|stop|status|restart|condrestart|reload}"
 msgid "Flushing all current rules and user defined chains:"
 msgstr "Eliminando tódalas regras actuais e os chains definidos por usuario:"
 
-#: /etc/rc.d/init.d/nfslock:108 /etc/rc.d/init.d/rawdevices:71
+#: /etc/rc.d/init.d/nfslock:110 /etc/rc.d/init.d/rawdevices:73
 #: /etc/rc.d/init.d/rstatd:63 /etc/rc.d/init.d/rusersd:66
 #: /etc/rc.d/init.d/rwalld:64 /etc/rc.d/init.d/rwhod:63
 msgid "Usage: $0 {start|stop|status|restart}"
 msgstr "Uso: $0 {start|stop|status|restart}"
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:210
-msgid "Warning: interface 'tun6to4' does not support 'IPV6_DEFAULTGW', ignored"
+#: /etc/sysconfig/network-scripts/ifup-aliases:225
+#: /etc/sysconfig/network-scripts/ifup-aliases:235
+msgid "error in ifcfg-${parent_device}: files"
+msgstr "erro en ifcfg-${parent_device}: ficheiros"
+
+#: /etc/rc.d/init.d/isicom:27
+msgid "Failed to load firmware."
 msgstr ""
 
-#: /etc/rc.d/init.d/wine:33
-msgid "Wine binary format handlers are registered."
-msgstr ""
-
-#: /etc/rc.d/rc.sysinit:220
+#: /etc/rc.d/rc.sysinit:226
 msgid "Forcing file system integrity check due to default setting"
 msgstr ""
 "Forzando a comprobación da integredidade do sistema de ficheiros debido á "
@@ -266,11 +271,11 @@ msgstr ""
 msgid "Disabling IPv4 automatic defragmentation: "
 msgstr "Desactivando a desfragmentación automática de IPv4: "
 
-#: /etc/sysconfig/network-scripts/ifup-routes:6
+#: /etc/sysconfig/network-scripts/ifup-routes:5
 msgid "usage: ifup-routes <net-device>"
 msgstr "uso: ifup-routes <dispositivo de rede>"
 
-#: /etc/rc.d/rc.sysinit:29
+#: /etc/rc.d/rc.sysinit:52
 #, fuzzy
 msgid "\t\tWelcome to "
 msgstr "\t\t\tBenvido a "
@@ -283,13 +288,19 @@ msgstr "Parando os servicios rstat: "
 msgid "mdadm"
 msgstr ""
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:315
+#: /etc/sysconfig/network-scripts/ifup-aliases:310
 msgid "error in $FILE: IPADDR_START and IPADDR_END don't argree"
 msgstr "erro en $FILE: IPADDR_START e IPADDR_END non concordan"
 
-#: /etc/sysconfig/network-scripts/ifup-sit:71
+#: /etc/sysconfig/network-scripts/ifup-sit:72
 msgid "Device '$DEVICE' is already up, please shutdown first"
 msgstr ""
+
+#: /etc/sysconfig/network-scripts/ifup:188
+#: /etc/sysconfig/network-scripts/ifup:190
+#: /etc/sysconfig/network-scripts/ifup:192
+msgid " done."
+msgstr " feito."
 
 #: /etc/rc.d/init.d/innd:112 /etc/rc.d/init.d/kprop:67
 #: /etc/rc.d/init.d/krb524:66 /etc/rc.d/init.d/syslog:80
@@ -297,16 +308,21 @@ msgstr ""
 msgid "Usage: $0 {start|stop|status|restart|condrestart}"
 msgstr "Uso: $0 {start|stop|status|restart|condrestart}"
 
+#: /etc/rc.d/init.d/isicom:16
+#, fuzzy
+msgid "Loading PLX (isicom) modules... "
+msgstr "Cargando os módulos RDSI"
+
 #: /etc/rc.d/init.d/nfs:123
 #, fuzzy
 msgid "Shutting down NFS mountd: "
 msgstr "Iniciando o daemon de APM: "
 
-#: /etc/rc.d/init.d/halt:188
+#: /etc/rc.d/init.d/halt:189
 msgid "On the next boot fsck will be forced."
 msgstr "No próximo arrinque, a execución do fsck será forzada."
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:122
+#: /etc/sysconfig/network-scripts/ifup-ipv6:119
 msgid ""
 "Global IPv6 forwarding is disabled in configuration, but not currently "
 "disabled in kernel"
@@ -314,12 +330,12 @@ msgstr ""
 "O forwarding IPv6 global está deshabilitado na configuración, pero non no "
 "núcleo"
 
-#: /etc/rc.d/init.d/halt:42
+#: /etc/rc.d/init.d/halt:43
 #, fuzzy
 msgid "$0: call me as 'halt' or 'reboot' please!"
 msgstr "$0: ¡execúteo como 'halt' ou 'reboot'!"
 
-#: /etc/rc.d/init.d/functions:351
+#: /etc/rc.d/init.d/functions:359
 msgid "WARNING"
 msgstr ""
 
@@ -328,11 +344,11 @@ msgstr ""
 msgid "$NAME is attached to $DEVICE"
 msgstr "$pn está conectado a $dev"
 
-#: /etc/rc.d/init.d/named:112
+#: /etc/rc.d/init.d/named:104
 msgid "Usage: $0 {start|stop|status|restart|condrestart|reload|probe}"
 msgstr "Uso: $0 {start|stop|status|restart|condrestart|reload|probe}"
 
-#: /etc/rc.d/init.d/postgresql:107
+#: /etc/rc.d/init.d/postgresql:120
 msgid ""
 "An old version of the database format was found.\n"
 "You need to upgrade the data format before using PostgreSQL.\n"
@@ -345,40 +361,48 @@ msgstr ""
 
 #: /etc/rc.d/init.d/bgpd:33 /etc/rc.d/init.d/dhcpd:38
 #: /etc/rc.d/init.d/dhcrelay:45 /etc/rc.d/init.d/FreeWnn:43
-#: /etc/rc.d/init.d/irda:28 /etc/rc.d/init.d/ntpd:54
+#: /etc/rc.d/init.d/irda:31 /etc/rc.d/init.d/ntpd:121
 #: /etc/rc.d/init.d/ospf6d:33 /etc/rc.d/init.d/ospfd:34
 #: /etc/rc.d/init.d/ripd:33 /etc/rc.d/init.d/ripngd:33
-#: /etc/rc.d/init.d/sendmail:71 /etc/rc.d/init.d/vncserver:41
-#: /etc/rc.d/init.d/xfs:70 /etc/rc.d/init.d/zebra:31
+#: /etc/rc.d/init.d/sendmail:73 /etc/rc.d/init.d/vncserver:41
+#: /etc/rc.d/init.d/vsftpd:54 /etc/rc.d/init.d/xfs:70
+#: /etc/rc.d/init.d/zebra:31
 msgid "Shutting down $prog: "
 msgstr "Parando $prog: "
 
-#: /etc/rc.d/init.d/halt:157
+#: /etc/rc.d/init.d/halt:158
 msgid "Unmounting file systems (retry): "
 msgstr "Desmontando os sistemas de ficheiros (reintento): "
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:319
+#: /etc/sysconfig/network-scripts/ifup-aliases:314
 msgid "error in $FILE: IPADDR_START greater than IPADDR_END"
 msgstr "erro en $FILE: IPADDR_START é maior que IPADDR_END"
 
-#: /etc/sysconfig/network-scripts/ifup:250
-msgid "Error adding address ${IPADDR} for ${DEVICE}."
-msgstr "Erro engadindo o enderezo ${IPADDR} para ${DEVICE}."
+#: /etc/rc.d/init.d/ip6tables:100 /etc/rc.d/init.d/ip6tables:184
+#: /etc/rc.d/init.d/ip6tables:185 /etc/rc.d/init.d/ipchains:103
+#: /etc/rc.d/init.d/iptables:102 /etc/rc.d/init.d/iptables:186
+#: /etc/rc.d/init.d/iptables:187
+msgid "Removing user defined chains:"
+msgstr "Eliminando os chains definidos por usuario:"
 
 #: /etc/rc.d/init.d/atalk:91 /etc/rc.d/init.d/isdn:261
 #: /etc/rc.d/init.d/ldap:115
 msgid "Usage: $0 {start|stop|restart|status|condrestart}"
 msgstr "Uso: $0 {start|stop|restart|status|condrestart}"
 
-#: /etc/rc.d/init.d/halt:58
+#: /etc/rc.d/init.d/halt:59
 msgid "Sending all processes the TERM signal..."
 msgstr "Enviando o sinal TERM a tódolos procesos..."
+
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:124
+msgid "INFO     "
+msgstr ""
 
 #: /etc/rc.d/init.d/netfs:77
 msgid "Unmounting network block filesystems (retry): "
 msgstr "Desmontando os sistemas de ficheiros de bloque de rede (reintento): "
 
-#: /etc/rc.d/rc.sysinit:258 /etc/rc.d/rc.sysinit:454 /etc/rc.d/rc.sysinit:494
+#: /etc/rc.d/rc.sysinit:269 /etc/rc.d/rc.sysinit:478 /etc/rc.d/rc.sysinit:527
 msgid "*** Dropping you to a shell; the system will reboot"
 msgstr "*** Deixándolle o control nunha shell; o sistema será reiniciado"
 
@@ -386,22 +410,18 @@ msgstr "*** Deixándolle o control nunha shell; o sistema será reiniciado"
 msgid "Checking for changes to /etc/auto.master ...."
 msgstr "Comprobando as modificacións de /etc/auto.master ...."
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:106
-#: /etc/sysconfig/network-scripts/ifup-ipv6:123
+#: /etc/sysconfig/network-scripts/ifup-ipv6:103
+#: /etc/sysconfig/network-scripts/ifup-ipv6:120
 msgid "Please restart network with '/sbin/service network restart'"
 msgstr ""
 
-#: /etc/rc.d/rc.sysinit:288 /etc/rc.d/rc.sysinit:526
+#: /etc/rc.d/rc.sysinit:300 /etc/rc.d/rc.sysinit:560
 msgid "Converting old group quota files: "
 msgstr "Convertendo os ficheiros de quota de grupo antigos: "
 
-#: /etc/rc.d/init.d/network:226
-msgid "Configured devices:"
-msgstr "Dispositivos configurados:"
-
-#: /etc/rc.d/init.d/iscsi:125
-msgid "The iSCSI module could not be unloaded."
-msgstr ""
+#: /etc/rc.d/init.d/kudzu:49
+msgid "Hardware configuration timed out."
+msgstr "A configuración do hardware esgotou o tempo de espera."
 
 #: /etc/rc.d/init.d/ospf6d:56
 msgid "Usage: $prog {start|stop|restart|reload|condrestart|status}"
@@ -411,7 +431,7 @@ msgstr "Uso: $prog {start|stop|restart|reload|condrestart|status}"
 msgid "Mounting other filesystems: "
 msgstr "Montando outros sistemas de ficheiros: "
 
-#: /etc/rc.d/init.d/lpd:34
+#: /etc/rc.d/init.d/lpd:33
 msgid "No Printers Defined"
 msgstr "Non hai impresoras definidas"
 
@@ -428,21 +448,17 @@ msgstr "Desmontando os sistemas de ficheiros NFS: "
 msgid "Shutting down NFS daemon: "
 msgstr "Parando o daemon de APM: "
 
-#: /etc/rc.d/rc.sysinit:144 /etc/rc.d/rc.sysinit:147
-msgid "Setting default font ($SYSFONT): "
-msgstr "Establecendo a fonte por omisión ($SYSFONT): "
-
 #: /etc/rc.d/init.d/netfs:111
 msgid "Unmounting NCP filesystems: "
 msgstr "Desmontando os sistemas de ficheiros NCP: "
 
-#: /etc/rc.d/init.d/netdump:167
+#: /etc/rc.d/init.d/netdump:171
 msgid "disabling netdump"
 msgstr ""
 
-#: /etc/rc.d/init.d/kudzu:51
-msgid "Hardware configuration timed out."
-msgstr "A configuración do hardware esgotou o tempo de espera."
+#: /etc/rc.d/init.d/network:226
+msgid "Configured devices:"
+msgstr "Dispositivos configurados:"
 
 #: /etc/rc.d/init.d/innd:59
 msgid "Stopping INNFeed service: "
@@ -459,11 +475,17 @@ msgstr "Eliminando tódolos chains:"
 msgid "/etc/sysconfig/network-scripts/dip-$DEVICE does not exist"
 msgstr "/etc/sysconfig/network-scripts/dip-$DEVICE non existe"
 
-#: /etc/rc.d/init.d/mysqld:28
-msgid "Initializing MySQL database: "
-msgstr "Inicializando a base de datos MySQL: "
+#: /etc/rc.d/init.d/keytable:34
+msgid "Loading system font: "
+msgstr "Cargando a fonte de sistema: "
 
-#: /etc/rc.d/init.d/smb:113 /etc/rc.d/init.d/winbind:96
+#: /etc/rc.d/init.d/isdn:149 /etc/rc.d/init.d/isdn:151
+#, fuzzy
+msgid "Loading Firmware"
+msgstr "Cargando o mapa de teclado: "
+
+#: /etc/rc.d/init.d/iscsi:185 /etc/rc.d/init.d/smb:113
+#: /etc/rc.d/init.d/winbind:96
 #, fuzzy
 msgid "Usage: $0 {start|stop|restart|reload|status|condrestart}"
 msgstr "Uso: $0 {start|stop|restart|status|condrestart}"
@@ -473,7 +495,7 @@ msgstr "Uso: $0 {start|stop|restart|status|condrestart}"
 msgid "Starting AppleTalk services: "
 msgstr "Iniciando os servicios rstat: "
 
-#: /etc/rc.d/init.d/halt:138 /etc/rc.d/init.d/netfs:59
+#: /etc/rc.d/init.d/halt:139 /etc/rc.d/init.d/netfs:59
 msgid "Detaching loopback device $dev: "
 msgstr "Desactivando o dispositivo de rede local $dev: "
 
@@ -486,11 +508,11 @@ msgstr "Desmontando os sistemas de ficheiros de bloque de rede: "
 msgid "Users cannot control this device."
 msgstr "Os usuarios non poden controlar este dispositivo."
 
-#: /etc/rc.d/rc.sysinit:62
+#: /etc/rc.d/rc.sysinit:85
 msgid "Configuring kernel parameters: "
 msgstr "Configurando os parámetros do núcleo: "
 
-#: /etc/sysconfig/network-scripts/ifup-ppp:75
+#: /etc/sysconfig/network-scripts/ifup-ppp:79
 msgid "ifup-ppp for ${DEVNAME} exiting"
 msgstr "ifup-ppp para ${DEVNAME} saíndo"
 
@@ -503,7 +525,7 @@ msgstr "Aplicando as regras de firewall do iptables: "
 msgid "ifup-sl for $DEVICE exiting"
 msgstr "ifup-sl para $DEVICE saíndo"
 
-#: /etc/rc.d/init.d/kudzu:75
+#: /etc/rc.d/init.d/kudzu:77
 msgid "Usage: $0 {start|stop}"
 msgstr "Uso: $0 {start|stop}"
 
@@ -515,23 +537,19 @@ msgstr "Parando o servidor de emulación NetWare: "
 msgid "The random data source exists"
 msgstr "A fonte de datos aleatorios existe"
 
-#: /etc/rc.d/rc.sysinit:177
+#: /etc/rc.d/rc.sysinit:181
 msgid "Mounting USB filesystem: "
 msgstr "Montando o sistema de ficheiros USB: "
+
+#: /etc/rc.d/rc.sysinit:481
+msgid "(RAID Repair)"
+msgstr ""
 
 #: /etc/rc.d/init.d/vncserver:50 /etc/rc.d/init.d/vncserver:51
 msgid "vncserver shutdown"
 msgstr "finalización do vncserver"
 
-#: /etc/rc.d/init.d/wine:21
-msgid "Unregistering binary handler for Windows applications"
-msgstr ""
-
-#: /etc/rc.d/rc.sysinit:33
-msgid "\\033[0;39m"
-msgstr "\\033[0;39m"
-
-#: /etc/rc.d/init.d/psacct:20
+#: /etc/rc.d/init.d/psacct:18
 #, fuzzy
 msgid "Starting process accounting: "
 msgstr "Activando o accounting de procesos"
@@ -540,19 +558,19 @@ msgstr "Activando o accounting de procesos"
 msgid "Starting YP map server: "
 msgstr "Iniciando o servicio de mapeo YP: "
 
-#: /etc/rc.d/rc.sysinit:513
+#: /etc/rc.d/rc.sysinit:547
 msgid "Mounting local filesystems: "
 msgstr "Montando os sistemas de ficheiros locais: "
+
+#: /etc/rc.d/init.d/ypbind:70
+msgid "Shutting down NIS services: "
+msgstr "Parando os servicios NIS: "
 
 #: /etc/rc.d/init.d/keytable:54
 msgid "No status available for this package"
 msgstr "Non existe un estado para este paquete"
 
-#: /etc/rc.d/init.d/postgresql:167
-msgid "Stopping postgresql service: "
-msgstr "Parando o servicio postgresql: "
-
-#: /etc/rc.d/rc.sysinit:127
+#: /etc/rc.d/rc.sysinit:150
 msgid "Loading default keymap ($KEYTABLE): "
 msgstr "Cargando o mapa de teclado por defecto ($KEYTABLE): "
 
@@ -567,7 +585,7 @@ msgstr ""
 msgid "(no mouse is configured)"
 msgstr "(non hai ningún rato configurado)"
 
-#: /etc/rc.d/init.d/iscsi:28
+#: /etc/rc.d/init.d/iscsi:22
 #, fuzzy
 msgid "iSCSI daemon already running"
 msgstr "o daemon iscsi xa está a se executar"
@@ -576,7 +594,7 @@ msgstr "o daemon iscsi xa está a se executar"
 msgid "ERROR: [ipv6_log] Loglevel isn't valid '$level' (arg 2)"
 msgstr ""
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:105
+#: /etc/sysconfig/network-scripts/ifup-ipv6:102
 msgid ""
 "Global IPv6 forwarding is enabled in configuration, but not currently "
 "enabled in kernel"
@@ -587,6 +605,10 @@ msgstr ""
 msgid "Usage: $0 {start|stop|restart|status|panic|save}"
 msgstr "Uso: $0 {start|stop|restart|status|panic|save}"
 
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:127
+msgid "NOTICE   "
+msgstr ""
+
 #: /etc/rc.d/init.d/autofs:285
 msgid "$prog not running"
 msgstr "$prog non activo"
@@ -596,7 +618,7 @@ msgstr "$prog non activo"
 msgid "Clearing all current rules and user defined chains:"
 msgstr "Baleirando tódalas regras actuais e os chains definidos por usuario:"
 
-#: /etc/rc.d/init.d/rawdevices:26 /etc/rc.d/init.d/rawdevices:33
+#: /etc/rc.d/init.d/rawdevices:28 /etc/rc.d/init.d/rawdevices:35
 msgid "     rawdevices are now located in the directory /dev/raw/ "
 msgstr "     os dispositivos 'raw' están agora no directorio /dev/raw/ "
 
@@ -604,24 +626,27 @@ msgstr "     os dispositivos 'raw' están agora no directorio /dev/raw/ "
 msgid "Shutting down APM daemon: "
 msgstr "Parando o daemon de APM: "
 
-#: /etc/sysconfig/network-scripts/ifup:192
+#: /etc/sysconfig/network-scripts/ifup:194
 msgid " failed."
 msgstr " fallou."
 
-#: /etc/rc.d/init.d/functions:152 /etc/rc.d/init.d/named:51
-#: /etc/rc.d/init.d/named:52
+#: /etc/rc.d/init.d/functions:151
 msgid "$base startup"
 msgstr "inicialización de $base"
+
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:121
+msgid "CRITICAL "
+msgstr ""
 
 #: /etc/rc.d/init.d/netfs:117
 msgid "Configured NFS mountpoints: "
 msgstr "Puntos de montaxe NFS configurados: "
 
-#: /etc/sysconfig/network-scripts/ifup-ppp:74
+#: /etc/sysconfig/network-scripts/ifup-ppp:78
 msgid "/etc/sysconfig/network-scripts/chat-${DEVNAME} does not exist"
 msgstr "/etc/sysconfig/network-scripts/chat-${DEVNAME} non existe"
 
-#: /etc/rc.d/rc.sysinit:257 /etc/rc.d/rc.sysinit:493
+#: /etc/rc.d/rc.sysinit:268 /etc/rc.d/rc.sysinit:526
 msgid "*** An error occurred during the file system check."
 msgstr "*** Ocorreu un erro durante a verificación do sistema de ficheiros."
 
@@ -629,7 +654,12 @@ msgstr "*** Ocorreu un erro durante a verificación do sistema de ficheiros."
 msgid "Changing target policies to DROP: "
 msgstr "Mudando as políticas a DROP: "
 
-#: /etc/rc.d/init.d/ups:55
+#: /etc/rc.d/init.d/xfs:122
+#, fuzzy
+msgid "Usage: $prog {start|stop|status|restart|reload|condrestart}"
+msgstr "*** Uso: $prog {start|stop|status|restart|reload|condrestart}"
+
+#: /etc/rc.d/init.d/ups:57
 msgid "Stopping UPS monitor: "
 msgstr "Parando o monitor UPS: "
 
@@ -641,11 +671,11 @@ msgstr "¡Módulo PCIC non definido nas opcións de arrinque!"
 msgid "Shutting down system logger: "
 msgstr "Parando o xestor de logs do sistema: "
 
-#: /etc/rc.d/init.d/functions:285
+#: /etc/rc.d/init.d/functions:284
 msgid "Usage: status {program}"
 msgstr "Uso: status {programa}"
 
-#: /etc/rc.d/init.d/functions:214
+#: /etc/rc.d/init.d/functions:213
 msgid "$base $killlevel"
 msgstr "$base $killlevel"
 
@@ -653,11 +683,12 @@ msgstr "$base $killlevel"
 msgid "$0: reading microcode status is not yet supported"
 msgstr ""
 
-#: /etc/rc.d/init.d/amd:93 /etc/rc.d/init.d/sshd:115
-msgid "Reloading $prog:"
-msgstr "Recargando $prog:"
+#: /etc/rc.d/init.d/nfs:168
+#, fuzzy
+msgid "Usage: nfs {start|stop|status|restart|reload}"
+msgstr "Uso: $0 {start|stop|status|restart|reload}"
 
-#: /etc/rc.d/init.d/ups:32
+#: /etc/rc.d/init.d/ups:34
 msgid "Starting $MODEL: "
 msgstr "Iniciando $MODEL: "
 
@@ -669,20 +700,19 @@ msgstr "Parando $prog"
 msgid "cardmgr (pid $pid) is running..."
 msgstr "cardmgr (pid $pid) está a se executar..."
 
-#: /etc/sysconfig/network-scripts/ifup:172
+#: /etc/sysconfig/network-scripts/ifup:174
 msgid " failed; no link present.  Check cable?"
 msgstr ""
 
-#: /etc/rc.d/init.d/isdn:149 /etc/rc.d/init.d/isdn:151
-#, fuzzy
-msgid "Loading Firmware"
-msgstr "Cargando o mapa de teclado: "
+#: /etc/rc.d/init.d/mysqld:28
+msgid "Initializing MySQL database: "
+msgstr "Inicializando a base de datos MySQL: "
 
-#: /etc/rc.d/init.d/iscsi:25
+#: /etc/rc.d/init.d/iscsi:19
 msgid "Could not find /etc/iscsi.conf!"
 msgstr "¡Non se atopou /etc/iscsi.conf!"
 
-#: /etc/rc.d/init.d/sendmail:77
+#: /etc/rc.d/init.d/sendmail:79
 #, fuzzy
 msgid "Shutting down sm-client: "
 msgstr "Parando o xestor de logs do sistema: "
@@ -691,27 +721,33 @@ msgstr "Parando o xestor de logs do sistema: "
 msgid "Starting PCMCIA services:"
 msgstr "Iniciando os servicios PCMCIA:"
 
-#: /etc/rc.d/init.d/iscsi:84
-msgid " iscsilun"
-msgstr ""
+#: /etc/rc.d/init.d/isicom:30
+#, fuzzy
+msgid "Failed to load module: isicom"
+msgstr "¡Non se atopou /etc/iscsi.conf!"
 
-#: /etc/rc.d/init.d/halt:60
+#: /etc/rc.d/init.d/halt:61
 msgid "Sending all processes the KILL signal..."
 msgstr "Enviando o sinal KILL a tódolos procesos..."
 
-#: /etc/rc.d/rc.sysinit:301
+#: /etc/rc.d/rc.sysinit:313
 msgid "Setting up ISA PNP devices: "
 msgstr "Configurando os dispositivos ISA PNP: "
 
-#: /etc/rc.d/rc.sysinit:405
+#: /etc/sysconfig/network-scripts/ifup:250
+msgid "Error adding address ${IPADDR} for ${DEVICE}."
+msgstr "Erro engadindo o enderezo ${IPADDR} para ${DEVICE}."
+
+#: /etc/rc.d/rc.sysinit:423
 msgid "Starting up RAID devices: "
 msgstr "Inicializando os dispositivos RAID: "
 
 #: /etc/rc.d/init.d/anacron:58 /etc/rc.d/init.d/atd:80
 #: /etc/rc.d/init.d/canna:59 /etc/rc.d/init.d/dhcpd:71
 #: /etc/rc.d/init.d/dhcrelay:78 /etc/rc.d/init.d/gpm:86
-#: /etc/rc.d/init.d/ntpd:87 /etc/rc.d/init.d/sendmail:112
-#: /etc/rc.d/init.d/ups:100 /etc/rc.d/init.d/vncserver:78
+#: /etc/rc.d/init.d/ntpd:154 /etc/rc.d/init.d/sendmail:114
+#: /etc/rc.d/init.d/ups:102 /etc/rc.d/init.d/vncserver:78
+#: /etc/rc.d/init.d/vsftpd:87
 msgid "Usage: $0 {start|stop|restart|condrestart|status}"
 msgstr "Uso: $0 {start|stop|restart|condrestart|status}"
 
@@ -733,12 +769,11 @@ msgstr "Uso: ifup <nome de dispositivo>"
 msgid "Stopping YP passwd service: "
 msgstr "Parando o servicio passwd de YP: "
 
-#: /etc/rc.d/init.d/nfs:72
-#, fuzzy
-msgid "Starting NFS daemon: "
-msgstr "Iniciando o daemon de APM: "
+#: /etc/rc.d/init.d/autofs:220
+msgid "Configured Mount Points:"
+msgstr "Puntos de Montaxe Configurados:"
 
-#: /etc/rc.d/rc.sysinit:532
+#: /etc/rc.d/rc.sysinit:566
 msgid "Checking local filesystem quotas: "
 msgstr "Verificando as quotas do sistema de ficheiros local: "
 
@@ -746,57 +781,60 @@ msgstr "Verificando as quotas do sistema de ficheiros local: "
 msgid "Telling INIT to go to single user mode."
 msgstr "Indicándolle ó INIT que entre en modo single (usuario único)."
 
-#: /etc/rc.d/init.d/halt:184
+#: /etc/rc.d/init.d/halt:185
 msgid "$message"
 msgstr "$message"
 
-#: /etc/rc.d/init.d/ntpd:34
+#: /etc/rc.d/init.d/ntpd:79
 #, fuzzy
 msgid "$prog: Synchronizing with time server: "
 msgstr "Sincronizando co servidor de hora: "
 
-#: /etc/rc.d/rc.sysinit:284 /etc/rc.d/rc.sysinit:521
+#: /etc/rc.d/rc.sysinit:296 /etc/rc.d/rc.sysinit:555
 msgid "Converting old user quota files: "
 msgstr "Convertendo os ficheiros de quota de usuario antigos: "
 
-#: /etc/sysconfig/network-scripts/ifup:186
-#: /etc/sysconfig/network-scripts/ifup:188
-#: /etc/sysconfig/network-scripts/ifup:190
-msgid " done."
-msgstr " feito."
+#: /etc/rc.d/init.d/vsftpd:38
+#, fuzzy
+msgid "Starting $prog for $site: "
+msgstr "Iniciando $prog: "
 
-#: /etc/rc.d/rc.sysinit:536
+#: /etc/rc.d/rc.sysinit:570
 msgid "Enabling local filesystem quotas: "
 msgstr "Habilitando as quotas do sistema de ficheiros local: "
+
+#: /etc/rc.d/init.d/routed:41
+msgid "Stopping routed (RIP) services: "
+msgstr "Parando os servicios routed (RIP): "
 
 #: /etc/rc.d/init.d/aep1000:56 /etc/rc.d/init.d/amd:30
 #: /etc/rc.d/init.d/anacron:15 /etc/rc.d/init.d/arpwatch:28
 #: /etc/rc.d/init.d/atd:29 /etc/rc.d/init.d/bgpd:26
 #: /etc/rc.d/init.d/bootparamd:29 /etc/rc.d/init.d/canna:26
-#: /etc/rc.d/init.d/crond:24 /etc/rc.d/init.d/cWnn:31
+#: /etc/rc.d/init.d/crond:24 /etc/rc.d/init.d/cups:57
 #: /etc/rc.d/init.d/dhcpd:28 /etc/rc.d/init.d/dhcrelay:33
 #: /etc/rc.d/init.d/FreeWnn:32 /etc/rc.d/init.d/httpd:50
-#: /etc/rc.d/init.d/identd:48 /etc/rc.d/init.d/irda:20
+#: /etc/rc.d/init.d/identd:48 /etc/rc.d/init.d/irda:23
 #: /etc/rc.d/init.d/kadmin:40 /etc/rc.d/init.d/kprop:30
 #: /etc/rc.d/init.d/krb524:30 /etc/rc.d/init.d/krb5kdc:30
-#: /etc/rc.d/init.d/kWnn:31 /etc/rc.d/init.d/ldap:38 /etc/rc.d/init.d/ldap:50
-#: /etc/rc.d/init.d/lpd:28 /etc/rc.d/init.d/mdmonitor:37
+#: /etc/rc.d/init.d/ldap:38 /etc/rc.d/init.d/ldap:50 /etc/rc.d/init.d/lisa:35
+#: /etc/rc.d/init.d/lpd:43 /etc/rc.d/init.d/mdmonitor:37
 #: /etc/rc.d/init.d/mysqld:40 /etc/rc.d/init.d/mysqld:42
-#: /etc/rc.d/init.d/named:35 /etc/rc.d/init.d/nscd:49 /etc/rc.d/init.d/ntpd:44
+#: /etc/rc.d/init.d/named:36 /etc/rc.d/init.d/nscd:49 /etc/rc.d/init.d/ntpd:91
 #: /etc/rc.d/init.d/ospf6d:26 /etc/rc.d/init.d/ospfd:27
 #: /etc/rc.d/init.d/portmap:55 /etc/rc.d/init.d/pxe:23
 #: /etc/rc.d/init.d/radvd:38 /etc/rc.d/init.d/rarpd:22
 #: /etc/rc.d/init.d/ripd:26 /etc/rc.d/init.d/ripngd:26
 #: /etc/rc.d/init.d/rwalld:24 /etc/rc.d/init.d/saslauthd:29
-#: /etc/rc.d/init.d/sendmail:38 /etc/rc.d/init.d/snmpd:20
+#: /etc/rc.d/init.d/sendmail:40 /etc/rc.d/init.d/snmpd:20
 #: /etc/rc.d/init.d/snmptrapd:21 /etc/rc.d/init.d/squid:60
-#: /etc/rc.d/init.d/tWnn:31 /etc/rc.d/init.d/ups:37
-#: /etc/rc.d/init.d/vncserver:22 /etc/rc.d/init.d/xfs:58
-#: /etc/rc.d/init.d/xinetd:49 /etc/rc.d/init.d/zebra:24
+#: /etc/rc.d/init.d/ups:39 /etc/rc.d/init.d/vncserver:22
+#: /etc/rc.d/init.d/xfs:58 /etc/rc.d/init.d/xinetd:48
+#: /etc/rc.d/init.d/zebra:24
 msgid "Starting $prog: "
 msgstr "Iniciando $prog: "
 
-#: /etc/rc.d/init.d/functions:310
+#: /etc/rc.d/init.d/functions:309
 msgid "${base} is stopped"
 msgstr "${base} está parado"
 
@@ -809,13 +847,14 @@ msgstr "Falla o ficheiro de configuración $PARENTCONFIG. "
 msgid "Generating ident key: "
 msgstr "Xerando a chave ident: "
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:248
+#: /etc/sysconfig/network-scripts/ifup-ipv6:281
 msgid "Error occured while calculating the IPv6to4 prefix"
 msgstr "Ocorreu un erro ao calcular o prefixo IPv6to4"
 
-#: /etc/rc.d/init.d/rawdevices:27 /etc/rc.d/init.d/rawdevices:34
-msgid "  If the command 'raw' still refers to /dev/raw as a file."
-msgstr "  Se o comando 'raw' aínda usa /dev/raw coma se for un ficheiro"
+#: /etc/rc.d/init.d/firstboot:36
+#, fuzzy
+msgid "Running system reconfiguration tool"
+msgstr "Recargando a configuración: "
 
 #: /etc/rc.d/init.d/sshd:70 /etc/rc.d/init.d/sshd:73
 msgid "DSA key generation"
@@ -824,10 +863,6 @@ msgstr "Xeración da chave DSA"
 #: /etc/rc.d/init.d/ypserv:44
 msgid "Stopping YP server services: "
 msgstr "Parando os servicios do servidor YP: "
-
-#: /etc/rc.d/init.d/wine:14
-msgid "Registering binary handler for Windows applications"
-msgstr ""
 
 #: /etc/rc.d/init.d/sshd:54 /etc/rc.d/init.d/sshd:57
 msgid "RSA key generation"
@@ -840,11 +875,11 @@ msgstr ""
 "O dispositivo $alias non semella estar presente, retardando a inicialización "
 "de ${DEVICE}."
 
-#: /etc/rc.d/init.d/halt:186
+#: /etc/rc.d/init.d/halt:187
 msgid "On the next boot fsck will be skipped."
 msgstr "No próximo arrinque non se executará o fsck."
 
-#: /etc/rc.d/init.d/halt:120
+#: /etc/rc.d/init.d/halt:121
 msgid "Turning off quotas: "
 msgstr "Desactivando as quotas: "
 
@@ -852,7 +887,7 @@ msgstr "Desactivando as quotas: "
 msgid "Failed to bring up ${DEVICE}."
 msgstr "Fallo ao activar ${DEVICE}."
 
-#: /etc/rc.d/init.d/halt:68
+#: /etc/rc.d/init.d/halt:69
 msgid "Saving mixer settings"
 msgstr "Gardando a configuración do mesturador"
 
@@ -860,24 +895,15 @@ msgstr "Gardando a configuración do mesturador"
 msgid "Mounting NFS filesystems: "
 msgstr "Montando os sistemas de ficheiros NFS: "
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:199
-#, fuzzy
-msgid ""
-"IPv6to4 configuration needs an IPv4 address on related interface or "
-"otherwise specified, 6to4 configuration is not valid"
-msgstr ""
-"A configuración de IPv6to4 necesita un enderezo IPv4 na interface, ou foron "
-"indicados de máis, ¡a configuración 6to4 non é válida!"
-
-#: /etc/rc.d/rc.sysinit:41
+#: /etc/rc.d/rc.sysinit:64
 msgid "\t\tPress 'I' to enter interactive startup."
 msgstr "\t\tPrema 'I' para entrar en modo interactivo."
 
-#: /etc/rc.d/init.d/sshd:66
-msgid "Generating SSH2 DSA host key: "
-msgstr "Xerando a chave DSA para SSH2: "
+#: /etc/rc.d/init.d/netfs:152 /etc/rc.d/init.d/network:238
+msgid "Usage: $0 {start|stop|restart|reload|status}"
+msgstr "Uso: $0 {start|stop|restart|reload|status}"
 
-#: /etc/rc.d/init.d/postgresql:146
+#: /etc/rc.d/init.d/postgresql:162
 msgid "Postmaster already running."
 msgstr "O postmaster xa está a se executar."
 
@@ -889,7 +915,7 @@ msgstr "Iniciando o xestor dos logs do núcleo: "
 msgid "/usr/sbin/dip does not exist or is not executable"
 msgstr "/usr/sbin/dip non existe ou non é executable"
 
-#: /etc/rc.d/rc.sysinit:565
+#: /etc/rc.d/rc.sysinit:603
 msgid "Resetting hostname ${HOSTNAME}: "
 msgstr "Establecendo o nome de máquina ${HOSTNAME}: "
 
@@ -897,23 +923,29 @@ msgstr "Establecendo o nome de máquina ${HOSTNAME}: "
 msgid "Unmounting SMB filesystems: "
 msgstr "Desmontando os sistemas de ficheiros SMB: "
 
-#: /etc/rc.d/init.d/halt:159
+#: /etc/rc.d/init.d/halt:160
 msgid "Unmounting file systems: "
 msgstr "Desmontando os sistemas de ficheiros: "
 
-#: /etc/rc.d/rc.sysinit:184
+#: /etc/rc.d/rc.sysinit:189
 msgid "Initializing USB keyboard: "
 msgstr "Inicializando o teclado USB: "
 
-#: /etc/rc.d/init.d/functions:160
+#: /etc/sysconfig/network-scripts/ifup-ipv6:218
+msgid ""
+"Warning: configured MTU '$IPV6TO4_MTU' for 6to4 exceeds maximum limit of "
+"'$tunnelmtu', ignored"
+msgstr ""
+
+#: /etc/rc.d/init.d/functions:159
 msgid "Usage: killproc {program} [signal]"
 msgstr "Uso: killproc {programa} [sinal]"
 
-#: /etc/rc.d/rc.sysinit:157
+#: /etc/rc.d/rc.sysinit:161
 msgid "Setting hostname ${HOSTNAME}: "
 msgstr "Establecendo o nome de máquina ${HOSTNAME}: "
 
-#: /etc/rc.d/init.d/kudzu:52
+#: /etc/rc.d/init.d/kudzu:50
 msgid "Run '/usr/sbin/kudzu' from the command line to re-detect."
 msgstr "Execute '/usr/sbin/kudzu' na liña de comandos para detectar de novo."
 
@@ -930,16 +962,15 @@ msgstr "uso: ifup-aliases <dispositivo de rede>\n"
 msgid "ERROR: [ipv6_log] Missing 'message' (arg 1)"
 msgstr ""
 
-#: /etc/sysconfig/network-scripts/ifup-ipx:7
-#, fuzzy
-msgid "usage: $0 <net-device>"
-msgstr "uso: ifup-routes <dispositivo de rede>"
+#: /etc/rc.d/init.d/portmap:33
+msgid "Networking not configured - exiting"
+msgstr "Rede non configurada - saíndo"
 
 #: /etc/rc.d/init.d/ipchains:76 /etc/rc.d/init.d/ipchains:77
 msgid "Resetting built-in chains to the default ACCEPT policy"
 msgstr "Restablecendo os chains integrados, á política ACCEPT por defecto"
 
-#: /etc/rc.d/rc.sysinit:132
+#: /etc/rc.d/rc.sysinit:155
 msgid "Loading default keymap"
 msgstr "Cargando o mapa de teclado por defecto"
 
@@ -964,11 +995,11 @@ msgstr "Activando a interface $i: "
 msgid "Reopening $prog log file: "
 msgstr "Reabrindo o ficheiro de rexistro de $prog: "
 
-#: /etc/rc.d/init.d/privoxy:196
+#: /etc/rc.d/init.d/privoxy:197
 msgid "Can't find $PRIVOXY_CONF, exit."
 msgstr ""
 
-#: /etc/rc.d/init.d/functions:207 /etc/rc.d/init.d/functions:218
+#: /etc/rc.d/init.d/functions:206 /etc/rc.d/init.d/functions:217
 msgid "$base shutdown"
 msgstr "Finalización de $base"
 
@@ -980,18 +1011,28 @@ msgstr "Recargando o ficheiro smb.conf: "
 msgid "Saving current rules to $IPCHAINS_CONFIG: "
 msgstr "Gardando as regras actuais en $IPCHAINS_CONFIG: "
 
-#: /etc/rc.d/rc.sysinit:259 /etc/rc.d/rc.sysinit:455 /etc/rc.d/rc.sysinit:495
+#: /etc/rc.d/rc.sysinit:270 /etc/rc.d/rc.sysinit:479 /etc/rc.d/rc.sysinit:528
 msgid "*** when you leave the shell."
 msgstr "*** cando saia da shell."
 
-#: /etc/rc.d/init.d/sendmail:56
+#: /etc/rc.d/init.d/sendmail:58
 #, fuzzy
 msgid "Starting sm-client: "
 msgstr "Iniciando o xestor de logs do sistema: "
 
-#: /etc/sysconfig/network-scripts/ifup:170
+#: /etc/sysconfig/network-scripts/ifup:172
 msgid "Determining IP information for ${DEVICE}..."
 msgstr "Determinando a información IP para ${DEVICE}..."
+
+#: /etc/rc.d/init.d/postgresql:184
+#, fuzzy
+msgid "Stopping ${NAME} service: "
+msgstr "Parando o servicio INND: "
+
+#: /etc/rc.d/init.d/lisa:87
+#, fuzzy
+msgid "Usage: $prog {start|stop|restart|status|condrestart}"
+msgstr "Uso: $0 {start|stop|restart|status|condrestart}"
 
 #: /etc/rc.d/init.d/ipchains:95
 msgid "Changing target policies to DENY: "
@@ -1003,7 +1044,7 @@ msgstr "Mudando as políticas a DENY: "
 msgid "Usage: $0 {start|stop|status|restart|reload|condrestart}"
 msgstr "Uso: $0 {start|stop|status|restart|reload|condrestart}"
 
-#: /etc/rc.d/init.d/functions:259
+#: /etc/rc.d/init.d/functions:258
 msgid "Usage: pidofproc {program}"
 msgstr "Uso: pidofproc {programa}"
 
@@ -1011,10 +1052,15 @@ msgstr "Uso: pidofproc {programa}"
 msgid "Starting rusers services: "
 msgstr "Iniciando os servicios rusers: "
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:251
+#: /etc/sysconfig/network-scripts/ifup-ipv6:284
 #, fuzzy
 msgid "radvd control enabled, but config is not complete"
 msgstr "¡Control RADVD habilitado, pero a configuración non está completa!"
+
+#: /etc/rc.d/rc.sysinit:245
+#, fuzzy
+msgid "Checking root filesystem"
+msgstr "Verificando as quotas do sistema de ficheiros raíz: "
 
 #: /etc/rc.d/init.d/isdn:226
 msgid "$0: Link is down"
@@ -1024,19 +1070,20 @@ msgstr "$0: Conexión desactivada"
 msgid "Active NFS mountpoints: "
 msgstr "Puntos de montaxe NFS activos: "
 
-#: /etc/rc.d/init.d/psacct:31
+#: /etc/rc.d/init.d/psacct:38
 msgid "Process accounting is disabled."
 msgstr ""
 
-#: /etc/rc.d/init.d/autofs:220
-msgid "Configured Mount Points:"
-msgstr "Puntos de Montaxe Configurados:"
+#: /etc/rc.d/init.d/nfs:72
+#, fuzzy
+msgid "Starting NFS daemon: "
+msgstr "Iniciando o daemon de APM: "
 
-#: /etc/rc.d/rc.sysinit:166
+#: /etc/rc.d/rc.sysinit:170
 msgid "Initializing USB controller ($alias): "
 msgstr "Inicializando o controlador USB ($alias): "
 
-#: /etc/rc.d/init.d/xinetd:80
+#: /etc/rc.d/init.d/xinetd:79
 msgid "Reloading configuration: "
 msgstr "Recargando a configuración: "
 
@@ -1044,12 +1091,21 @@ msgstr "Recargando a configuración: "
 msgid "Please run makehistory and/or makedbz before starting innd."
 msgstr "Execute makehistory e/ou makedbz antes de iniciar o innd."
 
-#: /etc/rc.d/init.d/privoxy:217
+#: /etc/sysconfig/network-scripts/ifup-ipv6:203
+#, fuzzy
+msgid ""
+"IPv6to4 configuration needs an IPv4 address on related interface or "
+"otherwise specified"
+msgstr ""
+"A configuración de IPv6to4 necesita un enderezo IPv4 na interface, ou foron "
+"indicados de máis, ¡a configuración 6to4 non é válida!"
+
+#: /etc/rc.d/init.d/privoxy:218
 #, fuzzy
 msgid "Stopping $PRIVOXY_PRG: "
 msgstr "Parando $prog: "
 
-#: /etc/rc.d/rc.sysinit:222
+#: /etc/rc.d/rc.sysinit:228
 msgid "Not forcing file system integrity check due to default setting"
 msgstr ""
 "Non forzando a comprobación da integredidade do sistema de ficheiros debido "
@@ -1064,6 +1120,10 @@ msgstr "Iniciando os servicios $KIND: "
 msgid "Active NCP mountpoints: "
 msgstr "Puntos de montaxe NCP activos: "
 
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:118
+msgid "WARN     "
+msgstr ""
+
 #: /etc/rc.d/init.d/nfs:136
 #, fuzzy
 msgid "Shutting down NFS services: "
@@ -1074,43 +1134,41 @@ msgstr "Parando os servicios NIS: "
 msgid "Changing target policies to DROP"
 msgstr "Mudando as políticas a DROP"
 
-#: /etc/rc.d/rc.sysinit:373 /etc/rc.d/rc.sysinit:378
+#: /etc/rc.d/rc.sysinit:391 /etc/rc.d/rc.sysinit:396
 msgid "Loading sound module ($alias): "
 msgstr "Cargando o módulo de son ($alias): "
 
-#: /etc/rc.d/init.d/xfs:122
-msgid "*** Usage: $prog {start|stop|status|restart|reload|condrestart}"
-msgstr "*** Uso: $prog {start|stop|status|restart|reload|condrestart}"
+#: /etc/rc.d/init.d/ntpd:115
+msgid "$prog: Removing firewall opening for $server port 123"
+msgstr ""
 
-#: /etc/rc.d/rc.sysinit:109
+#: /etc/rc.d/rc.sysinit:132
 msgid "Setting clock $CLOCKDEF: `date`"
 msgstr "Poñendo o reloxo $CLOCKDEF: `date`"
 
-#: /etc/rc.d/init.d/bootparamd:69 /etc/rc.d/init.d/cWnn:70
-#: /etc/rc.d/init.d/FreeWnn:71 /etc/rc.d/init.d/pcmcia:52
-#: /etc/rc.d/init.d/psacct:41 /etc/rc.d/init.d/random:55
-#: /etc/rc.d/init.d/routed:72 /etc/rc.d/init.d/tWnn:70
+#: /etc/rc.d/init.d/bootparamd:69 /etc/rc.d/init.d/FreeWnn:71
+#: /etc/rc.d/init.d/pcmcia:52 /etc/rc.d/init.d/psacct:48
+#: /etc/rc.d/init.d/random:55 /etc/rc.d/init.d/routed:72
 msgid "Usage: $0 {start|stop|status|restart|reload}"
 msgstr "Uso: $0 {start|stop|status|restart|reload}"
 
-#: /etc/rc.d/init.d/halt:50
-#, fuzzy
-msgid "Usage: $0 {start}"
-msgstr "Uso: $0 {start|stop}"
+#: /etc/rc.d/init.d/halt:39
+msgid "Please stand by while rebooting the system..."
+msgstr ""
 
-#: /etc/rc.d/rc.sysinit:264 /etc/rc.d/rc.sysinit:460 /etc/rc.d/rc.sysinit:500
+#: /etc/rc.d/rc.sysinit:276 /etc/rc.d/rc.sysinit:485 /etc/rc.d/rc.sysinit:534
 msgid "Unmounting file systems"
 msgstr "Desmontando os sistemas de ficheiros"
 
-#: /etc/rc.d/init.d/functions:92 /etc/rc.d/init.d/functions:120
+#: /etc/rc.d/init.d/functions:88 /etc/rc.d/init.d/functions:116
 msgid "$0: Usage: daemon [+/-nicelevel] {program}"
 msgstr "$0: Uso: daemon [+/-nivel de prioridade] {programa}"
 
-#: /etc/rc.d/init.d/functions:307
+#: /etc/rc.d/init.d/functions:306
 msgid "${base} dead but subsys locked"
 msgstr "${base} está morto, pero o subsys está bloqueado"
 
-#: /etc/rc.d/init.d/named:32
+#: /etc/rc.d/init.d/named:33
 msgid "$prog: already running"
 msgstr "$prog: xa está a se executar"
 
@@ -1130,24 +1188,26 @@ msgstr "inicialización do vncserver"
 msgid "Bringing up interface $i: "
 msgstr "Activando a interface $i: "
 
-#: /etc/rc.d/rc.sysinit:199
-msgid "Your system appears to have shut down uncleanly"
-msgstr "Semella que o sistema non foi apagado limpamente"
+#: /etc/sysconfig/network-scripts/init.ipv6-global:181
+#, fuzzy
+msgid "Usage: $0 {start|stop|reload|restart|showsysctl}"
+msgstr "Uso: $0 {start|stop|reload|restart|condrestart|status}"
 
 #: /etc/rc.d/init.d/network:206
 msgid "Disabling IPv4 packet forwarding: "
 msgstr "Desactivando o reenvío (forwarding) de paquetes de IPv4: "
 
-#: /etc/rc.d/init.d/halt:134 /etc/rc.d/init.d/netfs:55
+#: /etc/rc.d/init.d/halt:135 /etc/rc.d/init.d/netfs:55
 msgid "Unmounting loopback filesystems: "
 msgstr "Desmontando os sistemas de ficheiros loopback: "
 
-#: /etc/rc.d/rc.sysinit:292
+#: /etc/rc.d/rc.sysinit:304
 msgid "Checking root filesystem quotas: "
 msgstr "Verificando as quotas do sistema de ficheiros raíz: "
 
-#: /etc/rc.d/init.d/httpd:66 /etc/rc.d/init.d/lpd:92 /etc/rc.d/init.d/snmpd:38
-#: /etc/rc.d/init.d/xfs:84
+#: /etc/rc.d/init.d/cups:97 /etc/rc.d/init.d/httpd:66 /etc/rc.d/init.d/lisa:61
+#: /etc/rc.d/init.d/lpd:101 /etc/rc.d/init.d/named:67
+#: /etc/rc.d/init.d/snmpd:38 /etc/rc.d/init.d/xfs:84
 msgid "Reloading $prog: "
 msgstr "Recargando $prog: "
 
@@ -1155,19 +1215,24 @@ msgstr "Recargando $prog: "
 msgid "Applying ipchains firewall rules"
 msgstr "Aplicando as regras de firewall do ipchains"
 
-#: /etc/rc.d/rc.sysinit:303
+#: /etc/rc.d/rc.sysinit:315
 msgid "Skipping ISA PNP configuration at users request: "
 msgstr "Omitindo a configuración de ISA PNP a petición do usuario: "
 
-#: /etc/rc.d/init.d/functions:329
-msgid "FAILED"
-msgstr "FALLOU"
+#: /etc/rc.d/init.d/halt:51
+#, fuzzy
+msgid "Usage: $0 {start}"
+msgstr "Uso: $0 {start|stop}"
+
+#: /etc/rc.d/init.d/nfs:164
+msgid "reload"
+msgstr ""
 
 #: /etc/rc.d/init.d/netfs:39
 msgid "Mounting NCP filesystems: "
 msgstr "Montando os sistemas de ficheiros NCP: "
 
-#: /etc/rc.d/rc.sysinit:314 /etc/rc.d/rc.sysinit:470
+#: /etc/rc.d/rc.sysinit:329 /etc/rc.d/rc.sysinit:493
 msgid "Setting up Logical Volume Management:"
 msgstr "Activando a Xestión de Volumes Lóxicos (LVM):"
 
@@ -1175,26 +1240,32 @@ msgstr "Activando a Xestión de Volumes Lóxicos (LVM):"
 msgid "Active SMB mountpoints: "
 msgstr "Puntos de montaxe SMB activos: "
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:225
-#: /etc/sysconfig/network-scripts/ifup-aliases:235
-msgid "error in ifcfg-${parent_device}: files"
-msgstr "erro en ifcfg-${parent_device}: ficheiros"
+#: /etc/rc.d/init.d/kadmin:35
+msgid "Extracting kadm5 Service Keys: "
+msgstr "Extraendo as Claves do Servicio kadm5: "
 
 #: /etc/rc.d/init.d/pcmcia:115
 msgid " module directory $PC not found."
 msgstr " directorio de módulos $PC non atopado."
 
-#: /etc/rc.d/init.d/crond:78 /etc/rc.d/init.d/krb5kdc:76
-#: /etc/rc.d/init.d/saslauthd:68 /etc/rc.d/init.d/squid:160
-msgid "Usage: $0 {start|stop|status|reload|restart|condrestart}"
-msgstr "Uso: $0 {start|stop|status|reload|restart|condrestart}"
+#: /etc/rc.d/init.d/functions:345
+msgid "PASSED"
+msgstr "SUPERADO"
+
+#: /etc/rc.d/init.d/rawdevices:29 /etc/rc.d/init.d/rawdevices:36
+msgid "  If the command 'raw' still refers to /dev/raw as a file."
+msgstr "  Se o comando 'raw' aínda usa /dev/raw coma se for un ficheiro"
+
+#: /etc/rc.d/init.d/functions:450
+msgid "yY"
+msgstr ""
 
 #: /etc/rc.d/init.d/xfs:97
 #, fuzzy
 msgid "Restarting $prog:"
 msgstr "Reiniciando $prog: "
 
-#: /etc/sysconfig/network-scripts/ifup-ppp:42
+#: /etc/sysconfig/network-scripts/ifup-ppp:46
 #, fuzzy
 msgid "pppd does not exist or is not executable"
 msgstr "/usr/sbin/pppd non existe ou non é executable"
@@ -1206,6 +1277,10 @@ msgstr "Parando o servicio actived do INN: "
 #: /etc/rc.d/init.d/sshd:34
 msgid "Generating SSH1 RSA host key: "
 msgstr "Xerando a chave RSA para SSH1: "
+
+#: /etc/rc.d/init.d/named:69
+msgid "$prog reload"
+msgstr ""
 
 #: /etc/sysconfig/network-scripts/ifup-aliases:155
 msgid "error in $FILE: already seen device $parent_device:$DEVNUM in $devseen"
@@ -1219,11 +1294,11 @@ msgstr "Cargando o módulo $module"
 msgid "Shutting down kernel logger: "
 msgstr "Parando o xestor de logs do núcleo: "
 
-#: /etc/rc.d/init.d/ups:42
+#: /etc/rc.d/init.d/ups:44
 msgid "Starting UPS monitor (master): "
 msgstr "Iniciando o monitor UPS (mestre): "
 
-#: /etc/rc.d/init.d/halt:118
+#: /etc/rc.d/init.d/halt:119
 msgid "Turning off swap: "
 msgstr "Desactivando o espacio de intercambio: "
 
@@ -1231,15 +1306,24 @@ msgstr "Desactivando o espacio de intercambio: "
 msgid "Stop $command"
 msgstr "Finalización de $command"
 
-#: /etc/rc.d/init.d/privoxy:195
+#: /etc/rc.d/init.d/privoxy:196
 msgid "Can't find $PRIVOXY_BIN, exit."
 msgstr ""
+
+#: /etc/rc.d/init.d/halt:35
+#, fuzzy
+msgid "Halting system..."
+msgstr "Iniciando o sistema INND: "
+
+#: /etc/sysconfig/network-scripts/ifup-aliases:151
+msgid "error in $FILE: already seen ipaddr $IPADDR in $ipseen"
+msgstr "erro en $FILE: enderezo ip $IPADDR xa visto en $ipseen"
 
 #: /etc/rc.d/init.d/innd:52
 msgid "Stopping INNWatch service: "
 msgstr "Parando o servicio INNWatch: "
 
-#: /etc/rc.d/rc.sysinit:208
+#: /etc/rc.d/rc.sysinit:214
 #, fuzzy, c-format
 msgid "Press N within %d seconds to not force file system integrity check..."
 msgstr ""
@@ -1254,25 +1338,24 @@ msgstr "Iniciando os servicios do servidor YP: "
 msgid "Usage: $0 {start|stop|status|condrestart|reload|restart}"
 msgstr "Uso: $0 {start|stop|status|condrestart|reload|restart}"
 
-#: /etc/rc.d/init.d/nfs:168
-#, fuzzy
-msgid "Usage: nfs {start|stop|status|restart|reload}"
-msgstr "Uso: $0 {start|stop|status|restart|reload}"
+#: /etc/rc.d/init.d/amd:93 /etc/rc.d/init.d/sshd:115
+msgid "Reloading $prog:"
+msgstr "Recargando $prog:"
 
 #: /etc/rc.d/init.d/rhnsd:46
 msgid "Stopping Red Hat Network Daemon: "
 msgstr "Parando o daemon Red Hat Network: "
 
-#: /etc/rc.d/rc.sysinit:183
+#: /etc/rc.d/rc.sysinit:188
 msgid "Initializing USB HID interface: "
 msgstr "Inicializando a interface HID de USB: "
 
-#: /etc/rc.d/init.d/nfslock:52
+#: /etc/rc.d/init.d/nfslock:53
 #, fuzzy
 msgid "Starting NFS statd: "
 msgstr "Iniciando o sistema INND: "
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:235
+#: /etc/sysconfig/network-scripts/ifup-ipv6:268
 #, fuzzy
 msgid ""
 "Using 6to4 and RADVD IPv6 forwarding usually should be enabled, but it isn't"
@@ -1284,15 +1367,15 @@ msgstr ""
 msgid "Stopping rusers services: "
 msgstr "Parando os servicios rusers: "
 
-#: /etc/rc.d/rc.sysinit:621
+#: /etc/rc.d/rc.sysinit:659
 msgid "Enabling swap space: "
 msgstr "Activando o espacio de intercambio: "
 
-#: /etc/rc.d/init.d/functions:301
+#: /etc/rc.d/init.d/functions:300
 msgid "${base} dead but pid file exists"
 msgstr "${base} está morto, pero o ficheiro pid existe"
 
-#: /etc/rc.d/init.d/psacct:29
+#: /etc/rc.d/init.d/psacct:36
 msgid "Process accounting is enabled."
 msgstr ""
 
@@ -1304,15 +1387,15 @@ msgstr "$0: non se atopou a configuración de ${1}."
 msgid "Changing target policies to DENY"
 msgstr "Mudando as políticas a DENY"
 
-#: /etc/rc.d/rc.sysinit:154
+#: /etc/rc.d/rc.sysinit:333
 msgid "Activating swap partitions: "
 msgstr "Activando as particións de intercambio: "
 
-#: /etc/rc.d/init.d/iscsi:104
+#: /etc/rc.d/init.d/iscsi:131
 msgid " umount"
 msgstr ""
 
-#: /etc/rc.d/init.d/rawdevices:51
+#: /etc/rc.d/init.d/rawdevices:53
 msgid "done"
 msgstr "feito"
 
@@ -1320,37 +1403,45 @@ msgstr "feito"
 msgid "Stopping $prog:"
 msgstr "Parando $prog:"
 
-#: /etc/rc.d/rc.sysinit:357 /etc/rc.d/rc.sysinit:359
+#: /etc/rc.d/rc.sysinit:375 /etc/rc.d/rc.sysinit:377
 msgid "Finding module dependencies: "
 msgstr "Buscando as dependencias dos módulos: "
 
-#: /etc/sysconfig/network-scripts/ifup-ppp:43
+#: /etc/sysconfig/network-scripts/ifup-ppp:47
 msgid "ifup-ppp for ${DEVICE} exiting"
 msgstr "ifup-ppp para ${DEVICE} saíndo"
 
-#: /etc/rc.d/init.d/iscsi:43
+#: /etc/rc.d/init.d/iscsi:42
 #, fuzzy
 msgid "Starting iSCSI: iscsi"
 msgstr "Iniciando o iSCSI iscsilun: "
 
-#: /etc/rc.d/rc.sysinit:129
+#: /etc/rc.d/rc.sysinit:152
 msgid "Loading default keymap: "
 msgstr "Cargando o mapa de teclado por defecto: "
 
-#: /etc/rc.d/rc.sysinit:50
+#: /etc/rc.d/rc.sysinit:73
 msgid "Mounting proc filesystem: "
 msgstr "Montando o sistema de ficheiros proc: "
 
-#: /etc/rc.d/rc.sysinit:645
+#: /etc/rc.d/rc.sysinit:684
 #, fuzzy
 msgid "Initializing firewire controller ($alias): "
 msgstr "Inicializando o controlador USB ($alias): "
 
-#: /etc/rc.d/rc.sysinit:185
+#: /etc/rc.d/init.d/isicom:36
+msgid "Disabling PLX devices... "
+msgstr ""
+
+#: /etc/rc.d/rc.sysinit:190
 msgid "Initializing USB mouse: "
 msgstr "Inicializando o rato USB: "
 
-#: /etc/rc.d/init.d/iscsi:99
+#: /etc/rc.d/init.d/functions:331
+msgid "FAILED"
+msgstr "FALLOU"
+
+#: /etc/rc.d/init.d/iscsi:126
 #, fuzzy
 msgid "Stopping iSCSI:"
 msgstr "Parando iSCSI: iscsid"
@@ -1359,7 +1450,7 @@ msgstr "Parando iSCSI: iscsid"
 msgid "Unmounting NFS filesystems (retry): "
 msgstr "Desmontando os sistemas de ficheiros NFS (reintento): "
 
-#: /etc/rc.d/init.d/rawdevices:62
+#: /etc/rc.d/init.d/rawdevices:64
 msgid "You need to be root to use this command ! "
 msgstr "¡Ten que ser root para usar este comando!"
 
@@ -1367,16 +1458,8 @@ msgstr "¡Ten que ser root para usar este comando!"
 msgid "Currently active devices:"
 msgstr "Dispositivos activos actualmente:"
 
-#: /etc/rc.d/init.d/crond:51
-msgid "Reloading cron daemon configuration: "
-msgstr "Recargando a configuración do daemon cron: "
-
-#: /etc/rc.d/init.d/wine:36
-msgid "Wine binary format handlers are not registered."
-msgstr ""
-
-#: /etc/sysconfig/network-scripts/ifdown-sit:52
-#: /etc/sysconfig/network-scripts/ifup-sit:58
+#: /etc/sysconfig/network-scripts/ifdown-sit:46
+#: /etc/sysconfig/network-scripts/ifup-sit:59
 msgid ""
 "Device '$DEVICE' isn't supported here, use IPV6_AUTOTUNNEL setting and "
 "restart (IPv6) networking"
@@ -1391,24 +1474,18 @@ msgstr "Inicio de $x"
 msgid "Shutting down interface $i: "
 msgstr "Desactivando a interface $i: "
 
-#: /etc/rc.d/init.d/lpd:98 /etc/rc.d/init.d/rarpd:65
+#: /etc/rc.d/init.d/lpd:111 /etc/rc.d/init.d/rarpd:65
 msgid "Usage: $0 {start|stop|restart|condrestart|reload|status}"
 msgstr "Uso: $0 {start|stop|restart|condrestart|reload|status}"
 
-#: /etc/rc.d/rc.sysinit:31
-#, fuzzy
-msgid "\\033[0;31m"
-msgstr "\\033[1;31m"
+#: /etc/sysconfig/network-scripts/ifup-ipv6:232
+msgid "Warning: interface 'tun6to4' does not support 'IPV6_DEFAULTGW', ignored"
+msgstr ""
 
-#: /etc/rc.d/init.d/nfslock:63
+#: /etc/rc.d/init.d/nfslock:65
 #, fuzzy
 msgid "Stopping NFS locking: "
 msgstr "Parando $prog: "
-
-#: /etc/sysconfig/network-scripts/init.ipv6-global:183
-#, fuzzy
-msgid "Usage: $0 {start|stop|reload|restart|showsysctl}"
-msgstr "Uso: $0 {start|stop|reload|restart|condrestart|status}"
 
 #: /etc/rc.d/init.d/random:25
 msgid "Initializing random number generator: "
@@ -1422,7 +1499,11 @@ msgstr " cardmgr."
 msgid "Listening for an NIS domain server."
 msgstr "Á escoita dun servidor de dominio NIS."
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:168
+#: /etc/rc.d/rc.sysinit:272 /etc/rc.d/rc.sysinit:530
+msgid "(Repair filesystem)"
+msgstr ""
+
+#: /etc/sysconfig/network-scripts/ifup-ipv6:172
 msgid "Device 'tun6to4' (from '$DEVICE') is already up, shutdown first"
 msgstr ""
 
@@ -1444,15 +1525,19 @@ msgstr "Uso: $0 {start|stop|status|reload|condrestart|restart}"
 msgid "RSA1 key generation"
 msgstr "xeración da chave RSA1"
 
-#: /etc/rc.d/init.d/nfs:164
-msgid "reload"
+#: /etc/rc.d/init.d/vncserver:19
+msgid "VNC server"
+msgstr ""
+
+#: /etc/rc.d/init.d/iscsi:27
+msgid "InitiatorName file /etc/initiatorname.iscsi is missing!"
 msgstr ""
 
 #: /etc/rc.d/init.d/isdn:138
 msgid "Unloading ISDN modules"
 msgstr "Descargando os módulos RDSI"
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:258
+#: /etc/sysconfig/network-scripts/ifup-ipv6:291
 #, fuzzy
 msgid "6to4 configuration is not valid"
 msgstr "$0: non se atopou a configuración de ${1}."
@@ -1467,25 +1552,12 @@ msgid ""
 "isn't executable"
 msgstr ""
 
-#: /etc/rc.d/init.d/halt:15
-msgid "$1 "
-msgstr "$1 "
-
-#: /etc/sysconfig/network-scripts/ifup-ipv6:186
-#, fuzzy
-msgid ""
-"Given IPv4 address '$ipv4addr' is not globally usable, 6to4 configuration is "
-"not valid"
-msgstr ""
-"O enderezo IPv4 $ipv4addr indicado non é usable globalmente, a configuración "
-"6to4 non é válida!"
-
-#: /etc/rc.d/init.d/postgresql:224
+#: /etc/rc.d/init.d/postgresql:235
 #, fuzzy
 msgid "Usage: $0 {start|stop|status|restart|condrestart|reload|force-reload}"
 msgstr "Uso: $0 {start|stop|status|restart|condrestart|reload|probe}"
 
-#: /etc/rc.d/init.d/netdump:160
+#: /etc/rc.d/init.d/netdump:164
 #, fuzzy
 msgid "initializing netdump"
 msgstr "Inicializando a base de datos: "
@@ -1494,16 +1566,19 @@ msgstr "Inicializando a base de datos: "
 msgid "$0: kernel does not have microcode device support"
 msgstr ""
 
+#: /etc/rc.d/init.d/firstboot:33
+msgid "X is now configured.  Starting Setup Agent"
+msgstr ""
+
 #: /etc/rc.d/init.d/mars-nwe:23
 msgid "Starting NetWare emulator-server: "
 msgstr "Iniciando o servidor de emulación NetWare: "
 
-#: /etc/rc.d/init.d/wine:63
-#, fuzzy
-msgid "Usage: $prog {start|stop|status|restart|condrestart}"
-msgstr "Uso: $0 {start|stop|status|restart|condrestart}"
+#: /etc/rc.d/init.d/functions:451
+msgid "nN"
+msgstr ""
 
-#: /etc/rc.d/rc.sysinit:310
+#: /etc/rc.d/rc.sysinit:322
 msgid "Remounting root filesystem in read-write mode: "
 msgstr "Montando o sistema de ficheiros raíz en modo lectura-escritura: "
 
@@ -1526,12 +1601,12 @@ msgstr ""
 msgid "usage: ifdown <device name>"
 msgstr "uso: ifdown <nome de dispositivo>"
 
-#: /etc/rc.d/init.d/nfslock:48
+#: /etc/rc.d/init.d/nfslock:49
 #, fuzzy
 msgid "Starting NFS locking: "
 msgstr "Iniciando $prog: "
 
-#: /etc/rc.d/init.d/halt:114
+#: /etc/rc.d/init.d/halt:115
 msgid "Syncing hardware clock to system time"
 msgstr "Sincronizando o reloxo hardware coa hora do sistema"
 
@@ -1539,27 +1614,43 @@ msgstr "Sincronizando o reloxo hardware coa hora do sistema"
 msgid "Configuration file or keys are invalid"
 msgstr ""
 
-#: /etc/rc.d/init.d/rawdevices:25 /etc/rc.d/init.d/rawdevices:32
+#: /etc/rc.d/init.d/rawdevices:27 /etc/rc.d/init.d/rawdevices:34
 msgid "  Please correct your /etc/sysconfig/rawdevices:"
 msgstr "  Corrixa o seu /etc/sysconfig/rawdevices:"
 
-#: /etc/rc.d/init.d/routed:41
-msgid "Stopping routed (RIP) services: "
-msgstr "Parando os servicios routed (RIP): "
+#: /etc/rc.d/init.d/functions:452
+msgid "cC"
+msgstr ""
 
-#: /etc/rc.d/init.d/netfs:152 /etc/rc.d/init.d/network:238
-msgid "Usage: $0 {start|stop|restart|reload|status}"
-msgstr "Uso: $0 {start|stop|restart|reload|status}"
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:112
+msgid "DEBUG    "
+msgstr ""
 
-#: /etc/rc.d/init.d/portmap:33
-msgid "Networking not configured - exiting"
-msgstr "Rede non configurada - saíndo"
+#: /etc/rc.d/init.d/sshd:66
+msgid "Generating SSH2 DSA host key: "
+msgstr "Xerando a chave DSA para SSH2: "
+
+#: /etc/rc.d/init.d/isicom:63
+#, fuzzy
+msgid "Usage: isicom {start|stop|status|restart|reload|condrestart}"
+msgstr "Uso: $0 {start|stop|status|restart|reload|condrestart}"
+
+#: /etc/sysconfig/network-scripts/ifdown-aliases:7
+#: /etc/sysconfig/network-scripts/ifup-ipx:7
+#, fuzzy
+msgid "usage: $0 <net-device>"
+msgstr "uso: ifup-routes <dispositivo de rede>"
+
+#: /etc/rc.d/init.d/isicom:20
+#, fuzzy
+msgid "Loading isicom firmware... "
+msgstr "Cargando o mapa de teclado: "
 
 #: /etc/rc.d/init.d/netfs:38
 msgid "Mounting SMB filesystems: "
 msgstr "Montando o sistema de ficheiros SMB: "
 
-#: /etc/rc.d/init.d/rawdevices:28 /etc/rc.d/init.d/rawdevices:35
+#: /etc/rc.d/init.d/rawdevices:30 /etc/rc.d/init.d/rawdevices:37
 msgid "   you'll have to upgrade your util-linux package"
 msgstr "   terá que actualizar o paquete util-linux"
 
@@ -1571,7 +1662,7 @@ msgstr "Iniciando $prog:"
 msgid "Starting rwho services: "
 msgstr "Iniciando os servicios rwho: "
 
-#: /etc/rc.d/rc.sysinit:267 /etc/rc.d/rc.sysinit:463 /etc/rc.d/rc.sysinit:503
+#: /etc/rc.d/rc.sysinit:279 /etc/rc.d/rc.sysinit:488 /etc/rc.d/rc.sysinit:537
 msgid "Automatic reboot in progress."
 msgstr "Reiniciando automaticamente."
 
@@ -1579,27 +1670,31 @@ msgstr "Reiniciando automaticamente."
 msgid "Stopping INND service: "
 msgstr "Parando o servicio INND: "
 
-#: /etc/rc.d/init.d/psacct:24
+#: /etc/rc.d/init.d/psacct:23
 #, fuzzy
 msgid "Shutting down process accounting: "
 msgstr "Activando o accounting de procesos"
 
-#: /etc/rc.d/init.d/iscsi:49
+#: /etc/rc.d/init.d/iscsi:48
 #, fuzzy
 msgid "Could not load module iscsi.o"
 msgstr "¡Non se atopou /etc/iscsi.conf!"
 
-#: /etc/rc.d/init.d/functions:419
+#: /etc/rc.d/init.d/functions:430
 msgid "$STRING"
 msgstr "$STRING"
+
+#: /etc/rc.d/init.d/kudzu:57
+msgid "Updating /etc/fstab"
+msgstr ""
 
 #: /etc/rc.d/init.d/keytable:22
 msgid "Loading keymap: "
 msgstr "Cargando o mapa de teclado: "
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:151
-msgid "error in $FILE: already seen ipaddr $IPADDR in $ipseen"
-msgstr "erro en $FILE: enderezo ip $IPADDR xa visto en $ipseen"
+#: /etc/rc.d/rc.sysinit:205
+msgid "Your system appears to have shut down uncleanly"
+msgstr "Semella que o sistema non foi apagado limpamente"
 
 #: /etc/rc.d/init.d/gpm:54
 msgid "Shutting down console mouse services: "
@@ -1609,11 +1704,11 @@ msgstr "Parando os servicios de rato para consola: "
 msgid "Setting NIS domain name $NISDOMAIN: "
 msgstr "Establecendo o nome de dominio NIS $NISDOMAIN: "
 
-#: /etc/rc.d/init.d/kudzu:39
+#: /etc/rc.d/init.d/kudzu:37
 msgid "Checking for new hardware"
 msgstr "Comprobando o novo hardware"
 
-#: /etc/rc.d/init.d/nfslock:67
+#: /etc/rc.d/init.d/nfslock:69
 #, fuzzy
 msgid "Stopping NFS statd: "
 msgstr "Parando os servicios rstat: "
@@ -1627,11 +1722,11 @@ msgstr "Sistema de ficheiros /proc non dispoñible"
 msgid "Starting NFS mountd: "
 msgstr "Iniciando o daemon de APM: "
 
-#: /etc/rc.d/rc.sysinit:57
+#: /etc/rc.d/rc.sysinit:80
 msgid "Unmounting initrd: "
 msgstr "Desmontando o initrd: "
 
-#: /etc/rc.d/rc.sysinit:453
+#: /etc/rc.d/rc.sysinit:477
 msgid "*** An error occurred during the RAID startup"
 msgstr "*** Ocorreu un erro na inicialización de RAID"
 
@@ -1639,9 +1734,16 @@ msgstr "*** Ocorreu un erro na inicialización de RAID"
 msgid "error in $FILE: didn't specify device or ipaddr"
 msgstr "erro en $FILE: non se especificou o dispositivo ou o enderezo IP"
 
-#: /etc/rc.d/init.d/functions:293
+#: /etc/rc.d/init.d/functions:292
 msgid "${base} (pid $pid) is running..."
 msgstr "${base} (pid $pid) está a se executar..."
+
+#: /etc/sysconfig/network-scripts/ifup-ipv6:190
+#, fuzzy
+msgid "Given IPv4 address '$ipv4addr' is not globally usable"
+msgstr ""
+"O enderezo IPv4 $ipv4addr indicado non é usable globalmente, a configuración "
+"6to4 non é válida!"
 
 #: /etc/rc.d/init.d/aep1000:73 /etc/rc.d/init.d/amd:39
 #: /etc/rc.d/init.d/anacron:25 /etc/rc.d/init.d/arpwatch:35
@@ -1650,13 +1752,14 @@ msgstr "${base} (pid $pid) está a se executar..."
 #: /etc/rc.d/init.d/identd:57 /etc/rc.d/init.d/kadmin:47
 #: /etc/rc.d/init.d/kprop:37 /etc/rc.d/init.d/krb524:37
 #: /etc/rc.d/init.d/krb5kdc:37 /etc/rc.d/init.d/ldap:63
-#: /etc/rc.d/init.d/ldap:70 /etc/rc.d/init.d/lpd:57 /etc/rc.d/init.d/mysqld:52
-#: /etc/rc.d/init.d/mysqld:54 /etc/rc.d/init.d/named:58
-#: /etc/rc.d/init.d/nscd:58 /etc/rc.d/init.d/portmap:65
-#: /etc/rc.d/init.d/pxe:32 /etc/rc.d/init.d/radvd:45 /etc/rc.d/init.d/rarpd:32
+#: /etc/rc.d/init.d/ldap:70 /etc/rc.d/init.d/lisa:48 /etc/rc.d/init.d/lpd:66
+#: /etc/rc.d/init.d/mysqld:52 /etc/rc.d/init.d/mysqld:54
+#: /etc/rc.d/init.d/named:47 /etc/rc.d/init.d/nscd:58
+#: /etc/rc.d/init.d/portmap:65 /etc/rc.d/init.d/pxe:32
+#: /etc/rc.d/init.d/radvd:45 /etc/rc.d/init.d/rarpd:32
 #: /etc/rc.d/init.d/rwalld:33 /etc/rc.d/init.d/saslauthd:38
 #: /etc/rc.d/init.d/snmpd:29 /etc/rc.d/init.d/snmptrapd:30
-#: /etc/rc.d/init.d/tWnn:42 /etc/rc.d/init.d/ups:61 /etc/rc.d/init.d/xinetd:70
+#: /etc/rc.d/init.d/ups:63 /etc/rc.d/init.d/xinetd:69
 msgid "Stopping $prog: "
 msgstr "Parando $prog: "
 
@@ -1668,12 +1771,16 @@ msgstr "Asociando co dominio NIS: "
 msgid "Shutting down $KIND services: "
 msgstr "Parando os servicios $KIND: "
 
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:115
+msgid "ERROR    "
+msgstr ""
+
 #: /etc/rc.d/init.d/atalk:53
 #, fuzzy
 msgid "Shutting down AppleTalk services: "
 msgstr "Parando os servicios NIS: "
 
-#: /etc/rc.d/rc.sysinit:212
+#: /etc/rc.d/rc.sysinit:218
 #, fuzzy, c-format
 msgid "Press Y within %d seconds to force file system integrity check..."
 msgstr ""
@@ -1684,6 +1791,26 @@ msgstr ""
 #: /etc/rc.d/init.d/iptables:112
 msgid "Resetting built-in chains to the default ACCEPT policy:"
 msgstr "Restablecendo os chains integrados, á política ACCEPT por defecto:"
+
+#~ msgid "Setting default font ($SYSFONT): "
+#~ msgstr "Establecendo a fonte por omisión ($SYSFONT): "
+
+#~ msgid "\\033[0;39m"
+#~ msgstr "\\033[0;39m"
+
+#~ msgid "Stopping postgresql service: "
+#~ msgstr "Parando o servicio postgresql: "
+
+#, fuzzy
+#~ msgid "\\033[0;31m"
+#~ msgstr "\\033[1;31m"
+
+#~ msgid "$1 "
+#~ msgstr "$1 "
+
+#, fuzzy
+#~ msgid "Usage: $prog {start|stop|status|restart|condrestart}"
+#~ msgstr "Uso: $0 {start|stop|status|restart|condrestart}"
 
 #, fuzzy
 #~ msgid "Stopping NFS mountd: "

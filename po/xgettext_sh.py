@@ -41,7 +41,7 @@ def xgettext(arq, tokens_i18n):
 			for token in tokens_i18n:
 			        if token == '=':
 				    pos = find(l, token + '$"')
-				else
+				else:
 				    pos = find(l, token + ' $"')
 				if pos != -1:
 					text = split(l[pos:], '"')[1]
