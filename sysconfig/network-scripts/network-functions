@@ -6,9 +6,9 @@
 need_config()
 {
     [ -f "${CONFIG}" ] || \
-       CONFIG=../networking/`current_profile`/${1}
+       CONFIG=../networking/default/${1}
     [ -f "${CONFIG}" ] || \
-       CONFIG=../networking/`current_profile`/ifcfg-${1}
+       CONFIG=../networking/default/ifcfg-${1}
     [ -f "${CONFIG}" ] || \
        CONFIG="ifcfg-${1}"
 }
@@ -180,16 +180,4 @@ is_wireless_device ()
     LC_ALL=C iwconfig $1 2>&1 | grep -q "no wireless extensions" || return 0
   fi
   return 1
-}
-  
-
-current_profile ()
-{
-  if [ "${CURRENT_PROFILE}" != "" ]; then
-    echo ${CURRENT_PROFILE}
-  elif [ "${DEFAULT_PROFILE}" != "" ]; then
-    echo ${DEFAULT_PROFILE}
-  else
-    echo "default"
-  fi
 }
