@@ -88,7 +88,7 @@ if [ "$FIREWALL_MODS" != "no" -a -f /etc/sysconfig/ipchains ] && \
 	if [ -n "$ns" ]; then
 		for nameserver in $ns ; do
 			if ! iptables -L RH-Lokkit-0-50-INPUT -n | grep -q $nameserver ; then
-				iptables -A RH-Lokkit-0-50-INPUT -s $nameserver/32 --sport 53 -d 0/0 --dport 1025:65535 -p udp -m udp -j ACCEPT
+				iptables -A RH-Lokkit-0-50-INPUT -m udp -s $nameserver/32 --sport 53 -d 0/0 --dport 1025:65535 -p udp -j ACCEPT
 				[ -x /usr/bin/logger ] && logger $"punching nameserver $nameserver through the firewall"
 			fi
 		done
