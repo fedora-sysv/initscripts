@@ -29,6 +29,7 @@ set_the_clock() {
     # Set the system clock.
     _CLOCK_SET=1
     ARC=0
+    SRM=0
     UTC=0
     if [ -f /etc/sysconfig/clock ]; then
     	. /etc/sysconfig/clock
@@ -45,7 +46,6 @@ set_the_clock() {
     if [ -x /sbin/hwclock ]; then
     	CLOCKFLAGS="--hctosys"
     	CLOCK=/sbin/hwclock
-    	$CLOCK --adjust
     else
     	CLOCKFLAGS="-a"
     	CLOCK=/sbin/clock
@@ -64,6 +64,11 @@ set_the_clock() {
      	CLOCKFLAGS="$CLOCKFLAGS -A";
      	CLOCKDEF="$CLOCKDEF (arc)";
    	;;
+	case "$SRM" in
+	  yes|true)
+	CLOCKFLAGS="$CLOCKFLAGS -S";
+	CLOCKDEF="$CLOCKDEF (srm)";
+	;;
     	esac
     fi
 
