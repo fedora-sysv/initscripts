@@ -75,10 +75,10 @@ fi
 # Check if $pid (could be plural) are running
 checkpid() {
 	while [ "$1" ]; do
-	   [ -d /proc/$1 ] && return 0
+	   [ -d /proc/$1 ] || return 1
 	   shift
 	done
-	return 1
+	return 0
 }
 	
 
