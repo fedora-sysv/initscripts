@@ -262,10 +262,13 @@ Files in /etc/sysconfig/network-scripts/
   PPP/SLIP items:
     PERSIST=yes|no
     MODEMPORT=<device, say /dev/modem>
+      (overridden in wvdial.conf when WVDIALSECT used)
     LINESPEED=<speed, say 115200>
+      (overridden in wvdial.conf when WVDIALSECT used)
     DEFABORT=yes|no (tells netcfg whether or not to put default
       abort strings in when creating/editing the chat script and/or
       dip script for this interface)
+      (meaningless with WVDIALSECT)
  
   PPP-specific items
     WVDIALSECT=<list of sections from wvdial.conf to use>
@@ -289,10 +292,6 @@ Files in /etc/sysconfig/network-scripts/
       files -- name/password pairs are associated with the
       logical ppp device name so that they can be managed
       together.
-
-      In principal, I'm not aware of anything that would keep
-      the logical PPP device names from being "worldnet" or
-      "myISP" instead of ppp0-pppN)
     REMIP=<remote ip address, normally unspecified>
     MTU=
     MRU=
