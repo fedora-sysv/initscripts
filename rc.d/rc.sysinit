@@ -199,7 +199,7 @@ if [ ! -f /fastboot ]; then
 		umount -a
 		mount -n -o remount,ro /
 		echo "Automatic reboot in progress."
-		reboot
+		reboot -f
 	elif [ "$rc" = "1" ]; then
 		_RUN_QUOTACHECK=1
 	fi
@@ -360,7 +360,7 @@ if [ -f /proc/mdstat -a -f /etc/raidtab ]; then
 		umount -a
 		mount -n -o remount,ro /
 		echo "Automatic reboot in progress."
-		reboot
+		reboot -f
 	fi
 fi
 
@@ -394,7 +394,7 @@ if [ ! -f /fastboot ]; then
 		umount -a
 		mount -n -o remount,ro /
 		echo "Automatic reboot in progress."
-		reboot
+		reboot -f
 	elif [ "$rc" = "1" -a -x /sbin/quotacheck ]; then
 		action "Checking filesystem quotas" /sbin/quotacheck -v -R -a
 	fi
