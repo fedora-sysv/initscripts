@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.74
+Version: 7.75
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -207,6 +207,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Sep 01 2004 Karsten Hopp <karsten@redhat.de> 7.75-1 
+- fix sysfs configuration of qeth and lcs network interfaces
+  (eth, tr, hsi)
+
 * Mon Aug 30 2004 Karsten Hopp <karsten@redhat.de> 7.74-1 
 - fix support for LCS portnumbers (mainframe)
 

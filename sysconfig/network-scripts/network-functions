@@ -331,23 +331,13 @@ configure_ccwgroup_device ()
 {
     local DIR SYSDIR
     # SUBCHANNELS is only set on mainframe ccwgroup devices
-    [ -z "$SUBCHANNELS" ] && return
-    if [ "$TYPE" = "QETH" ]; then
-         DIR="/sys/bus/ccwgroup/drivers/qeth"
-    elif
-       [ "$TYPE" = "CTC" ]; then
-         DIR="/sys/bus/ccwgroup/drivers/ctc"
-    elif
-       [ "$TYPE" = "LCS" ]; then
-         DIR="/sys/bus/ccwgroup/drivers/lcs"
-    else
-       return
-    fi
+    [ -z "$SUBCHANNELS" -o -z "$NETTYPE" ] && return
+    DIR="/sys/bus/ccwgroup/drivers/$NETTYPE"
     SYSDIR="$DIR/${SUBCHANNELS//,*/}"
     [ ! -e $DIR/group ] && return
     echo "$SUBCHANNELS" > $DIR/group
     if [ -n "$PORTNAME" -a -e $SYSDIR/portname ]; then
-         if [ "$TYPE" = "LCS" ]; then
+         if [ "$NETTYPE" = "lcs" ]; then
 		[ -e $SYSDIR/portno ] && echo "$PORTNAME" > $SYSDIR/portno
 	 else
 		[ -e $SYSDIR/portname ] && echo "$PORTNAME" > $SYSDIR/portname
