@@ -1,9 +1,9 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.50
+Version: 5.50.1
 Copyright: GPL
 Group: System Environment/Base
-Release: 2
+Release: 1
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /%{_tmppath}/%{name}-%{version}-%{release}-root
 Requires: mingetty, /bin/awk, /bin/sed, mktemp, e2fsprogs >= 1.15
@@ -12,14 +12,13 @@ Requires: setup >= 2.0.3, /sbin/fuser, which
 Requires: modutils >= 2.3.11-5
 Requires: util-linux >= 2.10
 Conflicts: kernel <= 2.2, timeconfig < 3.0, pppd < 2.3.9, wvdial < 1.40-3
-Conflicts: initscripts < 1.22.1-5, ypbind < 1.6-12
 Obsoletes: rhsound sapinit
 Prereq: /sbin/chkconfig, /usr/sbin/groupadd, gawk, fileutils
 BuildPrereq: glib-devel
 
 %description
 The initscripts package contains the basic system scripts used to boot
-your Red Hat system, change run levels, and shut the system down
+your Red Hat system, change runlevels, and shut the system down
 cleanly.  Initscripts also contains the scripts that activate and
 deactivate most network interfaces.
 
@@ -229,8 +228,8 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
-* Wed Nov 29 2000 Bill Nottingham <notting@redhat.com>
-- don't set NIS domain name
+* Mon Apr  2 2001 Bill Nottingham <notting@redhat.com>
+- backport a *large* pile of fixes from the current tree
 
 * Tue Oct 10 2000 Nalin Dahyabhai <nalin@redhat.com>
 - handle "gw x.x.x.x" as the last pair of flags in ifup-routes (#18804)
