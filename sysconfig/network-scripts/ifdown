@@ -85,8 +85,9 @@ else
 	expand_config
 	# we can't just delete the configured address because that address
 	# may have been changed in the config file since the device was
-	# brought up.  Flush all addresses instead.
-	ip addr flush dev ${DEVICE}
+	# brought up.  Flush all addresses associated with this
+	# instance instead.
+	ip addr flush dev ${REALDEVICE} label ${DEVICE}
 fi
 
 if [ "${REALDEVICE}" = "${DEVICE}" ]; then
