@@ -17,6 +17,7 @@ Conflicts: kernel <= 2.2, timeconfig < 3.0, pppd < 2.3.9, wvdial < 1.40-3
 Conflicts: initscripts < 1.22.1-5
 Obsoletes: rhsound sapinit
 Prereq: /sbin/chkconfig, /usr/sbin/groupadd, gawk
+BuildPrereq: glib-devel
 
 %description
 The initscripts package contains the basic system scripts used to boot
