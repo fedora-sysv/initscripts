@@ -198,6 +198,16 @@ if [ -n "${DYNCONFIG}" ]; then
     fi
 
     [ -n "$FWHACK" ] && ipchains -D input -s 0/0 53 -d 0/0 1025:65535 -p udp -j ACCEPT
+
+    # DHCP likes to create duplicate routes.  Fix that up.
+    NUMDEFROUTES=`ip -o route | \
+                  grep default | \
+                  awk '{ nlines++ } END { print nlines }'`
+    if [ "$NUMDEFROUTES" -gt 1 ]; then
+	# remove the default route for the new device (old route wins)
+	ip route del default dev ${DEVICE}
+    fi
+# end dynamic device configuration
 else 
     if [ -z "${IPADDR}" ]; then
          # enable device without IP, useful for e.g. PPPoE

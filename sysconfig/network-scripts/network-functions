@@ -178,6 +178,7 @@ find_gateway_dev ()
 add_default_route ()
 {
     . /etc/sysconfig/network
+    check_default_route && return 0
     find_gateway_dev
     if [ "$GATEWAYDEV" != "" -a \
          "${GATEWAY}" != "" -a \
