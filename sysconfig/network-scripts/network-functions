@@ -38,8 +38,7 @@ do_netreport ()
     for i in * ; do
       if [ -f $i ]; then
         OWNER=`ls -l $i | awk '{ print $3 }'`
-        su $OWNER -c "kill -SIGIO $i >/dev/null 2>&1" > /dev/null 2>&1 || \
-           rm -f $i >/dev/null 2>&1
+        su $OWNER -c "kill -SIGIO $i >/dev/null 2>&1 || rm -f $i >/dev/null 2>&1" > /dev/null 2>&1
 	fi
     done
   )
