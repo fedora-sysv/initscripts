@@ -35,7 +35,7 @@ if [ "$BOOTUP" = "graphical" ]; then
 fi
 
 last=0
-for i in `LC_ALL=C grep '^[0-9]*.*respawn:/sbin/mingetty' /etc/inittab | sed 's/^.* tty\([0-9][0-9]*\).*/\1/g'`; do
+for i in `LC_ALL=C grep '^[0-9].*respawn:/sbin/mingetty' /etc/inittab | sed 's/^.* tty\([0-9][0-9]*\).*/\1/g'`; do
       > /dev/tty$i
       last=$i
 done
