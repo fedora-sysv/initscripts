@@ -121,6 +121,7 @@ case "$1" in
 		fi
 		
 		if [ -n "$BRIDGE" ]; then
+			is_available $i
 		        bridgeinterfaces="$bridgeinterfaces $i"
 			unset DEVICE TYPE SLAVE BRIDGE
 			continue
