@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.38
+Version: 5.39
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -232,6 +232,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Jul 26 2000 Bill Nottingham <notting@redhat.com>
+- fix unclean shutdown
+
 * Tue Jul 25 2000 Nalin Dahyabhai <nalin@redhat.com>
 - s/nill/null/g
 
