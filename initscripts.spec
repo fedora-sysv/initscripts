@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.84
+%define version 4.85
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
@@ -227,6 +227,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Jan 31 2000 Bill Nottingham <notting@redhat.com>
+- fix hanging ppp-watch
+- fix issues with cleaning of /var/{run,lock}
+
 * Fri Jan 21 2000 Bill Nottingham <notting@redhat.com>
 - fix pidof calls in pidofproc
 
