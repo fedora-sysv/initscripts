@@ -741,6 +741,9 @@ chown root:root /tmp/.ICE-unix
 update_boot_stage RCswap
 action $"Enabling swap space: " swapon -a -e
 
+# Set up binfmt_misc
+/bin/mount -t binfmt_misc none /proc/sys/fs/binfmt_misc > /dev/null 2>&1
+
 # Initialize the serial ports.
 if [ -f /etc/rc.serial ]; then
 	. /etc/rc.serial
