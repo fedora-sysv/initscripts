@@ -23,8 +23,8 @@ if [ "${2}" = "boot" -a "${ONBOOT}" = "no" ]; then
   exit
 fi
 
-if [ ! -f /var/lock/subsys/isdn -a -x /etc/rc.d/init.d/isdn ] ; then
-    /etc/rc.d/init.d/isdn start
+if [ ! -f /var/lock/subsys/isdn -a -x /etc/init.d/isdn ] ; then
+    /etc/init.d/isdn start
 fi
 
 # check that ipppd is available for syncppp 
