@@ -6,6 +6,10 @@ if [ -f /etc/sysconfig/i18n ]; then
     if [ -n "$LANG" ]; then
 	export LANG
     fi
+
+    if [ -n "$LC_ALL" ]; then
+	export LC_ALL
+    fi
   
     if [ -n "$LINGUAS" ]; then
 	export LINGUAS

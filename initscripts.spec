@@ -1,6 +1,6 @@
 Summary: inittab and /etc/rc.d scripts
 Name: initscripts
-%define version 3.75
+%define version 3.76
 Version: %{version}
 Copyright: GPL
 Group: Base
@@ -155,6 +155,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc sysconfig.txt
 
 %changelog
+* Mon Oct 12 1998 Cristian Gafton <gafton@redhat.com>
+- handle LC_ALL
+
 * Mon Oct 12 1998 Preston Brown <pbrown@redhat.com>
 - adjusted setsysfont to always run setfont, even if only w/default font
 
