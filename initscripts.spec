@@ -215,6 +215,7 @@ rm -rf $RPM_BUILD_ROOT
 - automatically reboot when fsck calls for it, instead of requiring
   manual intervention (#117641 and duplicates)
 - ifup-wireless: fix key for open vs. restricted (#135235, <dax@gurulabs.com>)
+- translation updates
 
 * Fri Oct 08 2004 Karsten Hopp <karsten@redhat.de> 7.90-1 
 - fix portname for LCS devices
