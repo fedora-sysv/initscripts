@@ -208,18 +208,20 @@ fi
 # Remount the root filesystem read-write.
 action "Remounting root filesystem in read-write mode" mount -n -o remount,rw /
 
-# Add /proc to /etc/mtab
-mount -f -t proc /proc /proc
+# Clear mtab
+>/etc/mtab
+
+# Remove stale backups
+rm -f /etc/mtab~
+
+# Enter root and /proc into mtab.
+mount -f /
+mount -f /proc
 
 # Update quotas if fsck was run on /.
 if [ X"$_RUN_QUOTACHECK" = X1 -a -x /sbin/quotacheck ]; then
 	action "Checking root filesystem quotas"  /sbin/quotacheck -v /
 fi
-
-# XXX Disabled to avoid complaints on root later with quotaon -a
-#if [ -x /sbin/quotaon ]; then
-#    action "Turning on user and group quotas for root filesystem"  /sbin/quotaon /
-#fi
 
 # The root filesystem is now read-write, so we can now log via syslog() directly..
 if [ -n "$IN_INITLOG" ]; then
@@ -227,13 +229,6 @@ if [ -n "$IN_INITLOG" ]; then
 fi
 
 echo ${HOSTNAME} > /etc/HOSTNAME
-
-# Clear mtab
->/etc/mtab
-
-# Enter root and /proc into mtab.
-mount -f /
-mount -f /proc
 
 if ! grep -i nomodules /proc/cmdline >/dev/null && [ -f /proc/ksyms ]; then
     USEMODULES=y
@@ -437,7 +432,7 @@ if [ -x /sbin/quotaon ]; then
 fi
 
 # Clean out /etc.
-rm -f /etc/mtab~ /fastboot /fsckoptions /forcefsck
+rm -f /fastboot /fsckoptions /forcefsck
 
 # Do we need (w|u)tmpx files? We don't set them up, but the sysadmin might...
 _NEED_XFILES=
