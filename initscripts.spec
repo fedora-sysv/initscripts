@@ -1,10 +1,10 @@
 Summary: inittab and /etc/rc.d scripts
 Name: initscripts
-Version: 3.13
+Version: 3.14
 Copyright: GPL
 Group: Base
 Release: 1
-Source: initscripts-3.13.tar.gz
+Source: initscripts-3.14.tar.gz
 BuildRoot: /var/tmp/initbld
 Requires: mingetty bash mktemp
 
@@ -14,6 +14,13 @@ levels, and shut the system down cleanly. It also contains the scripts
 that activate and deactivate most network interfaces.
 
 %changelog
+
+* Tue Sep 30 1997 Michael K. Johnson <johnsonm@redhat.com>
+
+- Added network-functions to spec file.
+- Added report functionality to usernetctl.
+- Fixed bugs I introduced into usernetctl while adding clone device support.
+- Clean up entire RPM_BUILD_ROOT directory in %clean.
 
 * Mon Sep 29 1997 Michael K. Johnson <johnsonm@redhat.com>
 
@@ -207,6 +214,7 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/sysconfig/network-scripts/ifdown-post
 /etc/sysconfig/network-scripts/ifup
 %config /sbin/ifup
+%config /etc/sysconfig/network-scripts/network-functions
 %config /etc/sysconfig/network-scripts/ifup-post
 %config /etc/sysconfig/network-scripts/ifdhcpc-done
 %config /etc/sysconfig/network-scripts/ifcfg-lo
