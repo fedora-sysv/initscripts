@@ -246,6 +246,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Mar 17 2003 Nalin Dahyabhai <nalin@redhat.com>
+- init.d/network: don't advertise "probe: true" in the header if we don't
+  recognize "probe" as an argument
+
 * Tue Feb 25 2003 Bill Nottingham <notting@redhat.com> 7.13-1
 - handle 7.x SYSFONTACM settings in setsysfont (#84183)
 
