@@ -307,7 +307,7 @@ for FILE in ifcfg-${parent_device}-range*[^~] ; do
        ipaddr_endnum=${IPADDR_END##*.}
 
        if [ "${IPADDR_START%.*}" != "${IPADDR_END%.*}" ]; then
-               echo $"error in $FILE: IPADDR_START and IPADDR_END don't argree" >&2; exit 0
+               echo $"error in $FILE: IPADDR_START and IPADDR_END don't agree" >&2; exit 0
        fi
 
        if [ $ipaddr_startnum -gt $ipaddr_endnum ]; then
