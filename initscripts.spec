@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.58
+Version: 5.59
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -247,6 +247,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Wed Jan 24 2001 Bill Nottingham <notting@redhat.com>
 - quiet LVM setup (#24841)
+- fix inability to shutdown cleanly (#24889)
 
 * Tue Jan 23 2001 Bill Nottingham <notting@redhat.com>
 - new i18n mechanism
