@@ -6,7 +6,6 @@ Group: System Environment/Base
 Release: 1serel
 Source: initscripts-%{version}.tar.bz2
 URL: http://rhlinux.redhat.com/initscripts/
-Patch0: initscripts-s390.patch
 BuildRoot: /%{_tmppath}/%{name}-%{version}-%{release}-root
 Requires: mingetty, /bin/awk, /bin/sed, mktemp, e2fsprogs >= 1.15
 Requires: /sbin/sysctl, sysklogd >= 1.3.31
@@ -32,9 +31,6 @@ deactivate most network interfaces.
 
 %prep
 %setup -q
-%ifarch s390 s390x
-%patch0 -p1 -b .s390init
-%endif
 
 %build
 make
