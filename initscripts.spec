@@ -145,6 +145,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(4755,root,root) /usr/sbin/usernetctl
 /sbin/netreport
 /sbin/initlog
+/sbin/loglevel
 /sbin/minilogd
 /usr/man/man1/doexec.1
 /usr/man/man1/initlog.1
