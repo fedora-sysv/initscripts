@@ -1,9 +1,9 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.27
+Version: 7.27.EL
 License: GPL
 Group: System Environment/Base
-Release: 2.EL
+Release: 1
 Source: initscripts-%{version}.tar.bz2
 URL: http://rhlinux.redhat.com/initscripts/
 Patch0: initscripts-s390.patch
