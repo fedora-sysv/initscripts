@@ -154,11 +154,13 @@ action $"Setting hostname ${HOSTNAME}: " hostname ${HOSTNAME}
 # Initialize USB controller and HID devices
 usb=0
 if ! grep -iq "nousb" /proc/cmdline 2>/dev/null && ! grep -q "usb" /proc/devices 2>/dev/null ; then
-    alias=`/sbin/modprobe -c | egrep -s "^alias[[:space:]]+usb-controller" | awk '{ print $3 }'`
-    if [ -n "$alias" -a "$alias" != "off" ] ; then
+    aliases=`/sbin/modprobe -c | egrep -s "^alias[[:space:]]+usb-controller" | awk '{ print $3 }'`
+    if [ -n "$aliases" -a "$aliases" != "off" ] ; then
       modprobe usbcore
-      action $"Mounting USB filesystem: "  mount -t usbdevfs usbdevfs /proc/bus/usb
-      action $"Initializing USB controller ($alias): " modprobe $alias
+      action $"Mounting USB filesystem: "  mount -t usbdevfs usbdevfs /proc/bus/usb\
+      for alias in aliases ; do 
+      	action $"Initializing USB controller ($alias): " modprobe $alias
+      fi
       [ $? -eq 0 ] && usb=1
     fi
 fi
