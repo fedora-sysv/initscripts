@@ -117,6 +117,13 @@ case "$1" in
 	for i in $interfaces_boot; do
 		action "Bringing up interface $i" ./ifup $i boot
 	done
+	
+	# Add non interface-specific static-routes.
+	if [ -f /etc/sysconfig/static-routes ]; then
+	   grep "^any" /etc/sysconfig/static-routes | while read ignore args; do
+	      /sbin/route add -$args
+	   done
+	fi    
 
         touch /var/lock/subsys/network
         ;;
