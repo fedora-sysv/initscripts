@@ -269,7 +269,7 @@ EOF
     echo "include \"/etc/racoon/$DST.conf\"" >> $racoontmp
     mv -f $racoontmp /etc/racoon/racoon.conf
     if pidof -x /usr/sbin/racoon > /dev/null 2>&1 ; then
-        killall -HUP /usr/sbin/racooon
+        killall -HUP /usr/sbin/racoon
     else
        /usr/sbin/racoon
     fi
