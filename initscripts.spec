@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.89
+Version: 6.90
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -244,6 +244,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Wed Aug 14 2002 Bill Nottingham <notting@redhat.com>
+- fix silly typo in rc.sysinit
+- increase timeout for link to 5 seconds (#70545)
+
 * Tue Aug 13 2002 Bill Nottingham <notting@redhat.com>
 - require /etc/redhat-release (#68903)
 - fix tty2-tty6 (sort of)
