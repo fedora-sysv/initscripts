@@ -21,11 +21,11 @@ umask 022
 export PATH="/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin"
 
 # Get a sane screen width
-[ -z "$COLUMNS" ] && COLUMNS=80
+[ -z "${COLUMNS:-}" ] && COLUMNS=80
 
-if [ -f /etc/sysconfig/i18n -a -z "$NOLOCALE" ] ; then
+if [ -f /etc/sysconfig/i18n -a -z "${NOLOCALE:-}" ] ; then
   . /etc/sysconfig/i18n
-  if [ "$LANG" = "ja_JP.eucJP" -a "`/sbin/consoletype`" != "pty" ]; then
+  if [ "${LANG:-}" = "ja_JP.eucJP" -a "`/sbin/consoletype`" != "pty" ]; then
     unset LANG
   else
     export LANG
@@ -33,7 +33,7 @@ if [ -f /etc/sysconfig/i18n -a -z "$NOLOCALE" ] ; then
 fi
 
 # Read in our configuration
-if [ -z "$BOOTUP" ]; then
+if [ -z "${BOOTUP:-}" ]; then
   if [ -f /etc/sysconfig/init ]; then
       . /etc/sysconfig/init
   else
@@ -60,7 +60,7 @@ if [ -z "$BOOTUP" ]; then
   fi
 fi
 
-if [ "$BOOTUP" != "verbose" ]; then
+if [ "${BOOTUP:-}" != "verbose" ]; then
    INITLOG_ARGS="-q"
 else
    INITLOG_ARGS=
@@ -119,14 +119,14 @@ daemon() {
         # See if it's already running. Look *only* at the pid file.
         pidlist=`pidfileofproc $base`
 	
-	[ -n "$pid" ] && return
+	[ -n "${pid:-}" ] && return
 
 	# make sure it doesn't core dump anywhere; while this could mask
 	# problems with the daemon, it also closes some security problems
 	ulimit -S -c 0 >/dev/null 2>&1
 	
 	# Echo daemon
-        [ "$BOOTUP" = "verbose" ] && echo -n " $base"
+        [ "${BOOTUP:-}" = "verbose" ] && echo -n " $base"
 
 	# And start it up.
 	if [ -z "$user" ]; then
@@ -160,12 +160,12 @@ killproc() {
 
         # Find pid.
 	pid=`pidofproc $1`
-	if [ -z "$pid" ] ; then
+	if [ -z "${pid:-}" ] ; then
 		pid=`pidofproc $base`
 	fi
 
         # Kill it.
-        if [ -n "$pid" ] ; then
+        if [ -n "${pid:-}" ] ; then
                 [ $BOOTUP = "verbose" ] && echo -n "$base "
 		if [ "$notset" = "1" ] ; then
 		       if checkpid $pid 2>&1; then
@@ -220,7 +220,7 @@ pidfileofproc() {
 		for p in $line ; do
 		       [ -z "${p//[0-9]/}" -a -d /proc/$p ] && pid="$pid $p"
 		done
-	        if [ -n "$pid" ] ; then
+	        if [ -n "${pid:-}" ] ; then
 	                echo $pid
 	                return 0
 	        fi
@@ -244,7 +244,7 @@ pidofproc() {
 		for p in $line ; do
 		       [ -z "${p//[0-9]/}" -a -d /proc/$p ] && pid="$pid $p"
 		done
-	        if [ -n "$pid" ] ; then
+	        if [ -n "${pid-:}" ] ; then
 	                echo $pid
 	                return 0
 	        fi
@@ -325,7 +325,7 @@ echo_passed() {
 
 # Log that something succeeded
 success() {
-  if [ -z "$IN_INITLOG" ]; then
+  if [ -z "${IN_INITLOG:-}" ]; then
      initlog $INITLOG_ARGS -n $0 -s "$1" -e 1
   else
      # silly hack to avoid EPIPE killing rc.sysinit
@@ -340,7 +340,7 @@ success() {
 # Log that something failed
 failure() {
   rc=$?
-  if [ -z "$IN_INITLOG" ]; then
+  if [ -z "${IN_INITLOG:-}" ]; then
      initlog $INITLOG_ARGS -n $0 -s "$1" -e 2
   else
      trap "" SIGPIPE
@@ -354,7 +354,7 @@ failure() {
 # Log that something passed, but may have had errors. Useful for fsck
 passed() {
   rc=$?
-  if [ -z "$IN_INITLOG" ]; then
+  if [ -z "${IN_INITLOG:-}" ]; then
      initlog $INITLOG_ARGS -n $0 -s "$1" -e 1
   else
      trap "" SIGPIPE
