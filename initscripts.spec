@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.49
+Version: 7.50
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -249,6 +249,12 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Apr 16 2004 Bill Nottingham <notting@redhat.com> 7.50-1
+- fix LVM issues in rc.sysinit (#120458, #119975)
+- deal with fixed racoon parser
+- translation updates from translators
+- fix USB loading (#120911)
+
 * Fri Mar 26 2004 Bill Nottingham <notting@redhat.com> 7.49-1
 - use alsa for mixer saving in halt
 - don't umount /proc in halt (#118880)
