@@ -307,7 +307,7 @@ ipv6_control_forwarding() {
 
 	# Global control? (if no device is given)
 	if [ -z "$fw_device" ]; then
-		ipv6_exec_sysctl -w net.ipv6.conf.all.forwarding=$status >/dev/null
+		ipv6_exec_sysctl -w -e net.ipv6.conf.all.forwarding=$status >/dev/null
 	fi
 	
 	# Per device control (not implemented in kernel)
@@ -487,9 +487,9 @@ ipv6_enable_autotunnel() {
 			fi
 
 		# Set sysctls proper (regardless "default")
-		ipv6_exec_sysctl -w net.ipv6.conf.sit0.forwarding=1 >/dev/null
-		ipv6_exec_sysctl -w net.ipv6.conf.sit0.accept_ra=0 >/dev/null
-		ipv6_exec_sysctl -w net.ipv6.conf.sit0.accept_redirects=0 >/dev/null
+		ipv6_exec_sysctl -w -e net.ipv6.conf.sit0.forwarding=1 >/dev/null
+		ipv6_exec_sysctl -w -e net.ipv6.conf.sit0.accept_ra=0 >/dev/null
+		ipv6_exec_sysctl -w -e net.ipv6.conf.sit0.accept_redirects=0 >/dev/null
 	fi
 	
 	return 0
@@ -514,9 +514,9 @@ ipv6_disable_autotunnel() {
 			true
 		else
 			# take down basic tunnel device
-			ipv6_exec_sysctl -w net.ipv6.conf.sit0.forwarding=0 >/dev/null
-			ipv6_exec_sysctl -w net.ipv6.conf.sit0.accept_ra=0 >/dev/null
-			ipv6_exec_sysctl -w net.ipv6.conf.sit0.accept_redirects=0 >/dev/null
+			ipv6_exec_sysctl -w -e net.ipv6.conf.sit0.forwarding=0 >/dev/null
+			ipv6_exec_sysctl -w -e net.ipv6.conf.sit0.accept_ra=0 >/dev/null
+			ipv6_exec_sysctl -w -e net.ipv6.conf.sit0.accept_redirects=0 >/dev/null
 			
 			ipv6_exec_ifconfig sit0 down
 
@@ -1235,9 +1235,9 @@ ipv6_add_tunnel_device() {
 		fi
 
 		# Set sysctls proper (regardless "default")
-		ipv6_exec_sysctl -w net.ipv6.conf.$device.forwarding=1 >/dev/null
-		ipv6_exec_sysctl -w net.ipv6.conf.$device.accept_ra=0 >/dev/null
-		ipv6_exec_sysctl -w net.ipv6.conf.$device.accept_redirects=0 >/dev/null
+		ipv6_exec_sysctl -w -e net.ipv6.conf.$device.forwarding=1 >/dev/null
+		ipv6_exec_sysctl -w -e net.ipv6.conf.$device.accept_ra=0 >/dev/null
+		ipv6_exec_sysctl -w -e net.ipv6.conf.$device.accept_redirects=0 >/dev/null
 
 		if [ ! -z "$addressipv6local" ]; then
 			# Setup P-t-P address
@@ -1437,7 +1437,7 @@ ipv6_set_mtu() {
 	fi
 
 	# Set value
-	ipv6_exec_sysctl -w net.ipv6.conf.$device.mtu=$ipv6_mtu >/dev/null
+	ipv6_exec_sysctl -w -e net.ipv6.conf.$device.mtu=$ipv6_mtu >/dev/null
 	
 	return 0
 }
