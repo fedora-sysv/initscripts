@@ -31,7 +31,7 @@ install:
 	chmod og=rwx,o=rx /var/run/netreport
 
 check:
-	for afile in `find . -type f -perm +111 ` ; do \
+	for afile in `find . -type f -perm +111|grep -v \.csh ` ; do \
 		 bash -n $$afile || { echo $$afile ; exit 1 } ; \
 	done
 
