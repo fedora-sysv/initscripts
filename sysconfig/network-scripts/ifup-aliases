@@ -7,7 +7,8 @@ if [ "$1" = "" ]; then
 	exit 1
 fi
 
-if [ -x /bin/linuxconf ] ; then
+# don't run linuxconf if /usr isn't there... 
+if [ -x /bin/linuxconf -a -f /usr/lib/libncurses.so.4.2 ] ; then
     # ask linuxconf for lines like:
     # add	<device>	<ip>
     # del	<device>
