@@ -4,7 +4,7 @@ Name: initscripts
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
-Release: 1
+Release: 2
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /var/tmp/initbld
 Requires: mingetty, bash, /bin/awk, mktemp, modutils >= 2.1.85-3, e2fsprogs, sysklogd >= 1.3.31, pump
@@ -168,6 +168,11 @@ rm -rf $RPM_BUILD_ROOT
 %doc sysconfig.txt
 
 %changelog
+* Tue Mar 16 1999 Bill Nottingham <notting@redhat.com>
+- fix ROFS logging
+- make fsck produce more happy output
+- fix killproc logic
+
 * Mon Mar 15 1999 Bill Nottingham <notting@redhat.com>
 - doc updates
 - support for SYSFONTACM, other console-tools stuff
