@@ -14,6 +14,11 @@ fi
 [ -e /dev/.devfsd -a -x /sbin/devfsd ] && /sbin/devfsd /dev
 
 HOSTNAME=`/bin/hostname`
+HOSTTYPE=`uname -m`
+unamer=`uname -r`
+eval version=`echo $unamer | awk -F '.' '{ print "(" $1 " " $2 ")" }'`
+
+
 if [ -f /etc/sysconfig/network ]; then
     . /etc/sysconfig/network
 fi
@@ -26,8 +31,6 @@ mount -n -t proc /proc /proc
 mount -n -t sysfs /sys /sys >/dev/null 2>&1
 
 . /etc/init.d/functions
-
-HOSTTYPE=`uname -m`
 
 if [ "$HOSTTYPE" != "s390" -a "$HOSTTYPE" != "s390x" ]; then
   last=0
@@ -172,7 +175,7 @@ cmdline=$(cat /proc/cmdline)
 
 # Initialiaze ACPI bits
 if [ -d /proc/acpi ]; then
-   for module in /lib/modules/`uname -r`/kernel/drivers/acpi/* ; do
+   for module in /lib/modules/$unamer/kernel/drivers/acpi/* ; do
       insmod $module
    done
 fi
@@ -204,9 +207,13 @@ fi
 needusbstorage=
 if [ $usb = "1" ]; then
     needusbstorage=`LC_ALL=C grep -e "^I.*Cls=08" /proc/bus/usb/devices 2>/dev/null`
-    LC_ALL=C fgrep 'hid' /proc/bus/usb/drivers || action $"Initializing USB HID interface: " modprobe hid 2> /dev/null
-    action $"Initializing USB keyboard: " modprobe keybdev 2> /dev/null
-    action $"Initializing USB mouse: " modprobe mousedev 2> /dev/null 
+    # If you are running 2.6, and you built your own modular mouse/keyboard drivers
+    # get them via hotplug. (and if it's your boot keyboard, build them in! :)
+    if [ "${version[0]}" -lt "3" -a "${version[1]}" -lt "6" ]; then 
+      LC_ALL=C fgrep 'hid' /proc/bus/usb/drivers || action $"Initializing USB HID interface: " modprobe hid 2> /dev/null
+      action $"Initializing USB keyboard: " modprobe keybdev 2> /dev/null
+      action $"Initializing USB mouse: " modprobe mousedev 2> /dev/null 
+    fi
 fi
 
 if [ -f /fastboot ] || strstr "$cmdline" fastboot ; then
@@ -390,9 +397,6 @@ fi
 if ! strstr "$cmdline" nomodules && [ -f /proc/modules ] ; then
     USEMODULES=y
 fi
-
-unamer=`uname -r`
-eval version=`echo $unamer | awk -F '.' '{ print "(" $1 " " $2 ")" }'`
 
 # tweak isapnp settings if needed.
 if [ -n "$PNP" -a  -f /proc/isapnp -a -x /sbin/sndconfig ]; then
