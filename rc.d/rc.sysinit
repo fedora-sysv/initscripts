@@ -25,6 +25,10 @@ swapon -a
 hostname ${HOSTNAME}
 echo hostname: `hostname`
 
+if [ -n ${DOMAIN} ]; then
+    DOMAIN=`echo $HOSTNAME | sed 's/^[^\.]*\.//'`
+fi
+
 # Set the NIS domain name
 if [ -n "$NISDOMAIN" ]; then
     domainname $NISDOMAIN
@@ -155,6 +159,10 @@ fi
 if [ -x /sbin/kerneld -a -n "$USEMODULES" ]; then
     /sbin/kerneld
     KERNELD=yes
+fi
+
+if ! grep search /etc/resolv.conf ; then
+    echo "search $DOMAIN" >> /etc/resolv.conf
 fi
 
 # Check filesystems
