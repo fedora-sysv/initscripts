@@ -473,6 +473,10 @@ if [ -e /proc/lvm -a -x /sbin/vgchange -a -f /etc/lvmtab ]; then
         action $"Setting up Logical Volume Management:" /sbin/vgscan && /sbin/vgchange -a y
 fi
 
+if [ -x /sbin/devlabel ]; then
+	/sbin/devlabel restart
+fi
+
 _RUN_QUOTACHECK=0
 # Check filesystems
 if [ -z "$fastboot" ]; then
