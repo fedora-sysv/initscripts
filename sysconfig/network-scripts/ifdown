@@ -90,7 +90,7 @@ ip link set ${DEVICE} down
 
 # wait up to 5 seconds for device to actually come down...
 waited=0
-while ! check_device_down && [ "$waited" -lt 50 ] ; do
+while ! check_device_down ${DEVICE} && [ "$waited" -lt 50 ] ; do
     usleep 10000
     waited=$(($waited+1))
 done

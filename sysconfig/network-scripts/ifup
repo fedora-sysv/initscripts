@@ -207,10 +207,15 @@ else
 	exit 1
     fi
 
+    if [ "${DEVICE}" = "lo" ]; then
+    	SCOPE="scope host"
+    else
+        SCOPE=
+    fi
 
     if ! LC_ALL=C ip addr ls ${DEVICE} | grep -q "${IPADDR}/${PREFIX}" ; then
 	if ! ip addr add ${IPADDR}/${PREFIX} \
-	    brd ${BROADCAST:-+} dev ${DEVICE} ; then
+	    brd ${BROADCAST:-+} dev ${DEVICE} ${SCOPE} ; then
 	    echo $"Error adding address ${IPADDR} for ${DEVICE}."
 	fi
     fi
