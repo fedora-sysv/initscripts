@@ -27,7 +27,7 @@ tag-archive:
 
 create-archive: tag-archive
 	@rm -rf /tmp/initscripts
-	@cd /tmp/initscripts; cvs export -r$(CVSTAG) initscripts
+	@cd /tmp; cvs export -r$(CVSTAG) initscripts
 	@mv /tmp/initscripts /tmp/initscripts-$(VERSION)
 	@cd /tmp; tar czSpf initscripts-$(VERSION).tar.gz initscripts-$(VERSION)
 	@rm -rf /tmp/initscripts-$(VERSION)
