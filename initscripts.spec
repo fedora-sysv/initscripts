@@ -168,6 +168,12 @@ rm -rf $RPM_BUILD_ROOT
 %doc sysconfig.txt
 
 %changelog
+* Fri Mar 19 1999 Bill Nottingham <notting@redhat.com>
+- don't run linuxconf if /usr isn't mounted
+- set macaddr before bootp
+- zero in the /var/run/utmpx file (gafton)
+- don't set hostname on ppp/slip (kills X)
+				
 * Wed Mar 17 1999 Bill Nottingham <notting@redhat.com>
 - exit ifup if pump fails
 - fix stupid errors in reading commands from subprocess
