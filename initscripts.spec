@@ -1,13 +1,13 @@
 Summary: inittab and /etc/rc.d scripts
 Name: initscripts
-%define version 3.85
+%define version 3.90
 Version: %{version}
 Copyright: GPL
 Group: Base
 Release: 2
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /var/tmp/initbld
-Requires: mingetty, bash, mktemp, modutils >= 2.1.85-3, e2fsprogs, kbd
+Requires: mingetty, bash, mktemp, modutils >= 2.1.85-3, e2fsprogs, kbd, kernel >= 2.2.1-rh3
 Conflicts: redhat-release <= 5.1
 Prereq: /sbin/chkconfig
 

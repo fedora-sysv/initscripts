@@ -124,27 +124,9 @@ else
     USEMODULES=
 fi
 
-# Set up kernel version-dependent symlinks.
-rm -f /lib/modules/preferred
-
-if [ -n "$USEMODULES" ]; then
-    ktag="`cat /proc/version`"
-    mtag=`grep -l "$ktag" /lib/modules/*/.rhkmvtag` 2> /dev/null
-    if [ -n "$mtag" ]; then
-	mver=`echo $mtag | sed -e 's,/lib/modules/,,' -e 's,/.rhkmvtag,,' -e 's,[ 	].*$,,'`
-	ln -sf /lib/modules/$mver /lib/modules/preferred
-	ln -sf /boot/System.map-$mver /boot/System.map
-	ln -sf /boot/module-info-$mver /boot/module-info
-    fi
-fi
-
 if [ -x /sbin/depmod -a -n "$USEMODULES" ]; then
-    # Get ready for kerneld if module support in the kernel
-    if [ -e /lib/modules/preferred ]; then
-	    action "Finding module dependencies" depmod -a preferred
-    else
-	    action "Finding module dependencies" depmod -a
-    fi
+    # Get ready for kerneld/kmod if module support in the kernel
+    action "Finding module dependencies" depmod -a
 fi
 
 # load sound modules
