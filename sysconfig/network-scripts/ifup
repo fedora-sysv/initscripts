@@ -53,6 +53,8 @@ then
     exit 0
 fi
 
+[ "${TYPE}" = "Bridge" ] && exit 0
+
 # Ethernet 802.1Q VLAN support
 if [ -x /sbin/vconfig -a "${VLAN}" = "yes" ]; then
     if echo ${DEVICE} | LANG=C egrep -v '(:)' | LANG=C egrep -q 'eth[0-9][0-9]*\.[0-9][0-9]?[0-9]?[0-9]?' ; then
@@ -150,6 +152,21 @@ if [ -n "${HWADDR}" ]; then
 	}
     fi
 fi
+
+if [ "${TYPE}" = "Bridge" -a -x /usr/sbin/brctl ]; then
+      /sbin/ip link set ${DEVICE} down 2>/dev/null
+      /usr/sbin/brctl delbr ${DEVICE} 2>/dev/null
+      /usr/sbin/brctl addbr ${DEVICE}
+      [ -n "${DELAY}" ] && /usr/sbin/brctl setfd ${DEVICE} ${DELAY}
+      [ -n "${GCINT}" ] && /usr/sbin/brctl setgcint ${DEVICE} ${GCINT}
+fi
+
+if [ -n "${BRIDGE}" -a -x /usr/sbin/brctl ]; then
+      /sbin/ip addr flush dev ${DEVICE} 2>/dev/null
+      /sbin/ip link set ${DEVICE} up
+      /usr/sbin/brctl addif ${BRIDGE} ${DEVICE}
+      exit $?
+fi 
 
 # now check the real state
 is_available ${REALDEVICE} || {

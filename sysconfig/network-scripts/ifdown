@@ -44,6 +44,12 @@ if [ -x $OTHERSCRIPT ]; then
 	exec $OTHERSCRIPT $CONFIG $2
 fi
 
+if [ -n "${BRIDGE}" -a -x /usr/sbin/brctl ]; then
+      /sbin/ip link set ${DEVICE} down
+      /usr/sbin/brctl delif ${BRIDGE} ${DEVICE}
+      exit 0
+fi 
+
 . /etc/sysconfig/network
 
 # Check to make sure the device is actually up
@@ -120,6 +126,10 @@ if [ "$retcode" = 0 ] ; then
     /etc/sysconfig/network-scripts/ifdown-post $CONFIG
     # do NOT use $? because ifdown should return whether or not
     # the interface went down.
+fi
+
+if [ "$TYPE" = "Bridge" -a -x /usr/sbin/brctl ]; then
+    /usr/sbin/brctl delbr ${DEVICE}
 fi
 
 if [ -n "$VLAN" -a -x /sbin/vconfig ]; then
