@@ -18,9 +18,9 @@ fi
 DEVICE=$1
 
 #note the trailing space in the grep gets rid of aliases
-grep "^$DEVICE " /etc/sysconfig/static-routes | while read device args; do
+grep "^$DEVICE[[:space:]]" /etc/sysconfig/static-routes | while read device args; do
 	/sbin/route add -$args $device
 done
-grep "^any " /etc/sysconfig/static-routes | while read ignore args ; do
+grep "^any[[:space:]]" /etc/sysconfig/static-routes | while read ignore args ; do
         /sbin/route add -$args
 done
