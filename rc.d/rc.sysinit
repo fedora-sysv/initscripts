@@ -24,7 +24,7 @@ fi
 
 # Mount /proc and /sys (done here so volume labels can work with fsck)
 mount -n -t proc /proc /proc
-mount -n -t usbfs /proc/bus/usb /proc/bus/usb
+[ -d /proc/bus/usb ] && mount -n -t usbfs /proc/bus/usb /proc/bus/usb
 mount -n -t sysfs /sys /sys >/dev/null 2>&1
 
 . /etc/init.d/functions
@@ -522,7 +522,7 @@ mount -f /
 mount -f /proc
 mount -f /sys >/dev/null 2>&1
 mount -f /dev/pts
-[ -f /proc/bus/usb/devices ] && mount -f -t usbdevfs usbdevfs /proc/bus/usb
+[ -f /proc/bus/usb/devices ] && mount -f -t usbfs usbfs /proc/bus/usb
 [ -e /dev/.devfsd ] && mount -f -t devfs devfs /dev 
 
 # configure all zfcp (scsi over fibrechannel) devices before trying to mount them
