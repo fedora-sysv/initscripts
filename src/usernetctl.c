@@ -58,6 +58,7 @@ testSafe(char *ifaceConfig) {
 
 static int
 userCtl(char *file) {
+    char *buf;
     char *contents = NULL;
     char *chptr = NULL;
     char *next = NULL;
@@ -66,7 +67,7 @@ userCtl(char *file) {
 
     size = testSafe(file);
 
-    contents = malloc(size + 2);
+    buf = contents = malloc(size + 2);
 
     if ((fd = open(file, O_RDONLY)) == -1) {
 	fprintf(stderr, "failed to open %s: %s\n", file, strerror(errno));
@@ -110,7 +111,7 @@ userCtl(char *file) {
 	contents = next;
     }
 
-    free(contents);
+    free(buf);
 
     return retval;
 }
