@@ -98,6 +98,10 @@ if [ -n "${DYNCONFIG}" ]; then
        PUMPARGS="${PUMPARGS} --lookup-hostname"
        DHCPCDARGS="${DHCPCDARGS} -H"
     fi
+    if [ "${PEERDNS}" = "no" ]; then
+       PUMPARGS="${PUMPARGS} -d"
+       DHCPDARGS="${DHCPDARGS -R"
+    fi
     echo -n "Determining IP information for ${DEVICE}..."
     if /sbin/pump ${PUMPARGS} -i ${DEVICE} ; then
 	echo " done."
