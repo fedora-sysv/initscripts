@@ -152,7 +152,7 @@ action "Setting hostname ${HOSTNAME}: " hostname ${HOSTNAME}
 # Initialize USB controller and HID devices
 usb=0
 if ! grep -iq "nousb" /proc/cmdline 2>/dev/null && ! grep -q "usb" /proc/devices 2>/dev/null ; then
-    alias=`egrep -s "^alias[[:space:]]+usb-controller[[:space:]]+" /etc/modules.conf | awk '{ print $3 }'`
+    alias=`/sbin/modprobe -c | egrep -s "^alias[[:space:]]+usb-controller[[:space:]]+" | awk '{ print $3 }'`
     if [ -n "$alias" -a "$alias" != "off" ] ; then
       action "Initializing USB controller ($alias): " modprobe $alias
       [ $? -eq 0 ] && usb=1
@@ -357,12 +357,12 @@ fi
 # Load sound modules iff they need persistent DMA buffers
 if grep -q "options sound dmabuf=1" /etc/modules.conf 2>/dev/null ; then
   RETURN=0
-  alias=`egrep -s "^alias[[:space:]]+sound[[:space:]]+" /etc/modules.conf | awk '{ print $3 }'`
+  alias=`/sbin/modprobe -c | egrep -s "^alias[[:space:]]+sound[[:space:]]+" | awk '{ print $3 }'`
   if [ -n "$alias" -a "$alias" != "off" ] ; then
       action "Loading sound module ($alias): " modprobe $alias
       RETURN=$?
   fi
-  alias=`egrep -s "^alias[[:space:]]+sound-slot-0[[:space:]]+" /etc/modules.conf | awk '{ print $3 }'`
+  alias=`/sbin/modprobe -c | egrep -s "^alias[[:space:]]+sound-slot-0[[:space:]]+" | awk '{ print $3 }'`
   if [ -n "$alias" -a "$alias" != "off" ] ; then
       action "Loading sound module ($alias): " modprobe $alias
       RETURN=$?
