@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.84
+Version: 7.85
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -207,6 +207,19 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Sep 29 2004 Bill Nottingham <notting@redhat.com> - 7.85-1
+- ifup, network-functions: fix worked-by-accident shell quoting
+- lang.csh: remove setting of dspmbyte (#89549, <mitr@redhat.com>)
+- SELinux fixes
+- clean up prefdm
+- init.d/functions: export LC_MESSAGES (#133786)
+- allow daemon to coredump if requested (#130175)
+- network-functions: be more liberal in what we accept for link types (#90602, #127984)
+- fix overzealousness with -range aliases (#65415)
+- rc.sysinit: use s-c-keyboard, not kbdconfig (#133929)
+- fix checkpid logic, clean up potential errors (#134030)
+- translation updates
+
 * Wed Sep 22 2004 Bill Nottingham <notting@redhat.com> - 7.84-1
 - only start udev once
 
