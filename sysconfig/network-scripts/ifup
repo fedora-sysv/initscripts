@@ -128,10 +128,8 @@ fi
 # Is there a firewall running, and does it look like one we configured?
 FWACTIVE=
 if [ -f /etc/sysconfig/ipchains -a \
-    "`ipchains -L input -n 2>&1 | \
-    awk 'END { print NR }'`" -gt 1 ]; then
+    "`ipchains -L input -n 2>&1 | awk 'END { print NR }'`" -gt 1 ]; then
     FWACTIVE=1
-    export FWACTIVE
 fi
 
 # Remove any temporary references which were previously added to dhclient config
