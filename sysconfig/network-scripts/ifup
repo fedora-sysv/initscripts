@@ -72,7 +72,7 @@ if [ "${BOOTP}" = "yes" ]; then
     BOOTPROTO=bootp
 fi
 
-if [ "${BOOTPROTO}" = bootp -o "${BOOTPROTO}" = dhcp ]; then
+if [ "${BOOTPROTO}" = "bootp" -o "${BOOTPROTO}" = "dhcp" ]; then
     DYNCONFIG=true
 fi
 
@@ -222,7 +222,6 @@ else
     ( sleep 2;
       arping -q -U -c 1 -I ${DEVICE} ${IPADDR} ) > /dev/null 2>&1 < /dev/null &
     ip route add unreachable 224.0.0.0/24 > /dev/null 2>&1
-    ip route add unreachable 255.255.255.255 > /dev/null 2>&1
 
     # if the device is multicast enabled, add a default multicast route
     if [ `ip link ls ${DEVICE} | grep -c MULTICAST` -ge 1 ]; then
