@@ -19,12 +19,12 @@
 # Check that networking is up.
 [ "${NETWORKING}" = "no" ] && exit 0
 
-NFSFSTAB=`LC_ALL=C awk '!/^#/ && $3 ~ /^nfs/ && $4 !~ /noauto/ { print $2 }' /etc/fstab`
+NFSFSTAB=`LC_ALL=C awk '!/^#/ && $3 ~ /^nfs/ && $3 != "nfsd" && $4 !~ /noauto/ { print $2 }' /etc/fstab`
 SMBFSTAB=`LC_ALL=C awk '!/^#/ && $3 == "smbfs" && $4 !~ /noauto/ { print $2 }' /etc/fstab`
 CIFSFSTAB=`LC_ALL=C awk '!/^#/ && $3 == "cifs" && $4 !~ /noauto/ { print $2 }' /etc/fstab`
 NCPFSTAB=`LC_ALL=C awk '!/^#/ && $3 == "ncpfs" && $4 !~ /noauto/ { print $2 }' /etc/fstab`
 NETDEVMTAB=`LC_ALL=C awk '!/^#/ && $4 ~ /_netdev/ && $2 != "/" { print $2 }' /proc/mounts`
-NFSMTAB=`LC_ALL=C awk '!/^#/ && $3 ~ /^nfs/ && $2 != "/" { print $2 }' /proc/mounts`
+NFSMTAB=`LC_ALL=C awk '!/^#/ && $3 ~ /^nfs/ && $3 != "nfsd" && $2 != "/" { print $2 }' /proc/mounts`
 SMBMTAB=`LC_ALL=C awk '!/^#/ && $3 == "smbfs" { print $2 }' /proc/mounts`
 CIFSMTAB=`LC_ALL=C awk '!/^#/ && $3 == "cifs" { print $2 }' /proc/mounts`
 NCPMTAB=`LC_ALL=C awk '!/^#/ && $3 == "ncpfs" { print $2 }' /proc/mounts`
