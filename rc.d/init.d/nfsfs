@@ -35,14 +35,28 @@ case "$1" in
 	echo
 	;;
   status)
-	status nfsfs
+	if [ -f /proc/mounts ] ; then
+		echo "Configured NFS mountpoints:"
+		grep -v '^#' /etc/fstab | \
+		  awk '{ if ($3 ~ /^nfs$/ && $4 !~ /noauto/)
+				print $2}'
+		echo "Active NFS mountpoints:"
+		grep -v '^#' /proc/mounts | \
+		  awk '{ if ($3 ~ /^nfs$/ && $4 !~ /noauto/)
+				print $2}'
+	else
+		echo "/proc filesystem unavailable"
+	fi
 	;;
   restart)
 	$0 stop
 	$0 start
 	;;
+  reload)
+	mount -a -t nfs
+	;;
   *)
-	echo "Usage: nfsfs {start|stop|restart|status}"
+	echo "Usage: nfsfs {start|stop|restart|reload|status}"
 	exit 1
 esac
 
