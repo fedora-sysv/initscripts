@@ -366,6 +366,11 @@ if [ -x /sbin/depmod -a -n "$USEMODULES" ]; then
     fi
 fi
 
+# tweak isapnp settings if needed.
+if [ -n "$PNP" -a  -f /proc/isapnp -a -x /sbin/sndconfig ]; then
+    /sbin/sndconfig --mungepnp >/dev/null 2>&1
+fi
+
 # Load sound modules iff they need persistent DMA buffers
 if grep -q "options sound dmabuf=1" /etc/modules.conf 2>/dev/null ; then
   RETURN=0
@@ -606,11 +611,6 @@ fi
 if grep -q "ide-scsi" /proc/cmdline ; then
 	modprobe ide-cd >/dev/null 2>&1
 	modprobe ide-scsi >/dev/null 2>&1
-fi
-
-# tweak isapnp settings if needed.
-if [ -n "$PNP" -a  -f /proc/isapnp -a -x /sbin/sndconfig ]; then
-    /sbin/sndconfig --mungepnp >/dev/null 2>&1
 fi
 
 # Generate a header that defines the boot kernel.
