@@ -294,8 +294,12 @@ Files in /etc/sysconfig/network-scripts/
 
   The above three variables are used in rc.sysinit.
 
-  SYSFONT= any font with is legal input to the 'setfont' command (see
-    kbd package)
+  SYSFONT= any font that is legal when used as
+	/usr/sbin/setfont $SYSFONT ...
+    (See kbd package for sysfont command)
+
+  UNIMAP= any unicode font that is legal fodder for
+	/usr/sbin/setfont $SYSFONT-u $UNIMAP
 
   The above is used by the /sbin/setsysfont command (which is run
   by rc.sysinit at boot time).
