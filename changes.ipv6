@@ -1,4 +1,4 @@
-v1.4 10th Jan 2002, Pekka Savola <pekkas@netcore.fi>
+v1.5 4th Dec 2002, Pekka Savola <pekkas@netcore.fi>
 
 IPv6 CHANGES
 ============
@@ -6,16 +6,20 @@ IPv6 CHANGES
 This mentions the most important changes (visible to the administrator)
 in IPv6 initscripts.
 
-RHL71 -> RHL72
+RHL80 -> CURRENT
+----------------
+
+ - 6to4 device MTU is taken calculated explicitly, IPV6TO4_MTU support added
+ - add route6-<device> static route support
+ - secondary IPv6 addresses are configurable on tunnel interfaces too
+
+RHL73 -> RHL80
 --------------
 
- - 6to4 tunneling support was added using device sit0
- - Tunneling method was changed from NBMA (now obsolete) to dedicated
- - Automatic tunneling configured was moved from ifcfg-sit0 to
-   IPV6_AUTOTUNNEL at /etc/sysconfig/network
+ - no major functional changes
 
-RHL72 -> Current
-----------------
+RHL72 -> RHL73
+--------------
 
  - 6to4 device changed from sit0 to tun6to4
  - 6to4 assumes the anycast (closest) 6to4 server is used (192.88.99.1)
@@ -35,8 +39,18 @@ Rough guide to migration:
    it with something like IPV6_DEFAULTDEV=tun6to4 in /etc/sysconfig/network
  - If you need autotunneling, use IPV6_AUTOTUNNEL in /etc/sysconfig/network
 
-More information
-----------------
+RHL71 -> RHL72
+--------------
+
+ - 6to4 tunneling support was added using device sit0
+ - Tunneling method was changed from NBMA (now obsolete) to dedicated
+ - Automatic tunneling configured was moved from ifcfg-sit0 to
+   IPV6_AUTOTUNNEL at /etc/sysconfig/network
+
+
+
+Some more information
+---------------------
 
 http://www.bieringer.de/linux/IPv6/IPv6-HOWTO/scripts/current/ ,in particular:
 http://www.bieringer.de/linux/IPv6/IPv6-HOWTO/scripts/current/index.html#migration

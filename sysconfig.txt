@@ -602,6 +602,8 @@ Files in /etc/sysconfig/network-scripts/
       Specify local IPv4 address of tunnel, useful on interfaces with multiple IPv4 addresses
     IPV6ADDR=<IPv6 address>[/<prefix length>] (optional)
      local IPv6 address of a numbered tunnel
+    IPV6ADDR_SECONDARIES="<IPv6 address>[/<prefix length>] ..." (optional)
+      A list of secondary IPv6 addresses (example see above)
     IPV6_MTU=<MTU of tunnel> (optional)
       Optional, dedicated MTU of this tunnel
       Note: Must be greater or equal to 1280
@@ -773,3 +775,25 @@ Files in /etc/sysconfig/network-scripts/
   192.168.2.0/24 dev ppp0
   
   adds a network route to the 192.168.2.0 network through ppp0.
+
+/etc/sysconfig/network-scripts/route6-<interface-name>
+
+  Contains lines that are arguments to "/sbin/ip -6 route add"
+  For example:
+
+  site-local route for network fec0:0:0:2::/64
+   via gateway fec0:0:0:1:0:0:0:20 (e.g. on eth0): 
+
+  fec0:0:0:2::/64 via fec0:0:0:1:0:0:0:20
+
+  additional prefix configured to be on-link on eth0:
+
+  3ffe:fffe:1:2::/64 dev eth0
+  
+  6to4 route for network 3ffe:ffff:1::/48, either:
+
+  3ffe:ffff:1::/48
+  3ffe:ffff:1::/48 via ::192.168.1.2
+
+  Note the special case of 6to4 interface: 'via [relay]' is 
+  automatically added if explicit 'via' wasn't specified.

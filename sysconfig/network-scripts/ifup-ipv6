@@ -11,7 +11,7 @@
 #
 # RHL integration assistance by Pekka Savola <pekkas@netcore.fi>
 #
-# Version 2002-11-12a
+# Version 2002-11-14
 #
 # Note: if called (like normally) by /etc/sysconfig/network-scripts/ifup
 #        exit codes aren't handled by "ifup" 
@@ -154,6 +154,13 @@ if [ -f /etc/sysconfig/static-routes-ipv6 ]; then
 	done
 fi
 
+# Setup additional static IPv6 routes (newer config style)
+if [ -f "/etc/sysconfig/network-scripts/route6-$DEVICE" ]; then
+	cat "/etc/sysconfig/network-scripts/route6-$DEVICE" | sed 's/#.*//g' | grep -v '^[[:space:]]*$' | while read line; do
+		ipv6_exec_ip -6 route add $line
+	done
+fi
+
 # Setup of 6to4, if configured
 if [ "$IPV6TO4INIT" = "yes" ]; then
 	valid6to4config="yes"
@@ -216,6 +223,9 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 
 		ipv6_add_6to4_tunnel tun6to4 $ipv4addr "" $tunnelmtu || exit 1
 
+		# Add route to for compatible addresses (removed later again)
+		ipv6_add_route "::/96" "::" tun6to4
+
 		# Add default route, if device matches
 		if [ "$IPV6_DEFAULTDEV" = "tun6to4" ]; then
 			if [ -n "$IPV6_DEFAULTGW" ]; then
@@ -236,6 +246,17 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 				ipv6_add_route $network $gateway tun6to4
 			done
 		fi		
+
+		# Setup additional static IPv6 routes (newer config style)
+		if [ -f "/etc/sysconfig/network-scripts/route6-tun6to4" ]; then
+			cat "/etc/sysconfig/network-scripts/route6-tun6to4" | sed 's/#.*//g' | grep -v '^[[:space:]]*$' | while read line; do
+				if echo "$line" | grep -vq 'via'; then
+					# Add gateway if missing
+					line="$line via $ipv6to4_relay"
+				fi
+				ipv6_exec_ip -6 route add $line
+			done
+		fi
 
 		# Cleanup autmatically generated autotunnel (not needed for 6to4)
 		ipv6_del_route "::/96" "::" tun6to4

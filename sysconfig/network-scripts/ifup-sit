@@ -8,7 +8,7 @@
 #
 # RHL integration assistance by Pekka Savola <pekkas@netcore.fi>
 #
-# Version 2002-11-01
+# Version 2002-12-04
 #
 # Uses following information from /etc/sysconfig/network:
 #  NETWORKING_IPV6=yes|no: controls IPv6 initialization (global setting)
@@ -24,6 +24,7 @@
 #  IPV6TUNNELIPV4=<IPv4 address>: IPv4 address of remote tunnel endpoint
 #  IPV6TUNNELIPV4LOCAL=<IPv4 address>: (optional) local IPv4 address of tunnel
 #  IPV6ADDR=<IPv6 address>[/<prefix length>]: (optional) local IPv6 address of a numbered tunnel
+#  IPV6ADDR_SECONDARIES="<IPv6 address>[/<prefix length>] ..." (optional) additional local IPv6 addresses
 #
 
 
@@ -85,6 +86,13 @@ if [ -n "$IPV6ADDR" ]; then
 	ipv6_add_addr_on_device $DEVICE $IPV6ADDR
 fi
 
+# Setup additional IPv6 addresses from list, if given
+if [ -n "$IPV6ADDR_SECONDARIES" ]; then
+	for ipv6addr in $IPV6ADDR_SECONDARIES; do
+		ipv6_add_addr_on_device $DEVICE $ipv6addr
+	done
+fi
+
 # Setup default IPv6 route, check are done by function
 if [ -n "$IPV6_DEFAULTDEV" -o -n "$IPV6_DEFAULTGW" ]; then
 	ipv6_set_default_route "$IPV6_DEFAULTGW" "$IPV6_DEFAULTDEV" "$DEVICE"
@@ -94,5 +102,12 @@ fi
 if [ -f /etc/sysconfig/static-routes-ipv6 ]; then
 	LC_ALL=C grep -w "^$DEVICE" /etc/sysconfig/static-routes-ipv6 | while read device ipv6route args; do
 		ipv6_add_route $ipv6route :: $DEVICE
+	done
+fi
+
+# Setup additional static IPv6 routes (newer config style)
+if [ -f "/etc/sysconfig/network-scripts/route6-$REALDEVICE" ]; then
+	cat "/etc/sysconfig/network-scripts/route6-$REALDEVICE" | sed 's/#.*//g' | grep -v '^[[:space:]]*$' | while read line; do
+		ipv6_exec_ip -6 route add $line	
 	done
 fi
