@@ -599,6 +599,11 @@ if [ -f /proc/scsi/scsi ] && grep -q 'Type:   Sequential-Access' /proc/scsi/scsi
 	fi
 fi
 
+# If they asked for ide-scsi, load it
+if grep -q "ide-scsi" /proc/cmdline ; then
+	modprobe ide-scsi >/dev/null 2>&1
+fi
+
 # Load agpgart here. This is a hack, and will probably go away soon.
 if grep "driver: agpgart" /etc/sysconfig/hwconf >/dev/null 2>&1 ; then
 	modprobe agpgart >/dev/null 2>&1
