@@ -54,7 +54,7 @@ done
 
 # don't leave an outdated key sitting around
 if [ -n "${WIRELESS_ENC_KEY}" -a -x /sbin/iwconfig ]; then
-    /sbin/iwconfig ${DEVICE} enc 0
+    /sbin/iwconfig ${DEVICE} enc 0 >/dev/null 2>&1
 fi
 
 if [ "$retcode" = 0 ] ; then

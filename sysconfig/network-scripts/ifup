@@ -47,7 +47,7 @@ else
 fi
 
 if [ -n "${WIRELESS_ENC_KEY}" -a -x /sbin/iwconfig ]; then
-   iwconfig ${DEVICE} enc ${WIRELESS_ENC_KEY}
+   iwconfig ${DEVICE} enc ${WIRELESS_ENC_KEY} >/dev/null 2>&1
 fi
 
 # Old BOOTP variable
