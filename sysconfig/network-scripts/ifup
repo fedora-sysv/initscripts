@@ -52,8 +52,10 @@ if [ -n "$IN_HOTPLUG" -a "${HOTPLUG}" = "no" -o "${HOTPLUG}" = "NO" ]
 then
     exit 0
 fi
-
-[ "${TYPE}" = "Bridge" ] && exit 0
+if [ -n "$IN_HOTPLUG" -a "${TYPE}" = "Bridge" ]; 
+then
+    exit 0
+fi
 
 # Ethernet 802.1Q VLAN support
 if [ -x /sbin/vconfig -a "${VLAN}" = "yes" ]; then
@@ -153,10 +155,20 @@ if [ -n "${HWADDR}" ]; then
     fi
 fi
 
-if [ "${TYPE}" = "Bridge" -a -x /usr/sbin/brctl ]; then
+if [ "${TYPE}" = "Bridge" ]; then
+      if [ ! -x /usr/sbin/brctl ]; then
+	  echo $"Bridge support not available: brctl not found"
+	  exit 1
+      fi
       /sbin/ip link set dev ${DEVICE} down 2>/dev/null
       /usr/sbin/brctl delbr ${DEVICE} 2>/dev/null
-      /usr/sbin/brctl addbr ${DEVICE}
+      /usr/sbin/brctl addbr ${DEVICE} 2>/dev/null
+      # brctl doesn't report success/failure (BZ #104408)
+      # Test for ourselves whether it worked.
+      if ! /usr/sbin/brctl show | LANG=C grep -q "^${DEVICE}	" ; then
+	    echo $"Bridge support not available in this kernel"
+	    exit 1
+      fi
       [ -n "${DELAY}" ] && /usr/sbin/brctl setfd ${DEVICE} ${DELAY}
       [ -n "${GCINT}" ] && /usr/sbin/brctl setgcint ${DEVICE} ${GCINT}
 fi
@@ -165,7 +177,10 @@ if [ -n "${BRIDGE}" -a -x /usr/sbin/brctl ]; then
       /sbin/ip addr flush dev ${DEVICE} 2>/dev/null
       /sbin/ip link set dev ${DEVICE} up
       /usr/sbin/brctl addif ${BRIDGE} ${DEVICE}
-      exit $?
+      # Upon adding a device to a bridge, 
+      # it's necessary to make radvd reload its config
+      [ -r /var/run/radvd/radvd.pid ] && kill -HUP `cat /var/run/radvd/radvd.pid`
+      exit 0
 fi 
 
 # now check the real state

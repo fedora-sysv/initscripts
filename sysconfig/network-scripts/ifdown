@@ -47,6 +47,9 @@ fi
 if [ -n "${BRIDGE}" -a -x /usr/sbin/brctl ]; then
       /sbin/ip link set dev ${DEVICE} down
       /usr/sbin/brctl delif ${BRIDGE} ${DEVICE}
+      # Upon removing a device from a bridge,
+      # it's necessary to make radvd reload its config
+      [ -r /var/run/radvd/radvd.pid ] && kill -HUP `cat /var/run/radvd/radvd.pid`
       exit 0
 fi 
 
