@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-Version: 5.12
+Version: 5.13
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -218,6 +218,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu May 11 2000 Nalin Dahyabhai <nalin@redhat.com>
+- fix incorrect grep invocation in rc.sysinit (bug #11267)
+
 * Wed Apr 19 2000 Bill Nottingham <notting@redhat.com>
 - fix lang.csh, again (oops)
 - use /poweroff, /halt to determine whether to poweroff
