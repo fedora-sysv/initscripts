@@ -933,6 +933,12 @@ if [ "$PROMPT" != "no" ]; then
 fi
 wait
 
+if [ -x /sbin/redhat-support-check -a -f /var/lib/supportinfo ]; then
+ /sbin/redhat-support-check || {
+   echo $"Normal startup will continue in 10 seconds."
+   sleep 10
+}
+
 # Let rhgb know that we're leaving rc.sysinit
 if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
     /usr/bin/rhgb-client --sysinit
