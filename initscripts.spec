@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.70
+%define version 4.71
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
@@ -198,6 +198,11 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Dec 06 1999 Michael K. Johnson <johnsonm@redhat.com>
+- improvements in clone device handling
+- better signal handling in ppp-watch
+- yet another attempt to fix those rare PAP/CHAP problems
+
 * Sat Nov 28 1999 Bill Nottingham <notting@redhat.com>
 - impressive. Three new features, three new bugs.
 
