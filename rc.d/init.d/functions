@@ -20,7 +20,7 @@ export PATH="/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin"
 # Get a sane screen width
 [ -z "$COLUMNS" ] && COLUMNS=80
 
-if [ -f /etc/sysconfig/i18n ] ; then
+if [ -f /etc/sysconfig/i18n -a -z "$NOLOCALE" ] ; then
   . /etc/sysconfig/i18n
   if [ "$LANG" = "ja_JP.eucJP" -a "`/sbin/consoletype`" != "pty" ]; then
     unset LANG
