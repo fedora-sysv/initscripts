@@ -25,7 +25,7 @@ runcmd() {
 halt_get_remaining() {
 	awk '$2 ~ /^\/$|^\/proc|^\/dev/{next}
 	     $3 == "tmpfs" || $3 == "proc" {print $2 ; next}
-	     /(^#|loopfs|autofs|devfs|^none|^\/dev\/root)/ {next}
+	     /(^#|loopfs|autofs|devfs|^none|^\/dev\/ram|^\/dev\/root)/ {next}
 	     {print $2}' /proc/mounts
 }
 
@@ -172,12 +172,15 @@ done
 # remove the crash indicator flag
 rm -f /.autofsck
 
-# Try them all, one last time.
-umount -a -f
+# Try all file systems other than root and RAM disks, one last time.
+mount |  awk '/!( \/ |^\/dev\/root|^\/dev\/ram)/ { print $3 }' | \
+  while read line; do
+    umount -f $line
+done
 
 # Remount read only anything that's left mounted.
-#echo $"Remounting remaining filesystems (if any) readonly"
-mount | awk '/( \/ |^\/dev\/root)/ { print $3 }' | while read line; do
+# echo $"Remounting remaining filesystems readonly"
+mount | awk '{ print $3 }' | while read line; do
     mount -n -o ro,remount $line
 done
 

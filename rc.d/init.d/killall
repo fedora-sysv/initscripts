@@ -9,6 +9,9 @@ for i in /var/lock/subsys/* ; do
 
 	# Get the subsystem name.
 	subsys=${i#/var/lock/subsys/}
+	
+	# Networking could be needed for NFS root.
+	[ $subsys = network ] && continue
 
 	# Bring the subsystem down.
 	if [ -f /etc/init.d/$subsys.init ]; then
