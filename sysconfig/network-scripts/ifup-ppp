@@ -50,7 +50,7 @@ fi
 if [ "$TYPE" = "xDSL" -a -x /usr/sbin/adsl-start ] ; then
     adsl-start "$ETH" "$USER" /etc/sysconfig/network-scripts/$CONFIG
     exit $?
-else
+elif [ "$TYPE" = "xDSL" ]; then
     logger -p daemon.info -t ifup-ppp \
         $"/usr/sbin/adsl-start does not exist or is not executable for ${DEVICE}"
     exit 1
