@@ -141,8 +141,17 @@ int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet)
 		     write(outpipe[1],buf,bytesread);
 		  }
 		  while ((tmpstr=getLine(&buf))) {
-		     if (!reexec) 
-		       logString(cmdname,tmpstr);
+		     if (!reexec) {
+			 if (getenv("IN_INITLOG")) {
+			     char *buffer=calloc(2048,sizeof(char));
+			     snprintf(buffer,2048,"-n %s -s \"%s\"",
+				      cmdname,tmpstr);
+			     write(CMD_FD,buffer,strlen(buffer));
+			     free(buffer);
+			 } else {
+			     logString(cmdname,tmpstr);
+			 }
+		     }
 		     else {
 			char **cmdargs=NULL;
 			char **tmpargs=NULL;
