@@ -1,5 +1,8 @@
 2001-04-02  Bill Nottingham  <notting@redhat.com>
 
+	* initscripts.spec:
+	5.81-1
+
 	* src/usernetctl.c:
 	don't free something not malloc()ed
 
@@ -13,63 +16,10 @@
 	* po/cs.po:
 	Auto-update by milan.kerslager@spsselib.hiedu.cz
 
-2001-03-30  Bill Nottingham  <notting@redhat.com>
-
-	* prefdm:
-	allow choice of desktop/displaymanager (#23315)
-
-	* ppp/ip-up:
-	only run ifup-post if the ifcfg file is there (#19741)
-
-	* ppp/ip-down:
-	export a $PATH here too (#22784)
-
-	* lang.sh: fix su errors
-	don't turn locale settings of 'C' into en_US
-
-	* lang.csh: fix su errors
-	specify full path to /sbin/consoletype (from milan.kerslager@spsselib.hiedu.cz)
-	don't turn locale settings of 'C' into en_US
-
-	* sysctl.conf, sysctl.conf.sparc:
-	ip_always_defrag goes *poof*
-
-	* sysconfig.txt:
-	ip_always_defrag goes *poof* (in the documentation)
-	honor PEERDNS=no for pump and dhcpcd too (#18619)
-	fix ARP handling, allow for setting promiscuous or all-multicast mode
-
-	* src/testd.c: add prototype
-
-	* src/process.c:
-	close extra file descriptors before exec()ing commands in initlog
-
-	* src/netreport.c: use O_NOFOLLOW
-
-	* src/minilogd.c:
-	add an alarm, so we don't wait forever for input (#23482)
-	wait another second
-	add an upper bound on how much stuff we'll keep in memory
-
-	* src/initlog.c:
-	don't close the magic file descriptor
-	fix segfaults in popt when called with bogus stuff (#28140)
-
-	* src/initlog.1: document -q
-
 2001-03-28  Bill Nottingham  <notting@redhat.com>
 
 	* rc.d/init.d/network:
 	run *all* greps in C locale
-
-2001-03-26  Bill Nottingham  <notting@redhat.com>
-
-	* ChangeLog: *** empty log message ***
-
-	* initscripts.spec: 5.80-1
-
-	* rc.d/init.d/network:
-	don't error if kernel.hotplug isn't there (#33256)
 
 2001-03-26  Bill Nottingham  <notting@redhat.com>
 
