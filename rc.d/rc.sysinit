@@ -673,7 +673,7 @@ if grep -q "ide-scsi" /proc/cmdline ; then
 fi
 
 # Turn off DMA on CD-ROMs. It more often than not causes problems.
-if [ -e /proc/ide ]; then
+if [ -x /sbin/hdparm -a -e /proc/ide ]; then
   for N in `grep -v ide-disk /proc/ide/*/*/driver 2>/dev/null | awk -F / '{ print $5 }'`; do
    hdparm -q -d0 /dev/$N >/dev/null 2>&1
   done
