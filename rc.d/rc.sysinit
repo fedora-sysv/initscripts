@@ -74,6 +74,7 @@ if [ -f /forcefsck ]; then
 	fsckoptions="-f $fsckoptions"
 fi
 
+_RUN_QUOTACHECK=0
 if [ ! -f /fastboot ]; then
         STRING="Checking root filesystem"
 	echo $STRING
@@ -105,13 +106,9 @@ if [ ! -f /fastboot ]; then
 		mount -n -o remount,ro /
 		echo "Automatic reboot in progress."
 		reboot
-	elif [ "$rc" = "1" -a -x /sbin/quotacheck ]; then
-		action "Checking root filesystem quotas"  /sbin/quotacheck -v /
+	elif [ "$rc" = "1" ]; then
+		_RUN_QUOTACHECK=1
 	fi
-fi
-
-if [ -x /sbin/quotaon ]; then
-    action "Turning on user and group quotas for root filesystem"  /sbin/quotaon /
 fi
 
 # check for arguments 
@@ -136,10 +133,18 @@ fi
 # Remount the root filesystem read-write.
 action "Remounting root filesystem in read-write mode" mount -n -o remount,rw /
 
+# Update quotas if fsck was run on /.
+if [ X"$_RUN_QUOTACHECK" = X1 -a -x /sbin/quotacheck ]; then
+	action "Checking root filesystem quotas"  /sbin/quotacheck -v /
+fi
+# XXX Disabled to avoid complaints on root later with quotaon -a
+#if [ -x /sbin/quotaon ]; then
+#    action "Turning on user and group quotas for root filesystem"  /sbin/quotaon /
+#fi
+
 if [ -n "$IN_INITLOG" ]; then
     IN_INITLOG=
 fi
-
 
 if [ ! -f /etc/HOSTNAME ]; then
     echo ${HOSTNAME} > /etc/HOSTNAME
@@ -365,6 +370,31 @@ if [ -f /proc/scsi/scsi ] && cat /proc/scsi/scsi | grep -q 'Type:   Sequential-A
 		if [ -n "$USEMODULES" ] ; then
 			# Try to load the module.  If it fails, ignore it...
 			modprobe st 2>/dev/null
+		fi
+	fi
+fi
+
+# Set preferred X display manager link
+preferred=
+if [ -f /etc/sysconfig/desktop ]; then
+	if [ -n "`grep GNOME /etc/sysconfig/desktop`" ]; then
+		preferred=gdm
+	elif [ -n "`grep KDE /etc/sysconfig/desktop`" ]; then
+		preferred=kdm
+	elif [ -n "`grep AnotherLevel /etc/sysconfig/desktop`" ]; then
+		preferred=xdm
+	fi
+fi
+if [ -n "$preferred" ] && which $preferred >/dev/null 2>&1; then
+	ln -snf ../..`which $preferred` /etc/X11/prefdm 
+else
+        if [ ! -l /etc/X11/prefdm ]; then
+		if which gdm >/dev/null 2>&1; then
+			ln -snf ../..`which gdm` /etc/X11/prefdm
+		elif which kdm >/dev/null 2>&1; then
+			ln -snf ../..`which kdm` /etc/X11/prefdm
+		elif which xdm >/dev/null 2>&1; then
+			ln -snf ../..`which xdm` /etc/X11/prefdm
 		fi
 	fi
 fi
