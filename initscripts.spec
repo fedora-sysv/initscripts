@@ -7,7 +7,7 @@ Group: Base
 Release: 2
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /var/tmp/initbld
-Requires: mingetty, bash, mktemp, modutils >= 2.1.85-3, e2fsprogs, kbd, kernel >= 2.2.1-rh3
+Requires: mingetty, bash, mktemp, modutils >= 2.1.85-3, e2fsprogs, kbd, kernel >= 2.2.1-3
 Conflicts: redhat-release <= 5.1
 Prereq: /sbin/chkconfig
 
