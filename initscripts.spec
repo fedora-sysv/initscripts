@@ -9,9 +9,7 @@ BuildRoot: /%{_tmppath}/%{name}-%{version}-%{release}-root
 Requires: mingetty, /bin/awk, /bin/sed, mktemp, e2fsprogs >= 1.15, console-tools
 Requires: procps >= 2.0.4, sysklogd >= 1.3.31
 Requires: setup >= 2.0.3, /sbin/fuser, which
-%ifnarch ia64
 Requires: modutils >= 2.1.121
-%endif
 %ifarch alpha
 Requires: util-linux >= 2.9w-26
 %endif
