@@ -49,6 +49,10 @@ if [ "$BOOTP" = "yes" ]; then
     BOOTPROTO=bootp
 fi
 
+if [ "$BOOTPROTO" = bootp -r "$BOOTPROTO" = dhcp ]; then
+    PUMP=true
+fi
+
 OTHERSCRIPT="/etc/sysconfig/network-scripts/ifup-${DEVICETYPE}"
 
 if [ -x $OTHERSCRIPT ]; then
@@ -73,54 +77,14 @@ if [ "$SLAVE" = yes -a "$ISALIAS" = no -a "$MASTER" != "" -a \
     exit 0
 fi
 
-if [ "$BOOTPROTO" = bootp -a "$ISALIAS" = no ]; then
-    ifconfig ${DEVICE} down
-# XXX 2.2 kernels complain about broadcast and netmask
-    ifconfig ${DEVICE} 0.0.0.0	# broadcast 255.255.255.255 netmask 0.0.0.0
-    route add default ${DEVICE}
-    echo "Sending bootp request"
-    TMPFILE=`/bin/mktemp /tmp/bootp-${DEVICE}.XXXXXX` || {
-	ifconfig ${DEVICE} down
-	echo 'mktemp failed'
-	exit 1
-    }
-# XXX Give slow 10Mbps/100Mbps autodetecting cards a second chance
-    bootpc --returniffail --timeoutwait 6 --dev ${DEVICE} 2>/dev/null > ${TMPFILE}
-    if [ "$?" != "0" ]; then
-      bootpc --returniffail --timeoutwait 6 --dev ${DEVICE} 2>/dev/null > ${TMPFILE}
-    fi
-
-    if [ "$?" = "0" ]; then
-	. ${TMPFILE}
-	BOOTPHOSTNAME="$HOSTNAME"
-	echo "bootp response received -- using IP ${IPADDR}"
-    elif [ -z "$IPADDR" ]; then
-	ifconfig ${DEVICE} down
-	echo "No bootp response recieved -- not configuring device ${DEVICE}."
-	rm -f ${TMPFILE}
-	exit 1
-    else 
-	echo "No bootp response recieved -- using default configuration for device ${DEVICE}."
-    fi
-
-    rm -f ${TMPFILE}
-elif [ "$BOOTPROTO" = dhcp -a "$ISALIAS" = no ]; then
-    echo -n "Using DHCP for ${DEVICE}... "
-    IFNAME=${DEVICE} \
-	/sbin/dhcpcd -c /etc/sysconfig/network-scripts/ifdhcpc-done ${DEVICE} 
-    echo "echo \$$ > /var/run/dhcp-wait-${DEVICE}.pid; exec sleep 30" | sh
-
-    if [ -f /var/run/dhcp-wait-${DEVICE}.pid ]; then
-	echo "failed."
-	exit 1
+if [ -n "$PUMP" ]; then
+    echo "Determing IP information for $DEVICE..."
+    if /sbin/pump -i $DEVICE ; then
+	echo " done."
     else
-	rm -f /var/run/dhcp-wait-${DEVICE}.pid
-	echo "done."
-	IPSETUP=yes
+	echo " failed."
     fi
-fi
-
-if [ "$IPSETUP" != yes ]; then
+else 
     if [ -z "$NETMASK" ]; then
 	eval `/bin/ipcalc --netmask ${IPADDR}`
     fi
