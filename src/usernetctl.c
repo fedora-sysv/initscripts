@@ -90,7 +90,7 @@ int userCtl(char * file) {
 	while (chptr > contents && isspace(*chptr)) chptr--;
 	*(++chptr) = '\0';
 
-	if (!strcmp(contents, "USERCTL=")) {
+	if (!strncmp(contents, "USERCTL=", 8)) {
 	    if (!strcmp(contents+8, "yes")) return FOUND_TRUE;
 	    else return FOUND_FALSE;
 	}
