@@ -124,8 +124,8 @@ case "$1" in
 	echo "Configured devices:"
 	echo lo $interfaces
 
-	if [ -x /bin/linuxconf ] ; then
-		eval `/bin/linuxconf --hint netdev`
+	if [ -x /sbin/linuxconf ] ; then
+		eval `/sbin/linuxconf --hint netdev`
 		echo "Devices that are down:"
 		echo $DEV_UP
 		echo "Devices with modified configuration:"
@@ -141,8 +141,8 @@ case "$1" in
 	$0 start
 	;;
   reload)
-	if [ -x /bin/linuxconf ] ; then
-		eval `/bin/linuxconf --hint netdev`
+	if [ -x /sbin/linuxconf ] ; then
+		eval `/sbin/linuxconf --hint netdev`
 		for device in $DEV_UP ; do
 			action "Bringing up device $device: " ./ifup $device
 		done
@@ -182,8 +182,8 @@ case "$1" in
 	fi
 	;;
   probe)
-	if [ -x /bin/linuxconf ] ; then
-		eval `/bin/linuxconf --hint netdev`
+	if [ -x /sbin/linuxconf ] ; then
+		eval `/sbin/linuxconf --hint netdev`
 		[ -n "$DEV_UP$DEV_DOWN$DEV_RECONF$DEV_RECONF_ALIASES" -o \
 		  -n "$DEV_RECONF_ROUTES$IPXINTERNALNET" ] && \
 			echo reload
