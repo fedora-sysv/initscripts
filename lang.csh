@@ -31,7 +31,7 @@ if ($sourced == 1) then
 	        if ( $?TERM ) then
 		    if ( "$TERM" == "linux" ) then
 		        if ( `consoletype` == "vt" ) then
-			    echo -n -e '\033(K' > /proc/$$/fd/15
+			    /bin/echo -n -e '\033(K' > /proc/$$/fd/15
 		        endif
 		    endif
 		endif
