@@ -114,7 +114,7 @@ int forkCommand(char **args, int *outfd, int *errfd, int *cmdfd, int quiet) {
 int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet, int debug) {
     struct pollfd *pfds;
     char *buf=malloc(8192*sizeof(char));
-    int outpipe[2];
+    char *outbuf=NULL;
     char *tmpstr=NULL;
     int x,y,rc=-1;
     int done=0;
@@ -129,8 +129,6 @@ int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet,
 	snprintf(procpath,20,"/proc/%d",pid);
     }
     
-    pipe(outpipe);
-   
     pfds = malloc(numfds*sizeof(struct pollfd));
     for (x=0;x<numfds;x++) {
 	pfds[x].fd = fds[x];
@@ -168,8 +166,10 @@ int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet,
 		  if (!quiet && !reexec)
 		    write(1,buf,bytesread);
 		  if (quiet) {
-		     output = 1;
-		     write(outpipe[1],buf,bytesread);
+			  outbuf=realloc(outbuf,(outbuf ? strlen(outbuf)+bytesread+1 : bytesread+1));
+			  if (!output) outbuf[0]='\0';
+			  strcat(outbuf,buf);
+			  output = 1;
 		  }
 		  while ((tmpstr=getLine(&buf))) {
 		      int ignore=0;
@@ -228,13 +228,7 @@ int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet,
       /* If there was an error and we're quiet, be loud */
       
       if (quiet && output) {
-	 buf=calloc(8192,sizeof(char));
-	 do {
-	    x=read(outpipe[0],buf,8192);
-	    write(1,"\n",1);
-	    write(1,buf,x);
-	    buf=calloc(8192,sizeof(char));
-	 } while (x==8192);
+	    write(1,outbuf,strlen(outbuf));
       }
       return (rc);
    }
