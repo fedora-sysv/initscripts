@@ -103,11 +103,12 @@ fi
 # is the device wireless? If so, configure wireless device specifics
 is_wireless_device ${DEVICE} && . ./ifup-wireless
 
+# slave device?
 if [ "${SLAVE}" = yes -a "${ISALIAS}" = no -a "${MASTER}" != "" -a \
      -x /sbin/ifenslave ]; then
     RFLAG="" ; [ "${RECEIVEONLY}" = yes ] && RFLAG="-r"
 
-    ifconfig ${DEVICE} down
+    /sbin/ip link set ${DEVICE} down
     echo $"Enslaving ${DEVICE} to ${MASTER}"
     ifenslave ${RFLAG} "${MASTER}" "${DEVICE}"
 
@@ -168,10 +169,11 @@ if [ -n "${DYNCONFIG}" ]; then
        PUMPARGS="${PUMPARGS} -d"
        DHCPCDARGS="${DHCPCDARGS} -R"
     fi
+    echo
     echo -n $"Determining IP information for ${DEVICE}..."
     if check_link_down ${DEVICE}; then
 	echo $" failed; no link present.  Check cable?"
-	ip link set down ${DEVICE} >/dev/null 2>&1
+	ip link set ${DEVICE} down >/dev/null 2>&1
 	exit 1
     fi
 
@@ -258,11 +260,11 @@ else
 
     # Set a default route.
     if [ -z "${GATEWAYDEV}" -o "${GATEWAYDEV}" = "${REALDEVICE}" ]; then
-	# set up default gateway
+	# set up default gateway. replace if one already exists
 	if [ -n "${GATEWAY}" -a "`ipcalc --network ${GATEWAY} ${NETMASK} 2>/dev/null`" = "NETWORK=${NETWORK}" ]; then
-	    ip route add default via ${GATEWAY} ${SRC}
+	    ip route replace default via ${GATEWAY} ${SRC}
 	elif [ "${GATEWAYDEV}" = "${DEVICE}" ]; then
-	    ip route add default ${SRC} dev ${REALDEVICE}
+	    ip route replace default ${SRC} dev ${REALDEVICE}
 	fi
     fi
 fi
