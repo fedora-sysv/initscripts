@@ -106,7 +106,7 @@ if [ "$KEYING" = "manual" ]; then
     
     if [ "$MODE" = "host" ]; then
     
-        setkey -c << EOF
+        /sbin/setkey -c  >/dev/null 2>&1<< EOF
 delete $SRC $DST ah $SPI_AH_OUT;
 delete $DST $SRC ah $SPI_AH_IN;
 delete $SRC $DST esp $SPI_ESP_OUT;
@@ -136,7 +136,7 @@ EOF
       [ -n "$SRCNET" ] && SRCNET="$SRC/32"
       [ -n "$DSTNET" ] && DSTNET="$DST/32"
       
-      /sbin/setkey -c << EOF
+      /sbin/setkey -c >/dev/null 2>&1 << EOF
 delete $SRC $DST ah $SPI_AH_OUT;
 delete $DST $SRC ah $SPI_AH_IN;
 delete $SRC $DST esp $SPI_ESP_OUT;
@@ -170,7 +170,7 @@ if [ "$KEYING" = "automatic" ]; then
     [ -z "$ESP_PROTO" ] && ESP_PROTO=3des
     
     if [ "$MODE" = "host" ]; then
-      /sbin/setkey -c << EOF
+      /sbin/setkey -c > /dev/null 2>&1 << EOF
 spddelete $SRC $DST any -P out;
 spddelete $DST $SRC any -P in;
 
@@ -188,7 +188,7 @@ EOF
       [ -n "$SRCNET" ] && SRCNET="$SRC/32"
       [ -n "$DSTNET" ] && DSTNET="$DST/32"
       
-      /sbin/setkey -c << EOF
+      /sbin/setkey -c >/dev/null 2>&1 << EOF
 spddelete $SRCNET $DSTNET any -P out;
 spddelete $DSTNET $SRCNET any -P in;
 
