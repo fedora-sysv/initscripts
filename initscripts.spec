@@ -156,7 +156,6 @@ rm -rf $RPM_BUILD_ROOT
 %config /sbin/ifup
 %dir /etc/sysconfig/console
 %config(noreplace) /etc/sysconfig/rawdevices
-%config /etc/sysconfig/networking/ifcfg-lo
 %config /etc/sysconfig/network-scripts/network-functions
 %config /etc/sysconfig/network-scripts/network-functions-ipv6
 %config /etc/sysconfig/network-scripts/ifup-post
@@ -172,7 +171,6 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/sysconfig/network-scripts/ifup-sit
 %config /etc/sysconfig/network-scripts/ifdown-sit
 %config /etc/sysconfig/network-scripts/ifup-aliases
-%config /etc/sysconfig/network-scripts/ifup-ipx
 %ifarch s390 s390x
 %config /etc/sysconfig/network-scripts/ifup-ctc
 %config /etc/sysconfig/network-scripts/ifup-iucv
