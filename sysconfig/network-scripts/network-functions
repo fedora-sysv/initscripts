@@ -80,6 +80,22 @@ do_netreport ()
   )
 }
 
+is_available ()
+{
+ LC_ALL= LANG= ip -o link | grep -q $1
+ if [ "$?" = "1" ]; then
+    alias=`modprobe -c | awk "/^alias $1 / { print \\$3 }"`
+    if [ -z "$alias" -o "$alias" = "off" ]; then
+        return 2
+    fi
+    modprobe $alias >/dev/null 2>&1|| {
+      return 1
+    }
+ else
+        return 0
+ fi
+}
+
 need_hostname()
 {
     if [ "`hostname`" = "(none)" -o "`hostname`" = "localhost" -o \
