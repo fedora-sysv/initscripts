@@ -401,7 +401,7 @@ main(int argc, char **argv) {
     char *theBoot = NULL;
     shvarFile *ifcfg;
     sigset_t sigs;
-    int pppdPid;
+    int pppdPid = 0;
     int timeout = 30;
     char *temp;
     struct timeval tv;
