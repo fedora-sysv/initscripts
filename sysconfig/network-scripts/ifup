@@ -80,6 +80,7 @@ if [ "$BOOTPROTO" = bootp -a "$ISALIAS" = no ]; then
     route add default ${DEVICE}
     echo "Sending bootp request"
     TMPFILE=`/bin/mktemp /tmp/bootp-${DEVICE}.XXXXXX` || {
+	ifconfig ${DEVICE} down
 	echo 'mktemp failed'
 	exit 1
     }
@@ -119,8 +120,8 @@ if [ "$IPSETUP" != yes ]; then
 	eval `/bin/ipcalc --broadcast ${IPADDR} ${NETMASK}`
     fi
 
-    if [ -z "$NETMASK" ]; then
-	eval `/bin/ipcalc --netmask ${IPADDR} ${NETMASK}`
+    if [ -z "$NETWORK" ]; then
+	eval `/bin/ipcalc --network ${IPADDR} ${NETMASK}`
     fi
 
     ifconfig ${DEVICE} ${MACADDR:+hw ether $MACADDR} ${IPADDR} \
