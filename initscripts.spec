@@ -230,6 +230,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Mon Feb  7 2000 Nalin Dahyabhai <nalin@redhat.com>
 - check that LC_ALL/LINGUAS and LANG are set before referencing them in lang.csh
+- fix check for /var/*/news, work around for bug #9140
 
 * Fri Feb  4 2000 Nalin Dahyabhai <nalin@redhat.com>
 - fix bug #9102
