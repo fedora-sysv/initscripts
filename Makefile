@@ -22,8 +22,10 @@ install:
 	chown root.root /var/run/netreport
 	chmod og=rwx,o=rx /var/run/netreport
 
-archive: 
+tag-archive:
 	@cvs tag -F $(CVSTAG)
+
+create-archive: tag-archive
 	@rm -rf /tmp/initscripts-$(VERSION)
 	@mkdir /tmp/initscripts-$(VERSION)
 	@cvs export -r$(CVSTAG) -d /tmp/initscripts-$(VERSION) initscripts
@@ -33,3 +35,5 @@ archive:
 	@rm -f /tmp/initscripts-$(VERSION).tar.gz 
 	@echo " "
 	@echo "The final archive is ./initscripts-$(VERSION).tar.gz."
+
+archive: tag-archive create-archive
