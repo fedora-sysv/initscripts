@@ -24,6 +24,23 @@ if [ -n "$KEY_AH" -o -n "$KEY_ESP" ]; then
   KEYING=manual
 fi
 
+if [ -z "$KEY_AH_IN" -a -n "$KEY_AH" ]; then
+  KEY_AH_IN=$KEY_AH
+fi
+
+if [ -z "$KEY_AH_OUT" -a -n "$KEY_AH" ]; then
+  KEY_AH_OUT=$KEY_AH
+fi
+
+if [ -z "$KEY_ESP_IN" -a -n "$KEY_ESP" ]; then
+  KEY_ESP_IN=$KEY_ESP
+fi
+
+if [ -z "$KEY_ESP_OUT" -a -n "$KEY_ESP" ]; then
+  KEY_ESP_OUT=$KEY_ESP
+fi
+
+
 if [ -n "$IKE_PSK" ]; then
   KEYING=automatic
   IKE_METHOD=PSK
@@ -65,20 +82,22 @@ spddelete $SRC $DST any -P out;
 spddelete $DST $SRC any -P in;
 
 # ESP
-add $DST $SRC esp $SPI3 -E $ESP_PROTO $KEY_ESP;
-add $SRC $DST esp $SPI4 -E $ESP_PROTO $KEY_ESP;
+${KEY_ESP_IN:+add $DST $SRC esp $SPI3 -E $ESP_PROTO $KEY_ESP_IN;}
+${KEY_ESP_OUT:+add $SRC $DST esp $SPI4 -E $ESP_PROTO $KEY_ESP_OUT;}
 
 # AH
-add $DST $SRC ah $SPI1 -A $AH_PROTO $KEY_AH;
-add $SRC $DST ah $SPI2 -A $AH_PROTO $KEY_AH;
+${KEY_AH_IN:+add $DST $SRC ah $SPI1 -A $AH_PROTO $KEY_AH_IN;}
+${KEY_AH_OUT:+add $SRC $DST ah $SPI2 -A $AH_PROTO $KEY_AH_OUT;}
 
 spdadd $SRC $DST any -P out ipsec
-           esp/transport//require
-           ah/transport//require;
+            ${KEY_ESP_OUT:+esp/transport//require}
+            ${KEY_AH_OUT:+ah/transport//require}
+	    ;
 		      
 spdadd $DST $SRC any -P in ipsec
-	    esp/transport//require
-	    ah/transport//require;
+	    ${KEY_ESP_IN:+esp/transport//require}
+	    ${KEY_AH_IN:+ah/transport//require}
+	    ;
 EOF    
     else
       [ -n "$SRCNET" ] && SRCNET="$SRC/32"
@@ -93,20 +112,22 @@ spddelete $SRCNET $DSTNET any -P out;
 spddelete $DSTNET $SRCNET any -P in;
 
 # ESP
-add $DST $SRC esp $SPI3 -m tunnel -E $ESP_PROTO $KEY_ESP;
-add $SRC $DST esp $SPI4 -m tunnel -E $ESP_PROTO $KEY_ESP;
+${KEY_ESP_IN:+add $DST $SRC esp $SPI3 -m tunnel -E $ESP_PROTO $KEY_ESP_IN;}
+${KEY_ESP_OUT:+add $SRC $DST esp $SPI4 -m tunnel -E $ESP_PROTO $KEY_ESP_OUT;}
 
 # AH
-add $DST $SRC ah $SPI1 -m tunnel -A $AH_PROTO $KEY_AH;
-add $SRC $DST ah $SPI2 -m tunnel -A $AH_PROTO $KEY_AH;
+${KEY_AH_IN:+add $DST $SRC ah $SPI1 -m tunnel -A $AH_PROTO $KEY_AH_IN;}
+${KEY_AH_OUT:+add $SRC $DST ah $SPI2 -m tunnel -A $AH_PROTO $KEY_AH_OUT;}
 
 spdadd $SRCNET $DSTNET any -P out ipsec
-           esp/tunnel/$SRC-$DEST/require
-           ah/tunnel/$SRC-$DEST/require;
+            ${KEY_ESP_OUT:+esp/tunnel/$SRC-$DEST/require}
+            ${KEY_AH_OUT:+ah/tunnel/$SRC-$DEST/require}
+	    ;
 		      
 spdadd $DSTNET $SRCNET any -P in ipsec
-	    esp/tunnel/$DEST-$SRC/require
-	    ah/tunnel/$DEST-$SRC/require;
+	    ${KEY_ESP_IN:+esp/tunnel/$DEST-$SRC/require}
+	    ${KEY_AH_IN:+ah/tunnel/$DEST-$SRC/require}
+	    ;
 EOF
     fi
 fi
