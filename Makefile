@@ -14,6 +14,7 @@ install:
 	install -m755  setsysfont $(ROOT)/sbin
 	install -m755  lang.sh $(ROOT)/etc/profile.d
 	mkdir -p $(ROOT)/etc/sysconfig
+	mkdir -p $(ROOT)/etc/sysconfig/console
 	install -m644 sysconfig/init $(ROOT)/etc/sysconfig/init
 	cp -af rc.d sysconfig ppp $(ROOT)/etc
 	mkdir -p $(ROOT)/sbin
