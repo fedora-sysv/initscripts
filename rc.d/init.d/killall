@@ -3,8 +3,6 @@
 # Bring down all unneeded services that are still running (there shouldn't 
 # be any, so this is just a sanity check)
 
-RETVAL=0
-
 for i in /var/lock/subsys/*; do
 	# Check if the script is there.
 	[ ! -f $i ] && continue
@@ -17,10 +15,6 @@ for i in /var/lock/subsys/*; do
 	    /etc/rc.d/init.d/$subsys.init stop
 	else
 	    /etc/rc.d/init.d/$subsys stop
-	else
-	    echo Warning: Could not stop \"$subsys\" \(no init script\).
-	    RETVAL=1
 	fi
 done
 
-exit $RETVAL
