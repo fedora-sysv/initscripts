@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.92
+Version: 6.93
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -244,6 +244,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Mon Sep  2 2002 Bill Nottingham <notting@redhat.com>
+- fix calling of unicode_start in lang.{sh,csh}
+- ipv6 tweak
+
 * Wed Aug 28 2002 Bill Nottingham <notting@redhat.com>
 - don't infinite loop on ifdown
 - remove disabling of DMA; this can cause problems
