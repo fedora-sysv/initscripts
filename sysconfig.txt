@@ -1,4 +1,3 @@
-
 Files in /etc/sysconfig
 =======================
 
@@ -17,6 +16,9 @@ Files in /etc/sysconfig
     ARC=true on alpha only indicates the ARC console's
       42-year time offset is in effect; otherwise the normal
       Unix epoch is assumed
+    ZONE="filename" indicates the zonefile under /usr/share/zoneinfo
+      that /etc/localtime is a copy of, for example:
+        ZONE="US/Eastern"
 
 /etc/sysconfig/init:
 
@@ -332,24 +334,31 @@ Files in /etc/sysconfig/network-scripts/
 /etc/sysconfig/i18n
 
   LANG= can be any two letter ISO language code
-  LC_ALL= is the setting of the localedata configuration (eg fr_CA)
-  LINGUAS= can be a : separated list of language codes
-  SYSTERM= use to set default TERM environment variable
+  LC_CTYPE= localedata configuration for classification and conversion
+    of characters
+  LC_COLLATE= localedata configuration for collation (sort order) of
+    strings
+  LC_MESSAGES= localedata configuration for translation of yes and no
+    messages
+  LC_NUMERIC= localedata configuration for non-monetary numeric data
+  LC_MONETARY= localedata configuration for monetary data
+  LC_TIME= localedata configuration for date and time
+  LC_ALL= localedata configuration overriding all the above
+  LANGUAGE= can be any two letter ISO language code
+  LINGUAS= can be a : separated list of ISO language codes
 
-  The above four variables are used in rc.sysinit.
+  The above variables are used in /etc/profile.d/lang.sh.
 
   SYSFONT= any font that is legal when used as
 	/usr/bin/consolechars -f $SYSFONT ...
-    (See console-tools package for sysfont command)
+    (See console-tools package for consolechars command)
 
-  UNIMAP= any unicode font that is legal fodder for
+  UNIMAP= any SFM (screen font map, formerly called Unicode mapping
+    table - see consolechars(8))
 	/usr/bin/consolechars -f $SYSFONT --sfm $UNIMAP
  
   SYSFONTACM= any ACM (application charset map - see consolechars(8))
         /usr/bin/consolechars -f $SYSFONT --acm $SYSFONTACM
  
   The above is used by the /sbin/setsysfont command (which is run
-  by rc.sysinit at boot time).
-
-
-
+  by rc.sysinit at boot time.)

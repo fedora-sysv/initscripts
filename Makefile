@@ -10,7 +10,6 @@ install:
 	mkdir -p $(ROOT)/etc/profile.d $(ROOT)/sbin
 	install -m644  inittab $(ROOT)/etc
 	install -m644  adjtime $(ROOT)/etc
-	install -m644  inputrc $(ROOT)/etc
 	install -m755  setsysfont $(ROOT)/sbin
 	install -m755  lang.sh $(ROOT)/etc/profile.d
 	install -m755  service $(ROOT)/sbin
@@ -28,6 +27,9 @@ install:
 	mkdir -p /var/run/netreport
 	chown root.root /var/run/netreport
 	chmod og=rwx,o=rx /var/run/netreport
+
+clean:
+	(cd src; make clean)
 
 tag-archive:
 	@cvs -Q tag -F $(CVSTAG)

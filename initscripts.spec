@@ -136,7 +136,6 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/sysconfig/network-scripts/ifup-aliases
 %config /etc/sysconfig/network-scripts/ifup-ipx
 %config /etc/inittab
-%config /etc/inputrc
 %dir    /etc/rc.d
 %config /etc/rc.d/rc.sysinit
 %dir    /etc/rc.d/rc0.d
