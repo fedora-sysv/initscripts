@@ -354,28 +354,23 @@ if [ -x /sbin/depmod -a -n "$USEMODULES" ]; then
     fi
 fi
 
-# Load sound modules
-#
-# I think this now qualifies as over-engineered.
-RETURN=0
-alias=`egrep -s "^alias[[:space:]]+sound[[:space:]]+" /etc/modules.conf | awk '{ print $3 }'`
-if [ -n "$alias" -a "$alias" != "off" ] ; then
+# Load sound modules iff they need persistent DMA buffers
+if grep -q "options sound dmabuf=1" /etc/modules.conf 2>/dev/null ; then
+  RETURN=0
+  alias=`egrep -s "^alias[[:space:]]+sound[[:space:]]+" /etc/modules.conf | awk '{ print $3 }'`
+  if [ -n "$alias" -a "$alias" != "off" ] ; then
       action "Loading sound module ($alias): " modprobe $alias
       RETURN=$?
-fi
-alias=`egrep -s "^alias[[:space:]]+sound-slot-0[[:space:]]+" /etc/modules.conf | awk '{ print $3 }'`
-if [ -n "$alias" -a "$alias" != "off" ] ; then
+  fi
+  alias=`egrep -s "^alias[[:space:]]+sound-slot-0[[:space:]]+" /etc/modules.conf | awk '{ print $3 }'`
+  if [ -n "$alias" -a "$alias" != "off" ] ; then
       action "Loading sound module ($alias): " modprobe $alias
       RETURN=$?
-fi
-alias=`egrep -s "^alias[[:space:]]+midi[[:space:]]+" /etc/modules.conf | awk '{ print $3 }'`
-if [ -n "$alias" -a "$alias" != "off" ]; then
-      action "Loading midi module ($alias): " modprobe $alias
-fi
-
-# Load mixer settings
-if grep -q "\(sparcaudio\|sound\)" /proc/devices 2>/dev/null && [ $RETURN -eq 0 -a -f /etc/.aumixrc -a -x /bin/aumix-minimal ]; then
+  fi
+  # Load mixer settings
+  if grep -q "\(sparcaudio\|sound\)" /proc/devices 2>/dev/null && [ $RETURN -eq 0 -a -f /etc/.aumixrc -a -x /bin/aumix-minimal ]; then
 	action "Loading mixer settings: " /bin/aumix-minimal -f /etc/.aumixrc -L
+  fi
 fi
 
 if [ -f /proc/sys/kernel/modprobe ]; then
