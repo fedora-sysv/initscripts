@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.37
+%define version 4.38
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
@@ -198,6 +198,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Sep 08 1999 Michael K. Johnson <johnsonm@redhat.com>
+- ifdown now synchronous (modulo timeouts)
+- several unrelated cleanups, primarily in ifdown
+
 * Tue Sep  7 1999 Bill Nottingham <notting@redhat.com>
 - add an 'unconfigure' sort of thing
 
