@@ -242,6 +242,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Tue Nov 11 2003 Bill Nottingham <notting@redhat.com>
 - fix extraneous ethtool error message
+- backport ETHTOOL_OPTS support (#109203)
 
 * Thu Oct 16 2003 Bill Nottingham <notting@redhat.com>
 - clean up sudo files in rc.sysinit
