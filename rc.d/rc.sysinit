@@ -251,7 +251,7 @@ fi
 # the preferred link.
 rm -f /lib/modules/preferred
 rm -f /lib/modules/default
-if [ -x /sbin/depmod -a -n "$USEMODULES" ]; then
+if [ -x /sbin/depmod -A -n "$USEMODULES" ]; then
     # If they aren't using a recent sane kernel, make a link for them
     if [ ! -n "`uname -r | grep -- "-"`" ]; then
        ktag="`cat /proc/version`"
@@ -264,9 +264,9 @@ if [ -x /sbin/depmod -a -n "$USEMODULES" ]; then
        fi
     fi
     if [ -L /lib/modules/default ]; then
-    	INITLOG_ARGS= action "Finding module dependencies" depmod -a default
+    	INITLOG_ARGS= action "Finding module dependencies" depmod -A default
     else
-	INITLOG_ARGS= action "Finding module dependencies" depmod -a
+	INITLOG_ARGS= action "Finding module dependencies" depmod -A
     fi
 fi
 
