@@ -149,8 +149,8 @@ if [ -f /etc/sysconfig/ipchains -a \
 fi
 			     
 if [ -n "${DYNCONFIG}" ]; then
-    PUMPARGS=
-    DHCPCDARGS=
+    PUMPARGS=$PUMPARGS
+    DHCPCDARGS=$DHCPCDARGS
     if [ -n "${DHCP_HOSTNAME}" ]; then
        PUMPARGS="-h ${DHCP_HOSTNAME}"
        DHCPCDARGS="-h ${DHCP_HOSTNAME}"

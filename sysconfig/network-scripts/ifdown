@@ -73,7 +73,7 @@ fi
 retcode=0
 if [ "$BOOTPROTO" = bootp -o "$BOOTPROTO" = dhcp ]; then
 	[ -n "`pidof -x dhcpcd`" ] && {
-		dhcpcd -k ${DEVICE}
+		killall dhcpcd
 		retcode=$?
 	}	
 	[ -n "`pidof -x pump`" ] && {
