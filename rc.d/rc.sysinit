@@ -248,6 +248,26 @@ if [ -z "$fastboot" -a "$ROOTFSTYPE" != "nfs" ]; then
 	fi
 fi
 
+grep -E '[[:space:]]+/[[:space:]]+' /etc/fstab | \
+    awk '{ print $4 }' | \
+    grep -q quota
+_ROOT_HAS_QUOTA=$?
+if [ X"$_RUN_QUOTACHECK" = X1 -a \
+    "$_ROOT_HAS_QUOTA" -a \
+    -x /sbin/quotacheck ]; then
+        if [ -x /sbin/convertquota ]; then
+            if [ -f /quota.user ]; then
+                action $"Converting old user quota files: " \
+                    /sbin/convertquota -u / && rm -f /quota.user
+            fi
+            if [ -f /quota.group ]; then
+                action $"Converting old group quota files: " \
+                    /sbin/convertquota -g / && rm -f /quota.group
+            fi
+        fi
+        action $"Checking root filesystem quotas: " /sbin/quotacheck -n /
+fi
+
 # check for arguments 
 
 if grep -iq nopnp /proc/cmdline >/dev/null 2>&1 ; then
@@ -331,19 +351,6 @@ if [ -x /sbin/hdparm ]; then
              fi
         fi
    done
-fi
-
-# Update quotas if fsck was run on /.
-if [ X"$_RUN_QUOTACHECK" = X1 -a -x /sbin/quotacheck ]; then
-	if [ -x /sbin/convertquota ]; then
-	    if [ -f /quota.user ]; then
-		/sbin/convertquota -u / && rm -f /quota.user
-	    fi
-	    if [ -f /quota.group ]; then
-		/sbin/convertquota -g / && rm -f /quota.group
-	    fi
-	fi
-	action $"Checking root filesystem quotas: "  /sbin/quotacheck -v /
 fi
 
 # The root filesystem is now read-write, so we can now log via syslog() directly..
@@ -526,20 +533,26 @@ fi
 action $"Mounting local filesystems: " mount -a -t nonfs,smbfs,ncpfs
 
 if [ X"$_RUN_QUOTACHECK" = X1 -a -x /sbin/quotacheck ]; then
-	if [ -x /sbin/convertquota ]; then
-	    # try to convert old quotas
-	    for mountpt in `cat /etc/mtab | awk '$4 ~ /quota/{print $2}'`; do
-		if [ -f "$mountpt/quota.user" ]; then
-		    /sbin/convertquota -u $mountpt && \
-			rm -f $mountpt/quota.user
-		fi
-		if [ -f "$mountpt/quota.group" ]; then
-		    /sbin/convertquota -g $mountpt && \
-			rm -f $mountpt/quota.group
-		fi
-	    done
-	fi
-	action $"Checking filesystem quotas: "  /sbin/quotacheck -v -R -a
+        if [ -x /sbin/convertquota ]; then
+            # try to convert old quotas
+            for mountpt in `cat /etc/mtab | awk '$4 ~ /quota/{print $2}'`; do
+                if [ -f "$mountpt/quota.user" ]; then
+                    action $"Converting old user quota files: " \
+                    /sbin/convertquota -u $mountpt && \
+                        rm -f $mountpt/quota.user
+                fi
+                if [ -f "$mountpt/quota.group" ]; then
+                    action $"Converting old group quota files: " \
+                    /sbin/convertquota -g $mountpt && \
+                        rm -f $mountpt/quota.group
+                fi
+            done
+        fi
+        action $"Checking local filesystem quotas: " /sbin/quotacheck -aR
+fi
+ 
+if [ -x /sbin/quotaon ]; then
+    action $"Enabling local filesystem quotas: " /sbin/quotaon -aug
 fi
 
 # Turn on process accounting
@@ -574,10 +587,6 @@ if [ -f /.unconfigured ]; then
     fi
 
     rm -f /.unconfigured
-fi
-
-if [ -x /sbin/quotaon ]; then
-    action $"Turning on user and group quotas for local filesystems: " /sbin/quotaon -a
 fi
 
 # Clean out /etc.

@@ -118,7 +118,7 @@ SWAPS=`awk '! /^Filename/ { print $1 }' /proc/swaps`
 
 [ -x /sbin/accton ] && runcmd $"Turning off accounting: " /sbin/accton
 
-[ -x /sbin/quotaoff ] && runcmd $"Turning off quotas: " /sbin/quotaoff -a
+[ -x /sbin/quotaoff ] && runcmd $"Turning off quotas: " /sbin/quotaoff -aug
 
 # Unmount file systems, killing processes if we have to.
 # Unmount loopback stuff first
