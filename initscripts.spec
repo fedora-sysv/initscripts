@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.67
+Version: 6.75
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -244,6 +244,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Tue May 28 2002 Bill Nottingham <notting@redhat.com> 6.75-1
+- add check for link for dhcp back in
+
 * Fri Apr 19 2002 Bill Nottingham <notting@redhat.com> 6.67-1
 - fix silly cut&paste bug in hdparm settings in initscripts
 
