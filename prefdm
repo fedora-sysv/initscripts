@@ -24,27 +24,12 @@ if [ -f /etc/sysconfig/desktop ]; then
 	fi
 fi
 
-if [ -z "$preferred" ]; then
-	if which gdm >/dev/null 2>&1; then
-		preferred=gdm
-	elif which kdm >/dev/null 2>&1; then
-		preferred=kdm
-	elif which xdm >/dev/null 2>&1; then
-		preferred=xdm
-	fi
-fi
+[ -n "$preferred" ] && exec $preferred $* >/dev/null 2>&1
 
-if [ -n "$preferred" ] && which $preferred >/dev/null 2>&1; then 
-	exec `which $preferred` $* >/dev/null 2>&1
-fi
-
-if which gdm >/dev/null 2>&1; then
-	exec `which gdm` $* >/dev/null 2>&1
-elif which kdm >/dev/null 2>&1; then
-	exec `which kdm` $* >/dev/null 2>&1
-elif which xdm >/dev/null 2>&1; then
-	exec `which xdm` $* >/dev/null 2>&1
-fi
+# Fallbacks, in order
+exec gdm $* >/dev/null 2>&1
+exec kdm $* >/dev/null 2>&1
+exec xdm $* >/dev/null 2>&1
 
 # catch all exit error
 exit 1
