@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.31.6.EL
+Version: 7.31.7.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -249,6 +249,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Oct 16 2003 Bill Nottingham <notting@redhat.com> 7.31.7.EL-1
+- tweak redhat-support-check algorithm slightly (#106658)
+
 * Fri Sep 26 2003 Bill Nottingham <notting@redhat.com> 7.31.6.EL-1
 - french translation fixes (<pgampe@redhat.com>)
 
