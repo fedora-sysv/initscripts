@@ -76,6 +76,7 @@ chmod 664 /var/log/wtmp /var/run/utmp
 
 /sbin/chkconfig --add netfs 
 /sbin/chkconfig --add network 
+/sbin/chkconfig --add rawdevices
 
 # handle serial installs semi gracefully
 if [ $1 = 0 ]; then
@@ -100,14 +101,11 @@ fi
 if [ $1 = 0 ]; then
   /sbin/chkconfig --del netfs
   /sbin/chkconfig --del network
+  /sbin/chkconfig --del rawdevices
 fi
 
 %triggerun -- initscripts <= 7.59
 /sbin/chkconfig --del random
-exit 0
-
-%triggerun -- initscripts < 7.62
-/sbin/chkconfig --del rawdevices
 exit 0
 
 %clean
@@ -128,6 +126,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/sysconfig/networking/devices
 %dir /etc/sysconfig/networking/profiles
 %dir /etc/sysconfig/networking/profiles/default
+%config(noreplace) /etc/sysconfig/rawdevices
 %config /etc/sysconfig/network-scripts/network-functions
 %config /etc/sysconfig/network-scripts/network-functions-ipv6
 %config /etc/sysconfig/network-scripts/init.ipv6-global
