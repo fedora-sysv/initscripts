@@ -106,7 +106,7 @@ else
     # don't re-add subnet route on 2.2 kernels, but add a route
     # to a non-local subnet.
     # stupid hack, but it should work
-    if [ "$ISALIAS" = no ] && grep -q "2.0" /proc/version || [ -z "`route -n | sed "s/ .*//" | grep ${NETWORK}`" ]; then
+    if [ "$ISALIAS" = no ] && grep -q " 2.0" /proc/version || [ -z "`route -n | sed "s/ .*//" | grep ${NETWORK}`" ]; then
 	route add -net ${NETWORK} netmask ${NETMASK} ${DEVICE}
     else
 	route add -host ${IPADDR} ${DEVICE}
