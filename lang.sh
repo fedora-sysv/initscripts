@@ -37,10 +37,8 @@ if [ "$sourced" = 1 ]; then
     if [ -n "$SYSFONTACM" ]; then
 	case $SYSFONTACM in
 	    iso01*|iso02*|iso15*|koi*|latin2-ucw*)
-		if [ "$TERM" = "linux" ]; then
-		    if ls -l /proc/$$/fd/0 2>/dev/null | grep -- '-> /dev/tty[0-9]*$' >/dev/null 2>&1; then
-			echo -n -e '\033(K' > /proc/$$/fd/0
-		    fi
+		if [ "$TERM" = "linux" -a "`/sbin/consoletype`" = "vt" ]; then
+			echo -n -e '\033(K' 2>/dev/null > /proc/$$/fd/0
 		fi
 		;;
 	esac
