@@ -85,7 +85,7 @@ checkpid() {
 # A function to start a program.
 daemon() {
 	# Test syntax.
-	local gotbase=
+	local gotbase= force=
 	local base= user= nice= bg= pid
 	nicelevel=0
 	while [ "$1" != "${1##[-+]}" ]; do
@@ -110,6 +110,10 @@ daemon() {
 	           user=${1#--user=}
 		   shift
 		   ;;
+	    --force)
+	    	   force="force"
+		   shift
+		   ;;
 	    [-+][0-9]*)
 	    	   nice="nice -n $1"
 	           shift
@@ -125,7 +129,7 @@ daemon() {
         # See if it's already running. Look *only* at the pid file.
         pid=`pidfileofproc $base`
 	
-	[ -n "${pid:-}" ] && return
+	[ -n "${pid:-}" -a -z "${force:-}" ] && return
 
 	# make sure it doesn't core dump anywhere; while this could mask
 	# problems with the daemon, it also closes some security problems
