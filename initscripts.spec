@@ -244,6 +244,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Thu Jul 11 2002 Florian La Roche <Florian.LaRoche@redhat.de>
+- /etc/init.d/functions:
+	daemon(): avoid starting another bash
+	killproc(): avoid starting another bash for the default case
+- do not call "insmod -p" before loading the "st" module
+
 * Tue Jul 09 2002 Florian La Roche <Florian.LaRoche@redhat.de>
 - allow an option for ups poweroff  #68123
 - change grep for ONBOOT=  #63903

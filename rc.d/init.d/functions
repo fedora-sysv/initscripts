@@ -73,7 +73,7 @@ fi
 # Check if $pid (could be plural) are running
 checkpid() {
 	while [ "$1" ]; do
-	   [ -d /proc/$1 ] && return 0
+	   [ -d "/proc/$1" ] && return 0
 	   shift
 	done
 	return 1
@@ -84,7 +84,7 @@ checkpid() {
 daemon() {
 	# Test syntax.
 	local gotbase= force=
-	local base= user= nice= bg= pid
+	local base= user= nice= bg= pid=
 	nicelevel=0
 	while [ "$1" != "${1##[-+]}" ]; do
 	  case $1 in
@@ -125,7 +125,13 @@ daemon() {
         [ -z "$gotbase" ] && base=${1##*/}
 
         # See if it's already running. Look *only* at the pid file.
-        pid=`pidfileofproc $base`
+	if [ -f /var/run/${base}.pid ]; then
+		local line p
+		read line < /var/run/${base}.pid
+		for p in $line ; do
+			[ -z "${p//[0-9]/}" -a -d "/proc/$p" ] && pid="$pid $p"
+		done
+	fi
 	
 	[ -n "${pid:-}" -a -z "${force:-}" ] && return
 
@@ -156,7 +162,7 @@ killproc() {
 
 	notset=0
 	# check for second arg to be kill level
-	if [ "$2" != "" ] ; then
+	if [ -n "$2" ]; then
 		killlevel=$2
 	else
 		notset=1
@@ -167,9 +173,17 @@ killproc() {
         base=${1##*/}
 
         # Find pid.
-	pid=`pidofproc $1`
-	if [ -z "${pid:-}" ] ; then
-		pid=`pidofproc $base`
+	pid=
+	if [ -f /var/run/${base}.pid ]; then
+		local line p
+		read line < /var/run/${base}.pid
+		for p in $line ; do
+			[ -z "${p//[0-9]/}" -a -d "/proc/$p" ] && pid="$pid $p"
+		done
+	fi
+	if [ -z "$pid" ]; then
+		pid=`pidof -o $$ -o $PPID -o %PPID -x $1 || \
+			pidof -o $$ -o $PPID -o %PPID -x $base`
 	fi
 
         # Kill it.
@@ -193,7 +207,7 @@ killproc() {
 			RC=$((! $RC))
 		# use specified level only
 		else
-		        if checkpid $pid >/dev/null 2>&1; then
+		        if checkpid $pid; then
 	                	kill $killlevel $pid
 				RC=$?
 				[ "$RC" -eq 0 ] && success $"$base $killlevel" || failure $"$base $killlevel"
@@ -412,6 +426,10 @@ action() {
 
 # returns OK if $1 contains $2
 strstr() {
+	#case "$1" in
+	#	*${2}*)	return 0 ;;
+	#esac
+	#return 1
   [ "$1" = "$2" ] && return 0
   slice=${1#*$2*}
   [ "$slice" = "$1" ] && return 1
