@@ -70,11 +70,11 @@ case $ACTION in
 		# Reset IPv6 sysctl switches for "all", "default" and still existing devices
 		sysctl -a | grep "^net\.ipv6\.conf\." | awk -F. '{ print $4 }' | sort | uniq | while read interface; do
 			# Host/Router behaviour for the interface
-			ipv6_exec_sysctl -w net.ipv6.conf.$interface.forwarding=$ipv6_global_forwarding >/dev/null
+			ipv6_exec_sysctl -w net.ipv6.conf.$interface.forwarding=$ipv6_global_forwarding >/dev/null 2>&1
 
 			# Autoconfiguration and redirect handling for Hosts
-			ipv6_exec_sysctl -w net.ipv6.conf.$interface.accept_ra=$ipv6_global_auto >/dev/null
-			ipv6_exec_sysctl -w net.ipv6.conf.$interface.accept_redirects=$ipv6_global_auto >/dev/null
+			ipv6_exec_sysctl -w net.ipv6.conf.$interface.accept_ra=$ipv6_global_auto >/dev/null 2>&1
+			ipv6_exec_sysctl -w net.ipv6.conf.$interface.accept_redirects=$ipv6_global_auto >/dev/null 2>&1
 		done
 		;;
 
@@ -139,11 +139,11 @@ case $ACTION in
 
 		sysctl -a | grep "^net\.ipv6\.conf\." | awk -F. '{ print $4 }' | sort | uniq | while read interface; do
 			# Assume Host behaviour
-			ipv6_exec_sysctl -w net.ipv6.conf.$interface.forwarding=0 >/dev/null  
+			ipv6_exec_sysctl -w net.ipv6.conf.$interface.forwarding=0 >/dev/null 2>&1
 
 			# Disable autoconfiguration and redirects
-			ipv6_exec_sysctl -w net.ipv6.conf.$interface.accept_ra=0 >/dev/null  
-			ipv6_exec_sysctl -w net.ipv6.conf.$interface.accept_redirects=0 >/dev/null  
+			ipv6_exec_sysctl -w net.ipv6.conf.$interface.accept_ra=0 >/dev/null 2>&1
+			ipv6_exec_sysctl -w net.ipv6.conf.$interface.accept_redirects=0 >/dev/null 2>&1
 		done
 
 		# Cleanup still existing tunnel devices
@@ -181,5 +181,4 @@ case $ACTION in
 	echo $"Usage: $0 {start|stop|reload|restart|showsysctl}"
 	exit 1
 	;;	
-
 esac
