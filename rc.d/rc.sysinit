@@ -31,9 +31,11 @@ echo -en "\t\t\tWelcome to "
 echo -en "Red Hat"
 [ "$BOOTUP" != "serial" ] && echo -en "\\033[0;39m"
 echo " Linux"
-echo -en "\t\tPress 'I' to enter interactive startup."
-echo
-sleep 2
+if [ "$PROMPT" != "no" ]; then
+ echo -en "\t\tPress 'I' to enter interactive startup."
+ echo
+ sleep 1
+fi
 
 # Fix console loglevel
 /sbin/loglevel $LOGLEVEL
@@ -386,7 +388,7 @@ action "Mounting local filesystems" mount -a -t nonfs,smbfs,ncpfs,proc
 if [ -f /.unconfigured ]; then
     if [ -x /usr/sbin/rootconfig ]; then
 	/usr/sbin/rootconfig
-    else if [ -x /usr/bin/passwd ]; then 
+    elif [ -x /usr/bin/passwd ]; then 
         /usr/bin/passwd root
     fi
     if [ -x /usr/sbin/netconfig ]; then
@@ -504,5 +506,7 @@ EOF
 dmesg > /var/log/dmesg
 killall -TERM getkey >/dev/null 2>&1
 } &
-/sbin/getkey i && touch /tmp/confirm
+if [ "$PROMPT" != "no" ]; then
+   /sbin/getkey i && touch /tmp/confirm
+fi
 wait
