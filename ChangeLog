@@ -1,3 +1,51 @@
+2005-01-12  Bill Nottingham  <notting@redhat.com>
+
+	* ChangeLog, initscripts.spec: 8.03-1
+
+	* initscripts.spec, rc.d/rc.sysinit:
+	use udevsend to handle hotplug events, conflict with inappropriate
+	udev versions
+
+	* sysconfig/network-scripts/ifdown, sysconfig/network-scripts/ifup:
+	remove pump, dhcpcd support.
+
+	* sysconfig/network-scripts/ifdown, sysconfig/network-scripts/ifup, sysconfig/network-scripts/network-functions:
+	fix various fgreps to not catch commented lines (#136531, expanded from <cww@redhat.com>)
+
+	* sysconfig/network-scripts/ifup: fix ONxxx (#136531, <cww@redhat.com>)
+
+	* sysconfig/network-scripts/ifup:
+	set ETHTOOL_OPTS on addressless devices (#144682, <mpoole@redhat.com>)
+
+	* sysconfig/network-scripts/ifdown:
+	kill dhcp client even if BOOTOPROTO is now static (#127726, others)
+
+	* sysconfig.txt, sysconfig/network-scripts/ifdown:
+	support releasing the dhcp lease (<jvdias@redhat.com>)
+
+	* sysconfig/network-scripts/init.ipv6-global, sysconfig/network-scripts/network-functions-ipv6:
+	clean up whitespace <pb@bieringer.de>
+
+	* ipv6-6to4.howto, ipv6-tunnel.howto:
+	IPv6 doc changes (<pb@beiringer.de>,<pekkas@netcore.fi>)
+
+2005-01-11  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/init.ipv6-global, sysconfig/network-scripts/network-functions-ipv6:
+	replace the use of route/ifconfig with ip, remove support for ipv6calc
+	(<pb@bierenger.de>, <pekkas@netcore.fi>)
+
+2005-01-10  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/functions: fix quoting (#144634)
+
+2005-01-07  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/network-functions:
+	return the result of the operation, not the result of nscd
+
+	* rc.d/init.d/network, rc.d/rc.sysinit: shut up sysctl (#144483)
+
 2005-01-03  Bill Nottingham  <notting@redhat.com>
 
 	* Changelog, initscripts.spec: 8.02-1

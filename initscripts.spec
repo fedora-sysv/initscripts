@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.02
+Version: 8.03
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -203,6 +203,19 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Jan 12 2005 Bill Nottingham <notting@redhat.com> 8.03-1
+- use udevsend to handle hotplug events (requires recent udev)
+- remove pump, dhcpcd support
+- fix ONxxx (#136531, <cww@redhat.com>)
+- fix various fgreps to not catch commented lines (#136531, expanded
+  from <cww@redhat.com>)
+- set ETHTOOL_OPTS on addressless devices (#144682, <mpoole@redhat.com>)
+- kill dhcp client even if BOOTOPROTO is now static (#127726, others)
+- replace the use of route/ifconfig with ip in IPv6 code, remove support
+  for ipv6calc (<pb@bierenger.de>, <pekkas@netcore.fi>)
+- fix quoting in daemon() (#144634)
+- make sysctl be silent (#144483)
+  
 * Mon Jan  3 2005 Bill Nottingham <notting@redhat.com> 8.02-1
 - remove initlog, minilogd
 - add a flag to kmodule for use with kudzu's socket mode, use it
