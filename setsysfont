@@ -28,6 +28,9 @@ elif [ -x /bin/setfont ]; then
     ARGS="-u $UNIMAP"
   fi
   if [ -n "$SYSFONTACM" ]; then
+    if [ ! -f /lib/kbd/consoletrans/$SYSONTACM_to_uni.trans ]; then
+        SYSFONTACM=`echo $SYSFONTACM | sed "|iso0|8859-|g"`
+    fi
     ARGS="$ARGS -m $SYSFONTACM"
   fi
   if [ -n "$SYSFONT" ]; then
