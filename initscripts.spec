@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.94
+Version: 7.95
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -206,12 +206,22 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Sun Nov  7 2004 Bill Nottingham <notting@redhat.com> 7.95-1
+- various translation updates
+
+* Tue Nov  2 2004 Bill Nottingham <notting@redhat.com>
+- take an axe to rc.sysinit:
+  - remove delay on unclean startup
+  - remove hdparm code
+  - remove LVM1 code
+  - remove old raidtab code in favor of mdadm
+  - remove support for old isapnp tools
+  - move all block device mangling before fsck. run fsck *once*, not twice
+  - some more LC_ALL=C stuff
+
 * Sun Oct 31 2004 Florian La Roche <laroche@redhat.com>
 - /etc/rc.d/rc: use "LC_ALL=C grep" for small speedup
 - /etc/rc.d/rc.sysinit:
-	- change to use PROMPT=no as default, use kernel options 'forcefsck'
-	  and 'confirm' instead
-	- do not compute "version", this is not used at all
 	- do not read udev.conf, this seems to be all in the start_udev script
 	- fix detection of "nomodules" kernel command line option
 	- read /proc/cmdline earlier and convert rhgb to use that, too
@@ -221,7 +231,6 @@ rm -rf $RPM_BUILD_ROOT
 	- remove a call to basename with shell builtins
 - /etc/sysconfig/network-scripts/network-functions:
 	- remove some calls to basename/sed with shell builtins
-- sysconfig.txt: document new PROMPT=no default
 
 * Wed Oct 27 2004 Bill Nottingham <notting@redhat.com> 7.93.2-1
 - fix prefdm fallback to installed display managers (#137274)
