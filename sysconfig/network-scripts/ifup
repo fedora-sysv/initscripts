@@ -48,25 +48,6 @@ if [ "$BOOTP" = "yes" ]; then
     BOOTPROTO=bootp
 fi
 
-if [ -e /etc/sysconfig/pcmcia ]; then
-    . /etc/sysconfig/pcmcia
-else
-    PCMCIA=no
-fi
-
-if [ $DEVICETYPE = "eth" -a "foo${ISPCMCIA}" = "foo" ]; then
-    # this is a horrible hack to work around prior brokenness 
-    if [ "$PCMCIA" = "yes" -a "foo$2" = "fooboot" ]; then
-	# cardmgr will start us up properly
-	exit 0;
-    fi
-elif [ "${ISPCMCIA}" = "yes" -a "$2" = "boot" ]; then
-    # cardmgr will start us up properly
-    exit 0;
-fi
-	
-### end of horrible hack
-
 OTHERSCRIPT="/etc/sysconfig/network-scripts/ifup-${DEVICETYPE}"
 
 if [ -x $OTHERSCRIPT ]; then
