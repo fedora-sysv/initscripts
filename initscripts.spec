@@ -1,10 +1,10 @@
 Summary: inittab and /etc/rc.d scripts
 Name: initscripts
-%define version 3.61
+%define version 3.62
 Version: %{version}
 Copyright: GPL
 Group: Base
-Release: 2
+Release: 1
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /var/tmp/initbld
 Requires: mingetty, bash, mktemp, modutils >= 2.1.85-3
