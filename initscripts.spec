@@ -169,6 +169,7 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/rc.d/rc
 %config(noreplace) /etc/rc.d/rc.local
 %config /etc/profile.d/lang.sh
+%config /etc/profile.d/lang.csh
 /sbin/setsysfont
 /bin/doexec
 /bin/ipcalc
@@ -194,6 +195,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Aug 20 1999 Bill Nottingham <notting@redhat.com>
+- pass hostname to pump
+- add lang.csh
+
 * Thu Aug 19 1999 Bill Nottingham <notting@redhat.com>
 - more wvdial updates
 - fix a *stupid* bug in process reading
