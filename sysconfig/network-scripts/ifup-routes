@@ -14,6 +14,8 @@ if [ ! -f /etc/sysconfig/static-routes ]; then
 	exit 0
 fi
 
+DEVICE=$1
+
 #note the trailing space in the grep gets rid of aliases
 grep "^$DEVICE " /etc/sysconfig/static-routes | while read device args; do
 	/sbin/route add -$args $device

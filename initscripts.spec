@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.76
+Version: 5.77
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -254,6 +254,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Mar 13 2001 Nalin Dahyabhai <nalin@redhat.com>
+- fix typo in rc.sysinit
+- fix ifup-routes not setting DEVICE properly
+
 * Tue Mar 13 2001 Bill Nottingham <notting@redhat.com>
 - fix typo in ifup (#31627)
 - final translation pull

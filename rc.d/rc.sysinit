@@ -395,8 +395,10 @@ if grep -q "options sound dmabuf=1" /etc/modules.conf 2>/dev/null ; then
       RETURN=$?
   fi
   # Load mixer settings
-  if grep -q "\(sparcaudio\|sound\)" /proc/devices 2>/dev/null && [ $RETURN -eq 0 -a -f /etc/.aumixrc -a -x /bin/aumix-minimal ]; then
-	action $"Loading mixer settings: " /bin/aumix-minimal -f /etc/.aumixrc -L
+  if grep -q "\(sparcaudio\|sound\)" /proc/devices 2>/dev/null ; then
+      if [ $RETURN -eq 0 -a -f /etc/.aumixrc -a -x /bin/aumix-minimal ]; then
+	  action $"Loading mixer settings: " /bin/aumix-minimal -f /etc/.aumixrc -L
+      fi
   fi
 fi
 
@@ -421,7 +423,7 @@ if [ ! -f /proc/mdstat ]; then
 	modprobe md >/dev/null 2>&1
 fi	
 
-if [ -f /proc/mdstat -f /etc/raidtab ]; then
+if [ -f /proc/mdstat -a -f /etc/raidtab ]; then
 	echo -n $"Starting up RAID devices: " 
 
 	rc=0
