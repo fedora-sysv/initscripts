@@ -552,6 +552,10 @@ Files in /etc/sysconfig/network-scripts/
       If PERSISTENT_DHCLIENT=yes, then dhclient will keep on trying
       to contact the dhcp server when it does not respond - no '-1'
       option is given to dhclient.
+    DHCPRELEASE=yes|no|1|0
+      With this option set to 'yes' (1), when a dhcp configured
+      interface is brought down with 'ifdown', the lease will be
+      released. Otherwise, leases are not released.
 
   If BOOTPROTO is not "none", then the only other item that
   must be set is the DEVICE item; all the rest will be determined
