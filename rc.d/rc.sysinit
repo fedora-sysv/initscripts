@@ -40,10 +40,21 @@ fi
 # Fix console loglevel
 /sbin/loglevel $LOGLEVEL
 
+# Mount /proc (done here so volume labels can work with fsck)
+
+action "Mounting proc filesystem" mount -n -t proc /proc /proc
+
+# Turn off sysrq
+if [ "$MAGIC_SYSRQ" = "no" ]; then
+	echo "0" > /proc/sys/kernel/sysrq
+fi
+
 # Set the system clock.
 ARC=0
 SRM=0
 UTC=0
+
+
 if [ -f /etc/sysconfig/clock ]; then
    . /etc/sysconfig/clock
 
@@ -53,6 +64,12 @@ if [ -f /etc/sysconfig/clock ]; then
    elif [ "${CLOCKMODE}" = "ARC" ]; then
       ARC=true
    fi
+fi
+
+if grep "system serial" /proc/cpuinfo | grep -q MILO ; then
+   ARC=true
+else
+   SRM=true
 fi
 
 CLOCKDEF=""
@@ -127,15 +144,6 @@ if [ -n "$NISDOMAIN" ]; then
     action "Setting NIS domain name $NISDOMAIN" domainname $NISDOMAIN
 else
     domainname ""
-fi
-
-# Mount /proc (done here so volume labels can work with fsck)
-
-action "Mounting proc filesystem" mount -n -t proc /proc /proc
-
-# Turn off sysrq
-if [ "$MAGIC_SYSRQ" = "no" ]; then
-	echo "0" > /proc/sys/kernel/sysrq
 fi
 
 if [ -f /fsckoptions ]; then
