@@ -28,6 +28,7 @@ case "$1" in
   start)
 	action "Mounting remote filesystems" mount -a -t nfs
 	touch /var/lock/subsys/nfsfs
+	action "Mounting other filesystems" mount -a
 	;;
   stop)
 	action "Unmounting remote filesystems" umount -a -t nfs
