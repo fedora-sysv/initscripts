@@ -185,7 +185,7 @@ fi
 if [ "${TYPE}" =  "Bonding" ] || ethtool -i $DEVICE 2>/dev/null| grep -q "driver: bonding" ; then
     /sbin/ip link set dev ${DEVICE} down
     /sbin/ip link set dev ${DEVICE} up
-    for device in `fgrep -l "MASTER=${DEVICE}" /etc/sysconfig/network-scripts/ifcfg-*` ; do
+    for device in `LANG=C grep -l "^[[:space:]]*MASTER=${DEVICE}" /etc/sysconfig/network-scripts/ifcfg-*` ; do
         if [ "$BOOTPROTO" = "dhcp" ]; then
 		/sbin/ifup ${device##*/}
     	fi
@@ -296,7 +296,7 @@ else
 	 fi
 	 # Bonding initialization part II
 	 if [ "${TYPE}" =  "Bonding" ] || ethtool -i $DEVICE 2>/dev/null| grep -q "driver: bonding" ; then
-    		for device in `fgrep -l "MASTER=${DEVICE}" /etc/sysconfig/network-scripts/ifcfg-*` ; do
+    		for device in `LANG=C grep -l "^[[:space:]]*MASTER=${DEVICE}" /etc/sysconfig/network-scripts/ifcfg-*` ; do
 			/sbin/ifup ${device##*/}
     		done
 	 fi
@@ -369,7 +369,7 @@ fi
 # Bonding initialization part II - for static, enslave the devices. For
 # DHCP, remove any routes for the slaves.
 if [ "${TYPE}" =  "Bonding" ] || ethtool -i $DEVICE 2>/dev/null| grep -q "driver: bonding" ; then
-    for device in `fgrep -l "MASTER=${DEVICE}" /etc/sysconfig/network-scripts/ifcfg-*` ; do
+    for device in `LANG=C grep -l "^[[:space:]]*MASTER=${DEVICE}" /etc/sysconfig/network-scripts/ifcfg-*` ; do
 	if [ "$BOOTPROTO" = "dhcp" ]; then
 		DEV=$DEVICE
                 eval $(LANG=C fgrep "DEVICE=" $device)
