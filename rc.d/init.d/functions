@@ -53,7 +53,7 @@ daemon() {
         [ $BOOTUP != "color" ] && echo -n " $base"
 
 	# And start it up.
-	nice -n $nicelevel initlog $INITLOG_ARGS -c "$@" && success "$base startup" || failure "$base startup"
+	nice -n $nicelevel initlog $INITLOG_ARGS -c "$*" && success "$base startup" || failure "$base startup"
 }
 
 # A function to stop a program.
@@ -210,14 +210,14 @@ action() {
   echo -n "$STRING "
   shift
   if [ -z "$IN_INITLOG" ]; then
-      initlog $INITLOG_ARGS -c "$@" && success "$STRING" || failure "$STRING"
+      initlog $INITLOG_ARGS -c "$*" && success "$STRING" || failure "$STRING"
       rc=$?
 #      [ "$BOOTUP" = "color" ] && echo
       echo
       return $rc
   else
       # This sucks.
-      output=`$@`
+      output=`$*`
       rc=$?
       if [ -n "$output" ]; then
         cmdname=`basename $1`
