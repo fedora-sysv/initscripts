@@ -1,36 +1,56 @@
-.TH IPCALC 1 "Red Hat Software" "RHS" \" -*- nroff -*-
+.TH IPCALC 1 "April 30 2001" "Red Hat, Inc." RH \" -*- nroff -*-
 .SH NAME
 ipcalc \- perform simple manipulation of IP addresses
 .SH SYNOPSIS
 .B ipcalc
-\fI[--hostname] [--broadcast] [--network] [--netmask] \fBip \fI[netmask]\fR
+[\fIOPTION\fR]... <\fBIP address\fR>[\fI/prefix\fR] [\fInetmask\fR]
 
 .SH DESCRIPTION
 \fBipcalc\fR provides a simple way to calculate IP information for a host.
 The various options specify what information \fBipcalc\fR should display
-on standard out. Multiple options may be specified.
+on standard out. Multiple options may be specified.  An IP address to
+operate on must always be specified.  Most operations also require a
+netmask or a CIDR prefix as well.
 
 .SH OPTIONS
 .TP
-.IP \fI--broadcast\fR 
+.TP
+\fB\-b\fR, \fB\-\-broadcast\fR 
 Display the broadcast address for the given IP address and netmask.
 
-.IP \fI--hostname\fR 
+.TP
+\fB\-h\fR, \fB\-\-hostname\fR 
 Display the hostname for the given IP address.
 
-.IP \fI--netmask\fR
+.TP
+\fB\-m\fR, \fB\-\-netmask\fR
 Calculate the netmask for the given IP address. It assumes that the IP
-address is in a complete Class A, B, or C network. Many networks do
+address is in a complete class A, B, or C network. Many networks do
 not use the default netmasks, in which case an inappropriate value will
 be returned.
 
-.IP \fI--network\fR 
+.TP
+\fB\-n\fR, \fB\-\-network\fR 
 Display the network address for the given IP address and netmask.
 
-.IP \fI--silent\fR 
+.TP
+\fB\-s\fR, \fB\-\-silent\fR 
 Don't ever display error messages.
 
-.SH AUTHOR
+.SH AUTHORS
 .nf
 Erik Troan <ewt@redhat.com>
+.nf
+Preston Brown <pbrown@redhat.com>
 .fi
+.SH "REPORTING BUGS"
+Report bugs to our bugtracking system:
+http://bugzilla.redhat.com/bugzilla.
+.SH COPYRIGHT
+Copyright \(co 1997-2001 Red Hat, Inc.
+.br
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR
+PURPOSE.
+.SH "SEE ALSO"
+ipcalc(3)
