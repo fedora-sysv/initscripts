@@ -239,7 +239,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
-* Tue Aug 28 2001 Bill Nottingham <notting@redhat.com>
+* Tue Aug 28 2001 Nalin Dahyabhai <nalin@redhat.com>
+- document /etc/sysconfig/authconfig
+
+* Tue Aug 28 2001 Bill Nottingham <notting@redhat.com> 6.31-1
 - message un-tweaks (<johnsonm@redhat.com>)
 - make getkey more useful, fix some of the autofsck stuff (<johnsonm@redhat.com>)
 

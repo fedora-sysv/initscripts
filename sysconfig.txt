@@ -1,6 +1,41 @@
 Files in /etc/sysconfig
 =======================
 
+/etc/sysconfig/authconfig
+
+  used by authconfig to store information about the system's user
+  information and authentication setup; changes made to this file
+  have no effect until the next time authconfig is run
+
+    USEHESIOD=no
+      Whether or not the hesiod naming service is in use.  If not set,
+      authconfig examines the passwd setting in /etc/nsswitch.conf.
+    USELDAP=no
+      Whether or not LDAP is used as a naming service.  If not set,
+      authconfig examines the passwd setting in /etc/nsswitch.conf.
+    USENIS=no
+      Whether or not NIS is in use.  If not set, authconfig examines
+      the passwd setting in /etc/nsswitch.conf.
+
+    USEKERBEROS=no
+      Whether or not Kerberos is in use.  If not set, authconfig examines
+      the settings in /etc/pam.d/system-auth.
+    USELDAPAUTH=no
+      Whether or not LDAP is being used for authentication.  If not set,
+      authconfig examines the settings in /etc/pam.d/system-auth.  Note
+      that this option is separate from USELDAP, and that neither implies
+      the other.
+    USEMD5=no
+      Whether or not MD5-based hashing should be used when setting passwords.
+      If not set, authconfig examines the settings in /etc/pam.d/system-auth.
+      This option affects authentication using both local files and LDAP.
+    USESHADOW=no
+      Whether or not shadow passwords are in use.  If not set, authconfig
+      checks for the existence of /etc/shadow.
+    USESMBAUTH=no
+      Whether or not SMB authentication is in use.  If not set, authconfig
+      examines the settings in /etc/pam.d/system-auth.
+
 /etc/sysconfig/autofsck
 
   does not normally exist; if it does, it can influence a choice
