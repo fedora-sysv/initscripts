@@ -4,10 +4,10 @@ Name: initscripts
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
-Release: 3
+Release: 0
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /var/tmp/initbld
-Requires: mingetty, bash, mktemp, modutils >= 2.1.85-3, e2fsprogs, kbd, kernel >= 2.2.1-4
+Requires: mingetty, bash, mktemp, modutils >= 2.1.85-3, e2fsprogs, kbd, sysklogd >= 1.3.31
 Conflicts: redhat-release <= 5.1
 Prereq: /sbin/chkconfig
 
@@ -169,6 +169,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc sysconfig.txt
 
 %changelog
+* Thu Feb 25 1999 Bill Nottingham <notting@redhat.com>
+- put preferred support back in
+
 * Thu Feb 18 1999 Bill Nottingham <notting@redhat.com>
 - fix single-user mode (source functions, close if)
 
