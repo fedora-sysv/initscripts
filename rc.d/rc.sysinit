@@ -79,7 +79,6 @@ $CLOCK $CLOCKFLAGS
 action "Setting clock $CLOCKDEF: `date`" date
 
 # Load keymap
-_LOADED_KEYMAP=
 KEYMAP=
 if [ -f /etc/sysconfig/console/default.kmap ]; then
   KEYMAP=/etc/sysconfig/console/default.kmap
@@ -95,22 +94,13 @@ if [ -n "$KEYMAP" ]; then
   loadkeys $KEYMAP < /dev/tty0 > /dev/tty0 2>/dev/null && \
      success "Loading default keymap" || failure "Loading default keymap"
   echo
-  if [ -f /etc/sysconfig/console/local.kmap* ]; then
-    echo -n "Loading local keymap modifiers"
-    loadkeys local < /dev/tty0 > /dev/tty0 2>/dev/null && \
-      success "Loading local keymap modifiers" || failure "Loading local keymap modifiers"
-    echo
-  fi
-  _LOADED_KEYMAP=yes
 fi   
 
 # Load system font
-_LOADED_FONT=
 if [ -x /sbin/setsysfont ]; then
     . /etc/sysconfig/i18n
     if [ -f /etc/sysconfig/console/$SYSFONT.psf.gz -o -f /usr/lib/kbd/consolefonts/$SYSFONT.psf.gz ]; then
        action "Setting default font" /sbin/setsysfont
-       _LOADED_FONT=yes
     fi
 fi
 
