@@ -177,7 +177,7 @@ function addprovider()
     options="$options /dev/$DEVICE"
  
     # set channel bundling
-    if [ "$BUNDLING" = "yes" -a -n "$SLAVE_DEVICE" ]; then
+    if [ "$BUNDLING" = "yes" -o "$BUNDLING" = "on" ] && [ -n "$SLAVE_DEVICE" ]; then
         [ -z "$SLAVE_MSN" ] && SLAVE_MSN="$MSN"
         [ -z "$SLAVE_PHONE_OUT" ] && SLAVE_PHONE_OUT="$PHONE_OUT"
         [ -z "$SLAVE_PHONE_IN" ] && SLAVE_PHONE_IN="$PHONE_IN"
@@ -296,7 +296,7 @@ function addprovider()
         ipppd $options
 
         # start ibod daemon
-        [ "$BUNDLING" = "yes" -a -n "$SLAVE_DEVICE" ] && start_ibod $DEVICE
+        [ "$BUNDLING" = "yes" -o "$BUNDLING" = "on" ] && [ -n "$SLAVE_DEVICE" ] && start_ibod $DEVICE
     fi
 
     # set default gateway for dial on demand

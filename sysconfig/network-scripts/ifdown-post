@@ -17,10 +17,9 @@ if [ "${DEVICETYPE}" = "ppp" -o "${DEVICETYPE}" = "ippp" ]; then
 	cat /etc/resolv.conf.save > /etc/resolv.conf
 	rm -f /etc/resolv.conf.save
     fi
-fi
-
-if [ -f /etc/ppp/peers/$DEVICE ] ; then
-    rm -f /etc/ppp/peers/$DEVICE
+    if [ -f /etc/ppp/peers/$DEVICE ] ; then
+	rm -f /etc/ppp/peers/$DEVICE
+    fi
 fi
 
 # Reset the default route if this interface had a special one
