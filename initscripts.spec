@@ -250,6 +250,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Aug 20 2004 Bill Nottingham <notting@redhat.com> 7.64-1
+- rc.d/rc.sysinit: check for dev file too (#130350)
+	
 * Thu Aug 19 2004 Than Ngo <than@redhat.com> 7.63-1
 - allow CBCP with own number (#125710)
 
