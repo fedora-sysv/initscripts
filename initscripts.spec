@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.31.18.EL
+Version: 7.31.19.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -249,6 +249,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Oct 28 2004 Bill Nottingham <notting@redhat.com> 7.31.19.EL-1
+- fix usage of GATEWAYDEV (#133575)
+
 * Mon Sep 27 2004 Bill Nottingham <notting@redhat.com> 7.31.18.EL-1
 - allow daemons to coredump up to DAEMON_COREFILE_LIMIT (#130175)
 - backport ipcalc fixes from Fedora (#133445)
