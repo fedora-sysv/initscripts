@@ -287,8 +287,8 @@ if [ -n "$USEMODULES" ]; then
 fi
 
 # Load mixer settings
-if grep -q "14 sound" /proc/devices 2>/dev/null && [ -f /etc/.aumixrc -a -x /bin/aumix-minimal ]; then
-	action "Loading mixer settings" /bin/aumix-minimal -f /etc/.aumixrc -L >/dev/null
+if grep -q "\(sparcaudio\|sound\)" /proc/devices 2>/dev/null && [ -f /etc/.aumixrc -a -x /bin/aumix-minimal ]; then
+	action "Loading mixer settings" /bin/aumix-minimal -f /etc/.aumixrc -L
 fi
 
 if [ -f /proc/sys/kernel/modprobe ]; then
