@@ -251,6 +251,8 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Thu Oct 28 2004 Bill Nottingham <notting@redhat.com> 7.31.19.EL-1
 - fix usage of GATEWAYDEV (#133575)
+- fix usage of checkpid (#134030)
+- use system-config-keyboard, not kbdconfig (#133929)
 
 * Mon Sep 27 2004 Bill Nottingham <notting@redhat.com> 7.31.18.EL-1
 - allow daemons to coredump up to DAEMON_COREFILE_LIMIT (#130175)
