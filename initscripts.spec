@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-Version: 5.04
+Version: 5.05
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -215,6 +215,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Mar 31 2000 Bill Nottingham <notting@redhat.com>
+- fix typo in /etc/rc.d/init.d/network that broke linuxconf (#10472)
+
 * Mon Mar 27 2000 Bill Nottingham <notting@redhat.com>
 - remove compatiblity chkconfig links
 - run 'netfs stop' on 'network stop' if necessary
