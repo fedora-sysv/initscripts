@@ -28,6 +28,28 @@ fi
 # Fix console loglevel
 /sbin/loglevel $LOGLEVEL
 
+# Load keymap
+KEYMAP=
+if [ -f /etc/sysconfig/console/default.kmap ]; then
+  KEYMAP=/etc/sysconfig/console/default.kmap
+else
+  . /etc/sysconfig/keyboard
+  if [ -n "$KEYTABLE" -a -d "/usr/lib/kbd/keymaps" ]; then
+     KEYMAP=$KEYTABLE
+  fi
+fi
+if [ -n "$KEYMAP" ]; then 
+  # Since this takes in/output from stdin/out, we can't use initlog
+  echo -n "Loading default keymap"
+  loadkeys $KEYMAP < /dev/tty0 > /dev/tty0 && \
+     success "Loading default keymap" || failure "Loading default keymap"
+fi   
+
+# Load system font
+if [ -x /sbin/setsysfont ]; then
+    action "Setting default font" /sbin/setsysfont
+fi
+
 # Start up swapping.
 action "Activating swap partitions" swapon -a
 
@@ -251,12 +273,7 @@ fi
 # Mount all other filesystems (except for NFS and /proc, which is already
 # mounted). Contrary to standard usage,
 # filesystems are NOT unmounted in single user mode.
-action "Mounting local filesystems" mount -a -t nonfs,proc
-
-# set the console font
-if [ -x /sbin/setsysfont ]; then
-    /sbin/setsysfont
-fi
+action "Mounting local filesystems" mount -a -t nonfs,smbfs,ncpfs,proc
 
 if [ -x /sbin/quotaon ]; then
     action "Turning on user and group quotas for local filesystems" /sbin/quotaon -a
