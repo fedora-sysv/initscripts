@@ -64,10 +64,10 @@ if [ "$PEERDNS" != "no" -o -n "$RESOLV_MODS" -a "$RESOLV_MODS" != "no" ]; then
 		echo "$answer" >> $tr
 		;;
 	esac
-	if [ -n "$DOMAIN" ]; then
-	   echo "search $DOMAIN $search" >> $tr
-	fi
     done
+    if [ -n "$DOMAIN" ]; then
+        echo "search $DOMAIN $search" >> $tr
+    fi
 
     # backup resolv.conf
     cp -af /etc/resolv.conf /etc/resolv.conf.save
