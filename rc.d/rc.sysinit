@@ -678,6 +678,10 @@ rm -rf /tmp/.X*-unix
 # Delete ICE locks
 rm -rf /tmp/.ICE-unix
 
+# Make ICE directory
+mkdir -m 1777 -p /tmp/.ICE-unix >/dev/null 2>&1
+chown root:root /tmp/.ICE-unix
+
 # Delete Postgres sockets
 rm -f /tmp/.s.PGSQL.*
 
