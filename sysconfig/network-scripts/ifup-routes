@@ -6,12 +6,20 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
+# Older format
+if [ -f "/etc/sysconfig/network-scripts/route-$1" ]; then
+ while read line; do
+    /sbin/ip route add $line
+ done < "/etc/sysconfig/network-scripts/route-$1"
+fi
+
+# Red Hat network configuration format
+
 CONFIG="/etc/sysconfig/networking/devices/$1.route"
 [ -f $CONFIG ] || exit 0
 
 . $CONFIG
 
-# Red Hat network configuration format
 
 routenum=0
 while [ "x$(eval echo '$'ADDRESS$routenum)x" != "xx" ]; do
@@ -25,7 +33,3 @@ while [ "x$(eval echo '$'ADDRESS$routenum)x" != "xx" ]; do
     routenum=$(($routenum+1))
 done
 
-# Older format
-while read line; do
-    /sbin/ip route add $line
-done < "/etc/sysconfig/network-scripts/route-$1"

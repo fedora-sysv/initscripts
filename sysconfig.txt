@@ -247,26 +247,6 @@ Files in /etc/sysconfig
       net.ipv4.ip_always_defrag setting in /etc/sysctl.conf. It
       is no longer valid for 2.4 kernels.
 
-/etc/sysconfig/static-routes:
-
-  Contains lines of the form:
-
-    <device> host|net <arguments to route command>
-
-  <device> may be a device name to have the route brought up and
-  down with the device, or "any" to have the correct devices calculated
-  at run time.
-  
-  For example:
-  
-  eth0 host 192.168.2.2 eth0
-  
-  adds a host route through eth0 to 192.168.2.2, while
-  
-  any net 192.168.2.0 netmask 255.255.255.0 ppp0
-  
-  adds a network route to the 192.168.2.0 network through ppp0.
-  
 /etc/sysconfig/static-routes-ipv6:
   Contains lines of the form:
 
@@ -614,7 +594,7 @@ Files in /etc/sysconfig/network-scripts/
     Managed from /etc/sysconfig/network-scripts/ifup-ipx
     ARP=yes|no (adds 'arp' flag to ifconfig, for use with the
       ethertap device)
-    No longer supported:
+    Deprecated:
      PROMISC=yes|no (enable or disable promiscuous mode)
      ALLMULTI=yes|no (enable or disable all-multicast mode)
      
@@ -765,3 +745,11 @@ Files in /etc/sysconfig/network-scripts/
   up /etc/resolv.conf from the version dhcpcd dropped in
   /etc/dhcpc/resolv.conf
 
+/etc/sysconfig/network-scripts/route-<interface-name>
+
+  Contains lines that are arguments to "/sbin/ip route add"
+  For example:
+  
+  192.168.2.0/24 dev ppp0
+  
+  adds a network route to the 192.168.2.0 network through ppp0.
