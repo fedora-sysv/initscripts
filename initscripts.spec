@@ -4,7 +4,7 @@ Name: initscripts
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
-Release: 1
+Release: 2
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /var/tmp/initbld
 Requires: mingetty, bash, /bin/awk, /bin/sed, mktemp, e2fsprogs, console-tools
@@ -83,7 +83,7 @@ touch $RPM_BUILD_ROOT/var/log/wtmp
 
 
 %pre
-/usr/sbin/groupadd -r -f utmp
+/usr/sbin/groupadd -g 22 -r -f utmp
 
 %post
 touch /var/log/wtmp
@@ -199,6 +199,7 @@ rm -rf $RPM_BUILD_ROOT
 - new NFS unmounting from Bill Rugolsky <rugolsky@ead.dsa.com> 
 - fix ifup-sl/dip confusion
 - more raid startup cleanup
+- make utmp group 22
 
 * Fri Aug 20 1999 Bill Nottingham <notting@redhat.com>
 - pass hostname to pump
