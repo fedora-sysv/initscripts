@@ -88,8 +88,8 @@ retcode=0
 		   	reason=STOP interface=${DEVICE} /sbin/dhclient-script
 		   fi
 		   kill `cat /var/run/dhclient-${DEVICE}.pid` >/dev/null 2>&1
-		   rm -f /var/run/dhclient-${DEVICE}.pid
 		   retcode=$?
+		   rm -f /var/run/dhclient-${DEVICE}.pid
 		fi
 	}	
 	[ -n "`pidof -x dhcpcd`" ] && {
