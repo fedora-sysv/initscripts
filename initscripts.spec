@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.07
+Version: 7.08
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -246,6 +246,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Feb 18 2003 Bill Nottingham <notting@redhat.com> 7.08-1
+- load keybdev & mousedev even if hid is already loaded/static
+- run fewer scripts through action (#49670, #75279, #81531)
+
 * Mon Feb 10 2003 Bill Nottingham <notting@redhat.com> 7.07-1
 - fix nicknames & profiles (#82246)
 - fix check_device_down (#83780, <pzb@datstacks.com>)
