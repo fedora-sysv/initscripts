@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.27.EL
+Version: 7.28.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -219,7 +219,6 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/profile.d/lang.csh
 /usr/sbin/sys-unconfig
 /sbin/mkkerneldoth
-/sbin/redhat-support-check
 /sbin/setsysfont
 /bin/doexec
 /bin/ipcalc
@@ -248,6 +247,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Jul  9 2003 Bill Nottingham <notting@redhat.com> 7.28-1
+- switch from $CONFIG.keys to keys-$CONFIG
+
 * Tue Jul  8 2003 Bill Nottingham <notting@redhat.com> 7.27-1
 - add a check to consoletype for the current foreground console
 - use it when running unicode_start (#98753)
