@@ -227,14 +227,14 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/ppp/ip-up
 %config /etc/ppp/ip-down
 %config /etc/initlog.conf
-%doc sysconfig.txt sysvinitfiles
+%doc sysconfig.txt sysvinitfiles ChangeLog
 %ghost %attr(0664,root,utmp) /var/log/wtmp
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
 * Fri Aug 18 2000 Bill Nottingham <notting@redhat.com>
 - don't load usb drivers if they're compiled statically
-- don't call ifdown twice for ppp (#15285)
+- don't call ifdown-post twice for ppp (#15285)
 
 * Wed Aug 16 2000 Bill Nottingham <notting@redhat.com>
 - fix /boot/kernel.h generation (#16236, #16250)
