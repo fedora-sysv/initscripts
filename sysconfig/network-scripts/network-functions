@@ -160,13 +160,11 @@ find_gateway_dev ()
 {
     . /etc/sysconfig/network
     if [ -n "${GATEWAY}" -a "${GATEWAY}" != "none" ] ; then
-	# XXX why?
-        export GATEWAY
 	dev=`LC_ALL=C /sbin/ip route | \
              grep ${GATEWAY} | \
              sed -e 's/.* dev \([:alnum:]*\)/\1/'`
 	if [ -n "$dev" ]; then
-	    GATEWAYDEV=$dev
+	    GATEWAYDEV="$dev"
         fi
     fi
 }
@@ -176,9 +174,8 @@ add_default_route ()
     . /etc/sysconfig/network
     check_default_route && return 0
     find_gateway_dev
-    if [ "$GATEWAYDEV" != "" -a \
-         "${GATEWAY}" != "" -a \
- 	 "${GATEWAY}" != "none" ] ; then
+    if [ "$GATEWAYDEV" != "" -a -n "${GATEWAY}" -a \
+ 		"${GATEWAY}" != "none" ]; then
         if ! check_device_down $1; then
             if [ "$GATEWAY" = "0.0.0.0" ]; then
                 /sbin/ip route add default dev ${GATEWAYDEV}
@@ -186,11 +183,9 @@ add_default_route ()
                 /sbin/ip route add default via ${GATEWAY}
             fi
         fi
-    else
-    	if [ -f /etc/default-route ]; then
-		/sbin/ip route add default via `cat /etc/default-route`
-		rm -f /etc/default-route
-	fi
+    elif [ -f /etc/default-route ]; then
+	/sbin/ip route add default via `cat /etc/default-route`
+	rm -f /etc/default-route
     fi
 }
 
