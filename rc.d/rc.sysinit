@@ -712,6 +712,17 @@ if [ -x /sbin/hdparm ]; then
    done
 fi
 
+# Boot time profiles. Yes, this should be somewhere else.
+if grep -q "profile=" /proc/cmdline ; then
+    cmdline=`cat /proc/cmdline`
+    for arg in cmdline ; do
+       if [ "${arg##profile=}" != "${arg}" ]; then
+          [ -x /usr/sbin/redhat-config-network-cmd ] &&
+	    /usr/sbin/redhat-config-network-cmd --profile ${arg##profile-}
+       fi
+    done
+fi
+
 # Generate a header that defines the boot kernel.
 /sbin/mkkerneldoth
 
