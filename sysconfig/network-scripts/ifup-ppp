@@ -15,7 +15,11 @@ else
   [ -f "${CONFIG}" ] || CONFIG=ifcfg-${1}
   source_config
   # don't start ppp-watch by xDSL
-  [ "$TYPE" = "xDSL" ] || exec /sbin/ppp-watch "${DEVICE}" "$@"
+  if [ "${DEMAND}" != yes -a "$TYPE" != "xDSL" ] ; then
+    # let ppp-watch do the right thing
+    shift
+    exec /sbin/ppp-watch "${DEVICE}" "$@"
+  fi
 fi
 
 CONFIG=$1
@@ -130,12 +134,14 @@ fi
 
 if [ ${DEMAND} = yes ] ; then
   opts="$opts demand ktune idle ${IDLETIMEOUT} holdoff ${RETRYTIMEOUT}"
+else
+  opts="$opts nodetach"
 fi
 
 (logger -p daemon.info -t ifup-ppp \
   $"pppd started for ${DEVNAME} on ${MODEMPORT} at ${LINESPEED}" &)&
 
-exec pppd -detach $opts ${MODEMPORT} ${LINESPEED} \
+exec pppd $opts ${MODEMPORT} ${LINESPEED} \
     ipparam ${DEVNAME} linkname ${DEVNAME} call ${DEVNAME}\
     noauth \
     ${PPPOPTIONS}
