@@ -1,10 +1,10 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.36
+%define version 4.37
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
-Release: 2
+Release: 1
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /var/tmp/initbld
 Requires: mingetty, bash, /bin/awk, /bin/sed, mktemp, e2fsprogs, console-tools
@@ -181,6 +181,7 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/loglevel
 /sbin/minilogd
 /sbin/service
+/sbin/ppp-watch
 /usr/man/man1/doexec.1
 /usr/man/man1/initlog.1
 /usr/man/man1/ipcalc.1
@@ -196,6 +197,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Sep 06 1999 Michael K. Johnson <johnsonm@redhat.com>
+- added ppp-watch to make "ifup ppp*" syncronous
+
 * Fri Sep  3 1999 Bill Nottingham <notting@redhat.com>
 - require lsof
 

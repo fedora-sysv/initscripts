@@ -82,6 +82,7 @@ static int theSighup = 0;
 static int theSigio = 0;
 static int theSigchld = 0;
 
+static char *theBoot = NULL;
 
 static void
 detach(int now, int parentExitCode) {
@@ -156,14 +157,14 @@ doPidFile(char *device) {
 
 
 int
-fork_exec(int wait, char *path, char *arg1, char *arg2)
+fork_exec(int wait, char *path, char *arg1, char *arg2, char *arg3)
 {
     pid_t child;
     int status;
 
     if (!(child = fork())) {
 	/* child */
-	execl(path, path, arg1, arg2, 0);
+	execl(path, path, arg1, arg2, arg3, 0);
 	perror(path);
 	_exit (1);
     }
@@ -184,7 +185,7 @@ fork_exec(int wait, char *path, char *arg1, char *arg2)
 
 static void
 cleanExit(int exitCode) {
-    fork_exec(1, "/sbin/netreport", "-r", NULL);
+    fork_exec(1, "/sbin/netreport", "-r", NULL, NULL);
     detach(1, exitCode);
     exit(exitCode);
     doPidFile(NULL);
@@ -306,9 +307,11 @@ main(int argc, char **argv) {
     int timeout = 30;
     char *temp;
     struct timeval tv;
+    int dieing = 0;
+    int sendsig;
 
-    if (argc != 2) {
-	fprintf (stderr, "usage: ppp-watch [ifcfg-]<logical-name>");
+    if (argc < 2) {
+	fprintf (stderr, "usage: ppp-watch [ifcfg-]<logical-name> [boot]");
 	exit(30);
     }
 
@@ -334,7 +337,11 @@ main(int argc, char **argv) {
 
     doPidFile(device);
 
-    fork_exec(1, "/sbin/netreport", NULL, NULL);
+    fork_exec(1, "/sbin/netreport", NULL, NULL, NULL);
+
+    if (argc > 2 && !strcmp("boot", argv[2])) {
+	theBoot = argv[2];
+    }
 
     if (!strncmp(argv[1], "ifcfg-", 6)) {
 	device = argv[1] + 6;
@@ -344,7 +351,7 @@ main(int argc, char **argv) {
     ifcfg = shvarfilesGet(device);
     if (!ifcfg) cleanExit(28);
 
-    fork_exec(0, "/etc/sysconfig/network-scripts/ifup-ppp", "daemon", device);
+    fork_exec(0, "/etc/sysconfig/network-scripts/ifup-ppp", "daemon", device, theBoot);
     temp = svGetValue(ifcfg, "RETRYTIMEOUT");
     if (temp) {
 	timeout = atoi(temp);
@@ -357,10 +364,15 @@ main(int argc, char **argv) {
 	sigsuspend(&sigs);
 	if (theSigterm) {
 	    theSigterm = 0;
+
+	    if (dieing) sendsig = SIGKILL;
+	    else sendsig = SIGTERM;
+	    dieing = 1;
+
 	    if (logicalDevice) free(logicalDevice);
 	    logicalDevice = pppLogicalToPhysical(&pppdPid, device);
 	    if (logicalDevice) free(logicalDevice);
-	    kill(-pppdPid, SIGTERM);
+	    kill(-pppdPid, sendsig);
 	    cleanExit(0);
 	}
 	if (theSighup) {
@@ -383,7 +395,7 @@ main(int argc, char **argv) {
 		    timeout = atoi(temp);
 		    free(temp);
 		} else {
-		    timeout = 30;
+		    timeout = 2;
 		}
 	    }
 	    logicalDevice = pppLogicalToPhysical(NULL, device);
@@ -402,7 +414,7 @@ main(int argc, char **argv) {
 	    if (!WIFEXITED(status)) cleanExit(29);
 
 	    if (svTrueValue(ifcfg, "PERSIST", 0)) {
-		fork_exec(0, "/etc/sysconfig/network-scripts/ifup-ppp", "daemon", device);
+		fork_exec(0, "/etc/sysconfig/network-scripts/ifup-ppp", "daemon", device, theBoot);
 		temp = svGetValue(ifcfg, "RETRYTIMEOUT");
 		if (temp) {
 		    timeout = atoi(temp);

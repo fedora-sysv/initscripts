@@ -8,9 +8,6 @@ REALDEVICE=$1
 
 export PATH=/sbin:/usr/sbin:/bin:/usr/bin
 
-echo "$REALDEVICE" > /var/run/ppp-$LOGDEVICE.dev
-chmod a+r /var/run/ppp-$LOGDEVICE.dev
-
 [ -x /etc/ppp/ip-up.local ] && /etc/ppp/ip-up.local $*
 
 # Used for clustering heartbeat monitoring stuff.
