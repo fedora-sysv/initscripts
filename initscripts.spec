@@ -1,6 +1,5 @@
 Summary: The inittab file and the /etc/init.d scripts.
-Name: initscripts
-Version: 7.68
+Version: 7.70
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -18,11 +17,12 @@ Requires: /sbin/ip, /sbin/arping, net-tools
 Requires: /etc/redhat-release, dev
 Requires: ethtool >= 1.8-2
 Conflicts: mkinitrd < 4.0
-Conflicts: kernel <= 2.4, timeconfig < 3.0, ppp < 2.3.9, wvdial < 1.40-3
+Conflicts: kernel <= 2.6, timeconfig < 3.0, ppp < 2.3.9, wvdial < 1.40-3
 Conflicts: ypbind < 1.6-12, psacct < 6.3.2-12, kbd < 1.06-19, lokkit < 0.50-14
 Obsoletes: rhsound sapinit
 Prereq: /sbin/chkconfig, /usr/sbin/groupadd, gawk, fileutils, sh-utils
 BuildPrereq: glib2-devel popt gettext pkgconfig
+BuildPrereq: kudzu-devel >= 1.1.80
 
 %description
 The initscripts package contains the basic system scripts used to boot
@@ -229,6 +229,7 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/consoletype
 /sbin/genhostid
 /sbin/getkey
+/sbin/kmodule
 %attr(2755,root,root) /sbin/netreport
 /sbin/initlog
 /sbin/minilogd
@@ -250,6 +251,15 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Aug 26 2004 Bill Nottingham <notting@redhat.com> 7.70-1
+- autoload hardware modules on startup
+- minor fsck cleanup (#115028, <leonard-rh-bugzilla@den.ottolander.nl>)
+- ifup: support STP bridging (#123324)
+- rc.sysinit: do a SELinux relabel if forced
+- rc.sysinit: remove devfs compat and the remaining 2.4 compat
+- ifup-wireless: support multiple keys (#127957)
+- fix firmware loading (#129155, <bnocera@redhat.com>)
+	
 * Tue Aug 24 2004 Karsten Hopp <karsten@redhat.de> 7.68-1 
 - execute zfcfconf.sh if available (mainframe)
 
