@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.29.EL
+Version: 7.30.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -248,6 +248,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Aug 15 2003 Bill Nottingham <notting@redhat.com> 7.30.EL-1
+- IPv6 updates (#86210, #91375, <pekkas@netcore.fi>)
+
 * Fri Aug  8 2003 Bill Nottingham <notting@redhat.com> 7.29.EL-1
 - setsysfont: don't echo to /dev/console (#102004)
 - fix ethernet device renaming deadlock (#101566)
