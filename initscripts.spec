@@ -74,7 +74,6 @@ chmod 664 /var/log/wtmp /var/run/utmp
 
 /sbin/chkconfig --add netfs 
 /sbin/chkconfig --add network 
-/sbin/chkconfig --add rawdevices
 
 # handle serial installs semi gracefully
 if [ $1 = 0 ]; then
@@ -99,11 +98,13 @@ fi
 if [ $1 = 0 ]; then
   /sbin/chkconfig --del netfs
   /sbin/chkconfig --del network
-  /sbin/chkconfig --del rawdevices
 fi
 
 %triggerun -- initscripts <= 7.59
 /sbin/chkconfig --del random
+
+%triggerun -- initscripts < 7.62
+/sbin/chkconfig --del rawdevices
 
 %triggerpostun -- initscripts <= 5.04
 /sbin/chkconfig --add netfs
