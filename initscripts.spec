@@ -55,10 +55,10 @@ done
 popd
 
 %ifnarch s390 s390x
-rm /etc/sysconfig/init.s390
-rm /etc/sysconfig/network-scripts/ifdown-ctc
-rm /etc/sysconfig/network-scripts/ifdown-escon
-rm /etc/sysconfig/network-scripts/ifdown-iucv
+rm %{buildroot}/etc/sysconfig/init.s390
+rm %{buildroot}/etc/sysconfig/network-scripts/ifdown-ctc
+rm %{buildroot}/etc/sysconfig/network-scripts/ifdown-escon
+rm %{buildroot}/etc/sysconfig/network-scripts/ifdown-iucv
 %endif
 
 
