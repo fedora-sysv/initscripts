@@ -229,6 +229,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man*/*
 %dir %attr(775,root,root) /var/run/netreport
 %dir /etc/ppp
+%dir /etc/ppp/peers
 %config /etc/ppp/ip-up
 %config /etc/ppp/ip-down
 %config /etc/ppp/ip-up.ipv6to4
@@ -244,6 +245,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Mon Sep 16 2002 Than Ngo <than@redhat.com> 6.96-1
+- owns directory /etc/ppp/peers (bug #74037)
+
 * Wed Sep  4 2002 Bill Nottingham <notting@redhat.com> 6.95-1
 - fix syntax error in duplicate route removal section of ifup
 
