@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.12
+Version: 7.13
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -246,6 +246,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Feb 25 2003 Bill Nottingham <notting@redhat.com> 7.13-1
+- handle 7.x SYSFONTACM settings in setsysfont (#84183)
+
 * Mon Feb 24 2003 Bill Nottingham <notting@redhat.com> 7.12-1
 - handle changed chain name
 - init vts used in all cases
