@@ -5,11 +5,16 @@
 # Taken from:
 # (P) & (C) 1997-2001 by Peter Bieringer <pb@bieringer.de>
 #
-# Version: 2001-02-22
+# Version: 2001-03-03b
+#
+# Extended address detection is enabled, if 'ipv6calc' is installed
+#  Available here: http://www.bieringer.de/linux/IPv6/tools/index.html#ipv6calc
+#
+# Known bugs:
+#  sit0 will not be shutdowned, if an additional IPv6 address was manually added to this device
 #
 
-# Filter tags (for stripping, empty lines following if all is stripped)
-
+# Filter tags (for stripping, empty lines following here if all is stripped)
 
 
 
@@ -19,19 +24,27 @@
 #  1 = error occurs
 #  2 = not enabled, i.e. no IPv6 kernel support or switched off by configuration
 
+##### Test for "ipv6calc" (can be used for better duplicate address detection)
+EXISTS_ipv6calc=no	
+	if which ipv6calc >/dev/null 2>&1; then
+		EXISTS_ipv6calc=yes
+	else
+		true
+	fi
+
 
 ##### Test for IPv6 capabilites
 
 function test_ipv6()
 {
 
-    # Test for IPv6 enabled kernel
+	# Test for IPv6 enabled kernel
 
 	if ! [ -f /proc/net/if_inet6 ]; then
 		modprobe ipv6
 	
 		if ! [ -f /proc/net/if_inet6 ]; then
-				echo $"Kernel is not compiled with IPv6 support" 
+				echo $"Kernel is not compiled with IPv6 support"
 			return 2
 		fi
 	fi
@@ -55,7 +68,7 @@ function forwarding_ipv6() {
 	fw_control=$1
 	fw_device=$2		# maybe empty
 
-	if [ -z $fw_control ]; then
+	if [ -z "$fw_control" ]; then
 		echo $"Missing parameter 'forwarding control'"
 		forwarding_ipv6_usage
 		return 1
@@ -83,13 +96,13 @@ function forwarding_ipv6() {
 	fi
 
 	# Global control? (if no device is given)
-	if [ -z $fw_device ]; then
-		sysctl -w net.ipv6.conf.all.forwarding=$status >/dev/null 2>&1
+	if [ -z "$fw_device" ]; then
+			sysctl -w net.ipv6.conf.all.forwarding=$status >/dev/null 2>&1
 	fi
 	
 	# Per device control
-	if [ ! -z $fw_device ]; then
-		sysctl -w net.ipv6.conf.$fw_device.forwarding=$status >/dev/null 2>&1
+	if [ ! -z "$fw_device" ]; then
+			sysctl -w net.ipv6.conf.$fw_device.forwarding=$status >/dev/null 2>&1
 	fi
 	
 }
@@ -111,13 +124,13 @@ function ifup_ipv6_route() {
 	gatewayipv6=$2
 	device=$3		# maybe empty
 
-	if [ -z $networkipv6 ]; then
+	if [ -z "$networkipv6" ]; then
 		echo $"Missing parameter 'IPv6-network'"
 		ifupdown_ipv6_route_usage
 		return 1
 	fi
 
-	if [ -z $gatewayipv6 ]; then
+	if [ -z "$gatewayipv6" ]; then
 		echo $"Missing parameter 'IPv6-gateway'"
 		ifupdown_ipv6_route_usage
 		return 1
@@ -132,10 +145,24 @@ function ifup_ipv6_route() {
 	test_ipv6 || return    
 
 	
-	if [ -z $device ]; then
-			route -A inet6 add $networkipv6 gw $gatewayipv6
+	if [ -z "$device" ]; then
+			output="`LC_ALL=C route -A inet6 add $networkipv6 gw $gatewayipv6 2>&1`"
+			if [ $? -ne 0 ]; then
+				if echo $output | grep -i -q 'SIOCADDRT: File exists';  then
+					true
+				else
+					echo $output
+				fi
+			fi
 	else
-			route -A inet6 add $networkipv6 gw $gatewayipv6 dev $device
+			output="`LC_ALL=C route -A inet6 add $networkipv6 gw $gatewayipv6 dev $device 2>&1`"
+			if [ $? -ne 0 ]; then
+				if echo $output | grep -i -q 'SIOCADDRT: File exists';  then
+					true
+				else
+					echo $output
+				fi
+			fi
 	fi
 
 }
@@ -149,13 +176,13 @@ function ifdown_ipv6_route() {
 	gatewayipv6=$2
 	device=$3		# maybe empty
 
-	if [ -z $networkipv6 ]; then
+	if [ -z "$networkipv6" ]; then
 		echo $"Missing parameter 'IPv6-network'"
 		ifup_ipv6_route_usage
 		return 1
 	fi
 
-	if [ -z $gatewayipv6 ]; then
+	if [ -z "$gatewayipv6" ]; then
 		echo $"Missing parameter 'IPv6-gateway'"
 		ifup_ipv6_route_usage
 		return 1
@@ -170,10 +197,24 @@ function ifdown_ipv6_route() {
 	test_ipv6 || return    
 
 	
-	if [ -z $device ]; then
-			route -A inet6 del $networkipv6 gw $gatewayipv6
+	if [ -z "$device" ]; then
+			output="`LC_ALL=C route -A inet6 del $networkipv6 gw $gatewayipv6 2>&1`"
+			if [ $? -ne 0 ]; then
+				if echo $output | grep -i -q 'SIOCDELRT: No such process'; then
+					true
+				else
+					echo $output
+				fi
+			fi
 	else
-			route -A inet6 del $networkipv6 gw $gatewayipv6 dev $device
+			output="`LC_ALL=C route -A inet6 del $networkipv6 gw $gatewayipv6 dev $device 2>&1`"
+			if [ $? -ne 0 ]; then
+				if echo $output | grep -i -q 'SIOCDELRT: No such process'; then
+					true
+				else
+					echo $output
+				fi
+			fi
 	fi
 
 }
@@ -189,7 +230,7 @@ function ifup_ipv6_autotunnel() {
 
 
 	# enable IPv6-over-IPv4 tunnels
-	if LANG=C ifconfig sit0 | grep -q "UP "; then
+	if LC_ALL=C ifconfig sit0 | grep -q "UP "; then
 		# already up, do nothing
 		true
 	else
@@ -210,16 +251,23 @@ function ifdown_ipv6_autotunnel() {
 	test_ipv6 || return    
 
 
-	# disable IPv6-over-IPv4 tunnels (if a tunnel is no longer up)
-	if route -A inet6 -n | grep sit0 | grep -v -q "^::"; then
-		# existing routes, do nothing
-		true
-	else
-		# basic tunnel device to down
-			# Switch off forwarding 
-			forwarding_ipv6 off sit0
+	if LC_ALL=C ifconfig sit0 | grep -q "UP "; then
+		# still up?
+
+		# disable IPv6-over-IPv4 tunnels (if a tunnel is no longer up)
+		if LC_ALL=C route -A inet6 -n | grep sit0 | awk '{ print $2 }' | grep -v -q "^::$"; then
+			# still existing routes, skip shutdown of sit0
+			true
+		elif LC_ALL=C ifconfig sit0 | grep 'inet6 addr:' | awk '{ print $3 }' | grep -v -q '^::'; then
+			# still existing IPv6 addresses, skip shutdown of sit0
+			true
+		else
+			# basic tunnel device to down
+				# Switch off forwarding 
+				forwarding_ipv6 off sit0
 			
-			ifconfig sit0 down
+				ifconfig sit0 down
+		fi
 	fi
 
 }	
@@ -241,19 +289,19 @@ function ifup_ipv6_tunnel() {
 	addressipv4tunnel=$2
 	routeipv6=$3
 
-	if [ -z $device ]; then
+	if [ -z "$device" ]; then
 		echo $"Missing parameter 'device'"
 		ifupdown_ipv6_tunnel_usage
 		return 1
 	fi
 
-	if [ -z $addressipv4tunnel ]; then
+	if [ -z "$addressipv4tunnel" ]; then
 		echo $"Missing parameter 'IPv4-tunneladdress'"
 		ifupdown_ipv6_tunnel_usage
 		return 1
 	fi
 
-	if [ -z $routeipv6 ]; then
+	if [ -z "$routeipv6" ]; then
 		echo $"Missing parameter 'IPv6-route'"
 		ifupdown_ipv6_tunnel_usage
 		return 1
@@ -267,7 +315,14 @@ function ifup_ipv6_tunnel() {
 	ifup_ipv6_autotunnel
 	
     	# Set up a tunnel
-		route -A inet6 add $routeipv6 gw ::$addressipv4tunnel dev sit0
+		output="`LC_ALL=C route -A inet6 add $routeipv6 gw ::$addressipv4tunnel dev sit0 2>&1`"
+		if [ $? -ne 0 ]; then
+			if echo $output | grep -i -q 'SIOCADDRT: File exists';  then
+				true
+			else
+				echo $output
+			fi
+		fi
 
 }	
 
@@ -281,19 +336,19 @@ function ifdown_ipv6_tunnel() {
 	addressipv4tunnel=$2
 	routeipv6=$3
 
-	if [ -z $device ]; then
+	if [ -z "$device" ]; then
 		echo $"Missing parameter 'device'"
 		ifupdown_ipv6_tunnel_usage
 		return 1
 	fi
 
-	if [ -z $addressipv4tunnel ]; then
+	if [ -z "$addressipv4tunnel" ]; then
 		echo $"Missing parameter 'IPv4-tunneladdress'"
 		ifupdown_ipv6_tunnel_usage
 		return 1
 	fi
 
-	if [ -z $routeipv6 ]; then
+	if [ -z "$routeipv6" ]; then
 		echo $"Missing parameter 'IPv6-route'"
 		ifupdown_ipv6_tunnel_usage
 		return 1
@@ -304,13 +359,96 @@ function ifdown_ipv6_tunnel() {
 
 
 		# Set up a tunnel
-		route -A inet6 del $routeipv6 gw ::$addressipv4tunnel dev sit0
+		output="`route -A inet6 del $routeipv6 gw ::$addressipv4tunnel dev sit0 2>&1`"
+		if [ $? -ne 0 ]; then
+			if echo $output | grep -i -q 'SIOCDELRT: No such process'; then
+				true
+			else
+				echo $output
+			fi
+		fi
 
 	# disable IPv6-over-IPv4 tunneling (if no longer a tunnel is up)
 	ifdown_ipv6_autotunnel
 
 }	
 
+
+## Remove all IPv6 tunnels for a given tunnel endpoint
+#  $1: Interface (not used - dummy)
+#  $2: IPv4-tunneladdress 
+function ifdown_ipv6_tunnel_all() {
+	idtuall_device=$1
+	idtuall_tunnel=$2
+
+	if [ -z "$idtuall_device" ]; then
+		echo $"Missing parameter 'device'"
+		echo $"Usage: ifdown_ipv6_tunnel_all interfacename IPv4-tunneladdress"
+		return 1
+	fi
+
+	if [ -z "$idtuall_tunnel" ]; then
+		echo $"Missing parameter 'IPv4-tunneladdress'"
+		echo $"Usage: ifdown_ipv6_tunnel_all interfacename IPv4-tunneladdress"
+		return 1
+	fi
+	# Get all IPv6 routes through given interface and remove them
+	LC_ALL=C route -A inet6 | grep "::$idtuall_tunnel" | while read ipv6net nexthop flags metric ref use iface args; do
+		if [ "::$idtuall_tunnel" = "$nexthop" ]; then
+			if echo $flags | grep -v -q "A"; then
+				# Only non addrconf (automatic installed) routes should be removed
+				ifdown_ipv6_tunnel $idtuall_device $idtuall_tunnel $ipv6net
+			fi
+		fi
+	done
+}
+
+
+##### Test, whether an IPv6 address exists on an interface
+# $1: Device for testing
+# $2: Address to test (without prefix)
+# $3: Prefix of address $1
+# return values: 1:problem, 10:not exists, 11:exits
+function test_ipv6_addrs_exists () {
+	testdevice=$1
+	testaddr=$2
+	testprefix=$3
+
+	if [ -z "$testaddr" ]; then
+		echo $"Missing parameter 'IPv6AddrToTest'"
+		return 1
+	fi
+
+
+	if [ "$EXISTS_ipv6calc" = "yes" ]; then
+		# Using ipv6calc and compare against /proc/net/if_inet6
+
+		convertresult="`ipv6calc --addr2if_inet6 $testaddr/$testprefix`"
+		# Split in address, scope and prefix length
+		test_addr="`echo $convertresult | awk '{ print $1 }'`"
+		test_scope="`echo $convertresult | awk '{ print $2 }'`"
+		test_prefixlength="`echo $convertresult | awk '{ print $3 }'`"
+
+		if [ -z "$test_prefixlength" ]; then
+			testresult="`grep "$test_addr .. .. $test_scope .." /proc/net/if_inet6 | grep $testdevice$`"
+		else
+			testresult="`grep "$test_addr .. $test_prefixlength $test_scope .." /proc/net/if_inet6 | grep $testdevice$`"
+		fi
+		if [ ! -z "$testresult" ]; then
+			return 11
+		else
+			return 10
+		fi
+	else
+		# low budget version, only works if given address is in equal form like ifconfig displays
+		testresult="`LC_ALL=C ifconfig $testdevice | grep "inet6 addr:" | grep -i ": $testaddr/$testprefix" | awk '{ print $3 }'`"
+		if [ ! -z "$testresult" ]; then
+			return 11
+		else
+			return 10
+		fi
+	fi
+}
 
 ##### Interface configuration
 function ifupdown_ipv6_usage() {
@@ -324,7 +462,7 @@ function ifup_ipv6_real() {
 	device=$1
 	address=$2
 
-	if [ -z $device ]; then
+	if [ -z "$device" ]; then
 		echo $"Missing parameter 'device'"
 		ifupdown_ipv6_usage
 		return 1
@@ -335,14 +473,14 @@ function ifup_ipv6_real() {
 		return 0;
 	fi
 
-	if [ -z $address ]; then
+	if [ -z "$address" ]; then
 		echo $"Missing parameter 'IPv6-address'"
 		ifupdown_ipv6_usage
 		return 1
 	fi
 
 	# Test status of interface
-	if LANG=C ifconfig $device | grep -q "UP "; then
+	if LC_ALL=C ifconfig $device | grep -q "UP "; then
 		# Interface is up
 			true
 	else
@@ -355,7 +493,7 @@ function ifup_ipv6_real() {
 	address_implicit="`echo $address | awk -F/ '{ print $1 }'`"
 
 	# Test for prefix length
-	if [ -z $prefixlength_implicit ]; then
+	if [ -z "$prefixlength_implicit" ]; then
 		echo $"Missing 'prefix length' for given address"
 		ifupdown_ipv6_usage
 		return 1
@@ -370,15 +508,18 @@ function ifup_ipv6_real() {
 
 
 	# Only add, if address do not already exist
-	address_configured="`LANG=C ifconfig $device | grep "inet6 addr:" | grep "$address" | awk '{ print $3 }'`"
-	address_configured_type="`LANG=C ifconfig $device | grep "inet6 addr:" | grep "$address" | awk '{ print $4 }'`"
+	test_ipv6_addrs_exists $device $address_implicit $prefixlength_implicit
+	retval=$?
+	if [ $retval -lt 10 ]; then
+		return 2
+	fi
 
-	if [ "$address_configured" = "$address" ]; then
+	if [ $retval -eq 11 ]; then
 		true
 	else
 			ifconfig $device add $address || return 2
 	fi
-    
+
 }
 
 
@@ -388,14 +529,14 @@ function ifup_ipv6_real() {
 function ifdown_ipv6_real_all() {
 	idall_device=$1
 
-	if [ -z $idall_device ]; then
-		echo $"Missing parameter 'idall_device'"
+	if [ -z "$idall_device" ]; then
+		echo $"Missing parameter 'device'"
 		echo $"Usage: ifdown_ipv6_real_all interfacename"
 		return 1
 	fi
 
 	# Get all IPv6 routes through given interface and remove them
-	route -A inet6 | grep $idall_device | while read ipv6net nexthop flags metric ref use iface args; do
+	LC_ALL=C route -A inet6 | grep $idall_device | while read ipv6net nexthop flags metric ref use iface args; do
 		if [ "$idall_device" = "$iface" ]; then
 			if echo $flags | grep -v -q "A"; then
 				# Only non addrconf (automatic installed) routes should be removed
@@ -405,9 +546,20 @@ function ifdown_ipv6_real_all() {
 	done
 	
 	# Get all IPv6 addresses assigned to given interface and remove them
-	LANG=C ifconfig $idall_device | grep "inet6 addr:" | awk '{ print $3 }' | while read ipv6addr args; do
-		ifdown_ipv6_real $idall_device $ipv6addr	
-	done
+	if [ "$EXISTS_ipv6calc" = "yes" ]; then
+		grep $idall_device$ /proc/net/if_inet6 | while read hexaddr dummy1 hexprefixlenth hexscope device args; do
+			if [ "$hexscope" != "20" ]; then
+				ipv6addr="`ipv6calc --if_inet62addr $hexaddr $hexprefixlenth`"
+				ifdown_ipv6_real $idall_device $ipv6addr
+			fi
+		done
+	else
+		LC_ALL=C ifconfig $idall_device | grep "inet6 addr:" | while read dummy1 dummy2 ipv6addr scope args; do
+			if [ "$scope" != "Scope:Link" ]; then
+				ifdown_ipv6_real $idall_device $ipv6addr
+			fi
+		done
+	fi
 }
 
 ## Remove an IPv6 address on given interface
@@ -417,7 +569,7 @@ function ifdown_ipv6_real() {
 	device=$1
 	address=$2
 
-	if [ -z $device ]; then
+	if [ -z "$device" ]; then
 		echo $"Missing parameter 'device'"
 		ifupdown_ipv6_usage
 		return 1
@@ -428,7 +580,7 @@ function ifdown_ipv6_real() {
 		return 0;
 	fi
 
-	if [ -z $address ]; then
+	if [ -z "$address" ]; then
 		echo $"Missing parameter 'IPv6-address'"
 		ifupdown_ipv6_usage
 		return 1
@@ -439,7 +591,7 @@ function ifdown_ipv6_real() {
 	address_implicit="`echo $address | awk -F/ '{ print $1 }'`"
 
 	# Test for prefix length
-	if [ -z $prefixlength_implicit ]; then
+	if [ -z "$prefixlength_implicit" ]; then
 		echo $"Missing 'prefix length' for given address"
 		ifupdown_ipv6_usage
 		return 1
@@ -454,14 +606,14 @@ function ifdown_ipv6_real() {
 
 
 	# Only remove, if address exists and is not link-local (prevents from kernel crashing)
-	address_configured="`LANG=C ifconfig $device | grep "inet6 addr:" | grep "$address" | awk '{ print $3 }'`"
-	address_configured_type="`LANG=C ifconfig $device | grep "inet6 addr:" | grep "$address" | awk '{ print $4 }'`"
-	if [ ! -z "$address_configured" ]; then
-		if [ "$address_configured_type" = "Scope:Link" ]; then
-			true
-		else
-				ifconfig $device del $address || return 2
-		fi
+	test_ipv6_addrs_exists $device $address_implicit $prefixlength_implicit
+	retval=$?
+	if [ $retval -lt 10 ]; then
+		return 2
+	fi
+
+	if [ $retval -eq 11 ]; then
+			ifconfig $device del $address || return 2
 	else
 		true
 	fi
