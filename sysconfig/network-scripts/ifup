@@ -163,6 +163,12 @@ fi
 
 . /etc/sysconfig/network
 
+# IPv6 initialisation?
+if [ "${NETWORKING_IPV6}" = "yes" ]; then
+	/etc/sysconfig/network-scripts/ifup-ipv6 $DEVICE
+fi
+
+
 if [ "${IPX}" = yes ]; then
 	/etc/sysconfig/network-scripts/ifup-ipx ${DEVICE}
 fi

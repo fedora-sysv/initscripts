@@ -1,0 +1,341 @@
+#!/bin/sh
+#
+# network-functions-ipv6
+#
+# Taken from:
+# (P) & (C) 1997-2000 Peter Bieringer <pb@bieringer.de>
+
+# DEBUG_IPV6 & 1 "set -x" mode
+# DEBUG_IPV6 & 2 prevents from executing any network configuration
+# DEBUG_IPV6 & 4 shows messages in the test section
+
+#DEBUG_IPV6=$[ 65535 - 1 -2  -4]
+DEBUG_IPV6=0
+
+# Return values
+#  0 = ok
+#  1 = error occurs
+#  2 = not enabled, i.e. no IPv6 kernel support or switched off by configuration
+
+##### Test for IPv6 capabilites
+
+function test_ipv6()
+{
+    if [ -z $DEBUG_IPV6 ] ; then DEBUG_IPV6=0; fi
+
+    if ! [ $[ $DEBUG_IPV6 & 4 ] = 0 ] ; then
+        echo " Tests for IPv6"    
+    fi
+
+    # Test for IPv6 kernel
+    if ! [ $[ $DEBUG_IPV6 & 4 ] = 0 ] ; then
+        echo -n "  Test kernel for IPv6..."
+    fi
+
+    if ! [ -f /proc/net/if_inet6 ]; then
+        echo "Do not found IPv6 in kernel, try to load module"
+	modprobe ipv6
+	
+        if ! [ -f /proc/net/if_inet6 ]; then
+	    if ! [ $[ $DEBUG_IPV6 & 4 ] = 0 ] ; then
+    	        echo "Not compiled for IPv6 - stop!"
+    	    else
+        	echo "Kernel not compiled for IPv6 - stop!"
+    	    fi
+    	    return 2
+	fi
+    else
+        if ! [ $[ $DEBUG_IPV6 & 4 ] = 0 ] ; then
+            echo " Ok!"
+        fi
+    fi
+
+    # Test for IPv6 enabled needed binaries
+    if ! [ $[ $DEBUG_IPV6 & 4 ] = 0 ] ; then
+        echo n "  Test binaries for IPv6 capability..."
+    fi
+
+    if ! ifconfig -? 2>&1 | grep -q "(IPv6)"; then
+    	echo "'`which ifconfig`' (net-tools) not compiled for IPv6 - stop!"
+        return 2
+    fi
+	
+    if ! route -? 2>&1 | grep -q "(IPv6)"; then
+    	echo "'`which route`' (net-tools) not compiled for IPv6 - stop!"
+	return 2
+    fi
+
+    if ! [ $[ $DEBUG_IPV6 & 4 ] = 0 ] ; then
+        echo  "  Ok!"
+    fi
+
+    # Info about executing
+    if [ $[ $DEBUG_IPV6 > 0 ] = 1 ]; then
+        echo  "  Executing in DEBUG_IPV6 mode: $DEBUG_IPV6"
+    fi
+}
+
+##### Static route configuration
+
+# Display usage
+function ifup_ipv6_route_usage() {
+	echo $"Usage: $0 IPv6-network IPv6-gateway [device]"
+}
+
+# set route
+function ifup_ipv6_route() {
+	networkipv6=$1
+	gatewayipv6=$2
+	device=$3		# maybe empty
+
+	if [ -z $networkipv6 ]; then
+		echo $"Missing option IPv6-network'"
+		ifup_ipv6_route_usage
+		return 1
+	fi
+
+	if [ -z $gatewayipv6 ]; then
+		echo $"Missing option 'IPv6-gateway'"
+		ifup_ipv6_route_usage
+		return 1
+	fi
+
+        # Run IPv6 test
+	test_ipv6 || return    
+
+	[ $[ $DEBUG_IPV6 & 1 ] = 0 ] || set -x
+	
+	if [ -z $device ]; then
+                route -A inet6 add $networkipv6 gw $gatewayipv6
+	else
+                route -A inet6 add $networkipv6 gw $gatewayipv6 dev $device
+	fi
+
+	[ $[ $DEBUG_IPV6 & 1 ] = 0 ] || set +x
+}
+
+# delete route
+function ifdown_ipv6_route() {
+	networkipv6=$1
+	gatewayipv6=$2
+	device=$3		# maybe empty
+
+	if [ -z $networkipv6 ]; then
+		echo $"Missing option IPv6-network'"
+		ifup_ipv6_route_usage
+		return 1
+	fi
+
+	if [ -z $gatewayipv6 ]; then
+		echo $"Missing option 'IPv6-gateway'"
+		ifup_ipv6_route_usage
+		return 1
+	fi
+
+        # Run IPv6 test
+	test_ipv6 || return    
+
+	[ $[ $DEBUG_IPV6 & 1 ] = 0 ] || set -x
+	
+	if [ -z $device ]; then
+                route -A inet6 del $networkipv6 gw $gatewayipv6
+	else
+                route -A inet6 del $networkipv6 gw $gatewayipv6 dev $device
+	fi
+
+	[ $[ $DEBUG_IPV6 & 1 ] = 0 ] || set +x
+}
+
+
+##### tunnel configuration
+
+# Display usage
+function ifup_ipv6_tunnel_usage() {
+	echo $"Usage: $0 interfacename IPv4-tunneladdress IPv6-route"
+}
+
+## Configure tunnels up
+function ifup_ipv6_tunnel() {
+	device=$1
+	addressipv4tunnel=$2
+	routeipv6=$3
+
+	if [ -z $device ]; then
+		echo $"Missing option 'device'"
+		ifup_ipv6_tunnel_usage
+		return 1
+	fi
+
+	if [ -z $addressipv4tunnel ]; then
+		echo $"Missing option 'IPv4-tunneladdress'"
+		ifup_ipv6_tunnel_usage
+		return 1
+	fi
+
+	if [ -z $routeipv6 ]; then
+		echo $"Missing option 'IPv6-route'"
+		ifup_ipv6_tunnel_usage
+		return 1
+	fi
+	
+        # Run IPv6 test
+	test_ipv6 || return    
+
+        [ $[ $DEBUG_IPV6 & 1 ] = 0 ] || set -x
+
+        # enable IPv6-over-IPv4 tunnels
+	if ifconfig sit0 | grep -q "UP "; then
+		# already up, do nothing
+		true
+	else
+		# basic tunnel device to up
+	        if [ $[ $DEBUG_IPV6 & 2 ] = 0 ] ; then
+    			ifconfig sit0 up
+		fi
+        fi
+
+        if [ $[ $DEBUG_IPV6 & 2 ] = 0 ]; then
+                # Set up a tunnel
+		route -A inet6 add $routeipv6 gw ::$addressipv4tunnel dev sit0
+        fi
+
+        [ $[ $DEBUG_IPV6 & 1 ] = 0 ] || set +x
+}	
+
+## Configure tunnels down
+
+function ifdown_ipv6_tunnel() {
+	device=$1
+	addressipv4tunnel=$2
+	routeipv6=$3
+
+	if [ -z $device ]; then
+		echo $"Missing option 'device'"
+		ifup_ipv6_tunnel_usage
+		return 1
+	fi
+
+	if [ -z $addressipv4tunnel ]; then
+		echo $"Missing option 'IPv4-tunneladdress'"
+		ifup_ipv6_tunnel_usage
+		return 1
+	fi
+
+	if [ -z $routeipv6 ]; then
+		echo $"Missing option 'IPv6-route'"
+		ifup_ipv6_tunnel_usage
+		return 1
+	fi
+
+        # Run IPv6 test
+	test_ipv6 || return    
+
+        [ $[ $DEBUG_IPV6 & 1 ] = 0 ] ||	set -x
+
+        if [ $[ $DEBUG_IPV6 & 2 ] = 0 ]; then
+                # Set up a tunnel
+		route -A inet6 del $routeipv6 gw ::$addressipv4tunnel dev sit0
+        fi
+
+        # disable IPv6-over-IPv4 tunnels (if no longer a tunnel is up)
+	if route -A inet6 -n | grep sit0 | grep -v -q "^::"; then
+		# existing routes, do nothing
+		true
+	else
+		# basic tunnel device to down
+	        if [ $[ $DEBUG_IPV6 & 2 ] = 0 ] ; then
+    			ifconfig sit0 down
+		fi
+        fi
+
+        [ $[ $DEBUG_IPV6 & 1 ] = 0 ] || set +x
+}	
+
+	
+##### Interface configuration
+
+# Display usage
+function ifup_ipv6_usage() {
+	echo $"Usage: $0 interfacename IPv6-address IPv6-prefixlength"
+}
+
+## Configure interfaces up
+function ifup_ipv6_real() {
+	device=$1
+	address=$2
+	prefixlength=$3
+
+	if [ -z $device ]; then
+		echo $"Missing option 'device'"
+		ifup_ipv6_usage
+		return 1
+	fi
+
+	if [ -z $address ]; then
+		echo $"Missing option 'IPv6-address'"
+		ifup_ipv6_usage
+		return 1
+	fi
+
+	if [ -z $prefixlength ]; then
+		echo $"Missing option 'Prefixlength'"
+		ifup_ipv6_usage
+		return 1
+	fi
+
+    	# Run IPv6 test
+	test_ipv6 || return    
+
+	[ $[ $DEBUG_IPV6 & 1 ] = 0 ] || set -x
+
+        if [ $[ $DEBUG_IPV6 & 2 ] = 0 ]; then
+              ifconfig $device add $address/$length || return 2
+	fi
+    
+        if [ $[ $DEBUG_IPV6 & 2 ] = 0 ]; then
+              route -A inet6 add $address/$prefixlength dev $device || return 2
+	fi
+
+        [ $[ $DEBUG_IPV6 & 1 ] = 0 ] || set +x
+}
+
+
+## Configure interfaces down
+function ifdown_ipv6_real() {
+	device=$1
+	address=$2
+	prefixlength=$3
+
+	if [ -z $device ]; then
+		echo $"Missing option 'device'"
+		ifup_ipv6_usage
+		return 1
+	fi
+
+	if [ -z $address ]; then
+		echo $"Missing option 'IPv6-address'"
+		ifup_ipv6_usage
+		return 1
+	fi
+
+	if [ -z $prefixlength ]; then
+		echo $"Missing option 'Prefixlength'"
+		ifup_ipv6_usage
+		return 1
+	fi
+
+    	# Run IPv6 test
+	test_ipv6 || return    
+
+    	[ $[ $DEBUG_IPV6 & 1 ] = 0 ] || set -x
+
+
+        if [ $[ $DEBUG_IPV6 & 2 ] = 0 ]; then
+              route -A inet6 del $address/$prefixlength dev $device || return 2
+	fi
+        if [ $[ $DEBUG_IPV6 & 2 ] = 0 ]; then
+              ifconfig $device del $address/$length || return 2
+	fi
+    
+    	[ $[ $DEBUG_IPV6 & 1 ] = 0 ] || set +x
+}
