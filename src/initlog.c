@@ -40,7 +40,7 @@ struct logInfo *logData = NULL;
 void readConfiguration(char *fname) {
     int fd,num=0;
     struct stat sbuf;
-    char *data,*line;
+    char *data,*line, *d;
     regex_t *regexp;
     int lfac=-1,lpri=-1;
     
@@ -49,7 +49,7 @@ void readConfiguration(char *fname) {
 	    close(fd);
 	    return;
     }
-    data=malloc(sbuf.st_size+1);
+    d = data=malloc(sbuf.st_size+1);
     if (read(fd,data,sbuf.st_size)!=sbuf.st_size) {
 	    close(fd);
 	    return;
@@ -98,6 +98,7 @@ void readConfiguration(char *fname) {
     }
     if (lfac!=-1) logfacility=lfac;
     if (lpri!=-1) logpriority=lpri;
+    free(d);
 }
     
 char *getLine(char **data) {
@@ -267,7 +268,7 @@ int logEvent(char *cmd, int eventtype,char *string) {
 	/* insert more here */
 	NULL
     };
-    int x=0,len;
+    int x=0,len, rc;
     struct logInfo logentry;
     
     if (cmd) {
@@ -278,8 +279,10 @@ int logEvent(char *cmd, int eventtype,char *string) {
 	  logentry.cmd+=3;
     } else
       logentry.cmd = strdup(_("(none)"));
-    if (!string)
-      string = strdup(cmd);
+    if (!string) {
+      string = alloca(strlen(cmd)+1);
+      strcpy(string,cmd);
+    }
     
     while (eventtable[x] && x<eventtype) x++;
     if (!(eventtable[x])) x=0;
@@ -291,11 +294,15 @@ int logEvent(char *cmd, int eventtype,char *string) {
     logentry.pri = logpriority;
     logentry.fac = logfacility;
     
-    return logLine(&logentry);
+    rc = logLine(&logentry);
+    free(logentry.line);
+    free(logentry.cmd);
+    return rc;
 }
 
 int logString(char *cmd, char *string) {
     struct logInfo logentry;
+    int rc;
     
     if (cmd) {
 	logentry.cmd = strdup(basename(cmd));
@@ -309,7 +316,10 @@ int logString(char *cmd, char *string) {
     logentry.pri = logpriority;
     logentry.fac = logfacility;
     
-    return logLine(&logentry);
+    rc = logLine(&logentry);
+    free(logentry.line);
+    free(logentry.cmd);
+    return rc;
 }
 
 int processArgs(int argc, char **argv, int silent) {
