@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.39
+Version: 6.40
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -239,7 +239,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
-* Thu Sep 6 2001 Than Ngo <than@redhat.com>
+* Sat Sep  8 2001 Bill Nottingham <notting@redhat.com>
+- don't run hwclock --adjust on a read-only filesystem
+
+* Thu Sep  6 2001 Than Ngo <than@redhat.com>
 * update initscripts-s390.patch for s390/s390x
 
 * Wed Sep  5 2001 Bill Nottingham <notting@redhat.com>
