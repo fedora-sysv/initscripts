@@ -192,7 +192,7 @@ is_available ()
     # trying to rename it:
     configure_ccwgroup_device
     if [ -n "$HWADDR" ]; then
-       local curdev=`ip -o link | awk -F ':' -vIGNORECASE=1 "/$HWADDR/ { print \$2 }"`
+       local curdev=`ip -o link | awk -F ':' -vIGNORECASE=1 "/$HWADDR/ { print \\$2 }"`
        if [ -z "$curdev" ]; then
           return 1
        fi
