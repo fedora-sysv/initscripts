@@ -1,9 +1,9 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.43
+Version: 7.44
 License: GPL
 Group: System Environment/Base
-Release: 2
+Release: 1
 Source: initscripts-%{version}.tar.bz2
 URL: http://rhlinux.redhat.com/initscripts/
 Patch0: initscripts-s390.patch
@@ -249,6 +249,16 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Jan 28 2004 Bill Nottingham <notting@redhat.com> 7.44-1
+- NFSv4 support (<chucklevver@bigfoot.com>, <steved@redhat.com>)
+- handle 2.6-style 'install ethX ...' lines correctly
+- mount sysfs by default
+- time to clean up the cruft. remove:
+  - boot-time depmod
+  - linking of /boot/System.map to /boot/System.map-`uname -r`
+  - /var/log/ksyms.X
+  - libredhat-kernel support
+
 * Fri Jan  16 2004 Dan Walsh <dwalsh@redhat.com> 7.43-2
 - Remove selinux run_init code from service script.  It is no longer needed.
 
