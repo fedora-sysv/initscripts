@@ -8,13 +8,15 @@ cd /etc/sysconfig/network-scripts
 CONFIG=$1
 source_config
 
-if [ "${DEVICETYPE}" = "ppp" -o "${DEVICETYPE}" = "ippp" ]; then
+if [ "$PEERDNS" != "no" -o -n "$RESOLV_MODS" -a "$RESOLV_MODS" != "no" ]; then
     if [ -f /etc/resolv.conf.save ]; then
 	change_resolv_conf /etc/resolv.conf.save
 	rm -f /etc/resolv.conf.save
     fi
-    if [ -f /etc/ppp/peers/$DEVICE ] ; then
-	rm -f /etc/ppp/peers/$DEVICE
+    if [ "${DEVICETYPE}" = "ppp" -o "${DEVICETYPE}" = "ippp" ]; then
+        if [ -f /etc/ppp/peers/$DEVICE ] ; then
+	    rm -f /etc/ppp/peers/$DEVICE
+        fi
     fi
 fi
 
