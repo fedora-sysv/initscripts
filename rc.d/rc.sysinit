@@ -98,6 +98,8 @@ esac
 
 action "Setting clock $CLOCKDEF: `date`" date
 
+
+
 # Load keymap
 KEYMAP=
 if [ -f /etc/sysconfig/console/default.kmap ]; then
@@ -224,6 +226,38 @@ rm -f /etc/mtab~ /etc/mtab~~
 # Enter root and /proc into mtab.
 mount -f /
 mount -f /proc
+
+# Turn on harddisk optimization
+if [ -f /etc/sysconfig/harddisks ]  && [ -x /sbin/hdparm ]; then
+    . /etc/sysconfig/harddisks
+    HDFLAGS=
+    if [ -n "$MULTIPLE_IO" ] && [ "$MULTIPLE_IO" != "0" ]; then
+	HDFLAGS="-q -m$MULTIPLE_IO"
+    fi
+    if [ -n "$USE_DMA" ] && [ "$USE_DMA" != "0" ]; then
+	HDFLAGS="$HDFLAGS -q -d$USE_DMA"
+    fi
+    if [ -n "$EIDE_32BIT" ]; then
+	HDFLAGS="$HDFLAGS -q -c$EIDE_32BIT"
+    fi
+    if [ -n "$LOOKAHEAD" ]; then
+	HDFLAGS="$HDFLAGS -q -A$LOOKAHEAD"
+    fi
+    if [ -n "$EXTRA_PARAMS" ]; then
+	HDFLAGS="$HDFLAGS $EXTRA_PARAMS"
+    fi
+    if [ -n "$HDFLAGS" ]; then
+   	for i in a b c d e f g h ; do
+	    if [ -e "/proc/ide/hd$i/media" ] ; then
+		hdmedia=`cat /proc/ide/hd$i/media`
+		if [ "$hdmedia" == "disk" ]; then
+	   		action "Setting hard drive parameters for hd$i: "  /sbin/hdparm $HDFLAGS /dev/hd$i
+		fi
+	    fi
+ 	done
+    fi
+fi    
+
 
 # Update quotas if fsck was run on /.
 if [ X"$_RUN_QUOTACHECK" = X1 -a -x /sbin/quotacheck ]; then
