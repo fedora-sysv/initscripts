@@ -32,6 +32,10 @@ if [ -f /etc/sysconfig/i18n ]; then
        esac
     fi
     
+    if [ -n "$INPUTRC" ]; then
+        export INPUTRC
+    fi
+    
     if [ -n "$LESSCHARSET" ]; then
         export LESSCHARSET
     elif [ "$TERM" = "linux-lat" ]; then
