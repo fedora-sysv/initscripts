@@ -37,7 +37,7 @@ fi
   exit 1
 }
 
-[ -f /etc/sysconfig/network-scripts/chat-$DEVICE ] || {
+[ -n "$WVDIALSECT" -o -f /etc/sysconfig/network-scripts/chat-$DEVICE ] || {
   echo "/etc/sysconfig/network-scripts/chat-$DEVICE does not exist"
   echo "ifup-ppp for $DEVICE exiting"
   logger -p daemon.info -t ifup-ppp \
