@@ -23,18 +23,18 @@ rm -f /var/lock/subsys/*
 
 # make sure modprobe is working
 if [ -f /proc/sys/kernel/modprobe ]; then
-   sysctl -w kernel.modprobe="/sbin/modprobe" >/dev/null 2>&1
+	sysctl -w kernel.modprobe="/sbin/modprobe" >/dev/null 2>&1
 fi
 
 # If they want to run something in single user mode, might as well run it...
 for i in /etc/rc1.d/S[0-9][0-9]* ; do
 	# Check if the script is there.
-	[ -f $i ] || continue
-		
+	[ -f "$i" ] || continue
+
 	# Don't run [KS]??foo.{rpmsave,rpmorig} scripts
-	[ "${i%.rpmsave}" != "${i}" ] && continue
-	[ "${i%.rpmorig}" != "${i}" ] && continue
-	[ "${i%.rpmnew}" != "${i}" ] && continue
+	[ "${i%.rpmsave}" != "$i" ] && continue
+	[ "${i%.rpmorig}" != "$i" ] && continue
+	[ "${i%.rpmnew}" != "$i" ] && continue
 	[ "$i" = "/etc/rc1.d/S00single" ] && continue
 	$i start
 done						
