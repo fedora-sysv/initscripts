@@ -12,10 +12,16 @@ if [ -x /bin/linuxconf ] ; then
     # add	<device>	<ip>
     # del	<device>
     # reload	<number_of_aliases>
-    linuxconf --hint ipalias $1 | while read verb arg1 arg2 ; do
+    linuxconf --hint ipalias $1 | while read verb arg1 arg2 arg3 arg4; do
 	case $verb in
 	  add)
-		/sbin/ifconfig $arg1 $arg2
+		if [ -z "$arg3" ] ; then
+		    # old linuxconf
+		    /sbin/ifconfig $arg1 $arg2
+		else
+		    # new linuxconf
+		    /sbin/ifconfig $arg1 $arg2 netmask $arg3 broadcast $arg4
+		fi
 		/sbin/route add $arg2 $arg1
 		;;
 	  del)
