@@ -246,6 +246,9 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Wed Jun 26 2002 Florian La Roche <Florian.LaRoche@redhat.de>
 - start some sh coding cleanups
+- change to /etc/init.d/functions
+- eliminate some un-necessary PATH settings
+- eliminate some TEXTDOMAIN settings
 
 * Wed Jun 12 2002 Bill Nottingham <notting@redhat.com> 6.78-1
 - fix UTF-8 checks
