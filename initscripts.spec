@@ -1,10 +1,10 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 3.96
+%define version 3.97
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
-Release: 6
+Release: 1
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /var/tmp/initbld
 Requires: mingetty, bash, /bin/awk, mktemp, modutils >= 2.1.85-3, e2fsprogs, sysklogd >= 1.3.31, pump
@@ -47,13 +47,13 @@ ln -s ../init.d/random $RPM_BUILD_ROOT/etc/rc.d/rc4.d/S20random
 ln -s ../init.d/random $RPM_BUILD_ROOT/etc/rc.d/rc5.d/S20random
 ln -s ../init.d/random $RPM_BUILD_ROOT/etc/rc.d/rc6.d/K80random
 
-ln -s ../init.d/nfsfs $RPM_BUILD_ROOT/etc/rc.d/rc0.d/K85nfsfs
-ln -s ../init.d/nfsfs $RPM_BUILD_ROOT/etc/rc.d/rc1.d/K85nfsfs
-ln -s ../init.d/nfsfs $RPM_BUILD_ROOT/etc/rc.d/rc2.d/K85nfsfs
-ln -s ../init.d/nfsfs $RPM_BUILD_ROOT/etc/rc.d/rc3.d/S15nfsfs
-ln -s ../init.d/nfsfs $RPM_BUILD_ROOT/etc/rc.d/rc4.d/S15nfsfs
-ln -s ../init.d/nfsfs $RPM_BUILD_ROOT/etc/rc.d/rc5.d/S15nfsfs
-ln -s ../init.d/nfsfs $RPM_BUILD_ROOT/etc/rc.d/rc6.d/K85nfsfs
+ln -s ../init.d/netfs $RPM_BUILD_ROOT/etc/rc.d/rc0.d/K85netfs
+ln -s ../init.d/netfs $RPM_BUILD_ROOT/etc/rc.d/rc1.d/K85netfs
+ln -s ../init.d/netfs $RPM_BUILD_ROOT/etc/rc.d/rc2.d/K85netfs
+ln -s ../init.d/netfs $RPM_BUILD_ROOT/etc/rc.d/rc3.d/S15netfs
+ln -s ../init.d/netfs $RPM_BUILD_ROOT/etc/rc.d/rc4.d/S15netfs
+ln -s ../init.d/netfs $RPM_BUILD_ROOT/etc/rc.d/rc5.d/S15netfs
+ln -s ../init.d/netfs $RPM_BUILD_ROOT/etc/rc.d/rc6.d/K85netfs
 
 ln -s ../init.d/network $RPM_BUILD_ROOT/etc/rc.d/rc0.d/K90network
 ln -s ../init.d/network $RPM_BUILD_ROOT/etc/rc.d/rc1.d/K90network
@@ -82,7 +82,7 @@ if [ ! -f /var/log/wtmp ]; then
 fi
 
 chkconfig --add random 
-chkconfig --add nfsfs 
+chkconfig --add netfs 
 chkconfig --add network 
 
 if [ $1 = 0 ]; then
@@ -96,7 +96,7 @@ fi
 %postun
 if [ $1 = 0 ]; then
   chkconfig --del random
-  chkconfig --del nfsfs
+  chkconfig --del netfs
   chkconfig --del network
 fi
 
@@ -168,6 +168,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc sysconfig.txt
 
 %changelog
+* Fri Mar 26 1999 Bill Nottingham <notting@redhat.com>
+- nfsfs -> netfs
+
 * Mon Mar 22 1999 Bill Nottingham <notting@redhat.com>
 - don't source /etc/sysconfig/init if $BOOTUP is already set
 
