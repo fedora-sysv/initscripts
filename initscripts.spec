@@ -1,14 +1,14 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.02
+%define version 4.10
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /var/tmp/initbld
-Requires: mingetty, bash, /bin/awk, /bin/sed, mktemp, modutils >= 2.1.85-3, e2fsprogs, sysklogd >= 1.3.31, procps
-Conflicts: redhat-release <= 5.1
+Requires: mingetty, bash, /bin/awk, /bin/sed, mktemp, modutils >= 2.1.85-3, e2fsprogs, sysklogd >= 1.3.31, console-tools, procps
+Conflicts: kernel <= 2.2
 Prereq: /sbin/chkconfig, /usr/sbin/groupadd
 
 %description
