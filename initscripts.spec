@@ -13,7 +13,7 @@ Requires: setup >= 2.0.3, /sbin/fuser, which, /bin/grep
 Requires: modutils >= 2.3.11-5
 Requires: util-linux >= 2.10s-11, mount >= 2.11g-5
 Requires: bash >= 2.0, SysVinit
-Requires: /sbin/ip, /sbin/arping
+Requires: /sbin/ip, /sbin/arping, net-tools
 Conflicts: kernel <= 2.2, timeconfig < 3.0, pppd < 2.3.9, wvdial < 1.40-3
 Conflicts: ypbind < 1.6-12
 Obsoletes: rhsound sapinit
