@@ -71,7 +71,6 @@ if grep -i nopnp /proc/cmdline >/dev/null ; then
 else
     PNP=yes
 fi
-umount /proc
 
 # set up pnp 
 if [ -x /sbin/isapnp -a -f /etc/isapnp.conf ]; then
@@ -104,9 +103,6 @@ if [ -f /proc/ksyms ]; then
 else
     USEMODULES=
 fi
-
-# we can't leave this mounted as it confuses "mount -a" later (dumb)
-umount /proc
 
 if [ -x /sbin/depmod -a -n "$USEMODULES" ]; then
     # Get ready for kerneld if module support in the kernel
