@@ -253,7 +253,9 @@ success() {
      initlog $INITLOG_ARGS -n $0 -s "$1" -e 1
   else
      # silly hack to avoid EPIPE killing rc.sysinit
-     sh -c "echo \"$INITLOG_ARGS -n $0 -s \\\"$1\\\" -e 1\"" >&21
+     trap SIGPIPE
+     echo "$INITLOG_ARGS -n $0 -s \"$1\" -e 1" >&21
+     trap -
   fi
   [ "$BOOTUP" != "verbose" ] && echo_success
   return 0
@@ -265,7 +267,9 @@ failure() {
   if [ -z "$IN_INITLOG" ]; then
      initlog $INITLOG_ARGS -n $0 -s "$1" -e 2
   else
-     sh -c "echo \"$INITLOG_ARGS -n $0 -s \\\"$1\\\" -e 2\"" >&21
+     trap SIGPIPE
+     echo "$INITLOG_ARGS -n $0 -s \"$1\" -e 2" >&21
+     trap -
   fi
   [ "$BOOTUP" != "verbose" ] && echo_failure
   return $rc
@@ -277,7 +281,9 @@ passed() {
   if [ -z "$IN_INITLOG" ]; then
      initlog $INITLOG_ARGS -n $0 -s "$1" -e 1
   else
-     sh -c "echo \"$INITLOG_ARGS -n $0 -s \\\"$1\\\" -e 1\"" >&21
+     trap SIGPIPE
+     echo "$INITLOG_ARGS -n $0 -s \"$1\" -e 1" >&21
+     trap -
   fi
   [ "$BOOTUP" != "verbose" ] && echo_passed
   return $rc
