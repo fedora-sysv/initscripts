@@ -80,6 +80,12 @@ if [ "$PEERDNS" != "no" -o -n "$RESOLV_MODS" -a "$RESOLV_MODS" != "no" ]; then
   fi
 fi
 
+FWACTIVE=
+if [ -f /etc/sysconfig/ipchains -a "`ipchains -L input -n 2>&1 | awk 'END { print NR }'`" -gt 1 ]; then
+        FWACTIVE=1
+	export FWACTIVE
+fi
+
 if [ "$FIREWALL_MODS" != "no" -a -n "$FWACTIVE" ]; then
 	ns=`awk '/^nameserver / { print $2 }' /etc/resolv.conf`
 	if [ -n "$ns" ]; then
