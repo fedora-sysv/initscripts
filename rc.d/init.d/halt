@@ -84,21 +84,6 @@ do
 	sig=-9
 done
 
-# turn off raid
-if [ -x /sbin/raidstop -a -f /etc/raidtab ]; then
-    # we can not use raidstop -a here because this will only stop
-    # devices listed in the default config file which is not always
-    # the case. So we look only for the active raid devices
-    if [ -f /proc/mdstat ] ; then
-	mddevs=$(grep ^md /proc/mdstat | awk '{ print $1 }')
-	for mddev in $mddevs ; do
-	    runcmd "Turning off RAID for $mddev: " raidstop /dev/$mddev
-	done
-        unset mddev mddevs
-    fi
-    #runcmd "Turning off RAID: " /sbin/raidstop -a
-fi
-
 [ -f /proc/bus/usb/devices ] && umount /proc/bus/usb
 
 # Remount read only anything that's left mounted.
