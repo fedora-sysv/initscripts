@@ -6,7 +6,7 @@ Group: System Environment/Base
 Release: 1
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /%{_tmppath}/%{name}-%{version}-%{release}-root
-Requires: mingetty, /bin/awk, /bin/sed, mktemp, e2fsprogs >= 1.15, console-tools
+Requires: mingetty, /bin/awk, /bin/sed, mktemp, e2fsprogs >= 1.15
 Requires: procps >= 2.0.6-5, sysklogd >= 1.3.31
 Requires: setup >= 2.0.3, /sbin/fuser, which
 Requires: modutils >= 2.3.11-5
@@ -232,6 +232,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Sun Aug  6 2000 Bill Nottingham <notting@redhat.com>
+- add RETRYCONNECT option for ifcfg-pppX files (kenn@linux.ie)
+
 * Wed Jul 26 2000 Bill Nottingham <notting@redhat.com>
 - fix unclean shutdown
 

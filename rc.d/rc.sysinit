@@ -98,22 +98,21 @@ esac
 
 action "Setting clock $CLOCKDEF: `date`" date
 
-
-
 # Load keymap
-KEYTABLE=
-KEYMAP=
-if [ -f /etc/sysconfig/console/default.kmap ]; then
+if [ -x /bin/loadkeys ]; then
+ KEYTABLE=
+ KEYMAP=
+ if [ -f /etc/sysconfig/console/default.kmap ]; then
   KEYMAP=/etc/sysconfig/console/default.kmap
-else
+ else
   if [ -f /etc/sysconfig/keyboard ]; then
     . /etc/sysconfig/keyboard
   fi
   if [ -n "$KEYTABLE" -a -d "/usr/lib/kbd/keymaps" ]; then
      KEYMAP=$KEYTABLE
   fi
-fi
-if [ -n "$KEYMAP" ]; then 
+ fi
+ if [ -n "$KEYMAP" ]; then 
   # Since this takes in/output from stdin/out, we can't use initlog
   if [ -n "$KEYTABLE" ]; then
     echo -n "Loading default keymap ($KEYTABLE): "
@@ -123,7 +122,8 @@ if [ -n "$KEYMAP" ]; then
   loadkeys $KEYMAP < /dev/tty0 > /dev/tty0 2>/dev/null && \
      success "Loading default keymap" || failure "Loading default keymap"
   echo
-fi   
+ fi   
+fi
 
 # Load system font
 if [ -x /sbin/setsysfont ]; then
