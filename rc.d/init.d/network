@@ -156,6 +156,8 @@ case "$1" in
  			/etc/sysconfig/network-scripts/init.ipv6-global start post
  		fi
  	fi
+	# Run this again to catch any interface-specific actions
+	sysctl -e -p /etc/sysctl.conf
  
         touch /var/lock/subsys/network
         ;;
