@@ -25,6 +25,7 @@ runcmd() {
 halt_get_remaining() {
 	awk '!/(^#|proc|loopfs|autofs|devfs|^none|^\/dev\/root| \/ )/ {print $2}' /proc/mounts
 	awk '{ if ($3 ~ /^proc$/ && $2 !~ /^\/proc/) print $2; }' /proc/mounts
+	awk '{ if ($3 ~ /^tmpfs$/ && $2 !~ /^\/dev/) print $2; }' /proc/mounts
 }
 
 # See how we were called.
