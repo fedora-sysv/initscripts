@@ -34,9 +34,10 @@ cd /etc/sysconfig/network-scripts
 
 # find all the interfaces besides loopback.
 # ignore aliases, alternative configurations, and editor backup files
-interfaces=`ls ifcfg* | egrep -v '(ifcfg-lo|:)' | \
-            egrep -v 'ifcfg-ippp[0-9]+$' | \
-            egrep 'ifcfg-[a-z0-9]+$' | \
+interfaces=`ls ifcfg* | LANG=C egrep -v '(ifcfg-lo|:|rpmsave|rpmorig|rpmnew)' | \
+	    LANG=C egrep -v '(~|\.bak)$' | \
+            LANG=C egrep -v 'ifcfg-ippp[0-9]+$' | \
+            LANG=C egrep 'ifcfg-[a-z0-9]+$' | \
             sed 's/^ifcfg-//g'`
 
 # See how we were called.
@@ -57,14 +58,40 @@ case "$1" in
 	    ;;
 	esac
 
+	oldhotplug=`sysctl kernel.hotplug  2>/dev/null| awk '{ print $3 }' 2>/dev/null`
+	sysctl -w kernel.hotplug="/bin/true" > /dev/null 2>&1
+
 	for i in $interfaces; do
-		if egrep -L "^ONBOOT=\"?[Nn][Oo]\"?" ifcfg-$i >/dev/null 2>&1; then
-			# Probe module to preserve interface ordering
-			/sbin/ifconfig $i >/dev/null 2>&1
+		if LANG=C egrep -L "^ONBOOT=\"?[Nn][Oo]\"?" ifcfg-$i >/dev/null 2>&1 ; then
+		        if [ "${i##eth}" != "$i" ]; then
+			  # Probe module to preserve interface ordering
+			  if [ -n "`modprobe -vn $i | grep -v Note:`" ]; then
+			     /sbin/ifconfig $i >/dev/null 2>&1
+			  fi
+			fi
 		else
+					# If we're in confirmation mode, get user confirmation
+		    [ -n "$CONFIRM" ]  && 
+			{ 
+			    confirm $i
+			    case $? in
+				0)
+				    :
+				;;
+				2)
+				    CONFIRM=
+				;;
+				*)
+				    continue
+				;;
+			    esac 
+			}
+
 			action "Bringing up interface $i: " ./ifup $i boot
 		fi
 	done
+	
+	sysctl -w kernel.hotplug=$oldhotplug > /dev/null 2>&1
 	
 	# Add non interface-specific static-routes.
 	if [ -f /etc/sysconfig/static-routes ]; then
@@ -93,7 +120,7 @@ case "$1" in
 	fi
 	
 	for i in $interfaces ; do
-	        if ifconfig $i 2>/dev/null | LANG=C grep -q " UP " >/dev/null 2>&1 ; then
+	        if LC_ALL= LANG= ifconfig $i 2>/dev/null | grep -q " UP " >/dev/null 2>&1 ; then
 		   action "Shutting down interface $i: " ./ifdown $i boot
 		fi
 	done
@@ -154,7 +181,7 @@ case "$1" in
 			action "Bringing up device $device: " ./ifup $device
 		done
 		for device in $DEV_RECONF_ALIASES ; do
-			action "Briging up alias $device: " /etc/sysconfig/network-scripts/ifup-aliases $device
+			action "Bringing up alias $device: " /etc/sysconfig/network-scripts/ifup-aliases $device
 		done
 		for device in $DEV_RECONF_ROUTES ; do
 			action "Bringing up route $device: " /etc/sysconfig/network-scripts/ifup-routes $device
