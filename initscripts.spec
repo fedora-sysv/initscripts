@@ -4,7 +4,7 @@ Name: initscripts
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
-Release: 1
+Release: 2
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /var/tmp/initbld
 Requires: mingetty, bash, /bin/awk, /bin/sed, mktemp, e2fsprogs, console-tools
@@ -193,8 +193,11 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/log/wtmp
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
-
 %changelog
+* Mon Aug  2 1999 Bill Nottingham <notting@redhat.com>
+- fix typo.
+- add 'make check'
+
 * Wed Jul 28 1999 Michael K. Johnson <johnsonm@redhat.com>
 - simple wvdial support for ppp connections
 
