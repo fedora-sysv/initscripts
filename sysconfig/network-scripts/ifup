@@ -209,7 +209,7 @@ if [ "${SLAVE}" = yes -a "${ISALIAS}" = no -a "${MASTER}" != "" -a \
 fi
 
 # master device?
-if [ "${TYPE}" =  "Bonding" -o "${DEVICETYPE}" = "bond" ] || ethtool -i $DEVICE 2>/dev/null| grep -q "driver: bonding" ; then
+if [ "${TYPE}" =  "Bonding" ] || ethtool -i $DEVICE 2>/dev/null| grep -q "driver: bonding" ; then
     /sbin/ip link set dev ${DEVICE} up
     for device in `fgrep -l "MASTER=${DEVICE}" /etc/sysconfig/network-scripts/ifcfg-*` ; do
         /sbin/ifup ${device##*/}
