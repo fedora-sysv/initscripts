@@ -20,4 +20,23 @@ if ($sourced == 1) then
         endif
     endif
 
+    if ($?SYSFONTACM) then
+        switch ($SYSFONTACM)
+	    case iso01*:
+	    case iso02*:
+	    case iso15*:
+	    case koi*:
+	    case latin2-ucw*:
+	        if ( $?TERM ) then
+		    if ( "$TERM" == "linux" ) then
+		        if ( `/sbin/consoletype` == "vt" ) then
+			    /bin/echo -n -e '\033(K' > /proc/$$/fd/15
+		        endif
+		    endif
+		endif
+		breaksw
+	endsw
+    endif
+    unsetenv SYSFONTACM
+    unsetenv SYSFONT
 endif

@@ -33,4 +33,16 @@ if [ "$sourced" = 1 ]; then
        unset LINGUAS
     fi
     [ -n "$_XKB_CHARSET" ] && export _XKB_CHARSET || unset _XKB_CHARSET
+
+    if [ -n "$SYSFONTACM" ]; then
+	case $SYSFONTACM in
+	    iso01*|iso02*|iso15*|koi*|latin2-ucw*)
+		if [ "$TERM" = "linux" -a "`/sbin/consoletype`" = "vt" ]; then
+			echo -n -e '\033(K' 2>/dev/null > /proc/$$/fd/0
+		fi
+		;;
+	esac
+    fi
+
+    unset SYSFONTACM SYSFONT
 fi
