@@ -254,13 +254,13 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Mar 13 2001 Bill Nottingham <notting@redhat.com>
+- fix typo in ifup (#31627)
+- update translation source
+
 * Tue Mar 13 2001 Nalin Dahyabhai <nalin@redhat.com>
 - fix typo in rc.sysinit
 - fix ifup-routes not setting DEVICE properly
-
-* Tue Mar 13 2001 Bill Nottingham <notting@redhat.com>
-- fix typo in ifup (#31627)
-- final translation pull
 
 * Mon Mar 12 2001 Preston Brown <pbrown@redhat.com>
 - Work properly with new quota utilities
