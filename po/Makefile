@@ -15,12 +15,14 @@ POTFILES = ../rc.d/init.d/* ../rc.d/rc.* ../sysconfig/network-scripts/*
 all: $(NLSPACKAGE).pot $(FMTCATALOGS)
 
 $(NLSPACKAGE).pot: $(POTFILES)
-	./xgettext_sh --initscripts $(POTFILES) > $(NLSPACKAGE).po
-	if cmp -s $(NLSPACKAGE).po $(NLSPACKAGE).pot; then \
-	    rm -f $(NLSPACKAGE).po; \
-	else \
-	    mv $(NLSPACKAGE).po $(NLSPACKAGE).pot; \
-	fi
+	echo "Please don't do that."
+#
+#       ./xgettext_sh --initscripts $(POTFILES) > $(NLSPACKAGE).po
+#	if cmp -s $(NLSPACKAGE).po $(NLSPACKAGE).pot; then \
+#	    rm -f $(NLSPACKAGE).po; \
+#	else \
+#	    mv $(NLSPACKAGE).po $(NLSPACKAGE).pot; \
+#	fi
 
 
 update-po: Makefile
