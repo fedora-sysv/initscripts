@@ -79,7 +79,7 @@ void runDaemon(int sock) {
     signal(SIGBUS,cleanup);
     signal(SIGTERM,cleanup);
    done = 0;
-   /* Get stat info on dev log so we can later check to make sure we
+   /* Get stat info on /dev/log so we can later check to make sure we
     * still own it... */
    stat(_PATH_LOG,&s1);
    while (!done) {
