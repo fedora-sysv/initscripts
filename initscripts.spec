@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.46
+Version: 7.47
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -249,6 +249,22 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Mar 17 2004 Bill Nottingham <notting@redhat.com> 7.47-1
+- translation: catch more input strings (#106285, <mitr@volny.cz>)
+- remove autologin from prefdm (#108969)
+- return to rhgb after ./unconfigured (#109807, <jkeating@j2solutions.net>)
+- handle iso15 in setsysfont (#110243)
+- clean up samba & vmware in rc.sysinit (#113104)
+- some sysconfig.txt documentation (#110427, #118063)
+- fix bug in umount-on-halt (#113088, <giardina@airlab.elet.polimi.it>)
+- handle CIFS in netfs (#115691)
+- make sure hotplug isn't stuck unset (#116666, <aoliva@redhat.com>)
+- handle network fs better in rc.sysinit (#111290)
+- nomodules applies to usb/firewire too (#113278)
+- ipsec fix (#116922, <felipe_alfaro@linuxmail.org>)
+- make sure rc exits cleanly (#117827, <enrico.scholz@informatik.tu-chemnitz.de>)
+- fsck root FS from initrd, for dynamic majors (#117575, <sct@redhat.com>)
+
 * Mon Feb 23 2004 Tim Waugh <twaugh@redhat.com>
 - Use ':' instead of '.' as separator for chown.
 
