@@ -5,7 +5,9 @@
 #include <string.h>
 #include <unistd.h>
 
+#include <sys/signal.h>
 #include <sys/poll.h>
+#include <sys/stat.h>
 #include <sys/wait.h>
 
 #include <popt.h>
@@ -18,6 +20,7 @@ int forkCommand(char **args, int *outfd, int *errfd, int *cmdfd, int quiet) {
     * to open file descriptor fd */
     int fdin, fdout, fderr, fdcmd, pid;
     int outpipe[2], errpipe[2], fdpipe[2];
+    int ourpid;
     
     if ( (pipe(outpipe)==-1) || (pipe(errpipe)==-1) || (pipe(fdpipe)==-1) ) {
 	perror("pipe");
@@ -42,17 +45,24 @@ int forkCommand(char **args, int *outfd, int *errfd, int *cmdfd, int quiet) {
     fdcmd = fdpipe[1];
     if (cmdfd)
       *cmdfd = fdpipe[0];
+    ourpid = getpid();
     if ((pid = fork())==-1) {
 	perror("fork");
 	return -1;
     }
-    if (pid) {
+    /* We exec the command normally as the child. However, if we're getting passed
+     * back arguments via an fd, we'll exec it as the parent. Therefore, if Bill
+     * fucks up and we segfault or something, we don't kill rc.sysinit. */
+    if ( (cmdfd&&!pid) || (pid &&!cmdfd)) {
 	/* parent */
 	close(fdin);
 	close(fdout);
 	close(fderr);
 	close(fdcmd);
-	return pid;
+	if (!pid)
+	  return ourpid;
+	else
+	  return pid;
     } else {
 	/* kid */
        if (outfd) { 
@@ -108,6 +118,12 @@ int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet,
     char **cmdargs=NULL;
     char **tmpargs=NULL;
     int cmdargc;
+    char *procpath;
+    
+    if (reexec) {
+	procpath=malloc(20*sizeof(char));
+	snprintf(procpath,20,"/proc/%d",pid);
+    }
     
     pipe(outpipe);
    
@@ -122,8 +138,15 @@ int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet,
 	  perror("poll");
 	  return -1;
        }
-       if (waitpid(pid,&rc,WNOHANG))
-	 done=1;
+       if (!reexec) {
+	  if (waitpid(pid,&rc,WNOHANG))
+	    done=1;
+       } else {
+	   struct stat sbuf;
+	   /* if /proc/pid ain't there and /proc is, it's dead... */
+	   if (stat(procpath,&sbuf)&&!stat("/proc/cpuinfo",&sbuf))
+	     done=1;
+       }
        y=0;
        while (y<numfds) {
 	  if ( x && ((pfds[y].revents & (POLLIN | POLLPRI)) )) {
@@ -150,7 +173,10 @@ int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet,
 			     DDEBUG("sending =%s= to initlog parent\n",tmpstr);
 			     snprintf(buffer,2048,"-n %s -s \"%s\"\n",
 				      cmdname,tmpstr);
+			     /* don't blow up if parent isn't there */
+			     signal(SIGPIPE,SIG_IGN);
 			     write(CMD_FD,buffer,strlen(buffer));
+			     signal(SIGPIPE,SIG_DFL);
 			     free(buffer);
 			 } else {
 			     logString(cmdname,tmpstr);
