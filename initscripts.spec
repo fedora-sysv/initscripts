@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.31.19.EL
+Version: 7.31.20.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -249,6 +249,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Nov  9 2004 Bill Nottingham <notting@redhat.com> 7.31.20.EL-1
+- fix bonding + dhcp (#134787)
+
 * Thu Oct 28 2004 Bill Nottingham <notting@redhat.com> 7.31.19.EL-1
 - fix usage of GATEWAYDEV (#133575)
 - fix usage of checkpid (#134030)
