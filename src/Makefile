@@ -62,8 +62,11 @@ usleep: $(USLEEP_OBJS)
 ppp-watch: $(PPPWATCH_OBJS)
 	$(CC) $(LDFLAGS) -o $@ $(PPPWATCH_OBJS) -Wl,-Bstatic `pkg-config glib-2.0 --libs` -Wl,-Bdynamic
 
-usernetctl: usernetctl.o
-	$(CC) $(LDFLAGS) -o $@ $< -pie
+usernetctl.o: usernetctl.c
+	$(CC) $(CFLAGS) -fPIE -c usernetctl.c -o usernetctl.o
+
+usernetctl: usernetctl.c usernetctl.o
+	$(CC) $(LDFLAGS) -pie -o $@ $@.o
 
 shvar.o: shvar.c
 	$(CC) $(CFLAGS) `pkg-config glib-2.0 --cflags` -c shvar.c -o shvar.o
