@@ -160,9 +160,6 @@ if [ "`/sbin/consoletype`" = "vt" ]; then
  fi
 fi
 
-# Start up swapping.
-action $"Activating swap partitions: " swapon -a -e
-
 # Set the hostname.
 action $"Setting hostname ${HOSTNAME}: " hostname ${HOSTNAME}
 
@@ -341,6 +338,9 @@ state=`awk '/(^\/dev\/root| \/ )/ { print $4 }' /proc/mounts`
 if [ -e /proc/lvm -a -x /sbin/vgchange -a -f /etc/lvmtab ]; then
         action $"Setting up Logical Volume Management:" /sbin/vgscan && /sbin/vgchange -a y
 fi
+
+# Start up swapping.
+action $"Activating swap partitions: " swapon -a -e
 
 # Clear mtab
 >/etc/mtab
