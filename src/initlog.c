@@ -21,7 +21,7 @@
 #include "initlog.h"
 #include "process.h"
 
-static int logfacility=LOG_DAEMON;
+static int logfacility=LOG_LOCAL7;
 static int logpriority=LOG_NOTICE;
 static int reexec=0;
 static int quiet=0;
