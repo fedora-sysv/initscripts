@@ -367,7 +367,7 @@ if [ -f /proc/scsi/scsi ] && cat /proc/scsi/scsi | grep -q 'Type:   Sequential-A
 	if cat /proc/devices | grep -qv ' 9 st' ; then
 		if [ -n "$USEMODULES" ] ; then
 			# Try to load the module.  If it fails, ignore it...
-			modprobe st 2>/dev/null
+			insmod -p st >/dev/null 2>&1 && modprobe st >/dev/null 2>&1
 		fi
 	fi
 fi
