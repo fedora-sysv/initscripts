@@ -3,6 +3,9 @@
 cd /etc/sysconfig/network-scripts
 . network-functions
 
+[ -f ../network ] && . ../network
+[ -f ../networking/network ] && . ../networking/network
+
 CONFIG=$1
 source_config
 
@@ -80,7 +83,7 @@ if [ "$PEERDNS" != "no" -o -n "$RESOLV_MODS" -a "$RESOLV_MODS" != "no" ]; then
 fi
 
 if [ "$FIREWALL_MODS" != "no" -a -f /etc/sysconfig/ipchains ] && \
-      iptables -L 2>/dev/null | grep -q RH-Lokkit-0-50-INPUT ; then
+      iptables -L -n 2>/dev/null | grep -q RH-Lokkit-0-50-INPUT ; then
 	ns=`awk '/^nameserver / { print $2 }' /etc/resolv.conf`
 	if [ -n "$ns" ]; then
 		for nameserver in $ns ; do

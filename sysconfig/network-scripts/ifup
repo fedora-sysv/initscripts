@@ -127,7 +127,7 @@ fi
 
 # Is there a firewall running, and does it look like one we configured?
 FWACTIVE=
-if iptables -L 2>/dev/null | grep -q RH-Lokkit-0-50-INPUT ; then
+if iptables -L -n 2>/dev/null | grep -q RH-Lokkit-0-50-INPUT ; then
     FWACTIVE=1
 fi
 
