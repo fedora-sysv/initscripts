@@ -109,7 +109,7 @@ RHGB_STARTED=0
 mount -n /dev/pts
 
 if fgrep rhgb /proc/cmdline > /dev/null 2>&1 && [ "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
-   /usr/bin/rhgb
+   LC_MESSAGES= /usr/bin/rhgb
    RHGB_STARTED=1
 fi
 
@@ -615,7 +615,7 @@ action $"Mounting local filesystems: " mount -a -t nonfs,nfs4,smbfs,ncpfs,cifs -
 
 # Start the graphical boot, if necessary and not done yet.
 if fgrep rhgb /proc/cmdline > /dev/null 2>&1 && [ "$RHGB_STARTED" -eq 0 -a "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
-   /usr/bin/rhgb
+   LC_MESSAGES= /usr/bin/rhgb
    RHGB_STARTED=1
 fi
 
