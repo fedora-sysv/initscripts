@@ -90,14 +90,15 @@ fi
 if [ -n "$WVDIALSECT" ] ; then
   exec /usr/sbin/pppd -detach $opts $MODEMPORT $LINESPEED \
     remotename $DEVICE ipparam $DEVICE \
-    ${PPPOPTIONS} \
     linkname $DEVICE \
     noauth \
+    ${PPPOPTIONS} \
     connect "/usr/bin/wvdial --remotename $DEVICE --chat $WVDIALSECT"
 else
   exec /usr/sbin/pppd -detach $opts $MODEMPORT $LINESPEED \
     remotename $DEVICE ipparam $DEVICE \
-    ${PPPOPTIONS} \
     linkname $DEVICE \
+    noauth \
+    ${PPPOPTIONS} \
     connect "/usr/sbin/chat $chatdbg -f $CHATSCRIPT"
 fi
