@@ -625,7 +625,7 @@ for afile in /var/lock/* /var/run/* ; do
 	if [ -d "$afile" ]; then
 	   case "$afile" in
 		*/news|*/mon)	;;
-		*/sudo)		rm -f $afile/*/* ;;
+		*/sudo|*/vmware)	rm -f $afile/*/* ;;
 		*)		rm -f $afile/* ;;
 	   esac
 	else
