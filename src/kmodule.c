@@ -20,6 +20,9 @@
 #include <popt.h>
 
 #include <sys/mman.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <sys/un.h>
 #include <sys/utsname.h>
 
 #include <kudzu/kudzu.h>
@@ -61,10 +64,68 @@ int isAvailable(char *modulename)
 	return 0;
 }
 
+char *dumpDevices(struct device **devlist)
+{
+	int fds[2],x;
+	FILE *tmp;
+	char *buf = NULL;
+
+	pipe(fds);
+	tmp = fdopen(fds[1],"w");
+	
+	buf = NULL;
+	for (x = 0; devlist[x]; x++) {
+		char b[4096];
+		
+		devlist[x]->writeDevice(tmp,devlist[x]);
+		fflush(tmp);
+		memset(b,'\0',4096);
+		while (read(fds[0],b,4096)) {
+			if (!buf) {
+				buf = calloc(strlen(b)+1,sizeof(char));
+				strcpy(buf,b);
+				buf[strlen(b)] = '\0';
+			} else {
+				buf = realloc(buf, strlen(buf)+strlen(b)+1);
+				sprintf(buf,"%s%s",buf,b);
+				buf[strlen(buf)+strlen(b)] = '\0';
+			}
+			if (strlen(b) != 4096)
+				break;
+		}
+	}
+	close(fds[0]);
+	close(fds[1]);
+	return buf;
+}
+
+void waitForConnection(char *buf)
+{
+	int sock, fd, socklen;
+	struct sockaddr_un addr;
+	
+	sock = socket(PF_UNIX, SOCK_STREAM, 0);
+	if (sock == -1) return;
+        memset(addr.sun_path,'\0',sizeof(addr.sun_path));
+	sprintf(addr.sun_path, "akudzu_config_socket");
+	addr.sun_family= AF_UNIX;
+	addr.sun_path[0] = '\0';
+	if (bind(sock, &addr, sizeof(struct sockaddr_un)) == -1)
+		return;
+	if (listen(sock, 1) == -1)
+		return;
+	fd = accept(sock, &addr, &socklen);
+	if (fd == -1)
+		return;
+	write(fd,buf,strlen(buf));
+	close(fd);
+	close(sock);
+}
+
 int main(int argc, char **argv) 
 {
-	char *bus = NULL, *class = NULL;
-	int x, rc;
+	char *bus = NULL, *class = NULL, *buf = NULL;
+	int x, rc, isdaemon = 0;
 	enum deviceBus probeBus = BUS_UNSPEC & ~BUS_SERIAL;
 	enum deviceClass probeClass = CLASS_UNSPEC;
 	poptContext context;
@@ -78,6 +139,9 @@ int main(int argc, char **argv)
 		{ "class", 'c', POPT_ARG_STRING, &class, 0,
 			"probe only for the specified 'class'",
 			NULL
+		},
+		{ "daemon", 'd', POPT_ARG_NONE, &isdaemon, 0,
+			NULL, NULL
 		},
 		{ 0, 0, 0, 0, 0, 0 }
 	};
@@ -108,7 +172,7 @@ int main(int argc, char **argv)
 	}
 	initializeBusDeviceList(probeBus);
 
-	devs = probeDevices(probeClass, probeBus, PROBE_NOLOAD|PROBE_SAFE);
+	devs = probeDevices(probeClass, probeBus, PROBE_ALL|PROBE_NOLOAD|PROBE_SAFE);
 	if (!devs)
 		return 0;
 	for (x = 0; devs[x]; x++) {
@@ -121,6 +185,11 @@ int main(int argc, char **argv)
 				}
 			printf("%s %s\n",classes[i].string,devs[x]->driver);
 		}
+	}
+	if (isdaemon) {
+		buf = dumpDevices(devs);
+		daemon(0,0);
+		waitForConnection(buf);
 	}
 	return 0;
 }
