@@ -5,6 +5,7 @@
 # chkconfig: 345 10 97
 # description: Activates/Deactivates all network interfaces configured to \
 #              start at boot time.
+# probe: true
 
 # Source function library.
 . /etc/rc.d/init.d/functions
@@ -100,21 +101,37 @@ case "$1" in
 	if [ -x /bin/linuxconf ] ; then
 		eval `/bin/linuxconf --hint netdev`
 		for device in $DEV_UP ; do
-			./ifup $device boot
+			./ifup $device
 		done
 		for device in $DEV_DOWN ; do
-			./ifdown $device boot
+			./ifdown $device
 		done
 		for device in $DEV_RECONF ; do
-			./ifdown $device boot
-			./ifup $device boot
+			./ifdown $device
+			./ifup $device
+		done
+		for device in $DEV_RECONF_ALIASES ; do
+			/etc/sysconfig/network-scripts/ifup-aliases $device
+		done
+		for device in $DEV_RECONF_ROUTES ; do
+			/etc/sysconfig/network-scripts/ifup-routes $device
 		done
 	else
 		$0 restart
 	fi
 	;;
+  probe)
+	if [ -x /bin/linuxconf ] ; then
+		eval `/bin/linuxconf --hint netdev`
+		[ -n "$DEV_UP$DEV_DOWN$DEV_RECONF$DEV_RECONF_ALIASES$DEV_RECONF_ROUTES" ] && \
+			echo reload
+		exit 0
+	else
+		exit 0
+	fi
+	;;
   *)
-        echo "Usage: network {start|stop|restart|reload|status}"
+        echo "Usage: network {start|stop|restart|reload|status|probe}"
         exit 1
 esac
 
