@@ -3,7 +3,7 @@ Name: initscripts
 Version: 7.43
 License: GPL
 Group: System Environment/Base
-Release: 1
+Release: 2
 Source: initscripts-%{version}.tar.bz2
 URL: http://rhlinux.redhat.com/initscripts/
 Patch0: initscripts-s390.patch
@@ -249,6 +249,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Jan  16 2004 Dan Walsh <dwalsh@redhat.com> 7.43-2
+- Remove selinux run_init code from service script.  It is no longer needed.
+
 * Fri Dec  5 2003 Jeremy Katz <katzj@redhat.com> 7.43-1
 - basic lvm2 support
 
