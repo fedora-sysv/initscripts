@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.91
+%define version 4.92
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
@@ -228,6 +228,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Feb  7 2000 Nalin Dahyabhai <nalin@redhat.com>
+- check that LC_ALL/LINGUAS and LANG are set before referencing them in lang.csh
+
 * Fri Feb  4 2000 Nalin Dahyabhai <nalin@redhat.com>
 - fix bug #9102
 
