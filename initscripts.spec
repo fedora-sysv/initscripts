@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.79
+Version: 5.80
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -254,6 +254,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Mar 26 2001 Bill Nottingham <notting@redhat.com>
+- don't print errors in /etc/init.d/network if kernel.hotplug doesn't exist
+
 * Thu Mar 22 2001 Erik Troan <ewt@redhat.com>
 - take advantage of new swapon behaviors
 
