@@ -120,7 +120,7 @@ daemon() {
 	done
 
         # Save basename.
-        [ -z $gotbase ] && base=${1##*/}
+        [ -z "$gotbase" ] && base=${1##*/}
 
         # See if it's already running. Look *only* at the pid file.
         pid=`pidfileofproc $base`
@@ -140,14 +140,14 @@ daemon() {
 	else
 	   $nice initlog $INITLOG_ARGS -c "su - $user -c \"$*\"" && success $"$base startup" || failure $"$base startup"
 	fi
-	[ $? = 0 ] && success $"$base startup" || failure $"$base startup"
+	[ "$?" -eq 0 ] && success $"$base startup" || failure $"$base startup"
 }
 
 # A function to stop a program.
 killproc() {
 	RC=0
 	# Test syntax.
-	if [ $# = 0 ]; then
+	if [ "$#" -eq 0 ]; then
 		echo $"Usage: killproc {program} [signal]"
 		return 1
 	fi
@@ -172,8 +172,8 @@ killproc() {
 
         # Kill it.
         if [ -n "${pid:-}" ] ; then
-                [ $BOOTUP = "verbose" ] && echo -n "$base "
-		if [ "$notset" = "1" ] ; then
+                [ "$BOOTUP" = "verbose" ] && echo -n "$base "
+		if [ "$notset" -eq "1" ] ; then
 		       if checkpid $pid 2>&1; then
 			   # TERM first, then KILL if not dead
 			   kill -TERM $pid
@@ -187,14 +187,14 @@ killproc() {
 		        fi
 			checkpid $pid
 			RC=$?
-			[ $RC -eq 0 ] && failure $"$base shutdown" || success $"$base shutdown"
+			[ "$RC" -eq 0 ] && failure $"$base shutdown" || success $"$base shutdown"
 			RC=$((! $RC))
 		# use specified level only
 		else
 		        if checkpid $pid >/dev/null 2>&1; then
 	                	kill $killlevel $pid
 				RC=$?
-				[ $RC -eq 0 ] && success $"$base $killlevel" || failure $"$base $killlevel"
+				[ "$RC" -eq 0 ] && success $"$base $killlevel" || failure $"$base $killlevel"
 			fi
 		fi
 	else
@@ -215,14 +215,15 @@ pidfileofproc() {
 	local pid
 	
 	# Test syntax.
-	if [ $# = 0 ] ; then
+	if [ "$#" = 0 ] ; then
 		echo $"Usage: pidfileofproc {program}"
 		return 1
 	fi
 
 	# First try "/var/run/*.pid" files
 	if [ -f /var/run/${base}.pid ] ; then
-	        read pid < /var/run/${base}.pid
+	        local line p pid=
+		read line < /var/run/${base}.pid
 		for p in $line ; do
 		       [ -z "${p//[0-9]/}" -a -d /proc/$p ] && pid="$pid $p"
 		done
@@ -238,7 +239,7 @@ pidofproc() {
 	base=${1##*/}
 
 	# Test syntax.
-	if [ $# = 0 ] ; then
+	if [ "$#" = 0 ] ; then
 		echo $"Usage: pidofproc {program}"
 		return 1
 	fi
@@ -266,7 +267,7 @@ status() {
 	local pid
 
 	# Test syntax.
-	if [ $# = 0 ] ; then
+	if [ "$#" = 0 ] ; then
 		echo $"Usage: status {program}"
 		return 1
 	fi
