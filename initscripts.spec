@@ -16,9 +16,9 @@ Requires: util-linux >= 2.10s-11, mount >= 2.11l
 Requires: bash >= 2.0, SysVinit
 Requires: /sbin/ip, /sbin/arping, net-tools
 Requires: /etc/redhat-release, dev
-Requires: ethtool >= 1.8-2
+Requires: ethtool >= 1.8-2, kernel >= 2.6
 Conflicts: mkinitrd < 4.0
-Conflicts: kernel <= 2.6, timeconfig < 3.0, ppp < 2.3.9, wvdial < 1.40-3
+Conflicts: timeconfig < 3.0, ppp < 2.3.9, wvdial < 1.40-3
 Conflicts: ypbind < 1.6-12, psacct < 6.3.2-12, kbd < 1.06-19, lokkit < 0.50-14
 Obsoletes: rhsound sapinit
 Prereq: /sbin/chkconfig, /usr/sbin/groupadd, gawk, fileutils, sh-utils
@@ -252,6 +252,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Aug 27 2004 Bill Nottingham <notting@redhat.com> 7.72-1
+- flip the kernel conflict to a Requires:
+
 * Thu Aug 26 2004 Karsten Hopp <karsten@redhat.de> 7.71-1
 - ifcfg-iucv/ctc: drop REMIP and use GATEWAY instead
 
