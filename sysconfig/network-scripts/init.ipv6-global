@@ -31,10 +31,10 @@
 
 
 
-. /etc/sysconfig/network 
+. /etc/sysconfig/network
 
 cd /etc/sysconfig/network-scripts
-. network-functions 
+. network-functions
 
 # Get action and hook position
 ACTION="$1"
@@ -49,7 +49,7 @@ POSITION="$2"
 # Initialize IPv6, depending on caller option
 case $ACTION in
     start)
-	case $POSITION in 
+	case $POSITION in
 	    pre)
 		# IPv6 test, module loaded, exit if system is not IPv6-ready
 		ipv6_test || exit 1
@@ -124,7 +124,7 @@ case $ACTION in
 	;;
 
     stop)
-	case $POSITION in 
+	case $POSITION in
 	    pre)
 		# IPv6 test, no module loaded, exit if system is not IPv6-ready
 		ipv6_test testonly || exit 0
@@ -168,7 +168,7 @@ case $ACTION in
 	# Run only basic tests, no module is loaded, if not ok, skip IPv6 initialization
 	ipv6_test testonly || exit 0
 
-	# Show sysctl switches 
+	# Show sysctl switches
 	sysctl -a | grep "^net\.ipv6\.conf\.default\." | awk -F. '{ print $5 }' | awk -F= '{ print $1 }' | sed 's/ //g' | while read switch; do
 		sysctl -a | grep "^net\.ipv6\.conf\." | awk -F. '{ print $4 }' | sort -u | while read interface; do
 			sysctl net.ipv6.conf.$interface.$switch

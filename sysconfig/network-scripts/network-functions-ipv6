@@ -845,15 +845,15 @@ ipv6_create_6to4_prefix() {
 	fi
 
 	if [ $major1 -eq 0 ]; then
-		local block1="`printf "%x" $minor1`"	
-	else 
+		local block1="`printf "%x" $minor1`"
+	else
 		local block1="`printf "%x%02x" $major1 $minor1`"
-	fi 
+	fi
 	if [ $major2 -eq 0 ]; then
-		local block2="`printf "%x" $minor2`"	
-	else 
+		local block2="`printf "%x" $minor2`"
+	else
 		local block2="`printf "%x%02x" $major2 $minor2`"
-	fi 
+	fi
 
 	local prefix6to4="2002:$block1:$block2"
 
@@ -1059,14 +1059,14 @@ ipv6_add_tunnel_device() {
 	fi
 
 	if [ -z "$addressipv4tunnel" ]; then
-		ipv6_log $"Missing parameter 'IPv4-tunnel address' (arg 2)" err $fn 
+		ipv6_log $"Missing parameter 'IPv4-tunnel address' (arg 2)" err $fn
 		return 1
 	fi
 
 	if [ -z "$addressipv4tunnellocal" ]; then
 		local addressipv4tunnellocal="any"
 	fi
- 
+
 	ipv6_test || return 2
 
 	if ! ipv6_test_device_status $device; then
@@ -1142,7 +1142,7 @@ ipv6_del_tunnel_device() {
 		return 1
 	fi
 
-	ipv6_test testonly || return 2   
+	ipv6_test testonly || return 2
 
 	if ipv6_test_device_status $device; then
 		ipv6_cleanup_device $device
@@ -1172,7 +1172,7 @@ ipv6_del_tunnel_device() {
 ipv6_cleanup_tunnel_devices() {
 	local fn="ipv6_cleanup_tunnel_devices"
 
-	ipv6_test testonly || return 2   
+	ipv6_test testonly || return 2
 
 	# Find still existing tunnel devices and shutdown and delete them
 
@@ -1209,7 +1209,7 @@ ipv6_get_ipv4addr_of_tunnel() {
 		return 1
 	fi
 
-	ipv6_test testonly || return 2   
+	ipv6_test testonly || return 2
 	
 	ipv6_test_device_status $device
 
@@ -1303,7 +1303,7 @@ ipv6_set_mtu() {
 		return 1
 	fi
 
-	ipv6_test testonly || return 2   
+	ipv6_test testonly || return 2
 
 	# Check whether key exists
 	ipv6_exec_sysctl net.ipv6.conf.$device.mtu >/dev/null 2>&1
@@ -1340,7 +1340,7 @@ ipv6_set_default_route() {
 	if [ -n "$address" ]; then
 		local addressgw=`echo $address | awk -F% '{ print $1 }'`
 		local device_scope=`echo $address | awk -F% '{ print $2 }'`
- 
+
 		if [ -z "$addressgw" ]; then
 			ipv6_log $"Given IPv6 default gateway '$address' is not in proper format" err $fn
 			return 3
@@ -1426,7 +1426,7 @@ ipv6_test_route_requires_next_hop() {
 		return 1
 	fi
 
-	ipv6_test testonly || return 2   
+	ipv6_test testonly || return 2
 
 	ipv6_test_device_status $device
 	
@@ -1460,7 +1460,7 @@ ipv6_trigger_radvd() {
 	local pidfile=$3
 
 	if [ -z "$reason" ]; then
-		ipv6_log $"No reason given for sending trigger to radvd" err $fn 
+		ipv6_log $"No reason given for sending trigger to radvd" err $fn
 		return 1
 	fi
 
