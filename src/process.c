@@ -163,7 +163,7 @@ int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet)
 			for (x=0;x<(cmdargc-1);x++) {
 			   cmdargs[x+1]=tmpargs[x];
 			}
-			processArgs(cmdargc,cmdargs);
+			processArgs(cmdargc,cmdargs,1);
 		     }
 		  }
 		}

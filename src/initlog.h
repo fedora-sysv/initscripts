@@ -13,6 +13,6 @@ struct logInfo {
 
 char *getLine(char **data);
 int logString(char *cmd, char *string);
-int processArgs(int argc, char **argv);
+int processArgs(int argc, char **argv, int silent);
 
 #endif
