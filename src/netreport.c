@@ -26,7 +26,7 @@ int main(int argc, char ** argv) {
     }
 
     if (argc > 1) {
-	  if (strcmp(argv[1], "-r") == 0) {
+	  if (argc == 2 && strcmp(argv[1], "-r") == 0) {
 		  action = DEL;
 	  } else {
 		  usage();
