@@ -304,10 +304,10 @@ if [ -x /sbin/hdparm ]; then
         if [ -f /etc/sysconfig/harddisk${disk[$device]} ]; then
                 . /etc/sysconfig/harddisk${disk[$device]}
                 HDFLAGS[$device]=
-                if [ -n "$MULTIPLE_IO" ] && [ "$MULTIPLE_IO" != "0" ]; then
+                if [ -n "$MULTIPLE_IO" ]; then
                     HDFLAGS[$device]="-q -m$MULTIPLE_IO"
                 fi
-                if [ -n "$USE_DMA" ] && [ "$USE_DMA" != "0" ]; then
+                if [ -n "$USE_DMA" ]; then
                     HDFLAGS[$device]="${HDFLAGS[$device]} -q -d$USE_DMA"
                 fi
                 if [ -n "$EIDE_32BIT" ]; then
