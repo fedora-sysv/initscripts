@@ -136,7 +136,7 @@ remaining=`awk '!/^#/ && $1 ~ /^\/dev\/loop/ && $2 != "/" {print $1}' /proc/moun
 		if [ "$retry" -lt 3 ]; then
 			runcmd $"Unmounting loopback filesystems (retry):" umount $remaining
 		else
-			runcmd $"Unmounting loobpack filesystems: " umount $remaining
+			runcmd $"Unmounting loopback filesystems: " umount $remaining
 		fi
 		for dev in $remaining ; do
 			losetup $dev > /dev/null 2>&1 && \
