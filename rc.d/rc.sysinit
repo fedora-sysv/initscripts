@@ -165,7 +165,14 @@ if [ -f /etc/sysconfig/clock ]; then
     fi
 fi
 
-CLOCKFLAGS="-a"
+if [ -x /sbin/hwclock ]; then
+    CLOCKFLAGS="--hctosys"
+    CLOCK=/sbin/hwclock
+else
+    CLOCKFLAGS="-a"
+    CLOCK=/sbin/clock
+fi
+
 if [ $UTC = "true" ]; then
     CLOCKFLAGS="$CLOCKFLAGS -u";
     echo -n " (utc)"
@@ -175,7 +182,7 @@ if [ $ARC = "true" ]; then
     echo -n " (arc)"
 fi
 echo -n ": "
-clock $CLOCKFLAGS
+$CLOCK $CLOCKFLAGS
 
 date
 

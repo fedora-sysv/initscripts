@@ -17,6 +17,10 @@ that activate and deactivate most network interfaces.
 
 %changelog
 
+* Sat Oct 11 1997 Erik Troan <ewt@redhat.com>
+
+- fixed rc.sysinit for hwclock compatibility
+
 * Thu Oct 09 1997 Erik Troan <ewt@redhat.com>
 
 - run 'ulimit -c 0' before running scripts in daemon function
