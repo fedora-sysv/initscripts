@@ -124,6 +124,8 @@ detach(int now, int parentExitCode, char *device) {
 	    switch (exitCode) {
 	    case 0:
 		break;
+	    case 33:
+		fprintf(stderr, "%s already up, initiating redial\n", device);
 	    case 34:
 		fprintf(stderr, "Failed to activate %s, retrying in the background\n", device);
 		break;
@@ -149,33 +151,11 @@ detach(int now, int parentExitCode, char *device) {
 
 
 static void
-checkPidFile(char *device) {
-    char *pidFilePath;
-    FILE *f;
-    pid_t previous;
-    int killed;
-
-    pidFilePath = alloca(strlen(device) + 25);
-    sprintf(pidFilePath, "/var/run/pppwatch-%s.pid", device);
-    f = fopen(pidFilePath, "r");
-    if (f) {
-	fscanf(f, "%d\n", &previous);
-	fclose(f);
-
-	killed = kill(previous, SIGHUP);
-	if (!killed) {
-	    fprintf(stderr, "%s already up, initiating redial\n", device);
-	    exit(33);
-	}
-    }
-}
-
-static void
 doPidFile(char *device) {
     static char *pidFileName = NULL;
     char *pidFilePath;
     int fd; FILE *f;
-    int pid = 0;
+    pid_t pid = 0;
 
     if (pidFileName) {
 	/* remove it */
@@ -191,6 +171,7 @@ doPidFile(char *device) {
 	sprintf(pidFilePath, "/var/run/pppwatch-%s.pid", pidFileName);
 	fd = open(pidFilePath, O_WRONLY|O_TRUNC|O_CREAT|O_EXCL,
 		  S_IRUSR|S_IWUSR | S_IRGRP | S_IROTH);
+
 	if (fd == -1) {
 	    /* file already existed, or terrible things have happened... */
 	    fd = open(pidFilePath, O_RDONLY);
@@ -206,15 +187,14 @@ doPidFile(char *device) {
 	    if (fscanf(f, "%d", &pid) && pid)
 		kill(pid, SIGHUP);
 	    fclose(f);
-	    cleanExit(0);
+	    cleanExit(33);
 	}
+
 	f = fdopen(fd, "w");
-	if (f) {
-	    fprintf(f, "%d\n", getpid());
-	    fclose(f);
-	} else {
+	if (!f)
 	    cleanExit(31);
-	}
+	fprintf(f, "%d\n", getpid());
+	fclose(f);
     }
 }
 
@@ -426,8 +406,6 @@ main(int argc, char **argv) {
     } else {
 	device = argv[1];
     }
-
-    checkPidFile(device);
 
     detach(0, 0, device); /* prepare */
 
