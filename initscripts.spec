@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.40
+Version: 5.41
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -232,6 +232,12 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Aug  7 2000 Bill Nottingham <notting@redhat.com>
+- remove console-tools requirement
+- in netfs, start portmap if needed
+- cosmetic cleanups, minor tweaks
+- don't probe USB controllers
+
 * Mon Aug  7 2000 Nalin Dahyabhai <nalin@redhat.com>
 - fix demand-dialing support for PPP devices
 
