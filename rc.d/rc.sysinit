@@ -607,11 +607,6 @@ if grep -q "ide-scsi" /proc/cmdline ; then
 	modprobe ide-scsi >/dev/null 2>&1
 fi
 
-# Load agpgart here. This is a hack, and will probably go away soon.
-if grep "driver: agpgart" /etc/sysconfig/hwconf >/dev/null 2>&1 ; then
-	modprobe agpgart >/dev/null 2>&1
-fi
-
 # Generate a header that defines the boot kernel.
 KERNEL_TYPE=`uname -r | sed 's_^[^se]*\(\|smp\|enterprise\)$_-\1_;s_^-$__'`
 KERNEL_RELEASE=`uname -r | sed 's|smp\|enterprise||g'`
