@@ -7,7 +7,7 @@ Group: System Environment/Base
 Release: 3
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /var/tmp/initbld
-Requires: mingetty, bash, /bin/awk, mktemp, modutils >= 2.1.85-3, e2fsprogs, sysklogd >= 1.3.31, procps
+Requires: mingetty, bash, /bin/awk, /bin/sed, mktemp, modutils >= 2.1.85-3, e2fsprogs, sysklogd >= 1.3.31, procps
 Conflicts: redhat-release <= 5.1
 Prereq: /sbin/chkconfig
 
@@ -169,6 +169,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc sysconfig.txt sysvinitfiles
 
 %changelog
+* Tue Apr 06 1999 Michael K. Johnson <johnsonm@redhat.com>
+- fixed ifup-ipx mix-up over . and _
+
 * Tue Apr 06 1999 Erik Troan <ewt@redhat.com>
 - run /sbin/ipup-local after bringing up an interface (if that file exists)
 
@@ -206,7 +209,7 @@ rm -rf $RPM_BUILD_ROOT
 - add net route for interface if it isn't there.
 - fix for a bash/bash2 issue
 
-* Mon Mar 15 1999 Michael Johnson <johnsonm@redhat.com>
+* Mon Mar 15 1999 Michael K. Johnson <johnsonm@redhat.com>
 - pam_console lockfile cleanup added to rc.sysinit
 
 * Sun Mar 14 1999 Bill Nottingham <notting@redhat.com>
@@ -234,7 +237,7 @@ rm -rf $RPM_BUILD_ROOT
 * Thu Nov 12 1998 Preston Brown <pbrown@redhat.com>
 - halt now passed the '-i' flag so that network interfaces disabled
 
-* Tue Nov 10 1998 Michael Johnson <johnsonm@redhat.com>
+* Tue Nov 10 1998 Michael K. Johnson <johnsonm@redhat.com>
 - handle new linuxconf output for ipaliases
 
 * Mon Oct 15 1998 Erik Troan <ewt@redhat.com>
