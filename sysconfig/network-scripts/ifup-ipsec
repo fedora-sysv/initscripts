@@ -1,0 +1,112 @@
+#!/bin/sh
+#
+# ifup-ipsec
+#
+# Brings up ipsec interfaces
+#
+# Configuration parameters
+#
+#   Manual keying:
+#
+#     SRC = source address. Not required.
+#     DST = destination address
+#     SRCNET = source net (for tunneling)
+#     DSTNET = destination network (for tunneling)
+#     AH_PROTO = protocol to use for AH (defaults to HMAC-MD5)
+#     ESP_PROTO = protocol to use for ESP (defaults to 3DES)
+#     KEY_AH = AH key
+#     KEY_ESP = ESP key
+#     SPI[1..4] = SPIs to use
+#
+#
+
+if [ -n "$KEY_AH" -o -n "$KEY_ESP" ]; then
+  KEYING=manual
+fi
+
+if [ -n "$IKE_PSK" ]; then
+  KEYING=automatic
+  IKE_METHOD=PSK
+fi
+
+if [ -n "$CERT_NAME" ]; then
+  KEYING=automatic
+  IKE_METHOD=X509
+fi
+
+if [ -n "$RSA_KEY" ]; then
+  KEYING=automatic
+  IKE_METHOD=RSA
+fi
+
+if [ -n "$SRCNET" -o -n "$DSTNET" ]; then
+  MODE=tunnel
+else
+  MODE=host
+fi
+
+if [ "$KEYING" = "manual" ]; then
+    # Get source address
+    if [ -n "$SRC" ]; then
+      SRC=`ip -o route get to $DST | sed "s|.*src \([^ ]*\).*|\1|"`
+    fi
+    
+    [ -z "$AH_PROTO" ] && AH_PROTO=hmac-md5
+    [ -z "$ESP_PROTO" ] && ESP_PROTO=3des-cbc
+    
+    if [ "$MODE" = "host" ]; then
+    
+      /sbin/setkey -c << EOF
+deleteall $SRC $DST ah;
+deleteall $DST $SRC ah;
+deleteall $SRC $DST esp;
+deleteall $DST $SRC esp;
+spddelete $SRC $DST any -P out;
+spddelete $DST $SRC any -P in;
+
+# ESP
+add $DST $SRC esp $SPI3 -E $ESP_PROTO $KEY_ESP;
+add $SRC $DST esp $SPI4 -E $ESP_PROTO $KEY_ESP;
+
+# AH
+add $DST $SRC ah $SPI1 -A $AH_PROTO $KEY_AH;
+add $SRC $DST ah $SPI2 -A $AH_PROTO $KEY_AH;
+
+spdadd $SRC $DST any -P out ipsec
+           esp/transport//require
+           ah/transport//require;
+		      
+spdadd $DST $SRC any -P in ipsec
+	    esp/transport//require
+	    ah/transport//require;
+EOF    
+    else
+      [ -n "$SRCNET" ] && SRCNET="$SRC/32"
+      [ -n "$DSTNET" ] && DSTNET="$DST/32"
+      
+      /sbin/setkey -c << EOF
+deleteall $SRC $DST ah;
+deleteall $DST $SRC ah;
+deleteall $SRC $DST esp;
+deleteall $DST $SRC esp;
+spddelete $SRCNET $DSTNET any -P out;
+spddelete $DSTNET $SRCNET any -P in;
+
+# ESP
+add $DST $SRC esp $SPI3 -m tunnel -E $ESP_PROTO $KEY_ESP;
+add $SRC $DST esp $SPI4 -m tunnel -E $ESP_PROTO $KEY_ESP;
+
+# AH
+add $DST $SRC ah $SPI1 -m tunnel -A $AH_PROTO $KEY_AH;
+add $SRC $DST ah $SPI2 -m tunnel -A $AH_PROTO $KEY_AH;
+
+spdadd $SRCNET $DSTNET any -P out ipsec
+           esp/tunnel/$SRC-$DEST/require
+           ah/tunnel/$SRC-$DEST/require;
+		      
+spdadd $DSTNET $SRCNET any -P in ipsec
+	    esp/tunnel/$DEST-$SRC/require
+	    ah/tunnel/$DEST-$SRC/require;
+EOF    
+    fi
+fi
