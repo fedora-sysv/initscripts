@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.34
+%define version 4.35
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
@@ -175,6 +175,7 @@ rm -rf $RPM_BUILD_ROOT
 /bin/ipcalc
 /bin/usleep
 %attr(4755,root,root) /usr/sbin/usernetctl
+/sbin/getkey
 /sbin/netreport
 /sbin/initlog
 /sbin/loglevel
@@ -195,6 +196,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Sep  1 1999 Bill Nottingham <notting@redhat.com>
+- add interactive prompt
+
 * Tue Aug 31 1999 Bill Nottingham <notting@redhat.com>
 - disable magic sysrq by default
 
