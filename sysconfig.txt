@@ -225,7 +225,7 @@ Files in /etc/sysconfig
 
 /etc/sysconfig/sendmail:
   DAEMON=yes|no
-    yes implies -bd
+    yes implies -bd (i.e., listen on port 25 for new mail)
   QUEUE=1h
     given to sendmail as -q$QUEUE
     -q option is not given to sendmail if /etc/sysconfig/sendmail
@@ -264,6 +264,36 @@ Files in /etc/sysconfig
   The above is used by the /sbin/setsysfont command (which is run
   by rc.sysinit at boot time.)
 
+/etc/sysconfig/harddisks
+  These options are used to tune (E)IDE hard drives -
+  read the hdparm man page for more information
+
+  USE_DMA=1
+    Set this to 1 to enable DMA. This might cause some 
+    data corruption on certain chipset / hard drive
+    combinations. USE WITH CAUTION AND BACKUP.
+    This is used with the "-d" option
+  
+  MULTIPLE_IO=16
+    Multiple sector I/O. a feature of most modern IDE hard drives,
+    permitting the transfer of multiple sectors per I/O interrupt,
+    rather than the usual one sector per interrupt.  When this feature
+    is enabled, it typically reduces operating system overhead for disk
+    I/O by 30-50%.  On many systems, it also provides increased data
+    throughput of anywhere from 5% to 50%.  Some drives, however (most
+    notably the WD Caviar series), seem to run slower with multiple mode
+    enabled. Under rare circumstances, such failures can result in
+    massive filesystem corruption. USE WITH CAUTION AND BACKUP.
+    This is the sector count for multiple sector I/O - the "-m" option
+  
+  EIDE_32BIT=3
+    (E)IDE 32-bit I/O support (to interface card) (safe)
+  
+  LOOKAHEAD=1
+    Enable drive read-lookahead (safe)
+
+  EXTRA_PARAMS=<anything>
+    Add any extra parameters you want to pass to hdparm here.
 
 Files in /etc/sysconfig/network-scripts/
 ========================================
@@ -292,14 +322,14 @@ Files in /etc/sysconfig/network-scripts/
   and interface change notification through netreport.
 
 /etc/sysconfig/network-scripts/ifcfg-<interface-name> and
-/etc/sysconfig/network-scripts/ifcfg-<interface-name>-<clone-name>:
+/etc/sysconfig/network-scripts/ifcfg-<interface-name>:<alias-name>:
 
   The first defines an interface, and the second contains
   only the parts of the definition that are different in a
-  "clone" (or alternative) interface.  For example, the
+  "alias" (or alternative) interface.  For example, the
   network numbers might be different, but everything else
   might be the same, so only the network numbers would be
-  in the clone file, but all the device information would
+  in the alias file, but all the device information would
   be in the base ifcfg file.
 
   The items that can be defined in an ifcfg file depend on the
