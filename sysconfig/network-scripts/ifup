@@ -96,20 +96,21 @@ if [ "$BOOTPROTO" = bootp -a "$ISALIAS" = no ]; then
     ifconfig ${DEVICE} 0.0.0.0 broadcast 255.255.255.255 netmask 0.0.0.0
     route add default ${DEVICE}
     echo "Sending bootp request"
-    bootpc --returniffail --timeoutwait 6 --dev ${DEVICE} 2>/dev/null > /tmp/bootpc-response-${DEVICE}
+    TMPFILE=`/bin/mktemp /tmp/bootp-${DEVICE}.XXXXXX`
+    bootpc --returniffail --timeoutwait 6 --dev ${DEVICE} 2>/dev/null > ${TMPFILE}
     if [ "$?" = "0" ]; then
-	. /tmp/bootpc-response-${DEVICE}
+	. ${TMPFILE}
 	BOOTPHOSTNAME="$HOSTNAME"
 	echo "bootp response received -- using IP ${IPADDR}"
     elif [ -z "$IPADDR" ]; then
 	echo "No bootp response recieved -- not configuring device ${DEVICE}."
-	rm -f /tmp/bootpc-response-${DEVICE}
+	rm -f ${TMPFILE}
 	exit 1
     else 
 	echo "No bootp response recieved -- using default configuration for device ${DEVICE}."
     fi
 
-    rm -f /tmp/bootpc-response-${DEVICE}
+    rm -f ${TMPFILE}
 elif [ "$BOOTPROTO" = dhcp -a "$ISALIAS" = no ]; then
     echo -n "Using DHCP for ${DEVICE}... "
     /sbin/dhcpcd -c /etc/sysconfig/network-scripts/ifdhcpc-done ${DEVICE} 
