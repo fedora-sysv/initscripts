@@ -1,10 +1,10 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.38
+%define version 4.39
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
-Release: 2
+Release: 1
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /var/tmp/initbld
 Requires: mingetty, bash, /bin/awk, /bin/sed, mktemp, e2fsprogs, console-tools
@@ -198,6 +198,11 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Sep 10 1999 Bill Nottingham <notting@redhat.com>
+- chkconfig --del in %preun, not %postun
+- use killall5 in halt
+- swapoff non-/etc/fstab swap
+
 * Wed Sep 08 1999 Michael K. Johnson <johnsonm@redhat.com>
 - ifdown now synchronous (modulo timeouts)
 - several unrelated cleanups, primarily in ifdown
