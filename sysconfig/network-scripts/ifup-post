@@ -83,12 +83,12 @@ if [ "$PEERDNS" != "no" -o -n "$RESOLV_MODS" -a "$RESOLV_MODS" != "no" ]; then
 fi
 
 if [ "$FIREWALL_MODS" != "no" -a -f /etc/sysconfig/iptables ] && \
-      iptables -L -n 2>/dev/null | grep -q RH-Lokkit-0-50 ; then
+      iptables -L -n 2>/dev/null | grep -q RH-Lokkit-0-50-INPUT ; then
 	ns=`awk '/^nameserver / { print $2 }' /etc/resolv.conf`
 	if [ -n "$ns" ]; then
 		for nameserver in $ns ; do
-			if ! iptables -L RH-Lokkit-0-50 -n | grep -q $nameserver ; then
-				iptables -I RH-Lokkit-0-50 -m udp -s $nameserver/32 --sport 53 -d 0/0 --dport 1025:65535 -p udp -j ACCEPT
+			if ! iptables -L RH-Lokkit-0-50-INPUT -n | grep -q $nameserver ; then
+				iptables -I RH-Lokkit-0-50-INPUT -m udp -s $nameserver/32 --sport 53 -d 0/0 --dport 1025:65535 -p udp -j ACCEPT
 				[ -x /usr/bin/logger ] && logger $"punching nameserver $nameserver through the firewall"
 			fi
 		done
