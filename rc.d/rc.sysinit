@@ -223,11 +223,8 @@ fi
 rm -f /lib/modules/preferred
 rm -f /lib/modules/default
 if [ -x /sbin/depmod -a -n "$USEMODULES" ]; then
-    # Get ready for kmod if module support in the kernel
-    if [ -n `uname -r | grep "-"` ]; then
-       # we're using a new kernel, no preferred needed
-       mver=`uname -r`
-    else
+    # If they aren't using a recent sane kernel, make a link for them
+    if [ ! -n `uname -r | grep "-"` ]; then
        ktag="`cat /proc/version`"
        mtag=`grep -l "$ktag" /lib/modules/*/.rhkmvtag 2> /dev/null`
        if [ -n "$mtag" ]; then
@@ -237,8 +234,6 @@ if [ -x /sbin/depmod -a -n "$USEMODULES" ]; then
          ln -sf /lib/modules/$mver /lib/modules/default
        fi
     fi
-    [ -n "$mver" -a -f "/boot/module-info-$mver" ] && ln -sf /boot/module-info-$mver /boot/module-info
-    [ -n "$mver" -a -f "/boot/System.map-$mver" ] && ln -sf /boot/System.map-$mver /boot/System.map
     if [ -L /lib/modules/default ]; then
     	action "Finding module dependencies" depmod -a default
     else
