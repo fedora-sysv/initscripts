@@ -70,7 +70,7 @@ case $ACTION in
 		fi
 
 		# Reset IPv6 sysctl switches for "all", "default" and still existing devices
-		sysctl -a | grep "^net\.ipv6\.conf\." | awk -F. '{ print $4 }' | sort | uniq | while read interface; do
+		sysctl -a | grep "^net\.ipv6\.conf\." | awk -F. '{ print $4 }' | sort -u | while read interface; do
 			# Host/Router behaviour for the interface
 			ipv6_exec_sysctl -w net.ipv6.conf.$interface.forwarding=$ipv6_global_forwarding >/dev/null
 
@@ -139,7 +139,7 @@ case $ACTION in
 		ipv6_test testonly || exit 0
 
 
-		sysctl -a | grep "^net\.ipv6\.conf\." | awk -F. '{ print $4 }' | sort | uniq | while read interface; do
+		sysctl -a | grep "^net\.ipv6\.conf\." | awk -F. '{ print $4 }' | sort -u | while read interface; do
 			# Assume Host behaviour
 			ipv6_exec_sysctl -w net.ipv6.conf.$interface.forwarding=0 >/dev/null  
 
@@ -172,7 +172,7 @@ case $ACTION in
 
 	# Show sysctl switches 
 	sysctl -a | grep "^net\.ipv6\.conf\.default\." | awk -F. '{ print $5 }' | awk -F= '{ print $1 }' | sed 's/ //g' | while read switch; do
-		sysctl -a | grep "^net\.ipv6\.conf\." | awk -F. '{ print $4 }' | sort | uniq | while read interface; do
+		sysctl -a | grep "^net\.ipv6\.conf\." | awk -F. '{ print $4 }' | sort -u | while read interface; do
 			sysctl net.ipv6.conf.$interface.$switch
 		done
 		echo

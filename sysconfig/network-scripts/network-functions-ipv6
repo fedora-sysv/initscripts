@@ -297,7 +297,7 @@ ipv6_control_forwarding() {
 		return 1
 	fi
 	
-	ipv6_test || return 2   
+	ipv6_test || return 2
 
 	if [ "$fw_control" = "yes" -o "$fw_control" = "on" ]; then
 		local status=1
@@ -343,7 +343,7 @@ ipv6_add_route() {
 		return 1
 	fi
 
-	ipv6_test || return 2   
+	ipv6_test || return 2
 
 	ipv6_test_ipv6_addr_valid $networkipv6 || return 2
 	ipv6_test_ipv6_addr_valid $gatewayipv6 || return 2
@@ -472,7 +472,7 @@ ipv6_cleanup_routes() {
 ipv6_enable_autotunnel() {
 	local fn="ipv6_enable_autotunnel"
 
-	ipv6_test || return 2 
+	ipv6_test || return 2
 
 	# enable IPv6-over-IPv4 tunnels
 	if ipv6_test_device_status sit0; then
@@ -583,7 +583,7 @@ ipv6_test_addr_exists_on_device() {
 		fi
 	else
 		# low budget version, only works if given address is in equal form like "ip" displays
-		local testresult="`ipv6_exec_ip addr show dev $testdevice | LC_ALL=C grep inet6 | awk '{ print $2 }' | LC_ALL=C grep -i "^$testaddr/$testprefix$"`"
+		local testresult="`ipv6_exec_ip addr show dev $testdevice | LC_ALL=C grep -w inet6 | awk '{ print $2 }' | LC_ALL=C grep -i "^$testaddr/$testprefix$"`"
 		if [ -n "$testresult" ]; then
 			# exits
 			return 0
@@ -638,7 +638,7 @@ ipv6_test_addrprefix_exists_on_device() {
 
 ## Add an IPv6 address for given interface
 #  $1: <Interface>
-#  $2: <IPv6 address>
+#  $2: <IPv6 address[/prefix]>
 # return code: 0=ok 1=argument error 2=IPv6 test fails 3=major problem
 ipv6_add_addr_on_device() {
 	local fn="ipv6_add_addr_on_device"
@@ -819,7 +819,7 @@ ipv6_test_ipv6_addr_valid() {
 		fi
 	else
 		# Test for a valid format
-		if ! echo "$address_implicit" | LC_ALL=C egrep -q '^[:xdigit:]|[:\.]*$'; then
+		if ! echo "$address_implicit" | LC_ALL=C egrep -q '^[[:xdigit:]]|[:\.]*$'; then
 			if [ "$modequiet" != "quiet" ]; then
 				ipv6_log $"Given IPv6 address '$testipv6addr_valid' is not valid" err $fn
 			fi
@@ -1192,7 +1192,7 @@ ipv6_add_tunnel_device() {
 		local addressipv4tunnellocal="any"
 	fi
  
-	ipv6_test || return 2   
+	ipv6_test || return 2
 
 	if ! ipv6_test_device_status $device; then
 		local ttldefault="`ipv6_exec_sysctl net.ipv4.ip_default_ttl | awk '{ print $3 }'`"
@@ -1201,7 +1201,7 @@ ipv6_add_tunnel_device() {
 		fi
 
 		# Test whether remote IPv4 address was already applied to another tunnel (does not catch IPv4 addresses with leading 0's)
-		ipv6_exec_ip tunnel show 2>/dev/null | LC_ALL=C grep -w "ipv6/ip" | LC_ALL=C grep $addressipv4tunnel | while read dev type tag remote tag local tag ttl rest; do
+		ipv6_exec_ip tunnel show 2>/dev/null | LC_ALL=C grep -w "ipv6/ip" | LC_ALL=C grep "$addressipv4tunnel" | while read dev type tag remote tag local tag ttl rest; do
 			local devnew="`echo $dev | sed 's/:$//g'`"
 			if [ "$remote" = "$addressipv4tunnel" ]; then
 				ipv6_log $"Given remote address '$addressipv4tunnel' on tunnel device '$device' is already configured on device '$devnew'" err $fn
@@ -1386,7 +1386,7 @@ ipv6_get_ipv4addr_of_device() {
 	fi
 
 	# Device exists, retrieve address
-	local ipv4addr="`ipv6_exec_ip -4 addr show dev $device | grep -w "inet" | awk '{ print $2 }' | awk -F/ '{ print $1 }'`"
+	local ipv4addr="`ipv6_exec_ip -4 addr show dev $device | LC_ALL=C grep -w "inet" | awk '{ print $2 }' | awk -F/ '{ print $1 }'`"
 
 	if [ $? != 0 ]; then
 		return 3
