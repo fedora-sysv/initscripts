@@ -32,7 +32,11 @@ NCPMTAB=`grep -v '^#' /proc/mounts | awk '{ if ($3 ~ /^ncpfs$/ ) print $2}'`
 # See how we were called.
 case "$1" in
   start)
-        [ -n "$NFSFSTAB" ] && action "Mounting NFS filesystems: " mount -a -t nfs
+        [ -n "$NFSFSTAB" ] && 
+	  {
+	    [ ! -f /var/lock/subsys/portmap ] && service portmap start
+	    action "Mounting NFS filesystems: " mount -a -t nfs
+	  }
         [ -n "$SMBFSTAB" ] && action "Mounting SMB filesystems: " mount -a -t smbfs
         [ -n "$NCPFSTAB" ] && action "Mounting NCP filesystems: " mount -a -t ncpfs
 	touch /var/lock/subsys/netfs
