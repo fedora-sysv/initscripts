@@ -1,0 +1,18 @@
+#!/bin/sh
+# This should be called whenever an interface goes down, not just when
+# it is brought down explicitly.
+
+cd /etc/sysconfig/network-scripts
+
+. $1
+
+# Notify programs that have requested notification
+( cd /var/run/netreport || exit
+  for i in * ; do
+    [ -f $i ] && \
+      kill -SIGIO $i >/dev/null 2>&1 || \
+        rm -f $i >/dev/null 2>&1
+  done
+)
+
+exit 0

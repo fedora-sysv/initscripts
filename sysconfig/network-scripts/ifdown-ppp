@@ -1,0 +1,44 @@
+#!/bin/bash
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
+
+cd /etc/sysconfig/network-scripts
+
+. $1
+
+if [ ! -f /var/run/ppp-$DEVICE.dev ]; then
+    # ppp isn't running, or we didn't start it
+    exit 0
+fi
+
+file=/var/run/`cat /var/run/ppp-$DEVICE.dev`.pid
+if [ ! -f $file ]; then
+    exit 0
+fi
+
+# signals ifup-ppp not to persist
+rm -f /var/run/ppp-$DEVICE.dev
+
+PID=`cat $file`
+if [ -z "$PID" ]; then
+  exit 1
+fi
+
+kill $PID > /dev/null 2>&1
+if [ ! -d /proc/$PID ]; then
+  /etc/sysconfig/network-scripts/ifdown-post $1
+  exit 0
+fi
+sleep 2
+if [ ! -d /proc/$PID ]; then
+  /etc/sysconfig/network-scripts/ifdown-post $1
+  exit 0
+fi
+
+kill -KILL $PID > /dev/null 2>&1
+if [ -d /proc/$PID ]; then
+  logger -p daemon.info -t ifdown-ppp "ifdown-ppp unable to kill pppd-$DEVICE" &
+else
+  /etc/sysconfig/network-scripts/ifdown-post $1
+fi
+
+exit 1

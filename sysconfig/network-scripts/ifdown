@@ -1,0 +1,42 @@
+#!/bin/sh
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
+
+cd /etc/sysconfig/network-scripts
+
+if [ $UID != 0 ]; then
+    if [ -x /usr/sbin/usernetctl ]; then
+        exec /usr/sbin/usernetctl $1 down
+    fi
+    echo "Users cannot control this device." >&2
+    exit 1
+fi
+
+. $1
+
+DEVICETYPE=`echo $DEVICE | sed "s/[0-9]*$//"`
+OTHERSCRIPT="/etc/sysconfig/network-scripts/ifdown-${DEVICETYPE}"
+
+if [ -x $OTHERSCRIPT ]; then
+	$OTHERSCRIPT $1 $2
+	exit $?
+fi
+
+if echo $DEVICE | grep -q ':' ; then
+    ISALIAS=yes
+else
+    ISALIAS=no
+fi
+
+if [ "$BOOTPROTO" = dhcp -a "$ISALIAS" = no ]; then
+	if [ -f /var/run/dhcpcd-${DEVICE}.pid ]; then
+		kill `cat /var/run/dhcpcd-${DEVICE}.pid`
+		rm -f /var/run/dhcpcd-${DEVICE}.pid
+		exit 0
+	fi
+	exit 1
+fi
+
+ifconfig ${DEVICE} down
+
+exec /etc/sysconfig/network-scripts/ifdown-post $1
+

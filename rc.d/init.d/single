@@ -1,0 +1,29 @@
+#!/bin/sh
+#
+#
+# rc.single     This file is executed by init when it goes into runlevel
+#               1, which is the administrative state. It kills all
+#               deamons and then puts the system into single user mode.
+#               Note that the file systems are kept mounted.
+#
+# Author:       Miquel van Smoorenburg, <miquels@drinkel.nl.mugnet.org>
+#               Modified for RHS Linux by Damien Neil
+#
+
+# Set the path.
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+
+# Kill all processes.
+[ "${BASH+bash}" = bash ] && enable kill
+
+echo "Sending all processes the TERM signal..."
+kill -15 -1
+sleep 5
+echo "Sending all processes the KILL signal.."
+kill -9 -1
+
+rm -f /var/lock/subsys/*
+
+# Now go to the single user level.
+echo "Telling INIT to go to single user mode."
+exec init -t1 S

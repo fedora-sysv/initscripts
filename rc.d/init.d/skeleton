@@ -1,0 +1,27 @@
+#!/bin/sh
+#
+# skeleton      Example file to build /etc/init.d scripts.
+#
+# Version:      @(#) /etc/init.d/skeleton 1.01 26-Oct-1993
+#
+# Author:       Miquel van Smoorenburg, <miquels@drinkel.nl.mugnet.org>
+#
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# See how we were called.
+case "$1" in
+  start)
+	touch /var/lock/subsys/skeleton
+	;;
+  stop)
+	rm -f /var/lock/subsys/skeleton
+	;;
+  *)
+	echo "Usage: skeleton {start|stop}"
+	exit 1
+esac
+
+exit 0
+

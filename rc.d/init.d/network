@@ -1,0 +1,72 @@
+#!/bin/sh
+#
+# network       Bring up/down networking
+#
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+if [ ! -f /etc/sysconfig/network ]; then
+    exit 0
+fi
+
+. /etc/sysconfig/network
+
+if [ -f /etc/sysconfig/pcmcia ]; then
+	. /etc/sysconfig/pcmcia
+fi
+
+# Turn IP forwarding on or off. We do this before bringing up the interfaces
+# to make sure we don't forward when we shouldn't, and we do it even if
+# networking isn't configured (why not?).
+if [ -d /proc/sys/net/ipv4 ]; then
+    # people could have left this out of their kernel, which isn't
+    # exactly an error
+    if [ ! -f /proc/sys/net/ipv4/ip_forward ] ; then
+	echo "/proc/sys/net/ipv4/ip_forward is missing -- cannot control IP " \
+		"forwarding" >&2
+    else
+	if [ "$FORWARD_IPV4" = "no" -o "$FORWARD_IPV4" = "false" ]; then
+	    value=0
+	    echo "Disabling IPv4 packet forwarding."
+	else
+	    echo "Enabling IPv4 packet forwarding."
+	    value=1
+	fi
+
+	echo "$value" > /proc/sys/net/ipv4/ip_forward
+    fi
+fi
+
+# Check that networking is up.
+[ ${NETWORKING} = "no" ] && exit 0
+
+[ -f /sbin/ifconfig ] || exit 0
+
+cd /etc/sysconfig/network-scripts
+
+interfaces=`ls ifcfg* | grep -v ifcfg-lo | grep -v :`
+
+# See how we were called.
+case "$1" in
+  start)
+	./ifup ifcfg-lo
+	for i in $interfaces; do
+		./ifup $i boot
+	done
+
+        touch /var/lock/subsys/network
+        ;;
+  stop)
+	for i in $interfaces; do
+		./ifdown $i boot
+	done
+	./ifdown ifcfg-lo
+        rm -f /var/lock/subsys/network
+        ;;
+  *)
+        echo "Usage: network {start|stop}"
+        exit 1
+esac
+
+exit 0

@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# adds static routes which go through device $1
+
+if [ "$1" = "" ]; then
+	echo "usage: $0 <net-device>"
+	exit 1
+fi
+
+if [ ! -f /etc/sysconfig/static-routes ]; then
+	exit 0
+fi
+
+#note the trailing space in the grep gets rid of aliases
+grep "^$1 " /etc/sysconfig/static-routes | while read device args; do
+    route add -$args $device
+done

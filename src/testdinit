@@ -1,0 +1,44 @@
+#!/bin/sh
+#
+# lpd           This shell script takes care of starting and stopping
+#               lpd (printer daemon).
+#
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# See how we were called.
+case "$1" in
+  start)
+        # Start daemons.
+        echo -n "Starting testd: "
+        testd &
+        echo
+        touch /var/lock/subsys/testd
+        ;;
+  stop)
+        # Stop daemons.
+        echo -n "Shutting down testd: "
+	killproc testd
+        echo
+        rm -f /var/lock/subsys/testd
+        ;;
+  status)
+	# Am I alive?
+	status testd
+	exit $?
+        ;;
+  restart)
+	echo -n "Shutting down testd: "
+	killproc testd
+	echo
+	echo -n "Starting testd: "
+	testd &
+	echo
+	;;
+  *)
+        echo "Usage: testd {start|stop|status|restart}"
+        exit 1
+esac
+
+exit 0

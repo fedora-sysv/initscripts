@@ -1,0 +1,58 @@
+#!/bin/sh
+#
+# rc.halt       This file is executed by init when it goes into runlevel
+#               0 (halt) or runlevel 6 (reboot). It kills all processes,
+#               unmounts file systems and then either halts or reboots.
+#
+# Author:       Miquel van Smoorenburg, <miquels@drinkel.nl.mugnet.org>
+#               Modified for RHS Linux by Damien Neil
+#
+
+# Set the path.
+PATH=/sbin:/bin:/usr/bin:/usr/sbin
+
+# See how we were called.
+case "$0" in
+  *halt)
+	message="The system is halted"
+	command="halt"
+	;;
+  *reboot)
+	message="Please stand by while rebooting the system..."
+	command="reboot"
+	;;
+  *)
+	echo "$0: call me as \"rc.halt\" or \"rc.reboot\" please!"
+	exit 1
+	;;
+esac
+
+# Kill all processes.
+[ "${BASH+bash}" = bash ] && enable kill
+
+echo "Sending all processes the TERM signal..."
+kill -15 -1
+sleep 5
+echo "Sending all processes the KILL signal.."
+kill -9 -1
+
+# Write to wtmp file before unmounting /var
+halt -w
+
+# Turn off swap, then unmount file systems.
+echo "Turning off swap"
+swapoff -a
+echo "Unmounting file systems"
+umount -a
+mount -n -o remount,ro /
+
+echo "Remounting remaining filesystems (if any) readonly"
+mount | awk '/ext2/ { print $3 }' | while read line; do
+    mount -n -o ro,remount $line
+done
+
+# Now halt or reboot.
+echo "$message"
+[ -f /fastboot ] && echo "On the next boot fsck will be skipped."
+eval $command -d
+

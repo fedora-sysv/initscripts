@@ -1,0 +1,20 @@
+#!/bin/sh -x
+
+SLEEPPIDFILE=/var/run/dhcp-wait-${IFNAME}.pid
+
+if [ ! -f $SLEEPPIDFILE ]; then
+    # the parent must have timed out already -- we can't do much about
+    # it now
+    echo "DHCP configured but ifup timed out"
+    #exit 0
+fi
+
+# get the pid of the process which is waiting for this to complete
+SLEEPPID=`cat $SLEEPPIDFILE`
+rm -f $SLEEPPIDFILE
+kill $SLEEPPID
+
+if [ -f /etc/dhcpc/resolv.conf ]; then
+	echo "setting up resolv.conf" >> /tmp/dhcplog
+	cp /etc/dhcpc/resolv.conf /etc
+fi

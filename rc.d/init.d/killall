@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# Bring down all unneded services that are still running (there shouldn't 
+# be any, so this is just a sanity check)
+
+for i in /var/lock/subsys/*; do
+	# Check if the script is there.
+	[ ! -f $i ] && continue
+
+	# Get the subsystem name.
+	subsys=${i#/var/lock/subsys/}
+
+	# Bring the subsystem down.
+	if [ -f /etc/rc.d/init.d/$subsys.init ]; then
+	    /etc/rc.d/init.d/$subsys.init stop
+	else
+	    /etc/rc.d/init.d/$subsys stop
+	fi
+done
+

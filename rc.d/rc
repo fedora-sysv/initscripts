@@ -1,0 +1,54 @@
+#!/bin/bash
+#
+# rc            This file is responsible for starting/stopping
+#               services when the runlevel changes. It is also
+#               responsible for the very first setup of basic
+#               things, such as setting the hostname.
+#
+# Author:       Miquel van Smoorenburg, <miquels@drinkel.nl.mugnet.org>
+#               Modified for RHS Linux by Damien Neil
+#
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# Now find out what the current and what the previous runlevel are.
+argv1="$1"
+set `/sbin/runlevel`
+runlevel=$2
+previous=$1
+export runlevel previous
+
+# Get first argument. Set new runlevel to this argument.
+[ "$1" != "" ] && runlevel="$argv1"
+
+# Is there an rc directory for this new runlevel?
+if [ -d /etc/rc.d/rc$runlevel.d ]; then
+	# First, run the KILL scripts.
+	for i in /etc/rc.d/rc$runlevel.d/K*; do
+		# Check if the script is there.
+		[ ! -f $i ] && continue
+
+		# Check if the subsystem is already up.
+		subsys=${i#/etc/rc.d/rc$runlevel.d/K??}
+		[ ! -f /var/lock/subsys/$subsys ] && \
+		    [ ! -f /var/lock/subsys/${subsys}.init ] && continue
+
+		# Bring the subsystem down.
+		$i stop
+	done
+
+	# Now run the START scripts.
+	for i in /etc/rc.d/rc$runlevel.d/S*; do
+		# Check if the script is there.
+		[ ! -f $i ] && continue
+
+		# Check if the subsystem is already up.
+		subsys=${i#/etc/rc.d/rc$runlevel.d/S??}
+		[ -f /var/lock/subsys/$subsys ] && \
+		    [ -f /var/lock/subsys/${subsys}.init ] && continue
+
+		# Bring the subsystem up.
+		$i start
+	done
+fi

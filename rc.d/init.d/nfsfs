@@ -1,0 +1,40 @@
+#!/bin/sh
+#
+# nfsfs         Mount NFS filesystems.
+#
+# Version:      @(#) /etc/init.d/skeleton 1.01 26-Oct-1993
+#
+# Author:       Miquel van Smoorenburg, <miquels@drinkel.nl.mugnet.org>
+#
+
+# Source networking configuration.
+if [ ! -f /etc/sysconfig/network ]; then
+    exit 0
+fi
+
+. /etc/sysconfig/network
+
+# Check that networking is up.
+[ ${NETWORKING} = "no" ] && exit 0
+
+# See how we were called.
+case "$1" in
+  start)
+	echo -n "Mounting remote filesystems."
+	mount -a -t nfs
+	touch /var/lock/subsys/nfsfs
+	echo
+	;;
+  stop)
+	echo -n "Unmounting remote filesystems."
+	umount -a -t nfs
+	rm -f /var/lock/subsys/nfsfs
+	echo
+	;;
+  *)
+	echo "Usage: nfsfs {start|stop}"
+	exit 1
+esac
+
+exit 0
+

@@ -1,0 +1,103 @@
+#!/bin/sh
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
+
+# ifup-post for PPP is handled through /etc/ppp/ip-up
+
+if [ "$1" != daemon ] ; then
+  $0 daemon $*&
+  exit 0
+fi
+
+shift
+
+. $1
+
+if [ -z "$DISCONNECTTIMEOUT" ]; then
+  DISCONNECTTIMEOUT=2
+fi
+
+if [ -z "$RETRYTIMEOUT" ]; then
+  RETRYTIMEOUT=30
+fi
+
+if [ "$2" = "boot" -a ${ONBOOT} = "no" ]; then
+  exit
+fi
+
+[ -x /usr/sbin/pppd ] || {
+  echo "/usr/sbin/pppd does not exist or is not executable"
+  echo "ifup-ppp for $DEVICE exiting"
+  logger -p daemon.info -t ifup-ppp \
+    "/usr/sbin/pppd does not exist or is not executable for $DEVICE"
+  exit 1
+}
+
+[ -f /etc/sysconfig/network-scripts/chat-$DEVICE ] || {
+  echo "/etc/sysconfig/network-scripts/chat-$DEVICE does not exist"
+  echo "ifup-ppp for $DEVICE exiting"
+  logger -p daemon.info -t ifup-ppp \
+    "/etc/sysconfig/network-scripts/chat-$DEVICE does not exist for $DEVICE"
+  exit 1
+}
+
+opts="lock"
+if [ "${HARDFLOWCTL}" = yes ] ; then
+  opts="$opts modem crtscts"
+fi
+if [ "${ESCAPECHARS}" = yes ] ; then
+  opts="$opts asyncmap 00000000"
+fi
+if [ "${DEFROUTE}" = yes ] ; then
+  opts="$opts defaultroute"
+fi
+if [ -n "${MRU}" ] ; then
+  opts="$opts mru ${MRU}"
+fi
+if [ -n "${MTU}" ] ; then
+  opts="$opts mtu ${MTU}"
+fi
+if [ -n "${IPADDR}${REMIP}" ] ; then
+  # if either IP address is set, the following will work.
+  opts="$opts ${IPADDR}:${REMIP}"
+fi
+if [ -n "${PAPNAME}" ] ; then
+  opts="$opts name ${PAPNAME}"
+fi
+
+while : ; do
+  (logger -p daemon.info -t ifup-ppp \
+    "pppd started for $DEVICE on $MODEMPORT at $LINESPEED" &)&
+
+  > /var/run/ppp-$DEVICE.dev
+  /usr/sbin/pppd -detach $opts $MODEMPORT $LINESPEED \
+    remotename $DEVICE ipparam $DEVICE \
+    ${PPPOPTIONS} \
+    connect "/usr/sbin/chat -f /etc/sysconfig/network-scripts/chat-$DEVICE"
+
+  # exit if we're not supposed to persist or our lock file has disappeared 
+  if [ "$PERSIST" != "yes" -o ! -f /var/run/ppp-$DEVICE.dev ]; then
+    rm -f /var/run/ppp-$DEVICE.dev
+    exit 0
+  fi
+
+  size=`wc -c < /var/run/ppp-$DEVICE.dev`
+
+  rm -f /var/run/ppp-$DEVICE.dev
+
+  if [ $size = 0 ]; then
+    # pppd never connected
+    timeout=$RETRYTIMEOUT
+  else
+    # pppd connected and then disconnected
+    timeout=$DISCONNECTTIMEOUT
+  fi
+
+  [ -z "$timeout" ] && {
+    timeout=30
+  }
+
+  sleep $timeout || {
+    # sleep was killed
+    exit 0
+  }
+done

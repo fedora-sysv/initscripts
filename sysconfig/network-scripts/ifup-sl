@@ -1,0 +1,56 @@
+#!/bin/sh
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
+
+# ifup-post can't be done for slip :-( Solution: use PPP
+
+if [ "$1" != daemon ] ; then
+  $0 daemon $*&
+  exit 0
+fi
+
+shift
+
+. $1
+
+if [ "foo$2" = "fooboot" -a ${ONBOOT} = "no" ]
+then
+  exit
+fi
+
+if [ -z "$RETRYTIMEOUT" ]; then
+  RETRYTIMEOUT=30
+fi
+
+[ -x /usr/sbin/dip ] || {
+  echo "/usr/sbin/dip does not exist or is not executable"
+  echo "ifup-sl for $DEVICE exiting"
+  logger -p daemon.info -t ifup-sl \
+    "/usr/sbin/dip does not exist or is not executable for $DEVICE"
+  exit 1
+}
+
+[ -f /etc/sysconfig/network-scripts/dip-$DEVICE ] || {
+  echo "/etc/sysconfig/network-scripts/dip-$DEVICE does not exist"
+  echo "ifup-sl for $DEVICE exiting"
+  logger -p daemon.info -t ifup-sl \
+    "/etc/sysconfig/network-scripts/dip-$DEVICE does not exist for $DEVICE"
+  exit 1
+}
+
+while : ; do
+  echo > /var/run/sl-$DEVICE.dev
+  (logger -p daemon.info -t ifup-sl \
+    "dip started for $DEVICE on $MODEMPORT at $LINESPEED" &)&
+  doexec /usr/sbin/dip dip-$DEVICE /etc/sysconfig/network-scripts/dip-$DEVICE
+  if [ "$PERSIST" != "yes" -o ! -f /var/run/sl-$DEVICE.dev ] ; then
+    exit 0
+  fi
+  rm -f /var/run/sl-$DEVICE.dev
+
+
+  sleep $RETRYTIMEOUT || {
+    # sleep was killed
+    exit 0
+  }
+done
+

@@ -1,0 +1,158 @@
+#!/bin/sh
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
+
+cd /etc/sysconfig/network-scripts
+
+if [ $UID != 0 ]; then
+    if [ -x /usr/sbin/usernetctl ]; then
+	exec /usr/sbin/usernetctl $1 up
+    fi
+    echo "Users cannot control this device." >&2
+    exit 1
+fi
+
+. $1
+
+if [ "foo$2" = "fooboot" -a "${ONBOOT}" = "no" ]
+then
+    exit
+fi
+
+IPSETUP=no
+
+DEVICETYPE=`echo $DEVICE | sed "s/[0-9]*$//"`
+REALDEVICE=`echo $DEVICE | sed 's/:.*//g'`
+if echo $DEVICE | grep -q ':' ; then
+    ISALIAS=yes
+else
+    ISALIAS=no
+fi
+
+# Old BOOTP variable
+if [ "$BOOTP" = "yes" ]; then
+    BOOTPROTO=bootp
+fi
+
+if [ -e /etc/sysconfig/pcmcia ]; then
+    . /etc/sysconfig/pcmcia
+else
+    PCMCIA=no
+fi
+
+if [ $DEVICETYPE = "eth" -a "foo${ISPCMCIA}" = "foo" ]; then
+    # this is a horrible hack to work around prior brokenness 
+    if [ "$PCMCIA" = "yes" -a "foo$2" = "fooboot" ]; then
+	# cardmgr will start us up properly
+	exit 0;
+    fi
+elif [ "${ISPCMCIA}" = "yes" -a "$2" = "boot" ]; then
+    # cardmgr will start us up properly
+    exit 0;
+fi
+	
+### end of horrible hack
+
+OTHERSCRIPT="/etc/sysconfig/network-scripts/ifup-${DEVICETYPE}"
+
+if [ -x $OTHERSCRIPT ]; then
+    exec $OTHERSCRIPT $1 $2
+fi
+
+# is this device available? (this catches PCMCIA devices for us)
+/sbin/ifconfig ${REALDEVICE} 2>&1 | grep -s "unknown interface" > /dev/null
+if [ "$?" = "0" ]; then
+    echo "Delaying ${DEVICE} initialization."
+    exit 0
+fi
+
+if [ "$SLAVE" = yes -a "$ISALIAS" = no -a "$MASTER" != "" -a \
+     -x /sbin/ifenslave ]; then
+    RFLAG="" ; [ "$RECIEVE-ONLY" = yes ] && RFLAG="-r"
+
+    ifconfig ${DEVICE} down
+    echo "Enslaving $DEVICE to $MASTER"
+    ifenslave $RFLAG "$DEVICE" "$MASTER"
+
+    exit 0
+fi
+
+if [ "$BOOTPROTO" = bootp -a "$ISALIAS" = no ]; then
+    ifconfig ${DEVICE} down
+    ifconfig ${DEVICE} 0.0.0.0 broadcast 255.255.255.255 netmask 0.0.0.0
+    route add default ${DEVICE}
+    echo "Sending bootp request"
+    bootpc --returniffail --timeoutwait 6 --dev ${DEVICE} 2>/dev/null > /tmp/bootpc-response-${DEVICE}
+    if [ "$?" = "0" ]; then
+	. /tmp/bootpc-response-${DEVICE}
+	BOOTPHOSTNAME="$HOSTNAME"
+	echo "bootp response received -- using IP ${IPADDR}"
+    elif [ -z "$IPADDR" ]; then
+	echo "No bootp response recieved -- not configuring device ${DEVICE}."
+	rm -f /tmp/bootpc-response-${DEVICE}
+	exit 1
+    else 
+	echo "No bootp response recieved -- using default configuration for device ${DEVICE}."
+    fi
+
+    rm -f /tmp/bootpc-response-${DEVICE}
+elif [ "$BOOTPROTO" = dhcp -a "$ISALIAS" = no ]; then
+    echo -n "Using DHCP for ${DEVICE}... "
+    /sbin/dhcpcd -c /etc/sysconfig/network-scripts/ifdhcpc-done ${DEVICE} 
+    echo "echo \$$ > /var/run/dhcp-wait-${DEVICE}.pid; exec sleep 30" | sh
+
+    if [ -f /var/run/dhcp-wait-${DEVICE}.pid ]; then
+	echo "failed."
+	exit 1
+    else
+	rm -f /var/run/dhcp-wait-${DEVICE}.pid
+	echo "done."
+	IPSETUP=yes
+    fi
+fi
+
+if [ "$IPSETUP" != yes ]; then
+    ifconfig ${DEVICE} ${IPADDR} netmask ${NETMASK} broadcast ${BROADCAST}
+    if [ "$ISALIAS" = no ] ; then
+	route add -net ${NETWORK} netmask ${NETMASK} ${DEVICE}
+    else
+	route add -host ${IPADDR} ${DEVICE}
+    fi
+
+    # this is broken! it's only here for compatibility RH sytstems
+    if [ "${GATEWAY}" != "" -a "${GATEWAY}" != "none" ]; then
+	route add default gw ${GATEWAY} metric 1 ${DEVICE}
+    fi
+
+    . /etc/sysconfig/network
+
+    if [ "${GATEWAY}" != "" ]; then
+	if [ "${GATEWAYDEV}" = "" -o "${GATEWAYDEV}" = "${DEVICE}" ]; then
+	    # set up default gateway
+	    route add default gw ${GATEWAY} ${DEVICE}
+	    DEFGW=${GATEWAY}
+	fi
+    fi
+
+    if [ "$BOOTPROTO" = bootp -a "$ISALIAS" = no ]; then
+	if [ -n "$GATEWAYS" ]; then
+	    for gw in $GATEWAYS; do
+		if [ $gw != "${DEFGW}" ]; then
+		    route add default gw $gw ${DEVICE}
+		fi
+	    done
+	fi
+
+	if [ -n "$DNSSRVS" -a -n "$SEARCH" ]; then
+	    echo "search $SEARCH" > /etc/resolv.conf
+	    for dns in $DNSSRVS; do
+		    echo "nameserver $dns" >> /etc/resolv.conf
+	    done
+	fi
+
+	if [ -n "$BOOTPHOSTNAME" -a -z "`hostname`" ]; then
+	    hostname $BOOTPHOSTNAME
+	fi
+    fi
+fi
+
+exec /etc/sysconfig/network-scripts/ifup-post $1
