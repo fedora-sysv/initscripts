@@ -10,7 +10,8 @@ if [ "$1" = "" ]; then
 	exit 1
 fi
 
-if [ ! -f /etc/sysconfig/static-routes ]; then
+if [ ! -f /etc/sysconfig/networking/static-routes ] &&
+    [ ! -f /etc/sysconfig/static-routes ]; then
 	exit 0
 fi
 
