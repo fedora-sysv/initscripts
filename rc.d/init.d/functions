@@ -330,6 +330,17 @@ echo_passed() {
   return 1
 }
 
+echo_warning() {
+  [ "$BOOTUP" = "color" ] && $MOVE_TO_COL
+  echo -n "["
+  [ "$BOOTUP" = "color" ] && $SETCOLOR_WARNING
+  echo -n $"WARNING"
+  [ "$BOOTUP" = "color" ] && $SETCOLOR_NORMAL
+  echo -n "]"
+  echo -ne "\r"
+  return 1
+}
+
 # Log that something succeeded
 success() {
   if [ -z "${IN_INITLOG:-}" ]; then
@@ -369,6 +380,20 @@ passed() {
      trap - SIGPIPE
   fi
   [ "$BOOTUP" != "verbose" ] && echo_passed
+  return $rc
+}  
+
+# Log a warning
+warning() {
+  rc=$?
+  if [ -z "${IN_INITLOG:-}" ]; then
+     initlog $INITLOG_ARGS -n $0 -s "$1" -e 1
+  else
+     trap "" SIGPIPE
+     echo "$INITLOG_ARGS -n $0 -s \"$1\" -e 1" >&21
+     trap - SIGPIPE
+  fi
+  [ "$BOOTUP" != "verbose" ] && echo_warning
   return $rc
 }  
 
