@@ -351,6 +351,17 @@ mount -f /proc
 [ -f /proc/bus/usb/devices ] && mount -f -t usbdevfs usbdevfs /proc/bus/usb
 [ -e /dev/.devfsd ] && mount -f -t devfs devfs /dev 
 
+# Turn off DMA on CD-ROMs. It more often than not causes problems.
+if [ -e /proc/ide ]; then
+ DRIVERS=`find /proc/ide/ -name driver`
+ if [ "$DRIVERS" != "" ]; then
+  for N in `grep -v ide-disk $DRIVERS | cut -d/ -f5` ; do
+   hdparm -d0 /dev/$N
+  done
+ fi
+fi
+
+
 # Turn on harddisk optimization
 # There is only one file /etc/sysconfig/harddisks for all disks
 # after installing the hdparm-RPM. If you need different hdparm parameters
