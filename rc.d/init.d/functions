@@ -133,6 +133,7 @@ killproc() {
 			ps h $pid >/dev/null 2>&1
 			RC=$?
 			[ $RC -eq 0 ] && failure "$base shutdown" || success "$base shutdown"
+			RC=$((! $RC))
 		# use specified level only
 		else
 		        if ps h $pid >/dev/null 2>&1; then
