@@ -220,7 +220,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Thu May 17 2001 Bill Nottingham <notting@redhat.com>
 - don't run ifup ppp0 if ppp-watch gets SIGINT (#40585, ak@cave.hop.stu.neva.ru)
-- fix do_netreport (#37716, #39603)
+- fix do_netreport (#37716, #39603 <crlf@aeiou.pt>)
 
 * Wed May 16 2001 Nalin Dahyabhai <nalin@redhat.com>
 - copyright: GPL -> license: GPL
