@@ -115,7 +115,6 @@ rm -rf $RPM_BUILD_ROOT
 %config /sbin/ifup
 %config /etc/sysconfig/network-scripts/network-functions
 %config /etc/sysconfig/network-scripts/ifup-post
-%config /etc/sysconfig/network-scripts/ifdhcpc-done
 %config /etc/sysconfig/network-scripts/ifcfg-lo
 %config /etc/sysconfig/network-scripts/ifdown-ppp
 %config /etc/sysconfig/network-scripts/ifdown-sl
