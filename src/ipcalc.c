@@ -296,7 +296,7 @@ int main(int argc, const char **argv) {
 	}
 	tmp = NULL;
 	for (; i>0; i--) {
-	   tmp = malloc(strlen(ipStr + 3));
+	   tmp = malloc(strlen(ipStr) + 3);
 	   sprintf(tmp,"%s.0",ipStr);
 	   ipStr = tmp;
 	}
@@ -308,12 +308,13 @@ int main(int argc, const char **argv) {
 	return 1;
     }
 
-    poptFreeContext(optCon);
     
     if (!(showNetmask|showPrefix|showBroadcast|showNetwork|showHostname)) {
 	    poptPrintHelp(optCon, stderr, 0);
 	    return 1;
     }
+
+    poptFreeContext(optCon);
 
     /* we know what we want to display now, so display it. */
 
