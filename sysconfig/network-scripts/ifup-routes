@@ -6,26 +6,8 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
-# Older format
-if [ -f "/etc/sysconfig/network-scripts/route-$1" ]; then
- while read line; do
-    /sbin/ip route add $line
- done < "/etc/sysconfig/network-scripts/route-$1"
-fi
-
-if [ -n "$2" -a "$2" != "$1" ]; then
-  if [ -f "/etc/sysconfig/network-scripts/route-$2" ]; then
-    while read line; do
-      /sbin/ip route add $line
-    done < "/etc/sysconfig/network-scripts/route-$2"
-  fi
-fi
-
-# Red Hat network configuration format
-NICK=${2:-$1}
-CONFIG="/etc/sysconfig/network-scripts/$NICK.route"
-if [ -f $CONFIG ]; then 
-    . $CONFIG
+handle_file () {
+    . $1
     routenum=0
     while [ "x$(eval echo '$'ADDRESS$routenum)x" != "xx" ]; do
 	eval `ipcalc -p $(eval echo '$'ADDRESS$routenum) $(eval echo '$'NETMASK$routenum)`
@@ -37,4 +19,29 @@ if [ -f $CONFIG ]; then
 	/sbin/ip route add $line
 	routenum=$(($routenum+1))
     done
+}
+
+FILES="/etc/sysconfig/network-scripts/route-$1"
+if [ -n "$2" -a "$2" != "$1" ]; then
+    FILES="$FILES /etc/sysconfig/network-scripts/route-$2"
 fi
+
+for file in $FILES; do
+   if [ -f "$file" ]; then
+       if egrep -q 'ADDRESS[0-9]+=' $file ; then
+           # new format
+	   handle_file $file
+       else
+           # older format
+           while read line; do
+               /sbin/ip route add $line
+           done < "$FILE"
+       fi
+   fi
+done
+
+
+# Red Hat network configuration format
+NICK=${2:-$1}
+CONFIG="/etc/sysconfig/network-scripts/$NICK.route"
+[ -f $CONFIG ] && handle_file $CONFIG
