@@ -183,7 +183,8 @@ const char *get_hostname(unsigned long int addr)
   For more information, please see the ipcalc(1) man page.
 */
 int main(int argc, const char **argv) {
-    int showBroadcast = 0, showNetwork = 0, showHostname = 0, showNetmask = 0;
+    int showBroadcast = 0, showPrefix = 0, showNetwork = 0;
+    int showHostname = 0, showNetmask = 0;
     int beSilent = 0;
     int rc;
     poptContext optCon;
@@ -199,7 +200,9 @@ int main(int argc, const char **argv) {
 	    { "netmask", 'm', 0, &showNetmask, 0,
 		"Display default netmask for IP (class A, B, or C)" },
 	    { "network", 'n', 0, &showNetwork, 0,
-		"Display calculated network address", },
+		"Display network address", },
+	    { "prefix", 'p', 0, &showPrefix, 0,
+	      "Display network prefix", },
 	    { "silent", 's', 0, &beSilent, 0,
 		"Don't ever display error messages " },
 	    POPT_AUTOHELP
@@ -296,11 +299,16 @@ int main(int argc, const char **argv) {
 	    netmask.s_addr = default_netmask(ip.s_addr);
 	    prefix = mask2prefix(netmask.s_addr);
 	}
-	
-	printf("PREFIX=%d\n", prefix);
+
 	printf("NETMASK=%s\n", inet_ntoa(netmask));
     }
 
+    if (showPrefix) {
+	if (!prefix)
+	    prefix = mask2prefix(ip.s_addr);
+	printf("PREFIX=%d\n", prefix);
+    }
+    	    
     if (showBroadcast) {
 	broadcast.s_addr = calc_broadcast(ip.s_addr, prefix);
 	printf("BROADCAST=%s\n", inet_ntoa(broadcast));
