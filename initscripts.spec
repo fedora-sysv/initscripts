@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.49
+Version: 5.50
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -229,6 +229,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Oct 10 2000 Nalin Dahyabhai <nalin@redhat.com>
+- handle "gw x.x.x.x" as the last pair of flags in ifup-routes
+
 * Sun Sep  3 2000 Florian La Roche <Florian.LaRoche@redhat.com>
 - /etc/init.d is already provided by chkconfig
 
