@@ -111,21 +111,26 @@ case "$1" in
 
 		if [ "${DEVICE##cipcb}" != "$DEVICE" ] ; then
 			cipeinterfaces="$cipeinterfaces $i"
+			unset DEVICE TYPE SLAVE BRIDGE
 			continue
 		fi
 		if [ "$TYPE" = "xDSL" ]; then
 		        xdslinterfaces="$xdslinterfaces $i"
+			unset DEVICE TYPE SLAVE BRIDGE
 			continue
 		fi
 		
 		if [ -n "$BRIDGE" ]; then
 		        bridgeinterfaces="$bridgeinterfaces $i"
+			unset DEVICE TYPE SLAVE BRIDGE
 			continue
 		fi
 		
 		if [ "$SLAVE" = "yes" ]; then
+			unset DEVICE TYPE SLAVE BRIDGE
 			continue
 		fi
+		unset DEVICE TYPE SLAVE BRIDGE
 	
 		if LANG=C egrep -L "^ONBOOT=['\"]?[Nn][Oo]['\"]?" ifcfg-$i > /dev/null ; then
 		        # this loads the module, to preserve ordering
@@ -206,16 +211,20 @@ case "$1" in
 
 		if [ "${DEVICE##cipcb}" != "$DEVICE" ] ; then
 			cipeinterfaces="$cipeinterfaces $i"
+			unset DEVICE TYPE BRIDGE
 			continue
 		fi
 		if [ -n "$BRIDGE" ]; then
 		        bridgeinterfaces="$bridgeinterfaces $i"
+			unset DEVICE TYPE BRIDGE
 		        continue
 		fi
 		if [ "$TYPE" = "xDSL" ]; then
 		        xdslinterfaces="$xdslinterfaces $i"
+			unset DEVICE TYPE BRIDGE
 			continue
 		fi
+		unset DEVICE TYPE BRIDGE
 	done
 	
 	for i in $cipeinterfaces $xdslinterfaces $bridgeinterfaces ; do
