@@ -55,9 +55,9 @@ while : ; do
   if [ "$PERSIST" != "yes" -o ! -f /var/run/sl-$DEVICE.dev ] ; then
     exit 0
   fi
-  while [ -f /var/run/LCK..$DEVICE && killall -0 dip ] ; {
+  while [ -f /var/run/LCK..$DEVICE && killall -0 dip ] ; do
         sleep 10
-  }
+  done
   rm -f /var/run/sl-$DEVICE.dev
 
   sleep $RETRYTIMEOUT || {
