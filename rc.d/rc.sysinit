@@ -216,8 +216,6 @@ echo -n $" done"
 success
 echo
 
-echo "raidautorun /dev/md0" | nash --quiet
-
 # Start the graphical boot, if necessary; /usr may not be mounted yet, so we
 # may have to do this again after mounting
 RHGB_STARTED=0
@@ -306,6 +304,27 @@ if [ -d /proc/acpi ]; then
    for module in /lib/modules/$unamer/kernel/drivers/acpi/* ; do
       insmod $module >/dev/null 2>&1
    done
+fi
+
+# RAID setup
+update_boot_stage RCraid
+echo "raidautorun /dev/md0" | nash --quiet
+if [ -f /etc/mdadm.conf ]; then
+    /sbin/mdadm -A -s
+fi
+
+# LVM2 initialization
+if [ -x /sbin/lvm.static ]; then
+    if ! LC_ALL=C fgrep -q "device-mapper" /proc/devices 2>/dev/null ; then
+	modprobe dm-mod >/dev/null 2>&1
+    fi
+    echo "mkdmnod" | /sbin/nash --quiet >/dev/null 2>&1
+    [ -n "$SELINUX" ] && restorecon /dev/mapper/control >/dev/null 2>&1
+    if [ -c /dev/mapper/control -a -x /sbin/lvm.static ]; then
+	if /sbin/lvm.static vgscan --mknodes --ignorelockingfailure > /dev/null 2>&1 ; then
+	    action $"Setting up Logical Volume Management:" /sbin/lvm.static vgchange -a y --ignorelockingfailure
+	fi
+    fi
 fi
 
 if [ -f /fastboot ] || strstr "$cmdline" fastboot ; then
@@ -452,20 +471,6 @@ state=`awk '/ \/ / && ($3 !~ /rootfs/) { print $4 }' /proc/mounts`
 [ "$state" != "rw" -a "$READONLY" != "yes" ] && \
   action $"Remounting root filesystem in read-write mode: " mount -n -o remount,rw /
 
-# LVM2 initialization
-if [ -x /sbin/lvm.static ]; then
-    if ! LC_ALL=C fgrep -q "device-mapper" /proc/devices 2>/dev/null ; then
-	modprobe dm-mod >/dev/null 2>&1
-    fi
-    echo "mkdmnod" | /sbin/nash --quiet >/dev/null 2>&1
-    [ -n "$SELINUX" ] && restorecon /dev/mapper/control >/dev/null 2>&1
-    if [ -c /dev/mapper/control -a -x /sbin/lvm.static ]; then
-	if /sbin/lvm.static vgscan --mknodes --ignorelockingfailure > /dev/null 2>&1 ; then
-	    action $"Setting up Logical Volume Management:" /sbin/lvm.static vgchange -a y --ignorelockingfailure
-	fi
-    fi
-fi
-
 # Clean up SELinux labels
 if [ -n "$SELINUX" ]; then
    for file in /etc/mtab /etc/ld.so.cache ; do
@@ -506,10 +511,6 @@ if [ -f /etc/rc.modules ]; then
 	/etc/rc.modules
 fi
 
-update_boot_stage RCraid
-if [ -f /etc/mdadm.conf ]; then
-    /sbin/mdadm -A -s
-fi
 
 _RUN_QUOTACHECK=0
 # Check filesystems
