@@ -106,7 +106,7 @@ set_signal(int signo, void (*handler)(int)) {
     struct sigaction act;
 
     act.sa_handler = handler;
-    act.flags = SA_RESTART;
+    act.sa_flags = SA_RESTART;
     sigemptyset(&act.sa_mask);
     sigaction(signo, &act, NULL);
 }
@@ -139,7 +139,7 @@ detach(int now, int parentExitCode, char *device) {
 	    /* forward likely signals to the main process; we will
 	     * react later
 	     */
-	    theChild = child
+	    theChild = child;
 	    set_signal(SIGINT, forward_signal);
 	    set_signal(SIGTERM, forward_signal);
 	    set_signal(SIGHUP, forward_signal);
