@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.72
+Version: 7.73
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -252,6 +252,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Aug 27 2004 Jason Vas Dias  <jvdias@redhat.com> 7.73-1
+- Add support for running the DHCPv6 client to ifup 
+- (new DHCPV6C=yes/no ifcfg-${IF} variable) + update sysconfig.txt 
+
 * Fri Aug 27 2004 Bill Nottingham <notting@redhat.com> 7.72-1
 - flip the kernel conflict to a Requires:
 
