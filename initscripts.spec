@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.80
+Version: 5.81
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -254,6 +254,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Apr  2 2001 Bill Nottingham <notting@redhat.com>
+- fix segfault in usernetctl (#34353)
+
 * Mon Mar 26 2001 Bill Nottingham <notting@redhat.com>
 - don't print errors in /etc/init.d/network if kernel.hotplug doesn't exist
 
