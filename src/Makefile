@@ -47,7 +47,7 @@ usleep: $(USLEEP_OBJS)
 	$(CC) $(LDFLAGS) -o $@ $(USLEEP_OBJS) -lpopt
 
 ppp-watch: $(PPPWATCH_OBJS)
-	$(CC) $(LDFLAGS) -o $@ $(PPPWATCH_OBJS) -lglib
+	$(CC) $(LDFLAGS) -o $@ $(PPPWATCH_OBJS) /usr/lib/libglib.a
 shvar.o: shvar.c
 	$(CC) $(CFLAGS) `glib-config --cflags` -c shvar.c -o shvar.o
 ppp-watch.o: ppp-watch.c
