@@ -40,24 +40,28 @@ mkdir -p $RPM_BUILD_ROOT/var/run/netreport
 chmod u=rwx,g=rwx,o=rx $RPM_BUILD_ROOT/var/run/netreport
 
 for i in 0 1 2 3 4 5 6 ; do
-  file=$RPM_BUILD_ROOT/etc/rc$i.d
+  file=$RPM_BUILD_ROOT/etc/rc.d/rc$i.d
   mkdir $file
 # chown root.root $file
   chmod u=rwx,g=rx,o=rx $file
 done
 
 # Can't store symlinks in a CVS archive
-ln -s ../init.d/killall $RPM_BUILD_ROOT/etc/rc0.d/S00killall
-ln -s ../init.d/killall $RPM_BUILD_ROOT/etc/rc6.d/S00killall
+ln -s ../init.d/killall $RPM_BUILD_ROOT/etc/rc.d/rc0.d/S00killall
+ln -s ../init.d/killall $RPM_BUILD_ROOT/etc/rc.d/rc6.d/S00killall
 
-ln -s ../init.d/halt $RPM_BUILD_ROOT/etc/rc0.d/S01halt
-ln -s ../init.d/halt $RPM_BUILD_ROOT/etc/rc6.d/S01reboot
+ln -s ../init.d/halt $RPM_BUILD_ROOT/etc/rc.d/rc0.d/S01halt
+ln -s ../init.d/halt $RPM_BUILD_ROOT/etc/rc.d/rc6.d/S01reboot
 
-ln -s ../init.d/single $RPM_BUILD_ROOT/etc/rc1.d/S00single
+ln -s ../init.d/single $RPM_BUILD_ROOT/etc/rc.d/rc1.d/S00single
 
-ln -s ../rc.local $RPM_BUILD_ROOT/etc/rc2.d/S99local
-ln -s ../rc.local $RPM_BUILD_ROOT/etc/rc3.d/S99local
-ln -s ../rc.local $RPM_BUILD_ROOT/etc/rc5.d/S99local
+ln -s ../rc.local $RPM_BUILD_ROOT/etc/rc.d/rc2.d/S99local
+ln -s ../rc.local $RPM_BUILD_ROOT/etc/rc.d/rc3.d/S99local
+ln -s ../rc.local $RPM_BUILD_ROOT/etc/rc.d/rc5.d/S99local
+
+for i in 0 1 2 3 4 5 6 ; do
+  ln -s rc.d/rc$i.d $RPM_BUILD_ROOT/etc/rc$i.d
+done
 
 mkdir -p $RPM_BUILD_ROOT/var/{log,run}
 touch $RPM_BUILD_ROOT/var/run/utmp
@@ -66,13 +70,6 @@ touch $RPM_BUILD_ROOT/var/log/wtmp
 
 %pre
 /usr/sbin/groupadd -g 22 -r -f utmp
-#if [ -e /etc/rc.d -a ! -L /etc/rc.d -a -d /etc/init.d ]; then
-#   echo "can't move /etc/rc.d/init.d -> /etc/init.d - bailing"
-#   exit 1
-#fi
-#if [ -d /etc/rc.d -a ! -L /etc/rc.d ]; then
-#   mv -f /etc/rc.d/* /etc && rm -rf /etc/rc.d && ln -snf . /etc/rc.d
-#fi
 
 %post
 touch /var/log/wtmp
@@ -190,13 +187,13 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/X11/prefdm
 %config /etc/inittab
 /etc/rc.d
-%config /etc/rc.sysinit
-%dir    /etc/rc[0-9].d
-%config(missingok) /etc/rc[0-9].d/*
+%config /etc/rc.d/rc.sysinit
+/etc/rc[0-9].d
+%config(missingok) /etc/rc.d/rc[0-9].d/*
 %dir    /etc/init.d
 %config(missingok) /etc/init.d/*
-%config /etc/rc
-%config(noreplace) /etc/rc.local
+%config /etc/rc.d/rc
+%config(noreplace) /etc/rc.d/rc.local
 %config(noreplace) /etc/sysctl.conf
 %config /etc/profile.d/lang.sh
 %config /etc/profile.d/lang.csh
@@ -225,6 +222,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Sat Jul 15 2000 Matt Wilson <msw@redhat.com>
 - kill all the PreTransaction stuff
+- move all the stuff back in to /etc/rc.d/
 
 * Thu Jul 13 2000 Bill Nottingham <notting@redhat.com>
 - fix == tests in rc.sysinit
