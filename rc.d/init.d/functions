@@ -240,9 +240,9 @@ echo_passed() {
 # Log that something succeeded
 success() {
   if [ -z "$IN_INITLOG" ]; then
-     initlog -n $0 -s "$1" -e 1
+     initlog $INITLOG_ARGS -n $0 -s "$1" -e 1
   else
-     echo "-n $0 -s \"$1\" -e 1" >&21
+     echo "$INITLOG_ARGS -n $0 -s \"$1\" -e 1" >&21
   fi
   [ "$BOOTUP" != "verbose" ] && echo_success
   return 0
@@ -252,9 +252,9 @@ success() {
 failure() {
   rc=$?
   if [ -z "$IN_INITLOG" ]; then
-     initlog -n $0 -s "$1" -e 2
+     initlog $INITLOG_ARGS -n $0 -s "$1" -e 2
   else
-     echo "-n $0 -s \"$1\" -e 2" >&21
+     echo "$INITLOG_ARGS -n $0 -s \"$1\" -e 2" >&21
   fi
   [ "$BOOTUP" != "verbose" ] && echo_failure
   return $rc
@@ -264,9 +264,9 @@ failure() {
 passed() {
   rc=$?
   if [ -z "$IN_INITLOG" ]; then
-     initlog -n $0 -s "$1" -e 1
+     initlog $INITLOG_ARGS -n $0 -s "$1" -e 1
   else
-     echo "-n $0 -s \"$1\" -e 1" >&21
+     echo "$INITLOG_ARGS -n $0 -s \"$1\" -e 1" >&21
   fi
   [ "$BOOTUP" != "verbose" ] && echo_passed
   return $rc

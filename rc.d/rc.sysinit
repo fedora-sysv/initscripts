@@ -7,7 +7,7 @@
 
 # Rerun ourselves through initlog
 if [ -z "$IN_INITLOG" ]; then
- [ -f /sbin/initlog ] && exec /sbin/initlog -r /etc/rc.d/rc.sysinit
+ [ -f /sbin/initlog ] && exec /sbin/initlog $INITLOG_ARGS -r /etc/rc.d/rc.sysinit
 fi
 
 # Set the path
@@ -100,7 +100,7 @@ if [ -n "$KEYMAP" ]; then
 fi   
 
 # Load system font
-if [ -x /sbin/setsysfont ]
+if [ -x /sbin/setsysfont ]; then
     . /etc/sysconfig/i18n
     if [ -f /etc/sysconfig/console/$SYSFONT.psf.gz -o -f /usr/lib/kbd/consolefonts/$SYSFONT.psf.gz ]; then
        action "Setting default font" /sbin/setsysfont
