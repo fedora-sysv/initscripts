@@ -1,3 +1,11 @@
+2003-01-15  Nalin Dahyabhai <nalin@redhat.com>
+
+	* rc.d/rc.sysinit:
+	discard anything after the name of the tty when looking
+	for mingetty invocations in /etc/inittab, avoids barfing
+	on systems where 'mingetty /dev/ttyFOO --noclear' is in
+	use (like mine)
+
 2003-01-14  Bill Nottingham  <notting@redhat.com>
 
 	* ChangeLog, initscripts.spec: 7.03-1
