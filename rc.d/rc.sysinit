@@ -526,12 +526,6 @@ fi
 if [ ! -e /boot/System.map -a -r /boot/System.map-`uname -r` ] ; then
 	ln -s -f System.map-`uname -r` /boot/System.map
 fi
-if [ -L /boot/module-info -a -r /boot/module-info-`uname -r` ] ; then
-	ln -s -f module-info-`uname -r` /boot/module-info
-fi
-if [ ! -e /boot/module-info -a -r /boot/module-info-`uname -r` ] ; then
-	ln -s -f module-info-`uname -r` /boot/module-info
-fi
 
 # Now that we have all of our basic modules loaded and the kernel going,
 # let's dump the syslog ring somewhere so we can find it later
