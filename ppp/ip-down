@@ -8,6 +8,8 @@ export PATH
 LOGDEVICE=$6
 REALDEVICE=$1
 
+/etc/ppp/ip-down.ipv6to4 ${LOGDEVICE}
+
 [ -x /etc/ppp/ip-down.local ] && /etc/ppp/ip-down.local "$@"
 
 /etc/sysconfig/network-scripts/ifdown-post ifcfg-${LOGDEVICE}
