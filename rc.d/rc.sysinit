@@ -382,15 +382,15 @@ if [ -f /etc/sysconfig/desktop ]; then
 	fi
 fi
 if [ -n "$preferred" ] && which $preferred >/dev/null 2>&1; then
-	ln -snf ../..`which $preferred` /etc/X11/prefdm 
+	ln -snf `which $preferred` /etc/X11/prefdm 
 else
         if [ ! -L /etc/X11/prefdm ]; then
 		if which gdm >/dev/null 2>&1; then
-			ln -snf ../..`which gdm` /etc/X11/prefdm
+			ln -snf `which gdm` /etc/X11/prefdm
 		elif which kdm >/dev/null 2>&1; then
-			ln -snf ../..`which kdm` /etc/X11/prefdm
+			ln -snf `which kdm` /etc/X11/prefdm
 		elif which xdm >/dev/null 2>&1; then
-			ln -snf ../..`which xdm` /etc/X11/prefdm
+			ln -snf `which xdm` /etc/X11/prefdm
 		fi
 	fi
 fi
