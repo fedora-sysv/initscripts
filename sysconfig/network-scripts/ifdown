@@ -52,6 +52,11 @@ while ! check_device_down && [ "$waited" -lt 50 ] ; do
     waited=$(($waited+1))
 done
 
+# don't leave an outdated key sitting around
+if [ -n "${WIRELESS_ENC_KEY}" -a -x /sbin/iwconfig ]; then
+    /sbin/iwconfig ${DEVICE} enc 0
+fi
+
 if [ "$retcode" = 0 ] ; then
     /etc/sysconfig/network-scripts/ifdown-post $CONFIG
     # do NOT use $? because ifdown should return whether or not

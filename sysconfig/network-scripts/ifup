@@ -46,6 +46,10 @@ else
     ISALIAS=no
 fi
 
+if [ -n "${WIRELESS_ENC_KEY}" -a -x /sbin/iwconfig ]; then
+   iwconfig ${DEVICE} enc ${WIRELESS_ENC_KEY}
+fi
+
 # Old BOOTP variable
 if [ "${BOOTP}" = "yes" ]; then
     BOOTPROTO=bootp
