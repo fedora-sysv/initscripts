@@ -212,7 +212,7 @@ if ! strstr "$cmdline" nousb && ! strstr "$cmdline" nomodules ; then
 fi
 
 if [ $usb = 1 -a ! -f /proc/bus/usb/devices ]; then
-    action $"Mounting USB filesystem: "  mount -t usbdevfs usbdevfs /proc/bus/usb
+    action $"Mounting USB filesystem: "  mount -t usbfs usbfs /proc/bus/usb
 fi
 
 needusbstorage=
@@ -419,7 +419,7 @@ mount -f /
 mount -f /proc
 mount -f /sys >/dev/null 2>&1
 mount -f /dev/pts
-[ -f /proc/bus/usb/devices ] && mount -f -t usbdevfs usbdevfs /proc/bus/usb
+[ -f /proc/bus/usb/devices ] && mount -f -t usbfs usbfs /proc/bus/usb
 [ -e /dev/.devfsd ] && mount -f -t devfs devfs /dev 
 
 
