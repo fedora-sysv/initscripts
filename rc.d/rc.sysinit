@@ -183,6 +183,7 @@ fi
 
 needusbstorage=
 if [ $usb = "1" ]; then
+    [ ! -f /proc/bus/usb/devices ] && mount -t usbdevfs usbdevfs /proc/bus/usb
     sleep 5
     mouseoutput=`cat /proc/bus/usb/devices 2>/dev/null|grep -E "^I.*Cls=03.*Prot=02"`
     kbdoutput=`cat /proc/bus/usb/devices 2>/dev/null|grep -E "^I.*Cls=03.*Prot=01"`
