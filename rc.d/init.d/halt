@@ -70,9 +70,9 @@ if [ $? = 0 -a -x /usr/sbin/alsactl ]; then
 fi
 
 # Save random seed
-touch /var/lib/random_seed
-chmod 600 /var/lib/random_seed
-runcmd $"Saving random seed: " dd if=/dev/urandom of=/var/lib/random_seed count=1 bs=512 2>/dev/null
+touch /var/lib/random-seed
+chmod 600 /var/lib/random-seed
+runcmd $"Saving random seed: " dd if=/dev/urandom of=/var/lib/random-seed count=1 bs=512 2>/dev/null
 
 # Sync the system clock.
 ARC=0
