@@ -1,11 +1,10 @@
 #!/bin/sh
 
-VERSION="`basename $0` ver. 0.9"
+VERSION="`basename $0` ver. 0.91"
 USAGE="Usage: `basename $0` < option > | --status-all | \
-[ service_name [ command ] ]"
+[ service_name [ command | --full-restart ] ]"
 SERVICE=
 SERVICEDIR="/etc/rc.d/init.d"
-PWD=`pwd`
 
 if [ $# -eq 0 ]; then
    echo "${USAGE}" >&2
@@ -38,8 +37,15 @@ do
                 ;;
             esac
           done
-          cd "${PWD}"
           exit 0
+       elif [ $# -eq 2 -a "${2}" = "--full-restart" ]; then
+          SERVICE="${1}"
+          cd "${SERVICEDIR}"
+          if [ -x "${SERVICEDIR}/${SERVICE}" ]; then
+            "${SERVICEDIR}/${SERVICE}" stop
+            "${SERVICEDIR}/${SERVICE}" start
+            exit $?
+          fi
        elif [ -z "${SERVICE}" ]; then
          SERVICE="${1}"
        else
