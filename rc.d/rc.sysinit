@@ -114,7 +114,7 @@ if [ "`/sbin/consoletype`" == "vt" ]; then
   if [ -f /etc/sysconfig/keyboard ]; then
     . /etc/sysconfig/keyboard
   fi
-  if [ -n "$KEYTABLE" -a -d "/usr/lib/kbd/keymaps" ]; then
+  if [ -n "$KEYTABLE" -a -d "/usr/lib/kbd/keymaps" -o -d "/lib/kbd/keymaps" ]; then
      KEYMAP=$KEYTABLE
   fi
  fi
@@ -137,7 +137,9 @@ if [ "`/sbin/consoletype`" == "vt" ]; then
     if [ -f /etc/sysconfig/console/$SYSFONT.psf.gz -o \
          -f /usr/lib/kbd/consolefonts/$SYSFONT.psf.gz -o \
          -f /etc/sysconfig/console/$SYSFONT.gz -o \
-         -f /usr/lib/kbd/consolefonts/$SYSFONT.gz ]; then
+         -f /usr/lib/kbd/consolefonts/$SYSFONT.gz -o \
+	 -f /lib/kbd/consolefonts/$SYSFONT.gz -o \
+	 -f /lib/kbd/consolefonts/$SYSFONT.psf.gz ]; then
        action $"Setting default font ($SYSFONT): " /sbin/setsysfont
     fi
  fi

@@ -20,6 +20,11 @@ export PATH="/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin"
 # Get a sane screen width
 [ -z "$COLUMNS" ] && COLUMNS=80
 
+if [ -f /etc/sysconfig/i18n ] ; then
+  . /etc/sysconfig/i18n
+  LC_MESSAGES=$LANG
+fi
+
 # Read in our configuration
 if [ -z "$BOOTUP" ]; then
   if [ -f /etc/sysconfig/init ]; then

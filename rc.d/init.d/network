@@ -59,10 +59,12 @@ case "$1" in
 	esac
 
 	for i in $interfaces; do
-		if egrep -L "^ONBOOT=\"?[Nn][Oo]\"?" ifcfg-$i >/dev/null 2>&1 && [ "${i##eth}" != "$i" ]; then
-			# Probe module to preserve interface ordering
-			if [ -n "`modprobe -vn $i | grep -v Note:`" ]; then
-			   /sbin/ifconfig $i >/dev/null 2>&1
+		if egrep -L "^ONBOOT=\"?[Nn][Oo]\"?" ifcfg-$i >/dev/null 2>&1 ; then
+		        if [ "${i##eth}" != "$i" ]; then
+			  # Probe module to preserve interface ordering
+			  if [ -n "`modprobe -vn $i | grep -v Note:`" ]; then
+			     /sbin/ifconfig $i >/dev/null 2>&1
+			  fi
 			fi
 		else
 					# If we're in confirmation mode, get user confirmation
