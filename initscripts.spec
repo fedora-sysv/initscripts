@@ -202,7 +202,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/rc.d/init.d
 /etc/rc.local
 /etc/rc.sysinit
-%config(missingok) /etc/rc.d/init.d/*
+%config /etc/rc.d/init.d/*
 %config /etc/rc.d/rc
 %config(noreplace) /etc/rc.d/rc.local
 %config /etc/rc.d/rc.sysinit
