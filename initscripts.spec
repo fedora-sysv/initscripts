@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.03
+Version: 7.04
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -246,6 +246,11 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Jan 15 2003 Bill Nottingham <notting@redhat.com> 7.04-1
+- tweak some translatable strings
+- fix for rc.sysinit on machines that pass arguments to mingetty
+  (<nalin@redhat.com>)
+
 * Tue Jan 14 2003 Bill Nottingham <notting@redhat.com> 7.03-1
 - move system font setting sooner (<milan.kerslager@pslib.cz>)
 - fix link checking for dhcp, use both ethtool and mii-tool
