@@ -75,20 +75,25 @@ ln -s ../rc.local $RPM_BUILD_ROOT/etc/rc.d/rc2.d/S99local
 ln -s ../rc.local $RPM_BUILD_ROOT/etc/rc.d/rc3.d/S99local
 ln -s ../rc.local $RPM_BUILD_ROOT/etc/rc.d/rc5.d/S99local
 
+mkdir -p $RPM_BUILD_ROOT/var/{log,run}
+touch $RPM_BUILD_ROOT/var/run/utmp
+touch $RPM_BUILD_ROOT/var/log/wtmp
+
+
 %pre
 /usr/sbin/groupadd -r -f utmp
 
 %post
-if [ ! -f /var/log/wtmp ]; then
-  touch /var/log/wtmp
-  chgrp utmp /var/log/wtmp
-  chmod 664 /var/log/wtmp
-fi
+touch /var/log/wtmp
+touch /var/run/utmp
+chown root.utmp /var/log/wtmp /var/run/utmp
+chmod 664 /var/log/wtmp /var/run/utmp
 
 chkconfig --add random 
 chkconfig --add netfs 
 chkconfig --add network 
 
+# handle serial installs semi gracefully
 if [ $1 = 0 ]; then
   if [ "$TERM" = "vt100" ]; then
       tmpfile=/etc/sysconfig/tmp.$$
@@ -171,10 +176,13 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/ppp/ip-up
 %config /etc/ppp/ip-down
 %doc sysconfig.txt sysvinitfiles
+%ghost %attr(0664,root,utmp) /var/log/wtmp
+%ghost %attr(0664,root,utmp) /var/run/utmp
+
 
 %changelog
 * Wed Apr 07 1999 Erik Troan <ewt@redhat.com>
-- changed utmp,wtmp to be group writeable and owned by group wtmp
+- changed utmp,wtmp to be group writeable and owned by group utmp
 
 * Tue Apr 06 1999 Bill Nottingham <notting@redhat.com>
 - fix loading of consolefonts/keymaps
