@@ -1,6 +1,6 @@
 Summary: inittab and /etc/rc.d scripts
 Name: initscripts
-%define version 3.55
+%define version 3.56
 Version: %{version}
 Copyright: GPL
 Group: Base
@@ -16,6 +16,11 @@ levels, and shut the system down cleanly. It also contains the scripts
 that activate and deactivate most network interfaces.
 
 %changelog
+
+* Sat May 02 1998 Michael K. Johnson <johnsonm@redhat.com>
+
+- Added lots of linuxconf support.  Should still work on systems that
+  do not have linuxconf installed, but linuxconf gives enhanced support.
 
 * Fri May 01 1998 Erik Troan <ewt@redhat.com>
 

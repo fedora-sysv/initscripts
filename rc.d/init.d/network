@@ -33,10 +33,8 @@ cd /etc/sysconfig/network-scripts
 interfaces=`ls ifcfg* | egrep -v '(ifcfg-lo|:)' | egrep 'ifcfg-[a-z0-9]+$' | \
             sed 's/^ifcfg-//g'`
 
-
-# See how we were called.
-case "$1" in
-  start)
+ipv4_forward_set ()
+{
 	# Turn IP forwarding on or off. We do this before bringing up the
 	# interfaces to make sure we don't forward when we shouldn't, and
 	# we do it even if networking isn't configured (why not?).
@@ -61,6 +59,13 @@ case "$1" in
 		fi
 	    fi
 	fi
+}
+
+
+# See how we were called.
+case "$1" in
+  start)
+	ipv4_forward_set
 
 	./ifup ifcfg-lo
 	for i in $interfaces; do
@@ -100,6 +105,9 @@ case "$1" in
   reload)
 	if [ -x /bin/linuxconf ] ; then
 		eval `/bin/linuxconf --hint netdev`
+		if [ "$RECONF_IPV4ROUTING" = "yes" ] ; then
+			ipv4_forward_set
+		fi
 		for device in $DEV_UP ; do
 			./ifup $device
 		done
@@ -123,10 +131,14 @@ case "$1" in
   probe)
 	if [ -x /bin/linuxconf ] ; then
 		eval `/bin/linuxconf --hint netdev`
-		[ -n "$DEV_UP$DEV_DOWN$DEV_RECONF$DEV_RECONF_ALIASES$DEV_RECONF_ROUTES" ] && \
+		[ -n "$DEV_UP$DEV_DOWN$DEV_RECONF$DEV_RECONF_ALIASES" -o \
+		  -n "$DEV_RECONF_ROUTES" -o \
+		  "$RECONF_IPV4ROUTING" = yes ] && \
 			echo reload
 		exit 0
 	else
+		# if linuxconf isn't around to figure stuff out for us,
+		# we punt.
 		exit 0
 	fi
 	;;

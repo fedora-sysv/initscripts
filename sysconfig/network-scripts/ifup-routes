@@ -7,11 +7,19 @@ if [ "$1" = "" ]; then
 	exit 1
 fi
 
-if [ ! -f /etc/sysconfig/static-routes ]; then
-	exit 0
-fi
+if [ -x /bin/linuxconf ] ; then
+	rm -f /var/run/routes.current
+	linuxconf --hint routing "$1" | while read args; do
+	    /sbin/route $args
+	    echo $args >> /var/run/routes.current
+	done
+else
+	if [ ! -f /etc/sysconfig/static-routes ]; then
+		exit 0
+	fi
 
-#note the trailing space in the grep gets rid of aliases
-grep "^$1 " /etc/sysconfig/static-routes | while read device args; do
-    /sbin/route add -$args $device
-done
+	#note the trailing space in the grep gets rid of aliases
+	grep "^$1 " /etc/sysconfig/static-routes | while read device args; do
+	    /sbin/route add -$args $device
+	done
+fi

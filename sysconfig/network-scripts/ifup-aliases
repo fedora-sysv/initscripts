@@ -1,0 +1,40 @@
+#!/bin/sh
+
+# adds aliases of device $1
+
+if [ "$1" = "" ]; then
+	echo "usage: $0 <net-device>"
+	exit 1
+fi
+
+if [ -x /bin/linuxconf ] ; then
+    # ask linuxconf for lines like:
+    # add	<device>	<ip>
+    # del	<device>
+    # reload	<number_of_aliases>
+    linuxconf --hint ipalias $1 | while read verb arg1 arg2 ; do
+	case $verb in
+	  add)
+		/sbin/ifconfig $arg1 $arg2
+		/sbin/route add $arg2 $arg1
+		;;
+	  del)
+		# the <device>- 0.0.0.0 tells the kernel to remove the device
+		# it is necessary to remove it in order for reload to work.
+		/sbin/ifconfig ${arg1}- 0.0.0.0
+		;;
+	  reload)
+		echo $arg1 > /proc/sys/net/core/net_alias_max
+		;;
+	esac
+    done
+
+else
+    # we don't have linuxconf to fall back on, so presumably we do
+    # not have to parse linuxconf ipalias ranges, either.
+    allow_null_glob_expansion=foo
+    for alias in /etc/sysconfig/network-scripts/ifcfg-$1:* ; do
+	/etc/sysconfig/network-scripts/ifup $alias
+    done
+    unset allow_null_glob_expansion
+fi
