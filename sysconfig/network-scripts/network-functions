@@ -262,23 +262,23 @@ check_link_down ()
     if [ -x /sbin/mii-tool -o -x /sbin/ethtool ]; then
         if ! LC_ALL=C ip link show dev $1 2>/dev/null| grep -q UP ; then
 	   ip link set dev $1 up >/dev/null 2>&1
-	   timeout=0
-	   while [ $timeout -le 10 ]; do
-	   	check_mii_tool $1
-		m=$?
-		check_ethtool $1
-		e=$?
-		if [ $m -eq 1 ] || [ $e -eq 1 ] ; then
-		    return 1
-		fi
-		if [ $m -eq 2 ] && [ $e -eq 2 ] ; then
-		    return 1
-		fi
-		usleep 500000
-		timeout=$((timeout+1))
-	   done
-	   return 0
 	fi
+	timeout=0
+	while [ $timeout -le 10 ]; do
+	    check_mii_tool $1
+	    m=$?
+	    check_ethtool $1
+	    e=$?
+	    if [ $m -eq 1 ] || [ $e -eq 1 ] ; then
+		return 1
+	    fi
+	    if [ $m -eq 2 ] && [ $e -eq 2 ] ; then
+		return 1
+	    fi
+	    usleep 500000
+	    timeout=$((timeout+1))
+	done
+	return 0
     fi
     return 1
 }
