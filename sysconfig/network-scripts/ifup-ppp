@@ -1,9 +1,9 @@
 #! /bin/bash
-PATH=/sbin:/usr/sbin:/bin:/usr/bin
+
+. /etc/init.d/functions
 
 cd /etc/sysconfig/network-scripts
 . network-functions
-. /etc/rc.d/init.d/functions
 
 # ifup-post for PPP is handled through /etc/ppp/ip-up
 if [ "${1}" = daemon ] ; then
