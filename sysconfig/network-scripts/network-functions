@@ -77,6 +77,10 @@ source_config ()
 	ESCON)
 		DEVICETYPE="escon"
 		;;
+	QETH)
+		DEVICETYPE="eth"
+		;;
+
     esac
     [ -z "$DEVICETYPE" ] && DEVICETYPE=`echo ${DEVICE} | sed "s/[0-9]*$//"`
     [ -z "$REALDEVICE" -a -n "$PARENTDEVICE" ] && REALDEVICE=$PARENTDEVICE
@@ -327,7 +331,7 @@ configure_ccwgroup_device ()
     local DIR SYSDIR
     # SUBCHANNELS is only set on mainframe ccwgroup devices
     [ -z "$SUBCHANNELS" ] && return
-    if [ "$TYPE" = "QETH" -o "$TYPE" = "HSI" ]; then
+    if [ "$TYPE" = "QETH" ]; then
          DIR="/sys/bus/ccwgroup/drivers/qeth"
     elif
        [ "$TYPE" = "CTC" -o "$TYPE" = "ESCON" ]; then

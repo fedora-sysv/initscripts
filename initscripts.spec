@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.55
+Version: 7.56
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -249,6 +249,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue May 25 2004 Karsten Hopp <karsten@redhat.de> 7.56-1 
+- special TYPE for qeth devices to differenciate them from ethX
+
 * Tue May 18 2004 Karsten Hopp <karsten@redhat.de> 7.55-1 
 - add support for ccwgroup devices on mainframe
 
