@@ -8,7 +8,7 @@
 #
 # RHL integration assistance by Pekka Savola <pekkas@netcore.fi>
 #
-# Version 2001-05-22d
+# Version 2001-07-17
 #
 # Uses following information from "/etc/sysconfig/network":
 #  NETWORKING_IPV6=yes|no: controls IPv6 initialization (global setting)
@@ -16,6 +16,7 @@
 # Uses following information from "/etc/sysconfig/network-scripts/ifcfg-$1":
 #  IPV6INIT=yes|no: controls IPv6 configuration for this interface
 #  IPV6_TUNNELMODE=IP|NBMA: mode of tunnel creation [default: IP]
+#  IPV6_MTU=<MTU for IPv6>: controls IPv6 MTU for this link [optional]
 # 
 #  For static tunnels 
 #  IPV6TUNNELIPV4="<ipv4 address of foreign tunnel endpoint>"
@@ -34,18 +35,13 @@ CONFIG=$1
 [ -f "$CONFIG" ] || CONFIG=ifcfg-$CONFIG
 source_config  
 
-# Test if IPv6 configuration is enabled for this interface
-if [ ! "$IPV6INIT" = "yes" ]; then
-	exit 0
-fi                                                  
+# Test whether IPv6 configuration is enabled for this interface, else stop
+[ "$IPV6INIT" = "yes" ] || exit 0
 
-# Test if IPv6 is up
-if [ ! "${NETWORKING_IPV6}" = "yes" ]; then
-        exit 0
-fi
+# Test whether IPv6 should be configured, else stop
+[ "${NETWORKING_IPV6}" = "yes" ] || exit 0
 
 if [ ! -f /etc/sysconfig/network-scripts/network-functions-ipv6 ]; then
-	# IPv6 setup isn't well
 	exit 1
 fi
 
@@ -58,36 +54,45 @@ test_ipv6 || exit 1
 # Setup IPv6-in-IPv4 tunnel(s)
 if [ "$DEVICE" = "sit0" ]; then
 	ifup_ipv6_autotunnel || exit 1
+	
+	# Set IPv6 MTU, if given 
+	if [ ! -z "$IPV6_MTU" ]; then
+		ipv6_set_mtu $DEVICE $IPV6_MTU
+	fi
 
 elif [ ! -z "$IPV6TUNNELIPV4" ]; then
 	if [ "$IPV6_TUNNELMODE" = "NBMA" ]; then
-		# NBMA-styled tunneling
 		if [ ! -z "$IPV6ADDR" ]; then
-			# Numbered tunnel
 			ifup_ipv6_real sit0 $IPV6ADDR
 		fi
 
 		# Add static IPv6 tunnel routes on specified virtual interface
 		if [ -f /etc/sysconfig/static-routes-ipv6 ]; then
-			grep "^$DEVICE" /etc/sysconfig/static-routes-ipv6 | while read device ipv6route args; do
-				if [ "$device" = "$DEVICE" ]; then
-					ifup_ipv6_tunnel $DEVICE $IPV6TUNNELIPV4 $ipv6route
-				fi
+			grep -w "^$DEVICE" /etc/sysconfig/static-routes-ipv6 | while read device ipv6route args; do
+				ifup_ipv6_tunnel $DEVICE $IPV6TUNNELIPV4 $ipv6route
 			done
 		fi
+
+		# Set IPv6 MTU, if given and in range
+		if [ ! -z "$IPV6_MTU" ]; then
+			ipv6_set_mtu sit0 $IPV6_MTU
+		fi
+
 	elif [ -z "$IPV6_TUNNELMODE" -o "$IPV6_TUNNELMODE" = "IP" ]; then
 		ifup_ipv6_tunneldev $DEVICE $IPV6TUNNELIPV4 || exit 1
 
+		# Set IPv6 MTU, if given and in range
+		if [ ! -z "$IPV6_MTU" ]; then
+			ipv6_set_mtu $DEVICE $IPV6_MTU
+		fi
+
 		if [ ! -z "$IPV6ADDR" ]; then
-			# Numbered tunnel
 			ifup_ipv6_real $DEVICE $IPV6ADDR
 		fi
 			
 		if [ -f /etc/sysconfig/static-routes-ipv6 ]; then
-			grep "^$DEVICE\W" /etc/sysconfig/static-routes-ipv6 | while read device ipv6route args; do
-				if [ "$device" = "$DEVICE" ]; then
-					ifup_ipv6_route $ipv6route :: $DEVICE
-				fi
+			grep -w "^$DEVICE" /etc/sysconfig/static-routes-ipv6 | while read device ipv6route args; do
+				ifup_ipv6_route $ipv6route :: $DEVICE
 			done
 		fi
 	else

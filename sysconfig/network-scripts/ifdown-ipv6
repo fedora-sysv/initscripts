@@ -8,7 +8,7 @@
 #
 # RHL integration assistance by Pekka Savola <pekkas@netcore.fi>
 #
-# Version 2001-05-22d
+# Version 2001-07-15
 #
 # Uses following information from /etc/sysconfig/network:
 #  NETWORKING_IPV6=yes|no: controls IPv6 initialization (global setting)
@@ -36,14 +36,10 @@ CONFIG=$1
 [ -f "$CONFIG" ] || CONFIG=ifcfg-$CONFIG
 source_config                                                                   
 
-# Test if IPv6 is globally enabled
-if [ ! "${NETWORKING_IPV6}" = "yes" ]; then
-        # Global IPv6 switch not enabled, end now
-        exit 0
-fi
+# Test whether IPv6 should be configured, else stop
+[ "${NETWORKING_IPV6}" = "yes" ] || exit 0
 
 if [ ! -f /etc/sysconfig/network-scripts/network-functions-ipv6 ]; then
-	# IPv6 setup isn't well
 	exit 1
 fi
 
@@ -68,7 +64,6 @@ if [ "$valid6to4config" = "yes" ]; then
 	if [ "$IPV6TO4_CONTROL_RADVD" = "yes" ]; then
 		# stop RADVD from distributing no longer usable 6to4 prefixes
 		if [ -z "$IPV6TO4_RADVD_PIDFILE" ]; then
-			# Take default
 			IPV6TO4_RADVD_PIDFILE="/var/run/radvd/radvd.pid"
 		fi
 		# Send SIGHUP to radvd
@@ -92,8 +87,43 @@ if [ "$valid6to4config" = "yes" ]; then
 		done
 	fi
 
+	# Detect type of address, whether it is IPv4 or IPv6
+	if testipv6_valid $IPV6TO4_RELAY; then
+		relay6to4type="ipv6"
+	fi
+
 	# Delete all static IPv6to4 routes
-	ifdown_ipv6_route_all sit0 ::$IPV6TO4_RELAY
+	if [ "$relay6to4type" = "ipv6" ]; then	
+		ifdown_ipv6_route_all sit0 $IPV6TO4_RELAY
+	else
+		ifdown_ipv6_route_all sit0 ::$IPV6TO4_RELAY
+	fi
+
+	# Delete old 6to4 routes, even if IPV6TO4_RELAY was changed
+	if [ -f /etc/sysconfig/static-routes-ipv6 ]; then
+		grep -w "^sit0" /etc/sysconfig/static-routes-ipv6 | while read device network dummy; do
+			if [ "$EXISTS_ipv6calc" = "yes" ]; then
+				# Convert given network to compressed one
+				network="`ipv6calc  --addr_to_compressed $network`"
+			fi
+			LC_ALL=C route -A inet6 | grep "^$network" | while read destination nexthop flags metric ref use iface dummy; do
+				if ! [ "$device" = "$iface" -a "$network" = "$destination" ]; then
+					continue
+				fi
+				# Look for routes to a compatible IPv4 address, delete them
+				if echo $nexthop | egrep -q '^::[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$'; then
+					ifdown_ipv6_route $destination $nexthop $iface
+				fi
+				# Look for routes to a IPv6to4 address, delete them
+				if echo $nexthop | egrep -q '^2002::'; then
+					ifdown_ipv6_route $destination $nexthop $iface
+				fi
+			done
+		done
+	fi
+
+	# Delete 6to4 route
+	ifdown_ipv6_route 2002::/16 :: sit0
 
 	# Delete all configured 6to4 address
 	ifdown_ipv6to4_all sit0 

@@ -6,7 +6,7 @@
 # Taken from:
 # (P) & (C) 2000-2001 by Peter Bieringer <pb@bieringer.de>
 #
-# Version 2001-05-07
+# Version 2001-07-15a
 #
 # Calling parameters:
 #  $1: interface name
@@ -42,11 +42,8 @@ CONFIG=$1
 [ -f "$CONFIG" ] || CONFIG=ifcfg-$CONFIG
 source_config                                                                   
 
-# Test if IPv6 is globally enabled
-if [ ! "${NETWORKING_IPV6}" = "yes" ]; then
-        # Global IPv6 switch not enabled, end now
-        exit 0
-fi
+# Test whether IPv6 should be configured, else stop
+[ "${NETWORKING_IPV6}" = "yes" ] || exit 0
 
 if [ ! -f /etc/sysconfig/network-scripts/network-functions-ipv6 ]; then
 	exit 1
@@ -70,7 +67,6 @@ if [ "$valid6to4config" = "yes" ]; then
 	if [ "$IPV6TO4_CONTROL_RADVD" = "yes" ]; then
 		# stop RADVD from distributing no longer usable 6to4 prefixes
 		if [ -z "$IPV6TO4_RADVD_PIDFILE" ]; then
-			# Take default
 			IPV6TO4_RADVD_PIDFILE="/var/run/radvd/radvd.pid"
 		fi
 		# Send SIGHUP to radvd

@@ -8,7 +8,7 @@
 #
 # RHL integration assistance by Pekka Savola <pekkas@netcore.fi>
 #
-# Version 2001-05-22d
+# Version 2001-07-15a
 #
 # Uses following information from /etc/sysconfig/network:
 #  NETWORKING_IPV6=yes|no: controls IPv6 initialization (global setting)
@@ -31,14 +31,10 @@ CONFIG=$1
 [ -f "$CONFIG" ] || CONFIG=ifcfg-$CONFIG
 source_config                                                                   
 
-# Test if IPv6 is up
-if [ ! "${NETWORKING_IPV6}" = "yes" ]; then
-        # Global IPv6 switch not enabled, end now
-        exit 0
-fi
+# Test whether IPv6 should be configured, else stop
+[ "${NETWORKING_IPV6}" = "yes" ] || exit 0
 
 if [ ! -f /etc/sysconfig/network-scripts/network-functions-ipv6 ]; then
-	# IPv6 setup isn't well
 	exit 1
 fi
 
@@ -54,7 +50,6 @@ if [ "$DEVICE" = "sit0" ]; then
 elif [ ! -z "$IPV6TUNNELIPV4" ]; then
 	if [ "$IPV6_TUNNELMODE" = "NBMA" ]; then
         	if [ ! -z "$IPV6ADDR" ]; then
-			# Numbered tunnel
 			ifdown_ipv6_real sit0 $IPV6ADDR
 		fi
 

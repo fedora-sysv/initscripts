@@ -6,7 +6,7 @@
 # Taken from:
 # (P) & (C) 2000-2001 by Peter Bieringer <pb@bieringer.de>
 #  
-# Version 2001-05-07
+# Version 2001-07-15a
 #
 # Calling parameters:
 #  $1: interface name
@@ -46,14 +46,10 @@ CONFIG=$1
 [ -f "$CONFIG" ] || CONFIG=ifcfg-$CONFIG
 source_config
 
-# Test if IPv6 is globally enabled
-if [ ! "${NETWORKING_IPV6}" = "yes" ]; then
-        # Global IPv6 switch not enabled, end now
-        exit 0
-fi
+# Test whether IPv6 should be configured, else stop
+[ "${NETWORKING_IPV6}" = "yes" ] || exit 0
 
 if [ ! -f /etc/sysconfig/network-scripts/network-functions-ipv6 ]; then 
-	# IPv6 setup isn't well
         exit 1 
 fi 
 
@@ -113,10 +109,8 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 		ifup_ipv6to4 $DEVICE $ipv4addr || exit 1
 	
 		if [ -f /etc/sysconfig/static-routes-ipv6 ]; then
-			grep "^sit0" /etc/sysconfig/static-routes-ipv6 | while read device args; do
-				if [ "$device" = "sit0" ]; then
-					ifup_ipv6_route $args ::$IPV6TO4_RELAY sit0
-				fi
+			grep -w "^sit0" /etc/sysconfig/static-routes-ipv6 | while read device args; do
+				ifup_ipv6_route $args ::$IPV6TO4_RELAY sit0
 			done
 		fi
 
@@ -126,7 +120,6 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 				IPV6TO4_RADVD_PIDFILE="/var/run/radvd/radvd.pid"
 			fi
 
-			# Send SIGHUP to radvd
 			if [ -f "$IPV6TO4_RADVD_PIDFILE" ]; then
 				pid="`cat $IPV6TO4_RADVD_PIDFILE`"
 				if [ ! -z "$pid" ]; then

@@ -8,7 +8,7 @@
 #
 # RHL integration assistance by Pekka Savola <pekkas@netcore.fi>
 #
-# Version 2001-05-22d
+# Version 2001-07-15a
 #
 # Calling parameters:
 #  $1: action (currently supported: start|stop|showsysctl)
@@ -37,10 +37,8 @@ cd /etc/sysconfig/network-scripts
 ACTION="$1"
 POSITION="$2"
 
-# Test for IPv6 enabling
-if [ ! "${NETWORKING_IPV6}" = "yes" ]; then
-	exit 0
-fi
+# Test whether IPv6 should be configured, else stop
+[ "${NETWORKING_IPV6}" = "yes" ] || exit 0
 
 if [ ! -f /etc/sysconfig/network-scripts/network-functions-ipv6 ]; then
 	exit 1

@@ -8,7 +8,7 @@
 #
 # RHL integration assistance by Pekka Savola <pekkas@netcore.fi>
 #
-# Version 2001-05-22d
+# Version 2001-07-16
 #
 # Uses following information from "/etc/sysconfig/network":
 #  NETWORKING_IPV6=yes|no: controls IPv6 initialization (global setting)
@@ -22,10 +22,11 @@
 #   defaults:
 #    IPV6FORWARDING=yes: IPV6_AUTOCONF=no, IPV6_ROUTER=yes
 #    IPV6FORWARDING=no: IPV6_AUTOCONF=yes
+#  IPV6_MTU=<MTU for IPv6>: controls IPv6 MTU for this link [optional]
 #
 # Optional for 6to4 tunneling:
 #  IPV6TO4INIT=yes|no: controls 6to4 tunneling setup
-#  IPV6TO4_RELAY=<ipv4address>: IPv4 address of the remote 6to4 relay
+#  IPV6TO4_RELAY=<ipv4address|ipv6to4address>: IPv4/IPv6to4 address of the remote 6to4 relay
 #  IPV6TO4_IPV4ADDR=<ipv6address>: overwrite local IPv4 address [optional]
 #  IPV6TO4_ROUTING="eth0-:f101::0/64 eth1-:f102::0/64": information to setup local subnetting
 #  IPV6TO4_CONTROL_RADVD=yes|no: controls radvd triggering [optional]
@@ -47,20 +48,13 @@ CONFIG=$1
 [ -f "$CONFIG" ] || CONFIG=ifcfg-$CONFIG
 source_config  
 
-# Test if IPv6 configuration is enabled
-if [ ! "$IPV6INIT" = "yes" ]; then
-	# not enabled, stop here
-	exit 0
-fi                                                  
+# Test whether IPv6 configuration is enabled for this interface, else stop
+[ "$IPV6INIT" = "yes" ] || exit 0
 
-# Test if IPv6 is up
-if [ ! "${NETWORKING_IPV6}" = "yes" ]; then
-	# Global IPv6 switch not enabled, end now
-	exit 0
-fi
+# Test whether IPv6 should be configured, else stop
+[ "${NETWORKING_IPV6}" = "yes" ] || exit 0
 
 if [ ! -f /etc/sysconfig/network-scripts/network-functions-ipv6 ]; then
-	# IPv6 setup isn't well
 	exit 1
 fi
 
@@ -85,19 +79,16 @@ if [ "$IPV6FORWARDING" = "yes" ]; then
 
 	# Check, if global IPv6 forwarding was already set by global script
 	if [ $ipv6_global_forwarding_current -ne 1 ]; then
-		# Forwarding enabled, but not set, display warning
 		echo $"Global IPv6 forwarding is enabled in configuration, but not currently enabled in kernel"
-		echo $"Please restart network with '/etc/rc.d/init.d/network restart'"
+#		echo $"Please restart network with '/sbin/service network restart'"
 	fi
 
 	ipv6_local_forwarding=1
 	ipv6_local_auto=0
 	if [ "$IPV6_ROUTER" = "no" ]; then
-		# Interface should not act as a Router
 		ipv6_local_forwarding=0
 	fi
 	if [ "$IPV6_AUTOCONF" = "yes" ]; then
-		# Interface should be autoconfigured
 		ipv6_local_auto=1
 	fi
 else
@@ -105,21 +96,24 @@ else
 
 	# Check, if global IPv6 forwarding was already set by global script
 	if [ $ipv6_global_forwarding_current -ne 0 ]; then
-		# Forwarding disabled, but not set, display warning
 		echo $"Global IPv6 forwarding is disabled in configuration, but not currently disabled in kernel"
-		echo $"Please restart network with '/etc/rc.d/init.d/network restart'"
+#		echo $"Please restart network with '/sbin/service network restart'"
 	fi
 
 	ipv6_local_forwarding=0
 	ipv6_local_auto=1
 	if [ "$IPV6_AUTOCONF" = "no" ]; then
-		# Interface should not be autoconfigured
 		ipv6_local_auto=0
 	fi
 fi
 sysctl -w net.ipv6.conf.$DEVICE.forwarding=$ipv6_local_forwarding >/dev/null
 sysctl -w net.ipv6.conf.$DEVICE.accept_ra=$ipv6_local_auto >/dev/null
 sysctl -w net.ipv6.conf.$DEVICE.accept_redirects=$ipv6_local_auto >/dev/null
+
+# Set IPv6 MTU, if given
+if [ ! -z "$IPV6_MTU" ]; then
+	ipv6_set_mtu $DEVICE $IPV6_MTU
+fi
 
 # Setup additional IPv6 addresses from list
 if [ ! -z "$IPV6ADDR_SECONDARIES" ]; then
@@ -130,10 +124,8 @@ fi
 
 # Setup additional static IPv6 routes on specified interface
 if [ -f /etc/sysconfig/static-routes-ipv6 ]; then
-	grep "^$DEVICE\W" /etc/sysconfig/static-routes-ipv6 | while read device args; do
-		if [ "$device" = "$DEVICE" ]; then
-			ifup_ipv6_route $args $DEVICE
-		fi
+	grep -w "^$DEVICE" /etc/sysconfig/static-routes-ipv6 | while read device args; do
+		ifup_ipv6_route $args $DEVICE
 	done
 fi
 
@@ -152,7 +144,6 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 		fi
         fi
 	if [ ! -z "$ipv4addr" ]; then
-		# Test for non-global IPv4 address 
 		if ! testipv4_globalusable $ipv4addr; then
 			echo $"Given IPv4 address $ipv4addr is not a globally usable one, 6to4 configuration is not valid!"
 	                valid6to4config="no"
@@ -162,8 +153,19 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 			valid6to4config="no"
 		fi
 		if [ "$valid6to4config" = "yes" ]; then
-			if ! testipv4_globalusable $IPV6TO4_RELAY; then
-				echo $"Given IPv4 address of relay is not a globally usable one, 6to4 configuration is not valid!"
+			if testipv4_globalusable $IPV6TO4_RELAY 2>/dev/null; then
+				true
+			elif testipv6_valid $IPV6TO4_RELAY; then
+				relay6to4type="ipv6"
+				if echo $IPV6TO4_RELAY | grep -q "^2002:"; then
+					# IPv6 address is a 6to4 (further tests not be implemented at the moment)
+					true
+				else
+					echo $"Given IPv6 address of relay is not a 6to4 one, 6to4 configuration is not valid!"
+					valid6to4config="no"
+				fi
+			else
+				echo $"Given address of relay is not a globally usable one, 6to4 configuration is not valid!"
 				valid6to4config="no"
 			fi
 		fi
@@ -173,27 +175,31 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 	fi
         if [ "$valid6to4config" = "yes" ]; then
 		ifup_ipv6to4 $DEVICE $ipv4addr
+
+		# Add static routes
 		if [ -f /etc/sysconfig/static-routes-ipv6 ]; then
-			grep "^sit0" /etc/sysconfig/static-routes-ipv6 | while read device args; do
-				if [ "$device" = "sit0" ]; then
-					ifup_ipv6_route $args ::$IPV6TO4_RELAY sit0
+			grep -w "^sit0" /etc/sysconfig/static-routes-ipv6 | while read device network dummy; do
+				if [ "$relay6to4type" = "ipv6" ]; then
+					# Foreign 6to4 relay gateway as IPv6to4 
+					ifup_ipv6_route $network $IPV6TO4_RELAY sit0
+				else
+					# Foreign 6to4 relay gateway as compatible IPv4 
+					ifup_ipv6_route $network ::$IPV6TO4_RELAY sit0
 				fi
 			done
 		fi
 
 	        if [ "$IPV6TO4_CONTROL_RADVD" = "yes" ]; then
-			# RADVD is in use, so forwarding of IPv6 packets should be enabled
+			# RADVD is in use, so forwarding of IPv6 packets should be enabled, display warning
 			if [ $ipv6_global_forwarding_current -ne 1 ]; then
-				# Forwarding not set, display warning
 				echo $"Using 6to4 and RADVD IPv6 forwarding usually should be enabled, but it isn't!"
 			fi
 
 			if [ -z "$IPV6TO4_RADVD_PIDFILE" ]; then
-				# Take default
 				IPV6TO4_RADVD_PIDFILE="/var/run/radvd/radvd.pid"
 			fi
 
-			# Send SIGHUP to radvd
+			# Send SIGHUP to radvd for prefix recalculation
 			if [ -f "$IPV6TO4_RADVD_PIDFILE" ]; then
 				pid="`cat $IPV6TO4_RADVD_PIDFILE`"
 				if [ ! -z "$pid" ]; then
@@ -204,7 +210,6 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 				fi
 			fi
 		        if [ ! -z "$IPV6TO4_ROUTING" ]; then
-				# Generate 6to4 address
 				ipv6to4prefix="`create6to4prefix $ipv4addr`"
 				if [ ! -z "$ipv6to4prefix" ]; then
 					# Add route to local networks
