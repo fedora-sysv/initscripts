@@ -22,13 +22,3 @@
  
  if [ "`/sbin/consoletype`" = "vt" ]; then
   # Load keymap
-@@ -321,6 +326,9 @@
-     else
- 	action $"Skipping ISA PNP configuration at users request: " /bin/true
-     fi
-+else
-+    # No /sbin/isapnp => no PNP
-+    PNP=
- fi
- 
- # Remount the root filesystem read-write.

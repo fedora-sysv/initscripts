@@ -246,6 +246,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Apr 21 2003 Florian La Roche <Florian.LaRoche@redhat.de>
+- initscripts-s390.patch: remove not needed parts about PNP=
+- inittab.390: sync with normal version
+
 * Fri Apr 18 2003 Florian La Roche <Florian.LaRoche@redhat.de>
 - sysconfig/init.s390: set LOGLEVEL=3 as for other archs
 - rc.d/init.d/network, rc.d/rc: change confirmation mode to
