@@ -260,39 +260,10 @@ action() {
   STRING=$1
   echo -n "$STRING "
   shift
-#  if [ -z "$IN_INITLOG" ]; then
-      initlog $INITLOG_ARGS -c "$*" && success "$STRING" || failure "$STRING"
-      rc=$?
-      echo
-      return $rc
-#  fi
-#  else
-#      # This sucks.
-#      output=`$*`
-#      returncode=$?
-#      if [ -n "$output" ]; then
-#        cmdname=`basename $1`
-#        initlogcmds=`echo $output | sed -e "s/^/ -n $cmdname -s \"/" | sed -e "s/$/\"/"`
-#        echo "$initlogcmds" >&21
-#      fi
-#
-#      if [ $returncode -eq 0 ]; then
-#	 [ "$BOOTUP" = "verbose" ] && {
-#	    if [ -n "$output" ]; then
-#	      echo
-#	      echo $output
-#	    else
-#	      echo
-#	    fi
-#	 }
-#         success "$STRING"
-#      else
-#         echo $output
-#         failure "$STRING"
-#      fi
-#      [ "$BOOTUP" != "verbose" ] && echo
-#      return $returncode
- # fi
+  initlog $INITLOG_ARGS -c "$*" && success "$STRING" || failure "$STRING"
+  rc=$?
+  echo
+  return $rc
 }
 
 # Confirm whether we really want to run this service
