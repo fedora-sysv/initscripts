@@ -35,6 +35,7 @@ fi
 
 # Read in our configuration
 if [ -z "${BOOTUP:-}" ]; then
+  SEREL_BOOT=no
   if [ -f /etc/sysconfig/init ]; then
       . /etc/sysconfig/init
   else
@@ -532,8 +533,6 @@ EOF
 # Use serel to start in parallel?
 #
 redhat_sysvinit_start () {
-SEREL_BOOT=no
-
 # 0, 1 and 6 don't need serel
 #
 if [ "$CONFIRM" != "yes" ] && [ $runlevel = "2" -o $runlevel = "3" -o $runlevel = "4" -o $runlevel = "5" ]; then

@@ -11,6 +11,9 @@ runlevel=$2
 previous=$1
 export runlevel previous
 
+echo -n "Starting rc (runlevel $runlevel): " >> /var/log/boottime.log
+date >> /var/log/boottime.log
+
 . /etc/init.d/functions
 
 # See if we want to be in user confirmation mode
@@ -50,7 +53,7 @@ for i in /etc/rc$runlevel.d/K* ; do
 done
 
 # Now run the START scripts in parallel with serel, if available.
-if [ -x /sbin/sereld ]; then
+if [ -x /usr/bin/sereld ]; then
     redhat_sysvinit_start
 fi
 
@@ -87,3 +90,6 @@ for i in /etc/rc$runlevel.d/S* ; do
 		action $"Starting $subsys: " $i start
 	fi
 done
+echo -n "Finishing rc: " >> /var/log/boottime.log
+date >> /var/log/boottime.log
+echo >> /var/log/boottime.log
