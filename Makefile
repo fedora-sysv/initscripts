@@ -33,7 +33,9 @@ install:
 	mkdir -p $(ROOT)/etc/X11
 	install -m755 prefdm $(ROOT)/etc/X11/prefdm
 
-	cp -af rc.d sysconfig ppp $(ROOT)/etc
+	cp -af rc.d sysconfig serel ppp $(ROOT)/etc
+	mkdir -p $(ROOT)/etc/ppp/peers
+	chmod 755 $(ROOT)/etc/ppp/peers
 	chmod 755 $(ROOT)/etc/ppp/ip*
 	mkdir -p $(ROOT)/etc/sysconfig/networking/devices
 	mkdir -p $(ROOT)/etc/sysconfig/networking/profiles/default
