@@ -8,7 +8,7 @@
 #  You will find more information on the initscripts-ipv6 homepage at
 #   http://www.deepspace6.net/projects/initscripts-ipv6.html
 #
-# Version: 2004-03-21
+# Version: 2004-12-08
 #
 # Extended address detection is enabled, if 'ipv6calc' is installed
 #  see here for more: http://www.deepspace6.net/projects/ipv6calc.html
@@ -1487,11 +1487,9 @@ ipv6_set_default_route() {
 
 		if [ -z "$device" ]; then
 			# Note: this can cause a warning and a not installed route, if given address is not reachable on the link
-			#ipv6_add_route ::/0 $addressgw
-			ipv6_add_route 2000::/3 $addressgw
+			ipv6_add_route ::/0 $addressgw
 		else	
-			#ipv6_add_route ::/0 $addressgw $device
-			ipv6_add_route 2000::/3 $addressgw $device
+			ipv6_add_route ::/0 $addressgw $device
 		fi
 	elif [ -n "$device" ]; then
 		# Check whether the route belongs to the specific given interface
@@ -1511,8 +1509,7 @@ ipv6_set_default_route() {
 			return 3
 		fi
 
-		#ipv6_add_route ::/0 :: $device
-		ipv6_add_route 2000::/3 :: $device
+		ipv6_add_route ::/0 :: $device
 	else
 		ipv6_log $"No parameters given to setup a default route" err $fn
 		return 3
