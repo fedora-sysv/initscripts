@@ -110,7 +110,7 @@ check:
 
 changelog:
 	@rcs2log | sed "s|@.*redhat\.com|@redhat.com|" | sed "s|@.*redhat\.de|@redhat.com|" | sed "s|@redhat\.de|@redhat.com|" | sed "s|@@|@|" | \
-	 sed "s|/mnt/devel/CVS/initscripts/||g" | sed "s|/cvs/rhl/initscripts/||g" > changenew
+	 sed "s|/usr/local/CVS/initscripts/||g" | sed "s|/cvs/rhl/initscripts/||g" > changenew
 	 mv ChangeLog ChangeLog.old
 	 cat changenew ChangeLog.old > ChangeLog
 	 rm -f changenew
