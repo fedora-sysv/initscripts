@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.90
+Version: 6.91
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -244,6 +244,13 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Tue Aug 20 2002 Bill Nottingham <notting@redhat.com>
+- don't cycle through eth0-eth9 on dhcp link check (#68127)
+- don't retry indefinitely on ppp startup
+- activate network profile passed on kernel commandline via netprofile=
+- fix iptables invocations again
+- translation refresh
+
 * Wed Aug 14 2002 Bill Nottingham <notting@redhat.com>
 - fix silly typo in rc.sysinit
 - increase timeout for link to 5 seconds (#70545)
