@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.51
+Version: 6.53
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -8,7 +8,7 @@ Source: initscripts-%{version}.tar.bz2
 Patch0: initscripts-s390.patch
 BuildRoot: /%{_tmppath}/%{name}-%{version}-%{release}-root
 Requires: mingetty, /bin/awk, /bin/sed, mktemp, e2fsprogs >= 1.15
-Requires: procps >= 2.0.7-7, sysklogd >= 1.3.31
+Requires: /sbin/sysctl, sysklogd >= 1.3.31
 Requires: setup >= 2.0.3, /sbin/fuser, which, /bin/grep
 Requires: modutils >= 2.3.11-5
 Requires: util-linux >= 2.10s-11, mount >= 2.11g-5
@@ -240,6 +240,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Fri Feb 22 2002 Bill Nottingham <notting@redhat.com>
+- fix invocation of need_hostname (#58946), a couple other minor tweaks
+
 * Tue Feb 12 2002 Mike A. Harris  <mharris@redhat.com>
 - rc.sysinit: changed /var/log/pacct to /var/account/pacct for FHS 2.2 compliance
 
