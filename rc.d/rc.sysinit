@@ -163,7 +163,6 @@ if ! grep -iq "nousb" /proc/cmdline 2>/dev/null && ! grep -q "usb" /proc/devices
     aliases=`/sbin/modprobe -c | awk '/^alias usb-controller/ { print $3 }'`
     if [ -n "$aliases" -a "$aliases" != "off" ] ; then
       modprobe usbcore
-      action $"Mounting USB filesystem: "  mount -t usbdevfs usbdevfs /proc/bus/usb
       for alias in $aliases ; do 
       	[ "$alias" != "off" ] && action $"Initializing USB controller ($alias): " modprobe $alias
       done
@@ -173,6 +172,10 @@ fi
 
 if ! grep -iq "nousb" /proc/cmdline 2>/dev/null && grep -q "usb" /proc/devices 2>/dev/null ; then
   usb=1
+fi
+
+if [ $usb = 1 -a ! -f /proc/bus/usb/devices ]; then
+    action $"Mounting USB filesystem: "  mount -t usbdevfs usbdevfs /proc/bus/usb
 fi
 
 needusbstorage=
