@@ -42,9 +42,16 @@ void readConfiguration(char *fname) {
     int lfac=-1,lpri=-1;
     
     if ((fd=open(fname,O_RDONLY))==-1) return;
-    if (fstat(fd,&sbuf)) return;
+    if (fstat(fd,&sbuf)) {
+	    close(fd);
+	    return;
+    }
     data=malloc(sbuf.st_size+1);
-    if (read(fd,data,sbuf.st_size)!=sbuf.st_size) return;
+    if (read(fd,data,sbuf.st_size)!=sbuf.st_size) {
+	    close(fd);
+	    return;
+    }
+    close(fd);
     data[sbuf.st_size] = '\0';
     while ((line=getLine(&data))) {
 	if (line[0]=='#') continue;
