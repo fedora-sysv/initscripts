@@ -271,15 +271,13 @@ usb=1
 modprobe usb-controller 2>/dev/null || usb=0
 if [ $usb == "0" ] ; then
     usbpresent=`grep -i usb /proc/pci`
-    ioinfo=`grep -A2 -i usb /proc/pci |tail -n 1`
-    uhci=`echo $ioinfo |grep "I/O at"`
+    uhci=`grep -A2 -i usb /proc/pci |grep "I/O at"`
     if [ -n "$usbpresent" ]; then
 	usb=1
 	if [ -n "$uhci" ]; then
 	    modprobe uhci 2>/dev/null || usb=0
 	else
 	    modprobe usb-ohci 2>/dev/null || usb=0
-	    usbcontroller="usb-ohci"
 	fi
    fi
 fi
