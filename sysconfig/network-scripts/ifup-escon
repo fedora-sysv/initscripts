@@ -25,12 +25,12 @@ then
 fi
 [ -n "${MTU}" ] && opts="${opts} mtu ${MTU}"
 
-ifconfig ${DEVICE} ${IPADDR} ${opts} pointopoint ${REMIP}
+ifconfig ${DEVICE} ${IPADDR} ${opts} pointopoint ${REMIP} netmask ${NETMASK}
 
 # Wait for the device to come up - the chandev'ified ctc driver can take
 # quite a while...
 timeout=0
-while ! ping -w 30 -c ${REMIP} &>/dev/null; do
+while ! ping -w 30 -c 1 ${REMIP} &>/dev/null; do
 	timeout=$(($timeout + 1))
 	if [ $timeout = 20 ]; then
 		echo $"ERROR: ${DEVICE} did not come up!"
@@ -39,7 +39,7 @@ while ! ping -w 30 -c ${REMIP} &>/dev/null; do
 done
 
 if [ "${NETWORK}" != "" ] ; then
-	route add -net ${NETWORK} netmask ${NETMASK} ${DEVICE}
+	route add -host ${REMIP} metric 1 ${DEVICE}
 fi
 
 . /etc/sysconfig/network
