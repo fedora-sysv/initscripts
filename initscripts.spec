@@ -250,7 +250,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Wed Jan 28 2004 Bill Nottingham <notting@redhat.com> 7.44-1
-- NFSv4 support (<chucklevver@bigfoot.com>, <steved@redhat.com>)
+- NFSv4 support (<chucklever@bigfoot.com>, <steved@redhat.com>)
 - handle 2.6-style 'install ethX ...' lines correctly
 - mount sysfs by default
 - time to clean up the cruft. remove:
