@@ -617,6 +617,13 @@ Files in /etc/sysconfig/network-scripts/
     Managed from /etc/sysconfig/network-scripts/ifup-ipx
     ARP=yes|no (adds 'arp' flag to ifconfig, for use with the
       ethertap device)
+    ETHTOOL_OPTS=...
+      Any device-specific options supported by ethtool. For example,
+      if you wanted to force 100Mb full duplex:
+        ETHTOOL_OPTS="speed 100 duplex full autoneg off"
+      Note that changing speed or duplex settings almost always
+      requires disabling autonegotiation with 'autoneg off'.
+     
     No longer supported:
      PROMISC=yes|no (enable or disable promiscuous mode)
      ALLMULTI=yes|no (enable or disable all-multicast mode)
