@@ -752,19 +752,19 @@ Files in /etc/sysconfig/network-scripts/
     REMOTE_IP=    will be converted to GATEWAY by netconf
 
   IPSEC specific items
-     SRC = source address. Not required.
-     DST = destination address
-     TYPE = IPSEC
-     SRCNET = source net (for tunneling)
-     DSTNET = destination network (for tunneling)
+     SRC=source address. Not required.
+     DST=destination address
+     TYPE=IPSEC
+     SRCNET=source net (for tunneling)
+     DSTNET=destination network (for tunneling)
 
    Manual keying:
 
-     AH_PROTO{_IN,_OUT} = protocol to use for AH (defaults to HMAC-SHA1)
-     ESP_PROTO{_IN,_OUT} = protocol to use for ESP (defaults to 3DES)
-     KEY_AH{_IN,_OUT} = AH key
-     KEY_ESP{_IN,_OUT} = ESP key
-     SPI_{EH,AH_{IN,OUT}} = SPIs to use
+     AH_PROTO{_IN,_OUT}=protocol to use for AH (defaults to HMAC-SHA1)
+     ESP_PROTO{_IN,_OUT}=protocol to use for ESP (defaults to 3DES)
+     KEY_AH{_IN,_OUT}=AH key
+     KEY_ESP{_IN,_OUT}=ESP key
+     SPI_{EH,AH_{IN,OUT}}=SPIs to use
 
    _IN and _OUT specifiers are for using different keys or protocols for inccoming
    and outgoing packets. If neither _IN or _OUT variants are set for protocols or
@@ -773,15 +773,22 @@ Files in /etc/sysconfig/network-scripts/
    Automatic keying:
 
      IKE_METHOD=PSK|X509|GSSAPI
-         PSK = preshared keys (shared secret)
-         X509 = X.509 certificates
-         GSSAPI = GSSAPI authentication
-     IKE_PSK = preshared key for this connection
-     IKE_CERTFILE = our certificate file name for X509 IKE 
-       IKE_PEER_CERTFILE = peer public cert filename for X509 IKE
-       IKE_DNSSEC = retrieve peer public certs from DNS
+         PSK=preshared keys (shared secret)
+         X509=X.509 certificates
+         GSSAPI=GSSAPI authentication
+     IKE_PSK=preshared key for this connection
+     IKE_CERTFILE=our certificate file name for X509 IKE 
+       IKE_PEER_CERTFILE=peer public cert filename for X509 IKE
+       IKE_DNSSEC=retrieve peer public certs from DNS
      (otherwise uses certificate information sent over IKE)
-      
+
+  Bonding-specific items
+  
+    SLAVE=yes   
+      Specifies device as a slave
+    MASTER=bondXX
+      Specifies master device to bind to
+
 /etc/sysconfig/network-scripts/chat-<interface-name>:
 
   chat script for PPP or SLIP connection intended to establish
