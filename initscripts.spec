@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.30.EL
+Version: 7.31.0.EL
 License: GPL
 Group: System Environment/Base
 Release: 2
@@ -248,6 +248,16 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Sep  4 2003 Bill Nottingham <notitng@redhat.com> 7.31.0.EL-1
+- sysconfig/network-scripts/ifup: fix use of local
+- sysconfig.txt: document HWADDR
+- IPv6 updates (Pekka Savola, <pekkas@netcore.fi>)
+- fix shutdown with NFS root (#100556, <Julian.Blake@cern.ch>)
+- remove /var/run/confirm when done with /etc/rc (#100898)
+- ipcalc: fix some memory handling (#85478, <miked@ed.ac.uk>)
+- handle sorting > 10 network devices (#98209)
+- unset ONPARENT after use (#101384)
+
 * Fri Aug 15 2003 Bill Nottingham <notting@redhat.com> 7.30.EL-1
 - IPv6 updates (#86210, #91375, <pekkas@netcore.fi>)
 

@@ -1,3 +1,53 @@
+2003-09-04  Bill Nottingham  <notting@redhat.com>
+
+	* ChangeLog, initscripts.spec: 7.31.0.EL
+
+	* sysconfig/network-scripts/ifup-aliases:
+	unset ONPARENT after use (#101384)
+
+	* rc.d/init.d/network:
+	add bonding & xDSL to the list of devices brought up afterwards (#97030,#91399)
+	and bring them down first (#103042)
+
+	* rc.d/init.d/network:
+	handle sorting > 10 network devices (#98209)
+
+	* src/ipcalc.c:
+	fix some memory handling (#85478, <miked@ed.ac.uk>)
+
+	* rc.d/init.d/network:
+	fix error message on directories with spaces (#86066)
+
+2003-09-03  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/halt, rc.d/init.d/killall:
+	fix shutdown with NFS root (#100556, <Julian.Blake@cern.ch>)
+
+	* rc.d/rc:
+	remove /var/run/confirm when done with /etc/rc (#100898)
+
+	* ipv6-6to4.howto, sysconfig/network-scripts/network-functions-ipv6, changes.ipv6:
+	IPv6 updates (Pekka Savola, <pekkas@netcore.fi>)
+
+2003-08-22  Phil Knirsch  <pknirsch@redhat.com>
+
+	* sysconfig/network-scripts/ifup-routes:
+	- User lowercase for variable for oldstyle routes, too. ;-)
+
+2003-08-21  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig.txt: document HWADDR
+
+2003-08-20  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifup:
+	fix use of local
+
+2003-08-18  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/init.ipv6-global, sysconfig/network-scripts/network-functions-ipv6:
+	more IPv6 tweaks (<pekkas@netcore.fi>); sort | uniq -> sort -u
+
 2003-08-15  Bill Nottingham  <notting@redhat.com>
 
 	* ChangeLog, initscripts.spec: 7.30.EL-1
