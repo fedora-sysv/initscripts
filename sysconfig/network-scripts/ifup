@@ -126,27 +126,6 @@ else
 	    DEFGW=${GATEWAY}
 	fi
     fi
-
-    if [ "$BOOTPROTO" = bootp -a "$ISALIAS" = no ]; then
-	if [ -n "$GATEWAYS" ]; then
-	    for gw in $GATEWAYS; do
-		if [ $gw != "${DEFGW}" ]; then
-		    route add default gw $gw ${DEVICE}
-		fi
-	    done
-	fi
-
-	if [ -n "$DNSSRVS" -a -n "$SEARCH" ]; then
-	    echo "search $SEARCH" > /etc/resolv.conf
-	    for dns in $DNSSRVS; do
-		    echo "nameserver $dns" >> /etc/resolv.conf
-	    done
-	fi
-
-	if [ -n "$BOOTPHOSTNAME" -a -n "$NEEDHOSTNAME" ]; then
-	    set_hostname $BOOTPHOSTNAME
-	fi
-    fi
 fi
 
 if [ "$IPX" = yes ]; then
