@@ -30,6 +30,11 @@ install:
 	chown root.root /var/run/netreport
 	chmod og=rwx,o=rx /var/run/netreport
 
+check:
+	for afile in `find . -type f ` ; do \
+		grep -q "^#\!/bin/sh" $$afile && { bash -n $$afile || exit 1 } ; \
+	done
+
 changelog:
 	rcs2log | sed "s|@.*redhat\.com|redhat.com|" | \
 	 sed "s|/mnt/devel/CVS/initscripts/||g" > changenew
@@ -55,4 +60,4 @@ create-archive: tag-archive
 	@echo " "
 	@echo "The final archive is ./initscripts-$(VERSION).tar.gz."
 
-archive: tag-archive create-archive
+archive: check tag-archive create-archive
