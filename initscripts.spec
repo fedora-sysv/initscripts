@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.43
+Version: 6.44
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -240,6 +240,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Wed Feb 20 2002 Bill Nottingham <notting@redhat.com>
+- rc.sysinit banner tweaks
+- lang.csh/lang.sh tweaks (#59616, #59946)
+
 * Wed Feb  6 2002 Bill Nottingham <notting@redhat.com>
 - backport assorted fixes from -HEAD
 
