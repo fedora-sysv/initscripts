@@ -134,11 +134,9 @@ add_default_route ()
 is_wireless_device ()
 {
   if [ -x /sbin/iwconfig ]; then
-    iwconfig $1 2>&1 | grep -q -v "no wireless extensions"
-    return $?
-  else
-    return 1
+    iwconfig $1 2>&1 | grep -q "no wireless extensions" || return 0
   fi
+  return 1
 }
   
 
