@@ -159,7 +159,10 @@ killproc() {
         base=${1##*/}
 
         # Find pid.
-	pid=`pidofproc $base`
+	pid=`pidofproc $1`
+	if [ -z "$pid" ] ; then
+		pid=`pidofproc $base`
+	fi
 
         # Kill it.
         if [ -n "$pid" ] ; then
@@ -207,7 +210,7 @@ pidfileofproc() {
 	
 	# Test syntax.
 	if [ $# = 0 ] ; then
-		echo $"Usage: pidofproc {program}"
+		echo $"Usage: pidfileofproc {program}"
 		return 1
 	fi
 
@@ -248,6 +251,7 @@ pidofproc() {
 	fi
 
 	# Next try "pidof"
+	pidof -o $$ -o $PPID -o %PPID -x $1 || \
 	pidof -o $$ -o $PPID -o %PPID -x ${base}
 }
 
@@ -262,7 +266,8 @@ status() {
 	fi
 
 	# First try "pidof"
-	pid=`pidof -o $$ -o $PPID -o %PPID -x ${base}`
+	pid=`pidof -o $$ -o $PPID -o %PPID -x $1 || \
+	     pidof -o $$ -o $PPID -o %PPID -x ${base}`
 	if [ "$pid" != "" ] ; then
 	        echo $"${base} (pid $pid) is running..."
 	        return 0

@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.64.1
+Version: 5.64.2
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -254,6 +254,12 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Feb 15 2001 Nalin Dahyabhai <nalin@redhat.com>
+- make pidofproc() and killproc() try to use the PID associated with the full
+  pathname first before killing the daemon by its basename (for daemons that
+  share the same basename, i.e. "master" in postfix and cyrus-imapd) (#19016)
+- fix status() as well
+
 * Wed Feb 14 2001 Bill Nottingham <notting@redhat.com>
 - fix init.d/single to work around possible kernel problem
 
