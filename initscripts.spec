@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.61.1
+Version: 7.62
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -250,14 +250,41 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Aug 19 2004 Bill Nottingham <notting@redhat.com> 7.62-1
+- fix up resolv.conf munging (#129921)
+- use rngd if available
+- run start_udev if necessary (#120605)
+- readonly root updates (#129893, <markmc@redhat.com>)
+- ifup-wireless: quote key (#129930)
+- remove rawdevices (#130048)
+- handle binfmt_misc in rc.sysinit for the case where it's built in (#129954)
+- remove mkkerneldoth
+- don't remove linguas in lang.* (part of #9733)
+- fix nfs unmounting (#129765)
+- fix URL (#129433)
+
 * Tue Aug 11 2004 Jason Vas Dias <jvdias@redhat.com> 7.61-1
 - fix for bug 120093: add PERSISTENT_DHCLIENT option to ifcfg files
 
 * Tue Aug 03 2004 Karsten Hopp <karsten@redhat.de> 7.60-1 
 - write peerid into sysfs for IUCV devices (mainframe)
 
+* Tue Aug  3 2004 Bill Nottingham <notting@redhat.com>
+- don't remove /dev/mapper/control - nash will do it if it has to (#127115)
+
 * Fri Jul 30 2004 Jason Vas Dias <jvdias@redhat.com> 7.60-1
 - fix for bug 125712: add 'change_resolv.conf' function
+
+* Tue Aug 27 2004 Bill Nottingham <notting@redhat.com>
+- rc.d/init.d/network: don't bring interfaces down twice (#127487)
+
+* Wed Aug 14 2004 Bill Nottingham <notting@redhat.com>
+- fix bonding + no IP (#127285)
+- wrap second LVM initialization in vgscan check to avoid extraneous messages (#127639)
+
+* Wed Aug  7 2004 Bill Nottingham <notting@redhat.com>
+- move random stuff to rc.sysinit/halt; move all swap to after this.
+  prereq of bug #123278
 
 * Fri Jul  2 2004 Bill Nottingham <notting@redhat.com> 7.59-1
 - set context on ICE directory after making it (#127099, <concert@europe.com>)

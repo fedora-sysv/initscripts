@@ -1,3 +1,171 @@
+2004-08-19  Bill Nottingham  <notting@redhat.com>
+
+	* ChangeLog, initscripts.spec: 7.62-1
+
+	* sysconfig/network-scripts/network-functions:
+	fix up resolv.conf munging (#129921)
+
+	* rc.d/rc.sysinit: use rngd if available
+
+	* rc.d/rc.sysinit: run udev_start if necessary (#120605)
+
+	* rc.d/rc.sysinit: readonly root updates (#129893, <markmc@redhat.com>)
+
+	* sysconfig/network-scripts/ifup-wireless: quote key (#129930)
+
+2004-08-18  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec, rc.d/init.d/rawdevices: remove rawdevices (#130048)
+
+	* rc.d/rc.sysinit:
+	handle binfmt_misc here for the case where it's built in (#129954)
+
+	* src/mkkerneldoth, initscripts.spec, rc.d/rc.sysinit, src/Makefile:
+	remove mkkerneldoth
+
+	* lang.csh, lang.sh: don't remove linguas (part of #9733)
+
+2004-08-12  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/netfs, rc.d/init.d/network: fix nfs unmounting (#129765)
+
+2004-08-12  Sarah Smith  <sarahs@redhat.com>
+
+	* po/ka.po: new locale translation file added
+
+2004-08-11  Bill Nottingham  <notting@redhat.com>
+
+	* ChangeLog, initscripts.spec: 7.61.1-1
+
+	* initscripts.spec: fix URL (#129433)
+
+	* initscripts.spec, sysconfig.txt, sysconfig/network-scripts/ifup:
+	spelling :)
+
+2004-08-11  Jason Vas Dias  <jvdias@redhat.com>
+
+	* sysconfig.txt, initscripts.spec, sysconfig/network-scripts/ifup:
+	fixed bug #120093: added PERSISTANT_DHCLIENT option to ifcfg files
+
+2004-08-03  Jason Vas Dias  <jvdias@redhat.com>
+
+	* sysconfig/network-scripts/ifdown-post: use change_resolv_conf
+
+2004-08-03  Karsten Hopp  <karsten@redhat.com>
+
+	* initscripts.spec, sysconfig/network-scripts/ifup-iucv:
+	- write peerid into sysfs for IUCV devices (mainframe)
+
+2004-08-03  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec, rc.d/rc.sysinit:
+	don't remove /dev/mapper/control - nash will do it if it has to (#127115)
+
+2004-08-02  Jason Vas Dias  <jvdias@redhat.com>
+
+	* sysconfig/network-scripts/network-functions:
+	/sbin/nscd -> /usr/sbin/nscd
+
+2004-08-01  Tomislav Markovski  <tome@users.ossm.org.mk>
+
+	* po/mk.po: updated
+
+2004-07-30  Jason Vas Dias  <jvdias@redhat.com>
+
+	* sysconfig/network-scripts/network-functions, sysconfig/network-scripts/ifup-post:
+	fix for bug 125712: added change_resolv_conf function to network-functions; made ipup-post and ipdown-post invoke it
+
+2004-07-27  Andrzejo Olszewski  <andrzej.olszewski@ifj.edu.pl>
+
+	* po/pl.po: Finished by A. Olszewski. Not tested on live system.
+
+2004-07-27  Martin Willemoes Hansen  <mwh@sysrq.dk>
+
+	* po/da.po: da.po: Converted from iso-8859-1 to utf-8
+
+	* po/da.po: da.po: Fixed spelling mistake and added proper header
+
+2004-07-27  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/network: don't bring interfaces down twice (#127487)
+
+2004-07-26  Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>
+
+	* po/ms.po: Updated Malay translation
+
+2004-07-25  Miloslav Trmac  <mitr@redhat.com>
+
+	* po/cs.po: Minor fixes to Czech translation
+
+2004-07-23  Tomislav Markovski  <tome@users.ossm.org.mk>
+
+	* po/mk.po: bla
+
+2004-07-22  Tomislav Markovski  <tome@users.ossm.org.mk>
+
+	* po/mk.po: bla
+
+2004-07-22  Onur Gungor  <onurgu@boun.edu.tr>
+
+	* po/tr.po: translation of anaconda is finished.
+
+2004-07-21  Tomislav Markovski  <tome@users.ossm.org.mk>
+
+	* po/mk.po: bla
+
+2004-07-21  Onur Gungor  <onurgu@boun.edu.tr>
+
+	* po/tr.po: *** empty log message ***
+
+2004-07-20  Tomislav Markovski  <tome@users.ossm.org.mk>
+
+	* po/mk.po: ufo pederce
+
+	* po/mk.po: prevod
+
+2004-07-19  Onur Gungor  <onurgu@boun.edu.tr>
+
+	* po/tr.po: *** empty log message ***
+
+2004-07-18  Tomislav Markovski  <tome@users.ossm.org.mk>
+
+	* po/mk.po: prv prevod
+
+2004-07-16  Tamas Szanto  <tszanto@mol.hu>
+
+	* po/hu.po: *** empty log message ***
+
+2004-07-14  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifup: fix bonding + no IP (#127285)
+
+2004-07-12  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit:
+	wrap second LVM initialization in vgscan check to avoid extraneous messages (#127639)
+
+	* rc.d/rc.sysinit: fix context
+
+	* initscripts.spec: add changelog
+
+2004-07-12  Sarah Smith  <sarahs@redhat.com>
+
+	* po/gu.po: initial file
+
+2004-07-09  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit: silence restorecon
+
+2004-07-07  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/halt, rc.d/init.d/random, rc.d/rc.sysinit, initscripts.spec:
+	move random stuff to rc.sysinit/halt; move all swap to after this.
+	prereq of bug #123278
+
+2004-07-02  Maxim Dziumanenko <mvd@mylinux.com.ua>
+
+	* po/uk.po: Updated Ukrainian translation
+
 2004-07-02  Bill Nottingham  <notting@redhat.com>
 
 	* ChangeLog, initscripts.spec: 7.59-1
