@@ -14,7 +14,7 @@ if [ -f /etc/redhat-release ]; then
 	    _i*) a="an";;
     esac
     
-    NUMPROC=`grep -cl "^cpu[0-9]+" /proc/stat`
+    NUMPROC=`egrep -c "^cpu[0-9]+" /proc/stat`
     if [ "$NUMPROC" -gt "1" ]; then
         SMP="$NUMPROC-processor "
         if [ "$NUMPROC" = "8" -o "$NUMPROC" = "11" ]; then
