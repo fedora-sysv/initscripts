@@ -39,12 +39,22 @@ fi
 # Check to make sure the device is actually up
 check_device_down && exit 0
 
+retcode=0
 if [ "$BOOTPROTO" = bootp -o "$BOOTPROTO" = dhcp ]; then
-	[ -n "`pidof -x pump`" ] && pump -r -i ${DEVICE}
-	[ -n "`pidof -x dhcpcd`" ] && dhcpcd -k ${DEVICE}
+	[ -n "`pidof -x pump`" ] && {
+	 	pump -r -i ${DEVICE}
+		retcode=$?
+	}
+	[ -n "`pidof -x dhcpcd`" ] && {
+		dhcpcd -k ${DEVICE}
+		retcode=$?
+	}	
 fi
 
+
 ifconfig ${DEVICE} down
+[ "$retcode" = "0" ] && retcode=$?
+
 # wait up to 5 seconds for device to actually come down...
 waited=0
 while ! check_device_down && [ "$waited" -lt 50 ] ; do
