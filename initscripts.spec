@@ -1,9 +1,9 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.36
+Version: 7.37
 License: GPL
 Group: System Environment/Base
-Release: 2
+Release: 1
 Source: initscripts-%{version}.tar.bz2
 URL: http://rhlinux.redhat.com/initscripts/
 Patch0: initscripts-s390.patch
@@ -249,7 +249,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
-* Wed Oct  8 2003 Bill Nottingham <notting@redhat.com. 7.36-1
+* Fri Oct 10 2003 Bill Nottingham <notting@redhat.com> 7.37-1
+- bridging updates (#104421, <dwmw2@redhat.com>)
+
+* Wed Oct  8 2003 Bill Nottingham <notting@redhat.com> 7.36-1
 - mount /dev/pts before starting rhgb
 
 * Wed Oct  1 2003 Bill Nottingham <notting@redhat.com> 7.35-1
