@@ -50,7 +50,7 @@ set_hostname()
 
 check_device_down ()
 {
-    if ifconfig ${DEVICE} 2>/dev/null | grep UP >/dev/null 2>&1 ; then
+    if ifconfig ${DEVICE} 2>/dev/null | LANG=C grep " UP " >/dev/null 2>&1 ; then
 	retcode=1
     else
 	retcode=0
