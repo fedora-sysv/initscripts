@@ -169,7 +169,6 @@ if ! grep -iq "nousb" /proc/cmdline 2>/dev/null && ! grep -q "usb" /proc/devices
     aliases=`/sbin/modprobe -c | awk '/^alias usb-controller/ { print $3 }'`
     if [ -n "$aliases" -a "$aliases" != "off" ] ; then
       modprobe usbcore
-      action $"Mounting USB filesystem: "  mount -t usbdevfs usbdevfs /proc/bus/usb
       for alias in $aliases ; do 
       	[ "$alias" != "off" ] && action $"Initializing USB controller ($alias): " modprobe $alias
       done
@@ -181,21 +180,16 @@ if ! grep -iq "nousb" /proc/cmdline 2>/dev/null && grep -q "usb" /proc/devices 2
   usb=1
 fi
 
+if [ $usb = 1 -a ! -f /proc/bus/usb/devices ]; then
+    action $"Mounting USB filesystem: "  mount -t usbdevfs usbdevfs /proc/bus/usb
+fi
+
 needusbstorage=
 if [ $usb = "1" ]; then
-    sleep 5
-    mouseoutput=`cat /proc/bus/usb/devices 2>/dev/null|grep -E "^I.*Cls=03.*Prot=02"`
-    kbdoutput=`cat /proc/bus/usb/devices 2>/dev/null|grep -E "^I.*Cls=03.*Prot=01"`
     needusbstorage=`cat /proc/bus/usb/devices 2>/dev/null|grep -e "^I.*Cls=08"`
-    if [ -n "$kbdoutput" ] || [ -n "$mouseoutput" ]; then
-	action $"Initializing USB HID interface: " modprobe hid 2> /dev/null
-    fi
-    if [ -n "$kbdoutput" ]; then
-	action $"Initializing USB keyboard: " modprobe keybdev
-    fi
-    if [ -n "$mouseoutput" ]; then
-	action $"Initializing USB mouse: " modprobe mousedev
-    fi
+    action $"Initializing USB HID interface: " modprobe hid 2> /dev/null
+    action $"Initializing USB keyboard: " modprobe keybdev
+    action $"Initializing USB mouse: " modprobe mousedev
 fi
 
 if [ -f /fastboot ] || grep -iq "fastboot" /proc/cmdline 2>/dev/null ; then
