@@ -198,6 +198,14 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Nov 22 1999 Michael K. Johnson <johnsonm@redhat.com>
+- fix more possible failed CHAP authentication (with chat scripts)
+- fix ppp default route problem
+- added ppp-watch man page, fixed usernetctl man page
+- make ifup-ppp work again when called from netcfg and linuxconf
+- try to keep ppp-watch from filling up logs by respawning pppd too fast
+- handle all linuxconf-style alias files with linuxconf
+
 * Mon Nov 22 1999 Bill Nottingham <notting@redhat.com>
 - load mixer settings for monolithic sound
 - man page for ppp-watch
