@@ -53,7 +53,7 @@ interfaces=`ls ifcfg* | egrep -v '(ifcfg-lo|:|rpmsave|rpmorig|rpmnew)' | \
 case "$1" in
   start)
   
-  	action $"Setting network parameters: " sysctl -p /etc/sysctl.conf
+  	action $"Setting network parameters: " sysctl -e -p /etc/sysctl.conf
 
 	action $"Bringing up interface lo: " ./ifup ifcfg-lo
 
