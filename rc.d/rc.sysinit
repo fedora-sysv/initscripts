@@ -259,14 +259,16 @@ if [ -x /sbin/depmod -a -n "$USEMODULES" ]; then
     fi
 fi
 
-# load sound modules
-if [ -n "$USEMODULES" ]; then
-   if grep -s -q "^alias sound " /etc/conf.modules ; then
-      action "Loading sound module" modprobe sound
-   fi
-   if grep -s -q "^alias midi " /etc/conf.modules ; then
-      action "Loading midi module" modprobe midi
-   fi
+# Load sound modules
+#
+# I think this now qualifies as over-engineered.
+alias=`egrep -s "^alias[[:space:]]+sound[[:space:]]+" /etc/conf.modules | awk '{ print $3 }'`
+if [ -n "$alias" -a "$alias" != "off" ] ; then
+      action "Loading sound module ($alias)" modprobe sound
+fi
+alias=`egrep -s "^alias[[:space:]]+midi[[:space:]]+" /etc/conf.modules | awk '{ print $3 }'`
+if [ -n "$alias" -a "$alias" != "off" ]; then
+      action "Loading midi module ($alias)" modprobe midi
 fi
 
 # Load mixer settings
