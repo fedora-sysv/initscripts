@@ -85,6 +85,7 @@ def main():
 	i18n_tokens.append('passed')
 	i18n_tokens.append('runcmd')
 	i18n_tokens.append('success')
+	i18n_tokens.append('/sbin/getkey -c $AUTOFSCK_TIMEOUT -m')
 
 	for a in argv:
 		xgettext(a, i18n_tokens)
