@@ -21,7 +21,9 @@ CONFIG=$1
 
 if [ $UID != 0 ]; then
     if [ -x /usr/sbin/usernetctl ]; then
-	exec /usr/sbin/usernetctl $CONFIG up
+	if /usr/sbin/usernetctl $CONFIG report ; then
+	    exec /usr/sbin/usernetctl $CONFIG up
+	fi
     fi
     echo "Users cannot control this device." >&2
     exit 1

@@ -26,5 +26,6 @@ sleep 2
 kill -TERM $PID > /dev/null 2>&1
 # ip-down won't run in this case
 /etc/sysconfig/network-scripts/ifdown-post $1
+[ ! -d /proc/$PID ] && exit 0
 
 exit 1

@@ -19,7 +19,9 @@ CONFIG=$1
 
 if [ $UID != 0 ]; then
     if [ -x /usr/sbin/usernetctl ]; then
-        exec /usr/sbin/usernetctl $CONFIG down
+	if /usr/sbin/usernetctl $CONFIG report ; then
+	    exec /usr/sbin/usernetctl $CONFIG down
+	fi
     fi
     echo "Users cannot control this device." >&2
     exit 1
@@ -31,14 +33,7 @@ DEVICETYPE=`echo $DEVICE | sed "s/[0-9]*$//"`
 OTHERSCRIPT="/etc/sysconfig/network-scripts/ifdown-${DEVICETYPE}"
 
 if [ -x $OTHERSCRIPT ]; then
-	$OTHERSCRIPT $CONFIG $2
-	exit $?
-fi
-
-if echo $DEVICE | grep -q ':' ; then
-    ISALIAS=yes
-else
-    ISALIAS=no
+	exec $OTHERSCRIPT $CONFIG $2
 fi
 
 if [ "$BOOTPROTO" = bootp -o "$BOOTPROTO" = dhcp ]; then
@@ -46,6 +41,17 @@ if [ "$BOOTPROTO" = bootp -o "$BOOTPROTO" = dhcp ]; then
 fi
 
 ifconfig ${DEVICE} down
+# wait up to 5 seconds for device to actually come down...
+waited=0
+while ! check_device_down && [ "$waited" -lt 50 ] ; do
+    usleep 100000
+    waited=$(($waited+1))
+done
 
-exec /etc/sysconfig/network-scripts/ifdown-post $CONFIG
+if [ "$retcode" = 0 ] ; then
+    /etc/sysconfig/network-scripts/ifdown-post $CONFIG
+    # do NOT use $? because ifdown should return whether or not
+    # the interface went down.
+fi
 
+exit $retcode

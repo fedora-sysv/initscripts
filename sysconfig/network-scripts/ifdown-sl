@@ -40,6 +40,7 @@ if [ -d /proc/$PID ]; then
 else
   /etc/sysconfig/network-scripts/ifdown-post $1
 fi
+[ ! -d /proc/$PID ] && exit 0
 
 exit 1
 
