@@ -245,6 +245,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Jan 23 2001 Bill Nottingham <notting@redhat.com>
+- new i18n mechanism
+
 * Tue Jan 23 2001 Matt Wilson <msw@redhat.com>
 - fixed typo in init.d/network - missing | in pipeline
 
