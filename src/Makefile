@@ -1,11 +1,12 @@
 CFLAGS+=-Wall -D_GNU_SOURCE
 
 PROGS=usernetctl doexec netreport testd usleep ipcalc initlog minilogd
+INITLOG_OBJS=initlog.o process.o
 
 all:	$(PROGS)
 
 clean:
-	rm -f $(PROGS)
+	rm -f $(PROGS) *.o
 
 install:
 	mkdir -p $(ROOT)/bin $(ROOT)/usr/sbin $(ROOT)/usr/man/man1
@@ -32,12 +33,5 @@ install-test:
 ipcalc: ipcalc.o
 	$(CC) $(LDFLAGS) -o $@ $< -lpopt
 
-minilogd: minilogd.o
-	$(CC) $(LDFLAGS) -o $@ $< 
-
-initlog: initlog.o process.o
-	$(CC) $(LDFLAGS) -o $@ $< -lpopt
-
-clean:
-	rm ipcalc initlog minilogd *.o core *~
-
+initlog: $(INITLOG_OBJS)
+	$(CC) $(LDFLAGS) -o $@ $(INITLOG_OBJS) -lpopt
