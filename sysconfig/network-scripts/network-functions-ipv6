@@ -255,7 +255,7 @@ function ifdown_ipv6_autotunnel() {
 		# still up?
 
 		# disable IPv6-over-IPv4 tunnels (if a tunnel is no longer up)
-		if LC_ALL=C route -A inet6 -n | grep sit0 | awk '{ print $2 }' | grep -v -q "^::$"; then
+		if LC_ALL=C route -n -A inet6 -n | grep sit0 | awk '{ print $2 }' | grep -v -q "^::$"; then
 			# still existing routes, skip shutdown of sit0
 			true
 		elif LC_ALL=C ifconfig sit0 | grep 'inet6 addr:' | awk '{ print $3 }' | grep -v -q '^::'; then
@@ -393,7 +393,7 @@ function ifdown_ipv6_tunnel_all() {
 		return 1
 	fi
 	# Get all IPv6 routes through given interface and remove them
-	LC_ALL=C route -A inet6 | grep "::$idtuall_tunnel" | while read ipv6net nexthop flags metric ref use iface args; do
+	LC_ALL=C route -n -A inet6 | grep "::$idtuall_tunnel" | while read ipv6net nexthop flags metric ref use iface args; do
 		if [ "::$idtuall_tunnel" = "$nexthop" ]; then
 			if echo $flags | grep -v -q "A"; then
 				# Only non addrconf (automatic installed) routes should be removed
@@ -536,7 +536,7 @@ function ifdown_ipv6_real_all() {
 	fi
 
 	# Get all IPv6 routes through given interface and remove them
-	LC_ALL=C route -A inet6 | grep $idall_device | while read ipv6net nexthop flags metric ref use iface args; do
+	LC_ALL=C route -n -A inet6 | grep $idall_device | while read ipv6net nexthop flags metric ref use iface args; do
 		if [ "$idall_device" = "$iface" ]; then
 			if echo $flags | grep -v -q "A"; then
 				# Only non addrconf (automatic installed) routes should be removed
