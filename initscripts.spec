@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.59
+Version: 6.60
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -243,6 +243,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Thu Mar 28 2002 Bill Nottingham <notting@redhat.com> 6.60-1
+- disable DMA on CD-ROMs at bootup
+
 * Wed Mar 27 2002 Bill Nottingham <notting@redhat.com> 6.59-1
 - add local hook to halt
 
