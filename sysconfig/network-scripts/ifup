@@ -88,6 +88,9 @@ if [ -n "$PUMP" ]; then
     if [ -n "$DHCP_HOSTNAME" ]; then
        PUMPARGS="-h $DHCP_HOSTNAME"
     fi
+    if [ -n "$NEEDHOSTNAME" ]; then
+       PUMPARGS="$PUMPARGS --lookup-hostname"
+    fi
     echo -n "Determining IP information for $DEVICE..."
     if /sbin/pump $PUMPARGS -i $DEVICE ; then
 	echo " done."
