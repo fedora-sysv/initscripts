@@ -118,8 +118,8 @@ if [ -n $USEMODULES ]; then
     mtag=`grep -l "$ktag" /lib/modules/2.0.*/.rhkmvtag`
     if [ -n "$mtag" ]; then
 	mver=`echo $mtag | sed -e 's,/lib/modules/,,' -e 's,/.rhkmvtag,,'`
-	echo ln -sf /lib/modules/$mver /lib/modules/preferred
-	echo ln -sf /boot/System.map-$mver /boot/System.map
+	ln -sf /lib/modules/$mver /lib/modules/preferred
+	ln -sf /boot/System.map-$mver /boot/System.map
     fi
 fi
 
