@@ -56,7 +56,7 @@
 */
 
 /*!
-  \fn unsigned long int prefix2mask(int bits)
+  \fn u_int32_t prefix2mask(int bits)
   \brief creates a netmask from a specified number of bits
   
   This function converts a prefix length to a netmask.  As CIDR (classless
@@ -69,20 +69,20 @@
   \param prefix is the number of bits to create a mask for.
   \return a network mask, in network byte order.
 */
-unsigned long int prefix2mask(int prefix) {
+u_int32_t prefix2mask(int prefix) {
     return htonl(~((1 << (32 - prefix)) - 1));
 }
 
 /*!
-  \fn int mask2prefix(unsigned long int mask)
+  \fn int mask2prefix(u_int32_t mask)
   \brief calculates the number of bits masked off by a netmask.
 
   This function calculates the significant bits in an IP address as specified by
   a netmask.  See also \ref prefix2mask.
 
-  \param mask is the netmask, specified as an unsigned long integer in network byte order.
+  \param mask is the netmask, specified as an u_int32_teger in network byte order.
   \return the number of significant bits.  */
-int mask2prefix(unsigned long int mask)
+int mask2prefix(u_int32_t mask)
 {
     int i;
     int count = IPBITS;
@@ -96,7 +96,7 @@ int mask2prefix(unsigned long int mask)
 }
 
 /*!
-  \fn unsigned long int default_netmask(unsigned long int addr)
+  \fn u_int32_t default_netmask(u_int32_t addr)
 
   \brief returns the default (canonical) netmask associated with specified IP
   address.
@@ -108,7 +108,7 @@ int mask2prefix(unsigned long int mask)
 
   \param addr an IP address in network byte order.
   \return a netmask in network byte order.  */
-unsigned long int default_netmask(unsigned long int addr)
+u_int32_t default_netmask(u_int32_t addr)
 {
     if (((ntohl(addr) & 0xFF000000) >> 24) <= 127)
 	return htonl(0xFF000000);
@@ -119,7 +119,7 @@ unsigned long int default_netmask(unsigned long int addr)
 }
 
 /*!
-  \fn unsigned long int calc_broadcast(unsigned long int addr, int prefix)
+  \fn u_int32_t calc_broadcast(u_int32_t addr, int prefix)
 
   \brief calculate broadcast address given an IP address and a prefix length.
 
@@ -129,14 +129,14 @@ unsigned long int default_netmask(unsigned long int addr)
   \return the calculated broadcast address for the network, in network byte
   order.
 */
-unsigned long int calc_broadcast(unsigned long int addr,
+u_int32_t calc_broadcast(u_int32_t addr,
 				 int prefix)
 {  
     return (addr & prefix2mask(prefix)) | ~prefix2mask(prefix);
 }
 
 /*!
-  \fn unsigned long int calc_network(unsigned long int addr, int prefix)
+  \fn u_int32_t calc_network(u_int32_t addr, int prefix)
   \brief calculates the network address for a specified address and prefix.
 
   \param addr an IP address, in network byte order
@@ -144,13 +144,13 @@ unsigned long int calc_broadcast(unsigned long int addr,
   \return the base address of the network that addr is associated with, in
   network byte order.
 */
-unsigned long int calc_network(unsigned long int addr, int prefix)
+u_int32_t calc_network(u_int32_t addr, int prefix)
 {
     return (addr & prefix2mask(prefix));
 }
 
 /*!
-  \fn const char *get_hostname(unsigned long int addr)
+  \fn const char *get_hostname(u_int32_t addr)
   \brief returns the hostname associated with the specified IP address
 
   \param addr an IP address to find a hostname for, in network byte order
@@ -159,7 +159,7 @@ unsigned long int calc_network(unsigned long int addr, int prefix)
   in a static buffer that may disappear at any time, the caller should copy the
   data if it needs permanent storage.
 */
-const char *get_hostname(unsigned long int addr)
+const char *get_hostname(u_int32_t addr)
 {
     struct hostent * hostinfo;
     int x;
