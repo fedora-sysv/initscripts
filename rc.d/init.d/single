@@ -10,6 +10,8 @@
 #               Modified for RHS Linux by Damien Neil
 #
 
+. /etc/rc.d/init.d/functions
+
 # Set the path.
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
 
@@ -31,6 +33,7 @@ if [ -f /proc/sys/kernel/modprobe ]; then
    echo "/sbin/modprobe" > /proc/sys/kernel/modprobe
 else
    /etc/rc.d/init.d/kerneld start
+fi
 
 # Now go to the single user level.
 echo "Telling INIT to go to single user mode."
