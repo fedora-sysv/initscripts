@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.61
+Version: 5.61.1
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -251,11 +251,14 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Feb  5 2001 Trond Eivind Glomsrød <teg@redhat.com>
+- i18n updates
+
 * Fri Feb  2 2001 Bill Nottingham <notting@redhat.com>
 - actually *ship* the ipv6 (and plusb) files
 
 * Thu Feb  1 2001 Trond Eivind Glomsrød <teg@redhat.com>
-- updated i18n
+- i18n updates
 
 * Tue Jan 30 2001 Bill Nottingham <notting@redhat.com>
 - various init.d/functions cleanups (#10761, from <mjt@tls.msk.ru>)
