@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.98
+Version: 5.99
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -159,6 +159,11 @@ rm -rf $RPM_BUILD_ROOT
 /etc/sysconfig/network-scripts/ifup
 %config /sbin/ifup
 %dir /etc/sysconfig/console
+%dir /etc/sysconfig/networking
+%dir /etc/sysconfig/networking/default
+%dir /etc/sysconfig/networking/devices
+%dir /etc/sysconfig/networking/profiles
+%config /etc/sysconfig/networking/ifcfg-lo
 %config(noreplace) /etc/sysconfig/rawdevices
 %config /etc/sysconfig/network-scripts/network-functions
 %config /etc/sysconfig/network-scripts/network-functions-ipv6
@@ -226,6 +231,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Jul  6 2001 Trond Eivind Glomsrød <teg@redhat.com>
+- Add new directories required by new network tool
+
 * Thu Jul 05 2001 Karsten Hopp <karsten@redhat.de>
 - disable hwclock on S390 (no such executable)
 - Fix up kernel versioning on binary-only modules (S390)
