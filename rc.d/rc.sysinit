@@ -275,16 +275,10 @@ if [ "$BOOTUP" = "color" ]; then
 else
 	fsckoptions="-V $fsckoptions"
 fi
-
-if [ -f /etc/rc.readonly ]; then
-    # Call rc.readonly to set up magic stuff needed for readonly root
-    . /etc/rc.readonly
-    READONLY=1
-fi
  
 _RUN_QUOTACHECK=0
 ROOTFSTYPE=`awk '/ \/ / && ($3 !~ /rootfs/) { print $3 }' /proc/mounts`
-if [ -z "$fastboot" -a -z "$READONLY" -a "X$ROOTFSTYPE" != "Xnfs" -a "X$ROOTFSTYPE" != "Xnfs4" ]; then 
+if [ -z "$fastboot" -a "X$ROOTFSTYPE" != "Xnfs" -a "X$ROOTFSTYPE" != "Xnfs4" ]; then 
 
         STRING=$"Checking root filesystem"
 	echo $STRING
@@ -378,7 +372,7 @@ fi
 # Remount the root filesystem read-write.
 update_boot_stage RCmountfs
 state=`awk '/ \/ / && ($3 !~ /rootfs/) { print $4 }' /proc/mounts`
-[ "$state" != "rw" -a -z "$READONLY" ] && \
+[ "$state" != "rw" ] && \
   action $"Remounting root filesystem in read-write mode: " mount -n -o remount,rw /
 
 # LVM2 initialization
@@ -386,7 +380,7 @@ if [ -x /sbin/lvm.static ]; then
     if ! LC_ALL=C fgrep -q "device-mapper" /proc/devices 2>/dev/null ; then
 	modprobe dm-mod >/dev/null 2>&1
     fi
-    /bin/rm -f /dev/mapper/control &> /dev/null
+    /bin/rm -f /dev/mapper/control
     echo "mkdmnod" | /sbin/nash --quiet >/dev/null 2>&1
     [ -n "$SELINUX" ] && restorecon /dev/mapper/control
     if [ -c /dev/mapper/control -a -x /sbin/lvm.static ]; then
@@ -415,7 +409,7 @@ if [ -n "$SELINUX" ]; then
 fi
 
 # Clear mtab
-(> /etc/mtab) &> /dev/null
+> /etc/mtab
 
 # Remove stale backups
 rm -f /etc/mtab~ /etc/mtab~~
@@ -684,7 +678,7 @@ if [ -f /.unconfigured ]; then
 fi
 
 # Clean out /.
-rm -f /fastboot /fsckoptions /forcefsck /.autofsck /halt /poweroff &> /dev/null
+rm -f /fastboot /fsckoptions /forcefsck /.autofsck /halt /poweroff
 
 # Do we need (w|u)tmpx files? We don't set them up, but the sysadmin might...
 _NEED_XFILES=
@@ -704,7 +698,7 @@ for afile in /var/lock/* /var/run/* ; do
 	   rm -f $afile
 	fi
 done
-rm -f /var/lib/rpm/__db* &> /dev/null
+rm -f /var/lib/rpm/__db*
 
 # Reset pam_console permissions
 [ -x /sbin/pam_console_apply ] && /sbin/pam_console_apply -r
@@ -727,6 +721,9 @@ rm -f /tmp/.X*-lock /tmp/.lock.* /tmp/.gdm_socket /tmp/.s.PGSQL.*
 rm -rf /tmp/.X*-unix /tmp/.ICE-unix /tmp/.font-unix /tmp/hsperfdata_* \
        /tmp/kde-* /tmp/ksocket-* /tmp/mc-* /tmp/mcop-* /tmp/orbit-*  \
        /tmp/scrollkeeper-*  /tmp/ssh-*
+# Make ICE directory
+mkdir -m 1777 -p /tmp/.ICE-unix >/dev/null 2>&1
+chown root:root /tmp/.ICE-unix
 
 # Now turn on swap in case we swap to files.
 swapon -a
@@ -845,8 +842,7 @@ fi
 dmesg -s 131072 > /var/log/dmesg
 
 # create the crash indicator flag to warn on crashes, offer fsck with timeout
-touch /.autofsck &> /dev/null
-
+touch /.autofsck
 kill -TERM `/sbin/pidof getkey` >/dev/null 2>&1
 } &
 if strstr "$cmdline" confirm ; then
