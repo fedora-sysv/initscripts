@@ -31,11 +31,6 @@ fi
 
 source_config
 
-if [ "foo$2" = "fooboot" -a "${ONBOOT}" = "no" -o "${ONBOOT}" = "NO" ]
-then
-    exit
-fi
-
 IPSETUP=no
 
 DEVICETYPE=`echo $DEVICE | sed "s/[0-9]*$//"`
@@ -53,6 +48,12 @@ fi
 
 if [ "$BOOTPROTO" = bootp -o "$BOOTPROTO" = dhcp ]; then
     PUMP=true
+fi
+
+if [ "$2" = "boot" -a "${ONBOOT}" = "no" -o "${ONBOOT}" = "NO" ]; then
+    # Probe module to preserve interface ordering.
+    /sbin/ifconfig ${REALDEVICE} >/dev/null 2>&1
+    exit
 fi
 
 OTHERSCRIPT="/etc/sysconfig/network-scripts/ifup-${DEVICETYPE}"
