@@ -83,7 +83,7 @@ do
 	retry=$(($retry-1))
 	sig=-9
 done
-runcmd "Unmounting proc file system" umount /proc
+
 mount -n -o remount,ro /
 
 # turn off raid
@@ -100,6 +100,8 @@ if [ -x /sbin/raidstop -a -f /etc/raidtab ]; then
     fi
     #runcmd "Turning off RAID" /sbin/raidstop -a
 fi
+
+runcmd "Unmounting proc file system" umount /proc
 
 # Remount read only anything that's left mounted.
 #echo "Remounting remaining filesystems (if any) readonly"
