@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.20
+Version: 7.21
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -246,6 +246,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue May 20 2003 Bill Nottingham <notting@redhat.com> 7.21-1
+- yet more tweaks for graphical boot
+
 * Fri May  2 2003 Bill Nottingham <notting@redhat.com> 7.20-1
 - more tweaks for graphical boot
 
