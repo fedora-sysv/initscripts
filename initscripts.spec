@@ -59,9 +59,9 @@ popd
 
 %ifnarch s390 s390x
 rm -f \
- /etc/sysconfig/network-scripts/ifup-ctc \
- /etc/sysconfig/network-scripts/ifup-escon \
- /etc/sysconfig/network-scripts/ifup-iucv
+ $RPM_BUILD_ROOT/etc/sysconfig/network-scripts/ifup-ctc \
+ $RPM_BUILD_ROOT/etc/sysconfig/network-scripts/ifup-escon \
+ $RPM_BUILD_ROOT/etc/sysconfig/network-scripts/ifup-iucv
 %endif
 
 %pre
