@@ -39,11 +39,11 @@ def xgettext(arq, tokens_i18n):
 		elif l[0:1] == '\n':    continue
 		else:
 			for token in tokens_i18n:
-				pos = find(l, token + ' "')
+				pos = find(l, token + ' $"')
 				if pos != -1:
 					text = split(l[pos:], '"')[1]
-					if find (text, '$') != -1:
-						continue
+					#if find (text, '$') != -1:
+					#	continue
 					if s.has_key(text):
 						s[text].append((arq, line))
 					else:
@@ -75,7 +75,7 @@ def print_pot():
 				
 def main():
 	i18n_tokens = []
-        i18n_tokens.append('gprintf')
+	i18n_tokens.append('echo')
 	i18n_tokens.append('action')
 	i18n_tokens.append('failure')
 	i18n_tokens.append('passed')

@@ -37,7 +37,7 @@ export CONFIRM
 [ -n "$argv1" ] && runlevel="$argv1"
 
 # Tell linuxconf what runlevel we are in
-[ -d /var/run ] && echo $"/etc/rc$runlevel.d" > /var/run/runlevel.dir
+[ -d /var/run ] && echo "/etc/rc$runlevel.d" > /var/run/runlevel.dir
 
 # Is there an rc directory for this new runlevel?
 if [ -d /etc/rc$runlevel.d ]; then
@@ -60,7 +60,7 @@ if [ -d /etc/rc$runlevel.d ]; then
 		if egrep -q "(killproc |action )" $i ; then
 			$i stop
 		else
-			action "Stopping $subsys: " $i stop
+			action $"Stopping $subsys: " $i stop
 		fi
 	done
 
@@ -103,7 +103,7 @@ if [ -d /etc/rc$runlevel.d ]; then
 			if [ "$subsys" = "halt" -o "$subsys" = "reboot" -o "$subsys" = "single" -o "$subsys" = "local" ]; then
 			    $i start
 			else
-			    action "Starting $subsys: " $i start
+			    action $"Starting $subsys: " $i start
 			fi
 		fi
 	done

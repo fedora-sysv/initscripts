@@ -50,11 +50,11 @@ fi
 
 # Mount /proc (done here so volume labels can work with fsck)
 
-action "Mounting proc filesystem: " mount -n -t proc /proc /proc
+action $"Mounting proc filesystem: " mount -n -t proc /proc /proc
 
 # Configure kernel parameters
 
-action "Configuring kernel parameters: " sysctl -p /etc/sysctl.conf
+action $"Configuring kernel parameters: " sysctl -p /etc/sysctl.conf
 
 # Set the system clock.
 ARC=0
@@ -101,7 +101,7 @@ esac
 
 /sbin/hwclock $CLOCKFLAGS
 
-action "Setting clock $CLOCKDEF: `date`" date
+action $"Setting clock $CLOCKDEF: `date`" date
 
 if [ "`/sbin/consoletype`" == "vt" ]; then
  # Load keymap
@@ -126,7 +126,7 @@ if [ "`/sbin/consoletype`" == "vt" ]; then
     echo -n $"Loading default keymap: "
   fi
   loadkeys $KEYMAP < /dev/tty0 > /dev/tty0 2>/dev/null && \
-     success "Loading default keymap" || failure "Loading default keymap"
+     action $"Loading default keymap" || action $"Loading default keymap"
   echo
  fi   
  fi
@@ -138,40 +138,40 @@ if [ "`/sbin/consoletype`" == "vt" ]; then
          -f /usr/lib/kbd/consolefonts/$SYSFONT.psf.gz -o \
          -f /etc/sysconfig/console/$SYSFONT.gz -o \
          -f /usr/lib/kbd/consolefonts/$SYSFONT.gz ]; then
-       action "Setting default font ($SYSFONT): " /sbin/setsysfont
+       action $"Setting default font ($SYSFONT): " /sbin/setsysfont
     fi
  fi
 fi
 
 # Start up swapping.
-action "Activating swap partitions: " swapon -a
+action $"Activating swap partitions: " swapon -a
 
 # Set the hostname.
-action "Setting hostname ${HOSTNAME}: " hostname ${HOSTNAME}
+action $"Setting hostname ${HOSTNAME}: " hostname ${HOSTNAME}
 
 # Initialize USB controller and HID devices
 usb=0
 if ! grep -iq "nousb" /proc/cmdline 2>/dev/null && ! grep -q "usb" /proc/devices 2>/dev/null ; then
     alias=`/sbin/modprobe -c | egrep -s "^alias[[:space:]]+usb-controller[[:space:]]+" | awk '{ print $3 }'`
     if [ -n "$alias" -a "$alias" != "off" ] ; then
-      action "Initializing USB controller ($alias): " modprobe $alias
+      action $"Initializing USB controller ($alias): " modprobe $alias
       [ $? -eq 0 ] && usb=1
     fi
 fi
 
 if [ $usb = "1" ]; then
     sleep 5
-    action "Mounting USB filesystem: "  mount -t usbdevfs usbdevfs /proc/bus/usb
+    action $"Mounting USB filesystem: "  mount -t usbdevfs usbdevfs /proc/bus/usb
     mouseoutput=`cat /proc/bus/usb/devices|grep -E "^I.*Cls=03.*Prot=02"`
     kbdoutput=`cat /proc/bus/usb/devices|grep -E "^I.*Cls=03.*Prot=01"`
     if [ -n "$kbdoutput" ] || [ -n "$mouseoutput" ]; then
-	action "Initializing USB HID interface: " modprobe hid 2> /dev/null
+	action $"Initializing USB HID interface: " modprobe hid 2> /dev/null
     fi
     if [ -n "$kbdoutput" ]; then
-	action "Initializing USB keyboard: " modprobe keybdev
+	action $"Initializing USB keyboard: " modprobe keybdev
     fi
     if [ -n "$mouseoutput" ]; then
-	action "Initializing USB mouse: " modprobe mousedev
+	action $"Initializing USB mouse: " modprobe mousedev
     fi
 fi
 
@@ -198,7 +198,7 @@ else
 fi
  
 if [ -e /proc/lvm -a -x /sbin/vgchange ]; then
-        action "Setting up LVM:" /sbin/vgchange -a y
+        action $"Setting up LVM:" /sbin/vgchange -a y
 fi
 
 _RUN_QUOTACHECK=0
@@ -211,16 +211,16 @@ if [ -z "$fastboot" -a "$ROOTFSTYPE" != "nfs" ]; then
 	rc=$?
 	
 	if [ "$rc" = "0" ]; then
-		success "$STRING"
+		action $"$STRING"
 		echo
 	elif [ "$rc" = "1" ]; then
-	        passed "$STRING"
+	        action $"$STRING"
 		echo
         fi
 	
         # A return of 2 or higher means there were serious problems.
 	if [ $rc -gt 1 ]; then
-		failure "$STRING"
+		action $"$STRING"
 		echo
 		echo
 		echo $"*** An error occurred during the file system check."
@@ -251,16 +251,16 @@ fi
 # set up pnp 
 if [ -x /sbin/isapnp -a -f /etc/isapnp.conf ]; then
     if [ -n "$PNP" ]; then
-	action "Setting up ISA PNP devices: " /sbin/isapnp /etc/isapnp.conf
+	action $"Setting up ISA PNP devices: " /sbin/isapnp /etc/isapnp.conf
     else
-	action "Skipping ISA PNP configuration at users request: " /bin/true
+	action $"Skipping ISA PNP configuration at users request: " /bin/true
     fi
 fi
 
 # Remount the root filesystem read-write.
 state=`awk '/(^\/dev\/root| \/ )/ { print $4 }' /proc/mounts`
 [ "$state" != "rw" ] && \
-  action "Remounting root filesystem in read-write mode: " mount -n -o remount,rw /
+  action $"Remounting root filesystem in read-write mode: " mount -n -o remount,rw /
 
 # Clear mtab
 >/etc/mtab
@@ -312,7 +312,7 @@ if [ -x /sbin/hdparm ]; then
              hdmedia=`cat /proc/ide/${disk[$device]}/media`
              if [ "$hdmedia" = "disk" ]; then
                   if [ -n "${HDFLAGS[$device]}" ]; then
-                      action "Setting hard drive parameters for ${disk[$device]}: "  /sbin/hdparm ${HDFLAGS[$device]} /dev/${disk[$device]}
+                      action $"Setting hard drive parameters for ${disk[$device]}: "  /sbin/hdparm ${HDFLAGS[$device]} /dev/${disk[$device]}
                   fi
              fi
         fi
@@ -321,7 +321,7 @@ fi
 
 # Update quotas if fsck was run on /.
 if [ X"$_RUN_QUOTACHECK" = X1 -a -x /sbin/quotacheck ]; then
-	action "Checking root filesystem quotas: "  /sbin/quotacheck -v /
+	action $"Checking root filesystem quotas: "  /sbin/quotacheck -v /
 fi
 
 # The root filesystem is now read-write, so we can now log via syslog() directly..
@@ -352,9 +352,9 @@ if [ -x /sbin/depmod -a -n "$USEMODULES" ]; then
        fi
     fi
     if [ -L /lib/modules/default ]; then
-    	INITLOG_ARGS= action "Finding module dependencies: " depmod -A default
+    	INITLOG_ARGS= action $"Finding module dependencies: " depmod -A default
     else
-	INITLOG_ARGS= action "Finding module dependencies: " depmod -A
+	INITLOG_ARGS= action $"Finding module dependencies: " depmod -A
     fi
 fi
 
@@ -363,17 +363,17 @@ if grep -q "options sound dmabuf=1" /etc/modules.conf 2>/dev/null ; then
   RETURN=0
   alias=`/sbin/modprobe -c | egrep -s "^alias[[:space:]]+sound[[:space:]]+" | awk '{ print $3 }'`
   if [ -n "$alias" -a "$alias" != "off" ] ; then
-      action "Loading sound module ($alias): " modprobe $alias
+      action $"Loading sound module ($alias): " modprobe $alias
       RETURN=$?
   fi
   alias=`/sbin/modprobe -c | egrep -s "^alias[[:space:]]+sound-slot-0[[:space:]]+" | awk '{ print $3 }'`
   if [ -n "$alias" -a "$alias" != "off" ] ; then
-      action "Loading sound module ($alias): " modprobe $alias
+      action $"Loading sound module ($alias): " modprobe $alias
       RETURN=$?
   fi
   # Load mixer settings
   if grep -q "\(sparcaudio\|sound\)" /proc/devices 2>/dev/null && [ $RETURN -eq 0 -a -f /etc/.aumixrc -a -x /bin/aumix-minimal ]; then
-	action "Loading mixer settings: " /bin/aumix-minimal -f /etc/.aumixrc -L
+	action $"Loading mixer settings: " /bin/aumix-minimal -f /etc/.aumixrc -L
   fi
 fi
 
@@ -456,16 +456,16 @@ if [ -z "$fastboot" ]; then
 	initlog -c "fsck -T -R -A -a $fsckoptions"
 	rc=$?
         if [ "$rc" = "0" ]; then
-		success "$STRING"
+		action $"$STRING"
 		echo
 	elif [ "$rc" = "1" ]; then
-	        passed "$STRING"
+	        action $"$STRING"
 		echo
 	fi
 
 	# A return of 2 or higher means there were serious problems.
 	if [ $rc -gt 1 ]; then
-	        failure "$STRING"
+	        action $"$STRING"
 		echo
 		echo
 		echo $"*** An error occurred during the file system check."
@@ -488,15 +488,15 @@ fi
 # Mount all other filesystems (except for NFS and /proc, which is already
 # mounted). Contrary to standard usage,
 # filesystems are NOT unmounted in single user mode.
-action "Mounting local filesystems: " mount -a -t nonfs,smbfs,ncpfs
+action $"Mounting local filesystems: " mount -a -t nonfs,smbfs,ncpfs
 
 if [ X"$_RUN_QUOTACHECK" = X1 -a -x /sbin/quotacheck ]; then
-	action "Checking filesystem quotas: "  /sbin/quotacheck -v -R -a
+	action $"Checking filesystem quotas: "  /sbin/quotacheck -v -R -a
 fi
 
 # Turn on process accounting
 if [ -x /sbin/accton ] ; then
-	action "Turning on process accounting" /sbin/accton /var/log/pacct
+	action $"Turning on process accounting" /sbin/accton /var/log/pacct
 fi
 
 # Configure machine if necessary.
@@ -522,14 +522,14 @@ if [ -f /.unconfigured ]; then
 	. /etc/sysconfig/network
 
 	# Reset the hostname.
-	action "Resetting hostname ${HOSTNAME}: " hostname ${HOSTNAME}
+	action $"Resetting hostname ${HOSTNAME}: " hostname ${HOSTNAME}
     fi
 
     rm -f /.unconfigured
 fi
 
 if [ -x /sbin/quotaon ]; then
-    action "Turning on user and group quotas for local filesystems: " /sbin/quotaon -a
+    action $"Turning on user and group quotas for local filesystems: " /sbin/quotaon -a
 fi
 
 # Clean out /etc.
@@ -570,7 +570,7 @@ rm -f /tmp/.s.PGSQL.*
 
 # Now turn on swap in case we swap to files.
 swapon -a >/dev/null 2>&1
-action "Enabling swap space: " /bin/true
+action $"Enabling swap space: " /bin/true
 
 # Initialize the serial ports.
 if [ -f /etc/rc.serial ]; then

@@ -115,9 +115,9 @@ daemon() {
 
 	# And start it up.
 	if [ -z "$daemon_user" ]; then 
-	   nice -n $nicelevel initlog $INITLOG_ARGS -c "$*" && success "$base startup" || failure "$base startup"
+	   nice -n $nicelevel initlog $INITLOG_ARGS -c "$*" && success $"$base startup" || failure $"$base startup"
 	else
-	   nice -n $nicelevel initlog $INITLOG_ARGS -c "su $daemon_user -c \"$*\"" && success "$base startup" || failure "$base startup"
+	   nice -n $nicelevel initlog $INITLOG_ARGS -c "su $daemon_user -c \"$*\"" && success $"$base startup" || failure $"$base startup"
 	fi
 }
 
@@ -171,18 +171,18 @@ killproc() {
 		        fi
 			checkpid $pid >/dev/null 2>&1
 			RC=$?
-			[ $RC -eq 0 ] && failure "$base shutdown" || success "$base shutdown"
+			[ $RC -eq 0 ] && failure $"$base shutdown" || success $"$base shutdown"
 			RC=$((! $RC))
 		# use specified level only
 		else
 		        if checkpid $pid >/dev/null 2>&1; then
 	                	kill $killlevel $pid
 				RC=$?
-				[ $RC -eq 0 ] && success "$base $killlevel" || failure "$base $killlevel"
+				[ $RC -eq 0 ] && success $"$base $killlevel" || failure $"$base $killlevel"
 			fi
 		fi
 	else
-	    failure "$base shutdown"
+	    failure $"$base shutdown"
 	fi
 
         # Remove pid file if any.
@@ -292,7 +292,7 @@ success() {
   else
      # silly hack to avoid EPIPE killing rc.sysinit
      trap "" SIGPIPE
-     echo $"$INITLOG_ARGS -n $0 -s \"$1\" -e 1" >&21
+     echo "$INITLOG_ARGS -n $0 -s \"$1\" -e 1" >&21
      trap - SIGPIPE
   fi
   [ "$BOOTUP" != "verbose" ] && echo_success
@@ -306,7 +306,7 @@ failure() {
      initlog $INITLOG_ARGS -n $0 -s "$1" -e 2
   else
      trap "" SIGPIPE
-     echo $"$INITLOG_ARGS -n $0 -s \"$1\" -e 2" >&21
+     echo "$INITLOG_ARGS -n $0 -s \"$1\" -e 2" >&21
      trap - SIGPIPE
   fi
   [ "$BOOTUP" != "verbose" ] && echo_failure
@@ -320,7 +320,7 @@ passed() {
      initlog $INITLOG_ARGS -n $0 -s "$1" -e 1
   else
      trap "" SIGPIPE
-     echo $"$INITLOG_ARGS -n $0 -s \"$1\" -e 1" >&21
+     echo "$INITLOG_ARGS -n $0 -s \"$1\" -e 1" >&21
      trap - SIGPIPE
   fi
   [ "$BOOTUP" != "verbose" ] && echo_passed
@@ -330,9 +330,9 @@ passed() {
 # Run some action. Log its output.
 action() {
   STRING=$1
-  echo -n $"$STRING "
+  echo -n "$STRING "
   shift
-  initlog $INITLOG_ARGS -c "$*" && success $"$STRING" || failure $"$STRING"
+  initlog $INITLOG_ARGS -c "$*" && action $"$STRING" || action $"$STRING"
   rc=$?
   echo
   return $rc

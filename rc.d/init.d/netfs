@@ -35,12 +35,12 @@ case "$1" in
         [ -n "$NFSFSTAB" ] && 
 	  {
 	    [ ! -f /var/lock/subsys/portmap ] && service portmap start
-	    action "Mounting NFS filesystems: " mount -a -t nfs
+	    action $"Mounting NFS filesystems: " mount -a -t nfs
 	  }
-        [ -n "$SMBFSTAB" ] && action "Mounting SMB filesystems: " mount -a -t smbfs
-        [ -n "$NCPFSTAB" ] && action "Mounting NCP filesystems: " mount -a -t ncpfs
+        [ -n "$SMBFSTAB" ] && action $"Mounting SMB filesystems: " mount -a -t smbfs
+        [ -n "$NCPFSTAB" ] && action $"Mounting NCP filesystems: " mount -a -t ncpfs
 	touch /var/lock/subsys/netfs
-	action "Mounting other filesystems: " mount -a -t nonfs,smbfs,ncpfs
+	action $"Mounting other filesystems: " mount -a -t nonfs,smbfs,ncpfs
 	;;
   stop)
   	[ -n "$NFSMTAB" ] && {
@@ -50,9 +50,9 @@ case "$1" in
 		while [ -n "$remaining" -a "$retry" -gt 0 ]
 		do
 			if [ "$retry" -lt 3 ]; then
-				action "Unmounting NFS filesystems (retry): " umount -f -a -t nfs
+				action $"Unmounting NFS filesystems (retry): " umount -f -a -t nfs
 			else
-				action "Unmounting NFS filesystems: " umount -f -a -t nfs
+				action $"Unmounting NFS filesystems: " umount -f -a -t nfs
 			fi
 			sleep 2
 			remaining=`awk '!/^#/ && $3 ~ /^nfs/ && $2 != "/" {print $2}' /proc/mounts`
@@ -63,8 +63,8 @@ case "$1" in
 			sig=-9
 		done
 	}
-	[ -n "$SMBMTAB" ] && action "Unmounting SMB filesystems: " umount -a -t smbfs
-	[ -n "$NCPMTAB" ] && action "Unmounting NCP filesystems: " umount -a -t ncpfs
+	[ -n "$SMBMTAB" ] && action $"Unmounting SMB filesystems: " umount -a -t smbfs
+	[ -n "$NCPMTAB" ] && action $"Unmounting NCP filesystems: " umount -a -t ncpfs
 	rm -f /var/lock/subsys/netfs
 	;;
   status)
