@@ -36,10 +36,6 @@ install:
 	install -m 644 ipcalc.1 $(ROOT)$(mandir)/man1
 	install -m 644 consoletype.1 $(ROOT)$(mandir)/man1
 	install -m 644 initlog.conf $(ROOT)/etc
-	install -m 755 mkkerneldoth $(ROOT)/sbin
-	if uname -m | grep -q s390 ; then \
-	  install -m 755 mkkerneldoth.s390 $(ROOT)/sbin/mkkerneldoth ; \
-	fi
 
 # this daemon and initscript are useful for testing the up/down/status stuff
 # not installed by default, only comes from sources.
