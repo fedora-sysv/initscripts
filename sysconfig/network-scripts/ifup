@@ -203,16 +203,23 @@ if [ "${SLAVE}" = yes -a "${ISALIAS}" = no -a "${MASTER}" != "" -a \
 
     /sbin/ip link set dev ${DEVICE} down
     echo $"Enslaving ${DEVICE} to ${MASTER}"
-    ifenslave ${RFLAG} "${MASTER}" "${DEVICE}"
+    ifenslave ${RFLAG} "${MASTER}" "${DEVICE}" >/dev/null 2>&1
 
     exit 0
 fi
 
-# master device?
+# Bonding initialization. For DHCP, we need to enslave the devices early,
+# so it can actually get an IP.
 if [ "${TYPE}" =  "Bonding" ] || ethtool -i $DEVICE 2>/dev/null| grep -q "driver: bonding" ; then
     /sbin/ip link set dev ${DEVICE} up
     for device in `fgrep -l "MASTER=${DEVICE}" /etc/sysconfig/network-scripts/ifcfg-*` ; do
-        /sbin/ifup ${device##*/}
+        if [ "$BOOTPROTO" = "dhcp" ]; then
+		DEV=$DEVICE
+		eval $(LANG=C fgrep "DEVICE=" $device)
+		ifenslave -d $DEV $DEVICE >/dev/null 2>&1
+		DEVICE=$DEV
+		/sbin/ifup ${device##*/}
+    	fi
     done
 fi
 
@@ -378,6 +385,23 @@ else
 	fi
     fi
     
+fi
+
+# Bonding initialization part II - for static, enslave the devices. For
+# DHCP, remove any routes for the slaves.
+if [ "${TYPE}" =  "Bonding" ] || ethtool -i $DEVICE 2>/dev/null| grep -q "driver: bonding" ; then
+    #/sbin/ip link set dev ${DEVICE} up
+    for device in `fgrep -l "MASTER=${DEVICE}" /etc/sysconfig/network-scripts/ifcfg-*` ; do
+	if [ "$BOOTPROTO" != "dhcp" ]; then
+		/sbin/ifup ${device##*/}
+    	else
+		DEV=$DEVICE
+                eval $(LANG=C fgrep "DEVICE=" $device)
+		ip link set ${DEVICE} up
+		ip route flush dev ${DEVICE}
+		DEVICE=$DEV
+	fi
+    done
 fi
 
 # Add Zeroconf route.
