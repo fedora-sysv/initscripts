@@ -97,7 +97,7 @@ if [ -n "$DYNCONFIG" ]; then
     echo -n "Determining IP information for $DEVICE..."
     if /sbin/pump $PUMPARGS -i $DEVICE ; then
 	echo " done."
-    else if /sbin/dhcpcd $DHCPCDARGS $DEVICE ; then
+    elif /sbin/dhcpcd $DHCPCDARGS $DEVICE ; then
 	echo " done."
     else
 	echo " failed."
