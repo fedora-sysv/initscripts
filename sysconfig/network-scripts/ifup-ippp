@@ -104,8 +104,8 @@ function addprovider()
     [ -z "$L3_PROT" ] && L3_PROT="trans"
 
     # check local/remote IP
-    [ -z "$IPADDR" ] && IPADDR="10.112.112.112"
-    [ -z "$GATEWAY" ] && GATEWAY="10.112.112.113"
+    [ -z "$IPADDR" ] && IPADDR="0.0.0.0"
+    [ -z "$GATEWAY" ] && GATEWAY="0.0.0.0"
 
     # set default route
     [ "$DEFROUTE" = "yes" ] && options="$options deldefaultroute"
@@ -182,7 +182,7 @@ function addprovider()
  
     options="$options ipparam $DEVICE"
     log_isdnctrl pppbind $DEVICE
-    if [ "$IPADDR" = "10.112.112.112" ]; then
+    if [ "$IPADDR" = "0.0.0.0" ]; then
         options="$options ipcp-accept-local"
     else
         options="$options noipdefault"
@@ -252,7 +252,7 @@ function addprovider()
         [ -n "$SLAVE_TRIGGER" ] && log_isdnctrl trigger $DEVICE $SLAVE_TRIGGER
     fi
 
-    if [ "$GATEWAY" = "10.112.112.113" ]; then
+    if [ "$GATEWAY" = "0.0.0.0" ]; then
         options="$options ipcp-accept-remote"
         options="$IPADDR:$GATEWAY $options"
     else
@@ -339,7 +339,7 @@ function addprovider()
         echo 1 > /proc/sys/net/ipv4/ip_dynaddr
         if  [ "$DEFROUTE" = "yes" ] ; then
             route del default >/dev/null 2>&1
-            if [ "$GATEWAY" = "10.112.112.113" ]; then
+            if [ "$GATEWAY" = "0.0.0.0" ]; then
                 route add default $DEVICE >/dev/null 2>&1
             else
                 route add default gw $GATEWAY >/dev/null 2>&1
