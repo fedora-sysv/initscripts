@@ -19,27 +19,6 @@ if [ -f /etc/sysconfig/pcmcia ]; then
 	. /etc/sysconfig/pcmcia
 fi
 
-# Turn IP forwarding on or off. We do this before bringing up the interfaces
-# to make sure we don't forward when we shouldn't, and we do it even if
-# networking isn't configured (why not?).
-if [ -d /proc/sys/net/ipv4 ]; then
-    # people could have left this out of their kernel, which isn't
-    # exactly an error
-    if [ ! -f /proc/sys/net/ipv4/ip_forward ] ; then
-	echo "/proc/sys/net/ipv4/ip_forward is missing --" \
-		"cannot control IP forwarding" >&2
-    else
-	if [ "$FORWARD_IPV4" = "no" -o "$FORWARD_IPV4" = "false" ]; then
-	    value=0
-	    echo "Disabling IPv4 packet forwarding."
-	else
-	    value=1
-	    echo "Enabling IPv4 packet forwarding."
-	fi
-
-	echo "$value" > /proc/sys/net/ipv4/ip_forward
-    fi
-fi
 
 # Check that networking is up.
 [ ${NETWORKING} = "no" ] && exit 0
@@ -55,6 +34,31 @@ interfaces=`ls ifcfg* | egrep -v '(ifcfg-lo|:)' | egrep 'ifcfg-[a-z0-9]+$'`
 # See how we were called.
 case "$1" in
   start)
+	# Turn IP forwarding on or off. We do this before bringing up the
+	# interfaces to make sure we don't forward when we shouldn't, and
+	# we do it even if networking isn't configured (why not?).
+	if [ -d /proc/sys/net/ipv4 ]; then
+	    # people could have left this out of their kernel, which isn't
+	    # exactly an error
+	    if [ ! -f /proc/sys/net/ipv4/ip_forward ] ; then
+		echo "/proc/sys/net/ipv4/ip_forward is missing --" \
+			"cannot control IP forwarding" >&2
+	    else
+		if [ "$FORWARD_IPV4" = "no" -o "$FORWARD_IPV4" = "false" ]; then
+		    value=0
+		    message="Disabling IPv4 packet forwarding."
+		else
+		    value=1
+		    message="Enabling IPv4 packet forwarding."
+		fi
+
+		if [ $value != `cat /proc/sys/net/ipv4/ip_forward` ];
+		    echo $message
+		    echo "$value" > /proc/sys/net/ipv4/ip_forward
+		fi
+	    fi
+	fi
+
 	./ifup ifcfg-lo
 	for i in $interfaces; do
 		./ifup $i boot
@@ -67,6 +71,8 @@ case "$1" in
 		./ifdown $i boot
 	done
 	./ifdown ifcfg-lo
+	echo "Disabling IPv4 packet forwarding."
+	echo 0 > /proc/sys/net/ipv4/ip_forward
         rm -f /var/lock/subsys/network
         ;;
   status)
