@@ -253,7 +253,7 @@ rm -f /lib/modules/preferred
 rm -f /lib/modules/default
 if [ -x /sbin/depmod -a -n "$USEMODULES" ]; then
     # If they aren't using a recent sane kernel, make a link for them
-    if [ ! -n `uname -r | grep "-"` ]; then
+    if [ ! -n "`uname -r | grep "-"`" ]; then
        ktag="`cat /proc/version`"
        mtag=`grep -l "$ktag" /lib/modules/*/.rhkmvtag 2> /dev/null`
        if [ -n "$mtag" ]; then
