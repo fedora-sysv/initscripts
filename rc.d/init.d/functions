@@ -63,7 +63,7 @@ killproc() {
 			# TERM first, then KILL if not dead
 			kill -TERM $pid
 			usleep 100000
-			dead=`ps aux | awk "{print $2}" | grep $pid`
+			dead=`ps aux | awk '{print $2}' | grep $pid`
 			if [ "$dead" != "" ]; then
 				sleep 3
 				kill -KILL $pid
