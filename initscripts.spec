@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.00
+Version: 6.01
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -236,6 +236,7 @@ rm -rf $RPM_BUILD_ROOT
 - prereq sh-utils (#43065)
 - fix some invocations of reboot/halt (#45966)
 - fix typo in ifup-wireless
+- don't muck with /etc/issue each boot
 
 * Fri Jul  6 2001 Trond Eivind Glomsrød <teg@redhat.com>
 - Add new directories required by new network tool
