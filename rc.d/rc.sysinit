@@ -53,6 +53,24 @@ disable_selinux() {
 	echo "0" > $selinuxfs/enforce
 }
 
+relabel_selinux() {
+    echo "
+         *** Warning -- SELinux relabel is required. ***
+	 *** Disabling security enforcement.         ***
+	 *** Relabeling could take a very long time, ***
+	 *** depending on file system size.          ***
+	 "
+    echo "0" > $selinuxfs/enforce
+    mount -n -o remount,rw /
+    mount -a
+    /sbin/fixfiles -F relabel > /dev/null 2>&1 
+    rm -f  /.autorelabel 
+    mount -n -o remount,ro /
+    umount -a
+    echo "*** Enabling security enforcement.         ***"
+    echo $SELINUX > $selinuxfs/enforce
+}
+
 
 . /etc/init.d/functions
 
@@ -333,6 +351,10 @@ if [ -z "$fastboot" -a "$READONLY" != "yes" -a "X$ROOTFSTYPE" != "Xnfs" -a "X$RO
 		_RUN_QUOTACHECK=1
 	fi
 fi
+#
+# Check to see if SELinux requires a relabel
+#
+[ -n "$SELINUX" ] && [ -f /.autorelabel ] && relabel_selinux
 
 # Unmount the initrd, if necessary
 if LC_ALL=C fgrep -q /initrd /proc/mounts && ! LC_ALL=C fgrep -q /initrd/loopfs /proc/mounts ; then
