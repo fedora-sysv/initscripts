@@ -17,6 +17,7 @@ all: $(NLSPACKAGE).pot $(FMTCATALOGS)
 $(NLSPACKAGE).pot: $(POTFILES)
 	@echo "Please don't run 'make initscripts.pot unless you have a *FULL*, current install."
 
+new-pot-file-i-really-mean-it: $(POTFILES)
 	./xgettext_sh.py $(POTFILES) > $(NLSPACKAGE).po
 	if cmp -s $(NLSPACKAGE).po $(NLSPACKAGE).pot; then \
 	    rm -f $(NLSPACKAGE).po; \
@@ -46,7 +47,7 @@ report:
 	done
 
 clean:
-	rm -f *mo $(NLSPACKAGE).pot *.pyc
+	rm -f *mo *.pyc
 
 distclean: clean
 	rm -f .depend Makefile
