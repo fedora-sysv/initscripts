@@ -11,6 +11,7 @@ if [ $# -eq 0 ]; then
    exit 1
 fi
 
+cd /
 while [ $# -gt 0 ]
 do
   case "${1}" in
@@ -32,7 +33,7 @@ do
                   ;;
               *)
                 if [ -x "${SERVICEDIR}/${SERVICE}" ]; then
-                  "${SERVICEDIR}/${SERVICE}" status
+                  env -i "${SERVICEDIR}/${SERVICE}" status
                 fi
                 ;;
             esac
@@ -42,8 +43,8 @@ do
           SERVICE="${1}"
           cd "${SERVICEDIR}"
           if [ -x "${SERVICEDIR}/${SERVICE}" ]; then
-            "${SERVICEDIR}/${SERVICE}" stop
-            "${SERVICEDIR}/${SERVICE}" start
+            env -i "${SERVICEDIR}/${SERVICE}" stop
+            env -i "${SERVICEDIR}/${SERVICE}" start
             exit $?
           fi
        elif [ -z "${SERVICE}" ]; then
@@ -57,7 +58,7 @@ do
 done
 
 if [ -x "${SERVICEDIR}/${SERVICE}" ]; then
-   "${SERVICEDIR}/${SERVICE}" ${OPTIONS}
+   env -i "${SERVICEDIR}/${SERVICE}" ${OPTIONS}
 else
    echo $"${SERVICE}: unrecognized service" >&2
    exit 1
