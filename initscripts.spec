@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.47.4
+Version: 6.47.5
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -240,6 +240,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Fri Nov 14 2003 Bill Nottingham <notting@redhat.com>
+- summit support in mkkerneldoth
+
 * Tue Nov 11 2003 Bill Nottingham <notting@redhat.com>
 - fix extraneous ethtool error message
 - backport ETHTOOL_OPTS support (#109203)
