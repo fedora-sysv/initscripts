@@ -73,18 +73,24 @@ if [ -n "$LOGLEVEL" ]; then
 	/bin/dmesg -n $LOGLEVEL
 fi
 
-# Start the graphical boot, if necessary
-if ! fgrep -q nogui /proc/cmdline && [ "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
-     /usr/bin/rhgb
-fi
+
+# Start the graphical boot, if necessary; /usr may not be mounted yet, so we
+# may have to do this again after mounting
+RHGB_STARTED=0
+mount -n /dev/pts
 
 # Unmount the initrd, if necessary
-if LC_ALL=C grep -q /initrd /proc/mounts && ! LC_ALL=C grep -q /initrd/loopfs /proc/mounts ; then
+if LC_ALL=C fgrep -q /initrd /proc/mounts && ! LC_ALL=C fgrep -q /initrd/loopfs /proc/mounts ; then
    if [ -e /initrd/dev/.devfsd ]; then
       umount /initrd/dev
    fi
-   action $"Unmounting initrd: " umount /initrd
+   umount /initrd
    /sbin/blockdev --flushbufs /dev/ram0 >/dev/null 2>&1
+fi
+
+if fgrep rhgb /proc/cmdline > /dev/null 2>&1 && [ "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
+   /usr/bin/rhgb
+   RHGB_STARTED=1
 fi
 
 # Configure kernel parameters
@@ -206,6 +212,9 @@ fi
 if [ -f /forcefsck ] || strstr "$cmdline" forcefsck ; then
 	fsckoptions="-f $fsckoptions"
 elif [ -f /.autofsck ]; then
+        if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
+	     chvt 1
+	fi
 	echo $"Your system appears to have shut down uncleanly"
 	AUTOFSCK_TIMEOUT=5
 	[ -f /etc/sysconfig/autofsck ] && . /etc/sysconfig/autofsck
@@ -346,6 +355,7 @@ rm -f /etc/mtab~ /etc/mtab~~
 # Enter root, /proc and (potentially) /proc/bus/usb and devfs into mtab.
 mount -f /
 mount -f /proc
+mount -f /dev/pts
 [ -f /proc/bus/usb/devices ] && mount -f -t usbdevfs usbdevfs /proc/bus/usb
 [ -e /dev/.devfsd ] && mount -f -t devfs devfs /dev 
 
@@ -475,6 +485,9 @@ if [ -f /etc/raidtab ]; then
 
 	# A non-zero return means there were problems.
 	if [ $rc -gt 0 ]; then
+	        if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
+		    chvt 1
+		fi
 		echo
 		echo
 		echo $"*** An error occurred during the RAID startup"
@@ -548,6 +561,12 @@ fi
 # mounted). Contrary to standard usage,
 # filesystems are NOT unmounted in single user mode.
 action $"Mounting local filesystems: " mount -a -t nonfs,smbfs,ncpfs -O no_netdev
+
+# Start the graphical boot, if necessary and not done yet.
+if fgrep rhgb /proc/cmdline > /dev/null 2>&1 && [ "$RHGB_STARTED" -eq 0 -a "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
+   /usr/bin/rhgb
+   RHGB_STARTED=1
+fi
 
 # check remaining quotas other than root
 if [ X"$_RUN_QUOTACHECK" = X1 -a -x /sbin/quotacheck ]; then
@@ -824,3 +843,8 @@ if [ -x /sbin/redhat-support-check -a -f /var/lib/supportinfo ]; then
   sleep 10
  }
 fi
+# Let rhgb know that we're leaving rc.sysinit
+if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
+    /usr/bin/rhgb-client --sysinit
+fi
+
