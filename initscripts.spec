@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.37
+Version: 7.38
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -249,6 +249,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Oct 17 2003 Bill Nottingham <notting@redhat.com> 7.38-1
+- rhgb updates, now pass 'rhgb' to use it, instead of passing 'nogui'
+  to disable it
+
 * Fri Oct 10 2003 Bill Nottingham <notting@redhat.com> 7.37-1
 - bridging updates (#104421, <dwmw2@redhat.com>)
 
