@@ -37,11 +37,6 @@ cd /etc/sysconfig/network-scripts
 interfaces=`ls ifcfg* | egrep -v '(ifcfg-lo|:)' | egrep 'ifcfg-[a-z0-9]+$' | \
             sed 's/^ifcfg-//g'`
 
-interfaces_boot=
-for inter in $interfaces ; do
-  egrep -L "ONBOOT=\"?[Nn][Oo]\"?" ifcfg-$inter >/dev/null || interfaces_boot="$interfaces_boot $inter"
-done
-
 # See how we were called.
 case "$1" in
   start)
@@ -60,7 +55,8 @@ case "$1" in
 
 	for i in $interfaces; do
 		if egrep -L "ONBOOT=\"?[Nn][Oo]\"?" ifcfg-$i >/dev/null ; then
-			./ifup $i boot
+			# Probe module to preserve interface ordering
+			/sbin/ifconfig $i >/dev/null 2>&1
 		else
 			action "Bringing up interface $i" ./ifup $i boot
 		fi
