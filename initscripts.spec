@@ -4,7 +4,7 @@ Name: initscripts
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
-Release: 1
+Release: 2
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /var/tmp/initbld
 Requires: mingetty, bash, /bin/awk, /bin/sed, mktemp, modutils >= 2.1.85-3, e2fsprogs, sysklogd >= 1.3.31, console-tools, procps
@@ -186,6 +186,7 @@ rm -rf $RPM_BUILD_ROOT
 * Thu Apr 08 1999 Bill Nottingham <notting@redhat.com>
 - fix more logic in initlog
 - fix for kernel versions in ifup-aliases
+- log to /var/log/boot.log
 
 * Wed Apr 07 1999 Bill Nottingham <notting@redhat.com>
 - fix daemon() function so you can specify pid to look for
