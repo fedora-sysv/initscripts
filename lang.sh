@@ -6,12 +6,7 @@ for langfile in /etc/sysconfig/i18n $HOME/.i18n ; do
 done    
 
 if [ "$sourced" = 1 ]; then
-    if [ -n "$LANG" ] ; then
-       [ "$LANG" = "C" ] && LANG="en_US"
-       export LANG
-    else
-      unset LANG
-    fi
+    [ -n "$LANG" ] && export LANG || unset LANG
     [ -n "$LC_CTYPE" ] && export LC_CTYPE || unset LC_CTYPE
     [ -n "$LC_COLLATE" ] && export LC_COLLATE || unset LC_COLLATE
     [ -n "$LC_MESSAGES" ] && export LC_MESSAGES || unset LC_MESSAGES
@@ -20,7 +15,6 @@ if [ "$sourced" = 1 ]; then
     [ -n "$LC_TIME" ] && export LC_TIME || unset LC_TIME
     if [ -n "$LC_ALL" ]; then
        if [ "$LC_ALL" != "$LANG" ]; then
-         [ "$LC_ALL" = "C" ] && LC_ALL="en_US"
          export LC_ALL
        else
          unset LC_ALL
@@ -31,7 +25,6 @@ if [ "$sourced" = 1 ]; then
     [ -n "$LANGUAGE" ] && export LANGUAGE || unset LANGUAGE
     if [ -n "$LINGUAS" ]; then
        if [ "$LINGUAS" != "$LANG" ]; then
-          [ "$LINGUAS" = "C" ] && LINGUAS="en_US"
           export LINGUAS
        else
           unset LINGUAS
