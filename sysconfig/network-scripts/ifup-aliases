@@ -295,6 +295,7 @@ for FILE in ifcfg-${parent_device}:*[^~] ; do
        [ -z "$DEVICE" ] && DEVICE=${FILE##ifcfg-}
        [ "$ONPARENT" != "no" -a "$ONPARENT" != "NO" ] && new_interface;
        unset DEVICE
+       unset ONPARENT
 done
 
 for FILE in ifcfg-${parent_device}-range*[^~] ; do
