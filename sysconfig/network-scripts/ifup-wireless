@@ -1,0 +1,82 @@
+#!/bin/bash
+# Network Interface Configuration System
+# Copyright (c) 1996-2001 Red Hat, Inc. all rights reserved.
+#
+# Based on PCMCIA wireless script by (David Hinds/Jean Tourrilhes)
+#
+# This software may be freely redistributed under the terms of the GNU
+# public license.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+#
+# Configure wireless network device options.  See iwconfig(8) for more info.
+# Valid variables:
+#    MODE: Ad-Hoc, Managed, etc.
+#    ESSID: Name of the wireless network
+#    NWID: Name of this machine on the network.  Hostname is default
+#    FREQ: Frequency to operate on.  See CHANNEL
+#    CHANNEL: Numbered frequency to operate on.  See FREQ
+#    SENS: Sensitivity threshold for packet rejection.
+#    RATE: Transfer rate.  Usually one of Auto, 11, 5, 2, or 1.
+#    KEY: Encryption key for WEP.
+#    RTS: Explicit RTS handshake.  Usually not specified (auto)
+#    FRAG: Fragmentation threshold to split packets.  Usually not specified.
+#    SPYIPS: List of IP addresses to "spy" on for link performance stats.
+#    IWCONFIG: Extra parameters to pass directly to IWCONFIG
+#    IWPRIV: Extra parameters to pass directly to IWPRIV
+
+# Only meant to be called from ifup.
+
+# Mode need to be first : some settings apply only in a specific mode !
+if [ -n "$MODE" ] ; then
+    iwconfig $DEVICE mode $MODE
+fi
+# This is a bit hackish, but should do the job right...
+if [ -n "$ESSID" ] || [ -n "$MODE" ] ; then
+    NICKNAME=`/bin/hostname`
+    iwconfig $DEVICE nick $NICKNAME >/dev/null 2>&1
+fi
+# Regular stuff...
+if [ "-n $NWID" ] ; then
+    iwconfig $DEVICE nwid $NWID
+fi
+if [ -n "$FREQ" ] ; then
+    iwconfig $DEVICE freq $FREQ
+elif [ -n "$CHANNEL" ] ; then
+    iwconfig $DEVICE channel $CHANNEL
+fi
+if [ -n "$SENS" ] ; then
+    iwconfig $DEVICE sens $SENS
+fi
+if [ -n "$RATE" ] ; then
+    iwconfig $DEVICE rate $RATE
+fi
+if [ -n "$KEY" ] ; then
+    iwconfig $DEVICE key $KEY
+fi
+if [ -n "$RTS" ] ; then
+    iwconfig $DEVICE rts $RTS
+fi
+if [ -n "$FRAG" ] ; then
+    iwconfig $DEVICE frag $FRAG
+fi
+# More specific parameters passed directly to IWCONFIG
+if [ -n "$IWCONFIG" ] ; then
+    iwconfig $DEVICE $IWCONFIG
+fi
+if [ -n "$SPYIPS" ] ; then
+    for IP in $SPYIPS; do
+	iwspy $DEVICE $IP
+    done
+fi
+if [ -n "$IWPRIV" ] ; then
+    iwpriv $DEVICE $IWPRIV
+fi
+# ESSID need to be last : most device re-perform the scanning/discovery
+# when this is set, and things like encryption keys are better be
+# defined if we want to discover the right set of APs/nodes.
+if [ -n "$ESSID" ] ; then
+    iwconfig $DEVICE essid "$ESSID"
+fi
