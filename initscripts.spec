@@ -242,6 +242,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Tue Oct 16 2001 Bill Nottingham <notting@redhat.com>
 - add ifup-ipx back in (#54686)
+- don't run logger if /usr isn't mounted in ifup-post (#54685)
 
 * Wed Sep 25 2001 Bill Nottingham <notting@redhat.com>
 - flush all relevant addresses on ifdown (<pbrown@redhat.com>, #53531, #53704)
