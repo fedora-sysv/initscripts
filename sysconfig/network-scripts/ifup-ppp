@@ -6,18 +6,20 @@ cd /etc/sysconfig/network-scripts
 
 # ifup-post for PPP is handled through /etc/ppp/ip-up
 
-if [ "$1" != daemon ] ; then
+if [ "$1" = daemon ] ; then
+  # we've been called from ppp-watch, so don't invoke it for persistence
+  shift
+else
   # just in case a full path to the configuration file is passed in
   CONFIG=$(basename $1)
   [ -f "$CONFIG" ] || CONFIG=ifcfg-$1
   source_config
   if [ "$DEMAND" != yes ] ; then
-    shift
     # let ppp-watch do the right thing
-    exec /sbin/ppp-watch "$ifcfg" "$@"
+    shift
+    exec /sbin/ppp-watch "${DEVICE}" "$@"
   fi
 fi
-shift
 
 CONFIG=$1
 [ -f "$CONFIG" ] || CONFIG=ifcfg-$1
@@ -84,7 +86,7 @@ if [ "${DEBUG}" = yes ] ; then
   opts="$opts debug"
   chatdbg="-v"
 fi
-if [ ${DEMAND} != yes ] ; then
+if [ ${DEMAND} = yes ] ; then
   if [ -n "${IDLETIMEOUT}" ] ; then
     opts="$opts demand idle ${IDLETIMEOUT}"
   else

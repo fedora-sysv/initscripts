@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.24
+Version: 5.25
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -219,6 +219,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Jul 03 2000 Nalin Dahyabhai <nalin@redhat.com>
+- fix demand-dialing with PPP
+
 * Sun Jul 02 2000 Trond Eivind Glomsrød <teg@redhat.com>
 - don't use tail
 
