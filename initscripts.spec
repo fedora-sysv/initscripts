@@ -266,7 +266,7 @@ rm -rf $RPM_BUILD_ROOT
 * Tue Aug 11 2004 Jason Vas Dias <jvdias@redhat.com> 7.61-1
 - fix for bug 120093: add PERSISTENT_DHCLIENT option to ifcfg files
 
-* Tue Aug 03 2004 Karsten Hopp <karsten@redhat.de> 7.60-1 
+* Tue Aug  3 2004 Karsten Hopp <karsten@redhat.de> 7.60-1 
 - write peerid into sysfs for IUCV devices (mainframe)
 
 * Tue Aug  3 2004 Bill Nottingham <notting@redhat.com>
@@ -275,14 +275,14 @@ rm -rf $RPM_BUILD_ROOT
 * Fri Jul 30 2004 Jason Vas Dias <jvdias@redhat.com> 7.60-1
 - fix for bug 125712: add 'change_resolv.conf' function
 
-* Tue Aug 27 2004 Bill Nottingham <notting@redhat.com>
+* Tue Jul 27 2004 Bill Nottingham <notting@redhat.com>
 - rc.d/init.d/network: don't bring interfaces down twice (#127487)
 
-* Wed Aug 14 2004 Bill Nottingham <notting@redhat.com>
+* Wed Jul 14 2004 Bill Nottingham <notting@redhat.com>
 - fix bonding + no IP (#127285)
 - wrap second LVM initialization in vgscan check to avoid extraneous messages (#127639)
 
-* Wed Aug  7 2004 Bill Nottingham <notting@redhat.com>
+* Wed Jul  7 2004 Bill Nottingham <notting@redhat.com>
 - move random stuff to rc.sysinit/halt; move all swap to after this.
   prereq of bug #123278
 
