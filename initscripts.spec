@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.52
+Version: 7.53
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -249,6 +249,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri May  7 2004 Jeremy Katz <katzj@redhat.com> - 7.53-1
+- little lvm tweak (#121963)
+
 * Tue May  4 2004 Bill Nottingham <notting@redhat.com> 7.52-1
 - ipv4 addresses are ints, not longs (#122479)
 
