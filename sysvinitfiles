@@ -1,17 +1,20 @@
 Writing System V init scripts for Red Hat Linux
 ===============================================
 
-All System V init scripts are named /etc/init.d/<servicename>
+All System V init scripts are named /etc/rc.d/init.d/<servicename>
 where <servicename> is the name of the service.  There must be no
 ".init" suffix.
 
+This path will very likely be moved to /etc/init.d in the future.
+Once Red Hat Linux 7.0 is installed, you can access scripts as
+/etc/init.d/<servicename>, via symlinks.
 
 Sample Script
 =============
 
 #!/bin/bash
 #
-#	/etc/init.d/<servicename>
+#	/etc/rc.d/init.d/<servicename>
 #
 #	<description of the *service*>
 #	<any general comments about this init script>
@@ -23,33 +26,47 @@ Sample Script
 #  mistaken for tags, should they happen to fit the pattern.>
 
 # Source function library.
-. /etc/init.d/functions
+. /etc/rc.d/init.d/functions
 
 <define any local shell functions used by the code that follows>
 
-case "$1" in
-    start)
-	echo -n "Starting <servicename> services: "
+start() {
+	echo -n "Starting <servicename>: "
 	<start daemons, perhaps with the daemon function>
 	touch /var/lock/subsys/<servicename>
-	;;
-    stop)
-	echo -n "Shutting down <servicename> services: "
+	return <return code of starting daemon>
+}	
+
+stop() {
+	echo -n "Shutting down <servicename>: "
 	<stop daemons, perhaps with the killproc function>
 	rm -f /var/lock/subsys/<servicename>
+	return <return code of stopping daemon>
+}
+
+case "$1" in
+    start)
+	start
+	;;
+    stop)
+	stop
 	;;
     status)
 	<report the status of the daemons in free-form format,
 	perhaps with the status function>
 	;;
     restart)
-	<restart the daemons, normally with $0 stop; $0 start>
+    	stop
+	start
 	;;
     reload)
 	<cause the service configuration to be reread, either with
-	kill -HUP or by restarting the daemons, possibly with
-	$0 stop; $0 start>
+	kill -HUP or by restarting the daemons, in a manner similar
+	to restart above>
 	;;
+    condrestart)
+    	<Restarts the servce if it is already running. For example:>
+	[ -f /var/lock/subsys/<service> ] && restart || :
     probe)
 	<optional.  If it exists, then it should determine whether
 	or not the service needs to be restarted or reloaded (or
@@ -62,24 +79,39 @@ case "$1" in
 	exit 1
 	;;
 esac
+exit $?
 
+Notes: 
 
-Notes: the restart and reload functions may be (and commonly are)
-combined into one test, vis:
+- The restart and reload functions may be (and commonly are)
+  combined into one test, vis:
     restart|reload)
-You are not prohibited from adding other commands; list all commands
-which you intend to be used interactively to the usage message.
+- You are not prohibited from adding other commands; list all commands
+  which you intend to be used interactively to the usage message.
+- Notice the change in that stop() and start() are now shell functions.
+  This means that restart can be implemented as
+     stop
+     start
+  instead of
+     $0 stop
+     $0 start
+  This saves a few shell invocations.
 
-
-
-Functions in /etc/init.d/functions
+Functions in /etc/rc.d/init.d/functions
 =======================================
 
-daemon [+/-nicelevel] program [arguments] [&]
+daemon  [ --check <name> ] [ --user <username>] 
+	[+/-nicelevel] program [arguments] [&]
 
 	Starts a daemon, if it is not already running.  Does
 	other useful things like keeping the daemon from dumping
 	core if it terminates unexpectedly.
+	
+	--check <name>:
+	   Check that <name> is running, as opposed to simply the
+	   first argument passed to daemon().
+	--user <username>:
+	   Run command as user <username>
 
 killproc program [signal]
 
@@ -92,9 +124,8 @@ killproc program [signal]
 pidofproc program
 
 	Tries to find the pid of a program; checking likely pidfiles,
-	using the pidof program, or even using ps.  Used mainly from
-	within other functions in this file, but also available to
-	scripts.
+	and using the pidof program.  Used mainly from within other
+	functions in this file, but also available to scripts.
 
 status program
 
@@ -116,7 +147,7 @@ Tags
 	Unless there is a VERY GOOD, EXPLICIT reason to the
 	contrary, the <endpriority> should be equal to
 	100 - <startpriority>
-
+	
 # description: <multi-line description of service>
 
 	Required.  Several lines of description, continued with '\'
@@ -164,8 +195,8 @@ Tags
 	If it exists, then a proper reload-if-necessary cycle may be
 	acheived by running these commands:
 
-	command=$(/etc/rd.d/init.d/SCRIPT probe)
-	[ -n "$command" ] && /etc/init.d/SCRIPT $command
+	command=$(/etc/rc.d/init.d/SCRIPT probe)
+	[ -n "$command" ] && /etc/rc.d/init.d/SCRIPT $command
 
 	where SCRIPT is the name of the service's sysv init script.
 
@@ -178,4 +209,4 @@ Tags
 	needs to be done to bring the service into sync with its
 	configuration files.
 
-Copyright (c) 1998 Red Hat Software, Inc.
+Copyright (c) 2000 Red Hat Software, Inc.
