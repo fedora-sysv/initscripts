@@ -17,6 +17,10 @@ that activate and deactivate most network interfaces.
 
 %changelog
 
+* Tue Oct 28 1997 Donnie Barnes <djb@redhat.com>
+
+- removed the skeleton init script
+
 * Tue Oct 28 1997 Erik Troan <ewt@redhat.com>
 
 - touch /var/lock/subsys/kerneld if it's running, and after mounting /var
