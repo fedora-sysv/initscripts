@@ -1,0 +1,29 @@
+#!/bin/bash
+PATH=/sbin:/usr/sbin/:/bin:/usr/bin
+
+cd /etc/sysconfig/network-scripts
+. network-functions
+
+CONFIG=$1
+[ -f "${CONFIG}" ] || CONFIG=ifcfg-${1}
+source_config
+
+if [ -z "$SRC" ]; then
+    SRC=`ip -o route get to $DST | sed "s|.*src \([^ ]*\).*|\1|"`
+fi
+
+if [ "$KEYING" = "manual" ]; then
+    setkey -c << EOF
+delete $SRC $DST ah $SPI_AH_OUT;
+delete $DST $SRC ah $SPI_AH_IN;
+delete $SRC $DST esp $SPI_ESP_OUT;
+delete $DST $SRC esp $SPI_ESP_IN;
+EOF
+fi
+
+setkey -c << EOF
+spddelete $SRC $DST any -P out;
+spddelete $DST $SRC any -P in;
+EOF
+
+/etc/sysconfig/network-scripts/ifdown-post $CONFIG
