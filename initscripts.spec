@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.65
+%define version 4.66
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
@@ -198,6 +198,12 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Nov 22 1999 Bill Nottingham <notting@redhat.com>
+- load mixer settings for monolithic sound
+- man page for ppp-watch
+- add ARP variable for ifup
+- some i18n fixes
+
 * Wed Nov 10 1999 Bill Nottingham <notting@redhat.com>
 - control stop-a separately from sysrq
 
