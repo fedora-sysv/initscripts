@@ -197,6 +197,7 @@ rm -rf $RPM_BUILD_ROOT
 * Tue Oct  5 1999 Bill Nottingham <notting@redhat.com>
 - assorted brown paper bag fixes
 - check for programs/files before executing/sourcing them
+- control stop-a like magic sysrq
 
 * Thu Sep 30 1999 Bill Nottingham <notting@redhat.com>
 - req. e2fsprogs >= 1.15
