@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.65
+Version: 6.67
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -244,6 +244,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Fri Apr 19 2002 Bill Nottingham <notting@redhat.com> 6.67-1
+- fix silly cut&paste bug in hdparm settings in initscripts
+
 * Mon Apr 15 2002 Trond Eivind Glomsrød <teg@redhat.com> 6.65-1
 - Update translations
 
