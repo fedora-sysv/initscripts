@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.11
+Version: 6.12
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -238,6 +238,21 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Wed Aug  8 2001 Bill Nottingham <notting@redhat.com>
+- tweak raittab grep slightly (#51231)
+
+* Mon Aug  6 2001 Bill Nottingham <notting@redhat.com>
+- honor HOTPLUG=no if running under hotplug (#47483)
+- use awk, not grep, for modprobe -c checks (#49616)
+- don't print ugly messages for the case where the device doesn't exist,
+  and there is no alias (i.e., PCMCIA ONBOOT=yes (#various))
+- run kbdconfig in /.unconfigured mode (#43941)
+- use a bigger buffer size argument to dmesg (#44024)
+- detach loopback devices on shutdown (#43919, #45826)
+
+* Thu Aug  2 2001 Bill Nottingham <notting@redhat.com>
+- fix halt_get_remaining() (#50720)
+
 * Tue Jul 31 2001 Bill Nottingham <notting@redhat.com>
 - mount all FS types r/o at halt (#50461)
 - don't use mii-tool at all (#various)
