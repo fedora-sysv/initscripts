@@ -1,6 +1,16 @@
 # This is not a shell script; it provides functions to network scripts
 # that source it.
 
+need_config()
+{
+    [ -f "${CONFIG}" ] || \
+       CONFIG=../networking/`current_profile`/${1}
+    [ -f "${CONFIG}" ] || \
+       CONFIG=../networking/`current_profile`/ifcfg-${1}
+    [ -f "${CONFIG}" ] || \
+       CONFIG="ifcfg-${1}"
+}
+
 source_config ()
 {
     DEVNAME=`basename $CONFIG | sed 's/^ifcfg-//g'`
