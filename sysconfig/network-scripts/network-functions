@@ -100,9 +100,9 @@ need_hostname()
 {
     if [ "`hostname`" = "(none)" -o "`hostname`" = "localhost" -o \
 	 "`hostname`" = "localhost.localdomain" ]; then
-	NEEDHOSTNAME=yes
+	 return 0
     else
-	unset NEEDHOSTNAME
+	 return 1
     fi
 }
 
@@ -179,7 +179,9 @@ add_default_route ()
 {
     . /etc/sysconfig/network
     find_gateway_dev
-    if [ "${GATEWAY}" != "" -a "${GATEWAY}" != "none" -a "${GATEWAYDEV}" != "" ] ; then
+    if [ "${GATEWAY}" != "" -a
+ 	 "${GATEWAY}" != "none" -a
+	 "${GATEWAYDEV}" != "" ] ; then
         if ! check_device_down $1; then
             if [ "$GATEWAY" = "0.0.0.0" ]; then
                 /sbin/ip route add default dev ${GATEWAYDEV}

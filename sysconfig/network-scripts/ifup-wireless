@@ -62,18 +62,21 @@ fi
 if [ -n "$FRAG" ] ; then
     iwconfig $DEVICE frag $FRAG
 fi
+
 # More specific parameters passed directly to IWCONFIG
 if [ -n "$IWCONFIG" ] ; then
     iwconfig $DEVICE $IWCONFIG
 fi
+
 if [ -n "$SPYIPS" ] ; then
     for IP in $SPYIPS; do
-	iwspy $DEVICE $IP
+	iwspy $DEVICE + $IP
     done
 fi
 if [ -n "$IWPRIV" ] ; then
     iwpriv $DEVICE $IWPRIV
 fi
+
 # ESSID need to be last : most device re-perform the scanning/discovery
 # when this is set, and things like encryption keys are better be
 # defined if we want to discover the right set of APs/nodes.

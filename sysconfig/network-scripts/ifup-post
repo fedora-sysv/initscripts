@@ -3,7 +3,6 @@
 cd /etc/sysconfig/network-scripts
 . network-functions
 
-need_hostname
 CONFIG=$1
 source_config
 
@@ -99,7 +98,11 @@ if [ "$FIREWALL_MODS" != "no" -a -n "$FWACTIVE" ]; then
 fi
 
 # don't set hostname on ppp/slip connections
-if [ "$2" = "boot" -a -n "$NEEDHOSTNAME" -a "${DEVICE}" != lo -a "${DEVICETYPE}" != "ppp" -a "${DEVICETYPE}" != "slip" ]; then
+if [ "$2" = "boot" -a 
+     need_hostname -a 
+     "${DEVICE}" != lo -a 
+     "${DEVICETYPE}" != "ppp" -a 
+     "${DEVICETYPE}" != "slip" ]; then
     IPADDR=`LANG= LC_ALL= ifconfig ${DEVICE} | grep 'inet addr' | 
 	    awk -F: '{ print $2 } ' | awk '{ print $1 }'`
     eval `/bin/ipcalc --silent --hostname ${IPADDR}`

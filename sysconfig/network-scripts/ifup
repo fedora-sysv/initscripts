@@ -19,8 +19,6 @@ cd /etc/sysconfig/network-scripts
 [ -f ../network ] && . ../network
 [ -f ../networking/network ] && . ../networking/network
 
-need_hostname
-
 CONFIG=${1}
 
 [ -z "${CONFIG}" ] && {
@@ -151,7 +149,7 @@ if [ -n "${DYNCONFIG}" ]; then
        PUMPARGS="-h ${DHCP_HOSTNAME}"
        DHCPCDARGS="-h ${DHCP_HOSTNAME}"
     fi
-    if [ -n "${NEEDHOSTNAME}" ]; then
+    if need_hostname; then
        PUMPARGS="${PUMPARGS} --lookup-hostname"
        DHCPCDARGS="${DHCPCDARGS} -H"
     fi
@@ -242,7 +240,6 @@ else
 	# set up default gateway
 	if [ -n "${GATEWAY}" -a "`ipcalc --network ${GATEWAY} ${NETMASK} 2>/dev/null`" = "NETWORK=${NETWORK}" ]; then
 	    ip route add default via ${GATEWAY}
-	    DEFGW=${GATEWAY}
 	elif [ "${GATEWAYDEV}" = "${DEVICE}" ]; then
 	    ip route add default dev ${DEVICE}
 	fi
