@@ -257,7 +257,7 @@ else
 fi
 
 # set up pnp 
-if [ -x /sbin/isapnp -a -f /etc/isapnp.conf ]; then
+if [ -x /sbin/isapnp -a -f /etc/isapnp.conf -a ! -f /proc/isapnp ]; then
     if [ -n "$PNP" ]; then
 	action $"Setting up ISA PNP devices: " /sbin/isapnp /etc/isapnp.conf
     else
