@@ -350,6 +350,7 @@ if [ -f /proc/mdstat -a -f /etc/raidtab ]; then
 	fi
 fi
 
+_RUN_QUOTACHECK=0
 # Check filesystems
 if [ ! -f /fastboot ]; then
         STRING="Checking filesystems"
@@ -382,7 +383,7 @@ if [ ! -f /fastboot ]; then
 		echo "Automatic reboot in progress."
 		reboot -f
 	elif [ "$rc" = "1" -a -x /sbin/quotacheck ]; then
-		action "Checking filesystem quotas" /sbin/quotacheck -v -R -a
+		_RUN_QUOTACHECK=1
 	fi
 fi
 
@@ -390,6 +391,10 @@ fi
 # mounted). Contrary to standard usage,
 # filesystems are NOT unmounted in single user mode.
 action "Mounting local filesystems" mount -a -t nonfs,smbfs,ncpfs,proc
+
+if [ X"$_RUN_QUOTACHECK" = X1 -a -x /sbin/quotacheck ]; then
+	action "Checking filesystem quotas"  /sbin/quotacheck -v -R -a
+fi
 
 # Configure machine if necessary.
 if [ -f /.unconfigured ]; then
