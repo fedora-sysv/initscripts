@@ -263,11 +263,14 @@ EOF
 }
 EOF
          esac
-	 racoontmp=`mktemp /etc/racoon/racoon.XXXXXX`
-	 grep -v "^include \"/etc/racoon/$DST.conf\"" /etc/racoon/racoon.conf >> $racoontmp
-	 echo "include \"/etc/racoon/$DST.conf\"" >> $racoontmp
-	 mv -f $racoontmp /etc/racoon/racoon.conf
-	 pidof -x /usr/sbin/racoon > /dev/null 2>&1 && killall -HUP /usr/sbin/racoon
     fi
-    pidof -x /usr/sbin/racoon || /usr/sbin/racoon
+    racoontmp=`mktemp /etc/racoon/racoon.XXXXXX`
+    grep -v "^include \"/etc/racoon/$DST.conf\"" /etc/racoon/racoon.conf >> $racoontmp
+    echo "include \"/etc/racoon/$DST.conf\"" >> $racoontmp
+    mv -f $racoontmp /etc/racoon/racoon.conf
+    if pidof -x /usr/sbin/racoon > /dev/null 2>&1 ; then
+        killall -HUP /usr/sbin/racooon
+    else
+       /usr/sbin/racoon
+    fi
 fi
