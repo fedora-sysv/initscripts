@@ -51,6 +51,8 @@ if [ "${HARDFLOWCTL}" = yes ] ; then
 fi
 if [ "${ESCAPECHARS}" = yes ] ; then
   opts="$opts asyncmap FFFFFFFF"
+elif [ "${ESCAPECHARS}" = no ] ; then
+  opts="$opts asyncmap 00000000"
 fi
 if [ "${DEFROUTE}" = yes ] ; then
   opts="$opts defaultroute"
