@@ -1,6 +1,6 @@
 Summary: inittab and /etc/rc.d scripts
 Name: initscripts
-%define vesrion 3.16
+%define version 3.16
 Version: %{version}
 Copyright: GPL
 Group: Base
