@@ -22,7 +22,6 @@ if [ -f /etc/sysconfig/i18n ]; then
         case $SYSFONTACM in
 	   iso01*|iso02*|iso15*|koi*)
 	        LESSCHARSET=latin1
-		INPUTRC=/etc/inputrc
 		export LESSCHARSET INPUTRC
 		if [ "$TERM" = "linux" ]; then
 		    if ls -l /proc/$$/fd/0 2>/dev/null | grep -- '-> /dev/tty[0-9]*$' >/dev/null 2>&1; then
@@ -31,13 +30,6 @@ if [ -f /etc/sysconfig/i18n ]; then
 		fi
 		;;
        esac
-    fi
-    
-    if [ -n "$INPUTRC" ]; then
-        export INPUTRC
-    elif [ "$TERM" = "linux-lat" ]; then
-        INPUTRC=/etc/inputrc
-	export INPUTRC
     fi
     
     if [ -n "$LESSCHARSET" ]; then
