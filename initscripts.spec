@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.51
+Version: 5.52
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -12,7 +12,7 @@ Requires: setup >= 2.0.3, /sbin/fuser, which
 Requires: modutils >= 2.3.11-5
 Requires: util-linux >= 2.10
 Conflicts: kernel <= 2.2, timeconfig < 3.0, pppd < 2.3.9, wvdial < 1.40-3
-Conflicts: initscripts < 1.22.1-5, ypbind < 1.6-12
+Conflicts: initscripts < 1.22.1-5
 Obsoletes: rhsound sapinit
 Prereq: /sbin/chkconfig, /usr/sbin/groupadd, gawk, fileutils
 BuildPrereq: glib-devel
@@ -229,6 +229,12 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Nov 21 2000 Karsten Hopp <karsten@redhat.de>
+- changed hdparm section in rc.sysinit to allow different
+  parameters for each disk (if needed) by copying 
+  /etc/sysconfig/harddisks to /etc/sysconfig/harddiskhda (hdb,hdc..)
+- fix RFE #20967
+
 * Tue Oct 31 2000 Than Ngo <than@redhat.com>
 - fix the adding default route if GATEWAY=0.0.0.0
 

@@ -266,35 +266,50 @@ mount -f /proc
 [ -f /proc/bus/usb/devices ] && mount -f -t usbdevfs usbdevfs /proc/bus/usb
 
 # Turn on harddisk optimization
-if [ -f /etc/sysconfig/harddisks ]  && [ -x /sbin/hdparm ]; then
-    . /etc/sysconfig/harddisks
-    HDFLAGS=
-    if [ -n "$MULTIPLE_IO" ] && [ "$MULTIPLE_IO" != "0" ]; then
-	HDFLAGS="-q -m$MULTIPLE_IO"
-    fi
-    if [ -n "$USE_DMA" ] && [ "$USE_DMA" != "0" ]; then
-	HDFLAGS="$HDFLAGS -q -d$USE_DMA"
-    fi
-    if [ -n "$EIDE_32BIT" ]; then
-	HDFLAGS="$HDFLAGS -q -c$EIDE_32BIT"
-    fi
-    if [ -n "$LOOKAHEAD" ]; then
-	HDFLAGS="$HDFLAGS -q -A$LOOKAHEAD"
-    fi
-    if [ -n "$EXTRA_PARAMS" ]; then
-	HDFLAGS="$HDFLAGS $EXTRA_PARAMS"
-    fi
-    if [ -n "$HDFLAGS" ]; then
-   	for i in a b c d e f g h ; do
-	    if [ -e "/proc/ide/hd$i/media" ] ; then
-		hdmedia=`cat /proc/ide/hd$i/media`
-		if [ "$hdmedia" = "disk" ]; then
-	   		action "Setting hard drive parameters for hd$i: "  /sbin/hdparm $HDFLAGS /dev/hd$i
-		fi
-	    fi
- 	done
-    fi
-fi    
+# There is only one file /etc/sysconfig/harddisks for all disks
+# after installing the hdparm-RPM. If you need different hdparm parameters
+# for each of your disks, copy /etc/sysconfig/harddisks to
+# /etc/sysconfig/harddiskhda (hdb, hdc...) and modify it.
+# each disk witch has no special parameters will use the defaults.
+ 
+disk[0]=s; disk[1]=hda; disk[2]=hdb; disk[3]=hdc;
+disk[4]=hdd; disk[5]=hde; disk[6]=hdf; disk[7]=hdg; disk[8]=hdh;
+ 
+ 
+if [ -x /sbin/hdparm ]; then
+   for device in 0 1 2 3 4 5 6 7 8; do
+   unset MULTIPLE_IO USE_DMA EIDE_32BIT LOOKAHEAD EXTRA_PARAMS
+        if [ -f /etc/sysconfig/harddisk${disk[$device]} ]; then
+                . /etc/sysconfig/harddisk${disk[$device]}
+                HDFLAGS[$device]=
+                if [ -n "$MULTIPLE_IO" ] && [ "$MULTIPLE_IO" != "0" ]; then
+                    HDFLAGS[$device]="-q -m$MULTIPLE_IO"
+                fi
+                if [ -n "$USE_DMA" ] && [ "$USE_DMA" != "0" ]; then
+                    HDFLAGS[$device]="${HDFLAGS[$device]} -q -d$USE_DMA"
+                fi
+                if [ -n "$EIDE_32BIT" ]; then
+                    HDFLAGS[$device]="${HDFLAGS[$device]} -q -c$EIDE_32BIT"
+                fi
+                if [ -n "$LOOKAHEAD" ]; then
+                    HDFLAGS[$device]="${HDFLAGS[$device]} -q -A$LOOKAHEAD"
+                fi
+                if [ -n "$EXTRA_PARAMS" ]; then
+                    HDFLAGS[$device]="${HDFLAGS[$device]} $EXTRA_PARAMS"
+                fi
+        else
+                HDFLAGS[$device]="${HDFLAGS[0]}"
+        fi
+        if [ -e "/proc/ide/${disk[$device]}/media" ] ; then
+             hdmedia=`cat /proc/ide/${disk[$device]}/media`
+             if [ "$hdmedia" = "disk" ]; then
+                  if [ -n "${HDFLAGS[$device]}" ]; then
+                      action "Setting hard drive parameters for ${disk[$device]}: "  /sbin/hdparm ${HDFLAGS[$device]} /dev/${disk[$device]}
+                  fi
+             fi
+        fi
+   done
+fi
 
 # Update quotas if fsck was run on /.
 if [ X"$_RUN_QUOTACHECK" = X1 -a -x /sbin/quotacheck ]; then
