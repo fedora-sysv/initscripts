@@ -104,7 +104,6 @@ int startDaemon() {
 	/* kid */
 	execlp("minilogd","minilogd",NULL);
 	perror("exec");
-	abort();
 	exit(-1);
     }
 }

@@ -1,10 +1,10 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.01
+%define version 4.02
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
-Release: 2
+Release: 1
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /var/tmp/initbld
 Requires: mingetty, bash, /bin/awk, /bin/sed, mktemp, modutils >= 2.1.85-3, e2fsprogs, sysklogd >= 1.3.31, procps
@@ -181,6 +181,11 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+
+* Thu Apr 08 1999 Bill Nottingham <notting@redhat.com>
+- fix more logic in initlog
+- fix for kernel versions in ifup-aliases
+
 * Wed Apr 07 1999 Bill Nottingham <notting@redhat.com>
 - fix daemon() function so you can specify pid to look for
 
