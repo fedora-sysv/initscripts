@@ -25,8 +25,59 @@ fi
 # Source functions
 . /etc/rc.d/init.d/functions
 
+set_the_clock() {
+    # Set the system clock.
+    ARC=0
+    UTC=0
+    if [ -f /etc/sysconfig/clock ]; then
+    	. /etc/sysconfig/clock
+
+    	# convert old style clock config to new values
+    	if [ "${CLOCKMODE}" = "GMT" ]; then
+	    UTC=true
+    	elif [ "${CLOCKMODE}" = "ARC" ]; then
+	    ARC=true
+    	fi
+    fi
+
+    CLOCKDEF=""
+    if [ -x /sbin/hwclock ]; then
+    	CLOCKFLAGS="--hctosys"
+    	CLOCK=/sbin/hwclock
+    	$CLOCK --adjust
+    else
+    	CLOCKFLAGS="-a"
+    	CLOCK=/sbin/clock
+    fi
+
+    case "$UTC" in
+	  yes|true)
+    	CLOCKFLAGS="$CLOCKFLAGS -u";
+    	CLOCKDEF="$CLOCKDEF (utc)";
+  	;;
+    esac
+
+    if [ "$CLOCK" = "/sbin/clock" ]; then
+ 	case "$ARC" in
+   	  yes|true)
+     	CLOCKFLAGS="$CLOCKFLAGS -A";
+     	CLOCKDEF="$CLOCKDEF (arc)";
+   	;;
+    	esac
+    fi
+
+    $CLOCK $CLOCKFLAGS
+
+    action "Setting clock $CLOCKDEF: `date`" date
+}
+
 # Fix console loglevel
 /sbin/loglevel $LOGLEVEL
+
+# Set clock, if we can...
+if [ -f /etc/localtime ]; then
+     set_the_clock
+fi
 
 # Load keymap
 KEYMAP=
@@ -317,48 +368,10 @@ rm -f /tmp/.X*-lock
 # Delete Postgres sockets
 rm -f /tmp/.s.PGSQL.*
 
-# Set the system clock.
-ARC=0
-UTC=0
-if [ -f /etc/sysconfig/clock ]; then
-    . /etc/sysconfig/clock
-
-    # convert old style clock config to new values
-    if [ "${CLOCKMODE}" = "GMT" ]; then
-	    UTC=true
-    elif [ "${CLOCKMODE}" = "ARC" ]; then
-	    ARC=true
-    fi
+# If we didn't set the clock before, set it now...
+if [ ! -f /etc/localtime ]; then
+     set_the_clock
 fi
-
-CLOCKDEF=""
-if [ -x /sbin/hwclock ]; then
-    CLOCKFLAGS="--hctosys"
-    CLOCK=/sbin/hwclock
-    $CLOCK --adjust
-else
-    CLOCKFLAGS="-a"
-    CLOCK=/sbin/clock
-fi
-
-case "$UTC" in
-  yes|true)
-    CLOCKFLAGS="$CLOCKFLAGS -u";
-    CLOCKDEF="$CLOCKDEF (utc)";
-  ;;
-esac
-
-if [ "$CLOCK" = "/sbin/clock" ]; then
- case "$ARC" in
-   yes|true)
-     CLOCKFLAGS="$CLOCKFLAGS -A";
-     CLOCKDEF="$CLOCKDEF (arc)";
-   ;;
- esac
-fi
-
-$CLOCK $CLOCKFLAGS
-action "Setting clock $CLOCKDEF: `date`" date
 
 # Right, now turn on swap in case we swap to files.
 swapon -a >/dev/null 2>&1
