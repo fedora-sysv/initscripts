@@ -135,8 +135,6 @@ char **toArray(char *line, int *num) {
     *num = 0;
     lines = NULL;
     
-    printf("in toArray, |%s|\n",line);
-    
     while ((tmpline=getLine(&line))) {
 	if (!*num)
 	  lines = (char **) malloc(sizeof(char *));
