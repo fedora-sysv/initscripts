@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.56
+Version: 6.57
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -242,6 +242,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Thu Mar 14 2002 Bill Nottingham <notting@redhat.com> 6.57-1
+- update translations
+
 * Tue Mar 12 2002 Bill Nottingham <notting@redhat.com> 6.56-1
 - use nameif for interfaces where we don't agree on HWADDR with the
   config file (<harald@redhat.com>)
