@@ -22,10 +22,8 @@ if [ -f /etc/sysconfig/desktop ]; then
 	[ -n "$DISPLAYMANAGER" ] && DESKTOP=$DISPLAYMANAGER
 	if [ "$DESKTOP" = GNOME ]; then
 		preferred=gdm
-	elif [ "$DESKTOP" = KDE -o "$DESKTOP" = KDE1 ]; then
+	elif [ "$DESKTOP" = "KDE" -o "$DESKTOP" = "KDE1" -o "$DESKTOP" = "KDE2" ]; then
 		preferred=/usr/bin/kdm
-	elif [ "$DESKTOP" = KDE2 ]; then
-		preferred=/usr/lib/kde2/bin/kdm
 	elif [ "$DESKTOP" = AnotherLevel ] ; then
                 preferred=/usr/X11R6/bin/xdm
 	fi
