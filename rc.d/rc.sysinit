@@ -17,11 +17,16 @@ fi
 PATH=/bin:/sbin:/usr/bin:/usr/sbin
 export PATH
 
+HOSTNAME=`/bin/hostname`
+
 # Read in config data.
 if [ -f /etc/sysconfig/network ]; then
     . /etc/sysconfig/network
 else
     NETWORKING=no
+fi
+
+if [ -z "$HOSTNAME" -o "$HOSTNAME" = "(none)" ]; then
     HOSTNAME=localhost
 fi
 
