@@ -351,13 +351,6 @@ mount -f /proc
 [ -f /proc/bus/usb/devices ] && mount -f -t usbdevfs usbdevfs /proc/bus/usb
 [ -e /dev/.devfsd ] && mount -f -t devfs devfs /dev 
 
-# Turn off DMA on CD-ROMs. It more often than not causes problems.
-if [ -e /proc/ide ]; then
-  for N in `grep -v ide-disk /proc/ide/*/*/driver 2>/dev/null | awk -F / '{ print $5 }'`; do
-   hdparm -q -d0 /dev/$N >/dev/null 2>&1
-  done
-fi
-
 
 # Turn on harddisk optimization
 # There is only one file /etc/sysconfig/harddisks for all disks
@@ -715,6 +708,13 @@ fi
 if grep -q "ide-scsi" /proc/cmdline ; then
 	modprobe ide-cd >/dev/null 2>&1
 	modprobe ide-scsi >/dev/null 2>&1
+fi
+
+# Turn off DMA on CD-ROMs. It more often than not causes problems.
+if [ -e /proc/ide ]; then
+  for N in `grep -v ide-disk /proc/ide/*/*/driver 2>/dev/null | awk -F / '{ print $5 }'`; do
+   hdparm -q -d0 /dev/$N >/dev/null 2>&1
+  done
 fi
 
 # Generate a header that defines the boot kernel.
