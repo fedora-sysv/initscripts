@@ -509,7 +509,7 @@ ipv6_disable_autotunnel() {
 		if ipv6_exec_route -A inet6 -n | LC_ALL=C grep "sit0\W*$" | awk '{ print $2 }' | LC_ALL=C grep -v -q "^::$"; then
 			# still existing routes, skip shutdown of sit0
 			true
-		elif ipv6_exec_ip addr show dev sit0 | LC_ALL=C grep inet6 | awk '{ print $2 }' | LC_ALL=C grep -v -q '^::'; then
+		elif ipv6_exec_ip -6 -o addr show dev sit0 | awk '{ print $4 }' | LC_ALL=C grep -v -q '^::'; then
 			# still existing IPv6 addresses, skip shutdown of sit0
 			true
 		else
@@ -1085,6 +1085,8 @@ ipv6_add_6to4_tunnel() {
 		else
 			local retval=0
 		fi
+                # Add unspecific unreachable route for local 6to4 address space
+                ipv6_exec_ip route add unreach ${prefix6to4}::/48
 
 	return $retval
 }	
@@ -1112,6 +1114,11 @@ ipv6_cleanup_6to4_tunnels() {
 	ipv6_test testonly || return 2
 
 		ipv6_del_tunnel_device tun6to4
+
+		# Remove all unspecific unreachable routes for local 6to4 address space
+		ipv6_exec_ip -6 route | LC_ALL=C grep "^unreachable 2002:" | LC_ALL=C grep "/48 dev lo" | while read token net rest; do
+			ipv6_exec_ip route del unreach $net
+		done
 
 	return 0
 }
@@ -1159,6 +1166,9 @@ ipv6_del_6to4_tunnel() {
 
 		ipv6_del_tunnel_device tun6to4
 		local retval=$?
+
+		# Remove unspecific unreachable route for local 6to4 address space
+		ipv6_exec_ip route del unreach ${prefix6to4}::/48
 
 	return $retval
 }	
@@ -1278,7 +1288,7 @@ ipv6_del_tunnel_device() {
 	fi
 
 	if [ "$device" != "sit0" ]; then
-		if ipv6_exec_ip tunnel 2>/dev/null | LC_ALL=C grep -q "^$device:" ; then
+		if ipv6_exec_ip tunnel show $device 2>/dev/null | LC_ALL=C grep -q -w "ipv6/ip"; then
 			ipv6_exec_ip tunnel del $device
 
 				if ipv6_test_device_status $device; then
@@ -1367,7 +1377,7 @@ ipv6_get_ipv4addr_of_tunnel() {
 ## Get IPv4 address of a device
 #  $1: <Interface>
 # stdout: <IPv4 address> if available
-# return code: 0=ok 1=argument error 2=IPv6 test fails 3=major problem
+# return code: 0=ok 1=argument error 2=IPv6 test fails 3=major problem (more than one IPv4 address applied)
 ipv6_get_ipv4addr_of_device() {
 	local fn="ipv6_get_ipv4addr_of_device"
 
@@ -1385,8 +1395,8 @@ ipv6_get_ipv4addr_of_device() {
 		return 3
 	fi
 
-	# Device exists, retrieve address
-	local ipv4addr="`ipv6_exec_ip -4 addr show dev $device | LC_ALL=C grep -w "inet" | awk '{ print $2 }' | awk -F/ '{ print $1 }'`"
+	# Device exists, retrieve the first address only
+	local ipv4addr="`ipv6_exec_ip -o -4 addr show dev $device | awk '{ print $4 }' | awk -F/ '{ print $1; exit }'`"
 
 	if [ $? != 0 ]; then
 		return 3
@@ -1443,9 +1453,9 @@ ipv6_set_mtu() {
 }
 
 
-## Set a default gateway
-#  $1: <IPv6 Address> : gateway, can also contain scope suffix (device name), cause a warning if not matching with $2 (but will have precedence)
-#  $2: <gateway device>: specified gateway device (has 
+## Set a default route
+#  $1: <IPv6 address> : gateway, can also contain scope suffix (device name), cause a warning if not matching with $2 (but will have precedence)
+#  $2: <gateway device>: gateway device (optional in case of $1 is a global address or $1 contains scope suffix)
 #  $3: <check device>: (optional) device to check scope and gateway device against (setup is skipped, if not matching)
 # return code: 0=ok 1=argument error 2=IPv6 test fails 3=major problem
 ipv6_set_default_route() {
@@ -1499,7 +1509,7 @@ ipv6_set_default_route() {
 			fi
 		fi
 
-		# Set device now, if given
+		# Set device now, if not given
 		if [ -z "$device" ]; then
 			local device="$device_scope"
 		fi
