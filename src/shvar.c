@@ -10,7 +10,7 @@
  * Furthermore, they are only intended for one level of inheritance;
  * the value setting algorithm assumes this.
  *
- * Copyright 1999 Red Hat, Inc.
+ * Copyright 1999,2000 Red Hat, Inc.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by
@@ -38,9 +38,11 @@
 
 #include "shvar.h"
 
-/* Open the file <name>, return shvarFile on success, NULL on failure */
-shvarFile *
-svNewFile(const char *name)
+/* Open the file <name>, returning a shvarFile on success and NULL on failure.
+   Add a wrinkle to let the caller specify whether or not to create the file
+   (actually, return a structure anyway) if it doesn't exist. */
+static shvarFile *
+svOpenFile(const char *name, gboolean create)
 {
     shvarFile *s = NULL;
     int closefd = 0;
@@ -64,15 +66,22 @@ svNewFile(const char *name)
 
 	if (read(s->fd, s->arena, buf.st_size) < 0) goto bail;
 
+	/* we'd use g_strsplit() here, but we want a list, not an array */
 	for(p = s->arena; (q = strchr(p, '\n')) != NULL; p = q + 1) {
 		s->lineList = g_list_append(s->lineList, g_strndup(p, q - p));
 	}
 
+	/* closefd is set if we opened the file read-only, so go ahead and
+	   close it, because we can't write to it anyway */
 	if (closefd) {
 	    close(s->fd);
 	    s->fd = -1;
 	}
 
+        return s;
+    }
+
+    if (create) {
         return s;
     }
 
@@ -84,51 +93,19 @@ bail:
     return NULL;
 }
 
+/* Open the file <name>, return shvarFile on success, NULL on failure */
+shvarFile *
+svNewFile(const char *name)
+{
+    return svOpenFile(name, FALSE);
+}
+
 /* Create a new file structure, returning actual data if the file exists,
  * and a suitable starting point if it doesn't. */
 shvarFile *
 svCreateFile(const char *name)
 {
-    shvarFile *s = NULL;
-    int closefd = 0;
-
-    s = g_malloc0(sizeof(shvarFile));
-
-    s->fd = open(name, O_RDWR); /* NOT O_CREAT */
-    if (s->fd == -1) {
-	/* try read-only */
-	s->fd = open(name, O_RDONLY); /* NOT O_CREAT */
-	if (s->fd != -1) closefd = 1;
-    }
-    s->fileName = g_strdup(name);
-
-    if (s->fd != -1) {
-	struct stat buf;
-	char *p, *q;
-
-	if (fstat(s->fd, &buf) < 0) goto bail;
-	s->arena = g_malloc0(buf.st_size + 1);
-
-	if (read(s->fd, s->arena, buf.st_size) < 0) goto bail;
-
-	for(p = s->arena; (q = strchr(p, '\n')) != NULL; p = q + 1) {
-		s->lineList = g_list_append(s->lineList, g_strndup(p, q - p));
-	}
-
-	if (closefd) {
-	    close(s->fd);
-	    s->fd = -1;
-	}
-
-    }
-    return s;
-
-bail:
-    if (s->fd != -1) close(s->fd);
-    if (s->arena) g_free (s->arena);
-    if (s->fileName) g_free (s->fileName);
-    g_free (s);
-    return NULL;
+    return svOpenFile(name, TRUE);
 }
 
 /* remove escaped characters in place */
