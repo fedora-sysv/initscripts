@@ -20,7 +20,7 @@ fi
 . /etc/sysconfig/network
 
 # Check that networking is up.
-[ ${NETWORKING} = "no" ] && exit 0
+[ "${NETWORKING}" = "no" ] && exit 0
 
 NFSFSTAB=`grep -v '^#' /etc/fstab | awk '{ if ($3 ~ /^nfs$/ && $4 !~ /noauto/) print $2}'`
 SMBFSTAB=`grep -v '^#' /etc/fstab | awk '{ if ($3 ~ /^smbfs$/ && $4 !~ /noauto/) print $2}'`
