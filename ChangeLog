@@ -1,3 +1,136 @@
+2001-06-20  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec: 5.89-1
+	
+	* initscripts.spec, Makefile:
+	make it build
+
+	* src/getkey.c, src/process.c, src/usernetctl.c:
+	clean up some compiler warnings
+
+	* src/Makefile:
+	fix Makefile to not delete a script
+
+	* src/ipcalc.c: allow building with older popt
+
+	* rc.d/rc.sysinit: unmount initrd, if needed
+
+2001-06-20  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit: unmount initrd, if needed
+
+2001-06-20  Harald Hoyer  <harald@redhat.com>
+
+	* sysconfig.txt: added harddiskhd[a-h] description
+
+2001-06-01  Preston Brown  <pbrown@redhat.com>
+
+	* sysconfig/network-scripts/ifup, sysconfig/network-scripts/network-functions:
+	check link status before trying DHCP/BOOTP.
+
+2001-05-29  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifup:
+	fix setting of MTU
+
+2001-05-27  I18N Processor  <i18n@redhat.com>
+
+	* po/pt.po: Auto-update by pmmm@rnl.ist.utl.pt
+
+2001-05-23  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit:
+	don't error on raid devices that are marked noauto (#41913, <hdeller@redhat.com>)
+
+	* sysconfig/network-scripts/ifup-aliases:
+	fix static routes (#29500)
+
+2001-05-21  Karsten Hopp  <karsten@redhat.com>
+
+	* rc.d/init.d/netfs, rc.d/init.d/network:
+	supress error messages if NETWORKING ist undefined
+
+2001-05-18  Trond Eivind Glomsrod  <teg@redhat.com>
+
+	* src/ppp-watch.c: Fix typo
+
+2001-05-17  Bill Nottingham  <notting@redhat.com>
+
+	* src/ppp-watch.c: fix MAXFAIL (#39231)
+
+	* sysconfig/network-scripts/network-functions:
+	fix kill || rm behavior in do_netreport
+
+	* src/ppp-watch.c:
+	don't call ifup-ppp on sigint (#40585)
+
+2001-05-16  Nalin Dahyabhai  <nalin@redhat.com>
+
+	* initscripts.spec: bump version to 5.87
+
+2001-05-15  Nalin Dahyabhai  <nalin@redhat.com>
+
+	* initscripts.spec, lang.csh:
+	- copyright: GPL -> license: GPL
+	- fix a syntax error in lang.csh
+	- skip commented-out i18n configuration lines in lang.csh
+
+2001-05-11  Preston Brown  <pbrown@redhat.com>
+
+	* initscripts.spec, Makefile, sysconfig/network-scripts/ifcfg-lo:
+	update spec
+
+	* sysconfig/network-scripts/ifup:
+	port to ip from ifconfig; add ifup-wireless support
+
+	* sysconfig/network-scripts/ifup-wireless:
+	configure wireless functionality
+
+	* sysconfig/network-scripts/ifup-routes:
+	look in /etc/sysconfig/networking not /etc/sysconfig
+
+	* sysconfig/network-scripts/ifup-ipx:
+	gone.  We don't support IPX anymore
+
+	* sysconfig/network-scripts/network-functions:
+	port to ip command
+
+	* sysconfig/network-scripts/ifdown-post:
+	add_default_route now takes a device as an argument
+
+	* sysconfig/network-scripts/ifdown:
+	switch from ifconfig to ip command.
+
+	* src/.cvsignore, src/Doxyfile:
+	documentation framework added.
+
+	* src/consoletype.1, src/netreport.1:
+	freshened copyright info
+
+2001-05-08  Bill Nottingham  <notting@redhat.com>
+
+	* po/uk.po: fix charset
+
+2001-05-02  Bernhard "Bero" Rosenkränzer  <brosenkr@redhat.com>
+
+	* lang.csh, lang.sh:
+	Support kbd in lang.{c,}sh
+
+2001-05-02  Preston Brown  <pbrown@redhat.com>
+
+	* src/ipcalc.c: simple fix for -p
+
+2001-05-02  Bernhard "Bero" Rosenkränzer  <brosenkr@redhat.com>
+
+	* initscripts.spec, Makefile:
+	Add changelog entry, compress with bzip2
+
+	* setsysfont: Handle kbd-1.05
+
+2001-05-01  Bill Nottingham  <notting@redhat.com>
+
+	* ChangeLog: clean up changelog
+
 2001-04-30  Preston Brown  <pbrown@redhat.com>
 
 	* src/ipcalc.1, src/ipcalc.c:
