@@ -387,9 +387,11 @@ fi
 if [ -f /proc/sys/kernel/modprobe ]; then
    if [ -n "$USEMODULES" ]; then
        sysctl -w kernel.modprobe="/sbin/modprobe" >/dev/null 2>&1
+       sysctl -w kernel.hotplug="/sbin/hotplug" >/dev/null 2>&1
    else
        # We used to set this to NULL, but that causes 'failed to exec' messages"
        sysctl -w kernel.modprobe="/bin/true" >/dev/null 2>&1
+       sysctl -w kernel.hotplug="/bin/true" >/dev/null 2>&1
    fi
 fi
 
