@@ -49,8 +49,6 @@ interfaces=`ls ifcfg* | LANG=C egrep -v '(ifcfg-lo|:|rpmsave|rpmorig|rpmnew)' | 
             LANG=C egrep 'ifcfg-[a-z0-9]+$' | \
             sed 's/^ifcfg-//g'`
 
-export LANG=$OLDLANG
-
 # See how we were called.
 case "$1" in
   start)
