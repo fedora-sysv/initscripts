@@ -27,12 +27,9 @@ rm -f /var/lock/subsys/*
 # this looks nices
 [ -x /usr/bin/clear ] && /usr/bin/clear
 
-# we just killed kerneld :-(
+# make sure modprobe is working
 if [ -f /proc/sys/kernel/modprobe ]; then
-   # /proc/sys/kernel/modprobe indicates built-in kmod instead
    echo "/sbin/modprobe" > /proc/sys/kernel/modprobe
-else
-   /etc/rc.d/init.d/kerneld start
 fi
 
 # Now go to the single user level.
