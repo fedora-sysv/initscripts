@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.93
+Version: 7.94
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -206,6 +206,23 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Sun Oct 31 2004 Florian La Roche <laroche@redhat.com>
+- /etc/rc.d/rc: use "LC_ALL=C grep" for small speedup
+- /etc/rc.d/rc.sysinit:
+	- change to use PROMPT=no as default, use kernel options 'forcefsck'
+	  and 'confirm' instead
+	- do not compute "version", this is not used at all
+	- do not read udev.conf, this seems to be all in the start_udev script
+	- fix detection of "nomodules" kernel command line option
+	- read /proc/cmdline earlier and convert rhgb to use that, too
+	- load_module(): change redirection to /dev/null
+	- some checks for RHGB_STARTED="" looked strange
+- /etc/sysconfig/network-scripts/ifup-ppp:
+	- remove a call to basename with shell builtins
+- /etc/sysconfig/network-scripts/network-functions:
+	- remove some calls to basename/sed with shell builtins
+- sysconfig.txt: document new PROMPT=no default
+
 * Mon Oct 18 2004 Bill Nottingham <notting@redhat.com> 7.93-1
 - translation updates
 - fix handling of GATEWAYDEV (#133575, <pekkas@netcore.fi>)

@@ -32,11 +32,10 @@ need_config ()
 
 source_config ()
 {
-    DEVNAME=`basename $CONFIG | sed 's/^ifcfg-//g'`
-
-    if basename $CONFIG | grep -q '[^g]-' ; then
+    DEVNAME=${CONFIG##*/ifcfg-} #DEVNAME=`basename $CONFIG | sed 's/^ifcfg-//g'`
+    if echo ${CONFIG##*/} | grep -q '[^g]-' ; then
 	PARENTCONFIG=`echo $CONFIG | sed 's/-[^-]*$//g'`
-	PARENTDEVNAME=`basename $PARENTCONFIG | sed 's/^ifcfg-//g'`
+	PARENTDEVNAME=${PARENTCONFIG##*/ifcfg-}
 	[ -f $PARENTCONFIG ] || {
 	    echo $"Missing config file $PARENTCONFIG." >&2
 	    exit 1

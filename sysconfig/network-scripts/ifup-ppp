@@ -11,7 +11,7 @@ if [ "${1}" = daemon ] ; then
   shift
 else
   # just in case a full path to the configuration file is passed in
-  CONFIG=$(basename $1)
+  CONFIG=${1##*/} # CONFIG=$(basename $1)
   [ -f "${CONFIG}" ] || CONFIG=ifcfg-${1}
   source_config
   # don't start ppp-watch by xDSL

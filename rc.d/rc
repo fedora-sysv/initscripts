@@ -56,7 +56,7 @@ for i in /etc/rc$runlevel.d/K* ; do
 		|| continue
 
 	# Bring the subsystem down.
-	if egrep -q "(killproc |action )" $i ; then
+	if LC_ALL=C egrep -q "(killproc |action )" $i ; then
 		$i stop
 	else
 		action $"Stopping $subsys: " $i stop
@@ -84,7 +84,7 @@ for i in /etc/rc$runlevel.d/S* ; do
 		export LC_ALL=C
 		exec $i start
 	fi
-	if egrep -q "(daemon |action |success |failure )" $i 2>/dev/null \
+	if LC_ALL=C egrep -q "(daemon |action |success |failure )" $i 2>/dev/null \
 			|| [ "$subsys" = "single" -o "$subsys" = "local" ]; then
 		$i start
 	else

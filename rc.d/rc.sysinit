@@ -11,10 +11,6 @@ if [ -z "$IN_INITLOG" -a -x /sbin/initlog ]; then
 fi
 
 HOSTNAME=`/bin/hostname`
-HOSTTYPE=`uname -m`
-unamer=`uname -r`
-eval version=`echo $unamer | awk -F '.' '{ print "(" $1 " " $2 ")" }'`
-
 if [ -f /etc/sysconfig/network ]; then
     . /etc/sysconfig/network
 fi
@@ -72,8 +68,7 @@ relabel_selinux() {
     fi
 }
 
-
-
+HOSTTYPE=`uname -m`
 if [ "$HOSTTYPE" != "s390" -a "$HOSTTYPE" != "s390x" ]; then
   last=0
   for i in `LC_ALL=C grep '^[0-9].*respawn:/sbin/mingetty' /etc/inittab | sed 's/^.* tty\([0-9][0-9]*\).*/\1/g'`; do
@@ -115,9 +110,8 @@ else
  PRODUCT=`sed "s/ release.*//g" /etc/redhat-release`
  echo "$PRODUCT"
 fi
-if [ "$PROMPT" != "no" ]; then
- echo -en $"\t\tPress 'I' to enter interactive startup."
- echo
+if [ "$PROMPT" = "yes" ]; then
+    echo -e $"\t\tPress 'I' to enter interactive startup."
 fi
 
 # Fix console loglevel
@@ -125,15 +119,14 @@ if [ -n "$LOGLEVEL" ]; then
 	/bin/dmesg -n $LOGLEVEL
 fi
 
-if [ -f /etc/udev/udev.conf ];then
-	. /etc/udev/udev.conf
-fi
-
 [ -x /sbin/start_udev ] && /sbin/start_udev
+
+# Only read this once.
+cmdline=$(cat /proc/cmdline)
 
 # Initialize hardware
 if [ -f /proc/sys/kernel/modprobe ]; then
-   if ! strstr cmdline nomodules && [ -f /proc/modules ] ; then
+   if ! strstr "$cmdline" nomodules && [ -f /proc/modules ] ; then
        sysctl -w kernel.modprobe="/sbin/modprobe" >/dev/null 2>&1
        sysctl -w kernel.hotplug="/sbin/hotplug" >/dev/null 2>&1
    else
@@ -166,19 +159,19 @@ eval `kmodule | while read devtype mod ; do
 done`
 
 load_module () {
-	LC_ALL=C fgrep -q "$1" /etc/hotplug/blacklist || modprobe $1 >/dev/null 2>&1
+	LC_ALL=C fgrep -q "$1" /etc/hotplug/blacklist 2>/dev/null || modprobe $1 >/dev/null 2>&1
 }
 
 # IDE
 for module in $ide ; do
-	load_module $module >/dev/null 2>&1
+	load_module $module
 done
 
 # SCSI
 for module in `/sbin/modprobe -c | awk '/^alias[[:space:]]+scsi_hostadapter[[:space:]]/ { print $3 }'` $scsi; do
-	load_module $module >/dev/null 2>&1
+	load_module $module
 done
-load_module floppy >/dev/null 2>&1
+load_module floppy
 
 echo -n $" storage"
 
@@ -192,26 +185,26 @@ interfaces=`ls ifcfg* | LC_ALL=C egrep -v '(ifcfg-lo|:|rpmsave|rpmorig|rpmnew)' 
 
 for i in $interfaces ; do
 	eval $(LC_ALL=C fgrep "DEVICE=" ifcfg-$i)
-	load_module $DEVICE >/dev/null 2>&1
+	load_module $DEVICE
 done
 popd >/dev/null 2>&1
 
 for module in $network ; do
-	load_module $module >/dev/null 2>&1
+	load_module $module
 done
 
 echo -n $" network"
 
 # Sound
 for module in `/sbin/modprobe -c | awk '/^alias[[:space:]]+snd-card-[[:digit:]]+[[:space:]]/ { print $3 }'` $audio; do
-	load_module $module >/dev/null 2>&1
+	load_module $module
 done
 
 echo -n $" audio"
 
 # Everything else (duck and cover)
 for module in $other ; do
-	load_module $module >/dev/null 2>&1
+	load_module $module
 done
 
 echo -n $" done"
@@ -225,7 +218,7 @@ echo "raidautorun /dev/md0" | nash --quiet
 RHGB_STARTED=0
 mount -n /dev/pts
 
-if LC_ALL=C fgrep rhgb /proc/cmdline > /dev/null 2>&1 && [ "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
+if strstr "$cmdline" rhgb && [ "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
    LC_MESSAGES= /usr/bin/rhgb
    RHGB_STARTED=1
 fi
@@ -303,12 +296,9 @@ fi
 update_boot_stage RChostname
 action $"Setting hostname ${HOSTNAME}: " hostname ${HOSTNAME}
 
-# Only read this once.
-cmdline=$(cat /proc/cmdline)
-
 # Initialiaze ACPI bits
 if [ -d /proc/acpi ]; then
-   for module in /lib/modules/$unamer/kernel/drivers/acpi/* ; do
+   for module in /lib/modules/`uname -r`/kernel/drivers/acpi/* ; do
       insmod $module >/dev/null 2>&1
    done
 fi
@@ -334,7 +324,7 @@ elif [ -f /.autofsck ]; then
 		AUTOFSCK_OPT=-f
 	fi
 
-	if [ "$PROMPT" != "no" ]; then
+	if [ "$PROMPT" = "yes" ]; then
 		if [ "$AUTOFSCK_DEF_CHECK" = "yes" ]; then
 			if /sbin/getkey -c $AUTOFSCK_TIMEOUT -m $"Press N within %d seconds to not force file system integrity check..." n ; then
 				AUTOFSCK_OPT=
@@ -383,7 +373,7 @@ if [ -z "$fastboot" -a "$READONLY" != "yes" -a "X$ROOTFSTYPE" != "Xnfs" -a "X$RO
 	else
 		rootdev=/
 	fi
-	if [ "${RHGB_STARTED}" != "" -a -w /etc/rhgb/temp/rhgb-console ]; then
+	if [ "${RHGB_STARTED}" != "0" -a -w /etc/rhgb/temp/rhgb-console ]; then
 		fsck -T -a $rootdev $fsckoptions > /etc/rhgb/temp/rhgb-console
 	else
 		initlog -c "fsck -T -a $rootdev $fsckoptions"
@@ -559,7 +549,7 @@ if [ -f /etc/raidtab ]; then
 	
 	for i in `awk '{if ($1=="raiddev") print $2}' /etc/raidtab`
 	do
-		RAIDDEV=`basename $i`
+		RAIDDEV=${i##*/} # RAIDDEV=`basename $i`
                 RAIDSTAT=`LC_ALL=C grep "^$RAIDDEV : active" /proc/mdstat`
 		if [ -z "$RAIDSTAT" ]; then
 			# First scan the /etc/fstab for the "noauto"-flag
@@ -646,7 +636,7 @@ _RUN_QUOTACHECK=0
 if [ -z "$fastboot" ]; then
         STRING=$"Checking filesystems"
 	echo $STRING
-	if [ "${RHGB_STARTED}" != "" -a -w /etc/rhgb/temp/rhgb-console ]; then
+	if [ "${RHGB_STARTED}" != "0" -a -w /etc/rhgb/temp/rhgb-console ]; then
 		fsck -T -R -A -a $fsckoptions > /etc/rhgb/temp/rhgb-console
 	else
 		initlog -c "fsck -T -R -A -a $fsckoptions"
@@ -700,7 +690,7 @@ fi
 action $"Mounting local filesystems: " mount -a -t nonfs,nfs4,smbfs,ncpfs,cifs,gfs -O no_netdev
 
 # Start the graphical boot, if necessary and not done yet.
-if LC_ALL=C fgrep rhgb /proc/cmdline > /dev/null 2>&1 && [ "$RHGB_STARTED" -eq 0 -a "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
+if strstr "$cmdline" rhgb && [ "$RHGB_STARTED" -eq 0 -a "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
    LC_MESSAGES= /usr/bin/rhgb
    RHGB_STARTED=1
 fi
@@ -923,12 +913,14 @@ dmesg -s 131072 > /var/log/dmesg
 # create the crash indicator flag to warn on crashes, offer fsck with timeout
 touch /.autofsck &> /dev/null
 
-kill -TERM `/sbin/pidof getkey` >/dev/null 2>&1
+if [ "$PROMPT" = "yes" ]; then
+	kill -TERM `/sbin/pidof getkey` >/dev/null 2>&1
+fi
 } &
 if strstr "$cmdline" confirm ; then
 	touch /var/run/confirm
 fi
-if [ "$PROMPT" != "no" ]; then
+if [ "$PROMPT" = "yes" ]; then
 	/sbin/getkey i && touch /var/run/confirm
 fi
 wait
@@ -937,4 +929,3 @@ wait
 if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
     /usr/bin/rhgb-client --sysinit
 fi
-
