@@ -120,7 +120,7 @@ int
 main(int argc, char ** argv) {
     char * ifaceConfig;
     char * chptr;
-    char * cmd;
+    char * cmd = NULL;
     int report = 0;
     char tmp;
 

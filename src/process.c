@@ -137,7 +137,7 @@ int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet,
     char **cmdargs=NULL;
     char **tmpargs=NULL;
     int cmdargc;
-    char *procpath;
+    char *procpath = NULL;
     
     if (reexec) {
 	procpath=malloc(20*sizeof(char));

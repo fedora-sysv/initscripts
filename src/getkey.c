@@ -17,7 +17,7 @@ void reset_term(int x) {
 
 int main(int argc, char **argv) {
 	char foo[2];
-	char *list;
+	char *list = NULL;
 	int alarmlen=0;
 	int tp_if,tp_of,tp_lf;
 	int x;
