@@ -413,6 +413,11 @@ int processArgs(int argc, char **argv, int silent) {
 	 fprintf(stderr, _("--name requires one of --event or --string\n"));
 	return -1;
     }
+    if (cmdevent && cmd) {
+	    if (!silent)
+	      fprintf(stderr, _("--cmd and --run are incompatible with --event\n"));
+	    return -1;
+    }
     if (conffile) {
 	readConfiguration(conffile);
     } else {
