@@ -323,6 +323,13 @@ else
     if [ -z "${IPADDR}" ]; then
          # enable device without IP, useful for e.g. PPPoE
 	 ip link set dev ${REALDEVICE} up
+	 # Bonding initialization part II
+	 if [ "${TYPE}" =  "Bonding" ] || ethtool -i $DEVICE 2>/dev/null| grep -q "driver: bonding" ; then
+    		for device in `fgrep -l "MASTER=${DEVICE}" /etc/sysconfig/network-scripts/ifcfg-*` ; do
+			/sbin/ifup ${device##*/}
+    		done
+	 fi
+
 	 if [ "${NETWORKING_IPV6}" = "yes" ]; then
 	    /etc/sysconfig/network-scripts/ifup-ipv6 ${CONFIG}
 	 fi
