@@ -122,9 +122,9 @@ if [ -n $USEMODULES ]; then
 	    if [ -n "$kernelfile" ]; then
 		kernelname=`echo $kernelfile | awk -F- '{ print $1 }'`
 		versioninfo=`echo $kernelfile | awk -F- '{ print $2 }'`
-		if [ $kernelname = "/boot/vmlinuz" -a \
-		     -d /lib/modules/$versioninfo -a \
-		     $versioninfo != `uname -r` ]; then
+		if [ "$kernelname" = "/boot/vmlinuz" -a \
+		     -d "/lib/modules/$versioninfo" -a \
+		     "$versioninfo" != `uname -r` ]; then
 		     ln -sf $versioninfo /lib/modules/default
 		fi
 	    fi
