@@ -118,6 +118,7 @@ int main(int argc, char **argv) {
 	int cpus;
 	int rc = 0;
 	
+	printf ("%d\n",get_memory());
 	setlocale(LC_ALL, "");
 	bindtextdomain("redhat-support-check", "/usr/share/locale");
 	textdomain("redhat-support-check");
