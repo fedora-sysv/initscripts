@@ -395,9 +395,7 @@ action "Mounting local filesystems" mount -a -t nonfs,smbfs,ncpfs,proc
 
 # Configure machine if necessary.
 if [ -f /.unconfigured ]; then
-    if [ -x /usr/sbin/rootconfig ]; then
-	/usr/sbin/rootconfig
-    elif [ -x /usr/bin/passwd ]; then 
+    if [ -x /usr/bin/passwd ]; then 
         /usr/bin/passwd root
     fi
     if [ -x /usr/sbin/netconfig ]; then
