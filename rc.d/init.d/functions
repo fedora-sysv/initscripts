@@ -17,9 +17,10 @@ export PATH="/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin"
 [ -z "$COLUMNS" ] && COLUMNS=80
 
 # Read in our configuration
-if [ -f /etc/sysconfig/init ]; then
-    . /etc/sysconfig/init
-else
+if [ -z "$BOOTUP" ]; then
+  if [ -f /etc/sysconfig/init ]; then
+      . /etc/sysconfig/init
+  else
     # This all seem confusing? Look in /etc/sysconfig/init,
     # or in /usr/doc/initscripts-*/sysconfig.txt
     BOOTUP=color
@@ -30,8 +31,8 @@ else
     SETCOLOR_WARNING="echo -en \\033[1;33m"
     SETCOLOR_NORMAL="echo -en \\033[0;39m"
     LOGLEVEL=1
+  fi
 fi
-
 
 if [ "$BOOTUP" != "verbose" ]; then
    INITLOG_ARGS="-q"
