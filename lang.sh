@@ -12,7 +12,38 @@ if [ -f /etc/sysconfig/i18n ]; then
     [ -n "$LC_ALL" ] && export LC_ALL || unset LC_ALL
     [ -n "$LANGUAGE" ] && export LANGUAGE || unset LANGUAGE
     [ -n "$LINGUAS" ] && export LINGUAS || unset LINGUAS
-    [ -n "$INPUTRC" ] && export INPUTRC || unset INPUTRC
-    [ -n "$LESSCHARSET" ] && export LESSCHARSET || unset LESSCHARSET
+
+    # deprecated
+    if [ -n "$SYSTERM" ]; then
+	export TERM=$SYSTERM
+    fi
+
+    if [ -n "$SYSFONTACM" ]; then
+        case $SYSFONTACM in
+	   iso01*|iso02*|iso15*|koi*)
+	        LESSCHARSET=latin1
+		export LESSCHARSET INPUTRC
+		if [ "$TERM" = "linux" ]; then
+		    if ls -l /proc/$$/fd/0 2>/dev/null | grep -- '-> /dev/tty[0-9]*$' >/dev/null 2>&1; then
+			echo -n -e '\033(K' > /proc/$$/fd/0
+		    fi
+		fi
+		;;
+       esac
+    fi
+    
+    if [ -n "$INPUTRC" ]; then
+        export INPUTRC
+    fi
+    
+    if [ -n "$LESSCHARSET" ]; then
+        export LESSCHARSET
+    elif [ "$TERM" = "linux-lat" ]; then
+        LESSCHARSET=latin1
+	export LESSCHARSET
+    fi
+    
     [ -n "$_XKB_CHARSET" ] && export _XKB_CHARSET || unset _XKB_CHARSET
+
+    unset SYSFONTACM
 fi
