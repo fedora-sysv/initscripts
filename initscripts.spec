@@ -34,7 +34,7 @@ make
 %install
 rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT/etc
-make ROOT=$RPM_BUILD_ROOT install 
+make ROOT=$RPM_BUILD_ROOT mandir=$RPM_BUILD_ROOT/%{_mandir} install 
 mkdir -p $RPM_BUILD_ROOT/var/run/netreport
 #chown root.root $RPM_BUILD_ROOT/var/run/netreport
 chmod u=rwx,g=rwx,o=rx $RPM_BUILD_ROOT/var/run/netreport
@@ -206,7 +206,7 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/minilogd
 /sbin/service
 /sbin/ppp-watch
-/usr/man/man*/*
+%{_mandir}/man*/*
 %dir %attr(775,root,root) /var/run/netreport
 %config /etc/ppp/ip-up
 %config /etc/ppp/ip-down

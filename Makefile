@@ -3,11 +3,13 @@ ROOT=/
 VERSION=$(shell awk '/Version:/ { print $$2 }' initscripts.spec)
 CVSTAG = r$(subst .,-,$(VERSION))
 
+mandir=/usr/share/man
+
 all:
 	(cd src; make)
 install:
 	mkdir -p $(ROOT)/etc/profile.d $(ROOT)/sbin $(ROOT)/usr/sbin
-	mkdir -p $(ROOT)/usr/man/man8
+	mkdir -p $(ROOT)$(mandir)/man8
 	install -m644  inittab $(ROOT)/etc
 	install -m644  adjtime $(ROOT)/etc
 	install -m755  setsysfont $(ROOT)/sbin
@@ -15,7 +17,7 @@ install:
 	install -m755  lang.csh $(ROOT)/etc/profile.d
 	install -m755  service $(ROOT)/sbin
 	install -m755  sys-unconfig $(ROOT)/usr/sbin
-	install -m644  sys-unconfig.8 $(ROOT)/usr/man/man8
+	install -m644  sys-unconfig.8 $(ROOT)$(mandir)/man8
 	( if uname -m | grep -q sparc ; then \
 	  install -m644 sysctl.conf.sparc $(ROOT)/etc/sysctl.conf ; \
 	  else \
@@ -33,7 +35,7 @@ install:
 	(cd $(ROOT)/etc/sysconfig/network-scripts; \
 	  ln -sf ../../../sbin/ifup . ; \
 	  ln -sf ../../../sbin/ifdown . )
-	(cd src; make install ROOT=$(ROOT))
+	(cd src; make install ROOT=$(ROOT) mandir=$(mandir))
 	mkdir -p /var/run/netreport
 	chown root.root /var/run/netreport
 	chmod og=rwx,o=rx /var/run/netreport

@@ -6,13 +6,15 @@ PPPWATCH_OBJS=ppp-watch.o shvar.o
 INITLOG_OBJS=initlog.o process.o
 USLEEP_OBJS=usleep.o
 
+mandir=/usr/share/man
+
 all:	$(PROGS)
 
 clean:
 	rm -f $(PROGS) *.o
 
 install:
-	mkdir -p $(ROOT)/bin $(ROOT)/usr/sbin $(ROOT)/usr/man/man{1,8} $(ROOT)/etc
+	mkdir -p $(ROOT)/bin $(ROOT)/usr/sbin $(ROOT)$(mandir)/man{1,8} $(ROOT)/etc
 	install -s -m 755 doexec $(ROOT)/bin/doexec
 	install -s -m 755 usleep $(ROOT)/bin/usleep
 	install -s -m 4755 usernetctl $(ROOT)/usr/sbin/usernetctl
@@ -23,14 +25,14 @@ install:
 	install -s -m 755 getkey $(ROOT)/sbin/getkey
 	install -s -m 755 ppp-watch $(ROOT)/sbin/ppp-watch
 	install -s -m 755 consoletype $(ROOT)/sbin/consoletype
-	install -m 644 initlog.1 $(ROOT)/usr/man/man1
-	install -m 644 doexec.1 $(ROOT)/usr/man/man1
-	install -m 644 netreport.1 $(ROOT)/usr/man/man1
-	install -m 644 usleep.1 $(ROOT)/usr/man/man1
-	install -m 644 usernetctl.8 $(ROOT)/usr/man/man8
-	install -m 644 ppp-watch.8 $(ROOT)/usr/man/man8
-	install -m 644 ipcalc.1 $(ROOT)/usr/man/man1
-	install -m 644 consoletype.1 $(ROOT)/usr/man/man1
+	install -m 644 initlog.1 $(ROOT)$(mandir)/man1
+	install -m 644 doexec.1 $(ROOT)$(mandir)/man1
+	install -m 644 netreport.1 $(ROOT)$(mandir)/man1
+	install -m 644 usleep.1 $(ROOT)$(mandir)/man1
+	install -m 644 usernetctl.8 $(ROOT)$(mandir)/man8
+	install -m 644 ppp-watch.8 $(ROOT)$(mandir)/man8
+	install -m 644 ipcalc.1 $(ROOT)$(mandir)/man1
+	install -m 644 consoletype.1 $(ROOT)$(mandir)/man1
 	install -m 644 initlog.conf $(ROOT)/etc
 
 # this daemon and initscript are useful for testing the up/down/status stuff
