@@ -8,6 +8,10 @@ done
 if [ -n "$GDM_LANG" ]; then
     sourced=1
     LANG="$GDM_LANG"
+    unset LANGUAGE
+    if [ "$GDM_LANG" = "zh_CN.GB18030" ]; then
+      export LANGUAGE="zh_CN.GB18030:zh_CN.GB2312:zh_CN"
+    fi
 fi
 
 if [ "$sourced" = 1 ]; then
