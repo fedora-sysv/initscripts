@@ -321,8 +321,8 @@ function addprovider()
 
     if [ "$ENCAP" = "syncppp" ]; then
         # start ipppd daemon
-        logger -p daemon.info -t ifup-ippp "ipppd $options"
-        ipppd $options >/dev/null 2>&1
+        logger -p daemon.info -t ifup-ippp "ipppd $options $netmask"
+        ipppd $options $netmask >/dev/null 2>&1
 
         # start ibod daemon
         [ "$BUNDLING" = "yes" -o "$BUNDLING" = "on" ] && [ -n "$SLAVE_DEVICE" ] && start_ibod $DEVICE
