@@ -5,6 +5,7 @@ cd /etc/sysconfig/network-scripts
 CONFIG=$1
 . network-functions
 
+need_hostname
 source_config
 
 DEVICETYPE=`echo $DEVICE | sed "s/[0-9]*$//"`
@@ -25,13 +26,10 @@ if [ "$ISALIAS" = no ] ; then
     unset allow_null_glob_expansion
 fi
 
-if [ `hostname` = '(none)' -o `hostname` = localhost -a ${DEVICE} != lo ]; then
-	IPADDR=`ifconfig ${DEVICE} | grep 'inet addr' | awk -F: '{ print $2 } ' | awk '{ print $1 }'`
-	host=`host ${IPADDR} | grep Name: | awk '{ print $2 }'`
-	if [ -n "$host" ]; then
-		echo "$host" > /etc/HOSTNAME
-		hostname $host
-	fi
+if [ -n "$NEEDHOSTNAME" -a ${DEVICE} != lo ]; then
+    IPADDR=`ifconfig ${DEVICE} | grep 'inet addr' | 
+	    awk -F: '{ print $2 } ' | awk '{ print $1 }'`
+    eval `/sbin/ipcalc --silent --hostname ${IPADDR}` && set_hostname $HOSTNAME
 fi
 
 # Notify programs that have requested notification

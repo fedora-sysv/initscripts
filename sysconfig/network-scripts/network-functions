@@ -28,3 +28,19 @@ do_netreport ()
     done
   )
 }
+
+need_hostname()
+{
+    if [ "`hostname`" = "(none)" -o "`hostname`" = "localhost" -o
+	 "`hostname`" = "localhost.localdomain" ]; then
+	NEEDHOSTNAME=yes
+    else
+	unset NEEDHOSTNAME
+    fi
+}
+
+set_hostname()
+{
+    echo "$1" > /etc/HOSTNAME
+    hostname $1
+}

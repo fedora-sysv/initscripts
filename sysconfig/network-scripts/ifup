@@ -5,6 +5,8 @@ cd /etc/sysconfig/network-scripts
 
 . network-functions
 
+need_hostname
+
 CONFIG=$1
 
 [ -z "$CONFIG" ] && {
@@ -160,8 +162,8 @@ if [ "$IPSETUP" != yes ]; then
 	    done
 	fi
 
-	if [ -n "$BOOTPHOSTNAME" -a "`hostname`" = "(none)" ]; then
-	    hostname $BOOTPHOSTNAME
+	if [ -n "$BOOTPHOSTNAME" -a -n "$NEEDHOSTNAME" ]; then
+	    set_hostname $BOOTPHOSTNAME
 	fi
     fi
 fi
