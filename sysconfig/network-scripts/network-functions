@@ -166,11 +166,16 @@ add_default_route ()
     if [ "${GATEWAY}" != "" -a "${GATEWAY}" != "none" -a "${GATEWAYDEV}" != "" ] ; then
         if ! check_device_down $1; then
             if [ "$GATEWAY" = "0.0.0.0" ]; then
-                /sbin/route add default ${GATEWAYDEV}
+                /sbin/ip route add default ${GATEWAYDEV}
             else
-                /sbin/route add default gw ${GATEWAY} ${GATEWAYDEV}
+                /sbin/ip route add default via ${GATEWAY}
             fi
         fi
+    else
+    	if [ -f /etc/default-route ]; then
+		/sbin/ip route add default via `cat /etc/default-route`
+		rm -f /etc/default-route
+	fi
     fi
 }
 
