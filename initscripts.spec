@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.09
+Version: 7.10
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -246,6 +246,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Feb 21 2003 Bill Nottingham <notting@redhat.com> 7.10-1
+- handle LANGUAGE specially for zh_CN.GB18030 and gdm (#84773)
+
 * Thu Feb 20 2003 Bill Nottingham <notting@redhat.com> 7.09-1
 - initialize two ttys past # of mingettys (for GDM)
 - fix zeroconf route
