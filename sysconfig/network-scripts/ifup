@@ -135,7 +135,8 @@ if [ "$IPSETUP" != yes ]; then
 
     ifconfig ${DEVICE} ${MACADDR:+hw ether $MACADDR} ${IPADDR} \
       netmask ${NETMASK} broadcast ${BROADCAST}
-    if [ "$ISALIAS" = no ] ; then
+    # stupid hack, but it should work
+    if [ "$ISALIAS" = no ] && [ ! -f "/proc/sys/kernel/modprobe" ] ; then
 	route add -net ${NETWORK} netmask ${NETMASK} ${DEVICE}
     else
 	route add -host ${IPADDR} ${DEVICE}
