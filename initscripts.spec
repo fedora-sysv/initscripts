@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.36
+Version: 6.37
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -239,6 +239,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Mon Sep  3 2001 Bill Nottingham <notting@redhat.com>
+- fix severe alias problems (#52882)
+
 * Mon Sep  3 2001 Than Ngo <than@redhat.com>
 - don't start pppbind if encapsulation is rawip (bug #52491)
 
