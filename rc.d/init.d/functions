@@ -32,6 +32,14 @@ if [ -z "$BOOTUP" ]; then
     SETCOLOR_NORMAL="echo -en \\033[0;39m"
     LOGLEVEL=1
   fi
+  if [ "`tty`" = "not a tty" ]; then
+    BOOTUP=serial
+    MOVE_TO_COL=
+    SETCOLOR_SUCCESS=
+    SETCOLOR_FAILURE=
+    SETCOLOR_WARNING=
+    SETCOLOR_NORMAL=
+  fi
 fi
 
 if [ "$BOOTUP" != "verbose" ]; then
