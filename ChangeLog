@@ -1,4 +1,19 @@
+2003-09-05  Bill Nottingham  <notting@redhat.com>
+
+	* ChangeLog, initscripts.spec: 7.31.1.EL
+
+	* initscripts.spec: require ethtool
+
+	* rc.d/init.d/network, sysconfig/network-scripts/ifup:
+	fix bonding+dhcp (#91399); bring bonding device links up, then bring up slaves, then bring up bonding interface fully
+
+	* rc.d/init.d/network:
+	revert - bringing up bonding interfaces last doesn't work
+
 2003-09-04  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifup-ipsec:
+	typo (#103781)
 
 	* ChangeLog, initscripts.spec: 7.31.0.EL
 

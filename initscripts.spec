@@ -1,9 +1,9 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.31.0.EL
+Version: 7.31.1.EL
 License: GPL
 Group: System Environment/Base
-Release: 2
+Release: 1
 Source: initscripts-%{version}.tar.bz2
 URL: http://rhlinux.redhat.com/initscripts/
 Patch0: initscripts-s390.patch
@@ -248,6 +248,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Sep  5 2003 Bill Nottingham <notting@redhat.com> 7.31.1.EL-1
+- fix bonding + dhcp (#91399)
+- fix typo (#103781)
+
 * Thu Sep  4 2003 Bill Nottingham <notitng@redhat.com> 7.31.0.EL-1
 - sysconfig/network-scripts/ifup: fix use of local
 - sysconfig.txt: document HWADDR
