@@ -78,7 +78,7 @@ for i in /etc/rc$runlevel.d/S* ; do
 		test $? = 1 && continue
 	fi
 
-	/usr/bin/rhgb-client --update "$subsys"
+	update_boot_stage "$subsys"
 	# Bring the subsystem up.
 	if [ "$subsys" = "halt" -o "$subsys" = "reboot" ]; then
 		export LC_ALL=C
