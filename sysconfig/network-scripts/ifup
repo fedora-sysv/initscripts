@@ -149,11 +149,6 @@ else
 	route add -net ${NETWORK} netmask ${NETMASK} dev ${DEVICE}
     fi
 
-    # this is broken! it's only here for compatibility with old RH systems
-    if [ "${GATEWAY}" != "" -a "${GATEWAY}" != "none" ]; then
-	route add default gw ${GATEWAY} metric 1 ${DEVICE}
-    fi
-
     . /etc/sysconfig/network
 
     if [ "${GATEWAYDEV}" = "" -o "${GATEWAYDEV}" = "${DEVICE}" ]; then
