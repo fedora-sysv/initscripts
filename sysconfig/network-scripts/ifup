@@ -185,7 +185,7 @@ if [ -n "${DYNCONFIG}" ]; then
     
     if [ -x /sbin/dhclient ] && /sbin/dhclient ${DHCLIENTARGS} ${DEVICE} ; then
 	echo $" done."
-    elif [ -z "`pidof -x dhclient`" ] && [ -x /sbin/dhcpcd ] && /sbin/dhcpcd ${DHCLIENTARGS} ${DEVICE} ; then
+    elif [ -z "`pidof -x dhclient`" ] && [ -x /sbin/dhcpcd ] && /sbin/dhcpcd ${DHCPCDARGS} ${DEVICE} ; then
 	echo $" done."
     elif [ -z "`pidof -x dhclient`" ] && [ -z "`pidof -x dhcpcd`" ] && [ -x /sbin/pump ] && /sbin/pump ${PUMPARGS} -i ${DEVICE}; then
 	echo $" done."
