@@ -202,6 +202,9 @@ else
     if [ -z "${IPADDR}" ]; then
          # enable device without IP, useful for e.g. PPPoE
 	 ip link set ${REALDEVICE} up
+	 if [ -n "$ETHTOOL_OPTS" ] ; then
+		/sbin/ethtool -s ${REALDEVICE} $ETHTOOL_OPTS
+	 fi
 	 # Bonding initialization part II
 	 if [ "${TYPE}" =  "Bonding" ] || ethtool -i $DEVICE 2>/dev/null| grep -q "driver: bonding" ; then
 		for device in `fgrep -l "MASTER=${DEVICE}" /etc/sysconfig/network-scripts/ifcfg-*` ; do
