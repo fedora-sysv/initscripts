@@ -3,21 +3,34 @@ PATH=/sbin:/usr/sbin:/bin:/usr/bin
 
 cd /etc/sysconfig/network-scripts
 
+CONFIG=$1
+
+[ -z "$CONFIG" ] && {
+    echo "usage: ifdown <device name>" >&2
+    exit 1
+}
+
+[ -f "$CONFIG" ] || CONFIG=ifcfg-$CONFIG
+[ -f "$CONFIG" ] || {
+    echo "usage: ifdown <device name>" >&2
+    exit 1
+}
+
 if [ $UID != 0 ]; then
     if [ -x /usr/sbin/usernetctl ]; then
-        exec /usr/sbin/usernetctl $1 down
+        exec /usr/sbin/usernetctl $CONFIG down
     fi
     echo "Users cannot control this device." >&2
     exit 1
 fi
 
-. $1
+. $CONFIG
 
 DEVICETYPE=`echo $DEVICE | sed "s/[0-9]*$//"`
 OTHERSCRIPT="/etc/sysconfig/network-scripts/ifdown-${DEVICETYPE}"
 
 if [ -x $OTHERSCRIPT ]; then
-	$OTHERSCRIPT $1 $2
+	$OTHERSCRIPT $CONFIG $2
 	exit $?
 fi
 
@@ -38,5 +51,5 @@ fi
 
 ifconfig ${DEVICE} down
 
-exec /etc/sysconfig/network-scripts/ifdown-post $1
+exec /etc/sysconfig/network-scripts/ifdown-post $CONFIG
 

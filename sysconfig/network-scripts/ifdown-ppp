@@ -23,7 +23,13 @@ if [ -z "$PID" ]; then
   exit 1
 fi
 
+# pppd might have chat as a child; remember chat's pid to kill after pppd.
+# (After, not before, so that pppd doesn't just restart it).
+
+CHATPID=`ps aul | awk '$4 ~ $PID {print $3}' 2>/dev/null`
+
 kill $PID > /dev/null 2>&1
+[ -n "$CHATPID" ] && kill $CHATPID > /dev/null 2>&1
 if [ ! -d /proc/$PID ]; then
   /etc/sysconfig/network-scripts/ifdown-post $1
   exit 0

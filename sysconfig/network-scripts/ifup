@@ -1,17 +1,30 @@
-#!/bin/sh
+#!/bin/bash
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 
 cd /etc/sysconfig/network-scripts
 
+CONFIG=$1
+
+[ -z "$CONFIG" ] && {
+    echo "usage: ifup <device name>" >&2
+    exit 1
+}
+
+[ -f "$CONFIG" ] || CONFIG=ifcfg-$CONFIG
+[ -f "$CONFIG" ] || {
+    echo "usage: ifup <device name>" >&2
+    exit 1
+}
+
 if [ $UID != 0 ]; then
     if [ -x /usr/sbin/usernetctl ]; then
-	exec /usr/sbin/usernetctl $1 up
+	exec /usr/sbin/usernetctl $CONFIG up
     fi
     echo "Users cannot control this device." >&2
     exit 1
 fi
 
-. $1
+. $CONFIG
 
 if [ "foo$2" = "fooboot" -a "${ONBOOT}" = "no" ]
 then
@@ -55,7 +68,7 @@ fi
 OTHERSCRIPT="/etc/sysconfig/network-scripts/ifup-${DEVICETYPE}"
 
 if [ -x $OTHERSCRIPT ]; then
-    exec $OTHERSCRIPT $1 $2
+    exec $OTHERSCRIPT $CONFIG $2
 fi
 
 # is this device available? (this catches PCMCIA devices for us)
@@ -111,14 +124,15 @@ elif [ "$BOOTPROTO" = dhcp -a "$ISALIAS" = no ]; then
 fi
 
 if [ "$IPSETUP" != yes ]; then
-    ifconfig ${DEVICE} ${IPADDR} netmask ${NETMASK} broadcast ${BROADCAST}
+    ifconfig ${DEVICE} ${MACADDR:+hw ether $MACADDR} ${IPADDR} \
+      netmask ${NETMASK} broadcast ${BROADCAST}
     if [ "$ISALIAS" = no ] ; then
 	route add -net ${NETWORK} netmask ${NETMASK} ${DEVICE}
     else
 	route add -host ${IPADDR} ${DEVICE}
     fi
 
-    # this is broken! it's only here for compatibility RH sytstems
+    # this is broken! it's only here for compatibility with old RH systems
     if [ "${GATEWAY}" != "" -a "${GATEWAY}" != "none" ]; then
 	route add default gw ${GATEWAY} metric 1 ${DEVICE}
     fi
@@ -155,4 +169,4 @@ if [ "$IPSETUP" != yes ]; then
     fi
 fi
 
-exec /etc/sysconfig/network-scripts/ifup-post $1
+exec /etc/sysconfig/network-scripts/ifup-post $CONFIG
