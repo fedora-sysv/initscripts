@@ -121,6 +121,27 @@ SWAPS=`awk '! /^Filename/ { print $1 }' /proc/swaps`
 [ -x /sbin/quotaoff ] && runcmd $"Turning off quotas: " /sbin/quotaoff -a
 
 # Unmount file systems, killing processes if we have to.
+# Unmount loopback stuff first
+remaining=`awk '!/^#/ && $1 ~ /^\/dev\/loop/ && $2 != "/" {print $2}' /proc/mounts`
+[ -n "$remaining" ] && {
+	sig=
+	retry=3
+	while [ -n "$remaining" -a "$retry" -gt 0 ]
+	do
+		if [ "$retry" -lt 3 ]; then
+			runcmd $"Unmounting loopback filesystems (retry):" umount $remaining
+		else
+			runcmd $"Unmounting loobpack filesystems: " umount $remaining
+		fi
+		remaining=`awk '!/^#/ && $1 ~ /^\/dev\/loop/ && $2 != "/" {print $2}' /proc/mounts`
+		[ -z "$remaining" && break
+		/sbin/fuser -k -m $sig $remaining >/dev/null
+		sleep 5
+		retry=$(($retry -1))
+		sig=-9
+	done
+}
+
 sig=
 retry=3
 remaining=`awk '!/(^#|proc|loopfs|autofs|^none|^\/dev\/root| \/ )/ {print $2}' /proc/mounts`

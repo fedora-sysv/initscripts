@@ -43,6 +43,26 @@ case "$1" in
 	action $"Mounting other filesystems: " mount -a -t nonfs,smbfs,ncpfs
 	;;
   stop)
+        # Unmount loopback stuff first
+	remaining=`awk '!/^#/ && $1 ~ /^\/dev\/loop/ && $2 != "/" {print $2}' /proc/mounts`
+	[ -n "$remaining" ] && {
+	        sig=
+		retry=3
+		while [ -n "$remaining" -a "$retry" -gt 0 ]
+		do
+			if [ "$retry" -lt 3 ]; then
+				action $"Unmounting loopback filesystems (retry):" umount $remaining
+			else
+				action $"Unmounting loobpack filesystems: " umount $remaining
+		        fi
+			remaining=`awk '!/^#/ && $1 ~ /^\/dev\/loop/ && $2 != "/" {print $2}' /proc/mounts`
+			[ -z "$remaining" && break
+			/sbin/fuser -k -m $sig $remaining >/dev/null
+			sleep 5
+			retry=$(($retry -1))
+			sig=-9
+		done
+	}
   	[ -n "$NFSMTAB" ] && {
 		sig=
 		retry=3
