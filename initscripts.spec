@@ -106,11 +106,12 @@ fi
 
 # dup of timeconfig %post - here to avoid a dependency
 if [ -L /etc/localtime ]; then
-	_FNAME=`ls -ld /etc/localtime | awk '{ print $11}' | sed 's/lib/share'`
-	cp -f $_FNAME /etc/localtime
-	if ! grep -q "^ZONE=" /etc/sysconfig/clock ; then
-	  echo "ZONE=\"$_FNAME"\" | sed -e "s|/usr/share/zoneinfo/||" >> /etc/sysconfig/clock
-	fi
+    _FNAME=`ls -ld /etc/localtime | awk '{ print $11}' | sed 's/lib/share/'`
+    rm /etc/localtime
+    cp -f $_FNAME /etc/localtime
+    if ! grep -q "^ZONE=" /etc/sysconfig/clock ; then
+      echo "ZONE=\"$_FNAME"\" | sed -e "s|/usr/share/zoneinfo/||" >> /etc/sysconfig/clock
+    fi
 fi
 
 %postun
@@ -264,7 +265,7 @@ rm -rf $RPM_BUILD_ROOT
 - set macaddr before bootp
 - zero in the /var/run/utmpx file (gafton)
 - don't set hostname on ppp/slip (kills X)
-				
+			
 * Wed Mar 17 1999 Bill Nottingham <notting@redhat.com>
 - exit ifup if pump fails
 - fix stupid errors in reading commands from subprocess
