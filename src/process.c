@@ -163,12 +163,13 @@ int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet,
 			cmdargc=0;
 			
 			poptParseArgvString(tmpstr,&cmdargc,&tmpargs);
-			cmdargs=malloc( (cmdargc+1) * sizeof(char *) );
+			cmdargs=malloc( (cmdargc+2) * sizeof(char *) );
 			cmdargs[0]=strdup("initlog");
 			for (z=0;z<(cmdargc);z++) {
 			   cmdargs[z+1]=tmpargs[z];
 			}
-			processArgs(cmdargc,cmdargs,1);
+			cmdargs[cmdargc+1]=NULL;
+			processArgs(cmdargc+1,cmdargs,1);
 		     }
 		  }
 		}
