@@ -17,7 +17,7 @@ Requires: bash >= 2.0, SysVinit
 Requires: /sbin/ip, /sbin/arping, net-tools
 Requires: /sbin/update
 Conflicts: kernel <= 2.2, timeconfig < 3.0, pppd < 2.3.9, wvdial < 1.40-3
-Conflicts: ypbind < 1.6-12, psacct < 6.3.2-12, dhcpcd < 1.3.22pl1
+Conflicts: ypbind < 1.6-12, psacct < 6.3.2-12
 Obsoletes: rhsound sapinit
 Prereq: /sbin/chkconfig, /usr/sbin/groupadd, gawk, fileutils, sh-utils
 BuildPrereq: glib-devel popt

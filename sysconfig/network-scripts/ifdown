@@ -70,8 +70,13 @@ fi
 retcode=0
 if [ "$BOOTPROTO" = bootp -o "$BOOTPROTO" = dhcp ]; then
 	[ -n "`pidof -x dhcpcd`" ] && {
-		kill `cat /etc/dhcpc/dhcpcd-${DEVICE}.pid`
-		retcode=$?
+		if [ -f "/etc/dhcpc/dhcpcd-${DEVICE}.pid" ]; then
+		   kill `cat /etc/dhcpc/dhcpcd-${DEVICE}.pid` >/dev/null 2>&1
+		   retcode=$?
+		elif [ -f "/var/run/dhcpcd-${DEVICE}.pid" ]; then
+		   kill `cat /var/run/dhcpcd-${DEVICE}.pid` >/dev/null 2>&1
+		   retcode=$?
+		fi
 	}	
 	[ -n "`pidof -x pump`" ] && {
 	 	pump -r -i ${DEVICE}
