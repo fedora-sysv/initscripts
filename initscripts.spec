@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.89
+Version: 5.90
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -158,6 +158,7 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) /etc/sysconfig/rawdevices
 %config /etc/sysconfig/network-scripts/network-functions
 %config /etc/sysconfig/network-scripts/network-functions-ipv6
+%config /etc/sysconfig/network-scripts/ifcfg-lo
 %config /etc/sysconfig/network-scripts/ifup-post
 %config /etc/sysconfig/network-scripts/ifdown-ppp
 %config /etc/sysconfig/network-scripts/ifdown-sl
@@ -216,6 +217,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Jun 20 2001 Bill Nottingham <notting@redhat.com>
+- fix extremely broken new network scripts
+
 * Wed Jun 20 2001 Bill Nottingham <notting@redhat.com>
 - bump version to 5.89
 - make it build
