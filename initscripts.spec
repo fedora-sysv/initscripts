@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.27
+Version: 5.28
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -66,8 +66,12 @@ touch $RPM_BUILD_ROOT/var/log/wtmp
 
 %pre
 /usr/sbin/groupadd -g 22 -r -f utmp
+if [ ! -L /etc/rc.d -a -d /etc/init.d ]; then
+   echo "can't move /etc/rc.d/init.d -> /etc/init.d - bailing"
+   exit 1
+fi
 if [ -d /etc/rc.d -a ! -L /etc/rc.d ]; then
-   cp -af /etc/rc.d/* /etc && rm -rf /etc/rc.d && ln -snf . /etc/rc.d
+   mv -f /etc/rc.d/* /etc && rm -rf /etc/rc.d && ln -snf . /etc/rc.d
 fi
 
 %post
@@ -219,6 +223,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Jul  6 2000 Bill Nottingham <notting@redhat.com>
+- tweak %pre back to a mv (rpm is fun!)
+- do USB initialization before fsck, so keyboard works if it fails
+
 * Mon Jul  3 2000 Bill Nottingham <notting@redhat.com>
 - rebuild; allow 'fastboot' kernel command line option to skip fsck
 
