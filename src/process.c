@@ -79,6 +79,7 @@ int forkCommand(char **args, int *outfd, int *errfd, int *cmdfd, int quiet) {
      * fucks up and we segfault or something, we don't kill rc.sysinit. */
     if ( (cmdfd&&!pid) || (pid &&!cmdfd)) {
 	/* parent */
+	close(fdin);
 	close(fdout);
 	close(fderr);
 	close(fdcmd);
@@ -132,7 +133,7 @@ int forkCommand(char **args, int *outfd, int *errfd, int *cmdfd, int quiet) {
 
 int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet, int debug) {
     struct pollfd *pfds;
-    char *buf;
+    char *buf;=malloc(8192*sizeof(char));
     char *outbuf=NULL;
     char *tmpstr=NULL;
     int x,y,rc=-1;
