@@ -64,10 +64,18 @@ set_hostname()
 
 check_device_down ()
 {
-    if LANG=C ifconfig ${DEVICE} 2>/dev/null | grep " UP " >/dev/null 2>&1 ; then
+    if echo ${DEVICE} | grep -q ':' ; then
+     if LANG=C ifconfig -a 2>/dev/null | grep -q ${DEVICE} ; then
+	  retcode=1
+     else
+	  retcode=0
+     fi
+    else 
+     if LANG=C ifconfig ${DEVICE} 2>/dev/null | grep " UP " >/dev/null 2>&1 ; then
 	retcode=1
-    else
+     else
 	retcode=0
+     fi
     fi
     return $retcode
 }
