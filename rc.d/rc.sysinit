@@ -234,12 +234,12 @@ if ! strstr "$cmdline" nousb && ! strstr "$cmdline" nomodules ; then
     fi
 fi
 
-if [ $usb = 1 -a ! -f /proc/bus/usb/devices ]; then
+if [ $usb -eq 1 -a ! -f /proc/bus/usb/devices ]; then
     action $"Mounting USB filesystem: "  mount -t usbdevfs usbdevfs /proc/bus/usb
 fi
 
 needusbstorage=
-if [ $usb = "1" ]; then
+if [ $usb -eq "1" ]; then
     needusbstorage=`LC_ALL=C grep -e "^I.*Cls=08" /proc/bus/usb/devices 2>/dev/null`
 fi
 
@@ -316,10 +316,10 @@ if [ -z "$fastboot" -a "$READONLY" != "yes" -a "X$ROOTFSTYPE" != "Xnfs" -a "X$RO
 	initlog -c "fsck -T -a $rootdev $fsckoptions"
 	rc=$?
 	
-	if [ "$rc" = "0" ]; then
+	if [ "$rc" -eq "0" ]; then
 		success "$STRING"
 		echo
-	elif [ "$rc" = "1" ]; then
+	elif [ "$rc" -eq "1" ]; then
 	        passed "$STRING"
 		echo
         fi
@@ -347,7 +347,7 @@ if [ -z "$fastboot" -a "$READONLY" != "yes" -a "X$ROOTFSTYPE" != "Xnfs" -a "X$RO
 		mount -n -o remount,ro /
 		echo $"Automatic reboot in progress."
 		reboot -f
-	elif [ "$rc" = "1" ]; then
+	elif [ "$rc" -eq "1" ]; then
 		_RUN_QUOTACHECK=1
 	fi
 fi
@@ -370,8 +370,8 @@ LC_ALL=C grep -E '[[:space:]]+/[[:space:]]+' /etc/fstab | \
     awk '{ print $4 }' | \
     LC_ALL=C fgrep -q quota
 _ROOT_HAS_QUOTA=$?
-if [ X"$_RUN_QUOTACHECK" = X1 -a \
-    "$_ROOT_HAS_QUOTA" = "0" -a \
+if [ "X$_RUN_QUOTACHECK" = "X1" -a \
+    "X$_ROOT_HAS_QUOTA" = "X0" -a \
     -x /sbin/quotacheck ]; then
 	if [ -x /sbin/convertquota ]; then
 	    if [ -f /quota.user ]; then
@@ -599,10 +599,10 @@ if [ -z "$fastboot" ]; then
 	echo $STRING
 	initlog -c "fsck -T -R -A -a $fsckoptions"
 	rc=$?
-        if [ "$rc" = "0" ]; then
+        if [ "$rc" -eq "0" ]; then
 		success "$STRING"
 		echo
-	elif [ "$rc" = "1" ]; then
+	elif [ "$rc" -eq "1" ]; then
 	        passed "$STRING"
 		echo
 	fi
@@ -630,7 +630,7 @@ if [ -z "$fastboot" ]; then
 		mount -n -o remount,ro /
 		echo $"Automatic reboot in progress."
 		reboot -f
-	elif [ "$rc" = "1" -a -x /sbin/quotacheck ]; then
+	elif [ "$rc" -eq "1" -a -x /sbin/quotacheck ]; then
 		_RUN_QUOTACHECK=1
 	fi
 fi
