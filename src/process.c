@@ -31,7 +31,6 @@ int forkCommand(char **args, int *outfd, int *errfd, int *cmdfd, int quiet) {
 	return -1;
     }
     
-    fdin=dup(0);
     if (outfd) {
        fdout = outpipe[1];
       *outfd = outpipe[0];
