@@ -1,3 +1,67 @@
+2002-02-07  Bill Nottingham  <notting@redhat.com>
+	    
+	Backports of various fixes from -HEAD. Fixes by:
+            Preston Brown  <pbrown@redhat.com>
+            Karsten Hopp  <karsten@redhat.com>  
+	    Harald Hoyer  <harald@redhat.com>
+	    Than Ngo	<than@redhat.com>
+	    Bill Nottingham  <notting@redhat.com>
+	and others.
+	    
+	* sysconfig/network-scripts/network-functions:
+	modprobe interface name, not alias name (#55380)
+	make sure su calls bash (#55288)
+
+	* sysconfig/network-scripts/ifup-routes:
+	allow tabs as delimiters, as well (#53964)
+
+	* sysconfig/network-scripts/ifup-ppp:
+	* don't show user name by DSL connection
+
+	* sysconfig/network-scripts/ifup-iucv:
+	- fix bug in setting netmask on s390/s390x (bug #55421)
+	  nmbd daemon works now ;-)
+
+	* sysconfig/network-scripts/ifup-ippp:
+	- fixed typo bug ifup-ippp
+	- fix bug in channel bundling if MSN is missed
+	- support DEBUG option
+
+	* sysconfig/network-scripts/ifup-escon, sysconfig/network-scripts/ifup-ctc:
+	- fix bug in setting netmask on s390/s390x (bug #55421)
+	  nmbd daemon works now ;-)
+	- missing parameter (S/390)
+
+	* sysconfig/network-scripts/ifup:
+	don't loop on bad HWADDR settings (#52285)
+	don't blowaway pumpargs/dhcpcdargs if they pass in a hostname (#57927, <Olivier.Baudron@ens.fr>)
+
+	* sysconfig/network-scripts/ifdown-ppp:
+	* don't show user name by DSL connection
+
+	* rc.d/init.d/netfs:
+	fix netdev uses (#57314, <cajoline@chaosengine.de>)
+
+	* rc.d/init.d/halt: fix typo (#55955)
+	don't blow up badly on devfs (#53580)
+
+	* rc.d/init.d/functions:
+	make sure su calls bash (#55288)
+	fix double echo when using --user (#54871)
+	random syntax cleanups (#54494)
+
+	* rc.d/rc.sysinit:
+	load sound-slot-0, not the specific alias (#55231)
+
+	* lang.csh: setenv LANG, not set LANG (#57957)
+
+	* initscripts.spec: require net-tools
+
+2002-01-18  Michael K. Johnson  <johnsonm@redhat.com>
+
+	* initscripts.spec, rc.d/rc.sysinit:
+	depmod does not like this reuse of /lib/modules
+
 2002-01-18  Bill Nottingham  <notting@redhat.com>
 
         * Changelog, initscripts.spec: 6.41-1
