@@ -51,7 +51,7 @@ svNewFile(char *name)
     if (s->fd == -1) {
 	/* try read-only */
 	s->fd = open(name, O_RDONLY); /* NOT O_CREAT */
-	if (s->fd) closefd = 1;
+	if (s->fd != -1) closefd = 1;
     }
     s->fileName = g_strdup(name);
 
@@ -72,9 +72,9 @@ svNewFile(char *name)
 	    close(s->fd);
 	    s->fd = -1;
 	}
-    }
 
-    return s;
+        return s;
+    }
 
 bail:
     if (s->fd != -1) close(s->fd);
