@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.81
+Version: 6.82
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -244,6 +244,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Thu Jun 27 2002 Bill Nottingham <notting@redhat.com>
+- a couple minor unicode tweaks in rc.sysinit
+
 * Wed Jun 26 2002 Bill Nottingham <notting@redhat.com>
 - move /proc/bus/usb mount, in case USB is in the initrd
 
