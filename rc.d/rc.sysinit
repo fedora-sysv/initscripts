@@ -135,7 +135,10 @@ else
     USEMODULES=
 fi
 
+# Our modutils don't support it anymore, so we might as well remove
+# the link.
 rm -f /lib/modules/preferred
+rm -f /lib/modules/default
 if [ -x /sbin/depmod -a -n "$USEMODULES" ]; then
     # Get ready for kerneld/kmod if module support in the kernel
     if [ -z `uname -r | grep "-"` ]; then
@@ -148,7 +151,7 @@ if [ -x /sbin/depmod -a -n "$USEMODULES" ]; then
           mver=echo $mtag | sed -e 's,/lib/modules/,,' -e 's,/.rhkmvtag,,' -e 's,[       ].*$,,'
        fi
        if [ -n "$mver" ]; then
-         ln -sf /lib/modules/$mver /lib/modules/preferred
+         ln -sf /lib/modules/$mver /lib/modules/default
          ln -sf /boot/System.map-$mver /boot/System.map
        fi
     fi
