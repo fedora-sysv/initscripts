@@ -198,6 +198,13 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Nov 08 1999 Michael K. Johnson <johnsonm@redhat.com>
+- fix some failed CHAP authentication
+- fix extremely unlikely, but slightly possible kill-random-process
+  bug in ppp-watch
+- allow DNS{1,2} in any ifcfg-* file, not just PPP, and
+  add nameserver entries, don't just replace them
+
 * Tue Nov  2 1999 Bill Nottingham <notting@redhat.com>
 - fix lang.csh /tmp race oops
 
