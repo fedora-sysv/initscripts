@@ -49,7 +49,7 @@ static inline void cpuid(int op, int *eax, int *ebx, int *ecx, int *edx)
 #if defined(__x86_64__)
 static inline void cpuid(int op, int *eax, int *ebx, int *ecx, int *edx)
 {
-	__asm__("cpuid"
+	__asm__("xchgl %%ebx, %1; cpuid; xchgl %%ebx, %1"
 		: "=a"(*eax), "=r"(*ebx), "=c"(*ecx), "=d"(*edx)
 		: "0" (op));
 }
