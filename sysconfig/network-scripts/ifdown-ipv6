@@ -6,7 +6,7 @@
 # Taken from:
 # (P) & (C) 2000-2001 by Peter Bieringer <pb@bieringer.de>
 #
-# Version 2001-02-02
+# Version 2001-02-08
 #
 
 . /etc/sysconfig/network 
@@ -45,13 +45,13 @@ if [ "${NETWORKING_IPV6}" = "yes" ]; then
 	# Delete additional IPv6 addresses from list
 	if [ ! -z "$IPV6ADDR_SECONDARIES" ]; then
 		for ipv6addr in $IPV6ADDR_SECONDARIES; do
-			ifdown_ipv6_real $DEVICE $ipv6addr $IPV6PREFIXLENGTH
+			ifdown_ipv6_real $DEVICE $ipv6addr
 		done
 	fi
           
 	# Shutdown basic configured IPv6 address on specified interface
 	if ! [ -z "$IPV6ADDR" ]; then
-		ifdown_ipv6_real $DEVICE $IPV6ADDR $IPV6PREFIXLENGTH
+		ifdown_ipv6_real $DEVICE $IPV6ADDR
 	fi
 
 	# Cleanup all IPv6 configuration on specified interface (prevents from kernel crashing)

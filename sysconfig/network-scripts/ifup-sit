@@ -6,7 +6,7 @@
 # Taken from:
 # (P) & (C) 2000-2001 by Peter Bieringer <pb@bieringer.de>
 #
-# Version 2001-02-06
+# Version 2001-02-08
 #
 
 # Filter tags (for stripping, empty lines following if all is stripped)
@@ -37,7 +37,7 @@ if [ "${NETWORKING_IPV6}" = "yes" ]; then
 	elif [ ! -z "$IPV6TUNNELIPV4" ]; then
 		if [ ! -z "$IPV6ADDR" ]; then
 			# Numbered tunnel
-			ifup_ipv6_real sit0 $IPV6ADDR $IPV6PREFIXLENGTH
+			ifup_ipv6_real sit0 $IPV6ADDR
 		fi
 
 		# Add static IPv6 tunnel routes on specified virtual interface

@@ -5,9 +5,8 @@
 # Taken from:
 # (P) & (C) 1997-2001 by Peter Bieringer <pb@bieringer.de>
 #
-# Version: 2001-02-05
+# Version: 2001-02-08
 #
-
 
 # Filter tags (for stripping, empty lines following if all is stripped)
 
@@ -32,12 +31,12 @@ function test_ipv6()
 		modprobe ipv6
 	
 		if ! [ -f /proc/net/if_inet6 ]; then
-				echo $"Kernel is not compiled with IPv6 support"
+				echo $"Kernel is not compiled with IPv6 support" 
 			return 2
 		fi
 	fi
 
-	# Test for IPv6 enabled needed binaries
+
 
 	return 0
 }
@@ -119,7 +118,7 @@ function ifup_ipv6_route() {
 	fi
 
 	if [ -z $gatewayipv6 ]; then
-		echo "Missing parameter 'IPv6-gateway'"
+		echo $"Missing parameter 'IPv6-gateway'"
 		ifupdown_ipv6_route_usage
 		return 1
 	fi
@@ -315,17 +314,15 @@ function ifdown_ipv6_tunnel() {
 
 ##### Interface configuration
 function ifupdown_ipv6_usage() {
-	echo $"Usage: $0 interfacename IPv6-address [IPv6-prefixlength]"
+	echo $"Usage: $0 interfacename IPv6-address/IPv6-prefixlength"
 }
 
 ## Add an IPv6 address for given interface
 #  $1: Interface 
 #  $2: IPv6 address
-#  $3: IPv6 prefix length (optional)
 function ifup_ipv6_real() {
 	device=$1
 	address=$2
-	prefixlength=$3
 
 	if [ -z $device ]; then
 		echo $"Missing parameter 'device'"
@@ -357,15 +354,16 @@ function ifup_ipv6_real() {
 	prefixlength_implicit="`echo $address | awk -F/ '{ print $2 }'`"
 	address_implicit="`echo $address | awk -F/ '{ print $1 }'`"
 
-	# Overwrite optional given one
-	if [ ! -z $prefixlength_implicit ]; then
-		prefixlength=$prefixlength_implicit
-	elif [ -z $prefixlength ]; then
-		prefixlength=128
+	# Test for prefix length
+	if [ -z $prefixlength_implicit ]; then
+		echo $"Missing 'prefix length' for given address"
+		ifupdown_ipv6_usage
+		return 1
+	elif [ $prefixlength_implicit -lt 0 -o $prefixlength_implicit -gt 128 ]; then
+		echo $"'prefix length' on given address is out of range (0-128)"
+		ifupdown_ipv6_usage
+		return 1
 	fi
-
-	# Build IPv6 address
-	address="$address_implicit/$prefixlength"
 
 	# Run IPv6 test
 	test_ipv6 || return    
@@ -381,8 +379,6 @@ function ifup_ipv6_real() {
 			ifconfig $device add $address || return 2
 	fi
     
-#		route -A inet6 add $address/$prefixlength dev $device || return 2
-
 }
 
 
@@ -417,11 +413,9 @@ function ifdown_ipv6_real_all() {
 ## Remove an IPv6 address on given interface
 #  $1: Interface 
 #  $2: IPv6 address
-#  $3: IPv6 prefix length (optional)
 function ifdown_ipv6_real() {
 	device=$1
 	address=$2
-	prefixlength=$3
 
 	if [ -z $device ]; then
 		echo $"Missing parameter 'device'"
@@ -444,22 +438,20 @@ function ifdown_ipv6_real() {
 	prefixlength_implicit="`echo $address | awk -F/ '{ print $2 }'`"
 	address_implicit="`echo $address | awk -F/ '{ print $1 }'`"
 
-	# Overwrite optional given one
-	if [ ! -z $prefixlength_implicit ]; then
-		prefixlength=$prefixlength_implicit
-	elif [ -z $prefixlength ]; then
-		prefixlength=128
+	# Test for prefix length
+	if [ -z $prefixlength_implicit ]; then
+		echo $"Missing 'prefix length' for given address"
+		ifupdown_ipv6_usage
+		return 1
+	elif [ $prefixlength_implicit -lt 0 -o $prefixlength_implicit -gt 128 ]; then
+		echo $"'prefix length' on given address is out of range (0-128)"
+		ifupdown_ipv6_usage
+		return 1
 	fi
-
-	# Build IPv6 address
-	address="$address_implicit/$prefixlength"
 
 	# Run IPv6 test
 	test_ipv6 || return    
 
-
-#	
-#		route -A inet6 del $address/$prefixlength dev $device || return 2
 
 	# Only remove, if address exists and is not link-local (prevents from kernel crashing)
 	address_configured="`ifconfig $device | grep "inet6 addr:" | grep "$address" | awk '{ print $3 }'`"

@@ -6,7 +6,7 @@
 # Taken from:
 # (P) & (C) 2000-2001 by Peter Bieringer <pb@bieringer.de>
 #
-# Version 2001-02-02
+# Version 2001-02-08
 #
 
 # Filter tags (for stripping, empty lines following if all is stripped)
@@ -33,7 +33,7 @@ if [ "${NETWORKING_IPV6}" = "yes" ]; then
 		
 	# Setup IPv6 address on specified interface
 	if ! [ -z "$IPV6ADDR" ]; then
-		ifup_ipv6_real $DEVICE $IPV6ADDR $IPV6PREFIXLENGTH
+		ifup_ipv6_real $DEVICE $IPV6ADDR
 	fi
 	
 	# Switch forwarding per device like defined
@@ -51,7 +51,7 @@ if [ "${NETWORKING_IPV6}" = "yes" ]; then
 	# Setup additional IPv6 addresses from list
 	if [ ! -z "$IPV6ADDR_SECONDARIES" ]; then
 		for ipv6addr in $IPV6ADDR_SECONDARIES; do
-			ifup_ipv6_real $DEVICE $ipv6addr $IPV6PREFIXLENGTH
+			ifup_ipv6_real $DEVICE $ipv6addr
 		done
 	fi
 
