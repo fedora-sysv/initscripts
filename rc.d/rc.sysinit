@@ -320,34 +320,9 @@ fi
 if [ -f /forcefsck ] || strstr "$cmdline" forcefsck ; then
 	fsckoptions="-f $fsckoptions"
 elif [ -f /.autofsck ]; then
-        if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
-	     chvt 1
-	fi
-	echo $"Your system appears to have shut down uncleanly"
-	AUTOFSCK_TIMEOUT=5
 	[ -f /etc/sysconfig/autofsck ] && . /etc/sysconfig/autofsck
 	if [ "$AUTOFSCK_DEF_CHECK" = "yes" ]; then
 		AUTOFSCK_OPT=-f
-	fi
-
-	if [ "$PROMPT" != "no" ]; then
-		if [ "$AUTOFSCK_DEF_CHECK" = "yes" ]; then
-			if /sbin/getkey -c $AUTOFSCK_TIMEOUT -m $"Press N within %d seconds to not force file system integrity check..." n ; then
-				AUTOFSCK_OPT=
-			fi
-		else
-			if /sbin/getkey -c $AUTOFSCK_TIMEOUT -m $"Press Y within %d seconds to force file system integrity check..." y ; then
-				AUTOFSCK_OPT=-f
-			fi
-		fi
-		echo
-	else
-		# PROMPT not allowed
-		if [ "$AUTOFSCK_DEF_CHECK" = "yes" ]; then
-			echo $"Forcing file system integrity check due to default setting"
-		else
-			echo $"Not forcing file system integrity check due to default setting"
-		fi
 	fi
 	fsckoptions="$AUTOFSCK_OPT $fsckoptions"
 fi
