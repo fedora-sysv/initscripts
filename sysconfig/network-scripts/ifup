@@ -342,7 +342,7 @@ fi
 
 # Add Zeroconf route.
 if [ -z "${NOZEROCONF}" -a "${ISALIAS}" = "no" ]; then
-    ip route replace 169.254.0.0/16 dev eth0 
+    ip route replace 169.254.0.0/16 dev ${REALDEVICE} 
 fi
 
 # IPv6 initialisation?
