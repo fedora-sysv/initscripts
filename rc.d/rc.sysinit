@@ -48,6 +48,9 @@ disable_selinux() {
 }
 
 relabel_selinux() {
+    if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
+	chvt 1
+    fi
     echo "
          *** Warning -- SELinux relabel is required. ***
 	 *** Disabling security enforcement.         ***
