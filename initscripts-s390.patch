@@ -1,5 +1,5 @@
---- initscripts-6.14/rc.d/init.d/halt.s390init	Tue Aug  7 09:04:12 2001
-+++ initscripts-6.14/rc.d/init.d/halt	Mon Aug 13 17:49:05 2001
+--- initscripts-me/rc.d/init.d/halt.orig	Thu Sep  6 13:19:12 2001
++++ initscripts-me/rc.d/init.d/halt	Thu Sep  6 13:19:50 2001
 @@ -115,7 +115,9 @@
       ;;
  esac
@@ -11,16 +11,18 @@
  
  # Turn off swap, then unmount file systems.
  SWAPS=`awk '! /^Filename/ { print $1 }' /proc/swaps`
---- initscripts-6.14/rc.d/rc.sysinit.s390init	Thu Aug  9 00:03:09 2001
-+++ initscripts-6.14/rc.d/rc.sysinit	Mon Aug 13 17:51:55 2001
-@@ -105,9 +105,13 @@
+--- initscripts-me/rc.d/rc.sysinit.orig	Thu Sep  6 13:20:04 2001
++++ initscripts-me/rc.d/rc.sysinit	Thu Sep  6 13:33:47 2001
+@@ -105,10 +105,14 @@
       ;;
  esac
  
+-/sbin/hwclock --adjust
 -/sbin/hwclock $CLOCKFLAGS
 -
 -action $"Setting clock $CLOCKDEF: `date`" date
 +if [ -x /sbin/hwclock ] ; then
++  /sbin/hwclock --adjust
 +  /sbin/hwclock $CLOCKFLAGS
 +  action $"Setting clock $CLOCKDEF: `date`" date
 +else
@@ -30,7 +32,7 @@
  
  if [ "`/sbin/consoletype`" = "vt" ]; then
   # Load keymap
-@@ -290,6 +294,9 @@
+@@ -322,6 +326,9 @@
      else
  	action $"Skipping ISA PNP configuration at users request: " /bin/true
      fi
@@ -40,7 +42,7 @@
  fi
  
  # Remount the root filesystem read-write.
-@@ -297,6 +304,24 @@
+@@ -329,6 +336,24 @@
  [ "$state" != "rw" ] && \
    action $"Remounting root filesystem in read-write mode: " mount -n -o remount,rw /
  
@@ -51,7 +53,7 @@
 +  if  [ "$HOSTTYPE" = "s390x" ]; then
 +    kernelver="${kernelver}x"
 +  fi
-+  if [ "${kver:0:3}" = "2.4" ]; then 
++  if [ "${kver:0:3}" = "2.4" ]; then
 +    modpath="/lib/modules/$kver/kernel/net"
 +  else
 +    modpath="/lib/modules/$kver/net"
@@ -65,7 +67,7 @@
  # LVM initialization
  if [ -e /proc/lvm -a -x /sbin/vgchange -a -f /etc/lvmtab ]; then
          action $"Setting up Logical Volume Management:" /sbin/vgscan && /sbin/vgchange -a y
-@@ -573,23 +598,29 @@
+@@ -605,23 +630,29 @@
  
  # Configure machine if necessary.
  if [ -f /.unconfigured ]; then
@@ -77,7 +79,7 @@
 +    else
 +      ARCH=""
 +    fi
-+    if [ -x /usr/bin/passwd$ARCH ]; then 
++    if [ -x /usr/bin/passwd$ARCH ]; then
 +        /usr/bin/passwd$ARCH root
      fi
 -    if [ -x /usr/sbin/netconfig ]; then
