@@ -11,7 +11,7 @@ Requires: mingetty, /bin/awk, /bin/sed, mktemp, e2fsprogs >= 1.15
 Requires: procps >= 2.0.7-7, sysklogd >= 1.3.31
 Requires: setup >= 2.0.3, /sbin/fuser, which, /bin/grep
 Requires: modutils >= 2.3.11-5
-Requires: util-linux >= 2.10s-11, mount >= 2.11g-4
+Requires: util-linux >= 2.10s-11, mount >= 2.11g-5
 Requires: bash >= 2.0 
 Requires: /sbin/ip, /sbin/arping
 Conflicts: kernel <= 2.2, timeconfig < 3.0, pppd < 2.3.9, wvdial < 1.40-3
