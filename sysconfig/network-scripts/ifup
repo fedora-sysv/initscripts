@@ -430,6 +430,9 @@ fi
 # IPv6 initialisation?
 if [ "${NETWORKING_IPV6}" = "yes" ]; then
     /etc/sysconfig/network-scripts/ifup-ipv6 ${CONFIG}
+    if [[ "${DHCPV6C}"  = [Yy1]* ]] && [ -x /sbin/dhcp6c ]; then
+	/sbin/dhcp6c ${DEVICE};
+    fi;
 fi
 
 if [ "${IPX}" = yes ]; then
