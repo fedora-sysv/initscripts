@@ -18,7 +18,7 @@ int main(int argc, char **argv) {
   poptContext optCon;
   int showVersion = 0;
   int rc;
-  char * countStr;
+  char * countStr = NULL;
   struct poptOption options[] = {
             { "version", 'v', POPT_ARG_NONE, &showVersion, 0, 
 			"Display the version of this program, and exit" },
