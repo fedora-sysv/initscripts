@@ -59,7 +59,7 @@ if [ -n "$KEY" -o -n "$KEY1" -o -n "$KEY2" -o -n "$KEY3" -o -n "$KEY4" ] ; then
     [ -n "$KEY3" ] && iwconfig $DEVICE key [3] $KEY3
     [ -n "$KEY4" ] && iwconfig $DEVICE key [4] $KEY4
     [ -n "$DEFAULTKEY" ] && iwconfig $DEVICE key [${DEFAULTKEY}]
-    [ -n "$KEY" ] && iwconfig $DEVICE key "$KEY"
+    [ -n "$KEY" ] && iwconfig $DEVICE key $KEY
 else
     iwconfig $DEVICE key off
 fi
