@@ -140,14 +140,14 @@ if [ "`/sbin/consoletype`" = "vt" ]; then
  # Load system font
  if [ -x /sbin/setsysfont ]; then
     [ -f /etc/sysconfig/i18n ] && . /etc/sysconfig/i18n
-    if [ -f /etc/sysconfig/console/$SYSFONT.psf.gz -o \
-         -f /etc/sysconfig/console/$SYSFONT.gz -o \
-         -f /etc/sysconfig/console/$SYSFONT.psfu.gz -o \
-	 -f /lib/kbd/consolefonts/$SYSFONT.gz -o \
-	 -f /lib/kbd/consolefonts/$SYSFONT.psfu.gz -o \
-	 -f /lib/kbd/consolefonts/$SYSFONT.psf.gz ]; then
-       action $"Setting default font ($SYSFONT): " /sbin/setsysfont
-    fi
+    case $LANG in 
+    	*.utf8|*.UTF-8)
+		action $"Setting default font ($SYSFONT): " /bin/unicode_start $SYSFONT
+	;;
+	*)
+                action $"Setting default font ($SYSFONT): " /sbin/setsysfont
+	;;
+    esac
  fi
 fi
 
