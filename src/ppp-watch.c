@@ -55,7 +55,7 @@
  *
  *
  * When ppp-watch itself dies for reasons of its own, it uses a return code
- * higher than 30 so as not to clash with pppd return codes, which, as of
+ * higher than 25 so as not to clash with pppd return codes, which, as of
  * this writing, range from 0 to 19.
  */
 
