@@ -8,31 +8,28 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: /etc/rc.d/init.d/ipchains:72 /etc/rc.d/init.d/iptables:77
+#: /etc/rc.d/init.d/ip6tables:83 /etc/rc.d/init.d/ipchains:72
+#: /etc/rc.d/init.d/iptables:83
 msgid "Resetting built-in chains to the default ACCEPT policy:"
 msgstr "Reimpostazione delle chain interne per la policy ACCEPT di default:"
 
 #: /etc/rc.d/init.d/amd:39 /etc/rc.d/init.d/anacron:25
 #: /etc/rc.d/init.d/arpwatch:35 /etc/rc.d/init.d/atd:39
 #: /etc/rc.d/init.d/bootparamd:38 /etc/rc.d/init.d/crond:33
-#: /etc/rc.d/init.d/httpd:51 /etc/rc.d/init.d/identd:54
-#: /etc/rc.d/init.d/kadmin:47 /etc/rc.d/init.d/kprop:37
-#: /etc/rc.d/init.d/krb524:37 /etc/rc.d/init.d/krb5kdc:37
-#: /etc/rc.d/init.d/ldap:63 /etc/rc.d/init.d/ldap:70 /etc/rc.d/init.d/lpd:57
-#: /etc/rc.d/init.d/mcserv:32 /etc/rc.d/init.d/mysqld:53
-#: /etc/rc.d/init.d/mysqld:55 /etc/rc.d/init.d/named:58
+#: /etc/rc.d/init.d/httpd:54 /etc/rc.d/init.d/identd:54
+#: /etc/rc.d/init.d/junkbuster:34 /etc/rc.d/init.d/kadmin:47
+#: /etc/rc.d/init.d/kprop:37 /etc/rc.d/init.d/krb524:37
+#: /etc/rc.d/init.d/krb5kdc:37 /etc/rc.d/init.d/ldap:63
+#: /etc/rc.d/init.d/ldap:70 /etc/rc.d/init.d/lpd:57 /etc/rc.d/init.d/mysqld:52
+#: /etc/rc.d/init.d/mysqld:54 /etc/rc.d/init.d/named:58
 #: /etc/rc.d/init.d/nscd:58 /etc/rc.d/init.d/portmap:60
 #: /etc/rc.d/init.d/pxe:32 /etc/rc.d/init.d/radvd:45 /etc/rc.d/init.d/rarpd:32
-#: /etc/rc.d/init.d/rwalld:33 /etc/rc.d/init.d/snmpd:30
+#: /etc/rc.d/init.d/rwalld:33 /etc/rc.d/init.d/snmpd:29
 #: /etc/rc.d/init.d/tWnn:42 /etc/rc.d/init.d/ups:61 /etc/rc.d/init.d/xinetd:66
 msgid "Stopping $prog: "
 msgstr "Interruzione di $prog: "
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:52
-msgid "Kernel is not compiled with IPv6 support"
-msgstr "Il kernel non è compilato con supporto IPv6"
-
-#: /etc/rc.d/init.d/smb:58 /etc/rc.d/init.d/smb:63
+#: /etc/rc.d/init.d/smb:58 /etc/rc.d/init.d/smb:63 /etc/rc.d/init.d/winbind:51
 msgid "Shutting down $KIND services: "
 msgstr "Chiusura dei servizi$KIND: "
 
@@ -40,11 +37,12 @@ msgstr "Chiusura dei servizi$KIND: "
 msgid "Binding to the NIS domain: "
 msgstr "Unione con il dominio NIS: "
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:449
-msgid "Missing parameter 'IPv6AddrToTest' (arg 2)"
-msgstr "Parametro mancante 'IPv6AddrToTest'(arg 2)"
+#: /etc/sysconfig/network-scripts/ifup-ppp:42
+#, fuzzy
+msgid "pppd does not exist or is not executable"
+msgstr "/usr/sbin/pppd inesistente o non eseguibile"
 
-#: /etc/rc.d/init.d/functions:272
+#: /etc/rc.d/init.d/functions:283
 msgid "${base} (pid $pid) is running..."
 msgstr "${base} (pid $pid) in esecuzione..."
 
@@ -52,19 +50,23 @@ msgstr "${base} (pid $pid) in esecuzione..."
 msgid "Reloading cron daemon configuration: "
 msgstr "Ricaricamento della configurazione del demone cron: "
 
-#: /etc/rc.d/rc.sysinit:488
+#: /etc/rc.d/rc.sysinit:525
 msgid "*** An error occurred during the RAID startup"
 msgstr "*** Si è verificato un errore durante lo startup del RAID"
 
-#: /etc/rc.d/rc.sysinit:57
+#: /etc/rc.d/rc.sysinit:63
 msgid "Unmounting initrd: "
 msgstr "Smontaggio di initrd: "
 
-#: /etc/rc.d/init.d/isdn:96
-msgid "Starting $prog"
-msgstr "Avvio di $prog"
+#: /etc/sysconfig/network-scripts/ifup-ipv6:168
+msgid "Device 'tun6to4' (from '$DEVICE') is already up, shutdown first"
+msgstr ""
 
-#: /etc/rc.d/init.d/netfs:141
+#: /etc/rc.d/rc.sysinit:69
+msgid "Configuring kernel parameters: "
+msgstr "Configurazione parametri del kernel: "
+
+#: /etc/rc.d/init.d/netfs:147
 msgid "/proc filesystem unavailable"
 msgstr "Filesystem /proc non disponibile"
 
@@ -72,7 +74,7 @@ msgstr "Filesystem /proc non disponibile"
 msgid "Checking for new hardware"
 msgstr "Controllo nuovo hardware"
 
-#: /etc/rc.d/init.d/ypbind:29
+#: /etc/rc.d/init.d/ypbind:29 /etc/rc.d/init.d/ypserv:30
 msgid "Setting NIS domain name $NISDOMAIN: "
 msgstr "Impostazione del nome del dominio NIS $NISDOMAIN:"
 
@@ -80,41 +82,36 @@ msgstr "Impostazione del nome del dominio NIS $NISDOMAIN:"
 msgid "Shutting down console mouse services: "
 msgstr "Chiusura dei servizi per il mouse in console: "
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:148
+#: /etc/sysconfig/network-scripts/ifup-aliases:149
 msgid "error in $FILE: already seen ipaddr $IPADDR in $ipseen"
 msgstr "errore in $FILE: già visto ipaddr $IPADDR in $ipseen"
 
-#: /etc/rc.d/init.d/keytable:22
+#: /etc/rc.d/init.d/keytable:25
 msgid "Loading keymap: "
 msgstr "Caricamento configurazione tastiera"
 
-#: /etc/rc.d/init.d/iptables:62 /etc/rc.d/init.d/iptables:63
+#: /etc/rc.d/init.d/ip6tables:68 /etc/rc.d/init.d/ip6tables:69
+#: /etc/rc.d/init.d/iptables:68 /etc/rc.d/init.d/iptables:69
 msgid "Applying iptables firewall rules"
 msgstr "Applicazione regole iptable di configurazione del firewall"
 
-#: /etc/rc.d/init.d/functions:373 /etc/rc.d/rc.sysinit:231
+#: /etc/rc.d/init.d/functions:409 /etc/rc.d/rc.sysinit:268
 msgid "$STRING"
 msgstr "$STRING"
 
-#: /etc/rc.d/init.d/netfs:57
+#: /etc/rc.d/init.d/halt:138 /etc/rc.d/init.d/netfs:61
 msgid "Unmounting loopback filesystems: "
 msgstr "Smontaggio dei filesystem di loopback: "
 
-#: /etc/rc.d/init.d/autofs:216 /etc/rc.d/init.d/sshd:87
+#: /etc/rc.d/init.d/autofs:245 /etc/rc.d/init.d/sshd:97
 msgid "Starting $prog:"
 msgstr "Avvio di $prog:"
-
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:929
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:935
-msgid "Tunnel device '$device' creation didn't work - ERROR!"
-msgstr ""
-"La creazione del dispositivo tunnel '$device' non ha funzionato - ERRORE!"
 
 #: /etc/rc.d/init.d/innd:42
 msgid "Stopping INND service: "
 msgstr "Interruzione del servizio INND: "
 
-#: /etc/rc.d/rc.sysinit:250 /etc/rc.d/rc.sysinit:498 /etc/rc.d/rc.sysinit:533
+#: /etc/rc.d/rc.sysinit:287 /etc/rc.d/rc.sysinit:535 /etc/rc.d/rc.sysinit:570
 msgid "Automatic reboot in progress."
 msgstr "Riavvio automatico in corso."
 
@@ -126,83 +123,68 @@ msgstr "Avvio dei servizi rwho: "
 msgid "   you'll have to upgrade your util-linux package"
 msgstr "  aggiornare il pacchetto util-linux"
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:132
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:179
-msgid "Missing parameter 'IPv6-network' (arg 1)"
-msgstr "Parametro mancante 'IPv6-network' (arg 1)"
-
-#: /etc/rc.d/init.d/iscsi:33
+#: /etc/rc.d/init.d/iscsi:32
 msgid "iscsi daemon already running"
 msgstr "demone iscsi già in esecuzione"
 
-#: /etc/rc.d/init.d/netfs:41
+#: /etc/rc.d/init.d/netfs:44
 msgid "Mounting SMB filesystems: "
 msgstr "Montaggio dei filesystem SMB: "
-
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:647
-msgid "Missing 'prefix length' for given address '$testipv6addr_valid'"
-msgstr "'lunghezza prefisso' mancante per l'indirizzo '$testipv6addr_valid'"
-
-#: /etc/rc.d/init.d/mysqld:96
-msgid "Usage: $0 {start|stop|status|reload|condrestart|restart}"
-msgstr "Utilizzo: $0 (start|stop|status|reload|condrestart|restart)"
 
 #: /etc/rc.d/init.d/portmap:33
 msgid "Networking not configured - exiting"
 msgstr "Networking non configurato - chiusura"
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:337
+#: /etc/sysconfig/network-scripts/ifup-aliases:311
 msgid "error in $FILE: IPADDR_START and IPADDR_END don't argree"
 msgstr "errore in $FILE: IPADDR_START e IPADDR_END non sono d'accordo"
 
-#: /etc/rc.d/init.d/netfs:152
+#: /etc/rc.d/init.d/netfs:158 /etc/rc.d/init.d/network:236
 msgid "Usage: $0 {start|stop|restart|reload|status}"
 msgstr "Utilizzo: $0 (start|stop|restart|reload|status}"
 
-#: /etc/rc.d/init.d/keytable:54
+#: /etc/rc.d/init.d/keytable:46
 msgid "No status available for this package"
 msgstr "Status non disponibile per questo paccheggio"
-
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:775
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:846
-msgid "Missing parameter 'local IPv4 address' (arg 2)"
-msgstr "Parametro mancante 'indirizzo IPv4 locale' (arg 2)"
 
 #: /etc/rc.d/init.d/routed:41
 msgid "Stopping routed (RIP) services: "
 msgstr "Interruzione dei servizi routed (RIP)"
 
-#: /etc/rc.d/init.d/junkbuster:23
-msgid "Starting junkbuster: "
-msgstr "Avvio di junkbuster: "
+#: /etc/rc.d/init.d/rawdevices:31 /etc/rc.d/init.d/rawdevices:38
+msgid "  Please correct your /etc/sysconfig/rawdevices:"
+msgstr " Correggere /etc/sysconfig/rawdevices:"
+
+#: /etc/rc.d/init.d/sshd:85
+msgid "Configuration file or keys are invalid"
+msgstr ""
 
 #: /etc/rc.d/init.d/halt:118
 msgid "Syncing hardware clock to system time"
 msgstr "Sincronizzazione clock hardware con l'ora del sistema"
-
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:330
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:377
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:415
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:898
-msgid "Missing parameter 'IPv4-tunnel address' (arg 2)"
-msgstr "Paramentro mancante 'IPv4-tunne laddress' (arg 2)"
 
 #: /etc/sysconfig/network-scripts/ifdown:12
 #: /etc/sysconfig/network-scripts/ifdown:19
 msgid "usage: ifdown <device name>"
 msgstr "utilizzo: ifdown <nome dispositivo>"
 
-#: /etc/rc.d/init.d/autofs:193
+#: /etc/sysconfig/network-scripts/ifup-ippp:355
+#: /etc/sysconfig/network-scripts/ifup-isdn:355
+msgid "Warning: link doesn't support IPv6 using encapsulation 'rawip'"
+msgstr ""
+
+#: /etc/rc.d/init.d/autofs:224
 msgid "Active Mount Points:"
 msgstr "Mount point attivi:"
 
-#: /etc/rc.d/rc.sysinit:298
+#: /etc/rc.d/init.d/microcode_ctl:79
+#, fuzzy
+msgid "Usage: $0 {start|restart}"
+msgstr "Utilizzo: $0 {start|stop}"
+
+#: /etc/rc.d/rc.sysinit:335
 msgid "Remounting root filesystem in read-write mode: "
 msgstr "Rimontaggio del filesystem root in modalità lettura-scrittura: "
-
-#: /etc/rc.d/init.d/xfs:81
-msgid "Restarting $prog: "
-msgstr "Riavvio di $prog: "
 
 #: /etc/rc.d/init.d/mars-nwe:23
 msgid "Starting NetWare emulator-server: "
@@ -212,40 +194,52 @@ msgstr "Avvio del server emulatore NetWare: "
 msgid "Stopping YP map server: "
 msgstr "Interruzione server map YP: "
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:303
-msgid "Tunnel device 'sit0' is still up - FATAL ERROR!"
-msgstr "Il dispositivo 'sit0' è sempre attivo - ERRORE FATALE!"
+#: /etc/rc.d/init.d/microcode_ctl:59
+msgid "$0: kernel does not have microcode device support"
+msgstr ""
+
+#: /etc/rc.d/init.d/postgresql:235
+#, fuzzy
+msgid "Usage: $0 {start|stop|status|restart|condrestart|reload|force-reload}"
+msgstr "Utilizzo: $0 {start|stop|status|restart|condrestart|reload|probe}"
+
+#: /etc/sysconfig/network-scripts/ifup-ipv6:186
+#, fuzzy
+msgid ""
+"Given IPv4 address '$ipv4addr' is not globally usable, 6to4 configuration is "
+"not valid"
+msgstr ""
+"L'indirizzo IPv4 fornito $ipv4addr non è utilizzabile globalmente, "
+"laconfigurazione di 6to4 non è valida!"
 
 #: /etc/rc.d/init.d/halt:18
 msgid "$1 "
 msgstr "$1"
 
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:142
+msgid ""
+"ERROR: [ipv6_log] Syslog is chosen, but binary 'logger' doesn't exist or "
+"isn't executable"
+msgstr ""
+
 #: /etc/rc.d/init.d/random:46
 msgid "The random data source is missing"
 msgstr "Manca la sorgente casuale di dati"
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:148
-msgid ""
-"Given IPv4 address $ipv4addr is not a globally usable one, 6to4 "
-"configuration is not valid!"
-msgstr ""
-"L'indirizzo IPv4 fornito $ipv4addr non è utilizzabile globalmente, "
-"laconfigurazione di 6to4 non è valida!"
+#: /etc/sysconfig/network-scripts/ifup-ipv6:258
+#, fuzzy
+msgid "6to4 configuration is not valid"
+msgstr "$0: configurazione per ${1} not trovata."
 
-#: /etc/rc.d/init.d/isdn:78
+#: /etc/rc.d/init.d/isdn:135
 msgid "Unloading ISDN modules"
 msgstr "Scaricamento dei moduli ISDN"
-
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:500
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:582
-msgid "Missing parameter 'IPv6-address' (arg 2)"
-msgstr "Parametro mancante 'IPv6-address' (arg 2)"
 
 #: /etc/rc.d/init.d/apmd:26
 msgid "Starting up APM daemon: "
 msgstr "Avvio demone APM: "
 
-#: /etc/rc.d/init.d/postgresql:114
+#: /etc/rc.d/init.d/postgresql:123
 msgid "Initializing database: "
 msgstr "Inizializzazione del database: "
 
@@ -253,19 +247,20 @@ msgstr "Inizializzazione del database: "
 msgid "Saving current rules to $IPCHAINS_CONFIG"
 msgstr "Salvataggio delle regole correnti in $IPCHAINS_CONFIG"
 
-#: /etc/rc.d/init.d/autofs:251 /etc/rc.d/init.d/autofs:252
+#: /etc/rc.d/init.d/autofs:246 /etc/rc.d/init.d/autofs:291
+#: /etc/rc.d/init.d/autofs:292
 msgid "could not make temp file"
 msgstr "impossibile creare file temporaneo"
 
-#: /etc/sysconfig/network-scripts/ifup-ppp:69
-msgid "ifup-ppp for ${DEVNAME} exiting"
-msgstr "ifup-ppp per ${NOMEDISP} esistente"
+#: /etc/sysconfig/network-scripts/ifup:153
+msgid "Determining IP information for ${DEVICE}..."
+msgstr "Determinazione informazioni IP per ${DEVICE}..."
 
 #: /etc/rc.d/init.d/ypbind:42
 msgid "Listening for an NIS domain server."
 msgstr "Ascolto di un dominio NIS del server."
 
-#: /etc/rc.d/init.d/iptables:60
+#: /etc/rc.d/init.d/iptables:66
 msgid "Applying iptables firewall rules: "
 msgstr "Applicazione delle regole iptable di configurazione del firewall: "
 
@@ -277,29 +272,52 @@ msgstr "cardmgr."
 msgid "Initializing random number generator: "
 msgstr "Inizializzazione del generatore di numeri casuali: "
 
-#: /etc/rc.d/init.d/isdn:46
-msgid "$*"
-msgstr "$*"
+#: /etc/rc.d/init.d/amd:30 /etc/rc.d/init.d/anacron:15
+#: /etc/rc.d/init.d/arpwatch:28 /etc/rc.d/init.d/atd:29
+#: /etc/rc.d/init.d/bgpd:26 /etc/rc.d/init.d/bootparamd:29
+#: /etc/rc.d/init.d/canna:26 /etc/rc.d/init.d/crond:24
+#: /etc/rc.d/init.d/cWnn:31 /etc/rc.d/init.d/dhcpd:28
+#: /etc/rc.d/init.d/FreeWnn:32 /etc/rc.d/init.d/gated:39
+#: /etc/rc.d/init.d/httpd:46 /etc/rc.d/init.d/identd:45
+#: /etc/rc.d/init.d/irda:20 /etc/rc.d/init.d/junkbuster:24
+#: /etc/rc.d/init.d/kadmin:40 /etc/rc.d/init.d/kprop:30
+#: /etc/rc.d/init.d/krb524:30 /etc/rc.d/init.d/krb5kdc:30
+#: /etc/rc.d/init.d/kWnn:31 /etc/rc.d/init.d/ldap:38 /etc/rc.d/init.d/ldap:50
+#: /etc/rc.d/init.d/lpd:28 /etc/rc.d/init.d/mysqld:40
+#: /etc/rc.d/init.d/mysqld:42 /etc/rc.d/init.d/named:35
+#: /etc/rc.d/init.d/nscd:49 /etc/rc.d/init.d/ntpd:50
+#: /etc/rc.d/init.d/ospf6d:26 /etc/rc.d/init.d/ospfd:27
+#: /etc/rc.d/init.d/portmap:50 /etc/rc.d/init.d/pxe:23
+#: /etc/rc.d/init.d/radvd:38 /etc/rc.d/init.d/rarpd:22
+#: /etc/rc.d/init.d/ripd:26 /etc/rc.d/init.d/ripngd:26
+#: /etc/rc.d/init.d/rwalld:24 /etc/rc.d/init.d/sendmail:38
+#: /etc/rc.d/init.d/snmpd:20 /etc/rc.d/init.d/squid:57
+#: /etc/rc.d/init.d/tWnn:31 /etc/rc.d/init.d/ups:37
+#: /etc/rc.d/init.d/vncserver:22 /etc/rc.d/init.d/xfs:58
+#: /etc/rc.d/init.d/xinetd:45 /etc/rc.d/init.d/zebra:24
+msgid "Starting $prog: "
+msgstr "Avvio di $prog: "
 
-#: /etc/rc.d/rc.sysinit:242 /etc/rc.d/rc.sysinit:490 /etc/rc.d/rc.sysinit:525
+#: /etc/rc.d/rc.sysinit:279 /etc/rc.d/rc.sysinit:527 /etc/rc.d/rc.sysinit:562
 msgid "*** when you leave the shell."
 msgstr "*** alla chiusura della shell."
-
-#: /etc/rc.d/init.d/innd:108 /etc/rc.d/init.d/kprop:67
-#: /etc/rc.d/init.d/krb524:66 /etc/rc.d/init.d/postgresql:227
-#: /etc/rc.d/init.d/syslog:77 /etc/rc.d/init.d/ypbind:104
-msgid "Usage: $0 {start|stop|status|restart|condrestart}"
-msgstr "Utilizzo: $0 {start|stop|status|restart|condrestart}"
 
 #: /etc/rc.d/init.d/lpd:98 /etc/rc.d/init.d/rarpd:65
 msgid "Usage: $0 {start|stop|restart|condrestart|reload|status}"
 msgstr "Utilizzo: $0 {start|stop|restart|condrestart|reload|status}"
 
-#: /etc/rc.d/init.d/network:175
+#: /etc/rc.d/init.d/network:188
 msgid "Shutting down interface $i: "
 msgstr "Chiusura dell'interfaccia $i: "
 
-#: /etc/rc.d/init.d/network:219
+#: /etc/sysconfig/network-scripts/ifdown-sit:52
+#: /etc/sysconfig/network-scripts/ifup-sit:62
+msgid ""
+"Device '$DEVICE' isn't supported here, use IPV6_AUTOTUNNEL setting and "
+"restart (IPv6) networking"
+msgstr ""
+
+#: /etc/rc.d/init.d/network:227
 msgid "Currently active devices:"
 msgstr "Dispositivi attualmente attivi:"
 
@@ -307,28 +325,23 @@ msgstr "Dispositivi attualmente attivi:"
 msgid "You need to be root to use this command ! "
 msgstr "Occorre essere utente di root per utilizzare questo comando! "
 
-#: /etc/rc.d/init.d/netfs:97
+#: /etc/rc.d/init.d/netfs:103
 msgid "Unmounting NFS filesystems (retry): "
 msgstr "Smontaggio dei filesystem NFS (riprova): "
 
-#: /etc/rc.d/rc.sysinit:191
+#: /etc/rc.d/rc.sysinit:197
 msgid "Initializing USB mouse: "
 msgstr "Inizializzazione del mouse USB: "
 
-#: /etc/rc.d/init.d/network:216
-msgid "Devices with modified configuration:"
-msgstr "Dispositivi con configurazione modificata:"
+#: /etc/rc.d/rc.sysinit:194
+msgid "Initializing USB keyboard: "
+msgstr "Inizializzazione tastiera USB: "
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:94
-msgid "Don't understand forwarding control parameter '$fw_control' (arg 1)"
-msgstr ""
-"Parametro di controllo '$fw_control' (arg1) di inoltro non  comprensibile"
-
-#: /etc/rc.d/rc.sysinit:53
+#: /etc/rc.d/rc.sysinit:59
 msgid "Mounting proc filesystem: "
 msgstr "Montaggio filesystem proc:"
 
-#: /etc/rc.d/rc.sysinit:132
+#: /etc/rc.d/rc.sysinit:138
 msgid "Loading default keymap: "
 msgstr "Caricamento configurazione tastiera di default: "
 
@@ -336,11 +349,11 @@ msgstr "Caricamento configurazione tastiera di default: "
 msgid "ifup-ppp for ${DEVICE} exiting"
 msgstr "ifup-ppp per $(DISPOSITIVO) esistente"
 
-#: /etc/rc.d/rc.sysinit:392 /etc/rc.d/rc.sysinit:394
+#: /etc/rc.d/rc.sysinit:429 /etc/rc.d/rc.sysinit:431
 msgid "Finding module dependencies: "
 msgstr "Ricerca dipendenze modulo: "
 
-#: /etc/rc.d/init.d/autofs:224 /etc/rc.d/init.d/sshd:96
+#: /etc/rc.d/init.d/autofs:260 /etc/rc.d/init.d/sshd:106
 msgid "Stopping $prog:"
 msgstr "Interruzione di $prog:"
 
@@ -348,31 +361,32 @@ msgstr "Interruzione di $prog:"
 msgid "done"
 msgstr "fatto"
 
-#: /etc/rc.d/init.d/network:285
-msgid "Usage: $0 {start|stop|restart|reload|status|probe}"
-msgstr "Utilizzo: $0 {start|stop|restart|reload|status|probe}"
-
-#: /etc/rc.d/rc.sysinit:155
-msgid "Activating swap partitions: "
-msgstr "Attivazione partizioni dello swap: "
+#: /etc/rc.d/init.d/mysqld:88
+#, fuzzy
+msgid "Usage: $0 {start|stop|status|condrestart|restart}"
+msgstr "Utilizzo: $0 (start|stop|status|reload|condrestart|restart)"
 
 #: /etc/rc.d/init.d/ipchains:98 /etc/rc.d/init.d/ipchains:99
 msgid "Changing target policies to DENY"
 msgstr "Modifica della destinazione policy in DENY"
 
-#: /etc/rc.d/init.d/syslog:34
-msgid "Starting kernel logger: "
-msgstr "Avvio logger del kernel: "
+#: /etc/sysconfig/network-scripts/ifup:32
+msgid "$0: configuration for ${1} not found."
+msgstr "$0: configurazione per ${1} not trovata."
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:156
+#: /etc/sysconfig/network-scripts/ifup-aliases:157
 msgid "error in $FILE: didn't specify device or ipaddr"
 msgstr "errore in $FILE: dispositivo o ipaddr non specificati"
 
-#: /etc/rc.d/init.d/functions:280
+#: /etc/rc.d/init.d/psacct:28
+msgid "Process accounting is enabled."
+msgstr ""
+
+#: /etc/rc.d/init.d/functions:291
 msgid "${base} dead but pid file exists"
 msgstr "${base} è inattivo ma il file pid esiste"
 
-#: /etc/rc.d/rc.sysinit:647
+#: /etc/rc.d/rc.sysinit:680
 msgid "Enabling swap space: "
 msgstr "Abilitazione spazio di swap: "
 
@@ -380,23 +394,34 @@ msgstr "Abilitazione spazio di swap: "
 msgid " modules"
 msgstr " moduli"
 
-#: /etc/rc.d/rc.sysinit:39
-msgid "Red Hat"
-msgstr "Red Hat"
-
-#: /etc/rc.d/init.d/ntpd:26
-msgid "Synchronizing with time server: "
-msgstr "Sincronizzazione con l'ora del server: "
-
 #: /etc/rc.d/init.d/rusersd:35
 msgid "Stopping rusers services: "
 msgstr "Interruzione servizi rusers"
+
+#: /etc/rc.d/rc.sysinit:232
+#, fuzzy, c-format
+msgid "Press Y within %d seconds to force file system integrity check..."
+msgstr ""
+"\rPremere Y entro %d secondi per forzare il controllo\n"
+"del filesystem..."
 
 #: /etc/rc.d/init.d/gpm:21
 msgid "Starting console mouse services: "
 msgstr "Avvio servizi per il mouse in console: "
 
-#: /etc/rc.d/rc.sysinit:185
+#: /etc/rc.d/rc.sysinit:284 /etc/rc.d/rc.sysinit:532 /etc/rc.d/rc.sysinit:567
+msgid "Unmounting file systems"
+msgstr "Smontaggio dei filesystem"
+
+#: /etc/sysconfig/network-scripts/ifup-ipv6:235
+#, fuzzy
+msgid ""
+"Using 6to4 and RADVD IPv6 forwarding usually should be enabled, but it isn't"
+msgstr ""
+"L'utilizzo del forwarding di 6to4 e RADVD IPv6 dovrebbe solitamente essere "
+"attivato, ma non lo è!"
+
+#: /etc/rc.d/rc.sysinit:191
 msgid "Initializing USB HID interface: "
 msgstr "Inizializzazione interfaccia USB HID: "
 
@@ -404,15 +429,7 @@ msgstr "Inizializzazione interfaccia USB HID: "
 msgid "Stopping Red Hat Network Daemon: "
 msgstr "Interruzione deomne Red Hat Network: "
 
-#: /etc/rc.d/init.d/isdn:153
-msgid "$pn is attached to $dev"
-msgstr "$pn è collegato a $dev"
-
-#: /etc/sysconfig/network-scripts/ifup-aliases:65
-msgid "usage: ifup-aliases <net-device>\n"
-msgstr "utilizzo: ifup-aliases <dispositivo-rete>\n"
-
-#: /etc/rc.d/init.d/amd:93 /etc/rc.d/init.d/sshd:105
+#: /etc/rc.d/init.d/amd:93 /etc/rc.d/init.d/sshd:115
 msgid "Reloading $prog:"
 msgstr "Ricaricamento di $prog:"
 
@@ -420,19 +437,27 @@ msgstr "Ricaricamento di $prog:"
 msgid "Usage: $0 {start|stop|status|condrestart|reload|restart}"
 msgstr "Utilizzo: $0 {start|stop|status|condrestart|reload|restart}"
 
-#: /etc/rc.d/init.d/ypserv:27
+#: /etc/rc.d/init.d/ypserv:35
 msgid "Starting YP server services: "
 msgstr "Avvio servizi server YP: "
+
+#: /etc/rc.d/rc.sysinit:228
+#, fuzzy, c-format
+msgid "Press N within %d seconds to not force file system integrity check..."
+msgstr ""
+"\rPremere N entro %d secondi per evitare il controllo\n"
+"forzato del filesystem..."
 
 #: /etc/rc.d/init.d/innd:49
 msgid "Stopping INNWatch service: "
 msgstr "Interruzione servizio INNWatch: "
 
-#: /etc/rc.d/init.d/iptables:167
-msgid "Usage: $0 {start|stop|restart|condrestart|status|panic|save}"
-msgstr "Utilizzo: $0 {start|stop|restart|condrestart|status|panic|save}"
+#: /etc/rc.d/init.d/iscsi:46
+#, fuzzy
+msgid "Could not find $DRIVER_MODULE.o"
+msgstr "Impossibile caricare il modulo $DRIVER_MODULE"
 
-#: /etc/rc.d/init.d/autofs:260
+#: /etc/rc.d/init.d/autofs:300
 msgid "Stop $command"
 msgstr "Interrompi $command"
 
@@ -444,38 +469,36 @@ msgstr "Disattivazione dello swap: "
 msgid "Starting UPS monitor (master): "
 msgstr "Avvio monitor UPS (master): "
 
-#: /etc/rc.d/init.d/netfs:133
-msgid "Active SMB mountpoints: "
-msgstr "Mount point SMB attivi: "
-
-#: /etc/rc.d/init.d/syslog:41
+#: /etc/rc.d/init.d/syslog:44
 msgid "Shutting down kernel logger: "
 msgstr "Chiusura logger del kernel: "
 
-#: /etc/rc.d/init.d/bcm5820:32
+#: /etc/rc.d/init.d/bcm5820:46
 msgid "Loading $module module"
 msgstr "Caricamento modulo $module"
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:152
+#: /etc/sysconfig/network-scripts/ifup-aliases:153
 msgid "error in $FILE: already seen device $parent_device:$DEVNUM in $devseen"
 msgstr ""
 "errore in $FILE: già visto dispositivo $parent_device:$DEVNUM in $devseen"
 
-#: /etc/rc.d/rc.sysinit:562
+#: /etc/rc.d/rc.sysinit:599
 msgid "Checking local filesystem quotas: "
 msgstr "Controllo quote filesystem locali: "
 
-#: /etc/rc.d/init.d/sshd:34
-msgid "Generating SSH1 RSA host key: "
-msgstr "Generazione host key SSH1 RSA: "
+#: /etc/rc.d/init.d/atalk:53
+#, fuzzy
+msgid "Shutting down AppleTalk services: "
+msgstr "Chiusura servizi NIS: "
 
 #: /etc/rc.d/init.d/innd:63
 msgid "Stopping INN actived service: "
 msgstr "Interruzione servizio INN attivato: "
 
-#: /etc/rc.d/init.d/network:232 /etc/rc.d/init.d/network:239
-msgid "Bringing up device $device: "
-msgstr "Attivazione device $device: "
+#: /etc/rc.d/init.d/xfs:97
+#, fuzzy
+msgid "Restarting $prog:"
+msgstr "Riavvio di $prog: "
 
 #: /etc/rc.d/init.d/crond:78 /etc/rc.d/init.d/krb5kdc:76
 #: /etc/rc.d/init.d/squid:145
@@ -486,27 +509,27 @@ msgstr "Utilizzo: $0 {start|stop|status|reload|restart|condrestart}"
 msgid " module directory $PC not found."
 msgstr " directory $PC del modulo non trovata."
 
+#: /etc/rc.d/rc.sysinit:172
+msgid "Mounting USB filesystem: "
+msgstr "Montaggio filesystem USB: "
+
 #: /etc/rc.d/init.d/kadmin:35
 msgid "Extracting kadm5 Service Keys: "
 msgstr "Estrazione chiavi del servizio Kadm5: "
 
-#: /etc/rc.d/init.d/lpd:34
-msgid "No Printers Defined"
-msgstr "Nessuna stampante definita"
+#: /etc/rc.d/init.d/netfs:139
+msgid "Active SMB mountpoints: "
+msgstr "Mount point SMB attivi: "
 
-#: /etc/rc.d/rc.sysinit:302
+#: /etc/rc.d/rc.sysinit:339
 msgid "Setting up Logical Volume Management:"
 msgstr "Impostazione del Logical Volume Management:"
 
-#: /etc/rc.d/init.d/netfs:42
+#: /etc/rc.d/init.d/netfs:45
 msgid "Mounting NCP filesystems: "
 msgstr "Montaggio dei filesystem NCP: "
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:206
-msgid "Trigger RADVD for IPv6to4 prefix recalculation"
-msgstr "Trigger RADVD per il ricalcolo del prefisso IPv6to4"
-
-#: /etc/rc.d/rc.sysinit:291
+#: /etc/rc.d/rc.sysinit:328
 msgid "Skipping ISA PNP configuration at users request: "
 msgstr "Salto della configurazione di ISA PNP su richiesta degli utenti: "
 
@@ -514,35 +537,7 @@ msgstr "Salto della configurazione di ISA PNP su richiesta degli utenti: "
 msgid "Applying ipchains firewall rules"
 msgstr "Applicazione regole di ipchains per il firewall"
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:173
-msgid ""
-"IPv6to4 configuration needs an IPv4 address on related interface or extra "
-"specified, 6to4 configuration is not valid!"
-msgstr ""
-"La configurazoine di IPv6to4 necessita di un indirizzo IPv4 sulla relativa "
-"interfaccia o altro specificato, la configurazione di 6to4 non è valida!"
-
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:225
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:325
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:372
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:410
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:494
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:549
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:576
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:769
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:814
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:841
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:893
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:972
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:1011
-msgid "Missing parameter 'device' (arg 1)"
-msgstr "parametro mancante 'dispositivo' (arg 1)"
-
-#: /etc/rc.d/init.d/syslog:44
-msgid "Shutting down system logger: "
-msgstr "Chiusura logger del sistema: "
-
-#: /etc/rc.d/init.d/network:189
+#: /etc/rc.d/init.d/network:204
 msgid "Disabling IPv4 packet forwarding: "
 msgstr "Disabilitazione del pacchetto IPv4  per l'inoltro: "
 
@@ -550,11 +545,21 @@ msgstr "Disabilitazione del pacchetto IPv4  per l'inoltro: "
 msgid "See error log in /var/log/iscsi.log"
 msgstr "Vedere log degli errori in /var/log/iscsi.log"
 
-#: /etc/rc.d/init.d/iscsi:46
+#: /etc/sysconfig/network-scripts/init.ipv6-global:188
+#, fuzzy
+msgid "Usage: $0 {start|stop|reload|restart|showsysctl}"
+msgstr "Utilizzo: $0 {start|stop|reload|restart|condrestart|status}"
+
+#: /etc/rc.d/init.d/iscsi:50
 msgid "Starting iSCSI iscsilun: "
 msgstr "Avvio di iSCSI iscsilun: "
 
-#: /etc/rc.d/init.d/vncserver:33
+#: /etc/rc.d/init.d/ip6tables:121 /etc/rc.d/init.d/iptables:121
+#, fuzzy
+msgid "Table: $table"
+msgstr "Tabella: mangle"
+
+#: /etc/rc.d/init.d/vncserver:34
 msgid "vncserver startup"
 msgstr "Avvio di vncserver"
 
@@ -566,9 +571,11 @@ msgstr "Applicazione delle regole di ipchains per il firewall: "
 msgid "Starting rstat services: "
 msgstr "Avvio servizi rstat: "
 
-#: /etc/rc.d/init.d/ipchains:102 /etc/rc.d/init.d/iptables:75
-#: /etc/rc.d/init.d/iptables:76 /etc/rc.d/init.d/iptables:152
-#: /etc/rc.d/init.d/iptables:153
+#: /etc/rc.d/init.d/ip6tables:81 /etc/rc.d/init.d/ip6tables:82
+#: /etc/rc.d/init.d/ip6tables:157 /etc/rc.d/init.d/ip6tables:158
+#: /etc/rc.d/init.d/ipchains:102 /etc/rc.d/init.d/iptables:81
+#: /etc/rc.d/init.d/iptables:82 /etc/rc.d/init.d/iptables:157
+#: /etc/rc.d/init.d/iptables:158
 msgid "Removing user defined chains:"
 msgstr "Rimozione chain definite dall'utente:"
 
@@ -576,31 +583,40 @@ msgstr "Rimozione chain definite dall'utente:"
 msgid "$prog: already running"
 msgstr "$prog: già in esecuzione"
 
-#: /etc/rc.d/init.d/functions:286
+#: /etc/rc.d/init.d/netfs:131
+msgid "Configured NCP mountpoints: "
+msgstr "Mount point NCP configurati: "
+
+#: /etc/rc.d/init.d/functions:297
 msgid "${base} dead but subsys locked"
 msgstr "${base} inattivo ma subsys bloccato"
 
-#: /etc/rc.d/init.d/functions:87 /etc/rc.d/init.d/functions:111
+#: /etc/rc.d/init.d/functions:93 /etc/rc.d/init.d/functions:121
 msgid "$0: Usage: daemon [+/-nicelevel] {program}"
 msgstr "$O: Utilizzo: demone [+/-nicelevel]{program}"
 
-#: /etc/rc.d/init.d/named:74
-msgid "$prog is running, PIDs: $PIDS."
-msgstr "$prog è in esecuzione, PID: $PIDS."
+#: /etc/sysconfig/network-scripts/ifup-ipv6:199
+#, fuzzy
+msgid ""
+"IPv6to4 configuration needs an IPv4 address on related interface or "
+"otherwise specified, 6to4 configuration is not valid"
+msgstr ""
+"La configurazoine di IPv6to4 necessita di un indirizzo IPv4 sulla relativa "
+"interfaccia o altro specificato, la configurazione di 6to4 non è valida!"
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:222
-#: /etc/sysconfig/network-scripts/ifup-aliases:232
+#: /etc/sysconfig/network-scripts/ifup-aliases:223
+#: /etc/sysconfig/network-scripts/ifup-aliases:233
 msgid "error in ifcfg-${parent_device}: files"
 msgstr "errore in ifcfg-${parent_device}: file"
 
-#: /etc/rc.d/init.d/iscsi:63
+#: /etc/rc.d/init.d/iscsi:70
 msgid "Stopping iSCSI: iscsid"
 msgstr "Arresto di iSCSI: iscsid"
 
-#: /etc/rc.d/init.d/FreeWnn:71 /etc/rc.d/init.d/bootparamd:69
-#: /etc/rc.d/init.d/cWnn:70 /etc/rc.d/init.d/pcmcia:52
-#: /etc/rc.d/init.d/random:56 /etc/rc.d/init.d/routed:72
-#: /etc/rc.d/init.d/tWnn:70
+#: /etc/rc.d/init.d/bootparamd:69 /etc/rc.d/init.d/cWnn:70
+#: /etc/rc.d/init.d/FreeWnn:71 /etc/rc.d/init.d/pcmcia:52
+#: /etc/rc.d/init.d/psacct:40 /etc/rc.d/init.d/random:56
+#: /etc/rc.d/init.d/routed:72 /etc/rc.d/init.d/tWnn:70
 msgid "Usage: $0 {start|stop|status|restart|reload}"
 msgstr "Utilizzo: $0 {start|stop|status|restart|reload}"
 
@@ -608,41 +624,38 @@ msgstr "Utilizzo: $0 {start|stop|status|restart|reload}"
 msgid "Stopping $prog"
 msgstr "Interruzione $prog"
 
-#: /etc/rc.d/rc.sysinit:110
+#: /etc/rc.d/rc.sysinit:116
 msgid "Setting clock $CLOCKDEF: `date`"
 msgstr "Impostazione orologio $CLOCKDEF: `data`"
 
-#: /etc/rc.d/init.d/xfs:110
+#: /etc/rc.d/init.d/xfs:122
 msgid "*** Usage: $prog {start|stop|status|restart|reload|condrestart}"
 msgstr "*** Utilizzo: $prog {start|stop|status|restart|reload|condrestart}"
 
-#: /etc/rc.d/rc.sysinit:408 /etc/rc.d/rc.sysinit:413
+#: /etc/rc.d/rc.sysinit:445 /etc/rc.d/rc.sysinit:450
 msgid "Loading sound module ($alias): "
 msgstr "Caricamento modulo audio ($alias): "
 
-#: /etc/rc.d/init.d/iptables:131 /etc/rc.d/init.d/iptables:132
+#: /etc/rc.d/init.d/ip6tables:136 /etc/rc.d/init.d/ip6tables:137
+#: /etc/rc.d/init.d/iptables:136 /etc/rc.d/init.d/iptables:137
 msgid "Changing target policies to DROP"
 msgstr "Modifica della destinazione delle policy in DROP"
-
-#: /etc/rc.d/init.d/network:104 /etc/rc.d/init.d/network:131
-msgid "Bringing up interface $i: "
-msgstr "Attivazione interfaccia $i: "
 
 #: /etc/rc.d/init.d/gated:85
 msgid "Usage: $0 {start|stop|reload|restart|condrestart|status}"
 msgstr "Utilizzo: $0 {start|stop|reload|restart|condrestart|status}"
 
-#: /etc/rc.d/init.d/netfs:137
+#: /etc/rc.d/init.d/netfs:143
 msgid "Active NCP mountpoints: "
 msgstr "Mount point NCP attivi: "
 
-#: /etc/rc.d/init.d/functions:319
+#: /etc/rc.d/init.d/functions:330
 msgid "PASSED"
 msgstr "PASSATO"
 
-#: /etc/rc.d/rc.sysinit:188
-msgid "Initializing USB keyboard: "
-msgstr "Inizializzazione tastiera USB: "
+#: /etc/sysconfig/network-scripts/ifup-ipx:7
+msgid "usage: $0 <net-device>"
+msgstr "utilizzo: $0 <dispositivo-rete>"
 
 #: /etc/rc.d/init.d/innd:26
 msgid "Please run makehistory and/or makedbz before starting innd."
@@ -652,19 +665,19 @@ msgstr "Eseguire creacronologia e/o creadbz prima di lanciare innd."
 msgid "Reloading configuration: "
 msgstr "Ricaricamento della configurazione: "
 
-#: /etc/rc.d/init.d/autofs:189
+#: /etc/rc.d/init.d/autofs:220
 msgid "Configured Mount Points:"
 msgstr "Mount point configurati:"
 
-#: /etc/rc.d/rc.sysinit:289
+#: /etc/rc.d/rc.sysinit:326
 msgid "Setting up ISA PNP devices: "
 msgstr "Configurazione dispositivi ISA PNP: "
 
-#: /etc/rc.d/init.d/netfs:129
+#: /etc/rc.d/init.d/netfs:135
 msgid "Active NFS mountpoints: "
 msgstr "Mount point NFS attivi: "
 
-#: /etc/rc.d/init.d/isdn:150
+#: /etc/rc.d/init.d/isdn:223
 msgid "$0: Link is down"
 msgstr "$0: collegamento inattivo"
 
@@ -672,14 +685,13 @@ msgstr "$0: collegamento inattivo"
 msgid "Starting rusers services: "
 msgstr "Avvio servizi rusers: "
 
-#: /etc/rc.d/init.d/functions:236
+#: /etc/rc.d/init.d/functions:247
 msgid "Usage: pidofproc {program}"
 msgstr "Utilizzo: pidofproc {programma}"
 
-#: /etc/rc.d/init.d/arpwatch:60 /etc/rc.d/init.d/mcserv:60
-#: /etc/rc.d/init.d/nscd:107 /etc/rc.d/init.d/portmap:94
-#: /etc/rc.d/init.d/yppasswdd:63 /etc/rc.d/init.d/ypserv:69
-#: /etc/rc.d/init.d/ypxfrd:61
+#: /etc/rc.d/init.d/arpwatch:60 /etc/rc.d/init.d/nscd:107
+#: /etc/rc.d/init.d/portmap:94 /etc/rc.d/init.d/yppasswdd:63
+#: /etc/rc.d/init.d/ypserv:74 /etc/rc.d/init.d/ypxfrd:61
 msgid "Usage: $0 {start|stop|status|restart|reload|condrestart}"
 msgstr "Utilizzo: $0 {start|stop|status|restart|reload|condrestart}"
 
@@ -687,45 +699,23 @@ msgstr "Utilizzo: $0 {start|stop|status|restart|reload|condrestart}"
 msgid "Changing target policies to DENY: "
 msgstr "Modifica della destinazione delle policy in DENY: "
 
-#: /etc/rc.d/init.d/network:235 /etc/rc.d/init.d/network:238
-msgid "Shutting down device $device: "
-msgstr "Chiusura dispositivo $device: "
-
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:855
-msgid "Generated 6to4 prefix '$prefix6to4' from '$localipv4'"
-msgstr "Generato il prefisso 6to4 '$prefix6to4' da '$localipv4'"
-
-#: /etc/sysconfig/network-scripts/ifup:166
-msgid "Determining IP information for ${DEVICE}..."
-msgstr "Determinazione informazioni IP per ${DEVICE}..."
-
-#: /etc/sysconfig/network-scripts/ifup-ipv6:152
-msgid ""
-"IPv6to4 configuration needs an IPv6to4 relay address, 6to4 configuration is "
-"not valid!"
-msgstr ""
-"La configurazione IPv6to4 richiede un indirizzo di relé IPv6to4, la "
-"configurazione di 6to4 non è valida!"
+#: /etc/sysconfig/network-scripts/ifup-ppp:71
+msgid "ifup-ppp for ${DEVNAME} exiting"
+msgstr "ifup-ppp per ${NOMEDISP} esistente"
 
 #: /etc/rc.d/init.d/innd:56
 msgid "Stopping INNFeed service: "
 msgstr "Interruzione servizio INNFeed: "
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:266
-msgid "Tunnel device 'sit0' enabling didn't work - FATAL ERROR!"
-msgstr ""
-"L'attivazione del dispositivo tunnel 'sit0' non ha funzionato - ERRORE "
-"FATALE!"
-
 #: /etc/rc.d/init.d/ipchains:106
 msgid "Saving current rules to $IPCHAINS_CONFIG: "
 msgstr "Salvataggio delle regole correnti in $IPCHAINS_CONFIG: "
 
-#: /etc/rc.d/init.d/smb:77
+#: /etc/rc.d/init.d/smb:77 /etc/rc.d/init.d/winbind:65
 msgid "Reloading smb.conf file: "
 msgstr "Ricaricamento file smb.conf: "
 
-#: /etc/rc.d/init.d/functions:184 /etc/rc.d/init.d/functions:195
+#: /etc/rc.d/init.d/functions:194 /etc/rc.d/init.d/functions:205
 msgid "$base shutdown"
 msgstr "Chiusura $base"
 
@@ -733,7 +723,16 @@ msgstr "Chiusura $base"
 msgid "Reopening $prog log file: "
 msgstr "Riapertura del file di log $prog: "
 
-#: /etc/rc.d/init.d/isdn:66 /etc/rc.d/init.d/isdn:68
+#: /etc/rc.d/init.d/network:69
+#, fuzzy
+msgid "Bringing up loopback interface: "
+msgstr "Attivazione interfaccia $i: "
+
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:152
+msgid "ERROR: [ipv6_log] Cannot log to channel '$channel'"
+msgstr ""
+
+#: /etc/rc.d/init.d/isdn:119 /etc/rc.d/init.d/isdn:122
 msgid "Loading ISDN modules"
 msgstr "Caricamento moduli ISDN"
 
@@ -745,14 +744,28 @@ msgstr "Salvataggio seme per la funzione random: "
 msgid "Stopping rstat services: "
 msgstr "Interruzione servizi rstat: "
 
-#: /etc/rc.d/rc.sysinit:135
+#: /etc/rc.d/rc.sysinit:141
 msgid "Loading default keymap"
 msgstr "Caricamento configurazione tastiera di default"
 
+#: /etc/rc.d/init.d/halt:161
+msgid "Unmounting file systems (retry): "
+msgstr "Smontaggio dei filesystem (riprova): "
+
+#: /etc/rc.d/init.d/ip6tables:92 /etc/rc.d/init.d/ip6tables:93
 #: /etc/rc.d/init.d/ipchains:76 /etc/rc.d/init.d/ipchains:77
-#: /etc/rc.d/init.d/iptables:86 /etc/rc.d/init.d/iptables:87
+#: /etc/rc.d/init.d/iptables:92 /etc/rc.d/init.d/iptables:93
 msgid "Resetting built-in chains to the default ACCEPT policy"
 msgstr "Reimpostazione delle chain per la policy ACCEPT di default"
+
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:32
+msgid "ERROR: [ipv6_log] Missing 'message' (arg 1)"
+msgstr ""
+
+#: /etc/sysconfig/network-scripts/ifup-aliases:65
+#, fuzzy
+msgid "usage: ifup-aliases <net-device> [<parent-config>]\n"
+msgstr "utilizzo: ifup-aliases <dispositivo-rete>\n"
 
 #: /etc/rc.d/init.d/radvd:68
 msgid "Usage: radvd {start|stop|status|restart|reload|condrestart}"
@@ -766,27 +779,27 @@ msgstr "Tempo per la configurazione dell'hardware scaduto."
 msgid "Starting YP passwd service: "
 msgstr "Avvio servizio passwd YP: "
 
-#: /etc/rc.d/rc.sysinit:158
+#: /etc/rc.d/rc.sysinit:164
 msgid "Setting hostname ${HOSTNAME}: "
 msgstr "Impostazione dell'hostname $(HOSTNAME): "
 
-#: /etc/rc.d/init.d/functions:145
+#: /etc/rc.d/init.d/functions:155
 msgid "Usage: killproc {program} [signal]"
 msgstr "Utilizzo: killproc {programma} [segnale]"
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:702
-msgid "Missing parameter 'device'"
-msgstr "parametro mancante 'dispositivo'"
+#: /etc/rc.d/init.d/ups:46
+msgid "Starting UPS monitor (slave): "
+msgstr "Avvio monitor UPS (slave): "
 
 #: /etc/rc.d/init.d/halt:163
 msgid "Unmounting file systems: "
 msgstr "Smontaggio dei filesystem: "
 
-#: /etc/rc.d/init.d/netfs:110
+#: /etc/rc.d/init.d/netfs:116
 msgid "Unmounting SMB filesystems: "
 msgstr "Smontaggio dei filesystem SMB: "
 
-#: /etc/rc.d/rc.sysinit:600
+#: /etc/rc.d/rc.sysinit:632
 msgid "Resetting hostname ${HOSTNAME}: "
 msgstr "Reimpostazine hostname $(HOSTNAME): "
 
@@ -794,21 +807,15 @@ msgstr "Reimpostazine hostname $(HOSTNAME): "
 msgid "/usr/sbin/dip does not exist or is not executable"
 msgstr "/usr/sbin/dip inesistente o non eseguibile"
 
-#: /etc/rc.d/init.d/network:63
-msgid "Bringing up interface lo: "
-msgstr "Attivazione interfaccia lo: "
+#: /etc/rc.d/init.d/lpd:34
+msgid "No Printers Defined"
+msgstr "Nessuna stampante definita"
 
-#: /etc/rc.d/init.d/junkbuster:62
-msgid "Usage: junkbuster {start|stop|restart|reload|condrestart|status}"
-msgstr "Utilizzo: junkbuster {start|stop|restart|reload|condrestart|status}"
+#: /etc/rc.d/rc.sysinit:49
+msgid "\t\tPress 'I' to enter interactive startup."
+msgstr "\t\tPress 'I' per entrare nello startup interattivo."
 
-#: /etc/sysconfig/network-scripts/ifdown-sit:66
-#: /etc/sysconfig/network-scripts/ifup-sit:99
-msgid "Tunnel creation mode '$IPV6_TUNNELMODE' not supported - skip!"
-msgstr ""
-"Modalità di creazione tunnel '$IPV6_TUNNELMODE' non supportata - ignorare!"
-
-#: /etc/rc.d/init.d/netfs:39
+#: /etc/rc.d/init.d/netfs:42
 msgid "Mounting NFS filesystems: "
 msgstr "Montaggio dei filesystem NFS: "
 
@@ -816,19 +823,19 @@ msgstr "Montaggio dei filesystem NFS: "
 msgid "Saving mixer settings"
 msgstr "Salvataggio impostazioni mixer"
 
-#: /etc/sysconfig/network-scripts/ifup:205
+#: /etc/sysconfig/network-scripts/ifup:192
 msgid "Failed to bring up ${DEVICE}."
 msgstr "Impossibile attivare ${DEVICE}."
 
-#: /etc/rc.d/init.d/halt:126
+#: /etc/rc.d/init.d/halt:124
 msgid "Turning off quotas: "
 msgstr "Disattivazione quote: "
 
-#: /etc/rc.d/init.d/halt:187
+#: /etc/rc.d/init.d/halt:190
 msgid "On the next boot fsck will be skipped."
 msgstr "Al prossimo avvio fsck verrà saltato."
 
-#: /etc/sysconfig/network-scripts/ifup:96
+#: /etc/sysconfig/network-scripts/ifup:88
 msgid ""
 "$alias device does not seem to be present, delaying ${DEVICE} initialization."
 msgstr ""
@@ -843,7 +850,7 @@ msgstr "Generazione chiave RSA"
 msgid "RSA1 key generation"
 msgstr "Generazione chiave RSA1"
 
-#: /etc/rc.d/init.d/ypserv:36
+#: /etc/rc.d/init.d/ypserv:44
 msgid "Stopping YP server services: "
 msgstr "Interruzione servizi server YP: "
 
@@ -855,41 +862,43 @@ msgstr "Generazione chiave DSA"
 msgid "  If the command 'raw' still refers to /dev/raw as a file."
 msgstr " Se il comando 'raw' si riferisce ancora a /dev/raw come un file."
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:222
+#: /etc/rc.d/init.d/atalk:91
+#, fuzzy
+msgid "Usage: atalk {start|stop|restart|status|condrestart}"
+msgstr "Utilizzo: $0 {start|stop|restart|status|condrestart}"
+
+#: /etc/sysconfig/network-scripts/ifup-ipv6:248
 msgid "Error occured while calculating the IPv6to4 prefix"
 msgstr "Si è verificato un errore durante il calcolo del prefisso IPv6to4"
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:107
+#: /etc/sysconfig/network-scripts/ifup-aliases:108
 #: /etc/sysconfig/network-scripts/network-functions:24
 msgid "Missing config file $PARENTCONFIG."
 msgstr "File config $PARENTCONFIG mancante."
 
-#: /etc/sysconfig/network-scripts/ifup-ppp:42
-msgid "/usr/sbin/pppd does not exist or is not executable"
-msgstr "/usr/sbin/pppd inesistente o non eseguibile"
-
-#: /etc/rc.d/init.d/functions:289
+#: /etc/rc.d/init.d/functions:300
 msgid "${base} is stopped"
 msgstr "${base} interrotto"
 
-#: /etc/rc.d/init.d/functions:297
+#: /etc/rc.d/init.d/functions:308
 msgid "OK"
 msgstr "OK"
 
-#: /etc/rc.d/init.d/halt:137 /etc/rc.d/init.d/netfs:55
-msgid "Unmounting loopback filesystems (retry):"
-msgstr "Smontaggio dei filesystem di loopback (riprova):"
-
-#: /etc/rc.d/rc.sysinit:566
+#: /etc/rc.d/rc.sysinit:603
 msgid "Enabling local filesystem quotas: "
 msgstr "Attivazione dei quota dei filesystem locali: "
 
-#: /etc/sysconfig/network-scripts/ifup:177
-#: /etc/sysconfig/network-scripts/ifup:179
+#: /etc/sysconfig/network-scripts/ifup:164
+#: /etc/sysconfig/network-scripts/ifup:166
 msgid " done."
 msgstr " fatto."
 
-#: /etc/rc.d/init.d/halt:185
+#: /etc/rc.d/init.d/ntpd:44
+#, fuzzy
+msgid "$prog: Synchronizing with time server: "
+msgstr "Sincronizzazione con l'ora del server: "
+
+#: /etc/rc.d/init.d/halt:188
 msgid "$message"
 msgstr "$message"
 
@@ -897,7 +906,7 @@ msgstr "$message"
 msgid "Telling INIT to go to single user mode."
 msgstr "INIT deve passare in modalità singolo utente."
 
-#: /etc/rc.d/rc.sysinit:38
+#: /etc/rc.d/rc.sysinit:39
 msgid "\\033[1;31m"
 msgstr "\\033[1;31m"
 
@@ -905,8 +914,8 @@ msgstr "\\033[1;31m"
 msgid "Stopping YP passwd service: "
 msgstr "Interruzione servizio passwd YP: "
 
-#: /etc/sysconfig/network-scripts/ifup:27
-#: /etc/sysconfig/network-scripts/ifup:35
+#: /etc/sysconfig/network-scripts/ifup:25
+#: /etc/sysconfig/network-scripts/ifup:33
 msgid "Usage: ifup <device name>"
 msgstr "Utilizzo: ifup <nome dispositivo>"
 
@@ -918,27 +927,23 @@ msgstr "Utilizzo: $0 {condrestart|start|stop|restart|reload|status}"
 msgid "/etc/sysconfig/network-scripts/dip-$DEVICE does not exist"
 msgstr "/etc/sysconfig/network-scripts/dip-$DEVICE inesistente"
 
+#: /etc/rc.d/init.d/network:199
+#, fuzzy
+msgid "Shutting down loopback interface: "
+msgstr "Chiusura dell'interfaccia $i: "
+
 #: /etc/rc.d/init.d/anacron:58 /etc/rc.d/init.d/atd:80
-#: /etc/rc.d/init.d/canna:59 /etc/rc.d/init.d/dhcpd:71 /etc/rc.d/init.d/gpm:86
-#: /etc/rc.d/init.d/ntpd:76 /etc/rc.d/init.d/sendmail:88
-#: /etc/rc.d/init.d/ups:100 /etc/rc.d/init.d/vncserver:77
+#: /etc/rc.d/init.d/canna:61 /etc/rc.d/init.d/dhcpd:71 /etc/rc.d/init.d/gpm:86
+#: /etc/rc.d/init.d/ntpd:93 /etc/rc.d/init.d/sendmail:92
+#: /etc/rc.d/init.d/ups:100 /etc/rc.d/init.d/vncserver:78
 msgid "Usage: $0 {start|stop|restart|condrestart|status}"
 msgstr "Utilizzo: $0 {start|stop|restart|condrestart|status}"
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:515
-msgid "Device '$device' enabling didn't work - FATAL ERROR!"
-msgstr ""
-"L'attivazione del dispositivo '$device' non ha funzionato - ERRORE FATALE!"
-
-#: /etc/rc.d/rc.sysinit:440
+#: /etc/rc.d/rc.sysinit:477
 msgid "Starting up RAID devices: "
 msgstr "Avvio dispositivi RAID: "
 
-#: /etc/rc.d/init.d/iptables:113
-msgid "Table: filter"
-msgstr "Tabella: filtro"
-
-#: /etc/rc.d/init.d/functions:191
+#: /etc/rc.d/init.d/functions:201
 msgid "$base $killlevel"
 msgstr "$base $killlevel"
 
@@ -950,7 +955,7 @@ msgstr "Invio del segnale KILL a tutti i processi..."
 msgid "Starting PCMCIA services:"
 msgstr "Avvio servizi PCMCIA:"
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:99
+#: /etc/sysconfig/network-scripts/ifup-ipv6:122
 msgid ""
 "Global IPv6 forwarding is disabled in configuration, but not currently "
 "disabled in kernel"
@@ -958,40 +963,34 @@ msgstr ""
 "Il forwarding IPv6 globale è disattivato nella configurazione, ma non è "
 "correntemente disattivato nel kernel."
 
-#: /etc/rc.d/init.d/iscsi:30
+#: /etc/rc.d/init.d/iscsi:29
 msgid "Could not find /etc/iscsi.conf!"
 msgstr "Impossibile trovare /etc/iscsi.conf!"
+
+#: /etc/rc.d/init.d/isdn:146 /etc/rc.d/init.d/isdn:148
+#, fuzzy
+msgid "Loading Firmware"
+msgstr "Caricamento configurazione tastiera"
 
 #: /etc/rc.d/init.d/pcmcia:158
 msgid "cardmgr (pid $pid) is running..."
 msgstr "cardmgr (pid $pid) in esecuzione..."
 
-#: /etc/rc.d/init.d/isdn:112
+#: /etc/rc.d/init.d/isdn:180
 msgid "Shutting down $prog"
 msgstr "Chiusura di $prog"
 
-#: /etc/sysconfig/network-scripts/ifup:218
+#: /etc/sysconfig/network-scripts/ifup:210
 msgid "Error adding address ${IPADDR} for ${DEVICE}."
 msgstr "Errore nell'aggiunta dell'indirizzo ${IPADDR} per ${DEVICE}"
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:653
-msgid ""
-"'prefix length' on given address '$testipv6addr_valid' is out of range "
-"(0-128)"
+#: /etc/rc.d/init.d/microcode_ctl:76
+msgid "$0: reading microcode status is not yet supported"
 msgstr ""
-"'lunghezza prefisso' per il dato indirizzo '$testipv6addr_valid' è fuori "
-"portata (0-128)"
 
-#: /etc/sysconfig/network-scripts/ifup-ppp:68
-msgid "/etc/sysconfig/network-scripts/chat-${DEVNAME} does not exist"
-msgstr "/etc/sysconfig/network-scripts/chat-${DEVNAME} inesistente"
-
-#: /etc/sysconfig/network-scripts/ifup-ipv6:195
-msgid ""
-"Using 6to4 and RADVD IPv6 forwarding usually should be enabled, but it isn't!"
-msgstr ""
-"L'utilizzo del forwarding di 6to4 e RADVD IPv6 dovrebbe solitamente essere "
-"attivato, ma non lo è!"
+#: /etc/rc.d/init.d/syslog:47
+msgid "Shutting down system logger: "
+msgstr "Chiusura logger del sistema: "
 
 #: /etc/rc.d/init.d/pcmcia:68
 msgid "PCIC module not defined in startup options!"
@@ -1001,23 +1000,19 @@ msgstr "Modulo PCIC non definito nelle opzioni di startup!"
 msgid "Stopping UPS monitor: "
 msgstr "Interruzione monitor UPS: "
 
-#: /etc/rc.d/rc.sysinit:571
-msgid "Turning on process accounting"
-msgstr "Attivazione accounting dei processi"
-
-#: /etc/rc.d/init.d/iptables:122
+#: /etc/rc.d/init.d/ip6tables:127 /etc/rc.d/init.d/iptables:127
 msgid "Changing target policies to DROP: "
 msgstr "Modifica della destinazioni delle policy in DROP: "
 
-#: /etc/rc.d/rc.sysinit:240 /etc/rc.d/rc.sysinit:523
+#: /etc/rc.d/rc.sysinit:277 /etc/rc.d/rc.sysinit:560
 msgid "*** An error occurred during the file system check."
 msgstr "*** Si è verificato un errore durante il controllo del filesystem."
 
-#: /etc/sysconfig/network-scripts/ifup:34
-msgid "$0: configuration for ${1} not found."
-msgstr "$0: configurazione per ${1} not trovata."
+#: /etc/sysconfig/network-scripts/ifup-ppp:70
+msgid "/etc/sysconfig/network-scripts/chat-${DEVNAME} does not exist"
+msgstr "/etc/sysconfig/network-scripts/chat-${DEVNAME} inesistente"
 
-#: /etc/rc.d/init.d/netfs:117
+#: /etc/rc.d/init.d/netfs:123
 msgid "Configured NFS mountpoints: "
 msgstr "Mount point NFS configurati: "
 
@@ -1025,34 +1020,24 @@ msgstr "Mount point NFS configurati: "
 msgid "Shutting down APM daemon: "
 msgstr "Chiusura demone APM: "
 
-#: /etc/rc.d/init.d/rawdevices:32 /etc/rc.d/init.d/rawdevices:39
-msgid "     rawdevices are now located in the directory /dev/raw/ "
-msgstr "     i dispositivi raw non si trovano nella directory /dev/raw "
+#: /etc/rc.d/rc.sysinit:216
+msgid "Your system appears to have shut down uncleanly"
+msgstr "Il sistema non è stato chiuso in modo corretto"
 
-#: /etc/rc.d/init.d/ipchains:58 /etc/rc.d/init.d/iptables:49
-#: /etc/rc.d/init.d/iptables:55 /etc/rc.d/init.d/iptables:56
+#: /etc/rc.d/init.d/ip6tables:55 /etc/rc.d/init.d/ip6tables:61
+#: /etc/rc.d/init.d/ip6tables:62 /etc/rc.d/init.d/ipchains:58
+#: /etc/rc.d/init.d/iptables:55 /etc/rc.d/init.d/iptables:61
+#: /etc/rc.d/init.d/iptables:62
 msgid "Clearing all current rules and user defined chains:"
 msgstr ""
 "Cancellazione di tutte le regole correnti e delle chains definite "
 "dall'utente:"
 
-#: /etc/rc.d/init.d/autofs:246
+#: /etc/rc.d/init.d/autofs:286
 msgid "$prog not running"
 msgstr "$prog non in esecuzione"
 
-#: /etc/rc.d/init.d/junkbuster:33
-msgid "Stopping junkbuster: "
-msgstr "Interruzione di junkbuster: "
-
-#: /etc/rc.d/rc.sysinit:43
-msgid "\t\tPress 'I' to enter interactive startup."
-msgstr "\t\tPress 'I' per entrare nello startup interattivo."
-
-#: /etc/rc.d/init.d/network:251 /etc/rc.d/init.d/network:255
-msgid "Adding internal IPX network $IPXINTERNALNETNUM $IPXINTERNALNODENUM: "
-msgstr "Aggiunta rete interna IPX $IPXINTERNALNETNUM $IPXINTERNALNODENUM: "
-
-#: /etc/sysconfig/network-scripts/ifup-ipv6:82
+#: /etc/sysconfig/network-scripts/ifup-ipv6:105
 msgid ""
 "Global IPv6 forwarding is enabled in configuration, but not currently "
 "enabled in kernel"
@@ -1060,24 +1045,31 @@ msgstr ""
 "Il forwarding IPv6 globale è attivato nella configurazione, ma non nel "
 "kernel."
 
-#: /etc/rc.d/init.d/network:242
-msgid "Bringing up alias $device: "
-msgstr "Attivazione $device alias: "
-
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:942
-msgid "Tunnel device '$device' bringing up didn't work - ERROR!"
+#: /etc/sysconfig/network-scripts/ifup-ipv6:106
+#: /etc/sysconfig/network-scripts/ifup-ipv6:123
+msgid "Please restart network with '/sbin/service network restart'"
 msgstr ""
-"L'attivazione del dispositivo tunnel '$device' non ha funzionato - ERRORE!"
+
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:95
+msgid "ERROR: [ipv6_log] Loglevel isn't valid '$level' (arg 2)"
+msgstr ""
 
 #: /etc/rc.d/init.d/gpm:25 /etc/rc.d/init.d/gpm:30
 msgid "(no mouse is configured)"
 msgstr "(nessun mouse configurato)"
 
-#: /etc/rc.d/rc.sysinit:130
+#: /etc/sysconfig/network-scripts/ifup-ippp:353
+#: /etc/sysconfig/network-scripts/ifup-isdn:353
+msgid ""
+"Warning: ipppd (kernel 2.4.x and below) doesn't support IPv6 using "
+"encapsulation 'syncppp'"
+msgstr ""
+
+#: /etc/rc.d/rc.sysinit:136
 msgid "Loading default keymap ($KEYTABLE): "
 msgstr "Caricamento configurazione tastiera di default ($KEYTABLE): "
 
-#: /etc/rc.d/init.d/postgresql:176
+#: /etc/rc.d/init.d/postgresql:178
 msgid "Stopping postgresql service: "
 msgstr "Interruzione servizio postgresql: "
 
@@ -1089,7 +1081,7 @@ msgstr "."
 msgid "$0: call me as 'rc.halt' or 'rc.reboot' please!"
 msgstr "$0: da definire come 'rc.halt' o 'rc.reboot'!"
 
-#: /etc/rc.d/rc.sysinit:543
+#: /etc/rc.d/rc.sysinit:580
 msgid "Mounting local filesystems: "
 msgstr "Montaggio dei filesystem locali: "
 
@@ -1097,25 +1089,26 @@ msgstr "Montaggio dei filesystem locali: "
 msgid "Starting YP map server: "
 msgstr "Avvio del server map YP: "
 
-#: /etc/rc.d/rc.sysinit:37
-msgid "\t\t\tWelcome to "
-msgstr "\t\t\tBenvenuti in "
+#: /etc/rc.d/init.d/psacct:19
+#, fuzzy
+msgid "Starting process accounting: "
+msgstr "Attivazione accounting dei processi"
 
-#: /etc/rc.d/rc.sysinit:40
+#: /etc/rc.d/rc.sysinit:41
 msgid "\\033[0;39m"
 msgstr "\\033[0;39m"
 
-#: /etc/rc.d/rc.sysinit:168
+#: /etc/rc.d/rc.sysinit:174
 msgid "Initializing USB controller ($alias): "
 msgstr "Inizializzazione del controller USB ($alias): "
 
-#: /etc/rc.d/init.d/httpd:74 /etc/rc.d/init.d/lpd:92
+#: /etc/rc.d/init.d/httpd:61 /etc/rc.d/init.d/lpd:92 /etc/rc.d/init.d/xfs:84
 msgid "Reloading $prog: "
 msgstr "Ricaricamento $prog: "
 
-#: /etc/rc.d/rc.sysinit:166
-msgid "Mounting USB filesystem: "
-msgstr "Montaggio filesystem USB: "
+#: /etc/rc.d/init.d/network:118 /etc/rc.d/init.d/network:140
+msgid "Bringing up interface $i: "
+msgstr "Attivazione interfaccia $i: "
 
 #: /etc/rc.d/init.d/random:44
 msgid "The random data source exists"
@@ -1125,7 +1118,7 @@ msgstr "La sorgente casuale di dati esiste"
 msgid "Stopping NetWare emulator-server: "
 msgstr "Interruzione del servere emulatore NetWare: "
 
-#: /etc/rc.d/init.d/kudzu:75 /etc/rc.d/init.d/linuxconf:29
+#: /etc/rc.d/init.d/kudzu:75
 msgid "Usage: $0 {start|stop}"
 msgstr "Utilizzo: $0 {start|stop}"
 
@@ -1134,84 +1127,62 @@ msgstr "Utilizzo: $0 {start|stop}"
 msgid "ifup-sl for $DEVICE exiting"
 msgstr "ifup-sl per $DEVICE esistente"
 
-#: /etc/rc.d/rc.sysinit:63
-msgid "Configuring kernel parameters: "
-msgstr "Configurazione parametri del kernel: "
+#: /etc/rc.d/init.d/ip6tables:172 /etc/rc.d/init.d/iptables:172
+msgid "Usage: $0 {start|stop|restart|condrestart|status|panic|save}"
+msgstr "Utilizzo: $0 {start|stop|restart|condrestart|status|panic|save}"
 
-#: /etc/rc.d/rc.sysinit:356
+#: /etc/rc.d/rc.sysinit:393
 msgid "Setting hard drive parameters for ${disk[$device]}: "
 msgstr "Impostazione parametri disco fisso per ${disk[$device]}: "
 
-#: /etc/rc.d/init.d/netfs:79
+#: /etc/rc.d/init.d/netfs:85
 msgid "Unmounting network block filesystems: "
 msgstr "Smontaggio dei filesystem blocco di rete: "
 
-#: /etc/rc.d/init.d/halt:143 /etc/rc.d/init.d/netfs:61
+#: /etc/rc.d/init.d/halt:142 /etc/rc.d/init.d/netfs:65
 msgid "Detaching loopback device $dev: "
 msgstr "Distaccamento del dispositivo di loopback $dev: "
 
-#: /etc/rc.d/init.d/network:245
-msgid "Bringing up route $device: "
-msgstr "Attivazione $device route: "
+#: /etc/rc.d/init.d/atalk:23
+#, fuzzy
+msgid "Starting AppleTalk services: "
+msgstr "Avvio servizi rstat: "
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:1022
-msgid "Given IPv6 MTU is out of range"
-msgstr "L'IPv6 MTU fornito è fuori portata"
+#: /etc/rc.d/init.d/smb:109 /etc/rc.d/init.d/winbind:96
+#, fuzzy
+msgid "Usage: $0 {start|stop|restart|reload|status|condrestart}"
+msgstr "Utilizzo: $0 {start|stop|restart|status|condrestart}"
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:89
-msgid "Missing parameter 'forwarding control' (arg 1)"
-msgstr "Parametro mancante 'controllo del forwarding' (arg 1)"
-
-#: /etc/rc.d/init.d/halt:139
-msgid "Unmounting loobpack filesystems: "
-msgstr "Smontaggio dei filesystem di loopback: "
-
-#: /etc/rc.d/init.d/mysqld:29
+#: /etc/rc.d/init.d/mysqld:28
 msgid "Initializing MySQL database: "
 msgstr "Inizializzazione del database MySQL: "
 
-#: /etc/rc.d/init.d/network:61
-msgid "Setting network parameters: "
-msgstr "Impostazione parametri di rete: "
-
-#: /etc/rc.d/rc.sysinit:267 /etc/rc.d/rc.sysinit:551
+#: /etc/rc.d/rc.sysinit:304 /etc/rc.d/rc.sysinit:588
 msgid "Converting old user quota files: "
 msgstr "Conversione dei file quota del vecchio utente:"
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:168
-msgid ""
-"Given address of relay is not a globally usable one, 6to4 configuration is "
-"not valid!"
-msgstr ""
-"L'indirizzo di relé fornito non è globalmente utilizzabile, la "
-"configurazione di 6to4 non è valida!"
+#: /etc/rc.d/init.d/network:66
+msgid "Setting network parameters: "
+msgstr "Impostazione parametri di rete: "
 
-#: /etc/rc.d/init.d/iptables:115
-msgid "Table: nat"
-msgstr "Tabella: nat"
-
-#: /etc/rc.d/init.d/network:250 /etc/rc.d/init.d/network:259
-msgid "Deleting internal IPX network: "
-msgstr "Cancellazione rete interna IPX: "
-
-#: /etc/rc.d/init.d/netfs:111
+#: /etc/rc.d/init.d/netfs:117
 msgid "Unmounting NCP filesystems: "
 msgstr "Smontaggio dei filesystem NCP: "
 
-#: /etc/rc.d/rc.sysinit:149
+#: /etc/rc.d/rc.sysinit:155
 msgid "Setting default font ($SYSFONT): "
 msgstr "Impostazione font di default ($SYSFONT): "
 
-#: /etc/sysconfig/network-scripts/ifup:181
+#: /etc/sysconfig/network-scripts/ifup:168
 msgid " failed."
 msgstr "fallito."
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:335
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:382
-msgid "Missing parameter 'IPv6-route' (arg 3)"
-msgstr "Parametro mancante 'IPvs-route' (arg 3)"
+#: /etc/rc.d/init.d/ip6tables:166 /etc/rc.d/init.d/ip6tables:167
+#: /etc/rc.d/init.d/iptables:166 /etc/rc.d/init.d/iptables:167
+msgid "Saving current rules to $IPTABLES_CONFIG"
+msgstr "Salvataggio regole correnti in $IPTABLES_CONFIG"
 
-#: /etc/rc.d/init.d/netfs:99
+#: /etc/rc.d/init.d/netfs:105
 msgid "Unmounting NFS filesystems: "
 msgstr "Smontaggio dei filesystem NFS: "
 
@@ -1219,25 +1190,20 @@ msgstr "Smontaggio dei filesystem NFS: "
 msgid "Usage: $0 {start|stop|restart|status|panic|save}"
 msgstr "Utilizzo: $0 {start|stop|restart|status|panic|save}"
 
-#: /etc/rc.d/init.d/netfs:44
+#: /etc/rc.d/init.d/netfs:47
 msgid "Mounting other filesystems: "
 msgstr "Montaggio altri filesystem: "
 
 #: /etc/sysconfig/network-scripts/ifdown:29
-#: /etc/sysconfig/network-scripts/ifup:45
+#: /etc/sysconfig/network-scripts/ifup:43
 msgid "Users cannot control this device."
 msgstr "Gli utenti non possono controllare questo dispositivo."
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:632
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:638
-msgid "Given IPv6 address '$testipv6addr_valid' is not valid"
-msgstr "L'indirizzo IPv6 '$testipv6addr_valid' non è valido"
-
-#: /etc/rc.d/init.d/network:209
+#: /etc/rc.d/init.d/network:224
 msgid "Configured devices:"
 msgstr "Dispositivi configurati:"
 
-#: /etc/rc.d/rc.sysinit:271 /etc/rc.d/rc.sysinit:556
+#: /etc/rc.d/rc.sysinit:308 /etc/rc.d/rc.sysinit:593
 msgid "Converting old group quota files: "
 msgstr "Conversione dei file di quota del vecchio gruppo: "
 
@@ -1245,24 +1211,15 @@ msgstr "Conversione dei file di quota del vecchio gruppo: "
 msgid "Sending all processes the TERM signal..."
 msgstr "Invio del segnale TERM a tutti i processi..."
 
-#: /etc/rc.d/init.d/netfs:121
+#: /etc/rc.d/init.d/netfs:127
 msgid "Configured SMB mountpoints: "
 msgstr "Mount point SMB configurati: "
 
-#: /etc/rc.d/init.d/netfs:77
+#: /etc/rc.d/init.d/netfs:83
 msgid "Unmounting network block filesystems (retry): "
 msgstr "Smontaggio dei filesystem blocco di rete (riprova):"
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:114
-msgid ""
-"IPv6 forwarding per device cannot be controlled via sysctl - use netfilter6 "
-"instead!"
-msgstr ""
-"Il forwarding IPv6 per dispositivo non può essere controllato tramite sysctl "
-"- utilizzate netfilter6"
-
-#: /etc/rc.d/init.d/isdn:182 /etc/rc.d/init.d/ldap:115
-#: /etc/rc.d/init.d/smb:109
+#: /etc/rc.d/init.d/isdn:258 /etc/rc.d/init.d/ldap:115
 msgid "Usage: $0 {start|stop|restart|status|condrestart}"
 msgstr "Utilizzo: $0 {start|stop|restart|status|condrestart}"
 
@@ -1272,29 +1229,31 @@ msgstr ""
 "Esegui '/usr/sbin/kudzu' dalla linea di comando per effettuare di nuovo il "
 "rilevamento."
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:341
+#: /etc/sysconfig/network-scripts/ifup-aliases:315
 msgid "error in $FILE: IPADDR_START greater than IPADDR_END"
 msgstr "errore in $FILE: IPADDR_START è più grande di IPADDR_END"
 
-#: /etc/rc.d/init.d/halt:161
-msgid "Unmounting file systems (retry): "
-msgstr "Smontaggio dei filesystem (riprova): "
+#: /etc/rc.d/init.d/ip6tables:66
+#, fuzzy
+msgid "Applying ip6tables firewall rules: "
+msgstr "Applicazione delle regole iptable di configurazione del firewall: "
 
-#: /etc/rc.d/init.d/functions:135 /etc/rc.d/init.d/functions:137
-#: /etc/rc.d/init.d/named:51 /etc/rc.d/init.d/named:52
+#: /etc/rc.d/init.d/functions:147 /etc/rc.d/init.d/named:51
+#: /etc/rc.d/init.d/named:52
 msgid "$base startup"
 msgstr "Avvio $base"
 
-#: /etc/rc.d/init.d/FreeWnn:43 /etc/rc.d/init.d/bgpd:33
-#: /etc/rc.d/init.d/dhcpd:38 /etc/rc.d/init.d/irda:28 /etc/rc.d/init.d/ntpd:43
-#: /etc/rc.d/init.d/ospf6d:33 /etc/rc.d/init.d/ospfd:34
-#: /etc/rc.d/init.d/ripd:33 /etc/rc.d/init.d/ripngd:33
-#: /etc/rc.d/init.d/sendmail:55 /etc/rc.d/init.d/vncserver:40
-#: /etc/rc.d/init.d/xfs:67 /etc/rc.d/init.d/zebra:31
+#: /etc/rc.d/init.d/bgpd:33 /etc/rc.d/init.d/dhcpd:38
+#: /etc/rc.d/init.d/FreeWnn:43 /etc/rc.d/init.d/irda:28
+#: /etc/rc.d/init.d/ntpd:60 /etc/rc.d/init.d/ospf6d:33
+#: /etc/rc.d/init.d/ospfd:34 /etc/rc.d/init.d/ripd:33
+#: /etc/rc.d/init.d/ripngd:33 /etc/rc.d/init.d/sendmail:59
+#: /etc/rc.d/init.d/vncserver:41 /etc/rc.d/init.d/xfs:70
+#: /etc/rc.d/init.d/zebra:31
 msgid "Shutting down $prog: "
 msgstr "Chiusura di $prog: "
 
-#: /etc/rc.d/init.d/postgresql:98
+#: /etc/rc.d/init.d/postgresql:107
 msgid ""
 "An old version of the database format was found.\n"
 "You need to upgrade the data format before using PostgreSQL.\n"
@@ -1302,58 +1261,63 @@ msgid ""
 msgstr ""
 "E' stata trovata una vecchia versione del formato database.\n"
 "Dovete aggiornare i dati del formato prima di usare PostgreSQL.\n"
-"Per maggiori informazioni, consultate "
-"$SYSDOCDIR/postgresql-$PGVERSION/README.rpm-dist."
+"Per maggiori informazioni, consultate $SYSDOCDIR/postgresql-$PGVERSION/"
+"README.rpm-dist."
 
-#: /etc/rc.d/rc.sysinit:247 /etc/rc.d/rc.sysinit:495 /etc/rc.d/rc.sysinit:530
-msgid "Unmounting file systems"
-msgstr "Smontaggio dei filesystem"
+#: /etc/rc.d/init.d/named:108
+msgid "Usage: $0 {start|stop|status|restart|condrestart|reload|probe}"
+msgstr "Utilizzo: $0 {start|stop|status|restart|condrestart|reload|probe}"
 
-#: /etc/rc.d/init.d/iptables:117
-msgid "Table: mangle"
-msgstr "Tabella: mangle"
+#: /etc/rc.d/init.d/functions:341
+msgid "WARNING"
+msgstr ""
 
-#: /etc/rc.d/init.d/halt:189
+#: /etc/rc.d/init.d/halt:192
 msgid "On the next boot fsck will be forced."
 msgstr "Al prossimo avvio fsck verrà forzato."
 
-#: /etc/rc.d/init.d/halt:124
-msgid "Turning off accounting: "
-msgstr "Disattivazione accounting: "
+#: /etc/rc.d/rc.sysinit:242
+msgid "Not forcing file system integrity check due to default setting"
+msgstr ""
+"Nessun controllo forzato dell'integrità del filesystem (impostazione di "
+"default)"
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:703
-msgid "Usage: ifdown_ipv6to4_all interfacename"
-msgstr "Utilizzo: ifdown_ipv6to4_all interfacename"
+#: /etc/rc.d/init.d/sshd:34
+msgid "Generating SSH1 RSA host key: "
+msgstr "Generazione host key SSH1 RSA: "
 
-#: /etc/rc.d/rc.sysinit:41
-msgid " Linux"
-msgstr " Linux"
+#: /etc/rc.d/init.d/innd:109 /etc/rc.d/init.d/kprop:67
+#: /etc/rc.d/init.d/krb524:66 /etc/rc.d/init.d/syslog:80
+#: /etc/rc.d/init.d/ypbind:104
+msgid "Usage: $0 {start|stop|status|restart|condrestart}"
+msgstr "Utilizzo: $0 {start|stop|status|restart|condrestart}"
 
-#: /etc/rc.d/init.d/iscsi:55
+#: /etc/rc.d/init.d/iscsi:60
 msgid "Stopping iSCSI: iscsilun"
 msgstr "Arresto di iSCSI: iscsilun"
+
+#: /etc/sysconfig/network-scripts/ifup-sit:75
+msgid "Device '$DEVICE' is already up, please shutdown first"
+msgstr ""
+
+#: /etc/rc.d/rc.sysinit:161
+msgid "Activating swap partitions: "
+msgstr "Attivazione partizioni dello swap: "
 
 #: /etc/rc.d/init.d/gated:30
 msgid "Not starting $prog: "
 msgstr "$prog non in avvio: "
 
+#: /etc/rc.d/rc.sysinit:37
+#, fuzzy
+msgid "\t\tWelcome to "
+msgstr "\t\t\tBenvenuti in "
+
 #: /etc/rc.d/init.d/iscsi:41
 msgid "Couldn't load module $DRIVER_MODULE"
 msgstr "Impossibile caricare il modulo $DRIVER_MODULE"
 
-#: /etc/rc.d/init.d/named:117
-msgid "Usage: $0 {start|stop|status|restart|condrestart|reload|probe}"
-msgstr "Utilizzo: $0 {start|stop|status|restart|condrestart|reload|probe}"
-
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:64
-msgid ""
-"Utility 'ip' (from the iproute package) doesn't exist or isn't executable - "
-"non-NBMA-styled tunneling setup won't work!"
-msgstr ""
-"L'utility 'ip' (dal pacchetto iproute) non esiste o non è eseguibile - la "
-"configurazione di tunneling di tipo non NBMA non funzionerà!"
-
-#: /etc/rc.d/init.d/network:194
+#: /etc/rc.d/init.d/network:209
 msgid "Disabling IPv4 automatic defragmentation: "
 msgstr "Disabilitazione deframmentazione automatica IPv4: "
 
@@ -1361,31 +1325,25 @@ msgstr "Disabilitazione deframmentazione automatica IPv4: "
 msgid "Usage: (halt|reboot) {start}"
 msgstr "Utilizzo: (halt|reboot) {start}"
 
-#: /etc/rc.d/init.d/httpd:86 /etc/rc.d/init.d/ospf6d:56
-msgid "Usage: $prog {start|stop|restart|reload|condrestart|status}"
-msgstr "Utilizzo: $prog {start|stop|restart|reload|condrestart|status}"
+#: /etc/sysconfig/network-scripts/ifup-ipv6:210
+msgid "Warning: interface 'tun6to4' does not support 'IPV6_DEFAULTGW', ignored"
+msgstr ""
 
-#: /etc/rc.d/init.d/iscsi:102 /etc/rc.d/init.d/rawdevices:77
+#: /etc/rc.d/init.d/iscsi:109 /etc/rc.d/init.d/rawdevices:77
 #: /etc/rc.d/init.d/rstatd:63 /etc/rc.d/init.d/rusersd:66
 #: /etc/rc.d/init.d/rwalld:64 /etc/rc.d/init.d/rwhod:63
 msgid "Usage: $0 {start|stop|status|restart}"
 msgstr "Utilizzo: $0 {start|stop|status|restart}"
 
-#: /etc/rc.d/init.d/ipchains:57 /etc/rc.d/init.d/iptables:48
-#: /etc/rc.d/init.d/iptables:52 /etc/rc.d/init.d/iptables:53
+#: /etc/rc.d/init.d/ip6tables:54 /etc/rc.d/init.d/ip6tables:58
+#: /etc/rc.d/init.d/ip6tables:59 /etc/rc.d/init.d/ipchains:57
+#: /etc/rc.d/init.d/iptables:54 /etc/rc.d/init.d/iptables:58
+#: /etc/rc.d/init.d/iptables:59
 msgid "Flushing all current rules and user defined chains:"
 msgstr ""
 "Flushing di tutte le regole correnti e delle chain definite dall'utente:"
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:916
-msgid ""
-"Given remote address '$addressipv4tunnel' on tunnel device '$device' is "
-"already configured on device '$devnew' - FATAL ERROR!"
-msgstr ""
-"L'indirizzo remoto fornito '$addressipv4tunnel' sul dispositivo tunnel "
-"'$device' è già configurato sul dispositivo '$devnew' - ERRORE FATALE!"
-
-#: /etc/rc.d/init.d/rhnsd:82 /etc/rc.d/init.d/snmpd:74
+#: /etc/rc.d/init.d/rhnsd:82 /etc/rc.d/init.d/snmpd:73
 #: /etc/rc.d/init.d/xinetd:115
 msgid "Usage: $0 {start|stop|status|restart|condrestart|reload}"
 msgstr "Utilizzo: $0 {start|stop|status|restart|condrestart|reload}"
@@ -1398,27 +1356,23 @@ msgstr "cardmgr interrotto"
 msgid "Stopping rwho services: "
 msgstr "Interruzione servizi rwho: "
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:164
-msgid ""
-"Given IPv6 address of relay is not a 6to4 one, 6to4 configuration is not "
-"valid!"
-msgstr ""
-"L'indirizzo di relé IPv6 fornito non è del tipo 6to4, la configurazione di "
-"6to4 non è valida!"
+#: /etc/rc.d/init.d/syslog:37
+msgid "Starting kernel logger: "
+msgstr "Avvio logger del kernel: "
 
-#: /etc/sysconfig/network-scripts/ifup:126
+#: /etc/sysconfig/network-scripts/ifup:113
 msgid "Enslaving ${DEVICE} to ${MASTER}"
 msgstr "${DEVICE} diventa slave di ${MASTER}"
 
-#: /etc/rc.d/init.d/smb:42 /etc/rc.d/init.d/smb:47
+#: /etc/rc.d/init.d/smb:42 /etc/rc.d/init.d/smb:47 /etc/rc.d/init.d/winbind:40
 msgid "Starting $KIND services: "
 msgstr "Avvio servizi $KIND: "
 
-#: /etc/rc.d/init.d/iptables:157
+#: /etc/rc.d/init.d/ip6tables:162 /etc/rc.d/init.d/iptables:162
 msgid "Saving current rules to $IPTABLES_CONFIG: "
 msgstr "Salvataggio regole correnti in $IPTABLES_CONFIG: "
 
-#: /etc/rc.d/init.d/functions:308
+#: /etc/rc.d/init.d/functions:319
 msgid "FAILED"
 msgstr "FALLITO"
 
@@ -1426,32 +1380,32 @@ msgstr "FALLITO"
 msgid " cardmgr"
 msgstr " cardmgr"
 
-#: /etc/rc.d/rc.sysinit:275
+#: /etc/rc.d/rc.sysinit:312
 msgid "Checking root filesystem quotas: "
 msgstr "Controllo quote filesystem root: "
 
-#: /etc/rc.d/init.d/network:214
-msgid "Devices that are down:"
-msgstr "Dispositivi non attivi: "
+#: /etc/rc.d/init.d/rawdevices:32 /etc/rc.d/init.d/rawdevices:39
+msgid "     rawdevices are now located in the directory /dev/raw/ "
+msgstr "     i dispositivi raw non si trovano nella directory /dev/raw "
 
-#: /etc/rc.d/init.d/netfs:125
-msgid "Configured NCP mountpoints: "
-msgstr "Mount point NCP configurati: "
+#: /etc/rc.d/init.d/ntpd:42
+msgid "$prog: No servers in $ntpconf and $ntpstep"
+msgstr ""
 
 #: /etc/rc.d/init.d/rawdevices:55
 msgid "Assigning devices: "
 msgstr "Assegnazione dispositivi: "
 
-#: /etc/sysconfig/network-scripts/ifup:210
+#: /etc/sysconfig/network-scripts/ifup:197
 msgid "Error, some other host already uses address ${IPADDR}."
 msgstr "Errore, un altro host usa già l'indirizzo ${IPADDR}."
 
-#: /etc/rc.d/init.d/vncserver:49 /etc/rc.d/init.d/vncserver:50
+#: /etc/rc.d/init.d/vncserver:50 /etc/rc.d/init.d/vncserver:51
 msgid "vncserver shutdown"
 msgstr "Chiusura vncserver"
 
-#: /etc/sysconfig/network-scripts/ifdown:63
-#: /etc/sysconfig/network-scripts/ifup:112
+#: /etc/sysconfig/network-scripts/ifdown:64
+#: /etc/sysconfig/network-scripts/ifup:99
 msgid "Device ${DEVICE} has different MAC address than expected, ignoring."
 msgstr ""
 "Il dispositivo ${DEVICE} ha un indirizzo di MAC diverso da quello atteso, "
@@ -1469,39 +1423,22 @@ msgstr "Generazione host key SSH2 DSA: "
 msgid " cardmgr is already running."
 msgstr " cardmgr già in esecuzione."
 
-#: /etc/rc.d/init.d/postgresql:137
+#: /etc/rc.d/init.d/postgresql:146
 msgid "Postmaster already running."
 msgstr "Postmaster già in esecuzione."
+
+#: /etc/rc.d/init.d/psacct:23
+#, fuzzy
+msgid "Shutting down process accounting: "
+msgstr "Attivazione accounting dei processi"
 
 #: /etc/rc.d/init.d/identd:37
 msgid "Generating ident key: "
 msgstr "Generazione chiave ident: "
 
-#: /etc/rc.d/init.d/FreeWnn:32 /etc/rc.d/init.d/amd:30
-#: /etc/rc.d/init.d/anacron:15 /etc/rc.d/init.d/arpwatch:28
-#: /etc/rc.d/init.d/atd:29 /etc/rc.d/init.d/bgpd:26
-#: /etc/rc.d/init.d/bootparamd:29 /etc/rc.d/init.d/cWnn:31
-#: /etc/rc.d/init.d/canna:26 /etc/rc.d/init.d/crond:24
-#: /etc/rc.d/init.d/dhcpd:28 /etc/rc.d/init.d/gated:39
-#: /etc/rc.d/init.d/httpd:43 /etc/rc.d/init.d/identd:45
-#: /etc/rc.d/init.d/irda:20 /etc/rc.d/init.d/kWnn:31
-#: /etc/rc.d/init.d/kadmin:40 /etc/rc.d/init.d/kprop:30
-#: /etc/rc.d/init.d/krb524:30 /etc/rc.d/init.d/krb5kdc:30
-#: /etc/rc.d/init.d/ldap:38 /etc/rc.d/init.d/ldap:50 /etc/rc.d/init.d/lpd:28
-#: /etc/rc.d/init.d/mcserv:25 /etc/rc.d/init.d/mysqld:41
-#: /etc/rc.d/init.d/mysqld:43 /etc/rc.d/init.d/named:35
-#: /etc/rc.d/init.d/nscd:49 /etc/rc.d/init.d/ntpd:33
-#: /etc/rc.d/init.d/ospf6d:26 /etc/rc.d/init.d/ospfd:27
-#: /etc/rc.d/init.d/portmap:50 /etc/rc.d/init.d/pxe:23
-#: /etc/rc.d/init.d/radvd:38 /etc/rc.d/init.d/rarpd:22
-#: /etc/rc.d/init.d/ripd:26 /etc/rc.d/init.d/ripngd:26
-#: /etc/rc.d/init.d/rwalld:24 /etc/rc.d/init.d/sendmail:38
-#: /etc/rc.d/init.d/snmpd:21 /etc/rc.d/init.d/squid:57
-#: /etc/rc.d/init.d/tWnn:31 /etc/rc.d/init.d/ups:37
-#: /etc/rc.d/init.d/vncserver:22 /etc/rc.d/init.d/xfs:55
-#: /etc/rc.d/init.d/xinetd:45 /etc/rc.d/init.d/zebra:24
-msgid "Starting $prog: "
-msgstr "Avvio di $prog: "
+#: /etc/rc.d/init.d/halt:136 /etc/rc.d/init.d/netfs:59
+msgid "Unmounting loopback filesystems (retry):"
+msgstr "Smontaggio dei filesystem di loopback (riprova):"
 
 #: /etc/rc.d/init.d/innd:33
 msgid "Starting INND system: "
@@ -1515,36 +1452,28 @@ msgstr "Avvio servizi routed (RIP): "
 msgid "Generating SSH2 RSA host key: "
 msgstr "Generazione host key SSH2 RSA: "
 
-#: /etc/rc.d/init.d/nscd:67 /etc/rc.d/init.d/nscd:69
+#: /etc/rc.d/init.d/autofs:262 /etc/rc.d/init.d/nscd:67
+#: /etc/rc.d/init.d/nscd:69
 msgid "$prog shutdown"
 msgstr "Chiusura $prog"
 
-#: /etc/rc.d/init.d/syslog:30
+#: /etc/rc.d/init.d/syslog:33
 msgid "Starting system logger: "
 msgstr "Avvio logger del sistema: "
 
-#: /etc/rc.d/init.d/vncserver:34
-msgid "vncserver start"
-msgstr "Avvio vncserver"
+#: /etc/rc.d/init.d/ospf6d:56
+msgid "Usage: $prog {start|stop|restart|reload|condrestart|status}"
+msgstr "Utilizzo: $prog {start|stop|restart|reload|condrestart|status}"
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:225
-msgid "RADVD control enabled, but config is not complete!"
-msgstr "Controllo RADVD attivato, ma config non è completo!"
+#: /etc/rc.d/init.d/psacct:30
+msgid "Process accounting is disabled."
+msgstr ""
 
-#: /etc/rc.d/init.d/functions:213
+#: /etc/rc.d/init.d/functions:223
 msgid "Usage: pidfileofproc {program}"
 msgstr "Utilizzo: pidfileofproc {programma}"
 
-#: /etc/rc.d/init.d/named:71
-msgid "$prog not running."
-msgstr "$prog non in esecuzione."
-
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:137
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:184
-msgid "Missing parameter 'IPv6-gateway' (arg 2)"
-msgstr "Parametro mancante 'IPv6-gateway' (arg 2)"
-
-#: /etc/rc.d/init.d/functions:264
+#: /etc/rc.d/init.d/functions:275
 msgid "Usage: status {program}"
 msgstr "Utilizzo: stato {programma}"
 
@@ -1552,15 +1481,18 @@ msgstr "Utilizzo: stato {programma}"
 msgid "Shutting down NIS services: "
 msgstr "Chiusura servizi NIS: "
 
-#: /etc/rc.d/init.d/rawdevices:31 /etc/rc.d/init.d/rawdevices:38
-msgid "  Please correct your /etc/sysconfig/rawdevices:"
-msgstr " Correggere /etc/sysconfig/rawdevices:"
+#: /etc/rc.d/init.d/httpd:97
+#, fuzzy
+msgid ""
+"Usage: $prog {start|stop|restart|condrestart|reload|status|fullstatus|"
+"graceful|help|configtest}"
+msgstr "Utilizzo: $0 {start|stop|restart|condrestart|reload|status}"
 
 #: /etc/rc.d/init.d/ups:66
 msgid "Shutting down $MODEL: "
 msgstr "Chiusura $MODEL: "
 
-#: /etc/rc.d/init.d/keytable:34
+#: /etc/rc.d/init.d/keytable:32
 msgid "Loading system font: "
 msgstr "Caricamento font di sistema: "
 
@@ -1568,7 +1500,7 @@ msgstr "Caricamento font di sistema: "
 msgid "Reloading INN Service: "
 msgstr "Ricaricamento INN Service: "
 
-#: /etc/rc.d/init.d/autofs:250
+#: /etc/rc.d/init.d/autofs:290
 msgid "Checking for changes to /etc/auto.master ...."
 msgstr "Controllo modifiche a /etc/auto.master ...."
 
@@ -1576,78 +1508,261 @@ msgstr "Controllo modifiche a /etc/auto.master ...."
 msgid "Starting Red Hat Network Daemon: "
 msgstr "Avvio demone Red Hat Network: "
 
-#: /etc/rc.d/rc.sysinit:241 /etc/rc.d/rc.sysinit:489 /etc/rc.d/rc.sysinit:524
+#: /etc/rc.d/rc.sysinit:278 /etc/rc.d/rc.sysinit:526 /etc/rc.d/rc.sysinit:561
 msgid "*** Dropping you to a shell; the system will reboot"
 msgstr "*** Permanenza in una shell; il sistema si riavvierà"
 
-#: /etc/rc.d/init.d/autofs:268
+#: /etc/rc.d/init.d/autofs:308
 msgid "Start $x"
 msgstr "Avvio di $x"
 
-#: /etc/rc.d/init.d/amd:96 /etc/rc.d/init.d/autofs:281
-#: /etc/rc.d/init.d/bgpd:56 /etc/rc.d/init.d/irda:66
-#: /etc/rc.d/init.d/keytable:72 /etc/rc.d/init.d/ospfd:57
-#: /etc/rc.d/init.d/ripd:56 /etc/rc.d/init.d/ripngd:56
-#: /etc/rc.d/init.d/sshd:138 /etc/rc.d/init.d/zebra:54
-msgid "Usage: $0 {start|stop|restart|reload|condrestart|status}"
-msgstr "Utilizzo: $0 {start|stop|restart|reload|condrestart|status}"
+#: /etc/rc.d/init.d/isdn:229
+#, fuzzy
+msgid "$NAME is attached to $DEVICE"
+msgstr "$pn è collegato a $dev"
 
 #: /etc/sysconfig/network-scripts/ifup-routes:9
 msgid "usage: ifup-routes <net-device>"
 msgstr "utilizzo: ifup-routs <dispositivo-rete>"
 
-#: /etc/rc.d/init.d/iptables:161 /etc/rc.d/init.d/iptables:162
-msgid "Saving current rules to $IPTABLES_CONFIG"
-msgstr "Salvataggio regole correnti in $IPTABLES_CONFIG"
+#: /etc/rc.d/rc.sysinit:240
+msgid "Forcing file system integrity check due to default setting"
+msgstr ""
+"Controllo forzato dell'integrità del filesystem (impostazione di default)"
 
 #: /etc/rc.d/init.d/ups:32
 msgid "Starting $MODEL: "
 msgstr "Avvio $MODEL: "
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:1016
-msgid "Missing parameter 'IPv6 MTU' (arg 2)"
-msgstr "Parametro mancante 'IPv6-MTU' (arg 2)"
+#: /etc/sysconfig/network-scripts/ifup-sit:67
+#, fuzzy
+msgid "Missing remote IPv4 address of tunnel, configuration is not valid"
+msgstr ""
+"L'indirizzo di relé IPv6 fornito non è del tipo 6to4, la configurazione di "
+"6to4 non è valida!"
 
-#: /etc/rc.d/init.d/ups:46
-msgid "Starting UPS monitor (slave): "
-msgstr "Avvio monitor UPS (slave): "
+#: /etc/sysconfig/network-scripts/ifup-ipv6:251
+#, fuzzy
+msgid "radvd control enabled, but config is not complete"
+msgstr "Controllo RADVD attivato, ma config non è completo!"
 
-#: /etc/rc.d/init.d/ipchains:101 /etc/rc.d/init.d/iptables:72
-#: /etc/rc.d/init.d/iptables:73 /etc/rc.d/init.d/iptables:142
-#: /etc/rc.d/init.d/iptables:143
+#: /etc/rc.d/init.d/ip6tables:78 /etc/rc.d/init.d/ip6tables:79
+#: /etc/rc.d/init.d/ip6tables:147 /etc/rc.d/init.d/ip6tables:148
+#: /etc/rc.d/init.d/ipchains:101 /etc/rc.d/init.d/iptables:78
+#: /etc/rc.d/init.d/iptables:79 /etc/rc.d/init.d/iptables:147
+#: /etc/rc.d/init.d/iptables:148
 msgid "Flushing all chains:"
 msgstr "Flushing di tutte le chain:"
 
-#: /etc/rc.d/init.d/functions:394
+#: /etc/rc.d/init.d/functions:430
 msgid "Start service $1 (Y)es/(N)o/(C)ontinue? [Y] "
 msgstr "Avvio servizio $1 (S)ì/(N)o/(C)ontinua? [S] "
 
-#: ../rc.d/rc.sysinit:249
-msgid "Forcing file system integrity check due to default setting"
-msgstr ""
-"Controllo forzato dell'integrità del filesystem (impostazione di default)"
+#: /etc/rc.d/init.d/vncserver:35
+msgid "vncserver start"
+msgstr "Avvio vncserver"
 
-#: ../rc.d/rc.sysinit:224
-msgid "\rPress N within %d seconds to not force filesystem check..."
-msgstr ""
-"\rPremere N entro %d secondi per evitare il controllo\n"
-"forzato del filesystem..."
+#: /etc/rc.d/init.d/amd:96 /etc/rc.d/init.d/autofs:321
+#: /etc/rc.d/init.d/bgpd:56 /etc/rc.d/init.d/irda:66
+#: /etc/rc.d/init.d/junkbuster:63 /etc/rc.d/init.d/keytable:64
+#: /etc/rc.d/init.d/ospfd:57 /etc/rc.d/init.d/ripd:56
+#: /etc/rc.d/init.d/ripngd:56 /etc/rc.d/init.d/sshd:151
+#: /etc/rc.d/init.d/zebra:54
+msgid "Usage: $0 {start|stop|restart|reload|condrestart|status}"
+msgstr "Utilizzo: $0 {start|stop|restart|reload|condrestart|status}"
 
-#: ../rc.d/rc.sysinit:210
-msgid "Your system appears to have shut down uncleanly"
-msgstr "Il sistema non è stato chiuso in modo corretto"
+#~ msgid "Kernel is not compiled with IPv6 support"
+#~ msgstr "Il kernel non è compilato con supporto IPv6"
 
-#: ../rc.d/rc.sysinit:251
-msgid "Not forcing file system integrity check due to default setting"
-msgstr ""
-"Nessun controllo forzato dell'integrità del filesystem (impostazione di "
-"default)"
+#~ msgid "Missing parameter 'IPv6AddrToTest' (arg 2)"
+#~ msgstr "Parametro mancante 'IPv6AddrToTest'(arg 2)"
 
-#: ../rc.d/rc.sysinit:226
-msgid "\rPress Y within %d seconds to force filesystem check..."
-msgstr ""
-"\rPremere Y entro %d secondi per forzare il controllo\n"
-"del filesystem..."
+#~ msgid "Starting $prog"
+#~ msgstr "Avvio di $prog"
+
+#~ msgid "Tunnel device '$device' creation didn't work - ERROR!"
+#~ msgstr ""
+#~ "La creazione del dispositivo tunnel '$device' non ha funzionato - ERRORE!"
+
+#~ msgid "Missing parameter 'IPv6-network' (arg 1)"
+#~ msgstr "Parametro mancante 'IPv6-network' (arg 1)"
+
+#~ msgid "Missing 'prefix length' for given address '$testipv6addr_valid'"
+#~ msgstr "'lunghezza prefisso' mancante per l'indirizzo '$testipv6addr_valid'"
+
+#~ msgid "Missing parameter 'local IPv4 address' (arg 2)"
+#~ msgstr "Parametro mancante 'indirizzo IPv4 locale' (arg 2)"
+
+#~ msgid "Starting junkbuster: "
+#~ msgstr "Avvio di junkbuster: "
+
+#~ msgid "Missing parameter 'IPv4-tunnel address' (arg 2)"
+#~ msgstr "Paramentro mancante 'IPv4-tunne laddress' (arg 2)"
+
+#~ msgid "Tunnel device 'sit0' is still up - FATAL ERROR!"
+#~ msgstr "Il dispositivo 'sit0' è sempre attivo - ERRORE FATALE!"
+
+#~ msgid "Missing parameter 'IPv6-address' (arg 2)"
+#~ msgstr "Parametro mancante 'IPv6-address' (arg 2)"
+
+#~ msgid "$*"
+#~ msgstr "$*"
+
+#~ msgid "Devices with modified configuration:"
+#~ msgstr "Dispositivi con configurazione modificata:"
+
+#~ msgid "Don't understand forwarding control parameter '$fw_control' (arg 1)"
+#~ msgstr ""
+#~ "Parametro di controllo '$fw_control' (arg1) di inoltro non  comprensibile"
+
+#~ msgid "Usage: $0 {start|stop|restart|reload|status|probe}"
+#~ msgstr "Utilizzo: $0 {start|stop|restart|reload|status|probe}"
+
+#~ msgid "Red Hat"
+#~ msgstr "Red Hat"
+
+#~ msgid "Bringing up device $device: "
+#~ msgstr "Attivazione device $device: "
+
+#~ msgid "Trigger RADVD for IPv6to4 prefix recalculation"
+#~ msgstr "Trigger RADVD per il ricalcolo del prefisso IPv6to4"
+
+#~ msgid "Missing parameter 'device' (arg 1)"
+#~ msgstr "parametro mancante 'dispositivo' (arg 1)"
+
+#~ msgid "$prog is running, PIDs: $PIDS."
+#~ msgstr "$prog è in esecuzione, PID: $PIDS."
+
+#~ msgid "Shutting down device $device: "
+#~ msgstr "Chiusura dispositivo $device: "
+
+#~ msgid "Generated 6to4 prefix '$prefix6to4' from '$localipv4'"
+#~ msgstr "Generato il prefisso 6to4 '$prefix6to4' da '$localipv4'"
+
+#~ msgid ""
+#~ "IPv6to4 configuration needs an IPv6to4 relay address, 6to4 configuration "
+#~ "is not valid!"
+#~ msgstr ""
+#~ "La configurazione IPv6to4 richiede un indirizzo di relé IPv6to4, la "
+#~ "configurazione di 6to4 non è valida!"
+
+#~ msgid "Tunnel device 'sit0' enabling didn't work - FATAL ERROR!"
+#~ msgstr ""
+#~ "L'attivazione del dispositivo tunnel 'sit0' non ha funzionato - ERRORE "
+#~ "FATALE!"
+
+#~ msgid "Missing parameter 'device'"
+#~ msgstr "parametro mancante 'dispositivo'"
+
+#~ msgid "Bringing up interface lo: "
+#~ msgstr "Attivazione interfaccia lo: "
+
+#~ msgid "Usage: junkbuster {start|stop|restart|reload|condrestart|status}"
+#~ msgstr "Utilizzo: junkbuster {start|stop|restart|reload|condrestart|status}"
+
+#~ msgid "Tunnel creation mode '$IPV6_TUNNELMODE' not supported - skip!"
+#~ msgstr ""
+#~ "Modalità di creazione tunnel '$IPV6_TUNNELMODE' non supportata - ignorare!"
+
+#~ msgid "Device '$device' enabling didn't work - FATAL ERROR!"
+#~ msgstr ""
+#~ "L'attivazione del dispositivo '$device' non ha funzionato - ERRORE FATALE!"
+
+#~ msgid "Table: filter"
+#~ msgstr "Tabella: filtro"
+
+#~ msgid ""
+#~ "'prefix length' on given address '$testipv6addr_valid' is out of range (0-"
+#~ "128)"
+#~ msgstr ""
+#~ "'lunghezza prefisso' per il dato indirizzo '$testipv6addr_valid' è fuori "
+#~ "portata (0-128)"
+
+#~ msgid "Stopping junkbuster: "
+#~ msgstr "Interruzione di junkbuster: "
+
+#~ msgid "Adding internal IPX network $IPXINTERNALNETNUM $IPXINTERNALNODENUM: "
+#~ msgstr "Aggiunta rete interna IPX $IPXINTERNALNETNUM $IPXINTERNALNODENUM: "
+
+#~ msgid "Bringing up alias $device: "
+#~ msgstr "Attivazione $device alias: "
+
+#~ msgid "Tunnel device '$device' bringing up didn't work - ERROR!"
+#~ msgstr ""
+#~ "L'attivazione del dispositivo tunnel '$device' non ha funzionato - ERRORE!"
+
+#~ msgid "Bringing up route $device: "
+#~ msgstr "Attivazione $device route: "
+
+#~ msgid "Given IPv6 MTU is out of range"
+#~ msgstr "L'IPv6 MTU fornito è fuori portata"
+
+#~ msgid "Missing parameter 'forwarding control' (arg 1)"
+#~ msgstr "Parametro mancante 'controllo del forwarding' (arg 1)"
+
+#~ msgid "Unmounting loobpack filesystems: "
+#~ msgstr "Smontaggio dei filesystem di loopback: "
+
+#~ msgid ""
+#~ "Given address of relay is not a globally usable one, 6to4 configuration "
+#~ "is not valid!"
+#~ msgstr ""
+#~ "L'indirizzo di relé fornito non è globalmente utilizzabile, la "
+#~ "configurazione di 6to4 non è valida!"
+
+#~ msgid "Table: nat"
+#~ msgstr "Tabella: nat"
+
+#~ msgid "Deleting internal IPX network: "
+#~ msgstr "Cancellazione rete interna IPX: "
+
+#~ msgid "Missing parameter 'IPv6-route' (arg 3)"
+#~ msgstr "Parametro mancante 'IPvs-route' (arg 3)"
+
+#~ msgid "Given IPv6 address '$testipv6addr_valid' is not valid"
+#~ msgstr "L'indirizzo IPv6 '$testipv6addr_valid' non è valido"
+
+#~ msgid ""
+#~ "IPv6 forwarding per device cannot be controlled via sysctl - use "
+#~ "netfilter6 instead!"
+#~ msgstr ""
+#~ "Il forwarding IPv6 per dispositivo non può essere controllato tramite "
+#~ "sysctl - utilizzate netfilter6"
+
+#~ msgid "Turning off accounting: "
+#~ msgstr "Disattivazione accounting: "
+
+#~ msgid "Usage: ifdown_ipv6to4_all interfacename"
+#~ msgstr "Utilizzo: ifdown_ipv6to4_all interfacename"
+
+#~ msgid " Linux"
+#~ msgstr " Linux"
+
+#~ msgid ""
+#~ "Utility 'ip' (from the iproute package) doesn't exist or isn't executable "
+#~ "- non-NBMA-styled tunneling setup won't work!"
+#~ msgstr ""
+#~ "L'utility 'ip' (dal pacchetto iproute) non esiste o non è eseguibile - la "
+#~ "configurazione di tunneling di tipo non NBMA non funzionerà!"
+
+#~ msgid ""
+#~ "Given remote address '$addressipv4tunnel' on tunnel device '$device' is "
+#~ "already configured on device '$devnew' - FATAL ERROR!"
+#~ msgstr ""
+#~ "L'indirizzo remoto fornito '$addressipv4tunnel' sul dispositivo tunnel "
+#~ "'$device' è già configurato sul dispositivo '$devnew' - ERRORE FATALE!"
+
+#~ msgid "Devices that are down:"
+#~ msgstr "Dispositivi non attivi: "
+
+#~ msgid "$prog not running."
+#~ msgstr "$prog non in esecuzione."
+
+#~ msgid "Missing parameter 'IPv6-gateway' (arg 2)"
+#~ msgstr "Parametro mancante 'IPv6-gateway' (arg 2)"
+
+#~ msgid "Missing parameter 'IPv6 MTU' (arg 2)"
+#~ msgstr "Parametro mancante 'IPv6-MTU' (arg 2)"
 
 #~ msgid "Usage: bgpd {start|stop|restart|reload|condrestart|status}"
 #~ msgstr "Utilizzo: bgpd {start|stop|restart|reload|condrestart|status}"
@@ -1804,9 +1919,6 @@ msgstr ""
 
 #~ msgid "Starting Kerberos 5-to-4 Server: "
 #~ msgstr "Avvio server Kerberos 5-to-4: "
-
-#~ msgid "usage: $0 <net-device>"
-#~ msgstr "utilizzo: $0 <dispositivo-rete>"
 
 #~ msgid "Bringing up ADSL link: "
 #~ msgstr "Attivazione collegamento ADSL: "
