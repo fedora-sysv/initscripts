@@ -365,21 +365,14 @@ if [ -f /etc/sysconfig/readonly-root ]; then
 fi
  
 _RUN_QUOTACHECK=0
-ROOTFSTYPE=`awk '/ \/ / && ($3 !~ /rootfs/) { print $3 }' /proc/mounts`
-if [ -z "$fastboot" -a "$READONLY" != "yes" -a "X$ROOTFSTYPE" != "Xnfs" -a "X$ROOTFSTYPE" != "Xnfs4" ]; then 
+if [ -z "$fastboot" -a "$READONLY" != "yes" ]; then
 
-        STRING=$"Checking root filesystem"
+        STRING=$"Checking filesystems"
 	echo $STRING
-	rootdev=`awk '/ \/ / && ($3 !~ /rootfs/) {print $1}' /proc/mounts`
-	if [ -b /initrd/"$rootdev" ] ; then
-		rootdev=/initrd/"$rootdev"
-	else
-		rootdev=/
-	fi
 	if [ "${RHGB_STARTED}" != "0" -a -w /etc/rhgb/temp/rhgb-console ]; then
-		fsck -T -a $rootdev $fsckoptions > /etc/rhgb/temp/rhgb-console
+		fsck -T -A -a $fsckoptions > /etc/rhgb/temp/rhgb-console
 	else
-		initlog -c "fsck -T -a $rootdev $fsckoptions"
+		initlog -c "fsck -T -A -a $fsckoptions"
 	fi
 	rc=$?
 	
@@ -436,25 +429,24 @@ if LC_ALL=C fgrep -q /initrd /proc/mounts && ! LC_ALL=C fgrep -q /initrd/loopfs 
    /sbin/blockdev --flushbufs /dev/ram0 >/dev/null 2>&1
 fi
                                                                                 
-# Possibly update quotas if fsck was run on /.
-LC_ALL=C grep -E '[[:space:]]+/[[:space:]]+' /etc/fstab | \
-    awk '{ print $4 }' | \
-    LC_ALL=C fgrep -q quota
-_ROOT_HAS_QUOTA=$?
-if [ "X$_RUN_QUOTACHECK" = "X1" -a \
-    "X$_ROOT_HAS_QUOTA" = "X0" -a \
-    -x /sbin/quotacheck ]; then
+# Update quotas if necessary
+if [ X"$_RUN_QUOTACHECK" = X1 -a -x /sbin/quotacheck ]; then
 	if [ -x /sbin/convertquota ]; then
-	    if [ -f /quota.user ]; then
-		action $"Converting old user quota files: " \
-		    /sbin/convertquota -u / && rm -f /quota.user
-	    fi
-	    if [ -f /quota.group ]; then
-		action $"Converting old group quota files: " \
-		    /sbin/convertquota -g / && rm -f /quota.group
-	    fi
+	    # try to convert old quotas
+	    for mountpt in `LC_ALL=C awk '$4 ~ /quota/{print $2}' /etc/mtab` ; do
+		if [ -f "$mountpt/quota.user" ]; then
+		    action $"Converting old user quota files: " \
+		    /sbin/convertquota -u $mountpt && \
+			rm -f $mountpt/quota.user
+		fi
+		if [ -f "$mountpt/quota.group" ]; then
+		    action $"Converting old group quota files: " \
+		    /sbin/convertquota -g $mountpt && \
+			rm -f $mountpt/quota.group
+		fi
+	    done
 	fi
-	action $"Checking root filesystem quotas: " /sbin/quotacheck -nug /
+	action $"Checking local filesystem quotas: " /sbin/quotacheck -aRnug
 fi
 
 # Remount the root filesystem read-write.
@@ -463,8 +455,18 @@ state=`awk '/ \/ / && ($3 !~ /rootfs/) { print $4 }' /proc/mounts`
 [ "$state" != "rw" -a "$READONLY" != "yes" ] && \
   action $"Remounting root filesystem in read-write mode: " mount -n -o remount,rw /
 
-# Clean up SELinux labels
+# Mount all other filesystems (except for NFS and /proc, which is already
+# mounted). Contrary to standard usage,
+# filesystems are NOT unmounted in single user mode.
+action $"Mounting local filesystems: " mount -a -t nonfs,nfs4,smbfs,ncpfs,cifs,gfs -O no_netdev
+
+if [ -x /sbin/quotaon ]; then
+    action $"Enabling local filesystem quotas: " /sbin/quotaon -aug
+fi
+
+# Clean up SELinux labels, and check to see if a full relabel is needed
 if [ -n "$SELINUX" ]; then
+   [ -f /.autorelabel ] && relabel_selinux
    for file in /etc/mtab /etc/ld.so.cache ; do
    	[ -r $file ] && restorecon $file  >/dev/null 2>&1
    done
@@ -490,108 +492,16 @@ if [ -n "$IN_INITLOG" ]; then
     IN_INITLOG=
 fi
 
-if ! strstr "$cmdline" nomodules && [ -f /proc/modules ] ; then
-    USEMODULES=y
-fi
-
 # Load modules (for backward compatibility with VARs)
 if [ -f /etc/rc.modules ]; then
 	/etc/rc.modules
 fi
-
-
-_RUN_QUOTACHECK=0
-# Check filesystems
-if [ -z "$fastboot" ]; then
-        STRING=$"Checking filesystems"
-	echo $STRING
-	if [ "${RHGB_STARTED}" != "0" -a -w /etc/rhgb/temp/rhgb-console ]; then
-		fsck -T -R -A -a $fsckoptions > /etc/rhgb/temp/rhgb-console
-	else
-		initlog -c "fsck -T -R -A -a $fsckoptions"
-	fi
-	rc=$?
-        if [ "$rc" -eq "0" ]; then
-		success "$STRING"
-		echo
-	elif [ "$rc" -eq "1" ]; then
-	        passed "$STRING"
-		echo
-	elif [ "$rc" -eq "2" -o "$rc" -eq "3" ]; then 
-		echo $"Unmounting file systems"
-		umount -a
-		mount -n -o remount,ro /
-		echo $"Automatic reboot in progress."
-		reboot -f
-	fi
-
-	# A return of 4 or higher means there were serious problems.
-	if [ $rc -gt 1 ]; then
-	        if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
-		    chvt 1
-		fi
-
-	        failure "$STRING"
-		echo
-		echo
-		echo $"*** An error occurred during the file system check."
-		echo $"*** Dropping you to a shell; the system will reboot"
-		echo $"*** when you leave the shell."
-
-		str=$"(Repair filesystem)"
-		PS1="$str \# # "; export PS1
-		[ "$SELINUX" = "1" ] && disable_selinux
-		sulogin
-
-		echo $"Unmounting file systems"
-		umount -a
-		mount -n -o remount,ro /
-		echo $"Automatic reboot in progress."
-		reboot -f
-	elif [ "$rc" -eq "1" -a -x /sbin/quotacheck ]; then
-		_RUN_QUOTACHECK=1
-	fi
-fi
-
-# Mount all other filesystems (except for NFS and /proc, which is already
-# mounted). Contrary to standard usage,
-# filesystems are NOT unmounted in single user mode.
-action $"Mounting local filesystems: " mount -a -t nonfs,nfs4,smbfs,ncpfs,cifs,gfs -O no_netdev
 
 # Start the graphical boot, if necessary and not done yet.
 if strstr "$cmdline" rhgb && [ "$RHGB_STARTED" -eq 0 -a "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
    LC_MESSAGES= /usr/bin/rhgb
    RHGB_STARTED=1
 fi
-
-# check remaining quotas other than root
-if [ X"$_RUN_QUOTACHECK" = X1 -a -x /sbin/quotacheck ]; then
-	if [ -x /sbin/convertquota ]; then
-	    # try to convert old quotas
-	    for mountpt in `awk '$4 ~ /quota/{print $2}' /etc/mtab` ; do
-		if [ -f "$mountpt/quota.user" ]; then
-		    action $"Converting old user quota files: " \
-		    /sbin/convertquota -u $mountpt && \
-			rm -f $mountpt/quota.user
-		fi
-		if [ -f "$mountpt/quota.group" ]; then
-		    action $"Converting old group quota files: " \
-		    /sbin/convertquota -g $mountpt && \
-			rm -f $mountpt/quota.group
-		fi
-	    done
-	fi
-	action $"Checking local filesystem quotas: " /sbin/quotacheck -aRnug
-fi
-
-if [ -x /sbin/quotaon ]; then
-    action $"Enabling local filesystem quotas: " /sbin/quotaon -aug
-fi
-
-#
-# Check to see if SELinux requires a relabel
-#
-[ -n "$SELINUX" ] && [ -f /.autorelabel ] && relabel_selinux
 
 # Initialize pseudo-random number generator
 if [ -f "/var/lib/random-seed" ]; then
