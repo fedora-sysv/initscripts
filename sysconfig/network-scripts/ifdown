@@ -80,7 +80,6 @@ if [ "${NETWORKING_IPV6}" = "yes" ]; then
 fi;
 
 retcode=0
-if [ "$BOOTPROTO" = bootp -o "$BOOTPROTO" = dhcp ]; then
 	[ -n "`pidof -x dhclient`" ] && {
 		if [ -f "/var/run/dhclient-${DEVICE}.pid" ]; then
 		   if [[ "$DHCPRELEASE" = [yY1]* ]];  then
@@ -106,7 +105,6 @@ if [ "$BOOTPROTO" = bootp -o "$BOOTPROTO" = dhcp ]; then
 	 	pump -r -i ${DEVICE}
 		retcode=$?
 	}
-else
 	# we can't just delete the configured address because that address
 	# may have been changed in the config file since the device was
 	# brought up.  Flush all addresses associated with this
@@ -116,7 +114,6 @@ else
 	else
 		ip addr flush dev ${REALDEVICE} label ${DEVICE} 2>/dev/null
 	fi
-fi
 
 if [ "${REALDEVICE}" = "${DEVICE}" ]; then
   ip link set dev ${DEVICE} down
