@@ -2,7 +2,7 @@
 #
 # network       Bring up/down networking
 #
-# chkconfig: 2345 10 97
+# chkconfig: 2345 10 90
 # description: Activates/Deactivates all network interfaces configured to \
 #              start at boot time.
 # probe: true
@@ -27,7 +27,7 @@ fi
 [ -x /sbin/ifconfig ] || exit 0
 
 # Even if IPX is configured, without the utilities we can't do much
-[ ! -x /usr/bin/ipx_internal_net -o ! -x /usr/bin/ipx_configure ] && IPX=
+[ ! -x /sbin/ipx_internal_net -o ! -x /sbin/ipx_configure ] && IPX=
 
 cd /etc/sysconfig/network-scripts
 
@@ -74,9 +74,9 @@ case "$1" in
 
 	case "$IPX" in
 	  yes|true)
-	    /usr/bin/ipx_configure --auto_primary=$IPXAUTOPRIMARY \
+	    /sbin/ipx_configure --auto_primary=$IPXAUTOPRIMARY \
 				   --auto_interface=$IPXAUTOFRAME
-	    /usr/bin/ipx_internal_net add $IPXINTERNALNETNUM $IPXINTERNALNODENUM
+	    /sbin/ipx_internal_net add $IPXINTERNALNETNUM $IPXINTERNALNODENUM
 	    ;;
 	esac
 
@@ -92,7 +92,7 @@ case "$1" in
 	done
 	case "$IPX" in
 	  yes|true)
-	    /usr/bin/ipx_internal_net del
+	    /sbin/ipx_internal_net del
 	    ;;
 	esac
 	./ifdown ifcfg-lo
@@ -144,16 +144,16 @@ case "$1" in
 		case $IPX in yes|true)
 		  case $IPXINTERNALNET in
 		    reconf)
-			/usr/bin/ipx_internal_net del
-			/usr/bin/ipx_internal_net add $IPXINTERNALNETNUM \
+			/sbin/ipx_internal_net del
+			/sbin/ipx_internal_net add $IPXINTERNALNETNUM \
 						      $IPXINTERNALNODENUM
 			;;
 		    add)
-			/usr/bin/ipx_internal_net add $IPXINTERNALNETNUM \
+			/sbin/ipx_internal_net add $IPXINTERNALNETNUM \
 						      $IPXINTERNALNODENUM
 			;;
 		    del)
-			/usr/bin/ipx_internal_net del
+			/sbin/ipx_internal_net del
 			;;
 		  esac
 		  ;;

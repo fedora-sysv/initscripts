@@ -1,6 +1,6 @@
 Summary: inittab and /etc/rc.d scripts
 Name: initscripts
-%define version 3.67
+%define version 3.68
 Version: %{version}
 Copyright: GPL
 Group: Base
@@ -45,21 +45,21 @@ ln -s ../init.d/random $RPM_BUILD_ROOT/etc/rc.d/rc4.d/S20random
 ln -s ../init.d/random $RPM_BUILD_ROOT/etc/rc.d/rc5.d/S20random
 ln -s ../init.d/random $RPM_BUILD_ROOT/etc/rc.d/rc6.d/K80random
 
-ln -s ../init.d/nfsfs $RPM_BUILD_ROOT/etc/rc.d/rc0.d/K95nfsfs
-ln -s ../init.d/nfsfs $RPM_BUILD_ROOT/etc/rc.d/rc1.d/K95nfsfs
-ln -s ../init.d/nfsfs $RPM_BUILD_ROOT/etc/rc.d/rc2.d/K95nfsfs
+ln -s ../init.d/nfsfs $RPM_BUILD_ROOT/etc/rc.d/rc0.d/K85nfsfs
+ln -s ../init.d/nfsfs $RPM_BUILD_ROOT/etc/rc.d/rc1.d/K85nfsfs
+ln -s ../init.d/nfsfs $RPM_BUILD_ROOT/etc/rc.d/rc2.d/K85nfsfs
 ln -s ../init.d/nfsfs $RPM_BUILD_ROOT/etc/rc.d/rc3.d/S15nfsfs
 ln -s ../init.d/nfsfs $RPM_BUILD_ROOT/etc/rc.d/rc4.d/S15nfsfs
 ln -s ../init.d/nfsfs $RPM_BUILD_ROOT/etc/rc.d/rc5.d/S15nfsfs
-ln -s ../init.d/nfsfs $RPM_BUILD_ROOT/etc/rc.d/rc6.d/K95nfsfs
+ln -s ../init.d/nfsfs $RPM_BUILD_ROOT/etc/rc.d/rc6.d/K85nfsfs
 
-ln -s ../init.d/network $RPM_BUILD_ROOT/etc/rc.d/rc0.d/K97network
-ln -s ../init.d/network $RPM_BUILD_ROOT/etc/rc.d/rc1.d/K97network
+ln -s ../init.d/network $RPM_BUILD_ROOT/etc/rc.d/rc0.d/K90network
+ln -s ../init.d/network $RPM_BUILD_ROOT/etc/rc.d/rc1.d/K90network
 ln -s ../init.d/network $RPM_BUILD_ROOT/etc/rc.d/rc2.d/S10network
 ln -s ../init.d/network $RPM_BUILD_ROOT/etc/rc.d/rc3.d/S10network
 ln -s ../init.d/network $RPM_BUILD_ROOT/etc/rc.d/rc4.d/S10network
 ln -s ../init.d/network $RPM_BUILD_ROOT/etc/rc.d/rc5.d/S10network
-ln -s ../init.d/network $RPM_BUILD_ROOT/etc/rc.d/rc6.d/K97network
+ln -s ../init.d/network $RPM_BUILD_ROOT/etc/rc.d/rc6.d/K90network
 
 ln -s ../init.d/killall $RPM_BUILD_ROOT/etc/rc.d/rc0.d/K90killall
 ln -s ../init.d/killall $RPM_BUILD_ROOT/etc/rc.d/rc6.d/K90killall
@@ -153,9 +153,11 @@ rm -rf $RPM_BUILD_ROOT
 %doc sysconfig.txt
 
 %changelog
+* Tue Jul  7 1998 Jeff Johnson <jbj@redhat.com>
+- start/stop run levels changed.
+- ipx_configure/ipx_internal_net moved to /sbin.
 
 * Wed Jul 01 1998 Erik Troan <ewt@redhat.com>
-
 - usernetctl didn't understand "" around USERCTL attribute
 
 * Wed Jul  1 1998 Jeff Johnson <jbj@redhat.com>
