@@ -265,12 +265,17 @@ fi
 RETURN=0
 alias=`egrep -s "^alias[[:space:]]+sound[[:space:]]+" /etc/conf.modules | awk '{ print $3 }'`
 if [ -n "$alias" -a "$alias" != "off" ] ; then
-      action "Loading sound module ($alias)" modprobe sound
+      action "Loading sound module ($alias)" modprobe $alias
+      RETURN=$?
+fi
+alias=`egrep -s "^alias[[:space:]]+sound-slot-0[[:space:]]+" /etc/conf.modules | awk '{ print $3 }'`
+if [ -n "$alias" -a "$alias" != "off" ] ; then
+      action "Loading sound module ($alias)" modprobe $alias
       RETURN=$?
 fi
 alias=`egrep -s "^alias[[:space:]]+midi[[:space:]]+" /etc/conf.modules | awk '{ print $3 }'`
 if [ -n "$alias" -a "$alias" != "off" ]; then
-      action "Loading midi module ($alias)" modprobe midi
+      action "Loading midi module ($alias)" modprobe $alias
 fi
 
 # Load mixer settings
