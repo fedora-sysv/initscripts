@@ -39,7 +39,7 @@ install:
 	chmod 755 $(ROOT)/etc/ppp/peers
 	chmod 755 $(ROOT)/etc/ppp/ip*
 	chmod 755 $(ROOT)/etc/sysconfig/network-scripts/ifup-*
-	chmod 755 $(ROOT)/etc/sysconfig/network-scripts/idown-*
+	chmod 755 $(ROOT)/etc/sysconfig/network-scripts/ifdown-*
 	chmod 755 $(ROOT)/etc/sysconfig/network-scripts/init*
 	mkdir -p $(ROOT)/etc/sysconfig/networking/devices
 	mkdir -p $(ROOT)/etc/sysconfig/networking/profiles/default
