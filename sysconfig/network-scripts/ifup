@@ -72,7 +72,7 @@ if [ "$SLAVE" = yes -a "$ISALIAS" = no -a "$MASTER" != "" -a \
 
     ifconfig ${DEVICE} down
     echo "Enslaving $DEVICE to $MASTER"
-    ifenslave $RFLAG "$DEVICE" "$MASTER"
+    ifenslave $RFLAG "$MASTER" "$DEVICE"
 
     exit 0
 fi
