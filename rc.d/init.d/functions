@@ -90,6 +90,7 @@ daemon() {
 
 # A function to stop a program.
 killproc() {
+	RC=0
 	# Test syntax.
 	if [ $# = 0 ]; then
 		echo "Usage: killproc {program} [signal]"
@@ -129,11 +130,15 @@ killproc() {
 				fi
 			   fi
 		        fi
-			ps h $pid >/dev/null 2>&1 && failure "$base shutdown" || success "$base shutdown"
+			ps h $pid >/dev/null 2>&1
+			RC=$?
+			[ $RC -eq 0 ] && failure "$base shutdown" || success "$base shutdown"
 		# use specified level only
 		else
 		        if ps h $pid >/dev/null 2>&1; then
-	                	kill $killlevel $pid && success "$base $killlevel" || failure "$base $killlevel"
+	                	kill $killlevel $pid
+				RC=$?
+				[ $RC -eq 0 ] && success "$base $killlevel" || failure "$base $killlevel"
 			fi
 		fi
 	else
@@ -144,6 +149,7 @@ killproc() {
 	if [ "$notset" = "1" ]; then
             rm -f /var/run/$base.pid
 	fi
+	return $RC
 }
 
 # A function to find the pid of a program.
