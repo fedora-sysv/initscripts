@@ -88,7 +88,7 @@ function addprovider()
     [ -z "$REMOTE_IP" ] && REMOTE_IP="0.0.0.0"
 
     # set default route
-    [ "$DELDEFAULTROUTE" = "enabled" -o -z "$DELDEFAULTROUTE" ] && options="$options deldefaultroute"
+    [ "$DEFROUTE" = "yes" ] && options="$options deldefaultroute"
 
     # set authentication
     [ -z "$USER" ] && USER="dialup"
@@ -105,6 +105,12 @@ function addprovider()
     log_isdnctrl eaz $DEVICE $MSN
 
     # set dialout numbers
+    if echo $COUNTRYCODE | grep ":" >/dev/null 2>&1 ; then
+        COUNTRYCODE="$(echo $COUNTRYCODE | cut -f 2 -d ':')"
+        [ "$COUNTRYCODE" = "0" ] && COUNTRYCODE=
+    else
+        COUNTRYCODE=
+    fi
     for i in $PHONE_OUT; do
         log_isdnctrl addphone $DEVICE out $COUNTRYCODE$PREFIX$AREACODE$i
     done
