@@ -438,6 +438,7 @@ strstr() {
 
 # Confirm whether we really want to run this service
 confirm() {
+  [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --details=yes
   while : ; do 
       echo -n $"Start service $1 (Y)es/(N)o/(C)ontinue? [Y] "
       read answer
@@ -445,6 +446,7 @@ confirm() {
          return 0
       elif strstr $"cC" "$answer" ; then
 	 rm -f /var/run/confirm
+	 [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --details=no
          return 2
       elif strstr $"nN" "$answer" ; then
          return 1

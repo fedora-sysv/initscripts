@@ -219,6 +219,9 @@ fi
 if [ -f /forcefsck ] || strstr "$cmdline" forcefsck ; then
 	fsckoptions="-f $fsckoptions"
 elif [ -f /.autofsck ]; then
+        if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
+	     chvt 1
+	fi
 	echo $"Your system appears to have shut down uncleanly"
 	AUTOFSCK_TIMEOUT=5
 	[ -f /etc/sysconfig/autofsck ] && . /etc/sysconfig/autofsck
@@ -489,6 +492,9 @@ if [ -f /etc/raidtab ]; then
 
 	# A non-zero return means there were problems.
 	if [ $rc -gt 0 ]; then
+	        if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
+		    chvt 1
+		fi
 		echo
 		echo
 		echo $"*** An error occurred during the RAID startup"
