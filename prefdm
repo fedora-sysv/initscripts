@@ -20,7 +20,7 @@ if [ -z "$preferred" ]; then
 		preferred=xdm
 	fi
 fi
-if [ -n "$preferred" ] && which $preferred
+if [ -n "$preferred" ] && which $preferred ; then 
 	exec `which $preferred` $*
 fi
 exit 1								

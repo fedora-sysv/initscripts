@@ -89,7 +89,7 @@ while : ; do
     "pppd started for $DEVICE on $MODEMPORT at $LINESPEED" &)&
 
   > /var/run/ppp-$DEVICE.dev
-  if [ -n "$WVDIALSECT ] ; then
+  if [ -n "$WVDIALSECT" ] ; then
     /usr/sbin/pppd -detach $opts $MODEMPORT $LINESPEED \
       remotename $DEVICE ipparam $DEVICE \
       ${PPPOPTIONS} \
