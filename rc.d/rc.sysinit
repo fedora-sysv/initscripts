@@ -143,7 +143,7 @@ scsi=""
 network=""
 audio=""
 other=""
-eval `kmodule | while read devtype mod ; do
+eval `kmodule -d | while read devtype mod ; do
 	case "$devtype" in
 		"IDE")	ide="$ide $mod"
 		   echo "ide=\"$ide"\";;
