@@ -245,6 +245,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Jan 29 2001 Bill Nottingham <notting@redhat.com>
+- add plusb support (#18892, patch from <eric.ayers@compgen.com>)
+
 * Wed Jan 24 2001 Bill Nottingham <notting@redhat.com>
 - quiet LVM setup (#24841)
 - fix inability to shutdown cleanly (#24889)

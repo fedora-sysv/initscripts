@@ -449,11 +449,10 @@ main(int argc, char **argv) {
     char *device, *real_device, *physicalDevice = NULL;
     char *theBoot = NULL;
     shvarFile *ifcfg;
-    sigset_t sigs;
+    sigset_t blockedsigs, unblockedsigs;
     int pppdPid = 0;
     int timeout = 30;
     char *temp;
-    struct timeval tv;
     int dieing = 0;
     int sendsig;
     int connectedOnce = 0;
@@ -500,23 +499,23 @@ main(int argc, char **argv) {
     /* don't set up the procmask until after we have received the netreport
      * signal
      */
-    sigemptyset(&sigs);
-    sigaddset(&sigs, SIGTERM);
-    sigaddset(&sigs, SIGINT);
-    sigaddset(&sigs, SIGHUP);
-    sigaddset(&sigs, SIGIO);
-    sigaddset(&sigs, SIGCHLD);
-    if (theBoot) sigaddset(&sigs, SIGALRM);
-    sigprocmask(SIG_BLOCK, &sigs, NULL);
+    sigemptyset(&blockedsigs);
+    sigaddset(&blockedsigs, SIGTERM);
+    sigaddset(&blockedsigs, SIGINT);
+    sigaddset(&blockedsigs, SIGHUP);
+    sigaddset(&blockedsigs, SIGIO);
+    sigaddset(&blockedsigs, SIGCHLD);
+    if (theBoot) sigaddset(&blockedsigs, SIGALRM);
+    sigprocmask(SIG_BLOCK, &blockedsigs, NULL);
 
     /* prepare for sigsuspend later */
-    sigfillset(&sigs);
-    sigdelset(&sigs, SIGTERM);
-    sigdelset(&sigs, SIGINT);
-    sigdelset(&sigs, SIGHUP);
-    sigdelset(&sigs, SIGIO);
-    sigdelset(&sigs, SIGCHLD);
-    if (theBoot) sigdelset(&sigs, SIGALRM);
+    sigfillset(&unblockedsigs);
+    sigdelset(&unblockedsigs, SIGTERM);
+    sigdelset(&unblockedsigs, SIGINT);
+    sigdelset(&unblockedsigs, SIGHUP);
+    sigdelset(&unblockedsigs, SIGIO);
+    sigdelset(&unblockedsigs, SIGCHLD);
+    if (theBoot) sigdelset(&unblockedsigs, SIGALRM);
 
     fork_exec(0, "/etc/sysconfig/network-scripts/ifup-ppp", "daemon", device, theBoot);
     temp = svGetValue(ifcfg, "RETRYTIMEOUT");
@@ -528,7 +527,8 @@ main(int argc, char **argv) {
     }
 
     while (1) {
-	sigsuspend(&sigs);
+	if (!theSigterm && !theSigint && !theSighup && !theSigio && !theSigchld && !theSigalrm)
+	    sigsuspend(&unblockedsigs);
 
 	if (theSigterm || theSigint) {
 	    theSigterm = theSigint = 0;
@@ -568,13 +568,6 @@ main(int argc, char **argv) {
 	    theSigio = 0;
 	    if (connectedOnce) {
 		if (physicalDevice) { free(physicalDevice); physicalDevice = NULL; }
-		temp = svGetValue(ifcfg, "DISCONNECTTIMEOUT");
-		if (temp) {
-		    timeout = atoi(temp);
-		    free(temp);
-		} else {
-		    timeout = 2;
-		}
 	    }
 	    physicalDevice = pppLogicalToPhysical(NULL, real_device);
 	    if (physicalDevice) {
@@ -628,18 +621,30 @@ main(int argc, char **argv) {
 
 	    if ((WEXITSTATUS(status) == 8) ||
 	        !connectedOnce || svTrueValue(ifcfg, "PERSIST", 0)) {
-		temp = svGetValue(ifcfg, "RETRYTIMEOUT");
-		if (temp) {
-		    timeout = atoi(temp);
-		    free(temp);
-		} else {
-		    timeout = 30;
-		}
-		if (connectedOnce) {
-		    memset(&tv, 0, sizeof(tv));
-		    tv.tv_sec = timeout;
-		    select(0, NULL, NULL, NULL, &tv);
-		}
+		if (!connectedOnce) {
+			temp = svGetValue(ifcfg, "RETRYTIMEOUT");
+			if (temp) {
+				timeout = atoi(temp);
+				free(temp);
+			} else {
+				timeout = 30;
+			}
+
+		 } else {
+			 connectedOnce = 0;
+			 temp = svGetValue(ifcfg, "DISCONNECTTIMEOUT");
+			 if (temp) {
+				 timeout = atoi(temp);
+				 free(temp);
+			 } else {
+				 timeout = 2;
+			 }
+		 }
+		 sigprocmask(SIG_UNBLOCK, &blockedsigs, NULL);
+		 sleep(timeout);
+		 sigprocmask(SIG_BLOCK, &blockedsigs, NULL);
+		 if (!theSigterm && !theSighup && !theSigio && !theSighchld && !theSigalrm)
+		      fork_exec(0, "/etc/sysconfig/network-scripts/ifup-ppp", "daemon", device, theBoot);
 // Scott Sharkey <ssharkey@linux-no-limits.com>
 // MAXFAIL Patch...
 		temp = svGetValue(ifcfg, "MAXFAIL");

@@ -12,8 +12,9 @@ if [ "${DEMAND}" != no -a -f /var/run/ppp-${DEVICE}.pid ] ; then
     kill -TERM ${PID}
     sleep 2
     [ ! -d /proc/${PID} ] && exit 0
+    sleep 5
+    [ ! -d /proc/${PID} ] && exit 0
     kill -TERM ${PID}
-    sleep 2
     [ ! -d /proc/${PID} ] && exit 0
     exit 1
 fi
@@ -31,6 +32,10 @@ PID=`cat $file`
 kill -TERM ${PID} > /dev/null 2>&1
 [ ! -d /proc/${PID} ] && exit 0
 sleep 2
+[ ! -d /proc/${PID} ] && exit 0
+sleep 5
+[ ! -d /proc/${PID} ] && exit 0
+sleep 10
 [ ! -d /proc/${PID} ] && exit 0
 
 # killing ppp-watch twice in a row causes it to send a SIGKILL to pppd pgrp
