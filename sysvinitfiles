@@ -1,9 +1,110 @@
+Writing a System V init script for Red Hat Linux
+================================================
+
+All System V init scripts are named /etc/rc.d/init.d/<servicename>
+where <servicename> is the name of the service.  There must be no
+".init" suffix.
+
+
+Sample Script
+=============
+
+#!/bin/bash
+#
+#	/etc/rc.d/init.d/<servicename>
+#
+#	<description of the *service*>
+#	<any general comments about this init script>
+#
+# <tags -- see below for tag definitions.  *Every line* from the top
+#  of the file to the end of the tags section must begin with a #
+#  character.  After the tags section, there should be a blank line.
+#  This keeps normal comments in the rest of the file from being
+#  mistaken for tags, should they happen to fit the pattern.>
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+<define any local shell functions used by the code that follows>
+
+case "$1" in
+    start)
+	echo -n "Starting <servicename> services: "
+	<start daemons, perhaps with the daemon function>
+	touch /var/lock/subsys/<servicename>
+	;;
+    stop)
+	echo -n "Shutting down <servicename> services: "
+	<stop daemons, perhaps with the killproc function>
+	rm -f /var/lock/subsys/<servicename>
+	;;
+    status)
+	<report the status of the daemons in free-form format,
+	perhaps with the status function>
+	;;
+    restart)
+	<restart the daemons, normally with $0 stop; $0 start>
+	;;
+    reload)
+	<cause the service configuration to be reread, either with
+	kill -HUP or by restarting the daemons, possibly with
+	$0 stop; $0 start>
+	;;
+    probe)
+	<optional.  If it exists, then it should determine whether
+	or not the service needs to be restarted or reloaded (or
+	whatever) in order to activate any changes in the configuration
+	scripts.  It should print out a list of commands to give to
+	$0; see the description under the probe tag below.>
+	;;
+    *)
+	echo "Usage: <servicename> {start|stop|status|reload|restart[|probe]"
+	exit 1
+	;;
+esac
+
+
+
+Functions in /etc/rc.d/init.d/functions
+=======================================
+
+daemon [+/-nicelevel] program [arguments] [&]
+
+	Starts a daemon, if it is not already running.  Does
+	other useful things like keeping the daemon from dumping
+	core if it terminates unexpectedly.
+
+killproc program [signal]
+
+	Sends a signal to the program; by default it sends a SIGTERM,
+	and if the process doesn't die, it sends a SIGKILL a few
+	seconds later.
+
+	It also tries to remove the pidfile, if it finds one.
+
+pidofproc program
+
+	Tries to find the pid of a program; checking likely pidfiles,
+	using the pidof program, or even using ps.  Used mainly from
+	within other functions in this file, but also available to
+	scripts.
+
+status program
+
+	Prints status information.  Assumes that the program name is
+	the same as the servicename.
+
+
+Tags
+====
+
 # chkconfig: <startlevellist> <startpriority> <endpriority>
 
 	Required.  <startlevellist> is a list of levels in which
 	the service should be started by default.  <startpriority>
 	and <endpriority> are priority numbers.  For example:
 	# chkconfig: 2345 20 80
+	Read 'man chkconfig' for more information.
 
 # description: <multi-line description of service>
 
@@ -45,7 +146,19 @@
 
 	Optional, used IN PLACE of autoreload, processname, config,
 	and pidfile.  If it exists, then a proper reload-if-necessary
-	cycle may be acheived by running this command:
-	/etc/rc.d/init.d/SCRIPT `/etc/rd.d/init.d/SCRIPT probe`
+	cycle may be acheived by running these commands:
+
+	command=$(/etc/rd.d/init.d/SCRIPT probe)
+	[ -n "$command" ] && /etc/rc.d/init.d/SCRIPT $command
+
 	where SCRIPT is the name of the service's sysv init script.
+
+	Scripts that need to do complex processing could, as an
+	example, return "run /var/tmp/<servicename.probe.$$"
+	and implement a "run" command which would execute the
+	named script and then remove it.
+
+	Note that the probe command should simply "exit 0" if nothing
+	needs to be done to bring the service into sync with its
+	configuration files.
 
