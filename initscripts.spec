@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.21
+Version: 5.22
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -219,6 +219,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Jun 27 2000 Trond Eivind Glomsrød <teg@redhat.com>
+- add support for EIDE optimization
+
 * Mon Jun 26 2000 Bill Nottingham <notting@redhat.com>
 - tweak %%pre
 
