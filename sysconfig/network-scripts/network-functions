@@ -9,7 +9,7 @@ source_config ()
 	PARENTCONFIG=`echo $CONFIG | sed 's/-[^-]*$//g'`
 	PARENTDEVNAME=`basename $PARENTCONFIG | sed 's/^ifcfg-//g'`
 	[ -f $PARENTCONFIG ] || {
-	    echo "Missing config file $PARENTCONFIG." >&2
+	    echo $"Missing config file $PARENTCONFIG." >&2
 	    exit 1
 	}
 	. $PARENTCONFIG
@@ -66,13 +66,13 @@ set_hostname()
 check_device_down ()
 {
     if echo $1 | grep -q ':' ; then
-     if LANG=C ifconfig -a 2>/dev/null | grep -q $1 ; then
+     if LC_ALL=C ifconfig -a 2>/dev/null | grep -q $1 ; then
 	  retcode=1
      else
 	  retcode=0
      fi
     else 
-     if LANG=C ip -o link ls dev $1 2>/dev/null | grep ",UP" >/dev/null 2>&1 ; then
+     if LC_ALL=C ip -o link ls dev $1 2>/dev/null | grep ",UP" >/dev/null 2>&1 ; then
 	retcode=1
      else
 	retcode=0
@@ -84,7 +84,7 @@ check_device_down ()
 check_link_down ()
 {
     if [ -x /sbin/mii-tool ]; then
-	output=`/sbin/mii-tool $1 2>&1`
+	output=`LC_ALL=C /sbin/mii-tool $1 2>&1`
 	if echo $output | grep -q "Operation not supported"; then
 	    return 1
 	elif echo $output | grep -q "link ok"; then
@@ -98,7 +98,7 @@ check_link_down ()
 
 check_default_route ()
 {
-   ip route | grep -q default
+   LC_ALL=C ip route | grep -q default
 }
 
 find_gateway_dev ()
@@ -106,9 +106,9 @@ find_gateway_dev ()
     . /etc/sysconfig/network
     if [ "${GATEWAY}" != "" -a "${GATEWAY}" != "none" ] ; then
         export GATEWAY
-        networks=`/sbin/route -n|awk '{print $1, ENVIRON["GATEWAY"],$3,$8}'|awk '{system("ipcalc --silent --network "$2" "$3" 2>/dev/null")}'|sed s^NETWORK=^^g`
+        networks=`LC_ALL=C /sbin/route -n|awk '{print $1, ENVIRON["GATEWAY"],$3,$8}'|awk '{system("ipcalc --silent --network "$2" "$3" 2>/dev/null")}'|sed s^NETWORK=^^g`
         for net in $networks; do
-            dev=`/sbin/route -n|grep ^$net|awk '{print $NF}'`
+            dev=`LC_ALL=C /sbin/route -n|grep ^$net|awk '{print $NF}'`
             if [ "$dev" != "" ] ; then
                 GATEWAYDEV=$dev
             fi
@@ -134,7 +134,7 @@ add_default_route ()
 is_wireless_device ()
 {
   if [ -x /sbin/iwconfig ]; then
-    iwconfig $1 2>&1 | grep -q "no wireless extensions" || return 0
+    LC_ALL=C iwconfig $1 2>&1 | grep -q "no wireless extensions" || return 0
   fi
   return 1
 }

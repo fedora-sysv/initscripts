@@ -359,7 +359,7 @@ function ifdown_ipv6_tunnel() {
 
 
 		# Set up a tunnel
-		output="`route -A inet6 del $routeipv6 gw ::$addressipv4tunnel dev sit0 2>&1`"
+		output="`LC_ALL=C route -A inet6 del $routeipv6 gw ::$addressipv4tunnel dev sit0 2>&1`"
 		if [ $? -ne 0 ]; then
 			if echo $output | grep -i -q 'SIOCDELRT: No such process'; then
 				true
@@ -423,7 +423,7 @@ function test_ipv6_addrs_exists () {
 	if [ "$EXISTS_ipv6calc" = "yes" ]; then
 		# Using ipv6calc and compare against /proc/net/if_inet6
 
-		convertresult="`ipv6calc --addr2if_inet6 $testaddr/$testprefix`"
+		convertresult="`LC_ALL=C ipv6calc --addr2if_inet6 $testaddr/$testprefix`"
 		# Split in address, scope and prefix length
 		test_addr="`echo $convertresult | awk '{ print $1 }'`"
 		test_scope="`echo $convertresult | awk '{ print $2 }'`"

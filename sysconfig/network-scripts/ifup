@@ -89,7 +89,7 @@ fi
 # is this device available? (this catches PCMCIA devices for us)
 LC_ALL= LANG= ip -o link | grep -q ${REALDEVICE}
 if [ "$?" = "1" ]; then
-    modprobe -c | grep -q ${REALDEVICE} && modprobe ${REALDEVICE} || {
+    LC_ALL=C modprobe -c | grep -q ${REALDEVICE} && modprobe ${REALDEVICE} || {
       echo $"Device does not seem to be present, delaying ${DEVICE} initialization."
       exit 1
     }
@@ -149,7 +149,7 @@ if [ -n "${DYNCONFIG}" ]; then
     fi
     echo -n $"Determining IP information for ${DEVICE}..."
     if check_link_down ${DEVICE}; then
-	echo " failed; no link present.  Check cable?"
+	echo $" failed; no link present.  Check cable?"
 	exit 1
     fi
 
@@ -209,7 +209,7 @@ else
     fi
 
 
-    if ! ip addr ls ${DEVICE} | grep -q "${IPADDR}/${PREFIX}" ; then
+    if ! LC_ALL=C ip addr ls ${DEVICE} | grep -q "${IPADDR}/${PREFIX}" ; then
 	if ! ip addr add ${IPADDR}/${PREFIX} \
 	    brd ${BROADCAST:-+} dev ${DEVICE} ; then
 	    echo $"Error adding address ${IPADDR} for ${DEVICE}."

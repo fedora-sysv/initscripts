@@ -266,7 +266,7 @@ function new_interface ()
                        if [ "${GATEWAY}" != "" ]; then
                                if [ "${GATEWAYDEV}" = "" -o "${GATEWAYDEV}" = "${DEVICE}" ]; then
                                        # set up default gateway, if it isn't already there
-				       CURGW=`route -n | grep ^0\.0\.0\.0 | awk '{ print $2 }'`
+				       CURGW=`LC_ALL=C route -n | grep ^0\.0\.0\.0 | awk '{ print $2 }'`
 				       if [ "$CURGW" != "$GATEWAY" ]; then
                                        		route add default gw ${GATEWAY} ${DEVICE}
 				       fi
