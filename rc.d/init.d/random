@@ -37,14 +37,20 @@ case "$1" in
 	rm -f /var/lock/subsys/random
 	;;
   status)
-	status random
+	# this is way overkill, but at least we have some status output...
+	if [ -c /dev/random ] ; then
+		echo "The random data source exists"
+	else
+		echo "The random data source is missing"
+	fi
 	;;
-  restart)
-	$0 stop
-	$0 start
+  restart|reload)
+	# do not do anything; this is unreasonable
 	;;
   *)
-	echo "Usage: random {start|stop|restart|status}"
+	# do not advertise unreasonable commands that there is no reason
+	# to use with this device
+	echo "Usage: random {start|stop}"
 	exit 1
 esac
 
