@@ -249,7 +249,7 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
-* Thu Feb 19 2003 Bill Nottingham <notting@redhat.com> 7.31.10.EL-1
+* Thu Feb 19 2004 Bill Nottingham <notting@redhat.com> 7.31.10.EL-1
 - merge in rhgb changes
 - fix handling of bonding interfaces (#113937)
 - fix warning on sourcing of keys files
