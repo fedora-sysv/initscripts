@@ -227,7 +227,7 @@ case "$1" in
 	echo lo $interfaces
 
 	echo $"Currently active devices:"
-	echo `/sbin/ip -o link show | awk -F ": " '{ print $2 }'`
+	echo `/sbin/ip -o link show | awk -F ": " '/UP>/ { print $2 }'`
 	;;
   restart|reload)
         cd $CWD
