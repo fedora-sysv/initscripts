@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.93.5.EL
+Version: 7.93.6.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -206,6 +206,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Nov  1 2004 Bill Nottingham <notting@redhat.com> 7.93.6.EL-1
+- fix some of the rhgb fsck code (<laroche@redhat.com>)
+
 * Fri Oct 29 2004 Bill Nottingham <notting@redhat.com> 7.93.5.EL-1
 - speed up hardware init some
 
