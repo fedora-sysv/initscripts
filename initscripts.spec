@@ -198,10 +198,6 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
-* Sun Sep 12 1999 Bill Nottingham <notting@redhat.com>
-- a couple of /bin/sh -> /bin/bash fixes
-- fix swapoff silliness
-
 * Fri Sep 10 1999 Bill Nottingham <notting@redhat.com>
 - chkconfig --del in %preun, not %postun
 - use killall5 in halt
