@@ -1,4 +1,4 @@
-Summary: inittab and /etc/rc.d scripts
+Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
 %define version 3.91
 Version: %{version}
@@ -12,9 +12,10 @@ Conflicts: redhat-release <= 5.1
 Prereq: /sbin/chkconfig
 
 %description
-This package contains the scripts use to boot a system, change run
-levels, and shut the system down cleanly. It also contains the scripts
-that activate and deactivate most network interfaces.
+The initscripts package contains the basic system scripts used to boot
+your Red Hat system, change run levels, and shut the system down cleanly.
+Initscripts also contains the scripts that activate and deactivate most
+network interfaces.
 
 %prep
 %setup -q
