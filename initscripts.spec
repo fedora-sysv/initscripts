@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.31.13.EL
+Version: 7.31.14.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -249,6 +249,12 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Jun 24 2004 Bill Nottingham <notting@redhat.com> 7.31.14.EL-1
+- fix ppp conflict
+- fix vlan and bonding conflict (#107504)
+- more bonding fixes
+- fix some route creation issues (#125450, #120908)
+
 * Mon May  3 2004 Bill Nottingham <notting@redhat.com> 7.31.13.EL-1
 - handle EM64T in redhat-support-check better (#121659)
 
