@@ -49,6 +49,16 @@ Files in /etc/sysconfig
   GATEWAYDEV=<gateway device> (e.g. eth0)
   NISDOMAIN=<nis domain name>
 
+/etc/sysconfig/static-routes:
+
+  Contains lines of the form:
+
+    <device> net <network> netmask <netmask> gw <gateway>
+
+  <device> may be a device name to have the route brought up and
+  down with the device, or "any" to have the correct devices calculated
+  at run time.
+
 /etc/sysconfig/pcmcia:
 
   PCMCIA=yes|no
