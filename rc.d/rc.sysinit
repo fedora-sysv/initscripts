@@ -136,10 +136,10 @@ fi
 if [ -x /sbin/depmod -a -n "$USEMODULES" ]; then
     # Get ready for kerneld if module support in the kernel
     echo -n "Finding module dependencies... "
-    if [ -f /lib/modules/preferred ]; then
+    if [ -e /lib/modules/preferred ]; then
 	depmod -a preferred
     else
-	depmod -a preferred
+	depmod -a
     fi
     echo "done"
 fi
