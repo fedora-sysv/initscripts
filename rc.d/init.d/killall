@@ -3,6 +3,16 @@
 # Bring down all unneeded services that are still running (there shouldn't 
 # be any, so this is just a sanity check)
 
+case "$1" in
+   *start)
+	;;
+   *)
+	echo $"Usage: $0 {start}"
+	exit 1
+	;;
+esac
+				      
+
 for i in /var/lock/subsys/* ; do
 	# Check if the script is there.
 	[ -f "$i" ] || continue
