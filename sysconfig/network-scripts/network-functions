@@ -379,7 +379,7 @@ change_resolv_conf ()
     (echo -e "$s" > /etc/resolv.conf;) >/dev/null 2>&1;
     r=$?
     if [ $r -eq 0 ]; then
-	/usr/bin/logger -p local7.notice -t NET "$0 : updated /etc/resolv.conf";
+	/sbin/initlog -f local7 -p notice -n NET -s "$0 : updated /etc/resolv.conf";
 	/sbin/service nscd condrestart >/dev/null 2>&1;
 	return $?;
     fi;
