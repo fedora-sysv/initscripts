@@ -146,8 +146,8 @@ if [ -n "${DYNCONFIG}" ]; then
     PUMPARGS=$PUMPARGS
     DHCPCDARGS="$DHCPCDARGS -n"
     if [ -n "${DHCP_HOSTNAME}" ]; then
-       PUMPARGS="-h ${DHCP_HOSTNAME}"
-       DHCPCDARGS="-h ${DHCP_HOSTNAME}"
+       PUMPARGS="${PUMPARGS} -h ${DHCP_HOSTNAME}"
+       DHCPCDARGS="${DHCPCDARGS} -h ${DHCP_HOSTNAME}"
     fi
     if need_hostname; then
        PUMPARGS="${PUMPARGS} --lookup-hostname"
