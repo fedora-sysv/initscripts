@@ -130,10 +130,35 @@ detach(int now, int parentExitCode, char *device) {
 	    close (0);
 	    close (1);
 	    close (2);
+	    setsid();
+	    setpgid(0, 0);
 	}
     }
 }
 
+
+
+static void
+checkPidFile(char *device) {
+    char *pidFilePath;
+    FILE *f;
+    pid_t previous;
+    int killed;
+
+    pidFilePath = alloca(strlen(device) + 25);
+    sprintf(pidFilePath, "/var/run/pppwatch-%s.pid", device);
+    f = fopen(pidFilePath, "r");
+    if (f) {
+	fscanf(f, "%d\n", &previous);
+	fclose(f);
+
+	killed = kill(previous, SIGHUP);
+	if (!killed) {
+	    fprintf(stderr, "%s already up, initiating redial\n", device);
+	    exit(33);
+	}
+    }
+}
 
 static void
 doPidFile(char *device) {
@@ -337,6 +362,8 @@ main(int argc, char **argv) {
     } else {
 	device = argv[1];
     }
+
+    checkPidFile(device);
 
     detach(0, 0, device); /* prepare */
 
