@@ -50,13 +50,6 @@ for foo in * ; do
 done
 popd
 
-pushd  %{buildroot}/etc/locale
-for foo in * ; do
-	echo "%lang($foo) /etc/locale/$foo/*/*" >> \
-	$RPM_BUILD_DIR/%{name}-%{version}/trans.list
-done
-popd
-
 %ifnarch s390 s390x
 rm -f \
  $RPM_BUILD_ROOT/etc/sysconfig/network-scripts/ifup-ctc \
@@ -251,9 +244,6 @@ rm -rf $RPM_BUILD_ROOT
 %doc sysconfig.txt sysvinitfiles ChangeLog static-routes-ipv6 ipv6-tunnel.howto ipv6-6to4.howto changes.ipv6
 %ghost %attr(0664,root,utmp) /var/log/wtmp
 %ghost %attr(0664,root,utmp) /var/run/utmp
-%dir /etc/locale
-%dir /etc/locale/*
-%dir /etc/locale/*/LC_MESSAGES
 
 %changelog
 * Fri Dec 20 2002 Bill Nottingham <notting@redhat.com> 7.01-1

@@ -60,10 +60,6 @@ install:
 	make install ROOT=$(ROOT) mandir=$(mandir) -C src
 	make install PREFIX=$(ROOT) -C po
 
-# Make sure locale stuff from initscripts goes in /usr/share/locale too
-	mkdir -p $(ROOT)/usr/share/locale
-	cp -a $(ROOT)/etc/locale/* $(ROOT)/usr/share/locale/
-
 	mkdir -p $(ROOT)/var/run/netreport $(ROOT)/var/log
 	chown $(SUPERUSER).$(SUPERGROUP) $(ROOT)/var/run/netreport
 	chmod u=rwx,g=rwx,o=rx $(ROOT)/var/run/netreport
