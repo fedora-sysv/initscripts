@@ -169,6 +169,7 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/sysconfig/network-scripts/network-functions-ipv6
 %config /etc/sysconfig/network-scripts/init.ipv6-global
 %config /etc/sysconfig/network-scripts/ifcfg-lo
+%config /etc/sysconfig/network-scripts/ifup-ipx
 %config /etc/sysconfig/network-scripts/ifup-post
 %config /etc/sysconfig/network-scripts/ifdown-ppp
 %config /etc/sysconfig/network-scripts/ifdown-sl
