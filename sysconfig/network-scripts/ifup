@@ -119,6 +119,12 @@ if [ -n "${DYNCONFIG}" ]; then
 	exit 1
     fi
 else 
+    if [ -z "${IPADDR}" ]; then
+         # enable device without IP, useful for e.g. PPPoE
+         ifconfig ${DEVICE} up ${MTU:+mtu $MTU}
+	 exec /etc/sysconfig/network-scripts/ifup-post ${CONFIG} ${2}
+    fi
+  
     if [ -z "${NETMASK}" ]; then
 	eval `/bin/ipcalc --netmask ${IPADDR}`
     fi
