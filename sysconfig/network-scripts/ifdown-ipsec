@@ -56,6 +56,8 @@ else
       [ -z "$SRCNET" ] && SRCNET="$SRC/32"
       [ -z "$DSTNET" ] && DSTNET="$DST/32"
 
+      ip route del to $DSTNET via $DST
+
       /sbin/setkey -c >/dev/null 2>&1 << EOF
 	spddelete $SRCNET $DSTNET any -P out;
 	spddelete $DSTNET $SRCNET any -P in;

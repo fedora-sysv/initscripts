@@ -137,6 +137,8 @@ EOF
       [ -z "$SRCNET" ] && SRCNET="$SRC/32"
       [ -z "$DSTNET" ] && DSTNET="$DST/32"
       
+      ip route add to $DSTNET via $DST
+
       /sbin/setkey -c >/dev/null 2>&1 << EOF
 delete $SRC $DST ah $SPI_AH_OUT;
 delete $DST $SRC ah $SPI_AH_IN;
@@ -188,6 +190,8 @@ EOF
     else
       [ -z "$SRCNET" ] && SRCNET="$SRC/32"
       [ -z "$DSTNET" ] && DSTNET="$DST/32"
+      
+      ip route add to $DSTNET via $DST
       
       /sbin/setkey -c >/dev/null 2>&1 << EOF
 spddelete $SRCNET $DSTNET any -P out;
