@@ -11,7 +11,7 @@ fi
 current=0
 while : ; do
 	if [ ! -f /etc/sysconfig/network-scripts/$device:$current ]; then
-	    return
+	    exit 0
 	fi
 	/etc/sysconfig/network-scripts/ifup $device:$current
 	current=`expr $current + 1`
