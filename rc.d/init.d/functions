@@ -22,7 +22,7 @@ if [ -f /etc/sysconfig/i18n -a -z "${NOLOCALE:-}" ] ; then
   . /etc/sysconfig/i18n
   if [ "$CONSOLETYPE" != "pty" ]; then
 	case "${LANG:-}" in
-		ja_JP.*|ko_KR.*|zh_CN.*|zh_TW.*)
+		ja_JP*|ko_KR*|zh_CN*|zh_TW*)
 			export LC_MESSAGES=en_US
 			;;
 		*)
