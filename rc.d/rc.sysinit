@@ -199,7 +199,7 @@ else
 	fsckoptions="-V $fsckoptions"
 fi
  
-if [ -e /proc/lvm -a -x /sbin/vgchange ]; then
+if [ -e /proc/lvm -a -x /sbin/vgchange -a -f /etc/lvmtab ]; then
         action $"Setting up LVM:" /sbin/vgchange -a y
 fi
 
