@@ -87,7 +87,7 @@ else
 	# may have been changed in the config file since the device was
 	# brought up.  Flush all addresses associated with this
 	# instance instead.
-	ip addr flush dev ${REALDEVICE} label ${DEVICE}
+	ip addr flush dev ${REALDEVICE} label ${DEVICE} 2>/dev/null
 fi
 
 if [ "${REALDEVICE}" = "${DEVICE}" ]; then
