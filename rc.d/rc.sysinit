@@ -112,8 +112,7 @@ else
 fi
 
 # Get the modules ready to go -- we use awk here as cut is in /usr/bin
-rm -f /lib/modules/default
-if [ -n $USEMODULES ]; then
+if [ -n $USEMODULES -a ! -d /lib/modules/`uname -r` ]; then
     set `cat /proc/cmdline`
     while [ $# -gt 0 ]; do
 	if echo $1 | grep '^BOOT_IMAGE=' > /dev/null ; then
@@ -121,11 +120,11 @@ if [ -n $USEMODULES ]; then
 	    kernelfile=`/sbin/lilo -I $image`
 	    if [ -n "$kernelfile" ]; then
 		kernelname=`echo $kernelfile | awk -F- '{ print $1 }'`
-		versioninfo=`echo $kernelfile | awk -F- '{ print $2 }'`
+		versioninfo=`echo $kernelfile | sed "s|${kernelname}-||"`
 		if [ "$kernelname" = "/boot/vmlinuz" -a \
-		     -d "/lib/modules/$versioninfo" -a \
-		     "$versioninfo" != `uname -r` ]; then
-		     ln -sf $versioninfo /lib/modules/default
+		     -d /lib/modules/$versioninfo -a \
+		     $versioninfo != `uname -r` ]; then
+		     ln -sf $versioninfo /lib/modules/`uname -r`
 		fi
 	    fi
 	fi
