@@ -182,7 +182,7 @@ add_default_route ()
     if [ "${GATEWAY}" != "" -a "${GATEWAY}" != "none" -a "${GATEWAYDEV}" != "" ] ; then
         if ! check_device_down $1; then
             if [ "$GATEWAY" = "0.0.0.0" ]; then
-                /sbin/ip route add default ${GATEWAYDEV}
+                /sbin/ip route add default dev ${GATEWAYDEV}
             else
                 /sbin/ip route add default via ${GATEWAY}
             fi

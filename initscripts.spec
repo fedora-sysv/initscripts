@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.31
+Version: 6.32
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -239,6 +239,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Wed Aug 29 2001 Than Ngo <than@redhat.com>
+- fix ISDN dial on demand bug
+- fix typo bug in network-functions
+
 * Tue Aug 28 2001 Nalin Dahyabhai <nalin@redhat.com>
 - document /etc/sysconfig/authconfig
 

@@ -24,7 +24,16 @@ fi
 
 # Reset the default route if this interface had a special one
 if ! check_default_route ; then
-    add_default_route ${DEVICE}
+    # ISDN device needs special handling dial on demand
+    if [ "${DEVICETYPE}" = "ippp" -o "${DEVICETYPE}" = "isdn" ] && [ "$DIALMODE" = "auto" ] ; then
+        if [ -z "$GATEWAY" ] ; then
+            /sbin/ip route add default dev ${DEVICE}
+        else
+            /sbin/ip route add default via ${GATEWAY}
+        fi
+    else
+        add_default_route ${DEVICE}
+    fi
 fi
 
 # Notify programs that have requested notification
