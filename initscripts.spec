@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.57
+Version: 7.55.1
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -249,19 +249,16 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
-* Tue May 25 2004 Bill Nottingham <notting@redhat.com> 7.57-1
-- readonly root fixes (<alexl@redhat.com>)
-
-* Tue May 25 2004 Karsten Hopp <karsten@redhat.de> 7.56-1 
-- special TYPE for qeth devices to differenciate them from ethX
-
-* Mon May 24 2004 Bill Nottingham <notting@redhat.com>
-- fix pppd vs. ppp typo in conflicts (#123680)
-
-* Fri May 21 2004 Bill Nottingham <notting@redhat.com>
-- fix bridging confusing module order (#122848, <luto@myrealbox.com>)
-- rc.d/rc.sysinit: don't mount cifs (#122501)
-
+* Mon Jul 12 2004 Bill Nottingham <notting@redhat.com> 7.55.1-1
+- build for FC2 update
+  - rc.d/rc.sysinit: hack: make ICE directory on boot (#86480)
+  - set context on ICE directory after making it (#127099, <concert@europe.com>)
+  - fix pppd vs. ppp typo in conflicts (#123680)
+  - rc.d/rc.sysinit: don't mount cifs (#122501)
+  - vlan fixes (#107504, <hrunting@texas.net>)
+  - bonding fixes
+  - remove duplicate setting of network routes (#125450)
+  
 * Tue May 18 2004 Karsten Hopp <karsten@redhat.de> 7.55-1 
 - add support for ccwgroup devices on mainframe
 
