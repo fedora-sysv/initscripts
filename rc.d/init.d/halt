@@ -153,7 +153,7 @@ remaining=`awk '!/^#/ && $1 ~ /^\/dev\/loop/ && $2 != "/" {print $1}' /proc/moun
 
 sig=
 retry=3
-remaining=`halt_get_remaining`
+remaining=`halt_get_remaining | sort -r`
 
 while [ -n "$remaining" -a "$retry" -gt 0 ]
 do
@@ -163,7 +163,7 @@ do
 		LANG=C runcmd $"Unmounting file systems: "  umount -f $remaining
 	fi
 	sleep 2
-	remaining=`halt_get_remaining`
+	remaining=`halt_get_remaining | sort -r`
 	[ -z "$remaining" ] && break
 	/sbin/fuser -k -m $sig $remaining >/dev/null
 	sleep 5
