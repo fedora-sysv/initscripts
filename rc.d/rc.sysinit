@@ -163,7 +163,7 @@ fi
 rm -f /lib/modules/preferred
 rm -f /lib/modules/default
 if [ -x /sbin/depmod -a -n "$USEMODULES" ]; then
-    # Get ready for kerneld/kmod if module support in the kernel
+    # Get ready for kmod if module support in the kernel
     if [ -z `uname -r | grep "-"` ]; then
        # we're using a new kernel, no preferred needed
        mver=`uname -r`
@@ -184,24 +184,19 @@ fi
 
 # load sound modules
 if [ -n "$USEMODULES" ]; then
-   if grep -s "alias sound" /etc/conf.modules > /dev/null ; then
+   if grep -s -q "^alias sound" /etc/conf.modules ; then
       action "Loading sound module" modprobe sound
    fi
-   if grep -s "alias midi" /etc/conf.modules > /dev/null ; then
+   if grep -s -q "^alias midi" /etc/conf.modules ; then
       action "Loading midi module" modprobe midi
    fi
 fi
 
 if [ -f /proc/sys/kernel/modprobe ]; then
-   # /proc/sys/kernel/modprobe indicates built-in kmod instead
    if [ -n "$USEMODULES" ]; then
        echo "/sbin/modprobe" > /proc/sys/kernel/modprobe
    else
        echo "" > /proc/sys/kernel/modprobe
-   fi
-else
-   if [ -n "$USEMODULES" ]; then
-      [ -x /sbin/kerneld ] && action "Starting kerneld" /sbin/kerneld && KERNELD=yes
    fi
 fi
 
@@ -296,10 +291,6 @@ rm -f /var/lock/LCK*
 
 # Delete stale subsystem files.
 rm -f /var/lock/subsys/*
-
-if [ -n "$KERNELD" ]; then
-    touch /var/lock/subsys/kerneld
-fi
 
 # Delete stale pid files
 rm -f /var/run/*.pid
