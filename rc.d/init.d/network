@@ -105,7 +105,7 @@ case "$1" in
 	    egrep -v '(~|\.bak)$' | \
 	    egrep 'ifcfg-cipcb[0-9]+$' | \
             sed 's/^ifcfg-//g'`
-	for i in cipeinterfaces ; do 
+	for i in $cipeinterfaces ; do 
             if ! egrep -L "^ONBOOT=\"?[Nn][Oo]\"?" ifcfg-$i >/dev/null 2>&1 ; then
 		# If we're in confirmation mode, get user confirmation
 		[ -n "$CONFIRM" ]  && 
