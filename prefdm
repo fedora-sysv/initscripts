@@ -24,6 +24,8 @@ if [ -f /etc/sysconfig/desktop ]; then
 	fi
 fi
 
+shopt -s execfail
+
 [ -n "$preferred" ] && exec $preferred $* >/dev/null 2>&1
 
 # Fallbacks, in order
