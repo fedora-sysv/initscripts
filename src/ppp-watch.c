@@ -323,6 +323,7 @@ main(int argc, char **argv) {
     struct timeval tv;
     int dieing = 0;
     int sendsig;
+    int connectedOnce = 0;
 
     if (argc < 2) {
 	fprintf (stderr, "usage: ppp-watch [ifcfg-]<logical-name> [boot]");
@@ -394,9 +395,9 @@ main(int argc, char **argv) {
 	    else sendsig = SIGTERM;
 	    dieing = 1;
 
-	    if (physicalDevice) free(physicalDevice);
+	    if (physicalDevice) { free(physicalDevice); physicalDevice = NULL; }
 	    physicalDevice = pppLogicalToPhysical(&pppdPid, device);
-	    if (physicalDevice) free(physicalDevice);
+	    if (physicalDevice) { free(physicalDevice); physicalDevice = NULL; }
 	    kill(pppdPid, sendsig);
 	    if (sendsig == SIGKILL) cleanExit(32);
 	}
@@ -406,15 +407,16 @@ main(int argc, char **argv) {
 	    svCloseFile(ifcfg);
 	    ifcfg = shvarfilesGet(device);
 	    physicalDevice = pppLogicalToPhysical(&pppdPid, device);
-	    if (physicalDevice) free(physicalDevice);
+	    if (physicalDevice) { free(physicalDevice); physicalDevice = NULL; }
 	    kill(pppdPid, SIGTERM);
-	    /* redial when SIGCHLD arrives */
-	    timeout = 1; /* give things time to stabilize... */
+	    /* redial when SIGCHLD arrives, even if !PERSIST */
+	    connectedOnce = 0;
+	    timeout = 0; /* redial immediately */
 	}
 	if (theSigio) {
 	    theSigio = 0;
-	    if (physicalDevice) {
-		free(physicalDevice);
+	    if (connectedOnce) {
+		if (physicalDevice) { free(physicalDevice); physicalDevice = NULL; }
 		temp = svGetValue(ifcfg, "DISCONNECTTIMEOUT");
 		if (temp) {
 		    timeout = atoi(temp);
@@ -428,6 +430,7 @@ main(int argc, char **argv) {
 		if (interfaceStatus(physicalDevice)) {
 		    /* device is up */
 		    detach(1, 0);
+		    connectedOnce = 1;
 		}
 	    }
 	}
@@ -439,8 +442,7 @@ main(int argc, char **argv) {
 	    if (!WIFEXITED(status)) cleanExit(29);
 	    if (dieing) cleanExit(WEXITSTATUS(status));
 
-	    if (svTrueValue(ifcfg, "PERSIST", 0)) {
-		fork_exec(0, "/etc/sysconfig/network-scripts/ifup-ppp", "daemon", device, theBoot);
+	    if (!connectedOnce || svTrueValue(ifcfg, "PERSIST", 0)) {
 		temp = svGetValue(ifcfg, "RETRYTIMEOUT");
 		if (temp) {
 		    timeout = atoi(temp);
@@ -448,8 +450,12 @@ main(int argc, char **argv) {
 		} else {
 		    timeout = 30;
 		}
-		tv.tv_sec = timeout;
-		select(0, NULL, NULL, NULL, &tv);
+		if (connectedOnce) {
+		    memset(&tv, 0, sizeof(tv));
+		    tv.tv_sec = timeout;
+		    select(0, NULL, NULL, NULL, &tv);
+		}
+		fork_exec(0, "/etc/sysconfig/network-scripts/ifup-ppp", "daemon", device, theBoot);
 	    } else {
 		cleanExit(WEXITSTATUS(status));
 	    }
