@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-Version: 4.99
+Version: 5.00
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -246,6 +246,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Mar  8 2000 Bill Nottingham <notting@redhat.com>
+- check that network devices are up before bringing them down
+
 * Wed Mar  8 2000 Jakub Jelinek <jakub@redhat.com>
 - update sysconfig.txt
 
