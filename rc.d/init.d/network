@@ -42,6 +42,8 @@ interfaces=`ls ifcfg* | egrep -v '(ifcfg-lo|:)' | \
 # See how we were called.
 case "$1" in
   start)
+  
+  	action "Setting network parameters" sysctl -p /etc/sysctl.conf
 
 	action "Bringing up interface lo" ./ifup ifcfg-lo
 
