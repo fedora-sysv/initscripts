@@ -147,7 +147,7 @@ daemon() {
 	if [ -z "$user" ]; then
 	   $nice $*
 	else
-	   $nice runuser -s /bin/bash - $user -c \"$*\"
+	   $nice runuser -s /bin/bash - $user -c "$*"
 	fi
 	[ "$?" -eq 0 ] && success $"$base startup" || failure $"$base startup"
 }
