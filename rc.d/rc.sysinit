@@ -780,11 +780,11 @@ if [ -x /sbin/hdparm ]; then
 fi
 
 # Boot time profiles. Yes, this should be somewhere else.
-if [ -x /usr/sbin/redhat-config-network-cmd ]; then
+if [ -x /usr/sbin/system-config-network-cmd ]; then
   if strstr "$cmdline" netprofile= ; then
     for arg in $cmdline ; do
         if [ "${arg##netprofile=}" != "${arg}" ]; then
-	    /usr/sbin/redhat-config-network-cmd --profile ${arg##netprofile=}
+	    /usr/sbin/system-config-network-cmd --profile ${arg##netprofile=}
         fi
     done
   fi
