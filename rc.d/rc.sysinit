@@ -27,6 +27,7 @@ fi
 
 set_the_clock() {
     # Set the system clock.
+    _CLOCK_SET=1
     ARC=0
     UTC=0
     if [ -f /etc/sysconfig/clock ]; then
@@ -74,8 +75,9 @@ set_the_clock() {
 # Fix console loglevel
 /sbin/loglevel $LOGLEVEL
 
+_CLOCK_SET=0
 # Set clock, if we can...
-if [ -f /etc/localtime ]; then
+if [ -f /etc/localtime ] || cat /etc/localtime >/dev/null 2>&1; then
      set_the_clock
 fi
 
@@ -369,7 +371,7 @@ rm -f /tmp/.X*-lock
 rm -f /tmp/.s.PGSQL.*
 
 # If we didn't set the clock before, set it now...
-if [ ! -f /etc/localtime ]; then
+if [ "$_CLOCK_SET" != "1" ]; then
      set_the_clock
 fi
 
