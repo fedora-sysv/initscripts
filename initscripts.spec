@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.87
+Version: 6.88
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -244,6 +244,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Wed Jul 24 2002 Bill Nottingham <notting@redhat.com>
+- fix unicode checks in rc.sysinit, lang.{sh,csh} to handle UTF-8@euro
+
 * Tue Jul 16 2002 Bill Nottingham <notting@redhat.com>
 - use iptables, not ipchains
 
