@@ -67,6 +67,9 @@ relabel_selinux() {
     rm -f  /.autorelabel 
     echo "*** Enabling security enforcement.         ***"
     echo $SELINUX > $selinuxfs/enforce
+    if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
+	chvt 8
+    fi
 }
 
 
@@ -421,6 +424,9 @@ if [ -z "$fastboot" -a "$READONLY" != "yes" -a "X$ROOTFSTYPE" != "Xnfs" -a "X$RO
 	elif [ "$rc" -eq "1" ]; then
 		_RUN_QUOTACHECK=1
 	fi
+	if [ -f /.autofsck -a -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
+		chvt 8
+    	fi
 fi
 # Unmount the initrd, if necessary
 if LC_ALL=C fgrep -q /initrd /proc/mounts && ! LC_ALL=C fgrep -q /initrd/loopfs /proc/mounts ; then
