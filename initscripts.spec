@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.70
+Version: 5.75
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -254,6 +254,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Mar 12 2001 Preston Brown <pbrown@redhat.com>
+- Work properly with new quota utilities
+
 * Mon Mar  5 2001 Bill Nottingham <notting@redhat.com>
 - IPv6 fixes (#30506)
 - make static-routes handling more sane and consistent (#29500, #29549)
