@@ -255,7 +255,7 @@ int main(int argc, const char **argv) {
 	}
     }
 	
-    if (showBroadcast || showNetwork) {
+    if (showBroadcast || showNetwork || showPrefix) {
 	if (!(netmaskStr = (char *) poptGetArg(optCon)) &&
 	    (prefix == 0)) {
 	    if (!beSilent) {
