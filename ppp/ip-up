@@ -13,6 +13,9 @@ chmod a+r /var/run/ppp-$LOGDEVICE.dev
 
 [ -x /etc/ppp/ip-up.local ] && /etc/ppp/ip-up.local $*
 
+# Used for clustering heartbeat monitoring stuff.
+[ -x /etc/ppp/ip-up.heart ] && /etc/ppp/ip-up.heart $*
+
 /etc/sysconfig/network-scripts/ifup-post ifcfg-${LOGDEVICE}
 
 exit 0
