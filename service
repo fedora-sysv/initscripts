@@ -6,7 +6,7 @@ if [ -z "$1" ]; then
 elif [ -x "/etc/rc.d/init.d/$1" ]; then
 	service=$1
 	shift
-	"/etc/rc.d/init.d/$service" $*
+	exec "/etc/rc.d/init.d/$service" $*
 else
 	echo "$1: unrecognized service" >&2
 	exit 1
