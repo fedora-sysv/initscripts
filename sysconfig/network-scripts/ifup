@@ -59,7 +59,7 @@ fi
 
 # figure out more about what we are dealing with
 DEVICETYPE=`echo ${DEVICE} | sed "s/[0-9]*$//"`
-REALDEVICE=`echo ${DEVICE} | sed 's/:.*//g'`
+[ -z "$REALDEVICE" ] && REALDEVICE=`echo ${DEVICE} | sed 's/:.*//g'`
 if echo ${DEVICE} | grep -q ':' ; then
     ISALIAS=yes
 else
@@ -183,7 +183,7 @@ if [ -n "${DYNCONFIG}" ]; then
 else 
     if [ -z "${IPADDR}" ]; then
          # enable device without IP, useful for e.g. PPPoE
-	 ip link set ${DEVICE} up
+	 ip link set ${REALDEVICE} up
 	 if [ "${NETWORKING_IPV6}" = "yes" ]; then
 	    /etc/sysconfig/network-scripts/ifup-ipv6 ${CONFIG}
 	 fi
@@ -193,16 +193,16 @@ else
     expand_config
     
     [ -n "${ARP}${PROMISC}${ALLMULTI}" ] && \
-	ip link set ${DEVICE} $(toggle_value arp $ARP) \
+	ip link set ${REALDEVICE} $(toggle_value arp $ARP) \
 	   $(toggle_value promisc $PROMISC) \
 	   $(toggle_value allmulti $ALLMULTI)
    
-    if ! ip link set ${DEVICE} up ; then
+    if ! ip link set ${REALDEVICE} up ; then
 	echo $"Failed to bring up ${DEVICE}."
 	exit 1
     fi
 
-    if ! arping -q -c 2 -w 3 -D -I ${DEVICE} ${IPADDR} ; then
+    if ! arping -q -c 2 -w 3 -D -I ${REALDEVICE} ${IPADDR} ; then
 	echo $"Error, some other host already uses address ${IPADDR}."
 	exit 1
     fi
@@ -214,17 +214,10 @@ else
     fi
 
     if ! LC_ALL=C ip addr ls ${REALDEVICE} | grep -q "${IPADDR}/${PREFIX}" ; then
-        if [ "$ISALIAS" = "yes" ]; then
 	 if ! ip addr add ${IPADDR}/${PREFIX} \
 	    brd ${BROADCAST:-+} dev ${REALDEVICE} ${SCOPE} label ${DEVICE}; then
 	    echo $"Error adding address ${IPADDR} for ${DEVICE}."
 	 fi
-	else
-	 if ! ip addr add ${IPADDR}/${PREFIX} \
-	    brd ${BROADCAST:-+} dev ${REALDEVICE} ${SCOPE} ; then
-	    echo $"Error adding address ${IPADDR} for ${DEVICE}."
-	 fi
-	fi
     fi
 
     # update ARP cache of neighboring computers
@@ -234,17 +227,17 @@ else
 
     # Add a route for the subnet.  Replace any existing route.
     if [ "${ISALIAS}" = no ]; then
-	ip route replace ${NETWORK}/${PREFIX} dev ${DEVICE}
+	ip route replace ${NETWORK}/${PREFIX} dev ${REALDEVICE}
     fi
 
     # Set a default route.
-    if [ -z "${GATEWAYDEV}" -o "${GATEWAYDEV}" = "${DEVICE}" ]; then
+    if [ -z "${GATEWAYDEV}" -o "${GATEWAYDEV}" = "${REALDEVICE}" ]; then
 	# set up default gateway
 	if [ -n "${GATEWAY}" -a "`ipcalc --network ${GATEWAY} ${NETMASK} 2>/dev/null`" = "NETWORK=${NETWORK}" ]; then
 	    ip route add default via ${GATEWAY}
 	    DEFGW=${GATEWAY}
 	elif [ "${GATEWAYDEV}" = "${DEVICE}" ]; then
-	    ip route add default dev ${DEVICE}
+	    ip route add default dev ${REALDEVICE}
 	fi
     fi
 fi

@@ -37,7 +37,7 @@ if [ -x /sbin/ifdown-pre-local ]; then
 fi
 
 DEVICETYPE=`echo $DEVICE | sed "s/[0-9]*$//"`
-REALDEVICE=`echo ${DEVICE} | sed 's/:.*//g'`
+[ -z "$REALDEVICE" ] && REALDEVICE=`echo ${DEVICE} | sed 's/:.*//g'`
 OTHERSCRIPT="/etc/sysconfig/network-scripts/ifdown-${DEVICETYPE}"
 
 if [ -x $OTHERSCRIPT ]; then
@@ -87,7 +87,11 @@ else
 	# may have been changed in the config file since the device was
 	# brought up.  Flush all addresses associated with this
 	# instance instead.
-	ip addr flush dev ${REALDEVICE} label ${DEVICE}
+	if [ "${REALDEVICE}" = "${DEVICE}" ]; then
+		ip addr flush dev ${REALDEVICE} 2>/dev/null
+	else
+		ip addr flush dev ${REALDEVICE} label ${DEVICE} 2>/dev/null
+	fi
 fi
 
 if [ "${REALDEVICE}" = "${DEVICE}" ]; then
