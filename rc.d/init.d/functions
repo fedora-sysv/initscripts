@@ -92,7 +92,7 @@ daemon() {
         [ -z $gotbase ] && base=`basename $1`
 
         # See if it's already running.
-        pidlist=`pidofproc $base`
+        pidlist=`pidofproc $1`
 	
 	pid=
 	for apid in $pidlist ; do
@@ -138,7 +138,7 @@ killproc() {
         base=`basename $1`
 
         # Find pid.
-        pidlist=`pidofproc $base`
+        pidlist=`pidofproc $1`
 	
 	pid=
 	for apid in $pidlist ; do
