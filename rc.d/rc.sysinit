@@ -298,17 +298,14 @@ if [ -f /proc/mdstat -a -f /etc/raidtab ]; then
 			# Try raidstart first...if that fails then
 			# fall back to raidadd, raidrun.  If that
 			# also fails, then we drop to a shell
+			RESULT=1
 			if [ -x /sbin/raidstart ]; then
 				/sbin/raidstart $i
 				RESULT=$?
-			else
-				RESULT=1
 			fi
 			if [ $RESULT -gt 0 -a -x /sbin/raid0run ]; then
 				/sbin/raid0run $i
 				RESULT=$?
-			else
-			        RESULT=1
 			fi
 			if [ $RESULT -gt 0 -a -x /sbin/raidadd -a -x /sbin/raidrun ]; then
 				/sbin/raidadd $i
