@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.26
+%define version 4.27
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
@@ -187,12 +187,20 @@ rm -rf $RPM_BUILD_ROOT
 %dir /var/run/netreport
 %config /etc/ppp/ip-up
 %config /etc/ppp/ip-down
+%config /etc/initlog.conf
 %doc sysconfig.txt sysvinitfiles
 %ghost %attr(0664,root,utmp) /var/log/wtmp
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 
 %changelog
+* Mon Jul 26 1999 Bill Nottingham <notting@redhat.com>
+- stability fixes for initlog
+- initlog now has a config file
+- add alias speedup from dharris@drh.net
+- move netfs links
+- usleep updates
+
 * Thu Jul  8 1999 Bill Nottingham <notting@redhat.com>
 - remove timeconfig dependency
 - i18n fixes from nkbj@image.dk

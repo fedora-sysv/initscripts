@@ -1,8 +1,67 @@
-1999-07-08  Cristian Gafton  <gafton@redhat.com>
+1999-07-26  Bill Nottingham  <notting@redhat.com>
 
-	* rc.d/init.d/netfs: Change the run levels to 25/75, so that the nfs lock 
-	daemons will be started and killed in the correct order.
-	* Makefile: remove *~ on make clean
+	* sysconfig/network-scripts/ifup:
+	take out some code that's never run...
+
+	* sysconfig/network-scripts/ifdown-aliases, sysconfig/network-scripts/ifup-aliases:
+	speedup fixes for ifup-aliases from David Harris (dharris@drh.net)
+
+1999-07-25  Bill Nottingham  <notting@redhat.com>
+
+	* src/process.c:
+	- increase buffer from 2K to 8K
+	- add regexp checking
+	- add a usleep() call so we don't read 4000 twiddles from fsck
+
+	* src/Makefile: install initlog.conf
+
+	* src/initlog.c:
+	add config file parsing, strip data before a \r
+
+	* src/initlog.conf: initial checkin
+
+1999-07-24  Bill Nottingham  <notting@redhat.com>
+
+	* src/process.c:
+	when 'rexec'ing, run initlog as child, not parent.
+	Ignore SIGPIPE when writing to initlog FD.
+
+	* rc.d/init.d/functions:
+	When we write to initlog's FD, write in subshell so we don't die with SIGPIPE
+
+	* src/process.c:
+	oops, logging was broken 'cos we were passing bogus command line
+
+1999-07-22  Donnie Barnes  <djb@redhat.com>
+
+	* src/usleep.c: added --oot option
+
+	* src/usleep.c: minor nit
+
+	* src/usleep.c:
+	fixed bug oot introduced into my code
+
+1999-07-22  Erik Troan  <ewt@redhat.com>
+
+	* src/usleep.c: added missing include <sigh>
+
+	* src/Makefile, src/usleep.1, src/usleep.c:
+	popt'd usleep (djb made me)
+
+1999-07-21  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit:
+	mount /proc before checking / so that volume labels can work
+
+1999-07-15  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.local:
+	"processor" isn't common to all architectures. But bogomips is! :)
+
+1999-07-09  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec:
+	fix path sed of zonefile location
 
 1999-07-08  Bill Nottingham  <notting@redhat.com>
 
@@ -17,8 +76,16 @@
 	* Makefile, initscripts.spec, lang.sh, sysconfig.txt:
 	more fixes for i18n from nkbj@image.dk, move inputrc to setup package
 
+	* lang.sh: revert changes for time being
+
 	* src/initlog.c, src/process.c, src/testd.c, src/usleep.c:
 	fix some compiler warnings (nkbj@image.dk)
+
+1999-07-08  Cristian Gafton  <gafton@redhat.com>
+
+	* rc.d/init.d/netfs: Change the run levels to 25/75, so that the nfs lock 
+	daemons will be started and killed in the correct order.
+	* Makefile: remove *~ on make clean
 
 1999-07-07  Bill Nottingham  <notting@redhat.com>
 
