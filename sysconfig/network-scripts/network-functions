@@ -71,7 +71,7 @@ do_netreport ()
         OWNER=`ls -l $i | awk '{ print $3 }'`
 	
         if [ "`id -u`" = "0" ]; then
-	  su $OWNER -c "kill -SIGIO $i >/dev/null 2>&1 || rm -f $i >/dev/null 2>&1" > /dev/null 2>&1
+	  su -s /bin/bash $OWNER -c "kill -SIGIO $i >/dev/null 2>&1 || rm -f $i >/dev/null 2>&1" > /dev/null 2>&1
 	else
 	  kill -SIGIO $i >/dev/null 2>&1 || rm -f $i >/dev/null 2>&1
 	fi
@@ -88,7 +88,7 @@ is_available ()
     if [ -z "$alias" -o "$alias" = "off" ]; then
         return 2
     fi
-    modprobe $alias >/dev/null 2>&1|| {
+    modprobe $1 >/dev/null 2>&1|| {
       return 1
     }
  else
