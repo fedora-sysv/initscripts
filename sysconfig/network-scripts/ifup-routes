@@ -8,17 +8,20 @@ if [ "$1" = "" ]; then
 	exit 1
 fi
 
-if [ ! -f /etc/sysconfig/networking/static-routes ] &&
-    [ ! -f /etc/sysconfig/static-routes ]; then
+if [ ! -f /etc/sysconfig/network-scripts/route-$1 ]; then
 	exit 0
 fi
 
 DEVICE=$1
 
-#note the trailing space in the grep gets rid of aliases
-grep "^$DEVICE[[:space:]]" /etc/sysconfig/static-routes | while read device args; do
-	/sbin/route add -$args $device
+# Only use the new route-DEV style.
+cat "/etc/sysconfig/network-scripts/route-$DEVICE" | while read line; do
+    echo "/sbin/ip route add $line"
 done
-grep "^any[[:space:]]" /etc/sysconfig/static-routes | while read ignore args ; do
-        /sbin/route add -$args
-done
+
+#grep "^$DEVICE[[:space:]]" /etc/sysconfig/static-routes | while read device args; do
+#	/sbin/route add -$args $device
+#done
+#grep "^any[[:space:]]" /etc/sysconfig/static-routes | while read ignore args ; do
+#        /sbin/route add -$args
+#done
