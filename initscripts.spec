@@ -217,6 +217,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Wed Apr 19 2000 Bill Nottingham <notting@redhat.com>
 - fix lang.csh, again (oops)
+- use /poweroff, /halt to determine whether to poweroff
 
 * Thu Apr 14 2000 Bill Nottingham <notting@redhat.com>
 - fix testing of RESOLV_MODS (which shouldn't be used anyways)
