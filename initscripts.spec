@@ -244,6 +244,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Fri Jul 05 2002 Florian La Roche <Florian.LaRoche@redhat.de>
+- rc.sysinit: do not load raid modules unless /etc/raidtab exists
+- many cleanups for more consistent shell programming and also
+  many smaller speedups within network scripts, no un-necessary sourcing
+  of files etc
+
 * Thu Jun 27 2002 Bill Nottingham <notting@redhat.com>
 - a couple minor unicode tweaks in rc.sysinit
 
