@@ -387,7 +387,7 @@ else
     if [ -z "${GATEWAYDEV}" -o "${GATEWAYDEV}" = "${REALDEVICE}" ]; then
 	# set up default gateway. replace if one already exists
 	if [ -n "${GATEWAY}" -a "`ipcalc --network ${GATEWAY} ${NETMASK} 2>/dev/null`" = "NETWORK=${NETWORK}" ]; then
-	    ip route replace default via ${GATEWAY} ${WINDOW:+window $WINDOW} ${SRC} ${GATEWAYDEV:dev $GATEWAYDEV}
+	    ip route replace default via ${GATEWAY} ${WINDOW:+window $WINDOW} ${SRC} ${GATEWAYDEV:+dev $GATEWAYDEV}
 	elif [ "${GATEWAYDEV}" = "${DEVICE}" ]; then
 	    ip route replace default ${SRC} ${WINDOW:+window $WINDOW} dev ${REALDEVICE}
 	fi
