@@ -83,7 +83,10 @@ if [ "$BOOTPROTO" = bootp -o "$BOOTPROTO" = dhcp ]; then
 	}
 else
 	expand_config
-	ip addr del ${IPADDR}/${PREFIX} brd ${BROADCAST:-+} dev ${REALDEVICE}
+	# we can't just delete the configured address because that address
+	# may have been changed in the config file since the device was
+	# brought up.  Flush all addresses instead.
+	ip addr flush dev ${DEVICE}
 fi
 
 if [ "${REALDEVICE}" = "${DEVICE}" ]; then
