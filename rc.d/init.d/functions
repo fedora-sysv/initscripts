@@ -46,13 +46,18 @@ daemon() {
 	case $1 in
 	    '')    echo '$0: Usage: daemon [+/-nicelevel] {program}'
 	           return 1;;
+	    --check)
+	           shift
+		   base=$1
+		   shift;;
+	          
 	    -*|+*) nicelevel=$1
 	           shift;;
 	     *)    nicelevel=0;;
 	esac
 
         # Save basename.
-        base=`basename $1`
+        [ -z $base ] && base=`basename $1`
 
         # See if it's already running.
 	pid=`pidofproc $base`
