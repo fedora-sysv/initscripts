@@ -25,18 +25,17 @@ CONFIG=$1
 source_config
 
 for frametype in 802.2 802.3 ETHERII SNAP ; do
-    # Yes, this kind of evaluation is really necessary to do this.
-    # Welcome to shell programming...  No, we were not smoking some
-    # particularly good floppies while we wrote this.  :-)
     framename=$(echo $frametype | sed 's/\./_/')
-    case $(eval echo $(echo \$`echo IPXACTIVE_$framename`)) in
+    eval ACT=\$IPXACTIVE_$framename
+    case $ACT in
 	yes|true)
-		case $(eval echo $(echo \$`echo IPXPRIMARY_$framename`)) in
+		eval PRIM=\$IPXPRIMARY_$framename
+		case $PRIM in
 		    yes|true) primary=-p ;;
 		    *) primary= ;;
 		esac
-		/sbin/ipx_interface add $primary $1 $frametype \
-		  $(eval echo $(echo \$`echo IPXNETNUM_$framename`))
+		eval NUM=\$IPXNETNUM_$framename
+		/sbin/ipx_interface add $primary $1 $frametype $NUM
 		;;
     esac
 done
