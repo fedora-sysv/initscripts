@@ -115,7 +115,8 @@ int forkCommand(char **args, int *outfd, int *errfd, int *cmdfd, int quiet) {
 	if(sc_open_max > 1) {
 	    int fd;
 	    for(fd = 3; fd < sc_open_max; fd++) {
-		close(fd);
+		    if (cmdfd && fd != CMD_FD)
+		      close(fd);
 	    }
 	}
 
