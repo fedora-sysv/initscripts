@@ -1,3 +1,45 @@
+1999-02-11  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec, rc.d/rc.sysinit:
+	Remove support for modules/preferred, since we don't need it anymore.
+
+1999-02-10  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifdhcpc-done, sysconfig/network-scripts/ifup:
+	fix kernel-2.2 double net routes, remove '-x' from ifdhcpc-done
+
+	* inittab: turn off xdm in runlevel 5
+
+1999-02-05  Bill Nottingham  <notting@redhat.com>
+
+	* src/process.c, sysconfig/network-scripts/ifup-aliases:
+	bill is a moron. also, fix ifup-aliases for bash2
+
+	* rc.d/init.d/functions:
+	add /usr/X11R6/bin to path, so 'daemon xdm' works
+
+1999-02-04  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec: add changelog entry for this mess
+
+	* src/initlog.h, src/loglevel.c:
+	fix syscall to something lots more portable
+
+	* initscripts.spec, src/loglevel.c, sysconfig.txt:
+	add loglevel.c, document LOGLEVEL setting
+
+	* rc.d/init.d/functions, rc.d/init.d/halt, rc.d/rc.sysinit:
+	bugfixes for 'old' mode
+
+	* rc.d/init.d/single, rc.d/rc.sysinit:
+	swap workaround; kerneld/kmod fixes
+
+	* rc.d/init.d/random, src/Makefile, src/initlog.c, src/process.c, rc.d/init.d/functions, rc.d/init.d/halt, rc.d/init.d/network, rc.d/init.d/nfsfs, rc.d/rc, rc.d/rc.sysinit:
+	fixes
+
+	* rc.d/init.d/functions, rc.d/init.d/halt, rc.d/init.d/network, rc.d/init.d/nfsfs, rc.d/init.d/random, rc.d/rc, rc.d/rc.sysinit, src/initlog.c, src/process.c:
+	bugfixes...
+
 1999-02-03  notting  <notting@bobby.devel.redhat.com>
 
 	* rc.d/init.d/functions, rc.d/init.d/halt, rc.d/init.d/network,
