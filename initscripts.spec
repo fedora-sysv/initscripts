@@ -1,6 +1,6 @@
 Summary: inittab and /etc/rc.d scripts
 Name: initscripts
-%define version 3.57
+%define version 3.58
 Version: %{version}
 Copyright: GPL
 Group: Base
@@ -16,6 +16,9 @@ levels, and shut the system down cleanly. It also contains the scripts
 that activate and deactivate most network interfaces.
 
 %changelog
+* Mon May 04 1998 Michael K. Johnson <johnsonm@redhat.com>
+
+- Added missing files to packagelist.
 
 * Sat May 02 1998 Michael K. Johnson <johnsonm@redhat.com>
 
@@ -373,6 +376,8 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/sysconfig/network-scripts/ifup-sl
 %config /etc/sysconfig/network-scripts/ifup-routes
 %config /etc/sysconfig/network-scripts/ifup-plip
+%config /etc/sysconfig/network-scripts/ifup-aliases
+%config /etc/sysconfig/network-scripts/ifup-ipx
 %config /etc/inittab
 %dir    /etc/rc.d
 %config /etc/rc.d/rc.sysinit
@@ -407,3 +412,4 @@ rm -rf $RPM_BUILD_ROOT
 %dir /var/run/netreport
 %config /etc/ppp/ip-up
 %config /etc/ppp/ip-down
+%doc sysconfig.txt
