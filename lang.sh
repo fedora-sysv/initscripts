@@ -20,8 +20,8 @@ if [ -f /etc/sysconfig/i18n ]; then
 	loadunimap $UNIMAP
     fi
 
-    if [ -n "$SYSTEM" ] ; then
-	case $SYSTEM in
+    if [ -n "$SYSTERM" ] ; then
+	case $SYSTERM in
 	    linux-lat)
 		LESSCHARSET=latin1
 		INPUTRC=/etc/inputrc
