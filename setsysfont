@@ -24,12 +24,17 @@ if [ -x /bin/consolechars -o -x /usr/bin/consolechars ]; then
     consolechars -f $ARGS
   fi
 elif [ -x /bin/setfont ]; then
-  if [ -n "$SYSFONT" -a -n "$UNIMAP" ]; then
-    /bin/setfont $SYSFONT -u $UNIMAP
-  elif [ -n "$SYSFONT" ]; then
-    /bin/setfont $SYSFONT
+  if [ -n "$UNIMAP" ]; then
+    ARGS="-u $UNIMAP"
+  fi
+  if [ -n "$SYSFONTACM" ]; then
+    ARGS="$ARGS -m $SYSFONTACM"
+  fi
+  if [ -n "$SYSFONT" ]; then
+    /bin/setfont $SYSFONT $ARGS
 #  else
 #    /bin/setfont
+    echo -ne "\033(K" > /dev/console
   fi
 else
   echo $"can't set font"
