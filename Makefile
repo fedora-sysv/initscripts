@@ -62,8 +62,7 @@ changelog:
 clean:
 	(cd src; make clean)
 	(cd po; make clean)
-	@rm -fv *~ changenew ChangeLog.old
-
+	@rm -fv *~ changenew ChangeLog.old *gz
 tag-archive:
 	@cvs -Q tag -F $(CVSTAG)
 

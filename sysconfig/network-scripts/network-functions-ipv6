@@ -29,27 +29,15 @@ function test_ipv6()
     # Test for IPv6 enabled kernel
 
 	if ! [ -f /proc/net/if_inet6 ]; then
-		echo "Did not find IPv6 in kernel, trying to load module"
 		modprobe ipv6
 	
 		if ! [ -f /proc/net/if_inet6 ]; then
-				echo "Kernel not compiled for IPv6 - stop!"
+				echo $"Kernel is not compiled with IPv6 support"
 			return 2
 		fi
 	fi
 
 	# Test for IPv6 enabled needed binaries
-
-	if ! ifconfig -? 2>&1 | grep -q "(IPv6)"; then
-		echo "'`which ifconfig`' (net-tools) not compiled for IPv6 - stop!"
-		return 2
-	fi
-	
-	if ! route -? 2>&1 | grep -q "(IPv6)"; then
-		echo "'`which route`' (net-tools) not compiled for IPv6 - stop!"
-		return 2
-	fi
-
 
 	return 0
 }
@@ -57,7 +45,7 @@ function test_ipv6()
 ##### Control IPv6 forwarding
 # Display usage
 function forwarding_ipv6_usage() {
-	echo "Usage: $0 yes|no [device]"
+	echo $"Usage: $0 yes|no [device]"
 }
 
 
@@ -69,13 +57,13 @@ function forwarding_ipv6() {
 	device=$2		# maybe empty
 
 	if [ -z $control ]; then
-		echo "Missing option forwarding control'"
+		echo $"Missing parameter forwarding control'"
 		forwarding_ipv6_usage
 		return 1
 	fi
 
 	if ! [ "$control" = "yes" -o "$control" = "no" -o "$control" = "on" -o "$control" = "off" ]; then
-		echo "Don't understand forwarding control option '$control'"
+		echo $"Don't understand forwarding control parameter '$control'"
 		forwarding_ipv6_usage
 		return 1
 	fi
@@ -97,17 +85,12 @@ function forwarding_ipv6() {
 
 	# Global control? (if no device is given)
 	if [ -z $device ]; then
-		if [ -f /proc/sys/net/ipv6/conf/all/forwarding ]; then
-				echo "$status" > /proc/sys/net/ipv6/conf/all/forwarding
-		fi
+		sysctl -w net.ipv6.conf.all.forwarding=$status >/dev/null 2>&1
 	fi
 	
 	# Per device control
 	if [ ! -z $device ]; then
-		if [ -f /proc/sys/net/ipv6/conf/$device/forwarding ]; then
-			echo "$string IPv6 forwarding for device '$device'"
-				echo "$status" > /proc/sys/net/ipv6/conf/$device/forwarding
-		fi
+		sysctl -w net.ipv6.conf.$device.forwarding=$status >/dev/null 2>&1
 	fi
 	
 }
@@ -130,13 +113,13 @@ function ifup_ipv6_route() {
 	device=$3		# maybe empty
 
 	if [ -z $networkipv6 ]; then
-		echo $"Missing option 'IPv6-network'"
+		echo $"Missing parameter 'IPv6-network'"
 		ifupdown_ipv6_route_usage
 		return 1
 	fi
 
 	if [ -z $gatewayipv6 ]; then
-		echo "Missing option 'IPv6-gateway'"
+		echo "Missing parameter 'IPv6-gateway'"
 		ifupdown_ipv6_route_usage
 		return 1
 	fi
@@ -168,13 +151,13 @@ function ifdown_ipv6_route() {
 	device=$3		# maybe empty
 
 	if [ -z $networkipv6 ]; then
-		echo $"Missing option IPv6-network'"
+		echo $"Missing parameter IPv6-network'"
 		ifup_ipv6_route_usage
 		return 1
 	fi
 
 	if [ -z $gatewayipv6 ]; then
-		echo $"Missing option 'IPv6-gateway'"
+		echo $"Missing parameter 'IPv6-gateway'"
 		ifup_ipv6_route_usage
 		return 1
 	fi
@@ -189,7 +172,6 @@ function ifdown_ipv6_route() {
 
 	
 	if [ -z $device ]; then
-		echo "Delete IPv6 route '$networkipv6' gateway '$gatewayipv6'"
 			route -A inet6 del $networkipv6 gw $gatewayipv6
 	else
 			route -A inet6 del $networkipv6 gw $gatewayipv6 dev $device
@@ -235,7 +217,6 @@ function ifdown_ipv6_autotunnel() {
 		true
 	else
 		# basic tunnel device to down
-		echo "Bring down basic tunnel device 'sit0'"
 			# Switch off forwarding 
 			forwarding_ipv6 off sit0
 			
@@ -248,7 +229,7 @@ function ifdown_ipv6_autotunnel() {
 ##### static tunneling configuration
 
 function ifupdown_ipv6_tunnel_usage() {
-	echo "Usage: $0 interfacename IPv4-tunneladdress IPv6-route"
+	echo $"Usage: $0 interfacename IPv4-tunneladdress IPv6-route"
 }
 
 
@@ -262,19 +243,19 @@ function ifup_ipv6_tunnel() {
 	routeipv6=$3
 
 	if [ -z $device ]; then
-		echo "Missing option 'device'"
+		echo $"Missing parameter 'device'"
 		ifupdown_ipv6_tunnel_usage
 		return 1
 	fi
 
 	if [ -z $addressipv4tunnel ]; then
-		echo "Missing option 'IPv4-tunneladdress'"
+		echo $"Missing parameter 'IPv4-tunneladdress'"
 		ifupdown_ipv6_tunnel_usage
 		return 1
 	fi
 
 	if [ -z $routeipv6 ]; then
-		echo "Missing option 'IPv6-route'"
+		echo $"Missing parameter 'IPv6-route'"
 		ifupdown_ipv6_tunnel_usage
 		return 1
 	fi
@@ -302,19 +283,19 @@ function ifdown_ipv6_tunnel() {
 	routeipv6=$3
 
 	if [ -z $device ]; then
-		echo "Missing option 'device'"
+		echo $"Missing parameter 'device'"
 		ifupdown_ipv6_tunnel_usage
 		return 1
 	fi
 
 	if [ -z $addressipv4tunnel ]; then
-		echo "Missing option 'IPv4-tunneladdress'"
+		echo $"Missing parameter 'IPv4-tunneladdress'"
 		ifupdown_ipv6_tunnel_usage
 		return 1
 	fi
 
 	if [ -z $routeipv6 ]; then
-		echo "Missing option 'IPv6-route'"
+		echo $"Missing parameter 'IPv6-route'"
 		ifupdown_ipv6_tunnel_usage
 		return 1
 	fi
@@ -334,7 +315,7 @@ function ifdown_ipv6_tunnel() {
 
 ##### Interface configuration
 function ifupdown_ipv6_usage() {
-	echo "Usage: $0 interfacename IPv6-address [IPv6-prefixlength]"
+	echo $"Usage: $0 interfacename IPv6-address [IPv6-prefixlength]"
 }
 
 ## Add an IPv6 address for given interface
@@ -347,7 +328,7 @@ function ifup_ipv6_real() {
 	prefixlength=$3
 
 	if [ -z $device ]; then
-		echo "Missing option 'device'"
+		echo $"Missing parameter 'device'"
 		ifupdown_ipv6_usage
 		return 1
 	fi
@@ -358,7 +339,7 @@ function ifup_ipv6_real() {
 	fi
 
 	if [ -z $address ]; then
-		echo "Missing option 'IPv6-address'"
+		echo $"Missing parameter 'IPv6-address'"
 		ifupdown_ipv6_usage
 		return 1
 	fi
@@ -412,8 +393,8 @@ function ifdown_ipv6_real_all() {
 	device=$1
 
 	if [ -z $device ]; then
-		echo "Missing option 'device'"
-		echo "Usage: ifdown_ipv6_real_all interfacename"
+		echo $"Missing parameter 'device'"
+		echo $"Usage: ifdown_ipv6_real_all interfacename"
 		return 1
 	fi
 
@@ -443,7 +424,7 @@ function ifdown_ipv6_real() {
 	prefixlength=$3
 
 	if [ -z $device ]; then
-		echo "Missing option 'device'"
+		echo $"Missing parameter 'device'"
 		ifupdown_ipv6_usage
 		return 1
 	fi
@@ -454,7 +435,7 @@ function ifdown_ipv6_real() {
 	fi
 
 	if [ -z $address ]; then
-		echo "Missing option 'IPv6-address'"
+		echo $"Missing parameter 'IPv6-address'"
 		ifupdown_ipv6_usage
 		return 1
 	fi
