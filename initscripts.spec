@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.21
+Version: 6.22
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -239,7 +239,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
-* Sun Aug 18 2001 Bill Nottingham <notting@redhat.com>
+* Mon Aug 20 2001 Nalin Dahyabhai <nalin@redhat.com>
+- fix syntax error in lang.csh
+- set codeset by echoing to /dev/tty instead of /proc/self/fd/15
+
+* Sun Aug 19 2001 Bill Nottingham <notting@redhat.com>
 - fix a broken call to check_device_down
 - make all loopback addresses have host scope, not global scope.
   Fixes #49374, possibly others
