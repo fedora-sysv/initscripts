@@ -20,8 +20,6 @@ if [ "$PEERDNS" != "no" -o -n "$RESOLV_MODS" -a "$RESOLV_MODS" != "no" ]; then
   [ -n "$MS_DNS2" ] && DNS2=$MS_DNS2
   if [ -n "$DNS1" ] && ! grep -q "^nameserver $DNS1" /etc/resolv.conf &&
    tr=`mktemp /tmp/XXXXXX` ; then
-    # replace only the first two nameserver lines; cannot count on awk
-    # and do not know if sed is capable of this...
     current_replacement="$DNS1"
     next_replacement="$DNS2"
     search=
