@@ -44,12 +44,12 @@ fi
 
 . /etc/sysconfig/network
 
+# Check to make sure the device is actually up
+check_device_down ${DEVICE} && exit 0
+
 if [ "${NETWORKING_IPV6}" = "yes" ]; then
     /etc/sysconfig/network-scripts/ifdown-ipv6 $DEVICE
 fi
-
-# Check to make sure the device is actually up
-check_device_down && exit 0
 
 retcode=0
 if [ "$BOOTPROTO" = bootp -o "$BOOTPROTO" = dhcp ]; then
@@ -64,7 +64,7 @@ if [ "$BOOTPROTO" = bootp -o "$BOOTPROTO" = dhcp ]; then
 fi
 
 
-ifconfig ${DEVICE} down
+ip link set ${DEVICE} down
 [ "$retcode" = "0" ] && retcode=$?
 
 # wait up to 5 seconds for device to actually come down...
