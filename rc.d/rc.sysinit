@@ -274,7 +274,7 @@ state=`awk '/(^\/dev\/root| \/ )/ { print $4 }' /proc/mounts`
 # Remove stale backups
 rm -f /etc/mtab~ /etc/mtab~~
 
-# Enter root and /proc and /proc/bus/usb into mtab.
+# Enter root, /proc and (potentially) /proc/bus/usb and devfs into mtab.
 mount -f /
 mount -f /proc
 [ -f /proc/bus/usb/devices ] && mount -f -t usbdevfs usbdevfs /proc/bus/usb
