@@ -390,7 +390,6 @@ change_resolv_conf ()
     if [ $r -eq 0 ]; then
 	logger -p local7.notice -t "NET" -i "$0 : updated /etc/resolv.conf";
 	[ -e /var/lock/subsys/nscd ] && /usr/sbin/nscd -i hosts; # invalidate cache
-	return $?;
     fi;
     return $r;
 }
