@@ -190,11 +190,6 @@ elif [ -f /forcefsck ]; then
  echo $"On the next boot fsck will be forced."
 fi
 
-HALTARGS="-i -d"
-if [ -f /poweroff -o ! -f /halt ]; then
- HALTARGS="$HALTARGS -p"
-fi
-
 if [ "$command" = /sbin/halt -a -r /etc/ups/upsmon.conf -a -f /etc/killpower -a -f /etc/sysconfig/ups ] ; then
 	. /etc/sysconfig/ups
 	[ "$SERVER" = "yes" -a "$MODEL" != "NONE" -a -n "$MODEL" -a -n "$DEVICE" ] && $MODEL -k $DEVICE
@@ -203,5 +198,8 @@ fi
 if [ -x /sbin/halt.local ]; then
    /sbin/halt.local
 fi
+
+HALTARGS="-i -d"
+[ -f /poweroff -o ! -f /halt ] && HALTARGS="$HALTARGS -p"
 
 exec $command $HALTARGS
