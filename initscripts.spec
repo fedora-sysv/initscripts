@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.53
+Version: 7.54
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -249,6 +249,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu May 13 2004 Than Ngo <than@redhat.com> 7.54-1
+- add patch to enable PIE build of usernetctl
+
 * Fri May  7 2004 Jeremy Katz <katzj@redhat.com> - 7.53-1
 - little lvm tweak (#121963)
 
