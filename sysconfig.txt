@@ -506,6 +506,48 @@ Files in /etc/sysconfig/network-scripts/
     BOOTTIMEOUT=30
       The amount of time to wait at boot before giving up on the
       connection.
+
+  IPPP-specific items (ISDN)
+    PROVIDER=<ProviderName>
+	 USER=<Login>
+    PASSWORD=<Password>
+	 ENCAP=[syncppp|]
+    DIALMODE=[manual|auto]
+    SECURE=off|on
+	 MSN=<>
+	 PHONE_IN=<Callback.Number>
+	 	 AREACODE=<>
+	 REGIONCODE=<>
+	 PHONE_OUT=<PhoneNumber>
+    BUNDLING=off|on
+    HUPTIMEOUT=<number>
+    DNS1=<PrimaryDNS>
+    DNS2=<SecondaryDNS>
+    DOMAIN=""
+    LAYER=[HDLC|]
+    CALLBACK=off|on
+    CHARGEHUP=<number>
+    CHARGEINT=<number>
+    CBHUP=<number>
+    CBDELAY=<number>
+    DIALMAX=<number>
+    AUTH=[+pap] [-chap]
+    IHUP=<>
+    DELDEFAULTROUTE=[enabled|disabled]
+    CBCP=off|on
+    VJ=off|on
+    VJCCOMP=off|on
+    AC=off|on
+    PC=off|on
+    BSDCOMP=off|on
+    CCP=off|on
+    SLAVE_DEVICE=ippp[0-9]
+    
+  ippp0 items being deprecated:
+    BOOT=[on|off] will be converted to ONBOOT=[yes|no] by netconf
+    LOCAL_IP=     will be converted to IPADDR by netconf
+    REMOTE_IP=    will be converted to GATEWAY by netconf
+
       
 /etc/sysconfig/network-scripts/chat-<interface-name>:
 
