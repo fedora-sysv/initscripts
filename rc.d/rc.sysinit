@@ -124,8 +124,24 @@ else
     USEMODULES=
 fi
 
+rm -f /lib/modules/preferred
 if [ -x /sbin/depmod -a -n "$USEMODULES" ]; then
     # Get ready for kerneld/kmod if module support in the kernel
+    if [ -z `uname -r | grep "-"`]; then
+       # we're using a new kernel, no preferred needed
+       mver=`uname -r`
+    else
+       ktag="`cat /proc/version`"
+       mtag=grep -l "$ktag" /lib/modules/*/.rhkmvtag 2> /dev/null
+       if [ -n "$mtag" ]; then
+          mver=echo $mtag | sed -e 's,/lib/modules/,,' -e 's,/.rhkmvtag,,' -e 's,[       ].*$,,'
+       fi
+       if [ -n "$mver" ]; then
+         ln -sf /lib/modules/$mver /lib/modules/preferred
+         ln -sf /boot/System.map-$mver /boot/System.map
+       fi
+    fi
+    [ -n "$mver" -a -f "/boot/module-info-$mver" ] && ln -sf /boot/module-info-$mver /boot/module-info
     action "Finding module dependencies" depmod -a
 fi
 
