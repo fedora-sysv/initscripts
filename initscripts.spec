@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.31.17.EL
+Version: 7.31.18.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -249,6 +249,13 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Sep 27 2004 Bill Nottingham <notting@redhat.com> 7.31.18.EL-1
+- allow daemons to coredump up to DAEMON_COREFILE_LIMIT (#130175)
+- backport ipcalc fixes from Fedora (#133445)
+- backport ETHTOOL_OPTS + bonding fixes from Fedora (#128714)
+- fix get_hwaddr for token ring (#127984)
+- fix shell quoting for device renaming
+
 * Mon Aug 30 2004 Jason Vas Dias <jvdias@redhat.com> 7.31.17.EL-1
 - Add change_resolv_conf function to network_functions ; get 
 - ifup-post and ifdown-post to invoke it (#125712).
