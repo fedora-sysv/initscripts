@@ -144,6 +144,31 @@ do_netreport ()
   )
 }
 
+# rename_device() - Rename a network device to something else
+# $1 - desired name
+# $2 - hardware address to name
+# $3 - list of devices that are already in use
+#      (for general calls, use the current device you're trying to
+#       change to $1)
+
+rename_device()
+{
+    /sbin/nameif "$1" "$2" || {
+      local hw2=`get_hwaddr ${1}`
+      local nconfig=`fgrep -il "HWADDR=$hw2" /etc/sysconfig/network-scripts/ifcfg-*`
+      local dev=
+      if [ -n "$nconfig"  ]; then
+         dev=$(. $nconfig ; echo $DEVICE)
+         for device in $3 ; do
+	    [ "$dev" = "$device" ] && unset dev
+         done
+      fi 
+      [ -z "$dev" ] && dev=dev$RANDOM
+      rename_device $dev $hw2 "$3 $1"
+      /sbin/nameif "$1" "$2"
+    }
+}
+
 is_available ()
 {
     LC_ALL= LANG= ip -o link | grep -q $1
@@ -154,7 +179,10 @@ is_available ()
         return 2
     fi
     modprobe $1 > /dev/null 2>&1 || return 1
-    [ -n "$HWADDR" ] && /sbin/nameif "$1" "$HWADDR"
+    if [ -n "$HWADDR" ]; then
+       local curdev=`ip -o link | awk -F ':' -vIGNORECASE=1 '/$HWADDR/ { print $2 }'`
+       rename_device "$1" "$HWADDR" "$curdev"
+    fi
     LC_ALL= LANG= ip -o link | grep -q $1
     return $?
 }
