@@ -249,7 +249,7 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/ppp/ip-up
 %config /etc/ppp/ip-down
 %config /etc/initlog.conf
-%doc sysconfig.txt sysvinitfiles ChangeLog sysconfig/static-routes-ipv6
+%doc sysconfig.txt sysvinitfiles ChangeLog sysconfig/static-routes-ipv6 ipv6-tunnel.howto
 %ghost %attr(0664,root,utmp) /var/log/wtmp
 %ghost %attr(0664,root,utmp) /var/run/utmp
 

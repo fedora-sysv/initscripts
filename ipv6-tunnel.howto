@@ -1,0 +1,100 @@
+4th Mar 2001, Pekka Savola <pekkas@netcore.fi>
+
+
+HOW TO SET UP AN IPV6 TUNNEL
+----------------------------
+
+ASSUMPTIONS
+-----------
+
+1. You're running Red Hat Linux 7.1 or later.
+   
+   This is required for correct IPv6 by default settings, and IPv6 being
+   enabled as a kernel module by default.  You also need recent enough
+   initscripts, provided in RHL71.
+
+2. You have a static, globally unique IPv4 address.
+
+3. Protocol 41 (IPv6) is not being filtered in any firewall.
+
+
+INFORMATION NEEDED
+------------------
+
+You need to know:
+
+1. The IPv4 address of your tunnel end point
+2. The IPv6 address used in your tunnel
+
+The other end needs to know the same things about your setup.
+
+NOTE: It is also possible to set up unnumbered tunnels (no global IPv6
+addresses).
+
+You must get these from a party (tunnel broker) who's assigning IPv6 tunnels.  See:
+http://www.bieringer.de/linux/IPv6/IPv6-HOWTO/IPv6-HOWTO-1.html#joinIPv6backbone
+
+Example from http://www.freenet6.net:
+---
+This script will create a tunnel between this computer
+and the Freenet6 server (tunnels server)
+Your IPv6 address (your tunnel end point) is
+3ffe:b00:c18:1fff:0:0:0:7f5 
+We establish a tunnel to the Freenet6 server at
+3ffe:b00:c18:1fff:0:0:0:7f4 
+Your IPv4 address is : 193.xxx.yyy.zzz 
+The IPv4 address of the Freenet6 server is : 206.123.31.102 
+---
+
+With this information, a tunnel can be set up:
+
+SETTING UP THE TUNNEL CONFIGURATION
+-----------------------------------
+
+Now, set up the configuration as follows:
+
+1. Add 'NETWORKING_IPV6=yes' to /etc/sysconfig/network:
+
+   echo "NETWORKING_IPV6=yes" >> /etc/sysconfig/network
+
+2. Add static routes to IPv6 Internet:
+
+   echo "sit1	3ffe::/16" >>  /etc/sysconfig/static-routes-ipv6
+   echo "sit1	2000::/3" >>  /etc/sysconfig/static-routes-ipv6
+
+3. Create /etc/sysconfig/network-scripts/ifcfg-sit1, with the following:
+
+---
+DEVICE=sit1
+BOOTPROTO=none
+ONBOOT=yes
+IPV6INIT=yes
+IPV6TUNNELIPV4=206.123.31.102
+IPV6ADDR=3ffe:b00:c18:1fff:0:0:0:7f5/0
+---
+
+NOTE: You must use _sit1_.  sit0 should not be used.
+
+NOTE: You must use prefix /0, else you may not be able to ping your P-t-P
+peer without tweaking.
+
+NOTE: If you're not directly connected to the Internet, you may want to use
+ONBOOT=no instead.
+
+TUNNELING
+---------
+
+Tunnel can be brought up and down with:
+
+   ifup sit1
+   ifdown sit1
+
+NOTE: Even though sit1 is used, 'ifconfig' sees the tunnel as sit0.  This
+is due to an "interesting" implementation of tunneling -- else multiple
+tunnels couldn't be used extensibly.
+
+MORE INFORMATION
+----------------
+
+http://www.bieringer.de/linux/IPv6/IPv6-HOWTO/IPv6-HOWTO.html is a good
+source of IPv6 related Linux-information.
