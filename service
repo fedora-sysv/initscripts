@@ -33,7 +33,7 @@ do
                   ;;
               *)
                 if [ -x "${SERVICEDIR}/${SERVICE}" ]; then
-                  env -i "${SERVICEDIR}/${SERVICE}" status
+                  env -i LANG=$LANG "${SERVICEDIR}/${SERVICE}" status
                 fi
                 ;;
             esac
@@ -43,8 +43,8 @@ do
           SERVICE="${1}"
           cd "${SERVICEDIR}"
           if [ -x "${SERVICEDIR}/${SERVICE}" ]; then
-            env -i "${SERVICEDIR}/${SERVICE}" stop
-            env -i "${SERVICEDIR}/${SERVICE}" start
+            env -i LANG=$LANG "${SERVICEDIR}/${SERVICE}" stop
+            env -i LANG=$LANG "${SERVICEDIR}/${SERVICE}" start
             exit $?
           fi
        elif [ -z "${SERVICE}" ]; then
@@ -58,7 +58,7 @@ do
 done
 
 if [ -x "${SERVICEDIR}/${SERVICE}" ]; then
-   env -i "${SERVICEDIR}/${SERVICE}" ${OPTIONS}
+   env -i LANG=$LANG "${SERVICEDIR}/${SERVICE}" ${OPTIONS}
 else
    echo $"${SERVICE}: unrecognized service" >&2
    exit 1
