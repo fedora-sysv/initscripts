@@ -91,7 +91,7 @@ for i in /etc/rc$runlevel.d/S* ; do
 		export LC_ALL=C
 		exec $i start
 	fi
-	if egrep -q "(daemon |action )" $i 2>/dev/null \
+	if egrep -q "(daemon |action |success |failure |initlog )" $i 2>/dev/null \
 			|| [ "$subsys" = "single" -o "$subsys" = "local" ]; then
 		$i start
 	else
