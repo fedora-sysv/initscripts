@@ -130,7 +130,7 @@ else
 	if [ "${GATEWAY}" != "" ]; then
 	    route add default gw ${GATEWAY} ${DEVICE}
 	    DEFGW=${GATEWAY}
-	elif [ "${DEVICE}" != "lo" ]; then
+	elif [ "${GATEWAYDEV}" = "${DEVICE}" ]; then
 	    route add default ${DEVICE}
 	fi
     fi
