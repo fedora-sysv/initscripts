@@ -1,9 +1,9 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.31
+Version: 5.32
 Copyright: GPL
 Group: System Environment/Base
-Release: 2
+Release: 1
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /%{_tmppath}/%{name}-%{version}-%{release}-root
 Requires: mingetty, /bin/awk, /bin/sed, mktemp, e2fsprogs >= 1.15, console-tools
@@ -228,6 +228,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Jul 13 2000 Bill Nottingham <notting@redhat.com>
+- fix == tests in rc.sysinit
+- more %pretrans tweaks
+
 * Thu Jul 13 2000 Jeff Johnson <jbj@redhat.com>
 - test if /etc/rc.d is a symlink already in pre-transaction syscalls.
 
