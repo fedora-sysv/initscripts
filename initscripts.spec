@@ -221,6 +221,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Jun 21 2001 Bill Nottingham <notting@redhat.com>
+- more networking script fixes (#45364)
+- add stuff for unmounting /initrd
+
 * Thu Jun 21 2001 Than Ngo <than@redhat.com>
 - add support ISDN
 
