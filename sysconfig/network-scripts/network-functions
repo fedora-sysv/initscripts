@@ -261,13 +261,13 @@ add_default_route ()
  		"${GATEWAY}" != "none" ]; then
         if ! check_device_down $1; then
             if [ "$GATEWAY" = "0.0.0.0" ]; then
-                /sbin/ip route add default dev ${GATEWAYDEV}
+                /sbin/ip route add default ${WINDOW:+window $WINDOW} dev ${GATEWAYDEV}
             else
-                /sbin/ip route add default via ${GATEWAY}
+                /sbin/ip route add default ${WINDOW:+window $WINDOW} via ${GATEWAY}
             fi
         fi
     elif [ -f /etc/default-route ]; then
-	/sbin/ip route add default via `cat /etc/default-route`
+	/sbin/ip route add default ${WINDOW:+window $WINDOW} via `cat /etc/default-route`
 	rm -f /etc/default-route
     fi
 }

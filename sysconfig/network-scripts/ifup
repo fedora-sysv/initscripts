@@ -329,16 +329,16 @@ else
 
     # Add a route for the subnet.  Replace any existing route.
     if [ "${ISALIAS}" = no -a "${NETMASK}" != "255.255.255.255" ]; then
-	ip route replace ${NETWORK}/${PREFIX} ${SRC} dev ${REALDEVICE}
+	ip route replace ${NETWORK}/${PREFIX} ${SRC} ${WINDOW:+window $WINDOW} dev ${REALDEVICE}
     fi
 
     # Set a default route.
     if [ -z "${GATEWAYDEV}" -o "${GATEWAYDEV}" = "${REALDEVICE}" ]; then
 	# set up default gateway. replace if one already exists
 	if [ -n "${GATEWAY}" -a "`ipcalc --network ${GATEWAY} ${NETMASK} 2>/dev/null`" = "NETWORK=${NETWORK}" ]; then
-	    ip route replace default via ${GATEWAY} ${SRC}
+	    ip route replace default via ${GATEWAY} ${WINDOW:+window $WINDOW} ${SRC}
 	elif [ "${GATEWAYDEV}" = "${DEVICE}" ]; then
-	    ip route replace default ${SRC} dev ${REALDEVICE}
+	    ip route replace default ${SRC} ${WINDOW:+window $WINDOW} dev ${REALDEVICE}
 	fi
     fi
     
