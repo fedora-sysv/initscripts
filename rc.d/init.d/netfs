@@ -40,7 +40,7 @@ case "$1" in
         [ -n "$SMBFSTAB" ] && action "Mounting SMB filesystems: " mount -a -t smbfs
         [ -n "$NCPFSTAB" ] && action "Mounting NCP filesystems: " mount -a -t ncpfs
 	touch /var/lock/subsys/netfs
-	action "Mounting other filesystems: " mount -a -t noproc,nfs,smbfs,ncpfs
+	action "Mounting other filesystems: " mount -a -t nonfs,smbfs,ncpfs
 	;;
   stop)
   	[ -n "$NFSMTAB" ] && {
