@@ -7,8 +7,12 @@ export PATH
 
 LOGDEVICE=$6
 REALDEVICE=$1
+NETWORKDIR=/etc/sysconfig/network-scripts
 
-[ -f /etc/sysconfig/network-scripts/ifcfg-${LOGDEVICE} ] && /etc/sysconfig/network-scripts/ifup-post ifcfg-${LOGDEVICE}
+# get Alias name of device
+[ -f /etc/ppp/$LOGDEVICE ] && . /etc/ppp/$LOGDEVICE
+
+[ -f $NETWORKDIR/${NICKNAME} ] && $NETWORKDIR/ifup-post ${NICKNAME}
 
 [ -x /etc/ppp/ip-up.local ] && /etc/ppp/ip-up.local "$@"
 

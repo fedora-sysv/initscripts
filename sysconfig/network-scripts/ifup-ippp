@@ -357,4 +357,7 @@ function addprovider()
 
 addprovider || exit 1
 
+# save Nickname of device
+rm -f /etc/ppp/$DEVICE && echo "NICKNAME=\"$CONFIG\"" > /etc/ppp/$DEVICE
+
 exit 0
