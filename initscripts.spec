@@ -224,6 +224,7 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/ppp-watch
 %{_mandir}/man*/*
 %dir %attr(775,root,root) /var/run/netreport
+%dir /etc/ppp
 %config /etc/ppp/ip-up
 %config /etc/ppp/ip-down
 %config /etc/ppp/ip-up.ipv6to4
@@ -232,8 +233,14 @@ rm -rf $RPM_BUILD_ROOT
 %doc sysconfig.txt sysvinitfiles ChangeLog static-routes-ipv6 ipv6-tunnel.howto ipv6-6to4.howto
 %ghost %attr(0664,root,utmp) /var/log/wtmp
 %ghost %attr(0664,root,utmp) /var/run/utmp
+%dir /etc/locale
+%dir /etc/locale/*
+%dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Tue Jul 17 2001 Bill Nottingham <notting@redhat.com>
+- own some more directories
+
 * Mon Jul 16 2001 Than Ngo <than@redhat.com>
 - fix country_code for ISDN
 
