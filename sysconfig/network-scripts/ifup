@@ -117,7 +117,7 @@ else
     # stupid hack, but it should work
     if [ "$ISALIAS" = no ] && [ -z "`route -n | sed "s/ .*//" | grep ${NETWORK}`" ]; then
 	route add -net ${NETWORK} netmask ${NETMASK} dev ${DEVICE}
-    else
+    elif [ "$ISALIAS" != no ]; then
 	route add -host ${IPADDR} ${DEVICE}
     fi
 
