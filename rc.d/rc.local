@@ -5,23 +5,21 @@
 # want to do the full Sys V style init stuff.
 
 if [ -f /etc/redhat-release ]; then
-	R=$(cat /etc/redhat-release)
-else
-	R="release 3.0.3"
+    R=$(cat /etc/redhat-release)
+
+    arch=$(uname -m)
+    a="a"
+    case "_$arch" in
+	    _a*) a="an";;
+	    _i*) a="an";;
+    esac
+
+    # This will overwrite /etc/issue at every boot.  So, make any changes you
+    # want to make to /etc/issue here or you will lose them when you reboot.
+    echo "" > /etc/issue
+    echo "$R" >> /etc/issue
+    echo "Kernel $(uname -r) on $a $(uname -m)" >> /etc/issue
+
+    cp -f /etc/issue /etc/issue.net
+    echo >> /etc/issue
 fi
-
-arch=$(uname -m)
-a="a"
-case "_$arch" in
-        _a*) a="an";;
-        _i*) a="an";;
-esac
-
-# This will overwrite /etc/issue at every boot.  So, make any changes you
-# want to make to /etc/issue here or you will lose them when you reboot.
-echo "" > /etc/issue
-echo "Red Hat Linux $R" >> /etc/issue
-echo "Kernel $(uname -r) on $a $(uname -m)" >> /etc/issue
-
-cp -f /etc/issue /etc/issue.net
-echo >> /etc/issue
