@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.06
+Version: 8.07
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -190,6 +190,7 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/getkey
 /sbin/kmodule
 %attr(2755,root,root) /sbin/netreport
+/sbin/initlog
 /sbin/service
 /sbin/ppp-watch
 %{_mandir}/man*/*
@@ -202,11 +203,16 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/ppp/ip-down.ipv6to4
 %config /etc/ppp/ipv6-up
 %config /etc/ppp/ipv6-down
+%config /etc/initlog.conf
 %doc sysconfig.txt sysvinitfiles ChangeLog static-routes-ipv6 ipv6-tunnel.howto ipv6-6to4.howto changes.ipv6
 %ghost %attr(0664,root,utmp) /var/log/wtmp
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Mar 31 2005 Bill Nottingham <notting@redhat.com> 8.07-1
+- bring back initlog for third-party scripts until a new framework is
+  in place
+
 * Wed Mar 30 2005 Bill Nottingham <notting@redhat.com> 8.06-1
 - handle alternate VLAN naming schemes (#115001, <kas@informatics.muni.cz>)
 - ifup-ipsec: handle non-ascii keys (#150552)
