@@ -54,7 +54,8 @@ cd /etc/sysconfig/network-scripts
 interfaces=`ls ifcfg* | LANG=C egrep -v '(ifcfg-lo|:|rpmsave|rpmorig|rpmnew)' | \
 	    LANG=C egrep -v '(~|\.bak)$' | \
             LANG=C egrep 'ifcfg-[A-Za-z0-9\._-]+$' | \
-            sed 's/^ifcfg-//g'`
+            sed 's/^ifcfg-//g' |
+            sed 's/[0-9]/ &/' | LANG=C sort -k 1,1 -k 2n | sed 's/ //'`
 
 # See how we were called.
 case "$1" in
