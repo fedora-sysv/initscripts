@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.06
+Version: 7.07
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -246,6 +246,14 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Feb 10 2003 Bill Nottingham <notting@redhat.com> 7.07-1
+- fix nicknames & profiles (#82246)
+- fix check_device_down (#83780, <pzb@datstacks.com>)
+- vlan fixes (<tis@foobar.fi>)
+- fix groff macros (#83531, <tsekine@sdri.co.jp>)
+- various updated translations
+- fix checkpid for multiple pids (#83401)
+
 * Fri Jan 31 2003 Bill Nottingham <notting@redhat.com> 7.06-1
 - 802.1Q VLAN support (<tis@foobar.fi>, #82593)
 - update translations
