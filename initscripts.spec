@@ -3,7 +3,7 @@ Name: initscripts
 Version: 7.28.EL
 License: GPL
 Group: System Environment/Base
-Release: 3
+Release: 1
 Source: initscripts-%{version}.tar.bz2
 URL: http://rhlinux.redhat.com/initscripts/
 Patch0: initscripts-s390.patch
@@ -248,6 +248,12 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Aug  8 2003 Bill Nottingham <notting@redhat.com> 7.29.EL-1
+- setsysfont: don't echo to /dev/console (#102004)
+- fix ethernet device renaming deadlock (#101566)
+- consoletype: don't return 'vt' on vioconsole (#90465)
+- ifup: fix short-circuit (#101445)
+
 * Wed Jul  9 2003 Bill Nottingham <notting@redhat.com> 7.28-1
 - switch from $CONFIG.keys to keys-$CONFIG
 

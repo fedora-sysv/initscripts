@@ -1,3 +1,31 @@
+2003-08-08  Bill Nottingham  <notting@redhat.com>
+
+	* ChangeLog, initscripts.spec: 7.29.EL-1
+
+	* setsysfont:
+	don't echo to /dev/console (#102004)
+
+	* sysconfig/network-scripts/ifup-routes:
+	- ifup-routes: pass the interface name to handle_file() so that we don't try
+	  to use the routes file's name as an interface name
+
+	* src/mkkerneldoth: support kernel-hugemem
+
+2003-08-08  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifup, sysconfig/network-scripts/network-functions:
+	fix ethernet device renaming deadlock (yay recursion!) (#101566)
+
+2003-08-05  Bill Nottingham  <notting@redhat.com>
+
+	* src/consoletype.c:
+	don't return 'vt' on vioconsole (#90465)
+
+2003-08-01  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifup:
+	fix short-circuit (#101445)
+
 2003-07-09  Bill Nottingham  <notting@redhat.com>
 
 	* ChangeLog, initscripts.spec:
