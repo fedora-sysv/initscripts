@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.27
+Version: 6.28
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -239,6 +239,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Mon Aug 27 2001 Than Ngo <than@redhat.com>
+- fix some typo bugs in ifup-ippp <ubeck@c3pdm.com>
+
 * Fri Aug 24 2001 Bill Nottingham <notting@redhat.com>
 - sort output of halt_get_remaining (#52180)
 - fix bad translation (#52503)

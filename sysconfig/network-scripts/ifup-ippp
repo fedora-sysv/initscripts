@@ -50,12 +50,12 @@ isdnctrl list $DEVICE >/dev/null 2>&1 && exit 0
 
 function log_echo()
 {
-    logger -p daemon.info -t ifup-ppp $"$*"
+    logger -p daemon.info -t ifup-ippp $"$*"
 }
 
 function log_isdnctrl()
 {
-    logger -p daemon.info -t ifup-ppp isdnctrl $*
+    logger -p daemon.info -t ifup-ippp isdnctrl $*
     isdnctrl $* >/dev/null 2>&1 || exit 1
 }
 
@@ -251,7 +251,7 @@ function addprovider()
         options="$options ipcp-accept-remote"
         options="$IPADDR:$GATEWAY $options"
     else
-        options="$options $GATEWAY:$IPADDR"
+        options="$options $IPADDR:$GATEWAY"
     fi
 
     # Add default route while connection
@@ -316,10 +316,10 @@ function addprovider()
     if [ "$DIALMODE" = "auto" ]; then
         echo 1 > /proc/sys/net/ipv4/ip_dynaddr
         route del default >/dev/null 2>&1
-        if [ "$REMOTE_IP" = "0.0.0.0" ]; then
+        if [ "$GATEWAY" = "0.0.0.0" ]; then
             route add default $DEVICE >/dev/null 2>&1
         else
-            route add default gw $REMOTE_IP >/dev/null 2>&1
+            route add default gw $GATEWAY >/dev/null 2>&1
         fi
     fi
 }
