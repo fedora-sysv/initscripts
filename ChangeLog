@@ -1,7 +1,18 @@
 2001-06-20  Bill Nottingham  <notting@redhat.com>
 
-	* initscripts.spec: 5.89-1
+	* initscripts.spec: 5.90-1
 
+	* sysconfig/network-scripts/ifcfg-lo, sysconfig/network-scripts/ifup, sysconfig/network-scripts/network-functions:
+	- fix testing for link so that modules will actually get loaded
+	- don't use $MACADDR for testing device's MAC address when it's a
+	  configuration parameter to change it; use $HWADDR instead.
+	- fix broken ipcalc --prefix calls
+	- re-add ifcfg-lo
+	- fix check_default_route
+	- fix up some of the stdout/stderr redirections
+
+	* initscripts.spec: 5.89-1
+	
 	* Makefile:
 	explicitly mkdir /etc/sysconfig/console
 
