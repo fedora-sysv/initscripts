@@ -377,10 +377,12 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/rc.d/rc
 %config /etc/rc.d/rc.local
 /bin/doexec
+/bin/ipcalc
 /bin/usleep
 /usr/sbin/usernetctl
 /sbin/netreport
 /usr/man/man1/doexec.1
+/usr/man/man1/ipcalc.1
 /usr/man/man1/usleep.1
 /usr/man/man1/usernetctl.1
 /usr/man/man1/netreport.1
