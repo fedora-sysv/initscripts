@@ -388,7 +388,7 @@ fi
 if [ -n "$preferred" ] && which $preferred >/dev/null 2>&1; then
 	ln -snf ../..`which $preferred` /etc/X11/prefdm 
 else
-        if [ ! -l /etc/X11/prefdm ]; then
+        if [ ! -L /etc/X11/prefdm ]; then
 		if which gdm >/dev/null 2>&1; then
 			ln -snf ../..`which gdm` /etc/X11/prefdm
 		elif which kdm >/dev/null 2>&1; then
