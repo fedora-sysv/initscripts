@@ -154,6 +154,7 @@ pidofproc() {
 	# Finally try to extract it from ps
 	ps ax | awk 'BEGIN { prog=ARGV[1]; ARGC=1 } 
 			   { if ((prog == $5) || (("(" prog ")") == $5) ||
+			     (("[" prog "]") == $5) ||
 			   ((prog ":") == $5)) { print $1 ; exit 0 } }' $1
 }
 
