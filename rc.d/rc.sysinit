@@ -18,7 +18,11 @@ fi
 
 # Mount /proc and /sys (done here so volume labels can work with fsck)
 mount -n -t proc /proc /proc
-[ -d /proc/bus/usb ] && mount -n -t usbfs /proc/bus/usb /proc/bus/usb
+if [ ! -d /proc/bus/usb ]; then
+	modprobe usbcore >/dev/null 2>&1 && mount -n -t usbfs /proc/bus/usb /proc/bus/usb
+else
+	mount -n -t usbfs /proc/bus/usb /proc/bus/usb
+fi
 mount -n -t sysfs /sys /sys >/dev/null 2>&1
 
 . /etc/init.d/functions
@@ -262,7 +266,7 @@ esac
 
 /sbin/hwclock $CLOCKFLAGS
 
-action $"Setting clock $CLOCKDEF: `date`" date
+action $"Setting clock $CLOCKDEF: `date`" /bin/true
 
 if [ "$CONSOLETYPE" = "vt" -a -x /bin/loadkeys ]; then
  KEYTABLE=
