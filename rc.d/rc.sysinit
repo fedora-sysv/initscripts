@@ -24,6 +24,7 @@ fi
 
 # Mount /proc and /sys (done here so volume labels can work with fsck)
 mount -n -t proc /proc /proc
+mount -n -t usbfs /proc/bus/usb /proc/bus/usb
 mount -n -t sysfs /sys /sys >/dev/null 2>&1
 
 . /etc/init.d/functions
@@ -211,6 +212,8 @@ done
 echo -n $" done"
 success
 echo
+
+echo "raidautorun /dev/md0" | nash --quiet
 
 # Start the graphical boot, if necessary; /usr may not be mounted yet, so we
 # may have to do this again after mounting
