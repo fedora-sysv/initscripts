@@ -8,7 +8,7 @@
 #  You will find more information on the initscripts-ipv6 homepage at
 #   http://www.deepspace6.net/projects/initscripts-ipv6.html
 #
-# Version: 2005-01-07
+# Version: 2005-03-03
 #
 #
 
@@ -597,11 +597,13 @@ ipv6_cleanup_device() {
 
 	# Remove all IPv6 routes through this device (but not "lo")
 	if [ "$device" != "lo" ]; then
-		ipv6_exec_ip -6 route flush dev $device >/dev/null 2>&1
+		ipv6_exec_ip -6 route flush dev $device scope global >/dev/null 2>&1
+		ipv6_exec_ip -6 route flush dev $device scope site   >/dev/null 2>&1
 	fi
 
 	# Remove all IPv6 addresses on this interface
-	ipv6_exec_ip -6 addr flush dev $device >/dev/null 2>&1
+	ipv6_exec_ip -6 addr flush dev $device scope global >/dev/null 2>&1
+	ipv6_exec_ip -6 addr flush dev $device scope site   >/dev/null 2>&1
 
 	return 0
 }
@@ -1075,24 +1077,18 @@ ipv6_add_tunnel_device() {
 			local ttldefault=64
 		fi
 
-		# Test whether remote IPv4 address was already applied to another tunnel (does not catch IPv4 addresses with leading 0's)
-		ipv6_exec_ip tunnel show 2>/dev/null | LC_ALL=C grep -w "ipv6/ip" | LC_ALL=C grep "$addressipv4tunnel" | while read dev type tag remote tag local tag ttl rest; do
-			local devnew="`echo $dev | sed 's/:$//g'`"
-			if [ "$remote" = "$addressipv4tunnel" ]; then
-				ipv6_log $"Given remote address '$addressipv4tunnel' on tunnel device '$device' is already configured on device '$devnew'" err $fn
-				return 3
-			fi
-		done
-		if [ $? -ne 0 ]; then
-			return 3
+		# Test whether remote IPv4 address was already applied to another tunnel
+		if [ "$addressipv4tunnel" != "0.0.0.0" -a "$addressipv4tunnel" != "any" ]; then
+			ipv6_exec_ip tunnel show remote $addressipv4tunnel 2>/dev/null | LC_ALL=C grep -w "ipv6/ip" | while IFS=":" read devnew rest; do
+				if [ "$devnew" != "$device" ]; then
+					ipv6_log $"Given remote address '$addressipv4tunnel' on tunnel device '$device' is already configured on device '$devnew'" err $fn
+					return 3
+				fi
+			done
 		fi
 
 		ipv6_exec_ip tunnel add $device mode sit ttl $ttldefault remote $addressipv4tunnel local $addressipv4tunnellocal
-
-		# Test, whether "ip tunnel show" works without error
-		ipv6_exec_ip tunnel show $device >/dev/null 2>&1
 		if [ $? -ne 0 ]; then
-			ipv6_log $"Tunnel device '$device' creation didn't work" err $fn
 			return 3
 		fi
 

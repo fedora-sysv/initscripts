@@ -22,15 +22,6 @@ need_config ${CONFIG}
 
 source_config
 
-# Old BOOTP variable
-if [ "${BOOTP}" = "yes" ]; then
-    BOOTPROTO=bootp
-fi
-
-if [ "${BOOTPROTO}" = "bootp" -o "${BOOTPROTO}" = "dhcp" ]; then
-    DYNCONFIG=true
-fi
-
 # load the module associated with that device
 # /sbin/modprobe ${REALDEVICE}
 is_available ${REALDEVICE}
@@ -143,7 +134,7 @@ if [ -w /etc/dhclient-${DEVICE}.conf ] && [ -x /sbin/dhclient ] ; then
    rm -f /etc/dhclient-${DEVICE}.conf.ifupnew
 fi
 		     
-if [ -n "${DYNCONFIG}" ]; then
+if [ "${BOOTPROTO}" = "bootp" -o "${BOOTPROTO}" = "dhcp" ]; then
     PUMPARGS=$PUMPARGS
     DHCPCDARGS="$DHCPCDARGS -n"
     if [[ "${PERSISTENT_DHCLIENT}" =  [yY1]* ]]; then
@@ -202,6 +193,8 @@ if [ -n "${DYNCONFIG}" ]; then
         iptables -I RH-Lokkit-0-50-INPUT -m udp -s 0/0 --sport 53 -d 0/0 --dport 1025:65535 -p udp -j ACCEPT
 	FWHACK=1
     fi
+    
+    release_dhcp_lease
     
     if [ -x /sbin/dhclient ] && /sbin/dhclient ${DHCLIENTARGS} ${DEVICE} ; then
 	echo $" done."
