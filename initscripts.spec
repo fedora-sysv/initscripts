@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.60
+Version: 7.61
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -250,8 +250,14 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Aug 11 2004 Jason Vas Dias <jvdias@redhat.com> 7.61-1
+- fix for bug 120093: add PERSISTANT_DHCLIENT option to ifcfg files
+
 * Tue Aug 03 2004 Karsten Hopp <karsten@redhat.de> 7.60-1 
 - write peerid into sysfs for IUCV devices (mainframe)
+
+* Fri Jul 30 2004 Jason Vas Dias <jvdias@redhat.com> 7.60-1
+- fix for bug 125712: add 'change_resolv.conf' function
 
 * Fri Jul  2 2004 Bill Nottingham <notting@redhat.com> 7.59-1
 - set context on ICE directory after making it (#127099, <concert@europe.com>)

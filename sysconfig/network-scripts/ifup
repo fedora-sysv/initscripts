@@ -252,7 +252,12 @@ fi
 if [ -n "${DYNCONFIG}" ]; then
     PUMPARGS=$PUMPARGS
     DHCPCDARGS="$DHCPCDARGS -n"
-    DHCLIENTARGS="${DHCLIENTARGS} -1 -q -lf /var/lib/dhcp/dhclient-${DEVICE}.leases -pf /var/run/dhclient-${DEVICE}.pid -cf /etc/dhclient-${DEVICE}.conf"
+    if [[ "${PERSISTANT_DHCLIENT}" =  [yY1]* ]]; then
+       ONESHOT="";
+    else
+       ONESHOT="-1";
+    fi;
+    DHCLIENTARGS="${DHCLIENTARGS} ${ONESHOT} -q -lf /var/lib/dhcp/dhclient-${DEVICE}.leases -pf /var/run/dhclient-${DEVICE}.pid -cf /etc/dhclient-${DEVICE}.conf"
     if [ -n "${DHCP_HOSTNAME}" ]; then
        # Send a host-name to the DHCP server (requ. by some dhcp servers).
        PUMPARGS="${PUMPARGS} -h ${DHCP_HOSTNAME}"
