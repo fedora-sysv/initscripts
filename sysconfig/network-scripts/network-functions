@@ -7,21 +7,18 @@
 PATH="/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin"
 export PATH
 
-need_config()
+need_config ()
 {
-    [ -f "${CONFIG}" ] || \
-       CONFIG=../networking/default/${1}
-    [ -f "${CONFIG}" ] || \
-       CONFIG=../networking/default/ifcfg-${1}
-    [ -f "${CONFIG}" ] || \
-       CONFIG="ifcfg-${1}"
+    [ -f "${CONFIG}" ] || CONFIG=../networking/default/${1}
+    [ -f "${CONFIG}" ] || CONFIG=../networking/default/ifcfg-${1}
+    [ -f "${CONFIG}" ] || CONFIG="ifcfg-${1}"
 }
 
 source_config ()
 {
     DEVNAME=`basename $CONFIG | sed 's/^ifcfg-//g'`
 
-    if basename $CONFIG | grep '[^g]-' >/dev/null 2>&1 ; then
+    if basename $CONFIG | grep -q '[^g]-' ; then
 	PARENTCONFIG=`echo $CONFIG | sed 's/-[^-]*$//g'`
 	PARENTDEVNAME=`basename $PARENTCONFIG | sed 's/^ifcfg-//g'`
 	[ -f $PARENTCONFIG ] || {
@@ -52,18 +49,15 @@ expand_config ()
     fi
 }
 
-toggle_value()
+toggle_value ()
 {
-	if [ -z "$2" ]
-	then
-		echo ''
-	elif [ "$2" = "yes"  -o "$2" = "YES" ] ; then
-		echo "$1 on"
-	elif [ "$2" = "no"  -o "$2" = "NO" ] ; then
-		echo "$1 off"
-	else
-		echo ''
-	fi
+    if [ "$2" = "yes"  -o "$2" = "YES" ] ; then
+	echo "$1 on"
+    elif [ "$2" = "no"  -o "$2" = "NO" ] ; then
+	echo "$1 off"
+    else
+	echo ''
+    fi
 }
  
 do_netreport ()
@@ -86,31 +80,29 @@ do_netreport ()
 
 is_available ()
 {
- LC_ALL= LANG= ip -o link | grep -q $1
- if [ "$?" = "1" ]; then
+    LC_ALL= LANG= ip -o link | grep -q $1
+    [ "$?" = "1" ] || return 0
+
     alias=`modprobe -c | awk "/^alias $1 / { print \\$3 }"`
     if [ -z "$alias" -o "$alias" = "off" ]; then
         return 2
     fi
-    modprobe $1 >/dev/null 2>&1|| {
-      return 1
-    }
- else
-        return 0
- fi
+    modprobe $1 > /dev/null 2>&1 || return 1
+    return 0
 }
 
-need_hostname()
+need_hostname ()
 {
-    if [ "`hostname`" = "(none)" -o "`hostname`" = "localhost" -o \
-	 "`hostname`" = "localhost.localdomain" ]; then
-	 return 0
+    CHECK_HOSTNAME=`hostname`
+    if [ "$CHECK_HOSTNAME" = "(none)" -o "$CHECK_HOSTNAME" = "localhost" -o \
+	"$CHECK_HOSTNAME" = "localhost.localdomain" ]; then
+	return 0
     else
-	 return 1
+	return 1
     fi
 }
 
-set_hostname()
+set_hostname ()
 {
     hostname $1
     if ! grep search /etc/resolv.conf >/dev/null 2>&1; then
@@ -128,7 +120,7 @@ check_device_down ()
 	  return 0
      fi
     else 
-     if LC_ALL=C ip -o link ls dev $1 2>/dev/null | grep ",UP" >/dev/null 2>&1 ; then
+     if LC_ALL=C ip -o link ls dev $1 2>/dev/null | grep -q ",UP" ; then
 	return 1
      else
 	return 0
@@ -161,18 +153,19 @@ check_link_down ()
 
 check_default_route ()
 {
-   LC_ALL=C ip route | grep -q default
+    LC_ALL=C ip route | grep -q default
 }
 
 find_gateway_dev ()
 {
     . /etc/sysconfig/network
-    if [ "${GATEWAY}" != "" -a "${GATEWAY}" != "none" ] ; then
+    if [ -n "${GATEWAY}" -a "${GATEWAY}" != "none" ] ; then
+	# XXX why?
         export GATEWAY
 	dev=`LC_ALL=C /sbin/ip route | \
              grep ${GATEWAY} | \
              sed -e 's/.* dev \([:alnum:]*\)/\1/'`
-	if [ "$dev" != "" ]; then
+	if [ -n "$dev" ]; then
 	    GATEWAYDEV=$dev
         fi
     fi
@@ -203,8 +196,7 @@ add_default_route ()
 
 is_wireless_device ()
 {
-  if [ -x /sbin/iwconfig ]; then
+    [ -x /sbin/iwconfig ] || return 1
     LC_ALL=C iwconfig $1 2>&1 | grep -q "no wireless extensions" || return 0
-  fi
-  return 1
+    return 1
 }
