@@ -166,7 +166,7 @@ if [ -f /proc/mdstat -a -f /etc/raidtab -a -x /sbin/raidadd ]; then
 
 	if [ $rc = 0 ]; then
 		raidrun -a
-		rc = $?
+		rc=$?
 	fi
 
 	# A non-zero return means there were problems.
