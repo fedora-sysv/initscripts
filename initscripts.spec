@@ -1,16 +1,18 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.41
+%define version 4.42
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
-Release: 2
+Release: 1
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /var/tmp/initbld
 Requires: mingetty, bash, /bin/awk, /bin/sed, mktemp, e2fsprogs, console-tools
 Requires: procps, modutils >= 2.1.85-3, sysklogd >= 1.3.31
 Requires: setup >= 2.0.3, lsof
 Conflicts: kernel <= 2.2, timeconfig < 3.0, pppd < 2.3.9, wvdial < 1.40-3
+Conflicts: initscripts < 1.22.1-5
+Obsoletes: rhsound
 Prereq: /sbin/chkconfig, /usr/sbin/groupadd, gawk
 
 %description
@@ -198,6 +200,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Sep 17 1999 Bill Nottingham <notting@redhat.com>
+- load/save mixer settings in rc.sysinit, halt
+
 * Mon Sep 13 1999 Michael K. Johnson <johnsonm@redhat.com>
 - add --remotename option to wvdial code
 - make sure we do not have an earlier version of wvdial that doesn't
