@@ -360,26 +360,34 @@ configure_ccwgroup_device ()
 # Invoke this when /etc/resolv.conf has changed:
 change_resolv_conf ()
 {
-    s='';
+    s=`/bin/grep '^[\ \	]*option' /etc/resolv.conf`;
+    if [ "x$s" != "x" ]; then
+       s="$s"$'\n';
+    fi;
     if [ $# -gt 1 ]; then
        let n_args=$#;
        while [ $n_args -gt 0 ]; 
 	 do 
+	    if [[ "$s" = *$1* ]]; then
+	       shift;
+               continue;
+            fi;
 	    s="$s$1";
             shift; 
 	    if [ $# -gt 0 ]; then
-		s="$s\n";
+		s="$s"$'\n';
 	    fi;
 	    let n_args=n_args-1; 
          done;       
     elif [ $# -eq 1 ]; then
-       s=`/bin/cat $1`;
+       s="$s"`/bin/grep -vF "$s" $1`;
     fi;
-    (echo -e "$s" > /etc/resolv.conf;) >/dev/null 2>&1;
+    (echo "$s" > /etc/resolv.conf;) >/dev/null 2>&1;
     r=$?
     if [ $r -eq 0 ]; then
 	/sbin/initlog -f local7 -p notice -n NET -s "$0 : updated /etc/resolv.conf";
-	[ -e /var/lock/subsys/nscd ] && /usr/sbin/nscd -i hosts
+#	/sbin/service nscd condrestart >/dev/null 2>&1; # remove when nscd is fixed!
+	[ -e /var/lock/subsys/nscd ] && /usr/sbin/nscd -i hosts; # invalidate cache
 	return $?;
     fi;
     return $r;
