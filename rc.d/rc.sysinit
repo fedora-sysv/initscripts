@@ -63,6 +63,26 @@ if [ -x /sbin/quotaon ]; then
     /sbin/quotaon /
 fi
 
+# check for arguments 
+
+mount -t proc /proc /proc
+if grep -i nopnp /proc/cmdline >/dev/null ; then
+    PNP=
+else
+    PNP=yes
+fi
+umount /proc
+
+# set up pnp 
+if [ -x /sbin/isapnp -a -f /etc/isapnp.conf ]; then
+    if [ -n "$PNP" ]; then
+	echo "Setting up ISA PNP devices"
+	/sbin/isapnp /etc/isapnp.conf
+    else
+	echo "Skipping ISA PNP configuration at users request"
+    fi
+fi
+
 # Remount the root filesystem read-write.
 echo "Remounting root filesystem in read-write mode."
 mount -n -o remount,rw /
