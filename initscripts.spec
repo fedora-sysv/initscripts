@@ -159,6 +159,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc sysconfig.txt
 
 %changelog
+* Thu Feb 18 1999 Bill Nottingham <notting@redhat.com>
+- fix single-user mode (source functions, close if)
+
 * Wed Feb 10 1999 Bill Nottingham <notting@redhat.com>
 - turn off xdm in runlevel 5 (now a separate service)
 
