@@ -36,7 +36,7 @@ fi
 # This is a bit hackish, but should do the job right...
 if [ -n "$ESSID" -o -n "$MODE" ] ; then
     NICKNAME=`/bin/hostname`
-    iwconfig $DEVICE nick \"$NICKNAME\" >/dev/null 2>&1
+    iwconfig $DEVICE nick "$NICKNAME" >/dev/null 2>&1
 fi
 # Regular stuff...
 if [ -n "$NWID" ] ; then
@@ -83,7 +83,7 @@ fi
 # when this is set, and things like encryption keys are better be
 # defined if we want to discover the right set of APs/nodes.
 if [ -n "$ESSID" ] ; then
-    iwconfig $DEVICE essid \"$ESSID\"
+    iwconfig $DEVICE essid "$ESSID"
 else
     # use any essid
     iwconfig $DEVICE essid any
