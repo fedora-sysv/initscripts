@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.75
+Version: 6.76
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -244,6 +244,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Thu May 30 2002 Bill Nottingham <notting@redhat.com> 6.76-1
+- call unicode_start in lang.{sh,csh}, setsysfont when necessary
+
 * Tue May 28 2002 Bill Nottingham <notting@redhat.com> 6.75-1
 - add check for link for dhcp back in
 
