@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.47.5
+Version: 6.47.6
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -240,6 +240,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Mon Dec 15 2003 Bill Nottingham <notting@redhat.com>
+- fix summit check in mkkerneldoth (#112116)
+
 * Fri Nov 14 2003 Bill Nottingham <notting@redhat.com>
 - summit support in mkkerneldoth
 
