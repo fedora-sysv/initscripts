@@ -32,7 +32,7 @@ if [ "$previous" = "N" ]; then
 fi
 
 # Get first argument. Set new runlevel to this argument.
-[ "$1" != "" ] && runlevel="$argv1"
+[ -n "$argv1" ] && runlevel="$argv1"
 
 # Tell linuxconf what runlevel we are in
 [ -d /var/run ] && echo "/etc/rc$runlevel.d" > /var/run/runlevel.dir
