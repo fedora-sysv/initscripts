@@ -1,4 +1,30 @@
+1999-06-17  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit:
+	set the clock if we can read the /etc/localtime link, too
+
+	* rc.d/rc.sysinit:
+	set clock as soon as possible...
+
+1999-06-15  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit:
+	make setsysfont call smarter
+
 1999-06-14  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifup-post:
+	add routes after aliases
+
+	* rc.d/init.d/network:
+	don't need to check internal node number...
+
+	* rc.d/rc.sysinit:
+	add a space after 'alias sound|midi' so we don't get confused by alsaconf
+	stuff
+
+	* sysconfig/network-scripts/ifup-aliases:
+	fix so it does aliases in order
 
 	* rc.d/rc.sysinit:
 	um, it makes very little sense to touch /var/run/utmp and promptly remove it.
@@ -736,8 +762,6 @@
 
 	* rc.d/init.d/network: added missing ;;
 
-	* initscripts.spec: *** empty log message ***
-
 	* rc.d/rc.sysinit: run depmod properly
 
 	* initscripts.spec:
@@ -814,8 +838,6 @@
 
 1998-03-22  ewt  <ewt@redhat.com>
 
-	* initscripts.spec: *** empty log message ***
-
 	* sysconfig/network-scripts/ifup: added netmask calculation
 
 	* src/ipcalc.1: added --netmask
@@ -874,8 +896,6 @@
 
 1998-03-09  ewt  <ewt@redhat.com>
 
-	* initscripts.spec: *** empty log message ***
-
 	* sysconfig/network-scripts/ifup:
 	if bootp fails and there is no fallback IP, take down the device
 
@@ -923,8 +943,6 @@
 
 1998-02-06  ewt  <ewt@redhat.com>
 
-	* initscripts.spec: *** empty log message ***
-
 	* src/usernetctl.c: didn't work for cloned devices
 
 1998-01-12  johnsonm  <johnsonm@redhat.com>
@@ -934,8 +952,6 @@
 	* sysconfig/network-scripts/ifup-routes: /sbin/ isn't always in $PATH
 
 1997-12-31  ewt  <ewt@redhat.com>
-
-	* initscripts.spec: *** empty log message ***
 
 	* rc.d/rc.sysinit:
 	- touch /var/lock/subsys/kerneld after cleaning out /var/lock/subsys
@@ -981,8 +997,6 @@
 	* sysconfig/network-scripts/network-functions: Inheritance was wrong.
 
 1997-11-07  ewt  <ewt@redhat.com>
-
-	* initscripts.spec: *** empty log message ***
 
 	* rc.d/rc.sysinit: added sound stuff
 
