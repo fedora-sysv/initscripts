@@ -74,7 +74,7 @@ fi
 
 if [ "$SLAVE" = yes -a "$ISALIAS" = no -a "$MASTER" != "" -a \
      -x /sbin/ifenslave ]; then
-    RFLAG="" ; [ "$RECEIVE-ONLY" = yes ] && RFLAG="-r"
+    RFLAG="" ; [ "$RECEIVEONLY" = yes ] && RFLAG="-r"
 
     ifconfig ${DEVICE} down
     echo "Enslaving $DEVICE to $MASTER"
