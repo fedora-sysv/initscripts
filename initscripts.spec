@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.65
+Version: 5.66
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -254,6 +254,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Feb 21 Nalin Dahyabhai <nalin@redhat.com>
+- close extra file descriptors before exec()ing commands in initlog
+
 * Mon Feb 19 2001 Bill Nottingham <notting@redhat.com>
 - fix some substitions in init.d/functions (fixes various killproc issues)
 - make sure ipv6 module alias is available if configured
