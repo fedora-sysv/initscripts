@@ -13,7 +13,7 @@ Requires: modutils >= 2.3.11-5
 Requires: util-linux >= 2.10
 Requires: bash >= 2.0
 Conflicts: kernel <= 2.2, timeconfig < 3.0, pppd < 2.3.9, wvdial < 1.40-3
-Conflicts: initscripts < 1.22.1-5 ypbind < 1.6-12
+Conflicts: ypbind < 1.6-12
 Obsoletes: rhsound sapinit
 Prereq: /sbin/chkconfig, /usr/sbin/groupadd, gawk, fileutils
 BuildPrereq: glib-devel
