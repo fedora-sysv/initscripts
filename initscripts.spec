@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.63
+Version: 5.63.1
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -251,6 +251,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Feb  9 2001 Bill Nottingham <notting@redhat.com>
+- muck with the font in lang.csh/lang.sh, but don't spit out errors (#26903)
+
 * Wed Feb  7 2001 Bill Nottingham <notting@redhat.com>
 - ipv6 sync ups (#26502, #25775)
 - fix hangs at shutdown (#25744)
