@@ -11,7 +11,9 @@
 #define SYSLOG_NAMES
 #include <syslog.h>
 
+#include <sys/socket.h>
 #include <sys/stat.h>
+#include <sys/un.h>
 #include <sys/wait.h>
 
 #define _(String) gettext((String))
@@ -184,6 +186,40 @@ int startDaemon() {
     }
 }
 
+int trySocket() {
+	int s;
+	struct sockaddr_un addr;
+ 	
+	s = socket(AF_LOCAL, SOCK_DGRAM, 0);
+	if (s<0)
+	  return 1;
+   
+	bzero(&addr,sizeof(addr));
+	addr.sun_family = AF_LOCAL;
+	strncpy(addr.sun_path,_PATH_LOG,sizeof(addr.sun_path)-1);
+
+	if (connect(s,(struct sockaddr *) &addr,sizeof(addr))<0) {
+		if (errno == EPROTOTYPE) {
+			DDEBUG("connect failed (EPROTOTYPE), trying stream\n");
+			close(s);
+			s = socket(AF_LOCAL, SOCK_STREAM, 0);
+			if (connect(s,(struct sockaddr *) &addr, sizeof(addr)) < 0) {
+				DDEBUG("connect failed: %s\n",strerror(errno));
+				close(s);
+				return 1;
+			} 
+			close(s);
+			return 0;
+		}
+		close(s);
+		DDEBUG("connect failed: %s\n",strerror(errno));
+		return 1;
+	} else {
+		close(s);
+		return 0;
+	}
+}
+
 int logLine(struct logInfo *logEnt) {
     /* Logs a line... somewhere. */
     int x;
@@ -192,7 +228,8 @@ int logLine(struct logInfo *logEnt) {
     /* Don't log empty or null lines */
     if (!logEnt->line || !strcmp(logEnt->line,"\n")) return 0;
     
-    if  ( ((stat(_PATH_LOG,&statbuf)==-1) ||(access("/",W_OK)==-1))
+	
+    if  ( ((stat(_PATH_LOG,&statbuf)==-1) || trySocket())
 	  && startDaemon()
 	) {
 	DDEBUG("starting daemon failed, pooling entry %d\n",logEntries);
