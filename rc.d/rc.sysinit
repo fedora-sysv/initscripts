@@ -386,7 +386,7 @@ if [ -x /sbin/lvm.static ]; then
     if ! LC_ALL=C fgrep -q "device-mapper" /proc/devices 2>/dev/null ; then
 	modprobe dm-mod >/dev/null 2>&1
     fi
-    /bin/rm -f /dev/mapper/control
+    /bin/rm -f /dev/mapper/control &> /dev/null
     echo "mkdmnod" | /sbin/nash --quiet >/dev/null 2>&1
     [ -n "$SELINUX" ] && restorecon /dev/mapper/control
     if [ -c /dev/mapper/control -a -x /sbin/lvm.static ]; then
@@ -704,7 +704,7 @@ for afile in /var/lock/* /var/run/* ; do
 	   rm -f $afile
 	fi
 done
-rm -f /var/lib/rpm/__db*
+rm -f /var/lib/rpm/__db* &> /dev/null
 
 # Reset pam_console permissions
 [ -x /sbin/pam_console_apply ] && /sbin/pam_console_apply -r
