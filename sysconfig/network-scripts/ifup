@@ -171,6 +171,7 @@ if [ "${TYPE}" = "Bridge" ]; then
       fi
       [ -n "${DELAY}" ] && /usr/sbin/brctl setfd ${DEVICE} ${DELAY}
       [ -n "${GCINT}" ] && /usr/sbin/brctl setgcint ${DEVICE} ${GCINT}
+      [ -n "${STP}" ] && /usr/sbin/brctl stp ${DEVICE} ${STP}
 fi
 
 if [ -n "${BRIDGE}" -a -x /usr/sbin/brctl ]; then
