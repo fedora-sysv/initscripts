@@ -66,7 +66,7 @@ touch $RPM_BUILD_ROOT/var/log/wtmp
 
 %pre
 /usr/sbin/groupadd -g 22 -r -f utmp
-if [ -d /etc/rc.d ]; then
+if [ -d /etc/rc.d -a ! -L /etc/rc.d ]; then
    cp -af /etc/rc.d/* /etc && rm -rf /etc/rc.d && ln -snf . /etc/rc.d
 fi
 
