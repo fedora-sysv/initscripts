@@ -17,7 +17,6 @@
 #include <unistd.h>
 #include <errno.h>
 
-#include <newt.h>
 #include <popt.h>
 
 #include <sys/utsname.h>
@@ -58,7 +57,7 @@ int main(int argc, char **argv)
 {
 	char *bus = NULL, *class = NULL;
 	int x, rc;
-	enum deviceBus probeBus = BUS_UNSPEC;
+	enum deviceBus probeBus = BUS_UNSPEC & ~BUS_SERIAL;
 	enum deviceClass probeClass = CLASS_UNSPEC;
 	poptContext context;
 	struct device **devs;
