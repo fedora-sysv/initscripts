@@ -1,6 +1,6 @@
 Summary: inittab and /etc/rc.d scripts
 Name: initscripts
-%define version 3.74
+%define version 3.75
 Version: %{version}
 Copyright: GPL
 Group: Base
@@ -155,6 +155,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc sysconfig.txt
 
 %changelog
+* Mon Oct 12 1998 Preston Brown <pbrown@redhat.com>
+- adjusted setsysfont to always run setfont, even if only w/default font
+
 * Tue Oct 06 1998 Cristian Gafton <gafton@redhat.com>
 - rc.sysvinit should be working with all kernel versions now
 - requires e2fsprogs (for fsck)
