@@ -546,7 +546,9 @@ if [ -f /etc/raidtab ]; then
 	fi
 	# LVM2 initialization, take 2
 	if [ -c /dev/mapper/control -a -x /sbin/lvm.static ]; then
-		action $"Setting up Logical Volume Management:" /sbin/lvm.static vgscan --mknodes --ignorelockingfailure && /sbin/lvm.static vgchange -a y --ignorelockingfailure
+		if /sbin/lvm.static vgscan > /dev/null 2>&1 ; then 
+			action $"Setting up Logical Volume Management:" /sbin/lvm.static vgscan --mknodes --ignorelockingfailure && /sbin/lvm.static vgchange -a y --ignorelockingfailure
+		fi
 	fi
 	# LVM initialization, take 2 (it could be on top of RAID)
 	if [ -e /proc/lvm -a -x /sbin/vgchange -a -f /etc/lvmtab ]; then
