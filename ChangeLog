@@ -1,3 +1,68 @@
+2001-03-05  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec: 5.70-1
+
+	* static-routes-ipv6, sysconfig/static-routes-ipv6:
+	move static-routes-ipv6 up a level
+
+	* initscripts.spec, ipv6-tunnel.howto:
+	add short howto on ipv6 setup
+
+	* sysconfig/network-scripts/network-functions-ipv6:
+	some more ipv6 updates (#30506)
+
+	* rc.d/init.d/network: fix awk for alias
+
+	* rc.d/init.d/network, sysconfig/network-scripts/ifup-routes:
+	- don't attempt to work around broken linuxconf routes, simplify
+	  (and make consistent) adding of static routes, and make it work
+	  again for aliases (#29500, #29549)
+
+2001-03-05  I18N Processor  <i18n@redhat.com>
+
+	* po/pt.po:
+	Auto-update by pmmm@rnl.ist.utl.pt
+
+2001-03-05  Bill Nottingham  <notting@redhat.com>
+
+	* po/Makefile:
+	remove python droppings on make clean
+
+	* sysconfig/network-scripts/ifdown:
+	source /etc/sysconfig/network (#30595)
+
+2001-03-02  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit:
+	insert multiple USB controllers correctly
+
+2001-02-28  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/halt:
+	change message to be less misleading (#30087)
+
+	* sysconfig/network-scripts/network-functions-ipv6:
+	run ifconfig in locale C
+
+2001-02-28  Nalin Dahyabhai  <nalin@redhat.com>
+
+	* initscripts.spec: oops, should cite bug ID
+
+	* initscripts.spec:
+	- usernetctl, ppp-watch: cleanups
+	- netreport: use O_NOFOLLOW
+	- ifup-ppp: let ppp-watch watch over demand-dialed connections
+
+	* src/ppp-watch.c:
+	general cleanups and reorg
+
+	* sysconfig/network-scripts/ifup-ppp:
+	let ppp-watch watch over demand-dialed connections, remove a redundant nodetach (synonymous with -detach)
+
+	* src/netreport.c: use O_NOFOLLOW
+
+	* src/usernetctl.c: formatting cleanups
+
 2001-02-27  Bill Nottingham  <notting@redhat.com>
 
 	* initscripts.spec: 5.68-1
