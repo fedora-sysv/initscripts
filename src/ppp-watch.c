@@ -740,6 +740,7 @@ main(int argc, char **argv) {
 		sleep(timeout);
 		sigprocmask(SIG_BLOCK, &blockedsigs, NULL);
 		if (!theSigterm &&
+		    !theSigint && 
 		    !theSighup &&
 		    !theSigio &&
 		    !theSigchld &&
