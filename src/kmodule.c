@@ -64,45 +64,11 @@ int isAvailable(char *modulename)
 	return 0;
 }
 
-char *dumpDevices(struct device **devlist)
+void waitForConnection(struct device **devlist)
 {
-	int fds[2],x;
-	FILE *tmp;
-	char *buf = NULL;
-
-	pipe(fds);
-	tmp = fdopen(fds[1],"w");
-	
-	buf = NULL;
-	for (x = 0; devlist[x]; x++) {
-		char b[4096];
-		
-		devlist[x]->writeDevice(tmp,devlist[x]);
-		fflush(tmp);
-		memset(b,'\0',4096);
-		while (read(fds[0],b,4096)) {
-			if (!buf) {
-				buf = calloc(strlen(b)+1,sizeof(char));
-				strcpy(buf,b);
-				buf[strlen(b)] = '\0';
-			} else {
-				buf = realloc(buf, strlen(buf)+strlen(b)+1);
-				sprintf(buf,"%s%s",buf,b);
-				buf[strlen(buf)+strlen(b)] = '\0';
-			}
-			if (strlen(b) != 4096)
-				break;
-		}
-	}
-	close(fds[0]);
-	close(fds[1]);
-	return buf;
-}
-
-void waitForConnection(char *buf)
-{
-	int sock, fd, socklen;
+	int sock, fd, socklen, x;
 	struct sockaddr_un addr;
+	FILE *tmp;
 	
 	sock = socket(PF_UNIX, SOCK_STREAM, 0);
 	if (sock == -1) return;
@@ -117,8 +83,12 @@ void waitForConnection(char *buf)
 	fd = accept(sock, &addr, &socklen);
 	if (fd == -1)
 		return;
-	write(fd,buf,strlen(buf));
-	close(fd);
+	tmp = fdopen(fd,"w");
+	for (x = 0; devlist[x]; x++) {
+		devlist[x]->writeDevice(tmp,devlist[x]);
+		fflush(tmp);
+	}
+	fclose(tmp);
 	close(sock);
 }
 
@@ -187,9 +157,8 @@ int main(int argc, char **argv)
 		}
 	}
 	if (isdaemon) {
-		buf = dumpDevices(devs);
 		daemon(0,0);
-		waitForConnection(buf);
+		waitForConnection(devs);
 	}
 	return 0;
 }
