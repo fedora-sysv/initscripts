@@ -1,7 +1,7 @@
 /* 
  * usleep
  * 
- * Written by Donald Barnes <djb@redhat.com> for Red Hat Software.
+ * Written by Donald Barnes <djb@redhat.com> for Red Hat, Inc.
  *
  */
 
@@ -38,18 +38,21 @@ int main(int argc, char **argv) {
   }
 
   if (showVersion) {
-      printf("usleep version 1.1 by Donald Barnes <djb@redhat.com>\n	usleep --help for more info\n");
+      printf("usleep version 1.2\n	usleep --help for more info\n");
       return 0;
   }
 
   countStr = poptGetArg(optCon);
-  if (countStr && poptGetArg(optCon)) {
-      fprintf(stderr, "usleep: exactly one argument (number of microseconds) "
-      		"must be used\n");
+
+  if (countStr == NULL) count = 1;
+
+  else if (countStr && poptGetArg(optCon)) {
+      fprintf(stderr, "%s: exactly one argument (number of microseconds) "
+      		"must be used\n", argv[0]);
       return 2;
   }
 
-  count = strtoul(countStr, NULL, 0); 
+  else count = strtoul(countStr, NULL, 0); 
 
   usleep(count);
   return 0;
