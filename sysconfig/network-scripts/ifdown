@@ -62,9 +62,10 @@ if [ "$BOOTPROTO" = bootp -o "$BOOTPROTO" = dhcp ]; then
 	 	pump -r -i ${DEVICE}
 		retcode=$?
 	}
+else
+	ip addr del ${IPADDR}/${PREFIX} brd ${BROADCAST:-+} dev ${DEVICE}
 fi
 
-ip addr del ${IPADDR}/${PREFIX} brd ${BROADCAST:-+} dev ${DEVICE}
 ip link set ${DEVICE} down
 [ "$retcode" = "0" ] && retcode=$?
 
