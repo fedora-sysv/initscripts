@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.89
+Version: 7.90
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -206,6 +206,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Oct 08 2004 Karsten Hopp <karsten@redhat.de> 7.90-1 
+- fix portname for LCS devices
+
 * Thu Oct 07 2004 Florian La Roche <Florian.LaRoche@redhat.de>
 - change /etc/sysctl.conf to not allow source routed packets per default
 

@@ -339,7 +339,7 @@ configure_ccwgroup_device ()
     SYSDIR="$DIR/${SUBCHANNELS//,*/}"
     [ ! -e $DIR/group ] && return
     echo "$SUBCHANNELS" > $DIR/group
-    if [ -n "$PORTNAME" -a -e $SYSDIR/portname ]; then
+    if [ -n "$PORTNAME" ]; then
          if [ "$NETTYPE" = "lcs" ]; then
 		[ -e $SYSDIR/portno ] && echo "$PORTNAME" > $SYSDIR/portno
 	 else
