@@ -1,4 +1,3 @@
-/* copied from rp3 -- DO NOT EDIT HERE, ONLY COPY FROM rp3 */
 /*
  * shvar.c
  *
@@ -29,7 +28,6 @@
  *
  */
 
-#include <assert.h>
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -47,8 +45,7 @@ svNewFile(char *name)
     shvarFile *s = NULL;
     int closefd = 0;
 
-    s = calloc(sizeof(shvarFile), 1);
-    if (!s) return NULL;
+    s = g_malloc0(sizeof(shvarFile));
 
     s->fd = open(name, O_RDWR); /* NOT O_CREAT */
     if (s->fd == -1) {
@@ -56,24 +53,21 @@ svNewFile(char *name)
 	s->fd = open(name, O_RDONLY); /* NOT O_CREAT */
 	if (s->fd) closefd = 1;
     }
-    s->fileName = strdup(name);
+    s->fileName = g_strdup(name);
 
     if (s->fd != -1) {
 	struct stat buf;
-	char *tmp;
+	char *p, *q;
 
 	if (fstat(s->fd, &buf) < 0) goto bail;
-	s->arena = calloc(buf.st_size, 1);
-	if (!s->arena) goto bail;
+	s->arena = g_malloc0(buf.st_size + 1);
+
 	if (read(s->fd, s->arena, buf.st_size) < 0) goto bail;
-	/* Yes, I know that strtok is evil, except that this is
-	 * precisely what it was intended for in the first place...
-	 */
-	tmp = strtok(s->arena, "\n");
-	while (tmp) {
-	    s->lineList = g_list_append(s->lineList, tmp);
-	    tmp = strtok(NULL, "\n");
+
+	for(p = s->arena; (q = strchr(p, '\n')) != NULL; p = q + 1) {
+		s->lineList = g_list_append(s->lineList, g_strndup(p, q - p));
 	}
+
 	if (closefd) {
 	    close(s->fd);
 	    s->fd = -1;
@@ -84,9 +78,9 @@ svNewFile(char *name)
 
 bail:
     if (s->fd != -1) close(s->fd);
-    if (s->arena) free (s->arena);
-    if (s->fileName) free (s->fileName);
-    free (s);
+    if (s->arena) g_free (s->arena);
+    if (s->fileName) g_free (s->fileName);
+    g_free (s);
     return NULL;
 }
 
@@ -136,7 +130,7 @@ escape(char *s) {
 
     slen = strlen(s);
     newlen = slen + mangle + 3;	/* 3 is extra ""\0 */
-    new = calloc(newlen, 1);
+    new = g_malloc(newlen);
     if (!new) return NULL;
 
     new[0] = '"';
@@ -163,11 +157,10 @@ svGetValue(shvarFile *s, char *key)
     char *keyString;
     int len;
 
-    assert(s);
-    assert(key);
+    g_assert(s);
+    g_assert(key);
 
-    keyString = calloc (strlen(key) + 2, 1);
-    if (!keyString) return NULL;
+    keyString = g_malloc0(strlen(key) + 2);
     strcpy(keyString, key);
     keyString[strlen(key)] = '=';
     len = strlen(keyString);
@@ -175,18 +168,18 @@ svGetValue(shvarFile *s, char *key)
     for (s->current = s->lineList; s->current; s->current = s->current->next) {
 	line = s->current->data;
 	if (!strncmp(keyString, line, len)) {
-	    value = strdup(line + len);
+	    value = g_strdup(line + len);
 	    unescape(value);
 	    break;
 	}
     }
-    free(keyString);
+    g_free(keyString);
 
     if (value) {
 	if (value[0]) {
 	    return value;
 	} else {
-	    free (value);
+	    g_free(value);
 	    return NULL;
 	}
     }
@@ -217,7 +210,7 @@ svTrueValue(shvarFile *s, char *key, int def)
 	 (!strcasecmp("f", tmp)) ||
 	 (!strcasecmp("n", tmp)) ) returnValue = 0;
 
-    free (tmp);
+    g_free (tmp);
     return returnValue;
 }
 
@@ -251,14 +244,12 @@ svSetValue(shvarFile *s, char *key, char *value)
     char *val1 = NULL, *val2 = NULL;
     char *keyValue;
 
-    assert(s);
-    assert(key);
+    g_assert(s);
+    g_assert(key);
     /* value may be NULL */
 
     if (value) value = escape(value);
-    keyValue = malloc (strlen(key) + (value?strlen(value):0) + 2);
-    if (!keyValue) return;
-    sprintf(keyValue, "%s=%s", key, value?value:"");
+    keyValue = g_strdup_printf("%s=%s", key, value ? value : "");
 
     val1 = svGetValue(s, key);
     if (val1 && value && !strcmp(val1, value)) goto bail;
@@ -361,17 +352,17 @@ int
 svCloseFile(shvarFile *s)
 {
 
-    assert(s);
+    g_assert(s);
 
     if (s->fd != -1) close(s->fd);
 
-    free(s->arena);
+    g_free(s->arena);
     for (s->current = s->freeList; s->current; s->current = s->current->next) {
-        free(s->current->data);
+        g_free(s->current->data);
     }
-    free(s->fileName);
+    g_free(s->fileName);
     g_list_free(s->freeList);
     g_list_free(s->lineList); /* implicitly frees s->current */
-    free(s);
+    g_free(s);
     return 0;
 }

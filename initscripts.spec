@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.85
+%define version 4.86
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
@@ -227,6 +227,12 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Jan 31 2000 Nalin Dahyabhai <nalin@redhat.com>
+- attempt to restore default route if PPP takes it over
+- man page fix for ipcalc
+- shvar cleaning
+- automate maintaining /boot/System.map symlinks
+
 * Mon Jan 31 2000 Bill Nottingham <notting@redhat.com>
 - fix hanging ppp-watch
 - fix issues with cleaning of /var/{run,lock}

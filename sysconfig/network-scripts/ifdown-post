@@ -8,6 +8,11 @@ cd /etc/sysconfig/network-scripts
 CONFIG=$1
 source_config
 
+# Reset the default route if this interface had a special one
+if ! check_default_route ; then
+    add_default_route
+fi
+
 # Notify programs that have requested notification
 do_netreport
 

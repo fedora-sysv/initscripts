@@ -1,4 +1,3 @@
-/* copied from rp3 -- DO NOT EDIT HERE, ONLY COPY FROM rp3 */
 /*
  * shvar.h
  *
