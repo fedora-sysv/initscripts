@@ -34,7 +34,7 @@ if [ "$DEVICETYPE" = ppp -a "$PEERDNS" != no -a -n "$DNS1" ] &&
     # and do not know if sed is capable of this...
     current_replacement="$DNS1"
     next_replacement="$DNS2"
-    while read answer < /etc/resolv.conf ; do
+    cat /etc/resolv.conf | while read answer ; do
 	case $answer in
 	    nameserver*)
 		if [ -n "$current_replacement" ] ; then
