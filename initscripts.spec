@@ -159,6 +159,10 @@ rm -rf $RPM_BUILD_ROOT
 %doc sysconfig.txt
 
 %changelog
+* Thu Feb  4 1999 Bill Nottingham <notting@redhat.com>
+- bugfixes (ifup-ppp, kill -TERM, force fsck, hwclock --adjust, setsysfont)
+- add initlog support. Now everything is logged (and bootup looks different)
+
 * Thu Nov 12 1998 Preston Brown <pbrown@redhat.com>
 - halt now passed the '-i' flag so that network interfaces disabled
 
