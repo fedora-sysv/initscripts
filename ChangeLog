@@ -1,3 +1,83 @@
+2000-07-25  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/halt:
+	unmount usb filesystem on shutdown
+
+	* sysconfig/network-scripts/ifup:
+	run an ifup-pre-local script if it exists
+
+	* initscripts.spec, Makefile:
+	tweaks
+
+	* rawdevices, sysconfig/rawdevices:
+	that really needs to move
+
+	* initscripts.spec, rawdevices, rc.d/init.d/rawdevices, sysconfig.txt:
+	add raw device support from karsten
+
+2000-07-25  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifup:
+	run an ifup-pre-local script if it exists
+
+	* initscripts.spec, rawdevices, rc.d/init.d/rawdevices, sysconfig.txt:
+	add raw device support from karsten
+
+2000-07-24  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit:
+	fix usb ugliness on non-PCI machines
+
+	* ChangeLog, initscripts.spec, rc.d/init.d/functions, rc.d/init.d/halt, rc.d/init.d/killall, rc.d/init.d/netfs, rc.d/init.d/network, rc.d/init.d/random, rc.d/init.d/single, rc.d/rc, rc.d/rc.sysinit, service, src/Makefile, src/testdinit, sysvinitfiles:
+	revert
+
+2000-07-24  brosenkr  <brosenkr@redhat.com>
+
+	* rc.d/init.d/functions, rc.d/init.d/halt, rc.d/init.d/killall, rc.d/init.d/netfs, rc.d/init.d/network, rc.d/init.d/single, rc.d/rc, rc.d/rc.sysinit, service, src/Makefile, src/testdinit, sysvinitfiles, ChangeLog, initscripts.spec:
+	/etc/init.d -> /etc/rc.d/init.d
+
+2000-07-20  teg  <teg@redhat.com>
+
+	* rc.d/init.d/random: Use /etc/rc.d/init.d
+
+2000-07-18  teg  <teg@redhat.com>
+
+	* rc.d/rc.sysinit, initscripts.spec:
+	- add "nousb" command line parameter
+	- fix some warnings when mounting /proc/bus/usb
+
+2000-07-15  msw  <msw@redhat.com>
+
+	* initscripts.spec: more cleanups
+
+2000-07-15  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec: add rc.local symlink
+
+2000-07-15  msw  <msw@redhat.com>
+
+	* initscripts.spec, inittab:
+	move things back
+
+	* initscripts.spec, Makefile:
+	hack hack, move things back
+
+	* initscripts.spec:
+	no more pretransaction stuff
+
+2000-07-13  Bill Nottingham  <notting@redhat.com>
+
+	* ChangeLog, initscripts.spec:
+	bump revision to 5.32
+
+	* rc.d/rc.sysinit: fix == in shell
+
+	* initscripts.spec:
+	tweak %pretrans some more
+
+	* rc.d/init.d/functions:
+	chuck ulimit errors to /dev/null
+
 2000-07-13  Bill Nottingham  <notting@redhat.com>
 
 	* rc.d/rc.sysinit: fix == in shell
