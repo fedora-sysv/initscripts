@@ -3,12 +3,15 @@
 # network-functions-ipv6
 #
 # Taken from: network-functions-ipv6
-# (P) & (C) 1997-2002 by Peter Bieringer <pb@bieringer.de>
+# (P) & (C) 1997-2004 by Peter Bieringer <pb@bieringer.de>
 #
-# Version: 2002-11-12
+#  You will find more information on the initscripts-ipv6 homepage at
+#   http://www.deepspace6.net/projects/initscripts-ipv6.html
+#
+# Version: 2004-03-21
 #
 # Extended address detection is enabled, if 'ipv6calc' is installed
-#  Available here: http://www.bieringer.de/linux/IPv6/ipv6calc/
+#  see here for more: http://www.deepspace6.net/projects/ipv6calc.html
 #
 #
 
@@ -1004,25 +1007,27 @@ ipv6_create_6to4_relay_address() {
 
 ## Configure 6to4 tunneling up
 #  $1: <Interface> : only "tun6to4" is supported
-#  $2: <IPv4 address> : global address of local interface
+#  $2: <IPv4 address> : global IPv4 address of interface (will be used to generate 6to4 prefix)
 #  $3: [<IPv6 suffix>] : for 6to4 prefix (optional, default is "::1")
 #  $4: [<MTU>] : MTU of tunnel device (optional, default is automatic)
+#  $5: [<IPv4 address>] : local IPv4 address of tunnel interface (required in case of 6to4 behind NAT)
 # return code: 0=ok 1=argument error 2=IPv6 test fails 3=major problem
 ipv6_add_6to4_tunnel() {
 	local fn="ipv6_add_6to4_tunnel"
 
 	local device=$1
-	local localipv4=$2
-	local localipv6to4suffix=$3
+	local globalipv4=$2
+	local globalipv6to4suffix=$3
 	local mtu=$4
+	local localipv4=$5
 
 	if [ -z "$device" ]; then
 		ipv6_log $"Missing parameter 'device' (arg 1)" err $fn
 		return 1
 	fi
 
-	if [ -z "$localipv4" ]; then
-		ipv6_log $"Missing parameter 'local IPv4 address' (arg 2)" err $fn
+	if [ -z "$globalipv4" ]; then
+		ipv6_log $"Missing parameter 'global IPv4 address' (arg 2)" err $fn
 		return 1
 	fi
 
@@ -1032,18 +1037,23 @@ ipv6_add_6to4_tunnel() {
 		return 1
 	fi
 
+	# Copy global IPv4 address to local if last one is not given
+	if [ -z "$localipv4" ]; then
+		localipv4="$globalipv4"
+	fi
+
 	ipv6_test || return 2
 
 	# Generate 6to4 address
-	local prefix6to4="`ipv6_create_6to4_prefix $localipv4`"
+	local prefix6to4="`ipv6_create_6to4_prefix $globalipv4`"
 	if [ $? -ne 0 -o -z "$prefix6to4" ]; then
 		return 3
 	fi
 
-	if [ -z "$localipv6to4suffix" ]; then
+	if [ -z "$globalipv6to4suffix" ]; then
 		local address6to4="${prefix6to4}::1/16"
 	else
-		local address6to4="${prefix6to4}::${localipv6to4suffix}/16"
+		local address6to4="${prefix6to4}::${globalipv6to4suffix}/16"
 	fi
 
 		ipv6_add_tunnel_device tun6to4 0.0.0.0 $address6to4 $localipv4

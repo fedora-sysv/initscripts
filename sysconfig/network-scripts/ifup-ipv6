@@ -4,14 +4,14 @@
 #
 #
 # Taken from:
-# (P) & (C) 2000-2002 by Peter Bieringer <pb@bieringer.de>
+# (P) & (C) 2000-2004 by Peter Bieringer <pb@bieringer.de>
 #
-#  You will find more information in the IPv6-HowTo for Linux at
-#   http://www.bieringer.de/linux/IPv6/
+#  You will find more information on the initscripts-ipv6 homepage at
+#   http://www.deepspace6.net/projects/initscripts-ipv6.html
 #
 # RHL integration assistance by Pekka Savola <pekkas@netcore.fi>
 #
-# Version 2002-11-14
+# Version 2004-03-21
 #
 # Note: if called (like normally) by /etc/sysconfig/network-scripts/ifup
 #        exit codes aren't handled by "ifup" 
@@ -173,10 +173,17 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 		exit 1
 	fi
 
-	# Get IPv4 address for local 6to4 prefix calculation
+	# Get IPv4 address for global 6to4 prefix calculation
 	if [ -n "$IPV6TO4_IPV4ADDR" ]; then
 		# Take special configured from config file (precedence 1)
 		ipv4addr="$IPV6TO4_IPV4ADDR"
+
+		# Get local IPv4 address from interface
+		ipv4addrlocal="`ipv6_get_ipv4addr_of_device $DEVICE`"
+		if [ -z "$ipv4addrlocal" ]; then
+			# Take configured from config file
+			ipv4addrlocal="$IPADDR"
+		fi
         else
 		# Get IPv4 address from interface first (has precedence 2)
 		ipv4addr="`ipv6_get_ipv4addr_of_device $DEVICE`"
@@ -184,7 +191,9 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 			# Take configured from config file (precedence 3)
 			ipv4addr="$IPADDR"
 		fi
+		ipv4addrlocal="$ipv4addr"
         fi
+
 	if [ -n "$ipv4addr" ]; then
 		if ! ipv6_test_ipv4_addr_global_usable $ipv4addr; then
 			echo $"Given IPv4 address '$ipv4addr' is not globally usable"
@@ -221,7 +230,7 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 			fi
 		fi
 
-		ipv6_add_6to4_tunnel tun6to4 $ipv4addr "" $tunnelmtu || exit 1
+		ipv6_add_6to4_tunnel tun6to4 $ipv4addr "" $tunnelmtu $ipv4addrlocal || exit 1
 
 		# Add route to for compatible addresses (removed later again)
 		ipv6_add_route "::/96" "::" tun6to4
@@ -260,7 +269,7 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 
 		# Cleanup autmatically generated autotunnel (not needed for 6to4)
 		ipv6_del_route "::/96" "::" tun6to4
-		ipv6_del_addr_on_device tun6to4 "::$ipv4addr/128"
+		ipv6_del_addr_on_device tun6to4 "::$ipv4addrlocal/128"
 
 	        if [ "$IPV6_CONTROL_RADVD" = "yes" ]; then
 			# RADVD is in use, so forwarding of IPv6 packets should be enabled, display warning
