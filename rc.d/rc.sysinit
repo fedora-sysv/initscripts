@@ -111,7 +111,7 @@ else
     USEMODULES=
 fi
 
-# Set up /lib/modules/preferred and /boot/System.map symlinks.
+# Set up kernel version-dependent symlinks.
 rm -f /lib/modules/preferred
 if [ -n $USEMODULES ]; then
     ktag="`cat /proc/version`"
@@ -120,6 +120,7 @@ if [ -n $USEMODULES ]; then
 	mver=`echo $mtag | sed -e 's,/lib/modules/,,' -e 's,/.rhkmvtag,,'`
 	ln -sf /lib/modules/$mver /lib/modules/preferred
 	ln -sf /boot/System.map-$mver /boot/System.map
+	ln -sf /boot/module-info-$mver /boot/module-info
     fi
 fi
 
