@@ -185,12 +185,7 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/minilogd
 /sbin/service
 /sbin/ppp-watch
-/usr/man/man1/doexec.1
-/usr/man/man1/initlog.1
-/usr/man/man1/ipcalc.1
-/usr/man/man1/usleep.1
-/usr/man/man1/usernetctl.1
-/usr/man/man1/netreport.1
+/usr/man/man*/*
 %dir /var/run/netreport
 %config /etc/ppp/ip-up
 %config /etc/ppp/ip-down
