@@ -359,7 +359,7 @@ if [ -n "$IN_INITLOG" ]; then
     IN_INITLOG=
 fi
 
-if ! LC_ALL=C grep -iq nomodules /proc/cmdline 2>/dev/null && [ -f /proc/ksyms ]; then
+if ! LC_ALL=C grep -iq nomodules /proc/cmdline 2>/dev/null && [ -f /proc/modules ]; then
     USEMODULES=y
 fi
 
