@@ -157,6 +157,32 @@ if [ -x /sbin/kerneld -a -n "$USEMODULES" ]; then
     fi
 fi
 
+# Add raid devices
+if [ -f /proc/mdstat -a -f /etc/raidtab -a -x /sbin/raidstart ]; then
+	echo "Starting up RAID devices."
+	raidstart -a
+
+	rc=$?
+
+	# A non-zero return means there were problems.
+	if [ $rc -gt 0 ]; then
+		echo
+		echo
+		echo "*** An error occurred during the RAID startup"
+		echo "*** Dropping you to a shell; the system will reboot"
+		echo "*** when you leave the shell."
+
+		PS1="(RAID Repair) \#"; export PS1
+		sulogin
+
+		echo "Unmounting file systems"
+		umount -a
+		mount -n -o remount,ro /
+		echo "Automatic reboot in progress."
+		reboot
+	fi
+fi
+
 # Check filesystems
 if [ ! -f /fastboot ]; then
 	echo "Checking filesystems."
