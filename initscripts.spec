@@ -1,9 +1,9 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.51
+Version: 5.50
 Copyright: GPL
 Group: System Environment/Base
-Release: 1
+Release: 2
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /%{_tmppath}/%{name}-%{version}-%{release}-root
 Requires: mingetty, /bin/awk, /bin/sed, mktemp, e2fsprogs >= 1.15
@@ -229,8 +229,8 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
-* Tue Oct 31 2000 Than Ngo <than@redhat.com>
-- fix the adding default route if GATEWAY=0.0.0.0
+* Wed Nov 29 2000 Bill Nottingham <notting@redhat.com>
+- don't set NIS domain name
 
 * Tue Oct 10 2000 Nalin Dahyabhai <nalin@redhat.com>
 - handle "gw x.x.x.x" as the last pair of flags in ifup-routes (#18804)
