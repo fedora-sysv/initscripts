@@ -6,18 +6,36 @@
 #
 # Configuration parameters
 #
-#   Manual keying:
-#
 #     SRC = source address. Not required.
 #     DST = destination address
 #     SRCNET = source net (for tunneling)
 #     DSTNET = destination network (for tunneling)
-#     AH_PROTO = protocol to use for AH (defaults to HMAC-MD5)
-#     ESP_PROTO = protocol to use for ESP (defaults to 3DES)
-#     KEY_AH = AH key
-#     KEY_ESP = ESP key
+#
+#   Manual keying:
+#
+#     AH_PROTO{_IN,_OUT} = protocol to use for AH (defaults to HMAC-MD5)
+#     ESP_PROTO{_IN,_OUT} = protocol to use for ESP (defaults to 3DES)
+#     KEY_AH{_IN,_OUT} = AH key
+#     KEY_ESP{_IN,_OUT} = ESP key
 #     SPI[1..4] = SPIs to use
 #
+#   _IN and _OUT specifiers are for using different keys or protocols for inccoming
+#   and outgoing packets. If neither _IN or _OUT variants are set, the same keys
+#   or protocols will be used for both.
+#
+#   Automatic keying:
+#
+#     IKE_METHOD=PSK|X509|RSA
+#         PSK = preshared keys (shared secret)
+#         X509 = X.509 certificates
+#         RSA = RSA host keys in DNS (not yet implemented)
+#         GSSAPI = GSSAPI authentication 
+#     IKE_PSK = preshared key for this connection
+#     IKE_CERTFILE = our certificate file name for X509 IKE
+#       IKE_PEER_CERTFILE = peer public cert filename for X509 IKE
+#       IKE_DNSSEC = retrieve peer public certs from DNS
+#     (otherwise uses certificate information sent over IKE)
+#     IKE_RSA_KEY = RSA key for RSA IKE
 #
 
 if [ -n "$KEY_AH" -o -n "$KEY_ESP" ]; then
@@ -40,16 +58,26 @@ if [ -z "$KEY_ESP_OUT" -a -n "$KEY_ESP" ]; then
   KEY_ESP_OUT=$KEY_ESP
 fi
 
-
 if [ -n "$IKE_PSK" ]; then
   KEYING=automatic
   IKE_METHOD=PSK
 fi
 
-if [ -n "$CERT_NAME" ]; then
+if [ -n "$IKE_CERTFILE" ]; then
   KEYING=automatic
   IKE_METHOD=X509
 fi
+
+if [ -n "$IKE_PEER_CERTFILE" ]; then
+  KEYING=automatic
+  IKE_METHOD=X509
+fi
+
+if [ -n "$IKE_DNSSEC" ]; then
+  KEYING=automatic
+  IKE_METHOD=X509
+fi
+
 
 if [ -n "$RSA_KEY" ]; then
   KEYING=automatic
@@ -61,6 +89,8 @@ if [ -n "$SRCNET" -o -n "$DSTNET" ]; then
 else
   MODE=host
 fi
+
+[ -z "$KEYING" ] && KEYING=manual
 
 if [ "$KEYING" = "manual" ]; then
     # Get source address
@@ -130,4 +160,110 @@ spdadd $DSTNET $SRCNET any -P in ipsec
 	    ;
 EOF
     fi
+fi
+
+if [ "$KEYING" = "automatic" ]; then
+    if [ "$MODE" = "host" ]; then
+      /sbin/setkey -c << EOF
+spddelete $SRC $DST any -P out;
+spddelete $DST $SRC any -P in;
+
+spdadd $SRC $DST any -P out ipsec
+            ${KEY_ESP_OUT:+esp/transport//require}
+            ${KEY_AH_OUT:+ah/transport//require}
+	    ;
+		      
+spdadd $DST $SRC any -P in ipsec
+	    ${KEY_ESP_IN:+esp/transport//require}
+	    ${KEY_AH_IN:+ah/transport//require}
+	    ;
+EOF
+    else
+      [ -n "$SRCNET" ] && SRCNET="$SRC/32"
+      [ -n "$DSTNET" ] && DSTNET="$DST/32"
+      
+      /sbin/setkey -c << EOF
+spddelete $SRCNET $DSTNET any -P out;
+spddelete $DSTNET $SRCNET any -P in;
+
+spdadd $SRCNET $DSTNET any -P out ipsec
+            ${KEY_ESP_OUT:+esp/tunnel/$SRC-$DEST/require}
+            ${KEY_AH_OUT:+ah/tunnel/$SRC-$DEST/require}
+	    ;
+		      
+spdadd $DSTNET $SRCNET any -P in ipsec
+	    ${KEY_ESP_IN:+esp/tunnel/$DEST-$SRC/require}
+	    ${KEY_AH_IN:+ah/tunnel/$DEST-$SRC/require}
+	    ;
+EOF
+    fi
+    if [ "$IKE_METHOD" = "PSK" ]; then
+       tmpfile=`mktemp /etc/racoon/psk.XXXXXX`
+       grep -v "^$DST" /etc/racoon/psk.txt > $tmpfile
+       echo "$DST  $IKE_PSK" >> $tmpfile
+       mv -f $tmpfile /etc/racoon/psk.txt
+    fi
+    if [ ! -f /etc/racoon/$DST.conf -o /etc/racoon/$DST.conf -ot $1 ] ; then
+        cat > /etc/racoon/$DST.conf << EOF
+remote $DST
+{
+	exchange_mode agressive, main;
+EOF
+        case "$IKE_METHOD" in
+           PSK)
+	      cat >> /etc/racoon/$DST.conf << EOF
+	my_identifier address;
+	proposal {
+	        encryption_algorithm $ESP_PROTO;
+		hash_alogirtihm $AH_PROTO;
+		authentication_method pre_shared_key;
+		dh_group 2 ;
+	}
+}
+EOF
+              ;;
+           X509)
+	      cat >> /etc/racoon/$DST.conf << EOF
+	my_identifier asn1dn;
+	peers_identifier asn1dn;
+	certificate_type x509 "$IKE_CERTFILE.public" "$IKE_CERTFILE.private";
+EOF
+	      if [ -n "$IKE_DNSSEC" ]; then
+	          echo "        peers_certfile dnssec;" >> /etc/racoon/$DST.conf
+	      fi
+	      if [ -n "$IKE_PEER_CERTFILE" ]; then
+	          echo "        peers_certfile $IKE_PEER_CERTFILE;" >> /etc/racoon/$DST.conf
+	      fi
+	      cat >> /etc/racoon/$DST.conf << EOF
+        proposal {
+		encryption_algorithm $ESP_PROTO;
+		hash_algorithm $AH_PROTO;
+		authentication_method rsasig;
+		dh_group 2;
+	}
+}
+EOF
+              ;;
+           RSA)
+	      # not supported yet, only in freeswan
+              ;;
+	   GSSAPI)
+	      cat >> /etc/racoon/$DST.conf << EOF
+	my_identifier address;
+	proposal {
+	        encryption_algorithm $ESP_PROTO;
+		hash_alogirtihm $AH_PROTO;
+		authentication_method gssapi_krb;
+		dh_group 2 ;
+	}
+}
+EOF
+         esac
+	 racoontmp=`mktemp /etc/racoon/racoon.XXXXXX`
+	 grep -v "^include $DST.conf" /etc/racoon/racoon.conf >> $racoontmp
+	 echo "include $DST.conf" >> $racoontmp
+	 mv -f $racoontmp /etc/racoon/racoon.conf
+	 pidof -x /usr/sbin/racoon > /dev/null 2>&1 && killall -HUP /usr/sbin/racoon
+    fi
+    pidof -x /usr/sbin/racoon || /usr/sbin/racoon
 fi
