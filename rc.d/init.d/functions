@@ -183,11 +183,17 @@ pidofproc() {
 	fi
 
 	# Next try "pidof"
-	pid=`pidof -x $1`
+	pid=`pidof $1`
 	if [ "$pid" != "" ] ; then
 	        echo $pid
 	        return 0
 	fi
+
+	# Finally try to extract it from ps
+	ps ax | awk 'BEGIN { prog=ARGV[1]; ARGC=1 } 
+			   { if ((prog == $5) || (("(" prog ")") == $5) ||
+			     (("[" prog "]") == $5) ||
+			   ((prog ":") == $5)) { print $1 ; exit 0 } }' $1
 }
 
 status() {
@@ -198,10 +204,19 @@ status() {
 	fi
 
 	# First try "pidof"
-	pid=`pidof -x $1`
+	pid=`pidof $1`
 	if [ "$pid" != "" ] ; then
 	        echo "$1 (pid $pid) is running..."
 	        return 0
+        else
+                pid=`ps ax | awk 'BEGIN { prog=ARGV[1]; ARGC=1 } 
+			   { if ((prog == $5) || (("(" prog ")") == $5) ||
+			     (("[" prog "]") == $5) ||
+			   ((prog ":") == $5)) { print $1 ; exit 0 } }' $1`
+                if [ "$pid" != "" ] ; then
+                        echo "$1 (pid $pid) is running..."
+                        return 0
+                fi
 	fi
 
 	# Next try "/var/run/*.pid" files
