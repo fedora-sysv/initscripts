@@ -3,6 +3,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -20,11 +21,49 @@ static char * safeEnviron[] = {
 	NULL
 };
 
-int userCtl(char * file, int size) {
+#define FOUND_FALSE -1
+#define NOT_FOUND 0
+#define FOUND_TRUE 1
+
+
+int testSafe(char * ifaceConfig) {
+    struct stat sb;
+
+    /* these shouldn't be symbolic links -- anal, but that's fine w/ me */
+    if (lstat(ifaceConfig, &sb)) {
+	fprintf(stderr, "failed to stat %s: %s\n", ifaceConfig, 
+		strerror(errno));
+	exit(1);
+    }
+
+    /* safety checks */
+    if (!S_ISREG(sb.st_mode)) {
+	fprintf(stderr, "%s is not a normal file\n", ifaceConfig);
+	exit(1);
+    }
+
+    if (sb.st_uid) {
+	fprintf(stderr, "%s should be owned by root\n", ifaceConfig);
+	exit(1);
+    }
+    
+    if (sb.st_mode & S_IWOTH) {
+	fprintf(stderr, "%s should not be world writeable\n", ifaceConfig);
+	exit(1);
+    }
+
+    return sb.st_size;
+}
+
+
+int userCtl(char * file) {
     char * contents;
     char * chptr;
     char * end;
     int fd;
+    int size;
+
+    size = testSafe(file);
 
     contents = alloca(size + 2);
 
@@ -51,18 +90,21 @@ int userCtl(char * file, int size) {
 	while (chptr > contents && isspace(*chptr)) chptr--;
 	*(++chptr) = '\0';
 
-	if (!strcmp(contents, "USERCTL=yes")) return 1;
+	if (!strcmp(contents, "USERCTL=")) {
+	    if (!strcmp(contents+8, "yes")) return FOUND_TRUE;
+	    else return FOUND_FALSE;
+	}
 
 	contents = end;
     }
 
-    return 0;
+    return NOT_FOUND;
 }
+
 
 int main(int argc, char ** argv) {
     char * ifaceConfig;
     char * chptr;
-    struct stat sb;
     char * cmd;
 
     if (argc != 3) usage();
@@ -99,32 +141,24 @@ int main(int argc, char ** argv) {
 	ifaceConfig = temp;
     }
     
-    /* these shouldn't be symbolic links -- anal, but that's fine w/ me */
-    if (lstat(ifaceConfig, &sb)) {
-	fprintf(stderr, "failed to stat %s: %s\n", ifaceConfig, 
-		strerror(errno));
-	exit(1);
-    }
 
-    /* safety checks */
-    if (!S_ISREG(sb.st_mode)) {
-	fprintf(stderr, "%s is not a normal file\n", ifaceConfig);
-	exit(1);
-    }
-
-    if (sb.st_uid) {
-	fprintf(stderr, "%s should be owned by root\n", ifaceConfig);
-	exit(1);
-    }
-    
-    if (sb.st_mode & S_IWOTH) {
-	fprintf(stderr, "%s should not be world writeable\n", ifaceConfig);
-	exit(1);
-    }
-
-    if (!userCtl(ifaceConfig, sb.st_size)) {
-	fprintf(stderr, "Users are not allowed to control this interface.\n");
-	exit(1);
+    switch (userCtl(ifaceConfig)) {
+	char * dash;
+	case NOT_FOUND:
+	    /* a `-' will be found at least in "ifcfg-" */
+	    dash = strrchr(ifaceConfig, '-');
+	    if (*(dash-1) != 'g') {
+		/* This was a clone configuration; ask the parent config */
+		*dash = '\0';
+		if (userCtl(ifaceConfig) == FOUND_TRUE)
+		    /* exit the switch; users are allowed to control */
+		    break;
+	    }
+	    /* else fall through */
+	case FOUND_FALSE:
+	    fprintf(stderr, "Users are not allowed to control this interface.\n");
+	    exit(1);
+	    break;
     }
 
     /* looks good to me -- let's go for it */
