@@ -714,6 +714,10 @@ if grep -q "ide-scsi" /proc/cmdline ; then
 fi
 
 # Generate a header that defines the boot kernel.
+
+# workaround for bug #112116
+rm -f /boot/kernel.h
+
 /sbin/mkkerneldoth
 
 # Adjust symlinks as necessary in /boot to keep system services from

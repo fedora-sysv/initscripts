@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.47.7
+Version: 6.47.8
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -240,6 +240,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Thu Feb 19 2004 Bill Nottingham <notting@redhat.com> 6.47.8-1
+- regenerate /boot/kernel.h on each boot (workaround for previous bug
+  #112116)
+
 * Wed Jan  7 2004 Bill Nottingham <notting@redhat.com>
 - fix bonding support (#112926)
 
