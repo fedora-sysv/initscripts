@@ -1,10 +1,11 @@
 Summary: inittab and /etc/rc.d scripts
 Name: initscripts
-Version: 3.16
+%define vesrion 3.16
+Version: %{version}
 Copyright: GPL
 Group: Base
 Release: 1
-Source: initscripts-3.15.tar.gz
+Source: initscripts-%{version}.tar.gz
 BuildRoot: /var/tmp/initbld
 Requires: mingetty bash mktemp
 
