@@ -10,9 +10,6 @@ if [ -z "$IN_INITLOG" -a -x /sbin/initlog ]; then
     exec /sbin/initlog -r /etc/rc.d/rc.sysinit
 fi
 
-# If we're using devfs, start devfsd now - we need the old device names
-[ -e /dev/.devfsd -a -x /sbin/devfsd ] && /sbin/devfsd /dev
-
 HOSTNAME=`/bin/hostname`
 HOSTTYPE=`uname -m`
 unamer=`uname -r`
@@ -226,13 +223,6 @@ fi
 needusbstorage=
 if [ $usb = "1" ]; then
     needusbstorage=`LC_ALL=C grep -e "^I.*Cls=08" /proc/bus/usb/devices 2>/dev/null`
-    # If you are running 2.6, and you built your own modular mouse/keyboard drivers
-    # get them via hotplug. (and if it's your boot keyboard, build them in! :)
-    if [ "${version[0]}" -lt "3" -a "${version[1]}" -lt "6" ]; then 
-      LC_ALL=C fgrep 'hid' /proc/bus/usb/drivers || action $"Initializing USB HID interface: " modprobe hid 2> /dev/null
-      action $"Initializing USB keyboard: " modprobe keybdev 2> /dev/null
-      action $"Initializing USB mouse: " modprobe mousedev 2> /dev/null 
-    fi
 fi
 
 if [ -f /fastboot ] || strstr "$cmdline" fastboot ; then
