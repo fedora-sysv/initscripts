@@ -254,7 +254,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
-* Wed Feb 21 Nalin Dahyabhai <nalin@redhat.com>
+* Wed Feb 21 2001 Bill Nottingham <notting@redhat.com>
+- initialize multiple USB controllers if necessary
+
+* Wed Feb 21 2001 Nalin Dahyabhai <nalin@redhat.com>
 - close extra file descriptors before exec()ing commands in initlog
 
 * Mon Feb 19 2001 Bill Nottingham <notting@redhat.com>
