@@ -1,6 +1,6 @@
 Summary: inittab and /etc/rc.d scripts
 Name: initscripts
-%define version 3.30
+%define version 3.31
 Version: %{version}
 Copyright: GPL
 Group: Base
@@ -16,6 +16,11 @@ levels, and shut the system down cleanly. It also contains the scripts
 that activate and deactivate most network interfaces.
 
 %changelog
+
+* Wed Dec 31 1997 Erik Troan <ewt@redhat.com>
+
+- touch /var/lock/subsys/kerneld after cleaning out /var/lock/subsys
+- the logic for when  /var/lock/subsys/kerneld is touched was backwards
 
 * Tue Dec 30 1997 Erik Troan <ewt@redhat.com>
 
