@@ -1,6 +1,71 @@
-2000-10-31  Than Ngo <than@redhat.com>
-	* initscripts.spec, sysconfig/network-scripts/network-functions
-        fix the adding default route if GATEWAY" = "0.0.0.0"
+2000-12-12  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/halt:
+	sync hardware clock to system time on halt (#21187)
+
+	* rc.d/rc.sysinit:
+	use modprobe -c to handle possible conditional modules.conf constructs (#21283)
+
+	* sysconfig/network-scripts/ifup:
+	don't try and run pump if it's not there
+
+	* sysconfig/network-scripts/ifup, sysconfig.txt:
+	honor PEERDNS=no for pump and dhcpcd too (#18619)
+
+	* rc.d/init.d/netfs, rc.d/rc.sysinit:
+	don't exclude proc when you're doing mount -a -t nonfs...
+
+	* rc.d/rc.sysinit:
+	only load modules for which persistent DMA buffers are necessary
+
+	* rc.d/rc.sysinit:
+	don't remount r/w if it is r/w (#12097)
+
+	* sysconfig/network-scripts/ifup, sysconfig/network-scripts/network-functions, sysconfig.txt:
+	fix ARP handling, allow for setting promiscuous or all-multicast mode
+
+	* src/ppp-watch.c, sysconfig.txt:
+	add MAXFAIL patch for maximum number of failures (#10639)
+
+	* rc.d/init.d/network, sysconfig/network-scripts/ifdown-aliases, sysconfig/network-scripts/ifup, sysconfig/network-scripts/ifup-aliases, sysconfig/network-scripts/ifup-post:
+	fix more ifconfig greps (patch from Conectiva)
+
+	* rc.d/init.d/network, sysconfig/network-scripts/network-functions:
+	oops, put the LANG=C in the right place
+
+2000-12-11  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit:
+	don't try and load fonts and keymaps on a serial console. Duh.
+
+2000-12-07  Bill Nottingham  <notting@redhat.com>
+
+	* lang.csh:
+	specify full path to /sbin/consoletype (from milan.kerslager@spsselib.hiedu.cz)
+
+2000-11-30  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec, rc.d/rc.sysinit:
+	From: Karsten Hopp (karsten@redhat.de)
+	 - changed hdparm section in rc.sysinit to allow different
+	   parameters for each disk (if needed) by copying
+	   /etc/sysconfig/harddisks to /etc/sysconfig/harddiskhda (hdb,hdc..)
+
+	* initscripts.spec: add ypbind conflict
+
+	* ChangeLog, initscripts.spec:
+	5.50-2
+
+	* rc.d/rc.sysinit: don't set NIS domain name
+
+2000-11-02  Than Ngo  <than@redhat.com>
+
+	* initscripts.spec: * bumped version number
+
+2000-10-31  Than Ngo  <than@redhat.com>
+
+	* ChangeLog, initscripts.spec, sysconfig/network-scripts/network-functions:
+	fix the adding default route if GATEWAY" = "0.0.0.0
 
 2000-10-10  Nalin Dahyabhai  <nalin@redhat.com>
 
