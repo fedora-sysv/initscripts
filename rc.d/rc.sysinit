@@ -29,6 +29,14 @@ fi
 mount -n -t proc /proc /proc
 mount -n -t sysfs /sys /sys >/dev/null 2>&1
 
+if [ -f /etc/sysconfig/udev ];then
+	. /etc/sysconfig/udev
+fi
+
+if [ "$USE_UDEV" = "yes" -a "$UDEV_RAMFS" = "yes" ]; then
+	[ -x /sbin/start_udev ] && /sbin/start_udev
+fi
+
 # Check SELinux status
 selinuxfs=`awk '/ selinuxfs / { print $2 }' /proc/mounts`
 SELINUX=
@@ -383,6 +391,11 @@ update_boot_stage RCmountfs
 state=`awk '/ \/ / && ($3 !~ /rootfs/) { print $4 }' /proc/mounts`
 [ "$state" != "rw" -a "$READONLY" != "yes" ] && \
   action $"Remounting root filesystem in read-write mode: " mount -n -o remount,rw /
+
+if [ "$USE_UDEV" = "yes" -a "$UDEV_RAMFS" = "no" ]; then
+	[ -x /sbin/start_udev ] && /sbin/start_udev
+fi
+
 
 # LVM2 initialization
 if [ -x /sbin/lvm.static ]; then
