@@ -147,7 +147,7 @@ case "$1" in
 		fi
 	  fi
 	  if [ -f /proc/sys/net/ipv4/ip_always_defrag ]; then
-	        if [ 'cat /proc/sys/net/ipv4/ip_always_defrag' != 0 ]; then
+	        if [ `cat /proc/sys/net/ipv4/ip_always_defrag` != 0 ]; then
 		        action "Disabling IPv4 automatic defragmentation" /bin/true
 			echo 0 > /proc/sys/net/ipv4/ip_always_defrag
 		fi
