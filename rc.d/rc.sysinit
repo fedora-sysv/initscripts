@@ -152,8 +152,13 @@ if ! grep -i nomodules /proc/cmdline >/dev/null ; then
 fi
 
 if [ -x /sbin/kerneld -a -n "$USEMODULES" ]; then
-    /sbin/kerneld
-    KERNELD=yes
+    if [ -f /proc/sys/kernel/modprobe ]; then
+	# /proc/sys/kernel/modprobe indicates built-in kmod instead
+	echo "/sbin/modprobe" > /proc/sys/kernel/modprobe
+    else
+	/sbin/kerneld
+	KERNELD=yes
+    fi
 fi
 
 # Check filesystems
