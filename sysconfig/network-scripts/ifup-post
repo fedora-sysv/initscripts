@@ -82,7 +82,7 @@ if [ "$PEERDNS" != "no" -o -n "$RESOLV_MODS" -a "$RESOLV_MODS" != "no" ]; then
   fi
 fi
 
-if [ "$FIREWALL_MODS" != "no" -a -f /etc/sysconfig/ipchains ] && \
+if [ "$FIREWALL_MODS" != "no" -a -f /etc/sysconfig/iptables ] && \
       iptables -L -n 2>/dev/null | grep -q RH-Lokkit-0-50-INPUT ; then
 	ns=`awk '/^nameserver / { print $2 }' /etc/resolv.conf`
 	if [ -n "$ns" ]; then
