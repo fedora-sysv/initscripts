@@ -186,10 +186,9 @@ case "$1" in
  	fi
  
 	cipeinterfaces=""
-	bondinterfaces=""
 	xdslinterfaces=""
 
-	# get list of bonding, cipe, and xdsl interfaces
+	# get list of cipe, and xdsl interfaces
 	for i in $interfaces; do
 		eval $(LANG=C fgrep "DEVICE=" ifcfg-$i)
 		eval $(LANG=C fgrep "TYPE=" ifcfg-$i)
@@ -199,17 +198,13 @@ case "$1" in
 			cipeinterfaces="$cipeinterfaces $DEVICE"
 			continue
 		fi
-		if [ "${DEVICE##bond}" != "$DEVICE" ] ; then
-			bondinterfaces="$bondinterfaces $DEVICE"
-			continue
-		fi
 		if [ "$TYPE" = "xDSL" ]; then
 		        xdslinterfaces="$xdslinterfaces $DEVICE"
 			continue
 		fi
 	done
 	
-	for i in $bondinterfaces $cipeinterfaces $xdslinterfaces ; do
+	for i in $cipeinterfaces $xdslinterfaces ; do
 		eval $(fgrep "DEVICE=" ifcfg-$i)
 		if [ -z "$DEVICE" ] ; then DEVICE="$i"; fi
 
