@@ -138,7 +138,7 @@ daemon() {
 	if [ -z "$user" ]; then
 	   $nice initlog $INITLOG_ARGS -c "$*"
 	else
-	   $nice initlog $INITLOG_ARGS -c "su - $user -c \"$*\"" && success $"$base startup" || failure $"$base startup"
+	   $nice initlog $INITLOG_ARGS -c "su - $user -c \"$*\""
 	fi
 	[ "$?" -eq 0 ] && success $"$base startup" || failure $"$base startup"
 }
