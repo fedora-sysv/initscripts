@@ -35,6 +35,8 @@ cd /etc/sysconfig/network-scripts
 # ignore aliases, alternative configurations, and editor backup files
 interfaces=`ls ifcfg* | egrep -v '(ifcfg-lo|:)' | egrep 'ifcfg-[a-z0-9]+$' | \
             sed 's/^ifcfg-//g'`
+interfaces_boot=`ls ifcfg* | egrep -v '(ifcfg-lo|:)' | egrep 'ifcfg-[a-z0-9]+$' | \
+            xargs egrep -l "ONBOOT=[^n][^o]" | sed 's/^ifcfg-//g'`
 
 ipv4_forward_set ()
 {
@@ -80,14 +82,14 @@ case "$1" in
 	    ;;
 	esac
 
-	for i in $interfaces; do
+	for i in $interfaces_boot; do
 		action "Bringing up interface $i" ./ifup $i boot
 	done
 
         touch /var/lock/subsys/network
         ;;
   stop)
-	for i in $interfaces; do
+	for i in $interfaces_boot; do
 		action "Shutting down interface $i" ./ifdown $i boot
 	done
 	case "$IPX" in
