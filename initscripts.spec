@@ -251,6 +251,8 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Mon Nov 17 2003 Bill Nottingham <notting@redhat.com> 7.42.1-1
 - fix /dev/pts mounting (#110209)
+- fix xDSL and other interfaces (#109601)
+- get rid of ethtool error message from ifup
 
 * Tue Oct 28 2003 Bill Nottingham <notting@redhat.com> 7.42-1
 - show rhgb details on service failures
