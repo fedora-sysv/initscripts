@@ -72,9 +72,9 @@ checkpid() {
 	local i
 
 	for i in $* ; do
-		[ -d "/proc/$i" ] || return 1
+		[ -d "/proc/$i" ] && return 0
 	done
-	return 0
+	return 1
 }
 	
 
@@ -192,12 +192,12 @@ killproc() {
 		if [ "$notset" -eq "1" ] ; then
 		       if checkpid $pid 2>&1; then
 			   # TERM first, then KILL if not dead
-			   kill -TERM $pid
+			   kill -TERM $pid >/dev/null 2>&1
 			   usleep 100000
 			   if checkpid $pid && sleep 1 &&
 			      checkpid $pid && sleep 3 &&
 			      checkpid $pid ; then
-                                kill -KILL $pid
+                                kill -KILL $pid >/dev/null 2>&1
 				usleep 100000
 			   fi
 		        fi
@@ -208,7 +208,7 @@ killproc() {
 		# use specified level only
 		else
 		        if checkpid $pid; then
-	                	kill $killlevel $pid
+	                	kill $killlevel $pid >/dev/null 2>&1
 				RC=$?
 				[ "$RC" -eq 0 ] && success $"$base $killlevel" || failure $"$base $killlevel"
 			fi
