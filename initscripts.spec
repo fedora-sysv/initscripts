@@ -62,6 +62,10 @@ rm -f \
  $RPM_BUILD_ROOT/etc/sysconfig/network-scripts/ifup-ctc \
  $RPM_BUILD_ROOT/etc/sysconfig/network-scripts/ifup-escon \
  $RPM_BUILD_ROOT/etc/sysconfig/network-scripts/ifup-iucv
+%else
+rm -f \
+ $RPM_BUILD_ROOT/etc/rc.d/rc.sysinit.s390init \
+ $RPM_BUILD_ROOT/etc/sysconfig/init.s390
 %endif
 
 %pre
@@ -252,6 +256,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Tue Nov 19 2002 Florian La Roche <Florian.LaRoche@redhat.de>
+- correctly remove non-packaged files for mainframe
+
 * Tue Nov 12 2002 Bill Nottingham <notting@redhat.com> 6.96-1
 - fix various static-routes brokennes (#74317, #74318, #74320, #76619,
   #75604)
