@@ -77,6 +77,10 @@ if [ "$SLAVE" = yes -a "$ISALIAS" = no -a "$MASTER" != "" -a \
     exit 0
 fi
 
+if [ -n "$MACADDR" ]; then
+   ifconfig ${DEVICE} hw ether ${MACADDR}
+fi
+
 if [ -n "$PUMP" ]; then
     echo -n "Determing IP information for $DEVICE..."
     if /sbin/pump -i $DEVICE ; then
@@ -98,8 +102,7 @@ else
 	eval `/bin/ipcalc --network ${IPADDR} ${NETMASK}`
     fi
 
-    ifconfig ${DEVICE} ${MACADDR:+hw ether $MACADDR} ${IPADDR} \
-      netmask ${NETMASK} broadcast ${BROADCAST}
+    ifconfig ${DEVICE} ${IPADDR} netmask ${NETMASK} broadcast ${BROADCAST}
     # don't re-add subnet route on 2.2 kernels, but add a route
     # to a non-local subnet.
     # stupid hack, but it should work
