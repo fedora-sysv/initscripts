@@ -167,6 +167,13 @@ action $"Setting hostname ${HOSTNAME}: " hostname ${HOSTNAME}
 # Only read this once.
 cmdline=$(cat /proc/cmdline)
 
+# Initialiaze ACPI bits
+if [ -d /proc/acpi ]; then
+   for module in /lib/modules/`uname -r`/kernel/drivers/acpi/* ; do
+      insmod $module
+   done
+fi
+
 # Initialize USB controller and HID devices
 update_boot_stage RCusb
 usb=0
