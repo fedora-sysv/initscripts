@@ -3,19 +3,26 @@
 usernetctl \- allow a user to manipulate a network interface if permitted
 .SH SYNOPSIS
 .B usernetctl
-\fIconfig-file-name\fP up\fI|\fPdown
+\fIinterface-name\fP up\fI|\fPdown\fI|\fPreport
 .SH DESCRIPTION
 .B usernetctl
 checks to see if users are allowed to manipulate the network interface
-specified by \fIconfig-file-name\fP, and then tries to bring the network
-interface up or down, as specified.
+specified by \fIinterface-name\fP, and then tries to bring the network
+interface up or down, if up or down was specified on the command line,
+or returns true or false status (respectively) if the report option was
+specified.
 .SH OPTIONS
 .TP
-.I "\fIconfig-file-name"
-The name of the network configuration file to read; for example, ifcfg-ppp0
+.I "\fIinterface-name"
+The name of the network interface to check; for example, "ppp0".  For
+backwards compatibility, "ifcfg-ppp0" and
+"/etc/sysconfig/network-scripts/ifcfg-ppp0" are also supported.
 .TP
 up\fI|\fPdown
 Attempt to bring the interface up or down.
+.TP
+report
+Report on whether users can bring the interface up or down.
 .SH NOTES
 Alternate device configurations may inherit the default configuration's
 permissions.

@@ -11,7 +11,7 @@
 /* this will be running setuid root, so be careful! */
 
 void usage(void) {
-    fprintf(stderr, "usage: usernetctl <interface-config> <up|down>\n");
+    fprintf(stderr, "usage: usernetctl <interface-config> <up|down|report>\n");
     exit(1);
 }
 
@@ -106,6 +106,7 @@ int main(int argc, char ** argv) {
     char * ifaceConfig;
     char * chptr;
     char * cmd;
+    int report = 0;
 
     if (argc != 3) usage();
 
@@ -113,6 +114,8 @@ int main(int argc, char ** argv) {
 	cmd = "./ifup";
     } else if (!strcmp(argv[2], "down")) {
 	cmd = "./ifdown";
+    } else if (!strcmp(argv[2], "report")) {
+	report = 1;
     } else {
 	usage();
     }
@@ -157,12 +160,18 @@ int main(int argc, char ** argv) {
 	    }
 	    /* else fall through */
 	case FOUND_FALSE:
-	    fprintf(stderr, "Users are not allowed to control this interface.\n");
+	    if (! report)
+	        fprintf(stderr,
+			"Users are not allowed to control this interface.\n");
 	    exit(1);
 	    break;
     }
 
-    /* looks good to me -- let's go for it */
+    /* looks good to me -- let's go for it if we are changing the interface,
+     * report good status to the user otherwise */
+
+    if (report)
+	exit(0);
 
     /* pppd wants the real uid to be the same as the effective (god only
        knows why when it works fine setuid out of the box) */
