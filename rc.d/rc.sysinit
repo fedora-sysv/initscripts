@@ -749,7 +749,7 @@ fi
 # deal with any version numbers that show up.
 shopt -s nullglob
 for library in /lib/kernel/$(uname -r)/libredhat-kernel.so* ; do
-	ln -s -f $library /lib/
+	ln -f $library /lib/
 	ldconfig -n /lib/
 done
 shopt -u nullglob
