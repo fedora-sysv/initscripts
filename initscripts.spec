@@ -182,6 +182,11 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon May 24 1999 Bill Nottingham <notting@redhat.com>
+- clean out /var better
+- let everyone read /var/run/ppp*.dev
+- fix network startup so it doesn't depend on /usr
+
 * Tue May 11 1999 Bill Nottingham <notting@redhat.com>
 - various fixes to rc.sysinit
 - fix raid startup
