@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.93.2
+Version: 7.93.3
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -206,6 +206,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Oct 29 2004 Bill Nottingham <notting@redhat.com> 7.93.3-1
+- speed up hardware init some
+
 * Wed Oct 27 2004 Bill Nottingham <notting@redhat.com> 7.93.2-1
 - fix prefdm fallback to installed display managers (#137274)
 - fix incorrect rhgb temporary path (#137391)
