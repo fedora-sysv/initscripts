@@ -56,7 +56,7 @@ function forwarding_ipv6() {
 	fw_device=$2		# maybe empty
 
 	if [ -z $fw_control ]; then
-		echo $"Missing parameter forwarding control'"
+		echo $"Missing parameter 'forwarding control'"
 		forwarding_ipv6_usage
 		return 1
 	fi
@@ -150,7 +150,7 @@ function ifdown_ipv6_route() {
 	device=$3		# maybe empty
 
 	if [ -z $networkipv6 ]; then
-		echo $"Missing parameter IPv6-network'"
+		echo $"Missing parameter 'IPv6-network'"
 		ifup_ipv6_route_usage
 		return 1
 	fi
@@ -189,7 +189,7 @@ function ifup_ipv6_autotunnel() {
 
 
 	# enable IPv6-over-IPv4 tunnels
-	if ifconfig sit0 | grep -q "UP "; then
+	if LANG=C ifconfig sit0 | grep -q "UP "; then
 		# already up, do nothing
 		true
 	else
@@ -342,7 +342,7 @@ function ifup_ipv6_real() {
 	fi
 
 	# Test status of interface
-	if ifconfig $device | grep -q "UP "; then
+	if LANG=C ifconfig $device | grep -q "UP "; then
 		# Interface is up
 			true
 	else
@@ -370,8 +370,8 @@ function ifup_ipv6_real() {
 
 
 	# Only add, if address do not already exist
-	address_configured="`ifconfig $device | grep "inet6 addr:" | grep "$address" | awk '{ print $3 }'`"
-	address_configured_type="`ifconfig $device | grep "inet6 addr:" | grep "$address" | awk '{ print $4 }'`"
+	address_configured="`LANG=C ifconfig $device | grep "inet6 addr:" | grep "$address" | awk '{ print $3 }'`"
+	address_configured_type="`LANG=C ifconfig $device | grep "inet6 addr:" | grep "$address" | awk '{ print $4 }'`"
 
 	if [ "$address_configured" = "$address" ]; then
 		true
@@ -405,7 +405,7 @@ function ifdown_ipv6_real_all() {
 	done
 	
 	# Get all IPv6 addresses assigned to given interface and remove them
-	ifconfig $idall_device | grep "inet6 addr:" | awk '{ print $3 }' | while read ipv6addr args; do
+	LANG=C ifconfig $idall_device | grep "inet6 addr:" | awk '{ print $3 }' | while read ipv6addr args; do
 		ifdown_ipv6_real $idall_device $ipv6addr	
 	done
 }
@@ -454,8 +454,8 @@ function ifdown_ipv6_real() {
 
 
 	# Only remove, if address exists and is not link-local (prevents from kernel crashing)
-	address_configured="`ifconfig $device | grep "inet6 addr:" | grep "$address" | awk '{ print $3 }'`"
-	address_configured_type="`ifconfig $device | grep "inet6 addr:" | grep "$address" | awk '{ print $4 }'`"
+	address_configured="`LANG=C ifconfig $device | grep "inet6 addr:" | grep "$address" | awk '{ print $3 }'`"
+	address_configured_type="`LANG=C ifconfig $device | grep "inet6 addr:" | grep "$address" | awk '{ print $4 }'`"
 	if [ ! -z "$address_configured" ]; then
 		if [ "$address_configured_type" = "Scope:Link" ]; then
 			true
