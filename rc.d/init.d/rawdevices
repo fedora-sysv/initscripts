@@ -1,0 +1,79 @@
+#!/bin/sh
+#
+# rawdevices       This shell script assignes rawdevices to block devices
+#
+# chkconfig: 345 56 44
+# description: This scripts assignes raw devices to block devices \
+#              (such as hard drive partitions). This is for the use \
+#	       of applications such as Oracle. You can set up the \
+#	       raw device to block device mapping by editing \
+#	       the file /etc/sysconfig/rawdevices.
+# config: /etc/sysconfig/rawdevices
+
+# Source function library.
+. /etc/init.d/functions
+
+[ -f /usr/bin/raw ] || exit 0
+[ -f /etc/sysconfig/rawdevices ] || exit 0
+
+# If the file just has the default comments, exit.
+grep -q -v "^#" /etc/sysconfig/rawdevices 2>/dev/null || exit 0
+
+PATH=/usr/bin:/bin:/usr/sbin:/sbin
+
+function assign_raw()
+{
+   cat /etc/sysconfig/rawdevices | egrep -v '^ *#' | while read RAW BLOCK; do 
+     if [ -n "$RAW" -a -n "$BLOCK" ]; then 
+         if [ "`dirname $RAW`" = "/dev" -a -d /dev/raw ]; then
+           echo "  Please correct your /etc/sysconfig/rawdevices:"
+           echo "     rawdevices are now located in the directory /dev/raw/ "
+           echo "  If the command 'raw' still refers to /dev/raw as a file."
+           echo "   you'll have to upgrade your util-linux package"
+           exit 0
+         fi
+         if [ "`dirname $RAW`" = "/dev/raw" -a -f /dev/raw ]; then
+           echo "  Please correct your /etc/sysconfig/rawdevices:"
+           echo "     rawdevices are now located in the directory /dev/raw/ "
+           echo "  If the command 'raw' still refers to /dev/raw as a file."
+           echo "   you'll have to upgrade your util-linux package"
+           exit 0
+         fi
+
+       echo "           $RAW  -->   $BLOCK"; 
+       raw $RAW $BLOCK
+     fi
+   done
+}
+
+# See how we were called.
+case "$1" in
+  start)
+        # Assign devices
+        echo "Assigning devices: "
+        assign_raw
+        echo "done"
+        ;;
+  stop)
+        # No action to be taken here
+        ;;
+
+  status)
+        ID=`id -u`
+        if [ $ID -eq 0 ]; then 
+          raw -qa
+        else
+          echo "You need to be root to use this command ! "
+        fi
+        ;;
+
+  restart|reload)
+        $0 start
+        ;;
+
+  *)
+        echo "Usage: rawdevice {start|stop|status|restart}"
+        exit 1
+esac
+
+exit 0

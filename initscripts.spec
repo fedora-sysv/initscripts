@@ -84,6 +84,7 @@ chmod 664 /var/log/wtmp /var/run/utmp
 chkconfig --add random 
 chkconfig --add netfs 
 chkconfig --add network 
+chkconfig --add rawdevices
 
 # handle serial installs semi gracefully
 if [ $1 = 0 ]; then
@@ -109,6 +110,7 @@ if [ $1 = 0 ]; then
   chkconfig --del random
   chkconfig --del netfs
   chkconfig --del network
+  chkconfig --del rawdevices
 fi
 
 %triggerpostun -- initscripts <= 5.04
