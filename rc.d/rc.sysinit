@@ -289,7 +289,7 @@ if [ "$CONSOLETYPE" = "vt" -a -x /bin/loadkeys ]; then
   else
     echo -n $"Loading default keymap: "
   fi
-  loadkeys $KEYMAP < /dev/tty0 > /dev/tty0 2>/dev/null && \
+  loadkeys -u $KEYMAP < /dev/tty0 > /dev/tty0 2>/dev/null && \
      success $"Loading default keymap" || failure $"Loading default keymap"
   echo
  fi
