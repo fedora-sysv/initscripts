@@ -2,7 +2,7 @@
 
 test -f /etc/sysconfig/i18n
 if ($status == 0) then
-    cat /etc/sysconfig/i18n | sed "s|=| |g" | sed "s|^\([^#]\)|setenv \0|g" > /tmp/csh.$$
+    sed "s|=C$|=en_US|g" /etc/sysconfig/i18n | sed "s|=| |g"  | sed "s|^\([^#]\)|setenv \0|g" > /tmp/csh.$$
     source /tmp/csh.$$
     rm -f /tmp/csh.$$
 
