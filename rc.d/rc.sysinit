@@ -193,10 +193,10 @@ fi
 
 # load sound modules
 if [ -n "$USEMODULES" ]; then
-   if grep -s -q "^alias sound" /etc/conf.modules ; then
+   if grep -s -q "^alias sound " /etc/conf.modules ; then
       action "Loading sound module" modprobe sound
    fi
-   if grep -s -q "^alias midi" /etc/conf.modules ; then
+   if grep -s -q "^alias midi " /etc/conf.modules ; then
       action "Loading midi module" modprobe midi
    fi
 fi
