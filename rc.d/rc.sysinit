@@ -45,11 +45,11 @@ fi
 
 # Mount /proc (done here so volume labels can work with fsck)
 
-action "Mounting proc filesystem" mount -n -t proc /proc /proc
+action "Mounting proc filesystem: " mount -n -t proc /proc /proc
 
 # Configure kernel parameters
 
-action "Configuring kernel parameters" sysctl -p /etc/sysctl.conf
+action "Configuring kernel parameters: " sysctl -p /etc/sysctl.conf
 
 # Set the system clock.
 ARC=0
@@ -127,26 +127,26 @@ if [ -x /sbin/setsysfont ]; then
          -f /usr/lib/kbd/consolefonts/$SYSFONT.psf.gz -o \
          -f /etc/sysconfig/console/$SYSFONT.gz -o \
          -f /usr/lib/kbd/consolefonts/$SYSFONT.gz ]; then
-       action "Setting default font" /sbin/setsysfont
+       action "Setting default font ($SYSFONT): " /sbin/setsysfont
     fi
 fi
 
 # Start up swapping.
-action "Activating swap partitions" swapon -a
+action "Activating swap partitions: " swapon -a
 
 # Set the hostname.
-action "Setting hostname ${HOSTNAME}" hostname ${HOSTNAME}
+action "Setting hostname ${HOSTNAME}: " hostname ${HOSTNAME}
 
 # Set the NIS domain name
 if [ -n "$NISDOMAIN" ]; then
-    action "Setting NIS domain name $NISDOMAIN" domainname $NISDOMAIN
+    action "Setting NIS domain name $NISDOMAIN: " domainname $NISDOMAIN
 else
     domainname ""
 fi
 
 # Initialize USB controller and HID devices
 
-if [  grep -q "nousb" /proc/cmdline 2>/dev/null ]; then
+if grep -q "nousb" /proc/cmdline 2>/dev/null ; then
     usb=0
 else
     usb=1
@@ -177,13 +177,13 @@ if [ $usb = "1" ]; then
     mouseoutput=`cat /proc/bus/usb/devices|grep -E "^I.*Cls=03.*Prot=02"`
     kbdoutput=`cat /proc/bus/usb/devices|grep -E "^I.*Cls=03.*Prot=01"`
     if [ -n "$kbdoutput" ] || [ -n "$mouseoutput" ]; then
-	action "Initializing USB HID interface" modprobe hid 2> /dev/null
+	action "Initializing USB HID interface: " modprobe hid 2> /dev/null
     fi
     if [ -n "$kbdoutput" ]; then
-	action "Initializing USB keyboard:" modprobe keybdev
+	action "Initializing USB keyboard: " modprobe keybdev
     fi
     if [ -n "$mouseoutput" ]; then
-	action "Initializing USB mouse" modprobe mousedev
+	action "Initializing USB mouse: " modprobe mousedev
     fi
 fi
 
@@ -259,14 +259,14 @@ fi
 # set up pnp 
 if [ -x /sbin/isapnp -a -f /etc/isapnp.conf ]; then
     if [ -n "$PNP" ]; then
-	action "Setting up ISA PNP devices" /sbin/isapnp /etc/isapnp.conf
+	action "Setting up ISA PNP devices: " /sbin/isapnp /etc/isapnp.conf
     else
-	action "Skipping ISA PNP configuration at users request" /bin/true
+	action "Skipping ISA PNP configuration at users request: " /bin/true
     fi
 fi
 
 # Remount the root filesystem read-write.
-action "Remounting root filesystem in read-write mode" mount -n -o remount,rw /
+action "Remounting root filesystem in read-write mode: " mount -n -o remount,rw /
 
 # Clear mtab
 >/etc/mtab
@@ -312,7 +312,7 @@ fi
 
 # Update quotas if fsck was run on /.
 if [ X"$_RUN_QUOTACHECK" = X1 -a -x /sbin/quotacheck ]; then
-	action "Checking root filesystem quotas"  /sbin/quotacheck -v /
+	action "Checking root filesystem quotas: "  /sbin/quotacheck -v /
 fi
 
 # The root filesystem is now read-write, so we can now log via syslog() directly..
@@ -345,9 +345,9 @@ if [ -x /sbin/depmod -a -n "$USEMODULES" ]; then
        fi
     fi
     if [ -L /lib/modules/default ]; then
-    	INITLOG_ARGS= action "Finding module dependencies" depmod -A default
+    	INITLOG_ARGS= action "Finding module dependencies: " depmod -A default
     else
-	INITLOG_ARGS= action "Finding module dependencies" depmod -A
+	INITLOG_ARGS= action "Finding module dependencies: " depmod -A
     fi
 fi
 
@@ -357,22 +357,22 @@ fi
 RETURN=0
 alias=`egrep -s "^alias[[:space:]]+sound[[:space:]]+" /etc/modules.conf | awk '{ print $3 }'`
 if [ -n "$alias" -a "$alias" != "off" ] ; then
-      action "Loading sound module ($alias)" modprobe $alias
+      action "Loading sound module ($alias): " modprobe $alias
       RETURN=$?
 fi
 alias=`egrep -s "^alias[[:space:]]+sound-slot-0[[:space:]]+" /etc/modules.conf | awk '{ print $3 }'`
 if [ -n "$alias" -a "$alias" != "off" ] ; then
-      action "Loading sound module ($alias)" modprobe $alias
+      action "Loading sound module ($alias): " modprobe $alias
       RETURN=$?
 fi
 alias=`egrep -s "^alias[[:space:]]+midi[[:space:]]+" /etc/modules.conf | awk '{ print $3 }'`
 if [ -n "$alias" -a "$alias" != "off" ]; then
-      action "Loading midi module ($alias)" modprobe $alias
+      action "Loading midi module ($alias): " modprobe $alias
 fi
 
 # Load mixer settings
 if grep -q "\(sparcaudio\|sound\)" /proc/devices 2>/dev/null && [ $RETURN -eq 0 -a -f /etc/.aumixrc -a -x /bin/aumix-minimal ]; then
-	action "Loading mixer settings" /bin/aumix-minimal -f /etc/.aumixrc -L
+	action "Loading mixer settings: " /bin/aumix-minimal -f /etc/.aumixrc -L
 fi
 
 if [ -f /proc/sys/kernel/modprobe ]; then
@@ -486,10 +486,10 @@ fi
 # Mount all other filesystems (except for NFS and /proc, which is already
 # mounted). Contrary to standard usage,
 # filesystems are NOT unmounted in single user mode.
-action "Mounting local filesystems" mount -a -t nonfs,smbfs,ncpfs,proc
+action "Mounting local filesystemsL " mount -a -t nonfs,smbfs,ncpfs,proc
 
 if [ X"$_RUN_QUOTACHECK" = X1 -a -x /sbin/quotacheck ]; then
-	action "Checking filesystem quotas"  /sbin/quotacheck -v -R -a
+	action "Checking filesystem quotas: "  /sbin/quotacheck -v -R -a
 fi
 
 # Configure machine if necessary.
@@ -515,11 +515,11 @@ if [ -f /.unconfigured ]; then
 	. /etc/sysconfig/network
 
 	# Reset the hostname.
-	action "Resetting hostname ${HOSTNAME}" hostname ${HOSTNAME}
+	action "Resetting hostname ${HOSTNAME}: " hostname ${HOSTNAME}
 
 	# Reset the NIS domain name.
 	if [ -n "$NISDOMAIN" ]; then
-	    action "Resetting NIS domain name $NISDOMAIN" domainname $NISDOMAIN
+	    action "Resetting NIS domain name $NISDOMAIN: " domainname $NISDOMAIN
 	else
 	    domainname ""
 	fi
@@ -529,7 +529,7 @@ if [ -f /.unconfigured ]; then
 fi
 
 if [ -x /sbin/quotaon ]; then
-    action "Turning on user and group quotas for local filesystems" /sbin/quotaon -a
+    action "Turning on user and group quotas for local filesystems: " /sbin/quotaon -a
 fi
 
 # Clean out /etc.
@@ -568,9 +568,9 @@ rm -f /tmp/.X*-lock
 # Delete Postgres sockets
 rm -f /tmp/.s.PGSQL.*
 
-# Right, now turn on swap in case we swap to files.
+# Now turn on swap in case we swap to files.
 swapon -a >/dev/null 2>&1
-action "Enabling swap space" /bin/true
+action "Enabling swap space: " /bin/true
 
 # Initialize the serial ports.
 if [ -f /etc/rc.serial ]; then
