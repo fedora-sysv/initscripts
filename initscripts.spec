@@ -1,6 +1,6 @@
 Summary: inittab and /etc/rc.d scripts
 Name: initscripts
-%define version 3.24
+%define version 3.25
 Version: %{version}
 Copyright: GPL
 Group: Base
@@ -17,10 +17,15 @@ that activate and deactivate most network interfaces.
 
 %changelog
 
+* Fri Nov 07 1997 Michael K. Johnson <johnsonm@redhat.com>
+
+- Added missing "then" clause
+
 * Thu Nov 06 1997 Michael K. Johnson <johnsonm@redhat.com>
 
 - Fixed DEBUG option in ifup-ppp
 - Fixed PPP persistance
+- Only change IP forwarding if necessary
 
 * Tue Oct 28 1997 Donnie Barnes <djb@redhat.com>
 
