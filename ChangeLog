@@ -1,3 +1,158 @@
+2003-09-09  Bill Nottingham  <notting@redhat.com>
+
+	* ChangeLog, initscripts.spec:
+	7.31-1
+
+	* rc.d/init.d/network, sysconfig/network-scripts/ifdown, sysconfig/network-scripts/ifup:
+	bridging support (<dwmw2@redhat.com>)
+
+2003-09-07  Hasbullah Bin Pit  <sebol@ikhlas.com>
+
+	* po/ms.po:
+	Updated Malay translation for initscripts
+	only 10 string left
+
+2003-09-05  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec: require ethtool
+
+	* rc.d/init.d/network, sysconfig/network-scripts/ifup:
+	fix bonding+dhcp (#91399); bring bonding device links up, then bring up slaves, then bring up bonding interface fully
+
+	* rc.d/init.d/network:
+	revert - bringing up bonding interfaces last doesn't work
+
+2003-09-04  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifup-ipsec:
+	typo (#103781)
+
+	* src/ppp-watch.c:
+	match the man page (#97850)
+
+	* sysconfig/network-scripts/ifup-aliases:
+	unset ONPARENT after use (#101384)
+
+	* rc.d/init.d/network:
+	add bonding & xDSL to the list of devices brought up afterwards (#97030,#91399)
+	and bring them down first (#103042)
+
+	* rc.d/init.d/network:
+	handle sorting > 10 network devices (#98209)
+
+	* rc.d/rc.sysinit:
+	remove superfluous variable (#83527)
+
+	* rc.d/init.d/killall:
+	check for a parameter (#84799)
+
+	* src/ipcalc.c:
+	fix some memory handling (#85478, <miked@ed.ac.uk>)
+
+	* rc.d/init.d/network:
+	fix error message on directories with spaces (#86066)
+
+2003-09-03  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/network-functions:
+	disable hotplug when loading modules (#98611)
+
+	* rc.d/init.d/halt, rc.d/init.d/killall:
+	fix shutdown with NFS root (#100556, <Julian.Blake@cern.ch>)
+
+	* rc.d/init.d/halt:
+	check for /proc/swaps before awking it (#99373, <daniel.blueman@gmx.net>)
+
+	* rc.d/rc.sysinit:
+	run rhgb after /usr is mounted (#100525, <nphilipp@redhat.com>)
+
+	* rc.d/rc:
+	remove /var/run/confirm when done with /etc/rc (#100898)
+
+	* ipv6-6to4.howto, sysconfig/network-scripts/network-functions-ipv6, changes.ipv6:
+	IPv6 updates (Pekka Savola, <pekkas@netcore.fi>)
+
+2003-09-02  Sarah Smith  <sarahs@redhat.com>
+
+	* po/zh_CN.po: all updated
+
+2003-08-29  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* po/no.po: Update
+
+2003-08-23  Pedro Morais <jncp@rnl.ist.utl.pt>
+
+	* po/pt.po: New updates -- jncp
+
+2003-08-22  Phil Knirsch  <pknirsch@redhat.com>
+
+	* sysconfig/network-scripts/ifup-routes:
+	- User lowercase for variable for oldstyle routes, too. ;-)
+
+2003-08-21  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig.txt: document HWADDR
+
+2003-08-20  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifup:
+	fix use of local
+
+2003-08-20  Leon Kanter  <leon@geon.donetsk.ua>
+
+	* po/ru.po: update
+
+2003-08-20  Bernd Groh  <bgroh@redhat.com>
+
+	* po/de.po: daily update
+
+2003-08-20  Yelitza Louze  <ylouze@redhat.com>
+
+	* po/es.po: Updated spanish translation
+
+2003-08-20  Michelle Kim  <mkim@redhat.com>
+
+	* po/ko.po: updated translation
+
+2003-08-18  Miloslav Trmac <mitr@volny.cz>
+
+	* po/cs.po: Update Czech translation
+
+2003-08-18  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec:
+	bump rev for new ipv6 fixes
+
+2003-08-18  Hung-Pin Wu  <hpwu@redhat.com>
+
+	* po/zh_TW.po: Updated translation
+
+2003-08-18  Audrey Simons  <asimons@redhat.com>
+
+	* po/fr.po: Software updates
+
+2003-08-18  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/init.ipv6-global, sysconfig/network-scripts/network-functions-ipv6:
+	more IPv6 tweaks (<pekkas@netcore.fi>); sort | uniq -> sort -u
+
+	* sysconfig/network-scripts/init.ipv6-global, sysconfig/network-scripts/network-functions-ipv6:
+	more IPv6 tweaks (<pekkas@netcore.fi>)
+	sort | uniq -> sort -u
+
+2003-08-17  Richard Allen  <ra@hp.is>
+
+	* po/is.po: *** empty log message ***
+
+2003-08-16  Peter van Egdom <p.van.egdom@chello.nl>
+
+	* po/nl.po:
+	fixes in nl.po for changes in CVS
+
+2003-08-16  Christian Rose  <menthos@menthos.com>
+
+	* po/sv.po: Updated Swedish translation.
+
 2003-08-15  Bill Nottingham  <notting@redhat.com>
 
 	* ChangeLog, initscripts.spec: 7.30-1
