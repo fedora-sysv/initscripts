@@ -39,7 +39,7 @@ interfaces=`ls ifcfg* | egrep -v '(ifcfg-lo|:)' | egrep 'ifcfg-[a-z0-9]+$' | \
 interfaces_boot=
 
 for inter in `ls ifcfg* | egrep -v '(ifcfg-lo|:)' | egrep 'ifcfg-[a-z0-9]+$'`; do
-      int=`egrep -l "ONBOOT=[^n][^o]" $inter | sed 's/^ifcfg-//g'`
+      int=`egrep -L "ONBOOT=\"?[Nn][Oo]\"?" $inter | sed 's/^ifcfg-//g'`
       [ -n "$int" ] && interfaces_boot="$interfaces_boot $int"
 done
 
