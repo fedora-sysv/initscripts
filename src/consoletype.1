@@ -1,0 +1,28 @@
+.TH CONSOLETYPE 1 "Red Hat Software" "RHS" \" -*- nroff -*-
+.SH NAME
+.B consoletype
+\- print type of the console connected to standard input
+.SH SYNOPSIS
+.B consoletype
+.SH DESCRIPTION
+.B consoletype
+prints the type of console connected to standard input. It prints
+.I vt
+if console is a virtual terminal (/dev/tty* or /dev/console device if not on
+a serial console),
+.I serial
+if standard input is a serial console (/dev/console or /dev/ttyS*) and
+.I pty
+if standard input is a pseudo terminal.
+.SH RETURN VALUE
+.B consoletype
+returns
+.TP
+.I 0
+if on virtual terminal
+.TP
+.I 1
+if on serial console
+.TP
+.I 2
+if on a pseudo terminal.

@@ -178,6 +178,7 @@ rm -rf $RPM_BUILD_ROOT
 /bin/ipcalc
 /bin/usleep
 %attr(4755,root,root) /usr/sbin/usernetctl
+/sbin/consoletype
 /sbin/getkey
 /sbin/netreport
 /sbin/initlog
@@ -194,6 +195,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Oct 25 1999 Jakub Jelinek <jakub@redhat.com>
+- fix check for serial console, don't use -C argument to fsck
+  on serial console.
+
 * Mon Oct 18 1999 Bill Nottingham <notting@redhat.com>
 - do something useful with linuxconf 'any' static routes.
 

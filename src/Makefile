@@ -1,7 +1,7 @@
 CFLAGS+=-Wall -D_GNU_SOURCE -g
 
 PROGS=usernetctl doexec netreport testd usleep ipcalc initlog minilogd \
-	getkey ppp-watch
+	getkey ppp-watch consoletype
 PPPWATCH_OBJS=ppp-watch.o shvar.o
 INITLOG_OBJS=initlog.o process.o
 USLEEP_OBJS=usleep.o
@@ -22,12 +22,14 @@ install:
 	install -s -m 755 minilogd $(ROOT)/sbin/minilogd
 	install -s -m 755 getkey $(ROOT)/sbin/getkey
 	install -s -m 755 ppp-watch $(ROOT)/sbin/ppp-watch
+	install -s -m 755 consoletype $(ROOT)/sbin/consoletype
 	install -m 644 initlog.1 $(ROOT)/usr/man/man1
 	install -m 644 doexec.1 $(ROOT)/usr/man/man1
 	install -m 644 netreport.1 $(ROOT)/usr/man/man1
 	install -m 644 usleep.1 $(ROOT)/usr/man/man1
 	install -m 644 usernetctl.1 $(ROOT)/usr/man/man1
 	install -m 644 ipcalc.1 $(ROOT)/usr/man/man1
+	install -m 644 consoletype.1 $(ROOT)/usr/man/man1
 	install -m 644 initlog.conf $(ROOT)/etc
 
 # this daemon and initscript are useful for testing the up/down/status stuff

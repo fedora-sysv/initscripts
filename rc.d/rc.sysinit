@@ -168,11 +168,17 @@ if [ -f /forcefsck ]; then
 	fsckoptions="-f $fsckoptions"
 fi
 
+if [ "$BOOTUP" != "serial" ]; then
+	fsckoptions="-C $fsckoptions"
+else
+	fsckoptions="-V $fsckoptions"
+fi
+
 _RUN_QUOTACHECK=0
 if [ ! -f /fastboot ]; then
         STRING="Checking root filesystem"
 	echo $STRING
-	initlog -c "fsck -C -T -a $fsckoptions /"
+	initlog -c "fsck -T -a $fsckoptions /"
 	rc=$?
 	
 	if [ "$rc" = "0" ]; then
@@ -368,7 +374,7 @@ fi
 if [ ! -f /fastboot ]; then
         STRING="Checking filesystems"
 	echo $STRING
-	initlog -c "fsck -C -T -R -A -a $fsckoptions"
+	initlog -c "fsck -T -R -A -a $fsckoptions"
 	rc=$?
         if [ "$rc" = "0" ]; then
 		success "$STRING"
