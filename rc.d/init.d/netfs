@@ -45,7 +45,8 @@ case "$1" in
 	;;
   stop)
         # Unmount loopback stuff first
-	remaining=`awk '!/^#/ && $1 ~ /^\/dev\/loop/ && $2 != "/" {print $1}' /proc/mounts`
+	remaining=`awk '!/^#/ && $1 ~ /^\/dev\/loop/ && $2 != "/" {print $2}' /proc/mounts`
+	devremaining=`awk '!/^#/ && $1 ~ /^\/dev\/loop/ && $2 != "/" {print $1}' /proc/mounts`
 	[ -n "$remaining" ] && {
 	        sig=
 		retry=3
@@ -56,11 +57,12 @@ case "$1" in
 			else
 				action $"Unmounting loopback filesystems: " umount $remaining
 		        fi
-			for dev in $remaining ; do
+			for dev in $devremaining ; do
 				losetup $dev >/dev/null 2>&1 && \
 				action $"Detaching loopback device $dev: " losetup -d $dev
 			done	
 			remaining=`awk '!/^#/ && $1 ~ /^\/dev\/loop/ && $2 != "/" {print $2}' /proc/mounts`
+			devremaining=`awk '!/^#/ && $1 ~ /^\/dev\/loop/ && $2 != "/" {print $1}' /proc/mounts`
 			[ -z "$remaining" ] && break
 			/sbin/fuser -k -m $sig $remaining >/dev/null
 			sleep 5
