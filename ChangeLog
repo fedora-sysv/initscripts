@@ -1,3 +1,148 @@
+2002-07-15  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec, Changelog: 6.86-1
+
+	* po/zh_CN.po, po/zh_TW.po, po/pt_BR.po, po/ro.po, po/ru.po, po/sk.po, po/sl.po, po/sr.po, po/sv.po, po/tr.po, po/uk.po, po/wa.po, po/zh.po, po/hu.po, po/id.po, po/initscripts.pot, po/is.po, po/it.po, po/ja.po, po/ko.po, po/nn.po, po/no.po, po/pl.po, po/pt.po, po/cs.po, po/da.po, po/de.po, po/es.po, po/eu_ES.po, po/fi.po, po/fr.po, po/gl.po:
+	update-po
+
+	* rc.d/rc.sysinit:
+	fix boottime cleanup, add cleanup of ICE files
+
+2002-07-14  Florian La Roche  <laroche@redhat.com>
+
+	* rc.d/init.d/functions:
+	- only coding style changes
+
+	* rc.d/rc: - coding changes only
+
+2002-07-12  Florian La Roche  <laroche@redhat.com>
+
+	* rc.d/init.d/functions:
+	- exclude zh_CN.GB18030 for setting LANG
+
+2002-07-11  Alexandr Kanevsky  <kad@blackcatlinux.com>
+
+	* po/ru.po: loopback fix, mistype fix
+
+2002-07-11  Florian La Roche  <laroche@redhat.com>
+
+	* initscripts.spec: - release 6.85
+
+	* initscripts.spec, rc.d/init.d/functions, rc.d/rc.sysinit:
+	- /etc/init.d/functions:
+	       daemon(): avoid starting another bash
+	       killproc(): avoid starting another bash for the default case
+	- do not call "insmod -p" before loading the "st" module
+
+2002-07-10  Florian La Roche  <laroche@redhat.com>
+
+	* rc.d/rc.sysinit:
+	- cleanup, no real changes
+
+	* rc.d/rc.sysinit, initscripts.spec:
+	- code cleanups in rc.sysinit
+
+	* initscripts.spec, sysconfig/network-scripts/network-functions:
+	- do not export GATEWAY in network-functions
+	- code cleanups
+
+	* initscripts.spec: - send to beehive
+
+	* initscripts.spec, rc.d/init.d/functions:
+	- drastically reduce the number of consoletype invocations
+
+	* initscripts.spec, rc.d/init.d/single, rc.d/rc, rc.d/rc.sysinit:
+	- better checks for backup files
+
+	* initscripts.spec, rc.d/init.d/halt, rc.d/init.d/network, src/Makefile, sysconfig/network-scripts/network-functions:
+	* Tue Jul 09 2002 Florian La Roche <Florian.LaRoche@redhat.com>
+	- allow an option for ups poweroff  #68123
+	- change grep for ONBOOT=  #63903
+	- allow building with a cross-compiler  #64362,#64255
+	- faster check in network-functions:check_default_route()
+
+2002-07-09  Florian La Roche  <laroche@redhat.com>
+
+	* rc.d/init.d/halt: - fix #68123
+
+2002-07-09  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit: clarify comment (#68309)
+
+2002-07-09  Florian La Roche  <laroche@redhat.com>
+
+	* initscripts.spec: - make new release
+
+2002-07-09  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec: add kbd conflict
+
+2002-07-06  Florian La Roche  <laroche@redhat.com>
+
+	* rc.d/rc.sysinit: - cleanup
+
+	* rc.d/rc.sysinit: - first small cleanups
+
+2002-07-05  Florian La Roche  <laroche@redhat.com>
+
+	* rc.d/init.d/killall: - only coding style
+
+	* rc.d/init.d/single:
+	- just coding style, no real changes
+
+	* initscripts.spec:
+	- docu some more work in changelog entry
+
+	* rc.d/rc: - check in new version
+
+	* rc.d/rc:
+	- change coding style, should have no! functional changes in it
+
+	* rc.d/init.d/single:
+	- only cosmetic changes
+
+	* sysconfig/network-scripts/ifup-ippp:
+	- change to /etc/init.d
+
+	* initscripts.spec: - add changelog entry
+
+	* rc.d/rc.sysinit:
+	- rc.sysinit: do not load raid modules unless /etc/raidtab exists
+
+	* rc.d/init.d/functions:
+	- this should only be sourced in
+
+	* sysconfig/network-scripts/ifup-routes:
+	- no need to source the file /etc/init.d/functions
+	- cleanups
+
+	* sysconfig/network-scripts/ifup-post:
+	- speed up FIREWALL_MODS=no case
+
+	* sysconfig/network-scripts/ifup:
+	- no need to export FWACTIVE
+
+	* sysconfig/network-scripts/network-functions:
+	- consistent shell programming
+	- small speed improvements, e.g. need_hostname()
+
+2002-07-04  Phil Knirsch  <pknirsch@redhat.com>
+
+	* sysconfig/network-scripts/ifup-routes:
+	- Bzzz. Fixed the debug output to do the real thing instead. :-)
+
+	* sysconfig/network-scripts/ifup-routes:
+	- Fixed ifup-route to use new /etc/sysconfig/network-scripts/route-DEV files.
+
+2002-07-01  Hung-Pin Wu  <hpwu@redhat.com>
+
+	* po/zh_TW.po: Change charset to UTF-8
+
+2002-06-28  Sarah Smith  <sarahs@redhat.com>
+
+	* po/zh_CN.po:
+	changed encode from GBK/GB18030 to UTF-8
+
 2002-06-28  Bill Nottingham <notting@redhat.com>
 
 	* ChangeLog, initscripts.spec: 6.82-1

@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.85
+Version: 6.86
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -244,6 +244,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Mon Jul 15 2002 Bill Nottingham <notting@redhat.com>
+- fix boot-time cleanup of /var
+- update po files
+
 * Thu Jul 11 2002 Florian La Roche <Florian.LaRoche@redhat.de>
 - /etc/init.d/functions:
 	daemon(): avoid starting another bash
