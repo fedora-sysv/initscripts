@@ -10,7 +10,7 @@
  *
  * Authors:
  *   Erik Troan <ewt@redhat.com>
- *   Preston Brown <pbrown@redhat.com
+ *   Preston Brown <pbrown@redhat.com>
  */
      
 
@@ -290,6 +290,11 @@ int main(int argc, const char **argv) {
     }
 
     poptFreeContext(optCon);
+    
+    if (!(showNetmask|showPrefix|showBroadcast|showNetwork|showHostname)) {
+	    poptPrintHelp(optCon, stderr, 0);
+	    return 1;
+    }
 
     /* we know what we want to display now, so display it. */
 
