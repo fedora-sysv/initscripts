@@ -180,7 +180,7 @@ case "$1" in
 	if [ -x /bin/linuxconf ] ; then
 		eval `/bin/linuxconf --hint netdev`
 		[ -n "$DEV_UP$DEV_DOWN$DEV_RECONF$DEV_RECONF_ALIASES" -o \
-		  -n "$DEV_RECONF_ROUTES$IPXINTERNALNET" ]
+		  -n "$DEV_RECONF_ROUTES$IPXINTERNALNET" ] && \
 			echo reload
 		exit 0
 	else
