@@ -213,17 +213,24 @@ else
         SCOPE=
     fi
 
-    if ! LC_ALL=C ip addr ls ${DEVICE} | grep -q "${IPADDR}/${PREFIX}" ; then
-	if ! ip addr add ${IPADDR}/${PREFIX} \
-	    brd ${BROADCAST:-+} dev ${DEVICE} ${SCOPE} ; then
+    if ! LC_ALL=C ip addr ls ${REALDEVICE} | grep -q "${IPADDR}/${PREFIX}" ; then
+        if [ "$ISALIAS" = "yes" ]; then
+	 if ! ip addr add ${IPADDR}/${PREFIX} \
+	    brd ${BROADCAST:-+} dev ${REALDEVICE} ${SCOPE} label ${DEVICE}; then
 	    echo $"Error adding address ${IPADDR} for ${DEVICE}."
+	 fi
+	else
+	 if ! ip addr add ${IPADDR}/${PREFIX} \
+	    brd ${BROADCAST:-+} dev ${REALDEVICE} ${SCOPE} ; then
+	    echo $"Error adding address ${IPADDR} for ${DEVICE}."
+	 fi
 	fi
     fi
 
     # update ARP cache of neighboring computers
-    arping -q -A -c 1 -I ${DEVICE} ${IPADDR}
+    arping -q -A -c 1 -I ${REALDEVICE} ${IPADDR}
     ( sleep 2;
-      arping -q -U -c 1 -I ${DEVICE} ${IPADDR} ) > /dev/null 2>&1 < /dev/null &
+      arping -q -U -c 1 -I ${REALDEVICE} ${IPADDR} ) > /dev/null 2>&1 < /dev/null &
 
     # Add a route for the subnet.  Replace any existing route.
     if [ "${ISALIAS}" = no ]; then

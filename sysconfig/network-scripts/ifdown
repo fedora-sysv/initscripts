@@ -37,6 +37,7 @@ if [ -x /sbin/ifdown-pre-local ]; then
 fi
 
 DEVICETYPE=`echo $DEVICE | sed "s/[0-9]*$//"`
+REALDEVICE=`echo ${DEVICE} | sed 's/:.*//g'`
 OTHERSCRIPT="/etc/sysconfig/network-scripts/ifdown-${DEVICETYPE}"
 
 if [ -x $OTHERSCRIPT ]; then
@@ -82,10 +83,12 @@ if [ "$BOOTPROTO" = bootp -o "$BOOTPROTO" = dhcp ]; then
 	}
 else
 	expand_config
-	ip addr del ${IPADDR}/${PREFIX} brd ${BROADCAST:-+} dev ${DEVICE}
+	ip addr del ${IPADDR}/${PREFIX} brd ${BROADCAST:-+} dev ${REALDEVICE}
 fi
 
-ip link set ${DEVICE} down
+if [ "${REALDEVICE}" = "${DEVICE}" ]; then
+  ip link set ${DEVICE} down
+fi
 [ "$retcode" = "0" ] && retcode=$?
 
 # wait up to 5 seconds for device to actually come down...
