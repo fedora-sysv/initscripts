@@ -318,12 +318,14 @@ case "$UTC" in
   ;;
 esac
 
-case "$ARC" in
-  yes|true)
-    CLOCKFLAGS="$CLOCKFLAGS -A";
-    CLOCKDEF="$CLOCKDEF (arc)";
-  ;;
-esac
+if [ "$CLOCK" = "/sbin/clock" ]; then
+ case "$ARC" in
+   yes|true)
+     CLOCKFLAGS="$CLOCKFLAGS -A";
+     CLOCKDEF="$CLOCKDEF (arc)";
+   ;;
+ esac
+fi
 
 $CLOCK $CLOCKFLAGS
 action "Setting clock $CLOCKDEF: `date`" date
