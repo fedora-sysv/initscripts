@@ -34,6 +34,20 @@ if [ "$BOOTUP" = "graphical" ]; then
   fi
 fi
 
+if [ "`/sbin/consoletype`" = "vt" -a -x /sbin/setsysfont ]; then
+   for i in `grep '^[0-9]*.*respawn:/sbin/mingetty' /etc/inittab | sed 's/^.* tty//'`; do
+      > /dev/tty$i
+   done
+   echo -n "Setting default font ($SYSFONT): "
+   /sbin/setsysfont
+   if [ $? -eq 0 ]; then
+      success
+   else
+      failure
+   fi
+   echo ; echo
+fi
+
 # Print a text banner.
 echo -en $"\t\tWelcome to "
 if grep -q "Red Hat" /etc/redhat-release ; then 
@@ -140,22 +154,6 @@ if [ "`/sbin/consoletype`" = "vt" -a -x /bin/loadkeys ]; then
   loadkeys $KEYMAP < /dev/tty0 > /dev/tty0 2>/dev/null && \
      success $"Loading default keymap" || failure $"Loading default keymap"
   echo
- fi
-
- # Load system font
- if [ -x /sbin/setsysfont ]; then
-    [ -f /etc/sysconfig/i18n ] && . /etc/sysconfig/i18n
-    for i in 2 3 4 5 6; do
-      > /dev/tty$i
-    done
-    case "$LANG" in 
-      *.utf8*|*.UTF-8*)
-	action $"Setting default font ($SYSFONT): " /bin/unicode_start $SYSFONT
-	;;
-      *)
-	action $"Setting default font ($SYSFONT): " /sbin/setsysfont
-	;;
-    esac
  fi
 fi
 
