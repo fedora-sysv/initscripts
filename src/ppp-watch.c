@@ -651,7 +651,7 @@ main(int argc, char **argv) {
 		 sigprocmask(SIG_UNBLOCK, &blockedsigs, NULL);
 		 sleep(timeout);
 		 sigprocmask(SIG_BLOCK, &blockedsigs, NULL);
-		 if (!theSigterm && !theSighup && !theSigio && !theSighchld && !theSigalrm)
+		 if (!theSigterm && !theSighup && !theSigio && !theSigchld && !theSigalrm)
 		      fork_exec(0, "/etc/sysconfig/network-scripts/ifup-ppp", "daemon", device, theBoot);
 // Scott Sharkey <ssharkey@linux-no-limits.com>
 // MAXFAIL Patch...
