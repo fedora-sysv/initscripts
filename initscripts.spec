@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.67
+Version: 7.68
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -250,6 +250,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Aug 24 2004 Karsten Hopp <karsten@redhat.de> 7.68-1 
+- execute zfcfconf.sh if available (mainframe)
+
 * Mon Aug 20 2004 Jason Vas Dias <jvdias@redhat.com> 7.67-1
 - fix change_resolv_conf: if pre-existing /etc/resolv.conf
 - non-existent or empty, replace with new file contents.

@@ -439,6 +439,10 @@ mount -f /dev/pts
 [ -f /proc/bus/usb/devices ] && mount -f -t usbdevfs usbdevfs /proc/bus/usb
 [ -e /dev/.devfsd ] && mount -f -t devfs devfs /dev 
 
+# configure all zfcp (scsi over fibrechannel) devices before trying to mount them
+# zfcpconf.sh exists only on mainframe
+[ -x /sbin/zfcpconf.sh ] && /sbin/zfcpconf.sh
+
 # The root filesystem is now read-write, so we can now log
 # via syslog() directly..
 if [ -n "$IN_INITLOG" ]; then
