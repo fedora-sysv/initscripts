@@ -21,6 +21,9 @@ if [ -z "$HOSTNAME" -o "$HOSTNAME" = "(none)" ]; then
     HOSTNAME=localhost
 fi
 
+# Mount /proc (done here so volume labels can work with fsck)
+action $"Mounting proc filesystem: " mount -n -t proc /proc /proc
+
 . /etc/init.d/functions
 
 HOSTTYPE=`uname -m`
@@ -37,7 +40,6 @@ if [ "$HOSTTYPE" != "s390" -a "$HOSTTYPE" != "s390x" ]; then
   fi
 fi
 
-update_boot_stage RCconsole
 if [ "$CONSOLETYPE" = "vt" -a -x /sbin/setsysfont ]; then
    echo -n "Setting default font ($SYSFONT): "
    /sbin/setsysfont
@@ -71,9 +73,6 @@ if [ -n "$LOGLEVEL" ]; then
 	/bin/dmesg -n $LOGLEVEL
 fi
 
-# Mount /proc (done here so volume labels can work with fsck)
-#update_boot_stage RCproc
-action $"Mounting proc filesystem: " mount -n -t proc /proc /proc
 
 # Start the graphical boot, if necessary; /usr may not be mounted yet, so we
 # may have to do this again after mounting
