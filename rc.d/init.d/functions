@@ -82,7 +82,13 @@ daemon() {
         [ -z $gotbase ] && base=`basename $1`
 
         # See if it's already running.
-	pid=`pidofproc $base`
+        pidlist=`pidofproc $base`
+	
+	pid=
+	for apid in $pidlist ; do
+	   [ -d /proc/$apid ] && pid="$pid $apid"
+	done
+	
 	[ -n "$pid" ] && ps h $pid >/dev/null 2>&1 && return
 
 	# make sure it doesn't core dump anywhere; while this could mask
@@ -122,7 +128,12 @@ killproc() {
         base=`basename $1`
 
         # Find pid.
-        pid=`pidofproc $base`
+        pidlist=`pidofproc $base`
+	
+	pid=
+	for apid in $pidlist ; do
+	   [ -d /proc/$apid ] && pid="$pid $apid"
+	done
 
         # Kill it.
         if [ "$pid" != "" ] ; then
@@ -183,17 +194,11 @@ pidofproc() {
 	fi
 
 	# Next try "pidof"
-	pid=`pidof $1`
+	pid=`pidof -o $$ -o $PPID -o %PPID -x $1`
 	if [ "$pid" != "" ] ; then
 	        echo $pid
 	        return 0
 	fi
-
-	# Finally try to extract it from ps
-	ps ax | awk 'BEGIN { prog=ARGV[1]; ARGC=1 } 
-			   { if ((prog == $5) || (("(" prog ")") == $5) ||
-			     (("[" prog "]") == $5) ||
-			   ((prog ":") == $5)) { print $1 ; exit 0 } }' $1
 }
 
 status() {
@@ -204,19 +209,10 @@ status() {
 	fi
 
 	# First try "pidof"
-	pid=`pidof $1`
+	pid=`pidof -o $$ -o $PPID -o %PPID -x $1`
 	if [ "$pid" != "" ] ; then
 	        echo "$1 (pid $pid) is running..."
 	        return 0
-        else
-                pid=`ps ax | awk 'BEGIN { prog=ARGV[1]; ARGC=1 } 
-			   { if ((prog == $5) || (("(" prog ")") == $5) ||
-			     (("[" prog "]") == $5) ||
-			   ((prog ":") == $5)) { print $1 ; exit 0 } }' $1`
-                if [ "$pid" != "" ] ; then
-                        echo "$1 (pid $pid) is running..."
-                        return 0
-                fi
 	fi
 
 	# Next try "/var/run/*.pid" files
