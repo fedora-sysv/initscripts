@@ -29,7 +29,7 @@
 #         PSK = preshared keys (shared secret)
 #         X509 = X.509 certificates
 #         RSA = RSA host keys in DNS (not yet implemented)
-#         GSSAPI = GSSAPI authentication 
+#         GSSAPI = GSSAPI authentication
 #     IKE_PSK = preshared key for this connection
 #     IKE_CERTFILE = our certificate file name for X509 IKE
 #       IKE_PEER_CERTFILE = peer public cert filename for X509 IKE
@@ -100,11 +100,13 @@ fi
 
 [ -z "$KEYING" ] && KEYING=manual
 
+# Get source address
+if [ -z "$SRC" ]; then
+    SRC=`ip -o route get to $DST | sed "s|.*src \([^ ]*\).*|\1|"`
+fi
+
+
 if [ "$KEYING" = "manual" ]; then
-    # Get source address
-    if [ -z "$SRC" ]; then
-      SRC=`ip -o route get to $DST | sed "s|.*src \([^ ]*\).*|\1|"`
-    fi
     
     [ -z "$AH_PROTO" ] && AH_PROTO=hmac-md5
     [ -z "$ESP_PROTO" ] && ESP_PROTO=3des-cbc
@@ -171,19 +173,22 @@ EOF
 fi
 
 if [ "$KEYING" = "automatic" ]; then
+    [ -z "$AH_PROTO" ] && AH_PROTO=md5
+    [ -z "$ESP_PROTO" ] && ESP_PROTO=3des
+    
     if [ "$MODE" = "host" ]; then
       /sbin/setkey -c << EOF
 spddelete $SRC $DST any -P out;
 spddelete $DST $SRC any -P in;
 
 spdadd $SRC $DST any -P out ipsec
-            ${KEY_ESP_OUT:+esp/transport//require}
-            ${KEY_AH_OUT:+ah/transport//require}
+	    esp/transport//require
+	    ah/transport//require
 	    ;
 		      
 spdadd $DST $SRC any -P in ipsec
-	    ${KEY_ESP_IN:+esp/transport//require}
-	    ${KEY_AH_IN:+ah/transport//require}
+	    esp/transport//require
+	    ah/transport//require
 	    ;
 EOF
     else
@@ -195,13 +200,13 @@ spddelete $SRCNET $DSTNET any -P out;
 spddelete $DSTNET $SRCNET any -P in;
 
 spdadd $SRCNET $DSTNET any -P out ipsec
-            ${KEY_ESP_OUT:+esp/tunnel/$SRC-$DEST/require}
-            ${KEY_AH_OUT:+ah/tunnel/$SRC-$DEST/require}
+	    esp/tunnel/$SRC-$DEST/require
+	    ah/tunnel/$SRC-$DEST/require
 	    ;
 		      
 spdadd $DSTNET $SRCNET any -P in ipsec
-	    ${KEY_ESP_IN:+esp/tunnel/$DEST-$SRC/require}
-	    ${KEY_AH_IN:+ah/tunnel/$DEST-$SRC/require}
+	    esp/tunnel/$DEST-$SRC/require
+	    ah/tunnel/$DEST-$SRC/require
 	    ;
 EOF
     fi
@@ -215,7 +220,7 @@ EOF
         cat > /etc/racoon/$DST.conf << EOF
 remote $DST
 {
-	exchange_mode agressive, main;
+	exchange_mode aggressive, main;
 EOF
         case "$IKE_METHOD" in
            PSK)
@@ -223,7 +228,7 @@ EOF
 	my_identifier address;
 	proposal {
 	        encryption_algorithm $ESP_PROTO;
-		hash_alogirtihm $AH_PROTO;
+		hash_algorithm $AH_PROTO;
 		authentication_method pre_shared_key;
 		dh_group 2 ;
 	}
@@ -260,7 +265,7 @@ EOF
 	my_identifier address;
 	proposal {
 	        encryption_algorithm $ESP_PROTO;
-		hash_alogirtihm $AH_PROTO;
+		hash_algorithm $AH_PROTO;
 		authentication_method gssapi_krb;
 		dh_group 2 ;
 	}
@@ -268,8 +273,8 @@ EOF
 EOF
          esac
 	 racoontmp=`mktemp /etc/racoon/racoon.XXXXXX`
-	 grep -v "^include $DST.conf" /etc/racoon/racoon.conf >> $racoontmp
-	 echo "include $DST.conf" >> $racoontmp
+	 grep -v "^include /etc/racoon/$DST.conf" /etc/racoon/racoon.conf >> $racoontmp
+	 echo "include /etc/racoon/$DST.conf" >> $racoontmp
 	 mv -f $racoontmp /etc/racoon/racoon.conf
 	 pidof -x /usr/sbin/racoon > /dev/null 2>&1 && killall -HUP /usr/sbin/racoon
     fi
