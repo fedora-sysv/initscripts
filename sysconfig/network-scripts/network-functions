@@ -133,7 +133,7 @@ check_link_down ()
     if [ -x /sbin/mii-tool ]; then
         LC_ALL=C ip link show $1 2>/dev/null| grep -q UP || ip link set $1 up >/dev/null 2>&1
 	# wait for link to come up
-	sleep 2
+	sleep 5
 	/sbin/mii-tool >/dev/null 2>&1 || return 1
 	output=`LC_ALL=C /sbin/mii-tool $1 2>&1`
 	if echo $output | grep -q "Operation not supported"; then
