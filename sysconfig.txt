@@ -127,8 +127,9 @@ Files in /etc/sysconfig
     DEFRAG_IPV4=yes|no
       Setting this to yes used to automatically defragment IPv4
       packets. This is a good idea for masquerading, and
-      a bad idea otherwise. This setting has been moved into
-      net.ipv4.ip_always_defrag setting in /etc/sysctl.conf.
+      a bad idea otherwise. This setting was moved into
+      net.ipv4.ip_always_defrag setting in /etc/sysctl.conf. It
+      is no longer valid for 2.4 kernels.
 
 /etc/sysconfig/static-routes:
 
@@ -358,7 +359,7 @@ Files in /etc/sysconfig/network-scripts/
     MTU=
     PEERDNS=yes|no
       modify /etc/resolv.conf if peer uses msdns extension (PPP only) or
-      DNS{1,2} are set, default to "yes".
+      DNS{1,2} are set, or if using pump or dhcpcd. default to "yes".
     DNS{1,2}=<ipaddress>
       provide DNS addresses that are dropped into the resolv.conf
       file if PEERDNS is not set to "no".
@@ -377,6 +378,8 @@ Files in /etc/sysconfig/network-scripts/
     Managed from /etc/sysconfig/network-scripts/ifup-ipx
     ARP=yes|no (adds 'arp' flag to ifconfig, for use with the
       ethertap device)
+    PROMISC=yes|no (enable or disable promiscuous mode)
+    ALLMULTI=yes|no (enable or disable all-multicast mode)
 
   PPP/SLIP items:
     PERSIST=yes|no
