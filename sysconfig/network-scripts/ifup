@@ -48,10 +48,6 @@ else
     ISALIAS=no
 fi
 
-if [ -n "${WIRELESS_ENC_KEY}" -a -x /sbin/iwconfig ]; then
-   iwconfig ${DEVICE} enc ${WIRELESS_ENC_KEY} >/dev/null 2>&1
-fi
-
 # Old BOOTP variable
 if [ "${BOOTP}" = "yes" ]; then
     BOOTPROTO=bootp
@@ -95,7 +91,7 @@ fi
 
 # Is there a firewall running, and does it look like one we configured?
 FWACTIVE=
-if [ -f /etc/sysconfig/ipchains -a "`ipchains -L input -n 2>&1 | awk 'END { print NR }'`" -gt 1 ]; then
+if [ -f /etc/sysconfig/ipchains -a "`ipchains -L input -n 2>&1 | awk 'END { print NR }'`" -gt 1 ] && grep -q "^# ipchains configuration written by lokkit" /etc/sysconfig/ipchains ; then
 	FWACTIVE=1
 	export FWACTIVE
 fi
