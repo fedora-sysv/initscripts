@@ -27,7 +27,8 @@ daemon() {
         base=`basename $1`
 
         # See if it's already running.
-        [ "`pidofproc $base`" != "" ] && return
+	pid=`pidofproc $base`
+	[ -n "$pid" ] && ps h $pid >/dev/null 2>&1 && return
 
 	# echo basename of the program.
 	echo -n "$base "
@@ -70,8 +71,7 @@ killproc() {
 			# TERM first, then KILL if not dead
 			kill -TERM $pid
 			usleep 100000
-			dead=`ps aux | awk '{print $2}' | grep $pid`
-			if [ "$dead" != "" ]; then
+			if ps h $pid >/dev/null 2>&1 ; then
 				sleep 3
 				kill -KILL $pid
 			fi
@@ -112,7 +112,7 @@ pidofproc() {
 	# Finally try to extract it from ps
 	ps auxw | awk 'BEGIN { prog=ARGV[1]; ARGC=1 } 
 			   { if ((prog == $11) || (("(" prog ")") == $11) ||
-			   ((prog ":") == $11)) { print $2 } }' $1
+			   ((prog ":") == $11)) { print $2 ; exit 0 } }' $1
 }
 status() {
 	# Test syntax.
@@ -127,7 +127,7 @@ status() {
 	        echo "$1 (pid $pid) is running..."
 	        return 0
         else
-                pid=`ps auxww | grep $1 | egrep -v grep\|$0 | awk '{print $2}'`
+                pid=`ps auxww | grep '[^[]'$1 | awk '{print $2}'`
                 if [ "$pid" != "" ] ; then
                         echo "$1 (pid $pid) is running..."
                         return 0
