@@ -61,7 +61,8 @@ if ($sourced == 1) then
     endif
     if ($?LANG) then
         switch ($LANG)
-	    case *.utf8;
+	    case *.utf8:
+	    case *.UTF-8:
 	        if ( $?TERM ) then
 		    if ( "$TERM" == "linux" ) then
 		        if ( `/sbin/consoletype` == "vt" ) then

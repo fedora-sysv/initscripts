@@ -64,7 +64,7 @@ if [ "$sourced" = 1 ]; then
     fi
     if [ -n "$LANG" ]; then
       case $LANG in
-    	*.utf8)
+    	*.utf8|*.UTF-8)
     	if [ "$TERM" = "linux" -a "`/sbin/consoletype`" = "vt" ]; then
 		unicode_start
         fi
