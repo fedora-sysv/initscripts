@@ -17,6 +17,10 @@ that activate and deactivate most network interfaces.
 
 %changelog
 
+* Tue Oct 14 1997 Michael K. Johnson <johnsonm@redhat.com>
+
+- bring down ppp devices if ifdown-ppp is called while ifup-ppp is sleeping.
+
 * Mon Oct 13 1997 Erik Troan <ewt@redhat.com>
 
 - moved to new chkconfig conventions
