@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.47.3
+Version: 6.47.4
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -240,6 +240,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Tue Nov 11 2003 Bill Nottingham <notting@redhat.com>
+- fix extraneous ethtool error message
+
 * Thu Oct 16 2003 Bill Nottingham <notting@redhat.com>
 - clean up sudo files in rc.sysinit
 - fix quota test (#83206)
