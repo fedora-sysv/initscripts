@@ -103,7 +103,7 @@ daemon() {
 
 	# make sure it doesn't core dump anywhere; while this could mask
 	# problems with the daemon, it also closes some security problems
-	ulimit -c 0
+	ulimit -S -c 0
 	
 	# Echo daemon
         [ "$BOOTUP" = "verbose" ] && echo -n " $base"
