@@ -3,7 +3,7 @@ Name: initscripts
 Version: 6.07
 License: GPL
 Group: System Environment/Base
-Release: 1
+Release: 2
 Source: initscripts-%{version}.tar.bz2
 Patch0: initscripts-s390.patch
 BuildRoot: /%{_tmppath}/%{name}-%{version}-%{release}-root
@@ -163,6 +163,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/sysconfig/networking/devices
 %dir /etc/sysconfig/networking/profiles
 %dir /etc/sysconfig/networking/profiles/default
+%config /etc/sysconfig/networking/ifcfg-lo
 %config(noreplace) /etc/sysconfig/rawdevices
 %config /etc/sysconfig/network-scripts/network-functions
 %config /etc/sysconfig/network-scripts/network-functions-ipv6
@@ -241,6 +242,7 @@ rm -rf $RPM_BUILD_ROOT
 - update netdev stuff to use _netdev
 - IPv6 updates (<pekkas@netcore.fi>)
 - fix downing of devices with static IPs (#49777, #49783)
+- put ifcfg-lo back in the package
 
 * Fri Jul 20 2001 Preston Brown <pbrown@redhat.com> 6.06
 - updates for quota
