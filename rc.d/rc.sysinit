@@ -40,7 +40,7 @@ if [ -n "$selinuxfs" ] && [ "`cat /proc/self/attr/current`" != "kernel" ]; then
 	fi
 fi
 
-if [ -x /sbin/restorecon ] && LC_ALL=C fgrep -q " /dev " /proc/mounts ; then
+if [ -n "$SELINUX" -a -x /sbin/restorecon ] && LC_ALL=C fgrep -q " /dev " /proc/mounts ; then
 	/sbin/restorecon  -R /dev 2>/dev/null
 fi
 
