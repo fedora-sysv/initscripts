@@ -372,16 +372,16 @@ pppLogicalToPhysical(int *pppdPid, char *logicalName) {
 
 static int
 interfaceStatus(char *device) {
-    int sock = 0;
+    int sock = -1;
     int pfs[] = {AF_INET, AF_IPX, AF_AX25, AF_APPLETALK, 0};
     int p = 0;
     struct ifreq ifr;
     int retcode = 0;
 
-    while (!sock && pfs[p]) {
+    while ((sock == -1) && pfs[p]) {
         sock = socket(pfs[p++], SOCK_DGRAM, 0);
     }
-    if (!sock) return 0;
+    if (sock == -1) return 0;
 
     memset(&ifr, 0, sizeof(ifr));
     strncpy(ifr.ifr_name, device, IFNAMSIZ);
