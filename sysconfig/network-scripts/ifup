@@ -370,7 +370,7 @@ if [ "${TYPE}" =  "Bonding" ] || ethtool -i $DEVICE 2>/dev/null| grep -q "driver
 	if [ "$BOOTPROTO" = "dhcp" ]; then
 		DEV=$DEVICE
                 eval $(LANG=C fgrep "DEVICE=" $device)
-		ifenslave -d $DEV DEVICE
+		ifenslave -d $DEV $DEVICE
 		DEVICE=$DEV
 	fi
 	/sbin/ifup ${device##*/}
