@@ -388,6 +388,7 @@ failure() {
      trap - SIGPIPE
   fi
   [ "$BOOTUP" != "verbose" -a -z "$LSB" ] && echo_failure
+  [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --details=yes
   return $rc
 }
 

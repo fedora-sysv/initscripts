@@ -79,18 +79,18 @@ fi
 RHGB_STARTED=0
 mount -n -t devpts /dev/pts /dev/pts
 
-if fgrep rhgb /proc/cmdline > /dev/null 2>&1 && [ "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
-   /usr/bin/rhgb
-   RHGB_STARTED=1
-fi
-
 # Unmount the initrd, if necessary
 if LC_ALL=C grep -q /initrd /proc/mounts && ! LC_ALL=C grep -q /initrd/loopfs /proc/mounts ; then
    if [ -e /initrd/dev/.devfsd ]; then
       umount /initrd/dev
    fi
-   action $"Unmounting initrd: " umount /initrd
+   umount /initrd
    /sbin/blockdev --flushbufs /dev/ram0 >/dev/null 2>&1
+fi
+
+if fgrep rhgb /proc/cmdline > /dev/null 2>&1 && [ "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
+   /usr/bin/rhgb
+   RHGB_STARTED=1
 fi
 
 # Configure kernel parameters
