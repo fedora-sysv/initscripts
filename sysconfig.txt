@@ -56,6 +56,15 @@ Files in /etc/sysconfig
 
   KEYTABLE=<keytable file>
      for example: KEYTABLE="/usr/lib/kbd/keytables/us.map"
+    
+     If you dump a keymap (using 'dumpkeys') to
+	/etc/sysconfig/console/default.kmap
+     it will be loaded on bootup before filesystems are mounted/checked.
+     This could be useful if you need to emergency type the root password.
+     This has to be a dumped keymap, as opposed to copying the shipped
+     keymap files, as the shipped files include other maps from the
+     /usr/lib/kbd/keytables directory.
+     
   KEYBOARDTYPE=sun|pc
     on SPARC only, sun means a sun keyboard is attached on /dev/kbd,
     pc means a PS/2 keyboard is on ps/2 port.
