@@ -1,7 +1,7 @@
 CFLAGS+=$(RPM_OPT_FLAGS) -Wall -D_GNU_SOURCE
 
 PROGS=usernetctl doexec netreport testd usleep ipcalc initlog minilogd \
-	getkey ppp-watch consoletype redhat-support-check
+	getkey ppp-watch consoletype redhat-support-check genhostid
 PPPWATCH_OBJS=ppp-watch.o shvar.o
 INITLOG_OBJS=initlog.o process.o
 USLEEP_OBJS=usleep.o
@@ -20,12 +20,14 @@ install:
 	install -m 4755 usernetctl $(ROOT)/usr/sbin/usernetctl
 	install -m 2755 netreport $(ROOT)/sbin/netreport
 	install -m 755 ipcalc $(ROOT)/bin/ipcalc
+	install -m 755 genhostid $(ROOT)/sbin/genhostid
 	install -m 755 initlog $(ROOT)/sbin/initlog
 	install -m 755 minilogd $(ROOT)/sbin/minilogd
 	install -m 755 getkey $(ROOT)/sbin/getkey
 	install -m 755 ppp-watch $(ROOT)/sbin/ppp-watch
 	install -m 755 consoletype $(ROOT)/sbin/consoletype
 	install -m 644 initlog.1 $(ROOT)$(mandir)/man1
+	install -m 644 genhostid.1 $(ROOT)$(mandir)/man1
 	install -m 644 doexec.1 $(ROOT)$(mandir)/man1
 	install -m 644 netreport.1 $(ROOT)$(mandir)/man1
 	install -m 644 usleep.1 $(ROOT)$(mandir)/man1
