@@ -149,6 +149,13 @@ mkdir -p $RPM_BUILD_ROOT/var/run/netreport
 chown root.root $RPM_BUILD_ROOT/var/run/netreport
 chmod u=rwx,g=rwx,o=rx $RPM_BUILD_ROOT/var/run/netreport
 
+for i in 0 1 2 3 4 5 6 ; do
+  file=$RPM_BUILD_ROOT/etc/rc.d/rc$i.d
+  mkdir $file
+  chown root.root $file
+  chmod u=rwx,g=rx,o=rx $file
+done
+
 # Can't store symlinks in a CVS archive
 ln -s ../init.d/random $RPM_BUILD_ROOT/etc/rc.d/rc0.d/K80random
 ln -s ../init.d/random $RPM_BUILD_ROOT/etc/rc.d/rc1.d/S20random
