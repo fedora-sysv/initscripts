@@ -155,7 +155,7 @@ int main(int argc, char ** argv) {
 	ifaceConfig = temp;
     }
     
-
+    if(getuid() != 0)
     switch (userCtl(ifaceConfig)) {
 	char *dash;
 
