@@ -9,7 +9,7 @@
 #  You will find more information in the IPv6-HowTo for Linux at
 #   http://www.bieringer.de/linux/IPv6/
 #
-# Version 2002-01-25
+# Version 2002-10-30
 #
 # Calling parameters:
 #  $1: interface name
@@ -30,7 +30,7 @@
 #
 #  IPV6_CONTROL_RADVD=yes|no: controls radvd triggering
 #  IPV6_RADVD_PIDFILE=<file>: PID file of radvd for sending signals, default is "/var/run/radvd/radvd.pid"
-#  IPV6_RADVD_TRIGGER_ACTION=startstop|reload|restart|SIGHUP: how to trigger radvd [optional, default is SIGHUP]
+#  IPV6_RADVD_TRIGGER_ACTION=startstop|reload|restart|SIGHUP: how to trigger radvd (optional, default is SIGHUP)
 #
 
 
@@ -105,7 +105,7 @@ if [ "$valid6to4config" = "yes" ]; then
 		ipv6_trigger_radvd down "$IPV6_RADVD_TRIGGER_ACTION" $IPV6_RADVD_PIDFILE
 	fi
 
-	if [ ! -z "$IPV6TO4_ROUTING" ]; then
+	if [ -n "$IPV6TO4_ROUTING" ]; then
 		# Delete routes to local networks
 		for devsuf in $IPV6TO4_ROUTING; do
 			dev="`echo $devsuf | awk -F- '{ print $1 }'`"

@@ -5,10 +5,10 @@
 # Taken from: network-functions-ipv6
 # (P) & (C) 1997-2002 by Peter Bieringer <pb@bieringer.de>
 #
-# Version: 2002-01-25
+# Version: 2002-11-02
 #
 # Extended address detection is enabled, if 'ipv6calc' is installed
-#  Available here: http://www.bieringer.de/linux/IPv6/tools/index.html#ipv6calc
+#  Available here: http://www.bieringer.de/linux/IPv6/ipv6calc/
 #
 #
 
@@ -269,7 +269,7 @@ ipv6_exec_ip() {
 ipv6_exec_sysctl() {
 	local options=$*
 
-	LC_ALL=C /sbin/sysctl $options 2>&1
+	LC_ALL=C /sbin/sysctl -e $options 2>&1
 
 	return $?
 }
@@ -307,7 +307,7 @@ ipv6_control_forwarding() {
 
 	# Global control? (if no device is given)
 	if [ -z "$fw_device" ]; then
-		ipv6_exec_sysctl -w -e net.ipv6.conf.all.forwarding=$status >/dev/null
+		ipv6_exec_sysctl -w net.ipv6.conf.all.forwarding=$status >/dev/null
 	fi
 	
 	# Per device control (not implemented in kernel)
@@ -487,9 +487,9 @@ ipv6_enable_autotunnel() {
 			fi
 
 		# Set sysctls proper (regardless "default")
-		ipv6_exec_sysctl -w -e net.ipv6.conf.sit0.forwarding=1 >/dev/null
-		ipv6_exec_sysctl -w -e net.ipv6.conf.sit0.accept_ra=0 >/dev/null
-		ipv6_exec_sysctl -w -e net.ipv6.conf.sit0.accept_redirects=0 >/dev/null
+		ipv6_exec_sysctl -w net.ipv6.conf.sit0.forwarding=1 >/dev/null
+		ipv6_exec_sysctl -w net.ipv6.conf.sit0.accept_ra=0 >/dev/null
+		ipv6_exec_sysctl -w net.ipv6.conf.sit0.accept_redirects=0 >/dev/null
 	fi
 	
 	return 0
@@ -514,9 +514,9 @@ ipv6_disable_autotunnel() {
 			true
 		else
 			# take down basic tunnel device
-			ipv6_exec_sysctl -w -e net.ipv6.conf.sit0.forwarding=0 >/dev/null
-			ipv6_exec_sysctl -w -e net.ipv6.conf.sit0.accept_ra=0 >/dev/null
-			ipv6_exec_sysctl -w -e net.ipv6.conf.sit0.accept_redirects=0 >/dev/null
+			ipv6_exec_sysctl -w net.ipv6.conf.sit0.forwarding=0 >/dev/null
+			ipv6_exec_sysctl -w net.ipv6.conf.sit0.accept_ra=0 >/dev/null
+			ipv6_exec_sysctl -w net.ipv6.conf.sit0.accept_redirects=0 >/dev/null
 			
 			ipv6_exec_ifconfig sit0 down
 
@@ -671,7 +671,7 @@ ipv6_add_addr_on_device() {
 	else
 		ipv6_exec_ifconfig $device up
 
-			if ! test_interface_status $device; then
+			if ! ipv6_test_device_status $device; then
 				ipv6_log $"Device '$device' enabling didn't work" err $fn
 				return 3
 			fi
@@ -1145,18 +1145,6 @@ ipv6_del_6to4_tunnel() {
 
 	ipv6_test || return 2
 
-	# generate 6to4 address
-	local prefix6to4="`ipv6_create_6to4_prefix $localipv4`"
-	if [ $? -ne 0 -o -z "$prefix6to4" ]; then
-		return 3
-	fi
-
-	if [ -z "$localipv6to4suffix" ]; then
-		local address6to4="$prefix6to4::1/16"
-	else
-		local address6to4="${prefix6to4}::${localipv6to4suffix}/16"
-	fi
-
 		ipv6_del_tunnel_device tun6to4
 		local retval=$?
 
@@ -1235,9 +1223,9 @@ ipv6_add_tunnel_device() {
 		fi
 
 		# Set sysctls proper (regardless "default")
-		ipv6_exec_sysctl -w -e net.ipv6.conf.$device.forwarding=1 >/dev/null
-		ipv6_exec_sysctl -w -e net.ipv6.conf.$device.accept_ra=0 >/dev/null
-		ipv6_exec_sysctl -w -e net.ipv6.conf.$device.accept_redirects=0 >/dev/null
+		ipv6_exec_sysctl -w net.ipv6.conf.$device.forwarding=1 >/dev/null
+		ipv6_exec_sysctl -w net.ipv6.conf.$device.accept_ra=0 >/dev/null
+		ipv6_exec_sysctl -w net.ipv6.conf.$device.accept_redirects=0 >/dev/null
 
 		if [ -n "$addressipv6local" ]; then
 			# Setup P-t-P address
@@ -1437,7 +1425,7 @@ ipv6_set_mtu() {
 	fi
 
 	# Set value
-	ipv6_exec_sysctl -w -e net.ipv6.conf.$device.mtu=$ipv6_mtu >/dev/null
+	ipv6_exec_sysctl -w net.ipv6.conf.$device.mtu=$ipv6_mtu >/dev/null
 	
 	return 0
 }
@@ -1472,7 +1460,7 @@ ipv6_set_default_route() {
 		fi
 
 		# Scope device has precedence
-		if [ -n "$device_scope" -a ! -z "$device" -a "$device_scope" != "$device" ]; then
+		if [ -n "$device_scope" -a -n "$device" -a "$device_scope" != "$device" ]; then
 			ipv6_log $"Given IPv6 default gateway '$address' has scope '$device_scope' defined, given default gateway device '$device' will be not used" inf $fn
 			local device=""
 		fi
@@ -1579,7 +1567,7 @@ ipv6_test_route_requires_next_hop() {
 #  $2: [startstop|restart|reload|SIGHUP] : triger mechanism (default is "SIGHUP")
 #        "startstop" : reason=up -> start, reason=down -> stop
 #  $3: [<filename>] : alternative pid file  [optional]
-# return code: 0=ok 1=argument error 2=IPv6 test fails 3=major problem 10=need no explicit hop
+# return code: 0=ok 1=argument error 2=IPv6 test fails 3=major problem
 ipv6_trigger_radvd() {
 	local fn="ipv6_trigger_radvd"
 
@@ -1630,7 +1618,12 @@ ipv6_trigger_radvd() {
 	# PID file needed?
 	if [ "$action" = "SIGHUP" ]; then
 		if ! [ -f "$pidfile" ]; then
-			ipv6_log $"Given pidfile '$pidfile' doesn't exist, cannot send trigger to radvd" err $fn 
+			if [ "$reason" = "down" ]; then
+				# be quiet because triggering may have been disabled
+				true
+			else
+				ipv6_log $"Given pidfile '$pidfile' doesn't exist, cannot send trigger to radvd" err $fn
+			fi
 			return 3
 		fi
 
@@ -1650,7 +1643,17 @@ ipv6_trigger_radvd() {
 		kill -HUP $pid
 		;;
 	    'reload'|'restart'|'stop'|'start')
-		service radvd $action >/dev/null 2>&1
+			if ! /sbin/chkconfig --list radvd >/dev/null 2>&1; then
+				if [ "$reason" = "down" ]; then
+					# be quiet because triggering may have been disabled
+					true
+				else
+					ipv6_log $"radvd not (properly) installed, triggering failed" err $fn
+				fi
+				return 3
+			else
+				/sbin/service radvd $action >/dev/null 2>&1
+			fi
 		;;
 	    *)
 		# Normally not reached, "action" is set above to proper value

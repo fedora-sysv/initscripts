@@ -8,15 +8,17 @@
 #
 # RHL integration assistance by Pekka Savola <pekkas@netcore.fi>
 #
-# Version 2002-01-25
+# Version 2002-11-01
 #
 # Uses following information from /etc/sysconfig/network:
 #  NETWORKING_IPV6=yes|no: controls IPv6 initialization (global setting)
+#  IPV6_DEFAULTDEV=<device>: controls default route (optional)
+#  IPV6_DEFAULTGW=<address>: controls default route (optional)
 #
 # Uses following information from /etc/sysconfig/network-scripts/ifcfg-$1:
 #  DEVICE=<device>
 #  IPV6INIT=yes|no: controls IPv6 configuration for this interface
-#  IPV6_MTU=<MTU for IPv6>: controls IPv6 MTU for this link [optional]
+#  IPV6_MTU=<MTU for IPv6>: controls IPv6 MTU for this link (optional)
 # 
 #  For static tunnels 
 #  IPV6TUNNELIPV4=<IPv4 address>: IPv4 address of remote tunnel endpoint
@@ -25,10 +27,8 @@
 #
 
 
-# Get global network configuration
 . /etc/sysconfig/network 
 
-# Source IPv4 helper functions
 cd /etc/sysconfig/network-scripts
 . network-functions 
 

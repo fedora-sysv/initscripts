@@ -11,7 +11,7 @@
 #
 # RHL integration assistance by Pekka Savola <pekkas@netcore.fi>
 #
-# Version 2002-01-25
+# Version 2002-11-01
 #
 # Uses following information from /etc/sysconfig/network:
 #  NETWORKING_IPV6=yes|no: controls IPv6 initialization (global setting)
@@ -21,10 +21,8 @@
 #
 
 
-# Get global network configuration
 . /etc/sysconfig/network 
 
-# Source IPv4 helper functions
 cd /etc/sysconfig/network-scripts
 . network-functions 
 
@@ -39,11 +37,7 @@ REALDEVICE=`echo ${DEVICE} | sed 's/:.*//g'`
 # Test whether IPv6 should be configured, else stop
 [ "$NETWORKING_IPV6" = "yes" ] || exit 0
 
-if [ ! -f /etc/sysconfig/network-scripts/network-functions-ipv6 ]; then
-	exit 1
-fi
-
-# Source IPv6 helper functions
+[ -f /etc/sysconfig/network-scripts/network-functions-ipv6 ] || exit 1
 . /etc/sysconfig/network-scripts/network-functions-ipv6
 
 

@@ -11,7 +11,7 @@
 #
 # RHL integration assistance by Pekka Savola <pekkas@netcore.fi>
 #
-# Version 2002-04-12
+# Version 2002-10-30
 #
 # Note: if called as (like normally) by /etc/sysconfig/network-scripts/ifdown
 #        exit codes aren't handled by "ifdown"
@@ -56,8 +56,6 @@ REALDEVICE=`echo ${DEVICE} | sed 's/:.*//g'`
 [ "${NETWORKING_IPV6}" = "yes" ] || exit 0
 
 [ -f /etc/sysconfig/network-scripts/network-functions-ipv6 ] || exit 1
-
-# Source IPv6 helper functions
 . /etc/sysconfig/network-scripts/network-functions-ipv6
 
 
@@ -83,7 +81,7 @@ if [ -z "$IPV6TO4_RELAY" ]; then
 fi
 
 # Get IPv4 address from interface
-if [ ! -z "$IPV6TO4_IPV4ADDR" ]; then
+if [ -n "$IPV6TO4_IPV4ADDR" ]; then
 	# Take special configured from config file (precedence 1)
 	ipv4addr="$IPV6TO4_IPV4ADDR"
 else
@@ -111,7 +109,7 @@ fi
 
 # Shutdown of 6to4, if configured
 if [ "$valid6to4config" = "yes" ]; then
-	if [ ! -z "$IPV6TO4_ROUTING" ]; then
+	if [ -n "$IPV6TO4_ROUTING" ]; then
 		# Delete routes to local networks
 		for devsuf in $IPV6TO4_ROUTING; do
 			dev="`echo $devsuf | awk -F- '{ print $1 }'`"

@@ -9,7 +9,7 @@
 #  You will find more information in the IPv6-HowTo for Linux at
 #   http://www.bieringer.de/linux/IPv6/
 #
-# Version 2002-01-25
+# Version 2002-11-02
 #
 # Calling parameters:
 #  $1: interface name
@@ -26,13 +26,13 @@
 # Uses following information from /etc/sysconfig/network-scripts/ifcfg-$1:
 #  IPV6TO4INIT=yes|no: controls configuration
 #  IPV6TO4_IPV4ADDR=<IPv4 address>: special local address for 6to4 tunneling (only needed behind a NAT gateway)
-#  IPV6TO4_RELAY=<IPv4 address>: remote 6to4 relay router address [default: 192.88.99.1]
+#  IPV6TO4_RELAY=<IPv4 address>: remote 6to4 relay router address (default: 192.88.99.1)
 #  IPV6TO4_ROUTING="<device>-<suffix>/<prefix length> ...": information to setup local subnetting
 #    Example: IPV6TO4_ROUTING="eth0-:f101::0/64 eth1-:f102::0/64"
 #
 #  IPV6_CONTROL_RADVD=yes|no: controls radvd triggering
 #  IPV6_RADVD_PIDFILE=<file>: PID file of radvd for sending signals, default is "/var/run/radvd/radvd.pid"
-#  IPV6_RADVD_TRIGGER_ACTION=startstop|reload|restart|SIGHUP: how to trigger radvd [optional, default is SIGHUP]
+#  IPV6_RADVD_TRIGGER_ACTION=startstop|reload|restart|SIGHUP: how to trigger radvd (optional, default is SIGHUP)
 #
 # Requirements
 #  radvd-0.6.2p3 or newer supporting option "Base6to4Interface"
@@ -75,25 +75,25 @@ ipv6_test || exit 1
 # Setup of 6to4, if configured
 valid6to4config="yes"
 if [ "$IPV6TO4INIT" = "yes" ]; then
-	if [ ! -z "$IPV6TO4_IPV4ADDR" ]; then
-		# Take special configured from config file (precedence 1)
+	if [ -n "$IPV6TO4_IPV4ADDR" ]; then
+		# Take 6to4-dedicated configured IPv4 address from config file (precedence 1)
 		ipv4addr="$IPV6TO4_IPV4ADDR"
         else
-		# Get IPv4 address from interface first (has precedence 2)
-		ipv4addr="`LC_ALL=C ifconfig $DEVICE |grep "inet addr:" | tr : " " | awk '{ print $3 }'`"
+		# Get IPv4 address from interface (precedence 2)
+		ipv4addr="`ipv6_get_ipv4addr_of_device $DEVICE`"
 		if [ -z "$ipv4addr" ]; then
-                	# Take configured from config file (precedence 3)
+                	# Take configured IPv4 address of interface from config file (precedence 3)
                 	ipv4addr="$IPADDR"
             	fi
         fi
-        if [ ! -z "$ipv4addr" ]; then
+        if [ -n "$ipv4addr" ]; then
 		# Test for non-global IPv4 address
 		if ! ipv6_test_ipv4_addr_global_usable $ipv4addr; then
-                	echo $"Given IPv4 address '$ipv4addr' is not globally usable, 6to4 configuration is not valid"
+                	echo $"Given IPv4 address '$ipv4addr' is not globally usable"
 			valid6to4config="no"
 		fi
 	else
-		echo $"IPv6to4 configuration needs an IPv4 address on related interface or otherwise specified, 6to4 configuration is not valid"
+		echo $"IPv6to4 configuration needs an IPv4 address on related interface or otherwise specified"
 		valid6to4config="no"
 	fi
 	if [ -z "$IPV6TO4_RELAY" ]; then
@@ -124,7 +124,7 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 
 		# Add default route, if device matches
 		if [ "$IPV6_DEFAULTDEV" = "tun6to4" ]; then
-			if [ ! -z "$IPV6_DEFAULTGW" ]; then
+			if [ -n "$IPV6_DEFAULTGW" ]; then
 				echo $"Warning: interface 'tun6to4' does not support 'IPV6_DEFAULTGW', ignored"
 			fi
 			ipv6_set_default_route $ipv6to4_relay tun6to4
@@ -151,10 +151,10 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
                         # Control running radvd
 			ipv6_trigger_radvd up "$IPV6_RADVD_TRIGGER_ACTION" $IPV6_RADVD_PIDFILE
 
-		        if [ ! -z "$IPV6TO4_ROUTING" ]; then
+			if [ -n "$IPV6TO4_ROUTING" ]; then
 				# Generate 6to4 address
 				ipv6to4prefix="`ipv6_create_6to4_prefix $ipv4addr`"
-				if [ ! -z "$ipv6to4prefix" ]; then
+				if [ -n "$ipv6to4prefix" ]; then
 					# Add route to local networks
 					for devsuf in $IPV6TO4_ROUTING; do
 						dev="`echo $devsuf | awk -F- '{ print $1 }'`"

@@ -2,13 +2,13 @@
 # This file should not be modified -- make local changes to
 # /etc/ppp/ipv6-down.local instead
 
+# Version: 2002-10-30
+
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 export PATH
 
 LOGDEVICE=$6
 REALDEVICE=$1
-
-[ -x /etc/ppp/ipv6-up.local ] && /etc/ppp/ipv6-up.local "$@"
 
 [ -x /etc/sysconfig/network-scripts/ifdown-ipv6 ] || exit 0
 [ -f /etc/sysconfig/network ] || exit 0
@@ -17,11 +17,13 @@ REALDEVICE=$1
 
 cd /etc/sysconfig/network-scripts
 . network-functions
-. /etc/sysconfig/network-scripts/network-functions-ipv6
+. network-functions-ipv6
 
 CONFIG=$1
 [ -f "$CONFIG" ] || CONFIG=ifcfg-$CONFIG
 source_config
+
+[ -x /etc/ppp/ipv6-down.local ] && /etc/ppp/ipv6-down.local "$@"
 
 /etc/sysconfig/network-scripts/ifdown-ipv6 $REALDEVICE
 
