@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.25
+Version: 7.26
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -184,6 +184,8 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/sysconfig/network-scripts/ifup-plusb
 %config /etc/sysconfig/network-scripts/ifup-ipv6
 %config /etc/sysconfig/network-scripts/ifdown-ipv6
+%config /etc/sysconfig/network-scripts/ifup-ipsec
+%config /etc/sysconfig/network-scripts/ifdown-ipsec
 %config /etc/sysconfig/network-scripts/ifup-sit
 %config /etc/sysconfig/network-scripts/ifdown-sit
 %config /etc/sysconfig/network-scripts/ifup-aliases
@@ -245,6 +247,14 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Jul  2 2003 Bill Nottingham <notting@redhat.com> 7.26-1
+- ipsec support (see sysconfig.txt, ifup-ipsec)
+- read $CONFIG.keys, for non-world-readable keys
+- allow default window size for routes to be set with WINDOW= (#98112)
+- support setting device options with ethtool opts
+- fix s390 bootup spew (#98078)
+- support renaming interfaces with nameif based on hwaddr
+
 * Mon Jun 23 2003 Bill Nottingham <notting@redhat.com> 7.25-1
 - fix DNS punching in the case of other rules for the DNS server
   (#97686, <martin@zepler.org>)

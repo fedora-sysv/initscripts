@@ -1,3 +1,130 @@
+2003-07-03  Bill Nottingham  <notting@redhat.com>
+
+	* ChangeLog, initscripts.spec:
+	7.26-1
+	
+	* sysconfig/network-scripts/ifup-ipsec:
+	- make setkey be quiet
+
+	* sysconfig.txt:
+	add quick description of bonding device config
+
+	* sysconfig.txt:
+	ipsec bits. sucked straight from ifup-ipsec
+
+	* sysconfig/network-scripts/ifup-ipsec:
+	mention that type is required
+
+	* sysconfig/network-scripts/ifup-ipsec:
+	- nuke RSA support, since we're not doing it right now
+	- switch md5 -> sha1
+	- clarify some docs
+
+	* sysconfig/network-scripts/ifup-ipsec:
+	fix quoting of peer certfile
+
+	* sysconfig/network-scripts/ifdown-ipsec:
+	set $KEYING
+	do something with racoon on bringing the interface down
+
+2003-07-02  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifup-ipsec:
+	that ';' is important. damned if i know why, i think the parser is buggy.
+	fix quoting of include files.
+
+	* sysconfig/network-scripts/ifup-ipsec:
+	first batch of automatic keying fixes. notably, I can't type.
+
+	* sysconfig/network-scripts/ifdown-ipsec:
+	add ifdown-ipsec
+
+	* sysconfig/network-scripts/ifup-ipsec:
+	some fixes. i love shell quoting
+
+	* sysconfig/network-scripts/network-functions:
+	map ipsec devices to ifup-ipsec
+
+	* sysconfig/network-scripts/ifup-ipsec:
+	name SPIs something other than 1234
+
+	* sysconfig/network-scripts/ifup-ipsec:
+	automatic keying support. not yet tested, either.
+
+2003-07-01  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifup-ipsec:
+	allow different in/out encryption protocols, too
+
+	* sysconfig/network-scripts/ifup-ipsec:
+	allow using only AH or ESP, don't require both
+	allow incoming/outgoing keys to be different
+
+	* sysconfig/network-scripts/ifup-routes:
+	handle new format in old file names
+
+	* sysconfig/network-scripts/ifup-ipsec:
+	well, fix parsing
+
+	* sysconfig/network-scripts/ifup-ipsec:
+	initial stuff. may not work. may not even parse.
+
+2003-06-30  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/network-functions:
+	read $CONFIG.keys too...  you can put non-world-readable keys here.
+
+2003-06-27  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifdown-post, sysconfig/network-scripts/ifup, sysconfig/network-scripts/network-functions, sysconfig.txt:
+	allow default window size for routes to be set with WINDOW=... (#98112)
+
+	* sysconfig/network-scripts/ifup, sysconfig.txt:
+	support setting device options with ethtool opts
+
+2003-06-26  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit:
+	checking HOSTTYPE works better if it's actually set somewhere (#98078)
+
+	* sysconfig/network-scripts/network-functions:
+	what's an escon?
+
+2003-06-24  Audrey Simons  <asimons@redhat.com>
+
+	* po/fr.po: Updated
+
+2003-06-24  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifdown, sysconfig/network-scripts/ifup, sysconfig/network-scripts/network-functions:
+	more tweaks
+	- encapsulate grabing the hw addr into its own function
+	- normalize case of all hwaddrs
+	- if we are passed a device with no config, see if there's a config
+	  for that hwaddr
+
+	* sysconfig/network-scripts/ifup:
+	get rid of an extraneous error message
+
+	* sysconfig/network-scripts/ifdown, sysconfig/network-scripts/ifdown-post, sysconfig/network-scripts/ifup, sysconfig/network-scripts/ifup-post, sysconfig/network-scripts/network-functions:
+	support randomly named network devices, part 1
+	- use nameif
+	- determine device type from file first, and from device name as a
+	  fallback
+	- ditto for aliases
+
+2003-06-23  Bill Nottingham  <notting@redhat.com>
+
+	* ChangeLog, initscripts.spec:
+	7.25-1
+
+	* rc.d/rc.local: revert
+
+2003-06-19  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifup-post:
+	fix DNS punching in the case of other rules for the DNS server (#97686, <martin@zepler.org>)
+
 2003-06-19  Bill Nottingham  <notting@redhat.com>
 
 	* Changelog, initscripts.spec:
