@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.76
+Version: 6.77
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -244,6 +244,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Wed Jun 05 2002 Than Ngo <than@redhat.com> 6.77-1
+- fixed a bug in setting defaultgateway
+
 * Thu May 30 2002 Bill Nottingham <notting@redhat.com> 6.76-1
 - call unicode_start in lang.{sh,csh}, setsysfont when necessary
 

@@ -107,7 +107,7 @@ function addprovider()
     [ -z "$GATEWAY" ] && GATEWAY="0.0.0.0"
 
     # set default route
-    [ "$DEFROUTE" = "yes" ] && options="$options deldefaultroute"
+    [ "$DEFROUTE" = "yes" ] && options="$options defaultroute deldefaultroute"
 
     # set authentication
     _auth=`echo "$AUTH" | sed 's/[a-z -]*//g'`
@@ -256,9 +256,6 @@ function addprovider()
         options="$options $IPADDR:$GATEWAY"
     fi
 
-    # Add default route while connection
-    options="$options defaultroute"
- 
     # Van Jacobson style TCP/IP header compression and
     # VJ connection-ID compression
     [ "$VJ" = "off" ] && options="$options -vj"
