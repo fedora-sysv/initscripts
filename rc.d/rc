@@ -98,7 +98,15 @@ if [ -d /etc/rc$runlevel.d ]; then
 
 		# Bring the subsystem up.
 		if egrep -q "(daemon |action )" $i ; then
-			$i start
+			if [ "$subsys" = "halt" -o "$subsys" = "reboot" ]; then
+				unset LANG
+				unset LC_ALL
+				unset TEXTDOMAIN
+				unset TEXTDOMAINDIR
+				exec $i start
+			else
+			    $i start
+			fi
 		else
 			if [ "$subsys" = "halt" -o "$subsys" = "reboot" -o "$subsys" = "single" -o "$subsys" = "local" ]; then
 			    if [ "$subsys" = "halt" -o "$subsys" = "reboot" ]; then

@@ -20,7 +20,7 @@ fi
 . /etc/sysconfig/network
 
 # Check that networking is up.
-[ ${NETWORKING} = "no" ] && exit 0
+[ "${NETWORKING}" = "no" ] && exit 0
 
 NFSFSTAB=`grep -v '^#' /etc/fstab | awk '{ if ($3 ~ /^nfs$/ && $4 !~ /noauto/) print $2}'`
 SMBFSTAB=`grep -v '^#' /etc/fstab | awk '{ if ($3 ~ /^smbfs$/ && $4 !~ /noauto/) print $2}'`
@@ -45,6 +45,7 @@ case "$1" in
   stop)
         # Unmount loopback stuff first
 	remaining=`awk '!/^#/ && $1 ~ /^\/dev\/loop/ && $2 != "/" {print $2}' /proc/mounts`
+	devremaining=`awk '!/^#/ && $1 ~ /^\/dev\/loop/ && $2 != "/" {print $1}' /proc/mounts`
 	[ -n "$remaining" ] && {
 	        sig=
 		retry=3
@@ -55,7 +56,12 @@ case "$1" in
 			else
 				action $"Unmounting loopback filesystems: " umount $remaining
 		        fi
+			for dev in $devremaining ; do
+				losetup $dev >/dev/null 2>&1 && \
+				action $"Detaching loopback device $dev: " losetup -d $dev
+			done	
 			remaining=`awk '!/^#/ && $1 ~ /^\/dev\/loop/ && $2 != "/" {print $2}' /proc/mounts`
+			devremaining=`awk '!/^#/ && $1 ~ /^\/dev\/loop/ && $2 != "/" {print $1}' /proc/mounts`
 			[ -z "$remaining" ] && break
 			/sbin/fuser -k -m $sig $remaining >/dev/null
 			sleep 5

@@ -52,6 +52,12 @@ fi
 
 action $"Mounting proc filesystem: " mount -n -t proc /proc /proc
 
+# Unmount the initrd, if necessary
+if grep -q /initrd /proc/mounts ; then
+   action $"Unmounting initrd: " umount /initrd
+   /sbin/blockdev --flushbufs /dev/ram0 >/dev/null 2>&1
+fi
+
 # Configure kernel parameters
 
 action $"Configuring kernel parameters: " sysctl -e -p /etc/sysctl.conf
@@ -73,11 +79,11 @@ if [ -f /etc/sysconfig/clock ]; then
 fi
 
 CLOCKDEF=""
-CLOCKFLAGS="--hctosys"
+CLOCKFLAGS="$CLOCKFLAGS --hctosys"
 
 case "$UTC" in
    yes|true)
-    CLOCKFLAGS="$CLOCKFLAGS -u";
+    CLOCKFLAGS="$CLOCKFLAGS --utc";
     CLOCKDEF="$CLOCKDEF (utc)";
    ;;
    no|false)
@@ -88,13 +94,13 @@ esac
 
 case "$ARC" in
      yes|true)
-     	CLOCKFLAGS="$CLOCKFLAGS -A";
+     	CLOCKFLAGS="$CLOCKFLAGS --arc";
      	CLOCKDEF="$CLOCKDEF (arc)";
      ;;
 esac
 case "$SRM" in
      yes|true)
-	CLOCKFLAGS="$CLOCKFLAGS -S";
+	CLOCKFLAGS="$CLOCKFLAGS --srm";
 	CLOCKDEF="$CLOCKDEF (srm)";
      ;;
 esac
@@ -154,12 +160,12 @@ action $"Setting hostname ${HOSTNAME}: " hostname ${HOSTNAME}
 # Initialize USB controller and HID devices
 usb=0
 if ! grep -iq "nousb" /proc/cmdline 2>/dev/null && ! grep -q "usb" /proc/devices 2>/dev/null ; then
-    aliases=`/sbin/modprobe -c | egrep -s "^alias[[:space:]]+usb-controller" | awk '{ print $3 }'`
+    aliases=`/sbin/modprobe -c | awk '/^alias usb-controller/ { print $3 }'`
     if [ -n "$aliases" -a "$aliases" != "off" ] ; then
       modprobe usbcore
       action $"Mounting USB filesystem: "  mount -t usbdevfs usbdevfs /proc/bus/usb
       for alias in $aliases ; do 
-      	action $"Initializing USB controller ($alias): " modprobe $alias
+      	[ "$alias" != "off" ] && action $"Initializing USB controller ($alias): " modprobe $alias
       done
       [ $? -eq 0 -a -n "$aliases" ] && usb=1
     fi
@@ -255,20 +261,20 @@ _ROOT_HAS_QUOTA=$?
 if [ X"$_RUN_QUOTACHECK" = X1 -a \
     "$_ROOT_HAS_QUOTA" -a \
     -x /sbin/quotacheck ]; then
-        if [ -x /sbin/convertquota ]; then
-            if [ -f /quota.user ]; then
-                action $"Converting old user quota files: " \
-                    /sbin/convertquota -u / && rm -f /quota.user
-            fi
-            if [ -f /quota.group ]; then
-                action $"Converting old group quota files: " \
-                    /sbin/convertquota -g / && rm -f /quota.group
-            fi
-        fi
-        action $"Checking root filesystem quotas: " /sbin/quotacheck -n /
+	if [ -x /sbin/convertquota ]; then
+	    if [ -f /quota.user ]; then
+		action $"Converting old user quota files: " \
+		    /sbin/convertquota -u / && rm -f /quota.user
+	    fi
+	    if [ -f /quota.group ]; then
+		action $"Converting old group quota files: " \
+		    /sbin/convertquota -g / && rm -f /quota.group
+	    fi
+	fi
+	action $"Checking root filesystem quotas: " /sbin/quotacheck -nug /
 fi
 
-# check for arguments 
+# check for arguments passed from kernel
 
 if grep -iq nopnp /proc/cmdline >/dev/null 2>&1 ; then
     PNP=
@@ -395,12 +401,12 @@ fi
 # Load sound modules iff they need persistent DMA buffers
 if grep -q "options sound dmabuf=1" /etc/modules.conf 2>/dev/null ; then
   RETURN=0
-  alias=`/sbin/modprobe -c | egrep -s "^alias[[:space:]]+sound[[:space:]]+" | awk '{ print $3 }'`
+  alias=`/sbin/modprobe -c | awk '/^alias sound / { print $3 }'`
   if [ -n "$alias" -a "$alias" != "off" ] ; then
       action $"Loading sound module ($alias): " modprobe $alias
       RETURN=$?
   fi
-  alias=`/sbin/modprobe -c | egrep -s "^alias[[:space:]]+sound-slot-0[[:space:]]+" | awk '{ print $3 }'`
+  alias=`/sbin/modprobe -c | awk '/^alias sound-slot-0 / { print $3 }'`
   if [ -n "$alias" -a "$alias" != "off" ] ; then
       action $"Loading sound module ($alias): " modprobe $alias
       RETURN=$?
@@ -439,16 +445,24 @@ if [ -f /proc/mdstat -a -f /etc/raidtab ]; then
 
 	rc=0
 	
-	for i in `grep "^raiddev" /etc/raidtab | awk '{print $2}'`
+	for i in `grep "^[^*]*raiddev" /etc/raidtab | awk '{print $2}'`
 	do
 		RAIDDEV=`basename $i`
                 RAIDSTAT=`grep "^$RAIDDEV : active" /proc/mdstat`
 		if [ -z "$RAIDSTAT" ]; then
-			# Try raidstart first...if that fails then
+			# First scan the /etc/fstab for the "noauto"-flag
+			# for this device. If found, skip the initialization
+			# for it to avoid dropping to a shell on errors.
+			# If not, try raidstart...if that fails then
 			# fall back to raidadd, raidrun.  If that
 			# also fails, then we drop to a shell
 			RESULT=1
-			if [ -x /sbin/raidstart ]; then
+			NOAUTO=`grep "^$i" /etc/fstab | grep -c "noauto"`
+			if [ $NOAUTO -gt 0 ]; then
+			    RESULT=0
+			    RAIDDEV="$RAIDDEV(skipped)"
+			fi
+			if [ $RESULT -gt 0 -a -x /sbin/raidstart ]; then
 				/sbin/raidstart $i
 				RESULT=$?
 			fi
@@ -532,25 +546,26 @@ fi
 # filesystems are NOT unmounted in single user mode.
 action $"Mounting local filesystems: " mount -a -t nonfs,smbfs,ncpfs
 
+# check remaining quotas other than root
 if [ X"$_RUN_QUOTACHECK" = X1 -a -x /sbin/quotacheck ]; then
-        if [ -x /sbin/convertquota ]; then
-            # try to convert old quotas
-            for mountpt in `cat /etc/mtab | awk '$4 ~ /quota/{print $2}'`; do
-                if [ -f "$mountpt/quota.user" ]; then
-                    action $"Converting old user quota files: " \
-                    /sbin/convertquota -u $mountpt && \
-                        rm -f $mountpt/quota.user
-                fi
-                if [ -f "$mountpt/quota.group" ]; then
-                    action $"Converting old group quota files: " \
-                    /sbin/convertquota -g $mountpt && \
-                        rm -f $mountpt/quota.group
-                fi
-            done
-        fi
-        action $"Checking local filesystem quotas: " /sbin/quotacheck -aR
+	if [ -x /sbin/convertquota ]; then
+	    # try to convert old quotas
+	    for mountpt in `cat /etc/mtab | awk '$4 ~ /quota/{print $2}'`; do
+		if [ -f "$mountpt/quota.user" ]; then
+		    action $"Converting old user quota files: " \
+		    /sbin/convertquota -u $mountpt && \
+			rm -f $mountpt/quota.user
+		fi
+		if [ -f "$mountpt/quota.group" ]; then
+		    action $"Converting old group quota files: " \
+		    /sbin/convertquota -g $mountpt && \
+			rm -f $mountpt/quota.group
+		fi
+	    done
+	fi
+	action $"Checking local filesystem quotas: " /sbin/quotacheck -aRnug
 fi
- 
+
 if [ -x /sbin/quotaon ]; then
     action $"Enabling local filesystem quotas: " /sbin/quotaon -aug
 fi
@@ -570,6 +585,9 @@ if [ -f /.unconfigured ]; then
     fi
     if [ -x /usr/sbin/timeconfig ]; then
 	/usr/sbin/timeconfig
+    fi
+    if [ -x /usr/sbin/kbdconfig ]; then
+	/usr/sbin/kbdconfig
     fi
     if [ -x /usr/sbin/authconfig ]; then
 	/usr/sbin/authconfig --nostart
@@ -605,6 +623,7 @@ for afile in /var/lock/* /var/run/*; do
       rm -f $afile
    fi
 done
+rm -f /var/lib/rpm/__db*
 
 # Reset pam_console permissions
 [ -x /sbin/pam_console_apply ] && /sbin/pam_console_apply -r
@@ -664,7 +683,8 @@ fi
 
 # Adjust symlinks as necessary in /boot to keep system services from
 # spewing messages about mismatched System maps and so on.
-if [ -L /boot/System.map -a -r /boot/System.map-`uname -r` ] ; then
+if [ -L /boot/System.map -a -r /boot/System.map-`uname -r` -a \
+	! /boot/System.map -ef /boot/System.map-`uname -r` ] ; then
 	ln -s -f System.map-`uname -r` /boot/System.map
 fi
 if [ ! -e /boot/System.map -a -r /boot/System.map-`uname -r` ] ; then
@@ -673,7 +693,20 @@ fi
 
 # Now that we have all of our basic modules loaded and the kernel going,
 # let's dump the syslog ring somewhere so we can find it later
-dmesg > /var/log/dmesg
+dmesg -s 131072 > /var/log/dmesg
+# Also keep kernel symbols around in case we need them for debugging
+i=5
+while [ $i -ge 0 ] ; do
+	if [ -f /var/log/ksyms.$i ] ; then
+		mv /var/log/ksyms.$i /var/log/ksyms.$(($i+1))
+	fi
+	i=$(($i-1))
+done
+(/bin/date;
+ /bin/uname -a;
+ /bin/cat /proc/cpuinfo;
+ /bin/cat /proc/modules;
+ /bin/cat /proc/ksyms) >/var/log/ksyms.0
 sleep 1
 kill -TERM `/sbin/pidof getkey` >/dev/null 2>&1
 } &

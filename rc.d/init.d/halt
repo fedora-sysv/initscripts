@@ -25,6 +25,11 @@ runcmd() {
    echo
 }
 
+halt_get_remaining() {
+	awk '!/(^#|proc|loopfs|autofs|^none|^\/dev\/root| \/ )/ {print $2}' /proc/mounts
+	awk '{ if ($3 ~ /^proc$/ && $2 !~ /^\/proc/) print $2; }' /proc/mounts
+}
+
 # See how we were called.
 case "$0" in
   *halt)
@@ -84,7 +89,7 @@ if [ -f /etc/sysconfig/clock ]; then
 fi
 
 CLOCKDEF=""
-CLOCKFLAGS="--systohc"
+CLOCKFLAGS="$CLOCKFLAGS --systohc"
 
 case "$UTC" in
    yes|true)
@@ -123,6 +128,7 @@ SWAPS=`awk '! /^Filename/ { print $1 }' /proc/swaps`
 # Unmount file systems, killing processes if we have to.
 # Unmount loopback stuff first
 remaining=`awk '!/^#/ && $1 ~ /^\/dev\/loop/ && $2 != "/" {print $2}' /proc/mounts`
+devremaining=`awk '!/^#/ && $1 ~ /^\/dev\/loop/ && $2 != "/" {print $1}' /proc/mounts`
 [ -n "$remaining" ] && {
 	sig=
 	retry=3
@@ -131,9 +137,14 @@ remaining=`awk '!/^#/ && $1 ~ /^\/dev\/loop/ && $2 != "/" {print $2}' /proc/moun
 		if [ "$retry" -lt 3 ]; then
 			runcmd $"Unmounting loopback filesystems (retry):" umount $remaining
 		else
-			runcmd $"Unmounting loobpack filesystems: " umount $remaining
+			runcmd $"Unmounting loopback filesystems: " umount $remaining
 		fi
+		for dev in $devremaining ; do
+			losetup $dev > /dev/null 2>&1 && \
+				runcmd $"Detaching loopback device $dev: " losetup -d $device
+		done
 		remaining=`awk '!/^#/ && $1 ~ /^\/dev\/loop/ && $2 != "/" {print $2}' /proc/mounts`
+		devremaining=`awk '!/^#/ && $1 ~ /^\/dev\/loop/ && $2 != "/" {print $1}' /proc/mounts`
 		[ -z "$remaining" ] && break
 		/sbin/fuser -k -m $sig $remaining >/dev/null
 		sleep 5
@@ -144,32 +155,33 @@ remaining=`awk '!/^#/ && $1 ~ /^\/dev\/loop/ && $2 != "/" {print $2}' /proc/moun
 
 sig=
 retry=3
-remaining=`awk '!/(^#|proc|loopfs|autofs|^none|^\/dev\/root| \/ )/ {print $2}' /proc/mounts`
+remaining=`halt_get_remaining | sort -r`
+
 while [ -n "$remaining" -a "$retry" -gt 0 ]
 do
 	if [ "$retry" -lt 3 ]; then
-		LANG=C runcmd $"Unmounting file systems (retry): "  umount -a -f -t noproc
+		LANG=C runcmd $"Unmounting file systems (retry): "  umount -f $remaining
 	else
-		LANG=C runcmd $"Unmounting file systems: "  umount -a -f -t noproc
+		LANG=C runcmd $"Unmounting file systems: "  umount -f $remaining
 	fi
 	sleep 2
-	remaining=`awk '!/(^#|proc|loopfs|autofs|^none|^\/dev\/root| \/ )/ {print $2}' /proc/mounts`
+	remaining=`halt_get_remaining | sort -r`
 	[ -z "$remaining" ] && break
 	/sbin/fuser -k -m $sig $remaining >/dev/null
 	sleep 5
 	retry=$(($retry-1))
 	sig=-9
 done
-
 [ -f /proc/bus/usb/devices ] && umount /proc/bus/usb
+
+# Try them all, one last time.
+umount -a -f
 
 # Remount read only anything that's left mounted.
 #echo $"Remounting remaining filesystems (if any) readonly"
-mount | awk '/ext2/ { print $3 }' | while read line; do
+mount | awk '/( \/ |^\/dev\/root)/ { print $3 }' | while read line; do
     mount -n -o ro,remount $line
 done
-
-runcmd $"Unmounting proc file system: " umount /proc
 
 # Now halt or reboot.
 echo $"$message"

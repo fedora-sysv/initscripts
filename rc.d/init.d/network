@@ -31,7 +31,7 @@ fi
 
 # If IPv6 is explicitly configured, make sure it's available.
 if [ "$NETWORKING_IPV6" = "yes" ]; then
-	alias=`modprobe -c | grep net-pf-10 | awk '{ print $3 }'`
+	alias=`modprobe -c | awk '/^alias net-pf-10 / { print $3 }'`
 	if [ "$alias" != "ipv6" -a ! -f /proc/net/if_inet6 ]; then
 		echo "alias net-pf-10 ipv6" >> /etc/modules.conf
 	fi
