@@ -306,6 +306,10 @@ if [ -d /proc/acpi ]; then
    done
 fi
 
+# configure all zfcp (scsi over fibrechannel) devices before trying to mount them
+# zfcpconf.sh exists only on mainframe
+[ -x /sbin/zfcpconf.sh ] && /sbin/zfcpconf.sh
+
 # RAID setup
 update_boot_stage RCraid
 echo "raidautorun /dev/md0" | nash --quiet
@@ -479,10 +483,6 @@ mount -f /sys >/dev/null 2>&1
 mount -f /dev/pts
 [ -f /proc/bus/usb/devices ] && mount -f -t usbfs usbfs /proc/bus/usb
 [ -e /dev/.devfsd ] && mount -f -t devfs devfs /dev 
-
-# configure all zfcp (scsi over fibrechannel) devices before trying to mount them
-# zfcpconf.sh exists only on mainframe
-[ -x /sbin/zfcpconf.sh ] && /sbin/zfcpconf.sh
 
 # The root filesystem is now read-write, so we can now log
 # via syslog() directly..
