@@ -57,7 +57,6 @@ if [ "$MODE" = "host" ]; then
 	setkey -c << EOF
 	spddelete $SRC $DST any -P out;
 	spddelete $DST $SRC any -P in;
-	spddelete $DST $SRC any -P fwd;
 EOF
 else
       [ -z "$SRCNET" ] && SRCNET="$SRC/32"
@@ -68,7 +67,6 @@ else
       /sbin/setkey -c >/dev/null 2>&1 << EOF
 	spddelete $SRCNET $DSTNET any -P out;
 	spddelete $DSTNET $SRCNET any -P in;
-	spddelete $DSTNET $SRCNET any -P fwd;
 EOF
 fi
 
