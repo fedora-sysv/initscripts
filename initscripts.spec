@@ -246,7 +246,7 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
-* Tue Jan 14 2002 Bill Nottingham <notting@redhat.com> 7.03-1
+* Tue Jan 14 2003 Bill Nottingham <notting@redhat.com> 7.03-1
 - move system font setting sooner (<milan.kerslager@pslib.cz>)
 - fix link checking for dhcp, use both ethtool and mii-tool
 - fix CJK text on the console, and locale-archive held open
