@@ -59,6 +59,19 @@ if ($sourced == 1) then
 		breaksw
 	endsw
     endif
+    if ($?LANG) then
+        switch ($LANG)
+	    case *.utf8;
+	        if ( $?TERM ) then
+		    if ( "$TERM" == "linux" ) then
+		        if ( `/sbin/consoletype` == "vt" ) then
+			    unicode_start
+		        endif
+		    endif
+		endif
+		breaksw
+	endsw
+    endif    
     unsetenv SYSFONTACM
     unsetenv SYSFONT
 endif

@@ -62,6 +62,15 @@ if [ "$sourced" = 1 ]; then
 		;;
 	esac
     fi
+    if [ -n "$LANG" ]; then
+      case $LANG in
+    	*.utf8)
+    	if [ "$TERM" = "linux" -a "`/sbin/consoletype`" = "vt" ]; then
+		unicode_start
+        fi
+	;;
+      esac
+    fi
 
     unset SYSFONTACM SYSFONT
 fi
