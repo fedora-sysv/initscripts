@@ -88,6 +88,16 @@ int main(int argc, char ** argv) {
 	    ifaceConfig = chptr + 1;
 	chptr++;
     }
+
+    /* automatically prepend "ifcfg-" if it is not specified */
+    if (!strncmp(ifaceConfig, "ifcfg-", 6)) {
+	char *temp;
+	temp = (char *) malloc(strlen(ifaceConfig) + 6);
+	strcpy(temp, "ifcfg-");
+	/* strcat is safe because we got the length from strlen */
+	strcat(temp, ifaceConfig);
+	ifaceConfig = temp;
+    }
     
     /* these shouldn't be symbolic links -- anal, but that's fine w/ me */
     if (lstat(ifaceConfig, &sb)) {
