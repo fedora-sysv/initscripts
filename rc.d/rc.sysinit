@@ -395,7 +395,7 @@ if [ -f /etc/rc.modules ]; then
 fi
 
 # Add raid devices
-if [ -f /proc/mdstat -a -f /etc/raidtab ]; then
+if [ -f /etc/raidtab ]; then
 	echo -n $"Starting up RAID devices: " 
 
 	rc=0
@@ -403,7 +403,11 @@ if [ -f /proc/mdstat -a -f /etc/raidtab ]; then
 	for i in `grep "^raiddev" /etc/raidtab | awk '{print $2}'`
 	do
 		RAIDDEV=`basename $i`
-		RAIDSTAT=`grep "^$RAIDDEV : active" /proc/mdstat`
+		if [ -f /proc/mdstat ]; then
+			RAIDSTAT=`grep "^$RAIDDEV : active" /proc/mdstat`
+		else
+			RAIDSTAT=""
+		fi
 		if [ -z "$RAIDSTAT" ]; then
 			# Try raidstart first...if that fails then
 			# fall back to raidadd, raidrun.  If that
