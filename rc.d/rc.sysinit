@@ -384,7 +384,9 @@ if [ -x /sbin/lvm.static ]; then
     echo "mkdmnod" | /sbin/nash --quiet >/dev/null 2>&1
     [ -n "$SELINUX" ] && restorecon /dev/mapper/control
     if [ -e /dev/mapper/control -a -x /sbin/lvm.static ]; then
-	action $"Setting up Logical Volume Management:" /sbin/lvm.static vgscan && /sbin/lvm.static vgchange -a y && /sbin/lvm vgmknodes
+	if /sbin/lvm.static vgscan > /dev/null 2>&1 ; then
+	    action $"Setting up Logical Volume Management:" /sbin/lvm.static vgchange -a y && /sbin/lvm vgmknodes
+	fi
     fi
 fi
 # LVM initialization
