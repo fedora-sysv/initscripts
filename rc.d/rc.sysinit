@@ -420,31 +420,6 @@ if [ -f /proc/scsi/scsi ] && cat /proc/scsi/scsi | grep -q 'Type:   Sequential-A
 	fi
 fi
 
-# Set preferred X display manager link
-preferred=
-if [ -f /etc/sysconfig/desktop ]; then
-	if [ -n "`grep GNOME /etc/sysconfig/desktop`" ]; then
-		preferred=gdm
-	elif [ -n "`grep KDE /etc/sysconfig/desktop`" ]; then
-		preferred=kdm
-	elif [ -n "`grep AnotherLevel /etc/sysconfig/desktop`" ]; then
-		preferred=xdm
-	fi
-fi
-if [ -n "$preferred" ] && which $preferred >/dev/null 2>&1; then
-	ln -snf `which $preferred` /etc/X11/prefdm 
-else
-        if [ ! -L /etc/X11/prefdm ]; then
-		if which gdm >/dev/null 2>&1; then
-			ln -snf `which gdm` /etc/X11/prefdm
-		elif which kdm >/dev/null 2>&1; then
-			ln -snf `which kdm` /etc/X11/prefdm
-		elif which xdm >/dev/null 2>&1; then
-			ln -snf `which xdm` /etc/X11/prefdm
-		fi
-	fi
-fi
-
 # Now that we have all of our basic modules loaded and the kernel going,
 # let's dump the syslog ring somewhere so we can find it later
 dmesg > /var/log/dmesg
