@@ -517,6 +517,7 @@ main(int argc, char **argv) {
 
     while (1) {
 	sigsuspend(&sigs);
+
 	if (theSigterm || theSigint) {
 	    theSigterm = theSigint = 0;
 
@@ -537,6 +538,7 @@ main(int argc, char **argv) {
 		cleanExit(32);
 	    }
 	}
+
 	if (theSighup) {
 	    theSighup = 0;
 	    if (ifcfg->parent) svCloseFile(ifcfg->parent);
@@ -549,6 +551,7 @@ main(int argc, char **argv) {
 	    connectedOnce = 0;
 	    timeout = 0; /* redial immediately */
 	}
+
 	if (theSigio) {
 	    theSigio = 0;
 	    if (connectedOnce) {
@@ -570,6 +573,7 @@ main(int argc, char **argv) {
 		}
 	    }
 	}
+
 	if (theSigchld) {
 	    theSigchld = 0;
 	    waited = wait3(&status, 0, NULL);
@@ -605,7 +609,8 @@ main(int argc, char **argv) {
 		break;
 	    }
 
-	    if (!connectedOnce || svTrueValue(ifcfg, "PERSIST", 0)) {
+	    if ((WEXITSTATUS(status) == 8) ||
+	        !connectedOnce || svTrueValue(ifcfg, "PERSIST", 0)) {
 		temp = svGetValue(ifcfg, "RETRYTIMEOUT");
 		if (temp) {
 		    timeout = atoi(temp);
@@ -623,6 +628,7 @@ main(int argc, char **argv) {
 		cleanExit(WEXITSTATUS(status));
 	    }
 	}
+
 	if (theSigalrm) {
 	    detach(1, 34, NULL);
 	}
