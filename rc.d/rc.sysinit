@@ -436,12 +436,12 @@ if grep -q "options sound dmabuf=1" /etc/modules.conf 2>/dev/null ; then
   RETURN=0
   alias=`/sbin/modprobe -c | awk '/^alias sound / { print $3 }'`
   if [ -n "$alias" -a "$alias" != "off" ] ; then
-      action $"Loading sound module ($alias): " modprobe $alias
+      action $"Loading sound module ($alias): " modprobe sound
       RETURN=$?
   fi
   alias=`/sbin/modprobe -c | awk '/^alias sound-slot-0 / { print $3 }'`
   if [ -n "$alias" -a "$alias" != "off" ] ; then
-      action $"Loading sound module ($alias): " modprobe $alias
+      action $"Loading sound module ($alias): " modprobe sound-slot-0
       RETURN=$?
   fi
 fi
