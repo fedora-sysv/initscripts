@@ -25,12 +25,13 @@ fi
 
 echo "$PEERID" > /sys/bus/iucv/drivers/netiucv/connection 2>/dev/null
 
-ifconfig ${DEVICE} ${IPADDR} ${opts} pointopoint ${REMIP} netmask ${NETMASK}
+. /etc/sysconfig/network
+
+ifconfig ${DEVICE} ${IPADDR} ${opts} pointopoint ${GATEWAY} netmask ${NETMASK}
 if [ "${NETWORK}" != "" ] ; then
-	route add -host ${REMIP} metric 1 ${DEVICE}
+	route add -host ${GATEWAY} metric 1 ${DEVICE}
 fi
 
-. /etc/sysconfig/network
 
 if [ "${GATEWAY}" != "" ]; then
 	if [ "${GATEWAYDEV}" = "" -o "${GATEWAYDEV}" = "${DEVICE}" ]; then

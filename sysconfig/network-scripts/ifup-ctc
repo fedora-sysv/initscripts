@@ -25,12 +25,14 @@ fi
 
 configure_ccwgroup_device
 
-ifconfig ${DEVICE} ${IPADDR} ${opts} pointopoint ${REMIP} netmask ${NETMASK}
+. /etc/sysconfig/network
+
+ifconfig ${DEVICE} ${IPADDR} ${opts} pointopoint ${GATEWAY} netmask ${NETMASK}
 
 # Wait for the device to come up - the chandev'ified ctc driver can take
 # quite a while...
 timeout=0
-while ! ping -w 30 -c 1 ${REMIP} &>/dev/null; do
+while ! ping -w 30 -c 1 ${GATEWAY} &>/dev/null; do
 	timeout=$(($timeout + 1))
 	if [ $timeout = 20 ]; then
 		echo $"ERROR: ${DEVICE} did not come up!"
@@ -39,10 +41,8 @@ while ! ping -w 30 -c 1 ${REMIP} &>/dev/null; do
 done
 
 if [ "${NETWORK}" != "" ] ; then
-	route add -host ${REMIP} metric 1 ${DEVICE}
+	route add -host ${GATEWAY} metric 1 ${DEVICE}
 fi
-
-. /etc/sysconfig/network
 
 if [ "${GATEWAY}" != "" ]; then
 	if [ "${GATEWAYDEV}" = "" -o "${GATEWAYDEV}" = "${DEVICE}" ]; then

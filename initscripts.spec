@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.70
+Version: 7.71
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -252,6 +252,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Aug 26 2004 Karsten Hopp <karsten@redhat.de> 7.71-1
+- ifcfg-iucv/ctc: drop REMIP and use GATEWAY instead
+
 * Thu Aug 26 2004 Bill Nottingham <notting@redhat.com> 7.70-1
 - autoload hardware modules on startup
 - minor fsck cleanup (#115028, <leonard-rh-bugzilla@den.ottolander.nl>)
