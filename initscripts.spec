@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.64
+Version: 6.65
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -244,6 +244,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Mon Apr 15 2002 Trond Eivind Glomsrød <teg@redhat.com> 6.65-1
+- Update translations
+
 * Sun Apr 14 2002 Bill Nottingham <notting@redhat.com> 6.64-1
 - make sure chatdbg is set before using it (#63448, <Bertil@Askelid.com>)
 - allow tweaking of more devices with hdparm (#53511), and
