@@ -145,35 +145,18 @@ else
 fi
 
 # Initialize USB controller and HID devices
-
-if grep -q "nousb" /proc/cmdline 2>/dev/null ; then
-    usb=0
-else
-    usb=1
-    modprobe usb-controller 2>/dev/null || usb=0
-    if [ $usb = "0" ] ; then
-	usbpresent=`grep -i usb /proc/pci 2>/dev/null`
-	uhci=`grep -A2 -i usb /proc/pci 2>/dev/null |grep "I/O at"`
-
-	# Don't try to initialize disabled USB controllers
-	uhciirq=`grep -A1 -i usb /proc/pci 2>/dev/null |grep "IRQ"`
-	if [ -n "$usbpresent" ]; then
-	    usb=1
-	    if [ -n "$uhci" ] && [ -n "$uhciirq" ] ; then
-		modprobe usb-uhci 2>/dev/null || usb=0
-	    else
-		modprobe usb-ohci 2>/dev/null || usb=0
-	    fi
-	fi
-    fi
-    if [ $usb = "1" ]; then
-	action "Initializing USB controller: " /bin/true
+usb=0
+if ! grep -q "nousb" /proc/cmdline 2>/dev/null ; then
+    alias=`egrep -s "^alias[[:space:]]+usb-controller[[:space:]]+" /etc/modules.conf | awk '{ print $3 }'`
+    if [ -n "$alias" -a "$alias" != "off" ] ; then
+      action "Initializing USB controller ($alias): " modprobe $alias
+      [ $? -eq 0 ] && usb=1
     fi
 fi
 
 if [ $usb = "1" ]; then
     sleep 5
-    action "Mount USB filesystem"  mount -t usbdevfs usbdevfs /proc/bus/usb
+    action "Mounting USB filesystem: "  mount -t usbdevfs usbdevfs /proc/bus/usb
     mouseoutput=`cat /proc/bus/usb/devices|grep -E "^I.*Cls=03.*Prot=02"`
     kbdoutput=`cat /proc/bus/usb/devices|grep -E "^I.*Cls=03.*Prot=01"`
     if [ -n "$kbdoutput" ] || [ -n "$mouseoutput" ]; then
@@ -486,7 +469,7 @@ fi
 # Mount all other filesystems (except for NFS and /proc, which is already
 # mounted). Contrary to standard usage,
 # filesystems are NOT unmounted in single user mode.
-action "Mounting local filesystemsL " mount -a -t nonfs,smbfs,ncpfs,proc
+action "Mounting local filesystems: " mount -a -t nonfs,smbfs,ncpfs,proc
 
 if [ X"$_RUN_QUOTACHECK" = X1 -a -x /sbin/quotacheck ]; then
 	action "Checking filesystem quotas: "  /sbin/quotacheck -v -R -a
