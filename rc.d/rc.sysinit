@@ -444,7 +444,7 @@ _NEED_XFILES=
 # I'd use find, but /usr may not be mounted.
 for afile in /var/lock/* /var/run/*; do
    if [ -d $afile ]; then
-      rm -f $afile/*
+      [ "$afile" != "news" ] && rm -f $afile/*
    else
       rm -f $afile
    fi
