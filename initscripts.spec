@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.53
+Version: 6.54
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -240,6 +240,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Thu Feb 28 2002 Bill Nottingham <notting@redhat.com>
+- conflict with older psacct
+
 * Fri Feb 22 2002 Bill Nottingham <notting@redhat.com>
 - fix invocation of need_hostname (#58946), a couple other minor tweaks
 
