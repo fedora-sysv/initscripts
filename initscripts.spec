@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.96
+Version: 5.97
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -222,6 +222,11 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Sat Jul 01 2001 Trond Eivind Glomsrød <teg@redhat.com>
+- reenable pump, but make sure dhcpcd is the default. This
+  way, upgrades of systems without dhcpcd has a better chance at
+  working.
+
 * Thu Jun 28 2001 Trond Eivind Glomsrød <teg@redhat.com>
 - Disable pump completely
 
