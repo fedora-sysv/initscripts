@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.15
+Version: 7.16
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -246,6 +246,25 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Apr 18 2003 Florian La Roche <Florian.LaRoche@redhat.de>
+- sysconfig/init.s390: set LOGLEVEL=3 as for other archs
+- rc.d/init.d/network, rc.d/rc: change confirmation mode to
+  not use an environment variable
+- rc.d/init.d/functions: make strstr() even shorter, remove old
+  "case" version that has been already commented out
+- rc.d/rc.sysinit:
+	- no need to set NETWORKING=no, it is not used/exported
+	- do not export BOOTUP
+	- delete two "sleep 1" calls that wants to add time to go
+	  into confirmation mode. There is enough time to press a
+	  key anyway or use "confirm" in /proc/cmdline.
+	- read /proc/cmdline into a variable
+	- use strstr() to search in /proc/cmdline
+	- add "forcefsck" as possible option in /proc/cmdline
+	- while removing lock files, no need to call `basename`
+	- add unamer=`uname -r` and reduce number of forks
+	- do not fork new bash to create /var/log/ksyms.0
+
 * Thu Apr 03 2003 Karsten Hopp <karsten@redhat.de> 7.15-1
 - Mainframe has no /dev/ttyX devices and no mingetty, don't 
   initialize them. This gave error messages during startup

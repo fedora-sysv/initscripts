@@ -33,11 +33,7 @@ export runlevel previous
 
 # See if we want to be in user confirmation mode
 if [ "$previous" = "N" ]; then
-	if [ -f /var/run/confirm ] \
-			|| grep -i confirm /proc/cmdline >/dev/null ; then
-		rm -f /var/run/confirm
-		CONFIRM=yes
-		export CONFIRM
+	if [ -f /var/run/confirm ]; then
 		echo $"Entering interactive startup"
 	else
 		echo $"Entering non-interactive startup"
@@ -77,13 +73,9 @@ for i in /etc/rc$runlevel.d/S* ; do
 		&& continue
 		    
 	# If we're in confirmation mode, get user confirmation
-	if [ -n "$CONFIRM" ]; then
+	if [ -f /var/run/confirm ]; then
 		confirm $subsys
-		case $? in
-			0) :;;
-			2) CONFIRM=;;
-			*) continue;;
-		esac 
+		test $? = 1 && continue
 	fi
 
 	# Bring the subsystem up.

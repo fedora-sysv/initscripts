@@ -435,30 +435,21 @@ action() {
 
 # returns OK if $1 contains $2
 strstr() {
-	#case "$1" in
-	#	*${2}*)	return 0 ;;
-	#esac
-	#return 1
-  [ "$1" = "$2" ] && return 0
-  slice=${1#*$2*}
-  [ "$slice" = "$1" ] && return 1
+  [ "${1#*$2*}" = "$1" ] && return 1
   return 0
 }
 
 # Confirm whether we really want to run this service
 confirm() {
-  local YES=$"yY"
-  local NO=$"nN"
-  local CONT=$"cC"
-  
   while : ; do 
       echo -n $"Start service $1 (Y)es/(N)o/(C)ontinue? [Y] "
       read answer
-      if strstr "$YES" "$answer" || [ "$answer" = "" ] ; then
+      if strstr $"yY" "$answer" || [ "$answer" = "" ] ; then
          return 0
-      elif strstr "$CONT" "$answer" ; then
+      elif strstr $"cC" "$answer" ; then
+	 rm -f /var/run/confirm
          return 2
-      elif strstr "$NO" "$answer" ; then
+      elif strstr $"nN" "$answer" ; then
          return 1
       fi
   done

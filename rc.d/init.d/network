@@ -111,45 +111,22 @@ case "$1" in
 			is_available $i
 			continue
 		fi
-		# If we're in confirmation mode, get user confirmation
-		[ -n "$CONFIRM" ]  && 
-			{ 
-			    confirm $i
-			    case $? in
-				0)
-				    :
-				;;
-				2)
-				    CONFIRM=
-				;;
-				*)
-				    continue
-				;;
-			    esac 
-		}
-
+		# If we're in confirmation mode, get user confirmation.
+		if [ -f /var/run/confirm ]; then
+			confirm $i
+			test $? = 1 && continue
+		fi
 		action $"Bringing up interface $i: " ./ifup $i boot
 	done
 	
 	# Bring up CIPE VPN interfaces
 	for i in $cipeinterfaces ; do 
             if ! LANG=C egrep -L "^ONBOOT=['\"]?[Nn][Oo]['\"]?" ifcfg-$i >/dev/null 2>&1 ; then
-		# If we're in confirmation mode, get user confirmation
-		[ -n "$CONFIRM" ]  && 
-		{ 
+		# If we're in confirmation mode, get user confirmation.
+		if [ -f /var/run/confirm ]; then
 			confirm $i
-			case $? in
-				0)
-				    :
-				;;
-				2)
-				    CONFIRM=
-				;;
-				*)
-				    continue
-				;;
-			esac 
-		}
+			test $? = 1 && continue
+		fi
 		action $"Bringing up interface $i: " ./ifup $i boot
 	    fi
         done

@@ -16,8 +16,6 @@ fi
 HOSTNAME=`/bin/hostname`
 if [ -f /etc/sysconfig/network ]; then
     . /etc/sysconfig/network
-else
-    NETWORKING=no
 fi
 if [ -z "$HOSTNAME" -o "$HOSTNAME" = "(none)" ]; then
     HOSTNAME=localhost
@@ -30,7 +28,7 @@ if [ "$BOOTUP" = "graphical" ]; then
   if [ -x /usr/bin/rhgb ]; then
      /usr/bin/rhgb
   else
-     export BOOTUP=color
+     BOOTUP=color
   fi
 fi
 
@@ -47,7 +45,6 @@ if [ "$HOSTTYPE" != "s390" -a "$HOSTTYPE" != "s390x" ]; then
 fi
 
 if [ "`/sbin/consoletype`" = "vt" -a -x /sbin/setsysfont ]; then
-   
    echo -n "Setting default font ($SYSFONT): "
    /sbin/setsysfont
    if [ $? -eq 0 ]; then
@@ -73,11 +70,12 @@ fi
 if [ "$PROMPT" != "no" ]; then
  echo -en $"\t\tPress 'I' to enter interactive startup."
  echo
- sleep 1
 fi
 
 # Fix console loglevel
-/bin/dmesg -n $LOGLEVEL
+if [ -n "$LOGLEVEL" ]; then
+	/bin/dmesg -n $LOGLEVEL
+fi
 
 # Mount /proc (done here so volume labels can work with fsck)
 action $"Mounting proc filesystem: " mount -n -t proc /proc /proc
@@ -114,27 +112,18 @@ CLOCKDEF=""
 CLOCKFLAGS="$CLOCKFLAGS --hctosys"
 
 case "$UTC" in
-   yes|true)
-    CLOCKFLAGS="$CLOCKFLAGS --utc";
-    CLOCKDEF="$CLOCKDEF (utc)";
-   ;;
-   no|false)
-    CLOCKFLAGS="$CLOCKFLAGS --localtime";
-    CLOCKDEF="$CLOCKDEF (localtime)";
-   ;;
+    yes|true)	CLOCKFLAGS="$CLOCKFLAGS --utc"
+		CLOCKDEF="$CLOCKDEF (utc)" ;;
+    no|false)	CLOCKFLAGS="$CLOCKFLAGS --localtime"
+		CLOCKDEF="$CLOCKDEF (localtime)" ;;
 esac
-
 case "$ARC" in
-     yes|true)
-     	CLOCKFLAGS="$CLOCKFLAGS --arc";
-     	CLOCKDEF="$CLOCKDEF (arc)";
-     ;;
+    yes|true)	CLOCKFLAGS="$CLOCKFLAGS --arc"
+		CLOCKDEF="$CLOCKDEF (arc)" ;;
 esac
 case "$SRM" in
-     yes|true)
-	CLOCKFLAGS="$CLOCKFLAGS --srm";
-	CLOCKDEF="$CLOCKDEF (srm)";
-     ;;
+    yes|true)	CLOCKFLAGS="$CLOCKFLAGS --srm"
+		CLOCKDEF="$CLOCKDEF (srm)" ;;
 esac
 
 /sbin/hwclock $CLOCKFLAGS
@@ -170,21 +159,26 @@ fi
 # Set the hostname.
 action $"Setting hostname ${HOSTNAME}: " hostname ${HOSTNAME}
 
+# Only read this once.
+cmdline=$(cat /proc/cmdline)
+
 # Initialize USB controller and HID devices
 usb=0
-if ! LC_ALL=C grep -iq "nousb" /proc/cmdline 2>/dev/null && ! LC_ALL=C grep -q "usb" /proc/devices 2>/dev/null ; then
+if ! strstr "$cmdline" nousb ; then
+  if ! LC_ALL=C grep -q "usb" /proc/devices 2>/dev/null ; then
     aliases=`/sbin/modprobe -c | awk '/^alias usb-controller/ { print $3 }'`
     if [ -n "$aliases" -a "$aliases" != "off" ]; then
       modprobe usbcore
       for alias in $aliases ; do 
-      	[ "$alias" != "off" ] && action $"Initializing USB controller ($alias): " modprobe $alias
+      	[ "$alias" = "off" ] && continue
+	action $"Initializing USB controller ($alias): " modprobe $alias
       done
       [ $? -eq 0 -a -n "$aliases" ] && usb=1
     fi
-fi
-
-if ! LC_ALL=C grep -iq "nousb" /proc/cmdline 2>/dev/null && LC_ALL=C grep -q "usb" /proc/devices 2>/dev/null ; then
-  usb=1
+  fi
+  if LC_ALL=C grep -q "usb" /proc/devices 2>/dev/null ; then
+    usb=1
+  fi
 fi
 
 if [ $usb = 1 -a ! -f /proc/bus/usb/devices ]; then
@@ -199,7 +193,7 @@ if [ $usb = "1" ]; then
     action $"Initializing USB mouse: " modprobe mousedev 2> /dev/null 
 fi
 
-if [ -f /fastboot ] || LC_ALL=C grep -iq "fastboot" /proc/cmdline 2>/dev/null ; then
+if [ -f /fastboot ] || strstr "$cmdline" fastboot ; then
 	fastboot=yes
 fi
 
@@ -207,7 +201,7 @@ if [ -f /fsckoptions ]; then
 	fsckoptions=`cat /fsckoptions`
 fi
 
-if [ -f /forcefsck ]; then
+if [ -f /forcefsck ] || strstr "$cmdline" forcefsck ; then
 	fsckoptions="-f $fsckoptions"
 elif [ -f /.autofsck ]; then
 	echo $"Your system appears to have shut down uncleanly"
@@ -313,7 +307,7 @@ fi
 
 if [ -x /sbin/isapnp -a -f /etc/isapnp.conf -a ! -f /proc/isapnp ]; then
     # check for arguments passed from kernel
-    if ! LC_ALL=C grep -iq nopnp /proc/cmdline >/dev/null 2>&1 ; then
+    if ! strstr "$cmdline" nopnp ; then
 	PNP=yes
     fi
     if [ -n "$PNP" ]; then
@@ -329,18 +323,18 @@ state=`awk '/ \/ / && ($3 !~ /rootfs/) { print $4 }' /proc/mounts`
   action $"Remounting root filesystem in read-write mode: " mount -n -o remount,rw /
 
 # LVM initialization
-if [ -f /etc/lvmtab -a ! -e /proc/lvm ] ; then
-        modprobe lvm-mod >/dev/null 2>&1
-fi
-if [ -e /proc/lvm -a -x /sbin/vgchange -a -f /etc/lvmtab ]; then
-        action $"Setting up Logical Volume Management:" /sbin/vgscan && /sbin/vgchange -a y
+if [ -f /etc/lvmtab ]; then
+    [ -e /proc/lvm ] || modprobe lvm-mod > /dev/null 2>&1
+    if [ -e /proc/lvm -a -x /sbin/vgchange ]; then
+	action $"Setting up Logical Volume Management:" /sbin/vgscan && /sbin/vgchange -a y
+    fi
 fi
 
 # Start up swapping.
 action $"Activating swap partitions: " swapon -a -e
 
 # Clear mtab
->/etc/mtab
+> /etc/mtab
 
 # Remove stale backups
 rm -f /etc/mtab~ /etc/mtab~~
@@ -359,16 +353,18 @@ if [ -n "$IN_INITLOG" ]; then
     IN_INITLOG=
 fi
 
-if ! LC_ALL=C grep -iq nomodules /proc/cmdline 2>/dev/null && [ -f /proc/modules ]; then
+if ! strstr "$cmdline" nomodules && [ -f /proc/modules ] ; then
     USEMODULES=y
 fi
+
+unamer=`uname -r`
 
 # Our modutils don't support it anymore, so we might as well remove
 # the preferred link.
 rm -f /lib/modules/preferred /lib/modules/default
 if [ -x /sbin/depmod -a -n "$USEMODULES" ]; then
     # If they aren't using a recent sane kernel, make a link for them
-    if [ ! -n "`uname -r | LC_ALL=C grep -- "-"`" ]; then
+    if ! strstr $unamer -  ; then
        ktag="`cat /proc/version`"
        mtag=`LC_ALL=C grep -l "$ktag" /lib/modules/*/.rhkmvtag 2> /dev/null`
        if [ -n "$mtag" ]; then
@@ -392,16 +388,13 @@ fi
 
 # Load sound modules if and only if they need persistent DMA buffers
 if LC_ALL=C grep -q "options sound dmabuf=1" /etc/modules.conf 2>/dev/null ; then
-  RETURN=0
   alias=`/sbin/modprobe -c | awk '/^alias sound / { print $3 }'`
   if [ -n "$alias" -a "$alias" != "off" ]; then
       action $"Loading sound module ($alias): " modprobe sound
-      RETURN=$?
   fi
   alias=`/sbin/modprobe -c | awk '/^alias sound-slot-0 / { print $3 }'`
   if [ -n "$alias" -a "$alias" != "off" ]; then
       action $"Loading sound module ($alias): " modprobe sound-slot-0
-      RETURN=$?
   fi
 fi
 
@@ -422,11 +415,10 @@ if [ -f /etc/rc.modules ]; then
 fi
 
 if [ -f /etc/raidtab ]; then
-	# Add raid devices
-	[ -f /proc/mdstat ] || modprobe md >/dev/null 2>&1
-fi
-if [ -f /etc/raidtab -a -f /proc/mdstat ]; then
+    # Add raid devices
+    [ -f /proc/mdstat ] || modprobe md >/dev/null 2>&1
 
+    if [ -f /proc/mdstat ]; then
 	echo -n $"Starting up RAID devices: " 
 
 	rc=0
@@ -498,6 +490,7 @@ if [ -f /etc/raidtab -a -f /proc/mdstat ]; then
 	if [ -e /proc/lvm -a -x /sbin/vgchange -a -f /etc/lvmtab ]; then
 		action $"Setting up Logical Volume Management:" /sbin/vgscan && /sbin/vgchange -a y
 	fi
+    fi
 fi
 
 if [ -x /sbin/devlabel ]; then
@@ -621,29 +614,28 @@ _NEED_XFILES=
 # Clean up /var.  I'd use find, but /usr may not be mounted.
 for afile in /var/lock/* /var/run/* ; do
 	if [ -d "$afile" ]; then
-	   case "`basename $afile`" in
-		news|mon)	;;
-		sudo)
-				rm -f $afile/*/* ;;
+	   case "$afile" in
+		*/news|*/mon)	;;
+		*/sudo)		rm -f $afile/*/* ;;
 		*)		rm -f $afile/* ;;
 	   esac
 	else
 	   rm -f $afile
 	fi
 done
-rm -f /var/lib/rpm/__db*
+rm -f /var/lib/rpm/__db* /var/run/confirm
 
 # Reset pam_console permissions
 [ -x /sbin/pam_console_apply ] && /sbin/pam_console_apply -r
 
 {
 # Clean up utmp/wtmp
->/var/run/utmp
+> /var/run/utmp
 touch /var/log/wtmp
 chgrp utmp /var/run/utmp /var/log/wtmp
 chmod 0664 /var/run/utmp /var/log/wtmp
 if [ -n "$_NEED_XFILES" ]; then
-  >/var/run/utmpx
+  > /var/run/utmpx
   touch /var/log/wtmpx
   chgrp utmp /var/run/utmpx /var/log/wtmpx
   chmod 0664 /var/run/utmpx /var/log/wtmpx
@@ -672,10 +664,12 @@ fi
 
 # If a SCSI tape has been detected, load the st module unconditionally
 # since many SCSI tapes don't deal well with st being loaded and unloaded
-if [ -f /proc/scsi/scsi ] && LC_ALL=C grep -q 'Type:   Sequential-Access' /proc/scsi/scsi 2>/dev/null ; then
-	if LC_ALL=C grep -qv ' 9 st' /proc/devices && [ -n "$USEMODULES" ]; then
+if [ -f /proc/scsi/scsi -a -n "$USEMODULES" ]; then
+    if LC_ALL=C grep -q 'Type:   Sequential-Access' /proc/scsi/scsi 2>/dev/null ; then
+	if LC_ALL=C grep -qv ' 9 st' /proc/devices ; then
 		modprobe st >/dev/null 2>&1
 	fi
+    fi
 fi
 
 # Load usb storage here, to match most other things
@@ -684,18 +678,20 @@ if [ -n "$needusbstorage" ]; then
 fi
 
 # Ooh, firewire too.
-if ! LC_ALL=C grep -iq "nofirewire" /proc/cmdline 2>/dev/null ; then
+if ! strstr "$cmdline" nofirewire ; then
    aliases=`/sbin/modprobe -c | awk '/^alias ieee1394-controller/ { print $3 }'`
    if [ -n "$aliases" -a "$aliases" != "off" ]; then
       for alias in $aliases ; do 
-      	[ "$alias" != "off" ] && action $"Initializing firewire controller ($alias): " modprobe $alias
+      	[ "$alias" = "off" ] && continue
+	action $"Initializing firewire controller ($alias): " modprobe $alias
       done
-      LC_ALL=C grep -q "SBP2" /proc/bus/ieee1394/devices 2>/dev/null && modprobe sbp2 >/dev/null 2>&1
+      LC_ALL=C grep -q "SBP2" /proc/bus/ieee1394/devices 2>/dev/null && \
+		modprobe sbp2 >/dev/null 2>&1
    fi
 fi
 
 # If they asked for ide-scsi, load it
-if LC_ALL=C grep -q "ide-scsi" /proc/cmdline ; then
+if strstr "$cmdline" ide-scsi ; then
 	modprobe ide-cd >/dev/null 2>&1
 	modprobe ide-scsi >/dev/null 2>&1
 fi
@@ -753,14 +749,14 @@ if [ -x /sbin/hdparm ]; then
 fi
 
 # Boot time profiles. Yes, this should be somewhere else.
-if LC_ALL=C grep -q "netprofile=" /proc/cmdline ; then
-    cmdline=`cat /proc/cmdline`
+if [ -x /usr/sbin/redhat-config-network-cmd ]; then
+  if strstr "$cmdline" netprofile= ; then
     for arg in $cmdline ; do
-       if [ "${arg##netprofile=}" != "${arg}" ]; then
-          [ -x /usr/sbin/redhat-config-network-cmd ] &&
+        if [ "${arg##netprofile=}" != "${arg}" ]; then
 	    /usr/sbin/redhat-config-network-cmd --profile ${arg##netprofile=}
-       fi
+        fi
     done
+  fi
 fi
 
 # Generate a header that defines the boot kernel.
@@ -768,19 +764,19 @@ fi
 
 # Adjust symlinks as necessary in /boot to keep system services from
 # spewing messages about mismatched System maps and so on.
-if [ -L /boot/System.map -a -r /boot/System.map-`uname -r` -a \
-	! /boot/System.map -ef /boot/System.map-`uname -r` ]; then
-	ln -s -f System.map-`uname -r` /boot/System.map
+if [ -L /boot/System.map -a -r /boot/System.map-$unamer -a \
+	! /boot/System.map -ef /boot/System.map-$unamer ]; then
+	ln -s -f System.map-$unamer /boot/System.map
 fi
-if [ ! -e /boot/System.map -a -r /boot/System.map-`uname -r` ]; then
-	ln -s -f System.map-`uname -r` /boot/System.map
+if [ ! -e /boot/System.map -a -r /boot/System.map-$unamer ]; then
+	ln -s -f System.map-$unamer /boot/System.map
 fi
 
 # The special Red Hat kernel library symlink must point to the right library
 # We need to deal with cases where there is no library, and we need to
 # deal with any version numbers that show up.
 shopt -s nullglob
-for library in /lib/kernel/$(uname -r)/libredhat-kernel.so* ; do
+for library in /lib/kernel/$unamer/libredhat-kernel.so* ; do
 	ln -f $library /lib/
 	ldconfig -n /lib/
 done
@@ -797,17 +793,20 @@ while [ $i -ge 0 ]; do
 	fi
 	i=$(($i-1))
 done
-(/bin/date;
- /bin/uname -a;
- /bin/cat /proc/cpuinfo;
- [ -r /proc/modules ] && /bin/cat /proc/modules;
- [ -r /proc/ksyms ] && /bin/cat /proc/ksyms) >/var/log/ksyms.0
+{ date
+  uname -a
+  cat /proc/cpuinfo
+  [ -r /proc/modules ] && cat /proc/modules
+  [ -r /proc/ksyms ] && cat /proc/ksyms
+} > /var/log/ksyms.0
 # create the crash indicator flag to warn on crashes, offer fsck with timeout
 touch /.autofsck
-sleep 1
 kill -TERM `/sbin/pidof getkey` >/dev/null 2>&1
 } &
+if strstr "$cmdline" confirm ; then
+	touch /var/run/confirm
+fi
 if [ "$PROMPT" != "no" ]; then
-   /sbin/getkey i && touch /var/run/confirm
+	/sbin/getkey i && touch /var/run/confirm
 fi
 wait
