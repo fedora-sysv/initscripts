@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.98
+Version: 7.99
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -206,6 +206,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Nov 24 2004 Bill Nottingham <notting@redhat.com> 7.99-1
+- clear and repopulate mtab before mounting other filesystems (#139656)
+- remove more devfs compat
+
 * Tue Nov 23 2004 Bill Nottingham <notting@redhat.com> 7.98-1
 - various kmodule speedups
 - rc.d/init.d/netfs: don't mount GFS (#140281)
