@@ -173,10 +173,6 @@ if [ -x /sbin/quotaon ]; then
     /sbin/quotaon -a
 fi
 
-if [ -z "$KERNELD" ]; then
-    touch /var/lock/subsys/kerneld
-fi
-
 # Clean out /etc.
 rm -f /etc/mtab~ /fastboot /etc/nologin /fsckoptions
 >/var/run/utmp
@@ -186,6 +182,10 @@ rm -f /var/lock/LCK*
 
 # Delete stale subsystem files.
 rm -f /var/lock/subsys/*
+
+if [ -n "$KERNELD" ]; then
+    touch /var/lock/subsys/kerneld
+fi
 
 # Delete stale pid files
 rm -f /var/run/*.pid
