@@ -17,11 +17,17 @@ int main(int argc, char ** argv) {
     struct hostent * hostinfo;
     char errBuf[250];
     struct poptOption optionsTable[] = {
-	    { "broadcast", '\0', 0, &showBroadcast, 0 },
-	    { "hostname", '\0', 0, &showHostname, 0 },
-	    { "netmask", '\0', 0, &showNetmask, 0 },
-	    { "network", '\0', 0, &showNetwork, 0 },
-	    { "silent", '\0', 0, &beSilent, 0 },
+	    { "broadcast", '\0', 0, &showBroadcast, 0,
+		"Display calculated broadcast address", },
+	    { "hostname", '\0', 0, &showHostname, 0,
+		"Show hostname determined via DNS" },
+	    { "netmask", '\0', 0, &showNetmask, 0,
+		"Display default netmask for IP (class A, B, or C)" },
+	    { "network", '\0', 0, &showNetwork, 0,
+		"Display calculated network address", },
+	    { "silent", '\0', 0, &beSilent, 0,
+		"Don't ever display error messages " },
+	    POPT_AUTOHELP
 	    { NULL, '\0', 0, 0, 0 },
     };
 
