@@ -795,22 +795,7 @@ fi
 # Now that we have all of our basic modules loaded and the kernel going,
 # let's dump the syslog ring somewhere so we can find it later
 dmesg -s 131072 > /var/log/dmesg
-# Also keep kernel symbols around in case we need them for debugging
-i=5
-while [ $i -ge 0 ]; do
-	if [ -f /var/log/ksyms.$i ]; then
-		chmod 0600 /var/log/ksyms.$i
-		mv /var/log/ksyms.$i /var/log/ksyms.$(($i+1))
-	fi
-	i=$(($i-1))
-done
-{ date
-  uname -a
-  cat /proc/cpuinfo
-  [ -r /proc/modules ] && cat /proc/modules
-  [ -r /proc/ksyms ] && cat /proc/ksyms
-} > /var/log/ksyms.0
-chmod 600 /var/log/ksyms.0
+
 # create the crash indicator flag to warn on crashes, offer fsck with timeout
 touch /.autofsck
 kill -TERM `/sbin/pidof getkey` >/dev/null 2>&1
