@@ -149,6 +149,7 @@ if [ -n "${DYNCONFIG}" ]; then
     echo -n $"Determining IP information for ${DEVICE}..."
     if check_link_down ${DEVICE}; then
 	echo $" failed; no link present.  Check cable?"
+	ip link set down ${DEVICE} >/dev/null 2>&1
 	exit 1
     fi
 

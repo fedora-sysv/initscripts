@@ -52,8 +52,6 @@ if [ "${NETWORKING_IPV6}" = "yes" ]; then
     /etc/sysconfig/network-scripts/ifdown-ipv6 ${CONFIG}
 fi
 
-expand_config
-
 retcode=0
 if [ "$BOOTPROTO" = bootp -o "$BOOTPROTO" = dhcp ]; then
 	[ -n "`pidof -x dhcpcd`" ] && {
@@ -65,6 +63,7 @@ if [ "$BOOTPROTO" = bootp -o "$BOOTPROTO" = dhcp ]; then
 		retcode=$?
 	}
 else
+	expand_config
 	ip addr del ${IPADDR}/${PREFIX} brd ${BROADCAST:-+} dev ${DEVICE}
 fi
 
