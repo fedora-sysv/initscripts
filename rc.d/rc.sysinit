@@ -718,6 +718,15 @@ if [ ! -e /boot/System.map -a -r /boot/System.map-`uname -r` ] ; then
 	ln -s -f System.map-`uname -r` /boot/System.map
 fi
 
+# The special Red Hat kernel library symlink must point to the right library
+# We need to deal with cases where there is no library, and we need to
+# deal with any version numbers that show up.
+shopt -s nullglob
+for library in /lib/modules/$(uname -r)/libredhat-kernel.so* ; do
+	ln -s -f $library /lib/
+done
+shopt -u nullglob
+
 # Now that we have all of our basic modules loaded and the kernel going,
 # let's dump the syslog ring somewhere so we can find it later
 dmesg -s 131072 > /var/log/dmesg

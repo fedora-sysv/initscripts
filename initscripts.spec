@@ -240,6 +240,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Thu Jan 17 2002 Michael K. Johnson <johnsonm@redhat.com>
+- Added support for libredhat-kernel.so.* symlink handling
+
 * Wed Nov  7 2001 Than Ngo <than@redhat.com>
 - fix bug in setting netmask on s390/s390x (bug #55421)
   nmbd daemon works now ;-)
