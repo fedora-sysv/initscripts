@@ -83,6 +83,7 @@ install:
 
 	ln -s ../rc.local $(ROOT)/etc/rc.d/rc2.d/S99local
 	ln -s ../rc.local $(ROOT)/etc/rc.d/rc3.d/S99local
+	ln -s ../rc.local $(ROOT)/etc/rc.d/rc4.d/S99local
 	ln -s ../rc.local $(ROOT)/etc/rc.d/rc5.d/S99local
 
 # These are LSB compatibility symlinks.  At some point in the future
