@@ -276,15 +276,18 @@ else
 	fsckoptions="-V $fsckoptions"
 fi
 
-if [ -f /etc/rc.readonly ]; then
-    # Call rc.readonly to set up magic stuff needed for readonly root
-    . /etc/rc.readonly
-    READONLY=1
+if [ -f /etc/sysconfig/readonly-root ]; then
+    . /etc/sysconfig/readonly-root
+
+    if [ "$READONLY" = "yes" ]; then
+        # Call rc.readonly to set up magic stuff needed for readonly root
+        . /etc/rc.readonly
+    fi
 fi
  
 _RUN_QUOTACHECK=0
 ROOTFSTYPE=`awk '/ \/ / && ($3 !~ /rootfs/) { print $3 }' /proc/mounts`
-if [ -z "$fastboot" -a -z "$READONLY" -a "X$ROOTFSTYPE" != "Xnfs" -a "X$ROOTFSTYPE" != "Xnfs4" ]; then 
+if [ -z "$fastboot" -a "$READONLY" != "yes" -a "X$ROOTFSTYPE" != "Xnfs" -a "X$ROOTFSTYPE" != "Xnfs4" ]; then 
 
         STRING=$"Checking root filesystem"
 	echo $STRING
@@ -378,7 +381,7 @@ fi
 # Remount the root filesystem read-write.
 update_boot_stage RCmountfs
 state=`awk '/ \/ / && ($3 !~ /rootfs/) { print $4 }' /proc/mounts`
-[ "$state" != "rw" -a -z "$READONLY" ] && \
+[ "$state" != "rw" -a "$READONLY" != "yes" ] && \
   action $"Remounting root filesystem in read-write mode: " mount -n -o remount,rw /
 
 # LVM2 initialization
