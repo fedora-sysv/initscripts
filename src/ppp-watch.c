@@ -211,6 +211,13 @@ fork_exec(int wait, char *path, char *arg1, char *arg2, char *arg3)
 
     if (!(child = fork())) {
 	/* child */
+
+	if (!wait) {
+	    /* make sure that pppd is in its own process group */
+	    setsid();
+	    setpgid(0, 0);
+	}
+
 	execl(path, path, arg1, arg2, arg3, NULL);
 	perror(path);
 	_exit (1);
@@ -444,7 +451,10 @@ main(int argc, char **argv) {
 	    physicalDevice = pppLogicalToPhysical(&pppdPid, device);
 	    if (physicalDevice) { free(physicalDevice); physicalDevice = NULL; }
 	    kill(pppdPid, sendsig);
-	    if (sendsig == SIGKILL) cleanExit(32);
+	    if (sendsig == SIGKILL) {
+		kill(-pppdPid, sendsig);
+		cleanExit(32);
+	    }
 	}
 	if (theSighup) {
 	    theSighup = 0;
@@ -483,6 +493,16 @@ main(int argc, char **argv) {
 	    theSigchld = 0;
 	    waited = wait3(&status, 0, NULL);
 	    if (waited < 0) continue;
+
+	    /* now, we need to kill any children of pppd still in pppd's
+	     * process group, in case they are hanging around.
+	     * pppd is dead (we just waited for it) but there is no
+	     * guarantee that its children are dead, and they will
+	     * hold the modem if we do not get rid of them.
+	     * We have kept the old pid/pgrp around in pppdPid.
+	     */
+	    kill(-pppdPid, SIGKILL);
+	    pppdPid = 0;
 
 	    if (!WIFEXITED(status)) cleanExit(29);
 	    if (dieing) cleanExit(WEXITSTATUS(status));

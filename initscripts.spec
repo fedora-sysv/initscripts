@@ -195,6 +195,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Sep 23 1999 Michael K. Johnson <johnsonm@redhat.com>
+- ppp-watch now always kills pppd pgrp to make sure dialers are dead
+
 * Tue Sep 21 1999 Bill Nottingham <notting@redhat.com>
 - add a DEFRAG_IPV4 option
 
