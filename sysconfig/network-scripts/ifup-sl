@@ -5,7 +5,9 @@ PATH=/sbin:/usr/sbin:/bin:/usr/bin
 
 # become a daemon in case we have to persist.
 if [ "$1" != daemon ] ; then
-  $0 daemon $*&
+  # disconnect stdin, out, err to disassociate from controlling tty
+  # so that no HUPs will get through.
+  $0 daemon $*& </dev/null >/dev/null 2>/dev/null
   exit 0
 fi
 shift

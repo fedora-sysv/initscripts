@@ -7,10 +7,11 @@ CONFIG=$1
 # ifup-post for PPP is handled through /etc/ppp/ip-up
 
 if [ "$1" != daemon ] ; then
-  $0 daemon $*&
+  # disconnect stdin, out, err to disassociate from controlling tty
+  # so that no HUPs will get through.
+  $0 daemon $*& </dev/null >/dev/null 2>/dev/null
   exit 0
 fi
-
 shift
 
 source_config
