@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-Version: 5.08
+Version: 5.09
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -215,8 +215,8 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
-* Mon Apr 10 2000 Bill Nottingham <notting@redhat.com>
-- don't read commented-out 'onboot' entries
+* Thu Apr 14 2000 Bill Nottingham <notting@redhat.com>
+- fix testing of RESOLV_MODS (which shouldn't be used anyways)
 
 * Tue Apr 04 2000 Ngo Than <than@redhat.de>
 - fix overwrite problem of resolv.conf on ippp/ppp/slip connections
