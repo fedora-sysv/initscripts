@@ -8,7 +8,7 @@ REALDEVICE=$1
 
 export PATH=/sbin:/usr/sbin:/bin:/usr/bin
 
-/etc/sysconfig/network-scripts/ifup-post ifcfg-${LOGDEVICE}
+[ -f /etc/sysconfig/network-scripts/ifcfg-${LOGDEVICE} ] && /etc/sysconfig/network-scripts/ifup-post ifcfg-${LOGDEVICE}
 
 [ -x /etc/ppp/ip-up.local ] && /etc/ppp/ip-up.local "$@"
 
