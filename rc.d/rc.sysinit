@@ -40,9 +40,9 @@ else
 fi
 if [ -n "$KEYMAP" ]; then 
   # Since this takes in/output from stdin/out, we can't use initlog
-  echo -n "Loading default keymap"
   loadkeys $KEYMAP < /dev/tty0 > /dev/tty0 && \
      success "Loading default keymap" || failure "Loading default keymap"
+  echo
 fi   
 
 # Load system font
