@@ -1,3 +1,100 @@
+2002-06-27  Preston Brown  <pbrown@redhat.com>
+
+	* sysconfig/network-scripts/ifup, sysconfig/network-scripts/network-functions:
+	handle duplicate default routes better.
+
+	* sysconfig/network-scripts/ifdown:
+	move device down checking higher up, and clarify.
+
+	* sysconfig/network-scripts/ifup-wireless:
+	essid setup fix
+
+	* initscripts.spec: bump ver.
+
+	* sysconfig/network-scripts/network-functions:
+	fix check_device_down logic
+
+	* sysconfig/network-scripts/ifup:
+	avoid ifconfig/route, try to avoid duplicate default routes
+
+2002-06-26  Preston Brown  <pbrown@redhat.com>
+
+	* initscripts.spec: bump version
+
+	* sysconfig/network-scripts/ifup-wireless:
+	escape quotes for NICKNAME and ESSID.  Only try to set channel/freq when in Ad-Hoc mode.
+
+2002-06-26  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifup:
+	fix dhcpcd invocation (#67517)
+
+2002-06-26  Florian La Roche  <laroche@redhat.com>
+
+	* initscripts.spec:
+	- commit to make a new release
+
+	* sysconfig/network-scripts/ifup-ipx, sysconfig/network-scripts/ifup-sit, sysconfig/network-scripts/init.ipv6-global, sysconfig/network-scripts/network-functions-ipv6:
+	- change some negation usage
+
+	* ppp/ip-down, ppp/ip-up, rc.d/init.d/functions, sysconfig/network-scripts/ifdown-ipv6, sysconfig/network-scripts/ifdown-post, sysconfig/network-scripts/ifdown-ppp, sysconfig/network-scripts/ifdown-sl, sysconfig/network-scripts/ifup-ctc, sysconfig/network-scripts/ifup-escon, sysconfig/network-scripts/ifup-iucv, sysconfig/network-scripts/ifup-plip, sysconfig/network-scripts/ifup-plusb, sysconfig/network-scripts/network-functions:
+	- set PATH also in /etc/sysconfig/network-scripts/network-functions
+
+	* ppp/ip-down, ppp/ip-up, ppp/ipv6-down, ppp/ipv6-up, sysconfig/network-scripts/ifdown-ppp, sysconfig/network-scripts/ifdown-sl, sysconfig/network-scripts/ifup-ctc, sysconfig/network-scripts/ifup-escon, sysconfig/network-scripts/ifup-iucv, sysconfig/network-scripts/ifup-plip, sysconfig/network-scripts/ifup-plusb:
+	- useless space changes
+
+	* rc.d/rc, sysconfig/network-scripts/ifup-aliases:
+	- further smaller cleanups, TEXTDOMAIN* is never exported
+
+	* initscripts.spec: - add changelog
+
+	* rc.d/init.d/single, sysconfig/network-scripts/ifdown, sysconfig/network-scripts/ifup, sysconfig/network-scripts/ifup-ippp, sysconfig/network-scripts/ifup-ppp, sysconfig/network-scripts/ifup-routes, sysconfig/network-scripts/ifup-sl, sysvinitfiles:
+	- change to /etc/init.d/functions
+	- eliminate some un-necessary PATH settings
+	- eliminate some TEXTDOMAIN settings
+
+	* rc.d/init.d/rawdevices, rc.d/rc.sysinit:
+	- further eliminate PATH settings
+
+	* rc.d/init.d/functions, rc.d/init.d/halt, rc.d/init.d/single:
+	- PATH is set in init.d/functions, no need to set it separately
+
+	* rc.d/init.d/functions, rc.d/init.d/netfs, rc.d/init.d/random, rc.d/init.d/rawdevices, rc.d/init.d/single:
+	- further cleanups
+
+	* rc.d/init.d/halt:
+	- move HALTARGS down some more
+
+	* initscripts.spec, Makefile, prefdm, rc.d/init.d/halt, rc.d/init.d/killall, rc.d/rc.sysinit, service, setsysfont, static-routes-ipv6, sysctl.conf, sysctl.conf.s390, sysctl.conf.sparc, sys-unconfig.8:
+	- start cleaning up some sh coding things
+
+2002-06-26  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifup:
+	don't add network routes when netmask is 255.255.255.255
+
+	* sysconfig/network-scripts/ifdown, sysconfig/network-scripts/ifup:
+	dhclient support <dsainty@redhat.com>
+
+2002-06-19  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit:
+	always initialize USB keyboard/mouse
+
+	* rc.d/rc.sysinit: remove sleep statement
+
+2002-06-18  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/init: no more bold
+
+2002-06-12  Bill Nottingham  <notting@redhat.com>
+
+	* ChangeLog, initscripts.spec:
+	6.78-1
+
+	* lang.csh, lang.sh, setsysfont:
+	fix UTF-8 checks
+
 2002-06-12  Bill Nottingham  <notting@redhat.com>
 
 	* initscripts.spec, ChangeLog:
