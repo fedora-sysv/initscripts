@@ -98,7 +98,7 @@ if [ -d /etc/rc.d/rc$runlevel.d ]; then
 		if egrep -q "(daemon |action )" $i ; then
 			$i start
 		else
-			if [ "$subsys" = "halt" -o "$subsys" = "reboot" -o "$subsys" = "single" -o "$subsys" = "local ]; then
+			if [ "$subsys" = "halt" -o "$subsys" = "reboot" -o "$subsys" = "single" -o "$subsys" = "local" ]; then
 			    $i start
 			else
 			    action "Starting $subsys" $i start
