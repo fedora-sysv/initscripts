@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.33
+Version: 5.34
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -191,16 +191,18 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/X11/prefdm
 %config /etc/inittab
 %dir /etc/rc.d
-%config /etc/rc.d/rc.sysinit
-/etc/rc[0-9].d
+%dir /etc/rc.d/rc[0-9].d
 %config(missingok) /etc/rc.d/rc[0-9].d/*
 /etc/init.d
+/etc/rc[0-9].d
 /etc/rc
+%dir /etc/rc.d/init.d
 /etc/rc.local
 /etc/rc.sysinit
 %config(missingok) /etc/rc.d/init.d/*
 %config /etc/rc.d/rc
 %config(noreplace) /etc/rc.d/rc.local
+%config /etc/rc.d/rc.sysinit
 %config(noreplace) /etc/sysctl.conf
 %config /etc/profile.d/lang.sh
 %config /etc/profile.d/lang.csh
@@ -229,6 +231,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Sat Jul 15 2000 Matt Wilson <msw@redhat.com>
 - kill all the PreTransaction stuff
+- directory ownership cleanups, add more LSB symlinks
 - move all the stuff back in to /etc/rc.d/
 
 * Thu Jul 13 2000 Bill Nottingham <notting@redhat.com>
