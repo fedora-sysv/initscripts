@@ -1,5 +1,5 @@
---- initscripts-me/rc.d/init.d/halt.orig	Thu Sep  6 13:19:12 2001
-+++ initscripts-me/rc.d/init.d/halt	Thu Sep  6 13:19:50 2001
+--- initscripts-6.40/rc.d/init.d/halt.s390init	Wed Sep  5 05:18:34 2001
++++ initscripts-6.40/rc.d/init.d/halt	Fri Sep 14 17:36:28 2001
 @@ -115,7 +115,9 @@
       ;;
  esac
@@ -11,18 +11,16 @@
  
  # Turn off swap, then unmount file systems.
  SWAPS=`awk '! /^Filename/ { print $1 }' /proc/swaps`
---- initscripts-me/rc.d/rc.sysinit.orig	Thu Sep  6 13:20:04 2001
-+++ initscripts-me/rc.d/rc.sysinit	Thu Sep  6 13:33:47 2001
-@@ -105,10 +105,14 @@
+--- initscripts-6.40/rc.d/rc.sysinit.s390init	Sun Sep  9 09:00:54 2001
++++ initscripts-6.40/rc.d/rc.sysinit	Fri Sep 14 17:39:17 2001
+@@ -105,9 +105,14 @@
       ;;
  esac
  
--/sbin/hwclock --adjust
 -/sbin/hwclock $CLOCKFLAGS
 -
 -action $"Setting clock $CLOCKDEF: `date`" date
 +if [ -x /sbin/hwclock ] ; then
-+  /sbin/hwclock --adjust
 +  /sbin/hwclock $CLOCKFLAGS
 +  action $"Setting clock $CLOCKDEF: `date`" date
 +else
@@ -32,7 +30,7 @@
  
  if [ "`/sbin/consoletype`" = "vt" ]; then
   # Load keymap
-@@ -322,6 +326,9 @@
+@@ -321,6 +326,9 @@
      else
  	action $"Skipping ISA PNP configuration at users request: " /bin/true
      fi
@@ -42,7 +40,7 @@
  fi
  
  # Remount the root filesystem read-write.
-@@ -329,6 +336,24 @@
+@@ -328,6 +336,24 @@
  [ "$state" != "rw" ] && \
    action $"Remounting root filesystem in read-write mode: " mount -n -o remount,rw /
  
@@ -58,7 +56,7 @@
 +  else
 +    modpath="/lib/modules/$kver/net"
 +  fi
-+  for i in /lib/modules/ibm-$kernelver/net/*; do
++  for i in /lib/modules/ibm/*; do
 +    [ -e $i ] || break
 +    /sbin/oco-setkver $kver $i $modpath/`basename $i`
 +  done
@@ -67,7 +65,7 @@
  # LVM initialization
  if [ -e /proc/lvm -a -x /sbin/vgchange -a -f /etc/lvmtab ]; then
          action $"Setting up Logical Volume Management:" /sbin/vgscan && /sbin/vgchange -a y
-@@ -605,23 +630,29 @@
+@@ -604,23 +630,29 @@
  
  # Configure machine if necessary.
  if [ -f /.unconfigured ]; then
