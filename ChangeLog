@@ -1,3 +1,55 @@
+2004-09-01  Bill Nottingham  <notting@redhat.com>
+
+	* ChangeLog, initscripts.spec:
+	7.77-1
+
+	* rc.d/rc.sysinit: mount usbfs (#131347)
+	start any automatic raid devices
+
+2004-09-01  Jeremy Katz  <katzj@redhat.com>
+
+	* initscripts.spec, rc.d/rc.sysinit: udev uses UDEV_TMPFS now
+
+2004-09-01  Karsten Hopp  <karsten@redhat.com>
+
+	* initscripts.spec: ifcfg-escon is gone
+
+	* initscripts.spec, sysconfig/network-scripts/network-functions:
+	- qeth can hav eth, hsi and tr interfaces, lcs can have eth and tr interfaces,
+	  too. We can't tell apart if p.e. eth0 is qeth or lcs, but need to know it for
+	  sysfs configuration. Remove TYPE=QETH hack and use a more generic NETTYPE
+	  instead
+
+	* sysconfig/network-scripts/ifup-escon, sysconfig/network-scripts/network-functions:
+	- esconX interfaces are gone, they are now called ctcX and configured the same as ctc interfaces
+
+2004-08-31  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec:
+	remove triggers for ancient releases, bulletproof remaining ones (#131356)
+
+2004-08-31  Dan Walsh  <dwalsh@redhat.com>
+
+	* rc.d/rc.sysinit: allow messages to show up on console
+
+2004-08-30  Karsten Hopp  <karsten@redhat.com>
+
+	* initscripts.spec, sysconfig/network-scripts/network-functions:
+	LCS devices use portno instead if portname
+
+2004-08-27  Jason Vas Dias  <jvdias@redhat.com>
+
+	* sysconfig/network-scripts/ifdown, sysconfig/network-scripts/ifup:
+	Add support for new DHCPv6 client (new DHCPV6C ifcfg variable)
+
+	* initscripts.spec:
+	Add support for new DHCPv6 client (new DHCPV6C ifcfg variable) to ifup
+
+	* sysconfig.txt: Add documentation for new DHCPV6C ifcfg variable
+
+	* sysconfig/network-scripts/ifup:
+	Add support for new DHCPv6 client (new DHCPV6C ifcfg variable)
+
 2004-08-27  Bill Nottingham  <notting@redhat.com>
 
 	* initscripts.spec, Changelog: 7.72-1
