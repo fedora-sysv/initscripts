@@ -101,7 +101,9 @@ case "$1" in
 	done
 	case "$IPX" in
 	  yes|true)
-	    /sbin/ipx_internal_net del
+	    if [ "$IPXINTERNALNETNUM" != "0" ]; then
+	       /sbin/ipx_internal_net del
+	    fi
 	    ;;
 	esac
 	./ifdown ifcfg-lo
