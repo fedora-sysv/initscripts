@@ -5,7 +5,7 @@
 # Taken from: network-functions-ipv6
 # (P) & (C) 1997-2002 by Peter Bieringer <pb@bieringer.de>
 #
-# Version: 2002-11-02
+# Version: 2002-11-12
 #
 # Extended address detection is enabled, if 'ipv6calc' is installed
 #  Available here: http://www.bieringer.de/linux/IPv6/ipv6calc/
@@ -1041,6 +1041,7 @@ ipv6_create_6to4_relay_address() {
 #  $1: <Interface> : only "tun6to4" is supported
 #  $2: <IPv4 address> : global address of local interface
 #  $3: [<IPv6 suffix>] : for 6to4 prefix (optional, default is "::1")
+#  $4: [<MTU>] : MTU of tunnel device (optional, default is automatic)
 # return code: 0=ok 1=argument error 2=IPv6 test fails 3=major problem
 ipv6_add_6to4_tunnel() {
 	local fn="ipv6_add_6to4_tunnel"
@@ -1048,6 +1049,7 @@ ipv6_add_6to4_tunnel() {
 	local device=$1
 	local localipv4=$2
 	local localipv6to4suffix=$3
+	local mtu=$4
 
 	if [ -z "$device" ]; then
 		ipv6_log $"Missing parameter 'device' (arg 1)" err $fn
@@ -1085,6 +1087,11 @@ ipv6_add_6to4_tunnel() {
 		else
 			local retval=0
 		fi
+
+	# Set MTU, if given
+	if [ -n "$mtu" ]; then
+		ipv6_set_mtu $device $mtu
+	fi
 
 	return $retval
 }	

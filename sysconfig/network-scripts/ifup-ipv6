@@ -11,7 +11,7 @@
 #
 # RHL integration assistance by Pekka Savola <pekkas@netcore.fi>
 #
-# Version 2002-11-02
+# Version 2002-11-12a
 #
 # Note: if called (like normally) by /etc/sysconfig/network-scripts/ifup
 #        exit codes aren't handled by "ifup" 
@@ -35,6 +35,7 @@
 # Optional for 6to4 tunneling (hardwired name of tunnel device is "tun6to4"):
 #  IPV6TO4INIT=yes|no: controls 6to4 tunneling setup
 #  IPV6TO4_RELAY=<IPv4 address>: IPv4 address of the remote 6to4 relay (default: 192.88.99.1)
+#  IPV6TO4_MTU=<MTU for IPv6>: controls IPv6 MTU for the 6to4 link (optional, default is MTU of interface - 20)
 #  IPV6TO4_IPV4ADDR=<IPv4 address>: overwrite local IPv4 address (optional)
 #  IPV6TO4_ROUTING="<device>-<suffix>/<prefix length> ...": information to setup local subnetting
 #    Example: IPV6TO4_ROUTING="eth0-:f101::0/64 eth1-:f102::0/64"
@@ -198,7 +199,22 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 
 	# Setup 6to4 tunnel (hardwired name is "tun6to4"), if config is valid
         if [ "$valid6to4config" = "yes" ]; then
-		ipv6_add_6to4_tunnel tun6to4 $ipv4addr || exit 1
+		# Get MTU of master device
+		ipv4mtu="`ipv6_exec_ip link show dev $DEVICE | grep -w "mtu" | awk '{ print $5 }'`"
+		if [ -n "$ipv4mtu" ]; then
+			# IPv6 tunnel MTU is IPv4 MTU minus 20 for IPv4 header
+			tunnelmtu=$[ $ipv4mtu - 20 ]
+		fi
+
+		if [ -n "$IPV6TO4_MTU" ]; then
+			if [ $IPV6TO4_MTU -gt $tunnelmtu ]; then
+				echo $"Warning: configured MTU '$IPV6TO4_MTU' for 6to4 exceeds maximum limit of '$tunnelmtu', ignored"
+			else		
+				tunnelmtu=$IPV6TO4_MTU
+			fi
+		fi
+
+		ipv6_add_6to4_tunnel tun6to4 $ipv4addr "" $tunnelmtu || exit 1
 
 		# Add default route, if device matches
 		if [ "$IPV6_DEFAULTDEV" = "tun6to4" ]; then
@@ -217,7 +233,7 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 				if [ -z "$gateway" ]; then
 					gateway="$ipv6to4_relay"
 				fi
-				ipv6_add_route $network $ipv6to4_relay tun6to4
+				ipv6_add_route $network $gateway tun6to4
 			done
 		fi		
 

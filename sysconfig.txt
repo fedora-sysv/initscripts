@@ -202,10 +202,10 @@ Files in /etc/sysconfig
     Add a default route through specified gateway
     An interface can be specified: required for link-local addresses
     Examples:
-      IPV6_DEFAULTGW="3ffe:400:100:f101::2"
-        Add default route through 3ffe:400:100:f101::2
-      IPV6_DEFAULTGW="3ffe:400:100:f101::2%eth0"
-        Add default route through 3ffe:400:100:f101::2 and device eth0
+      IPV6_DEFAULTGW="3ffe:ffff:1234:5678::1"
+        Add default route through 3ffe:ffff:1234:5678::1
+      IPV6_DEFAULTGW="3ffe:ffff:1234:5678::1%eth0"
+        Add default route through 3ffe:ffff:1234:5678::1 and device eth0
       IPV6_DEFAULTGW="fe80::1%eth0"
         Add default route through fe80::1 and device eth0
 
@@ -279,8 +279,10 @@ Files in /etc/sysconfig
    adds routes through dedicated tunnel interface sit1
 
   tun6to4  3ffe:ffff:1234::/56			
-  tun6to4  3ffe:ffff:5678::/56			::5.6.7.8
    adds routes through hardwired 6to4 tunnel interface tun6to4
+  tun6to4  3ffe:ffff:5678::/56			::5.6.7.8
+   adds routes through hardwired 6to4 tunnel interface tun6to4,
+   specifying next hop   
 
   Notes:
     * default routes (such as the "2000::/3" shown above) should be set with
@@ -568,10 +570,16 @@ Files in /etc/sysconfig/network-scripts/
     IPV6TO4_IPV4ADDR=<IPv6 address>[/<prefix length>] (optional)
       Overwrite local IPv4 address which is accessable from the Internet
        (optional, in case of static IPv4-NAT behind a router or other special scenarios)
+    IPV6TO4_MTU=<MTU for IPv6> (optional)
+      Controls IPv6 MTU for the 6to4 tunnel
+      Note: Must be greater or equal to 1280
+      Example:
+        IPV6TO4_MTU="1280"
+      Default: MTU of master device - 20
     IPV6TO4_ROUTING="<device>-<suffix>/<prefix length> ..." (optional)
       A list of routing tokens to setup proper IPv6 routes on the LAN
       Example:
-         IPV6TO4_ROUTING="eth0-:f101::0/64 eth1-:f102::0/64"
+         IPV6TO4_ROUTING="eth0-:0004::0/64 eth1-:0005::0/64"
          Will create one route per eth0 and eth1, taking given SLA
 
   Optional settings for a 6to4 tunnel or a ppp link
