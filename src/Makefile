@@ -1,4 +1,4 @@
-CFLAGS+=-Wall -D_GNU_SOURCE -g
+CFLAGS+=$(RPM_OPT_FLAGS) -Wall -D_GNU_SOURCE
 
 PROGS=usernetctl doexec netreport testd usleep ipcalc initlog minilogd \
 	getkey ppp-watch consoletype

@@ -28,7 +28,7 @@ deactivate most network interfaces.
 %setup -q
 
 %build
-make CFLAGS="$RPM_OPT_FLAGS"
+make
 
 %install
 rm -rf $RPM_BUILD_ROOT

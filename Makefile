@@ -4,8 +4,7 @@ VERSION=$(shell awk '/Version:/ { print $$2 }' initscripts.spec)
 CVSTAG = r$(subst .,-,$(VERSION))
 
 all:
-	(cd src; make CFLAGS="$(CFLAGS)")
-
+	(cd src; make)
 install:
 	mkdir -p $(ROOT)/etc/profile.d $(ROOT)/sbin $(ROOT)/usr/sbin
 	mkdir -p $(ROOT)/usr/man/man8
