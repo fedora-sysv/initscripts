@@ -83,7 +83,7 @@ case "$1" in
 	  yes|true)
 	    /sbin/ipx_configure --auto_primary=$IPXAUTOPRIMARY \
 				   --auto_interface=$IPXAUTOFRAME
-	    if [ "$IPXINTERNALNETNUM" != "0" -o "$IPXINTERNALNODENUM" != "0" ]; then
+	    if [ "$IPXINTERNALNETNUM" != "0" ]; then
 	       /sbin/ipx_internal_net add $IPXINTERNALNETNUM $IPXINTERNALNODENUM
 	    fi
 	    ;;
