@@ -94,8 +94,11 @@ userCtl(char *file) {
 
 	if (!strncmp(contents, "USERCTL=", 8)) {
 	    contents += 8;
-	    if (contents[0] == '"' &&
-		contents[strlen(contents) - 1] == '"') {
+	    if ((contents[0] == '"' &&
+		 contents[strlen(contents) - 1] == '"') ||
+		(contents[0] == '\'' &&
+		 contents[strlen(contents) - 1] == '\''))
+		{
 		contents++;
 		contents[strlen(contents) - 1] = '\0';
 	    }
