@@ -41,7 +41,7 @@ if [ -n "$selinuxfs" ] && [ "`cat /proc/self/attr/current`" != "kernel" ]; then
 	fi
 fi
 
-if [ -x /sbin/restorecon ] && fgrep -q " /dev " /proc/mounts ; then
+if [ -x /sbin/restorecon ] && LC_ALL=C fgrep -q " /dev " /proc/mounts ; then
 	/sbin/restorecon  -R /dev 2>/dev/null
 fi
 
@@ -166,49 +166,53 @@ eval `kmodule | while read devtype mod ; do
 	esac
 done`
 
+load_module () {
+	LC_ALL=C fgrep -q "$1" /etc/hotplug/blacklist || modprobe $1 >/dev/null 2>&1
+}
+
 # IDE
 for module in $ide ; do
-	modprobe $module >/dev/null 2>&1
+	load_module $module >/dev/null 2>&1
 done
 
 # SCSI
 for module in `/sbin/modprobe -c | awk '/^alias[[:space:]]+scsi_hostadapter[[:space:]]/ { print $3 }'` $scsi; do
-	modprobe $module >/dev/null 2>&1
+	load_module $module >/dev/null 2>&1
 done
-modprobe floppy >/dev/null 2>&1
+load_module floppy >/dev/null 2>&1
 
 echo -n $" storage"
 
 # Network
 pushd /etc/sysconfig/network-scripts >/dev/null 2>&1
-interfaces=`ls ifcfg* | LANG=C egrep -v '(ifcfg-lo|:|rpmsave|rpmorig|rpmnew)' | \
-            LANG=C egrep -v '(~|\.bak)$' | \
-            LANG=C egrep 'ifcfg-[A-Za-z0-9\._-]+$' | \
+interfaces=`ls ifcfg* | LC_ALL=C egrep -v '(ifcfg-lo|:|rpmsave|rpmorig|rpmnew)' | \
+            LC_ALL=C egrep -v '(~|\.bak)$' | \
+            LC_ALL=C egrep 'ifcfg-[A-Za-z0-9\._-]+$' | \
 	    sed 's/^ifcfg-//g' |
-	    sed 's/[0-9]/ &/' | LANG=C sort -k 1,1 -k 2n | sed 's/ //'`
+	    sed 's/[0-9]/ &/' | LC_ALL=C sort -k 1,1 -k 2n | sed 's/ //'`
 
 for i in $interfaces ; do
-	eval $(LANG=C fgrep "DEVICE=" ifcfg-$i)
-	modprobe $DEVICE >/dev/null 2>&1
+	eval $(LC_ALL=C fgrep "DEVICE=" ifcfg-$i)
+	load_module $DEVICE >/dev/null 2>&1
 done
 popd >/dev/null 2>&1
 
 for module in $network ; do
-	modprobe $module >/dev/null 2>&1
+	load_module $module >/dev/null 2>&1
 done
 
 echo -n $" network"
 
 # Sound
 for module in `/sbin/modprobe -c | awk '/^alias[[:space:]]+snd-card-[[:digit:]]+[[:space:]]/ { print $3 }'` $audio; do
-	modprobe $module >/dev/null 2>&1
+	load_module $module >/dev/null 2>&1
 done
 
 echo -n $" audio"
 
 # Everything else (duck and cover)
 for module in $other ; do
-	modprobe $module >/dev/null 2>&1
+	load_module $module >/dev/null 2>&1
 done
 
 echo -n $" done"
@@ -222,7 +226,7 @@ echo "raidautorun /dev/md0" | nash --quiet
 RHGB_STARTED=0
 mount -n /dev/pts
 
-if fgrep rhgb /proc/cmdline > /dev/null 2>&1 && [ "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
+if LC_ALL=C fgrep rhgb /proc/cmdline > /dev/null 2>&1 && [ "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
    LC_MESSAGES= /usr/bin/rhgb
    RHGB_STARTED=1
 fi
@@ -678,7 +682,7 @@ fi
 action $"Mounting local filesystems: " mount -a -t nonfs,nfs4,smbfs,ncpfs,cifs,gfs -O no_netdev
 
 # Start the graphical boot, if necessary and not done yet.
-if fgrep rhgb /proc/cmdline > /dev/null 2>&1 && [ "$RHGB_STARTED" -eq 0 -a "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
+if LC_ALL=C fgrep rhgb /proc/cmdline > /dev/null 2>&1 && [ "$RHGB_STARTED" -eq 0 -a "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
    LC_MESSAGES= /usr/bin/rhgb
    RHGB_STARTED=1
 fi
