@@ -52,6 +52,11 @@ mount | awk '/ext2/ { print $3 }' | while read line; do
     mount -n -o ro,remount $line
 done
 
+# turn off raid
+if [ -x /sbin/raidstop && -f /etc/raidtab ]; then
+    /sbin/raidstop -a -r
+fi
+
 # Now halt or reboot.
 echo "$message"
 [ -f /fastboot ] && echo "On the next boot fsck will be skipped."
