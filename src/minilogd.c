@@ -82,7 +82,8 @@ void runDaemon(int sock) {
    done = 0;
    /* Get stat info on /dev/log so we can later check to make sure we
     * still own it... */
-   stat(_PATH_LOG,&s1);
+   if (stat(_PATH_LOG,&s1) != 0)
+	  memset(&s1, '\0', sizeof(struct stat));
    while (!done) {
       pfds.fd = sock;
       pfds.events = POLLIN|POLLPRI;
