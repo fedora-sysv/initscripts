@@ -218,6 +218,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Thu Jun 08 2000 Preston Brown <pbrown@redhat.com>
 - use dhcpcd if pump fails.
+- use depmod -A (faster)
 
 * Sun Jun  4 2000 Bernhard Rosenkraenzer <bero@redhat.com>
 - add autologin support to prefdm
