@@ -71,10 +71,9 @@ touch /var/run/utmp
 chown root:utmp /var/log/wtmp /var/run/utmp
 chmod 664 /var/log/wtmp /var/run/utmp
 
-chkconfig --add random 
-chkconfig --add netfs 
-chkconfig --add network 
-chkconfig --add rawdevices
+/sbin/chkconfig --add netfs 
+/sbin/chkconfig --add network 
+/sbin/chkconfig --add rawdevices
 
 # handle serial installs semi gracefully
 if [ $1 = 0 ]; then
@@ -97,14 +96,15 @@ fi
 
 %preun
 if [ $1 = 0 ]; then
-  chkconfig --del random
-  chkconfig --del netfs
-  chkconfig --del network
-  chkconfig --del rawdevices
+  /sbin/chkconfig --del netfs
+  /sbin/chkconfig --del network
+  /sbin/chkconfig --del rawdevices
 fi
 
+%triggerun -- initscripts <= 7.59
+/sbin/chkconfig --del random
+
 %triggerpostun -- initscripts <= 5.04
-/sbin/chkconfig --add random
 /sbin/chkconfig --add netfs
 /sbin/chkconfig --add network
 

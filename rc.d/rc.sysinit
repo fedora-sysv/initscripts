@@ -403,10 +403,6 @@ if [ -f /etc/lvmtab ]; then
     fi
 fi
 
-# Start up swapping.
-update_boot_stage RCswap
-action $"Activating swap partitions: " swapon -a -e
-
 # Clean up SELinux labels
 if [ -n "$SELINUX" ]; then
    for file in /etc/mtab /etc/ld.so.cache ; do
@@ -427,8 +423,6 @@ mount -f /sys >/dev/null 2>&1
 mount -f /dev/pts
 [ -f /proc/bus/usb/devices ] && mount -f -t usbdevfs usbdevfs /proc/bus/usb
 [ -e /dev/.devfsd ] && mount -f -t devfs devfs /dev 
-
-
 
 # The root filesystem is now read-write, so we can now log
 # via syslog() directly..
@@ -643,6 +637,16 @@ if [ -x /sbin/quotaon ]; then
     action $"Enabling local filesystem quotas: " /sbin/quotaon -aug
 fi
 
+# Initialize pseudo-random number generator
+if [ -f "/var/lib/random-seed" ]; then
+	cat /var/lib/random-seed > /dev/urandom
+else
+	touch /var/lib/random-seed
+fi
+chmod 600 /var/lib/random-seed
+dd if=/dev/urandom of=/var/lib/random-seed count=1 bs=512 2>/dev/null
+
+
 # Configure machine if necessary.
 if [ -f /.unconfigured ]; then
     if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
@@ -732,9 +736,9 @@ mkdir -m 1777 -p /tmp/.ICE-unix >/dev/null 2>&1
 chown root:root /tmp/.ICE-unix
 [ -n "$SELINUX" ] && restorecon /tmp/.ICE-unix
 
-# Now turn on swap in case we swap to files.
-swapon -a
-action $"Enabling swap space: " /bin/true
+# Start up swapping.
+update_boot_stage RCswap
+action $"Enabling swap space: " swapon -a -e
 
 # Initialize the serial ports.
 if [ -f /etc/rc.serial ]; then
