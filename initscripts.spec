@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.19
+Version: 5.20
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -168,7 +168,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root)
 %dir /etc/sysconfig/network-scripts
-%config %verify(not md5 mtime size) /etc/adjtime
+%config(noreplace) %verify(not md5 mtime size) /etc/adjtime
 %config(noreplace) /etc/sysconfig/init
 /etc/sysconfig/network-scripts/ifdown
 %config /sbin/ifdown
@@ -223,6 +223,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Jun 21 2000 Preston Brown <pbrown@redhat.com>
+- noreplace for adjtime file
+
 * Fri Jun 16 2000 Nalin Dahyabhai <nalin@redhat.com>
 - ifup-ppp: add hooks for demand-dialing PPP
 - functions: use basename of process when looking for its PID file
