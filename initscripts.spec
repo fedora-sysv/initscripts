@@ -3,7 +3,7 @@ Name: initscripts
 Version: 5.32
 Copyright: GPL
 Group: System Environment/Base
-Release: 1
+Release: 2
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /%{_tmppath}/%{name}-%{version}-%{release}-root
 Requires: mingetty, /bin/awk, /bin/sed, mktemp, e2fsprogs >= 1.15, console-tools
@@ -13,11 +13,6 @@ Requires: modutils >= 2.3.11-5
 %ifarch alpha
 Requires: util-linux >= 2.9w-26
 %endif
-PreTransaction: S_ISLNK /etc/rc.d
-PreTransaction: mv /etc/rc.d /etc/rc.d.rpmsave
-PreTransaction: mv /etc/rc.d.rpmsave/rc* /etc/rc.d.rpmsave/init.d /etc
-PreTransaction: symlink . /etc/rc.d
-PreTransaction: rmdir /etc/rc.d.rpmsave
 Conflicts: kernel <= 2.2, timeconfig < 3.0, pppd < 2.3.9, wvdial < 1.40-3
 Conflicts: initscripts < 1.22.1-5
 Obsoletes: rhsound sapinit
@@ -228,6 +223,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Sat Jul 15 2000 Matt Wilson <msw@redhat.com>
+- kill all the PreTransaction stuff
+
 * Thu Jul 13 2000 Bill Nottingham <notting@redhat.com>
 - fix == tests in rc.sysinit
 - more %pretrans tweaks
