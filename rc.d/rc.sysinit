@@ -25,6 +25,16 @@ fi
 # Source functions
 . /etc/rc.d/init.d/functions
 
+# Print a banner. ;)
+echo -en "\t\t\tWelcome to "
+[ "$BOOTUP" != "serial" ] && echo -en "\\033[1;31m
+echo -en "Red Hat"
+[ "$BOOTUP" != "serial" ] && echo -en "\\033[0;39m"
+echo " Linux"
+echo -en "\t\tPress 'I' to enter interactive startup."
+echo
+sleep 2
+
 # Fix console loglevel
 /sbin/loglevel $LOGLEVEL
 
@@ -367,6 +377,8 @@ if [ ! -f /fastboot ]; then
 	fi
 fi
 
+
+{
 # Mount all other filesystems (except for NFS and /proc, which is already
 # mounted). Contrary to standard usage,
 # filesystems are NOT unmounted in single user mode.
@@ -453,3 +465,7 @@ EOF
 # Now that we have all of our basic modules loaded and the kernel going,
 # let's dump the syslog ring somewhere so we can find it later
 dmesg > /var/log/dmesg
+killall -TERM getkey >/dev/null 2>&1
+} &
+/sbin/getkey i && touch /tmp/confirm
+wait

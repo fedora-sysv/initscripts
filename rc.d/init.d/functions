@@ -230,6 +230,7 @@ echo_success() {
   echo -n "OK"
   [ "$BOOTUP" = "color" ] && $SETCOLOR_NORMAL
   echo -n "  ]"
+  echo -ne "\r"
   return 0
 }
 
@@ -240,6 +241,7 @@ echo_failure() {
   echo -n "FAILED"
   [ "$BOOTUP" = "color" ] && $SETCOLOR_NORMAL
   echo -n "]"
+  echo -ne "\r"
   return 1
 }
 
@@ -250,6 +252,7 @@ echo_passed() {
   echo -n "PASSED"
   [ "$BOOTUP" = "color" ] && $SETCOLOR_NORMAL
   echo -n "]"
+  echo -ne "\r"
   return 1
 }
 
