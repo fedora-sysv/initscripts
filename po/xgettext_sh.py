@@ -42,11 +42,11 @@ def xgettext(arq):
 		else:
 			for match in pattern.finditer(l):
 				pos = match.start()
-					text = split(l[pos:], '"')[1]
-					if s.has_key(text):
-						s[text].append((arq, line))
-					else:
-						s[text] = [(arq, line)]
+				text = split(l[pos:], '"')[1]
+				if s.has_key(text):
+				    s[text].append((arq, line))
+				else:
+				    s[text] = [(arq, line)]
 	f.close()
 
 def print_header():
