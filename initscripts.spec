@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.02
+Version: 7.03
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -246,6 +246,24 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Jan 14 2002 Bill Nottingham <notting@redhat.com> 7.03-1
+- move system font setting sooner (<milan.kerslager@pslib.cz>)
+- fix link checking for dhcp, use both ethtool and mii-tool
+- fix CJK text on the console, and locale-archive held open
+  on shutdown
+- IPv6 updates <pekkas@netcore.fi>, <pb@bieringer.de>
+- speedup tweaks (<drepper@redhat.com>)
+- use glib2 for ppp-watch (#78690, <kisch@mindless.com>)
+- add zeroconf route (#81738)
+- fix ifup-ppp for dial-on-demand, and onboot (<goeran@uddeborg.pp.se>)
+- tweak raidtab parsing, don't worry about not-in-fstab RAID devices
+  (#71087, #78467, <aja@mit.edu>)
+- don't automatically bring up aliases if 'ONPARENT=no' is set (#78992)
+- getkey cleanups/tweaks (#76071, <ben@enchantedforest.org>)
+- rework halt_get_remaining (#76831, <michal@harddata.com>)
+- ipcalc: fix calculation of /32 addresses (#76646)
+- various other tweaks and fixes
+
 * Fri Dec 20 2002 Bill Nottingham <notting@redhat.com> 7.01-1
 - %%config(noreplace) inittab
 

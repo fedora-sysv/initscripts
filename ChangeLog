@@ -1,3 +1,116 @@
+2003-01-14  Bill Nottingham  <notting@redhat.com>
+
+	* ChangeLog, initscripts.spec: 7.03-1
+
+	* src/getkey.c, src/ipcalc.c:
+	copyright tweakage
+
+	* rc.d/rc.sysinit:
+	don't load hid stuff if it's non-modular
+	LC_ALL=C grep... go faster
+
+	* po/xgettext_sh.py:
+	fix it to accept foo=$"blah"
+
+	* rc.d/init.d/halt, rc.d/rc.sysinit:
+	unmark some strings
+
+	* src/ipcalc.c:
+	fix calculation of /32 addresses (#76646)
+
+	* sysconfig/network-scripts/ifup:
+	clean up iptables module (#74518)
+
+	* sysconfig/network-scripts/network-functions:
+	check for device after loading module (#75506)
+
+	* rc.d/rc:
+	set to C locale, to avoid use of locale archives (#72043)
+
+	* src/getkey.c, src/Makefile:
+	getkey cleanups/tweaks (#76071, <ben@enchantedforest.org>)
+
+	* rc.d/init.d/halt:
+	rework halt script (#76831, <michal@harddata.com>)
+
+	* rc.d/init.d/functions:
+	support NICELEVEL in the environment (#77846)
+
+	* sysconfig/network-scripts/ifup-aliases:
+	recalculate BROADCAST if one wasn't specified (#78052)
+
+	* sysconfig/network-scripts/ifup-aliases:
+	if 'ONPARENT=no' set, don't automatically bring up interfaces when
+	their parent interface is set up (#78992)
+
+	* sysconfig/network-scripts/ifup-post:
+	don't write multiple search lines (#79107, <redhat-com-box@dndtales.org>)
+
+	* rc.d/rc.sysinit:
+	fix raidtab parsing, don't worry about not-in-fstab RAID devices
+	(#71087, #78467, <aja@mit.edu>)
+
+	* service: initialize OPTIONS (#78236)
+
+	* src/ppp-watch.8, sysconfig/network-scripts/ifup-ppp:
+	fix ifup-ppp vs. ppp-watch at boot time (<goeran@uddeborg.pp.se>)
+
+	* sysconfig/network-scripts/ifup-ppp:
+	fix ifup-ppp for use with dial-on-demand (#54680)
+
+	* rc.d/init.d/network: fix status (#81471)
+
+	* sysconfig/network-scripts/ifup:
+	add zeroconf route (#81738)
+
+	* src/Makefile, initscripts.spec:
+	use glib2 instead of glib (#78690, <kisch@mindless.com>)
+
+	* rc.d/rc.sysinit:
+	only do the second LVM check if we actually started RAID (#78483, <milan.kerslager@pslib.cz>)
+
+2003-01-14  Milan Kerslager  <milan.kerslager@spsselib.hiedu.cz>
+
+	* po/cs.po: Convertion to UTF-8
+
+2003-01-14  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/network-functions:
+	fix link check. use both ethtool and mii-tool.
+
+	* rc.d/init.d/functions, initscripts.spec, Makefile, po/Makefile:
+	just use /usr/share/locale ; you need glibc locale stuff anyway...
+
+	* rc.d/init.d/functions:
+	fix CJK text on the console
+
+2003-01-13  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit:
+	move system font setting sooner <milan.kerslager@spsselib.hiedu.cz>
+
+2003-01-07  Bill Nottingham  <notting@redhat.com>
+
+	* ppp/ip-up.ipv6to4, sysconfig/network-scripts/ifup-ipv6, sysconfig/network-scripts/ifup-sit, sysconfig.txt, changes.ipv6:
+	IPv6 updates <pekkas@netcore.fi>, <pb@bieringer.de>
+
+	* rc.d/init.d/netfs, rc.d/init.d/network, rc.d/init.d/rawdevices:
+	speedups (<drepper@redhat.com>)
+	- use LC_ALL=C
+	- don't use both grep&awk on the same file, just use awk
+
+2003-01-03  Bill Nottingham  <notting@redhat.com>
+
+	* po/zh_CN.po, po/zh_TW.po, po/it.po:
+	fix translation
+
+2002-12-30  Florian La Roche  <laroche@redhat.com>
+
+	* initscripts.spec: - make new release
+
+	* ChangeLog, initscripts-s390.patch:
+	- adjust mainframe patches
+
 2002-12-30  Florian La Roche <Florian.LaRoche@redhat.de>
 
 	* mainframe: drop changes to "/.unconfigured"
