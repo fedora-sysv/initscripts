@@ -13,6 +13,7 @@ cd /etc/sysconfig/network-scripts
 . network-functions
 
 CONFIG=$1
+[ -f "$CONFIG" ] || CONFIG=ifcfg-$1
 source_config
 
 if [ -z "$DISCONNECTTIMEOUT" ]; then
