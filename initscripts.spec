@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.47.9
+Version: 6.47.10
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -240,6 +240,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Fri Jul 23 2004 Bill Nottingham <notting@redhat.com> 6.47.10-1
+- fix bonding + no IP (#127285)
+
 * Thu Jun 24 2004 Bill Nottingham <notting@redhat.com> 6.47.9-1
 - fix ppp conflict
 - fix some route creation issues (#125450, #120908)
