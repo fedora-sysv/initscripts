@@ -229,6 +229,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Oct 31 2000 Than Ngo <than@redhat.com>
+- fix the adding default route if GATEWAY=0.0.0.0
+
 * Tue Oct 10 2000 Nalin Dahyabhai <nalin@redhat.com>
 - handle "gw x.x.x.x" as the last pair of flags in ifup-routes (#18804)
 - fix top-level makefile install target
