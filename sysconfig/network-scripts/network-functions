@@ -345,6 +345,9 @@ configure_ccwgroup_device ()
 		[ -e $SYSDIR/portname ] && echo "$PORTNAME" > $SYSDIR/portname
 	 fi
     fi
+    if [ "$NETTYPE" = "ctc" -a -n "$CTCPROT" ]; then
+         echo "$CTCPROT" > $SYSDIR/protocol
+    fi
     if [ -n "$OPTIONS" ]; then
          for i in $OPTIONS; do
                echo "${i//*=/}" > "$SYSDIR/${i//=*/}"
