@@ -6,6 +6,16 @@ PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin
 . /etc/profile.d/lang.sh
 
 # Run preferred X display manager
+
+# Try autologin first, if wanted...
+if [ -f /etc/sysconfig/autologin -a -x /usr/sbin/autologin ]; then
+	if /usr/sbin/autologin; then
+		exit 0
+	fi
+	# If autologin fails (bad permissions, etc.), we get here -
+	# time to start a real display manager.
+fi
+
 preferred=
 if [ -f /etc/sysconfig/desktop ]; then
 	if grep -q GNOME /etc/sysconfig/desktop 2>/dev/null; then

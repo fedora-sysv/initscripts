@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-Version: 5.14
+Version: 5.15
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -216,6 +216,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Sun Jun  4 2000 Bernhard Rosenkraenzer <bero@redhat.com>
+- add autologin support to prefdm
+
 * Thu Jun  1 2000 Bill Nottingham <notting@redhat.com>
 - random networking fixes (alias routes, others)
 - conf.modules -> modules.conf
