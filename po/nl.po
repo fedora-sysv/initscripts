@@ -23,7 +23,7 @@ msgstr ""
 msgid "No parameters given to setup a default route"
 msgstr "Geen parameters opgegeven om een default route in te stellen"
 
-#: /etc/rc.d/init.d/dhcpd:91
+#: /etc/rc.d/init.d/dhcpd:84
 msgid "Usage: $0 {start|stop|restart|condrestart|configtest|status}"
 msgstr "Gebruik: $0 {start|stop|restart|condrestart|configtest|status}"
 
@@ -59,19 +59,19 @@ msgstr ""
 "$alias netwerkkaart ${DEVICE} is blijkbaar niet aanwezig, initialisatie "
 "uitgesteld."
 
-#: /etc/rc.d/init.d/amd:96 /etc/rc.d/init.d/autofs:452
+#: /etc/rc.d/init.d/amd:96 /etc/rc.d/init.d/autofs:477
 #: /etc/rc.d/init.d/bgpd:59 /etc/rc.d/init.d/gkrellmd:54
-#: /etc/rc.d/init.d/irda:69 /etc/rc.d/init.d/ospfd:60 /etc/rc.d/init.d/ripd:59
+#: /etc/rc.d/init.d/irda:71 /etc/rc.d/init.d/ospfd:60 /etc/rc.d/init.d/ripd:59
 #: /etc/rc.d/init.d/ripngd:59 /etc/rc.d/init.d/sshd:160
 #: /etc/rc.d/init.d/zebra:60
 msgid "Usage: $0 {start|stop|restart|reload|condrestart|status}"
 msgstr "Gebruik: $0 {start|stop|restart|reload|condrestart|status}"
 
-#: /etc/rc.d/init.d/autofs:439
+#: /etc/rc.d/init.d/autofs:464
 msgid "Start $x"
 msgstr "Start $x"
 
-#: /etc/rc.d/init.d/gpm:21
+#: /etc/rc.d/init.d/gpm:22
 msgid "Starting console mouse services: "
 msgstr "Starten van console-muis services: "
 
@@ -128,33 +128,31 @@ msgstr "Gebruik: $0 {start|stop|status|reload|restart|condrestart}"
 #: /etc/rc.d/init.d/cpuspeed:29 /etc/rc.d/init.d/crond:22
 #: /etc/rc.d/init.d/cups:57 /etc/rc.d/init.d/dc_client:33
 #: /etc/rc.d/init.d/dc_server:29 /etc/rc.d/init.d/dhcp6s:34
-#: /etc/rc.d/init.d/dhcpd:43 /etc/rc.d/init.d/dhcrelay:33
-#: /etc/rc.d/init.d/dovecot:19 /etc/rc.d/init.d/FreeWnn:32
-#: /etc/rc.d/init.d/gkrellmd:24 /etc/rc.d/init.d/httpd:60
+#: /etc/rc.d/init.d/dhcpd:36 /etc/rc.d/init.d/dhcrelay:33
+#: /etc/rc.d/init.d/dictd:24 /etc/rc.d/init.d/dovecot:19
+#: /etc/rc.d/init.d/FreeWnn:32 /etc/rc.d/init.d/gkrellmd:24
+#: /etc/rc.d/init.d/httpd:60 /etc/rc.d/init.d/ipsec:144
 #: /etc/rc.d/init.d/irda:23 /etc/rc.d/init.d/irqbalance:46
 #: /etc/rc.d/init.d/kadmin:40 /etc/rc.d/init.d/kprop:30
 #: /etc/rc.d/init.d/krb524:30 /etc/rc.d/init.d/krb5kdc:30
 #: /etc/rc.d/init.d/ldap:58 /etc/rc.d/init.d/ldap:70 /etc/rc.d/init.d/lisa:35
-#: /etc/rc.d/init.d/mailman:77 /etc/rc.d/init.d/mdmonitor:37
-#: /etc/rc.d/init.d/mdmpd:38 /etc/rc.d/init.d/mysqld:53
-#: /etc/rc.d/init.d/mysqld:55 /etc/rc.d/init.d/mysqld:58
-#: /etc/rc.d/init.d/named:36 /etc/rc.d/init.d/nscd:48
-#: /etc/rc.d/init.d/ntpd:117 /etc/rc.d/init.d/ospf6d:29
-#: /etc/rc.d/init.d/ospfd:30 /etc/rc.d/init.d/portmap:47
-#: /etc/rc.d/init.d/radvd:38 /etc/rc.d/init.d/rarpd:22
-#: /etc/rc.d/init.d/ripd:29 /etc/rc.d/init.d/ripngd:29
-#: /etc/rc.d/init.d/rwalld:24 /etc/rc.d/init.d/saslauthd:36
-#: /etc/rc.d/init.d/sendmail:40 /etc/rc.d/init.d/smartd:59
-#: /etc/rc.d/init.d/snmpd:20 /etc/rc.d/init.d/snmptrapd:23
-#: /etc/rc.d/init.d/squid:60 /etc/rc.d/init.d/ups:43
-#: /etc/rc.d/init.d/vncserver:23 /etc/rc.d/init.d/xfs:73
-#: /etc/rc.d/init.d/xinetd:44 /etc/rc.d/init.d/zebra:27
+#: /etc/rc.d/init.d/lm_sensors:57 /etc/rc.d/init.d/mailman:77
+#: /etc/rc.d/init.d/mdmonitor:37 /etc/rc.d/init.d/mdmpd:38
+#: /etc/rc.d/init.d/mysqld:53 /etc/rc.d/init.d/mysqld:55
+#: /etc/rc.d/init.d/mysqld:58 /etc/rc.d/init.d/named:36
+#: /etc/rc.d/init.d/nscd:48 /etc/rc.d/init.d/ntpd:97
+#: /etc/rc.d/init.d/ospf6d:29 /etc/rc.d/init.d/ospfd:30
+#: /etc/rc.d/init.d/portmap:47 /etc/rc.d/init.d/radvd:38
+#: /etc/rc.d/init.d/rarpd:22 /etc/rc.d/init.d/ripd:29
+#: /etc/rc.d/init.d/ripngd:29 /etc/rc.d/init.d/rwalld:24
+#: /etc/rc.d/init.d/saslauthd:36 /etc/rc.d/init.d/sendmail:40
+#: /etc/rc.d/init.d/smartd:44 /etc/rc.d/init.d/snmpd:20
+#: /etc/rc.d/init.d/snmptrapd:23 /etc/rc.d/init.d/squid:60
+#: /etc/rc.d/init.d/ups:43 /etc/rc.d/init.d/vncserver:23
+#: /etc/rc.d/init.d/xfs:73 /etc/rc.d/init.d/xinetd:44
+#: /etc/rc.d/init.d/zebra:27
 msgid "Starting $prog: "
 msgstr "Starten van $prog: "
-
-#: /etc/rc.d/init.d/postgresql:175
-msgid "Postmaster already running."
-msgstr "Postmaster is reeds opgestart."
 
 #: /etc/sysconfig/network-scripts/ifup-sit:64
 msgid "Missing remote IPv4 address of tunnel, configuration is not valid"
@@ -192,7 +190,7 @@ msgstr "Uitschakelen van nachtelijke yum update: "
 msgid "Usage: $0 {start|stop|restart|condrestart|status|panic|save}"
 msgstr "Gebruik: $0 {start|stop|restart|condrestart|status|panic|save}"
 
-#: /etc/rc.d/init.d/autofs:271
+#: /etc/rc.d/init.d/autofs:270
 msgid ""
 "Active Mount Points:\n"
 "--------------------"
@@ -247,7 +245,7 @@ msgid "Given IPv6 default gateway '$address' is not in proper format"
 msgstr ""
 "Gegeven IPv6 standaard gateway '$address' staat niet in het juiste formaat"
 
-#: /etc/rc.d/rc.sysinit:103
+#: /etc/rc.d/rc.sysinit:101
 msgid "\t\tWelcome to "
 msgstr "\t\tWelkom bij "
 
@@ -263,9 +261,9 @@ msgstr ""
 #: /etc/rc.d/init.d/cups-config-daemon:67 /etc/rc.d/init.d/FreeWnn:77
 #: /etc/rc.d/init.d/haldaemon:71 /etc/rc.d/init.d/innd:112
 #: /etc/rc.d/init.d/kprop:67 /etc/rc.d/init.d/krb524:66
-#: /etc/rc.d/init.d/mDNSResponder:69 /etc/rc.d/init.d/NetworkManager:79
-#: /etc/rc.d/init.d/nifd:70 /etc/rc.d/init.d/syslog:80
-#: /etc/rc.d/init.d/ypbind:109
+#: /etc/rc.d/init.d/lm_sensors:133 /etc/rc.d/init.d/mDNSResponder:69
+#: /etc/rc.d/init.d/NetworkManager:79 /etc/rc.d/init.d/nifd:70
+#: /etc/rc.d/init.d/syslog:80 /etc/rc.d/init.d/ypbind:109
 msgid "Usage: $0 {start|stop|status|restart|condrestart}"
 msgstr "Gebruik: $0 {start|stop|status|restart|condrestart}"
 
@@ -277,19 +275,20 @@ msgstr "Controleren van configuratiebestanden voor $prog: "
 msgid "$0: call me as 'halt' or 'reboot' please!"
 msgstr "$0: roep me op als 'halt' of 'reboot' aub!"
 
-#: /etc/rc.d/init.d/isdn:238
+#: /etc/rc.d/init.d/isdn:251
 msgid "$NAME is attached to $DEVICE"
 msgstr "$NAME is gekoppeld aan $DEVICE"
 
 #: /etc/rc.d/init.d/bgpd:36 /etc/rc.d/init.d/dhcp6s:44
-#: /etc/rc.d/init.d/dhcpd:53 /etc/rc.d/init.d/dhcrelay:45
-#: /etc/rc.d/init.d/FreeWnn:43 /etc/rc.d/init.d/gkrellmd:31
-#: /etc/rc.d/init.d/irda:31 /etc/rc.d/init.d/mailman:87
-#: /etc/rc.d/init.d/ntpd:144 /etc/rc.d/init.d/ospf6d:36
+#: /etc/rc.d/init.d/dhcpd:46 /etc/rc.d/init.d/dhcrelay:45
+#: /etc/rc.d/init.d/dictd:37 /etc/rc.d/init.d/FreeWnn:43
+#: /etc/rc.d/init.d/gkrellmd:31 /etc/rc.d/init.d/ipsec:150
+#: /etc/rc.d/init.d/irda:33 /etc/rc.d/init.d/mailman:87
+#: /etc/rc.d/init.d/ntpd:106 /etc/rc.d/init.d/ospf6d:36
 #: /etc/rc.d/init.d/ospfd:37 /etc/rc.d/init.d/ripd:36
 #: /etc/rc.d/init.d/ripngd:36 /etc/rc.d/init.d/sendmail:104
-#: /etc/rc.d/init.d/smartd:65 /etc/rc.d/init.d/vncserver:45
-#: /etc/rc.d/init.d/vsftpd:49 /etc/rc.d/init.d/xfs:90
+#: /etc/rc.d/init.d/smartd:51 /etc/rc.d/init.d/vncserver:45
+#: /etc/rc.d/init.d/vsftpd:49 /etc/rc.d/init.d/xfs:92
 #: /etc/rc.d/init.d/zebra:37
 msgid "Shutting down $prog: "
 msgstr "Afsluiten van $prog: "
@@ -303,7 +302,7 @@ msgid "Stopping NetworkManager daemon: "
 msgstr "Stoppen van NetworkManager daemon: "
 
 #: /etc/rc.d/init.d/atalk:91 /etc/rc.d/init.d/exim:83
-#: /etc/rc.d/init.d/isdn:267 /etc/rc.d/init.d/ldap:125
+#: /etc/rc.d/init.d/isdn:280 /etc/rc.d/init.d/ldap:125
 msgid "Usage: $0 {start|stop|restart|status|condrestart}"
 msgstr "Gebruik: $0 {start|stop|restart|status|condrestart}"
 
@@ -327,7 +326,7 @@ msgstr "Er trad een time out op tijdens de hardware configuratie."
 msgid "Setting network parameters: "
 msgstr "Instellen van de netwerkparameters: "
 
-#: /etc/rc.d/init.d/nfs:98
+#: /etc/rc.d/init.d/nfs:100
 msgid "Shutting down NFS daemon: "
 msgstr "Afsluiten van de NFS-daemon: "
 
@@ -359,7 +358,7 @@ msgstr "Ontkoppelen van loopback apparaat $dev: "
 msgid "Unmounting network block filesystems: "
 msgstr "Netwerk blok-bestandssystemen afkoppelen: "
 
-#: /etc/rc.d/rc.sysinit:879
+#: /etc/rc.d/rc.sysinit:901
 msgid "Setting hard drive parameters for ${disk[$device]}: "
 msgstr "Parameters aan het instellen voor de harde schijf ${disk[$device]}: "
 
@@ -376,8 +375,8 @@ msgid "Usage: $0 {start|stop}"
 msgstr "Gebruik: $0 {start|stop}"
 
 #: /etc/rc.d/init.d/cups:97 /etc/rc.d/init.d/httpd:76 /etc/rc.d/init.d/lisa:61
-#: /etc/rc.d/init.d/named:92 /etc/rc.d/init.d/snmpd:48
-#: /etc/rc.d/init.d/xfs:104
+#: /etc/rc.d/init.d/named:95 /etc/rc.d/init.d/snmpd:48
+#: /etc/rc.d/init.d/xfs:106
 msgid "Reloading $prog: "
 msgstr "Herladen van $prog: "
 
@@ -406,7 +405,7 @@ msgstr ""
 "Waarschuwing: ipppd (kernel 2.4.x en lager) ondersteunt geen IPv6 gebruik "
 "makend van encapsulatie 'syncppp'"
 
-#: /etc/rc.d/init.d/gpm:25 /etc/rc.d/init.d/gpm:30
+#: /etc/rc.d/init.d/gpm:33
 msgid "(no mouse is configured)"
 msgstr "(er is geen muis geconfigureerd)"
 
@@ -455,7 +454,7 @@ msgstr "Beginnen met interactief opstarten"
 msgid "Missing parameter 'IPv6 address prefix length' (arg 3)"
 msgstr "Parameter 'IPv6 address prefix length' (arg 3) ontbreekt"
 
-#: /etc/rc.d/init.d/xfs:142
+#: /etc/rc.d/init.d/xfs:144
 msgid "Usage: $prog {start|stop|status|restart|reload|condrestart}"
 msgstr "Gebruik: $prog {start|stop|status|restart|reload|condrestart}"
 
@@ -487,6 +486,10 @@ msgstr "adsl-start bestaat niet of is niet uitvoerbaar voor ${DEVICE}"
 #: /etc/rc.d/init.d/isdn:189
 msgid "Shutting down $prog"
 msgstr "Afsluiten van $prog"
+
+#: /etc/rc.d/init.d/pcmcia:158
+msgid "cardmgr (pid $pid) is running..."
+msgstr "cardmgr (pid $pid) is opgestart..."
 
 # vertaling ok?
 #: /etc/rc.d/rc:39
@@ -538,13 +541,17 @@ msgstr "Starten van kernel logger: "
 msgid "Stopping YP passwd service: "
 msgstr "Stoppen van YP passwd service: "
 
-#: /etc/rc.d/rc.sysinit:708
+#: /etc/rc.d/rc.sysinit:725
 msgid "Checking local filesystem quotas: "
 msgstr "Lokale bestandsysteem-quota's controleren: "
 
 #: /etc/rc.d/init.d/single:44
 msgid "Telling INIT to go to single user mode."
 msgstr "Aangeven aan INIT om naar single user mode over te gaan."
+
+#: /etc/rc.d/init.d/pcmcia:81
+msgid "Starting PCMCIA services: "
+msgstr "Starten van PCMCIA services: "
 
 #: /etc/rc.d/init.d/halt:214
 msgid "$message"
@@ -564,7 +571,7 @@ msgstr "Loopback bestandssystemen afkoppelen (opnieuw):"
 msgid "Starting hidd: "
 msgstr "Starten van hidd: "
 
-#: /etc/rc.d/init.d/named:99
+#: /etc/rc.d/init.d/named:102
 msgid "$prog reload"
 msgstr "$prog herladen"
 
@@ -602,7 +609,7 @@ msgstr "NFS-bestandssystemen aankoppelen: "
 msgid "Starting NetworkManager daemon: "
 msgstr "Starten van NetworkManager daemon: "
 
-#: /etc/rc.d/init.d/named:57
+#: /etc/rc.d/init.d/named:60
 msgid "Error in configuration file /etc/named.conf : $named_err"
 msgstr "Fout in configuratiebestand /etc/named.conf : $named_err"
 
@@ -614,11 +621,15 @@ msgstr "Fout tijdens het berekenen van de IPv6naar4 prefix"
 msgid "Saving current rules to $ARPTABLES_CONFIG"
 msgstr "Huidige regels aan het opslaan naar $ARPTABLES_CONFIG"
 
-#: /etc/rc.d/init.d/smartd:90
+#: /etc/rc.d/init.d/smartd:76
 msgid "Usage: $0 {start|stop|reload|report|restart|status}"
 msgstr "Gebruik: $0 {start|stop|reload|report|restart|status}"
 
-#: /etc/rc.d/init.d/nfs:153
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:1408
+msgid "Given IPv6 MTU '$ipv6_mtu' is out of range"
+msgstr "Gegeven IPv6 MTU '$ipv6_mtu' valt buiten het bereik"
+
+#: /etc/rc.d/init.d/nfs:155
 msgid "Usage: nfs {start|stop|status|restart|reload|condrestart}"
 msgstr "Gebruik: nfs {start|stop|status|restart|reload|condrestart}"
 
@@ -651,9 +662,9 @@ msgstr "Opstarten van de loopback interface: "
 msgid "Reopening $prog log file: "
 msgstr "Heropenen van $prog log bestand: "
 
-#: /etc/rc.d/init.d/functions:207 /etc/rc.d/init.d/functions:218
-msgid "$base shutdown"
-msgstr "$base afgesloten"
+#: /etc/rc.d/init.d/functions:301
+msgid "${base} dead but pid file exists"
+msgstr "${base} afgesloten, maar pid bestand bestaat nog"
 
 #: /etc/rc.d/init.d/smb:77 /etc/rc.d/init.d/winbind:65
 msgid "Reloading smb.conf file: "
@@ -671,7 +682,7 @@ msgstr "Processenbeheer is aangezet."
 msgid "Determining IP information for ${DEVICE}..."
 msgstr "Nagaan van IP informatie voor ${DEVICE}..."
 
-#: /etc/rc.d/init.d/postgresql:197
+#: /etc/rc.d/init.d/postgresql:199
 msgid "Stopping ${NAME} service: "
 msgstr "Stoppen van ${NAME} service: "
 
@@ -687,7 +698,7 @@ msgstr "radvd controle aangezet, maar de configuratie is niet volledig"
 msgid "Missing parameter 'address' (arg 1)"
 msgstr "Parameter 'address' (arg 1) ontbreekt"
 
-#: /etc/rc.d/init.d/isdn:232
+#: /etc/rc.d/init.d/isdn:245
 msgid "$0: Link is down"
 msgstr "$0: Link is uitgevallen"
 
@@ -712,7 +723,7 @@ msgstr ""
 msgid "Loading additional $IP6TABLES modules: "
 msgstr "Laden van additionele $IP6TABLES modules: "
 
-#: /etc/rc.d/rc.sysinit:712
+#: /etc/rc.d/rc.sysinit:729
 msgid "Enabling local filesystem quotas: "
 msgstr "Lokale bestandssysteemquota's aanzetten: "
 
@@ -735,16 +746,12 @@ msgstr ""
 "Programma 'sysctl' (pakket: procps) bestaat niet of is niet uitvoerbaar - "
 "stop"
 
-#: /etc/rc.d/init.d/ntpd:138
-msgid "$prog: Removing firewall opening for $server port 123"
-msgstr "$prog: firewall-opening voor $server poort 123 afdichten"
-
-#: /etc/rc.d/init.d/bootparamd:69 /etc/rc.d/init.d/psacct:48
-#: /etc/rc.d/init.d/routed:72
+#: /etc/rc.d/init.d/bootparamd:69 /etc/rc.d/init.d/pcmcia:55
+#: /etc/rc.d/init.d/psacct:48 /etc/rc.d/init.d/routed:72
 msgid "Usage: $0 {start|stop|status|restart|reload}"
 msgstr "Gebruik: $0 {start|stop|status|restart|reload}"
 
-#: /etc/rc.d/init.d/functions:446
+#: /etc/rc.d/init.d/functions:458
 msgid "yY"
 msgstr "jJ"
 
@@ -763,11 +770,11 @@ msgstr ""
 "Gegeven pidbestand '$pidfile' bestaat niet, kan de 'trigger' niet naar radvd "
 "sturen"
 
-#: /etc/rc.d/init.d/nfs:102
+#: /etc/rc.d/init.d/nfs:104
 msgid "Shutting down NFS quotas: "
 msgstr "Afsluiten van NFS quotas: "
 
-#: /etc/rc.d/init.d/functions:89 /etc/rc.d/init.d/functions:117
+#: /etc/rc.d/init.d/functions:90 /etc/rc.d/init.d/functions:118
 msgid "$0: Usage: daemon [+/-nicelevel] {program}"
 msgstr "$0: Gebruik: daemon [+/-nicelevel] {programma}"
 
@@ -813,7 +820,7 @@ msgstr "ifup-ppp voor ${DEVICE} gestopt"
 msgid "Stopping HAL daemon: "
 msgstr "Stoppen van HAL daemon: "
 
-#: /etc/rc.d/rc.sysinit:456
+#: /etc/rc.d/rc.sysinit:464
 msgid "Checking root filesystem quotas: "
 msgstr "root-bestandssysteem quota's controleren: "
 
@@ -821,16 +828,16 @@ msgstr "root-bestandssysteem quota's controleren: "
 msgid "No 802.1Q VLAN support available in kernel."
 msgstr "Geen 802.1Q VLAN ondersteuning beschikbaar in de kernel."
 
-#: /etc/rc.d/init.d/nfs:143
+#: /etc/rc.d/init.d/nfs:145
 msgid "reload"
 msgstr "herladen"
 
-#: /etc/rc.d/rc.sysinit:491 /etc/rc.d/rc.sysinit:499 /etc/rc.d/rc.sysinit:623
-#: /etc/rc.d/rc.sysinit:628
+#: /etc/rc.d/rc.sysinit:494 /etc/rc.d/rc.sysinit:502 /etc/rc.d/rc.sysinit:634
+#: /etc/rc.d/rc.sysinit:639
 msgid "Setting up Logical Volume Management:"
 msgstr "Logisch volumebeheer instellen:"
 
-#: /etc/rc.d/rc.sysinit:150
+#: /etc/rc.d/rc.sysinit:146
 msgid "Initializing hardware... "
 msgstr "Initialiseren van de hardware... "
 
@@ -862,7 +869,7 @@ msgstr "Afsluiten van kernel logger: "
 msgid "Starting UPS monitor (master): "
 msgstr "Starten van UPS monitor (master): "
 
-#: /etc/rc.d/init.d/autofs:428
+#: /etc/rc.d/init.d/autofs:453
 msgid "Stop $command"
 msgstr "Stop $command"
 
@@ -913,7 +920,7 @@ msgstr "Stoppen van rusers services: "
 msgid "Starting dund: "
 msgstr "Starten van dund: "
 
-#: /etc/rc.d/rc.sysinit:818
+#: /etc/rc.d/rc.sysinit:840
 msgid "Enabling swap space: "
 msgstr "Inschakelen van swap ruimte: "
 
@@ -995,7 +1002,7 @@ msgstr "Gebruik: $0 {start|stop|restart|condrestart|reload|status}"
 msgid "Usage: $BASENAME {start|stop|restart|reload|condrestart|status}"
 msgstr "Gebruik: $BASENAME {start|stop|restart|reload|condrestart|status}"
 
-#: /etc/rc.d/init.d/smartd:77
+#: /etc/rc.d/init.d/smartd:63
 msgid "Checking SMART devices now: "
 msgstr "Controleren van SMART apparaten: "
 
@@ -1012,7 +1019,7 @@ msgstr "Gebruik: $prog {start|stop|restart|condrestart|status|help}"
 msgid "Listening for an NIS domain server."
 msgstr "Aan het luisteren naar een NIS domein server."
 
-#: /etc/rc.d/rc.sysinit:410 /etc/rc.d/rc.sysinit:665
+#: /etc/rc.d/rc.sysinit:420 /etc/rc.d/rc.sysinit:682
 msgid "(Repair filesystem)"
 msgstr "(Herstel bestandssysteem)"
 
@@ -1045,6 +1052,10 @@ msgstr "Toepassen van Intel IA32 Microcode update: "
 #: /etc/rc.d/init.d/microcode_ctl:76
 msgid "Usage: $0 {start|restart}"
 msgstr "Gebruik: $0 {start|restart}"
+
+#: /etc/rc.d/init.d/pcmcia:104
+msgid "using yenta_socket instead of $PCIC"
+msgstr "gebruik yenta_socket in plaats van $PCIC"
 
 #: /etc/rc.d/init.d/radiusd:37
 msgid "Starting RADIUS server: "
@@ -1103,7 +1114,7 @@ msgstr "Afsluiten van processenbeheer: "
 msgid "Shutting down dund: "
 msgstr "Afsluiten van dund: "
 
-#: /etc/rc.d/init.d/gpm:60
+#: /etc/rc.d/init.d/gpm:59
 msgid "Shutting down console mouse services: "
 msgstr "Afsluiten van console mouse services: "
 
@@ -1124,7 +1135,7 @@ msgstr "ipchains en $IP6TABLES kunnen niet naast elkaar worden gebruikt."
 msgid "Starting $prog"
 msgstr "Starten van $prog"
 
-#: /etc/rc.d/init.d/autofs:432
+#: /etc/rc.d/init.d/autofs:457
 msgid "Reload map $command"
 msgstr "Herladen map $command"
 
@@ -1143,7 +1154,7 @@ msgstr ""
 "Niet ondersteund mechanisme '$mechanism' voor het verzenden van de 'trigger' "
 "naar radvd"
 
-#: /etc/rc.d/init.d/postgresql:255
+#: /etc/rc.d/init.d/postgresql:257
 msgid ""
 "Usage: $0 {start|stop|status|restart|condrestart|condstop|reload|force-"
 "reload}"
@@ -1173,7 +1184,7 @@ msgid "Resetting built-in chains to the default ACCEPT policy:"
 msgstr ""
 "Herinstellen van de ingebouwde regels naar het standaard ACCEPT beleid:"
 
-#: /etc/rc.d/init.d/functions:444
+#: /etc/rc.d/init.d/functions:456
 msgid "Start service $1 (Y)es/(N)o/(C)ontinue? [Y] "
 msgstr "Start service $1 (J)a/(N)ee/(D)oorgaan? [J] "
 
@@ -1181,7 +1192,7 @@ msgstr "Start service $1 (J)a/(N)ee/(D)oorgaan? [J] "
 msgid "Reloading RADIUS server: "
 msgstr "Herladen van RADIUS server: "
 
-#: /etc/rc.d/rc.sysinit:640
+#: /etc/rc.d/rc.sysinit:647
 msgid "Checking filesystems"
 msgstr "Bestandssystemen aan het controleren"
 
@@ -1201,13 +1212,9 @@ msgstr ""
 "Reden '$reason' niet ondersteund voor het verzenden van de 'trigger' naar "
 "radvd"
 
-#: /etc/rc.d/rc.sysinit:407 /etc/rc.d/rc.sysinit:606 /etc/rc.d/rc.sysinit:662
+#: /etc/rc.d/rc.sysinit:417 /etc/rc.d/rc.sysinit:617 /etc/rc.d/rc.sysinit:679
 msgid "*** Dropping you to a shell; the system will reboot"
 msgstr "*** U komt terecht in een shell, het systeem wordt herstart"
-
-#: /etc/rc.d/init.d/ntpd:88
-msgid "$prog: Opening firewall for input from $server port 123"
-msgstr "$prog: Openen van de firewall voor invoer vanaf $server port 123"
 
 #: /etc/rc.d/init.d/ip6tables:158
 msgid "Applying $IP6TABLES firewall rules: "
@@ -1221,7 +1228,7 @@ msgstr ""
 "Gebruik: $prog {start|stop|restart|condrestart|reload|status|fullstatus|"
 "graceful|help|configtest}"
 
-#: /etc/rc.d/init.d/postgresql:106
+#: /etc/rc.d/init.d/postgresql:119
 msgid "Starting ${NAME} service: "
 msgstr "Starten van ${NAME} service: "
 
@@ -1245,9 +1252,9 @@ msgstr "SSH2 RSA host sleutel aan het genereren: "
 msgid "Error adding address ${IPADDR} for ${DEVICE}."
 msgstr "Fout bij toekennen adres ${IPADDR} aan ${DEVICE}."
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:1408
-msgid "Given IPv6 MTU '$ipv6_mtu' is out of range"
-msgstr "Gegeven IPv6 MTU '$ipv6_mtu' valt buiten het bereik"
+#: /etc/rc.d/init.d/pcmcia:118
+msgid "cardmgr is already running."
+msgstr "cardmgr is reeds opgestart."
 
 #: /etc/rc.d/init.d/innd:33
 msgid "Starting INND system: "
@@ -1262,7 +1269,7 @@ msgstr "Tabel: $table"
 msgid "Configured SMB mountpoints: "
 msgstr "Geconfigureerde SMB-koppelpunten: "
 
-#: /etc/rc.d/init.d/postgresql:149
+#: /etc/rc.d/init.d/postgresql:162
 msgid "Initializing database: "
 msgstr "Initialiseren van de database: "
 
@@ -1270,7 +1277,7 @@ msgstr "Initialiseren van de database: "
 msgid "Setting chains to policy $policy: "
 msgstr "Instellen regels naar beleid $policy: "
 
-#: /etc/rc.d/init.d/nfs:140 /etc/rc.d/init.d/nfslock:119
+#: /etc/rc.d/init.d/nfs:142 /etc/rc.d/init.d/nfslock:119
 msgid "restart"
 msgstr "herstart"
 
@@ -1282,7 +1289,7 @@ msgstr "Starten van exim: "
 msgid "Error, some other host already uses address ${IPADDR}."
 msgstr "Fout, een andere host gebruikt reeds adres ${IPADDR}."
 
-#: /etc/rc.d/init.d/nfs:115
+#: /etc/rc.d/init.d/nfs:117
 msgid "Shutting down NFS services: "
 msgstr "Afsluiten van NFS services: "
 
@@ -1301,6 +1308,10 @@ msgstr "MISLUKT"
 #: /etc/rc.d/init.d/smb:42 /etc/rc.d/init.d/smb:47 /etc/rc.d/init.d/winbind:40
 msgid "Starting $KIND services: "
 msgstr "Starten van $KIND services: "
+
+#: /etc/rc.d/init.d/pcmcia:161
+msgid "cardmgr is stopped"
+msgstr "cardmgr is gestopt"
 
 #: /etc/rc.d/init.d/acpid:77 /etc/rc.d/init.d/messagebus:75
 #: /etc/rc.d/init.d/readahead:46 /etc/rc.d/init.d/readahead_early:46
@@ -1355,7 +1366,7 @@ msgstr "/etc/sysconfig/network-scripts/dip-$DEVICE bestaat niet voor $DEVICE"
 msgid "Loading PLX (isicom) modules... "
 msgstr "Laden van PLX (isicom) modules... "
 
-#: /etc/rc.d/init.d/nfs:95
+#: /etc/rc.d/init.d/nfs:97
 msgid "Shutting down NFS mountd: "
 msgstr "Afsluiten van NFS-mountd: "
 
@@ -1371,11 +1382,11 @@ msgstr "WAARSCHUWING"
 msgid "Setting 802.1Q VLAN parameters: "
 msgstr "Instellen van de 802.1Q VLAN parameters: "
 
-#: /etc/rc.d/init.d/named:134
+#: /etc/rc.d/init.d/named:137
 msgid "Usage: $0 {start|stop|status|restart|condrestart|reload|probe}"
 msgstr "Gebruik: $0 {start|stop|status|restart|condrestart|reload|probe}"
 
-#: /etc/rc.d/init.d/postgresql:133
+#: /etc/rc.d/init.d/postgresql:146
 msgid ""
 "An old version of the database format was found.\n"
 "You need to upgrade the data format before using PostgreSQL.\n"
@@ -1397,11 +1408,15 @@ msgstr "fout in $FILE: IPADDR_START groter dan IPADDR_END"
 msgid " storage"
 msgstr " opslag"
 
-#: /etc/rc.d/init.d/autofs:378
+#: /etc/rc.d/init.d/autofs:443
+msgid "Checking for changes to /etc/auto.master ...."
+msgstr "Aan het controleren op veranderingen in /etc/auto.master ...."
+
+#: /etc/rc.d/init.d/autofs:402
 msgid "No Mountpoints Defined"
 msgstr "Geen koppelpunten gedefinieerd"
 
-#: /etc/rc.d/rc.sysinit:452 /etc/rc.d/rc.sysinit:702
+#: /etc/rc.d/rc.sysinit:460 /etc/rc.d/rc.sysinit:719
 msgid "Converting old group quota files: "
 msgstr "Oude groepsquota-bestanden omzetten: "
 
@@ -1443,9 +1458,10 @@ msgstr "fout in $FILE: geen netwerkkaart of IP adres opgegeven"
 msgid "Stopping NFS locking: "
 msgstr "Stoppen van NFS locking: "
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:294
-msgid "Missing parameter 'forwarding control' (arg 1)"
-msgstr "Ontbrekende parameter 'forwarding control' (arg 1)"
+#: /etc/rc.d/init.d/autofs:366
+#, fuzzy
+msgid "Unmounting loopback filesystem $match:  "
+msgstr "Loopback-bestandssystemen afkoppelen: "
 
 #: /etc/rc.d/init.d/atalk:23
 msgid "Starting AppleTalk services: "
@@ -1485,13 +1501,17 @@ msgstr ""
 msgid "Bringing up interface $i: "
 msgstr "Interface $i wordt aangezet: "
 
-#: /etc/rc.d/rc.sysinit:609
+#: /etc/rc.d/rc.sysinit:620
 msgid "(RAID Repair)"
 msgstr "(RAID-herstel)"
 
 #: /etc/rc.d/init.d/vncserver:55 /etc/rc.d/init.d/vncserver:56
 msgid "vncserver shutdown"
 msgstr "vncserver afgesloten"
+
+#: /etc/rc.d/init.d/pcmcia:126 /etc/rc.d/init.d/pcmcia:149
+msgid "done."
+msgstr "voltooid."
 
 #: /etc/rc.d/init.d/iptables:22
 msgid "/sbin/$IPTABLES does not exist."
@@ -1501,11 +1521,15 @@ msgstr "/sbin/$IPTABLES bestaat niet."
 msgid "Bridge support not available: brctl not found"
 msgstr "Brug ondersteuning niet beschikbaar: brctl niet gevonden"
 
+#: /etc/rc.d/init.d/pcmcia:132
+msgid "Shutting down PCMCIA services: "
+msgstr "Stoppen van PCMCIA services: "
+
 #: /etc/rc.d/init.d/ip6tables:85 /etc/rc.d/init.d/iptables:85
 msgid "Flushing firewall rules: "
 msgstr "Wissen firewall regels: "
 
-#: /etc/rc.d/rc.sysinit:683
+#: /etc/rc.d/rc.sysinit:700
 msgid "Mounting local filesystems: "
 msgstr "Lokale bestandssystemen aankoppelen: "
 
@@ -1529,7 +1553,7 @@ msgstr "FOUT: [ipv6_log] Loglevel is niet geldig '$level' (arg 2)"
 msgid "NOTICE   "
 msgstr "OPMERKING   "
 
-#: /etc/rc.d/init.d/autofs:414
+#: /etc/rc.d/init.d/autofs:439
 msgid "$prog not running"
 msgstr "$prog is niet opgestart"
 
@@ -1570,7 +1594,7 @@ msgstr "Parameter 'global IPv4 address' (arg 2) ontbreekt"
 msgid "/etc/sysconfig/network-scripts/chat-${DEVNAME} does not exist"
 msgstr "/etc/sysconfig/network-scripts/chat-${DEVNAME} bestaat niet"
 
-#: /etc/rc.d/rc.sysinit:406 /etc/rc.d/rc.sysinit:661
+#: /etc/rc.d/rc.sysinit:416 /etc/rc.d/rc.sysinit:678
 msgid "*** An error occurred during the file system check."
 msgstr "*** Er was een fout tijdens de schijfcontrole."
 
@@ -1587,6 +1611,10 @@ msgstr "Waarschuwing: link ondersteunt geen IPv6 met inkapseling van 'rawip'"
 msgid "Setting up a new ${PEERCONF} config file"
 msgstr "Instellen van een nieuw ${PEERCONF} configuratie bestand"
 
+#: /etc/rc.d/init.d/pcmcia:71
+msgid "PCIC module not defined in startup options!"
+msgstr "PCIC-module niet gedefinieerd in de opstart-opties!"
+
 #: /etc/rc.d/init.d/syslog:47
 msgid "Shutting down system logger: "
 msgstr "Afsluiten van systeem-logboek: "
@@ -1595,7 +1623,7 @@ msgstr "Afsluiten van systeem-logboek: "
 msgid "Stopping $subsys: "
 msgstr "Stoppen van $subsys: "
 
-#: /etc/rc.d/init.d/ipsec:93
+#: /etc/rc.d/init.d/ipsec:98
 msgid "cannot find ipsec command"
 msgstr "het ipsec commando kan niet worden gevonden"
 
@@ -1635,20 +1663,22 @@ msgstr "Gebruik: ifup-routes <net-device> [<alias>]"
 msgid "Saving current rules to $ARPTABLES_CONFIG: "
 msgstr "Huidige regels aan het opslaan naar $ARPTABLES_CONFIG: "
 
-#: /etc/rc.d/rc.sysinit:549
+#: /etc/rc.d/rc.sysinit:556
 msgid "Starting up RAID devices: "
 msgstr "Opstarten van RAID apparaten: "
 
 #: /etc/rc.d/init.d/anacron:56 /etc/rc.d/init.d/atd:80
 #: /etc/rc.d/init.d/canna:64 /etc/rc.d/init.d/cpuspeed:76
 #: /etc/rc.d/init.d/dhcp6s:77 /etc/rc.d/init.d/dhcrelay:78
-#: /etc/rc.d/init.d/gpm:92 /etc/rc.d/init.d/iiim:60 /etc/rc.d/init.d/ntpd:177
-#: /etc/rc.d/init.d/sendmail:149 /etc/rc.d/init.d/ups:116
-#: /etc/rc.d/init.d/vncserver:85 /etc/rc.d/init.d/vsftpd:82
+#: /etc/rc.d/init.d/dictd:68 /etc/rc.d/init.d/gpm:89 /etc/rc.d/init.d/iiim:60
+#: /etc/rc.d/init.d/ipsec:195 /etc/rc.d/init.d/ipsec:200
+#: /etc/rc.d/init.d/ntpd:139 /etc/rc.d/init.d/sendmail:149
+#: /etc/rc.d/init.d/ups:116 /etc/rc.d/init.d/vncserver:85
+#: /etc/rc.d/init.d/vsftpd:82
 msgid "Usage: $0 {start|stop|restart|condrestart|status}"
 msgstr "Gebruik: $0 {start|stop|restart|condrestart|status}"
 
-#: /etc/rc.d/init.d/autofs:268
+#: /etc/rc.d/init.d/autofs:267
 msgid ""
 "Configured Mount Points:\n"
 "------------------------"
@@ -1668,11 +1698,11 @@ msgstr ""
 msgid "punching nameserver $nameserver through the firewall"
 msgstr "pakketten van nameserver $nameserver mogen nu door de firewall heen"
 
-#: /etc/rc.d/init.d/ntpd:103
+#: /etc/rc.d/init.d/ntpd:83
 msgid "$prog: Synchronizing with time server: "
 msgstr "$prog: Aan het synchroniseren met tijd-server: "
 
-#: /etc/rc.d/rc.sysinit:448 /etc/rc.d/rc.sysinit:697
+#: /etc/rc.d/rc.sysinit:456 /etc/rc.d/rc.sysinit:714
 msgid "Converting old user quota files: "
 msgstr "Oude gebruikersquota-bestanden omzetten: "
 
@@ -1732,11 +1762,15 @@ msgstr "Opslaan van mixer instellingen"
 msgid "Tunnel device 'sit0' enabling didn't work"
 msgstr "Aanzetten tunnel-apparaat 'sit0' is mislukt"
 
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:294
+msgid "Missing parameter 'forwarding control' (arg 1)"
+msgstr "Ontbrekende parameter 'forwarding control' (arg 1)"
+
 #: /etc/rc.d/init.d/bluetooth:34
 msgid "Starting Bluetooth services:"
 msgstr "Starten van Bluetooth services:"
 
-#: /etc/rc.d/rc.sysinit:121
+#: /etc/rc.d/rc.sysinit:119
 msgid "\t\tPress 'I' to enter interactive startup."
 msgstr "\t\tDruk op 'I' om interactief op te starten."
 
@@ -1762,7 +1796,7 @@ msgstr ""
 msgid "/usr/sbin/dip does not exist or is not executable"
 msgstr "/usr/sbin/dip bestaat niet of is niet uitvoerbaar"
 
-#: /etc/rc.d/rc.sysinit:757
+#: /etc/rc.d/rc.sysinit:779
 msgid "Resetting hostname ${HOSTNAME}: "
 msgstr "Herinstellen van hostname ${HOSTNAME}: "
 
@@ -1842,7 +1876,7 @@ msgstr "Apparaat niet opgegeven in $CONF_DISKDUMP"
 msgid "reloading $prog: "
 msgstr "herladen van $prog: "
 
-#: /etc/rc.d/rc.sysinit:408 /etc/rc.d/rc.sysinit:607 /etc/rc.d/rc.sysinit:663
+#: /etc/rc.d/rc.sysinit:418 /etc/rc.d/rc.sysinit:618 /etc/rc.d/rc.sysinit:680
 msgid "*** when you leave the shell."
 msgstr "*** wanneer u de shell verlaat."
 
@@ -1886,7 +1920,7 @@ msgstr "Controleren van het root bestandssysteem"
 msgid "Active NFS mountpoints: "
 msgstr "Actieve NFS-koppelpunten: "
 
-#: /etc/rc.d/rc.sysinit:465
+#: /etc/rc.d/rc.sysinit:473
 msgid "Setting up ISA PNP devices: "
 msgstr "Opzetten van ISA PNP apparaten: "
 
@@ -1894,7 +1928,7 @@ msgstr "Opzetten van ISA PNP apparaten: "
 msgid "${base} has run"
 msgstr "${base} is opgestart"
 
-#: /etc/rc.d/init.d/nfs:66
+#: /etc/rc.d/init.d/nfs:68
 msgid "Starting NFS daemon: "
 msgstr "Starten van NFS daemon: "
 
@@ -1943,6 +1977,10 @@ msgstr "OK"
 msgid "Tunnel device '$device' creation didn't work"
 msgstr "Aanmaken tunnel-apparaat '$device' is mislukt"
 
+#: /etc/rc.d/init.d/pcmcia:112
+msgid "module directory $PC not found."
+msgstr "module map $PC werd niet gevonden."
+
 #: /etc/rc.d/rc.sysinit:274
 msgid "Setting clock $CLOCKDEF: `date`"
 msgstr "Instellen van klok $CLOCKDEF: `date`"
@@ -1951,7 +1989,8 @@ msgstr "Instellen van klok $CLOCKDEF: `date`"
 msgid "Usage: $0 {start}"
 msgstr "Gebruik: $0 {start}"
 
-#: /etc/rc.d/rc.sysinit:415 /etc/rc.d/rc.sysinit:614 /etc/rc.d/rc.sysinit:670
+#: /etc/rc.d/rc.sysinit:400 /etc/rc.d/rc.sysinit:425 /etc/rc.d/rc.sysinit:625
+#: /etc/rc.d/rc.sysinit:662 /etc/rc.d/rc.sysinit:687
 msgid "Unmounting file systems"
 msgstr "Bestandssystemen afkoppelen"
 
@@ -1975,7 +2014,7 @@ msgstr "Apparaat '$device' bestaat niet"
 msgid "error! "
 msgstr "fout! "
 
-#: /etc/rc.d/init.d/smartd:71
+#: /etc/rc.d/init.d/smartd:57
 msgid "Reloading $prog daemon configuration: "
 msgstr "Herladen van $prog daemon configuratie: "
 
@@ -2005,7 +2044,7 @@ msgstr "Loopback-bestandssystemen afkoppelen: "
 msgid "/sbin/$IP6TABLES does not exist."
 msgstr "/sbin/$IP6TABLES bestaat niet."
 
-#: /etc/rc.d/rc.sysinit:467
+#: /etc/rc.d/rc.sysinit:475
 msgid "Skipping ISA PNP configuration at users request: "
 msgstr "ISA PNP configuratie werd overgeslagen op aanvraag van de gebruiker: "
 
@@ -2037,7 +2076,7 @@ msgstr "VOLTOOID"
 msgid "disabling netconsole"
 msgstr "uitschakelen van netconsole"
 
-#: /etc/rc.d/init.d/xfs:117
+#: /etc/rc.d/init.d/xfs:119
 msgid "Restarting $prog:"
 msgstr "Herstarten van $prog:"
 
@@ -2105,7 +2144,7 @@ msgid "Given IPv6 default device '$device' requires an explicit nexthop"
 msgstr ""
 "Gegeven IPv6 standaard apparaat '$device' vereist een expliciete 'nexthop'"
 
-#: /etc/rc.d/init.d/autofs:366 /etc/rc.d/init.d/sshd:106
+#: /etc/rc.d/init.d/autofs:390 /etc/rc.d/init.d/sshd:106
 msgid "Starting $prog:"
 msgstr "Starten van $prog:"
 
@@ -2119,19 +2158,15 @@ msgstr "Starten van NFS statd: "
 msgid "Given device '$device' is not supported (arg 1)"
 msgstr "Gegeven apparaat '$device' is niet ondersteund (arg 1)"
 
-#: /etc/rc.d/init.d/functions:301
-msgid "${base} dead but pid file exists"
-msgstr "${base} afgesloten, maar pid bestand bestaat nog"
+#: /etc/rc.d/init.d/functions:207 /etc/rc.d/init.d/functions:218
+msgid "$base shutdown"
+msgstr "$base afgesloten"
 
-#: /etc/rc.d/init.d/mysqld:104
+#: /etc/rc.d/init.d/mysqld:105
 msgid "Usage: $0 {start|stop|status|condrestart|restart}"
 msgstr "Gebruik: $0 {start|stop|status|condrestart|restart}"
 
-#: /etc/rc.d/init.d/ipsec:139
-msgid "permission denied (must be superuser)"
-msgstr "geen toestemming (moet superuser zijn)"
-
-#: /etc/rc.d/init.d/autofs:385 /etc/rc.d/init.d/sshd:115
+#: /etc/rc.d/init.d/autofs:409 /etc/rc.d/init.d/sshd:115
 msgid "Stopping $prog:"
 msgstr "Stoppen van $prog:"
 
@@ -2151,7 +2186,7 @@ msgstr "Laden van standaard toetsenbordinstelling: "
 msgid "Unmounting NFS filesystems (retry): "
 msgstr "NFS-bestandssystemen afkoppelen (opnieuw): "
 
-#: /etc/rc.d/init.d/nfs:135 /etc/rc.d/init.d/nfslock:110
+#: /etc/rc.d/init.d/nfs:137 /etc/rc.d/init.d/nfslock:110
 msgid "start"
 msgstr "start"
 
@@ -2194,7 +2229,8 @@ msgid "Device 'tun6to4' (from '$DEVICE') is already up, shutdown first"
 msgstr ""
 "Netwerkkaart 'tun6to4' (van '$DEVICE') is reeds opgestart, sluit het eerst af"
 
-#: /etc/rc.d/init.d/autofs:367
+#: /etc/rc.d/init.d/autofs:391 /etc/rc.d/init.d/autofs:444
+#: /etc/rc.d/init.d/autofs:445
 msgid "could not make temp file"
 msgstr "kon geen tijdelijk bestand aanmaken"
 
@@ -2256,11 +2292,11 @@ msgstr "X is nu geconfigureerd.  Setup Agent aan het opstarten"
 msgid "Device '$device' enabling didn't work"
 msgstr "Aanzetten van apparaat '$device' is mislukt"
 
-#: /etc/rc.d/init.d/functions:452
+#: /etc/rc.d/init.d/functions:464
 msgid "nN"
 msgstr "nN"
 
-#: /etc/rc.d/rc.sysinit:475
+#: /etc/rc.d/rc.sysinit:483
 msgid "Remounting root filesystem in read-write mode: "
 msgstr "root-bestandssysteem aankoppelen in lezen-schrijven modus: "
 
@@ -2276,7 +2312,7 @@ msgstr "Synchroniseren van hardware klok met de systeemtijd"
 msgid "Configuration file or keys are invalid"
 msgstr "Configuratiebestand of toetsen zijn niet geldig"
 
-#: /etc/rc.d/init.d/functions:448
+#: /etc/rc.d/init.d/functions:460
 msgid "cC"
 msgstr "dD"
 
@@ -2319,7 +2355,8 @@ msgstr "Parameter 'IPv6-network' (arg 1) ontbreekt"
 msgid "Firewall is stopped."
 msgstr "Firewall is gestopt."
 
-#: /etc/rc.d/rc.sysinit:418 /etc/rc.d/rc.sysinit:617 /etc/rc.d/rc.sysinit:673
+#: /etc/rc.d/rc.sysinit:403 /etc/rc.d/rc.sysinit:428 /etc/rc.d/rc.sysinit:628
+#: /etc/rc.d/rc.sysinit:665 /etc/rc.d/rc.sysinit:690
 msgid "Automatic reboot in progress."
 msgstr "Automatisch herstarten in werking."
 
@@ -2327,7 +2364,7 @@ msgstr "Automatisch herstarten in werking."
 msgid "pppd does not exist or is not executable"
 msgstr "pppd bestaat niet of is niet uitvoerbaar"
 
-#: /etc/rc.d/init.d/functions:428
+#: /etc/rc.d/init.d/functions:431
 msgid "$STRING"
 msgstr "$STRING"
 
@@ -2343,11 +2380,11 @@ msgstr "dip gestart voor $DEVICE op $MODEMPORT met $LINESPEED\""
 msgid "/proc filesystem unavailable"
 msgstr "/proc bestandssysteem niet beschikbaar"
 
-#: /etc/rc.d/init.d/nfs:83
+#: /etc/rc.d/init.d/nfs:85
 msgid "Starting NFS mountd: "
 msgstr "Starten van NFS-mountd: "
 
-#: /etc/rc.d/rc.sysinit:605
+#: /etc/rc.d/rc.sysinit:616
 msgid "*** An error occurred during the RAID startup"
 msgstr "*** Er deed zich een fout voor tijdens het opstarten van RAID"
 
@@ -2377,16 +2414,28 @@ msgstr "Binding maken met het NIS domein: "
 #: /etc/rc.d/init.d/kadmin:47 /etc/rc.d/init.d/kprop:37
 #: /etc/rc.d/init.d/krb524:37 /etc/rc.d/init.d/krb5kdc:37
 #: /etc/rc.d/init.d/ldap:83 /etc/rc.d/init.d/ldap:90 /etc/rc.d/init.d/lisa:48
-#: /etc/rc.d/init.d/mdmpd:57 /etc/rc.d/init.d/mysqld:68
-#: /etc/rc.d/init.d/mysqld:70 /etc/rc.d/init.d/named:67
-#: /etc/rc.d/init.d/nscd:57 /etc/rc.d/init.d/portmap:57
-#: /etc/rc.d/init.d/radvd:45 /etc/rc.d/init.d/rarpd:32
-#: /etc/rc.d/init.d/rwalld:33 /etc/rc.d/init.d/saslauthd:45
-#: /etc/rc.d/init.d/snmpd:34 /etc/rc.d/init.d/snmptrapd:32
-#: /etc/rc.d/init.d/squid:83 /etc/rc.d/init.d/ups:67
-#: /etc/rc.d/init.d/xinetd:68
+#: /etc/rc.d/init.d/lm_sensors:80 /etc/rc.d/init.d/mdmpd:57
+#: /etc/rc.d/init.d/mysqld:68 /etc/rc.d/init.d/mysqld:70
+#: /etc/rc.d/init.d/named:70 /etc/rc.d/init.d/nscd:57
+#: /etc/rc.d/init.d/portmap:57 /etc/rc.d/init.d/radvd:45
+#: /etc/rc.d/init.d/rarpd:32 /etc/rc.d/init.d/rwalld:33
+#: /etc/rc.d/init.d/saslauthd:45 /etc/rc.d/init.d/snmpd:34
+#: /etc/rc.d/init.d/snmptrapd:32 /etc/rc.d/init.d/squid:83
+#: /etc/rc.d/init.d/ups:67 /etc/rc.d/init.d/xinetd:68
 msgid "Stopping $prog: "
 msgstr "Stoppen van $prog: "
+
+#~ msgid "Postmaster already running."
+#~ msgstr "Postmaster is reeds opgestart."
+
+#~ msgid "$prog: Removing firewall opening for $server port 123"
+#~ msgstr "$prog: firewall-opening voor $server poort 123 afdichten"
+
+#~ msgid "$prog: Opening firewall for input from $server port 123"
+#~ msgstr "$prog: Openen van de firewall voor invoer vanaf $server port 123"
+
+#~ msgid "permission denied (must be superuser)"
+#~ msgstr "geen toestemming (moet superuser zijn)"
 
 #~ msgid "$prog startup"
 #~ msgstr "$prog start op"
@@ -2406,17 +2455,11 @@ msgstr "Stoppen van $prog: "
 #~ msgid "iSCSI daemon already running"
 #~ msgstr "iSCSI daemon is reeds opgestart"
 
-#~ msgid "cardmgr (pid $pid) is running..."
-#~ msgstr "cardmgr (pid $pid) is opgestart..."
-
 #~ msgid "Could not find /etc/iscsi.conf!"
 #~ msgstr "Kon het bestand /etc/iscsi.conf niet vinden!"
 
 #~ msgid "Initializing USB HID interface: "
 #~ msgstr "Initialiseren van USB HID interface: "
-
-#~ msgid "Starting PCMCIA services: "
-#~ msgstr "Starten van PCMCIA services: "
 
 #~ msgid "  If the command 'raw' still refers to /dev/raw as a file."
 #~ msgstr ""
@@ -2443,9 +2486,6 @@ msgstr "Stoppen van $prog: "
 #~ msgid "Starting NetWare emulator-server: "
 #~ msgstr "Starten van NetWare emulator-server: "
 
-#~ msgid "using yenta_socket instead of $PCIC"
-#~ msgstr "gebruik yenta_socket in plaats van $PCIC"
-
 #~ msgid "   you'll have to upgrade your util-linux package"
 #~ msgstr "   U dient het util-linux pakket up te daten"
 
@@ -2455,38 +2495,20 @@ msgstr "Stoppen van $prog: "
 #~ msgid "$prog is stopped"
 #~ msgstr "$prog is gestopt"
 
-#~ msgid "cardmgr is already running."
-#~ msgstr "cardmgr is reeds opgestart."
-
 #~ msgid "Generating ident key: "
 #~ msgstr "Genereren van ident sleutel: "
 
 #~ msgid "Assigning devices: "
 #~ msgstr "Toewijzen apparaten: "
 
-#~ msgid "cardmgr is stopped"
-#~ msgstr "cardmgr is gestopt"
-
-#~ msgid "done."
-#~ msgstr "voltooid."
-
-#~ msgid "Shutting down PCMCIA services: "
-#~ msgstr "Stoppen van PCMCIA services: "
-
 #~ msgid "     rawdevices are now located in the directory /dev/raw/ "
 #~ msgstr "     rawdevices zijn nu terug te vinden in de map /dev/raw/ "
-
-#~ msgid "PCIC module not defined in startup options!"
-#~ msgstr "PCIC-module niet gedefinieerd in de opstart-opties!"
 
 #~ msgid "Initializing USB keyboard: "
 #~ msgstr "Initialiseren van USB toetsenbord: "
 
 #~ msgid "Loading sound module ($alias): "
 #~ msgstr "Inladen van de geluidsmodule ($alias): "
-
-#~ msgid "module directory $PC not found."
-#~ msgstr "module map $PC werd niet gevonden."
 
 #~ msgid "Initializing USB controller ($alias): "
 #~ msgstr "Initialiseren van USB controller ($alias): "
@@ -2514,9 +2536,6 @@ msgstr "Stoppen van $prog: "
 
 #~ msgid "Could not load module iscsi.o"
 #~ msgstr "Kon module iscsi.o niet inladen"
-
-#~ msgid "Checking for changes to /etc/auto.master ...."
-#~ msgstr "Aan het controleren op veranderingen in /etc/auto.master ...."
 
 #~ msgid "Usage: $0 {start|stop|restart|status|panic|save}"
 #~ msgstr "Gebruik: $0 {start|stop|restart|status|panic|save}"
