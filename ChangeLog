@@ -1,3 +1,42 @@
+2005-01-03  Bill Nottingham  <notting@redhat.com>
+
+	* Changelog, initscripts.spec: 8.02-1
+
+	* rc.d/rc.sysinit: use kmodule's daemon mode by default
+
+2005-01-03  Alan Cox  <alan@redhat.com>
+
+	* po/en_GB.po: UK English: Initialised, Synchronised, re-configured
+
+	General bugs in base one that ought to be fixed
+		"Red Hat Network Daemon" should be "daemon"
+		IA32 (microcode) is IA-32 according to the trademark
+
+2004-12-22  Bill Nottingham  <notting@redhat.com>
+
+	* src/kmodule.c:
+	in order to avoid probing twice on startup, add a daemon mode that
+	waits for a connection on an abstract socket, and then dumps the
+	probe information. Requires a corresponding kudzu change to read
+	from said socket...
+
+	* initscripts.spec, rc.d/init.d/functions, rc.d/rc.sysinit, src/Makefile, sysconfig/network-scripts/network-functions:
+	remove initlog, minilogd
+
+2004-12-08  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/network-functions-ipv6:
+	change setting of IPv6 default route (#142308, <pb@bieringer.de>
+
+	* rc.d/init.d/netfs: don't unmount NFS root FS (#142169)
+
+2004-12-07  Bill Nottingham  <notting@redhat.com>
+
+	* src/kmodule.c: no DDC probe, please
+
+2004-12-07  Sarah Smith  <sarahs@redhat.com>
+
+	* po/en_GB.po, po/zh_CN.po: merged with pot file
 
 2004-12-06  Bill Nottingham  <notting@redhat.com>
 
