@@ -393,29 +393,3 @@ change_resolv_conf ()
     fi;
     return $r;
 }
-
-
-kill_dhcp_client ()
-{
-	pid=`cat /var/run/dhclient-${DEVICE}.pid`
-	kill $pid >/dev/null 2>&1
-	rc=$?
-	reason=STOP interface=${DEVICE} /sbin/dhclient-script
-	if [ -f "/var/run/dhclient-${DEVICE}.pid" ]; then
-		rm -f /var/run/dhclient-${DEVICE}.pid
-		kill -9 $pid >/dev/null 2>&1
-	fi	
-	return $rc
-}
-
-release_dhcp_lease ()
-{
-	/sbin/dhclient -r -lf /var/lib/dhcp/dhclient-${DEVICE}.leases -pf /var/run/dhclient-${DEVICE}.pid ${DEVICE} >/dev/null 2>&1
-	rc=$?
-	if [ -f "/var/run/dhclient-${DEVICE}.pid" ]; then
-		rm -f /var/run/dhclient-${DEVICE}.pid
-		kill -9 $pid >/dev/null 2>&1
-	fi	
-	return $rc
-}
-

@@ -119,6 +119,15 @@ if [ -x /sbin/vconfig -a "${VLAN}" = "yes" ]; then
     fi
 fi
 
+# Old BOOTP variable
+if [ "${BOOTP}" = "yes" ]; then
+    BOOTPROTO=bootp
+fi
+
+if [ "${BOOTPROTO}" = "bootp" -o "${BOOTPROTO}" = "dhcp" ]; then
+    DYNCONFIG=true
+fi
+
 if [ -x /sbin/ifup-pre-local ]; then
     /sbin/ifup-pre-local ${CONFIG} $2
 fi
