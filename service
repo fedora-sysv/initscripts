@@ -60,8 +60,11 @@ while [ $# -gt 0 ]; do
    esac
 done
 
+if test -x /usr/bin/selinuxenabled  && `/usr/bin/selinuxenabled`; then
+    SELINUX_RUN_INIT="DISPLAY=$DISPLAY HOME=$HOME XAUTHORITY=$XAUTHORITY /usr/bin/run_init"
+fi
 if [ -x "${SERVICEDIR}/${SERVICE}" ]; then
-   env -i LANG=$LANG PATH=$PATH TERM=$TERM "${SERVICEDIR}/${SERVICE}" ${OPTIONS}
+   env -i LANG=$LANG PATH=$PATH TERM=$TERM $SELINUX_RUN_INIT "${SERVICEDIR}/${SERVICE}" ${OPTIONS}
 else
    echo $"${SERVICE}: unrecognized service" >&2
    exit 1
