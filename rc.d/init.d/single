@@ -10,9 +10,7 @@
 #               Modified for RHS Linux by Damien Neil
 #
 
-# Set the path.
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
-TEXTDOMAIN=initscripts
 
 . /etc/rc.d/init.d/functions
 
@@ -22,7 +20,7 @@ fi
 
 rm -f /var/lock/subsys/*
 
-# this looks nices
+# this looks nicer
 [ -x /usr/bin/clear ] && /usr/bin/clear
 
 # make sure modprobe is working
@@ -33,7 +31,7 @@ fi
 # If they want to run something in single user mode, might as well run it...
 for i in /etc/rc1.d/S[0-9][0-9]*; do
         # Check if the script is there.
-        [ ! -f $i ] && continue
+        [ -f $i ] || continue
 		
 	# Don't run [KS]??foo.{rpmsave,rpmorig} scripts
 	[ "${i%.rpmsave}" != "${i}" ] && continue

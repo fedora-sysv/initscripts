@@ -12,14 +12,8 @@
 # Provides: $local_fs $remote_fs
 ### END INIT INFO
 
-# Source networking configuration.
-if [ ! -f /etc/sysconfig/network ]; then
-    exit 0
-fi
-
-# Source function library.
+[ -f /etc/sysconfig/network ] || exit 0
 . /etc/init.d/functions
-
 . /etc/sysconfig/network
 
 # Check that networking is up.
@@ -160,4 +154,3 @@ case "$1" in
 esac
 
 exit 0
-
