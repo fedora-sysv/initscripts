@@ -275,13 +275,8 @@ function new_interface ()
 				       fi
                                fi
                        fi
-
-                       if [ -f /etc/sysconfig/static-routes ]; then
-                               #note the trailing space in the grep gets rid of aliases
-                               grep "^$DEVICE " /etc/sysconfig/static-routes | while read device args; do
-                                       /sbin/route add -$args $device
-                               done
-                       fi
+		       
+		       /etc/sysconfig/network-scripts/ifup-routes ${DEVICE}
 
                        do_netreport=yes
                        ifuplocal_queue="$ifuplocal_queue $DEVICE"
