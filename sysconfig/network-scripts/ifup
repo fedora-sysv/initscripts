@@ -116,6 +116,10 @@ elif [ "$BOOTPROTO" = dhcp -a "$ISALIAS" = no ]; then
 fi
 
 if [ "$IPSETUP" != yes ]; then
+    if [ -z "$NETMASK" ]; then
+	eval `/bin/ipcalc --netmask ${IPADDR}`
+    fi
+
     if [ -z "$BROADCAST" ]; then
 	eval `/bin/ipcalc --broadcast ${IPADDR} ${NETMASK}`
     fi
