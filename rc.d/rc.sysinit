@@ -366,7 +366,7 @@ if [ -n "$PNP" -a  -f /proc/isapnp -a -x /sbin/sndconfig ]; then
     /sbin/sndconfig --mungepnp >/dev/null 2>&1
 fi
 
-# Load sound modules iff they need persistent DMA buffers
+# Load sound modules if and only if they need persistent DMA buffers
 if grep -q "options sound dmabuf=1" /etc/modules.conf 2>/dev/null ; then
   RETURN=0
   alias=`/sbin/modprobe -c | awk '/^alias sound / { print $3 }'`
