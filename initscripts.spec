@@ -244,6 +244,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Tue Aug 13 2002 Bill Nottingham <notting@redhat.com>
+- require /etc/redhat-release (#68903)
+- fix tty2-tty6 (sort of)
+- fix iptables invocations (#70807, #71201, #68368)
+- other minor tweaks
+
 * Wed Jul 24 2002 Bill Nottingham <notting@redhat.com>
 - fix unicode checks in rc.sysinit, lang.{sh,csh} to handle UTF-8@euro
 
