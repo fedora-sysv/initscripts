@@ -3,8 +3,8 @@
 # Generate a header that defines the boot kernel.
 #
 
-KERNEL_TYPE=`uname -r | sed 's_^.*\(smp\|enterprise\|bigmem\)$_-\1_;t;s_.*__;'`
-KERNEL_RELEASE=`uname -r | sed 's|smp\|enterprise\|bigmem||g'`
+KERNEL_TYPE=`uname -r | sed 's_^.*\(smp\|enterprise\|bigmem\|hugemem\)$_-\1_;t;s_.*__;'`
+KERNEL_RELEASE=`uname -r | sed 's|smp\|enterprise\|bigmem\|hugemem||g'`
 
 rpm -q kernel$KERNEL_TYPE-$KERNEL_RELEASE >/dev/null 2>&1 && KERNEL_ARCH=`rpm -q --qf '%{ARCH}' kernel$KERNEL_TYPE-$KERNEL_RELEASE 2>/dev/null` || KERNEL_ARCH=`uname -m`
 
@@ -14,10 +14,12 @@ if [ -n "$KERNEL_ARCH" -a "$KERNEL_ARCH$KERNEL_TYPE" != "$OLD_KERNEL_ARCH_TYPE" 
   SMP='0'
   UP='0'
   BIGMEM='0'
+  HUGEMEM='0'
   case "$KERNEL_TYPE" in
   -smp) SMP='1';;
   -enterprise) ENTERPRISE='1';;
   -bigmem) BIGMEM='1';;
+  -hugemem) HUGEMEM='1';;
   *) UP='1';;
   esac
   cat > /boot/kernel.h << EOF
@@ -37,6 +39,10 @@ if [ -n "$KERNEL_ARCH" -a "$KERNEL_ARCH$KERNEL_TYPE" != "$OLD_KERNEL_ARCH_TYPE" 
 
 #ifndef __BOOT_KERNEL_BIGMEM
 #define __BOOT_KERNEL_BIGMEM $BIGMEM
+#endif
+
+#ifndef __BOOT_KERNEL_HUGEMEM
+#define __BOOT_KERNEL_HUGEMEM $HUGEMEM
 #endif
 
 #ifndef __BOOT_KERNEL_SMP
