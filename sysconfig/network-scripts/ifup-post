@@ -15,12 +15,11 @@ else
     ISALIAS=no
 fi
 
-/etc/sysconfig/network-scripts/ifup-routes ${DEVICE}
-
 if [ "$ISALIAS" = no ] ; then
     /etc/sysconfig/network-scripts/ifup-aliases ${DEVICE}
 fi
 
+/etc/sysconfig/network-scripts/ifup-routes ${DEVICE}
 
 # don't set hostname on ppp/slip connections
 if [ -n "$NEEDHOSTNAME" -a "${DEVICE}" != lo -a "${DEVICETYPE}" != "ppp" -a "${DEVICETYPE}" != "slip" ]; then
