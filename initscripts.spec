@@ -181,7 +181,6 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/getkey
 /sbin/netreport
 /sbin/initlog
-/sbin/loglevel
 /sbin/minilogd
 /sbin/service
 /sbin/ppp-watch
