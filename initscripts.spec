@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-Version: 5.09
+Version: 5.10
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -215,6 +215,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Apr 19 2000 Bill Nottingham <notting@redhat.com>
+- fix lang.csh, again (oops)
+
 * Thu Apr 14 2000 Bill Nottingham <notting@redhat.com>
 - fix testing of RESOLV_MODS (which shouldn't be used anyways)
 
