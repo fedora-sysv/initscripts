@@ -197,8 +197,7 @@ if [ ! -f /var/log/wtmp ]; then
 fi
 
 %clean
-rm -rf $RPM_BUILD_ROOT/etc
-rm -rf $RPM_BUILD_ROOT/usr/sbin
+rm -rf $RPM_BUILD_ROOT
 
 %files
 %dir /etc/sysconfig/network-scripts
