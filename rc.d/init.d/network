@@ -23,15 +23,15 @@ if [ -d /proc/sys/net/ipv4 ]; then
     # people could have left this out of their kernel, which isn't
     # exactly an error
     if [ ! -f /proc/sys/net/ipv4/ip_forward ] ; then
-	echo "/proc/sys/net/ipv4/ip_forward is missing -- cannot control IP " \
-		"forwarding" >&2
+	echo "/proc/sys/net/ipv4/ip_forward is missing --" \
+		"cannot control IP forwarding" >&2
     else
 	if [ "$FORWARD_IPV4" = "no" -o "$FORWARD_IPV4" = "false" ]; then
 	    value=0
 	    echo "Disabling IPv4 packet forwarding."
 	else
-	    echo "Enabling IPv4 packet forwarding."
 	    value=1
+	    echo "Enabling IPv4 packet forwarding."
 	fi
 
 	echo "$value" > /proc/sys/net/ipv4/ip_forward
@@ -41,11 +41,13 @@ fi
 # Check that networking is up.
 [ ${NETWORKING} = "no" ] && exit 0
 
-[ -f /sbin/ifconfig ] || exit 0
+[ -x /sbin/ifconfig ] || exit 0
 
 cd /etc/sysconfig/network-scripts
 
-interfaces=`ls ifcfg* | grep -v ifcfg-lo | grep -v :`
+# find all the interfaces besides loopback.
+# ignore aliases, alternative configurations, and editor backup files
+interfaces=`ls ifcfg* | egrep -v '(ifcfg-lo|:)' | egrep 'ifcfg-[a-z0-9]+$'`
 
 # See how we were called.
 case "$1" in
