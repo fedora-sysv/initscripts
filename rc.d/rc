@@ -42,8 +42,9 @@ if [ -d /etc/rc.d/rc$runlevel.d ]; then
 		[ ! -f $i ] && continue
 
 		# Don't run [KS]??foo.{rpmsave,rpmorig} scripts
-		[ "${1%.rpmsave}" != "${1}" ] && continue
-		[ "${1%.rpmorig}" != "${1}" ] && continue
+		[ "${i%.rpmsave}" != "${i}" ] && continue
+		[ "${i%.rpmorig}" != "${i}" ] && continue
+		[ "${i%.rpmnew}" != "${i}" ] && continue
 
 		# Check if the subsystem is already up.
 		subsys=${i#/etc/rc.d/rc$runlevel.d/K??}
@@ -64,8 +65,9 @@ if [ -d /etc/rc.d/rc$runlevel.d ]; then
 		[ ! -f $i ] && continue
 
 		# Don't run [KS]??foo.{rpmsave,rpmorig} scripts
-		[ "${1%.rpmsave}" != "${1}" ] && continue
-		[ "${1%.rpmorig}" != "${1}" ] && continue
+		[ "${i%.rpmsave}" != "${i}" ] && continue
+		[ "${i%.rpmorig}" != "${i}" ] && continue
+		[ "${i%.rpmnew}" != "${i}" ] && continue
 
 		# Check if the subsystem is already up.
 		subsys=${i#/etc/rc.d/rc$runlevel.d/S??}
