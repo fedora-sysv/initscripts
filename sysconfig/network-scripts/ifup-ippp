@@ -178,7 +178,7 @@ function addprovider()
     [ -n "$CBDELAY" ] && log_isdnctrl cbdelay $DEVICE $CBDELAY
     [ -n "$CBHUP" ] && log_isdnctrl cbhup $DEVICE $CBHUP
  
-    options="$options ipparam $DEVICE"
+    options="$options ipparam $DEVNAME"
 
     [ "$ENCAP" = "syncppp" ] && log_isdnctrl pppbind $DEVICE
 
@@ -356,8 +356,5 @@ function addprovider()
 }
 
 addprovider || exit 1
-
-# save Nickname of device
-rm -f /etc/ppp/$DEVICE && echo "NICKNAME=\"$CONFIG\"" > /etc/ppp/$DEVICE
 
 exit 0

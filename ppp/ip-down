@@ -7,12 +7,9 @@ export PATH
 
 LOGDEVICE=$6
 REALDEVICE=$1
-NETWORKDIR=/etc/sysconfig/network-scripts
 
 [ -x /etc/ppp/ip-down.local ] && /etc/ppp/ip-down.local "$@"
 
-# get Nickname name of device
-[ -f /etc/ppp/$LOGDEVICE ] && . /etc/ppp/$LOGDEVICE
-[ -f $NETWORKDIR/${NICKNAME} ] && $NETWORKDIR/ifdown-post ${NICKNAME}
+/etc/sysconfig/network-scripts/ifdown-post ifcfg-${LOGDEVICE}
 
 exit 0

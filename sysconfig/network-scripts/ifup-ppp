@@ -141,9 +141,6 @@ fi
 (logger -p daemon.info -t ifup-ppp \
   $"pppd started for ${DEVNAME} on ${MODEMPORT} at ${LINESPEED}" &)&
 
-# save Nickname of device
-rm -f /etc/ppp/$DEVICE && echo "NICKNAME=\"$CONFIG\"" > /etc/ppp/$DEVICE
-
 exec pppd $opts ${MODEMPORT} ${LINESPEED} \
     ipparam ${DEVNAME} linkname ${DEVNAME} call ${DEVNAME}\
     noauth \
