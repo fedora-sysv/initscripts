@@ -9,34 +9,37 @@ if [ "$device" = "" ]; then
 fi
 
 # don't run linuxconf if /usr isn't there... 
-if [ -x /bin/linuxconf -a -f /usr/lib/libncurses.so.4.2 ] ; then
-    # ask linuxconf for lines like:
-    # add	<device>	<ip>
-    # del	<device>
-    # reload	<number_of_aliases>
-    linuxconf --hint ipalias $1 | while read verb arg1 arg2 arg3 arg4; do
-	case $verb in
-	  add)
-		if [ -z "$arg3" ] ; then
-		    # old linuxconf
-		    /sbin/ifconfig $arg1 $arg2
-		else
-		    # new linuxconf
-		    /sbin/ifconfig $arg1 $arg2 netmask $arg3 broadcast $arg4
-		fi
-		;;
-	  del)
-		# the <device> 0.0.0.0 tells the kernel to remove the device
-		# it is necessary to remove it in order for reload to work.
-                /sbin/ifconfig ${arg1} 0.0.0.0
-		;;
-	  reload)
-		echo $arg1 > /proc/sys/net/core/net_alias_max
-		;;
-	esac
-    done
-
-else
+#
+# Heck, it's broken. Don't run linuxconf at all.
+#
+#if [ -x /bin/linuxconf -a -f /usr/lib/libncurses.so.4.2 ] ; then
+#    # ask linuxconf for lines like:
+#    # add	<device>	<ip>
+#    # del	<device>
+#    # reload	<number_of_aliases>
+#    linuxconf --hint ipalias $1 | while read verb arg1 arg2 arg3 arg4; do
+#	case $verb in
+#	  add)
+#		if [ -z "$arg3" ] ; then
+#		    # old linuxconf
+#		    /sbin/ifconfig $arg1 $arg2
+#		else
+#		    # new linuxconf
+#		    /sbin/ifconfig $arg1 $arg2 netmask $arg3 broadcast $arg4
+#		fi
+#		;;
+#	  del)
+#		# the <device> 0.0.0.0 tells the kernel to remove the device
+#		# it is necessary to remove it in order for reload to work.
+#               /sbin/ifconfig ${arg1} 0.0.0.0
+#		;;
+#	  reload)
+#		echo $arg1 > /proc/sys/net/core/net_alias_max
+#		;;
+#	esac
+#    done
+#
+#else
     # we don't have linuxconf to fall back on, so presumably we do
     # not have to parse linuxconf ipalias ranges, either.
     current=0
@@ -47,4 +50,4 @@ else
 	/etc/sysconfig/network-scripts/ifup $device:$current
 	current=`expr $current + 1`
     done
-fi
+#fi

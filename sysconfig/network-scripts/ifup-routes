@@ -8,11 +8,11 @@ if [ "$1" = "" ]; then
 fi
 
 # don't run linuxconf if /usr isn't there
-if [ -x /bin/linuxconf -a -f /usr/lib/libncurses.so.4.2 ] ; then
-	linuxconf --hint routing "$1" | while read args; do
-	    /sbin/route $args
-	done
-else
+#if [ -x /bin/linuxconf -a -f /usr/lib/libncurses.so.4.2 ] ; then
+#	linuxconf --hint routing "$1" | while read args; do
+#	    /sbin/route $args
+#	done
+#else
 	if [ ! -f /etc/sysconfig/static-routes ]; then
 		exit 0
 	fi
@@ -21,4 +21,4 @@ else
 	grep "^$1 " /etc/sysconfig/static-routes | while read device args; do
 	    /sbin/route add -$args $device
 	done
-fi
+#fi
