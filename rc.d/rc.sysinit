@@ -206,15 +206,10 @@ if [ -f /proc/sys/kernel/modprobe ]; then
 fi
 
 # Add raid devices
-if [ -f /proc/mdstat -a -f /etc/raidtab -a -x /sbin/raidadd ]; then
-	action "Starting up RAID devices" raidadd -a
+if [ -f /proc/mdstat -a -f /etc/raidtab -a -x /sbin/raidstart ]; then
+	action "Starting up RAID devices" raidstart -a
 
 	rc=$?
-
-	if [ $rc = 0 ]; then
-		raidrun -a
-		rc=$?
-	fi
 
 	# A non-zero return means there were problems.
 	if [ $rc -gt 0 ]; then
