@@ -91,7 +91,7 @@ ipv6_log() {
 	
 	local fnawk="print \$$fn"
 	local t="`echo $level | awk -F. "{ $fnawk }"`"
-	if [ -n "$t" ]; then
+	if [ ! -z "$t" ]; then
 		echo $"ERROR: [ipv6_log] Loglevel isn't valid '$level' (arg 2)" >/dev/stderr
 		return 1
 	fi
@@ -128,7 +128,7 @@ ipv6_log() {
 			;;
 		esac
 		
-		[ -n "$txt_name" ] && local txt_name="$txt_name "		
+		[ ! -z "$txt_name" ] && local txt_name="$txt_name "		
 
 		if [ "$channel" = "stderr" ]; then
 			echo "$txt_level: ${txt_name}${message}" >/dev/stderr
@@ -138,7 +138,7 @@ ipv6_log() {
 		;;
 	    'syslog')
 
-		if ! [ -x logger ]; then
+		if [ ! -x logger ]; then
 			echo $"ERROR: [ipv6_log] Syslog is chosen, but binary 'logger' doesn't exist or isn't executable" >/dev/stderr
 			return 3
 		fi
@@ -200,16 +200,16 @@ ipv6_test() {
 		fi
 	fi
 
-	if ! [ -d /proc/sys/net/ipv6/conf/ ]; then
+	if [ ! -d /proc/sys/net/ipv6/conf/ ]; then
 		return 2
 	fi
 
-	if ! [ -x /sbin/ip ]; then
+	if [ ! -x /sbin/ip ]; then
 		ipv6_log $"Utility 'ip' (package: iproute) doesn't exist or isn't executable - stop" crit $fn
 		return 2													
 	fi
 
-	if ! [ -x /sbin/sysctl ]; then
+	if [ ! -x /sbin/sysctl ]; then
 		ipv6_log $"Utility 'sysctl' (package: procps) doesn't exist or isn't executable - stop" crit $fn
 		return 2													
 	fi
@@ -311,7 +311,7 @@ ipv6_control_forwarding() {
 	fi
 	
 	# Per device control (not implemented in kernel)
-	if [ -n "$fw_device" ]; then
+	if [ ! -z "$fw_device" ]; then
 		ipv6_log $"IPv6 forwarding per device cannot be controlled via sysctl - use netfilter6 instead" warn $fn
 	fi
 	
@@ -358,7 +358,7 @@ ipv6_add_route() {
 		fi
 	fi
 
-	if [ -n "$returntxt" ]; then
+	if [ ! -z "$returntxt" ]; then
 		if echo $returntxt | grep -q "File exists"; then
 			# Netlink: "File exists"
 			true
@@ -448,7 +448,7 @@ ipv6_cleanup_routes() {
 	# Get all IPv6 routes through given interface and remove them
 	ipv6_exec_route -A inet6 -n | LC_ALL=C grep "$device\W*$" | while read ipv6net nexthop flags metric ref use iface args; do
 		if [ "$iface" = "$device" ]; then
-			if [ -n "$gatewaymatch" ]; then
+			if [ ! -z "$gatewaymatch" ]; then
 				# Test if given gateway matches
 				if [ "$gatewaymatch" != "$nexthop" ]; then
 					continue
@@ -574,7 +574,7 @@ ipv6_test_addr_exists_on_device() {
 		else
 			local testresult="`LC_ALL=C grep "$test_addr .. $test_prefixlength $test_scope .." /proc/net/if_inet6 | LC_ALL=C grep $testdevice$`"
 		fi
-		if [ -n "$testresult" ]; then
+		if [ ! -z "$testresult" ]; then
 			# exists
 			return 0
 		else
@@ -584,7 +584,7 @@ ipv6_test_addr_exists_on_device() {
 	else
 		# low budget version, only works if given address is in equal form like "ip" displays
 		local testresult="`ipv6_exec_ip addr show dev $testdevice | LC_ALL=C grep inet6 | awk '{ print $2 }' | LC_ALL=C grep -i "^$testaddr/$testprefix$"`"
-		if [ -n "$testresult" ]; then
+		if [ ! -z "$testresult" ]; then
 			# exits
 			return 0
 		else
@@ -621,7 +621,7 @@ ipv6_test_addrprefix_exists_on_device() {
 
 	# For the moment: low budget version, only works if given address is in equal form like "ip" displays
 	local testresult="`ipv6_exec_ip addr show dev $testdevice | LC_ALL=C grep inet6 | awk '{ print $2 }' | LC_ALL=C grep -i "^$testaddrprefix:"`"
-	if [ -n "$testresult" ]; then
+	if [ ! -z "$testresult" ]; then
 		# exists
 		return 0
 	else
@@ -799,7 +799,7 @@ ipv6_test_ipv6_addr_valid() {
 	if [ -z "$testipv6addr_valid" ]; then
 		return 1
 	fi
-	if [ -n "$modequiet" ]; then
+	if [ ! -z "$modequiet" ]; then
 		if [ "$modequiet" != "quiet" ]; then
 			ipv6_log $"Parameter '$modequiet' for 'quiet' mode is not valid (arg 2)" err $fn
 			return 1
@@ -862,7 +862,7 @@ ipv6_test_ipv4_addr_valid() {
 	if [ -z "$testipv4addr_valid" ]; then
 		return 1
 	fi
-	if [ -n "$modequiet" ]; then
+	if [ ! -z "$modequiet" ]; then
 		if [ "$modequiet" != "quiet" ]; then
 			ipv6_log $"Parameter '$modequiet' for 'quiet' mode is not valid (arg 2)" err $fn
 			return 1
@@ -1239,7 +1239,7 @@ ipv6_add_tunnel_device() {
 		ipv6_exec_sysctl -w -e net.ipv6.conf.$device.accept_ra=0 >/dev/null
 		ipv6_exec_sysctl -w -e net.ipv6.conf.$device.accept_redirects=0 >/dev/null
 
-		if [ -n "$addressipv6local" ]; then
+		if [ ! -z "$addressipv6local" ]; then
 			# Setup P-t-P address
 			ipv6_add_addr_on_device $device $addressipv6local
 			if [ $? -ne 0 ]; then
@@ -1462,7 +1462,7 @@ ipv6_set_default_route() {
 		local address=""
 	fi
 
-	if [ -n "$address" ]; then
+	if [ ! -z "$address" ]; then
 		local addressgw=`echo $address | awk -F% '{ print $1 }'`
 		local device_scope=`echo $address | awk -F% '{ print $2 }'`
  
@@ -1472,7 +1472,7 @@ ipv6_set_default_route() {
 		fi
 
 		# Scope device has precedence
-		if [ -n "$device_scope" -a ! -z "$device" -a "$device_scope" != "$device" ]; then
+		if [ ! -z "$device_scope" -a ! -z "$device" -a "$device_scope" != "$device" ]; then
 			ipv6_log $"Given IPv6 default gateway '$address' has scope '$device_scope' defined, given default gateway device '$device' will be not used" inf $fn
 			local device=""
 		fi
@@ -1488,12 +1488,12 @@ ipv6_set_default_route() {
 		fi
 
 		# Check whether the route belongs to the specific given interface
-		if [ -n "$device_check" ]; then
+		if [ ! -z "$device_check" ]; then
 			# Check whether scope device matches given check device
-			if [ -n "$device_scope" -a "$device_check" != "$device_scope" ]; then
+			if [ ! -z "$device_scope" -a "$device_check" != "$device_scope" ]; then
 				# scope device != specific given -> skip
 				return 0
-			elif [ -n "$device" -a "$device_check" != "$device" ]; then
+			elif [ ! -z "$device" -a "$device_check" != "$device" ]; then
 				# gateway device != specific given -> skip
 				return 0
 			fi
@@ -1512,9 +1512,9 @@ ipv6_set_default_route() {
 			#ipv6_add_route ::/0 $addressgw $device
 			ipv6_add_route 2000::/3 $addressgw $device
 		fi
-	elif [ -n "$device" ]; then
+	elif [ ! -z "$device" ]; then
 		# Check whether the route belongs to the specific given interface
-		if [ -n "$device_check" -a "$device_check" != "$device" ]; then
+		if [ ! -z "$device_check" -a "$device_check" != "$device" ]; then
 			# gateway device != specific given -> skip
 			return 0
 		fi
@@ -1629,7 +1629,7 @@ ipv6_trigger_radvd() {
 		
 	# PID file needed?
 	if [ "$action" = "SIGHUP" ]; then
-		if ! [ -f "$pidfile" ]; then
+		if [ ! -f "$pidfile" ]; then
 			ipv6_log $"Given pidfile '$pidfile' doesn't exist, cannot send trigger to radvd" err $fn 
 			return 3
 		fi
