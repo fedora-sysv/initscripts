@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.32
+Version: 7.33
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -249,6 +249,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Sep 15 2003 Bill Nottingham <notting@redhat.com. 7.33-1
+- ipsec fixes (#104227, <harald@redhat.com>)
+- ppp fixes (#104128, #97845, #85447)
+
 * Thu Sep 11 2003 Bill Nottingham <notting@redhat.com> 7.32-1
 - fix ip calls for some device names (#104187)
 - ipsec fixes
