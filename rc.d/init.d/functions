@@ -134,9 +134,8 @@ daemon() {
 	
 	[ -n "${pid:-}" -a -z "${force:-}" ] && return
 
-	# make sure it doesn't core dump anywhere; while this could mask
-	# problems with the daemon, it also closes some security problems
-	ulimit -S -c 0 >/dev/null 2>&1
+	# make sure it doesn't core dump anywhere unless requested
+	ulimit -S -c ${DAEMON_COREFILE_LIMIT:-0} >/dev/null 2>&1
 	
 	# if they set NICELEVEL in /etc/sysconfig/foo, honor it
 	[ -n "$NICELEVEL" ] && nice="nice -n $NICELEVEL"
