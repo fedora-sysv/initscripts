@@ -256,6 +256,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Tue Dec 17 2002 Nalin Dahyabhai <nalin@redhat.com>
+- add a "nofirewire" option to /etc/rc.sysinit, analogous to "nousb"
+
 * Tue Dec 17 2002 Bill Nottingham <notting@redhat.com> 7.00-1
 - tweaks for potential GUI bootup
 - loop checking for network link state, don't unilterally wait five
