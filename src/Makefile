@@ -1,7 +1,7 @@
 CFLAGS+=$(RPM_OPT_FLAGS) -Wall -D_GNU_SOURCE
 
 PROGS=usernetctl doexec netreport testd usleep ipcalc initlog minilogd \
-	getkey ppp-watch consoletype mkkerneldoth
+	getkey ppp-watch consoletype
 PPPWATCH_OBJS=ppp-watch.o shvar.o
 INITLOG_OBJS=initlog.o process.o
 USLEEP_OBJS=usleep.o
