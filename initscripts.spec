@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.31.10.EL
+Version: 7.31.11.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -249,6 +249,12 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Apr 13 2004 Bill Nottingham <notting@redhat.com> 7.31.11.EL-1
+- fix ipsec config file handling
+- return to rhgb after ./unconfigured if it's running (#109807,
+  <jkeating@j2solutions.net>)
+- fix umounting code in halt (#113088)
+
 * Thu Feb 19 2004 Bill Nottingham <notting@redhat.com> 7.31.10.EL-1
 - merge in rhgb changes
 - fix handling of bonding interfaces (#113937)
