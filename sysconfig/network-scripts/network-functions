@@ -121,15 +121,18 @@ set_hostname()
 
 check_device_down ()
 {
-    # never say alias devices are down
-    if echo $1 | grep -q ':'; then
+    if echo $1 | grep -q ':' ; then
+     if LC_ALL=C ifconfig -a 2>/dev/null | grep -q $1 ; then
+	  return 1
+     else
+	  return 0
+     fi
+    else 
+     if LC_ALL=C ip -o link ls dev $1 2>/dev/null | grep ",UP" >/dev/null 2>&1 ; then
 	return 1
-    fi
-
-    if LC_ALL=C ip -o link ls dev $1 2>/dev/null | grep -q UP ; then
-	return 1
-    else
+     else
 	return 0
+     fi
     fi
 }
 
@@ -137,7 +140,7 @@ check_link_down ()
 {
     if [ -x /sbin/mii-tool ]; then
         LC_ALL=C ip link show $1 2>/dev/null| grep -q UP || ip link set $1 up >/dev/null 2>&1
-        # wait for link to come up
+	# wait for link to come up
 	sleep 2
 	/sbin/mii-tool >/dev/null 2>&1 || return 1
 	output=`LC_ALL=C /sbin/mii-tool $1 2>&1`
