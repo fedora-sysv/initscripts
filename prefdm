@@ -22,7 +22,7 @@ if [ -z "$preferred" ]; then
 		preferred=xdm
 	fi
 fi
-if [ -n "$preferred" ] && which $preferred ; then 
+if [ -n "$preferred" ] && which $preferred >/dev/null 2>&1; then 
 	exec `which $preferred` $*
 fi
 exit 1								
