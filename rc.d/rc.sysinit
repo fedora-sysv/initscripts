@@ -452,18 +452,8 @@ state=`LC_ALL=C awk '/ \/ / && ($3 !~ /rootfs/) { print $4 }' /proc/mounts`
 [ "$state" != "rw" -a "$READONLY" != "yes" ] && \
   action $"Remounting root filesystem in read-write mode: " mount -n -o remount,rw /
 
-# Mount all other filesystems (except for NFS and /proc, which is already
-# mounted). Contrary to standard usage,
-# filesystems are NOT unmounted in single user mode.
-action $"Mounting local filesystems: " mount -a -t nonfs,nfs4,smbfs,ncpfs,cifs,gfs -O no_netdev
-
-if [ -x /sbin/quotaon ]; then
-    action $"Enabling local filesystem quotas: " /sbin/quotaon -aug
-fi
-
-# Clean up SELinux labels, and check to see if a full relabel is needed
+# Clean up SELinux labels
 if [ -n "$SELINUX" ]; then
-   [ -f /.autorelabel ] && relabel_selinux
    for file in /etc/mtab /etc/ld.so.cache ; do
    	[ -r $file ] && restorecon $file  >/dev/null 2>&1
    done
@@ -475,12 +465,22 @@ fi
 # Remove stale backups
 rm -f /etc/mtab~ /etc/mtab~~
 
-# Enter root, /proc and (potentially) /proc/bus/usb into mtab.
-mount -f /
-mount -f /proc
-mount -f /sys >/dev/null 2>&1
-mount -f /dev/pts
-[ -f /proc/bus/usb/devices ] && mount -f -t usbfs usbfs /proc/bus/usb
+# Enter mounted filesystems into /etc/mtab
+mount -a -f
+
+# Mount all other filesystems (except for NFS and /proc, which is already
+# mounted). Contrary to standard usage,
+# filesystems are NOT unmounted in single user mode.
+action $"Mounting local filesystems: " mount -a -t nonfs,nfs4,smbfs,ncpfs,cifs,gfs -O no_netdev
+
+if [ -x /sbin/quotaon ]; then
+    action $"Enabling local filesystem quotas: " /sbin/quotaon -aug
+fi
+
+# Check to see if a full relabel is needed
+if [ -n "$SELINUX" -a -f /.autorelabel ]; then
+   relabel_selinux
+fi
 
 # The root filesystem is now read-write, so we can now log
 # via syslog() directly..
