@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.00
+Version: 7.01
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -207,7 +207,7 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/sysconfig/network-scripts/ifup-iucv
 %endif
 %config /etc/X11/prefdm
-%config /etc/inittab
+%config(noreplace) /etc/inittab
 %dir /etc/rc.d
 %dir /etc/rc.d/rc[0-9].d
 %config(missingok) /etc/rc.d/rc[0-9].d/*
@@ -256,6 +256,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Fri Dec 20 2002 Bill Nottingham <notting@redhat.com> 7.01-1
+- %%config(noreplace) inittab
+
 * Tue Dec 17 2002 Nalin Dahyabhai <nalin@redhat.com>
 - add a "nofirewire" option to /etc/rc.sysinit, analogous to "nousb"
 
