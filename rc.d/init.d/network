@@ -71,11 +71,37 @@ ipv4_forward_set ()
 	fi
 }
 
+ipv4_defrag_set ()
+{
+	# Sets whether or not to always defrag packets.
+	# Good for masquerading, or virtual server stuff.
+	# Not necessarily so good otherwise.
+	if [ -d /proc/sys/net/ipv4 ]; then
+	    if [ ! -f /proc/sys/net/ipv4/ip_always_defrag ]; then
+	       echo "/proc/sys/net/ipv4/ip_always_defrag is missing --" \
+	            "cannot control IP defragmentation" >&2
+	    else
+	       if [ "$DEFRAG_IPV4" = "yes" -o "$DEFRAG_IPV4" = "true" ]; then
+	          value=1
+		  mesage="Enabling IPv4 automatic defragmentation"
+	       else
+	          value=0
+		  message="Disabling IPv4 automatic defragmentation"
+	       fi
+	       
+	       if [ $value != `cat /proc/sys/net/ipv4/ip_always_defrag` ]; then
+	          action "$message" /bin/true
+		  echo "$value" > /proc/sys/net/ipv4/ip_always_defrag
+	       fi
+	    fi
+	fi
+}
 
 # See how we were called.
 case "$1" in
   start)
 	ipv4_forward_set
+	ipv4_defrag_set
 
 	action "Bringing up interface lo" ./ifup ifcfg-lo
 
@@ -107,12 +133,21 @@ case "$1" in
 	    ;;
 	esac
 	./ifdown ifcfg-lo
-	if [ -d /proc/sys/net/ipv4 -a -f /proc/sys/net/ipv4/ip_forward ]; then
+	if [ -d /proc/sys/net/ipv4 ]; then
+	  if [ -f /proc/sys/net/ipv4/ip_forward ]; then
 		if [ `cat /proc/sys/net/ipv4/ip_forward` != 0 ]; then
 			action "Disabling IPv4 packet forwarding" /bin/true
 			echo 0 > /proc/sys/net/ipv4/ip_forward
 		fi
+	  fi
+	  if [ -f /proc/sys/net/ipv4/ip_always_defrag ]; then
+	        if [ 'cat /proc/sys/net/ipv4/ip_always_defrag' != 0 ]; then
+		        action "Disabling IPv4 automatic defragmentation" /bin/true
+			echo 0 > /proc/sys/net/ipv4/ip_always_defrag
+		fi
+	  fi
 	fi
+	
         rm -f /var/lock/subsys/network
         ;;
   status)
