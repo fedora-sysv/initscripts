@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.85
+Version: 7.86
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -207,6 +207,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Oct  1 2004 Bill Nottingham <notting@redhat.com> - 7.86-1
+- use /etc/hotplug/blacklist to blacklist modules in hardware init (#132719)
+- filter indic locales on the console (#134198)
+
 * Wed Sep 29 2004 Bill Nottingham <notting@redhat.com> - 7.85-1
 - ifup, network-functions: fix worked-by-accident shell quoting
 - lang.csh: remove setting of dspmbyte (#89549, <mitr@redhat.com>)
