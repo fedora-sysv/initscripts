@@ -7,7 +7,8 @@
 
 /* this will be running setgid root, so be careful! */
 
-void usage(void) {
+static void
+usage(void) {
     fprintf(stderr, "usage: netreport [-r]\n");
     exit(1);
 }
@@ -20,10 +21,12 @@ int main(int argc, char ** argv) {
     char netreport_name[64];
     int  netreport_file;
 
-    if (argc > 2) usage();
+    if (argc > 2) {
+	usage();
+    }
 
     if (argc > 1) {
-	  if (!strcmp(argv[1], "-r")) {
+	  if (strcmp(argv[1], "-r") == 0) {
 		  action = DEL;
 	  } else {
 		  usage();
@@ -34,9 +37,8 @@ int main(int argc, char ** argv) {
 	     "/var/run/netreport/%d", getppid());
     if (action == ADD) {
 	netreport_file = open(netreport_name,
-			      O_EXCL | O_CREAT | O_WRONLY | O_TRUNC,
-			      0);
-	if (netreport_file < 0) {
+			      O_EXCL|O_CREAT|O_WRONLY|O_TRUNC|O_NOFOLLOW, 0);
+	if (netreport_file == -1) {
 	    if (errno != EEXIST) {
 		perror("Could not create netreport file");
 		exit (1);
@@ -49,5 +51,5 @@ int main(int argc, char ** argv) {
 	unlink(netreport_name);
     }
 
-    exit(0);
+    return 0;
 }
