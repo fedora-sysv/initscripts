@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.40.1
+Version: 6.40.2
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -8,7 +8,7 @@ Source: initscripts-%{version}.tar.bz2
 Patch0: initscripts-s390.patch
 BuildRoot: /%{_tmppath}/%{name}-%{version}-%{release}-root
 Requires: mingetty, /bin/awk, /bin/sed, mktemp, e2fsprogs >= 1.15
-Requires: procps >= 2.0.7-7, sysklogd >= 1.3.31
+Requires: /sbin/sysctl, sysklogd >= 1.3.31
 Requires: setup >= 2.0.3, /sbin/fuser, which, /bin/grep
 Requires: modutils >= 2.3.11-5
 Requires: util-linux >= 2.10s-11, mount >= 2.11g-5
@@ -170,6 +170,7 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/sysconfig/network-scripts/init.ipv6-global
 %config /etc/sysconfig/network-scripts/ifcfg-lo
 %config /etc/sysconfig/network-scripts/ifup-post
+%config /etc/sysconfig/network-scripts/ifup-ipx
 %config /etc/sysconfig/network-scripts/ifdown-ppp
 %config /etc/sysconfig/network-scripts/ifdown-sl
 %config /etc/sysconfig/network-scripts/ifup-ppp
@@ -239,6 +240,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Tue Oct 16 2001 Bill Nottingham <notting@redhat.com>
+- add ifup-ipx back in (#54686)
+
 * Wed Sep 25 2001 Bill Nottingham <notting@redhat.com>
 - flush all relevant addresses on ifdown (<pbrown@redhat.com>, #53531, #53704)
 - don't umount initrd on partitionless systems (#53509)
