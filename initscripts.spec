@@ -1,6 +1,6 @@
 Summary: inittab and /etc/rc.d scripts
 Name: initscripts
-%define version 3.79
+%define version 3.80
 Version: %{version}
 Copyright: GPL
 Group: Base
@@ -155,6 +155,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc sysconfig.txt
 
 %changelog
+* Thu Nov 12 1998 Preston Brown <pbrown@redhat.com>
+- halt now passed the '-i' flag so that network interfaces disabled
+
 * Tue Nov 10 1998 Michael Johnson <johnsonm@redhat.com>
 - handle new linuxconf output for ipaliases
 
