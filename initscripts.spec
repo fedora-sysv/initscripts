@@ -17,6 +17,10 @@ that activate and deactivate most network interfaces.
 
 %changelog
 
+* Fri Nov 07 1997 Erik Troan <ewt@redhat.com>
+
+- added sound support to rc.sysinit
+
 * Fri Nov 07 1997 Michael K. Johnson <johnsonm@redhat.com>
 
 - Added missing "then" clause
