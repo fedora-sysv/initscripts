@@ -172,6 +172,8 @@ if [ -n "${DYNCONFIG}" ]; then
        DHCPCDARGS="${DHCPCDARGS} -R"
     fi
     echo -n $"Determining IP information for ${DEVICE}..."
+    
+    ip link set ${REALDEVICE} up
 
     if [ -n "$ETHTOOL_OPTS" ] ; then
         /sbin/ethtool -s ${REALDEVICE} $ETHTOOL_OPTS
