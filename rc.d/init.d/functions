@@ -136,7 +136,7 @@ daemon() {
 	ulimit -S -c 0 >/dev/null 2>&1
 	
 	# Echo daemon
-        [ "${BOOTUP:-}" = "verbose" ] && echo -n " $base"
+        [ "${BOOTUP:-}" = "verbose" -a -z "$LSB" ] && echo -n " $base"
 
 	# And start it up.
 	if [ -z "$user" ]; then
@@ -176,7 +176,7 @@ killproc() {
 
         # Kill it.
         if [ -n "${pid:-}" ] ; then
-                [ "$BOOTUP" = "verbose" ] && echo -n "$base "
+                [ "$BOOTUP" = "verbose" -a -z "$LSB" ] && echo -n "$base "
 		if [ "$notset" -eq "1" ] ; then
 		       if checkpid $pid 2>&1; then
 			   # TERM first, then KILL if not dead
@@ -355,7 +355,7 @@ success() {
      echo "$INITLOG_ARGS -n $0 -s \"$1\" -e 1" >&21
      trap - SIGPIPE
   fi
-  [ "$BOOTUP" != "verbose" ] && echo_success
+  [ "$BOOTUP" != "verbose" -a -z "$LSB" ] && echo_success
   return 0
 }
 
@@ -369,7 +369,7 @@ failure() {
      echo "$INITLOG_ARGS -n $0 -s \"$1\" -e 2" >&21
      trap - SIGPIPE
   fi
-  [ "$BOOTUP" != "verbose" ] && echo_failure
+  [ "$BOOTUP" != "verbose" -a -z "$LSB" ] && echo_failure
   return $rc
 }
 
@@ -383,7 +383,7 @@ passed() {
      echo "$INITLOG_ARGS -n $0 -s \"$1\" -e 1" >&21
      trap - SIGPIPE
   fi
-  [ "$BOOTUP" != "verbose" ] && echo_passed
+  [ "$BOOTUP" != "verbose" -a -z "$LSB" ] && echo_passed
   return $rc
 }  
 
@@ -397,7 +397,7 @@ warning() {
      echo "$INITLOG_ARGS -n $0 -s \"$1\" -e 1" >&21
      trap - SIGPIPE
   fi
-  [ "$BOOTUP" != "verbose" ] && echo_warning
+  [ "$BOOTUP" != "verbose" -a -z "$LSB" ] && echo_warning
   return $rc
 }  
 
