@@ -165,11 +165,13 @@ if ! grep -iq "nousb" /proc/cmdline 2>/dev/null && grep -q "usb" /proc/devices 2
   usb=1
 fi
 
+needusbstorage=
 if [ $usb = "1" ]; then
     sleep 5
     action $"Mounting USB filesystem: "  mount -t usbdevfs usbdevfs /proc/bus/usb
     mouseoutput=`cat /proc/bus/usb/devices|grep -E "^I.*Cls=03.*Prot=02"`
     kbdoutput=`cat /proc/bus/usb/devices|grep -E "^I.*Cls=03.*Prot=01"`
+    needusbstorage=`cat /proc/bus/usb/devices | grep -e "^I.*Cls=08.*"`
     if [ -n "$kbdoutput" ] || [ -n "$mouseoutput" ]; then
 	action $"Initializing USB HID interface: " modprobe hid 2> /dev/null
     fi
@@ -599,6 +601,11 @@ if [ -f /proc/scsi/scsi ] && grep -q 'Type:   Sequential-Access' /proc/scsi/scsi
 			insmod -p st >/dev/null 2>&1 && modprobe st >/dev/null 2>&1
 		fi
 	fi
+fi
+
+# Load usb storage here, to match most other things
+if [ -n "$needusbstorage" ]; then
+	modprobe usb-storage >/dev/null 2>&1
 fi
 
 # If they asked for ide-scsi, load it
