@@ -1,10 +1,10 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.33
+%define version 4.34
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
-Release: 2
+Release: 1
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /var/tmp/initbld
 Requires: mingetty, bash, /bin/awk, /bin/sed, mktemp, e2fsprogs, console-tools
@@ -195,6 +195,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Aug 31 1999 Bill Nottingham <notting@redhat.com>
+- disable magic sysrq by default
+
 * Mon Aug 30 1999 Bill Nottingham <notting@redhat.com>
 - new NFS unmounting from Bill Rugolsky <rugolsky@ead.dsa.com> 
 - fix ifup-sl/dip confusion
