@@ -194,7 +194,11 @@ fi
 
 if [ "$command" = /sbin/halt -a -r /etc/ups/upsmon.conf -a -f /etc/killpower -a -f /etc/sysconfig/ups ] ; then
 	. /etc/sysconfig/ups
-	[ "$SERVER" = "yes" -a "$MODEL" != "NONE" -a -n "$MODEL" -a -n "$DEVICE" ] && $MODEL $OPTIONS_HALT -k $DEVICE
+	if [ "$SERVER" = "yes" -a "$MODEL" = "upsdrvctl" ] ; then
+		/sbin/upsdrvctl shutdown
+	elif [ "$SERVER" = "yes" -a "$MODEL" != "NONE" -a -n "$MODEL" -a -n "$DEVICE" ] ; then
+		$MODEL $OPTIONS_HALT -k $DEVICE
+	fi
 fi
 
 if [ -x /sbin/halt.local ]; then
