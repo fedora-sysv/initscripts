@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.93.7.EL
+Version: 7.93.8.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -206,6 +206,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Nov  9 2004 Bill Nottingham <notting@redhat.com> 7.93.8.EL-1
+- fix bonding + dhcp (#134787)
+
 * Thu Nov  4 2004 Bill Nottingham <notting@redhat.com> 7.93.7.EL-1
 - fix firmware uploading on boot (#137263)
 
