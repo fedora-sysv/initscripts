@@ -185,6 +185,9 @@ is_available ()
       return 1
     }
     echo "$HOTPLUG"  > /proc/sys/kernel/hotplug
+    # if it is a mainframe ccwgroup device, configure it before
+    # trying to rename it:
+    configure_ccwgroup_device
     if [ -n "$HWADDR" ]; then
        local curdev=`ip -o link | awk -F ':' -vIGNORECASE=1 '/$HWADDR/ { print $2 }'`
        rename_device "$1" "$HWADDR" "$curdev"
@@ -316,4 +319,29 @@ is_wireless_device ()
     [ -x /sbin/iwconfig ] || return 1
     LC_ALL=C iwconfig $1 2>&1 | grep -q "no wireless extensions" || return 0
     return 1
+}
+
+# Mainframe devices:
+configure_ccwgroup_device ()
+{
+    local DIR SYSDIR
+    # SUBCHANNELS is only set on mainframe ccwgroup devices
+    [ -z "$SUBCHANNELS" ] && return
+    if [ "$TYPE" = "QETH" -o "$TYPE" = "HSI" ]; then
+         DIR="/sys/bus/ccwgroup/drivers/qeth"
+    elif
+       [ "$TYPE" = "CTC" -o "$TYPE" = "ESCON" ]; then
+         DIR="/sys/bus/ccwgroup/drivers/ctc"
+    elif
+       [ "$TYPE" = "LCS" ]; then
+         DIR="/sys/bus/ccwgroup/drivers/lcs"
+    else
+       return
+    fi
+    SYSDIR="$DIR/${SUBCHANNELS//,*/}"
+    [ ! -e $DIR/group ] && return
+    echo "$SUBCHANNELS" > $DIR/group
+    [ -n "$PORTNAME" -a -e $SYSDIR/portname ] && \
+         echo "$PORTNAME" > $SYSDIR/portname
+    [ -e $SYSDIR/online ] && echo 1 > $SYSDIR/online
 }

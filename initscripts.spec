@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.54
+Version: 7.55
 License: GPL
 Group: System Environment/Base
 Release: 1

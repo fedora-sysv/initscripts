@@ -23,6 +23,8 @@ then
 fi
 [ -n "${MTU}" ] && opts="${opts} mtu ${MTU}"
 
+configure_ccwgroup_device
+
 ifconfig ${DEVICE} ${IPADDR} ${opts} pointopoint ${REMIP} netmask ${NETMASK}
 
 # Wait for the device to come up - the chandev'ified ctc driver can take
