@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.58
+Version: 6.59
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -243,7 +243,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
-* Fri Mar 15 2002 Than Ngo <than@redhat.com > 6.58-1
+* Wed Mar 27 2002 Bill Nottingham <notting@redhat.com> 6.59-1
+- add local hook to halt
+
+* Fri Mar 15 2002 Than Ngo <than@redhat.com> 6.58-1
 - fix usernetctl for working with neat
 
 * Thu Mar 14 2002 Bill Nottingham <notting@redhat.com> 6.57-1
