@@ -168,6 +168,12 @@ rm -rf $RPM_BUILD_ROOT
 %doc sysconfig.txt
 
 %changelog
+* Mon Mar 15 1999 Bill Nottingham <notting@redhat.com>
+- doc updates
+- support for SYSFONTACM, other console-tools stuff
+- add net route for interface if it isn't there.
+- fix for a bash/bash2 issue
+
 * Mon Mar 15 1999 Michael Johnson <johnsonm@redhat.com>
 - pam_console lockfile cleanup added to rc.sysinit
 
