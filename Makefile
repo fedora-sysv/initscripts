@@ -1,4 +1,6 @@
 ROOT=/
+SUPERUSER=root
+SUPERGROUP=root
 
 VERSION=$(shell awk '/Version:/ { print $$2 }' initscripts.spec)
 CVSTAG = r$(subst .,-,$(VERSION))
@@ -38,7 +40,7 @@ install:
 	  ln -sf ../../../sbin/ifdown . )
 	(cd src; make install ROOT=$(ROOT) mandir=$(mandir))
 	mkdir -p $(ROOT)/var/run/netreport
-	chown root.root $(ROOT)/var/run/netreport
+	chown $(SUPERUSER).$(SUPERGROUP) $(ROOT)/var/run/netreport
 	chmod og=rwx,o=rx $(ROOT)/var/run/netreport
 
 check:

@@ -32,7 +32,7 @@ make
 %install
 rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT/etc
-make ROOT=$RPM_BUILD_ROOT mandir=%{_mandir} install 
+make ROOT=$RPM_BUILD_ROOT SUPERUSER=`id -un` SUPERGROUP=`id -gn` mandir=%{_mandir} install 
 mkdir -p $RPM_BUILD_ROOT/var/run/netreport
 #chown root.root $RPM_BUILD_ROOT/var/run/netreport
 chmod u=rwx,g=rwx,o=rx $RPM_BUILD_ROOT/var/run/netreport
@@ -231,6 +231,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Tue Oct 10 2000 Nalin Dahyabhai <nalin@redhat.com>
 - handle "gw x.x.x.x" as the last pair of flags in ifup-routes (#18804)
+- fix top-level makefile install target
 
 * Sun Sep  3 2000 Florian La Roche <Florian.LaRoche@redhat.com>
 - /etc/init.d is already provided by chkconfig
