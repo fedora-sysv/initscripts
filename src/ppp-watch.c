@@ -493,7 +493,7 @@ main(int argc, char **argv) {
     int maxfail = 0;		// MAXFAIL Patch <ssharkey@linux-no-limits.com>
 
     if (argc < 2) {
-	fprintf (stderr, "usage: ppp-watch [ifcfg-]<logical-name> [boot]\n");
+	fprintf (stderr, "usage: ppp-watch <interface-name> [boot]\n");
 	exit(30);
     }
 
