@@ -19,6 +19,15 @@ runlevel=$2
 previous=$1
 export runlevel previous
 
+# See if we want to be in user confirmation mode
+if [ "$previous" = "N" ]; then
+    if grep -i confirm /proc/cmdline >/dev/null ; then
+      CONFIRM=yes
+    else
+      CONFIRM=
+    fi
+fi
+
 # Get first argument. Set new runlevel to this argument.
 [ "$1" != "" ] && runlevel="$argv1"
 
@@ -58,6 +67,23 @@ if [ -d /etc/rc.d/rc$runlevel.d ]; then
 		subsys=${i#/etc/rc.d/rc$runlevel.d/S??}
 		[ -f /var/lock/subsys/$subsys ] || \
 		    [ -f /var/lock/subsys/${subsys}.init ] && continue
+		    
+		# If we're in confirmation mode, get user confirmation
+		[ -n "$CONFIRM" ]  && 
+		  { 
+		    confirm $subsys
+		    case $? in
+		      0)
+		        :
+		      ;;
+		      2)
+		        CONFIRM=
+		      ;;
+		      *)
+		        continue
+		      ;;
+		    esac 
+		  }
 
 		# Bring the subsystem up.
 		$i start

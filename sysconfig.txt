@@ -18,6 +18,12 @@ Files in /etc/sysconfig
       42-year time offset is in effect; otherwise the normal
       Unix epoch is assumed
 
+/etc/sysconfig/init:
+
+  BOOTUP=<some bootup mode>
+     BOOTUP=color means new (as of RH6.0) boot display. Anything
+     else means old-style display
+
 
 /etc/sysconfig/keyboard:
 
@@ -300,7 +306,7 @@ Files in /etc/sysconfig/network-scripts/
   LINGUAS= can be a : separated list of language codes
   SYSTERM= use to set default TERM environment variable
 
-  The above three variables are used in rc.sysinit.
+  The above four variables are used in rc.sysinit.
 
   SYSFONT= any font that is legal when used as
 	/usr/sbin/setfont $SYSFONT ...

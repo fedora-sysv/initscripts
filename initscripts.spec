@@ -1,6 +1,6 @@
 Summary: inittab and /etc/rc.d scripts
 Name: initscripts
-%define version 3.83
+%define version 3.84
 Version: %{version}
 Copyright: GPL
 Group: Base
@@ -142,9 +142,12 @@ rm -rf $RPM_BUILD_ROOT
 /bin/doexec
 /bin/ipcalc
 /bin/usleep
-/usr/sbin/usernetctl
+%attr(4755,root,root) /usr/sbin/usernetctl
 /sbin/netreport
+/sbin/initlog
+/sbin/minilogd
 /usr/man/man1/doexec.1
+/usr/man/man1/initlog.1
 /usr/man/man1/ipcalc.1
 /usr/man/man1/usleep.1
 /usr/man/man1/usernetctl.1

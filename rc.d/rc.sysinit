@@ -1,9 +1,14 @@
-#! /bin/sh
+#!/bin/sh
 #
 # /etc/rc.d/rc.sysinit - run once at boot time
 #
 # Taken in part from Miquel van Smoorenburg's bcheckrc.
 #
+
+# Rerun ourselves through initlog
+if [ -z "$IN_INITLOG" ]; then
+ [ -f /sbin/initlog ] && exec /sbin/initlog -r /etc/rc.d/rc.sysinit
+fi
 
 # Set the path
 PATH=/bin:/sbin:/usr/bin:/usr/sbin
@@ -17,17 +22,18 @@ else
     HOSTNAME=localhost
 fi
 
+# Source functions
+. /etc/rc.d/init.d/functions
+
 # Start up swapping.
-echo "Activating swap partitions"
-swapon -a
+action -n "Activating swap partitions" swapon -a
 
 # Set the hostname.
-hostname ${HOSTNAME}
-echo hostname: `hostname`
+action -n "Setting hostname ${HOSTNAME}" hostname ${HOSTNAME}
 
 # Set the NIS domain name
 if [ -n "$NISDOMAIN" ]; then
-    domainname $NISDOMAIN
+    action -n "Setting NIS domain name $NISDOMAIN" domainname $NISDOMAIN
 else
     domainname ""
 fi
@@ -39,12 +45,10 @@ if [ -f /fsckoptions ]; then
 fi
 
 if [ ! -f /fastboot ]; then
-	echo "Checking root filesystems."
-	fsck -V -a $fsckoptions /
-
+	action -n "Checking root filesystem" fsck -T -a $fsckoptions /
 	rc=$?
-
-	# A return of 2 or higher means there were serious problems.
+	
+        # A return of 2 or higher means there were serious problems.
 	if [ $rc -gt 1 ]; then
 		echo
 		echo
@@ -60,17 +64,19 @@ if [ ! -f /fastboot ]; then
 		mount -n -o remount,ro /
 		echo "Automatic reboot in progress."
 		reboot
+	elif [ "$rc" = "1" -a -x /sbin/quotacheck ]; then
+		action -n "Checking root filesystem quotas"  /sbin/quotacheck -v /
 	fi
 fi
 
 if [ -x /sbin/quotaon ]; then
-    echo "Turning on user and group quotas for root filesystem"
-    /sbin/quotaon /
+    action -n "Turning on user and group quotas for root filesystem"  /sbin/quotaon /
 fi
 
 # check for arguments 
 
 mount -t proc /proc /proc
+
 if grep -i nopnp /proc/cmdline >/dev/null ; then
     PNP=
 else
@@ -80,22 +86,19 @@ fi
 # set up pnp 
 if [ -x /sbin/isapnp -a -f /etc/isapnp.conf ]; then
     if [ -n "$PNP" ]; then
-	echo "Setting up ISA PNP devices"
-	/sbin/isapnp /etc/isapnp.conf
+	action -n "Setting up ISA PNP devices" /sbin/isapnp /etc/isapnp.conf
     else
-	echo "Skipping ISA PNP configuration at users request"
+	action -n "Skipping ISA PNP configuration at users request" /bin/true
     fi
 fi
 
 # Remount the root filesystem read-write.
-echo "Remounting root filesystem in read-write mode."
-mount -n -o remount,rw /
+action -n "Remounting root filesystem in read-write mode" mount -n -o remount,rw /
 
-# Check quotas if fsck fixed something.
-if [ "$rc" = "1" -a -x /sbin/quotacheck ]; then
-	echo "Checking root filesystem quotas"
-	/sbin/quotacheck -v /
+if [ -n "$IN_INITLOG" ]; then
+    IN_INITLOG=
 fi
+
 
 if [ ! -f /etc/HOSTNAME ]; then
     echo ${HOSTNAME} > /etc/HOSTNAME
@@ -129,22 +132,20 @@ fi
 
 if [ -x /sbin/depmod -a -n "$USEMODULES" ]; then
     # Get ready for kerneld if module support in the kernel
-    echo -n "Finding module dependencies... "
     if [ -e /lib/modules/preferred ]; then
-	depmod -a preferred
+	    action -n "Finding module dependencies" depmod -a preferred
     else
-	depmod -a
+	    action -n "Finding module dependencies" depmod -a
     fi
-    echo "done"
 fi
 
 # load sound modules
 if ! grep -i nomodules /proc/cmdline >/dev/null ; then
     if [ -n "$USEMODULES" ]; then
 	if grep -s "alias sound" /etc/conf.modules > /dev/null ; then
-	    modprobe sound
+	    action -n "Loading sound module" modprobe sound
 	    if grep -s "alias midi" /etc/conf.modules > /dev/null ; then
-		modprobe midi
+		action -n "Loading midi module" modprobe midi
 	    fi
 	fi
     fi
@@ -162,8 +163,7 @@ fi
 
 # Add raid devices
 if [ -f /proc/mdstat -a -f /etc/raidtab -a -x /sbin/raidadd ]; then
-	echo "Starting up RAID devices."
-	raidadd -a
+	action -n "Starting up RAID devices" raidadd -a
 
 	rc=$?
 
@@ -193,8 +193,7 @@ fi
 
 # Check filesystems
 if [ ! -f /fastboot ]; then
-	echo "Checking filesystems."
-	fsck -R -A -V -a $fsckoptions
+	action -n "Checking filesystems" fsck -T -R -A -a $fsckoptions
 
 	rc=$?
 
@@ -214,29 +213,23 @@ if [ ! -f /fastboot ]; then
 		mount -n -o remount,ro /
 		echo "Automatic reboot in progress."
 		reboot
+	elif [ "$rc" = "1" -a -x /sbin/quotacheck ]; then
+		action -n "Checking filesystem quotas" /sbin/quotacheck -v -R -a
 	fi
 fi
 
 # Mount all other filesystems (except for NFS and /proc, which is already
 # mounted). Contrary to standard usage,
 # filesystems are NOT unmounted in single user mode.
-echo "Mounting local filesystems."
-mount -a -t nonfs,proc
+action -n "Mounting local filesystems" mount -a -t nonfs,proc
 
 # set the console font
 if [ -x /sbin/setsysfont ]; then
     /sbin/setsysfont
 fi
 
-# Check quotas if fsck fixed something.
-if [ "$rc" = "1" -a -x /sbin/quotacheck ]; then
-	echo "Checking filesystem quotas"
-	/sbin/quotacheck -v -R -a
-fi
-
 if [ -x /sbin/quotaon ]; then
-    echo "Turning on user and group quotas for local filesystems"
-    /sbin/quotaon -a
+    action -n "Turning on user and group quotas for local filesystems" /sbin/quotaon -a
 fi
 
 # Clean out /etc.
@@ -263,8 +256,6 @@ rm -f /tmp/.X*-lock
 rm -f /tmp/.s.PGSQL.*
 
 # Set the system clock.
-echo -n "Setting clock"
-
 ARC=0
 UTC=0
 if [ -f /etc/sysconfig/clock ]; then
@@ -278,6 +269,7 @@ if [ -f /etc/sysconfig/clock ]; then
     fi
 fi
 
+CLOCKDEF=""
 if [ -x /sbin/hwclock ]; then
     CLOCKFLAGS="--hctosys"
     CLOCK=/sbin/hwclock
@@ -289,25 +281,22 @@ fi
 case "$UTC" in
   yes|true)
     CLOCKFLAGS="$CLOCKFLAGS -u";
-    echo -n " (utc)"
+    CLOCKDEF="$CLOCKDEF (utc)";
   ;;
 esac
 
 case "$ARC" in
   yes|true)
     CLOCKFLAGS="$CLOCKFLAGS -A";
-    echo -n " (arc)"
+    CLOCKDEF="$CLOCKDEF (arc)";
   ;;
 esac
 
-echo -n ": "
 $CLOCK $CLOCKFLAGS
-
-date
+action -n "Setting clock $CLOCKDEF: `date`" date
 
 # Right, now turn on swap in case we swap to files.
-echo "Enabling swap space."
-swapon -a 2>&1 | grep -v "busy"
+action -n "Enabling swap space" swapon -a 2>&1 | grep -v "busy"
 
 # Initialize the serial ports.
 if [ -f /etc/rc.d/rc.serial ]; then
@@ -335,7 +324,6 @@ fi
 dmesg > /var/log/dmesg
 
 # Feed entropy into the entropy pool
-# XXX Random is also started as S20random but randomization may be needed
-# XXX for packet sequence numbers during network initialization so we'll
-# XXX add entropy here too.
 /etc/rc.d/init.d/random start
+
+sleep 10

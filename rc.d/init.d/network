@@ -57,8 +57,7 @@ ipv4_forward_set ()
 		fi
 
 		if [ $value != `cat /proc/sys/net/ipv4/ip_forward` ]; then
-		    echo $message
-		    echo "$value" > /proc/sys/net/ipv4/ip_forward
+		    action -n "$message" echo "$value" > /proc/sys/net/ipv4/ip_forward
 		fi
 	    fi
 	fi
@@ -70,7 +69,7 @@ case "$1" in
   start)
 	ipv4_forward_set
 
-	./ifup ifcfg-lo
+	action "Bringing up interface lo" ./ifup ifcfg-lo
 
 	case "$IPX" in
 	  yes|true)
@@ -81,14 +80,14 @@ case "$1" in
 	esac
 
 	for i in $interfaces; do
-		./ifup $i boot
+		action "Bringing up interface $i" ./ifup $i boot
 	done
 
         touch /var/lock/subsys/network
         ;;
   stop)
 	for i in $interfaces; do
-		./ifdown $i boot
+		action "Shutting down interface $i" ./ifdown $i boot
 	done
 	case "$IPX" in
 	  yes|true)
@@ -96,8 +95,7 @@ case "$1" in
 	    ;;
 	esac
 	./ifdown ifcfg-lo
-	echo "Disabling IPv4 packet forwarding."
-	echo 0 > /proc/sys/net/ipv4/ip_forward
+	action -n "Disabling IPv4 packet forwarding." echo 0 > /proc/sys/net/ipv4/ip_forward
         rm -f /var/lock/subsys/network
         ;;
   status)

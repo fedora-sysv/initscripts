@@ -1,6 +1,6 @@
-CFLAGS+=-Wall
+CFLAGS+=-Wall -D_GNU_SOURCE
 
-PROGS=usernetctl doexec netreport testd usleep ipcalc
+PROGS=usernetctl doexec netreport testd usleep ipcalc initlog minilogd
 
 all:	$(PROGS)
 
@@ -9,11 +9,14 @@ clean:
 
 install:
 	mkdir -p $(ROOT)/bin $(ROOT)/usr/sbin $(ROOT)/usr/man/man1
-	install -o 0 -g 0 -s -m 755 doexec $(ROOT)/bin/doexec
-	install -o 0 -g 0 -s -m 755 usleep $(ROOT)/bin/usleep
-	install -o 0 -g 0 -s -m 4755 usernetctl $(ROOT)/usr/sbin/usernetctl
-	install -o 0 -g 0 -s -m 2755 netreport $(ROOT)/sbin/netreport
-	install -o 0 -g 0 -s -m 755 ipcalc $(ROOT)/bin/ipcalc
+	install -s -m 755 doexec $(ROOT)/bin/doexec
+	install -s -m 755 usleep $(ROOT)/bin/usleep
+	install -s -m 4755 usernetctl $(ROOT)/usr/sbin/usernetctl
+	install -s -m 2755 netreport $(ROOT)/sbin/netreport
+	install -s -m 755 ipcalc $(ROOT)/bin/ipcalc
+	install -s -m 755 initlog $(ROOT)/sbin/initlog
+	install -s -m 755 minilogd $(ROOT)/sbin/minilogd
+	install -m 644 initlog.1 $(ROOT)/usr/man/man1
 	install -m 644 doexec.1 $(ROOT)/usr/man/man1
 	install -m 644 netreport.1 $(ROOT)/usr/man/man1
 	install -m 644 usleep.1 $(ROOT)/usr/man/man1
@@ -23,8 +26,18 @@ install:
 # this daemon and initscript are useful for testing the up/down/status stuff
 # not installed by default, only comes from sources.
 install-test:
-	install -o 0 -g 0 -s -m 755 testd $(ROOT)/usr/sbin/testd
-	install -o 0 -g 0 -m 755 testdinit $(ROOT)/etc/rc.d/init.d/testd
+	install -s -m 755 testd $(ROOT)/usr/sbin/testd
+	install -m 755 testdinit $(ROOT)/etc/rc.d/init.d/testd
 
 ipcalc: ipcalc.o
 	$(CC) $(LDFLAGS) -o $@ $< -lpopt
+
+minilogd: minilogd.o
+        $(CC) $(LDFLAGS) -o $@ $< 
+
+initlog: initlog.o process.o
+	$(CC) $(LDFLAGS) -o $@ $< -lpopt
+
+clean:
+	rm ipcalc initlog minilogd *.o core *~
+

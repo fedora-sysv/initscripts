@@ -1,4 +1,5 @@
-#! /bin/sh
+
+#!/bin/sh
 #
 # functions	This file contains functions to be used by most or all
 #		shell scripts in the /etc/init.d directory.
@@ -11,6 +12,15 @@
 
 # First set up a default search path.
 export PATH="/sbin:/usr/sbin:/bin:/usr/bin"
+
+# Read in our configuration
+if [ -f /etc/sysconfig/init ]; then
+    . /etc/sysconfig/init
+else
+    BOOTUP=color
+fi
+	
+
 
 # A function to start a program.
 daemon() {
@@ -30,15 +40,17 @@ daemon() {
 	pid=`pidofproc $base`
 	[ -n "$pid" ] && ps h $pid >/dev/null 2>&1 && return
 
-	# echo basename of the program.
-	echo -n "$base "
-
 	# make sure it doesn't core dump anywhere; while this could mask
 	# problems with the daemon, it also closes some security problems
 	ulimit -c 0
+	
+	#
+	if [ $BOOTUP != "color" ]; then
+	   echo -n $base
+	fi
 
 	# And start it up.
-	nice -n $nicelevel "$@"
+	nice -n $nicelevel initlog -q -c "$*" && success -n "$base startup" || failure -n "$base startup"
 }
 
 # A function to stop a program.
@@ -150,3 +162,101 @@ status() {
 	echo "$1 is stopped"
 	return 3
 }
+
+echo_success() {
+  echo $* "[300C[10D[  [1;32mOK[0;39m  ]"
+  return 0
+}
+
+echo_failure() {
+  echo $* "[300C[10D[[1;31mFAILED[0;39m]"
+  return 0
+}
+
+success() {
+  if [ "$1" = "-n" ]; then
+    ECHOARGS="-n"
+    shift
+  else
+    ECHOARGS=""
+  fi
+  if [ -z "$IN_INITLOG" ]; then
+     initlog -n $0 -s "$1" -e 1
+  else
+     echo "-n $0 -s \"$1\" -e 1" >&21
+  fi
+  [ "$BOOTUP" = "color" ] && echo_success $ECHOARGS
+  return 0
+}
+
+failure() {
+  if [ "$1" = "-n" ]; then
+    ECHOARGS="-n"
+    shift
+  else
+    ECHOARGS=""
+  fi
+  if [ -z "$IN_INITLOG" ]; then
+     initlog -n $0 -s "$1" -e 2
+  else
+     echo "-n $0 -s \"$1\" -e 2" >&21
+  fi
+  [ "$BOOTUP" = "color" ] && echo_failure $ECHOARGS
+  return 0
+}
+
+action() {
+  if [ "$1" = "-n" ]; then
+     ECHOARGS="-n"
+     shift
+  else
+     ECHOARGS=""
+  fi
+  STRING=$1
+  echo $ECHOARGS "$STRING "
+  shift
+  if [ -z "$IN_INITLOG" ]; then
+      initlog -q -c "$*" && success "$STRING" || failure "$STRING"
+  else
+      # This sucks.
+      output=`$*`
+      rc=$?
+      if [ -n "$output" ]; then
+        cmdname=`basename $1`
+        initlogcmds=`echo $output | sed -e "s/^/ -n $cmdname -s \"/" | sed -e "s/$/\"/"`
+        echo "$initlogcmds" >&21
+      fi
+
+      if [ $rc ]; then
+         success "$STRING"
+      else
+         echo $output
+         failure "$STRING"
+      fi
+  fi
+  return 0
+}
+
+# Confirm whether we really want to run this service
+confirm() {
+  echo -n "Start service $1 (Y)es/(N)o/(C)ontinue? [Y] "
+  read answer
+  case $answer in
+    y|Y|"")
+      return 0
+    ;;
+    c|C)
+      return 2
+    ;;
+    n|N)
+      return 1
+    ;;
+    *)
+      confirm $1
+      return $?
+    ;;
+    esac
+}
+
+    
+  

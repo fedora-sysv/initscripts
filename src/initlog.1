@@ -1,0 +1,48 @@
+.TH initlog 8 "Sun Jan 24 1999"
+.SH NAME
+initlog \- log messages and events to the system logger
+.SH SYNOPSIS
+.B initlog
+[\-cefnprs] [\-\-cmd=ARG] [\-\-event=ARG] [\-\-facility=ARG]
+[\-\-name=ARG] [\-\-priority=ARG] [\-\-run=ARG] [\-\-string=ARG]
+.SH DESCRIPTION
+\fBinitlog\fR logs messages and events to the system logger.
+It is mainly designed for use in init scripts.
+
+.SS OPTIONS
+.TP
+.I "\-c, \-\-cmd=[program]"
+Execute the specified program, logging anything output to
+stdout or stderr.
+.TP
+.I "\-e, \-\-event=[number]"
+Logs that the specified event happened. Usually used in conjuction
+with \fB\-\-name\fR. Currently specified events are:
+.nf
+ \fB1\fR  the action completed successfully
+ \fB2\fR  the action failed
+ \fB3\fR  the action was cancelled at user request
+ \fB4\fR  the action failed due to the failure of a dependent action
+.TP
+.I "\-f, \-\-facility=[facility]"
+
+Log at the specified syslog facility. The default
+is \fBdaemon\fR (see syslog(3)).
+.TP
+.I "\-n, \-\-name=[string]"
+Log the event under the specified string, such as
+"inetd".
+.TP
+.I "\-p, \-\-priority=[priority]"
+Log at the specified syslog priority. The default
+is \fBnotice\fR (see syslog(3)).
+.TP
+.I "\-r, \-\-run=[program]"
+Execute the specified program, with an open file
+descriptor so that the program can pass back
+commands to initlog.
+.TP
+.I "\-s, \-\-string=[string]
+Log the specified string to the logger.
+.SH "SEE ALSO"
+syslog(3), logger(1)

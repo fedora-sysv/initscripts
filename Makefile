@@ -8,11 +8,11 @@ all:
 
 install:
 	mkdir -p $(ROOT)/etc/profile.d $(ROOT)/sbin
-	install -m644 -o root -g root inittab $(ROOT)/etc
-	install -m644 -o root -g root adjtime $(ROOT)/etc
-	install -m644 -o root -g root inputrc $(ROOT)/etc
-	install -m755 -o root -g root setsysfont $(ROOT)/sbin
-	install -m755 -o root -g root lang.sh $(ROOT)/etc/profile.d
+	install -m644  inittab $(ROOT)/etc
+	install -m644  adjtime $(ROOT)/etc
+	install -m644  inputrc $(ROOT)/etc
+	install -m755  setsysfont $(ROOT)/sbin
+	install -m755  lang.sh $(ROOT)/etc/profile.d
 	cp -af rc.d sysconfig ppp $(ROOT)/etc
 	mkdir -p $(ROOT)/sbin
 	mv $(ROOT)/etc/sysconfig/network-scripts/ifup $(ROOT)/sbin

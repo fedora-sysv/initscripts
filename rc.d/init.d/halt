@@ -15,7 +15,7 @@ PATH=/sbin:/bin:/usr/bin:/usr/sbin
 case "$0" in
   *halt)
 	message="The system is halted"
-	command="halt"
+	command="halt -p"
 	;;
   *reboot)
 	message="Please stand by while rebooting the system..."
@@ -44,7 +44,7 @@ echo "Turning off swap and accounting"
 swapoff -a
 [ -x /sbin/accton ] && /sbin/accton
 echo "Unmounting file systems"
-umount -a
+umount -a -f
 mount -n -o remount,ro /
 
 # turn off raid
