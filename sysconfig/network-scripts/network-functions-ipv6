@@ -5,7 +5,7 @@
 # Taken from:
 # (P) & (C) 1997-2001 by Peter Bieringer <pb@bieringer.de>
 #
-# Version: 2001-02-08
+# Version: 2001-02-22
 #
 
 # Filter tags (for stripping, empty lines following if all is stripped)
@@ -52,23 +52,23 @@ function forwarding_ipv6_usage() {
 #  $1: control [yes|no|on|off]
 #  $2: network device (if not given, global IPv6 forwarding is set)
 function forwarding_ipv6() {
-	control=$1
-	device=$2		# maybe empty
+	fw_control=$1
+	fw_device=$2		# maybe empty
 
-	if [ -z $control ]; then
+	if [ -z $fw_control ]; then
 		echo $"Missing parameter forwarding control'"
 		forwarding_ipv6_usage
 		return 1
 	fi
 
-	if ! [ "$control" = "yes" -o "$control" = "no" -o "$control" = "on" -o "$control" = "off" ]; then
-		echo $"Don't understand forwarding control parameter '$control'"
+	if ! [ "$fw_control" = "yes" -o "$fw_control" = "no" -o "$fw_control" = "on" -o "$fw_control" = "off" ]; then
+		echo $"Don't understand forwarding control parameter '$fw_control'"
 		forwarding_ipv6_usage
 		return 1
 	fi
 	
 	# Device "lo" need no IPv6 configuration
-	if [ "$device" = "lo" ]; then
+	if [ "$fw_device" = "lo" ]; then
 		return 0;
 	fi
 
@@ -76,20 +76,20 @@ function forwarding_ipv6() {
 	test_ipv6 || return    
 
 
-	if [ "$control" = "yes" -o "$control" = "on" ]; then
+	if [ "$fw_control" = "yes" -o "$fw_control" = "on" ]; then
 		status=1
 	else
 		status=0
 	fi
 
 	# Global control? (if no device is given)
-	if [ -z $device ]; then
+	if [ -z $fw_device ]; then
 		sysctl -w net.ipv6.conf.all.forwarding=$status >/dev/null 2>&1
 	fi
 	
 	# Per device control
-	if [ ! -z $device ]; then
-		sysctl -w net.ipv6.conf.$device.forwarding=$status >/dev/null 2>&1
+	if [ ! -z $fw_device ]; then
+		sysctl -w net.ipv6.conf.$fw_device.forwarding=$status >/dev/null 2>&1
 	fi
 	
 }
@@ -386,17 +386,17 @@ function ifup_ipv6_real() {
 #   cleanup to prevent kernel crashes
 #  $1: Interface 
 function ifdown_ipv6_real_all() {
-	device=$1
+	idall_device=$1
 
-	if [ -z $device ]; then
-		echo $"Missing parameter 'device'"
+	if [ -z $idall_device ]; then
+		echo $"Missing parameter 'idall_device'"
 		echo $"Usage: ifdown_ipv6_real_all interfacename"
 		return 1
 	fi
 
 	# Get all IPv6 routes through given interface and remove them
-	route -A inet6 | grep $device | while read ipv6net nexthop flags metric ref use iface args; do
-		if [ "$device" = "$iface" ]; then
+	route -A inet6 | grep $idall_device | while read ipv6net nexthop flags metric ref use iface args; do
+		if [ "$idall_device" = "$iface" ]; then
 			if echo $flags | grep -v -q "A"; then
 				# Only non addrconf (automatic installed) routes should be removed
 				ifdown_ipv6_route $ipv6net $nexthop $iface
@@ -405,8 +405,8 @@ function ifdown_ipv6_real_all() {
 	done
 	
 	# Get all IPv6 addresses assigned to given interface and remove them
-	ifconfig $device | grep "inet6 addr:" | awk '{ print $3 }' | while read ipv6addr args; do
-		ifdown_ipv6_real $device $ipv6addr	
+	ifconfig $idall_device | grep "inet6 addr:" | awk '{ print $3 }' | while read ipv6addr args; do
+		ifdown_ipv6_real $idall_device $ipv6addr	
 	done
 }
 
