@@ -96,11 +96,11 @@ if [ -n "${HWADDR}" ]; then
 	sed 's/.*link\/ether \([[:alnum:]:]*\).*/\1/'`
     if [ "${FOUNDMACADDR}" != "${HWADDR}" ]; then
         NEWCONFIG=`fgrep -l "HWADDR=${HWADDR}" /etc/sysconfig/network-scripts/ifcfg-*`
-	if [ -n "${NEWCONFIG}" ]; then
+	if [ -n "${NEWCONFIG}" -a "`basename ${NEWCONFIG}`" != "${CONFIG}" ]; then
 	   exec /sbin/ifup ${NEWCONFIG}
 	fi
         NEWCONFIG=`fgrep -l "HWADDR=${HWADDR}" /etc/sysconfig/networking/default/ifcfg-*`
-	if [ -n "${NEWCONFIG}" ]; then
+	if [ -n "${NEWCONFIG}" -a "`basename ${NEWCONFIG}`" != "${CONFIG}" ]; then
 	   exec /sbin/ifup ${NEWCONFIG}
 	else
 	   echo $"Device ${DEVICE} has different MAC address than expected, ignoring."
