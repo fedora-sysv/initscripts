@@ -13,7 +13,10 @@ source_config
 DEVICETYPE=`echo $DEVICE | sed "s/[0-9]*$//"`
 
 if [ "${DEVICETYPE}" = "ppp" -o "${DEVICETYPE}" = "ippp" ]; then
-    [ -f /etc/resolv.conf.save ] && cat /etc/resolv.conf.save > /etc/resolv.conf
+    if [ -f /etc/resolv.conf.save ]; then
+	cat /etc/resolv.conf.save > /etc/resolv.conf
+	rm -f /etc/resolv.conf.save
+    fi
 fi
 
 # Reset the default route if this interface had a special one
