@@ -169,7 +169,7 @@ if [ "${SLAVE}" = yes -a "${ISALIAS}" = no -a "${MASTER}" != "" -a \
      -x /sbin/ifenslave ]; then
     RFLAG="" ; [ "${RECEIVEONLY}" = yes ] && RFLAG="-r"
 
-    /sbin/ip link set ${DEVICE} down
+    /sbin/ip link set dev ${DEVICE} down
     echo $"Enslaving ${DEVICE} to ${MASTER}"
     ifenslave ${RFLAG} "${MASTER}" "${DEVICE}"
 
@@ -178,7 +178,7 @@ fi
 
 # master device?
 if [ "${TYPE}" =  "Bonding" ] || ethtool -i $DEVICE | grep -q "driver: bonding" ; then
-    /sbin/ip link set ${DEVICE} up
+    /sbin/ip link set dev ${DEVICE} up
     for device in `fgrep -l "MASTER=${DEVICE}" /etc/sysconfig/network-scripts/ifcfg-*` ; do
         /sbin/ifup ${device##*/}
     done
@@ -188,10 +188,10 @@ fi
 # available as a configuration option in the config file, forcing the kernel
 # to think an ethernet card has a different MAC address than it really has.
 if [ -n "${MACADDR}" ]; then
-   ip link set ${DEVICE} address ${MACADDR}
+   ip link set dev ${DEVICE} address ${MACADDR}
 fi
 if [ -n "${MTU}" ]; then
-   ip link set ${DEVICE} mtu ${MTU}
+   ip link set dev ${DEVICE} mtu ${MTU}
 fi
 
 # Is there a firewall running, and does it look like one we configured?
@@ -241,7 +241,7 @@ if [ -n "${DYNCONFIG}" ]; then
     echo -n $"Determining IP information for ${DEVICE}..."
     if check_link_down ${DEVICE}; then
 	echo $" failed; no link present.  Check cable?"
-	ip link set ${DEVICE} down >/dev/null 2>&1
+	ip link set dev ${DEVICE} down >/dev/null 2>&1
 	exit 1
     fi
 
@@ -282,7 +282,7 @@ if [ -n "${DYNCONFIG}" ]; then
 else 
     if [ -z "${IPADDR}" ]; then
          # enable device without IP, useful for e.g. PPPoE
-	 ip link set ${REALDEVICE} up
+	 ip link set dev ${REALDEVICE} up
 	 if [ "${NETWORKING_IPV6}" = "yes" ]; then
 	    /etc/sysconfig/network-scripts/ifup-ipv6 ${CONFIG}
 	 fi
@@ -292,9 +292,9 @@ else
     expand_config
     
     [ -n "${ARP}" ] && \
-	ip link set ${REALDEVICE} $(toggle_value arp $ARP)
+	ip link set dev ${REALDEVICE} $(toggle_value arp $ARP)
    
-    if ! ip link set ${REALDEVICE} up ; then
+    if ! ip link set dev ${REALDEVICE} up ; then
 	echo $"Failed to bring up ${DEVICE}."
 	exit 1
     fi
