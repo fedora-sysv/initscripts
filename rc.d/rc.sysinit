@@ -252,7 +252,7 @@ if [ -z "$fastboot" -a "X$ROOTFSTYPE" != "Xnfs" ]; then
 
         STRING=$"Checking root filesystem"
 	echo $STRING
-	initlog -c "fsck -T -a $fsckoptions /"
+	initlog -c "fsck -T -a / $fsckoptions"
 	rc=$?
 	
 	if [ "$rc" = "0" ]; then
