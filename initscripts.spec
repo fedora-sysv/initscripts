@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.94
+Version: 6.95
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -244,6 +244,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Wed Sep  4 2002 Bill Nottingham <notting@redhat.com> 6.95-1
+- fix syntax error in duplicate route removal section of ifup
+
 * Wed Sep  4 2002 Nalin Dahyabhai <nalin@redhat.com> 6.94-1
 - fix syntax error calling unicode_start when SYSFONTACM isn't set
 
