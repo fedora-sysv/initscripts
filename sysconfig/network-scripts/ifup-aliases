@@ -295,7 +295,9 @@ if [ "$BASH_VERSINFO" ]; then shopt -s nullglob; else allow_null_glob_expansion=
 for FILE in ifcfg-${parent_device}:*[^~] ; do
        ini_env;
        . $FILE;
+       [ -z "$DEVICE" ] && DEVICE=${FILE##ifcfg-}
        new_interface;
+       unset DEVICE
 done
 
 for FILE in ifcfg-${parent_device}-range*[^~] ; do
