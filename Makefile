@@ -37,6 +37,9 @@ install:
 	install -m755 prefdm $(ROOT)/etc/X11/prefdm
 
 	cp -af rc.d sysconfig ppp $(ROOT)/etc
+	mkdir -p $(ROOT)/etc/sysconfig/networking/default
+	mkdir -p $(ROOT)/etc/sysconfig/networking/devices
+	mkdir -p $(ROOT)/etc/sysconfig/networking/profiles
 	mkdir -p $(ROOT)/etc/sysconfig/console
 	if uname -m | grep -q s390 ; then \
 	  install -m644 sysconfig/init.s390 $(ROOT)/etc/sysconfig/init ; \
