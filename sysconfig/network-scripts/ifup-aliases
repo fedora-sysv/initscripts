@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 #
 # configures aliases of device $1
@@ -150,7 +150,7 @@ function new_interface ()
        if [ -n "$devseen" ]; then
               echo "error in $FILE: already seen device $parent_device:$DEVNUM\ in $devseen" >&2; exit 0
        fi
-
+       
        if [ -z "$DEVICE" -o -z "$IPADDR" ]; then
               echo "error in $FILE: didn't specify device or ipaddr" >&2 ; exit 0
        fi
@@ -289,12 +289,50 @@ function new_interface ()
 
 if [ "$BASH_VERSINFO" ]; then shopt -s nullglob; else allow_null_glob_expansion=foo; fi
 
+# This is for linuxconf-style alias files.
+aliasnum=0
 for FILE in ifcfg-${parent_device}:* ; do
 
        ini_env;
        . $FILE;
-       new_interface;
+       if [ -z "$DEVICE" ]; then
+          # Eek, it's a linuxconf file.
+	  
+          for address in $IPADDR; do
+	       if echo $address | grep -q '-' ; then
+	             IPADDR_START=${address%-*}
+       		     ipaddr_prefix=${IPADDR_START%.*}
+                     ipaddr_startnum=${IPADDR_START##*.}
+		     IPADDR_END="${ipaddr_prefix}.${address##*-}"
+                     ipaddr_endnum=${IPADDR_END##*.}
 
+                     if [ "${IPADDR_START%.*}" != "${IPADDR_END%.*}" ]; then
+                         echo "error in $FILE: IPADDR_START and IPADDR_END don't argree" >&2; exit 0
+                     fi
+
+                     if [ $ipaddr_startnum -gt $ipaddr_endnum ]; then
+                         echo "error in $FILE: IPADDR_START greater than IPADDR_END" >&2; exit 0
+                     fi
+
+                     ipaddr_num=$ipaddr_startnum
+
+                     while [ $ipaddr_num -le $ipaddr_endnum ]; do
+                         IPADDR="$ipaddr_prefix.$ipaddr_num"
+                         DEVICE="$parent_device:$aliasnum"
+                         new_interface;
+                         let 'ipaddr_num=ipaddr_num+1'
+                         let 'aliasnum=aliasnum+1'
+                     done
+	       else
+	           DEVICE="${parent_device}:${aliasnum}"
+		   IPADDR=$address
+		   new_interface;
+		   let 'aliasnum=aliasnum+1'
+	       fi
+	  done
+       else
+         new_interface;
+       fi
 done
 
 for FILE in ifcfg-${parent_device}-range* ; do
