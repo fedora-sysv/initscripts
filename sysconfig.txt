@@ -115,6 +115,8 @@ Files in /etc/sysconfig
   IPXAUTOFRAME=on|off (again, not yes|no)
   IPXINTERNALNETNUM=<netnum>
   IPXINTERNALNODENUM=<nodenum>
+  NETWORKING_IPV6=yes|no
+    Enable or disable global IPv6 initialiation
 
   All the IPX stuff is optional, and should default to off.
 
@@ -151,6 +153,28 @@ Files in /etc/sysconfig
   
   adds a network route to the 192.168.2.0 network through ppp0.
   
+/etc/sysconfig/static-routes-ipv6:
+  Contains lines of the form:
+
+    <device> ipv6network ipv6gateway
+    <tunneldevice> ipv6network
+
+  <device> must be a device name to have the route brought up and
+  down with the device
+
+  For example:
+  
+  eth0   fec0:0:0:2::/64                         fec0:0:0:1:0:0:0:20
+   adds a route for IPv6 network fec0:0:0:2::/64 through fec0:0:0:1:0:0:0:20
+   
+  eth0    2000::/3				3ffe:400:100:f101::1
+  eth0    3ffe::/16				3ffe:400:100:f101::1
+   so called "default" route for clients
+
+  sit1    2000::/3
+  sit1    3ffe::/16
+   adds routes through virtual tunnel sit1
+
 /etc/sysconfig/routed:
 
   SILENT=yes|no
@@ -329,6 +353,12 @@ Files in /etc/sysconfig/network-scripts/
   most of the code for handling alternative interface configurations
   and interface change notification through netreport.
 
+/etc/sysconfig/network-scripts/network-functions-ipv6:
+
+  Not really a public file.  Contains functions which the scripts use
+  for bringing IPv6 on interfaces up and down, like addresses, routes,
+  forwarding handling and static or automatic tunneling.
+
 /etc/sysconfig/network-scripts/ifcfg-<interface-name> and
 /etc/sysconfig/network-scripts/ifcfg-<interface-name>:<alias-name>:
 
@@ -373,6 +403,38 @@ Files in /etc/sysconfig/network-scripts/
   Base items being deprecated:
     NETWORK=<will be calculated automatically with ifcalc>
     BROADCAST=<will be calculated automatically with ifcalc>
+
+  IPv6-only items for real interfaces:
+    IPV6INIT=yes|no
+      enable or disable IPv6 configuration for this interface
+    IPV6FORWARDING=yes|no
+      enable or disable forwarding of incoming IPv6 packes on this
+       interface (perhaps moved to sysctl in the future)
+    IPV6ADDR=<ipv6address>/<prefixlength>
+      specify primary static IPv6 address here
+      Example:
+        IPV6ADDR="3ffe:400:100:f101::1/64"
+    IPV6ADDR_SECONDARIES=<list of ipv6 addresses>
+      a list of secondary IPv6 addresses (perhaps useful for virtual hosting)
+      Example:
+        IPV6ADDR_SECONDARIES="3ffe:400:100:f101::10/64 3ffe:400:100:f101::11/64"
+
+  IPv6-only items for automatic tunnel interface: 
+    Virtual interface name: sit0
+    IPV6INIT=yes|no
+      enable or disable IPv6 configuration for this interface
+    (Perhaps this configuration will be moved to /etc/rc.d/init.d/network in the future)
+    
+  IPv6-only items for static unnumbered tunnel interface:
+    Virtual interface name: sit1..
+    IPV6INIT=yes|no
+      enable or disable IPv6 configuration for this interface
+    IPV6TUNNELIPV4=<ipv4 address of foreign tunnel endpoint>
+      specify IPv4 address of a foreign IPv6-in-IPv4 tunnel endpoint
+      Example:
+        IPV6TUNNELIPV4="195.226.187.50"
+    IPV6ADDR=<ipv6address>/<prefixlength> [OPTIONAL]
+     local IPv6 address of a numbered tunnel
 
   Ethernet-only items:
     {IPXNETNUM,IPXPRIMARY,IPXACTIVE}_{802_2,802_3,ETHERII,SNAP}
