@@ -453,18 +453,6 @@ if [ "X$_RUN_QUOTACHECK" = "X1" -a \
 	action $"Checking root filesystem quotas: " /sbin/quotacheck -nug /
 fi
 
-if [ -x /sbin/isapnp -a -f /etc/isapnp.conf -a ! -f /proc/isapnp ]; then
-    # check for arguments passed from kernel
-    if ! strstr "$cmdline" nopnp ; then
-	PNP=yes
-    fi
-    if [ -n "$PNP" ]; then
-	action $"Setting up ISA PNP devices: " /sbin/isapnp /etc/isapnp.conf
-    else
-	action $"Skipping ISA PNP configuration at users request: " /bin/true
-    fi
-fi
-
 # Remount the root filesystem read-write.
 update_boot_stage RCmountfs
 state=`awk '/ \/ / && ($3 !~ /rootfs/) { print $4 }' /proc/mounts`
