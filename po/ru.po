@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: initscripts\n"
-"PO-Revision-Date: 2002-04-07 01:45EET\n"
+"PO-Revision-Date: 2002-04-10 18:59EET\n"
 "Last-Translator: Leon Kanter <leon@blackcatlinux.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "MIME-Version: 1.0\n"
@@ -60,7 +60,7 @@ msgstr "Отмонтируется initrd: "
 
 #: /etc/sysconfig/network-scripts/ifup-ipv6:168
 msgid "Device 'tun6to4' (from '$DEVICE') is already up, shutdown first"
-msgstr ""
+msgstr "Устройство 'tun6to4' (из '$DEVICE') уже активировано, деактивируйте его сначала"
 
 #: /etc/rc.d/rc.sysinit:69
 msgid "Configuring kernel parameters: "
@@ -129,7 +129,7 @@ msgstr "Служба iscsi уже запущена"
 
 #: /etc/rc.d/init.d/netfs:44
 msgid "Mounting SMB filesystems: "
-msgstr "Монтируется файловая система USB: "
+msgstr "Монтируется файловая система SMB: "
 
 #: /etc/rc.d/init.d/portmap:33
 msgid "Networking not configured - exiting"
@@ -171,7 +171,7 @@ msgstr "применение: ifdown <device name>"
 #: /etc/sysconfig/network-scripts/ifup-ippp:355
 #: /etc/sysconfig/network-scripts/ifup-isdn:355
 msgid "Warning: link doesn't support IPv6 using encapsulation 'rawip'"
-msgstr ""
+msgstr "Предупреждение: уcтройство не поддерживет инкапсуляцию 'rawip'"
 
 #: /etc/rc.d/init.d/autofs:224
 msgid "Active Mount Points:"
@@ -217,7 +217,7 @@ msgstr "$1 "
 msgid ""
 "ERROR: [ipv6_log] Syslog is chosen, but binary 'logger' doesn't exist or "
 "isn't executable"
-msgstr ""
+msgstr "Ошибка: [ipv6_log] Выбран Syslog, но программа 'logger' отсутствует или не исполняема"
 
 #: /etc/rc.d/init.d/random:46
 msgid "The random data source is missing"
@@ -312,6 +312,8 @@ msgid ""
 "Device '$DEVICE' isn't supported here, use IPV6_AUTOTUNNEL setting and "
 "restart (IPv6) networking"
 msgstr ""
+"Устройство '$DEVICE' не поддерживается, используйте параметр IPV6_AUTOTUNNEL и "
+"перезапустите сеть IPv6"
 
 #: /etc/rc.d/init.d/network:227
 msgid "Currently active devices:"
@@ -407,7 +409,6 @@ msgid "Unmounting file systems"
 msgstr "Отмонтируются файловые системы"
 
 #: /etc/sysconfig/network-scripts/ifup-ipv6:235
-#, fuzzy
 msgid "Using 6to4 and RADVD IPv6 forwarding usually should be enabled, but it isn't"
 msgstr "Для использования 6to4 и RADVD маршрутизация IPv6 должна быть включена!"
 
@@ -432,10 +433,10 @@ msgid "Starting YP server services: "
 msgstr "Запускаются службы YP: "
 
 #: /etc/rc.d/rc.sysinit:228
-#, fuzzy, c-format
+#, c-format
 msgid "Press N within %d seconds to not force file system integrity check..."
 msgstr ""
-"\rНажмите N на %d на несколько секунд, чтобы пропустить принудительную "
+"Нажмите N втечение %d секунд, чтобы пропустить принудительную "
 "проверку ФС"
 
 #: /etc/rc.d/init.d/innd:49
@@ -580,7 +581,6 @@ msgid "$0: Usage: daemon [+/-nicelevel] {program}"
 msgstr "$0: Применение: daemon [+/-nicelevel] {program}"
 
 #: /etc/sysconfig/network-scripts/ifup-ipv6:199
-#, fuzzy
 msgid ""
 "IPv6to4 configuration needs an IPv4 address on related interface or "
 "otherwise specified, 6to4 configuration is not valid"
@@ -713,7 +713,7 @@ msgstr "Активируется интерфейс-петля: "
 
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:152
 msgid "ERROR: [ipv6_log] Cannot log to channel '$channel'"
-msgstr ""
+msgstr "Ошибка: [ipv6_log] Невозможно вести журнал в '$channel'"
 
 #: /etc/rc.d/init.d/isdn:119 /etc/rc.d/init.d/isdn:122
 msgid "Loading ISDN modules"
@@ -743,12 +743,11 @@ msgstr "Встроенные цепочки сбрасываются на основную политику ACCEPT"
 
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:32
 msgid "ERROR: [ipv6_log] Missing 'message' (arg 1)"
-msgstr ""
+msgstr "Ошибка: [ipv6_log] Отсутствует аргумент 1-'сообщение'"
 
 #: /etc/sysconfig/network-scripts/ifup-aliases:65
-#, fuzzy
 msgid "usage: ifup-aliases <net-device> [<parent-config>]\n"
-msgstr "применение: ifup-aliases <устройство сети>\n"
+msgstr "применение: ifup-aliases <устройство сети> [<основное устройство>]\n"
 
 #: /etc/rc.d/init.d/radvd:68
 msgid "Usage: radvd {start|stop|status|restart|reload|condrestart}"
@@ -1022,7 +1021,7 @@ msgstr "Перезапустите сеть командой '/sbin/service network restart'"
 
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:95
 msgid "ERROR: [ipv6_log] Loglevel isn't valid '$level' (arg 2)"
-msgstr ""
+msgstr "Ошибка: [ipv6_log] Уровень отладки '$level' некоректен (аргумент 2)"
 
 #: /etc/rc.d/init.d/gpm:25 /etc/rc.d/init.d/gpm:30
 msgid "(no mouse is configured)"
@@ -1034,6 +1033,8 @@ msgid ""
 "Warning: ipppd (kernel 2.4.x and below) doesn't support IPv6 using "
 "encapsulation 'syncppp'"
 msgstr ""
+"Предупреждение: ipppd (kernel 2.4.x и ниже) не поддерживает IPv6 используя "
+"инкапсуляцию 'syncppp'"
 
 #: /etc/rc.d/rc.sysinit:136
 msgid "Loading default keymap ($KEYTABLE): "
@@ -1199,9 +1200,8 @@ msgid "error in $FILE: IPADDR_START greater than IPADDR_END"
 msgstr "ошибка в $FILE: IPADDR_START больше чем IPADDR_END"
 
 #: /etc/rc.d/init.d/ip6tables:66
-#, fuzzy
 msgid "Applying ip6tables firewall rules: "
-msgstr "Загружаются правила брандмауэра iptables: "
+msgstr "Загружаются правила брандмауэра ip6tables: "
 
 #: /etc/rc.d/init.d/functions:147 /etc/rc.d/init.d/named:51
 #: /etc/rc.d/init.d/named:52
@@ -1261,7 +1261,7 @@ msgstr "Останавливаются службы iSCSI: iscsilun"
 
 #: /etc/sysconfig/network-scripts/ifup-sit:75
 msgid "Device '$DEVICE' is already up, please shutdown first"
-msgstr ""
+msgstr "Устройство '$DEVICE' уже активированно, деактивируйте сначала"
 
 #: /etc/rc.d/rc.sysinit:161
 msgid "Activating swap partitions: "
@@ -1289,7 +1289,7 @@ msgstr "Применение: (halt|reboot) {start}"
 
 #: /etc/sysconfig/network-scripts/ifup-ipv6:210
 msgid "Warning: interface 'tun6to4' does not support 'IPV6_DEFAULTGW', ignored"
-msgstr ""
+msgstr "Предупреждение: устройство 'tun6to4' не поддерживает 'IPV6_DEFAULTGW', пропущено"
 
 #: /etc/rc.d/init.d/iscsi:109 /etc/rc.d/init.d/rawdevices:77
 #: /etc/rc.d/init.d/rstatd:63 /etc/rc.d/init.d/rusersd:66
@@ -1351,7 +1351,7 @@ msgstr "     rawdevices теперь расположены в каталоге /dev/raw/"
 
 #: /etc/rc.d/init.d/ntpd:42
 msgid "$prog: No servers in $ntpconf and $ntpstep"
-msgstr ""
+msgstr "$prog: Сервера в $ntpconf и $ntpstep не найдены"
 
 #: /etc/rc.d/init.d/rawdevices:55
 msgid "Assigning devices: "
@@ -1523,193 +1523,4 @@ msgstr "запуск vncserver"
 #: /etc/rc.d/init.d/zebra:54
 msgid "Usage: $0 {start|stop|restart|reload|condrestart|status}"
 msgstr "Применение: $0 {start|stop|restart|reload|condrestart|status}"
-
-#~ msgid "Kernel is not compiled with IPv6 support"
-#~ msgstr "При сборке ядра не включена поддержка IPv6"
-
-#~ msgid "Missing parameter 'IPv6AddrToTest' (arg 2)"
-#~ msgstr "Пропущен параметр 'IPv6AddrToTest' (arg 2)"
-
-#~ msgid "Starting $prog"
-#~ msgstr "Запускается $prog"
-
-#~ msgid "Tunnel device '$device' creation didn't work - ERROR!"
-#~ msgstr "ОШИБКА: Ошибка создания туннеля '$device'"
-
-#~ msgid "Missing parameter 'IPv6-network' (arg 1)"
-#~ msgstr "Пропущен параметр 'IPv6-network' (arg 1)"
-
-#~ msgid "Missing 'prefix length' for given address '$testipv6addr_valid'"
-#~ msgstr ""
-#~ "Пропущен параметр 'prefix length' для данного адреса '$testipv6addr_valid'"
-
-#~ msgid "Missing parameter 'local IPv4 address' (arg 2)"
-#~ msgstr "Пропущен параметр 'local IPv4 address' (arg 2)"
-
-#~ msgid "Starting junkbuster: "
-#~ msgstr "Запускается junkbuster: "
-
-#~ msgid "Missing parameter 'IPv4-tunnel address' (arg 2)"
-#~ msgstr "Пропущен параметр 'IPv4-tunnel address' (arg 2)"
-
-#~ msgid "Tunnel device 'sit0' is still up - FATAL ERROR!"
-#~ msgstr "Устройство туннеля 'sit0' все еще активно - ФАТАЛЬНАЯ ОШИБКА!"
-
-#~ msgid "Missing parameter 'IPv6-address' (arg 2)"
-#~ msgstr "Пропущен параметр 'IPv6-address' (arg 2)"
-
-#~ msgid "$*"
-#~ msgstr "$*"
-
-#~ msgid "Devices with modified configuration:"
-#~ msgstr "Устройства с измененной конфигурацией:"
-
-#~ msgid "Don't understand forwarding control parameter '$fw_control' (arg 1)"
-#~ msgstr "Не понятен параметр управления форвардингом '$fw_control' (arg1)"
-
-#~ msgid "Usage: $0 {start|stop|restart|reload|status|probe}"
-#~ msgstr "Применение: $0 {start|stop|restart|reload|status|probe}"
-
-#~ msgid "Red Hat"
-#~ msgstr "Red Hat"
-
-#~ msgid "Bringing up device $device: "
-#~ msgstr "Активируется устройство $device: "
-
-#~ msgid "Trigger RADVD for IPv6to4 prefix recalculation"
-#~ msgstr "Перезапуск RADVD для обновления информации IPv6to4"
-
-#~ msgid "Missing parameter 'device' (arg 1)"
-#~ msgstr "Пропущен параметр 'устройство' (arg 1)"
-
-#~ msgid "$prog is running, PIDs: $PIDS."
-#~ msgstr "$prog запущена, PIDы: $PIDS."
-
-#~ msgid "Shutting down device $device: "
-#~ msgstr "Деактивируется устройство $device: "
-
-#~ msgid "Generated 6to4 prefix '$prefix6to4' from '$localipv4'"
-#~ msgstr "Полученн префикс 6to4 '$prefix6to4' из '$localipv4'"
-
-#~ msgid ""
-#~ "IPv6to4 configuration needs an IPv6to4 relay address, 6to4 configuration "
-#~ "is not valid!"
-#~ msgstr ""
-#~ "Конифгурация IPv6to4 требует адрес шлюза IPv6to4, 6to4 конфигурация "
-#~ "некорректна!"
-
-#~ msgid "Tunnel device 'sit0' enabling didn't work - FATAL ERROR!"
-#~ msgstr "КРИТИЧЕСКАЯ ОШИБКА: Невозможно активировать устройство 'sit0'"
-
-#~ msgid "Missing parameter 'device'"
-#~ msgstr "Пропущен параметр 'устройство'"
-
-#~ msgid "Bringing up interface lo: "
-#~ msgstr "Активируется интерфейс lo: "
-
-#~ msgid "Usage: junkbuster {start|stop|restart|reload|condrestart|status}"
-#~ msgstr ""
-#~ "Применение: junkbuster {start|stop|restart|reload|condrestart|status}"
-
-#~ msgid "Tunnel creation mode '$IPV6_TUNNELMODE' not supported - skip!"
-#~ msgstr "Тип туннеля '$IPV6_TUNNELMODE' не поддерживается - пропускаем!"
-
-#~ msgid "Device '$device' enabling didn't work - FATAL ERROR!"
-#~ msgstr "КРИТИЧЕСКАЯ ОШИБКА: Ошибка активизации устройства '$device'"
-
-#~ msgid "Table: filter"
-#~ msgstr "Таблица: фильтр"
-
-#~ msgid ""
-#~ "'prefix length' on given address '$testipv6addr_valid' is out of range (0-"
-#~ "128)"
-#~ msgstr ""
-#~ "'prefix length' данного адреса '$testipv6addr_valid' выходит за рамки (0-"
-#~ "128)"
-
-#~ msgid "Stopping junkbuster: "
-#~ msgstr "Останавливается junkbuster: "
-
-#~ msgid "Adding internal IPX network $IPXINTERNALNETNUM $IPXINTERNALNODENUM: "
-#~ msgstr ""
-#~ "Добавляется внутренняя сеть IPX $IPXINTERNALNETNUM $IPXINTERNALNODENUM: "
-
-#~ msgid "Bringing up alias $device: "
-#~ msgstr "Активируется псевдоустройство $device: "
-
-#~ msgid "Tunnel device '$device' bringing up didn't work - ERROR!"
-#~ msgstr "ОШИБКА: Ошибка активизации туннеля '$device'!"
-
-#~ msgid "Bringing up route $device: "
-#~ msgstr "Поднимается маршрут $device: "
-
-#~ msgid "Given IPv6 MTU is out of range"
-#~ msgstr "Указанный IPv6 MTU выходит из диапазона"
-
-#~ msgid "Missing parameter 'forwarding control' (arg 1)"
-#~ msgstr "Пропущен параметр 'forwarding control' (arg 1)"
-
-#~ msgid "Unmounting loobpack filesystems: "
-#~ msgstr "Отмонтируются файловые системы loopback: "
-
-#~ msgid ""
-#~ "Given address of relay is not a globally usable one, 6to4 configuration "
-#~ "is not valid!"
-#~ msgstr ""
-#~ "Указанный адрес шлюза не может использоватся в глобальной сети, 6to4 "
-#~ "конфигурация некоректна!"
-
-#~ msgid "Table: nat"
-#~ msgstr "Таблица: nat"
-
-#~ msgid "Deleting internal IPX network: "
-#~ msgstr "Удаляется внутренняя сеть IPX: "
-
-#~ msgid "Missing parameter 'IPv6-route' (arg 3)"
-#~ msgstr "Пропущен параметр 'IPv6-route' (arg 3)"
-
-#~ msgid "Given IPv6 address '$testipv6addr_valid' is not valid"
-#~ msgstr "Указанный адрес IPv6  'testipv6addr_valid' некоректен"
-
-#~ msgid ""
-#~ "IPv6 forwarding per device cannot be controlled via sysctl - use "
-#~ "netfilter6 instead!"
-#~ msgstr ""
-#~ "Маршрутизация IPv6 не может быть установлена на устройстве при помощи "
-#~ "sysctl. Используйте netfilter6."
-
-#~ msgid "Turning off accounting: "
-#~ msgstr "Отключается учет: "
-
-#~ msgid "Usage: ifdown_ipv6to4_all interfacename"
-#~ msgstr "Применение: ifdown_ipv6to4_all interfacename"
-
-#~ msgid " Linux"
-#~ msgstr " Linux"
-
-#~ msgid ""
-#~ "Utility 'ip' (from the iproute package) doesn't exist or isn't executable "
-#~ "- non-NBMA-styled tunneling setup won't work!"
-#~ msgstr ""
-#~ "Утилита 'ip' (пакет iproute) не установлена - не-NBMA туннели работать не "
-#~ "будут!"
-
-#~ msgid ""
-#~ "Given remote address '$addressipv4tunnel' on tunnel device '$device' is "
-#~ "already configured on device '$devnew' - FATAL ERROR!"
-#~ msgstr ""
-#~ "КРИТИЧЕСКАЯ ОШИБКА: Указанный удаленный адреc '$addressipv4tunnel' на "
-#~ "устройстве '$device' уже используется устройством '$devnew'!"
-
-#~ msgid "Devices that are down:"
-#~ msgstr "Неактивные устройства:"
-
-#~ msgid "$prog not running."
-#~ msgstr "$prog не выполняется."
-
-#~ msgid "Missing parameter 'IPv6-gateway' (arg 2)"
-#~ msgstr "Пропущен параметр 'IPv6-gateway' (arg 2)"
-
-#~ msgid "Missing parameter 'IPv6 MTU' (arg 2)"
-#~ msgstr "Пропущен параметр 'IPv6-MTU' (arg 2)"
 
