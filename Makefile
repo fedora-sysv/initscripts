@@ -108,7 +108,7 @@ check:
 	done
 
 changelog:
-	@rcs2log -rinitscripts-7_2-branch | sed "s|@.*redhat\.com|@redhat.com|" | sed "s|@.*redhat\.de|@redhat.com|" | sed "s|@redhat\.de|@redhat.com|" | sed "s|@@|@|" | \
+	@rcs2log | sed "s|@.*redhat\.com|@redhat.com|" | sed "s|@.*redhat\.de|@redhat.com|" | sed "s|@redhat\.de|@redhat.com|" | sed "s|@@|@|" | \
 	 sed "s|/mnt/devel/CVS/initscripts/||g" | sed "s|/cvs/rhl/initscripts/||g" > changenew
 	 mv ChangeLog ChangeLog.old
 	 cat changenew ChangeLog.old > ChangeLog
