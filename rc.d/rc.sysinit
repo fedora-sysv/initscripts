@@ -291,10 +291,6 @@ fi
 
 # Clean out /etc.
 rm -f /etc/mtab~ /fastboot /fsckoptions /forcefsck
->/var/run/utmp
-touch /var/log/wtmp
-chgrp utmp /var/run/utmp /var/log/wtmp
-chmod 0664 /var/run/utmp /var/log/wtmp
 
 # Clean up /var
 # I'd use find, but /usr may not be mounted.
@@ -305,6 +301,12 @@ for afile in /var/lock/* /var/run/*; do
       rm -f $afile
    fi
 done
+
+# Clean up utmp/wtmp
+>/var/run/utmp
+touch /var/log/wtmp
+chgrp utmp /var/run/utmp /var/log/wtmp
+chmod 0664 /var/run/utmp /var/log/wtmp
 
 # Delete X locks
 rm -f /tmp/.X*-lock
