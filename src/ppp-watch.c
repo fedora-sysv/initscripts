@@ -126,11 +126,12 @@ detach(int now, int parentExitCode, char *device) {
 		break;
 	    case 33:
 		fprintf(stderr, "%s already up, initiating redial\n", device);
+		break;
 	    case 34:
 		fprintf(stderr, "Failed to activate %s, retrying in the background\n", device);
 		break;
 	    default:
-		fprintf(stderr, "Failed to activate %s\n", device);
+		fprintf(stderr, "Failed to activate %s with error %d\n", device, exitCode);
 		break;
 	    }
 	    exit(exitCode);
@@ -552,6 +553,18 @@ main(int argc, char **argv) {
 
 	    if (!WIFEXITED(status)) cleanExit(29);
 	    if (dieing) cleanExit(WEXITSTATUS(status));
+
+	    /* error conditions from which we do not expect to recover
+	     * without user intervention -- do not fill up the logs.
+	     */
+	    switch (WEXITSTATUS(status)) {
+	    case 1: case 2: case 3: case 4: case 6:
+	    case 7: case 9: case 14: case 17:
+		cleanExit(WEXITSTATUS(status));
+		break;
+	    default:
+		break;
+	    }
 
 	    if (!connectedOnce || svTrueValue(ifcfg, "PERSIST", 0)) {
 		temp = svGetValue(ifcfg, "RETRYTIMEOUT");
