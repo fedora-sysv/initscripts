@@ -1,3 +1,24 @@
+2003-09-11  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec: 7.32-1
+
+	* sysconfig/network-scripts/ifup-ipsec:
+	ipsec fixes - detect automatic keying better, fix variable names for
+	tunneling
+
+	* sysconfig/network-scripts/ifdown, sysconfig/network-scripts/ifup, sysconfig/network-scripts/network-functions:
+	always call 'ip link set *dev* ${DEVICE}', to avoid confusion with
+	other ip parameters (#104187)
+
+2003-09-10  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit:
+	the vio check in consoletype requires /proc, so we must mount
+	/proc before sourcing /etc/init.d/functions (#103990)
+
+	* initscripts.spec, src/genhostid.1, src/genhostid.c, src/Makefile:
+	add uli's hostid setting program
+
 2003-09-09  Bill Nottingham  <notting@redhat.com>
 
 	* ChangeLog, initscripts.spec:
