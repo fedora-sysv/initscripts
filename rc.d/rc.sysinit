@@ -275,10 +275,16 @@ if [ "$BOOTUP" = "color" ]; then
 else
 	fsckoptions="-V $fsckoptions"
 fi
+
+if [ -f /etc/rc.readonly ]; then
+    # Call rc.readonly to set up magic stuff needed for readonly root
+    . /etc/rc.readonly
+    READONLY=1
+fi
  
 _RUN_QUOTACHECK=0
 ROOTFSTYPE=`awk '/ \/ / && ($3 !~ /rootfs/) { print $3 }' /proc/mounts`
-if [ -z "$fastboot" -a "X$ROOTFSTYPE" != "Xnfs" -a "X$ROOTFSTYPE" != "Xnfs4" ]; then 
+if [ -z "$fastboot" -a -z "$READONLY" -a "X$ROOTFSTYPE" != "Xnfs" -a "X$ROOTFSTYPE" != "Xnfs4" ]; then 
 
         STRING=$"Checking root filesystem"
 	echo $STRING
@@ -372,7 +378,7 @@ fi
 # Remount the root filesystem read-write.
 update_boot_stage RCmountfs
 state=`awk '/ \/ / && ($3 !~ /rootfs/) { print $4 }' /proc/mounts`
-[ "$state" != "rw" ] && \
+[ "$state" != "rw" -a -z "$READONLY" ] && \
   action $"Remounting root filesystem in read-write mode: " mount -n -o remount,rw /
 
 # LVM2 initialization
@@ -409,7 +415,7 @@ if [ -n "$SELINUX" ]; then
 fi
 
 # Clear mtab
-> /etc/mtab
+(> /etc/mtab) &> /dev/null
 
 # Remove stale backups
 rm -f /etc/mtab~ /etc/mtab~~
@@ -678,7 +684,7 @@ if [ -f /.unconfigured ]; then
 fi
 
 # Clean out /.
-rm -f /fastboot /fsckoptions /forcefsck /.autofsck /halt /poweroff
+rm -f /fastboot /fsckoptions /forcefsck /.autofsck /halt /poweroff &> /dev/null
 
 # Do we need (w|u)tmpx files? We don't set them up, but the sysadmin might...
 _NEED_XFILES=
@@ -839,7 +845,8 @@ fi
 dmesg -s 131072 > /var/log/dmesg
 
 # create the crash indicator flag to warn on crashes, offer fsck with timeout
-touch /.autofsck
+touch /.autofsck &> /dev/null
+
 kill -TERM `/sbin/pidof getkey` >/dev/null 2>&1
 } &
 if strstr "$cmdline" confirm ; then
