@@ -52,6 +52,11 @@ fi
 
 action $"Mounting proc filesystem: " mount -n -t proc /proc /proc
 
+# Unmount the initrd, if necessary
+if grep -q /tmp/initrd /proc/mounts ; then
+   action $"Unmounting initrd: " umount /tmp/initrd
+fi
+
 # Configure kernel parameters
 
 action $"Configuring kernel parameters: " sysctl -e -p /etc/sysctl.conf
