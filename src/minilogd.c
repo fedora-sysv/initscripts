@@ -35,7 +35,7 @@ void freeBuffer() {
    strncpy(addr.sun_path,_PATH_LOG,sizeof(addr.sun_path)-1);
    /* wait for klogd to hit syslog */
    sleep(1);
-   sock = socket(AF_LOCAL, SOCK_STREAM,0);
+   sock = socket(AF_LOCAL, SOCK_DGRAM,0);
    conn=connect(sock,(struct sockaddr *) &addr,sizeof(addr));
    while (x<buflines) {
       if (!conn) write(sock,buffer[x],strlen(buffer[x])+1);
