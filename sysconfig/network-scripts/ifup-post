@@ -25,7 +25,10 @@ fi
 if [ "$2" = "boot" -a -n "$NEEDHOSTNAME" -a "${DEVICE}" != lo -a "${DEVICETYPE}" != "ppp" -a "${DEVICETYPE}" != "slip" ]; then
     IPADDR=`LANG= LC_ALL= ifconfig ${DEVICE} | grep 'inet addr' | 
 	    awk -F: '{ print $2 } ' | awk '{ print $1 }'`
-    eval `/bin/ipcalc --silent --hostname ${IPADDR}` && set_hostname $HOSTNAME
+    eval `/bin/ipcalc --silent --hostname ${IPADDR}`
+    if [ "$?" = "0" ]; then
+    	set_hostname $HOSTNAME
+    fi
 fi
 
 if [ "$PEERDNS" != "no" -o -n "$RESOLV_MODS" -a "$RESOLV_MODS" != "no" ]; then
