@@ -252,6 +252,8 @@ rm -rf $RPM_BUILD_ROOT
 - initlog, ppp-watch, and usernetctl tweaks (<linux_4ever@yahoo.com>)
 - fix grep for mingetty (#97188)
 - fix rhgb-client bad syntax
+- change network device searching, use correct naming, fix route issues
+  (<harald@redhat.com>)
 - other random tweaks
 
 * Fri May 23 2003 Bill Nottingham <notting@redhat.com> 7.24-1
