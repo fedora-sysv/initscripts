@@ -150,7 +150,7 @@ fi
 			     
 if [ -n "${DYNCONFIG}" ]; then
     PUMPARGS=$PUMPARGS
-    DHCPCDARGS=$DHCPCDARGS
+    DHCPCDARGS="$DHCPCDARGS -n"
     if [ -n "${DHCP_HOSTNAME}" ]; then
        PUMPARGS="-h ${DHCP_HOSTNAME}"
        DHCPCDARGS="-h ${DHCP_HOSTNAME}"
@@ -175,7 +175,7 @@ if [ -n "${DYNCONFIG}" ]; then
     
     if [ -x /sbin/dhcpcd ] && /sbin/dhcpcd ${DHCPCDARGS} ${DEVICE} ; then
 	echo $" done."
-    elif [ -x /sbin/pump ] && /sbin/pump ${PUMPARGS} -i ${DEVICE}; then
+    elif [ -z "`pidof -x dhcpcd`" ] && [ -x /sbin/pump ] && /sbin/pump ${PUMPARGS} -i ${DEVICE}; then
 	echo $" done."
     else
 	echo $" failed."
