@@ -626,6 +626,10 @@ if [ -f /.unconfigured ]; then
     fi
 
     rm -f /.unconfigured
+
+    if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
+	chvt 8
+    fi
 fi
 
 # Clean out /.
