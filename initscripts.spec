@@ -66,12 +66,8 @@ touch $RPM_BUILD_ROOT/var/log/wtmp
 
 %pre
 /usr/sbin/groupadd -g 22 -r -f utmp
-if [ -d /etc/rc.d -a -d /etc/init.d ]; then
-   echo "can't move /etc/rc.d/init.d -> /etc/init.d - bailing"
-   exit 1
-fi
 if [ -d /etc/rc.d ]; then
-   mv -f /etc/rc.d/* /etc && rm -rf /etc/rc.d && ln -snf . /etc/rc.d
+   cp -af /etc/rc.d/* /etc && rm -rf /etc/rc.d && ln -snf . /etc/rc.d
 fi
 
 %post
@@ -223,6 +219,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Jun 26 2000 Bill Nottingham <notting@redhat.com>
+- tweak %%pre
+
 * Wed Jun 21 2000 Preston Brown <pbrown@redhat.com>
 - noreplace for adjtime file
 
