@@ -63,6 +63,7 @@ void readConfiguration(char *fname) {
     data=malloc(sbuf.st_size+1);
     if (read(fd,data,sbuf.st_size)!=sbuf.st_size) {
 	    close(fd);
+	    free(data);
 	    return;
     }
     close(fd);

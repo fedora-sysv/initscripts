@@ -22,7 +22,7 @@
 #include <limits.h>
 
 /* This will be running setuid root, so be careful! */
-static char * safeEnviron[] = {
+static const char * safeEnviron[] = {
 	"PATH=/bin:/sbin:/usr/bin:/usr/sbin",
 	"HOME=/root",
 	NULL
@@ -39,11 +39,11 @@ usage(void) {
 }
 
 static size_t
-testSafe(char *ifaceConfig) {
+testSafe(char *ifaceConfig, int fd) {
     struct stat sb;
 
     /* These shouldn't be symbolic links -- anal, but that's fine w/ mkj. */
-    if (lstat(ifaceConfig, &sb)) {
+    if (fstat(fd, &sb)) {
 	fprintf(stderr, "failed to stat %s: %s\n", ifaceConfig, 
 		strerror(errno));
 	exit(1);
@@ -78,13 +78,23 @@ userCtl(char *file) {
     int fd = -1, retval = NOT_FOUND;
     size_t size = 0;
 
-    size = testSafe(file);
-
-    buf = contents = malloc(size + 2);
-
+    /* Open the file and then test it to see if we like it. This way
+       we avoid switcheroo attacks. */
     if ((fd = open(file, O_RDONLY)) == -1) {
 	fprintf(stderr, "failed to open %s: %s\n", file, strerror(errno));
 	exit(1);
+    }
+
+    size = testSafe(file, fd);
+    if (size > INT_MAX) {
+        fprintf(stderr, "file %s is too big\n", file);
+        exit(1);
+    }
+
+    buf = contents = malloc(size + 2);
+    if (contents == NULL) {
+        fprintf(stderr, "failed to allocate memory\n");
+        exit(1);
     }
 
     if (read(fd, contents, size) != size) {
@@ -105,7 +115,7 @@ userCtl(char *file) {
 	while (chptr >= contents && isspace(*chptr)) chptr--;
 	*(++chptr) = '\0';
 
-	if (!strncmp(contents, "USERCTL=", 8)) {
+	if (!strncasecmp(contents, "USERCTL=", 8)) {
 	    contents += 8;
 	    if ((contents[0] == '"' &&
 		 contents[strlen(contents) - 1] == '"') ||
@@ -116,7 +126,7 @@ userCtl(char *file) {
 		contents[strlen(contents) - 1] = '\0';
 	    }
 
-	    if (!strcmp(contents, "yes") || !strcmp(contents, "true")) 
+	    if (!strcasecmp(contents, "yes") || !strcasecmp(contents, "true")) 
 		retval = FOUND_TRUE;
 	    else 
 		retval = FOUND_FALSE;

@@ -155,6 +155,7 @@ int main(int argc, char **argv) {
    dup2(sock,0);
    dup2(sock,1);
    dup2(sock,2);
+   close(sock);
 	
    bzero(&addr, sizeof(addr));
    addr.sun_family = AF_LOCAL;

@@ -33,7 +33,7 @@ extern regex_t **regList;
 int forkCommand(char **args, int *outfd, int *errfd, int *cmdfd, int quiet) {
    /* Fork command 'cmd', returning pid, and optionally pointer
     * to open file descriptor fd */
-    int fdout, fderr, fdcmd, pid;
+    int fdout=-1, fderr=-1, fdcmd=-1, pid;
     int outpipe[2], errpipe[2], fdpipe[2];
     int ourpid;
     
@@ -63,6 +63,8 @@ int forkCommand(char **args, int *outfd, int *errfd, int *cmdfd, int quiet) {
     } else {
         fdcmd = open("/dev/null",O_WRONLY);
     }
+    if (fdout==-1 || fderr==-1 || fdcmd==-1)
+	return -1;
     ourpid = getpid();
     if ((pid = fork())==-1) {
 	perror("fork");
@@ -139,7 +141,6 @@ int forkCommand(char **args, int *outfd, int *errfd, int *cmdfd, int quiet) {
 
 int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet, int debug) {
     struct pollfd *pfds;
-    char *buf=malloc(8192*sizeof(char));
     char *outbuf=NULL;
     char *tmpstr=NULL;
     int x,y,rc=-1;
@@ -165,6 +166,9 @@ int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet,
        usleep(500);
        if (((x=poll(pfds,numfds,500))==-1)&&errno!=EINTR) {
 	  perror("poll");
+          free(pfds);
+          if (procpath)
+             free(procpath);
 	  return -1;
        }
        if (!reexec) {
@@ -176,16 +180,22 @@ int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet,
 	   if (stat(procpath,&sbuf)&&!stat("/proc/cpuinfo",&sbuf))
 	     done=1;
        }
+       if (x<0)
+          continue;
        y=0;
        while (y<numfds) {
 	  if ( x && ((pfds[y].revents & (POLLIN | POLLPRI)) )) {
 	     int bytesread = 0;
 	     
 	     do {
-		buf=calloc(8192,sizeof(char));
+		char *buf=calloc(8192,sizeof(char));
 		bytesread = read(pfds[y].fd,buf,8192);
 		if (bytesread==-1) {
 		   perror("read");
+                   free(pfds);
+                   if (procpath)
+                      free(procpath);
+                   free(buf);
 		   return -1;
 		}
 		if (bytesread) {
@@ -245,6 +255,7 @@ int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet,
 		      }
 		  }
 		}
+                free(buf);
 	     } while ( bytesread==8192 );
 	  }
 	  y++;
@@ -256,8 +267,18 @@ int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet,
       if (quiet && output) {
 	    write(1,outbuf,strlen(outbuf));
       }
+      free(pfds);
+      if (procpath)
+         free(procpath);
+      if(outbuf)
+         free(outbuf);
       return (rc);
    }
+   free(pfds);
+   if (procpath)
+      free(procpath);
+   if(outbuf)
+      free(outbuf);
    return 0;
 }
 
@@ -283,10 +304,14 @@ int runCommand(char *cmd, int reexec, int quiet, int debug) {
       cmdname+=3;
     if (!reexec) {
        pid=forkCommand(args,&fds[0],&fds[1],NULL,quiet);
+       if (pid == -1)
+          return -1;
        x=monitor(cmdname,pid,2,fds,reexec,quiet,debug);
     } else {
        setenv("IN_INITLOG","yes",1);
        pid=forkCommand(args,NULL,NULL,&fds[0],quiet);
+       if (pid == -1)
+          return -1;
        unsetenv("IN_INITLOG");
        x=monitor(cmdname,pid,1,&fds[0],reexec,quiet,debug);
     }
