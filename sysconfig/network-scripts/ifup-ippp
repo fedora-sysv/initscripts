@@ -6,13 +6,20 @@
 
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 
+cd /etc/sysconfig/network-scripts
+. network-functions
+. /etc/rc.d/init.d/functions
+
 DEBUG="no"
 
 # set device
 CONFIG=$1
+[ -f "${CONFIG}" ] || CONFIG=ifcfg-${1}
+source_config
 
-# load device net config
-. $CONFIG
+if [ "${2}" = "boot" -a "${ONBOOT}" = "no" ]; then
+  exit
+fi
 
 if [ ! -f /var/lock/subsys/isdn -a -x /etc/rc.d/init.d/isdn ] ; then
     /etc/rc.d/init.d/isdn start
@@ -318,7 +325,5 @@ function addprovider()
 }
 
 addprovider || exit 1
-
-/etc/sysconfig/network-scripts/ifup-post $CONFIG
 
 exit 0
