@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.60
+Version: 6.61
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -243,6 +243,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Tue Apr 02 2002 Bill Nottingham <notting@redhat.com> 6.61-1
+- when disabling DMA, don't use things in /usr
+
 * Thu Mar 28 2002 Bill Nottingham <notting@redhat.com> 6.60-1
 - disable DMA on CD-ROMs at bootup
 
