@@ -477,11 +477,10 @@ if [ -f /etc/raidtab -a -f /proc/mdstat ]; then
 		echo $"Automatic reboot in progress."
 		reboot -f
 	fi
-fi
-
-# LVM initialization, take 2 (it could be on top of RAID)
-if [ -e /proc/lvm -a -x /sbin/vgchange -a -f /etc/lvmtab ]; then
-        action $"Setting up Logical Volume Management:" /sbin/vgscan && /sbin/vgchange -a y
+	# LVM initialization, take 2 (it could be on top of RAID)
+	if [ -e /proc/lvm -a -x /sbin/vgchange -a -f /etc/lvmtab ]; then
+		action $"Setting up Logical Volume Management:" /sbin/vgscan && /sbin/vgchange -a y
+	fi
 fi
 
 if [ -x /sbin/devlabel ]; then
