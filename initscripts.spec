@@ -4,7 +4,7 @@ Name: initscripts
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
-Release: 2
+Release: 3
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /%{_tmppath}/%{name}-%{version}-%{release}-root
 Requires: mingetty, /bin/awk, /bin/sed, mktemp, e2fsprogs >= 1.15, console-tools
@@ -16,7 +16,7 @@ Requires: util-linux >= 2.9w-26
 Conflicts: kernel <= 2.2, timeconfig < 3.0, pppd < 2.3.9, wvdial < 1.40-3
 Conflicts: initscripts < 1.22.1-5
 Obsoletes: rhsound
-Prereq: /sbin/chkconfig, /usr/sbin/groupadd, gawk, sh-utils
+Prereq: /sbin/chkconfig, /usr/sbin/groupadd, gawk
 
 %description
 The initscripts package contains the basic system scripts used to boot
