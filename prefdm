@@ -18,12 +18,15 @@ fi
 
 preferred=
 if [ -f /etc/sysconfig/desktop ]; then
-	if grep -q GNOME /etc/sysconfig/desktop 2>/dev/null; then
+	source /etc/sysconfig/desktop >/dev/null 2>&1
+	if [ "$DESKTOP" = GNOME ]; then
 		preferred=gdm
-	elif grep -q KDE /etc/sysconfig/desktop 2> /dev/null; then
-		preferred=kdm
-	elif grep -q AnotherLevel /etc/sysconfig/desktop 2> /dev/null; then
-                preferred=xdm
+	elif [ "$DESKTOP" = KDE -o "$DESKTOP" = KDE1 ]; then
+		preferred=/usr/bin/kdm
+	elif [ "$DESKTOP" = KDE2 ]; then
+		preferred=/usr/lib/kde2/bin/kdm
+	elif [ "$DESKTOP" = AnotherLevel ] ; then
+                preferred=/usr/X11R6/bin/xdm
 	fi
 fi
 if [ -z "$preferred" ]; then
@@ -38,4 +41,4 @@ fi
 if [ -n "$preferred" ] && which $preferred >/dev/null 2>&1; then 
 	exec `which $preferred` $*
 fi
-exit 1								
+exit 1
