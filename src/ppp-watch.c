@@ -92,7 +92,7 @@ cleanExit(int exitCode);
 
 
 static void
-detach(int now, int parentExitCode) {
+detach(int now, int parentExitCode, char *device) {
     static int pipeArray[2];
     char exitCode;
 
@@ -119,6 +119,8 @@ detach(int now, int parentExitCode) {
 		    default: exit (27); /* this will catch EIO in particular */
 		}
 	    }
+	    if (exitCode)
+		fprintf(stderr, "Failed to activate %s\n", device);
 	    exit(exitCode);
 
 	} else {
@@ -197,7 +199,7 @@ fork_exec(int wait, char *path, char *arg1, char *arg2, char *arg3)
 static void
 cleanExit(int exitCode) {
     fork_exec(1, "/sbin/netreport", "-r", NULL, NULL);
-    detach(1, exitCode);
+    detach(1, exitCode, NULL);
     exit(exitCode);
     doPidFile(NULL);
 }
@@ -330,17 +332,16 @@ main(int argc, char **argv) {
 	exit(30);
     }
 
-    detach(0, 0); /* prepare */
-
-
-    if (argc > 2 && !strcmp("boot", argv[2])) {
-	theBoot = argv[2];
-    }
-
     if (!strncmp(argv[1], "ifcfg-", 6)) {
 	device = argv[1] + 6;
     } else {
 	device = argv[1];
+    }
+
+    detach(0, 0, device); /* prepare */
+
+    if (argc > 2 && !strcmp("boot", argv[2])) {
+	theBoot = argv[2];
     }
 
     doPidFile(device);
@@ -429,7 +430,7 @@ main(int argc, char **argv) {
 	    if (physicalDevice) {
 		if (interfaceStatus(physicalDevice)) {
 		    /* device is up */
-		    detach(1, 0);
+		    detach(1, 0, NULL);
 		    connectedOnce = 1;
 		}
 	    }
