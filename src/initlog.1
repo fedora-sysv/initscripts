@@ -3,7 +3,7 @@
 initlog \- log messages and events to the system logger
 .SH SYNOPSIS
 .B initlog
-[\-cefnprs] [\-\-cmd=ARG] [\-\-event=ARG] [\-\-facility=ARG]
+[\-cefnpqrs] [\-\-cmd=ARG] [\-\-event=ARG] [\-\-facility=ARG]
 [\-\-name=ARG] [\-\-priority=ARG] [\-\-run=ARG] [\-\-string=ARG]
 .SH DESCRIPTION
 \fBinitlog\fR logs messages and events to the system logger.
@@ -53,6 +53,10 @@ Log the event under the specified string, such as
 .I "\-p, \-\-priority=[priority]"
 Log at the specified syslog priority. The default
 is \fBnotice\fR (see syslog(3)).
+.TP
+.I "\-q"
+Do not print the program's output, unless it exits
+with a non-zero exit code.
 .TP
 .I "\-r, \-\-run=[program]"
 Execute the specified program, with an open file
