@@ -13,22 +13,24 @@
 [ -f /usr/bin/raw ] || exit 0
 [ -f /etc/sysconfig/rawdevices ] || exit 0
 # Exit if the file just has the default comments.
-/bin/grep -q -v "^#" /etc/sysconfig/rawdevices 2>/dev/null || exit 0
+LC_ALL=C /bin/egrep -q -v "^ *#" /etc/sysconfig/rawdevices 2>/dev/null || exit 0
 
 . /etc/init.d/functions
 
 function assign_raw()
 {
-   cat /etc/sysconfig/rawdevices | egrep -v '^ *#' | while read RAW BLOCK; do 
+   LC_ALL=C egrep -v '^ *#' /etc/sysconfig/rawdevices |
+   while read RAW BLOCK; do 
      if [ -n "$RAW" -a -n "$BLOCK" ]; then 
-         if [ "`dirname $RAW`" = "/dev" -a -d /dev/raw ]; then
+	 rawdirname=${RAW%/*}
+         if [ "$rawdirname" = "/dev" -a -d /dev/raw ]; then
            echo $"  Please correct your /etc/sysconfig/rawdevices:"
            echo $"     rawdevices are now located in the directory /dev/raw/ "
            echo $"  If the command 'raw' still refers to /dev/raw as a file."
            echo $"   you'll have to upgrade your util-linux package"
            exit 0
          fi
-         if [ "`dirname $RAW`" = "/dev/raw" -a -f /dev/raw ]; then
+         if [ "$rawdirname" = "/dev/raw" -a -f /dev/raw ]; then
            echo $"  Please correct your /etc/sysconfig/rawdevices:"
            echo $"     rawdevices are now located in the directory /dev/raw/ "
            echo $"  If the command 'raw' still refers to /dev/raw as a file."
