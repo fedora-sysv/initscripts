@@ -17,6 +17,10 @@ that activate and deactivate most network interfaces.
 
 %changelog
 
+* Mon Jan 12 1998 Michael K. Johnson <johnsonm@redhat.com>
+
+- /sbin/ isn't always in $PATH, so call /sbin/route in ifup-routes
+
 * Wed Dec 31 1997 Erik Troan <ewt@redhat.com>
 
 - touch /var/lock/subsys/kerneld after cleaning out /var/lock/subsys
