@@ -92,6 +92,7 @@ if [ -n "$WVDIALSECT" ] ; then
     remotename $DEVICE ipparam $DEVICE \
     ${PPPOPTIONS} \
     linkname $DEVICE \
+    noauth \
     connect "/usr/bin/wvdial --remotename $DEVICE --chat $WVDIALSECT"
 else
   exec /usr/sbin/pppd -detach $opts $MODEMPORT $LINESPEED \
