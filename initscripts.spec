@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.31.8.EL
+Version: 7.31.9.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -253,6 +253,7 @@ rm -rf $RPM_BUILD_ROOT
 - fix handling of xDSL interfaces (#109601)
 - fix extraneous ethtool error message
 - fix dvorak keymap (#106854)
+- fix ipv6 with ippp (#111215, <tomek@jot23.org>)
 
 * Thu Oct 16 2003 Bill Nottingham <notting@redhat.com> 7.31.7.EL-1
 - tweak redhat-support-check algorithm slightly (#106658)
