@@ -88,8 +88,7 @@ for i in /etc/rc$runlevel.d/S* ; do
 
 	# Bring the subsystem up.
 	if [ "$subsys" = "halt" -o "$subsys" = "reboot" ]; then
-		unset LANG
-		unset LC_ALL
+		export LC_ALL=C
 		exec $i start
 	fi
 	if egrep -q "(daemon |action )" $i 2>/dev/null \
