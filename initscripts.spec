@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.83
+%define version 4.84
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
@@ -227,6 +227,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Jan 21 2000 Bill Nottingham <notting@redhat.com>
+- fix pidof calls in pidofproc
+
 * Wed Jan 19 2000 Bill Nottingham <notting@redhat.com>
 - fix ifup-ipx, don't munge resolv.conf if $DNS1 is already in it
 
