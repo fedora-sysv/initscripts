@@ -8,7 +8,7 @@ if [ "$1" = "" ]; then
 	exit 1
 fi
 
-if [ ! -x /usr/bin/ipx_interface ] ; then
+if [ ! -x /sbin/ipx_interface ] ; then
 	# cannot configure IPX with non-existant utilities
 	exit 0
 fi
@@ -35,7 +35,7 @@ for frametype in 802.2 802.3 ETHERII SNAP ; do
 		    yes|true) primary=-p ;;
 		    *) primary= ;;
 		esac
-		/usr/bin/ipx_interface add $1 $primary $frametype \
+		/sbin/ipx_interface add $1 $primary $frametype \
 		  $(eval echo $(echo \$`echo IPXNETNUM_$framename`))
 		;;
     esac
