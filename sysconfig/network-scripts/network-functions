@@ -5,7 +5,6 @@ source_config ()
 {
     DEVNAME=`basename $CONFIG | sed 's/^ifcfg-//g'`
 
-    . $CONFIG
     if basename $CONFIG | grep -q '[^g]-' ; then
 	PARENTCONFIG=`echo $CONFIG | sed 's/-[^-]*$//g'`
 	PARENTDEVNAME=`echo $PARENTCONFIG | sed 's/^ifcfg-//g'`
@@ -15,6 +14,7 @@ source_config ()
 	}
 	. $PARENTCONFIG
     fi
+    . $CONFIG
 }
 
 do_netreport ()
