@@ -46,7 +46,7 @@ install:
 	chmod og=rwx,o=rx $(ROOT)/var/run/netreport
 
 check:
-	for afile in `find . -type f -perm +111|grep -v \.csh ` ; do \
+	for afile in `find . -type f -perm +111|grep -v \.csh | grep -v po/ ` ; do \
 		if ! file $$afile | grep -s ELF  >/dev/null; then \
 		    bash -n $$afile || { echo $$afile ; exit 1 ; } ; \
 		fi  ;\

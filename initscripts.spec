@@ -249,7 +249,7 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
-* Tue Jan  2 2000 Bill Nottingham <notting@redhat.com>
+* Tue Jan  2 2001 Bill Nottingham <notting@redhat.com>
 - initial i18n support - originally from Conectiva
 
 * Mon Dec 11 2000 Bill Nottingham <notting@redhat.com>
