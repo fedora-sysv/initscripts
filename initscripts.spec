@@ -227,6 +227,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Mar 27 2000 Bill Nottingham <notting@redhat.com>
+- remove compatiblity chkconfig links
+- run 'netfs stop' on 'network stop' if necessary
+
 * Tue Mar 21 2000 Bernhard Rosenkraenzer <bero@redhat.com>
 - Mount /var/shm if required (2.3.99, 2.4)
 
