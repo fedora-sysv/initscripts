@@ -13,7 +13,7 @@ parent_device=$device
 . network-functions
 
 # This is the same messy sed script as in the ifup-aliases script.
-eval ` ifconfig | sed -e ' /^[^[:space:]]*:[0-9]*/ { s|^\([^:]*\):\([0-9]*\).*$|X=x; TMP="\2"; [ "$device" != "\1" ] \|\| |g; b; }; /^[^[:space:]]/ { s|.*|X=x; [ 0 = 0 ] \|\| |g; b; }; /inet addr:[0-9]*\.[0-9]*\.[0-9]*\.[0-9]* *Bcast:[0-9.]* *Mask:[0-9.]*/ { s|^.*inet addr:\(\([0-9]*\)\.\([0-9]*\)\.\([0-9]*\)\.\([0-9]*\)\) *Bcast:\([0-9.]*\) *Mask:\([0-9.]*\).*$|eval " rdev_${TMP}_addr=\1; rdev_${TMP}_mb=\7_\6; rdevip_\2_\3_\4_\5=${TMP}; rdev_LIST=\\\\"\\\\$rdev_LIST \\\\${TMP}\\\\"; " \|\| |g; b; }; s|^.*$||g; ' ` X=x;
+eval `LC_ALL= LANG= ifconfig | sed -e ' /^[^[:space:]]*:[0-9]*/ { s|^\([^:]*\):\([0-9]*\).*$|X=x; TMP="\2"; [ "$device" != "\1" ] \|\| |g; b; }; /^[^[:space:]]/ { s|.*|X=x; [ 0 = 0 ] \|\| |g; b; }; /inet addr:[0-9]*\.[0-9]*\.[0-9]*\.[0-9]* *Bcast:[0-9.]* *Mask:[0-9.]*/ { s|^.*inet addr:\(\([0-9]*\)\.\([0-9]*\)\.\([0-9]*\)\.\([0-9]*\)\) *Bcast:\([0-9.]*\) *Mask:\([0-9.]*\).*$|eval " rdev_${TMP}_addr=\1; rdev_${TMP}_mb=\7_\6; rdevip_\2_\3_\4_\5=${TMP}; rdev_LIST=\\\\"\\\\$rdev_LIST \\\\${TMP}\\\\"; " \|\| |g; b; }; s|^.*$||g; ' ` X=x;
 
 for DEVNUM in $rdev_LIST ; do
        ifconfig $parent_device:$DEVNUM down

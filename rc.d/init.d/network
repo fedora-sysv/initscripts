@@ -93,7 +93,7 @@ case "$1" in
 	fi
 	
 	for i in $interfaces ; do
-	        if LANG=C ifconfig $i 2>/dev/null | grep -q " UP " >/dev/null 2>&1 ; then
+	        if LC_ALL= LANG= ifconfig $i 2>/dev/null | grep -q " UP " >/dev/null 2>&1 ; then
 		   action "Shutting down interface $i: " ./ifdown $i boot
 		fi
 	done
