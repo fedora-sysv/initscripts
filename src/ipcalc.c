@@ -1,3 +1,4 @@
+#include <ctype.h>
 #include <popt.h>
 #include <stdio.h>
 #include <sys/socket.h>
@@ -98,6 +99,7 @@ int main(int argc, char ** argv) {
     }
 
     if (showHostname) {
+        int x;
 	hostinfo = gethostbyaddr((char *) &ip, sizeof(ip), AF_INET);
 	if (!hostinfo) {
 	    if (!beSilent) {
@@ -106,6 +108,9 @@ int main(int argc, char ** argv) {
 	    }
 
 	    return 1;
+	}
+        for (x=0; hostinfo->h_name[x]; x++) {
+		hostinfo->h_name[x] = tolower(hostinfo->h_name[x]);
 	}
 
 	printf("HOSTNAME=%s\n", hostinfo->h_name);
