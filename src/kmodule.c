@@ -36,9 +36,7 @@ char *setupFile()
 	snprintf(path,512,"/lib/modules/%s/modules.dep",utsbuf.release);
 	if (!stat(path,&sbuf)) {
 		fd = open(path,O_RDONLY);
-		buf = malloc(sbuf.st_size + 1);
-		read(fd,buf,sbuf.st_size);
-		buf[sbuf.st_size] = '\0';
+		buf =  mmap(0,sbuf.st_size,PROT_READ,MAP_SHARED,fd,0);
 		close(fd);
 	}
 	return buf;
