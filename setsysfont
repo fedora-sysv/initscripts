@@ -17,13 +17,13 @@ if [ -x /bin/consolechars -o -x /usr/bin/consolechars ]; then
     fi
     consolechars -f $ARGS
   fi
-elif [ -x /usr/bin/setfont ]; then
+elif [ -x /bin/setfont ]; then
   if [ -n "$SYSFONT" -a -n "$UNIMAP" ]; then
-    /usr/bin/setfont $SYSFONT -u $UNIMAP
+    /bin/setfont $SYSFONT -u $UNIMAP
   elif [ -n "$SYSFONT" ]; then
-    /usr/bin/setfont $SYSFONT
+    /bin/setfont $SYSFONT
 #  else
-#    /usr/bin/setfont
+#    /bin/setfont
   fi
 else
   echo $"can't set font"
