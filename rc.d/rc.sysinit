@@ -111,42 +111,15 @@ else
     USEMODULES=
 fi
 
-# Get the modules ready to go -- we use awk here as cut is in /usr/bin
+# Set up /lib/modules/preferred and /boot/System.map symlinks.
 rm -f /lib/modules/preferred
 if [ -n $USEMODULES ]; then
-    set `cat /proc/cmdline`
-    while [ $# -gt 0 ]; do
-	if echo $1 | grep '^BOOT_IMAGE=' > /dev/null ; then
-	    image=`echo $1 | awk -F= '{ print $2 }'`
-	    kernelfile=`/sbin/lilo -I $image`
-	    firstkernelfile=`/sbin/lilo -I $image`
-	    kernelfile="$firstkernelfile"
-	    # Traverse symbolic links
-	    while [ -L "$kernelfile" ]; do
-		newkernelfile="`ls -l $kernelfile | awk '-F-> ' '{print $2}'`"
-		if [ "${newkernelfile#/}" != "$newkernelfile" ]; then
-		    # newkernelfile is an absolut path
-		    kernelfile=$newkernelfile
-		else
-		    kernelfile="${kernelfile%$(basename $kernelfile)}$newkernelfile"
-		fi
-		# Check if we're looping
-		[ "$kernelfile" = "$firstkernelfile" ] && break
-	    done
-	elif echo $1 | grep '^bootfile=' > /dev/null ; then
-	    kernelfile=`echo $1 | awk -F= '{ print $2 }'`
-	fi
-	shift
-    done
-
-    if [ -n "$kernelfile" ]; then
-	kernelname=`echo $kernelfile | awk -F- '{ print $1 }'`
-	versioninfo=`echo $kernelfile | sed "s|${kernelname}-||"`
-	if [ "$kernelname" = "/boot/vmlinuz" -a \
-	     -d /lib/modules/$versioninfo -a \
-	     $versioninfo != `uname -r` ]; then
-	     ln -sf $versioninfo /lib/modules/preferred
-	fi
+    ktag="`cat /proc/version`"
+    mtag=`grep -l "$ktag" /lib/modules/2.0.*/.rhkmvtag`
+    if [ -n "$mtag" ]; then
+	mver=`echo $mtag | sed -e 's,/lib/modules/,,' -e 's,/.rhkmvtag,,'`
+	echo ln -sf /lib/modules/$mver /lib/modules/preferred
+	echo ln -sf /boot/System.map-$mver /boot/System.map
     fi
 fi
 
