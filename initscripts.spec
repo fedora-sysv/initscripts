@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.15
+Version: 6.17
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -238,6 +238,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Sat Aug 11 2001 Florian La Roche <Florian.LaRoche@redhat.de>
+- adjust s390 patches to current sources
+
 * Fri Aug 10 2001 Bill Nottingham <notting@redhat.com>
 - use GDM_LANG if it's set in lang.sh/lang.csh (#51432, <otaylor@redhat.com>)
 

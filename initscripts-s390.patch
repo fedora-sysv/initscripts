@@ -65,37 +65,25 @@
  # LVM initialization
  if [ -e /proc/lvm -a -x /sbin/vgchange -a -f /etc/lvmtab ]; then
          action $"Setting up LVM:" /sbin/vgscan && /sbin/vgchange -a y
-@@ -560,17 +585,25 @@
+@@ -576,21 +601,6 @@
      if [ -x /usr/bin/passwd ]; then 
          /usr/bin/passwd root
      fi
 -    if [ -x /usr/sbin/netconfig ]; then
 -	/usr/sbin/netconfig
-+
-+    # on S390 console we don't have newt
-+    if [ "`/bin/arch`" = "s390" ] ; then
-+	ARCH=".s390"
-+    else
-+	ARCH=""
-+    fi
-+
-+    if [ -x /usr/sbin/netconfig$ARCH ]; then
-+        /usr/sbin/netconfig$ARCH
-     fi
+-    fi
 -    if [ -x /usr/sbin/timeconfig ]; then
 -	/usr/sbin/timeconfig
-+    if [ -x /usr/sbin/timeconfig$ARCH ]; then
-+        /usr/sbin/timeconfig$ARCH
-     fi
+-    fi
+-    if [ -x /usr/sbin/kbdconfig ]; then
+-	/usr/sbin/kbdconfig
+-    fi
 -    if [ -x /usr/sbin/authconfig ]; then
 -	/usr/sbin/authconfig --nostart
-+    if [ -x /usr/sbin/authconfig$ARCH ]; then
-+        /usr/sbin/authconfig$ARCH --nostart
-     fi
+-    fi
 -    if [ -x /usr/sbin/ntsysv ]; then
 -	/usr/sbin/ntsysv --level 35
-+    if [ -x /usr/sbin/ntsysv$ARCH ]; then
-+        /usr/sbin/ntsysv$ARCH --level 35
-     fi
+-    fi
  
      # Reread in network configuration data.
+     if [ -f /etc/sysconfig/network ]; then
