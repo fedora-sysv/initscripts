@@ -87,6 +87,7 @@ if [ "$BOOTPROTO" = bootp -a "$ISALIAS" = no ]; then
 	BOOTPHOSTNAME="$HOSTNAME"
 	echo "bootp response received -- using IP ${IPADDR}"
     elif [ -z "$IPADDR" ]; then
+	ifconfig ${DEVICE} down
 	echo "No bootp response recieved -- not configuring device ${DEVICE}."
 	rm -f ${TMPFILE}
 	exit 1
