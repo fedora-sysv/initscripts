@@ -120,7 +120,11 @@ else
 	eval `/bin/ipcalc --network ${IPADDR} ${NETMASK}`
     fi
     
-    ifconfig ${DEVICE} ${IPADDR} netmask ${NETMASK} broadcast ${BROADCAST} ${ARP:+arp} ${MTU:+mtu $MTU}
+    ifconfig ${DEVICE} ${IPADDR} netmask ${NETMASK} broadcast ${BROADCAST} \
+    	$(toggle_value arp $ARP) \
+	$(toggle_value promisc $PROMISC) \
+	$(toggle_value allmulti $ALLMULTI)
+	
     # don't re-add subnet route on 2.2 kernels, but add a route
     # to a non-local subnet.
     # stupid hack, but it should work
