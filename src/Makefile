@@ -2,6 +2,7 @@ CFLAGS+=-Wall -D_GNU_SOURCE -g
 
 PROGS=usernetctl doexec netreport testd usleep ipcalc initlog minilogd loglevel
 INITLOG_OBJS=initlog.o process.o
+USLEEP_OBJS=usleep.o
 
 all:	$(PROGS)
 
@@ -36,3 +37,6 @@ ipcalc: ipcalc.o
 
 initlog: $(INITLOG_OBJS)
 	$(CC) $(LDFLAGS) -o $@ $(INITLOG_OBJS) -lpopt
+
+usleep: $(USLEEP_OBJS)
+	$(CC) $(LDFLAGS) -o $@ $(USLEEP_OBJS) -lpopt
