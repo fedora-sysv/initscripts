@@ -580,6 +580,9 @@ if [ -f /.unconfigured ]; then
 	chvt 1
     fi
 
+    if [ -x /usr/sbin/kbdconfig ]; then
+	/usr/sbin/kbdconfig
+    fi
     if [ -x /usr/bin/passwd ]; then 
         /usr/bin/passwd root
     fi
@@ -588,9 +591,6 @@ if [ -f /.unconfigured ]; then
     fi
     if [ -x /usr/sbin/timeconfig ]; then
 	/usr/sbin/timeconfig
-    fi
-    if [ -x /usr/sbin/kbdconfig ]; then
-	/usr/sbin/kbdconfig
     fi
     if [ -x /usr/sbin/authconfig ]; then
 	/usr/sbin/authconfig --nostart
