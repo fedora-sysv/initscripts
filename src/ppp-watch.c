@@ -228,6 +228,8 @@ restart:
 		    unlink(pidFilePath);
 		    goto restart;
 		} else {
+		    /* reset pidFileName so we don't delete the current one */
+		    pidFileName = NULL;
 		    cleanExit(33);
 		}
 	    }
