@@ -45,6 +45,9 @@ install-test:
 	install -m 755 testd $(ROOT)/usr/sbin/testd
 	install -m 755 testdinit $(ROOT)/etc/init.d/testd
 
+getkey: getkey.o
+	$(CC) $(LDFLAGS) -o $@ $< -Wl,-Bstatic -lpopt -Wl,-Bdynamic
+
 ipcalc: ipcalc.o
 	$(CC) $(LDFLAGS) -o $@ $< -Wl,-Bstatic -lpopt -Wl,-Bdynamic
 

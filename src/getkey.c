@@ -1,4 +1,9 @@
-
+/*
+ * getkey
+ *
+ * A very simple keygrabber.
+ *
+ */
 #include <ctype.h>
 #include <errno.h>
 #include <signal.h>
@@ -8,8 +13,7 @@
 #include <termios.h>
 #include <unistd.h>
 #include <sys/poll.h>
-
-/* A very simple keygrabber. */
+#include "popt.h"
 
 struct termios tp;
 
@@ -20,30 +24,44 @@ void reset_term(int x) {
 
 int main(int argc, char **argv) {
 	char foo[2];
-	char *list = NULL;
+	char list[100]; /* should be enough */
 	char *waitmessage = NULL;
 	char *waitprint, *waitsprint;
+	const char *fooptr;
 	int waitseconds=0;
 	int alarmlen=0;
+	int ignore_control=0;
 	int tp_if,tp_of,tp_lf;
 	int x, r;
 	struct pollfd ufds; /* only one, no need for an array... */
-	
-	for (++argv, --argc; argc; argc--, argv++) {
-	    if (argv[0][0]=='-') {
-		if (argv[0][1]=='c') {
-		    argc--; argv++;
-		    waitseconds = atoi(argv[0]);
-		} else if (argv[0][1]=='m') {
-		    argc--; argv++;
-		    waitmessage=argv[0];
-		} else if (isdigit(argv[0][1])) {
-		    waitseconds = atoi(argv[0]);
-		}
-	    } else {
-		list = argv[0];
-		for (x=0;list[x];x++) list[x]=toupper(list[x]);
-	    }
+        poptContext context;
+	struct poptOption options[] = {
+            { "wait", 'c', POPT_ARG_INT, &waitseconds, 0, "Number of seconds to wait for keypress", NULL },
+	    /*            { "message", 'm', POPT_ARG_STRING, &waitmessage, 0, "Message to print out while waiting for string", "NOTE: argument must have a \"%d\" in it so the number of seconds\nleft until getkey times out can be printed" },*/
+            { "message", 'm', POPT_ARG_STRING, &waitmessage, 0, "Message to print out while waiting for string\nNOTE: message must have a \"%d\" in it, to hold the number of seconds left to wait", NULL },
+            { "ignore-control-chars", 'i', POPT_ARG_NONE, &ignore_control, 0, "Ignore Control-C and Control-D", NULL },
+            POPT_AUTOHELP
+            POPT_TABLEEND
+        };
+
+	strcpy(list, "");
+        context = poptGetContext("getkey", argc, argv, options, 
+                                POPT_CONTEXT_POSIXMEHARDER);
+        poptSetOtherOptionHelp(context, "[keys]");
+
+        r = poptGetNextOpt(context);
+        if (r < -1) {
+            fprintf(stderr, "%s: %s\n", 
+                   poptBadOption(context, POPT_BADOPTION_NOALIAS),
+                   poptStrerror(r));
+
+            return -1;
+        }
+        fooptr = poptGetArg(context);
+	if (fooptr != NULL) {
+	    strncpy(list, fooptr, sizeof(list) - 1);
+	    list[99] = '\0';
+	    for (x=0;list[x];x++) list[x]=toupper(list[x]);
 	}
 	if (waitseconds) {
 	    alarmlen = waitseconds;
@@ -76,7 +94,7 @@ int main(int argc, char **argv) {
 	}
 
 	while (1) {
-	    if (waitseconds) {
+	    if (waitseconds && waitmessage) {
 		sprintf (waitsprint, waitmessage, waitseconds);
 		write (1, waitprint, strlen(waitprint));
 	    }
@@ -89,9 +107,15 @@ int main(int argc, char **argv) {
 		read(0,foo,1);
 		foo[0]=toupper(foo[0]);
 		/* Die if we get a control-c or control-d */
-		if (foo[0]==3 || foo[0]==4) reset_term(1);
-		if ((!list) || strstr(list,foo)) {
-			reset_term(0);
+                if (ignore_control == 0) {
+		    if (foo[0]==3 || foo[0]==4) reset_term(1);
+                }
+		/* Don't let a null character be interpreted as a match
+		   by strstr */
+		if (foo[0] != 0) {
+		    if (strcmp(list, "") == 0 || strstr(list,foo)) {
+		      reset_term(0);
+		    }
 		}
 	    }
 	}
