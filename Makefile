@@ -37,6 +37,10 @@ install:
 	install -m755 prefdm $(ROOT)/etc/X11/prefdm
 
 	cp -af rc.d sysconfig ppp $(ROOT)/etc
+	chmod 755 $(ROOT)/etc/rc.d/* $(ROOT)/etc/rc.d/init.d/*
+	chmod 755 $(ROOT)/etc/sysconfig/network-scripts/ifup-*
+	chmod 755 $(ROOT)/etc/sysconfig/network-scripts/ifdown-*
+	chmod 755 $(ROOT)/etc/sysconfig/network-scripts/init*
 	mkdir -p $(ROOT)/etc/sysconfig/networking/devices
 	mkdir -p $(ROOT)/etc/sysconfig/networking/profiles/default
 	mv  $(ROOT)/etc/sysconfig/network-scripts/ifcfg-lo \
