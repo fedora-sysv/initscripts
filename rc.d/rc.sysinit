@@ -44,11 +44,11 @@ fi
 if [ -f /fsckoptions ]; then
 	fsckoptions=`cat /fsckoptions`
     else
-	fsckoptions=''
+	fsckoptions=
 fi
 
 if [ -f /forcefsck ]; then
-	fsckoptions='-f $fsckoptions'
+	fsckoptions="-f $fsckoptions"
 fi
 
 if [ ! -f /fastboot ]; then
