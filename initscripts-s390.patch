@@ -28,7 +28,7 @@
 +  action $"System date: `date` " date
 +fi
  
- if [ "`/sbin/consoletype`" == "vt" ]; then
+ if [ "`/sbin/consoletype`" = "vt" ]; then
   # Load keymap
 @@ -269,6 +273,9 @@
      else
@@ -48,10 +48,10 @@
 +if [ -x /sbin/oco-setkver ]; then
 +  kver=`</proc/sys/kernel/osrelease`
 +  kernelver=`echo $kver|awk -F '-' '{ print $1 }'`
-+  if  [ "$HOSTTYPE" == "s390x" ]; then
++  if  [ "$HOSTTYPE" = "s390x" ]; then
 +    kernelver="${kernelver}x"
 +  fi
-+  if [ "${kver:0:3}" == "2.4" ]; then 
++  if [ "${kver:0:3}" = "2.4" ]; then 
 +    modpath="/lib/modules/$kver/kernel/net"
 +  else
 +    modpath="/lib/modules/$kver/net"
