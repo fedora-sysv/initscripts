@@ -1,6 +1,6 @@
 Summary: inittab and /etc/rc.d scripts
 Name: initscripts
-%define version 3.29
+%define version 3.30
 Version: %{version}
 Copyright: GPL
 Group: Base
@@ -16,6 +16,12 @@ levels, and shut the system down cleanly. It also contains the scripts
 that activate and deactivate most network interfaces.
 
 %changelog
+
+* Tue Dec 30 1997 Erik Troan <ewt@redhat.com>
+
+- tried to get /proc stuff right one more time (uses -t nonfs,proc now)
+- added support for /fsckoptions
+- changed 'yse' to 'yes' in KERNELD= line
 
 * Tue Dec 09 1997 Erik Troan <ewt@redhat.com>
 
