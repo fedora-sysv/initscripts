@@ -4,7 +4,7 @@ Name: initscripts
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
-Release: 3
+Release: 4
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /var/tmp/initbld
 Requires: mingetty, bash, /bin/awk, mktemp, modutils >= 2.1.85-3, e2fsprogs, sysklogd >= 1.3.31, pump
@@ -170,6 +170,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Wed Mar 17 1999 Bill Nottingham <notting@redhat.com>
 - exit ifup if pump fails
+- fix stupid errors in reading commands from subprocess
 
 * Tue Mar 16 1999 Bill Nottingham <notting@redhat.com>
 - fix ROFS logging
