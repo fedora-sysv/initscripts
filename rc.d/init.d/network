@@ -50,7 +50,6 @@ cd /etc/sysconfig/network-scripts
 interfaces=`ls ifcfg* | LANG=C egrep -v '(ifcfg-lo|:|rpmsave|rpmorig|rpmnew)' | \
 	    LANG=C egrep -v '(~|\.bak)$' | \
 	    LANG=C egrep -v 'ifcfg-cipcb[0-9]+$' | \
-	    LANG=C egrep -v 'ifcfg-bond[0-9]+$' | \
             LANG=C egrep 'ifcfg-[a-z0-9]+$' | \
             sed 's/^ifcfg-//g' |
             sed 's/[0-9]/ &/' | LANG=C sort -k 1,1 -k 2n | sed 's/ //'`
@@ -109,33 +108,6 @@ case "$1" in
 		action $"Bringing up interface $i: " ./ifup $i boot
 	done
 	
-	# add bonding here.
-	bondinterfaces=`ls ifcfg* | LANG=C egrep -v '(ifcfg-lo|:|rpmsave|rpmorig|rpmnew)' | \
-	    LANG=C egrep -v '(~|\.bak)$' | \
-	    LANG=C egrep 'ifcfg-bond[0-9]+$' | \
-            sed 's/^ifcfg-//g'`
-	for i in $bondinterfaces ; do 
-            if ! LANG=C egrep -L "^ONBOOT=\"?[Nn][Oo]\"?" ifcfg-$i >/dev/null 2>&1 ; then
-		# If we're in confirmation mode, get user confirmation
-		[ -n "$CONFIRM" ]  && 
-		{ 
-			confirm $i
-			case $? in
-				0)
-				    :
-				;;
-				2)
-				    CONFIRM=
-				;;
-				*)
-				    continue
-				;;
-			esac 
-		}
-		action $"Bringing up interface $i: " ./ifup $i boot
-	    fi
-        done
-
 	# add cipe here.
 	cipeinterfaces=`ls ifcfg* | LANG=C egrep -v '(ifcfg-lo|:|rpmsave|rpmorig|rpmnew)' | \
 	    LANG=C egrep -v '(~|\.bak)$' | \
