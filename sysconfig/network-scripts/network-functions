@@ -5,7 +5,7 @@ source_config ()
 {
     DEVNAME=`basename $CONFIG | sed 's/^ifcfg-//g'`
 
-    if basename $CONFIG | grep -q '[^g]-' ; then
+    if basename $CONFIG | grep '[^g]-' >/dev/null 2>&1 ; then
 	PARENTCONFIG=`echo $CONFIG | sed 's/-[^-]*$//g'`
 	PARENTDEVNAME=`basename $PARENTCONFIG | sed 's/^ifcfg-//g'`
 	[ -f $PARENTCONFIG ] || {
@@ -43,7 +43,7 @@ set_hostname()
 {
     echo "$1" > /etc/HOSTNAME
     hostname $1
-    if ! grep search /etc/resolv.conf; then
+    if ! grep search /etc/resolv.conf >/dev/null 2>&1; then
 	domain=`echo $1 | sed 's/^[^\.]*\.//'`
 	echo "search $domain" >> /etc/resolv.conf
     fi
