@@ -42,10 +42,10 @@ source_config ()
 	    exit 1
 	}
 	. $PARENTCONFIG
-	[ -f "keys-$PARENTDEVNAME" ] && . keys-$PARENTDEVNAME
+	[ -f "keys-$PARENTDEVNAME" ] && . keys-$PARENTDEVNAME 2>/dev/null
     fi
     . $CONFIG
-    [ -f "keys-$DEVNAME" ] && . keys-$DEVNAME
+    [ -f "keys-$DEVNAME" ] && . keys-$DEVNAME 2>/dev/null
     case "$TYPE" in
     	Ethernet)
 		DEVICETYPE="eth"
