@@ -274,6 +274,7 @@ rm -f /etc/mtab~ /etc/mtab~~
 mount -f /
 mount -f /proc
 [ -f /proc/bus/usb/devices ] && mount -f -t usbdevfs usbdevfs /proc/bus/usb
+[ -e /dev/.devfsd ] && mount -f -t devfs devfs /dev 
 
 # Turn on harddisk optimization
 # There is only one file /etc/sysconfig/harddisks for all disks
