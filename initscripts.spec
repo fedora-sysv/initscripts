@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.91
+Version: 5.92
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -221,6 +221,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Jun 22 2001 Than Ngo <than@redhat.com>
+- add support xDSL
+
 * Thu Jun 21 2001 Bill Nottingham <notting@redhat.com>
 - more networking script fixes (#45364)
 - add stuff for unmounting /initrd

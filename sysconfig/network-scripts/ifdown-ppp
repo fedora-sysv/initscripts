@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /bin/bash
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 
 cd /etc/sysconfig/network-scripts
@@ -6,6 +6,11 @@ cd /etc/sysconfig/network-scripts
 
 CONFIG=$1
 source_config
+
+if [ "$TYPE" = "xDSL" -a -x /usr/sbin/adsl-stop ] ; then
+    adsl-stop /etc/sysconfig/network-scripts/$CONFIG
+    exit $?
+fi
 
 if [ "${DEMAND}" = "yes" -a -f /var/run/ppp-${DEVICE}.pid ] ; then
     PID=`head -1 /var/run/ppp-${DEVICE}.pid`
