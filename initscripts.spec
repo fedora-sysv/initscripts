@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.93.8.EL
+Version: 7.93.9.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -206,6 +206,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Nov 11 2004 Karsten Hopp <karsten@redhat.de> 7.93.9.EL-1 
+- parse OPTIONS for QETH, CTC and LCS (#136256, mainframe)
+
 * Tue Nov  9 2004 Bill Nottingham <notting@redhat.com> 7.93.8.EL-1
 - fix bonding + dhcp (#134787)
 

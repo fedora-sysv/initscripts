@@ -346,6 +346,11 @@ configure_ccwgroup_device ()
 		[ -e $SYSDIR/portname ] && echo "$PORTNAME" > $SYSDIR/portname
 	 fi
     fi
+    if [ -n "$OPTIONS" ]; then
+         for i in $OPTIONS; do
+              echo "${i//*=/}" > "$SYSDIR/${i//=*/}"
+         done
+    fi
     [ -e $SYSDIR/online ] && echo 1 > $SYSDIR/online
 }
 
