@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.19
+%define version 4.20
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
@@ -182,6 +182,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Jun 14 1999 Bill Nottingham <notting@redhat.com>
+- oops, don't create /var/run/utmp and then remove it.
+- stomp RAID bugs flat. Sort of.
+
 * Mon May 24 1999 Bill Nottingham <notting@redhat.com>
 - clean out /var better
 - let everyone read /var/run/ppp*.dev

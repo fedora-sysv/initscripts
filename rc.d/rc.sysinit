@@ -214,7 +214,7 @@ if [ -f /etc/rc.d/rc.modules ]; then
 	/etc/rc.d/rc.modules
 fi
 
-# Add raid devices
+# Add raid devices, old style...
 if [ -f /proc/mdstat -a -f /etc/raidtab -a -x /sbin/raidadd ]; then
 	action "Starting up RAID devices" raidadd -a
 
