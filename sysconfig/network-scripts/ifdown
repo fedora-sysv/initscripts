@@ -53,7 +53,7 @@ if [ -n "${HWADDR}" ]; then
 	sed 's/.*link\/ether \([[:alnum:]:]*\).*/\1/'`
     if [ "${FOUNDMACADDR}" != "${HWADDR}" ]; then
         NEWCONFIG=`fgrep -l "HWADDR=${HWADDR}" /etc/sysconfig/network-scripts/ifcfg-*`
-	if [ -n "${NEWCONFIG}" ]; then
+	if [ -n "${NEWCONFIG}" -a "${NEWCONFIG}" != "${CONFIG}" ]; then
 	   exec /sbin/ifdown ${NEWCONFIG}
 	else
 	   echo $"Device ${DEVICE} has different MAC address than expected, ignoring."
