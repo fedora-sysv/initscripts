@@ -1,6 +1,6 @@
 Summary: inittab and /etc/rc.d scripts
 Name: initscripts
-%define version 3.50
+%define version 3.51
 Version: %{version}
 Copyright: GPL
 Group: Base
