@@ -221,9 +221,9 @@ elif [ -f /.autofsck ]; then
 		(
 			while [ "$AUTOFSCK_TIMEOUT" -gt 0 ] do
 				if [ "$AUTOFSCK_DEF_CHECK" = "yes" ] ; then
-					echo -e -n $"\rPress N within $AUTOFSCK_TIMEOUT seconds to not force file system integrity check..."
+					echo -e -n $"\rPress N within $AUTOFSCK_TIMEOUT seconds to skip filesystem check..."
 				else
-					echo -e -n $"\rPress Y within $AUTOFSCK_TIMEOUT seconds to force file system integrity check..."
+					echo -e -n $"\rPress Y within $AUTOFSCK_TIMEOUT seconds to force filesystem check..."
 				fi
 				sleep 1
 				AUTOFSCK_TIMEOUT=$(($AUTOFSCK_TIMEOUT-1))
@@ -246,9 +246,9 @@ elif [ -f /.autofsck ]; then
 	else
 		# PROMPT not allowed
 		if [ "$AUTOFSCK_DEF_CHECK" = "yes" ] ; then
-			echo $"Will force file system integrity check due to default setting"
+			echo $"Forcing file system integrity check due to default setting"
 		else
-			echo $"Will not force file system integrity check due to default setting"
+			echo $"Skipping file system integrity check due to default setting"
 		fi
 	fi
 	fsckoptions="$AUTOFSCK_OPT $fsckoptions"
