@@ -36,11 +36,10 @@ cd /etc/sysconfig/network-scripts
 # ignore aliases, alternative configurations, and editor backup files
 interfaces=`ls ifcfg* | egrep -v '(ifcfg-lo|:)' | egrep 'ifcfg-[a-z0-9]+$' | \
             sed 's/^ifcfg-//g'`
-interfaces_boot=
 
-for inter in `ls ifcfg* | egrep -v '(ifcfg-lo|:)' | egrep 'ifcfg-[a-z0-9]+$'`; do
-      int=`egrep -L "ONBOOT=\"?[Nn][Oo]\"?" $inter | sed 's/^ifcfg-//g'`
-      [ -n "$int" ] && interfaces_boot="$interfaces_boot $int"
+interfaces_boot=
+for inter in interfaces ; do
+  egrep -L "ONBOOT=\"?[Nn][Oo]\"?" ifcfg-$inter >/dev/null || interfaces_boot="$interfaces_boot $inter"
 done
 
 # See how we were called.
@@ -59,8 +58,14 @@ case "$1" in
 	    ;;
 	esac
 
-	for i in $interfaces_boot; do
-		action "Bringing up interface $i" ./ifup $i boot
+	for i in $interfaces; do
+	        if $i in $interfaces_boot ; then
+			action "Bringing up interface $i" ./ifup $i boot
+		else
+			# Do this so the module loads, so the interface
+			# gets registered
+			./ifup $i boot
+		fi
 	done
 	
 	# Add non interface-specific static-routes.
