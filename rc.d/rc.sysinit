@@ -741,8 +741,8 @@ done
 (/bin/date;
  /bin/uname -a;
  /bin/cat /proc/cpuinfo;
- /bin/cat /proc/modules;
- /bin/cat /proc/ksyms) >/var/log/ksyms.0
+ [ -r /proc/modules ] && /bin/cat /proc/modules;
+ [ -r /proc/ksyms ] && /bin/cat /proc/ksyms) >/var/log/ksyms.0
 # create the crash indicator flag to warn on crashes, offer fsck with timeout
 touch /.autofsck
 sleep 1
