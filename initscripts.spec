@@ -1,10 +1,10 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.85
+Version: 5.86
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
-Source: initscripts-%{version}.tar.gz
+Source: initscripts-%{version}.tar.bz2
 BuildRoot: /%{_tmppath}/%{name}-%{version}-%{release}-root
 Requires: mingetty, /bin/awk, /bin/sed, mktemp, e2fsprogs >= 1.15
 Requires: procps >= 2.0.7-7, sysklogd >= 1.3.31
@@ -256,6 +256,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed May  2 2001 Bernhard Rosenkraenzer <bero@redhat.com> 5.86-1
+- support kbd in setsysfont
+- bzip2 source
+
 * Wed Apr 25 2001 Florian La Roche <Florian.LaRoche@redhat.de>
 - add further s390 changes:
 	- ifup-iucv
