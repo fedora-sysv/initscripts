@@ -1,10 +1,10 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.32
+%define version 4.33
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
-Release: 3
+Release: 1
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /var/tmp/initbld
 Requires: mingetty, bash, /bin/awk, /bin/sed, mktemp, e2fsprogs, console-tools
@@ -195,6 +195,11 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Aug 30 1999 Bill Nottingham <notting@redhat.com>
+- new NFS unmounting from Bill Rugolsky <rugolsky@ead.dsa.com> 
+- fix ifup-sl/dip confusion
+- more raid startup cleanup
+
 * Fri Aug 20 1999 Bill Nottingham <notting@redhat.com>
 - pass hostname to pump
 - add lang.csh
