@@ -17,6 +17,20 @@ source_config ()
     . $CONFIG
 }
 
+toggle_value()
+{
+	if [ -z "$2" ]
+	then
+		echo ''
+	elif [ "$2" = "yes"  -o "$2" = "YES" ] ; then
+		echo "$1"
+	elif [ "$2" = "no"  -o "$2" = "NO" ] ; then
+		echo "-$1"
+	else
+		echo ''
+	fi
+}
+ 
 do_netreport ()
 {
   # Notify programs that have requested notification
@@ -50,10 +64,18 @@ set_hostname()
 
 check_device_down ()
 {
-    if ifconfig ${DEVICE} 2>/dev/null | LANG=C grep " UP " >/dev/null 2>&1 ; then
+    if echo ${DEVICE} | grep -q ':' ; then
+     if LANG=C ifconfig -a 2>/dev/null | grep -q ${DEVICE} ; then
+	  retcode=1
+     else
+	  retcode=0
+     fi
+    else 
+     if LANG=C ifconfig ${DEVICE} 2>/dev/null | grep " UP " >/dev/null 2>&1 ; then
 	retcode=1
-    else
+     else
 	retcode=0
+     fi
     fi
     return $retcode
 }
