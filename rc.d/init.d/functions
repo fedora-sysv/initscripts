@@ -86,20 +86,20 @@ pidofproc() {
 		return 1
 	fi
 
-	# First try "pidof"
-	pid=`pidof $1`
-	if [ "$pid" != "" ] ; then
-	        echo $pid
-	        return 0
-	fi
-
-	# Next try "/var/run/*.pid" files
+	# First try "/var/run/*.pid" files
 	if [ -f /var/run/$1.pid ] ; then
 	        pid=`head -1 /var/run/$1.pid`
 	        if [ "$pid" != "" ] ; then
 	                echo $pid
 	                return 0
 	        fi
+	fi
+
+	# Next try "pidof"
+	pid=`pidof $1`
+	if [ "$pid" != "" ] ; then
+	        echo $pid
+	        return 0
 	fi
 
 	# Finally try to extract it from ps
