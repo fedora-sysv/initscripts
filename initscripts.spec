@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.92
+Version: 5.93
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -222,6 +222,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Jun 25 2001 Bill Nottingham <notting@redhat.com>
+- add ifup-wireless
+
 * Fri Jun 22 2001 Than Ngo <than@redhat.com>
 - add support xDSL
 
