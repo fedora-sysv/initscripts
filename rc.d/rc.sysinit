@@ -32,7 +32,7 @@ mount -n -t sysfs /sys /sys >/dev/null 2>&1
 # Check SELinux status
 selinuxfs=`awk '/ selinuxfs / { print $2 }' /proc/mounts`
 SELINUX=
-if [ -n "$selinuxfs" -a  "`cat /proc/self/attr/current`" != "kernel" ]; then
+if [ -n "$selinuxfs" ] && [ "`cat /proc/self/attr/current`" != "kernel" ]; then
 	if [ -r $selinuxfs/enforce ] ; then
 		SELINUX=`cat $selinuxfs/enforce`
 	else
