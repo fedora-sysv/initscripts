@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.31.20.EL
+Version: 7.31.21.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -249,6 +249,19 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Feb  3 2005 Bill Nottingham <notting@redhat.com> 7.31.21.EL-1
+- fix handling of VMware files (#139381)
+- don't mount GFS filesystems (#140281)
+- fix various minilogd bogosities (#106338)
+- fix ONxxx (#136531, <cww@redhat.com>)
+- fix various fgreps to not catch commented lines (#136531, expanded
+  from <cww@redhat.com>)
+- kill dhcp client even if BOOTOPROTO is now static (#127726, others)
+- set ETHTOOL_OPTS on addressless devices (#144682, <mpoole@redhat.com>)
+- fix netfs w.r.t nfs root filesystem (#142169)
+- fix check_link_down to still check negotiation if link is listed as 
+  "up" on entering (#110164, <dbaron@dbaron.org>
+
 * Tue Nov  9 2004 Bill Nottingham <notting@redhat.com> 7.31.20.EL-1
 - fix bonding + dhcp (#134787)
 
