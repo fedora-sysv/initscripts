@@ -59,7 +59,7 @@ fi
 # Turn off swap, then unmount file systems.
 runcmd "Turning off swap and accounting" swapoff -a
 # Turn off other swap that isn't in /etc/fstab
-OTHERSWAP=`cut -f1 -d " " /proc/swaps | tail +2`
+OTHERSWAP=`awk '! /^Filename/ { print $1 }' /proc/swaps`
 [ -n "$OTHERSWAP" ] && swapoff $OTHERSWAP
 
 [ -x /sbin/accton ] && /sbin/accton
