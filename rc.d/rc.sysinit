@@ -179,7 +179,7 @@ fi
 
 needusbstorage=
 if [ $usb = "1" ]; then
-    needusbstorage=`cat /proc/bus/usb/devices 2>/dev/null|grep -e "^I.*Cls=08"`
+    needusbstorage=`grep -e "^I.*Cls=08" /proc/bus/usb/devices 2>/dev/null`
     action $"Initializing USB HID interface: " modprobe hid 2> /dev/null
     action $"Initializing USB keyboard: " modprobe keybdev
     action $"Initializing USB mouse: " modprobe mousedev
@@ -233,7 +233,7 @@ fi
  
 
 _RUN_QUOTACHECK=0
-ROOTFSTYPE=`grep " / " /proc/mounts | awk '{ print $3 }'`
+ROOTFSTYPE=`awk '/ \/ / { print $3 }' /proc/mounts`
 if [ -z "$fastboot" -a "X$ROOTFSTYPE" != "Xnfs" ]; then 
 
         STRING=$"Checking root filesystem"
@@ -516,7 +516,7 @@ action $"Mounting local filesystems: " mount -a -t nonfs,smbfs,ncpfs -O no_netde
 if [ X"$_RUN_QUOTACHECK" = X1 -a -x /sbin/quotacheck ]; then
 	if [ -x /sbin/convertquota ]; then
 	    # try to convert old quotas
-	    for mountpt in `cat /etc/mtab | awk '$4 ~ /quota/{print $2}'`; do
+	    for mountpt in `awk '$4 ~ /quota/{print $2}' /etc/mtab` ; do
 		if [ -f "$mountpt/quota.user" ]; then
 		    action $"Converting old user quota files: " \
 		    /sbin/convertquota -u $mountpt && \
@@ -575,14 +575,13 @@ rm -f /fastboot /fsckoptions /forcefsck /.autofsck /halt /poweroff
 _NEED_XFILES=
 [ -f /var/run/utmpx -o -f /var/log/wtmpx ] && _NEED_XFILES=1
 
-# Clean up /var
-# I'd use find, but /usr may not be mounted.
-for afile in /var/lock/* /var/run/*; do
-   if [ -d "$afile" ]; then
-      [ "`basename $afile`" != "news" -a "`basename $afile`" != "sudo" -a "`basename $afile`" != "mon" ] && rm -f $afile/*
-   else
-      rm -f $afile
-   fi
+# Clean up /var.  I'd use find, but /usr may not be mounted.
+for afile in /var/lock/* /var/run/* ; do
+	[ -d "$afile" ] || continue
+	case "`basename $afile`" in
+		news|sudo|mon)	;;
+		*)		rm -f $afile/* ;;
+	esac
 done
 rm -f /var/lib/rpm/__db*
 

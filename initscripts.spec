@@ -252,6 +252,7 @@ rm -rf $RPM_BUILD_ROOT
 - better checks for backup files
 - drastically reduce the number of consoletype invocations
 - do not export "GATEWAY" in network-functions
+- code cleanups in rc.sysinit
 
 * Fri Jul 05 2002 Florian La Roche <Florian.LaRoche@redhat.de>
 - rc.sysinit: do not load raid modules unless /etc/raidtab exists
