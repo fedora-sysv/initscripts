@@ -255,6 +255,7 @@ rm -rf $RPM_BUILD_ROOT
 - modify firewall on ifup to allow any new DNS servers through (#25951)
 - don't muck with the font in lang.csh/lang.sh (#26349)
 - don't display Japanese if we aren't on a pty (#25041)
+- load ide-scsi if passed on /proc/cmdline
 
 * Mon Feb  5 2001 Trond Eivind Glomsrød <teg@redhat.com>
 - i18n updates
