@@ -73,7 +73,7 @@ fi
 
 if [ "$KEYING" = "automatic" ]; then
    racoontmp=`mktemp /etc/racoon/racoon.XXXXXX`
-   grep -v "^include \"/etc/racoon/$DST.conf\"" /etc/racoon/racoon.conf >> $racoontmp
+   grep -v "^include \"/etc/racoon/$DST.conf\";" /etc/racoon/racoon.conf >> $racoontmp
    mv -f $racoontmp /etc/racoon/racoon.conf
    pidof -x /usr/sbin/racoon > /dev/null 2>&1 && killall -HUP /usr/sbin/racoon
 fi
