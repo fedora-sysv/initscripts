@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.08
+Version: 7.09
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -246,6 +246,12 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Feb 20 2003 Bill Nottingham <notting@redhat.com> 7.09-1
+- initialize two ttys past # of mingettys (for GDM)
+- fix zeroconf route
+- redhat-config-network writes $NAME.route for some static routes
+  (e.g., ppp); handle that (#84193)
+
 * Tue Feb 18 2003 Bill Nottingham <notting@redhat.com> 7.08-1
 - load keybdev & mousedev even if hid is already loaded/static
 - run fewer scripts through action (#49670, #75279, #81531)
