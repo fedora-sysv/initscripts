@@ -7,7 +7,7 @@ source_config ()
 
     if basename $CONFIG | grep -q '[^g]-' ; then
 	PARENTCONFIG=`echo $CONFIG | sed 's/-[^-]*$//g'`
-	PARENTDEVNAME=`echo $PARENTCONFIG | sed 's/^ifcfg-//g'`
+	PARENTDEVNAME=`basename $PARENTCONFIG | sed 's/^ifcfg-//g'`
 	[ -f $PARENTCONFIG ] || {
 	    echo "Missing config file $PARENTCONFIG." >&2
 	    exit 1
