@@ -219,6 +219,7 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/profile.d/lang.csh
 /usr/sbin/sys-unconfig
 /sbin/mkkerneldoth
+/sbin/redhat-support-check
 /sbin/setsysfont
 /bin/doexec
 /bin/ipcalc
