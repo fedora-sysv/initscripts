@@ -8,10 +8,10 @@ Release: 1
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /var/tmp/initbld
 Requires: mingetty, bash, /bin/awk, /bin/sed, mktemp, e2fsprogs, console-tools
-Requires: procps, modutils >= 2.1.85-3, sysklogd >= 1.3.31, timeconfig >= 3.0
+Requires: procps, modutils >= 2.1.85-3, sysklogd >= 1.3.31
 Requires: setup >= 2.0.3
-Conflicts: kernel <= 2.2
-Prereq: /sbin/chkconfig, /usr/sbin/groupadd
+Conflicts: kernel <= 2.2, timeconfig < 3.0
+Prereq: /sbin/chkconfig, /usr/sbin/groupadd, gawk
 
 %description
 The initscripts package contains the basic system scripts used to boot
@@ -102,6 +102,15 @@ if [ $1 = 0 ]; then
       sed -e '/BOOTUP=color/BOOTUP=serial/' /etc/sysconfig/init > $tmpfile
       mv -f $tmpfile /etc/sysconfig/init
   fi
+fi
+
+# dup of timeconfig %post - here to avoid a dependency
+if [ -L /etc/localtime ]; then
+	_FNAME=`ls -ld /etc/localtime | awk '{ print $11}' | sed 's/lib/share'`
+	cp -f $_FNAME /etc/localtime
+	if ! grep -q "^ZONE=" /etc/sysconfig/clock ; then
+	  echo "ZONE=\"$_FNAME"\" | sed -e "s|/usr/share/zoneinfo/||" >> /etc/sysconfig/clock
+	fi
 fi
 
 %postun
