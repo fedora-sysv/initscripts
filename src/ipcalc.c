@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997-2001 Red Hat, Inc. All rights reserved.
+ * Copyright (c) 1997-2003 Red Hat, Inc. All rights reserved.
  *
  * This software may be freely redistributed under the terms of the GNU
  * public license.
@@ -70,7 +70,7 @@
   \return a network mask, in network byte order.
 */
 unsigned long int prefix2mask(int prefix) {
-    return htonl(~((2 << (31 - prefix)) - 1));
+    return htonl(~((1 << (32 - prefix)) - 1));
 }
 
 /*!
@@ -296,7 +296,7 @@ int main(int argc, const char **argv) {
 	}
 	tmp = NULL;
 	for (; i>0; i--) {
-	   tmp = malloc(strlen(ipStr + 3));
+	   tmp = malloc(strlen(ipStr) + 3);
 	   sprintf(tmp,"%s.0",ipStr);
 	   ipStr = tmp;
 	}
@@ -308,12 +308,13 @@ int main(int argc, const char **argv) {
 	return 1;
     }
 
-    poptFreeContext(optCon);
     
     if (!(showNetmask|showPrefix|showBroadcast|showNetwork|showHostname)) {
 	    poptPrintHelp(optCon, stderr, 0);
 	    return 1;
     }
+
+    poptFreeContext(optCon);
 
     /* we know what we want to display now, so display it. */
 
