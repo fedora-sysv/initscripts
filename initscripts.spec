@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.61
+Version: 7.61.1
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -251,7 +251,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Tue Aug 11 2004 Jason Vas Dias <jvdias@redhat.com> 7.61-1
-- fix for bug 120093: add PERSISTANT_DHCLIENT option to ifcfg files
+- fix for bug 120093: add PERSISTENT_DHCLIENT option to ifcfg files
 
 * Tue Aug 03 2004 Karsten Hopp <karsten@redhat.de> 7.60-1 
 - write peerid into sysfs for IUCV devices (mainframe)
