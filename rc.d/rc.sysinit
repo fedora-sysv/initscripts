@@ -184,11 +184,9 @@ fi
 needusbstorage=
 if [ $usb = "1" ]; then
     needusbstorage=`LC_ALL=C grep -e "^I.*Cls=08" /proc/bus/usb/devices 2>/dev/null`
-    LC_ALL=C grep 'hid' /proc/bus/usb/drivers || {
-      action $"Initializing USB HID interface: " modprobe hid 2> /dev/null
-      action $"Initializing USB keyboard: " modprobe keybdev
-      action $"Initializing USB mouse: " modprobe mousedev
-    }
+    LC_ALL=C grep 'hid' /proc/bus/usb/drivers || action $"Initializing USB HID interface: " modprobe hid 2> /dev/null
+    action $"Initializing USB keyboard: " modprobe keybdev 2> /dev/null
+    action $"Initializing USB mouse: " modprobe mousedev 2> /dev/null 
 fi
 
 if [ -f /fastboot ] || LC_ALL=C grep -iq "fastboot" /proc/cmdline 2>/dev/null ; then
