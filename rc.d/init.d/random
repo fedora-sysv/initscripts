@@ -23,7 +23,7 @@ case "$1" in
 	else
 		touch $random_seed
 	fi
-	action "Initializing random number generator" /bin/true
+	action "Initializing random number generator: " /bin/true
 	chmod 600 $random_seed
 	dd if=/dev/urandom of=$random_seed count=1 bs=512 2>/dev/null
 	touch /var/lock/subsys/random
@@ -34,7 +34,7 @@ case "$1" in
 	# Save 512 bytes, which is the size of the entropy pool
 	touch $random_seed
 	chmod 600 $random_seed
-	action "Saving random seed" dd if=/dev/urandom of=$random_seed count=1 bs=512 2>/dev/null
+	action "Saving random seed: " dd if=/dev/urandom of=$random_seed count=1 bs=512 2>/dev/null
 	
 	rm -f /var/lock/subsys/random
 	;;

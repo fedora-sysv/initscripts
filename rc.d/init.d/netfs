@@ -32,11 +32,11 @@ NCPMTAB=`grep -v '^#' /proc/mounts | awk '{ if ($3 ~ /^ncpfs$/ ) print $2}'`
 # See how we were called.
 case "$1" in
   start)
-        [ -n "$NFSFSTAB" ] && action "Mounting NFS filesystems" mount -a -t nfs
-        [ -n "$SMBFSTAB" ] && action "Mounting SMB filesystems" mount -a -t smbfs
-        [ -n "$NCPFSTAB" ] && action "Mounting NCP filesystems" mount -a -t ncpfs
+        [ -n "$NFSFSTAB" ] && action "Mounting NFS filesystems: " mount -a -t nfs
+        [ -n "$SMBFSTAB" ] && action "Mounting SMB filesystems: " mount -a -t smbfs
+        [ -n "$NCPFSTAB" ] && action "Mounting NCP filesystems: " mount -a -t ncpfs
 	touch /var/lock/subsys/netfs
-	action "Mounting other filesystems" mount -a -t noproc,nonfs,smbfs,ncpfs
+	action "Mounting other filesystems: " mount -a -t noproc,nonfs,smbfs,ncpfs
 	;;
   stop)
   	[ -n "$NFSMTAB" ] && {
@@ -46,9 +46,9 @@ case "$1" in
 		while [ -n "$remaining" -a "$retry" -gt 0 ]
 		do
 			if [ "$retry" -lt 3 ]; then
-				action "Unmounting NFS filesystems (retry)" umount -f -a -t nfs
+				action "Unmounting NFS filesystems (retry): " umount -f -a -t nfs
 			else
-				action "Unmounting NFS filesystems" umount -f -a -t nfs
+				action "Unmounting NFS filesystems: " umount -f -a -t nfs
 			fi
 			sleep 2
 			remaining=`awk '!/^#/ && $3 ~ /^nfs/ && $2 != "/" {print $2}' /proc/mounts`
@@ -59,34 +59,34 @@ case "$1" in
 			sig=-9
 		done
 	}
-	[ -n "$SMBMTAB" ] && action "Unmounting SMB filesystems" umount -a -t smbfs
-	[ -n "$NCPMTAB" ] && action "Unmounting NCP filesystems" umount -a -t ncpfs
+	[ -n "$SMBMTAB" ] && action "Unmounting SMB filesystems: " umount -a -t smbfs
+	[ -n "$NCPMTAB" ] && action "Unmounting NCP filesystems: " umount -a -t ncpfs
 	rm -f /var/lock/subsys/netfs
 	;;
   status)
 	if [ -f /proc/mounts ] ; then
 	        [ -n "$NFSFSTAB" ] && {
-		     echo "Configured NFS mountpoints:"
+		     echo "Configured NFS mountpoints: "
 		     for fs in $NFSFSTAB; do echo $fs ; done
 		}
 	        [ -n "$SMBFSTAB" ] && {
-		     echo "Configured SMB mountpoints:"
+		     echo "Configured SMB mountpoints: "
 		     for fs in $SMBFSTAB; do echo $fs ; done
 		}
 	        [ -n "$NCPFSTAB" ] && {
-		     echo "Configured NCP mountpoints:"
+		     echo "Configured NCP mountpoints: "
 		     for fs in $NCPFSTAB; do echo $fs ; done
 		}
 		[ -n "$NFSMTAB" ] && {
-                      echo "Active NFS mountpoints:"
+                      echo "Active NFS mountpoints: "
 		      for fs in $NFSMTAB; do echo $fs ; done
 		}
 		[ -n "$SMBMTAB" ] && {
-                      echo "Active SMB mountpoints:"
+                      echo "Active SMB mountpoints: "
 		      for fs in $SMBMTAB; do echo $fs ; done
 		}
 		[ -n "$NCPMTAB" ] && {
-                      echo "Active NCP mountpoints:"
+                      echo "Active NCP mountpoints: "
 		      for fs in $NCPMTAB; do echo $fs ; done
 		}
 	else

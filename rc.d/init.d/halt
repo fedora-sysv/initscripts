@@ -45,7 +45,7 @@ esac
 
 runcmd "Sending all processes the TERM signal..." /sbin/killall5 -15
 sleep 5
-runcmd "Sending all processes the KILL signal.."  /sbin/killall5 -9
+runcmd "Sending all processes the KILL signal..."  /sbin/killall5 -9
 
 # Write to wtmp file before unmounting /var
 halt -w
@@ -58,11 +58,11 @@ fi
 
 # Turn off swap, then unmount file systems.
 SWAPS=`awk '! /^Filename/ { print $1 }' /proc/swaps`
-[ -n "$SWAPS" ] && runcmd "Turning off swap" swapoff $SWAPS
+[ -n "$SWAPS" ] && runcmd "Turning off swap: " swapoff $SWAPS
 
-[ -x /sbin/accton ] && runcmd "Turning off accounting" /sbin/accton
+[ -x /sbin/accton ] && runcmd "Turning off accounting: " /sbin/accton
 
-[ -x /sbin/quotaoff ] && runcmd "Turning off quotas" /sbin/quotaoff -a
+[ -x /sbin/quotaoff ] && runcmd "Turning off quotas: " /sbin/quotaoff -a
 
 # Unmount file systems, killing processes if we have to.
 sig=
@@ -71,9 +71,9 @@ remaining=`awk '!/(^#|proc|loopfs|^none|^\/dev\/root| \/ )/ {print $2}' /proc/mo
 while [ -n "$remaining" -a "$retry" -gt 0 ]
 do
 	if [ "$retry" -lt 3 ]; then
-		runcmd "Unmounting file systems (retry)"  umount -a -f -t noproc
+		runcmd "Unmounting file systems (retry): "  umount -a -f -t noproc
 	else
-		runcmd "Unmounting file systems"  umount -a -f -t noproc
+		runcmd "Unmounting file systems: "  umount -a -f -t noproc
 	fi
 	sleep 2
 	remaining=`awk '!/(^#|proc|loopfs|^none|^\/dev\/root| \/ )/ {print $2}' /proc/mounts`
@@ -92,11 +92,11 @@ if [ -x /sbin/raidstop -a -f /etc/raidtab ]; then
     if [ -f /proc/mdstat ] ; then
 	mddevs=$(grep ^md /proc/mdstat | awk '{ print $1 }')
 	for mddev in $mddevs ; do
-	    runcmd "Turning off RAID for $mddev" raidstop /dev/$mddev
+	    runcmd "Turning off RAID for $mddev: " raidstop /dev/$mddev
 	done
         unset mddev mddevs
     fi
-    #runcmd "Turning off RAID" /sbin/raidstop -a
+    #runcmd "Turning off RAID: " /sbin/raidstop -a
 fi
 
 [ -f /proc/bus/usb/devices ] && umount /proc/bus/usb
@@ -107,7 +107,7 @@ mount | awk '/ext2/ { print $3 }' | while read line; do
     mount -n -o ro,remount $line
 done
 
-runcmd "Unmounting proc file system" umount /proc
+runcmd "Unmounting proc file system: " umount /proc
 
 # Now halt or reboot.
 echo "$message"
