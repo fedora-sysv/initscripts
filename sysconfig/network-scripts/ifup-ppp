@@ -102,6 +102,7 @@ if [ "${DEFROUTE}" != no ] ; then
   opts="$opts defaultroute"
 fi
 if [ "${PEERDNS}" != no ] ; then
+  cp -f /etc/resolv.conf /etc/resolv.conf.save
   opts="$opts usepeerdns"
 fi
 if [ -n "${MRU}" ] ; then
