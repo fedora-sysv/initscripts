@@ -201,6 +201,7 @@ case "$1" in
 	cipeinterfaces=""
 	xdslinterfaces=""
 	bridgeinterfaces=""
+	remaining=""
 
 	# get list of bonding, cipe, and xdsl interfaces
 	for i in $interfaces; do
@@ -231,6 +232,7 @@ case "$1" in
 			unset DEVICE TYPE SLAVE BRIDGE
 			continue
 		fi
+		remaining="$remaining $i"
 		unset DEVICE TYPE BRIDGE
 	done
 	
@@ -244,7 +246,7 @@ case "$1" in
 	done
 	
 	# shut down all interfaces (other than loopback)
-	for i in $interfaces ; do
+	for i in $remaining ; do
 		eval $(fgrep "DEVICE=" ifcfg-$i)
 		if [ -z "$DEVICE" ] ; then DEVICE="$i"; fi
 
