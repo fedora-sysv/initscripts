@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.71
+%define version 4.72
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
@@ -198,6 +198,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Dec 13 1999 Bill Nottingham <notting@redhat.com>
+- umount /proc *after* trying to turn off raid
+
 * Mon Dec 06 1999 Michael K. Johnson <johnsonm@redhat.com>
 - improvements in clone device handling
 - better signal handling in ppp-watch
