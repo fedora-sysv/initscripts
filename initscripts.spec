@@ -63,6 +63,8 @@ for i in 0 1 2 3 4 5 6 ; do
   ln -s rc.d/rc$i.d $RPM_BUILD_ROOT/etc/rc$i.d
 done
 
+ln -s rc.d/init.d $RPM_BUILD_ROOT/etc/init.d
+
 mkdir -p $RPM_BUILD_ROOT/var/{log,run}
 touch $RPM_BUILD_ROOT/var/run/utmp
 touch $RPM_BUILD_ROOT/var/log/wtmp
@@ -186,12 +188,12 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/sysconfig/network-scripts/ifup-ipx
 %config /etc/X11/prefdm
 %config /etc/inittab
-/etc/rc.d
+%dir /etc/rc.d
 %config /etc/rc.d/rc.sysinit
 /etc/rc[0-9].d
 %config(missingok) /etc/rc.d/rc[0-9].d/*
-%dir    /etc/init.d
-%config(missingok) /etc/init.d/*
+/etc/init.d
+%config(missingok) /etc/rc.d/init.d/*
 %config /etc/rc.d/rc
 %config(noreplace) /etc/rc.d/rc.local
 %config(noreplace) /etc/sysctl.conf
