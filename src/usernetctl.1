@@ -11,6 +11,17 @@ specified by \fIinterface-name\fP, and then tries to bring the network
 interface up or down, if up or down was specified on the command line,
 or returns true or false status (respectively) if the report option was
 specified.
+
+.B usernetctl
+is not really meant to be called directly by users, though it currently
+works fine that way.  It is used as a wrapper by the ifup and ifdown
+scripts, so that users can do exactly the same thing as root:
+.nf
+ifup \fIinterface-name\fP
+ifdown \fIinterface-name\fP
+.fi
+and \fBifup\fP and \fBifdown\fP will call usernetctl automatically to
+allow the interface status change.
 .SH OPTIONS
 .TP
 .I "\fIinterface-name"
