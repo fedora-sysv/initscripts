@@ -7,7 +7,7 @@
 
 # Rerun ourselves through initlog
 if [ -z "$IN_INITLOG" -a -x /sbin/initlog ]; then
-    exec /sbin/initlog $INITLOG_ARGS -r /etc/rc.d/rc.sysinit
+    exec /sbin/initlog -r /etc/rc.d/rc.sysinit
 fi
 
 # If we're using devfs, start devfsd now - we need the old device names
