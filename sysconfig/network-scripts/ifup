@@ -52,7 +52,7 @@ if [ "$BOOTP" = "yes" ]; then
 fi
 
 if [ "$BOOTPROTO" = bootp -o "$BOOTPROTO" = dhcp ]; then
-    PUMP=true
+    DYNCONFIG=true
 fi
 
 OTHERSCRIPT="/etc/sysconfig/network-scripts/ifup-${DEVICETYPE}"
@@ -83,16 +83,21 @@ if [ -n "$MACADDR" ]; then
    ifconfig ${DEVICE} hw ether ${MACADDR}
 fi
 
-if [ -n "$PUMP" ]; then
+if [ -n "$DYNCONFIG" ]; then
     PUMPARGS=
+    DHCPCDARGS=
     if [ -n "$DHCP_HOSTNAME" ]; then
        PUMPARGS="-h $DHCP_HOSTNAME"
+       DHCPCDARGS="-h $DHCP_HOSTNAME"
     fi
     if [ -n "$NEEDHOSTNAME" ]; then
        PUMPARGS="$PUMPARGS --lookup-hostname"
+       DHCPCDARGS="$DHCPCDARGS -H"
     fi
     echo -n "Determining IP information for $DEVICE..."
     if /sbin/pump $PUMPARGS -i $DEVICE ; then
+	echo " done."
+    else if /sbin/dhcpcd $DHCPCDARGS $DEVICE ; then
 	echo " done."
     else
 	echo " failed."
