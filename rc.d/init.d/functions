@@ -171,7 +171,10 @@ status() {
 	        echo "$1 (pid $pid) is running..."
 	        return 0
         else
-                pid=`ps auxww Op | awk '{ if ($12 ~ /^[^[]'"$1"'/) print $2}'`
+                pid=`ps ax | awk 'BEGIN { prog=ARGV[1]; ARGC=1 } 
+			   { if ((prog == $5) || (("(" prog ")") == $5) ||
+			     (("[" prog "]") == $5) ||
+			   ((prog ":") == $5)) { print $1 ; exit 0 } }' $1`
                 if [ "$pid" != "" ] ; then
                         echo "$1 (pid $pid) is running..."
                         return 0
