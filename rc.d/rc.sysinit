@@ -152,11 +152,11 @@ else
     usb=1
     modprobe usb-controller 2>/dev/null || usb=0
     if [ $usb = "0" ] ; then
-	usbpresent=`grep -i usb /proc/pci`
-	uhci=`grep -A2 -i usb /proc/pci |grep "I/O at"`
+	usbpresent=`grep -i usb /proc/pci 2>/dev/nill`
+	uhci=`grep -A2 -i usb /proc/pci 2>/dev/null |grep "I/O at"`
 
 	# Don't try to initialize disabled USB controllers
-	uhciirq=`grep -A1 -i usb /proc/pci |grep "IRQ"`
+	uhciirq=`grep -A1 -i usb /proc/pci 2>/dev/null |grep "IRQ"`
 	if [ -n "$usbpresent" ]; then
 	    usb=1
 	    if [ -n "$uhci" ] && [ -n "$uhciirq" ] ; then
