@@ -287,6 +287,12 @@ Files in /etc/sysconfig/network-scripts/
     ONBOOT=yes|no
     USERCTL=yes|no
     BOOTPROTO=none|bootp|dhcp
+    PEERDNS=yes|no
+      modify /etc/resolv.conf if peer uses msdns extension (PPP only) or
+      DNS{1,2} are set, default to "yes".
+    DNS{1,2}=<ipaddress>
+      provide DNS addresses that are dropped into the resolv.conf
+      file if PEERDNS is not set to "no".
 
   If BOOTPROTO is not "none", then the only other item that
   must be set is the DEVICE item; all the rest will be determined
@@ -315,8 +321,6 @@ Files in /etc/sysconfig/network-scripts/
       If this variable is set, then the chat script (if it
       exists) is ignored, and wvdial is used to open the
       PPP connection.
-    PEERDNS=yes|no
-      modify /etc/resolv.conf if peer uses msdns extension
     DEFROUTE=yes|no (set this interface as default route?)
     ESCAPECHARS=yes|no (simplified interface here doesn't let people
       specify which characters to escape; almost everyone can use
