@@ -7,7 +7,7 @@ Group: Base
 Release: 1
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /var/tmp/initbld
-Requires: mingetty bash mktemp
+Requires: mingetty, bash, mktemp, modutils >= 2.1.85-3
 Prereq: /sbin/chkconfig
 
 %description
