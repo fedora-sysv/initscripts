@@ -410,7 +410,7 @@ main(int argc, char **argv) {
     int connectedOnce = 0;
 
     if (argc < 2) {
-	fprintf (stderr, "usage: ppp-watch [ifcfg-]<logical-name> [boot]");
+	fprintf (stderr, "usage: ppp-watch [ifcfg-]<logical-name> [boot]\n");
 	exit(30);
     }
 
