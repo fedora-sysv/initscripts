@@ -8,6 +8,11 @@ foreach file (/etc/sysconfig/i18n $HOME/.i18n)
 	set sourced=1
 end
 
+if ($?GDM_LANG) then
+    set sourced=1
+    set LANG=$GDM_LANG
+endif
+
 if ($sourced == 1) then
     if ($?LC_ALL && $?LANG) then
         if ($LC_ALL == $LANG) then

@@ -5,6 +5,11 @@ for langfile in /etc/sysconfig/i18n $HOME/.i18n ; do
     [ -f $langfile ] && . $langfile && sourced=1
 done    
 
+if [ -n "$GDM_LANG" ]; then
+    sourced=1
+    LANG="$GDM_LANG"
+fi
+
 if [ "$sourced" = 1 ]; then
     [ -n "$LANG" ] && export LANG || unset LANG
     [ -n "$LC_CTYPE" ] && export LC_CTYPE || unset LC_CTYPE
