@@ -51,7 +51,7 @@ cd /etc/sysconfig/network-scripts
 
 # find all the interfaces besides loopback.
 # ignore aliases, alternative configurations, and editor backup files
-interfaces=`ls ifcfg* | LANG=C egrep -v '(ifcfg-lo|:|rpmsave|rpmorig|rpmnew)' | \
+interfaces=`ls ifcfg* | LANG=C egrep -v '(ifcfg-lo|:|-range|rpmsave|rpmorig|rpmnew)' | \
 	    LANG=C egrep -v '(~|\.bak)$' | \
             LANG=C egrep 'ifcfg-[A-Za-z0-9\._-]+$' | \
             sed 's/^ifcfg-//g' |

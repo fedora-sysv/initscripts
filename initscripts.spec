@@ -255,6 +255,7 @@ rm -rf $RPM_BUILD_ROOT
 - backport ETHTOOL_OPTS + bonding fixes from Fedora (#128714)
 - fix get_hwaddr for token ring (#127984)
 - fix shell quoting for device renaming
+- fix overzealous initialization of -range interfaces (#65415)
 
 * Mon Aug 30 2004 Jason Vas Dias <jvdias@redhat.com> 7.31.17.EL-1
 - Add change_resolv_conf function to network_functions ; get 
