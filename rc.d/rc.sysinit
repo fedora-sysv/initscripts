@@ -427,8 +427,10 @@ if [ -f /etc/rc.modules ]; then
 fi
 
 # Add raid devices
-if [ ! -f /proc/mdstat ]; then
+if [ -f /etc/raidtab ]; then
+   if [ ! -f /proc/mdstat ]; then
 	modprobe md >/dev/null 2>&1
+   fi
 fi	
 
 if [ -f /proc/mdstat -a -f /etc/raidtab ]; then
