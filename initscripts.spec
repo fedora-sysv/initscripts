@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.34
+Version: 7.35
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -249,10 +249,14 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Oct  1 2003 Bill Nottingham <notting@redhat.com> 7.35-1
+- load acpi modules on startup if necessary
+- fix typo in ipsec comments & sysconfig.txt
+
 * Mon Sep 15 2003 Than Ngo <than@redhat.com> 7.34-1
 - use upsdrvctl to start the shutdown process
 
-* Mon Sep 15 2003 Bill Nottingham <notting@redhat.com. 7.33-1
+* Mon Sep 15 2003 Bill Nottingham <notting@redhat.com> 7.33-1
 - ipsec fixes (#104227, <harald@redhat.com>)
 - ppp fixes (#104128, #97845, #85447)
 
