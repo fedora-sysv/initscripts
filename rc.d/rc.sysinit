@@ -531,7 +531,7 @@ fi
 # Mount all other filesystems (except for NFS and /proc, which is already
 # mounted). Contrary to standard usage,
 # filesystems are NOT unmounted in single user mode.
-action $"Mounting local filesystems: " mount -a -t nonfs,smbfs,ncpfs
+action $"Mounting local filesystems: " mount -a -t nonfs,smbfs,ncpfs -O nonetdev
 
 if [ X"$_RUN_QUOTACHECK" = X1 -a -x /sbin/quotacheck ]; then
 	if [ -x /sbin/convertquota ]; then

@@ -63,6 +63,7 @@ case "$1" in
 			sig=-9
 		done
 	}
+	action $"Unmounting network block filesystems: " umount -a -O netdev
   	[ -n "$NFSMTAB" ] && {
 		sig=
 		retry=3
