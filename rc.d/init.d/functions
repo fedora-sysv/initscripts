@@ -79,18 +79,18 @@ killproc() {
                 [ $BOOTUP != "color" ] && echo -n $base
 		if [ "$notset" = 1 ] ; then
 			# TERM first, then KILL if not dead
-			kill -TERM $pid
+			kill -TERM $pid && success -n "$base shutdown" || failure -n "$base shutdown"
 			usleep 100000
 			if ps h $pid >/dev/null 2>&1 ; then
 				sleep 1
-				if ps h $pid >/dev/null 2>&1
+				if ps h $pid >/dev/null 2>&1 ; then
 					sleep 3
-					kill -KILL $pid && success "$base shutdown" || failure "$base shutdown"
+					kill -KILL $pid && success -n "$base shutdown" || failure -n "$base shutdown"
 				fi
 			fi
 		# use specified level only
 		else
-	                kill $killlevel $pid && success "$base shutdown" || failure "$base shutdown"
+	                kill $killlevel $pid && success -n "$base shutdown" || failure -n "$base shutdown"
 		fi
 	else
 	    failure -n "$base shutdown"
@@ -263,6 +263,3 @@ confirm() {
     ;;
     esac
 }
-
-    
-  

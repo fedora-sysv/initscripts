@@ -1,4 +1,3 @@
-#!/bin/sh
 #
 # random	Script to snapshot random state and reload it at boot time.
 #
@@ -19,11 +18,11 @@ case "$1" in
 	# Carry a random seed from start-up to start-up
 	# Load and then save 512 bytes, which is the size of the entropy pool
 	if [ -f $random_seed ]; then
-		cmd="cat $random_seed >/dev/urandom"
+		cat $random_seed >/dev/urandom
 	else
-		cmd="touch $random_seed"
+		touch $random_seed
 	fi
-	action "Initializing random number generator" $cmd
+	action -n "Initializing random number generator" /bin/true
 	chmod 600 $random_seed
 	dd if=/dev/urandom of=$random_seed count=1 bs=512 2>/dev/null
 	touch /var/lock/subsys/random
@@ -34,7 +33,7 @@ case "$1" in
 	# Save 512 bytes, which is the size of the entropy pool
 	touch $random_seed
 	chmod 600 $random_seed
-	action "Saving random seed" dd if=/dev/urandom of=$random_seed count=1 bs=512 2>/dev/null
+	action -n "Saving random seed" dd if=/dev/urandom of=$random_seed count=1 bs=512 2>/dev/null
 	
 	rm -f /var/lock/subsys/random
 	;;

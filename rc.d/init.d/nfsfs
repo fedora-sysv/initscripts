@@ -28,12 +28,10 @@ case "$1" in
   start)
 	action -n "Mounting remote filesystems" mount -a -t nfs
 	touch /var/lock/subsys/nfsfs
-	echo
 	;;
   stop)
 	action -n "Unmounting remote filesystems" umount -a -t nfs
 	rm -f /var/lock/subsys/nfsfs
-	echo
 	;;
   status)
 	if [ -f /proc/mounts ] ; then

@@ -176,6 +176,7 @@ int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet)
 	 buf=calloc(2048,sizeof(char));
 	 do {
 	    x=read(outpipe[0],buf,2048);
+	    write(1,"\n",1);
 	    write(1,buf,x);
 	    buf=calloc(2048,sizeof(char));
 	 } while (x==2048);

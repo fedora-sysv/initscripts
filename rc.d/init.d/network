@@ -57,7 +57,8 @@ ipv4_forward_set ()
 		fi
 
 		if [ $value != `cat /proc/sys/net/ipv4/ip_forward` ]; then
-		    action -n "$message" echo "$value" > /proc/sys/net/ipv4/ip_forward
+		    action -n "$message"  /bin/true
+		    echo "$value" > /proc/sys/net/ipv4/ip_forward
 		fi
 	    fi
 	fi
@@ -95,7 +96,8 @@ case "$1" in
 	    ;;
 	esac
 	./ifdown ifcfg-lo
-	action -n "Disabling IPv4 packet forwarding" echo 0 > /proc/sys/net/ipv4/ip_forward
+	action -n "Disabling IPv4 packet forwarding" /bin/true
+	echo 0 > /proc/sys/net/ipv4/ip_forward
         rm -f /var/lock/subsys/network
         ;;
   status)

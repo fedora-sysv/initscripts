@@ -121,7 +121,6 @@ int logLine(struct logInfo *logEnt) {
 	   if (logEntries>0) {
 	      for (x=0;x<logEntries;x++) {
 		 openlog(logData[x].cmd,0,logData[x].fac);
-		 printf("flushing %s\n",logData[x].line);
 		 syslog(logData[x].pri,"%s",logData[x].line);
 		 closelog();
 	      }

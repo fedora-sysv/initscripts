@@ -11,6 +11,14 @@
 # Set the path.
 PATH=/sbin:/bin:/usr/bin:/usr/sbin
 
+. /etc/rc.d/init.d/functions
+
+runcmd() {
+   echo -n $1
+   shift
+   $* && echo_success -n || echo_failure -n
+}
+
 # See how we were called.
 case "$0" in
   *halt)
@@ -30,22 +38,22 @@ esac
 # Kill all processes.
 [ "${BASH+bash}" = bash ] && enable kill
 
-action "Sending all processes the TERM signal..." kill -15 -1
+runcmd "Sending all processes the TERM signal..." kill -15 -1
 sleep 5
-action "Sending all processes the KILL signal.." kill -9 -1
+runcmd "Sending all processes the KILL signal.."  kill -9 -1
 
 # Write to wtmp file before unmounting /var
 halt -w
 
 # Turn off swap, then unmount file systems.
-action "Turning off swap and accounting" swapoff -a
+runcmd "Turning off swap and accounting" swapoff -a
 [ -x /sbin/accton ] && /sbin/accton
-action "Unmounting file systems" umount -a -f
+runcmd "Unmounting file systems"  umount -a -f 
 mount -n -o remount,ro /
 
 # turn off raid
 if [ -x /sbin/raidstop -a -f /etc/raidtab ]; then
-    action "Turning off RAID" /sbin/raidstop -a
+    runcmd "Turning off RAID" /sbin/raidstop -a
 fi
 
 # Remount read only anything that's left mounted.
@@ -58,9 +66,7 @@ done
 echo "$message"
 if [ -f /fastboot ]; then
  echo "On the next boot fsck will be skipped."
-elif [ -f /forcefsck ];
+elif [ -f /forcefsck ]; then
  echo "On the next boot fsck will be forced."
 fi
 eval $command -i -d -p
-
-
