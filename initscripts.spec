@@ -9,6 +9,7 @@ Source: initscripts-%{version}.tar.gz
 BuildRoot: /var/tmp/initbld
 Requires: mingetty, bash, /bin/awk, /bin/sed, mktemp, e2fsprogs, console-tools
 Requires: procps, modutils >= 2.1.85-3, sysklogd >= 1.3.31, timeconfig >= 3.0
+Requires: setup >= 2.0.3
 Conflicts: kernel <= 2.2
 Prereq: /sbin/chkconfig, /usr/sbin/groupadd
 
