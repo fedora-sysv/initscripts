@@ -55,9 +55,7 @@ REALDEVICE=`echo ${DEVICE} | sed 's/:.*//g'`
 # Test whether IPv6 should be configured, else stop
 [ "${NETWORKING_IPV6}" = "yes" ] || exit 0
 
-if [ ! -f /etc/sysconfig/network-scripts/network-functions-ipv6 ]; then
-	exit 1
-fi
+[ -f /etc/sysconfig/network-scripts/network-functions-ipv6 ] || exit 1
 
 # Source IPv6 helper functions
 . /etc/sysconfig/network-scripts/network-functions-ipv6
