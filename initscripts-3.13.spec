@@ -6,7 +6,7 @@ Group: Base
 Release: 1
 Source: initscripts-3.13.tar.gz
 BuildRoot: /var/tmp/initbld
-Requires: mingetty bash
+Requires: mingetty bash mktemp
 
 %description
 This package contains the scripts use to boot a system, change run
@@ -14,6 +14,10 @@ levels, and shut the system down cleanly. It also contains the scripts
 that activate and deactivate most network interfaces.
 
 %changelog
+
+* Tue Sep 23 1997 Donnie Barnes <djb@redhat.com>
+
+- added mktemp support to ifup
 
 * Thu Sep 18 1997 Donnie Barnes <djb@redhat.com>
 
