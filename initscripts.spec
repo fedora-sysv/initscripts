@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.22
+Version: 5.23
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -219,6 +219,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Jun 28 2000 Trond Eivind Glomsrød <teg@redhat.com>
+- add support for USB controllers and HID devices 
+  (mice, keyboards)
+
 * Tue Jun 27 2000 Trond Eivind Glomsrød <teg@redhat.com>
 - add support for EIDE optimization
 
