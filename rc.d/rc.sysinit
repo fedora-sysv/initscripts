@@ -161,6 +161,10 @@ if ! grep -iq "nousb" /proc/cmdline 2>/dev/null && ! grep -q "usb" /proc/devices
     fi
 fi
 
+if ! grep -iq "nousb" /proc/cmdline 2>/dev/null && grep -q "usb" /proc/devices 2>/dev/null ; then
+  usb=1
+fi
+
 if [ $usb = "1" ]; then
     sleep 5
     action $"Mounting USB filesystem: "  mount -t usbdevfs usbdevfs /proc/bus/usb
