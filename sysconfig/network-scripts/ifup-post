@@ -28,6 +28,37 @@ if [ -n "$NEEDHOSTNAME" -a "${DEVICE}" != lo -a "${DEVICETYPE}" != "ppp" -a "${D
     eval `/bin/ipcalc --silent --hostname ${IPADDR}` && set_hostname $HOSTNAME
 fi
 
+if [ "$DEVICETYPE" = ppp -a "$PEERDNS" = yes -a -n "$DNS1" ] && 
+   tr=`mktemp /tmp/resolv.XXXXXX` ; then
+    # replace only the first two nameserver lines; cannot count on awk
+    # and do not know if sed is capable of this...
+    current_replacement="$DNS1"
+    next_replacement="$DNS2"
+    while read answer < /etc/resolv.conf ; do
+	case $answer in
+	    nameserver*)
+		if [ -n "$current_replacement" ] ; then
+		    echo "nameserver $current_replacement" >> $tr
+		    if [ -n "$next_replacement" ] ; then
+			current_replacement="$next_replacement"
+			next_replacement=
+		    else
+			current_replacement=
+		    fi
+		else
+		    echo "$answer" >> $tr
+		fi
+		;;
+	    *)
+		echo "$answer" >> $tr
+		;;
+	esac
+    done
+    # maintain permissions
+    cat $tr > /etc/resolv.conf
+    rm -f $tr
+fi
+
 # Notify programs that have requested notification
 do_netreport
 
