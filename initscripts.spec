@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.13
+Version: 7.14
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -17,7 +17,7 @@ Requires: bash >= 2.0, SysVinit
 Requires: /sbin/ip, /sbin/arping, net-tools
 Requires: /etc/redhat-release, dev
 Conflicts: kernel <= 2.4, timeconfig < 3.0, pppd < 2.3.9, wvdial < 1.40-3
-Conflicts: ypbind < 1.6-12, psacct < 6.3.2-12, kbd < 1.06-19, lokkit < 0.50-21
+Conflicts: ypbind < 1.6-12, psacct < 6.3.2-12, kbd < 1.06-19, lokkit < 0.50-14
 Obsoletes: rhsound sapinit
 Prereq: /sbin/chkconfig, /usr/sbin/groupadd, gawk, fileutils, sh-utils
 BuildPrereq: glib2-devel popt gettext pkgconfig
@@ -246,6 +246,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Mar 12 2003 Bill Nottingham <notting@redhat.com> 7.14-1
+- do not handle changed chain name; change was reverted
+
 * Tue Feb 25 2003 Bill Nottingham <notting@redhat.com> 7.13-1
 - handle 7.x SYSFONTACM settings in setsysfont (#84183)
 
