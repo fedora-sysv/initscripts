@@ -98,8 +98,6 @@ if [ -d /etc/rc$runlevel.d ]; then
 			if [ "$subsys" = "halt" -o "$subsys" = "reboot" ]; then
 				unset LANG
 				unset LC_ALL
-				unset TEXTDOMAIN
-				unset TEXTDOMAINDIR
 				exec $i start
 			else
 			    $i start
@@ -109,8 +107,6 @@ if [ -d /etc/rc$runlevel.d ]; then
 			    if [ "$subsys" = "halt" -o "$subsys" = "reboot" ]; then
 				unset LANG
 				unset LC_ALL
-				unset TEXTDOMAIN
-				unset TEXTDOMAINDIR
 				exec $i start
 			    fi
 			    $i start
