@@ -169,6 +169,7 @@ doPidFile(char *device) {
 	pidFileName = device;
 	pidFilePath = alloca(strlen(pidFileName) + 25);
 	sprintf(pidFilePath, "/var/run/pppwatch-%s.pid", pidFileName);
+restart:
 	fd = open(pidFilePath, O_WRONLY|O_TRUNC|O_CREAT|O_EXCL,
 		  S_IRUSR|S_IWUSR | S_IRGRP | S_IROTH);
 
@@ -184,10 +185,16 @@ doPidFile(char *device) {
 	     */
 	    f = fdopen(fd, "r");
 	    if (!f) cleanExit(37);
-	    if (fscanf(f, "%d", &pid) && pid)
-		kill(pid, SIGHUP);
+	    fscanf(f, "%d", &pid);
 	    fclose(f);
-	    cleanExit(33);
+	    if (pid) {
+		if (kill(pid, SIGHUP)) {
+		    unlink(pidFilePath);
+		    goto restart;
+		} else {
+		    cleanExit(33);
+		}
+	    }
 	}
 
 	f = fdopen(fd, "w");
