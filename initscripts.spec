@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.52
+%define version 4.53
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
@@ -194,6 +194,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Oct 11 1999 Bill Nottingham <notting@redhat.com>
+- support for linuxconf alias files
+- add support for Jensen clocks.
+
 * Tue Oct  5 1999 Bill Nottingham <notting@redhat.com>
 - assorted brown paper bag fixes
 - check for programs/files before executing/sourcing them
