@@ -65,11 +65,15 @@ if ($sourced == 1) then
         switch ($LANG)
 	    case *.utf8*:
 	    case *.UTF-8*:
-	        if ( $?TERM ) then
+		if ( $?TERM ) then
 		    if ( "$TERM" == "linux" ) then
-		        if ( `/sbin/consoletype` == "vt" ) then
-			    unicode_start $SYSFONT $SYSFONTACM
-		        endif
+			if ( `/sbin/consoletype` == "vt" ) then
+			    if ( $?SYSFONTACM ) then
+			        unicode_start $SYSFONT $SYSFONTACM
+			    else
+			        unicode_start $SYSFONT
+			    endif
+			endif
 		    endif
 		endif
 		breaksw
