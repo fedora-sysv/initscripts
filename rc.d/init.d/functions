@@ -62,10 +62,10 @@ killproc() {
 		if [ "$notset" = 1 ] ; then
 			# TERM first, then KILL if not dead
 			kill -TERM $pid
-			usleep 10000
+			usleep 100000
 			dead=`ps aux | awk "{print $2}" | grep $pid`
 			if [ "$dead" != "" ]; then
-				sleep 4
+				sleep 3
 				kill -KILL $pid
 			fi
 		# use specified level only
@@ -117,8 +117,14 @@ status() {
 	# First try "pidof"
 	pid=`pidof $1`
 	if [ "$pid" != "" ] ; then
-	        echo "$1 is running..."
+	        echo "$1 (pid $pid) is running..."
 	        return 0
+        else
+                pid=`ps auxww | grep $1 | egrep -v grep\|$0 | awk '{print $2}'`
+                if [ "$pid" != "" ] ; then
+                        echo "$1 (pid $pid) is running..."
+                        return 0
+                fi
 	fi
 
 	# Next try "/var/run/*.pid" files

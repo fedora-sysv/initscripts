@@ -15,6 +15,13 @@ that activate and deactivate most network interfaces.
 
 %changelog
 
+
+* Tue Sep 16 1997 Donnie Barnes <djb@redhat.com>
+
+- reworked status() to adjust for processes that change their argv[0] in
+  the process table.  The process must still have it's "name" in the argv[0]
+  string (ala sendmail: blah blah).
+
 * Mon Sep 15 1997 Erik Troan <ewt@redhat.com>
 
 - fixed bug in FORWARD_IPV4 support
