@@ -15,7 +15,7 @@ PATH=/sbin:/bin:/usr/bin:/usr/sbin
 case "$0" in
   *halt)
 	message="The system is halted"
-	command="halt -p"
+	command="halt"
 	;;
   *reboot)
 	message="Please stand by while rebooting the system..."
@@ -61,6 +61,6 @@ if [ -f /fastboot ]; then
 elif [ -f /forcefsck ];
  echo "On the next boot fsck will be forced."
 fi
-eval $command -i -d
+eval $command -i -d -p
 
 

@@ -1,4 +1,834 @@
-1998-10-03  Cristian Gafton  <gafton@redhat.com>
+1999-02-03  notting  <notting@bobby.devel.redhat.com>
 
-	* lang.sh: use SYSTERM, not SYSTEM
+	* rc.d/init.d/functions, rc.d/init.d/halt, rc.d/init.d/network,
+	  rc.d/init.d/nfsfs, rc.d/init.d/random, rc.d/init.d/single, rc.d/rc:
+	more initlog changes
+
+        * rc.d/init.d/functions
+	wait a little longer for kill -TERM
+
+	* initscripts.spec, rc.d/rc.sysinit, setsysfont,
+	  sysconfig/network-scripts/ifup-ppp:
+	setsysfont only if font defined 
+	do hwclock --adjust
+	fix /forcefsck
+	fix ifup-ppp (move & to after redirect)
+
+	* Makefile, initscripts.spec, rc.d/init.d/functions,
+          rc.d/init.d/network, rc.d/rc, rc.d/rc.sysinit,
+	  src/Makefile, src/initlog.1, src/initlog.c,
+	  src/initlog.h, src/minilogd.c,
+	  src/process.c, src/process.h, sysconfig.txt:
+	add initlog stuff. Use %defattr in specfile.
+	
+	* rc.d/init.d/halt:
+	  do "halt -p", "umount -f" in shutdown.
+
+1999-01-25  jbj  <jbj@bobby.devel.redhat.com>
+
+	* rc.d/rc.sysinit:
+	Perform quota checking on file systems after they are marked read/write (#719).
+
+	* sysconfig/network-scripts/ifup-ppp:
+	Explicitly force RX escape char negotiation if ESCAPECHARS = no (#519).
+
+	* sysconfig/network-scripts/ifup:
+	bootpc: 2.2 kernels complain about broadcast and netmask on ifup.
+	bootpc: Give slow 10Mbps/100Mbps autodetecting cards a second chance.
+
+	* initscripts.spec: Bump version.
+
+1998-12-09  ewt  <ewt@bobby.devel.redhat.com>
+
+	* src/.cvsignore: *** empty log message ***
+
+1998-12-06  jbj  <jbj@bobby.devel.redhat.com>
+
+	* sysconfig/network-scripts/ifup-ipx: Bug #205 sez':
+	in ifup-ipx script underlines in next line should be
+	changes to dots
+
+	for frametype in 802_2 802_3 ETHERII SNAP ; do
+
+	I have verified this to be a bug in the initscripts. If autoprimary
+	and and autoframetype is enabled in /etc/sysconfig/network then the
+	interface will come up properly. If they are set to no then whatever
+	frametypes that are defined in the
+	/etc/sysconfig/network-scripts/ifcfg-ethx will not become activated.
+
+1998-11-12  pbrown  <pbrown@bobby.devel.redhat.com>
+
+	* rc.d/init.d/halt, initscripts.spec:
+	halt passed the -i flag to disable network interfaces (new halt option).
+
+1998-11-10  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* sysconfig/network-scripts/ifup-aliases, initscripts.spec:
+	linuxconf ipalias fix; work with both old and new linuxconf
+
+1998-11-02  notting  <notting@bobby.devel.redhat.com>
+
+	* rc.d/init.d/functions: sort daemons in status() by pid
+
+1998-10-28  notting  <notting@bobby.devel.redhat.com>
+
+	* rc.d/init.d/functions:
+	fix status() (was catching instance of initscripts)
+
+1998-10-15  ewt  <ewt@bobby.devel.redhat.com>
+
+	* rc.d/rc.sysinit: can't have spaces around = in sh
+
+	* rc.d/init.d/halt: fixed shell stuff
+
+	* initscripts.spec: version 3.78
+
+	* rc.d/init.d/halt: raidstop -r doesn't work for 5.2 ;-)
+
+	* initscripts.spec: added raidstop to halt
+
+	* rc.d/init.d/halt: added raidstop stuff
+
+	* initscripts.spec: version 3.77
+
+	* initscripts.spec: fixed raidstart
+
+	* rc.d/rc.sysinit: raidstart doesn't exist! use raidadd/raidrun
+
+1998-10-12  gafton  <gafton@bobby.devel.redhat.com>
+
+	* initscripts.spec, lang.sh, sysconfig.txt: Handle LC_ALL
+
+1998-10-12  pbrown  <pbrown@bobby.devel.redhat.com>
+
+	* initscripts.spec, setsysfont: updated so that setfont always runs.
+
+1998-10-06  gafton  <gafton@bobby.devel.redhat.com>
+
+	* initscripts.spec: New release
+
+	* rc.d/rc.sysinit: Accept all kernel numbers instead of just 2.0.x
+
+1998-10-05  gafton  <gafton@bobby.devel.redhat.com>
+
+	* initscripts.spec: require: e2fsprogs
+
+1998-10-03  gafton  <gafton@bobby.devel.redhat.com>
+
+	* .cvsignore, ChangeLog, initscripts.spec, lang.sh:
+	Use SYSTERM, not SYSTEM in lang.sh
+
+1998-09-25  gafton  <gafton@bobby.devel.redhat.com>
+
+	* Makefile, initscripts.spec: New file part of the dist: inputrc
+
+	* lang.sh: Set INPUTRC and LESSCHARSET on linux-lat systems
+
+	* inputrc: New file
+
+1998-09-21  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* rc.d/init.d/functions:
+	a few bugs fixed and a few unneeded processes removed
+
+	* sysconfig.txt: updated QUEUE meaning
+
+1998-09-17  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* sysconfig.txt: /etc/sysconfig/sendmail added
+
+1998-09-16  jbj  <jbj@bobby.devel.redhat.com>
+
+	* sysconfig.txt: Document UNIMAP variable.
+
+	* initscripts.spec: Version 3.71.
+
+	* rc.d/rc.sysinit: Raid startup.
+
+	* rc.d/rc: Don't run [KS]??foo.{rpmsave,rpmorig} scripts.
+
+	* setsysfont:
+	I've changed /sbin/setsysfont from the RH51 initscripts package to handle
+	Unicode fonts. To do this I've added the variable UNIMAP to
+	/etc/sysconfig/i18n (It holds the name of the Unicode mapping table.) The
+	changes should be backwards compatible.
+
+	Niels Kristian Bech Jensen - nkbj@image.dk - http://www.image.dk/~nkbj/
+
+1998-08-21  jbj  <jbj@bobby.devel.redhat.com>
+
+	* rc.d/rc.sysinit:
+	Remove Postgres sockets while booting (problem #816).
+
+1998-08-17  ewt  <ewt@bobby.devel.redhat.com>
+
+	* initscripts.spec: verion 3.70
+
+	* rc.d/rc.local:
+	1) only update /etc/issue if /etc/redhat-release is present
+	2) use the text of /etc/redhat-releae verbatim; don't add "Red Hat Linux" to
+	   the front
+
+1998-08-16  jbj  <jbj@bobby.devel.redhat.com>
+
+	* initscripts.spec, rc.d/init.d/halt, rc.d/rc.sysinit:
+	Remove annoying error messages.
+
+1998-08-14  jbj  <jbj@bobby.devel.redhat.com>
+
+	* rc.d/rc.sysinit:
+	Remove attempt to avoid running depmod on 2.1.x kernels.
+
+1998-08-01  jbj  <jbj@bobby.devel.redhat.com>
+
+	* rc.d/rc.sysinit: Typo (Hao Li <hli@wag.caltech.edu>)
+
+1998-07-07  jbj  <jbj@bobby.devel.redhat.com>
+
+	* rc.d/init.d/nfsfs, rc.d/init.d/network, initscripts.spec:
+	Permit /usr to be NFS mounted.
+
+1998-07-07  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* sysvinitfiles: priority specification
+
+	* sysconfig/network-scripts/ifdown-ppp:
+	fix long-standing bug and work with (currently vaporware) newer ps versions
+
+1998-07-07  jbj  <jbj@bobby.devel.redhat.com>
+
+	* sysconfig/network-scripts/ifup-ppp: Invert logic for ESCAPECHARS=yes.
+
+	* sysconfig/network-scripts/ifup-sl, sysconfig/network-scripts/ifup-ppp, sysconfig/network-scripts/ifup-post, sysconfig/network-scripts/ifup-plip, sysconfig/network-scripts/ifup-ipx, sysconfig/network-scripts/ifup, sysconfig/network-scripts/ifdown-sl, sysconfig/network-scripts/ifdown-ppp, sysconfig/network-scripts/ifdown-post, sysconfig/network-scripts/ifdown:
+	Always "cd /etc/sysconfig/network-scripts" before sourcing network_functions.
+
+	* sysconfig/network-scripts/ifdown-sl: Bug report:
+
+	I am running dip-3.3.7o-10 and initscripts-3.32-1 on Red Hat 5.0 Intel and
+	was unable to terminate an established SLIP connection in the standard
+	fashion.  After some hacking around I discovered that the problem
+	was that when dip establishes a connection, it changes it's argument
+	list to '-dip (IP_ADDRESS)' where IP_ADDRESS is the local IP address.
+	This of course breaks the network-scripts handling of the connection.
+	I've modified /etc/sysconfig/network-scripts/ifdown-sl to take this
+	into account and included the modified file below.  I don't think it
+	will work for people with dynamically allocated IP addresses though...
+
+	-Mike Wittman
+	support login: wittman@cs.berkeley.edu
+
+1998-07-01  jbj  <jbj@bobby.devel.redhat.com>
+
+	* rc.d/rc.sysinit: Perform rhkmvtag magic with module-info.
+
+	* rc.d/rc.sysinit: Remove debugging "echo ...".
+
+	* rc.d/rc.sysinit:
+	Use rhkmvtag to attach modules directory to running kernel.
+
+1998-07-01  ewt  <ewt@bobby.devel.redhat.com>
+
+	* src/usernetctl.c, initscripts.spec:
+	USERNET attribute can have "" around it
+
+1998-07-01  jbj  <jbj@bobby.devel.redhat.com>
+
+	* initscripts.spec: Add %defattr for non-root build/install.
+
+	* Makefile: More cvs workarounds.
+
+	* Makefile: Deal with some cvs quirks.
+
+	* initscripts.spec: Bump version.
+
+	* rc.d/init.d/halt: Turn off accounting before unmounting /var.
+
+	* rc.d/rc.sysinit: Correctly check fsck return code for non-root fs.
+
+1998-06-21  jbj  <jbj@bobby.devel.redhat.com>
+
+	* sysconfig/network-scripts/ifup-ipx, sysconfig/network-scripts/ifup, src/usernetctl.c, rc.d/init.d/network, rc.d/rc.sysinit, initscripts.spec:
+	Fix bug track problems (#677, #731, #734, E-mail).
+
+1998-06-07  ewt  <ewt@bobby.devel.redhat.com>
+
+	* initscripts.spec: version 3.66
+
+	* rc.d/rc.sysinit:
+	look for bootfile= to set /lib/modules/preferred symlink
+
+1998-06-02  ewt  <ewt@bobby.devel.redhat.com>
+
+	* initscripts.spec: version 3.65
+
+1998-06-01  ewt  <ewt@bobby.devel.redhat.com>
+
+	* rc.d/rc.sysinit:
+	1) if preferred doesn't exist, run depmod -a normally
+	2) do proper symlink check for preferred
+
+	* src/Makefile: ipcalc shouldn't be setgid root
+
+1998-05-10  ewt  <ewt@bobby.devel.redhat.com>
+
+	* initscripts.spec, rc.d/rc.sysinit:
+	be more forcefull about creating preferred directories
+
+1998-05-08  djb  <djb@bobby.devel.redhat.com>
+
+	* initscripts.spec: updated version number
+
+	* ppp/ip-up: added path shit to ip-up
+
+	* initscripts.spec: forgot to increment version number
+
+	* setsysfont: made setsysfont do *nothing* if there is no $SYSFONT
+
+1998-05-06  djb  <djb@bobby.devel.redhat.com>
+
+	* Makefile, initscripts.spec: makefile bug
+
+	* Makefile, initscripts.spec, lang.sh, rc.d/rc.sysinit:
+	moved stuff to /etc/profile.d/lang.sh
+
+	* Makefile: minor fix
+
+	* setsysfont: added setsysfont
+
+	* Makefile, initscripts.spec, rc.d/rc.sysinit, sysconfig.txt:
+	added added sysconfig/i18n support
+
+1998-05-04  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* initscripts.spec: added missing files
+
+	* initscripts.spec: new release
+
+1998-05-03  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* initscripts.spec: more commentary
+
+	* rc.d/init.d/network, sysconfig/network-scripts/ifup, sysconfig/network-scripts/ifup-ipx, sysconfig/network-scripts/ifup-routes, sysconfig.txt:
+	update to linuxconf 1.11r8 capabilities.
+	Full support for IPX as configured by linuxconf.
+	Updated sysconfig.txt documentation to reflect new parameters.
+
+1998-05-02  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* sysconfig/network-scripts/ifup-aliases, sysconfig/network-scripts/ifup-post, sysconfig/network-scripts/ifup-routes, initscripts.spec, rc.d/init.d/network:
+	linuxconf support
+
+	* rc.d/init.d/network: probe function, more hinting
+
+1998-05-01  ewt  <ewt@bobby.devel.redhat.com>
+
+	* rc.d/init.d/network: added missing ;;
+
+	* initscripts.spec: *** empty log message ***
+
+	* rc.d/rc.sysinit: run depmod properly
+
+	* initscripts.spec:
+	requires 2.1.85-3 for /lib/modules/preferred directory
+
+	* initscripts.spec: vesrion 3.54
+
+	* rc.d/rc.sysinit: use /lib/modules/preferred symlink
+
+1998-04-30  djb  <djb@bobby.devel.redhat.com>
+
+	* rc.d/init.d/random: various cleanups
+
+	* sysconfig/network-scripts/ifup-plip: plip cleanup
+
+	* rc.d/rc.sysinit:
+	rc.sysinit was removing /etc/nologin.  Bad.  Removed.
+
+	* rc.d/init.d/nfsfs: added sourcing of functions
+
+1998-04-24  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* rc.d/rc: info for linuxconf
+
+1998-04-21  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* rc.d/rc.sysinit: handle kmod in 2.1 kernels nicely
+
+1998-04-20  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* rc.d/init.d/random: works better
+
+	* rc.d/init.d/random: reasonable status, restart, reload
+
+	* rc.d/init.d/nfsfs: Added reload function.
+	Made status do something other than "command not found".
+
+	* rc.d/init.d/killall: tpyo
+
+	* rc.d/init.d/network: Made some sense of the "network status" command.
+	Integrate with linuxconf (works with or without).
+
+1998-04-20  ewt  <ewt@bobby.devel.redhat.com>
+
+	* initscripts.spec: version 3.53
+
+	* rc.d/rc.sysinit: sets up modules symlink properly
+
+	* rc.d/rc.sysinit: added more "" to get rid of some problems
+
+1998-04-14  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* rc.d/rc: only kill things that are currently up
+
+1998-04-05  ewt  <ewt@bobby.devel.redhat.com>
+
+	* rc.d/rc.sysinit, sysconfig/network-scripts/network-functions:
+	moved adding /etc/resolv.conf search path to normal reverse name lookup
+	handling
+
+	* initscripts.spec, rc.d/rc.sysinit:
+	fixed bugs in kernel-release handling
+
+1998-04-02  ewt  <ewt@bobby.devel.redhat.com>
+
+	* rc.d/rc.sysinit:
+	1) set domain variable if none is set in /etc/sysconfig/network
+	2) add search path to /etc/resolv.conf if none is present
+
+1998-03-30  ewt  <ewt@bobby.devel.redhat.com>
+
+	* rc.d/rc.sysinit:
+	make /lib/modules/default point to the proper modules for this kernel
+
+1998-03-22  ewt  <ewt@bobby.devel.redhat.com>
+
+	* initscripts.spec: *** empty log message ***
+
+	* sysconfig/network-scripts/ifup: added netmask calculation
+
+	* src/ipcalc.1: added --netmask
+
+	* src/ipcalc.c: added --netmask argument
+
+	* initscripts.spec: version 3.51
+
+	* sysconfig/network-scripts/ifup: fixed network address calculations
+
+	* src/ipcalc.1: fixed man page
+
+1998-03-16  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* sysconfig.txt: document the static-routes file.
+	Include documentation for how it *will* be, rather than how it is now ("any").
+
+1998-03-10  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* sysconfig.txt: more detail on ifcfg files
+
+	* sysconfig.txt: first rev to Jacques
+
+1998-03-10  ewt  <ewt@bobby.devel.redhat.com>
+
+	* sysconfig/network-scripts/ifup, sysconfig/network-scripts/ifup-post:
+	look for ipcalc in /bin, not /sbin
+
+	* sysconfig/network-scripts/network-functions: added missing \
+
+	* src/Makefile: ipcalc should go in /bin, not /sbin
+
+	* sysconfig/network-scripts/ifup-post, sysconfig/network-scripts/network-functions, sysconfig/network-scripts/ifup:
+	1) added need_hostname and set_hostname functions
+	2) changed hostname lookup to use ipcalc
+
+	* initscripts.spec: added ipcalc
+
+	* src/Makefile: added ipcalc.1
+
+	* src/ipcalc.1: added man page
+
+	* src/ipcalc.c: added --hostname option
+
+	* initscripts.spec: version 3.50
+
+	* sysconfig/network-scripts/ifup:
+	use ipcalc to calculate netmask and/or broadcast address
+
+	* src/Makefile, src/ipcalc.c: added ipcalc
+
+	* initscripts.spec: version 3.32
+
+	* sysconfig/network-scripts/ifdhcpc-done:
+	removed senseless dhcp log in /tmp
+
+1998-03-09  ewt  <ewt@bobby.devel.redhat.com>
+
+	* initscripts.spec: *** empty log message ***
+
+	* sysconfig/network-scripts/ifup:
+	if bootp fails and there is no fallback IP, take down the device
+
+	* initscripts.spec: added info on 3.31 release
+
+	* Makefile: still more cvs workarounds
+
+	* Makefile: MORE cvs brokenness
+
+	* Makefile: more cvs broknness
+
+	* Makefile: made archive rule work w/ broken cvs
+
+	* sysconfig/network-scripts/ifup: added check for mktemp failure
+
+1998-03-04  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* sysconfig.txt: Initial revision of sysconfig hierarchy description
+
+1998-02-14  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* sysvinitfiles: Took out autoreload tag.
+
+1998-02-13  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* sysvinitfiles: per-config file autoreload
+
+1998-02-12  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* sysvinitfiles: Languages.
+	A few more notes on how to do things.
+
+1998-02-10  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* sysvinitfiles: Standard Red Hat copyright
+
+	* sysvinitfiles:
+	Added full instructions on writing a System V init script for Red Hat Linux.
+
+1998-02-09  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* sysvinitfiles: pidfile contents are examined after all...
+
+	* sysvinitfiles: Complete list of tags to use in sysv init files
+
+1998-02-06  ewt  <ewt@bobby.devel.redhat.com>
+
+	* initscripts.spec: *** empty log message ***
+
+	* src/usernetctl.c: didn't work for cloned devices
+
+1998-01-12  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* initscripts.spec: /sbin/
+
+	* sysconfig/network-scripts/ifup-routes: /sbin/ isn't always in $PATH
+
+1997-12-31  ewt  <ewt@bobby.devel.redhat.com>
+
+	* initscripts.spec: *** empty log message ***
+
+	* rc.d/rc.sysinit:
+	- touch /var/lock/subsys/kerneld after cleaning out /var/lock/subsys
+	- the logic for when  /var/lock/subsys/kerneld is touched was backwards
+
+1997-12-30  ewt  <ewt@bobby.devel.redhat.com>
+
+	* initscripts.spec: version 3.30
+
+	* rc.d/rc.sysinit:
+	1) tried to get /proc stuff right one more time (uses -t nonfs,proc now)
+	2) added support for /fsckoptions
+	3) changed 'yse' to 'yes'
+
+1997-12-09  ewt  <ewt@bobby.devel.redhat.com>
+
+	* initscripts.spec, rc.d/rc.sysinit:
+	1) set domainname to "" if none is specified
+	2) version 3.29
+
+	* initscripts.spec: version 3.28
+
+	* rc.d/rc.sysinit: fixed wrong umount
+
+1997-12-08  ewt  <ewt@bobby.devel.redhat.com>
+
+	* rc.d/rc.sysinit: more /proc mounting fixes
+
+	* initscripts.spec: version 3.27
+
+	* rc.d/rc.sysinit:
+	changed how /proc gets mounted so that it ends up in /etc/mtab
+
+1997-12-08  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* Makefile:
+	Allow creating new archives without creating a new tag if necessary.
+
+	* initscripts.spec: release 3.26
+
+1997-11-20  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* sysconfig/network-scripts/network-functions: Inheritance was wrong.
+
+1997-11-07  ewt  <ewt@bobby.devel.redhat.com>
+
+	* initscripts.spec: *** empty log message ***
+
+	* rc.d/rc.sysinit: added sound stuff
+
+1997-11-07  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* initscripts.spec: new version
+
+	* rc.d/init.d/network: Added missing "then"
+
+1997-11-06  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* rc.d/init.d/network:
+	only enable/disable forwarding on start, always disable on stop.
+
+	* initscripts.spec: New version
+
+	* sysconfig/network-scripts/ifup-ppp, sysconfig/network-scripts/network-functions, sysconfig/network-scripts/ifdown-post, sysconfig/network-scripts/ifup-post:
+	PPP debugging fixed.
+	PPP Persisting fixed.
+	Moved netreport stuff into one place.
+
+1997-11-02  ewt  <ewt@bobby.devel.redhat.com>
+
+	* rc.d/rc.sysinit: don't mount /proc twice
+
+	* rc.d/rc.sysinit: don't umount /proc after mounting it
+
+1997-10-31  ewt  <ewt@bobby.devel.redhat.com>
+
+	* rc.d/rc.sysinit, initscripts.spec: added isapnp support
+
+1997-10-28  ewt  <ewt@bobby.devel.redhat.com>
+
+	* initscripts.spec: make archive
+
+1997-10-28  djb  <djb@bobby.devel.redhat.com>
+
+	* rc.d/rc: edited comments
+
+	* initscripts.spec: changelog
+
+	* rc.d/init.d/functions: added the ability to 'nice' daemons
+
+	* initscripts.spec, rc.d/init.d/skeleton:
+	removed the skeleton initscript (basically useless)
+
+1997-10-28  ewt  <ewt@bobby.devel.redhat.com>
+
+	* rc.d/init.d/single: single user mode restarts kerneld
+
+	* rc.d/rc.sysinit: touch /var/lock/subsys/kernel
+
+	* sysconfig/network-scripts/ifup, initscripts.spec:
+	1) fixed dhcp problem
+	2) version 3.21
+
+1997-10-23  djb  <djb@bobby.devel.redhat.com>
+
+	* initscripts.spec: %changelog
+
+	* rc.d/init.d/nfsfs, rc.d/init.d/random, rc.d/init.d/network:
+	added status|restart to all scripts
+
+1997-10-23  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* initscripts.spec: New version.
+
+	* rc.d/init.d/random, initscripts.spec:
+	touch random seed file before chmoding it.
+
+1997-10-21  ewt  <ewt@bobby.devel.redhat.com>
+
+	* sysconfig/network-scripts/ifup:
+	set hostname from bootp if hostname = (none)
+
+1997-10-15  ewt  <ewt@bobby.devel.redhat.com>
+
+	* initscripts.spec, rc.d/rc.sysinit: 1) changed version to 3.19
+	2) added NISDOMAIN support
+
+1997-10-15  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* initscripts.spec: random seed protected from sight...
+
+	* rc.d/init.d/random: Make random seed file mode 600.
+
+1997-10-14  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* initscripts.spec: ppp sleep bug fixed.
+
+	* sysconfig/network-scripts/ifup-ppp:
+	Die if ifdown-ppp was called on the device during the sleep.
+
+1997-10-13  ewt  <ewt@bobby.devel.redhat.com>
+
+	* Makefile: grab version from .spec file
+
+	* initscripts.spec, rc.d/init.d/nfsfs, rc.d/init.d/random:
+	1) updated .spec file
+	2) removed trailing spaces
+
+	* Makefile: added archive rule
+
+	* rc.d/init.d/network, rc.d/init.d/nfsfs, rc.d/init.d/random, initscripts.spec:
+	1) version 3.18
+	2) switched to new chkconfig which doesn't use database file
+
+1997-10-11  ewt  <ewt@bobby.devel.redhat.com>
+
+	* initscripts.spec, rc.d/rc.sysinit: fixed rc.sysinit for hwclock
+
+1997-10-10  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* rc.d/rc.sysinit: Only check scsi if it exists.
+
+1997-10-09  ewt  <ewt@bobby.devel.redhat.com>
+
+	* initscripts.spec, rc.d/init.d/functions:
+	added ulimit -c 0 to daemon function
+
+1997-10-08  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* initscripts.spec: new version
+
+	* initscripts.spec: prereq
+
+1997-10-08  djb  <djb@bobby.devel.redhat.com>
+
+	* initscripts.spec: added chkconfig support
+
+1997-10-06  ewt  <ewt@bobby.devel.redhat.com>
+
+	* initscripts.spec: fixed typo
+
+	* initscripts.spec: changed spec file to put version in a single place
+
+	* initscripts.spec: updated version number
+
+	* sysconfig/network-scripts/network-functions:
+	fixes for config files which were given w/ fully qualified pathnames
+
+	* sysconfig/network-scripts/ifup:
+	Removed pcmcia hacks for releases prior to RH 3.0.3
+
+1997-10-01  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* Makefile, initscripts.spec: Changes for 3.15
+
+	* initscripts.spec: Preparing for 3.14
+
+	* src/usernetctl.c: Only compare variable name, not entire string.
+
+	* src/usernetctl.c: strncmp sense reversed.
+
+1997-09-30  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* src/usernetctl.1, src/usernetctl.c: Added report option for usernet.
+
+	* initscripts.spec: Remove the whole buildroot in %clean
+
+1997-09-29  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* initscripts.spec: Make missing directories.
+
+	* initscripts-3.13.spec:
+	Don't want name changing every time; renamed to initscripts.spec
+
+	* initscripts.spec:
+	Added changelog entry and added symlinks to spec file.
+
+1997-09-24  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* sysconfig/network-scripts/ifdown: source_config
+
+	* sysconfig/network-scripts/ifup-ppp: CONFIG after daemon daemonizing.
+
+	* sysconfig/network-scripts/ifup-ppp: Fixed potential syntax error.
+
+1997-09-23  djb  <djb@bobby.devel.redhat.com>
+
+	* initscripts-3.13.spec: added Requires mktemp and changelog
+
+	* sysconfig/network-scripts/ifup: added mktemp support
+
+1997-09-23  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* sysconfig/network-scripts/ifup-ppp, sysconfig/network-scripts/ifup-sl:
+	Disassociate from controlling tty so SIGHUPs won't be generated.
+
+1997-09-21  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* src/usernetctl.c:
+	Fixed allocation bug Erik found, plus a few stylistic points.
+
+1997-09-18  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* src/usernetctl.1, src/usernetctl.c, sysconfig/network-scripts/ifup-sl, sysconfig/network-scripts/network-functions, sysconfig/network-scripts/ifdown-sl, sysconfig/network-scripts/ifup, sysconfig/network-scripts/ifup-plip, sysconfig/network-scripts/ifup-post, sysconfig/network-scripts/ifup-ppp, sysconfig/network-scripts/ifdown-post, sysconfig/network-scripts/ifdown-ppp:
+	Support alternative device configurations.
+
+1997-09-18  djb  <djb@bobby.devel.redhat.com>
+
+	* initscripts-3.13.spec, initscripts-3.12.spec: updated spec file
+
+	* rc.d/init.d/functions: Fixed awk bug in pidofproc
+
+1997-09-17  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* sysconfig/network-scripts/ifup-post:
+	Don't print an error if no aliases exist.
+
+1997-09-16  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* rc.d/init.d/network: General cleanup.
+	Don't start devices that shouldn't be started.
+
+1997-09-16  djb  <djb@bobby.devel.redhat.com>
+
+	* rc.d/init.d/functions:
+	changed the order of the check for process Id...first is /var/run/pid
+	and the second is pidof.
+
+1997-09-16  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* sysconfig/network-scripts/ifdown-ppp:
+	Bring down pppd even if only ifup-ppp is running, waiting to persist.
+
+1997-09-16  djb  <djb@bobby.devel.redhat.com>
+
+	* initscripts-3.12.spec, rc.d/init.d/functions:
+	changed status() to be more intelligent wrt programs that change argv[0]
+
+1997-09-16  johnsonm  <johnsonm@bobby.devel.redhat.com>
+
+	* src/usernetctl.c:
+	Users are not required to specify the "ifcfg-" part of the config file name.
+
+	* sysconfig/network-scripts/ifup, sysconfig/network-scripts/ifup-ppp, sysconfig/network-scripts/ifdown, sysconfig/network-scripts/ifdown-ppp:
+	ifup and ifdown complain if $1 not specified.
+	The "ifcfg-" part of the device name is now optional for ifup and ifdown.
+	ifdown-ppp kills a pppd's chat session if it is active.
+	Generic part of ifup uses MACADDR variable if present.
+	ifup-ppp honors DEBUG variable, both for pppd (debug) and chat (-v).
+
+1997-09-16  djb  <djb@bobby.devel.redhat.com>
+
+	* initscripts-3.12.spec: Added spec file to CVS archive.
+
+1997-09-16  ewt  <ewt@bobby.devel.redhat.com>
+
+	* ppp/ip-down, ppp/ip-up, src/Makefile, src/doexec.1, src/doexec.c, src/netreport.1, src/netreport.c, src/testd.c, src/testdinit, src/usernetctl.1, src/usernetctl.c, src/usleep.1, src/usleep.c, sysconfig/network-scripts/ifdhcpc-done, sysconfig/network-scripts/ifdown-post, sysconfig/network-scripts/ifup-post:
+	Initial import of initscripts sources into CVS
+
+	* ppp/ip-down, ppp/ip-up, src/Makefile, src/doexec.1, src/doexec.c, src/netreport.1, src/netreport.c, src/testd.c, src/testdinit, src/usernetctl.1, src/usernetctl.c, src/usleep.1, src/usleep.c, sysconfig/network-scripts/ifdhcpc-done, sysconfig/network-scripts/ifdown-post, sysconfig/network-scripts/ifup-post:
+	New file.
+
+	* Makefile, adjtime, inittab, rc.d/init.d/functions, rc.d/init.d/halt, rc.d/init.d/killall, rc.d/init.d/network, rc.d/init.d/nfsfs, rc.d/init.d/random, rc.d/init.d/single, rc.d/init.d/skeleton, rc.d/rc, rc.d/rc.local, rc.d/rc.sysinit, sysconfig/network-scripts/ifcfg-lo, sysconfig/network-scripts/ifdown, sysconfig/network-scripts/ifdown-ppp, sysconfig/network-scripts/ifdown-sl, sysconfig/network-scripts/ifup, sysconfig/network-scripts/ifup-plip, sysconfig/network-scripts/ifup-ppp, sysconfig/network-scripts/ifup-routes, sysconfig/network-scripts/ifup-sl:
+	Initial import of initscripts sources into CVS
+
+	* Makefile, adjtime, inittab, rc.d/init.d/functions, rc.d/init.d/halt, rc.d/init.d/killall, rc.d/init.d/network, rc.d/init.d/nfsfs, rc.d/init.d/random, rc.d/init.d/single, rc.d/init.d/skeleton, rc.d/rc, rc.d/rc.local, rc.d/rc.sysinit, sysconfig/network-scripts/ifcfg-lo, sysconfig/network-scripts/ifdown, sysconfig/network-scripts/ifdown-ppp, sysconfig/network-scripts/ifdown-sl, sysconfig/network-scripts/ifup, sysconfig/network-scripts/ifup-plip, sysconfig/network-scripts/ifup-ppp, sysconfig/network-scripts/ifup-routes, sysconfig/network-scripts/ifup-sl:
+	New file.
 
