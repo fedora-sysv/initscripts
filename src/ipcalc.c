@@ -20,6 +20,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/socket.h>
+#include <sys/types.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <netdb.h>
@@ -28,12 +29,12 @@
   \def IPBITS
   \brief the number of bits in an IP address.
 */
-#define IPBITS (sizeof(unsigned long int) * 8)
+#define IPBITS (sizeof(u_int32_t) * 8)
 /*!
   \def IPBYTES
   \brief the number of bytes in an IP address.
 */
-#define IPBYTES (sizeof(unsigned long int))
+#define IPBYTES (sizeof(u_int32_t))
 
 
 /*!
