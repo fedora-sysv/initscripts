@@ -616,6 +616,12 @@ if [ -n "$needusbstorage" ]; then
 	modprobe usb-storage >/dev/null 2>&1
 fi
 
+# If they asked for ide-scsi, load it
+if grep -q "ide-scsi" /proc/cmdline ; then
+	modprobe ide-cd >/dev/null 2>&1
+	modprobe ide-scsi >/dev/null 2>&1
+fi
+
 # Load agpgart here. This is a hack, and will probably go away soon.
 if grep "driver: agpgart" /etc/sysconfig/hwconf >/dev/null 2>&1 ; then
 	modprobe agpgart >/dev/null 2>&1
