@@ -193,6 +193,11 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Jul  8 1999 Bill Nottingham <notting@redhat.com>
+- remove timeconfig dependency
+- i18n fixes from nkbj@image.dk
+- move inputrc to setup package
+
 * Tue Jul  6 1999 Bill Nottingham <notting@redhat.com>
 - fix killall links, some syntax errors
 
