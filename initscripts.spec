@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.95
+Version: 7.96
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -206,6 +206,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Nov 11 2004 Karsten Hopp <karsten@redhat.de> 7.96-1 
+- parse OPTIONS for QETH, CTC, LCS interfaces (#136256, mainframe)
+
 * Sun Nov  7 2004 Bill Nottingham <notting@redhat.com> 7.95-1
 - various translation updates
 
