@@ -54,10 +54,10 @@ if [ "${ESCAPECHARS}" = yes ] ; then
 elif [ "${ESCAPECHARS}" = no ] ; then
   opts="$opts asyncmap 00000000"
 fi
-if [ "${DEFROUTE}" = yes ] ; then
+if [ "${DEFROUTE}" != no ] ; then
   opts="$opts defaultroute"
 fi
-if [ "${PEERDNS}" = yes ] ; then
+if [ "${PEERDNS}" != no ] ; then
   opts="$opts usepeerdns"
 fi
 if [ -n "${MRU}" ] ; then
