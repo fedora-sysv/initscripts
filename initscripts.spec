@@ -3,7 +3,7 @@ Name: initscripts
 Version: 5.31
 Copyright: GPL
 Group: System Environment/Base
-Release: 1
+Release: 2
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /%{_tmppath}/%{name}-%{version}-%{release}-root
 Requires: mingetty, /bin/awk, /bin/sed, mktemp, e2fsprogs >= 1.15, console-tools
@@ -13,9 +13,11 @@ Requires: modutils >= 2.3.11-5
 %ifarch alpha
 Requires: util-linux >= 2.9w-26
 %endif
-PreTransaction: mv /etc/rc.d/* /etc
-PreTransaction: rmdir /etc/rc.d
+PreTransaction: S_ISLNK /etc/rc.d
+PreTransaction: mv /etc/rc.d /etc/rc.d.rpmsave
+PreTransaction: mv /etc/rc.d.rpmsave/rc* /etc/rc.d.rpmsave/init.d /etc
 PreTransaction: symlink . /etc/rc.d
+PreTransaction: rmdir /etc/rc.d.rpmsave
 Conflicts: kernel <= 2.2, timeconfig < 3.0, pppd < 2.3.9, wvdial < 1.40-3
 Conflicts: initscripts < 1.22.1-5
 Obsoletes: rhsound sapinit
@@ -226,6 +228,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Jul 13 2000 Jeff Johnson <jbj@redhat.com>
+- test if /etc/rc.d is a symlink already in pre-transaction syscalls.
+
 * Tue Jul 11 2000 Bill Nottingham <notting@redhat.com>
 - implement the %pre with RPM Magic(tm)
 
