@@ -18,6 +18,7 @@ install:
 	install -m 644 netreport.1 $(ROOT)/usr/man/man1
 	install -m 644 usleep.1 $(ROOT)/usr/man/man1
 	install -m 644 usernetctl.1 $(ROOT)/usr/man/man1
+	install -m 644 ipcalc.1 $(ROOT)/usr/man/man1
 
 # this daemon and initscript are useful for testing the up/down/status stuff
 # not installed by default, only comes from sources.
