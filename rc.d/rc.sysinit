@@ -29,8 +29,8 @@ fi
 mount -n -t proc /proc /proc
 mount -n -t sysfs /sys /sys >/dev/null 2>&1
 
-if [ -f /etc/sysconfig/udev ];then
-	. /etc/sysconfig/udev
+if [ -f /etc/udev/udev.conf ];then
+	. /etc/udev/udev.conf
 fi
 
 if [ "$USE_UDEV" = "yes" -a "$UDEV_RAMFS" = "yes" ]; then
