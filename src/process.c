@@ -250,8 +250,8 @@ int runCommand(char *cmd, int reexec, int quiet, int debug) {
       cmdname = (char *)basename(args[0]);
     else
       cmdname = (char *)basename(args[1]);
-    if ((cmdname[0] =='K' || cmdname[0] == 'S') && ( 30 <= cmdname[1] <= 39 )
-       && ( 30 <= cmdname[2] <= 39 ) )
+    if ((cmdname[0] =='K' || cmdname[0] == 'S') && ( '0' <= cmdname[1] <= '9' )
+       && ( '0' <= cmdname[2] <= '9' ) )
       cmdname+=3;
     if (!reexec) {
        pid=forkCommand(args,&fds[0],&fds[1],NULL,quiet);
