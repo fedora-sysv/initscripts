@@ -1,7 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.98
-Version: %{version}
+Version: 4.99
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -247,6 +246,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Mar  8 2000 Jakub Jelinek <jakub@redhat.com>
+- update sysconfig.txt
+
 * Tue Mar  7 2000 Bill Nottingham <notting@redhat.com>
 - rerun sysctl on network start (for restarts)
 

@@ -56,11 +56,24 @@ Files in /etc/sysconfig
   SETCOLOR_NORMAL=<a command>
      A command to set the color to 'normal'. Defaults to nasty
      ANSI sequences output by echo -e.
-  MAGIC_SYSRQ=yes|no
-     Set to 'no' to disable the magic sysrq key, and Stop-A (break
-     on serial console.) on SPARC.
   PROMPT=yes|no
      Set to 'no' to disable the key check for interactive mode.
+
+  obsoleted values from earlier releases:
+
+    MAGIC_SYSRQ=yes|no
+       Setting this to 'no' used to disable the magic sysrq key and
+       Stop-A (break on serial console) on SPARC. This setting has been
+       moved into kernel.sysrq and kernel.stop-a settings respectively in
+       /etc/sysctl.conf. Setting either of them there to 0 disables it,
+       setting it to 1 enables it.
+    STOP_A=yes|no
+       Setting this to 'no' used to disable the Stop-A (break on
+       serial console) key on SPARC.
+       This setting has been moved into kernel.stop-a setting in
+       /etc/sysctl.conf. Setting it there to 0 disables it,
+       setting it to 1 enables it. The setting should be present
+       on SPARC only.
 
 /etc/sysconfig/keyboard:
 
@@ -97,15 +110,6 @@ Files in /etc/sysconfig
     Note: for compatibility with some old software people might
     install (like trn), the /etc/HOSTNAME file should contain the
     same value as here.
-  FORWARD_IPV4=yes|no (The current Red Hat Linux installation
-    sets this to no by default for RFC compliance, but if
-    FORWARD_IPV4 is not set at all, forwarding is *enabled*
-    for compatibility with the configuration files used on
-    Red Hat Linux versions 4.2 and earlier.)
-  DEFRAG_IPV4=yes|no
-    Set this if you want to automatically defragment IPv4
-    packets. This is a good idea for masquerading, and
-    a bad idea otherwise. It defaults to 'no'.
   GATEWAY=<gateway IP>
   GATEWAYDEV=<gateway device> (e.g. eth0)
   NISDOMAIN=<nis domain name>
@@ -116,6 +120,18 @@ Files in /etc/sysconfig
   IPXINTERNALNODENUM=<nodenum>
 
   All the IPX stuff is optional, and should default to off.
+
+  obsoleted values from earlier releases:
+
+    FORWARD_IPV4=yes|no
+      This setting has been moved into net.ipv4.ip_forward setting
+      in /etc/sysctl.conf. Setting it to 1 there enables IP forwarding,
+      setting it to 0 disables it (which is the default for RFC compliance).
+    DEFRAG_IPV4=yes|no
+      Setting this to yes used to automatically defragment IPv4
+      packets. This is a good idea for masquerading, and
+      a bad idea otherwise. This setting has been moved into
+      net.ipv4.ip_always_defrag setting in /etc/sysctl.conf.
 
 /etc/sysconfig/static-routes:
 
