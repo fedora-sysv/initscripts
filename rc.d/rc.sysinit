@@ -50,7 +50,7 @@ if [ -f /proc/sys/kernel/sysrq -a "$MAGIC_SYSRQ" = "no" ]; then
 	action "Turning off Magic SysRq key" /bin/true
 fi
 # Turn off Stop-A
-if [ -f /proc/sys/kernel/stop-a -a "$MAGIC_SYSRQ" = "no" ]; then
+if [ -f /proc/sys/kernel/stop-a -a "$STOP_A" = "no" ]; then
 	echo "0" > /proc/sys/kernel/stop-a
 	action "Turning off Stop-A/Break-A" /bin/true
 fi

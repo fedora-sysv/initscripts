@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.63
+%define version 4.64
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
@@ -198,6 +198,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Nov 10 1999 Bill Nottingham <notting@redhat.com>
+- control stop-a separately from sysrq
+
 * Mon Nov 08 1999 Michael K. Johnson <johnsonm@redhat.com>
 - fix some failed CHAP authentication
 - fix extremely unlikely, but slightly possible kill-random-process
