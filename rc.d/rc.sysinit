@@ -609,6 +609,7 @@ _NEED_XFILES=
 for afile in /var/lock/* /var/run/*; do
    if [ -d "$afile" ]; then
       [ "`basename $afile`" != "news" -a "`basename $afile`" != "sudo" -a "`basename $afile`" != "mon" ] && rm -f $afile/*
+      [ "`basename $afile`" = "sudo" ] && rm -f $afile/*/*
    else
       rm -f $afile
    fi
