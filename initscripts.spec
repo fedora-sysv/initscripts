@@ -17,6 +17,10 @@ that activate and deactivate most network interfaces.
 
 %changelog
 
+* Sun Mar 22 1998 Erik Troan <ewt@redhat.com>
+
+- use ipcalc to calculate the netmask if one isn't specified
+
 * Tue Mar 10 1998 Erik Troan <ewt@redhat.com>
 
 - added and made use of ipcalc
