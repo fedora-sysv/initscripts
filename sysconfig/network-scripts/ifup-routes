@@ -16,7 +16,7 @@ DEVICE=$1
 
 # Only use the new route-DEV style.
 cat "/etc/sysconfig/network-scripts/route-$DEVICE" | while read line; do
-    echo "/sbin/ip route add $line"
+    /sbin/ip route add $line
 done
 
 #grep "^$DEVICE[[:space:]]" /etc/sysconfig/static-routes | while read device args; do
