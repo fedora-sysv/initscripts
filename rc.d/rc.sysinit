@@ -353,9 +353,7 @@ mount -f /proc
 
 # Turn off DMA on CD-ROMs. It more often than not causes problems.
 if [ -e /proc/ide ]; then
- DRIVERS=`find /proc/ide/ -name driver`
- if [ "$DRIVERS" != "" ]; then
-  for N in `grep -v ide-disk $DRIVERS | cut -d/ -f5` ; do
+  for N in `grep -v ide-disk /proc/ide/*/*/driver 2>/dev/null | awk -F / '{ print $5 }'`; do
    hdparm -d0 /dev/$N
   done
  fi
