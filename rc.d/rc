@@ -21,8 +21,8 @@ export runlevel previous
 
 # See if we want to be in user confirmation mode
 if [ "$previous" = "N" ]; then
-    if grep -i confirm /proc/cmdline >/dev/null || [ -f /tmp/confirm ] ; then
-      rm -f /tmp/confirm
+    if grep -i confirm /proc/cmdline >/dev/null || [ -f /var/run/confirm ] ; then
+      rm -f /var/run/confirm
       CONFIRM=yes
       echo "Entering interactive startup"
     else
