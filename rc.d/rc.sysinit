@@ -663,7 +663,8 @@ fi
 
 # Adjust symlinks as necessary in /boot to keep system services from
 # spewing messages about mismatched System maps and so on.
-if [ -L /boot/System.map -a -r /boot/System.map-`uname -r` ] ; then
+if [ -L /boot/System.map -a -r /boot/System.map-`uname -r` -a \
+	! /boot/System.map -ef /boot/System.map-`uname -r` ] ; then
 	ln -s -f System.map-`uname -r` /boot/System.map
 fi
 if [ ! -e /boot/System.map -a -r /boot/System.map-`uname -r` ] ; then
