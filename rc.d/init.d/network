@@ -103,12 +103,8 @@ case "$1" in
 	
 	# Add non interface-specific static-routes.
 	if [ -f /etc/sysconfig/static-routes ]; then
-	   grep "^any" /etc/sysconfig/static-routes | while read ignore type dest netmask mask bogus args; do
-	      if [ "${bogus}" = "gw" ]; then 
-	      	/sbin/route add -$type $dest $netmask $mask $args
-	      else
-	      	/sbin/route add -$type $dest $netmask $mask $bogus $args
-	      fi
+	   grep "^any" /etc/sysconfig/static-routes | while read ignore args ; do
+              /sbin/route add -$args
 	   done
 	fi    
 

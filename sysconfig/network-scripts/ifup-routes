@@ -15,13 +15,9 @@ if [ ! -f /etc/sysconfig/static-routes ]; then
 fi
 
 #note the trailing space in the grep gets rid of aliases
-grep "^$1 " /etc/sysconfig/static-routes | while read device args; do
+grep "^$DEVICE " /etc/sysconfig/static-routes | while read device args; do
 	/sbin/route add -$args $device
 done
-grep "^any " /etc/sysconfig/static-routes | while read ignore type net netmask mask gw dev ; do
-	if [ "$dev" = "$1" ]; then
-		/sbin/route add -$type $net $netmask $mask $dev
-	elif [ "$gw" = "gw" ]; then
-		/sbin/route add -$type $net $netmask $mask $gw $dev
-	fi
+grep "^any " /etc/sysconfig/static-routes | while read ignore args ; do
+        /sbin/route add -$args
 done
