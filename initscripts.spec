@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.95
+Version: 6.96
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -252,7 +252,15 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
-* Mon Sep 16 2002 Than Ngo <than@redhat.com> 6.96-1
+* Tue Nov 12 2002 Bill Nottingham <notting@redhat.com> 6.96-1
+- fix various static-routes brokennes (#74317, #74318, #74320, #76619,
+  #75604)
+- fix handling of SYSFONTACM in setsysfont (#75662)
+- fix lang.csh for CJK (#76908, <ynakai@redhat.com>)
+- IPv6 update (<pekkas@netcore.fi>, <pb@bieringer.de>)
+- other minor tweaks
+
+* Mon Sep 16 2002 Than Ngo <than@redhat.com>
 - owns directory /etc/ppp/peers (bug #74037)
 
 * Wed Sep  4 2002 Bill Nottingham <notting@redhat.com> 6.95-1
