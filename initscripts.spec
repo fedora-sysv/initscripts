@@ -8,6 +8,7 @@ Release: 1
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /var/tmp/initbld
 Requires: mingetty bash mktemp
+Prerequires: /sbin/chkconfig
 
 %description
 This package contains the scripts use to boot a system, change run
@@ -15,6 +16,11 @@ levels, and shut the system down cleanly. It also contains the scripts
 that activate and deactivate most network interfaces.
 
 %changelog
+
+* Wed Oct 08 1997 Donnie Barnes <djb@redhat.com>
+
+- added chkconfig support
+- made all rc*.d symlinks have missingok flag
 
 * Mon Oct 06 1997 Erik Troan <ewt@redhat.com>
 
@@ -179,16 +185,15 @@ ln -s ../init.d/random $RPM_BUILD_ROOT/etc/rc.d/rc0.d/K80random
 ln -s ../init.d/random $RPM_BUILD_ROOT/etc/rc.d/rc1.d/S20random
 ln -s ../init.d/random $RPM_BUILD_ROOT/etc/rc.d/rc2.d/S20random
 ln -s ../init.d/random $RPM_BUILD_ROOT/etc/rc.d/rc3.d/S20random
+ln -s ../init.d/random $RPM_BUILD_ROOT/etc/rc.d/rc4.d/S20random
 ln -s ../init.d/random $RPM_BUILD_ROOT/etc/rc.d/rc5.d/S20random
 ln -s ../init.d/random $RPM_BUILD_ROOT/etc/rc.d/rc6.d/K80random
 
-ln -s ../init.d/killall $RPM_BUILD_ROOT/etc/rc.d/rc0.d/K90killall
-ln -s ../init.d/killall $RPM_BUILD_ROOT/etc/rc.d/rc6.d/K90killall
-
 ln -s ../init.d/nfsfs $RPM_BUILD_ROOT/etc/rc.d/rc0.d/K95nfsfs
-ln -s ../init.d/nfsfs $RPM_BUILD_ROOT/etc/rc.d/rc1.d/K90nfsfs
-ln -s ../init.d/nfsfs $RPM_BUILD_ROOT/etc/rc.d/rc2.d/K90nfsfs
+ln -s ../init.d/nfsfs $RPM_BUILD_ROOT/etc/rc.d/rc1.d/K95nfsfs
+ln -s ../init.d/nfsfs $RPM_BUILD_ROOT/etc/rc.d/rc2.d/K95nfsfs
 ln -s ../init.d/nfsfs $RPM_BUILD_ROOT/etc/rc.d/rc3.d/S15nfsfs
+ln -s ../init.d/nfsfs $RPM_BUILD_ROOT/etc/rc.d/rc4.d/S15nfsfs
 ln -s ../init.d/nfsfs $RPM_BUILD_ROOT/etc/rc.d/rc5.d/S15nfsfs
 ln -s ../init.d/nfsfs $RPM_BUILD_ROOT/etc/rc.d/rc6.d/K95nfsfs
 
@@ -196,8 +201,12 @@ ln -s ../init.d/network $RPM_BUILD_ROOT/etc/rc.d/rc0.d/K97network
 ln -s ../init.d/network $RPM_BUILD_ROOT/etc/rc.d/rc1.d/K97network
 ln -s ../init.d/network $RPM_BUILD_ROOT/etc/rc.d/rc2.d/S10network
 ln -s ../init.d/network $RPM_BUILD_ROOT/etc/rc.d/rc3.d/S10network
+ln -s ../init.d/network $RPM_BUILD_ROOT/etc/rc.d/rc4.d/S10network
 ln -s ../init.d/network $RPM_BUILD_ROOT/etc/rc.d/rc5.d/S10network
 ln -s ../init.d/network $RPM_BUILD_ROOT/etc/rc.d/rc6.d/K97network
+
+ln -s ../init.d/killall $RPM_BUILD_ROOT/etc/rc.d/rc0.d/K90killall
+ln -s ../init.d/killall $RPM_BUILD_ROOT/etc/rc.d/rc6.d/K90killall
 
 ln -s ../init.d/halt $RPM_BUILD_ROOT/etc/rc.d/rc0.d/S00halt
 ln -s ../init.d/halt $RPM_BUILD_ROOT/etc/rc.d/rc6.d/S00reboot
@@ -212,6 +221,20 @@ ln -s ../rc.local $RPM_BUILD_ROOT/etc/rc.d/rc5.d/S99local
 %post
 if [ ! -f /var/log/wtmp ]; then
   touch /var/log/wtmp
+fi
+
+chkconfig --add random 2345 20 80 "Saves and restores system entropy pool \
+for higher quality random number generation."
+chkconfig --add nfsfs 345 15 95 "[Un]Mounts all Network File System (NFS) \
+mount points."
+chkconfig --add network 345 10 97 "Activates/Deactivates all network \
+interfaces configured to start at boot time."
+
+%postun
+if [ $1 = 0 ]; then
+  chkconfig --del random
+  chkconfig --del nfsfs
+  chkconfig --del network
 fi
 
 %clean
@@ -239,22 +262,23 @@ rm -rf $RPM_BUILD_ROOT
 %dir    /etc/rc.d
 %config /etc/rc.d/rc.sysinit
 %dir    /etc/rc.d/rc0.d
-%config /etc/rc.d/rc0.d/*
+%config(missingok) /etc/rc.d/rc0.d/*
 %dir    /etc/rc.d/rc1.d
-%config /etc/rc.d/rc1.d/*
+%config(missingok) /etc/rc.d/rc1.d/*
 %dir    /etc/rc.d/rc2.d
-%config /etc/rc.d/rc2.d/*
+%config(missingok) /etc/rc.d/rc2.d/*
 %dir    /etc/rc.d/rc3.d
-%config /etc/rc.d/rc3.d/*
+%config(missingok) /etc/rc.d/rc3.d/*
+%dir    /etc/rc.d/rc4.d
+%config(missingok) /etc/rc.d/rc4.d/*
 %dir    /etc/rc.d/rc5.d
-%config /etc/rc.d/rc5.d/*
+%config(missingok) /etc/rc.d/rc5.d/*
 %dir    /etc/rc.d/rc6.d
-%config /etc/rc.d/rc6.d/*
+%config(missingok) /etc/rc.d/rc6.d/*
 %dir    /etc/rc.d/init.d
-%config /etc/rc.d/init.d/*
+%config(missingok) /etc/rc.d/init.d/*
 %config /etc/rc.d/rc
 %config /etc/rc.d/rc.local
-%dir /etc/rc.d/rc4.d
 /bin/doexec
 /bin/usleep
 /usr/sbin/usernetctl
