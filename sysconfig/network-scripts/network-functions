@@ -121,26 +121,23 @@ set_hostname()
 
 check_device_down ()
 {
-    if echo $1 | grep -q ':' ; then
-     if LC_ALL=C ifconfig -a 2>/dev/null | grep -q $1 ; then
-	  retcode=1
-     else
-	  retcode=0
-     fi
-    else 
-     if LC_ALL=C ip -o link ls dev $1 2>/dev/null | grep ",UP" >/dev/null 2>&1 ; then
-	retcode=1
-     else
-	retcode=0
-     fi
+    # never say alias devices are down
+    if echo $1 | grep -q ':'; then
+	return 1
     fi
-    return $retcode
+
+    if LC_ALL=C ip -o link ls dev $1 2>/dev/null | grep -q UP ; then
+	return 1
+    else
+	return 0
+    fi
 }
 
 check_link_down ()
 {
     if [ -x /sbin/mii-tool ]; then
         LC_ALL=C ip link show $1 2>/dev/null| grep -q UP || ip link set $1 up >/dev/null 2>&1
+        # wait for link to come up
 	sleep 2
 	/sbin/mii-tool >/dev/null 2>&1 || return 1
 	output=`LC_ALL=C /sbin/mii-tool $1 2>&1`
@@ -169,13 +166,12 @@ find_gateway_dev ()
     . /etc/sysconfig/network
     if [ "${GATEWAY}" != "" -a "${GATEWAY}" != "none" ] ; then
         export GATEWAY
-        networks=`LC_ALL=C /sbin/route -n|awk '{print $1, ENVIRON["GATEWAY"],$3,$8}'|awk '{system("ipcalc --silent --network "$2" "$3" 2>/dev/null")}'|sed s^NETWORK=^^g`
-        for net in $networks; do
-            dev=`LC_ALL=C /sbin/route -n|grep ^$net|awk '{print $NF}'`
-            if [ "$dev" != "" ] ; then
-                GATEWAYDEV=$dev
-            fi
-        done
+	dev=`LC_ALL=C /sbin/ip route | \
+             grep ${GATEWAY} | \
+             sed -e 's/.* dev \([:alnum:]*\)/\1/'`
+	if [ "$dev" != "" ]; then
+	    GATEWAYDEV=$dev
+        fi
     fi
 }
 
@@ -183,9 +179,9 @@ add_default_route ()
 {
     . /etc/sysconfig/network
     find_gateway_dev
-    if [ "${GATEWAY}" != "" -a \
- 	 "${GATEWAY}" != "none" -a \
-	 "${GATEWAYDEV}" != "" ] ; then
+    if [ "$GATEWAYDEV" != "" -a \
+         "${GATEWAY}" != "" -a \
+ 	 "${GATEWAY}" != "none" ] ; then
         if ! check_device_down $1; then
             if [ "$GATEWAY" = "0.0.0.0" ]; then
                 /sbin/ip route add default dev ${GATEWAYDEV}
