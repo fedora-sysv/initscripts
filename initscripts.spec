@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.81
+Version: 5.82
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -254,6 +254,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Apr  3 2001 Bill Nottingham <notting@redhat.com>
+- set umask explicitly to 022 in /etc/init.d/functions
+
 * Mon Apr  2 2001 Bill Nottingham <notting@redhat.com>
 - fix segfault in usernetctl (#34353)
 
