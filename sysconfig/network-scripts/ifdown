@@ -3,6 +3,8 @@ PATH=/sbin:/usr/sbin:/bin:/usr/bin
 
 cd /etc/sysconfig/network-scripts
 
+. network-functions
+
 CONFIG=$1
 
 [ -z "$CONFIG" ] && {
@@ -24,7 +26,7 @@ if [ $UID != 0 ]; then
     exit 1
 fi
 
-. $CONFIG
+source_config
 
 DEVICETYPE=`echo $DEVICE | sed "s/[0-9]*$//"`
 OTHERSCRIPT="/etc/sysconfig/network-scripts/ifdown-${DEVICETYPE}"
