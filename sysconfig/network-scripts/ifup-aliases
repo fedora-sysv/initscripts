@@ -292,13 +292,13 @@ function new_interface ()
 
 if [ "$BASH_VERSINFO" ]; then shopt -s nullglob; else allow_null_glob_expansion=foo; fi
 
-for FILE in ifcfg-${parent_device}:* ; do
+for FILE in ifcfg-${parent_device}:*[^~] ; do
        ini_env;
        . $FILE;
        new_interface;
 done
 
-for FILE in ifcfg-${parent_device}-range* ; do
+for FILE in ifcfg-${parent_device}-range*[^~] ; do
 
        ini_env;
        . $FILE;
