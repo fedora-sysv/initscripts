@@ -247,6 +247,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Jul 18 2003 Nalin Dahyabhai <nalin@redhat.com>
+- ifup-routes: pass the interface name to handle_file() so that we don't try
+  to use the routes file's name as an interface name
+
 * Wed Jul  9 2003 Bill Nottingham <notting@redhat.com> 7.28-1
 - switch from $CONFIG.keys to keys-$CONFIG
 
