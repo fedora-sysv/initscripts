@@ -148,7 +148,7 @@ fi
 
 usb=1
 modprobe usb-controller 2>/dev/null || usb=0
-if [ $usb == "0" ] ; then
+if [ $usb = "0" ] ; then
     usbpresent=`grep -i usb /proc/pci`
     uhci=`grep -A2 -i usb /proc/pci |grep "I/O at"`
 
@@ -163,11 +163,11 @@ if [ $usb == "0" ] ; then
 	fi
    fi
 fi
-if [ $usb == "1" ]; then
+if [ $usb = "1" ]; then
     action "Initializing USB controller: " /bin/true
 fi
 
-if [ $usb == "1" ]; then
+if [ $usb = "1" ]; then
     sleep 5
     action "Mount USB filesystem"  mount -t usbdevfs usbdevfs /proc/bus/usb
     mouseoutput=`cat /proc/bus/usb/devices|grep -E "^I.*Cls=03.*Prot=02"`
@@ -297,7 +297,7 @@ if [ -f /etc/sysconfig/harddisks ]  && [ -x /sbin/hdparm ]; then
    	for i in a b c d e f g h ; do
 	    if [ -e "/proc/ide/hd$i/media" ] ; then
 		hdmedia=`cat /proc/ide/hd$i/media`
-		if [ "$hdmedia" == "disk" ]; then
+		if [ "$hdmedia" = "disk" ]; then
 	   		action "Setting hard drive parameters for hd$i: "  /sbin/hdparm $HDFLAGS /dev/hd$i
 		fi
 	    fi
