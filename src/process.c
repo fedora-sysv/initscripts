@@ -71,6 +71,8 @@ int forkCommand(char **args, int *outfd, int *errfd, int *cmdfd, int quiet) {
 	  return pid;
     } else {
 	/* kid */
+       int sc_open_max;
+
        if (outfd) { 
 	 if ( (dup2(fdout,1)==-1) ) {
 	    perror("dup2");
@@ -107,6 +109,17 @@ int forkCommand(char **args, int *outfd, int *errfd, int *cmdfd, int quiet) {
 	  close(*errfd);
 	if (cmdfd)
 	  close(*cmdfd);
+
+        /* close up extra fds, and hope this doesn't break anything */
+	sc_open_max = sysconf(_SC_OPEN_MAX);
+	if(sc_open_max > 1) {
+	    int fd;
+	    for(fd = 3; fd < sc_open_max; fd++) {
+		    if (!(cmdfd && fd == CMD_FD))
+		      close(fd);
+	    }
+	}
+
 	execvp(args[0],args);
 	perror("execvp");
 	exit(-1);
