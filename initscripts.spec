@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.04
+Version: 7.05
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -246,6 +246,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Jan 30 2003 Bill Nottingham <notting@redhat.com> 7.05-1
+- fix syntax error in rc.sysinit when there are fsck errors
+- fix zh_TW display on console (#82235)
+
 * Wed Jan 15 2003 Bill Nottingham <notting@redhat.com> 7.04-1
 - tweak some translatable strings
 - fix for rc.sysinit on machines that pass arguments to mingetty
