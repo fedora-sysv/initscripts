@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.12
+Version: 6.13
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -12,7 +12,7 @@ Requires: procps >= 2.0.7-7, sysklogd >= 1.3.31
 Requires: setup >= 2.0.3, /sbin/fuser, which, /bin/grep
 Requires: modutils >= 2.3.11-5
 Requires: util-linux >= 2.10s-11, mount >= 2.11g-5
-Requires: bash >= 2.0 
+Requires: bash >= 2.0, SysVinit
 Requires: /sbin/ip, /sbin/arping
 Conflicts: kernel <= 2.2, timeconfig < 3.0, pppd < 2.3.9, wvdial < 1.40-3
 Conflicts: ypbind < 1.6-12
@@ -238,8 +238,17 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Thu Aug  9 2001 Bill Nottingham <notting@redhat.com>
+- require SysVinit (#51335)
+
 * Wed Aug  8 2001 Bill Nottingham <notting@redhat.com>
 - tweak raittab grep slightly (#51231)
+- allow resetting of default route for DHCP addresses (#48994)
+- save resolv.conf in ifup-ppp for restoration by ifdown-post (#50759)
+- when munging firewall rules for dns, only allow dest ports 1025-65535 (#44038, #40833)
+- allow shell characters in ppp names (#43719)
+- allow setting DHCP arguments, just kill dhcpcd instead of using -k (#46492)
+- behave sanely if ifup called when dhcpcd is running (#49392, #51038)
 
 * Mon Aug  6 2001 Bill Nottingham <notting@redhat.com>
 - honor HOTPLUG=no if running under hotplug (#47483)

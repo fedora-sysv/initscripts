@@ -1,3 +1,40 @@
+2001-08-09  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec, ChangeLog: 6.13-1
+	
+2001-08-09  Milan Kerslager  <milan.kerslager@spsselib.hiedu.cz>
+
+	* po/cs.po: Preklad 9.8.2001
+
+2001-08-09  Bill Nottingham  <notting@redhat.com>
+
+	* lang.csh:
+	set dspmbyte=euc in lang.csh for the proper languages (as opposed to csh.login for everyone (#50318))
+
+	* sysconfig/network-scripts/ifdown:
+	still run ifdown for dhcp devices, even if the device isn't there
+
+	* sysconfig/network-scripts/ifup:
+	behave sanely if ifup is called with dhcpcd already running (#49392, #51038)
+
+	* sysconfig/network-scripts/ifdown, sysconfig/network-scripts/ifup:
+	just kill dhcpcd, don't use dhcpcd -k. also, allow setting of additional pump & dhcpcd arguments (#46942)
+
+	* sysconfig/network-scripts/ifup-ppp:
+	allow shell characters in ppp names (#43719)
+
+	* sysconfig/network-scripts/ifup-post, sysconfig/network-scripts/ifup:
+	only allow dest port 1025-65535 for DNS replies (#40833, #44038)
+
+	* sysconfig/network-scripts/ifup-ppp:
+	save resolv.conf for restoration by ifdown-post (#50759)
+
+	* sysctl.conf, sysctl.conf.s390, sysctl.conf.sparc:
+	use conf.default for rp_filter, not conf.all (#50166)
+
+	* sysconfig/network-scripts/ifup, sysconfig/network-scripts/ifup-ppp, sysconfig/network-scripts/network-functions:
+	switch some more things to /sbin/ip; allow adding back of default route for DHCP devices (#48994)
+
 2001-08-08  Bill Nottingham  <notting@redhat.com>
 
 	* ChangeLog, initscripts.spec: 6.12-1
