@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.65
+Version: 7.66
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -250,6 +250,13 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Aug 20 2004 Jason Vas Dias <jvdias@redhat.com> 7.66-1
+- Allow users to use generic /etc/dhclient.conf if per-device
+- /etc/dhclient-${DEVICE}.conf is non-existent or empty
+
+* Fri Aug 20 2004 Jason Vas Dias <jvdias@redhat.com> 7.66-1
+- Preserve "options" settings in resolv.conf (bug 125712)
+
 * Fri Aug 20 2004 Jeremy Katz <katzj@redhat.com> - 7.65-1
 - look at /etc/udev/udev.conf, not /etc/sysconfig/udev (#130431)
 
