@@ -77,7 +77,8 @@ void cleanup(int exitcode) {
 
 void runDaemon(int sock) {
    struct sockaddr_un addr;
-   int x,len,addrlen,done=0;
+   int x,len,done=0;
+   int addrlen = sizeof(struct sockaddr_un);
    char *message;
    struct stat s1,s2;
    struct pollfd pfds;
@@ -109,10 +110,13 @@ void runDaemon(int sock) {
       }
       if ( (x>0) && pfds.revents & (POLLIN | POLLPRI)) {
 	 message = calloc(8192,sizeof(char));
+	 addrlen = sizeof(struct sockaddr_un);
 	 recvsock = accept(sock,(struct sockaddr *) &addr, &addrlen);
+	 if (recvsock == -1)
+		      continue;
 	 alarm(2);
 	 signal(SIGALRM, alarm_handler);
-	 len = read(recvsock,message,8192);
+	 len = recv(recvsock,message,8192,0);
 	 alarm(0);
 	 close(recvsock);
 	 if (len>0) {
@@ -135,7 +139,7 @@ void runDaemon(int sock) {
       /* Check to see if syslogd's yanked our socket out from under us */
       if ( (stat(_PATH_LOG,&s2)!=0) ||
 	    (s1.st_ino != s2.st_ino ) || (s1.st_ctime != s2.st_ctime) ||
-	    (s1.st_mtime != s2.st_mtime) || (s1.st_atime != s2.st_atime) ) {
+	    (s1.st_mtime != s2.st_mtime) ) {
 	 done = 1;
 	 we_own_log = 0;
       }
