@@ -25,11 +25,11 @@ install:
 	chmod og=rwx,o=rx /var/run/netreport
 
 tag-archive:
-	@cvs tag -F $(CVSTAG)
+	@cvs -Q tag -F $(CVSTAG)
 
 create-archive: tag-archive
 	@rm -rf /tmp/initscripts
-	@cd /tmp; cvs -d $(CVSROOT) export -r$(CVSTAG) initscripts || :
+	@cd /tmp; cvs -Q -d $(CVSROOT) export -r$(CVSTAG) initscripts || echo GRRRrrrrr -- ignore [export aborted]
 	@mv /tmp/initscripts /tmp/initscripts-$(VERSION)
 	@cd /tmp; tar czSpf initscripts-$(VERSION).tar.gz initscripts-$(VERSION)
 	@rm -rf /tmp/initscripts-$(VERSION)
