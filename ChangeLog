@@ -1,3 +1,30 @@
+2004-09-10  Bill Nottingham  <notting@redhat.com>
+
+	* ChangeLog, initscripts.spec: 7.80-1
+
+	* sysconfig/network-scripts/ifdown-ipv6, sysconfig/network-scripts/ifup-ipv6, sysconfig/network-scripts/network-functions-ipv6:
+	fix IPv6 6to4 & NAT (#118928, <pb@bieringer.de>, <pekkas@netcore.fi>)
+
+2004-09-10  Karsten Hopp  <karsten@redhat.com>
+
+	* initscripts.spec, sysconfig/network-scripts/ifup-ctc:
+	- CTC uses GATEWAY as pointtopoint partner. This works as long as CTC
+	  is the primary network interface, but fails otherwise.
+	  Load /etc/sysconfig/network before ifcfg-ctcX so that GATEWAY can be
+	  set in ifcfg-ctcX and doesn't get overwritten.
+
+2004-09-09  Rajesh Ranjan  <rranjan@redhat.com>
+
+	* po/hi.po: proofread
+
+2004-09-08  Dan Walsh  <dwalsh@redhat.com>
+
+	* initscripts.spec, rc.d/rc.sysinit: Fix call to restorecon
+
+2004-09-08  N Jayaradha  <njaya@redhat.com>
+
+	* po/ta.po: yet to review
+
 2004-09-08  Bill Nottingham  <notting@redhat.com>
 
 	* ChangeLog, initscripts.spec: 7.78-1
