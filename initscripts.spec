@@ -1,6 +1,6 @@
 Summary: inittab and /etc/rc.d scripts
 Name: initscripts
-%define version 3.68
+%define version 3.69
 Version: %{version}
 Copyright: GPL
 Group: Base
@@ -153,6 +153,10 @@ rm -rf $RPM_BUILD_ROOT
 %doc sysconfig.txt
 
 %changelog
+* Sun Aug 16 1998 Jeff Johnson <jbj@redhat.com>
+- paranoia improvements to .rhkmvtag
+- if psacct with /sbin/accton, than turn off accounting
+
 * Tue Jul  7 1998 Jeff Johnson <jbj@redhat.com>
 - start/stop run levels changed.
 - ipx_configure/ipx_internal_net moved to /sbin.
