@@ -77,6 +77,8 @@ fi
 # Start the graphical boot, if necessary; /usr may not be mounted yet, so we
 # may have to do this again after mounting
 RHGB_STARTED=0
+mount -n -t devpts /dev/pts /dev/pts
+
 if ! fgrep -q nogui /proc/cmdline && [ "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
    /usr/bin/rhgb
    RHGB_STARTED=1
@@ -357,6 +359,7 @@ rm -f /etc/mtab~ /etc/mtab~~
 # Enter root, /proc and (potentially) /proc/bus/usb and devfs into mtab.
 mount -f /
 mount -f /proc
+mount -f /dev/pts
 [ -f /proc/bus/usb/devices ] && mount -f -t usbdevfs usbdevfs /proc/bus/usb
 [ -e /dev/.devfsd ] && mount -f -t devfs devfs /dev 
 
