@@ -203,7 +203,7 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
-* Mon Jan  3 2004 Bill Nottingham <notting@redhat.com> 8.02-1
+* Mon Jan  3 2005 Bill Nottingham <notting@redhat.com> 8.02-1
 - remove initlog, minilogd
 - add a flag to kmodule for use with kudzu's socket mode, use it
 - change setting of IPv6 default route (#142308, <pb@bieringer.de>)
