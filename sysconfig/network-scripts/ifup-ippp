@@ -283,7 +283,18 @@ function addprovider()
     [ -n "$MTU" ] && options="$options mtu $MTU"
 
     # set CBCP protocoll
-    [ "$CBCP" = "on" ] && options="$options callback 6"
+    if [ "$CBCP" = "on" ] ; then
+        if [ -n "$CBCP_MSN" ] ; then
+            # User managed callback
+            options="$options callback $CBCP_MSN"
+        else
+            # admin managed callback, it's enabled by default
+            options="$options callback 6"
+        fi
+    else
+        # Disable CBCP
+        options="$options -callback-cbcp"
+    fi
 
     # set CCP protocoll
     [ "$CCP" = "off" ] && options="$options noccp"

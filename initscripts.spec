@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.62
+Version: 7.63
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -250,6 +250,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Aug 19 2004 Than Ngo <than@redhat.com> 7.63-1
+- allow CBCP with own number (#125710)
+
 * Thu Aug 19 2004 Bill Nottingham <notting@redhat.com> 7.62-1
 - fix up resolv.conf munging (#129921)
 - use rngd if available
