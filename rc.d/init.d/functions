@@ -71,9 +71,9 @@ checkpid() {
 	local i
 
 	for i in $* ; do
-		[ -d "/proc/$i" ] && return 0
+		[ -d "/proc/$i" ] || return 1
 	done
-	return 1
+	return 0
 }
 	
 
