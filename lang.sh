@@ -1,4 +1,4 @@
-#!/bin/bash
+# /etc/profile.d/lang.sh - set i18n stuff
 
 if [ -f /etc/sysconfig/i18n ]; then
     . /etc/sysconfig/i18n

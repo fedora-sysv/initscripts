@@ -1,4 +1,4 @@
-#!/bin/csh
+# /etc/profile.d/lang.csh - set i18n stuff
 
 test -f /etc/sysconfig/i18n
 if ($status == 0) then
