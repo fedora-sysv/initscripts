@@ -1,7 +1,16 @@
-2000-04-04 Ngo Than <than@redhat.de>
+2000-04-10  Bill Nottingham  <notting@redhat.com>
 
-        * sysconfig/network-scripts/ifup-post, sysconfig/network-scripts/ifdown-post
-        fix overwrite problem of resolv.conf on ppp/ippp/slip connections
+	* rc.d/init.d/network:
+	don't bring up commented out 'ONBOOT' interfaces
+	don't shut down inactive interfaces
+
+2000-04-04  Than Ngo  <than@redhat.com>
+
+	* sysconfig/network-scripts/ifdown-post:
+	remove /etc/resolv.conf.save after the ippp connection down
+
+	* sysconfig/network-scripts/ifdown-post, sysconfig/network-scripts/ifup-post, ChangeLog, initscripts.spec:
+	fix overwrite problem of resolv.conf on ippp/ppp/slip connections
 
 2000-04-03  Bill Nottingham  <notting@redhat.com>
 
@@ -15,18 +24,10 @@
 	* rc.d/rc.sysinit:
 	explicitly specify --localtime to hwclock
 
-2000-04-03  Bill Nottingham  <notting@redhat.com>
-
-	* rc.d/init.d/functions:
-	Blarg. I can't type.
-
-	* rc.d/rc.sysinit:
-	explicitly specify --localtime to hwclock
-
 2000-03-31  Bill Nottingham  <notting@redhat.com>
 
 	* lang.csh, lang.sh:
-	source /home/devel/notting/.i18n as well as /etc/sysconfig/i18n
+	source $HOME/.i18n as well as /etc/sysconfig/i18n
 	(idea from <ivanyi@internet.sk>)
 
 	* service:
