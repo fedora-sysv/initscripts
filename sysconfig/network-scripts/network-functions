@@ -77,12 +77,6 @@ source_config ()
 	IUCV)
 		DEVICETYPE="iucv"
 		;;
-	ESCON)
-		DEVICETYPE="escon"
-		;;
-	QETH)
-		DEVICETYPE="eth"
-		;;
 
     esac
     [ -z "$DEVICETYPE" ] && DEVICETYPE=`echo ${DEVICE} | sed "s/[0-9]*$//"`
@@ -341,7 +335,7 @@ configure_ccwgroup_device ()
     if [ "$TYPE" = "QETH" ]; then
          DIR="/sys/bus/ccwgroup/drivers/qeth"
     elif
-       [ "$TYPE" = "CTC" -o "$TYPE" = "ESCON" ]; then
+       [ "$TYPE" = "CTC" ]; then
          DIR="/sys/bus/ccwgroup/drivers/ctc"
     elif
        [ "$TYPE" = "LCS" ]; then
