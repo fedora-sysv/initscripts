@@ -19,6 +19,10 @@ if [ "${DEVICETYPE}" = "ppp" -o "${DEVICETYPE}" = "ippp" ]; then
     fi
 fi
 
+if [ -f /etc/ppp/peers/$DEVICE ] ; then
+    rm -f /etc/ppp/peers/$DEVICE
+fi
+
 # Reset the default route if this interface had a special one
 if ! check_default_route ; then
     add_default_route ${DEVICE}

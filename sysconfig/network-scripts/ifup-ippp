@@ -69,6 +69,9 @@ function start_ibod()
 function addprovider()
 {
     options=
+    if [ -z "$MSN" ]; then
+        log_echo "Error: $1: MSN not set"
+    fi
     if [ -z "$PHONE_OUT" ]; then
         log_echo "Error: $1: no outgoing phone number set"
         return 1
@@ -80,27 +83,39 @@ function addprovider()
     # set the dial mode
     [ -z "$DIALMODE" ] && DIALMODE="off"
 
-    [ "$AUTH" = "none" ] && AUTH="noauth"
+    [ "$AUTH" = "none" -o "$AUTH" = "noauth" -o -z "$AUTH" ] && AUTH="-pap -chap"
 
     # set layer-2/3 protocol 
     [ -z "$L2_PROT" ] && L2_PROT="hdlc"
     [ -z "$L3_PROT" ] && L3_PROT="trans"
 
     # check local/remote IP
-    [ -z "$LOCAL_IP" ] && LOCAL_IP="0.0.0.0"
-    [ -z "$REMOTE_IP" ] && REMOTE_IP="0.0.0.0"
+    [ -z "$IPADDR" ] && IPADDR="0.0.0.0"
+    [ -z "$GATEWAY" ] && GATEWAY="0.0.0.0"
 
     # set default route
     [ "$DEFROUTE" = "yes" ] && options="$options deldefaultroute"
 
     # set authentication
-    [ -z "$USER" ] && USER="dialup"
-    if [ "$AUTH" = "-pap +chap" ]; then
-        create_option_file "name \"$USER\""
-    else
-        create_option_file "user \"$USER\""
+    _auth=`echo "$AUTH" | sed 's/[a-z -]*//g'`
+    if [ -n "$_auth" ]; then
+        if [ -z "$USER" ]; then
+            log_echo " Error: $1 (syncppp) user is not set"
+            return 1
+        fi
+        # we should hide the user name, so i add user name to option file.
+        if [ "$AUTH" = "-pap +chap" ]; then
+            create_option_file "name \"$USER\""
+        else
+            create_option_file "user \"$USER\""
+        fi
+        options="$options file /etc/ppp/ioption-secret-$DEVICE"
+ 
+        # authentication options:
+        # +pap and/or +chap does not work correct by dialout - remove
+        # them if it's configured as dialout
+        [ "$DIALIN" = "on" ] || AUTH=`echo "$AUTH" | sed 's/+[a-z]*//g'`
     fi
-    options="$options file /etc/ppp/ioption-secret-$DEVICE"
 
     # add ISDN device 
     log_isdnctrl addif $DEVICE
@@ -153,8 +168,7 @@ function addprovider()
  
     options="$options ipparam $DEVICE"
     log_isdnctrl pppbind $DEVICE
-    if [ -z "$LOCAL_IP" ]; then
-        LOCAL_IP="0.0.0.0"
+    if [ "$IPADDR" = "0.0.0.0" ]; then
         options="$options ipcp-accept-local"
     else
         options="$options noipdefault"
@@ -219,13 +233,12 @@ function addprovider()
         [ -n "$SLAVE_DELAY" ] && log_isdnctrl sdelay $DEVICE $SLAVE_DELAY
         [ -n "$SLAVE_TRIGGER" ] && log_isdnctrl trigger $DEVICE $SLAVE_TRIGGER
     fi
- 
-    if [ -z "$REMOTE_IP" ]; then
-        REMOTE_IP="0.0.0.0"
+
+    if [ "$GATEWAY" = "0.0.0.0" ]; then
         options="$options ipcp-accept-remote"
-        options="$LOCAL_IP:$REMOTE_IP $options"
+        options="$IPADDR:$GATEWAY $options"
     else
-        options="$options $LOCAL_IP:$REMOTE_IP"
+        options="$options $GATEWAY:$IPADDR"
     fi
 
     # Add default route while connection
@@ -276,7 +289,7 @@ function addprovider()
     [ "$DEBUG" = "yes" ] && options="-d $options"
 
     # activate ISDN device
-    ifconfig $DEVICE $LOCAL_IP pointopoint $REMOTE_IP up >/dev/null 2>&1
+    ifconfig $DEVICE $IPADDR pointopoint $GATEWAY up >/dev/null 2>&1
 
     if [ "$ENCAP" = "syncppp" ]; then
         # start ipppd daemon
@@ -290,7 +303,7 @@ function addprovider()
     if [ "$DIALMODE" = "auto" ]; then
         echo 1 > /proc/sys/net/ipv4/ip_dynaddr
         route del default >/dev/null 2>&1
-        if [ -z "$REMOTE_IP" -o "$REMOTE_IP" = "0.0.0.0" ]; then
+        if [ "$REMOTE_IP" = "0.0.0.0" ]; then
             route add default $DEVICE >/dev/null 2>&1
         else
             route add default gw $REMOTE_IP >/dev/null 2>&1

@@ -241,7 +241,8 @@ rm -rf $RPM_BUILD_ROOT
 * Fri Aug 10 2001 Than Ngo <than@redhat.com>
 - don't set MSN if it' empty (it's now optional)
 - don't give login name as a cmdline-option (Bug #23066)
-	
+- remove peer device file if ppp connection is down
+
 * Thu Aug  9 2001 Bill Nottingham <notting@redhat.com>
 - require SysVinit (#51335)
 
