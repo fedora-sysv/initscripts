@@ -57,12 +57,10 @@ if [ $? = 0 ]; then
 fi
 
 # Turn off swap, then unmount file systems.
-runcmd "Turning off swap and accounting" swapoff -a
-# Turn off other swap that isn't in /etc/fstab
-OTHERSWAP=`awk '! /^Filename/ { print $1 }' /proc/swaps`
-[ -n "$OTHERSWAP" ] && swapoff $OTHERSWAP
+SWAPS=`awk '! /^Filename/ { print $1 }' /proc/swaps`
+[ -n "$SWAPS" ] && runcmd "Turning off swap" swapoff $SWAPS
 
-[ -x /sbin/accton ] && /sbin/accton
+[ -x /sbin/accton ] && runcmd "Turning off accounting" /sbin/accton
 
 # Unmount file systems, killing processes if we have to.
 sig=
