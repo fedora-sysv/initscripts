@@ -40,7 +40,6 @@ case "$1" in
 	;;
   stop)
   	[ -n "$NFSMTAB" ] && {
-	if [ $# -eq 1 ]; then
 		sig=
 		retry=3
 		remaining=`awk '!/^#/ && $3 ~ /^nfs/ {print $2}' /proc/mounts`
@@ -54,14 +53,11 @@ case "$1" in
 			sleep 2
 			remaining=`awk '!/^#/ && $3 ~ /^nfs/ {print $2}' /proc/mounts`
 			[ -z "$remaining" ] && break
-			lsof -N
 			fuser -k -m $sig $remaining >/dev/null
 			sleep 5
 			retry=`expr $retry - 1`
 			sig=-9
 		done
-	
-	fi
 	}
 	[ -n "$SMBMTAB" ] && action "Unmounting SMB filesystems" umount -a -t smbfs
 	[ -n "$NCPMTAB" ] && action "Unmounting NCP filesystems" umount -a -t ncpfs
