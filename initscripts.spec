@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.31.14.EL
+Version: 7.31.15.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -249,6 +249,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Jun 30 2004 Bill Nottingham <notting@redhat.com> 7.31.15.EL-1
+- don't mount GFS in rc.sysinit
+- recreate /tmp/.ICE-unix after clearing it
+
 * Thu Jun 24 2004 Bill Nottingham <notting@redhat.com> 7.31.14.EL-1
 - fix ppp conflict
 - fix vlan and bonding conflict (#107504)
