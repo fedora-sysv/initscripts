@@ -60,10 +60,10 @@ if [ -x $OTHERSCRIPT ]; then
 fi
 
 # is this device available? (this catches PCMCIA devices for us)
-/sbin/ifconfig ${REALDEVICE} 2>&1 | grep -s "unknown interface" > /dev/null
+/sbin/ifconfig ${REALDEVICE} 2>&1 | grep -s "not found" > /dev/null
 if [ "$?" = "0" ]; then
     echo "Delaying ${DEVICE} initialization."
-    exit 0
+    exit 1
 fi
 
 if [ "$SLAVE" = yes -a "$ISALIAS" = no -a "$MASTER" != "" -a \
