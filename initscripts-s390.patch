@@ -1,32 +1,24 @@
 --- initscripts-6.40/rc.d/init.d/halt.s390init	Wed Sep  5 05:18:34 2001
 +++ initscripts-6.40/rc.d/init.d/halt	Fri Sep 14 17:36:28 2001
-@@ -115,7 +115,9 @@
+@@ -115,7 +115,6 @@
       ;;
  esac
  
 -runcmd $"Syncing hardware clock to system time" /sbin/hwclock $CLOCKFLAGS
-+if [ -x /sbin/hwclock ] ; then
-+  runcmd $"Syncing hardware clock to system time" /sbin/hwclock $CLOCKFLAGS
-+fi
  
  # Turn off swap, then unmount file systems.
  SWAPS=`awk '! /^Filename/ { print $1 }' /proc/swaps`
 --- initscripts-6.40/rc.d/rc.sysinit.s390init	Sun Sep  9 09:00:54 2001
 +++ initscripts-6.40/rc.d/rc.sysinit	Fri Sep 14 17:39:17 2001
-@@ -105,9 +105,13 @@
+@@ -105,9 +105,8 @@
       ;;
  esac
  
 -/sbin/hwclock $CLOCKFLAGS
 -
 -action $"Setting clock $CLOCKDEF: `date`" date
-+if [ -x /sbin/hwclock ] ; then
-+  /sbin/hwclock $CLOCKFLAGS
-+  action $"Setting clock $CLOCKDEF: `date`" date
-+else
-+  # System date on S390 is always set correctly
-+  action $"System date: `date` " date
-+fi
++# System date on S390 is always set correctly
++action $"System date: `date` " date
  
  if [ "`/sbin/consoletype`" = "vt" ]; then
   # Load keymap
@@ -40,70 +32,3 @@
  fi
  
  # Remount the root filesystem read-write.
-@@ -328,6 +336,24 @@
- [ "$state" != "rw" ] && \
-   action $"Remounting root filesystem in read-write mode: " mount -n -o remount,rw /
- 
-+# Fix up kernel versioning on binary-only modules
-+if [ -x /sbin/oco-setkver ]; then
-+  kver=`</proc/sys/kernel/osrelease`
-+  kernelver=`echo $kver|awk -F '-' '{ print $1 }'`
-+  if  [ "$HOSTTYPE" = "s390x" ]; then
-+    kernelver="${kernelver}x"
-+  fi
-+  if [ "${kver:0:3}" = "2.4" ]; then
-+    modpath="/lib/modules/$kver/kernel/net"
-+  else
-+    modpath="/lib/modules/$kver/net"
-+  fi
-+  for i in /lib/modules/ibm/*; do
-+    [ -e $i ] || break
-+    /sbin/oco-setkver $kver $i $modpath/`basename $i`
-+  done
-+fi
-+
- # LVM initialization
- if [ -e /proc/lvm -a -x /sbin/vgchange -a -f /etc/lvmtab ]; then
-         action $"Setting up Logical Volume Management:" /sbin/vgscan && /sbin/vgchange -a y
-@@ -604,23 +630,29 @@
- 
- # Configure machine if necessary.
- if [ -f /.unconfigured ]; then
--    if [ -x /usr/bin/passwd ]; then 
--        /usr/bin/passwd root
-+    # on S390 console we don't have newt
-+    if [ "`/bin/arch`" = "s390" ] ; then
-+      ARCH=".s390"
-+    else
-+      ARCH=""
-+    fi
-+    if [ -x /usr/bin/passwd$ARCH ]; then
-+        /usr/bin/passwd$ARCH root
-     fi
--    if [ -x /usr/sbin/netconfig ]; then
--	/usr/sbin/netconfig
-+    if [ -x /usr/sbin/netconfig$ARCH ]; then
-+	/usr/sbin/netconfig$ARCH
-     fi
--    if [ -x /usr/sbin/timeconfig ]; then
--	/usr/sbin/timeconfig
-+    if [ -x /usr/sbin/timeconfig$ARCH ]; then
-+	/usr/sbin/timeconfig$ARCH
-     fi
--    if [ -x /usr/sbin/kbdconfig ]; then
--	/usr/sbin/kbdconfig
-+    if [ -x /usr/sbin/kbdconfig$ARCH ]; then
-+	/usr/sbin/kbdconfig$ARCH
-     fi
--    if [ -x /usr/sbin/authconfig ]; then
--	/usr/sbin/authconfig --nostart
-+    if [ -x /usr/sbin/authconfig$ARCH ]; then
-+	/usr/sbin/authconfig$ARCH --nostart
-     fi
--    if [ -x /usr/sbin/ntsysv ]; then
--	/usr/sbin/ntsysv --level 35
-+    if [ -x /usr/sbin/ntsysv$ARCH ]; then
-+	/usr/sbin/ntsysv$ARCH --level 35
-     fi
- 
-     # Reread in network configuration data.
