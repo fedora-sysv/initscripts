@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.31.22.EL
+Version: 7.31.23.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -249,6 +249,13 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Mar 31 2005 Bill Nottingham <notting@redhat.com> 7.31.23.EL-1
+- fix mistranslation (#151120)
+- handle alternate VLAN naming schemes (#115001, <kas@informatics.muni.cz>)
+- add proper ipsec route (#146169, #140654)
+- automatically reboot when fsck calls for it, instead of requiring
+  manual intervention (#151046, originally #117641 and duplicates)
+
 * Wed Feb  9 2005 Bill Nottingham <notting@redhat.com> 7.31.22.EL-1
 - fix _netdev unmounting (#147610, <alewis@redhat.com>)
 
