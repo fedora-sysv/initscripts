@@ -182,7 +182,7 @@ case "$1" in
 	# and unmount them even if the user didn't turn on netfs
 	
 	if [ "$RUNLEVEL" = "6" -o "$RUNLEVEL" = "0" -o "$RUNLEVEL" = "1" ]; then
-		NFSMTAB=`LC_ALL=C awk '!/^#/ && $3 == "nfs" { print $2 }' /proc/mounts`
+		NFSMTAB=`LC_ALL=C awk '!/^#/ && $3  ~ /^nfs/ { print $2 }' /proc/mounts`
 		SMBMTAB=`LC_ALL=C awk '!/^#/ && $3 == "smbfs" { print $2 }' /proc/mounts`
 		NCPMTAB=`LC_ALL=C awk '!/^#/ && $3 == "ncpfs" { print $2 }' /proc/mounts`
 		if [ -n "$NFSMTAB" -o -n "$SMBMTAB" -o -n "$NCPMTAB" ] ; then
