@@ -103,6 +103,8 @@ case "$1" in
 	for i in $interfaces; do
 		eval $(LANG=C fgrep "DEVICE=" ifcfg-$i)
 		eval $(LANG=C fgrep "TYPE=" ifcfg-$i)
+		eval $(LANG=C fgrep "SLAVE=" ifcfg-$i)
+		
 		if [ -z "$DEVICE" ] ; then DEVICE="$i"; fi
 
 		if [ "${DEVICE##cipcb}" != "$DEVICE" ] ; then
@@ -114,6 +116,10 @@ case "$1" in
 			continue
 		fi
 		
+		if [ "$SLAVE" = "yes" ]; then
+			continue
+		fi
+	
 		if LANG=C egrep -L "^ONBOOT=['\"]?[Nn][Oo]['\"]?" ifcfg-$i > /dev/null ; then
 		        # this loads the module, to preserve ordering
 			is_available $i
