@@ -30,6 +30,7 @@ install:
 
 clean:
 	(cd src; make clean)
+	@rm -fv *~
 
 tag-archive:
 	@cvs -Q tag -F $(CVSTAG)
