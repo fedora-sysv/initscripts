@@ -10,7 +10,6 @@ BuildRoot: /var/tmp/initbld
 Requires: mingetty, bash, /bin/awk, /bin/sed, mktemp, e2fsprogs, console-tools
 Requires: procps, modutils >= 2.1.85-3, sysklogd >= 1.3.31
 Requires: setup >= 2.0.3
-Requires: wvdial >= 1.31
 Conflicts: kernel <= 2.2, timeconfig < 3.0
 Prereq: /sbin/chkconfig, /usr/sbin/groupadd, gawk
 
@@ -50,13 +49,13 @@ ln -s ../init.d/random $RPM_BUILD_ROOT/etc/rc.d/rc4.d/S20random
 ln -s ../init.d/random $RPM_BUILD_ROOT/etc/rc.d/rc5.d/S20random
 ln -s ../init.d/random $RPM_BUILD_ROOT/etc/rc.d/rc6.d/K80random
 
-ln -s ../init.d/netfs $RPM_BUILD_ROOT/etc/rc.d/rc0.d/K85netfs
-ln -s ../init.d/netfs $RPM_BUILD_ROOT/etc/rc.d/rc1.d/K85netfs
-ln -s ../init.d/netfs $RPM_BUILD_ROOT/etc/rc.d/rc2.d/K85netfs
-ln -s ../init.d/netfs $RPM_BUILD_ROOT/etc/rc.d/rc3.d/S15netfs
-ln -s ../init.d/netfs $RPM_BUILD_ROOT/etc/rc.d/rc4.d/S15netfs
-ln -s ../init.d/netfs $RPM_BUILD_ROOT/etc/rc.d/rc5.d/S15netfs
-ln -s ../init.d/netfs $RPM_BUILD_ROOT/etc/rc.d/rc6.d/K85netfs
+ln -s ../init.d/netfs $RPM_BUILD_ROOT/etc/rc.d/rc0.d/K75netfs
+ln -s ../init.d/netfs $RPM_BUILD_ROOT/etc/rc.d/rc1.d/K75netfs
+ln -s ../init.d/netfs $RPM_BUILD_ROOT/etc/rc.d/rc2.d/K75netfs
+ln -s ../init.d/netfs $RPM_BUILD_ROOT/etc/rc.d/rc3.d/S25netfs
+ln -s ../init.d/netfs $RPM_BUILD_ROOT/etc/rc.d/rc4.d/S25netfs
+ln -s ../init.d/netfs $RPM_BUILD_ROOT/etc/rc.d/rc5.d/S25netfs
+ln -s ../init.d/netfs $RPM_BUILD_ROOT/etc/rc.d/rc6.d/K75netfs
 
 ln -s ../init.d/network $RPM_BUILD_ROOT/etc/rc.d/rc0.d/K90network
 ln -s ../init.d/network $RPM_BUILD_ROOT/etc/rc.d/rc1.d/K90network
@@ -147,6 +146,7 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/sysconfig/network-scripts/ifup-plip
 %config /etc/sysconfig/network-scripts/ifup-aliases
 %config /etc/sysconfig/network-scripts/ifup-ipx
+%config /etc/X11/prefdm
 %config /etc/inittab
 %dir    /etc/rc.d
 %config /etc/rc.d/rc.sysinit

@@ -13,6 +13,8 @@ install:
 	install -m755  setsysfont $(ROOT)/sbin
 	install -m755  lang.sh $(ROOT)/etc/profile.d
 	install -m755  service $(ROOT)/sbin
+	mkdir -p $(ROOT)/etc/X11
+	install -m755 prefdm /etc/X11/prefdm
 	mkdir -p $(ROOT)/etc/sysconfig
 	mkdir -p $(ROOT)/etc/sysconfig/console
 	install -m644 sysconfig/init $(ROOT)/etc/sysconfig/init
