@@ -25,9 +25,9 @@ fi
 NFSFSTAB=`grep -v '^#' /etc/fstab | awk '{ if ($3 ~ /^nfs$/ && $4 !~ /noauto/) print $2}'`
 SMBFSTAB=`grep -v '^#' /etc/fstab | awk '{ if ($3 ~ /^smbfs$/ && $4 !~ /noauto/) print $2}'`
 NCPFSTAB=`grep -v '^#' /etc/fstab | awk '{ if ($3 ~ /^ncpfs$/ && $4 !~ /noauto/) print $2}'`
-NFSMTAB=`grep -v '^#' /proc/mounts | awk '{ if ($3 ~ /^nfs$/ && $4 !~ /noauto/) print $2}'`
-SMBMTAB=`grep -v '^#' /proc/mounts | awk '{ if ($3 ~ /^smbfs$/ && $4 !~ /noauto/) print $2}'`
-NCPMTAB=`grep -v '^#' /proc/mounts | awk '{ if ($3 ~ /^ncpfs$/ && $4 !~ /noauto/) print $2}'`
+NFSMTAB=`grep -v '^#' /proc/mounts | awk '{ if ($3 ~ /^nfs$/ ) print $2}'`
+SMBMTAB=`grep -v '^#' /proc/mounts | awk '{ if ($3 ~ /^smbfs$/ ) print $2}'`
+NCPMTAB=`grep -v '^#' /proc/mounts | awk '{ if ($3 ~ /^ncpfs$/ ) print $2}'`
 
 # See how we were called.
 case "$1" in
@@ -39,7 +39,30 @@ case "$1" in
 	action "Mounting other filesystems" mount -a
 	;;
   stop)
-	[ -n "$NFSMTAB" ] && action "Unmounting NFS filesystems" umount -a -t nfs
+  	[ -n "$NFSMTAB" ] && {
+	if [ $# -eq 1 ]; then
+		sig=
+		retry=3
+		remaining=`awk '!/^#/ && $3 ~ /^nfs/ {print $2}' /proc/mounts`
+		while [ -n "$remaining" -a "$retry" -gt 0 ]
+		do
+			if [ "$retry" -lt 3 ]; then
+				action "Unmounting NFS filesystems (retry)" umount -f -a -t nfs
+			else
+				action "Unmounting NFS filesystems" umount -f -a -t nfs
+			fi
+			sleep 2
+			remaining=`awk '!/^#/ && $3 ~ /^nfs/ {print $2}' /proc/mounts`
+			[ -z "$remaining" ] && break
+			lsof -N
+			fuser -k -m $sig $remaining >/dev/null
+			sleep 5
+			retry=`expr $retry - 1`
+			sig=-9
+		done
+	
+	fi
+	}
 	[ -n "$SMBMTAB" ] && action "Unmounting SMB filesystems" umount -a -t smbfs
 	[ -n "$NCPMTAB" ] && action "Unmounting NCP filesystems" umount -a -t ncpfs
 	rm -f /var/lock/subsys/netfs
