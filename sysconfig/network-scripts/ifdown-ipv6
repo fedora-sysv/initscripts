@@ -4,26 +4,38 @@
 #
 #
 # Taken from:
-# (P) & (C) 2000-2001 by Peter Bieringer <pb@bieringer.de>
+# (P) & (C) 2000-2002 by Peter Bieringer <pb@bieringer.de>
+#
+#  You will find more information in the IPv6-HowTo for Linux at
+#   http://www.bieringer.de/linux/IPv6/
 #
 # RHL integration assistance by Pekka Savola <pekkas@netcore.fi>
 #
-# Version 2001-07-15
+# Version 2002-01-25
+#
+# Note: if called as (like normally) by /etc/sysconfig/network-scripts/ifdown
+#        exit codes aren't handled by "ifdown"
 #
 # Uses following information from /etc/sysconfig/network:
 #  NETWORKING_IPV6=yes|no: controls IPv6 initialization (global setting)
 #
 # Uses following information from /etc/sysconfig/network-scripts/ifcfg-$1:
+#  DEVICE=<device>
 #  IPV6INIT=yes|no: controls IPv6 configuration for this interface
 #
 # Optional for 6to4 tunneling:
-#  IPV6TO4_RELAY=<ipv4address>: IPv4 address of the remote 6to4 relay
-#  IPV6TO4_ROUTING="eth0-:f101::0/64 eth1-:f102::0/64": information to setup local subnetting
-#  IPV6TO4_CONTROL_RADVD=yes|no: controls radvd triggering [optional]
-#  IPV6TO4_RADVD_PIDFILE=file: PID file of radvd for sending signals, default is "/var/run/radvd/radvd.pid" [optional]
+#  IPV6TO4_RELAY=<IPv4 address>: IPv4 address of the remote 6to4 relay [default: 192.88.99.1]
+#  IPV6TO4_ROUTING="<device>-<suffix>/<prefix length> ...": information to setup local subnetting
 #
-#  Requirements for 6to4 if using radvd:
-#   radvd-0.6.2p3 or newer supporting option "Base6to4Interface"
+# Optional for 6to4 tunneling links to trigger radvd:
+#  IPV6_CONTROL_RADVD=yes|no: controls radvd triggering [optional]
+#  IPV6_RADVD_PIDFILE=<file>: PID file of radvd for sending signals, default is "/var/run/radvd/radvd.pid" [optional]
+#  IPV6_RADVD_TRIGGER_ACTION=startstop|reload|restart|SIGHUP: how to trigger radvd [optional, default is SIGHUP]
+#
+#  Required version of radvd to use 6to4 prefix recalculation
+#   0.6.2p3 or newer supporting option "Base6to4Interface"
+#  Required version of radvd to use dynamic ppp links
+#   0.7.0 + fixes or newer
 #
 
 
@@ -34,7 +46,11 @@ cd /etc/sysconfig/network-scripts
 
 CONFIG=$1
 [ -f "$CONFIG" ] || CONFIG=ifcfg-$CONFIG
-source_config                                                                   
+source_config
+
+# IPv6 don't need aliases anymore, config is skipped
+REALDEVICE=`echo ${DEVICE} | sed 's/:.*//g'`
+[ "$DEVICE" != "$REALDEVICE" ] && exit 0
 
 # Test whether IPv6 should be configured, else stop
 [ "${NETWORKING_IPV6}" = "yes" ] || exit 0
@@ -46,88 +62,66 @@ fi
 # Source IPv6 helper functions
 . /etc/sysconfig/network-scripts/network-functions-ipv6
 
-# IPv6 test, no module loaded, exit if system is not IPv6-ready
-test_ipv6 testonly || exit 0
 
+# IPv6 test, no module loaded, exit if system is not IPv6-ready
+ipv6_test testonly || exit 0
+
+# Test device status
+ipv6_test_device_status $DEVICE
+if [ $? != 0 -a $? != 11 ]; then
+	# device doesn't exist or other problem occurs
+	exit 1
+fi
 
 # Switch some sysctls to secure mode
-sysctl -w net.ipv6.conf.$DEVICE.forwarding=0 >/dev/null
-sysctl -w net.ipv6.conf.$DEVICE.accept_ra=0 >/dev/null
-sysctl -w net.ipv6.conf.$DEVICE.accept_redirects=0 >/dev/null
+ipv6_exec_sysctl -w net.ipv6.conf.$DEVICE.forwarding=0 >/dev/null
+ipv6_exec_sysctl -w net.ipv6.conf.$DEVICE.accept_ra=0 >/dev/null
+ipv6_exec_sysctl -w net.ipv6.conf.$DEVICE.accept_redirects=0 >/dev/null
 
 # Shutdown of 6to4, if configured
 valid6to4config="yes"
 if [ -z "$IPV6TO4_RELAY" ]; then
+	IPV6TO4_RELAY="192.88.99.1"
+fi
+
+# Get IPv4 address from interface
+if [ ! -z "$IPV6TO4_IPV4ADDR" ]; then
+	# Take special configured from config file (precedence 1)
+	ipv4addr="$IPV6TO4_IPV4ADDR"
+else
+	# Get IPv4 address from interface first (has precedence 2)
+	ipv4addr="`ipv6_get_ipv4addr_of_device $DEVICE`"
+	if [ -z "$ipv4addr" ]; then
+		# Take configured from config file (precedence 3)
+		ipv4addr="$IPADDR"
+	fi
+fi
+
+# Get local IPv4 address of dedicated tunnel
+ipv4addr6to4local="`ipv6_get_ipv4addr_of_tunnel tun6to4 local`"
+
+# Check against configured 6to4 tunnel to see if this interface was used before
+if [ "$ipv4addr" != "$ipv4addr6to4local" ]; then
+	# IPv4 address of interface does't match local tunnel address, interface was not used for current 6to4 setup
 	valid6to4config="no"
 fi
-if [ "$valid6to4config" = "yes" ]; then
-	if [ "$IPV6TO4_CONTROL_RADVD" = "yes" ]; then
-		# stop RADVD from distributing no longer usable 6to4 prefixes
-		if [ -z "$IPV6TO4_RADVD_PIDFILE" ]; then
-			IPV6TO4_RADVD_PIDFILE="/var/run/radvd/radvd.pid"
-		fi
-		# Send SIGHUP to radvd
-		if [ -f "$IPV6TO4_RADVD_PIDFILE" ]; then
-			pid="`cat $IPV6TO4_RADVD_PIDFILE`"
-			if [ ! -z "$pid" ]; then
-				#  still waiting for feature enabling: stopping distribution of prefixes in RADVD....
-				# kill -SOMETHING $pid
-				false
-			else
-				false
-			fi
-		fi
-	fi
 
+# Shutdown of 6to4, if configured
+if [ "$valid6to4config" = "yes" ]; then
 	if [ ! -z "$IPV6TO4_ROUTING" ]; then
 		# Delete routes to local networks
 		for devsuf in $IPV6TO4_ROUTING; do
 			dev="`echo $devsuf | awk -F- '{ print $1 }'`"
-			ifdown_ipv6_route_all $dev ::
+			ipv6_cleanup_routes $dev ::
 		done
 	fi
-
-	# Detect type of address, whether it is IPv4 or IPv6
-	if testipv6_valid $IPV6TO4_RELAY; then
-		relay6to4type="ipv6"
-	fi
-
-	# Delete all static IPv6to4 routes
-	if [ "$relay6to4type" = "ipv6" ]; then	
-		ifdown_ipv6_route_all sit0 $IPV6TO4_RELAY
-	else
-		ifdown_ipv6_route_all sit0 ::$IPV6TO4_RELAY
-	fi
-
-	# Delete old 6to4 routes, even if IPV6TO4_RELAY was changed
-	if [ -f /etc/sysconfig/static-routes-ipv6 ]; then
-		grep -w "^sit0" /etc/sysconfig/static-routes-ipv6 | while read device network dummy; do
-			if [ "$EXISTS_ipv6calc" = "yes" ]; then
-				# Convert given network to compressed one
-				network="`ipv6calc  --addr_to_compressed $network`"
-			fi
-			LC_ALL=C route -A inet6 | grep "^$network" | while read destination nexthop flags metric ref use iface dummy; do
-				if ! [ "$device" = "$iface" -a "$network" = "$destination" ]; then
-					continue
-				fi
-				# Look for routes to a compatible IPv4 address, delete them
-				if echo $nexthop | egrep -q '^::[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$'; then
-					ifdown_ipv6_route $destination $nexthop $iface
-				fi
-				# Look for routes to a IPv6to4 address, delete them
-				if echo $nexthop | egrep -q '^2002::'; then
-					ifdown_ipv6_route $destination $nexthop $iface
-				fi
-			done
-		done
-	fi
-
-	# Delete 6to4 route
-	ifdown_ipv6_route 2002::/16 :: sit0
 
 	# Delete all configured 6to4 address
-	ifdown_ipv6to4_all sit0 
+	ipv6_cleanup_6to4_tunnels tun6to4 
+
+	# Control running radvd
+	ipv6_trigger_radvd down "$IPV6_RADVD_TRIGGER_ACTION" $IPV6_RADVD_PIDFILE
 fi
 
 # Delete all current configured IPv6 addresses on this interface 
-ifdown_ipv6_real_all $DEVICE
+ipv6_cleanup_device $DEVICE

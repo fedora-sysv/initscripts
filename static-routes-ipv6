@@ -1,30 +1,26 @@
+# Version: 2002-01-09
+
 # file: /etc/sysconfig/static-routes-ipv6
 #
 # description: this file contains all static IPv6 routes
 # description: Here you can specify several routes to specified gateways
 # description:  and also route through a virtual tunnel interface
 #
-# (P) 2000 by Peter Bieringer <pb@bieringer.de>
-#
-# Changes to 
-#  20000704: initial taken from my network-ip6.conf
-#  20001125: remove (C)opyright (makes no sense in a configuration file) 
-#             and add path to file information
+# (P) 2000-2002 by Peter Bieringer <pb@bieringer.de>
 
-#Device	IPv6 network to route			IPv6 gateway address				
-#eth0	fec0:0:0:2::/64				fec0:0:0:1:0:0:0:20
-#eth0	3ffe::/16				3ffe:0400:0100:f102:0:0:0:1
-
-## enable following as "default" routes through a gateway (but review gateway!)
-# IPv6 Testing Address Allocation (6bone testbed)
-#eth0				3ffe::/16		3ffe:0400:0100:f102:0:0:0:1
-# IPv6 official addresses 
-#eth0				2000::/3		3ffe:0400:0100:f102:0:0:0:1
+#Device	IPv6 network to route	IPv6 gateway address
 
 
-## enable following as "default" routes through a tunnel
-## Virtual tunnel interface	IPv6 network to route through
-# IPv6 Testing Address Allocation (6bone testbed)
-#sit1				3ffe::/16
-# IPv6 official addresses 
-#sit1				2000::/3
+## Example: static routes through a gateway on local link
+#eth0	fec0:0:0:2::/64		fec0:0:0:1:0:0:0:20
+#eth0	3ffe:ffff:1234::/48	3ffe:ffff:1234:0002:0:0:0:1
+
+
+## Example: default route through a gateway on local link
+#eth0	2000::/3		3ffe:ffff:1234:0002:0:0:0:1
+
+
+## Example: static route through a dedicated tunnel
+#sit1	3ffe:ffff:1234::/48
+
+

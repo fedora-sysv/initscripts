@@ -4,23 +4,24 @@
 #
 #
 # Taken from:
-# (P) & (C) 2000-2001 by Peter Bieringer <pb@bieringer.de>
+# (P) & (C) 2000-2002 by Peter Bieringer <pb@bieringer.de>
 #
 # RHL integration assistance by Pekka Savola <pekkas@netcore.fi>
 #
-# Version 2001-07-17
+# Version 2002-01-25
 #
-# Uses following information from "/etc/sysconfig/network":
+# Uses following information from /etc/sysconfig/network:
 #  NETWORKING_IPV6=yes|no: controls IPv6 initialization (global setting)
 #
-# Uses following information from "/etc/sysconfig/network-scripts/ifcfg-$1":
+# Uses following information from /etc/sysconfig/network-scripts/ifcfg-$1:
+#  DEVICE=<device>
 #  IPV6INIT=yes|no: controls IPv6 configuration for this interface
-#  IPV6_TUNNELMODE=IP|NBMA: mode of tunnel creation [default: IP]
 #  IPV6_MTU=<MTU for IPv6>: controls IPv6 MTU for this link [optional]
 # 
 #  For static tunnels 
-#  IPV6TUNNELIPV4="<ipv4 address of foreign tunnel endpoint>"
-#  IPV6ADDR=<ipv6address>/<prefixlength> [OPTIONAL: numbered tunnels]
+#  IPV6TUNNELIPV4=<IPv4 address>: IPv4 address of remote tunnel endpoint
+#  IPV6TUNNELIPV4LOCAL=<IPv4 address>: (optional) local IPv4 address of tunnel
+#  IPV6ADDR=<IPv6 address>[/<prefix length>]: (optional) local IPv6 address of a numbered tunnel
 #
 
 
@@ -33,7 +34,11 @@ cd /etc/sysconfig/network-scripts
 
 CONFIG=$1
 [ -f "$CONFIG" ] || CONFIG=ifcfg-$CONFIG
-source_config  
+source_config
+
+# IPv6 don't need aliases anymore, config is skipped
+REALDEVICE=`echo ${DEVICE} | sed 's/:.*//g'`
+[ "$DEVICE" != "$REALDEVICE" ] && exit 0
 
 # Test whether IPv6 configuration is enabled for this interface, else stop
 [ "$IPV6INIT" = "yes" ] || exit 0
@@ -48,54 +53,50 @@ fi
 # Source IPv6 helper functions	
 . /etc/sysconfig/network-scripts/network-functions-ipv6
 
+
 # IPv6 test, module loaded, exit if system is not IPv6-ready
-test_ipv6 || exit 1
+ipv6_test || exit 1
 
-# Setup IPv6-in-IPv4 tunnel(s)
+# Generic tunnel device sit0 is not supported here
 if [ "$DEVICE" = "sit0" ]; then
-	ifup_ipv6_autotunnel || exit 1
+	echo $"Device '$DEVICE' isn't supported here, use IPV6_AUTOTUNNEL setting and restart (IPv6) networking"
+	exit 1
+fi
+
+if [ -z "$IPV6TUNNELIPV4" ]; then
+	echo $"Missing remote IPv4 address of tunnel, configuration is not valid"
+	exit 1
+fi
+
+# Test device status
+ipv6_test_device_status $DEVICE
+if [ $? = 0 ]; then
+	# device is already up
+	echo $"Device '$DEVICE' is already up, please shutdown first"
+	exit 1
+fi
+
+# Create tunnel
+ipv6_add_tunnel_device $DEVICE $IPV6TUNNELIPV4 "" $IPV6TUNNELIPV4LOCAL || exit 1
+
+# Set IPv6 MTU, if given
+if [ ! -z "$IPV6_MTU" ]; then
+	ipv6_set_mtu $DEVICE $IPV6_MTU
+fi
+
+# Apply local IPv6 address, if given (numbered tunnel)
+if [ ! -z "$IPV6ADDR" ]; then
+	ipv6_add_addr_on_device $DEVICE $IPV6ADDR
+fi
+
+# Setup default IPv6 route, check are done by function
+if [ ! -z "$IPV6_DEFAULTDEV" -o ! -z "$IPV6_DEFAULTGW" ]; then
+	ipv6_set_default_route "$IPV6_DEFAULTGW" "$IPV6_DEFAULTDEV" "$DEVICE"
+fi
 	
-	# Set IPv6 MTU, if given 
-	if [ ! -z "$IPV6_MTU" ]; then
-		ipv6_set_mtu $DEVICE $IPV6_MTU
-	fi
-
-elif [ ! -z "$IPV6TUNNELIPV4" ]; then
-	if [ "$IPV6_TUNNELMODE" = "NBMA" ]; then
-		if [ ! -z "$IPV6ADDR" ]; then
-			ifup_ipv6_real sit0 $IPV6ADDR
-		fi
-
-		# Add static IPv6 tunnel routes on specified virtual interface
-		if [ -f /etc/sysconfig/static-routes-ipv6 ]; then
-			grep -w "^$DEVICE" /etc/sysconfig/static-routes-ipv6 | while read device ipv6route args; do
-				ifup_ipv6_tunnel $DEVICE $IPV6TUNNELIPV4 $ipv6route
-			done
-		fi
-
-		# Set IPv6 MTU, if given and in range
-		if [ ! -z "$IPV6_MTU" ]; then
-			ipv6_set_mtu sit0 $IPV6_MTU
-		fi
-
-	elif [ -z "$IPV6_TUNNELMODE" -o "$IPV6_TUNNELMODE" = "IP" ]; then
-		ifup_ipv6_tunneldev $DEVICE $IPV6TUNNELIPV4 || exit 1
-
-		# Set IPv6 MTU, if given and in range
-		if [ ! -z "$IPV6_MTU" ]; then
-			ipv6_set_mtu $DEVICE $IPV6_MTU
-		fi
-
-		if [ ! -z "$IPV6ADDR" ]; then
-			ifup_ipv6_real $DEVICE $IPV6ADDR
-		fi
-			
-		if [ -f /etc/sysconfig/static-routes-ipv6 ]; then
-			grep -w "^$DEVICE" /etc/sysconfig/static-routes-ipv6 | while read device ipv6route args; do
-				ifup_ipv6_route $ipv6route :: $DEVICE
-			done
-		fi
-	else
-		echo $"Tunnel creation mode '$IPV6_TUNNELMODE' not supported - skip!"
-	fi
+# Setup additional static IPv6 routes on specified interface, if given		
+if [ -f /etc/sysconfig/static-routes-ipv6 ]; then
+	LC_ALL=C grep -w "^$DEVICE" /etc/sysconfig/static-routes-ipv6 | while read device ipv6route args; do
+		ipv6_add_route $ipv6route :: $DEVICE
+	done
 fi

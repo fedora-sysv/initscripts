@@ -1,6 +1,4 @@
-v1.0  4th Mar 2001, Pekka Savola <pekkas@netcore.fi>
-v1.1 18th Apr 2001, Pekka Savola <pekkas@netcore.fi>
-v1.2 23th May 2001, Pekka Savola <pekkas@netcore.fi>
+v1.4 10th Jan 2002, Pekka Savola <pekkas@netcore.fi>
 
 HOW TO SET UP AN IPV6 TUNNEL
 ----------------------------
@@ -16,7 +14,7 @@ ASSUMPTIONS
 
 2. You have a static, globally unique IPv4 address.
 
-3. Protocol 41 (IPv6) is not being filtered in any firewall.
+3. Protocol 41 (IPv6-in-IPv4) is not being filtered in any IPv4 firewall.
 
 4. 'iproute' package is installed.  This is used by default for a lot 
    more powerful tunneling capabilities.
@@ -37,7 +35,7 @@ addresses).
 You must get these from a party (tunnel broker) who's assigning IPv6 tunnels.  See:
 http://www.bieringer.de/linux/IPv6/IPv6-HOWTO/IPv6-HOWTO-1.html#joinIPv6backbone
 
-Example from http://www.freenet6.net:
+Example from http://old.freenet6.net:
 ---
 This script will create a tunnel between this computer
 and the Freenet6 server (tunnels server)
@@ -56,15 +54,12 @@ SETTING UP THE TUNNEL CONFIGURATION
 
 Now, set up the configuration as follows:
 
-1. Add 'NETWORKING_IPV6=yes' to /etc/sysconfig/network:
+1. Enable IPv6 and set tunnel as default gateway in /etc/sysconfig/network:
 
    echo "NETWORKING_IPV6=yes" >> /etc/sysconfig/network
+   echo "IPV6_GATEWAYDEV=sit1">> /etc/sysconfig/network
 
-2. Add static routes to IPv6 Internet (this includes 6bone):
-
-   echo "sit1	2000::/3" >>  /etc/sysconfig/static-routes-ipv6
-
-3. Create /etc/sysconfig/network-scripts/ifcfg-sit1, with the following:
+2. Create /etc/sysconfig/network-scripts/ifcfg-sit1, with the following:
 
 ---
 DEVICE=sit1
@@ -75,7 +70,8 @@ IPV6TUNNELIPV4=206.123.31.102
 IPV6ADDR=3ffe:b00:c18:1fff:0:0:0:7f5/128
 ---
 
-NOTE: You must use _sit1_.  sit0 should not be used.
+NOTE: You must use _sit1_ (or sit2,...).  sit0 cannot be used, this is a
+special device.
 
 NOTE: Some tunnel endpoints might require a different kind of prefix length;
 for example, Cisco's usually favour /126.  Using /0 creates a default route 

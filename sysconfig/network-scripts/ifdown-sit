@@ -4,19 +4,20 @@
 #
 #
 # Taken from:
-# (P) & (C) 2000-2001 by Peter Bieringer <pb@bieringer.de>
+# (P) & (C) 2000-2002 by Peter Bieringer <pb@bieringer.de>
+#
+#  You will find more information in the IPv6-HowTo for Linux at
+#   http://www.bieringer.de/linux/IPv6/
 #
 # RHL integration assistance by Pekka Savola <pekkas@netcore.fi>
 #
-# Version 2001-07-15a
+# Version 2002-01-25
 #
 # Uses following information from /etc/sysconfig/network:
 #  NETWORKING_IPV6=yes|no: controls IPv6 initialization (global setting)
 #
-# Uses following information from "/etc/sysconfig/network-scripts/ifcfg-$1":
-#  For static tunnels
-#  IPV6TUNNELIPV4="<ipv4 address of foreign tunnel endpoint>"
-#  IPV6ADDR=<ipv6address>/<prefixlength> [OPTIONAL: numbered tunnels]
+# Uses following information from /etc/sysconfig/network-scripts/ifcfg-$1:
+#  DEVICE=<device>
 #
 
 
@@ -29,10 +30,14 @@ cd /etc/sysconfig/network-scripts
 
 CONFIG=$1
 [ -f "$CONFIG" ] || CONFIG=ifcfg-$CONFIG
-source_config                                                                   
+source_config
+
+# IPv6 don't need aliases anymore, config is skipped
+REALDEVICE=`echo ${DEVICE} | sed 's/:.*//g'`
+[ "$DEVICE" != "$REALDEVICE" ] && exit 0
 
 # Test whether IPv6 should be configured, else stop
-[ "${NETWORKING_IPV6}" = "yes" ] || exit 0
+[ "$NETWORKING_IPV6" = "yes" ] || exit 0
 
 if [ ! -f /etc/sysconfig/network-scripts/network-functions-ipv6 ]; then
 	exit 1
@@ -41,28 +46,22 @@ fi
 # Source IPv6 helper functions
 . /etc/sysconfig/network-scripts/network-functions-ipv6
 
-# IPv6 test, no module loaded, exit if system is not IPv6-ready
-test_ipv6 testonly || exit 0
 
-# Delete IPv6-in-IPv4 tunnel(s)
+# Generic tunnel device sit0 is not supported here
 if [ "$DEVICE" = "sit0" ]; then
-	ifdown_ipv6_autotunnel
-elif [ ! -z "$IPV6TUNNELIPV4" ]; then
-	if [ "$IPV6_TUNNELMODE" = "NBMA" ]; then
-        	if [ ! -z "$IPV6ADDR" ]; then
-			ifdown_ipv6_real sit0 $IPV6ADDR
-		fi
-
-	    	# Cleanup all IPv6 tunnel configuration on specified interface and shut down sit0, if no longer used
-		ifdown_ipv6_tunnel_all $DEVICE $IPV6TUNNELIPV4
-
-        elif [ -z "$IPV6_TUNNELMODE" -o "$IPV6_TUNNELMODE" = "IP" ]; then
-		# Delete all IPv6 routes and addresses
-		ifdown_ipv6_real_all $DEVICE 
-
-		# Shut down tunnel device
-		ifdown_ipv6_tunneldev $DEVICE 
-        else
-		echo $"Tunnel creation mode '$IPV6_TUNNELMODE' not supported - skip!"
-        fi
+	echo $"Device '$DEVICE' isn't supported here, use IPV6_AUTOTUNNEL setting and restart (IPv6) networking"
+	exit 1
 fi
+
+# IPv6 test, no module loaded, exit if system is not IPv6-ready
+ipv6_test testonly || exit 0
+
+# Test device status
+ipv6_test_device_status $DEVICE
+if [ $? != 0 -a $? != 11 ]; then
+	# device doesn't exist or other problem occurs
+	exit 0
+fi
+
+# Cleanup and shut down IPv6-in-IPv4 tunnel device
+ipv6_del_tunnel_device $DEVICE 

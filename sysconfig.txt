@@ -160,15 +160,20 @@ Files in /etc/sysconfig
   IPXINTERNALNETNUM=<netnum>
   IPXINTERNALNODENUM=<nodenum>
 
+  All the IPX stuff is optional, and should default to off.
+
   NETWORKING_IPV6=yes|no
     Enable or disable global IPv6 initialization
+    Default: no
   IPV6FORWARDING=yes|no
     Enable or disable global forwarding of incoming IPv6 packes 
     on all interfaces.
-    Note: Actual packet forwarding cannot be controlled per-device.
+    Note: Actual packet forwarding cannot be controlled per-device, use netfilter6 for such issues
+    Default: no
   IPV6INIT=yes|no
-    Enable or disable IPv6 configuration for all interfaces.
+    Enable or disable IPv6 configuration for all interfaces
     Use with caution!
+    Default: value not set in this file
 
   IPV6_AUTOCONF=yes|no
     Sets the default for device-based autoconfiguration.
@@ -178,15 +183,54 @@ Files in /etc/sysconfig
     Default: yes if IPV6FORWARDING=yes, no if IPV6FORWARDING=no
   IPV6_AUTOTUNNEL=yes|no
     Controls automatic IPv6 tunneling.
+    Default: no
 
-  IPV6_TUNNELMODE=IP|NBMA [OPTIONAL: IP by default]
-    Mode of tunnel setup
-    IP: separate tunnel device mode (now recommeded) 
-    NBMA: NBMA-styled tunnel mode (now mostly obsolete)
+  IPV6_DEFAULTGW=<IPv6 address[%interface]> (optional)
+    Add a default route through specified gateway
+    An interface can be specified: required for link-local addresses
+    Examples:
+      IPV6_DEFAULTGW="3ffe:400:100:f101::2"
+        Add default route through 3ffe:400:100:f101::2
+      IPV6_DEFAULTGW="3ffe:400:100:f101::2%eth0"
+        Add default route through 3ffe:400:100:f101::2 and device eth0
+      IPV6_DEFAULTGW="fe80::1%eth0"
+        Add default route through fe80::1 and device eth0
 
-  All IPv6 options can be overridden in interface-specific configuration.
+  Note: if IPV6_DEFAULTGW is specified with %interface scope and it
+        doesn't match IPV6_DEFAULTDEV, IPV6_DEFAULTDEV is ignored.
+  Note: it's preferred to use %interface for all addresses, not
+        just link-local if you have multiple IPv6-enabled interfaces.
 
-  All the IPX stuff is optional, and should default to off.
+  IPV6_DEFAULTDEV=<interface> (optional)
+    Add a default route through specified interface without specifying next hop
+    Type of interface will be tested whether this is allowed
+    Examples:
+      IPV6_DEFAULTDEV="eth0" INVALID example!
+      IPV6_DEFAULTDEV="ppp0"
+      IPV6_DEFAULTDEV="sit0"
+    Examples for 6to4
+      IPV6_DEFAULTDEV="tun6to4"
+        Add default route through dedicated 6to4 tunnel device "tun6to4", if configured
+
+  Note: "tun6to4" does not support an additional IPV6_DEFAULTGW.
+        Other interfaces prefer IPV6_DEFAULTGW, if specified.
+
+  IPV6_RADVD_PIDFILE=<pid-file> (optional)
+    Location of PID file for controlling radvd, see IPV6_CONTROL_RADVD
+    Default: "/var/run/radvd/radvd.pid"
+    Example:
+       IPV6_RADVD_PIDFILE="/some/other/location/radvd.pid"
+  IPV6TO4_RADVD_PIDFILE=<pid-file> (obsolete)
+    As above, still supported for a while for backward compatibility.
+  IPV6_RADVD_TRIGGER_ACTION=startstop|reload|restart|SIGHUP (optional)
+    How to trigger radvd in case of 6to4 or PPP action
+     startstop: radvd starts if interface goes up and stops
+       if interface goes down using initscript call of radvd with related parameter
+     reload|restart: initscript of radvd is called with this parameter
+     SIGHUP: signal HUP is sent to radvd, pidfile must be specified, if not the default
+    Default: SIGHUP
+
+  IPv6 options above can be overridden in interface-specific configuration.
 
   obsoleted values from earlier releases:
 
@@ -224,8 +268,8 @@ Files in /etc/sysconfig
 /etc/sysconfig/static-routes-ipv6:
   Contains lines of the form:
 
-    <device> ipv6network ipv6gateway
-    <tunneldevice> ipv6network
+    <device> IPv6-network IPv6-gateway
+    <tunneldevice> IPv6-network
 
   <device> must be a device name to have the route brought up and
   down with the device
@@ -235,13 +279,20 @@ Files in /etc/sysconfig
   eth0   fec0:0:0:2::/64                         fec0:0:0:1:0:0:0:20
    adds a route for IPv6 network fec0:0:0:2::/64 through fec0:0:0:1:0:0:0:20
    
-  eth0    2000::/3				3ffe:400:100:f101::1
-  eth0    3ffe::/16				3ffe:400:100:f101::1
-   so-called "default" route for clients
+  eth0    2000::/3	                         3ffe:ffff:0:1::1
+   so-called "default" routes for clients
 
   sit1    2000::/3
-  sit1    3ffe::/16
-   adds routes through virtual tunnel sit1
+   adds routes through dedicated tunnel interface sit1
+
+  tun6to4  3ffe:ffff:1234::/56			
+  tun6to4  3ffe:ffff:5678::/56			::5.6.7.8
+   adds routes through hardwired 6to4 tunnel interface tun6to4
+
+  Notes:
+    * default routes (such as the "2000::/3" shown above) should be set with
+       IPV6_DEFAULTGW and IPV6_DEFAULTDEV, see more above.
+    * tunnel device "sit0" is not supported here, routes will never be applied
 
 /etc/sysconfig/routed:
 
@@ -417,7 +468,7 @@ Files in /etc/sysconfig/network-scripts/
 
 /etc/sysconfig/network-scripts/init.ipv6-global:
   Not really a public file.  Contains different basic settings that
-  are set from /etc/rc.d/init.d/network at different stages of
+  are set from /etc/[rc.d]/init.d/network at different stages of
   network initialization.
 
 /etc/sysconfig/network-scripts/network-functions:
@@ -484,67 +535,76 @@ Files in /etc/sysconfig/network-scripts/
   IPv6-only items for real interfaces:
     IPV6INIT=yes|no
       Enable or disable IPv6 configuration for this interface
+      Default: no
     IPV6FORWARDING=yes|no
       Enable or disable global forwarding of incoming IPv6 packets
-      Note! Obsolete in interface specification.
-    IPV6ADDR=<ipv6address>/<prefixlength>
-      specify primary static IPv6 address here
+      Note: Obsolete in interface specification!
+      Default: no
+    IPV6ADDR=<IPv6 address>[/<prefix length>]
+      Specify a primary static IPv6 address here
+      Optional, if normal host and a router advertisement daemon is on local link
+      Required, if node is a router and interface should route packets
+      Note: if prefix length is omitted, 64 is assumed
       Example:
-        IPV6ADDR="3ffe:400:100:f101::1/64"
-    IPV6ADDR_SECONDARIES=<list of ipv6 addresses>
-      a list of secondary IPv6 addresses (perhaps useful for virtual hosting)
+        IPV6ADDR="3ffe:ffff:0:5::1"
+        IPV6ADDR="3ffe:ffff:0:1::1/128"
+    IPV6ADDR_SECONDARIES="<IPv6 address>[/<prefix length>] ..." (optional)
+      A list of secondary IPv6 addresses (perhaps useful for virtual hosting)
       Example:
-        IPV6ADDR_SECONDARIES="3ffe:400:100:f101::10/64 3ffe:400:100:f101::11/64"
-    IPV6_MTU="<MTU of link>" [optional]
-      Note: Must be greater or equal to 1280.
+        IPV6ADDR_SECONDARIES="3ffe:ffff:0:1::10 3ffe:ffff:0:2::11/128"
+    IPV6_MTU=<MTU of link> (optional)
       Optional, dedicated MTU of this link
+      Note: Must be greater or equal to 1280.
       Example:
         IPV6_MTU="1280"
 
   Special configuration options for multi-homed hosts etc.
-    IPV6_ROUTER=yes|no: controls IPv6 autoconfiguration
-    IPV6_AUTOCONF=yes|no: controls IPv6 autoconfiguration
-      defaults:
-          global IPV6FORWARDING=yes: IPV6_AUTOCONF=no, IPV6_ROUTER=yes
-          global IPV6FORWARDING=no: IPV6_AUTOCONF=yes
+	IPV6_ROUTER=yes|no: Controls IPv6 autoconfiguration
+	IPV6_AUTOCONF=yes|no: Controls IPv6 autoconfiguration
+	 Defaults:
+	  Global IPV6FORWARDING=yes: IPV6_AUTOCONF=no, IPV6_ROUTER=yes
+	  Global IPV6FORWARDING=no: IPV6_AUTOCONF=yes
 
   Optional settings for a 6to4 tunnel
     IPV6TO4INIT=yes|no
       Enable or disable 6to4 tunneling setup
-    IPV6TO4_RELAY=<ipv4address>
+      Default: no
+    IPV6TO4_RELAY=<IPv4 address> (optional)
       IPv4 address of the remote 6to4 relay
-    IPV6TO4_IPV4ADDR=<ipv6address> [OPTIONAL]
-      overwrite local IPv4 address which is accessable from the Internet
-       (optional, in case of NAT or other special scenarios)
-    IPV6TO4_ROUTING=<LAN-routing-setup-tokens> [OPTIONAL]
-      a list of routing tokens to setup proper IPv6 routes on the LAN
+      Note: if this is omitted, ::192.88.99.1 (the anycast relay address) is chosen
+    IPV6TO4_IPV4ADDR=<IPv6 address>[/<prefix length>] (optional)
+      Overwrite local IPv4 address which is accessable from the Internet
+       (optional, in case of static IPv4-NAT behind a router or other special scenarios)
+    IPV6TO4_ROUTING="<device>-<suffix>/<prefix length> ..." (optional)
+      A list of routing tokens to setup proper IPv6 routes on the LAN
       Example:
          IPV6TO4_ROUTING="eth0-:f101::0/64 eth1-:f102::0/64"
          Will create one route per eth0 and eth1, taking given SLA
-    IPV6TO4_CONTROL_RADVD=yes|no [OPTIONAL]
-      Enable signalling radvd that the 6to4 prefix has been changed
-    IPV6TO4_RADVD_PIDFILE=<path-to-pid-file> [OPTIONAL]
-      location of PID file to get PID for sending signal
-      default is "/var/run/radvd/radvd.pid"
-      Example:
-         IPV6TO4_RADVD_PIDFILE="/some/other/location/radvd.pid"
 
-  IPv6-only items for automatic tunnel interface: 
-    Virtual interface name: sit0
+  Optional settings for a 6to4 tunnel or a ppp link
+    IPV6_CONTROL_RADVD=yes|no (optional)
+      Enable signalling radvd that the 6to4 prefix has been changed or a
+       preconfigured dynamic device is up or down
+      Default: no
+
+  IPv6-only items for static tunnel interface:
+    Interface name: sitX (X => 1)
     IPV6INIT=yes|no
       Enable or disable IPv6 configuration for this interface
-      Obsolete now, see IPV6_AUTOTUNNEL in /etc/sysconfig/network    
-
-  IPv6-only items for static unnumbered tunnel interface:
-    Virtual interface name: sit1..
-    IPV6INIT=yes|no
-      Enable or disable IPv6 configuration for this interface
-    IPV6TUNNELIPV4=<ipv4 address of foreign tunnel endpoint>
-      specify IPv4 address of a foreign IPv6-in-IPv4 tunnel endpoint
+      Default: no
+    IPV6TUNNELIPV4=<IPv4 address>
+      Specify IPv4 address of a foreign IPv6-in-IPv4 tunnel endpoint
       Example:
-        IPV6TUNNELIPV4="195.226.187.50"
-    IPV6ADDR=<ipv6address>/<prefixlength> [OPTIONAL]
+        IPV6TUNNELIPV4="1.2.3.4"
+    IPV6TUNNELIPV4LOCAL=<IPv4 address>
+      Specify local IPv4 address of tunnel, useful on interfaces with multiple IPv4 addresses
+    IPV6ADDR=<IPv6 address>[/<prefix length>] (optional)
      local IPv6 address of a numbered tunnel
+    IPV6_MTU=<MTU of tunnel> (optional)
+      Optional, dedicated MTU of this tunnel
+      Note: Must be greater or equal to 1280
+      Example:
+        IPV6_MTU="1280"
 
   Ethernet-only items:
     {IPXNETNUM,IPXPRIMARY,IPXACTIVE}_{802_2,802_3,ETHERII,SNAP}

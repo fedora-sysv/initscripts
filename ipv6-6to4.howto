@@ -1,5 +1,4 @@
-v1.1 18th Apr 2001, Pekka Savola <pekkas@netcore.fi>
-v1.2 23th May 2001, Pekka Savola <pekkas@netcore.fi>
+v1.4 10th Jan 2002, Pekka Savola <pekkas@netcore.fi>
 
 HOW TO SET UP IPV6 WITH 6TO4
 ----------------------------
@@ -30,81 +29,121 @@ ASSUMPTIONS
 3. You have a static, globally unique IPv4 address.  This is not an absolute
    requirement, but the only scenario discussed here.
 
-4. Protocol 41 (IPv6) is not being filtered in any firewall.
+4. Protocol 41 (IPv6-in-IPv4) is not being filtered in any IPv4 firewall.
 
 5. 'iproute' package is installed.  This is used by default for a lot 
    more powerful tunneling capabilities.
 
+Note: even though 6to4 was supported with earlier releases of Red Hat Linux,
+below it is assumed that the initscripts package version this
+document comes with is used.
+
 INFORMATION NEEDED
 ------------------
 
-You need to know:
+Nothing :-).
 
-1. The IPv4 address of a 6to4 relay router 
+If you want to select a specific relay (rather than automatically
+selecting the closest one), you can define it with IPV6TO4_RELAY
+using the list below:
 
-See:  http://www.kfu.com/~nsayer/6to4/ for public ones.
-
-Here, 194.95.108.191 (6to4.ipv6.fh-regensburg.de) is used.
+http://www.kfu.com/~nsayer/6to4/
 
 SETTING UP THE 6TO4 CONFIGURATION
 ---------------------------------
 
 Now, set up the configuration as follows:
 
-1. Add 'NETWORKING_IPV6=yes' to /etc/sysconfig/network:
+1. Enable IPv6 and set 6to4 pseudo-interface as default gateway in 
+   /etc/sysconfig/network:
 
    echo "NETWORKING_IPV6=yes" >> /etc/sysconfig/network
+   echo "IPV6_GATEWAYDEV=tun6to4">> /etc/sysconfig/network
 
-2. Add static routes to IPv6 Internet (this includes 6bone):
+2. Edit your outbound (Internet) interface configuration.  This can be 
+   e.g. ippp0, ppp0, eth0, or the like. Here, eth1 is used.
 
-   echo "sit0	2000::/3"  >>  /etc/sysconfig/static-routes-ipv6
-
-NOTE: sit0 is used for 6to4 routing.
-
-3. Edit your outbound (Internet) interface configuration.  This can be 
-e.g. ippp0, eth0, or the like. Here, eth0 is used.  
 
 /etc/sysconfig/network-scripts/ifcfg-eth0:
 ---
 DEVICE=eth0
 BOOTPROTO=static
 ONBOOT=yes
-IPADDR=xx.yy.zz.ww
+IPADDR=xx.yy.zz.ww           [Globally unique IPv4 address]
 NETMASK=aa.bb.cc.dd          [IPv4 settings up to this point]
 
 IPV6INIT=yes
 IPV6TO4INIT=yes
-IPV6TO4_RELAY=194.95.108.191
 ---
+
+   Note: [i]ppp - interfaces need to be called in /etc/ppp/ip-up|down.local;
+   if you are not using local files by yourself, this can easily be done with:
+
+    cd /etc/ppp
+    ln -s ip-up.ipv6to4 ip-up.local
+    ln -s ip-down.ipv6to4 ip-down.local
+
 
 USING 6TO4
 ----------
 
 6to4 automatic tunneling is brought up when the interface is brought up.
 
-You will see your 6to4 address prefix in device sit0 when done:
+You will see your 6to4 address prefix in device tun6to4 when done:
 
-	inet6 addr: 2002:c15e:a001::1/48 Scope:Global
+	inet6 addr: 2002:c15e:a001::1/16 Scope:Global
 
 Note that 'c15e:a001' is the hexadecimal representation of dotted-quad IPv4
 address (IPADDR= above), here '193.94.160.1'.
 
 NOTE: iproute tools give more reliable data, try e.g. '/sbin/ip addr ls'.
 
-SUBNETTING
-----------
+PROVIDING IPV6 TO YOUR LAN
+--------------------------
 
-If you want to provide IPv6 for your LAN using your Linux system as a
-router, this can be done rather easily with 6to4.
+If you want to provide IPv6 for your LAN (e.g. connected on eth1)
+using your Linux system as a router, this can be done rather easily with 6to4.
 
 You will need to enable IPv6 forwarding (IPV6FORWARDING=yes in
 /etc/sysconfig/network) and install a router advertisement daemon.  One such,
-'radvd' is available in Powertools.  
+'radvd' is available in the distribution.  
 
-You must configure the prefix your IPv4 maps to (see sit0 above) in 
+You must configure the prefix your IPv4 maps to (see tun6to4 above) in 
 /etc/radvd.conf or use certain automatic hooks.  This is not covered here 
 in detail; see radvd.conf(5) and /etc/sysconfig/network-scripts/ifup-ipv6 
 for details.
+
+Usually the following is enough:
+
+1. Make sure that radvd package is installed.
+
+2. Configure radvd as outlined in radvd.conf(5); the file could
+   be something like:
+
+   interface eth0
+   {
+	AdvSendAdvert on;
+	MinRtrAdvInterval 3;
+	MaxRtrAdvInterval 10;
+	prefix 0:0:0:1::/64
+	{
+		Base6to4Interface eth0;
+		AdvPreferredLifetime 120;
+		AdvValidLifetime 300;
+	};
+   };
+
+3. Make sure radvd starts at boot and start it now:
+
+   /sbin/chkconfig radvd on
+   /sbin/service radvd start 
+
+4. Make the initscripts signal radvd to recalculate the prefix when it
+   changes:
+
+  /etc/sysconfig/network-scripts/ifcfg-eth0:
+
+  IPV6_CONTROL_RADVD=yes
 
 MORE INFORMATION
 ----------------
@@ -115,6 +154,9 @@ source of IPv6 related Linux-information.
 ftp://ftp.isi.edu/in-notes/rfc3056.txt ("Connection of IPv6 Domains via IPv4
 Clouds") is the RFC about 6to4.
 
-ftp://ftp.itojun.org/pub/paper/draft-itojun-ipv6-transition-abuse-01.txt
-("Possible abuse against IPv6 transition technologies") explains some
+ftp://ftp.isi.edu/in-notes/rfc3068.txt ("An Anycast Prefix for 6to4 Relay
+Routers") is the RFC about finding a close 6to4 relay automatically.
+
+http:://www.ietf.org/internet-drafts/draft-savola-ngtrans-6to4-security-00.txt
+("Security Considerations and Enhancements for 6to4") explains some
 security considerations in 6to4.
