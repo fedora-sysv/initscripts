@@ -17,7 +17,7 @@ install:
 	(cd src; make install ROOT=$(ROOT))
 	mkdir -p /var/run/netreport
 	chown root.root /var/run/netreport
-	chmod o=rwx,go=rx /var/run/netreport
+	chmod og=rwx,o=rx /var/run/netreport
 
 clean:
 	(cd src; make clean)

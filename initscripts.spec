@@ -1,10 +1,10 @@
 Summary: inittab and /etc/rc.d scripts
 Name: initscripts
-Version: 3.14
+Version: 3.15
 Copyright: GPL
 Group: Base
 Release: 1
-Source: initscripts-3.14.tar.gz
+Source: initscripts-3.15.tar.gz
 BuildRoot: /var/tmp/initbld
 Requires: mingetty bash mktemp
 
@@ -14,6 +14,11 @@ levels, and shut the system down cleanly. It also contains the scripts
 that activate and deactivate most network interfaces.
 
 %changelog
+
+* Wed Oct 01 1997 Michael K. Johnson <johnsonm@redhat.com>
+
+- /var/run/netreport needs to be group-writable now that /sbin/netreport
+  is setguid instead of setuid.
 
 * Tue Sep 30 1997 Michael K. Johnson <johnsonm@redhat.com>
 
