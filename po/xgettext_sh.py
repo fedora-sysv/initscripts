@@ -76,6 +76,10 @@ def print_pot():
 def main():
 	i18n_tokens = []
 	i18n_tokens.append('echo')
+	i18n_tokens.append('echo -n')
+	i18n_tokens.append('echo -e')
+	i18n_tokens.append('echo -en')
+	i18n_tokens.append('echo -ne')
 	i18n_tokens.append('action')
 	i18n_tokens.append('failure')
 	i18n_tokens.append('passed')

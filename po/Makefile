@@ -16,13 +16,13 @@ all: $(NLSPACKAGE).pot $(FMTCATALOGS)
 
 $(NLSPACKAGE).pot: $(POTFILES)
 	@echo "Please don't do that."
-#
-#       ./xgettext_sh --initscripts $(POTFILES) > $(NLSPACKAGE).po
-#	if cmp -s $(NLSPACKAGE).po $(NLSPACKAGE).pot; then \
-#	    rm -f $(NLSPACKAGE).po; \
-#	else \
-#	    mv $(NLSPACKAGE).po $(NLSPACKAGE).pot; \
-#	fi
+
+	#./xgettext_sh.py $(POTFILES) > $(NLSPACKAGE).po
+	#if cmp -s $(NLSPACKAGE).po $(NLSPACKAGE).pot; then \
+	#    rm -f $(NLSPACKAGE).po; \
+	#else \
+	#    mv $(NLSPACKAGE).po $(NLSPACKAGE).pot; \
+	#fi
 
 
 update-po: Makefile
