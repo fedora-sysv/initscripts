@@ -3,8 +3,8 @@
 # Generate a header that defines the boot kernel.
 #
 
-KERNEL_TYPE=`uname -r | sed 's_^.*\(smp\|enterprise\)$_-\1_;t;s_.*__;'`
-KERNEL_RELEASE=`uname -r | sed 's|smp\|enterprise||g'`
+KERNEL_TYPE=`uname -r | sed 's_^.*\(smp\|enterprise\|summit\)$_-\1_;t;s_.*__;'`
+KERNEL_RELEASE=`uname -r | sed 's|smp\|enterprise\|summit||g'`
 
 rpm -q kernel$KERNEL_TYPE-$KERNEL_RELEASE >/dev/null 2>&1 && KERNEL_ARCH=`rpm -q --qf '%{ARCH}' kernel$KERNEL_TYPE-$KERNEL_RELEASE 2>/dev/null` || KERNEL_ARCH=`uname -m`
 
@@ -16,6 +16,7 @@ if [ -n "$KERNEL_ARCH" -a "$KERNEL_ARCH$KERNEL_TYPE" != "$OLD_KERNEL_ARCH_TYPE" 
   case "$KERNEL_TYPE" in
   -smp) SMP='1';;
   -enterprise) ENTERPRISE='1';;
+  -summit) SUMMIT='1';;
   *) UP='1';;
   esac
   cat > /boot/kernel.h << EOF
@@ -27,6 +28,10 @@ if [ -n "$KERNEL_ARCH" -a "$KERNEL_ARCH$KERNEL_TYPE" != "$OLD_KERNEL_ARCH_TYPE" 
 
 #ifndef __MODULE_KERNEL_$KERNEL_ARCH
 #define __MODULE_KERNEL_$KERNEL_ARCH 1
+#endif
+
+#ifndef __BOOT_KERNEL_SUMMIT
+#define __BOOT_KERNEL_SUMMIT $SUMMIT
 #endif
 
 #ifndef __BOOT_KERNEL_ENTERPRISE
