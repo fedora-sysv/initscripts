@@ -1,4 +1,6 @@
 
+#define _GNU_SOURCE	1
+
 #ifndef INITLOG_H
 #define INITLOG_H
 

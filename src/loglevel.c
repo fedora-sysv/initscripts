@@ -5,8 +5,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <linux/unistd.h>
-
-_syscall3(int,syslog,int,type,char *,bufp,int,len);
+#include <sys/syscall.h>
 
 int main(int argc, char **argv) {
    int level;
@@ -17,7 +16,7 @@ int main(int argc, char **argv) {
       fprintf(stderr,"invalid log level %d\n",level);
       exit(-1);
    }
-   if (!syslog(8,NULL,level)) {
+   if (!syscall(SYS_syslog,8,NULL,level)) {
       exit(0);
    } else {
       perror("syslog");
