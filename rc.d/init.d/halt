@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # rc.halt       This file is executed by init when it goes into runlevel
 #               0 (halt) or runlevel 6 (reboot). It kills all processes,
@@ -63,7 +63,27 @@ OTHERSWAP=`awk '! /^Filename/ { print $1 }' /proc/swaps`
 [ -n "$OTHERSWAP" ] && swapoff $OTHERSWAP
 
 [ -x /sbin/accton ] && /sbin/accton
-runcmd "Unmounting file systems"  umount -a -f 
+
+# Unmount file systems, killing processes if we have to.
+sig=
+retry=3
+remaining=`awk `!/(^#|proc|^none|^\/dev\/root)/ {print $2}' /proc/mounts`
+while [ -n "$remaining" -a "$retry" -gt 0 ]
+do
+	if [ "$retry" -lt 3 ]; then
+		runcmd "Unmounting file systems"  umount -a -f -t noproc
+	else
+		runcmd "Unmounting file systems"  umount -a -f -t noproc
+	fi
+	sleep 2
+	remaining=`awk `!/(^#|proc|^none|^\/dev\/root)/ {print $2}' /proc/mounts`
+	[ -z "$remaining" ] && break
+	/sbin/fuser -k -m $sig $remaining >/dev/null
+	sleep 5
+	retry=$(($retry-1))
+	sig=-9
+done
+runcmd "Unmounting proc file system" umount /proc
 mount -n -o remount,ro /
 
 # turn off raid
