@@ -33,7 +33,7 @@ ipcalc: ipcalc.o
 	$(CC) $(LDFLAGS) -o $@ $< -lpopt
 
 minilogd: minilogd.o
-        $(CC) $(LDFLAGS) -o $@ $< 
+	$(CC) $(LDFLAGS) -o $@ $< 
 
 initlog: initlog.o process.o
 	$(CC) $(LDFLAGS) -o $@ $< -lpopt
