@@ -450,6 +450,7 @@ main(int argc, char **argv) {
 	    if (physicalDevice) { free(physicalDevice); physicalDevice = NULL; }
 	    physicalDevice = pppLogicalToPhysical(&pppdPid, device);
 	    if (physicalDevice) { free(physicalDevice); physicalDevice = NULL; }
+	    if (!pppdPid) cleanExit(34);
 	    kill(pppdPid, sendsig);
 	    if (sendsig == SIGKILL) {
 		kill(-pppdPid, sendsig);
@@ -501,7 +502,7 @@ main(int argc, char **argv) {
 	     * hold the modem if we do not get rid of them.
 	     * We have kept the old pid/pgrp around in pppdPid.
 	     */
-	    kill(-pppdPid, SIGKILL);
+	    if (pppdPid) kill(-pppdPid, SIGKILL);
 	    pppdPid = 0;
 
 	    if (!WIFEXITED(status)) cleanExit(29);
