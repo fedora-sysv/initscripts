@@ -23,11 +23,9 @@ if [ -f /etc/sysconfig/desktop ]; then
 	if [ "$DESKTOP" = GNOME ]; then
 		preferred=gdm
 	elif [ "$DESKTOP" = "KDE" -o "$DESKTOP" = "KDE1" -o "$DESKTOP" = "KDE2" ]; then
-		preferred=/usr/bin/kdm
-	elif [ "$DESKTOP" = AnotherLevel ] ; then
-                preferred=/usr/X11R6/bin/xdm
-	fi
+		preferred=kdm
 fi
+
 if [ -z "$preferred" ]; then
 	if which gdm >/dev/null 2>&1; then
 		preferred=gdm
@@ -37,9 +35,11 @@ if [ -z "$preferred" ]; then
 		preferred=xdm
 	fi
 fi
+
 if [ -n "$preferred" ] && which $preferred >/dev/null 2>&1; then 
 	exec `which $preferred` $* >/dev/null 2>&1
 fi
+
 if which gdm >/dev/null 2>&1; then
 	exec `which gdm` $* >/dev/null 2>&1
 elif which kdm >/dev/null 2>&1; then
@@ -47,4 +47,6 @@ elif which kdm >/dev/null 2>&1; then
 elif which xdm >/dev/null 2>&1; then
 	exec `which xdm` $* >/dev/null 2>&1
 fi
+
+# catch all exit error
 exit 1
