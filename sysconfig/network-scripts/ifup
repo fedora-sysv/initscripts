@@ -257,7 +257,6 @@ if [ -n "${DYNCONFIG}" ]; then
     else
        ONESHOT="-1";
     fi;
-    DHCLIENTARGS="${DHCLIENTARGS} ${ONESHOT} -q -lf /var/lib/dhcp/dhclient-${DEVICE}.leases -pf /var/run/dhclient-${DEVICE}.pid -cf /etc/dhclient-${DEVICE}.conf"
     if [ -n "${DHCP_HOSTNAME}" ]; then
        # Send a host-name to the DHCP server (requ. by some dhcp servers).
        PUMPARGS="${PUMPARGS} -h ${DHCP_HOSTNAME}"
@@ -272,6 +271,14 @@ if [ -n "${DYNCONFIG}" ]; then
           fi
        fi
     fi
+    # allow users to use generic '/etc/dhclient.conf' (as documented in manpage!) 
+    # if per-device file doesn't exist or is empty
+    if [ -s /etc/dhclient-${DEVICE}.conf ]; then
+       DHCLIENTCONF="-cf /etc/dhclient-${DEVICE}.conf";
+    else
+       DHCLIENTCONF='';
+    fi;
+    DHCLIENTARGS="${DHCLIENTARGS} ${ONESHOT} -q ${DHCLIENTCONF} -lf /var/lib/dhcp/dhclient-${DEVICE}.leases -pf /var/run/dhclient-${DEVICE}.pid"
     if need_hostname; then
        # Set hostname of host to host-name option supplied by DHCP.
        PUMPARGS="${PUMPARGS} --lookup-hostname"
