@@ -91,8 +91,6 @@ is_available ${REALDEVICE} || {
          exit 0
       fi
 }
-
-
 if [ -n "${HWADDR}" ]; then
     FOUNDMACADDR=`LC_ALL= LANG= ip -o link show ${REALDEVICE} | \
 	sed 's/.*link\/ether \([[:alnum:]:]*\).*/\1/'`
@@ -102,12 +100,6 @@ if [ -n "${HWADDR}" ]; then
 	   exit 1
 	}
     fi
-fi
-
-# finished initialization, let's start to bring the device up.
-if ! ip link set ${REALDEVICE} up ; then
-    echo $"Failed to bring up ${DEVICE}."
-    exit 1
 fi
 
 # is the device wireless? If so, configure wireless device specifics
@@ -179,10 +171,10 @@ if [ -n "${DYNCONFIG}" ]; then
     fi
 
     [ -n "$FWHACK" ] && ipchains -D input -s 0/0 53 -d 0/0 1025:65535 -p udp -j ACCEPT
-else
-    # static configuration
-
+else 
     if [ -z "${IPADDR}" ]; then
+         # enable device without IP, useful for e.g. PPPoE
+	 ip link set ${REALDEVICE} up
 	 if [ "${NETWORKING_IPV6}" = "yes" ]; then
 	    /etc/sysconfig/network-scripts/ifup-ipv6 ${CONFIG}
 	 fi
@@ -196,6 +188,11 @@ else
 	   $(toggle_value promisc $PROMISC) \
 	   $(toggle_value allmulti $ALLMULTI)
    
+    if ! ip link set ${REALDEVICE} up ; then
+	echo $"Failed to bring up ${DEVICE}."
+	exit 1
+    fi
+
     if ! arping -q -c 2 -w 3 -D -I ${REALDEVICE} ${IPADDR} ; then
 	echo $"Error, some other host already uses address ${IPADDR}."
 	exit 1
@@ -250,9 +247,8 @@ if [ "${NETWORKING_IPV6}" = "yes" ]; then
     /etc/sysconfig/network-scripts/ifup-ipv6 ${CONFIG}
 fi
 
-# IPX initialization?
 if [ "${IPX}" = yes ]; then
-    /etc/sysconfig/network-scripts/ifup-ipx ${DEVICE}
+       /etc/sysconfig/network-scripts/ifup-ipx ${DEVICE}
 fi
 
 exec /etc/sysconfig/network-scripts/ifup-post ${CONFIG} ${2}
