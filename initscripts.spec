@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.47.1
+Version: 6.47.2
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -240,6 +240,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Sat Dec 14 2002 Bill Nottingham <notting@redhat.com>
+- LSB support
+
 * Thu Aug 22 2002 Bill Nottingham <notting@redhat.com>
 - fix usb startup (#71355)
 

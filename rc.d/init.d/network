@@ -6,6 +6,9 @@
 # description: Activates/Deactivates all network interfaces configured to \
 #              start at boot time.
 # probe: true
+### BEGIN INIT INFO
+# Provides: $network
+### END INIT INFO
 
 # Source function library.
 . /etc/init.d/functions
@@ -24,8 +27,7 @@ fi
 # Check that networking is up.
 [ "${NETWORKING}" = "no" ] && exit 0
 
-# if the ip configuration utility isn't around we can't function.
-[ -x /sbin/ip ] || exit 1
+[ -x /sbin/ifconfig ] || exit 0
 
 # Even if IPX is configured, without the utilities we can't do much
 [ ! -x /sbin/ipx_internal_net -o ! -x /sbin/ipx_configure ] && IPX=
@@ -63,8 +65,7 @@ case "$1" in
   
   	action $"Setting network parameters: " sysctl -e -p /etc/sysctl.conf
 
-	# bring up loopback interface
-	action $"Bringing up loopback interface: " ./ifup ifcfg-lo
+	action $"Bringing up interface lo: " ./ifup ifcfg-lo
 
 	case "$IPX" in
 	  yes|true)
@@ -76,11 +77,9 @@ case "$1" in
 	    ;;
 	esac
 
-	oldhotplug=`sysctl kernel.hotplug  2>/dev/null | \
-	    awk '{ print $3 }' 2>/dev/null`
+	oldhotplug=`sysctl kernel.hotplug  2>/dev/null| awk '{ print $3 }' 2>/dev/null`
 	sysctl -w kernel.hotplug="/bin/true" > /dev/null 2>&1
 
-	# bring up all other interfaces configured to come up at boot time
 	for i in $interfaces; do
 		if [ "${i##eth}" != "$i" ] && ! is_available $i ; then
 			continue
@@ -108,7 +107,7 @@ case "$1" in
 		action $"Bringing up interface $i: " ./ifup $i boot
 	done
 	
-	# Bring up CIPE VPN interfaces
+	# add cipe here.
 	cipeinterfaces=`ls ifcfg* | LANG=C egrep -v '(ifcfg-lo|:|rpmsave|rpmorig|rpmnew)' | \
 	    LANG=C egrep -v '(~|\.bak)$' | \
 	    LANG=C egrep 'ifcfg-cipcb[0-9]+$' | \
@@ -173,9 +172,8 @@ case "$1" in
  		fi
  	fi
  
-	# shut down all interfaces (other than loopback)
 	for i in $interfaces ; do
-		if ! check_device_down $i; then
+	        if LC_ALL= LANG= ifconfig $i 2>/dev/null | grep -q " UP " >/dev/null 2>&1 ; then
 		   action $"Shutting down interface $i: " ./ifdown $i boot
 		fi
 	done
@@ -186,9 +184,7 @@ case "$1" in
 	    fi
 	    ;;
 	esac
-
-	action $"Shutting down loopback interface: " ./ifdown ifcfg-lo
-
+	./ifdown ifcfg-lo
 	if [ -d /proc/sys/net/ipv4 ]; then
 	  if [ -f /proc/sys/net/ipv4/ip_forward ]; then
 		if [ `cat /proc/sys/net/ipv4/ip_forward` != 0 ]; then
@@ -215,16 +211,80 @@ case "$1" in
 	echo $"Configured devices:"
 	echo lo $interfaces
 
-	echo $"Currently active devices:"
-	echo `/sbin/ip -o link show | awk -F ": " '{ print $2 }'`
+	if [ -x /sbin/linuxconf ] ; then
+		eval `/sbin/linuxconf --hint netdev`
+		echo $"Devices that are down:"
+		echo $DEV_UP
+		echo $"Devices with modified configuration:"
+		echo $DEV_RECONF
+	else
+		echo $"Currently active devices:"
+		echo `/sbin/ifconfig | grep ^[a-z] | awk '{print $1}'`
+	fi
 	;;
-  restart|reload)
+  restart)
         cd $CWD
 	$0 stop
 	$0 start
 	;;
+  reload)
+	if [ -x /sbin/linuxconf ] ; then
+		eval `/sbin/linuxconf --hint netdev`
+		for device in $DEV_UP ; do
+			action $"Bringing up device $device: " ./ifup $device
+		done
+		for device in $DEV_DOWN ; do
+			action $"Shutting down device $device: " ./ifdown $device
+		done
+		for device in $DEV_RECONF ; do
+			action $"Shutting down device $device: " ./ifdown $device
+			action $"Bringing up device $device: " ./ifup $device
+		done
+		for device in $DEV_RECONF_ALIASES ; do
+			action $"Bringing up alias $device: " /etc/sysconfig/network-scripts/ifup-aliases $device
+		done
+		for device in $DEV_RECONF_ROUTES ; do
+			action $"Bringing up route $device: " /etc/sysconfig/network-scripts/ifup-routes $device
+		done
+		case $IPX in yes|true)
+		  case $IPXINTERNALNET in
+		    reconf)
+			action $"Deleting internal IPX network: " /sbin/ipx_internal_net del
+			action $"Adding internal IPX network $IPXINTERNALNETNUM $IPXINTERNALNODENUM: " /sbin/ipx_internal_net add $IPXINTERNALNETNUM \
+						      $IPXINTERNALNODENUM
+			;;
+		    add)
+			action $"Adding internal IPX network $IPXINTERNALNETNUM $IPXINTERNALNODENUM: " /sbin/ipx_internal_net add $IPXINTERNALNETNUM \
+						      $IPXINTERNALNODENUM
+			;;
+		    del)
+			action $"Deleting internal IPX network: " /sbin/ipx_internal_net del
+			;;
+		  esac
+		  ;;
+		esac
+	else
+	        cd $CWD
+		$0 restart
+	fi
+	;;
+  probe)
+	if [ -x /sbin/linuxconf ] ; then
+		eval `/sbin/linuxconf --hint netdev`
+		[ -n "$DEV_UP$DEV_DOWN$DEV_RECONF$DEV_RECONF_ALIASES" -o \
+		  -n "$DEV_RECONF_ROUTES$IPXINTERNALNET" ] && \
+			echo reload
+		exit 0
+	else
+		# if linuxconf isn't around to figure stuff out for us,
+		# we punt.  Probably better than completely reloading
+		# networking if user isn't sure which to do.  If user
+		# is sure, they would run restart or reload, not probe.
+		exit 0
+	fi
+	;;
   *)
-        echo $"Usage: $0 {start|stop|restart|reload|status}"
+        echo $"Usage: $0 {start|stop|restart|reload|status|probe}"
         exit 1
 esac
 

@@ -85,7 +85,7 @@ checkpid() {
 # A function to start a program.
 daemon() {
 	# Test syntax.
-	local gotbase=
+	local gotbase= force=
 	local base= user= nice= bg= pid
 	nicelevel=0
 	while [ "$1" != "${1##[-+]}" ]; do
@@ -110,6 +110,10 @@ daemon() {
 	           user=${1#--user=}
 		   shift
 		   ;;
+	    --force)
+	    	   force="force"
+		   shift
+		   ;;
 	    [-+][0-9]*)
 	    	   nice="nice -n $1"
 	           shift
@@ -125,14 +129,14 @@ daemon() {
         # See if it's already running. Look *only* at the pid file.
         pid=`pidfileofproc $base`
 	
-	[ -n "${pid:-}" ] && return
+	[ -n "${pid:-}" -a -z "${force:-}" ] && return
 
 	# make sure it doesn't core dump anywhere; while this could mask
 	# problems with the daemon, it also closes some security problems
 	ulimit -S -c 0 >/dev/null 2>&1
 	
 	# Echo daemon
-        [ "${BOOTUP:-}" = "verbose" ] && echo -n " $base"
+        [ "${BOOTUP:-}" = "verbose" -a -z "$LSB" ] && echo -n " $base"
 
 	# And start it up.
 	if [ -z "$user" ]; then
@@ -172,7 +176,7 @@ killproc() {
 
         # Kill it.
         if [ -n "${pid:-}" ] ; then
-                [ "$BOOTUP" = "verbose" ] && echo -n "$base "
+                [ "$BOOTUP" = "verbose" -a -z "$LSB" ] && echo -n "$base "
 		if [ "$notset" -eq "1" ] ; then
 		       if checkpid $pid 2>&1; then
 			   # TERM first, then KILL if not dead
@@ -330,6 +334,17 @@ echo_passed() {
   return 1
 }
 
+echo_warning() {
+  [ "$BOOTUP" = "color" ] && $MOVE_TO_COL
+  echo -n "["
+  [ "$BOOTUP" = "color" ] && $SETCOLOR_WARNING
+  echo -n $"WARNING"
+  [ "$BOOTUP" = "color" ] && $SETCOLOR_NORMAL
+  echo -n "]"
+  echo -ne "\r"
+  return 1
+}
+
 # Log that something succeeded
 success() {
   if [ -z "${IN_INITLOG:-}" ]; then
@@ -340,7 +355,7 @@ success() {
      echo "$INITLOG_ARGS -n $0 -s \"$1\" -e 1" >&21
      trap - SIGPIPE
   fi
-  [ "$BOOTUP" != "verbose" ] && echo_success
+  [ "$BOOTUP" != "verbose" -a -z "$LSB" ] && echo_success
   return 0
 }
 
@@ -354,7 +369,7 @@ failure() {
      echo "$INITLOG_ARGS -n $0 -s \"$1\" -e 2" >&21
      trap - SIGPIPE
   fi
-  [ "$BOOTUP" != "verbose" ] && echo_failure
+  [ "$BOOTUP" != "verbose" -a -z "$LSB" ] && echo_failure
   return $rc
 }
 
@@ -368,7 +383,21 @@ passed() {
      echo "$INITLOG_ARGS -n $0 -s \"$1\" -e 1" >&21
      trap - SIGPIPE
   fi
-  [ "$BOOTUP" != "verbose" ] && echo_passed
+  [ "$BOOTUP" != "verbose" -a -z "$LSB" ] && echo_passed
+  return $rc
+}  
+
+# Log a warning
+warning() {
+  rc=$?
+  if [ -z "${IN_INITLOG:-}" ]; then
+     initlog $INITLOG_ARGS -n $0 -s "$1" -e 1
+  else
+     trap "" SIGPIPE
+     echo "$INITLOG_ARGS -n $0 -s \"$1\" -e 1" >&21
+     trap - SIGPIPE
+  fi
+  [ "$BOOTUP" != "verbose" -a -z "$LSB" ] && echo_warning
   return $rc
 }  
 
