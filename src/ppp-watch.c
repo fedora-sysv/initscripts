@@ -6,7 +6,7 @@
  * one argument: the logical name of the device to bring up.  Does not
  * detach until the interface is up or has permanently failed to come up.
  *
- * Copyright 1999-2001 Red Hat, Inc.
+ * Copyright 1999-2002 Red Hat, Inc.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by
@@ -711,10 +711,11 @@ main(int argc, char **argv) {
 		break;
 	    }
 
-            /* We default to retrying the connect phase for backward
-	     * compatibility, unless RETRYCONNECT is false. */
+            /* PGB 08/20/02: We no longer retry connecting MAXFAIL
+	       times on a failed connect script unless RETRYCONNECT is
+	       true. */
 	    if ((WEXITSTATUS(status) == 8) &&
-		!svTrueValue(ifcfg, "RETRYCONNECT", TRUE)) {
+		!svTrueValue(ifcfg, "RETRYCONNECT", FALSE)) {
                 failureExit(WEXITSTATUS(status));
             }
 
