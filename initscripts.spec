@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-Version: 5.17
+Version: 5.18
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -71,7 +71,7 @@ if [ -d /etc/rc.d -a -d /etc/init.d ]; then
    exit 1
 fi
 if [ -d /etc/rc.d ]; then
-   mv /etc/rc.d/* /etc
+   mv -f /etc/rc.d/* /etc
    ln -snf /etc /etc/rc.d
 fi
 
