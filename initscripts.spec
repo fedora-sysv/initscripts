@@ -4,12 +4,12 @@ Name: initscripts
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
-Release: 2
+Release: 3
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /var/tmp/initbld
 Requires: mingetty, bash, /bin/awk, /bin/sed, mktemp, e2fsprogs, console-tools
 Requires: procps, modutils >= 2.1.85-3, sysklogd >= 1.3.31
-Requires: setup >= 2.0.3
+Requires: setup >= 2.0.3, lsof
 Conflicts: kernel <= 2.2, timeconfig < 3.0, pppd < 2.3.9
 Prereq: /sbin/chkconfig, /usr/sbin/groupadd, gawk
 
@@ -196,6 +196,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Sep  3 1999 Bill Nottingham <notting@redhat.com>
+- require lsof
+
 * Wed Sep  1 1999 Bill Nottingham <notting@redhat.com>
 - add interactive prompt
 
