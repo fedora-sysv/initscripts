@@ -32,7 +32,7 @@
  *   else:
  *     while (1):
  *       sigsuspend()
- *       if SIGTERM:
+ *       if SIGTERM or SIGINT:
  *         kill pppd pgrp
  *         exit
  *       if SIGHUP:
@@ -85,11 +85,31 @@ static int theSigio = 0;
 static int theSigchld = 0;
 static int theSigalrm = 0;
 
+static int theChild;
 
 
 static void
 cleanExit(int exitCode);
 
+
+
+static void
+forward_signal(int signo) {
+    kill(theChild, SIGINT);
+}
+
+
+
+
+static void
+set_signal(int signo, void (*handler)(int)) {
+    struct sigaction act;
+
+    act.sa_handler = handler;
+    act.flags = SA_RESTART;
+    sigemptyset(&act.sa_mask);
+    sigaction(signo, &act, NULL);
+}
 
 
 
@@ -115,6 +135,15 @@ detach(int now, int parentExitCode, char *device) {
 	if (child) {
 	    /* parent process */
 	    close (pipeArray[1]);
+
+	    /* forward likely signals to the main process; we will
+	     * react later
+	     */
+	    theChild = child
+	    set_signal(SIGINT, forward_signal);
+	    set_signal(SIGTERM, forward_signal);
+	    set_signal(SIGHUP, forward_signal);
+
 	    while (read (pipeArray[0], &exitCode, 1) < 0) {
 		switch (errno) {
 		    case EINTR: continue;
@@ -443,13 +472,13 @@ main(int argc, char **argv) {
 
     doPidFile(real_device);
 
-    signal(SIGTERM, signal_handler);
-    signal(SIGINT, signal_handler);
-    signal(SIGHUP, signal_handler);
-    signal(SIGIO, signal_handler);
-    signal(SIGCHLD, signal_handler);
+    set_signal(SIGTERM, signal_handler);
+    set_signal(SIGINT, signal_handler);
+    set_signal(SIGHUP, signal_handler);
+    set_signal(SIGIO, signal_handler);
+    set_signal(SIGCHLD, signal_handler);
     if (theBoot) {
-	signal(SIGALRM, signal_handler);
+	set_signal(SIGALRM, signal_handler);
 	alarm(30);
     }
 
