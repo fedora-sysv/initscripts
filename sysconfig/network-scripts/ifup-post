@@ -92,6 +92,7 @@ if [ "$FIREWALL_MODS" != "no" -a -n "$FWACTIVE" ]; then
 		for nameserver in $ns ; do
 			if ! ipchains -L input -n | grep -q $nameserver ; then
 				ipchains -I input -s $nameserver/32 53 -p udp -j ACCEPT
+				logger $"punching nameserver $nameserver through the firewall"
 			fi
 		done
 	fi
