@@ -511,7 +511,7 @@ EOF
 # Now that we have all of our basic modules loaded and the kernel going,
 # let's dump the syslog ring somewhere so we can find it later
 dmesg > /var/log/dmesg
-killall -TERM getkey >/dev/null 2>&1
+kill -TERM `/sbin/pidof getkey` >/dev/null 2>&1
 } &
 if [ "$PROMPT" != "no" ]; then
    /sbin/getkey i && touch /tmp/confirm
