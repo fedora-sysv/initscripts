@@ -219,7 +219,7 @@ function new_interface ()
                                setup_this=yes
                        fi
                        if [ -n "$rdev_mark" -a "$rdev_mark" != "$newmark" ]; then
-                               echo $"error in ifcfg-${parent_device}:\* files" >&2 ; exit 0
+                               echo $"error in ifcfg-${parent_device}: files" >&2 ; exit 0
                        fi
                        eval " rdev_${DEVNUM}_mark=\$newmark ";
                else
@@ -229,7 +229,7 @@ function new_interface ()
                if [ -n "$rdevip" -a "$rdevip" != "${DEVNUM}" ]; then
                        eval " mark_remove=\$rdev_${rdevip}_mark ";
                        if [ -n "$mark_remove" -a "$mark_remove" != "remove" ]; then
-                               echo $"error in ifcfg-${parent_device}:\* files" >&2 ; exit 0
+                               echo $"error in ifcfg-${parent_device}: files" >&2 ; exit 0
                        fi
                        if [ "$mark_remove" != "remove" ]; then
                                eval " rdev_${rdevip}_mark=remove ";
