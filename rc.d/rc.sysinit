@@ -161,7 +161,7 @@ action $"Setting hostname ${HOSTNAME}: " hostname ${HOSTNAME}
 usb=0
 if ! grep -iq "nousb" /proc/cmdline 2>/dev/null && ! grep -q "usb" /proc/devices 2>/dev/null ; then
     aliases=`/sbin/modprobe -c | awk '/^alias usb-controller/ { print $3 }'`
-    if [ -n "$aliases" -a "$aliases" != "off" ] ; then
+    if [ -n "$aliases" -a "$aliases" != "off" ]; then
       modprobe usbcore
       for alias in $aliases ; do 
       	[ "$alias" != "off" ] && action $"Initializing USB controller ($alias): " modprobe $alias
@@ -200,7 +200,7 @@ elif [ -f /.autofsck ]; then
 	echo $"Your system appears to have shut down uncleanly"
 	AUTOFSCK_TIMEOUT=5
 	[ -f /etc/sysconfig/autofsck ] && . /etc/sysconfig/autofsck
-	if [ "$AUTOFSCK_DEF_CHECK" = "yes" ] ; then
+	if [ "$AUTOFSCK_DEF_CHECK" = "yes" ]; then
 		AUTOFSCK_OPT=-f
 	fi
 
@@ -293,15 +293,11 @@ if [ X"$_RUN_QUOTACHECK" = X1 -a \
 	action $"Checking root filesystem quotas: " /sbin/quotacheck -nug /
 fi
 
-# check for arguments passed from kernel
-if grep -iq nopnp /proc/cmdline >/dev/null 2>&1 ; then
-    PNP=
-else
-    PNP=yes
-fi
-
-# set up pnp 
 if [ -x /sbin/isapnp -a -f /etc/isapnp.conf -a ! -f /proc/isapnp ]; then
+    # check for arguments passed from kernel
+    if ! grep -iq nopnp /proc/cmdline >/dev/null 2>&1 ; then
+	PNP=yes
+    fi
     if [ -n "$PNP" ]; then
 	action $"Setting up ISA PNP devices: " /sbin/isapnp /etc/isapnp.conf
     else
@@ -341,8 +337,6 @@ fi
 
 if ! grep -iq nomodules /proc/cmdline >/dev/null 2>&1 && [ -f /proc/ksyms ]; then
     USEMODULES=y
-else
-    USEMODULES=
 fi
 
 # Our modutils don't support it anymore, so we might as well remove
@@ -376,12 +370,12 @@ fi
 if grep -q "options sound dmabuf=1" /etc/modules.conf 2>/dev/null ; then
   RETURN=0
   alias=`/sbin/modprobe -c | awk '/^alias sound / { print $3 }'`
-  if [ -n "$alias" -a "$alias" != "off" ] ; then
+  if [ -n "$alias" -a "$alias" != "off" ]; then
       action $"Loading sound module ($alias): " modprobe sound
       RETURN=$?
   fi
   alias=`/sbin/modprobe -c | awk '/^alias sound-slot-0 / { print $3 }'`
-  if [ -n "$alias" -a "$alias" != "off" ] ; then
+  if [ -n "$alias" -a "$alias" != "off" ]; then
       action $"Loading sound module ($alias): " modprobe sound-slot-0
       RETURN=$?
   fi
@@ -631,7 +625,7 @@ fi
 # since many SCSI tapes don't deal well with st being loaded and unloaded
 if [ -f /proc/scsi/scsi ] && grep -q 'Type:   Sequential-Access' /proc/scsi/scsi 2>/dev/null ; then
 	if grep -qv ' 9 st' /proc/devices ; then
-		if [ -n "$USEMODULES" ] ; then
+		if [ -n "$USEMODULES" ]; then
 			# Try to load the module.  If it fails, ignore it...
 			insmod -p st >/dev/null 2>&1 && modprobe st >/dev/null 2>&1
 		fi
@@ -697,7 +691,7 @@ if [ -x /sbin/hdparm ]; then
         else
                 HDFLAGS[$device]="${HDFLAGS[0]}"
         fi
-        if [ -e "/proc/ide/${disk[$device]}/media" ] ; then
+        if [ -e "/proc/ide/${disk[$device]}/media" ]; then
              hdmedia=`cat /proc/ide/${disk[$device]}/media`
              if [ "$hdmedia" = "disk" -o -f "/etc/sysconfig/harddisk${disk[$device]}" ]; then
                   if [ -n "${HDFLAGS[$device]}" ]; then
@@ -714,10 +708,10 @@ fi
 # Adjust symlinks as necessary in /boot to keep system services from
 # spewing messages about mismatched System maps and so on.
 if [ -L /boot/System.map -a -r /boot/System.map-`uname -r` -a \
-	! /boot/System.map -ef /boot/System.map-`uname -r` ] ; then
+	! /boot/System.map -ef /boot/System.map-`uname -r` ]; then
 	ln -s -f System.map-`uname -r` /boot/System.map
 fi
-if [ ! -e /boot/System.map -a -r /boot/System.map-`uname -r` ] ; then
+if [ ! -e /boot/System.map -a -r /boot/System.map-`uname -r` ]; then
 	ln -s -f System.map-`uname -r` /boot/System.map
 fi
 
@@ -736,8 +730,8 @@ shopt -u nullglob
 dmesg -s 131072 > /var/log/dmesg
 # Also keep kernel symbols around in case we need them for debugging
 i=5
-while [ $i -ge 0 ] ; do
-	if [ -f /var/log/ksyms.$i ] ; then
+while [ $i -ge 0 ]; do
+	if [ -f /var/log/ksyms.$i ]; then
 		mv /var/log/ksyms.$i /var/log/ksyms.$(($i+1))
 	fi
 	i=$(($i-1))
