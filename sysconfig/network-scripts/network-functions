@@ -32,7 +32,7 @@ need_config ()
 
 source_config ()
 {
-    DEVNAME=${CONFIG##*/ifcfg-} #DEVNAME=`basename $CONFIG | sed 's/^ifcfg-//g'`
+    DEVNAME=`basename $CONFIG | sed 's/^ifcfg-//g'`
     if echo ${CONFIG##*/} | grep -q '[^g]-' ; then
 	PARENTCONFIG=`echo $CONFIG | sed 's/-[^-]*$//g'`
 	PARENTDEVNAME=${PARENTCONFIG##*/ifcfg-}
