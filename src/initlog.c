@@ -213,7 +213,7 @@ int trySocket() {
 	strncpy(addr.sun_path,_PATH_LOG,sizeof(addr.sun_path)-1);
 
 	if (connect(s,(struct sockaddr *) &addr,sizeof(addr))<0) {
-		if (errno == EPROTOTYPE) {
+		if (errno == EPROTOTYPE || errno == ECONNREFUSED) {
 			DDEBUG("connect failed (EPROTOTYPE), trying stream\n");
 			close(s);
 			s = socket(AF_LOCAL, SOCK_STREAM, 0);
