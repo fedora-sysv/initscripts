@@ -1431,7 +1431,7 @@ ipv6_set_mtu() {
 	ipv6_test testonly || return 2   
 
 	# Check whether key exists
-	ipv6_exec_sysctl net.ipv6.conf.$device.mtu=$ipv6_mtu >/dev/null 2>&1
+	ipv6_exec_sysctl net.ipv6.conf.$device.mtu >/dev/null 2>&1
 	if [ $? -ne 0 ]; then
 		return 3
 	fi
