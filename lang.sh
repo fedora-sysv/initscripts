@@ -30,6 +30,11 @@ if [ -f /etc/sysconfig/i18n ]; then
 	        LESSCHARSET=latin1
 		INPUTRC=/etc/inputrc
 		export LESSCHARSET INPUTRC
+		if [ "$TERM" = "linux" ]; then
+		    if ls -l /proc/$$/fd/0 2>/dev/null | grep -- '-> /dev/tty[0-9]*$' >/dev/null 2>&1; then
+			echo -n -e '\033(K' > /proc/$$/fd/0
+		    fi
+		fi
 		;;
        esac
     fi
