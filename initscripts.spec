@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.53
+%define version 4.54
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
@@ -194,6 +194,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Oct 12 1999 Matt Wilson <msw@redhat.com>
+- added patch from Owen to source i18n configuration before starting prefdm
+
 * Mon Oct 11 1999 Bill Nottingham <notting@redhat.com>
 - support for linuxconf alias files
 - add support for Jensen clocks.
