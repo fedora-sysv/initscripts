@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.66
+Version: 7.67
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -250,6 +250,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Aug 20 2004 Jason Vas Dias <jvdias@redhat.com> 7.67-1
+- fix change_resolv_conf: if pre-existing /etc/resolv.conf
+- non-existent or empty, replace with new file contents.
+
 * Fri Aug 20 2004 Jason Vas Dias <jvdias@redhat.com> 7.66-1
 - Allow users to use generic /etc/dhclient.conf if per-device
 - /etc/dhclient-${DEVICE}.conf is non-existent or empty

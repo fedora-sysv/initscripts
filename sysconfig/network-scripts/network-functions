@@ -360,7 +360,7 @@ configure_ccwgroup_device ()
 # Invoke this when /etc/resolv.conf has changed:
 change_resolv_conf ()
 {
-    s=`/bin/grep '^[\ \	]*option' /etc/resolv.conf`;
+    s=`/bin/grep '^[\ \	]*option' /etc/resolv.conf 2>/dev/null`;
     if [ "x$s" != "x" ]; then
        s="$s"$'\n';
     fi;
@@ -380,7 +380,11 @@ change_resolv_conf ()
 	    let n_args=n_args-1; 
          done;       
     elif [ $# -eq 1 ]; then
-       s="$s"`/bin/grep -vF "$s" $1`;
+       if [ "x$s" != "x" ]; then
+	  s="$s"`/bin/grep -vF "$s" $1`;
+       else
+	  s=`cat $1`;
+       fi;
     fi;
     (echo "$s" > /etc/resolv.conf;) >/dev/null 2>&1;
     r=$?
