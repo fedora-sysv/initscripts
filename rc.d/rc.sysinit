@@ -437,7 +437,6 @@ if [ -x /sbin/quotaon ]; then
     action "Turning on user and group quotas for local filesystems" /sbin/quotaon -a
 fi
 
-{
 # Clean out /etc.
 rm -f /etc/mtab~ /fastboot /fsckoptions /forcefsck
 
@@ -455,6 +454,7 @@ for afile in /var/lock/* /var/run/*; do
    fi
 done
 
+{
 # Clean up utmp/wtmp
 >/var/run/utmp
 touch /var/log/wtmp

@@ -204,6 +204,7 @@ rm -rf $RPM_BUILD_ROOT
   bug in ppp-watch
 - allow DNS{1,2} in any ifcfg-* file, not just PPP, and
   add nameserver entries, don't just replace them
+- don't use /tmp/confirm, use /var/run/confirm instead
 
 * Tue Nov  2 1999 Bill Nottingham <notting@redhat.com>
 - fix lang.csh /tmp race oops
