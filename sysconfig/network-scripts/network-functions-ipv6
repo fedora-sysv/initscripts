@@ -1201,7 +1201,7 @@ ipv6_add_tunnel_device() {
 		fi
 
 		# Test whether remote IPv4 address was already applied to another tunnel (does not catch IPv4 addresses with leading 0's)
-		ipv6_exec_ip tunnel show 2>/dev/null | LC_ALL=C grep $addressipv4tunnel | while read dev type tag remote tag local tag ttl rest; do
+		ipv6_exec_ip tunnel show 2>/dev/null | LC_ALL=C grep -w "ipv6/ip" | LC_ALL=C grep $addressipv4tunnel | while read dev type tag remote tag local tag ttl rest; do
 			local devnew="`echo $dev | sed 's/:$//g'`"
 			if [ "$remote" = "$addressipv4tunnel" ]; then
 				ipv6_log $"Given remote address '$addressipv4tunnel' on tunnel device '$device' is already configured on device '$devnew'" err $fn
