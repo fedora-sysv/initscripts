@@ -186,7 +186,7 @@ is_available ()
         return 2
     fi
     HOTPLUG=`cat /proc/sys/kernel/hotplug`
-    echo "/bin/true" > /proc/sys/kernel/hotplug
+    echo "/etc/hotplug/firmware.agent" > /proc/sys/kernel/hotplug
     modprobe $1 > /dev/null 2>&1 || {
       echo "$HOTPLUG" > /proc/sys/kernel/hotplug
       return 1
