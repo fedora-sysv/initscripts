@@ -386,7 +386,6 @@ if [ -x /sbin/lvm.static ]; then
     if ! LC_ALL=C fgrep -q "device-mapper" /proc/devices 2>/dev/null ; then
 	modprobe dm-mod >/dev/null 2>&1
     fi
-    /bin/rm -f /dev/mapper/control &> /dev/null
     echo "mkdmnod" | /sbin/nash --quiet >/dev/null 2>&1
     [ -n "$SELINUX" ] && restorecon /dev/mapper/control >/dev/null 2>&1
     if [ -c /dev/mapper/control -a -x /sbin/lvm.static ]; then
