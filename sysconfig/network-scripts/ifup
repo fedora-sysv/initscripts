@@ -263,8 +263,7 @@ if [ -n "${DYNCONFIG}" ]; then
 
     # DHCP likes to create duplicate routes.  Fix that up.
     NUMDEFROUTES=`ip -o route | \
-                  grep "^default" | \
-                  awk '{ nlines++ } END { print nlines }'`
+                  awk '/^default/ { nlines++ } END { print nlines }'`
     if [ -n "$NUMDEFROUTES" -a "$NUMDEFROUTES" -gt 1 ]; then
 	# remove the default route for the new device (old route wins)
 	ip route del default dev ${DEVICE}
