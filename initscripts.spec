@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.42
+Version: 7.42.1
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -249,6 +249,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Nov 17 2003 Bill Nottingham <notting@redhat.com> 7.42.1-1
+- fix /dev/pts mounting (#110209)
+
 * Tue Oct 28 2003 Bill Nottingham <notting@redhat.com> 7.42-1
 - show rhgb details on service failures
 
