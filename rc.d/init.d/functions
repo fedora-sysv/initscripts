@@ -210,6 +210,16 @@ echo_failure() {
   return 1
 }
 
+echo_passed() {
+  [ "$BOOTUP" = "color" ] && $MOVE_TO_COL
+  echo -n "["
+  [ "$BOOTUP" = "color" ] && $SETCOLOR_WARNING
+  echo -n "PASSED"
+  [ "$BOOTUP" = "color" ] && $SETCOLOR_NORMAL
+  echo -n "]"
+  return 1
+}
+
 # Log that something succeeded
 success() {
   if [ -z "$IN_INITLOG" ]; then
@@ -233,43 +243,56 @@ failure() {
   return $rc
 }
 
+# Log that something passed, but may have had errors. Useful for fsck
+passed() {
+  rc=$?
+  if [ -z "$IN_INITLOG" ]; then
+     initlog -n $0 -s "$1" -e 1
+  else
+     echo "-n $0 -s \"$1\" -e 1" >&21
+  fi
+  [ "$BOOTUP" != "verbose" ] && echo_passed
+  return $rc
+}  
+
 # Run some action. Log its output.
 action() {
   STRING=$1
   echo -n "$STRING "
   shift
-  if [ -z "$IN_INITLOG" ]; then
+#  if [ -z "$IN_INITLOG" ]; then
       initlog $INITLOG_ARGS -c "$*" && success "$STRING" || failure "$STRING"
       rc=$?
       echo
       return $rc
-  else
-      # This sucks.
-      output=`$*`
-      returncode=$?
-      if [ -n "$output" ]; then
-        cmdname=`basename $1`
-        initlogcmds=`echo $output | sed -e "s/^/ -n $cmdname -s \"/" | sed -e "s/$/\"/"`
-        echo "$initlogcmds" >&21
-      fi
-
-      if [ $returncode -eq 0 ]; then
-	 [ "$BOOTUP" = "verbose" ] && {
-	    if [ -n "$output" ]; then
-	      echo
-	      echo $output
-	    else
-	      echo
-	    fi
-	 }
-         success "$STRING"
-      else
-         echo $output
-         failure "$STRING"
-      fi
-      [ "$BOOTUP" != "verbose" ] && echo
-      return $returncode
-  fi
+#  fi
+#  else
+#      # This sucks.
+#      output=`$*`
+#      returncode=$?
+#      if [ -n "$output" ]; then
+#        cmdname=`basename $1`
+#        initlogcmds=`echo $output | sed -e "s/^/ -n $cmdname -s \"/" | sed -e "s/$/\"/"`
+#        echo "$initlogcmds" >&21
+#      fi
+#
+#      if [ $returncode -eq 0 ]; then
+#	 [ "$BOOTUP" = "verbose" ] && {
+#	    if [ -n "$output" ]; then
+#	      echo
+#	      echo $output
+#	    else
+#	      echo
+#	    fi
+#	 }
+#         success "$STRING"
+#      else
+#         echo $output
+#         failure "$STRING"
+#      fi
+#      [ "$BOOTUP" != "verbose" ] && echo
+#      return $returncode
+ # fi
 }
 
 # Confirm whether we really want to run this service
