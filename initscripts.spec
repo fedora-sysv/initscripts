@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.66
+Version: 5.67
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -254,6 +254,12 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Feb 27 2001 Bill Nottingham <notting@redhat.com>
+- don't run isapnp on isapnp-enabled 2.4 kernels (part of #29450)
+- disable hotplug during network initscript
+- don't munge wireless keys in ifup; that will be done with the
+  PCMCIA wireless stuff
+
 * Wed Feb 21 2001 Bill Nottingham <notting@redhat.com>
 - initialize multiple USB controllers if necessary
 
