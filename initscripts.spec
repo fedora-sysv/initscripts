@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.30
+Version: 5.31
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -13,6 +13,9 @@ Requires: modutils >= 2.3.11-5
 %ifarch alpha
 Requires: util-linux >= 2.9w-26
 %endif
+PreTransaction: mv /etc/rc.d/* /etc
+PreTransaction: rmdir /etc/rc.d
+PreTransaction: symlink . /etc/rc.d
 Conflicts: kernel <= 2.2, timeconfig < 3.0, pppd < 2.3.9, wvdial < 1.40-3
 Conflicts: initscripts < 1.22.1-5
 Obsoletes: rhsound sapinit
@@ -66,13 +69,13 @@ touch $RPM_BUILD_ROOT/var/log/wtmp
 
 %pre
 /usr/sbin/groupadd -g 22 -r -f utmp
-if [ -e /etc/rc.d -a ! -L /etc/rc.d -a -d /etc/init.d ]; then
-   echo "can't move /etc/rc.d/init.d -> /etc/init.d - bailing"
-   exit 1
-fi
-if [ -d /etc/rc.d -a ! -L /etc/rc.d ]; then
-   mv -f /etc/rc.d/* /etc && rm -rf /etc/rc.d && ln -snf . /etc/rc.d
-fi
+#if [ -e /etc/rc.d -a ! -L /etc/rc.d -a -d /etc/init.d ]; then
+#   echo "can't move /etc/rc.d/init.d -> /etc/init.d - bailing"
+#   exit 1
+#fi
+#if [ -d /etc/rc.d -a ! -L /etc/rc.d ]; then
+#   mv -f /etc/rc.d/* /etc && rm -rf /etc/rc.d && ln -snf . /etc/rc.d
+#fi
 
 %post
 touch /var/log/wtmp
@@ -223,6 +226,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Jul 11 2000 Bill Nottingham <notting@redhat.com>
+- implement the %pre with RPM Magic(tm)
+
 * Sat Jul  8 2000 Bill Nottingham <notting@redhat.com>
 - fix it to not follow /etc/rc.d
 
