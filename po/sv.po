@@ -1,7 +1,7 @@
 # Swedish messages for initscripts.
 # Copyright (C) 2001, 2002, 2003 Christian Rose <menthos@menthos.com>.
 #
-# $Id: sv.po,v 1.66 2003/10/20 04:07:36 notting Exp $
+# $Id: sv.po,v 1.67 2003/10/23 16:58:29 menthos Exp $
 #
 # Varning: Meddelanden bör inte vara längre än ungefär 60 tecken då
 #          de annars inte får plats.
@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: initscripts\n"
-"PO-Revision-Date: 2003-03-16 19:33+0200\n"
+"PO-Revision-Date: 2003-03-23 19:00+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -146,10 +146,6 @@ msgstr "Genererar RSA-värdnyckel för SSH2: "
 msgid "Starting routed (RIP) services: "
 msgstr "Startar routed-tjänster (RIP): "
 
-#: /etc/rc.d/init.d/functions:339
-msgid "PASSED"
-msgstr "LYCKADES"
-
 #: /etc/rc.d/init.d/innd:33
 msgid "Starting INND system: "
 msgstr "Startar INND-systemet: "
@@ -228,10 +224,6 @@ msgstr "Startar APM-demonen: "
 #: /etc/rc.d/init.d/ip6tables:282 /etc/rc.d/init.d/iptables:282
 msgid "Usage: $0 {start|stop|restart|condrestart|status|panic|save}"
 msgstr "Användning: $0 {start|stop|restart|condrestart|status|panic|save}"
-
-#: /etc/rc.d/init.d/functions:328
-msgid "FAILED"
-msgstr "MISSLYCKADES"
 
 #: /etc/rc.d/rc.sysinit:220
 #, c-format
@@ -354,10 +346,6 @@ msgstr "Vid nästa uppstart kommer fsck att tvingas köra."
 msgid "$0: call me as 'halt' or 'reboot' please!"
 msgstr "$0: anropa mig som \"halt\" eller \"reboot\"!"
 
-#: /etc/rc.d/init.d/functions:350
-msgid "WARNING"
-msgstr "VARNING"
-
 #: /etc/rc.d/init.d/network:87
 msgid "Setting 802.1Q VLAN parameters: "
 msgstr "Ställer in parametrar för 802.1Q-VLAN: "
@@ -431,7 +419,7 @@ msgstr "Hårdvarukonfigurationen gjorde time-out."
 
 #: /etc/rc.d/init.d/radiusd:45
 msgid "Stopping RADIUS server: "
-msgstr "Stoppar RADIUS-server: "
+msgstr "Stoppar RADIUS-servern: "
 
 #: /etc/rc.d/init.d/ospf6d:56
 msgid "Usage: $prog {start|stop|restart|reload|condrestart|status}"
@@ -521,7 +509,7 @@ msgstr "Användning: $0 {start|stop}"
 
 #: /etc/rc.d/init.d/mars-nwe:32
 msgid "Stopping NetWare emulator-server: "
-msgstr "Stoppar NetWare-emulator-server: "
+msgstr "Stoppar NetWare-emulatorservern: "
 
 #: /etc/rc.d/init.d/random:43
 msgid "The random data source exists"
@@ -1143,9 +1131,39 @@ msgstr "VARNING  "
 msgid "Shutting down NFS services: "
 msgstr "Stänger ner NFS-tjänster: "
 
+# Göran meddelar:
+# Dessa meddelanden hamnar inom snyggt linjerade hakparenteser på
+# engelska. Genom att justera med blanksteg skulle man kunna få det
+# lika snyggt på svenska:
+#
+# "  LYCKADES  "
+# "MISSLYCKADES"
+# "  VARNING   "
+# "   OK   "
+#
+# Den sista skall vara fyra tecken kortare för att det skall bli bra.
+# Jag felrapporterade det för länge sedan,
+# https://bugzilla.redhat.com/bugzilla/show_bug.cgi?id=54682, men på
+# svenska så kan vi gå runt det.
+#
 #: /etc/rc.d/init.d/functions:317
 msgid "OK"
-msgstr "OK"
+msgstr "   OK   "
+
+msgid "  OK  "
+msgstr "     OK     "
+
+#: /etc/rc.d/init.d/functions:328
+msgid "FAILED"
+msgstr "MISSLYCKADES"
+
+#: /etc/rc.d/init.d/functions:339
+msgid "PASSED"
+msgstr "  LYCKADES  "
+
+#: /etc/rc.d/init.d/functions:350
+msgid "WARNING"
+msgstr "  VARNING   "
 
 #: /etc/rc.d/rc.sysinit:399 /etc/rc.d/rc.sysinit:403
 msgid "Loading sound module ($alias): "
@@ -1614,7 +1632,7 @@ msgstr "X är nu konfigurerat. Startar konfigurationsagent"
 
 #: /etc/rc.d/init.d/mars-nwe:23
 msgid "Starting NetWare emulator-server: "
-msgstr "Startar NetWare-emulatorserver: "
+msgstr "Startar NetWare-emulatorservern: "
 
 #: /etc/sysconfig/network-scripts/ifup:65
 msgid "No 802.1Q VLAN support available in kernel for device ${DEVICE}"
@@ -1634,7 +1652,7 @@ msgstr "Aktiva monteringspunkter:"
 
 #: /etc/rc.d/init.d/radiusd:37
 msgid "Starting RADIUS server: "
-msgstr "Startar RADIUS-server: "
+msgstr "Startar RADIUS-servern: "
 
 #: /etc/sysconfig/network-scripts/ifdown:13
 #: /etc/sysconfig/network-scripts/ifdown:20
@@ -2300,3 +2318,21 @@ msgstr "Återställer inbyggda kedjor till standard-ACCEPT-policyn:"
 
 #~ msgid "$proto $algo key generation"
 #~ msgstr "$algo-nyckelgenerering för $proto"
+
+#~ msgid "Firewall is stopped."
+#~ msgstr "Brandväggen är stoppad."
+
+#~ msgid "Firewall is not configured. "
+#~ msgstr "Brandväggen är inte konfigurerad. "
+
+#~ msgid "Firewall is not configured."
+#~ msgstr "Brandväggen är inte konfigurerad."
+
+msgid "Stopping $DAEMON daemon: "
+msgstr "Stoppar $DAEMON-demonen: "
+
+msgid "Stopping acpi daemon: "
+msgstr "Stoppar acpi-demonen: "
+
+msgid "Starting $DAEMON daemon: "
+msgstr "Startar $DAEMON-demonen: "
