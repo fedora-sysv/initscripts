@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.79
+Version: 6.80
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -244,6 +244,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Wed Jun 26 2002 Preston Brown <pbrown@redhat.com>
+- don't try to set wireless freq/channel when in Managed mode
+
 * Wed Jun 26 2002 Florian La Roche <Florian.LaRoche@redhat.de>
 - start some sh coding cleanups
 - change to /etc/init.d/functions
