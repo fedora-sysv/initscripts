@@ -180,7 +180,10 @@ is_available ()
     fi
     HOTPLUG=`cat /proc/sys/kernel/hotplug`
     echo "/bin/true" > /proc/sys/kernel/hotplug
-    modprobe $1 > /dev/null 2>&1 || return 1
+    modprobe $1 > /dev/null 2>&1 || {
+      echo "$HOTPLUG" > /proc/sys/kernel/hotplug
+      return 1
+    }
     echo "$HOTPLUG"  > /proc/sys/kernel/hotplug
     if [ -n "$HWADDR" ]; then
        local curdev=`ip -o link | awk -F ':' -vIGNORECASE=1 '/$HWADDR/ { print $2 }'`
