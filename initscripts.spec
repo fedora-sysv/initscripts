@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.77
+Version: 7.78
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -205,6 +205,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Sep  8 2004 Bill Nottingham <notting@redhat.com> - 7.78-1
+- set SELinux contexts on udev-created-in-initrd devices, if necessary
+
 * Wed Sep  1 2004 Bill Nottingham <notting@redhat.com> - 7.77-1
 - mount usbfs (#131347)
 - start any automatic raid devices
