@@ -183,6 +183,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Jul  6 1999 Bill Nottingham <notting@redhat.com>
+- fix killall links, some syntax errors
+
 * Fri Jun 25 1999 Bill Nottingham <notting@redhat.com>
 - don't make module-info, System.map links
 - handle utmpx/wtmpx
