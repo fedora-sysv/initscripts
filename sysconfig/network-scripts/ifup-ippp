@@ -13,7 +13,6 @@ cd /etc/sysconfig/network-scripts
 # Get global network configuration
 [ -f /etc/sysconfig/network ] && . /etc/sysconfig/network
 
-DEBUG="no"
 GATEWAY=""
 
 # set device
@@ -195,10 +194,6 @@ function addprovider()
     # set channel bundling
     if [ "$BUNDLING" = "yes" -o "$BUNDLING" = "on" ] && [ -n "$SLAVE_DEVICE" ]; then
         [ -z "$SLAVE_MSN" ] && SLAVE_MSN="$MSN"
-        if [ -z "$SLAVE_MSN" ]; then
-            log_echo "Error: $1: SLAVE_MSN not set"
-            exit 1
-        fi
         [ -z "$SLAVE_PHONE_OUT" ] && SLAVE_PHONE_OUT="$PHONE_OUT"
         [ -z "$SLAVE_PHONE_IN" ] && SLAVE_PHONE_IN="$PHONE_IN"
         [ -z "$SLAVE_HUPTIMEOUT" ] && SLAVE_HUPTIMEOUT="$HUPTIMEOUT"
@@ -314,7 +309,8 @@ function addprovider()
     if [ -z "$DNS1" -a -z "$DNS2" ]; then
         options="$options ms-get-dns"
     else
-        options="$options ms-dns $DNS1 $DNS2"
+        [ -n "$DNS1" ] && options="$options ms-dns $DNS1"
+        [ -n "$DNS2" ] && options="$options ms-dns $DNS2"
     fi
 
     # set debug 
