@@ -4,33 +4,4 @@
 # You can put your own initialization stuff in here if you don't
 # want to do the full Sys V style init stuff.
 
-if [ -f /etc/redhat-release ]; then
-    R=$(cat /etc/redhat-release)
-
-    arch=$(uname -m)
-    a="a"
-    case "_$arch" in
-	    _a*) a="an";;
-	    _i*) a="an";;
-    esac
-    
-    NUMPROC=`egrep -c "^cpu[0-9]+" /proc/stat`
-    if [ "$NUMPROC" -gt "1" ]; then
-        SMP="$NUMPROC-processor "
-        if [ "$NUMPROC" = "8" -o "$NUMPROC" = "11" ]; then
-            a="an"
-	else
-	    a="a"
-        fi
-    fi
-
-    # This will overwrite /etc/issue at every boot.  So, make any changes you
-    # want to make to /etc/issue here or you will lose them when you reboot.
-    echo "" > /etc/issue
-    echo "$R" >> /etc/issue
-    echo "Kernel $(uname -r) on $a $SMP$(uname -m)" >> /etc/issue
-
-    cp -f /etc/issue /etc/issue.net
-    echo >> /etc/issue
-fi
 touch /var/lock/subsys/local
