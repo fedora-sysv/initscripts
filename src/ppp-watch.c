@@ -175,6 +175,7 @@ doPidFile(char *device) {
     static char *pidFileName = NULL;
     char *pidFilePath;
     int fd; FILE *f;
+    int pid = 0;
 
     if (pidFileName) {
 	/* remove it */
@@ -188,8 +189,25 @@ doPidFile(char *device) {
 	pidFileName = device;
 	pidFilePath = alloca(strlen(pidFileName) + 25);
 	sprintf(pidFilePath, "/var/run/pppwatch-%s.pid", pidFileName);
-	fd = open(pidFilePath, O_WRONLY|O_TRUNC|O_CREAT,
+	fd = open(pidFilePath, O_WRONLY|O_TRUNC|O_CREAT|O_EXCL,
 		  S_IRUSR|S_IWUSR | S_IRGRP | S_IROTH);
+	if (fd == -1) {
+	    /* file already existed, or terrible things have happened... */
+	    fd = open(pidFilePath, O_RDONLY);
+	    if (fd == -1)
+		cleanExit(36); /* terrible things have happened */
+	    /* already running, send a SIGHUP (we presume that they
+	     * are calling ifup for a reason, so they probably want
+	     * to redial) and then exit cleanly and let things go
+	     * on in the background
+	     */
+	    f = fdopen(fd, "r");
+	    if (!f) cleanExit(37);
+	    if (fscanf(f, "%d", &pid) && pid)
+		kill(pid, SIGHUP);
+	    fclose(f);
+	    cleanExit(0);
+	}
 	f = fdopen(fd, "w");
 	if (f) {
 	    fprintf(f, "%d\n", getpid());
@@ -478,7 +496,7 @@ main(int argc, char **argv) {
 	    if (physicalDevice) { free(physicalDevice); physicalDevice = NULL; }
 	    physicalDevice = pppLogicalToPhysical(&pppdPid, device);
 	    if (physicalDevice) { free(physicalDevice); physicalDevice = NULL; }
-	    if (!pppdPid) cleanExit(34);
+	    if (!pppdPid) cleanExit(35);
 	    kill(pppdPid, sendsig);
 	    if (sendsig == SIGKILL) {
 		kill(-pppdPid, SIGTERM); /* give it a chance to die nicely */
