@@ -1,7 +1,11 @@
 # /etc/profile.d/lang.sh - set i18n stuff
 
-if [ -f /etc/sysconfig/i18n ]; then
-    . /etc/sysconfig/i18n
+sourced=0
+for langfile in /etc/sysconfig/i18n $HOME/.i18n ; do
+    [ -f $langfile ] && . $langfile && sourced=1
+done    
+
+if [ "$sourced" = 1 ]; then
     if [ -n "$LANG" ] ; then
        [ "$LANG" = "C" ] && LANG="en_US"
        export LANG
@@ -49,5 +53,5 @@ if [ -f /etc/sysconfig/i18n ]; then
 	esac
     fi
 
-    unset SYSFONTACM
+    unset SYSFONTACM SYSFONT
 fi

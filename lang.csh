@@ -1,8 +1,15 @@
 # /etc/profile.d/lang.csh - set i18n stuff
 
-test -f /etc/sysconfig/i18n
-if ($status == 0) then
-    eval `sed 's|=C$|=en_US|g' /etc/sysconfig/i18n | sed 's|\([^=]*\)=\([^=]*\)|setenv \1 \2|g' | sed 's|$|;|' `
+set sourced=0
+foreach file (/etc/sysconfig/i18n $HOME/.i18n)
+	test -f $file
+	if ($status == 0) then
+	    eval `sed 's|=C$|=en_US|g' $file | sed 's|\([^=]*\)=\([^=]*\)|setenv \1 \2|g' | sed 's|$|;|' `
+	endif
+	set sourced=1
+end
+
+if ($sourced == 1) then
     if ($?LC_ALL && $?LANG) then
         if ($LC_ALL == $LANG) then
             unsetenv LC_ALL
@@ -28,4 +35,5 @@ if ($status == 0) then
 	endsw
     endif
     unsetenv SYSFONTACM
+    unsetenv SYSFONT
 endif
