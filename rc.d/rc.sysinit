@@ -724,6 +724,7 @@ rm -rf /tmp/.X*-unix /tmp/.ICE-unix /tmp/.font-unix /tmp/hsperfdata_* \
 # Make ICE directory
 mkdir -m 1777 -p /tmp/.ICE-unix >/dev/null 2>&1
 chown root:root /tmp/.ICE-unix
+[ -n "$SELINUX" ] && restorecon /tmp/.ICE-unix >/dev/null 2>&1
 
 # Now turn on swap in case we swap to files.
 swapon -a
