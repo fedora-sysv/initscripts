@@ -127,7 +127,7 @@ status() {
 	        echo "$1 (pid $pid) is running..."
 	        return 0
         else
-                pid=`ps auxww | awk '{ if ($12 ~ /^[^[]'"$1"'/) print $2}'`
+                pid=`ps auxww Op | awk '{ if ($12 ~ /^[^[]'"$1"'/) print $2}'`
                 if [ "$pid" != "" ] ; then
                         echo "$1 (pid $pid) is running..."
                         return 0
