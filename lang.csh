@@ -10,7 +10,7 @@ end
 
 if ($?GDM_LANG) then
     set sourced=1
-    set LANG=$GDM_LANG
+    setenv LANG=$GDM_LANG
 endif
 
 if ($sourced == 1) then
