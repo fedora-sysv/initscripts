@@ -617,6 +617,11 @@ main(int argc, char **argv) {
 		break;
 	    }
 
+            /* We default to retrying the connect phase for backward compatibility. */
+	    if ((WEXITSTATUS(status) == 8) && !svTrueValue(ifcfg, "RETRYCONNECT", 1)) {
+                cleanExit(WEXITSTATUS(status));
+            }
+
 	    if ((WEXITSTATUS(status) == 8) ||
 	        !connectedOnce || svTrueValue(ifcfg, "PERSIST", 0)) {
 		temp = svGetValue(ifcfg, "RETRYTIMEOUT");

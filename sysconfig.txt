@@ -429,6 +429,12 @@ Files in /etc/sysconfig/network-scripts/
     RETRYTIMEOUT=<number of seconds, default currently 60>
       (time to wait before re-attempting to establish a connection
       after a previous attempt fails.)
+    RETRYCONNECT=yes|no (defaults to yes)
+      If this is yes, then we will re-run pppd if it exits with a 
+      "connect script failed" status.  Otherwise, only one attempt
+      is made to bring up the connection.  Note that some connect
+      scripts (for example, wvdial) might do their own retries (such
+      as BUSY or NO DIALTONE conditions).
       
 /etc/sysconfig/network-scripts/chat-<interface-name>:
 
