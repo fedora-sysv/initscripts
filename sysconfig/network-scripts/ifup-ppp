@@ -1,19 +1,23 @@
 #!/bin/sh
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 
+cd /etc/sysconfig/network-scripts
+. network-functions
+
 # ifup-post for PPP is handled through /etc/ppp/ip-up
 
 if [ "$1" != daemon ] ; then
   # just in case a full path to the configuration file is passed in
-  ifcfg=$(basename $1)
-  shift
-  # let ppp-watch do the right thing
-  exec /sbin/ppp-watch "$ifcfg" "$@"
+  CONFIG=$(basename $1)
+  [ -f "$CONFIG" ] || CONFIG=ifcfg-$1
+  source_config
+  if [ "$DEMAND" != yes ] ; then
+    shift
+    # let ppp-watch do the right thing
+    exec /sbin/ppp-watch "$ifcfg" "$@"
+  fi
 fi
 shift
-
-cd /etc/sysconfig/network-scripts
-. network-functions
 
 CONFIG=$1
 [ -f "$CONFIG" ] || CONFIG=ifcfg-$1
@@ -79,6 +83,13 @@ fi
 if [ "${DEBUG}" = yes ] ; then
   opts="$opts debug"
   chatdbg="-v"
+fi
+if [ ${DEMAND} != yes ] ; then
+  if [ -n "${IDLETIMEOUT}" ] ; then
+    opts="$opts demand idle ${IDLETIMEOUT}"
+  else
+    opts="$opts demand idle 600"
+  fi
 fi
 
 if [ -z "$WVDIALSECT" ] ; then
