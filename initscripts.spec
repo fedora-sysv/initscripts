@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.04
+Version: 8.05
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -207,6 +207,19 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Mar  7 2005 Bill Nottingham <notting@redhat.com> 8.05-1
+- ipv6 cleanups (<pb@bieringer.de>)
+- rc.sysinit: fix rngd check (#130350)
+  ... then turn it off entirely
+- rc.sysinit: get rid of duplicate date printout (#149795)
+- ifdown: handle being called on down devices better
+- handle saved resolv.conf on all device types
+- fix network-functions cleanup
+- netfs: fix _netdev unmounting (#147610, <alewis@redhat.com>)
+- dhcp release cleanups (<jvdias@redhat.com>)
+- ifup-bnep: bluetooth update <dwmw2@infradead.org>
+- more ipsec stuff (#147001, <ckjohnson@gwi.net>)
+
 * Wed Jan 19 2005 Bill Nottingham <notting@redhat.com> 8.04-1
 - split out ifup/ifdown general case to ifup/ifdown-eth;
   add ifup/ifdown-bnep (<dwmw2@redhat.com>)
