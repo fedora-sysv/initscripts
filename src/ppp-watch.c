@@ -609,7 +609,7 @@ main(int argc, char **argv) {
 	    dying = TRUE;
 
 	    /* Get the pid of our child pppd. */
-	    pppLogicalToPhysical(&pppdPid, real_device, NULL);
+	    pppLogicalToPhysical(&pppdPid, device, NULL);
 
 	    /* We don't know what our child pid is.  This is very confusing. */
 	    if (!pppdPid) {
@@ -639,7 +639,7 @@ main(int argc, char **argv) {
 	    ifcfg = shvarfilesGet(device);
 
 	    /* Get the PID of our child pppd. */
-	    pppLogicalToPhysical(&pppdPid, real_device, NULL);
+	    pppLogicalToPhysical(&pppdPid, device, NULL);
 	    kill(pppdPid, SIGTERM);
 
 	    /* We'll redial when the SIGCHLD arrives, even if PERSIST is
@@ -657,7 +657,7 @@ main(int argc, char **argv) {
 	if (theSigio) {
 	    theSigio = 0;
 
-	    pppLogicalToPhysical(NULL, real_device, &physicalDevice);
+	    pppLogicalToPhysical(NULL, device, &physicalDevice);
 	    if (physicalDevice) {
 		if (interfaceIsUp(physicalDevice)) {
 		    /* The interface is up, so report a success to a parent if
