@@ -420,7 +420,7 @@ if [ -f /etc/raidtab -a -f /proc/mdstat ]; then
 
 	rc=0
 	
-	for i in `grep "^[^*]*raiddev" /etc/raidtab | awk '{print $2}'`
+	for i in `awk '{if ($1=="raiddev") print $2}' /etc/raidtab`
 	do
 		RAIDDEV=`basename $i`
                 RAIDSTAT=`grep "^$RAIDDEV : active" /proc/mdstat`
@@ -432,6 +432,11 @@ if [ -f /etc/raidtab -a -f /proc/mdstat ]; then
 			# fall back to raidadd, raidrun.  If that
 			# also fails, then we drop to a shell
 			RESULT=1
+			INFSTAB=`LC_ALL=C grep -c "^$i" /etc/fstab`
+			if [ $INFSTAB -eq 0 ] ; then
+			    RESULT=0
+			    RAIDDEV="$RAIDDEV(skipped)"
+			fi
 			NOAUTO=`grep "^$i" /etc/fstab | grep -c "noauto"`
 			if [ $NOAUTO -gt 0 ]; then
 			    RESULT=0
