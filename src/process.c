@@ -156,6 +156,8 @@ int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet,
 			     logString(cmdname,tmpstr);
 			 }
 		     } else {
+			int z; 
+			
 			cmdargs=NULL;
 			tmpargs=NULL;
 			cmdargc=0;
