@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.31.16.EL
+Version: 7.31.17.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -249,6 +249,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Aug 30 2004 Jason Vas Dias <jvdias@redhat.com> 7.31.17.EL-1
+- Add change_resolv_conf function to network_functions ; get 
+- ifup-post and ifdown-post to invoke it (#125712).
+
 * Fri Jul 23 2004 Bill Nottingham <notting@redhat.com> 7.31.16.EL-1
 - fix bonding + no IP (#127285)
 

@@ -314,3 +314,42 @@ is_wireless_device ()
     LC_ALL=C iwconfig $1 2>&1 | grep -q "no wireless extensions" || return 0
     return 1
 }
+
+# Invoke this when /etc/resolv.conf has changed:
+change_resolv_conf ()
+{
+    s=`/bin/grep '^[\ \	]*option' /etc/resolv.conf 2>/dev/null`;
+    if [ "x$s" != "x" ]; then
+       s="$s"$'\n';
+    fi;
+    if [ $# -gt 1 ]; then
+       let n_args=$#;
+       while [ $n_args -gt 0 ]; 
+	 do 
+	    if [[ "$s" = *$1* ]]; then
+	       shift;
+               continue;
+            fi;
+	    s="$s$1";
+            shift; 
+	    if [ $# -gt 0 ]; then
+		s="$s"$'\n';
+	    fi;
+	    let n_args=n_args-1; 
+         done;       
+    elif [ $# -eq 1 ]; then
+       if [ "x$s" != "x" ]; then
+	  s="$s"`/bin/grep -vF "$s" $1`;
+       else
+	  s=`cat $1`;
+       fi;
+    fi;
+    (echo "$s" > /etc/resolv.conf;) >/dev/null 2>&1;
+    r=$?
+    if [ $r -eq 0 ]; then
+	/sbin/initlog -f local7 -p notice -n NET -s "$0 : updated /etc/resolv.conf";
+	[ -e /var/lock/subsys/nscd ] && /usr/sbin/nscd -i hosts; # invalidate cache
+	return $?;
+    fi;
+    return $r;
+}
