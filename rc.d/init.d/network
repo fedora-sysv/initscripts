@@ -96,6 +96,7 @@ case "$1" in
 	    awk '{ print $3 }' 2>/dev/null`
 	sysctl -w kernel.hotplug="/bin/true" > /dev/null 2>&1
 
+	vlaninterfaces=""
 	cipeinterfaces=""
 	xdslinterfaces=""
 
@@ -115,6 +116,12 @@ case "$1" in
 		if [ "$TYPE" = "xDSL" ]; then
 		        xdslinterfaces="$xdslinterfaces $i"
 			unset DEVICE TYPE SLAVE
+			continue
+		fi
+
+		if [ "${DEVICE%%.*}" != "$DEVICE" ] ; then
+			vlaninterfaces="$vlaninterfaces $i"
+			unset DEVICE TYPE SLAVE BRIDGE
 			continue
 		fi
 		
@@ -138,7 +145,7 @@ case "$1" in
 	done
 	
 	# Bring up xDSL and CIPE interfaces
-	for i in $xdslinterfaces $cipeinterfaces ; do 
+	for i in $vlaninterfaces $xdslinterfaces $cipeinterfaces ; do 
             if ! LANG=C egrep -L "^ONBOOT=['\"]?[Nn][Oo]['\"]?" ifcfg-$i >/dev/null 2>&1 ; then
 		# If we're in confirmation mode, get user confirmation.
 		if [ -f /var/run/confirm ]; then
@@ -189,6 +196,7 @@ case "$1" in
  		fi
  	fi
  
+	vlaninterfaces=""
 	cipeinterfaces=""
 	xdslinterfaces=""
 
@@ -208,10 +216,15 @@ case "$1" in
 			unset DEVICE TYPE
 			continue
 		fi
+		if [ "${DEVICE%%.*}" != "$DEVICE" ]; then
+			vlaninterfaces="$vlaninterfaces $i"
+			unset DEVICE TYPE
+			continue
+		fi	
 		unset DEVICE TYPE
 	done
 	
-	for i in $cipeinterfaces $xdslinterfaces ; do
+	for i in $cipeinterfaces $xdslinterfaces $vlaninterfaces ; do
 		eval $(fgrep "DEVICE=" ifcfg-$i)
 		if [ -z "$DEVICE" ] ; then DEVICE="$i"; fi
 
