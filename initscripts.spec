@@ -16,7 +16,7 @@ levels, and shut the system down cleanly. It also contains the scripts
 that activate and deactivate most network interfaces.
 
 %prep
-%setup
+%setup -q
 
 %build
 make CFLAGS="$RPM_OPT_FLAGS"
@@ -26,13 +26,13 @@ rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT/etc
 make ROOT=$RPM_BUILD_ROOT install 
 mkdir -p $RPM_BUILD_ROOT/var/run/netreport
-chown root.root $RPM_BUILD_ROOT/var/run/netreport
+#chown root.root $RPM_BUILD_ROOT/var/run/netreport
 chmod u=rwx,g=rwx,o=rx $RPM_BUILD_ROOT/var/run/netreport
 
 for i in 0 1 2 3 4 5 6 ; do
   file=$RPM_BUILD_ROOT/etc/rc.d/rc$i.d
   mkdir $file
-  chown root.root $file
+# chown root.root $file
   chmod u=rwx,g=rx,o=rx $file
 done
 
@@ -94,6 +94,7 @@ fi
 rm -rf $RPM_BUILD_ROOT
 
 %files
+%defattr(-,root,root)
 %dir /etc/sysconfig/network-scripts
 %config %verify(not md5 mtime size) /etc/adjtime
 /etc/sysconfig/network-scripts/ifdown
