@@ -1,6 +1,6 @@
 Summary: inittab and /etc/rc.d scripts
 Name: initscripts
-%define version 3.71
+%define version 3.72
 Version: %{version}
 Copyright: GPL
 Group: Base
@@ -116,6 +116,7 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/sysconfig/network-scripts/ifup-aliases
 %config /etc/sysconfig/network-scripts/ifup-ipx
 %config /etc/inittab
+%config /etc/inputrc
 %dir    /etc/rc.d
 %config /etc/rc.d/rc.sysinit
 %dir    /etc/rc.d/rc0.d
@@ -154,6 +155,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc sysconfig.txt
 
 %changelog
+* Fri Sep 25 1998 Cristian Gafton <gafton@redhat.com>
+- set INPUTRC and LESSCHARSET on linux-lat
+
 * Wed Sep 16 1998 Jeff Johnson <jbj@redhat.com>
 - /etc/rc.d/rc: don't run /etc/rc.d/rcN.d/[KS]??foo.{rpmsave,rpmorig} scripts.
 - /etc/rc.d/rc.sysinit: raid startup (Nigel.Metheringham@theplanet.net).

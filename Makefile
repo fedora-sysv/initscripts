@@ -10,6 +10,7 @@ install:
 	mkdir -p $(ROOT)/etc/profile.d $(ROOT)/sbin
 	install -m644 -o root -g root inittab $(ROOT)/etc
 	install -m644 -o root -g root adjtime $(ROOT)/etc
+	install -m644 -o root -g root inputrc $(ROOT)/etc
 	install -m755 -o root -g root setsysfont $(ROOT)/sbin
 	install -m755 -o root -g root lang.sh $(ROOT)/etc/profile.d
 	cp -af rc.d sysconfig ppp $(ROOT)/etc
