@@ -10,6 +10,8 @@
 # alias iucv0 netiucv
 #
 
+. /etc/sysconfig/network
+
 cd /etc/sysconfig/network-scripts
 . network-functions
  
@@ -24,8 +26,6 @@ fi
 [ -n "${MTU}" ] && opts="${opts} mtu ${MTU}"
 
 echo "$PEERID" > /sys/bus/iucv/drivers/netiucv/connection 2>/dev/null
-
-. /etc/sysconfig/network
 
 ifconfig ${DEVICE} ${IPADDR} ${opts} pointopoint ${GATEWAY} netmask ${NETMASK}
 if [ "${NETWORK}" != "" ] ; then
