@@ -36,9 +36,6 @@ export CONFIRM
 # Get first argument. Set new runlevel to this argument.
 [ -n "$argv1" ] && runlevel="$argv1"
 
-# Tell linuxconf what runlevel we are in
-[ -d /var/run ] && echo "/etc/rc$runlevel.d" > /var/run/runlevel.dir
-
 # Is there an rc directory for this new runlevel?
 if [ -d /etc/rc$runlevel.d ]; then
 	# First, run the KILL scripts.

@@ -291,38 +291,11 @@ function new_interface ()
 
 if [ "$BASH_VERSINFO" ]; then shopt -s nullglob; else allow_null_glob_expansion=foo; fi
 
-# Is there any linuxconf-style alias files.
-linuxconfstyle=0
 for FILE in ifcfg-${parent_device}:* ; do
-
        ini_env;
        . $FILE;
-       if [ -z "$DEVICE" ]; then
-          # it's a linuxconf file.
-	  # I don't think this script will handle both style correctly
-	  # though. Well, those who knows about the other style don't know
-	  # the other style and vice versa
-	  linuxconfstyle=1
-       else
-         new_interface;
-       fi
+       new_interface;
 done
-if [ "$linuxconfstyle" = "1" ] ; then
-	linuxconf --hint ipalias $device \
-		| while read command ali ip mask bcast
-	do
-		if [ "$command" = "del" ] ; then
-			/sbin/ifconfig $ali down
-			do_netreport=yes
-		elif [ "$command" = "add" ] ; then
-			/sbin/ifconfig $ali $ip netmask $mask broadcast $bcast
-			do_netreport=yes
-		else
-			echo Incomatible hinting: $command $rest >&2
-		fi
-	  done
-fi
-
 
 for FILE in ifcfg-${parent_device}-range* ; do
 
@@ -357,7 +330,6 @@ done
        #
        # Remove any devices that should not be around
        #
-if [ "$linuxconfstyle" = "0" ] ; then
 	for DEVNUM in $rdev_LIST ; do
 	       eval " rdev_mark=\$rdev_${DEVNUM}_mark ";
 	       if [ -z "$rdev_mark" ]; then
@@ -366,7 +338,6 @@ if [ "$linuxconfstyle" = "0" ] ; then
         	       do_netreport=yes
 	       fi
 	done
-fi
        #
        # Notify of new device creation
        #
