@@ -1,10 +1,11 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.97
+Version: 5.98
 License: GPL
 Group: System Environment/Base
 Release: 1
 Source: initscripts-%{version}.tar.bz2
+Patch0: initscripts-s390.patch
 BuildRoot: /%{_tmppath}/%{name}-%{version}-%{release}-root
 Requires: mingetty, /bin/awk, /bin/sed, mktemp, e2fsprogs >= 1.15
 Requires: procps >= 2.0.7-7, sysklogd >= 1.3.31
@@ -28,6 +29,9 @@ deactivate most network interfaces.
 
 %prep
 %setup -q
+%ifarch s390 s390x
+%patch0 -p1 -b .s390init
+%endif
 
 %build
 make
@@ -222,6 +226,11 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Jul 05 2001 Karsten Hopp <karsten@redhat.de>
+- disable hwclock on S390 (no such executable)
+- Fix up kernel versioning on binary-only modules (S390)
+- don't use newt scripts on S390 console
+
 * Sat Jul 01 2001 Trond Eivind Glomsrød <teg@redhat.com>
 - reenable pump, but make sure dhcpcd is the default. This
   way, upgrades of systems without dhcpcd has a better chance at
