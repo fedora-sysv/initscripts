@@ -307,6 +307,9 @@ state=`awk '/(^\/dev\/root| \/ )/ { print $4 }' /proc/mounts`
   action $"Remounting root filesystem in read-write mode: " mount -n -o remount,rw /
 
 # LVM initialization
+if [ -f /etc/lvmtab -a ! -e /proc/lvm ] ; then
+        modprobe lvm-mod >/dev/null 2>&1
+fi
 if [ -e /proc/lvm -a -x /sbin/vgchange -a -f /etc/lvmtab ]; then
         action $"Setting up Logical Volume Management:" /sbin/vgscan && /sbin/vgchange -a y
 fi
