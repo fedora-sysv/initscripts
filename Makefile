@@ -31,8 +31,8 @@ install:
 	chmod og=rwx,o=rx /var/run/netreport
 
 check:
-	for afile in `find . -type f ` ; do \
-		grep -q "^#\!/bin/sh" $$afile && { bash -n $$afile || exit 1 } ; \
+	for afile in `find . -type f -perm +111 ` ; do \
+		 bash -n $$afile || { echo $$afile ; exit 1 } ; \
 	done
 
 changelog:
@@ -60,4 +60,4 @@ create-archive: tag-archive
 	@echo " "
 	@echo "The final archive is ./initscripts-$(VERSION).tar.gz."
 
-archive: check tag-archive create-archive
+archive: clean check tag-archive create-archive
