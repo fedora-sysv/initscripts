@@ -183,13 +183,13 @@ rm -rf $RPM_BUILD_ROOT
 %attr(4755,root,root) /usr/sbin/usernetctl
 /sbin/consoletype
 /sbin/getkey
-/sbin/netreport
+%attr(2755,root,root) /sbin/netreport
 /sbin/initlog
 /sbin/minilogd
 /sbin/service
 /sbin/ppp-watch
 /usr/man/man*/*
-%dir /var/run/netreport
+%dir %attr(775,root,root) /var/run/netreport
 %config /etc/ppp/ip-up
 %config /etc/ppp/ip-down
 %config /etc/initlog.conf
