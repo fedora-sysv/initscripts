@@ -33,6 +33,9 @@ fi
 # Even if IPX is configured, without the utilities we can't do much
 [ ! -x /sbin/ipx_internal_net -o ! -x /sbin/ipx_configure ] && IPX=
 
+# Even if VLAN is configured, without the utility we can't do much
+[ ! -x /sbin/vconfig ] && VLAN=
+
 # If IPv6 is explicitly configured, make sure it's available.
 if [ "$NETWORKING_IPV6" = "yes" ]; then
 	alias=`modprobe -c | awk '/^alias net-pf-10 / { print $3 }'`
@@ -50,7 +53,7 @@ cd /etc/sysconfig/network-scripts
 # ignore aliases, alternative configurations, and editor backup files
 interfaces=`ls ifcfg* | LANG=C egrep -v '(ifcfg-lo|:|rpmsave|rpmorig|rpmnew)' | \
 	    LANG=C egrep -v '(~|\.bak)$' | \
-            LANG=C egrep 'ifcfg-[A-Za-z0-9_-]+$' | \
+            LANG=C egrep 'ifcfg-[A-Za-z0-9\._-]+$' | \
             sed 's/^ifcfg-//g'`
 
 # See how we were called.
@@ -74,6 +77,16 @@ case "$1" in
 				   --auto_interface=$IPXAUTOFRAME
 	    if [ "$IPXINTERNALNETNUM" != "0" ]; then
 	       /sbin/ipx_internal_net add $IPXINTERNALNETNUM $IPXINTERNALNODENUM
+	    fi
+	    ;;
+	esac
+
+	case "$VLAN" in
+	  yes|true)
+	    if [ -d /proc/net/vlan ] || modprobe 8021q >/dev/null 2>&1 ; then
+		action $"Setting 802.1Q VLAN parameters: " /sbin/vconfig set_name_type DEV_PLUS_VID_NO_PAD
+	    else
+		echo $"No 802.1Q VLAN support available in kernel."
 	    fi
 	    ;;
 	esac

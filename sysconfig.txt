@@ -168,6 +168,7 @@ Files in /etc/sysconfig
   GATEWAY=<gateway IP>
   GATEWAYDEV=<gateway device> (e.g. eth0)
   NISDOMAIN=<nis domain name>
+  VLAN=yes|no
   IPX=yes|no
   IPXAUTOPRIMARY=on|off (note, that MUST be on|off, not yes|no)
   IPXAUTOFRAME=on|off (again, not yes|no)
@@ -621,6 +622,22 @@ Files in /etc/sysconfig/network-scripts/
      ALLMULTI=yes|no (enable or disable all-multicast mode)
      
      To properly set these, use the packet socket interface.
+
+  Ethernet 802.1q VLAN items:
+     DEVICE=eth0.42
+       Initscripts use DEV_PLUS_VID_NO_PAD naming mode for VLAN
+       devices. 
+               Example: eth0.42 for vlan 42 on device eth0.
+       Valid VLAN ID range is 0-4095. Most ethernet switches reserve
+       VLAN ID 1 to be used as management VLAN; starting from VLAN
+       ID 2 is recommended.
+     REORDER_HDR=yes|no
+       When enabled the VLAN device will move the ethernet header
+       around to make it look exactly like a real ethernet device.
+       This may help programs such as ISC dhcpd which read the raw
+       ethernet packet and make assumptions about the location of
+       bytes. If you don't need it turn it off because there
+       is a small performance penalty. Default is on.
 
   PPP/SLIP items:
     PERSIST=yes|no
