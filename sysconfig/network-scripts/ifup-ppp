@@ -80,7 +80,7 @@ if [ ! -f ${PEERCONF} ]; then
     touch ${PEERCONF}
   fi
   if [ "${WVDIALSECT}" ]; then
-    echo "connect \"/usr/bin/wvdial --remotename ${DEVNAME} --chat ${WVDIALSECT}\"" >> ${PEERCONF}
+    echo "connect \"/usr/bin/wvdial --remotename ${DEVNAME} --chat '${WVDIALSECT}'\"" >> ${PEERCONF}
   else
     echo "connect \"/usr/sbin/chat $chatdbg -f ${CHATSCRIPT}\"" >> ${PEERCONF}
   fi
