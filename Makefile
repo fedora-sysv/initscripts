@@ -43,7 +43,7 @@ install:
 check:
 	for afile in `find . -type f -perm +111|grep -v \.csh ` ; do \
 		if ! file $$afile | grep -s ELF  >/dev/null; then \
-		    bash -n $$afile || { echo $$afile ; exit 1 } ; \
+		    bash -n $$afile || { echo $$afile ; exit 1 ; } ; \
 		fi  ;\
 	done
 
