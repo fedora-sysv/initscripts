@@ -1,3 +1,45 @@
+2002-01-24  Bill Nottingham  <notting@redhat.com>
+
+	* ChangeLog, initscripts.spec: 6.50-1
+
+2002-01-18  Michael K. Johnson  <johnsonm@redhat.com>
+
+	* initscripts.spec, rc.d/rc.sysinit:
+	depmod does not like this reuse of /lib/modules
+
+2002-01-18  Bill Nottingham  <notting@redhat.com>
+
+	* ChangeLog: 6.41-1
+
+	* rc.d/rc.sysinit, initscripts.spec:
+	add support for libredhat-kernel.so.* symlink handling (johnsonm@redhat.com)
+
+2002-01-02  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifup:
+	revert broken code.
+
+	To set HW address, use MACADDR, not HWADDR. HWADDR is used to tie a
+	configuration to a particular card, even if its device name changes.
+
+2001-12-26  leon  <leon@redhat.com>
+
+	* po/ru.po: fix typo
+
+2001-11-19  Harald Hoyer  <harald@redhat.com>
+
+	* rc.d/init.d/network:
+	determine devices the correct way
+
+	* sysconfig/network-scripts/ifup-post, sysconfig/network-scripts/network-functions:
+	added \ on the end of the multiline if
+
+	* sysconfig/network-scripts/ifup-aliases, sysconfig/network-scripts/ifup-post:
+	better nickname handling
+
+	* sysconfig/network-scripts/ifup:
+	set the ethernet number with nameif
+
 2001-11-07	Than Ngo	<than@redhat.com>
 	* sysconfig/network-scripts/ifup-iucv
 	* sysconfig/network-scripts/ifup-escon
