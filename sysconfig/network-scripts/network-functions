@@ -43,4 +43,8 @@ set_hostname()
 {
     echo "$1" > /etc/HOSTNAME
     hostname $1
+    if ! grep search /etc/resolv.conf; then
+	domain=`echo $1 | sed 's/^[^\.]*\.//'`
+	echo "search $domain" >> /etc/resolv.conf
+    fi
 }
