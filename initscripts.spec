@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.96
+Version: 6.97
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -256,6 +256,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Mon Dec  2 2002 Bill Nottingham <notting@redhat.com> 6.97-1
+- IPv6 update (<pekkas@netcore.fi>, <pb@bieringer.de>)
+- devlabel support (<Gary_Lerhaupt@Dell.com>)
+- do lazy NFS umounts
+
 * Tue Nov 19 2002 Florian La Roche <Florian.LaRoche@redhat.de>
 - correctly remove non-packaged files for mainframe
 
