@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.90
+Version: 7.91
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -206,8 +206,21 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Sun Oct 17 2004 Bill Nottingham <notting@redhat.com> 7.91-1
+- rc.d/rc.sysinit: remove devlabel call
+- mdadm support, now that raidtools is gone (#126636, #88785)
+- call ipv6to4 scripts in /etc/ppp/(ip-up|ip-down) (#124390, <dwmw2@redhat.com>)
+- cleanup a couple of nits that could affect bug #134754
+- make sure we return to rhgb after fsck (#133966, #112839, #134449)
+- automatically reboot when fsck calls for it, instead of requiring
+  manual intervention (#117641 and duplicates)
+- ifup-wireless: fix key for open vs. restricted (#135235, <dax@gurulabs.com>)
+
 * Fri Oct 08 2004 Karsten Hopp <karsten@redhat.de> 7.90-1 
 - fix portname for LCS devices
+
+* Fri Oct 08 2004 Bill Nottingham <notting@redhat.com>
+- remove sysconfig/rawdevices, as initscript is removed
 
 * Thu Oct 07 2004 Florian La Roche <Florian.LaRoche@redhat.de>
 - change /etc/sysctl.conf to not allow source routed packets per default
