@@ -34,6 +34,12 @@ fi
 
 [ -z "$KEYING" ] && KEYING=manual
 
+if [ -n "$SRCNET" -o -n "$DSTNET" ]; then
+  MODE=tunnel
+else
+  MODE=host
+fi
+
 if [ -z "$SRC" ]; then
     SRC=`ip -o route get to $DST | sed "s|.*src \([^ ]*\).*|\1|"`
 fi
