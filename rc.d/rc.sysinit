@@ -34,11 +34,17 @@ fi
 . /etc/init.d/functions
 
 # Print a banner. ;)
-echo -en $"\t\t\tWelcome to "
-[ "$BOOTUP" != "serial" ] && echo -en $"\\033[1;31m"
-echo -en $"Red Hat"
-[ "$BOOTUP" != "serial" ] && echo -en $"\\033[0;39m"
-echo $" Linux"
+echo -en $"\t\tWelcome to "
+if grep -q "Red Hat" /etc/redhat-release ; then 
+ [ "$BOOTUP" = "color" ] && echo -en $"\\033[1;31m"
+ echo -en "Red Hat"
+ [ "$BOOTUP" = "color" ] && echo -en $"\\033[0;39m"
+ PRODUCT=`sed "s/Red Hat \(.*\) release.*/\1/" /etc/redhat-release`
+ echo " $PRODUCT"
+else
+ PRODUCT=`sed "s/ release.*//g" /etc/redhat-release`
+ echo "$PRODUCT"
+fi
 if [ "$PROMPT" != "no" ]; then
  echo -en $"\t\tPress 'I' to enter interactive startup."
  echo
@@ -239,7 +245,7 @@ elif [ -f /.autofsck ]; then
 	fsckoptions="$AUTOFSCK_OPT $fsckoptions"
 fi
 
-if [ "$BOOTUP" != "serial" ]; then
+if [ "$BOOTUP" = "color" ]; then
 	fsckoptions="-C $fsckoptions"
 else
 	fsckoptions="-V $fsckoptions"
