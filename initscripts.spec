@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.14
+Version: 6.15
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -238,6 +238,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Fri Aug 10 2001 Bill Nottingham <notting@redhat.com>
+- use GDM_LANG if it's set in lang.sh/lang.csh (#51432, <otaylor@redhat.com>)
+
 * Fri Aug 10 2001 Than Ngo <than@redhat.com>
 - don't set MSN if it' empty (it's now optional)
 - don't give login name as a cmdline-option (Bug #23066)
