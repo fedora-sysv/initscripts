@@ -249,6 +249,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue May 18 2004 Karsten Hopp <karsten@redhat.de> 7.55-1 
+- add support for ccwgroup devices on mainframe
+
 * Thu May 13 2004 Than Ngo <than@redhat.com> 7.54-1
 - add patch to enable PIE build of usernetctl
 
