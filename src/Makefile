@@ -40,13 +40,13 @@ install-test:
 	install -m 755 testdinit $(ROOT)/etc/rc.d/init.d/testd
 
 ipcalc: ipcalc.o
-	$(CC) $(LDFLAGS) -o $@ $< -lpopt
+	$(CC) $(LDFLAGS) -o $@ $< /usr/lib/libpopt.a
 
 initlog: $(INITLOG_OBJS)
-	$(CC) $(LDFLAGS) -o $@ $(INITLOG_OBJS) -lpopt
+	$(CC) $(LDFLAGS) -o $@ $(INITLOG_OBJS) /usr/lib/libpopt.a
 
 usleep: $(USLEEP_OBJS)
-	$(CC) $(LDFLAGS) -o $@ $(USLEEP_OBJS) -lpopt
+	$(CC) $(LDFLAGS) -o $@ $(USLEEP_OBJS) /usr/lib/libpopt.a
 
 ppp-watch: $(PPPWATCH_OBJS)
 	$(CC) $(LDFLAGS) -o $@ $(PPPWATCH_OBJS) /usr/lib/libglib.a
