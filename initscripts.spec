@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.29
+Version: 5.30
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -192,7 +192,7 @@ rm -rf $RPM_BUILD_ROOT
 /etc/rc.d
 %config /etc/rc.sysinit
 %dir    /etc/rc[0-9].d
-%config(missingok) /etc/rc*.d/*
+%config(missingok) /etc/rc[0-9].d/*
 %dir    /etc/init.d
 %config(missingok) /etc/init.d/*
 %config /etc/rc
@@ -223,6 +223,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Sat Jul  8 2000 Bill Nottingham <notting@redhat.com>
+- fix it to not follow /etc/rc.d
+
 * Fri Jul  7 2000 Bill Nottingham <notting@redhat.com>
 - fix %pre, again
 
