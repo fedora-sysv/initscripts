@@ -7,7 +7,24 @@ initlog \- log messages and events to the system logger
 [\-\-name=ARG] [\-\-priority=ARG] [\-\-run=ARG] [\-\-string=ARG]
 .SH DESCRIPTION
 \fBinitlog\fR logs messages and events to the system logger.
-It is mainly designed for use in init scripts.
+It is mainly designed for use in init scripts. initlog
+reads a configuration file
+.I /etc/initlog.conf
+by default, to determine its settings. Any line preceded with a 
+.I #
+is a comment, and the following configuration directives
+are recognized:
+.TP
+.I facility <logging facility>
+Sets the default logging facility
+.TP
+.I priority <logging priority>
+Sets the default logging priority
+.TP
+.I ignore <regexp>
+Messages that match the regular expression will not be logged.
+.TP
+initlog behavior can also be configured by command-line options.
 
 .SS OPTIONS
 .TP
@@ -42,7 +59,12 @@ Execute the specified program, with an open file
 descriptor so that the program can pass back
 commands to initlog.
 .TP
-.I "\-s, \-\-string=[string]
+.I "\-s, \-\-string=[string]"
 Log the specified string to the logger.
+.TP
+.I "\-\-conf=[file]"
+Specifies an alternate configuration file.
+.SH FILES
+.I /etc/initlog.conf
 .SH "SEE ALSO"
 syslog(3), logger(1)
