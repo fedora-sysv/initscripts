@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.42
+%define version 4.43
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
@@ -200,6 +200,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Sep 20 1999 Bill Nottingham <notting@redhat.com>
+- kill processes for umount in halt, too.
+- fixes to remove /usr dependencies
+
 * Fri Sep 17 1999 Bill Nottingham <notting@redhat.com>
 - load/save mixer settings in rc.sysinit, halt
 

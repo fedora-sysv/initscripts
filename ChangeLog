@@ -1,3 +1,30 @@
+1999-09-20  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/halt:
+	do process splatting for final umount too.
+
+	* rc.d/init.d/netfs:
+	don't use expr, but require bash to do math
+
+	* rc.d/init.d/halt:
+	Don't use cut, it's in /usr/bin
+
+	* rc.d/rc.sysinit:
+	use kill & pidof, not killall (no /usr)
+
+	* initscripts.spec, rc.d/init.d/netfs:
+	take out call to lsof - not needed
+
+	* lang.csh, lang.sh, sysconfig.txt:
+	some i18n fixes from Peter Ivanyi (ivanyi@internet.sk)
+	- sysconfig.txt was wrong
+	- add latin2-ucw to ACMs
+
+1999-09-18  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit:
+	define uniprocessor in boot/kernel.h too
+
 1999-09-17  Bill Nottingham  <notting@redhat.com>
 
 	* rc.d/init.d/halt, rc.d/rc.sysinit:
