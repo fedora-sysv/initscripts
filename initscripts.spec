@@ -174,6 +174,7 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/sysconfig/network-scripts/ifup-aliases
 %config /etc/sysconfig/network-scripts/ifup-ippp
 %config /etc/sysconfig/network-scripts/ifdown-ippp
+%config /etc/sysconfig/network-scripts/ifup-wireless
 /etc/sysconfig/network-scripts/ifup-isdn
 /etc/sysconfig/network-scripts/ifdown-isdn
 %ifarch s390 s390x
