@@ -1,80 +1,63 @@
-2001-04-24  notting  <notting@redhat.com>
+2001-04-30  Preston Brown  <pbrown@redhat.com>
 
-	* initscripts.spec:
-	*** empty log message ***
+	* src/ipcalc.1, src/ipcalc.c:
+	--prefix fixups
 
-2001-04-23  than  <than@redhat.com>
+	* src/ipcalc.1, src/ipcalc.c:
+	understands CIDR prefixes, operates more cleanly.
 
-	* initscripts.spec: * changed release number
+2001-04-25  Florian La Roche  <laroche@redhat.com>
 
-	* ChangeLog, initscripts.spec, rc.d/init.d/halt:
-	add shutdown UPS into halt
+	* initscripts.spec: make a release
 
-2001-04-24  notting  <notting@redhat.com>
+	* initscripts.spec, src/Makefile, src/mkkerneldoth.s390, sysconfig/network-scripts/ifup-iucv:
+	further s390 changes
 
-	* initscripts.spec:
-	*** empty log message ***
+2001-04-25  Bernhard "Bero" Rosenkränzer  <brosenkr@redhat.com>
 
-2001-04-23  than  <than@redhat.com>
+	* Makefile, ChangeLog:
+	Fix up the sed trickery generating the ChangeLog - those
+	everyone@redhat.com
+	are too funny. ;)
 
-	* initscripts.spec: * changed release number
-
-	* ChangeLog, initscripts.spec, rc.d/init.d/halt:
-	add shutdown UPS into halt
-
-2001-04-24  notting  <notting@redhat.de>
-
-	* initscripts.spec:
-	*** empty log message ***
-
-2001-04-23  than  <than@redhat.de>
+2001-04-23  Than Ngo  <than@redhat.com>
 
 	* initscripts.spec: * changed release number
 
 	* ChangeLog, initscripts.spec, rc.d/init.d/halt:
 	add shutdown UPS into halt
 
-2001-04-23  notting  <notting@redhat.de>
+2001-04-23  Bill Nottingham  <notting@redhat.com>
 
 	* rc.d/rc.sysinit:
 	don't load mixer settings; modutils does that in %post-install
 
-2001-04-23  than  <than@rom.redhat.de>
-
-	* initscripts.spec, rc.d/init.d/halt:
-	add shutdown UPS into halt
-
-2001-04-23  notting  <notting@rom.redhat.de>
-
-	* rc.d/rc.sysinit:
-	don't load mixer settings; modutils does that in %post-install
-
-2001-04-22  notting  <notting@rom.redhat.de>
+2001-04-22  Bill Nottingham  <notting@redhat.com>
 
 	* src/mkkerneldoth:
 	fix it for some cases (#36480)
 
-2001-04-19  notting  <notting@rom.redhat.de>
+2001-04-19  Bill Nottingham  <notting@redhat.com>
 
 	* rc.d/rc.sysinit:
 	disable DMA, 32-bit IO if asked to
 
-2001-04-09  i18n  <i18n@rom.redhat.de>
+2001-04-09  I18N Processor  <i18n@redhat.com>
 
 	* po/sv.po:
 	Auto-update by menthos@menthos.com
 
-2001-04-07  i18n  <i18n@rom.redhat.de>
+2001-04-07  I18N Processor  <i18n@redhat.com>
 
 	* po/no.po:
 	Auto-update by teg@redhat.com
 
-2001-04-07  pbrown  <pbrown@rom.redhat.de>
+2001-04-07  Preston Brown  <pbrown@redhat.com>
 
 	* initscripts.spec, rc.d/rc.sysinit, src/Makefile, src/mkkerneldoth:
 	broke out kernel.h symlink code from rc.sysinit into /sbin/mkkerneldoth
 
-2001-04-06  notting  <notting@rom.redhat.de>
+2001-04-06  Bill Nottingham  <notting@redhat.com>
 
 	* sysconfig/network-scripts/network-functions:
 	attempt to avoid netreport killing too many random processes (#34933)
@@ -84,147 +67,10 @@
 
 	* po/initscripts.pot: new ssh translations
 
-2001-04-05  i18n  <i18n@rom.redhat.de>
+2001-04-05  I18N Processor  <i18n@redhat.com>
 
 	* po/ru.po:
 	Auto-update by leon@geon.donetsk.ua
-
-2001-04-03  notting  <notting@rom.redhat.de>
-
-	* ChangeLog: *** empty log message ***
-
-	* initscripts.spec: 5.82-1
-
-	* rc.d/init.d/functions: set umask to 022
-
-2001-04-02  notting  <notting@rom.redhat.de>
-
-	* initscripts.spec:
-	*** empty log message ***
-
-	* initscripts.spec: fix changelog message
-
-	* ChangeLog: *** empty log message ***
-
-	* initscripts.spec: bump version
-
-	* sysconfig/network-scripts/ifup:
-	fix typo (#31627)
-	get rid of error message if ${GATEWAY} isn't set
-	fix typos (DHCPDARGS vs. DHCPCDARGS) (#26378)
-	remove old broken code
-	allow devices without an IP address (#24127)
-	don't try and run pump if it's not there
-	honor PEERDNS=no for pump and dhcpcd too (#18619)
-	fix ARP handling, allow for setting promiscuous or all-multicast mode
-	fix more ifconfig greps (patch from Conectiva)
-
-	* sysconfig/network-scripts/ifdown-ppp:
-	fix redial loop (#17380)
-
-	* sysconfig/network-scripts/network-functions:
-	handle aliases better in check_device_down (#18687)
-	fix ARP handling, allow for setting promiscuous or all-multicast mode
-	oops, put the LANG=C in the right place
-	fix the adding default route if GATEWAY" = "0.0.0.0
-
-	* sysconfig/network-scripts/ifup-post:
-	fix scoping isuse (#22547)
-	fix more ifconfig greps (patch from Conectiva)
-
-	* sysconfig/network-scripts/ifup-ipx:
-	deuglify (#23198)
-
-	* sysconfig/network-scripts/ifup-aliases:
-	fix more ifconfig greps (patch from Conectiva)
-	fix a couple of typos
-
-	* sysconfig/network-scripts/ifdown-aliases:
-	fix more ifconfig greps (patch from Conectiva)
-
-	* sysconfig/network-scripts/ifdown:
-	add ifdown-pre-local (#10936)
-	source /etc/sysconfig/network (#30595)
-	retcode wasn't used. initialize it.
-
-	* rc.d/rc.sysinit:
-	load ide-cd before ide-scsi
-	load ide-scsi if they asked for it
-
-	* rc.d/rc.sysinit:
-	do explicitly load usb-storage; it's the simplest solution for now
-	fix /boot/kernel.h generation (#32081)
-	tweak raid startup slightly to deal with /etc/raitab but no raid in the kernel (#25291)
-	avoid some error messages from USB startup (#31040)
-	run pam_console_apply on startup to reset permissions
-	insert multiple USB controllers correctly
-	mount usbdevfs before loading host controller module
-	don't run isapnp on isapnp-enabled 2.4 kernels
-	initialize multiple USB controllers if necessary
-	disable hotplug if 'nomodules' is specified
-	mon has a subdirectory in odd places as well. (#26924)
-	do USB initialization even if we don't need to load a host-controller module (#26318)
-	fix raid start if it's all modular, and no initrd (#25291)
-	add sleep 1 to avoid race (#17842)
-	add devfs to mtab (#20261)
-	deal with new location of console-tools stuff
-	turn on accounting at bootup
-	use modprobe -c to handle possible conditional modules.conf constructs (#21283)
-	don't exclude proc when you're doing mount -a -t nonfs...
-	don't remount r/w if it is r/w (#12097)
-	don't try and load fonts and keymaps on a serial console. Duh.
-
-	* rc.d/rc.local:
-	touch /var/lock/subsys/local so we only get run once
-
-	* rc.d/rc:
-	ask for startup of each network devie in CONFIRM mode. Patch from <rasmusin@wpi.edu>
-
-	* rc.d/init.d/network:
-	run *all* greps in C locale
-	don't error if kernel.hotplug isn't there (#33256)
-	disable hotplug during network initscript
-	fix network up/down logic
-	ignore backup files in /etc/sysconfig/network-scripts
-	only load the module if there is one to load.
-	only load modules for ethernet devices
-	ask for startup of each network devie in CONFIRM mode. Patch from <rasmusin@wpi.edu>
-	fix more ifconfig greps (patch from Conectiva)
-
-	* rc.d/init.d/network: remove bogus line
-
-	* rc.d/init.d/single:
-	don't explicitly kill things, init will do that
-
-	* rc.d/init.d/random:
-	use /var/lib/for random seed; /var/run is cleared at bootup (#31521)
-
-	* rc.d/init.d/netfs:
-	unmount loopback stuff before stopping netfs or shutting down
-	don't exclude proc when you're doing mount -a -t nonfs...
-
-	* rc.d/init.d/killall:
-	don't barf errors if files aren't there (say, rc.local)
-
-	* rc.d/init.d/halt:
-	change message to be less misleading (#30087)
-	unmount loopback stuff before stopping netfs or shutting down
-	add autofs (#17288)
-	do something less surprising when called with arguments (#18216)
-	read /etc/sysconfig/clock on syncing hwclock
-	sync hardware clock to system time on halt (#21187)
-
-	* rc.d/init.d/functions:
-	- --background is fundamentally broken. Remove it for now.
-	- fix some ## substitutions to be correct
-	- use 'su -' , not just 'su' (#26894)
-	- make pidofproc() and killproc() try to use the PID associated with the full
-	  pathname first before killing the daemon by its basename (for daemons that
-	  share the same basename, i.e. "master" in postfix and cyrus-imapd) (#19016)
-	- fix status() as well
-	- return 1 in killproc if process isn't running (#26718)
-	- various cleanups (#10761, from mjt@tls.msk.ru)
-	- for daemon(), look only at the pid file to see if it's running (#17244, others)
 
 2001-04-03  Bill Nottingham  <notting@redhat.com>
 
