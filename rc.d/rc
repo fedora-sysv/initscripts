@@ -7,6 +7,19 @@
 #               Miquel van Smoorenburg, <miquels@drinkel.nl.mugnet.org>
 #
 
+# check a file to be a correct runlevel script
+check_runlevel ()
+{
+	# Check if the script is there.
+	[ -f "$1" ] || return 1
+
+	# Don't run [KS]??foo.{rpmsave,rpmorig} scripts
+	[ "${1%.rpmsave}" != "$1" ] && return 1
+	[ "${1%.rpmorig}" != "$1" ] && return 1
+	[ "${1%.rpmnew}" != "$1" ] && return 1
+	return 0
+}
+
 # Now find out what the current and what the previous runlevel are.
 argv1="$1"
 set `/sbin/runlevel`
@@ -18,17 +31,16 @@ export runlevel previous
 
 # See if we want to be in user confirmation mode
 if [ "$previous" = "N" ]; then
-	if grep -i confirm /proc/cmdline >/dev/null \
-			|| [ -f /var/run/confirm ] ; then
+	if [ -f /var/run/confirm ] \
+			|| grep -i confirm /proc/cmdline >/dev/null ; then
 		rm -f /var/run/confirm
 		CONFIRM=yes
+		export CONFIRM
 		echo $"Entering interactive startup"
 	else
-		CONFIRM=
 		echo $"Entering non-interactive startup"
 	fi
 fi
-export CONFIRM
 
 # Get first argument. Set new runlevel to this argument.
 [ -n "$argv1" ] && runlevel="$argv1"
@@ -37,14 +49,8 @@ export CONFIRM
 [ -d /etc/rc$runlevel.d ] || exit 0
 
 # First, run the KILL scripts.
-for i in /etc/rc$runlevel.d/K*; do
-	# Check if the script is there.
-	[ -f $i ] || continue
-
-	# Don't run [KS]??foo.{rpmsave,rpmorig} scripts
-	[ "${i%.rpmsave}" != "$i" ] && continue
-	[ "${i%.rpmorig}" != "$i" ] && continue
-	[ "${i%.rpmnew}" != "$i" ] && continue
+for i in /etc/rc$runlevel.d/K* ; do
+	check_runlevel "$i" || continue
 
 	# Check if the subsystem is already up.
 	subsys=${i#/etc/rc$runlevel.d/K??}
@@ -60,14 +66,8 @@ for i in /etc/rc$runlevel.d/K*; do
 done
 
 # Now run the START scripts.
-for i in /etc/rc$runlevel.d/S*; do
-	# Check if the script is there.
-	[ -f $i ] || continue
-
-	# Don't run [KS]??foo.{rpmsave,rpmorig} scripts
-	[ "${i%.rpmsave}" != "$i" ] && continue
-	[ "${i%.rpmorig}" != "$i" ] && continue
-	[ "${i%.rpmnew}" != "$i" ] && continue
+for i in /etc/rc$runlevel.d/S* ; do
+	check_runlevel "$i" || continue
 
 	# Check if the subsystem is already up.
 	subsys=${i#/etc/rc$runlevel.d/S??}
