@@ -109,17 +109,21 @@ case "$1" in
 
 		if [ "${DEVICE##cipcb}" != "$DEVICE" ] ; then
 			cipeinterfaces="$cipeinterfaces $i"
+			unset DEVICE TYPE SLAVE
 			continue
 		fi
 		if [ "$TYPE" = "xDSL" ]; then
 		        xdslinterfaces="$xdslinterfaces $i"
+			unset DEVICE TYPE SLAVE
 			continue
 		fi
 		
 		if [ "$SLAVE" = "yes" ]; then
+			unset DEVICE TYPE SLAVE
 			continue
 		fi
 	
+		unset DEVICE TYPE SLAVE
 		if LANG=C egrep -L "^ONBOOT=['\"]?[Nn][Oo]['\"]?" ifcfg-$i > /dev/null ; then
 		        # this loads the module, to preserve ordering
 			is_available $i
@@ -196,12 +200,15 @@ case "$1" in
 
 		if [ "${DEVICE##cipcb}" != "$DEVICE" ] ; then
 			cipeinterfaces="$cipeinterfaces $i"
+			unset DEVICE TYPE
 			continue
 		fi
 		if [ "$TYPE" = "xDSL" ]; then
 		        xdslinterfaces="$xdslinterfaces $i"
+			unset DEVICE TYPE
 			continue
 		fi
+		unset DEVICE TYPE
 	done
 	
 	for i in $cipeinterfaces $xdslinterfaces ; do
