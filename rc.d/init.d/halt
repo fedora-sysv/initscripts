@@ -39,6 +39,16 @@ case "$0" in
 	exit 1
 	;;
 esac
+if [ -n "$1" ]; then
+ case "$1" in
+   *start)
+   	;;
+   *)
+   	echo $"Usage: (halt|reboot) {start}"
+	exit 1
+	;;
+ esac
+fi
 
 # Kill all processes.
 [ "${BASH+bash}" = bash ] && enable kill
