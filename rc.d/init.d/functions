@@ -95,19 +95,22 @@ killproc() {
         if [ "$pid" != "" ] ; then
                 [ $BOOTUP = "verbose" ] && echo -n "$base "
 		if [ "$notset" = 1 ] ; then
-			# TERM first, then KILL if not dead
-			kill -TERM $pid && success "$base shutdown" || failure "$base shutdown"
-			usleep 100000
-			if ps h $pid >/dev/null 2>&1 ; then
-				sleep 1
+		       if ps h $pid>/dev/null 2>&1; then
+			   # TERM first, then KILL if not dead
+			   kill -TERM $pid && success "$base shutdown" || failure "$base shutdown"
+			   usleep 100000
+			   if ps h $pid >/dev/null 2>&1 ; then
+				sleep 3
 				if ps h $pid >/dev/null 2>&1 ; then
-					sleep 3
 					kill -KILL $pid && success "$base shutdown" || failure "$base shutdown"
 				fi
-			fi
+			   fi
+		        fi
 		# use specified level only
 		else
-	                kill $killlevel $pid && success "$base shutdown" || failure "$base shutdown"
+		        if ps h $pid >/dev/null 2>&1; then
+	                	kill $killlevel $pid && success "$base shutdown" || failure "$base shutdown"
+			fi
 		fi
 	else
 	    failure "$base shutdown"
@@ -146,6 +149,7 @@ pidofproc() {
 			   { if ((prog == $11) || (("(" prog ")") == $11) ||
 			   ((prog ":") == $11)) { print $2 ; exit 0 } }' $1
 }
+
 status() {
 	# Test syntax.
 	if [ $# = 0 ] ; then
