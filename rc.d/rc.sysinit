@@ -112,7 +112,9 @@ KEYMAP=
 if [ -f /etc/sysconfig/console/default.kmap ]; then
   KEYMAP=/etc/sysconfig/console/default.kmap
 else
-  . /etc/sysconfig/keyboard
+  if [ -f /etc/sysconfig/keyboard ]; then
+    . /etc/sysconfig/keyboard
+  fi
   if [ -n "$KEYTABLE" -a -d "/usr/lib/kbd/keymaps" ]; then
      KEYMAP=$KEYTABLE
   fi
