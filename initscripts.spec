@@ -229,6 +229,12 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Dec 11 2000 Bill Nottingham <notting@redhat.com>
+- only load sound if persistent DMA buffers are necessary
+- fix lots of bugs: #18619, #21187, #21283, #12097
+- integrate MAXFAIL option for ppp-watch
+- don't load keymaps/fonts on a serial console
+
 * Tue Nov 21 2000 Karsten Hopp <karsten@redhat.de>
 - changed hdparm section in rc.sysinit to allow different
   parameters for each disk (if needed) by copying 
