@@ -11,8 +11,10 @@ if [ "$TYPE" = "xDSL" ] && [ -x /sbin/adsl-stop -o -x /usr/sbin/adsl-stop ] ; th
     exit $?
 fi
 
-if [ "${DEMAND}" = "yes" -a -f /var/run/ppp-${DEVICE}.pid ] ; then
-    PID=`head -1 /var/run/ppp-${DEVICE}.pid`
+CONFIG=${CONFIG##ifcfg-}
+
+if [ "${DEMAND}" = "yes" -a -f /var/run/ppp-${CONFIG}.pid ] ; then
+    PID=`head -1 /var/run/ppp-${CONFIG}.pid`
     kill -TERM ${PID}
     sleep 2
     [ ! -d /proc/${PID} ] && exit 0
