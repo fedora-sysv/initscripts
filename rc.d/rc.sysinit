@@ -388,7 +388,7 @@ if [ -x /sbin/lvm.static ]; then
     fi
     /bin/rm -f /dev/mapper/control &> /dev/null
     echo "mkdmnod" | /sbin/nash --quiet >/dev/null 2>&1
-    [ -n "$SELINUX" ] && restorecon /dev/mapper/control
+    [ -n "$SELINUX" ] && restorecon /dev/mapper/control >/dev/null 2>&1
     if [ -c /dev/mapper/control -a -x /sbin/lvm.static ]; then
 	if /sbin/lvm.static vgscan --mknodes --ignorelockingfailure > /dev/null 2>&1 ; then
 	    action $"Setting up Logical Volume Management:" /sbin/lvm.static vgchange -a y --ignorelockingfailure
@@ -406,7 +406,7 @@ fi
 # Clean up SELinux labels
 if [ -n "$SELINUX" ]; then
    for file in /etc/mtab /etc/ld.so.cache ; do
-   	[ -r $file ] && restorecon -v $file
+   	[ -r $file ] && restorecon $file  >/dev/null 2>&1
    done
 fi
 
@@ -734,7 +734,7 @@ rm -rf /tmp/.X*-unix /tmp/.ICE-unix /tmp/.font-unix /tmp/hsperfdata_* \
 # Make ICE directory
 mkdir -m 1777 -p /tmp/.ICE-unix >/dev/null 2>&1
 chown root:root /tmp/.ICE-unix
-[ -n "$SELINUX" ] && restorecon /tmp/.ICE-unix
+[ -n "$SELINUX" ] && restorecon /tmp/.ICE-unix >/dev/null 2>&1
 
 # Start up swapping.
 update_boot_stage RCswap
