@@ -11,7 +11,11 @@ if [ -z "$IN_INITLOG" ]; then
 fi
 
 # If we're using devfs, start devfsd now - we need the old device names
-[ -e /dev/.devfsd -a -x /sbin/devfsd ] && /sbin/devfsd
+[ -e /dev/.devfsd -a -x /sbin/devfsd ] && /sbin/devfsd /dev
+
+# Mount shm - ignore errors because the only "error" that can occur is
+# a kernel < 2.3.99 which doesn't require /var/shm
+mount -t shm none /var/shm &>/dev/null || :
 
 # Set the path
 PATH=/bin:/sbin:/usr/bin:/usr/sbin

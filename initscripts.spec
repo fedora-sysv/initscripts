@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-Version: 5.02
+Version: 5.03
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -246,6 +246,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Mar 21 2000 Bernhard Rosenkraenzer <bero@redhat.com>
+- Mount /var/shm if required (2.3.99, 2.4)
+
 * Mon Mar 20 2000 Bill Nottingham <notting@redhat.com>
 - don't create resolv.conf 0600
 - don't run ps as much (speed issues)
