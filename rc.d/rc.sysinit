@@ -44,7 +44,7 @@ if [ "$HOSTTYPE" != "s390" -a "$HOSTTYPE" != "s390x" ]; then
   fi
 fi
 
-if [ "`/sbin/consoletype`" = "vt" -a -x /sbin/setsysfont ]; then
+if [ "$CONSOLETYPE" = "vt" -a -x /sbin/setsysfont ]; then
    echo -n "Setting default font ($SYSFONT): "
    /sbin/setsysfont
    if [ $? -eq 0 ]; then
@@ -130,7 +130,7 @@ esac
 
 action $"Setting clock $CLOCKDEF: `date`" date
 
-if [ "`/sbin/consoletype`" = "vt" -a -x /bin/loadkeys ]; then
+if [ "$CONSOLETYPE" = "vt" -a -x /bin/loadkeys ]; then
  KEYTABLE=
  KEYMAP=
  if [ -f /etc/sysconfig/console/default.kmap ]; then

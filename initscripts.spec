@@ -249,6 +249,7 @@ rm -rf $RPM_BUILD_ROOT
 * Mon Apr 21 2003 Florian La Roche <Florian.LaRoche@redhat.de>
 - initscripts-s390.patch: remove not needed parts about PNP=
 - inittab.390: sync with normal version
+- rc.sysinit: remove two further calls to /sbin/consoletype with $CONSOLETYPE
 
 * Fri Apr 18 2003 Florian La Roche <Florian.LaRoche@redhat.de>
 - sysconfig/init.s390: set LOGLEVEL=3 as for other archs
