@@ -300,6 +300,14 @@ shvarfilesGet(char *interfaceName) {
 	ifcfg->parent = svNewFile(ifcfgParentName);
     }
 
+    /* don't keep the file descriptors around, they can become
+     * stdout for children
+     */
+    close (ifcfg->fd); ifcfg->fd = 0;
+    if (ifcfg->parent) {
+	close (ifcfg->parent->fd); ifcfg->parent->fd = 0;
+    }
+
     return ifcfg;
 }
 
@@ -398,7 +406,7 @@ clean:
 int
 main(int argc, char **argv) {
     int status, waited;
-    char *device, *physicalDevice = NULL;
+    char *device, *real_device, *physicalDevice = NULL;
     char *theBoot = NULL;
     shvarFile *ifcfg;
     sigset_t sigs;
@@ -427,7 +435,13 @@ main(int argc, char **argv) {
 	theBoot = argv[2];
     }
 
-    doPidFile(device);
+    ifcfg = shvarfilesGet(device);
+    if (!ifcfg) cleanExit(28);
+
+    real_device = svGetValue(ifcfg, "DEVICE");
+    if (!real_device) real_device = device;
+
+    doPidFile(real_device);
 
     signal(SIGTERM, signal_handler);
     signal(SIGINT, signal_handler);
@@ -463,10 +477,6 @@ main(int argc, char **argv) {
     sigdelset(&sigs, SIGCHLD);
     if (theBoot) sigdelset(&sigs, SIGALRM);
 
-
-    ifcfg = shvarfilesGet(device);
-    if (!ifcfg) cleanExit(28);
-
     fork_exec(0, "/etc/sysconfig/network-scripts/ifup-ppp", "daemon", device, theBoot);
     temp = svGetValue(ifcfg, "RETRYTIMEOUT");
     if (temp) {
@@ -486,7 +496,7 @@ main(int argc, char **argv) {
 	    dieing = 1;
 
 	    if (physicalDevice) { free(physicalDevice); physicalDevice = NULL; }
-	    physicalDevice = pppLogicalToPhysical(&pppdPid, device);
+	    physicalDevice = pppLogicalToPhysical(&pppdPid, real_device);
 	    if (physicalDevice) { free(physicalDevice); physicalDevice = NULL; }
 	    if (!pppdPid) cleanExit(35);
 	    kill(pppdPid, sendsig);
@@ -503,7 +513,7 @@ main(int argc, char **argv) {
 	    if (ifcfg->parent) svCloseFile(ifcfg->parent);
 	    svCloseFile(ifcfg);
 	    ifcfg = shvarfilesGet(device);
-	    physicalDevice = pppLogicalToPhysical(&pppdPid, device);
+	    physicalDevice = pppLogicalToPhysical(&pppdPid, real_device);
 	    if (physicalDevice) { free(physicalDevice); physicalDevice = NULL; }
 	    kill(pppdPid, SIGTERM);
 	    /* redial when SIGCHLD arrives, even if !PERSIST */
@@ -522,7 +532,7 @@ main(int argc, char **argv) {
 		    timeout = 2;
 		}
 	    }
-	    physicalDevice = pppLogicalToPhysical(NULL, device);
+	    physicalDevice = pppLogicalToPhysical(NULL, real_device);
 	    if (physicalDevice) {
 		if (interfaceStatus(physicalDevice)) {
 		    /* device is up */
