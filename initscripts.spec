@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.37
+Version: 6.38
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -239,6 +239,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Wed Sep  5 2001 Bill Nottingham <notting@redhat.com>
+- translation updates
+- quota and hwclock tweaks (<pbrown@redhat.com>)
+
 * Mon Sep  3 2001 Bill Nottingham <notting@redhat.com>
 - fix severe alias problems (#52882)
 
