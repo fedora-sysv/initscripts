@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.95
+Version: 5.96
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -223,7 +223,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Thu Jun 28 2001 Trond Eivind Glomsrød <teg@redhat.com>
-- Use dhcpcd as default instead of pump
+- Disable pump completely
 
 * Wed Jun 27 2001 Than Ngo <than@redhat.com>
 - fix pap/chap authentication for syncppp
