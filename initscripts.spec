@@ -17,6 +17,10 @@ that activate and deactivate most network interfaces.
 
 %changelog
 
+* Wed Oct 15 1997 Michael K. Johnson <johnsonm@redhat.com>
+
+- Make the random seed file mode 600.
+
 * Tue Oct 14 1997 Michael K. Johnson <johnsonm@redhat.com>
 
 - bring down ppp devices if ifdown-ppp is called while ifup-ppp is sleeping.
