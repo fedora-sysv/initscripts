@@ -36,6 +36,9 @@ if [ -x $OTHERSCRIPT ]; then
 	exec $OTHERSCRIPT $CONFIG $2
 fi
 
+# Check to make sure the device is actually up
+check_device_down && exit 0
+
 if [ "$BOOTPROTO" = bootp -o "$BOOTPROTO" = dhcp ]; then
 	pump -r -i ${DEVICE}
 fi
