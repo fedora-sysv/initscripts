@@ -25,7 +25,7 @@ fi
 NFSFSTAB=`grep -v '^#' /etc/fstab | awk '{ if ($3 ~ /^nfs$/ && $4 !~ /noauto/) print $2}'`
 SMBFSTAB=`grep -v '^#' /etc/fstab | awk '{ if ($3 ~ /^smbfs$/ && $4 !~ /noauto/) print $2}'`
 NCPFSTAB=`grep -v '^#' /etc/fstab | awk '{ if ($3 ~ /^ncpfs$/ && $4 !~ /noauto/) print $2}'`
-NETDEVMTAB=`grep -v '^#' /proc/mounts | awk '{ if (($4 ~ /_netdev$/) && ($2 != "/")) print $2}'`
+NETDEVMTAB=`grep -v '^#' /proc/mounts | awk '{ if (($4 ~ /_netdev/) && ($2 != "/")) print $2}'`
 NFSMTAB=`grep -v '^#' /proc/mounts | awk '{ if (($3 ~ /nfs$/) && ($2 != "/")) print $2}'`
 SMBMTAB=`grep -v '^#' /proc/mounts | awk '{ if ($3 ~ /^smbfs$/ ) print $2}'`
 NCPMTAB=`grep -v '^#' /proc/mounts | awk '{ if ($3 ~ /^ncpfs$/ ) print $2}'`
@@ -73,6 +73,7 @@ case "$1" in
   	[ -n "$NETDEVMTAB" ] && {
 		sig=
 		retry=3
+		remaining=`awk '!/^#/ && $4 ~ /_netdev/ && $2 != "/" {print $2}' /proc/mounts`
 		while [ -n "$remaining" -a "$retry" -gt 0 ]
 		do
 			if [ "$retry" -lt 3 ]; then
