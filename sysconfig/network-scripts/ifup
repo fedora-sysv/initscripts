@@ -200,7 +200,7 @@ if [ -n "${DYNCONFIG}" ]; then
     NUMDEFROUTES=`ip -o route | \
                   grep "^default" | \
                   awk '{ nlines++ } END { print nlines }'`
-    if [ -n "$NUMDEFROUTES" -a "$NUMDEFROUTES" -gt 1 ]; then
+    if [ -n "$NUMDEFROUTES" ] && [ "$NUMDEFROUTES" -gt 1 ]; then
 	# remove the default route for the new device (old route wins)
 	ip route del default dev ${DEVICE}
     fi
@@ -217,8 +217,10 @@ else
   
     expand_config
     
-    [ -n "${ARP}" ] && \
-	ip link set ${REALDEVICE} $(toggle_value arp $ARP)
+    [ -n "${ARP}${PROMISC}${ALLMULTI}" ] && \
+	ip link set ${REALDEVICE} $(toggle_value arp $ARP) \
+	   $(toggle_value promisc $PROMISC) \
+	   $(toggle_value allmulti $ALLMULTI)
    
     if ! ip link set ${REALDEVICE} up ; then
 	echo $"Failed to bring up ${DEVICE}."
