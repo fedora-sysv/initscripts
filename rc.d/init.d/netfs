@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # netfs         Mount network filesystems.
 #
@@ -53,9 +53,9 @@ case "$1" in
 			sleep 2
 			remaining=`awk '!/^#/ && $3 ~ /^nfs/ {print $2}' /proc/mounts`
 			[ -z "$remaining" ] && break
-			fuser -k -m $sig $remaining >/dev/null
+			/sbin/fuser -k -m $sig $remaining >/dev/null
 			sleep 5
-			retry=`expr $retry - 1`
+			retry=$(($retry - 1))
 			sig=-9
 		done
 	}
