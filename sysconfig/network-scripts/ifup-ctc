@@ -1,13 +1,24 @@
 #!/bin/sh
+#
+# /etc/sysconfig/network-scripts/ifup-ctc
+#
+# the ctc network driver is a point-to-point driver on S/390 machines
+#
+# To get the ctc module to load automatically at boot, you will need to
+# add the following line to /etc/modules.conf:
+#
+# alias ctc0 ctc
+#
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 
 cd /etc/sysconfig/network-scripts
 . network-functions
 
 CONFIG=$1
+[ -f "$CONFIG" ] || CONFIG=ifcfg-$CONFIG
 source_config
 
-if [ "foo$2" = "fooboot" -a "${ONBOOT}" = "no" ]
+if [ "$2" = "boot" -a "${ONBOOT}" = "no" ]
 then
 	exit
 fi
