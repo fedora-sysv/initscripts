@@ -18,7 +18,6 @@ HOSTTYPE=`uname -m`
 unamer=`uname -r`
 eval version=`echo $unamer | awk -F '.' '{ print "(" $1 " " $2 ")" }'`
 
-
 if [ -f /etc/sysconfig/network ]; then
     . /etc/sysconfig/network
 fi
@@ -29,6 +28,26 @@ fi
 # Mount /proc and /sys (done here so volume labels can work with fsck)
 mount -n -t proc /proc /proc
 mount -n -t sysfs /sys /sys >/dev/null 2>&1
+
+# Check SELinux status
+selinuxfs=`awk '/ selinuxfs / { print $2 }' /proc/mounts`
+SELINUX=
+if [ -n "$selinuxfs" -a  "`cat /proc/self/attr/current`" != "kernel" ]; then
+	if [ -r $selinuxfs/enforce ] ; then
+		SELINUX=`cat $selinuxfs/enforce`
+	else
+		# assume enforcing if you can't read it
+		SELINUX=1
+	fi
+fi
+
+disable_selinux() {
+	echo "*** Warning -- SELinux is active"
+	echo "*** Disabling security enforcement for system recovery."
+	echo "*** Run 'setenforce 1' to reenable."
+	echo "0" > $selinuxfs/enforce
+}
+
 
 . /etc/init.d/functions
 
@@ -294,6 +313,7 @@ if [ -z "$fastboot" -a "X$ROOTFSTYPE" != "Xnfs" -a "X$ROOTFSTYPE" != "Xnfs4" ]; 
 
                 str=$"(Repair filesystem)"
 		PS1="$str \# # "; export PS1
+		[ "$SELINUX" = "1" ] && disable_selinux
 		sulogin
 
 		echo $"Unmounting file systems"
@@ -361,6 +381,7 @@ if [ -d /etc/lvm/ -a -x /sbin/lvm ]; then
     fi
     /bin/rm -f /dev/mapper/control
     echo "mkdmnod" | /sbin/nash --quiet >/dev/null 2>&1
+    [ -n "$SELINUX" ] && restorecon /dev/mapper/control
     if [ -e /dev/mapper/control -a -x /sbin/lvm ]; then
 	action $"Setting up Logical Volume Management:" /sbin/lvm vgscan --mknodes && /sbin/lvm vgchange -a y
     fi
@@ -376,6 +397,13 @@ fi
 # Start up swapping.
 update_boot_stage RCswap
 action $"Activating swap partitions: " swapon -a -e
+
+# Clean up SELinux labels
+if [ -n "$SELINUX" ]; then
+   for file in /etc/mtab /etc/ld.so.cache ; do
+   	[ -r $file ] && restorecon -v $file
+   done
+fi
 
 # Clear mtab
 > /etc/mtab
@@ -504,6 +532,7 @@ if [ -f /etc/raidtab ]; then
 
  		str=$"(RAID Repair)"
 		PS1="$str \# # "; export PS1
+		[ "$SELINUX" = "1" ] && disable_selinux
 		sulogin
 
 		echo $"Unmounting file systems"
@@ -557,6 +586,7 @@ if [ -z "$fastboot" ]; then
 
 		str=$"(Repair filesystem)"
 		PS1="$str \# # "; export PS1
+		[ "$SELINUX" = "1" ] && disable_selinux
 		sulogin
 
 		echo $"Unmounting file systems"
