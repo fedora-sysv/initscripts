@@ -119,18 +119,21 @@ if [ -n $USEMODULES ]; then
 	if echo $1 | grep '^BOOT_IMAGE=' > /dev/null ; then
 	    image=`echo $1 | awk -F= '{ print $2 }'`
 	    kernelfile=`/sbin/lilo -I $image`
-	    if [ -n "$kernelfile" ]; then
-		kernelname=`echo $kernelfile | awk -F- '{ print $1 }'`
-		versioninfo=`echo $kernelfile | sed "s|${kernelname}-||"`
-		if [ "$kernelname" = "/boot/vmlinuz" -a \
-		     -d /lib/modules/$versioninfo -a \
-		     $versioninfo != `uname -r` ]; then
-		     ln -sf $versioninfo /lib/modules/preferred
-		fi
-	    fi
+	elif echo $1 | grep '^bootfile=' > /dev/null ; then
+	    kernelfile=`echo $1 | awk -F= '{ print $2 }'`
 	fi
 	shift
     done
+
+    if [ -n "$kernelfile" ]; then
+	kernelname=`echo $kernelfile | awk -F- '{ print $1 }'`
+	versioninfo=`echo $kernelfile | sed "s|${kernelname}-||"`
+	if [ "$kernelname" = "/boot/vmlinuz" -a \
+	     -d /lib/modules/$versioninfo -a \
+	     $versioninfo != `uname -r` ]; then
+	     ln -sf $versioninfo /lib/modules/preferred
+	fi
+    fi
 fi
 
 if [ -x /sbin/depmod -a -n "$USEMODULES" ]; then
