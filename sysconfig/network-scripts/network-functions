@@ -41,7 +41,6 @@ need_hostname()
 
 set_hostname()
 {
-    echo "$1" > /etc/HOSTNAME
     hostname $1
     if ! grep search /etc/resolv.conf >/dev/null 2>&1; then
 	domain=`echo $1 | sed 's/^[^\.]*\.//'`

@@ -308,8 +308,6 @@ if [ -n "$IN_INITLOG" ]; then
     IN_INITLOG=
 fi
 
-echo ${HOSTNAME} > /etc/HOSTNAME
-
 if ! grep -i nomodules /proc/cmdline >/dev/null && [ -f /proc/ksyms ]; then
     USEMODULES=y
 else
