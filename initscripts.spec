@@ -207,7 +207,7 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
-* Tue Oct  5 2004 Dan Walsh <notting@redhat.com> - 7.87-1
+* Tue Oct  5 2004 Dan Walsh <dwalsh@redhat.com> - 7.87-1
 - Change SELinux relabel to not remount / 
 
 * Mon Oct  4 2004 Bill Nottingham <notting@redhat.com>
