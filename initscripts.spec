@@ -141,6 +141,10 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/sysconfig/network-scripts/ifup-routes
 %config /etc/sysconfig/network-scripts/ifup-plip
 %config /etc/sysconfig/network-scripts/ifup-plusb
+%config /etc/sysconfig/network-scripts/ifup-bnep
+%config /etc/sysconfig/network-scripts/ifdown-bnep
+%config /etc/sysconfig/network-scripts/ifup-eth
+%config /etc/sysconfig/network-scripts/ifdown-eth
 %config /etc/sysconfig/network-scripts/ifup-ipv6
 %config /etc/sysconfig/network-scripts/ifdown-ipv6
 %config /etc/sysconfig/network-scripts/ifup-ipsec
