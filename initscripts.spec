@@ -19,6 +19,10 @@ that activate and deactivate most network interfaces.
 
 * Mon Mar 09 1998 Erik Troan <ewt@redhat.com>
 
+- if bootpc fails, take down the device
+
+* Mon Mar 09 1998 Erik Troan <ewt@redhat.com>
+
 - added check for mktemp failure
 
 * Thu Feb 05 1998 Erik Troan <ewt@redhat.com>
