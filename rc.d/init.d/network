@@ -58,7 +58,7 @@ case "$1" in
 	esac
 
 	for i in $interfaces; do
-		if egrep -L "ONBOOT=\"?[Nn][Oo]\"?" ifcfg-$i ; then
+		if egrep -L "^ONBOOT=\"?[Nn][Oo]\"?" ifcfg-$i ; then
 			# Probe module to preserve interface ordering
 			/sbin/ifconfig $i >/dev/null 2>&1
 		else
