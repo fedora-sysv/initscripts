@@ -68,7 +68,7 @@ rm -f \
 %post
 touch /var/log/wtmp
 touch /var/run/utmp
-chown root.utmp /var/log/wtmp /var/run/utmp
+chown root:utmp /var/log/wtmp /var/run/utmp
 chmod 664 /var/log/wtmp /var/run/utmp
 
 chkconfig --add random 
@@ -249,6 +249,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Feb 23 2004 Tim Waugh <twaugh@redhat.com>
+- Use ':' instead of '.' as separator for chown.
+
 * Mon Feb  2 2004 Bill Nottingham <notting@redhat.com> 7.46-1
 - some more rc.sysinit tweaks and refactoring
 

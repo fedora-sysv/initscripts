@@ -63,7 +63,7 @@ install:
 	make install PREFIX=$(ROOT) -C po
 
 	mkdir -p $(ROOT)/var/run/netreport $(ROOT)/var/log
-	chown $(SUPERUSER).$(SUPERGROUP) $(ROOT)/var/run/netreport
+	chown $(SUPERUSER):$(SUPERGROUP) $(ROOT)/var/run/netreport
 	chmod u=rwx,g=rwx,o=rx $(ROOT)/var/run/netreport
 	touch $(ROOT)/var/run/utmp
 	touch $(ROOT)/var/log/wtmp
