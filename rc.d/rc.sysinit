@@ -78,7 +78,11 @@ case "$UTC" in
    yes|true)
     CLOCKFLAGS="$CLOCKFLAGS -u";
     CLOCKDEF="$CLOCKDEF (utc)";
-  ;;
+   ;;
+   no|false)
+    CLOCKFLAGS="$CLOCKFLAGS --localtime";
+    CLOCKDEF="$CLOCKDEF (localtime)";
+   ;;
 esac
 
 case "$ARC" in
