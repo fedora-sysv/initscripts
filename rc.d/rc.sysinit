@@ -158,11 +158,16 @@ if [ -x /sbin/kerneld -a -n "$USEMODULES" ]; then
 fi
 
 # Add raid devices
-if [ -f /proc/mdstat -a -f /etc/raidtab -a -x /sbin/raidstart ]; then
+if [ -f /proc/mdstat -a -f /etc/raidtab -a -x /sbin/raidadd ]; then
 	echo "Starting up RAID devices."
-	raidstart -a
+	raidadd -a
 
 	rc=$?
+
+	if [ $rc = 0 ]; then
+		raidrun -a
+		rc = $?
+	fi
 
 	# A non-zero return means there were problems.
 	if [ $rc -gt 0 ]; then
