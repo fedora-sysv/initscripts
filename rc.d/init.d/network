@@ -74,8 +74,7 @@ ipv4_forward_set ()
 ipv4_defrag_set ()
 {
 	# Sets whether or not to always defrag packets.
-	# Good for masquerading, or virtual server stuff.
-	# Not necessarily so good otherwise.
+	# Good for masquerading. Not so good otherwise.
 	if [ -d /proc/sys/net/ipv4 ]; then
 	    if [ ! -f /proc/sys/net/ipv4/ip_always_defrag ]; then
 	       echo "/proc/sys/net/ipv4/ip_always_defrag is missing --" \
