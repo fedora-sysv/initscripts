@@ -210,7 +210,8 @@ else
 fi
 
 _RUN_QUOTACHECK=0
-if [ -z "$fastboot" ]; then 
+ROOTFSTYPE=`grep " / " /proc/mounts | awk '{ print $3 }'`
+if [ -z "$fastboot" -a "$ROOTFSTYPE" != "nfs" ]; then 
 
         STRING="Checking root filesystem"
 	echo $STRING
