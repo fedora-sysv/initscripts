@@ -211,6 +211,9 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/sysconfig/network-scripts/ifdown-sit
 %config /etc/sysconfig/network-scripts/ifup-aliases
 %config /etc/sysconfig/network-scripts/ifup-ipx
+%ifarch s390 s390x
+%config /etc/sysconfig/network-scripts/ifup-ctc
+%endif
 %config /etc/X11/prefdm
 %config /etc/inittab
 %dir /etc/rc.d
@@ -251,6 +254,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Sat Feb 10 2001 Florian La Roche <Florian.LaRoche@redhat.de>
+- add all save changes for s390 s390x that won't break anything
+  patches are from Oliver Paukstadt @ millenux.com
+
 * Fri Feb  9 2001 Bill Nottingham <notting@redhat.com>
 - muck with the font in lang.csh/lang.sh, but don't spit out errors (#26903)
 
