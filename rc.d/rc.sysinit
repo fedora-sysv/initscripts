@@ -115,7 +115,7 @@ fi
 rm -f /lib/modules/preferred
 if [ -n "$USEMODULES" ]; then
     ktag="`cat /proc/version`"
-    mtag=`grep -l "$ktag" /lib/modules/2.0.*/.rhkmvtag` 2> /dev/null
+    mtag=`grep -l "$ktag" /lib/modules/*/.rhkmvtag` 2> /dev/null
     if [ -n "$mtag" ]; then
 	mver=`echo $mtag | sed -e 's,/lib/modules/,,' -e 's,/.rhkmvtag,,' -e 's,[ 	].*$,,'`
 	ln -sf /lib/modules/$mver /lib/modules/preferred
