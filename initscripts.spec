@@ -215,6 +215,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Apr 04 2000 Ngo Than <than@redhat.de>
+- fix overwrite problem of resolv.conf on ippp/ppp/slip connections
+
 * Mon Apr  3 2000 Bill Nottingham <notting@redhat.com>
 - fix typo in functions file
 - explicitly set --localtime when calling hwclock if necessary

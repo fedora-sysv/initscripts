@@ -10,6 +10,12 @@ cd /etc/sysconfig/network-scripts
 CONFIG=$1
 source_config
 
+DEVICETYPE=`echo $DEVICE | sed "s/[0-9]*$//"`
+
+if [ "${DEVICETYPE}" = "ppp" -o "${DEVICETYPE}" = "ippp" ]; then
+    [ -f /etc/resolv.conf.save ] && cat /etc/resolv.conf.save > /etc/resolv.conf
+fi
+
 # Reset the default route if this interface had a special one
 if ! check_default_route ; then
     add_default_route

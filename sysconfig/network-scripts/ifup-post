@@ -72,7 +72,10 @@ if [ "$PEERDNS" != "no" -o "$RESOLV_MODS" != "no" ]; then
 	   echo "search $DOMAIN $search" >> $tr
 	fi
     done
-    
+
+    # backup resolv.conf
+    cp -af /etc/resolv.conf /etc/resolv.conf.save
+
     # maintain permissions
     # but set umask in case it doesn't exist!
     oldumask=`umask`
