@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 3.98
+%define version 3.99
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
@@ -169,6 +169,10 @@ rm -rf $RPM_BUILD_ROOT
 %doc sysconfig.txt sysvinitfiles
 
 %changelog
+* Mon Apr  5 1999 Bill Nottingham <notting@redhat.com>
+- load keymaps & console font early
+- fixes for channel bonding, strange messages with non-boot network interfaces
+
 * Sat Mar 27 1999 Cristian Gafton <gafton@redhat.com>
 - added sysvinitfiles as a documenattaion file
 
