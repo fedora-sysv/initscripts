@@ -32,4 +32,8 @@ fi
 # Notify programs that have requested notification
 do_netreport
 
+if [ -x /sbin/ifup-local ]; then
+    /sbin/ifup-local ${DEVICE}
+fi
+
 exit 0

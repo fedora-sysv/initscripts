@@ -4,7 +4,7 @@ Name: initscripts
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
-Release: 2
+Release: 3
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /var/tmp/initbld
 Requires: mingetty, bash, /bin/awk, mktemp, modutils >= 2.1.85-3, e2fsprogs, sysklogd >= 1.3.31, procps
@@ -169,6 +169,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc sysconfig.txt sysvinitfiles
 
 %changelog
+* Tue Apr 06 1999 Erik Troan <ewt@redhat.com>
+- run /sbin/ipup-local after bringing up an interface (if that file exists)
+
 * Mon Apr  5 1999 Bill Nottingham <notting@redhat.com>
 - load keymaps & console font early
 - fixes for channel bonding, strange messages with non-boot network interfaces
