@@ -23,6 +23,16 @@ if [ -f /etc/sysconfig/i18n ]; then
     if [ -n "$UNIMAP" ]; then
 	loadunimap $UNIMAP
     fi
+    
+    if [ -n "$SYSFONTACM" ]; then
+        case $SYSFONTACN in
+	   iso01*|iso02*|iso15*)
+	        LESSCHARSET=latin1
+		INPUTRC=/etc/inputrc
+		export LESSCHARSET INPUTRC
+		;;
+       esac
+    fi
 
     if [ -n "$SYSTERM" ] ; then
 	case $SYSTERM in
@@ -33,4 +43,5 @@ if [ -f /etc/sysconfig/i18n ]; then
 		;;
 	esac
     fi
+    unset SYSFONTACM
 fi
