@@ -108,7 +108,7 @@ int main(int argc, char **argv)
 	}
 	initializeBusDeviceList(probeBus);
 
-	devs = probeDevices(probeClass, probeBus, PROBE_NOLOAD);
+	devs = probeDevices(probeClass, probeBus, PROBE_NOLOAD|PROBE_SAFE);
 	if (!devs)
 		return 0;
 	for (x = 0; devs[x]; x++) {
