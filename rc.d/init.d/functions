@@ -72,9 +72,10 @@ fi
 
 # Check if $pid (could be plural) are running
 checkpid() {
-	while [ "$1" ]; do
-	   [ -d "/proc/$1" ] && return 0
-	   shift
+	local i
+
+	for i in $* ; do
+		[ -d "/proc/$i" ] && return 0
 	done
 	return 1
 }
@@ -228,7 +229,6 @@ killproc() {
 # A function to find the pid of a program. Looks *only* at the pidfile
 pidfileofproc() {
 	local base=${1##*/}
-	local pid
 	
 	# Test syntax.
 	if [ "$#" = 0 ] ; then
@@ -237,13 +237,13 @@ pidfileofproc() {
 	fi
 
 	# First try "/var/run/*.pid" files
-	if [ -f /var/run/${base}.pid ] ; then
+	if [ -f /var/run/$base.pid ] ; then
 	        local line p pid=
-		read line < /var/run/${base}.pid
+		read line < /var/run/$base.pid
 		for p in $line ; do
 		       [ -z "${p//[0-9]/}" -a -d /proc/$p ] && pid="$pid $p"
 		done
-	        if [ -n "${pid:-}" ] ; then
+	        if [ -n "$pid" ]; then
 	                echo $pid
 	                return 0
 	        fi
@@ -255,27 +255,25 @@ pidofproc() {
 	base=${1##*/}
 
 	# Test syntax.
-	if [ "$#" = 0 ] ; then
+	if [ "$#" = 0 ]; then
 		echo $"Usage: pidofproc {program}"
 		return 1
 	fi
 
 	# First try "/var/run/*.pid" files
-	if [ -f /var/run/${base}.pid ] ; then
+	if [ -f /var/run/$base.pid ]; then
 	        local line p pid=
-		read line < /var/run/${base}.pid
+		read line < /var/run/$base.pid
 		for p in $line ; do
 		       [ -z "${p//[0-9]/}" -a -d /proc/$p ] && pid="$pid $p"
 		done
-	        if [ -n "${pid:-}" ] ; then
+	        if [ -n "$pid" ]; then
 	                echo $pid
 	                return 0
 	        fi
 	fi
-
-	# Next try "pidof"
 	pidof -o $$ -o $PPID -o %PPID -x $1 || \
-	pidof -o $$ -o $PPID -o %PPID -x ${base}
+		pidof -o $$ -o $PPID -o %PPID -x $base
 }
 
 status() {
@@ -291,7 +289,7 @@ status() {
 	# First try "pidof"
 	pid=`pidof -o $$ -o $PPID -o %PPID -x $1 || \
 	     pidof -o $$ -o $PPID -o %PPID -x ${base}`
-	if [ "$pid" != "" ] ; then
+	if [ -n "$pid" ]; then
 	        echo $"${base} (pid $pid) is running..."
 	        return 0
 	fi
@@ -299,7 +297,7 @@ status() {
 	# Next try "/var/run/*.pid" files
 	if [ -f /var/run/${base}.pid ] ; then
 	        read pid < /var/run/${base}.pid
-	        if [ "$pid" != "" ] ; then
+	        if [ -n "$pid" ]; then
 	                echo $"${base} dead but pid file exists"
 	                return 1
 	        fi
