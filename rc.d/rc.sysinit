@@ -795,6 +795,7 @@ dmesg -s 131072 > /var/log/dmesg
 i=5
 while [ $i -ge 0 ]; do
 	if [ -f /var/log/ksyms.$i ]; then
+		chmod 0600 /var/log/ksyms.$i
 		mv /var/log/ksyms.$i /var/log/ksyms.$(($i+1))
 	fi
 	i=$(($i-1))
@@ -805,6 +806,7 @@ done
   [ -r /proc/modules ] && cat /proc/modules
   [ -r /proc/ksyms ] && cat /proc/ksyms
 } > /var/log/ksyms.0
+chmod 600 /var/log/ksyms.0
 # create the crash indicator flag to warn on crashes, offer fsck with timeout
 touch /.autofsck
 kill -TERM `/sbin/pidof getkey` >/dev/null 2>&1
