@@ -13,6 +13,8 @@ if [ -f /var/lock/subsys/ibod ] ; then
 fi
 
 # shutdown isdn device
+isdnctrl hangup $DEVICE >/dev/null 2>&1
+sleep 1
 ifconfig $DEVICE down >/dev/null 2>&1
 
 # delete isdn device

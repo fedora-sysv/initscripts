@@ -28,10 +28,12 @@ if [ ! -x /usr/sbin/isdnctrl -a ! -x /sbin/isdnctrl ] ; then
     exit 1
 fi
 
-# load provider config
-#[ -f /etc/sysconfig/networking/devices/$DEVICE.d/dialup ] || exit 1
-#. /etc/sysconfig/networking/devices/$DEVICE.d/dialup
-
+# check all ISDN devices
+if ! isdnctrl list all >/dev/null 2>&1 ; then
+    logger -p daemon.info -t ifup-ippp "cannot list ISDN devices"
+    exit 1
+fi
+		
 # check if device already is configured
 isdnctrl list $DEVICE >/dev/null 2>&1 && exit 0
 
@@ -310,6 +312,10 @@ function addprovider()
         fi
     fi
 }
+
+if [ ! -f /var/lock/subsys/isdn -a -x /etc/rc.d/init.d/isdn ] ; then
+    /etc/rc.d/init.d/isdn start
+fi
 
 addprovider || exit 1
 
