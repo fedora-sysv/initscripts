@@ -824,58 +824,6 @@ if strstr "$cmdline" ide-scsi ; then
 	modprobe ide-scsi >/dev/null 2>&1
 fi
 
-# Turn on harddisk optimization
-# There is only one file /etc/sysconfig/harddisks for all disks
-# after installing the hdparm-RPM. If you need different hdparm parameters
-# for each of your disks, copy /etc/sysconfig/harddisks to
-# /etc/sysconfig/harddiskhda (hdb, hdc...) and modify it.
-# Each disk which has no special parameters will use the defaults.
-# Each non-disk which has no special parameters will be ignored.
-# 
- 
-disk[0]=s;
-disk[1]=hda;  disk[2]=hdb;  disk[3]=hdc;  disk[4]=hdd;
-disk[5]=hde;  disk[6]=hdf;  disk[7]=hdg;  disk[8]=hdh;
-disk[9]=hdi;  disk[10]=hdj; disk[11]=hdk; disk[12]=hdl;
-disk[13]=hdm; disk[14]=hdn; disk[15]=hdo; disk[16]=hdp;
-disk[17]=hdq; disk[18]=hdr; disk[19]=hds; disk[20]=hdt;
- 
- 
-if [ -x /sbin/hdparm ]; then
-   for device in 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20; do
-	unset MULTIPLE_IO USE_DMA EIDE_32BIT LOOKAHEAD EXTRA_PARAMS
-        if [ -f /etc/sysconfig/harddisk${disk[$device]} ]; then
-                . /etc/sysconfig/harddisk${disk[$device]}
-                HDFLAGS[$device]=
-                if [ -n "$MULTIPLE_IO" ]; then
-                    HDFLAGS[$device]="-q -m$MULTIPLE_IO"
-                fi
-                if [ -n "$USE_DMA" ]; then
-                    HDFLAGS[$device]="${HDFLAGS[$device]} -q -d$USE_DMA"
-                fi
-                if [ -n "$EIDE_32BIT" ]; then
-                    HDFLAGS[$device]="${HDFLAGS[$device]} -q -c$EIDE_32BIT"
-                fi
-                if [ -n "$LOOKAHEAD" ]; then
-                    HDFLAGS[$device]="${HDFLAGS[$device]} -q -A$LOOKAHEAD"
-                fi
-                if [ -n "$EXTRA_PARAMS" ]; then
-                    HDFLAGS[$device]="${HDFLAGS[$device]} $EXTRA_PARAMS"
-                fi
-        else
-                HDFLAGS[$device]="${HDFLAGS[0]}"
-        fi
-        if [ -e "/proc/ide/${disk[$device]}/media" ]; then
-             hdmedia=`cat /proc/ide/${disk[$device]}/media`
-             if [ "$hdmedia" = "disk" -o -f "/etc/sysconfig/harddisk${disk[$device]}" ]; then
-                  if [ -n "${HDFLAGS[$device]}" ]; then
-                      action $"Setting hard drive parameters for ${disk[$device]}: "  /sbin/hdparm ${HDFLAGS[$device]} /dev/${disk[$device]}
-                  fi
-             fi
-        fi
-   done
-fi
-
 # Boot time profiles. Yes, this should be somewhere else.
 if [ -x /usr/sbin/system-config-network-cmd ]; then
   if strstr "$cmdline" netprofile= ; then
