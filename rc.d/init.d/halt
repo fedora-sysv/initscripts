@@ -50,6 +50,12 @@ runcmd "Sending all processes the KILL signal.."  /sbin/killall5 -9
 # Write to wtmp file before unmounting /var
 halt -w
 
+# Save mixer settings, here for lack of a better place.
+grep -q "\(sparcaudio\|sound\)" /proc/devices
+if [ $? = 0 ]; then
+   runcmd "Saving mixer settings" /bin/aumix-minimal -f /etc/.aumixrc -S
+fi
+
 # Turn off swap, then unmount file systems.
 runcmd "Turning off swap and accounting" swapoff -a
 # Turn off other swap that isn't in /etc/fstab
