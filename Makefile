@@ -28,9 +28,16 @@ install:
 	chown root.root /var/run/netreport
 	chmod og=rwx,o=rx /var/run/netreport
 
+changelog:
+	rcs2log | sed "s|@.*redhat\.com|redhat.com|" | \
+	 sed "s|/mnt/devel/CVS/initscripts/||g" > changenew
+	 mv ChangeLog ChangeLog.old
+	 cat changenew ChangeLog.old > ChangeLog
+	 rm -f changenew
+
 clean:
 	(cd src; make clean)
-	@rm -fv *~
+	@rm -fv *~ changenew ChangeLog.old
 
 tag-archive:
 	@cvs -Q tag -F $(CVSTAG)
