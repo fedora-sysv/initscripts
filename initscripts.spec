@@ -1,7 +1,7 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
 Version: 5.86
-Copyright: GPL
+License: GPL
 Group: System Environment/Base
 Release: 1
 Source: initscripts-%{version}.tar.bz2
@@ -218,6 +218,11 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon May 14 2001 Nalin Dahyabhai <nalin@redhat.com>
+- copyright: GPL -> license: GPL
+- fix a syntax error in lang.csh
+- skip commented-out i18n configuration lines in lang.csh
+
 * Fri May 11 2001 Preston Brown <pbrown@redhat.com>
 - new network-scripts infrastructure; ifcfg-lo moved to /etc/sysconfig/networking
 
