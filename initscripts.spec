@@ -179,6 +179,7 @@ rm -rf $RPM_BUILD_ROOT
 /etc/sysconfig/network-scripts/ifup
 %config /sbin/ifup
 %dir /etc/sysconfig/console
+%config(noreplace) /etc/sysconfig/rawdevices
 %config /etc/sysconfig/network-scripts/network-functions
 %config /etc/sysconfig/network-scripts/ifup-post
 %config /etc/sysconfig/network-scripts/ifcfg-lo
