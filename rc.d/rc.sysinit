@@ -393,28 +393,6 @@ fi
 
 unamer=`uname -r`
 
-# Our modutils don't support it anymore, so we might as well remove
-# the preferred link.
-rm -f /lib/modules/preferred /lib/modules/default
-if [ -x /sbin/depmod -a -n "$USEMODULES" ]; then
-    # If they aren't using a recent sane kernel, make a link for them
-    if ! strstr $unamer -  ; then
-       ktag="`cat /proc/version`"
-       mtag=`LC_ALL=C fgrep -l "$ktag" /lib/modules/*/.rhkmvtag 2> /dev/null`
-       if [ -n "$mtag" ]; then
-          mver=`echo $mtag | sed -e 's,/lib/modules/,,' -e 's,/.rhkmvtag,,' -e 's,[       ].*$,,'`
-       fi
-       if [ -n "$mver" ]; then
-         ln -sf /lib/modules/$mver /lib/modules/default
-       fi
-    fi
-    if [ -L /lib/modules/default ]; then
-    	INITLOG_ARGS= action $"Finding module dependencies: " depmod -A default
-    else
-	INITLOG_ARGS= action $"Finding module dependencies: " depmod -A
-    fi
-fi
-
 # tweak isapnp settings if needed.
 if [ -n "$PNP" -a  -f /proc/isapnp -a -x /sbin/sndconfig ]; then
     /sbin/sndconfig --mungepnp >/dev/null 2>&1
