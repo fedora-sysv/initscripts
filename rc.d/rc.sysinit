@@ -239,7 +239,7 @@ fi
  
 
 _RUN_QUOTACHECK=0
-ROOTFSTYPE=`awk '/ \/ / { print $3 }' /proc/mounts`
+ROOTFSTYPE=`awk '/ \/ / && ($3 !~ /rootfs/) { print $3 }' /proc/mounts`
 if [ -z "$fastboot" -a "X$ROOTFSTYPE" != "Xnfs" ]; then 
 
         STRING=$"Checking root filesystem"
@@ -316,7 +316,7 @@ if [ -x /sbin/isapnp -a -f /etc/isapnp.conf -a ! -f /proc/isapnp ]; then
 fi
 
 # Remount the root filesystem read-write.
-state=`awk '/(^\/dev\/root| \/ )/ { print $4 }' /proc/mounts`
+state=`awk '/ \/ / && ($3 !~ /rootfs/) { print $4 }' /proc/mounts`
 [ "$state" != "rw" ] && \
   action $"Remounting root filesystem in read-write mode: " mount -n -o remount,rw /
 
