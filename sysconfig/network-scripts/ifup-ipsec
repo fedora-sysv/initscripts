@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -x
 #
 # ifup-ipsec
 #
@@ -37,6 +37,14 @@
 #     (otherwise uses certificate information sent over IKE)
 #     IKE_RSA_KEY = RSA key for RSA IKE
 #
+
+. /etc/init.d/functions
+cd /etc/sysconfig/network-scripts
+. network-functions
+
+CONFIG=$1
+[ -f "${CONFIG}" ] || CONFIG=ifcfg-${1}
+source_config
 
 if [ -n "$KEY_AH" -o -n "$KEY_ESP" ]; then
   KEYING=manual
@@ -94,7 +102,7 @@ fi
 
 if [ "$KEYING" = "manual" ]; then
     # Get source address
-    if [ -n "$SRC" ]; then
+    if [ -z "$SRC" ]; then
       SRC=`ip -o route get to $DST | sed "s|.*src \([^ ]*\).*|\1|"`
     fi
     
@@ -103,21 +111,21 @@ if [ "$KEYING" = "manual" ]; then
     
     if [ "$MODE" = "host" ]; then
     
-      /sbin/setkey -c << EOF
-deleteall $SRC $DST ah;
-deleteall $DST $SRC ah;
-deleteall $SRC $DST esp;
-deleteall $DST $SRC esp;
+        setkey -c << EOF
+delete $SRC $DST ah $SPI_AH_OUT;
+delete $DST $SRC ah $SPI_AH_IN;
+delete $SRC $DST esp $SPI_ESP_OUT;
+delete $DST $SRC esp $SPI_ESP_IN;
 spddelete $SRC $DST any -P out;
 spddelete $DST $SRC any -P in;
 
 # ESP
-${KEY_ESP_IN:+add $DST $SRC esp $SPI_ESP_IN -E ${ESP_PROTO_IN:-$ESP_PROTO} $KEY_ESP_IN;}
-${KEY_ESP_OUT:+add $SRC $DST esp $SPI_ESP_OUT -E ${ESP_PROTO_OUT:-$ESP_PROTO} $KEY_ESP_OUT;}
+${KEY_ESP_IN:+add $DST $SRC esp $SPI_ESP_IN -E ${ESP_PROTO_IN:-$ESP_PROTO} $(echo '"')$KEY_ESP_IN$(echo '"');}
+${KEY_ESP_OUT:+add $SRC $DST esp $SPI_ESP_OUT -E ${ESP_PROTO_OUT:-$ESP_PROTO} $(echo '"')$KEY_ESP_OUT$(echo '"');}
 
 # AH
-${KEY_AH_IN:+add $DST $SRC ah $SPI1 -A ${AH_PROTO_IN:-$AH_PROTO} $KEY_AH_IN;}
-${KEY_AH_OUT:+add $SRC $DST ah $SPI_AH_OUT -A ${AH_PROTO_OUT:-$AH_PROTO} $KEY_AH_OUT;}
+${KEY_AH_IN:+add $DST $SRC ah $SPI_AH_IN -A ${AH_PROTO_IN:-$AH_PROTO} $(echo '"')$KEY_AH_IN$(echo '"');}
+${KEY_AH_OUT:+add $SRC $DST ah $SPI_AH_OUT -A ${AH_PROTO_OUT:-$AH_PROTO} $(echo '"')$KEY_AH_OUT$(echo '"');}
 
 spdadd $SRC $DST any -P out ipsec
             ${KEY_ESP_OUT:+esp/transport//require}
@@ -128,26 +136,26 @@ spdadd $DST $SRC any -P in ipsec
 	    ${KEY_ESP_IN:+esp/transport//require}
 	    ${KEY_AH_IN:+ah/transport//require}
 	    ;
-EOF    
+EOF
     else
       [ -n "$SRCNET" ] && SRCNET="$SRC/32"
       [ -n "$DSTNET" ] && DSTNET="$DST/32"
       
       /sbin/setkey -c << EOF
-deleteall $SRC $DST ah;
-deleteall $DST $SRC ah;
-deleteall $SRC $DST esp;
-deleteall $DST $SRC esp;
+delete $SRC $DST ah $SPI_AH_OUT;
+delete $DST $SRC ah $SPI_AH_IN;
+delete $SRC $DST esp $SPI_ESP_OUT;
+delete $DST $SRC esp $SPI_ESP_IN;
 spddelete $SRCNET $DSTNET any -P out;
 spddelete $DSTNET $SRCNET any -P in;
 
 # ESP
-${KEY_ESP_IN:+add $DST $SRC esp $SPI_ESP_IN -m tunnel -E ${ESP_PROTO_IN:-$ESP_PROTO} $KEY_ESP_IN;}
-${KEY_ESP_OUT:+add $SRC $DST esp $SPI_ESP_OUT -m tunnel -E ${ESP_PROTO_OUT:-$ESP_PROTO} $KEY_ESP_OUT;}
+${KEY_ESP_IN:+add $DST $SRC esp $SPI_ESP_IN -m tunnel -E ${ESP_PROTO_IN:-$ESP_PROTO} $(echo '"')$KEY_ESP_IN$(echo '"');}
+${KEY_ESP_OUT:+add $SRC $DST esp $SPI_ESP_OUT -m tunnel -E ${ESP_PROTO_OUT:-$ESP_PROTO} $(echo '"')$KEY_ESP_OUT$(echo '"');}
 
 # AH
-${KEY_AH_IN:+add $DST $SRC ah $SPI_AH_IN -m tunnel -A ${AH_PROTO_IN:-$AH_PROTO} $KEY_AH_IN;}
-${KEY_AH_OUT:+add $SRC $DST ah $SPI_AH_OUT -m tunnel -A ${AH_PROTO_OUT:-$AH_PROTO} $KEY_AH_OUT;}
+${KEY_AH_IN:+add $DST $SRC ah $SPI_AH_IN -m tunnel -A ${AH_PROTO_IN:-$AH_PROTO} $(echo '"')$KEY_AH_IN$(echo '"');}
+${KEY_AH_OUT:+add $SRC $DST ah $SPI_AH_OUT -m tunnel -A ${AH_PROTO_OUT:-$AH_PROTO} $(echo '"')$KEY_AH_OUT$(echo '"');}
 
 spdadd $SRCNET $DSTNET any -P out ipsec
             ${KEY_ESP_OUT:+esp/tunnel/$SRC-$DEST/require}
