@@ -24,6 +24,7 @@ your Red Hat system, change runlevels, and shut the system down
 cleanly.  Initscripts also contains the scripts that activate and
 deactivate most network interfaces.
 
+
 %prep
 %setup -q
 
