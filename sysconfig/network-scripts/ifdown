@@ -58,7 +58,7 @@ fi
 # Check to make sure the device is actually up
 check_device_down ${DEVICE} && [ "$BOOTPROTO" != "dhcp" -a "$BOOTPROTO" != "bootp" ] && [ -n "$VLAN" -a "$VLAN" != "yes" ] && exit 0
 
-if [ -n "${HWADDR}" ]; then
+if [ -n "${HWADDR}" -a -z "${MACADDR}" ]; then
     FOUNDMACADDR=`get_hwaddr ${REALDEVICE}`
     if [ "${FOUNDMACADDR}" != "${HWADDR}" ]; then
         NEWCONFIG=`fgrep -il "HWADDR=${HWADDR}" /etc/sysconfig/network-scripts/ifcfg-*`
