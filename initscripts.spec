@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.23
+Version: 6.24
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -239,6 +239,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Tue Aug 21 2001 Than Ngo <than@redhat.com>
+- fix Bringing up isdn device again. It works now correct.
+
 * Tue Aug 21 2001 Than Ngo <than@redhat.com>
 - fix shutdown/Bringing up isdn device
 
