@@ -134,7 +134,7 @@ int main(int argc, char ** argv) {
     /* automatically prepend "ifcfg-" if it is not specified */
     if (!strncmp(ifaceConfig, "ifcfg-", 6)) {
 	char *temp;
-	temp = (char *) malloc(strlen(ifaceConfig) + 6);
+	temp = (char *) alloca(strlen(ifaceConfig) + 7);
 	strcpy(temp, "ifcfg-");
 	/* strcat is safe because we got the length from strlen */
 	strcat(temp, ifaceConfig);
@@ -143,7 +143,8 @@ int main(int argc, char ** argv) {
     
 
     switch (userCtl(ifaceConfig)) {
-	char * dash;
+	char *dash;
+
 	case NOT_FOUND:
 	    /* a `-' will be found at least in "ifcfg-" */
 	    dash = strrchr(ifaceConfig, '-');
