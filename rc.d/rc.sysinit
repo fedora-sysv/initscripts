@@ -74,18 +74,10 @@ fi
 
 if grep "system serial" /proc/cpuinfo | grep -q MILO ; then
    ARC=true
-else
-   SRM=true
 fi
 
 CLOCKDEF=""
-if [ -x /sbin/hwclock ]; then
-   CLOCKFLAGS="--hctosys"
-   CLOCK=/sbin/hwclock
-else
-   CLOCKFLAGS="-a"
-   CLOCK=/sbin/clock
-fi
+CLOCKFLAGS="--hctosys"
 
 case "$UTC" in
    yes|true)
@@ -94,26 +86,20 @@ case "$UTC" in
   ;;
 esac
 
-if [ "$CLOCK" = "/sbin/clock" ]; then
-   case "$ARC" in
+case "$ARC" in
      yes|true)
      	CLOCKFLAGS="$CLOCKFLAGS -A";
      	CLOCKDEF="$CLOCKDEF (arc)";
      ;;
-   esac
-   case "$SRM" in
+esac
+case "$SRM" in
      yes|true)
 	CLOCKFLAGS="$CLOCKFLAGS -S";
 	CLOCKDEF="$CLOCKDEF (srm)";
      ;;
-   esac
-   if grep -q "Jensen" /proc/cpuinfo >/dev/null 2>&1 ; then
-     CLOCKFLAGS="$CLOCKFLAGS -J";
-     CLOCKDEF="$CLOCKDEF (jensen)";
-   fi
-fi
+esac
 
-$CLOCK $CLOCKFLAGS
+/sbin/hwclock $CLOCKFLAGS
 
 action "Setting clock $CLOCKDEF: `date`" date
 

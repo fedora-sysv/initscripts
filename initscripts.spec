@@ -10,6 +10,9 @@ BuildRoot: /var/tmp/initbld
 Requires: mingetty, bash, /bin/awk, /bin/sed, mktemp, e2fsprogs >= 1.15, console-tools
 Requires: procps, modutils >= 2.1.85-3, sysklogd >= 1.3.31
 Requires: setup >= 2.0.3, psmisc
+%ifarch alpha
+Requires: util-linux >= 2.9w-26
+%endif
 Conflicts: kernel <= 2.2, timeconfig < 3.0, pppd < 2.3.9, wvdial < 1.40-3
 Conflicts: initscripts < 1.22.1-5
 Obsoletes: rhsound
@@ -195,6 +198,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Oct 27 1999 Bill Nottingham <notting@redhat.com>
+- we now ship hwclock on alpha.
+
 * Mon Oct 25 1999 Jakub Jelinek <jakub@redhat.com>
 - fix check for serial console, don't use -C argument to fsck
   on serial console.
