@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.93.5
+Version: 7.93.6
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -206,6 +206,23 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Jan 19 2005 Bill Nottingham <notting@redhat.com> 7.93.6-1
+- add support for releasing DHCP lease (<jvdias@redhat.com>)
+- fix multiple scsi_hostadapter loads (#145432)
+- netfs: don't unmount NFS root FS (#142169)
+- netfs: don't mount GFS (#140281)
+- fix various minilogd bogosities (#106338)
+- fix various fgreps to not catch commented lines (#136531, expanded
+  from <cww@redhat.com>)
+- kill dhcp client even if BOOTOPROTO is now static (#127726, others)
+- ifup: fix typo (#134787, <bnocera@redhat.com>)
+- set ETHTOOL_OPTS on addressless devices (#144682, <mpoole@redhat.com>)
+- ifup: fix ONxxx (#136531, <cww@redhat.com>)
+- ifup-ipsec: add fwd policies (#145507)
+- fix check_link_down to still check negotiation if link is listed as
+  "up" on entering (#110164, <dbaron@dbaron.org>)
+- change setting of IPv6 default route (#142308, <pb@bieringer.de>)
+
 * Thu Nov  4 2004 Bill Nottingham <notting@redhat.com> 7.93.5-1
 - fix firmware uploading on boot (#137263)
 
