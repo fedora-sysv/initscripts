@@ -6,7 +6,7 @@ cd /etc/sysconfig/network-scripts
 
 # ifup-post for PPP is handled through /etc/ppp/ip-up
 
-if [ "$1" = daemon ] ; then
+if [ "${1}" = daemon ] ; then
   # we've been called from ppp-watch, so don't invoke it for persistence
   shift
 else
@@ -21,8 +21,8 @@ else
   fi
 fi
 
-CONFIG=${1}
-[ -f "${CONFIG}" ] || CONFIG=ifcfg-$1
+CONFIG=$1
+[ -f "${CONFIG}" ] || CONFIG=ifcfg-${1}
 source_config
 
 if [ -z "${DISCONNECTTIMEOUT}" ]; then
@@ -92,6 +92,8 @@ if [ ${DEMAND} = yes ] ; then
   else
     opts="$opts demand idle 600"
   fi
+else
+  opts="$opts updetach"
 fi
 
 if [ -z "${WVDIALSECT}" ] ; then
@@ -107,13 +109,13 @@ fi
   "pppd started for ${DEVICE} on ${MODEMPORT} at ${LINESPEED}" &)&
 
 if [ -n "${WVDIALSECT}" ] ; then
-  exec /usr/sbin/pppd -detach $opts ${MODEMPORT} ${LINESPEED} \
+  exec /usr/sbin/pppd $opts ${MODEMPORT} ${LINESPEED} \
     ipparam ${DEVICE} linkname ${DEVICE} \
     noauth \
     ${PPPOPTIONS} \
     connect "/usr/bin/wvdial --remotename ${DEVICE} --chat ${WVDIALSECT}"
 else
-  exec /usr/sbin/pppd -detach $opts ${MODEMPORT} ${LINESPEED} \
+  exec /usr/sbin/pppd $opts ${MODEMPORT} ${LINESPEED} \
     ipparam ${DEVICE} linkname ${DEVICE} \
     noauth \
     ${PPPOPTIONS} \
