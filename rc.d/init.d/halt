@@ -52,6 +52,9 @@ halt -w
 
 # Turn off swap, then unmount file systems.
 runcmd "Turning off swap and accounting" swapoff -a
+# Turn off other swap that isn't in /etc/fstab
+swapoff `cut -f1 -d " " /proc/swaps | tail +2`
+
 [ -x /sbin/accton ] && /sbin/accton
 runcmd "Unmounting file systems"  umount -a -f 
 mount -n -o remount,ro /
