@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.28
+Version: 5.29
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -16,7 +16,7 @@ Requires: util-linux >= 2.9w-26
 Conflicts: kernel <= 2.2, timeconfig < 3.0, pppd < 2.3.9, wvdial < 1.40-3
 Conflicts: initscripts < 1.22.1-5
 Obsoletes: rhsound sapinit
-Prereq: /sbin/chkconfig, /usr/sbin/groupadd, gawk
+Prereq: /sbin/chkconfig, /usr/sbin/groupadd, gawk, fileutils
 BuildPrereq: glib-devel
 
 %description
@@ -223,6 +223,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Jul  7 2000 Bill Nottingham <notting@redhat.com>
+- fix %pre, again
+
 * Thu Jul  6 2000 Bill Nottingham <notting@redhat.com>
 - tweak %pre back to a mv (rpm is fun!)
 - do USB initialization before fsck, so keyboard works if it fails
