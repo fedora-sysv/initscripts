@@ -62,6 +62,23 @@ case "$1" in
 			# Probe module to preserve interface ordering
 			/sbin/ifconfig $i >/dev/null 2>&1
 		else
+					# If we're in confirmation mode, get user confirmation
+		    [ -n "$CONFIRM" ]  && 
+			{ 
+			    confirm $i
+			    case $? in
+				0)
+				    :
+				;;
+				2)
+				    CONFIRM=
+				;;
+				*)
+				    continue
+				;;
+			    esac 
+			}
+
 			action "Bringing up interface $i: " ./ifup $i boot
 		fi
 	done
