@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.03
+Version: 8.04
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -203,6 +203,13 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Jan 19 2005 Bill Nottingham <notting@redhat.com> 8.04-1
+- split out ifup/ifdown general case to ifup/ifdown-eth;
+  add ifup/ifdown-bnep (<dwmw2@redhat.com>)
+- ifup-ipsec: add fwd policies (#145507)
+- fix multiple scsi_hostadapter loads (#145432)
+- enable syncookies in sysctl.conf (#145201)
+
 * Wed Jan 12 2005 Bill Nottingham <notting@redhat.com> 8.03-1
 - use udevsend to handle hotplug events (requires recent udev)
 - remove pump, dhcpcd support
