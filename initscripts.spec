@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.82
+Version: 5.83
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -232,6 +232,7 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/profile.d/lang.sh
 %config /etc/profile.d/lang.csh
 /usr/sbin/sys-unconfig
+/sbin/mkkerneldoth
 /sbin/setsysfont
 /bin/doexec
 /bin/ipcalc
@@ -254,6 +255,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Sat Apr  7 2001 Preston Brown <pbrown@redhat.com>
+- broke out kernel.h updater from rc.sysinit into /sbin/mkkerneldoth
+
 * Tue Apr  3 2001 Bill Nottingham <notting@redhat.com>
 - set umask explicitly to 022 in /etc/init.d/functions
 
