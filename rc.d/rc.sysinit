@@ -124,7 +124,7 @@ if [ -n "$USEMODULES" ]; then
     fi
 fi
 
-if [ -x /sbin/depmod -a -n "$USEMODULES" -a ! -f /proc/sys/kernel/modprobe ]; then
+if [ -x /sbin/depmod -a -n "$USEMODULES" ]; then
     # Get ready for kerneld if module support in the kernel
     echo -n "Finding module dependencies... "
     if [ -e /lib/modules/preferred ]; then
