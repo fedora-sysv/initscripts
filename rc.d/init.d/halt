@@ -40,8 +40,9 @@ kill -9 -1
 halt -w
 
 # Turn off swap, then unmount file systems.
-echo "Turning off swap"
+echo "Turning off swap and accounting"
 swapoff -a
+accton
 echo "Unmounting file systems"
 umount -a
 mount -n -o remount,ro /
