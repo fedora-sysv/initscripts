@@ -168,10 +168,6 @@ rm -rf $RPM_BUILD_ROOT
 %doc sysconfig.txt
 
 %changelog
-* Tue Mar 16 1999 Bill Nottingham <notting@redhat.com>
-- fix ROFS logging
-- make fsck produce more happy output
-
 * Mon Mar 15 1999 Bill Nottingham <notting@redhat.com>
 - doc updates
 - support for SYSFONTACM, other console-tools stuff
