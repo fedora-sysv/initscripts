@@ -5,7 +5,7 @@
 
 for i in /var/lock/subsys/*; do
 	# Check if the script is there.
-	[ ! -f $i ] && continue
+	[ -f $i ] || continue
 
 	# Get the subsystem name.
 	subsys=${i#/var/lock/subsys/}
@@ -19,4 +19,3 @@ for i in /var/lock/subsys/*; do
 	    rm -f $i
 	fi
 done
-

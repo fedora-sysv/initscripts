@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# rc.halt       This file is executed by init when it goes into runlevel
+# halt          This file is executed by init when it goes into runlevel
 #               0 (halt) or runlevel 6 (reboot). It kills all processes,
 #               unmounts file systems and then either halts or reboots.
 #
@@ -11,7 +11,7 @@
 # Set the path.
 PATH=/sbin:/bin:/usr/bin:/usr/sbin
 
-export NOLOCALE=1
+NOLOCALE=1
 . /etc/init.d/functions
 
 runcmd() {
@@ -32,29 +32,27 @@ halt_get_remaining() {
 
 # See how we were called.
 case "$0" in
-  *halt)
+   *halt)
 	message=$"Halting system..."
-	command="halt"
+	command="/sbin/halt"
 	;;
-  *reboot)
+   *reboot)
 	message=$"Please stand by while rebooting the system..."
-	command="reboot"
+	command="/sbin/reboot"
 	;;
-  *)
-	echo $"$0: call me as 'rc.halt' or 'rc.reboot' please!"
+   *)
+	echo $"$0: call me as 'halt' or 'reboot' please!"
 	exit 1
 	;;
 esac
-if [ -n "$1" ]; then
- case "$1" in
+case "$1" in
    *start)
    	;;
    *)
-   	echo $"Usage: (halt|reboot) {start}"
+	echo $"Usage: $0 {start}"
 	exit 1
 	;;
- esac
-fi
+esac
 
 # Kill all processes.
 [ "${BASH+bash}" = bash ] && enable kill
@@ -64,7 +62,7 @@ sleep 5
 runcmd $"Sending all processes the KILL signal..."  /sbin/killall5 -9
 
 # Write to wtmp file before unmounting /var
-halt -w
+/sbin/halt -w
 
 # Save mixer settings, here for lack of a better place.
 grep -q "\(sparcaudio\|sound\)" /proc/devices
@@ -93,26 +91,26 @@ CLOCKFLAGS="$CLOCKFLAGS --systohc"
 
 case "$UTC" in
    yes|true)
-    CLOCKFLAGS="$CLOCKFLAGS -u";
-    CLOCKDEF="$CLOCKDEF (utc)";
-   ;;
+	CLOCKFLAGS="$CLOCKFLAGS -u";
+	CLOCKDEF="$CLOCKDEF (utc)";
+	;;
    no|false)
-    CLOCKFLAGS="$CLOCKFLAGS --localtime";
-    CLOCKDEF="$CLOCKDEF (localtime)";
-   ;;
+	CLOCKFLAGS="$CLOCKFLAGS --localtime";
+	CLOCKDEF="$CLOCKDEF (localtime)";
+	;;
 esac
 
 case "$ARC" in
-     yes|true)
-     	CLOCKFLAGS="$CLOCKFLAGS -A";
-     	CLOCKDEF="$CLOCKDEF (arc)";
-     ;;
+   yes|true)
+	CLOCKFLAGS="$CLOCKFLAGS -A";
+	CLOCKDEF="$CLOCKDEF (arc)";
+	;;
 esac
 case "$SRM" in
-     yes|true)
+   yes|true)
 	CLOCKFLAGS="$CLOCKFLAGS -S";
 	CLOCKDEF="$CLOCKDEF (srm)";
-     ;;
+	;;
 esac
 
 runcmd $"Syncing hardware clock to system time" /sbin/hwclock $CLOCKFLAGS
@@ -197,15 +195,13 @@ if [ -f /poweroff -o ! -f /halt ]; then
  HALTARGS="$HALTARGS -p"
 fi
 
-if [ "$command" = halt ] ; then
-    if [ -r /etc/ups/upsmon.conf -a -f /etc/killpower -a -f /etc/sysconfig/ups ] ; then
-        . /etc/sysconfig/ups
-        [ "$SERVER" = "yes" -a "$MODEL" != "NONE" -a -n "$MODEL" -a -n "$DEVICE" ] && $MODEL -k $DEVICE
-    fi
+if [ "$command" = /sbin/halt -a -r /etc/ups/upsmon.conf -a -f /etc/killpower -a -f /etc/sysconfig/ups ] ; then
+	. /etc/sysconfig/ups
+	[ "$SERVER" = "yes" -a "$MODEL" != "NONE" -a -n "$MODEL" -a -n "$DEVICE" ] && $MODEL -k $DEVICE
 fi
 
-if [ -x "/sbin/halt.local" ]; then
+if [ -x /sbin/halt.local ]; then
    /sbin/halt.local
 fi
 
-eval $command $HALTARGS
+exec $command $HALTARGS

@@ -1,19 +1,18 @@
 #!/bin/bash
 #
-# /etc/rc.sysinit - run once at boot time
+# /etc/rc.d/rc.sysinit - run once at boot time
 #
 # Taken in part from Miquel van Smoorenburg's bcheckrc.
 #
 
 # Rerun ourselves through initlog
-if [ -z "$IN_INITLOG" ]; then
- [ -f /sbin/initlog ] && exec /sbin/initlog $INITLOG_ARGS -r /etc/rc.sysinit
+if [ -z "$IN_INITLOG" -a -x /sbin/initlog ]; then
+    exec /sbin/initlog $INITLOG_ARGS -r /etc/rc.d/rc.sysinit
 fi
 
 # If we're using devfs, start devfsd now - we need the old device names
 [ -e /dev/.devfsd -a -x /sbin/devfsd ] && /sbin/devfsd /dev
 
-# Set the path
 PATH=/bin:/sbin:/usr/bin:/usr/sbin
 export PATH
 

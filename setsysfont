@@ -6,22 +6,11 @@ if [ -f /etc/sysconfig/i18n ]; then
   . /etc/sysconfig/i18n
 fi
 
-if [ -n "$LANG" ]; then
-  case $LANG in
-      *.utf8|*.UTF-8)
-           if [ -n "$SYSFONT" ]; then
-	        if [ -n "$SYSFONTACM" ]; then
-      		   unicode_start $SYSFONT $SYSFONTACM
-		else
-		   unicode_start $SYSFONT
-		fi
-	   else
-	        unicode_start
-	   fi
-	   exit $?
-	   ;;
-   esac
-fi
+case "$LANG" in
+    *.utf8|*.UTF-8)
+      	 exec unicode_start $SYSFONT $SYSFONTACM
+	 ;;
+esac
 
 if [ -x /bin/consolechars -o -x /usr/bin/consolechars ]; then
   if [ -n "$SYSFONT" ]; then
@@ -46,4 +35,5 @@ else
   echo $"can't set font"
   exit 1
 fi
+
 exit 0

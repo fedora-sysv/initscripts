@@ -9,22 +9,19 @@ CVSROOT = $(shell cat CVS/Root)
 mandir=/usr/share/man
 
 all:
-	(cd src; make)
-	(make -C po)
+	make -C src
+	make -C po
+
 install:
-	mkdir -p $(ROOT)/etc
 	mkdir -p $(ROOT)/etc/profile.d $(ROOT)/sbin $(ROOT)/usr/sbin
 	mkdir -p $(ROOT)$(mandir)/man8
 
-	install -m644  inittab $(ROOT)/etc
+	install -m644  inittab adjtime $(ROOT)/etc
 	if uname -m | grep -q s390 ; then \
 	  install -m644 inittab.s390 $(ROOT)/etc/inittab ; \
 	fi
-	install -m644  adjtime $(ROOT)/etc
-	install -m755  setsysfont $(ROOT)/sbin
-	install -m755  lang.sh $(ROOT)/etc/profile.d
-	install -m755  lang.csh $(ROOT)/etc/profile.d
-	install -m755  service $(ROOT)/sbin
+	install -m755  service setsysfont $(ROOT)/sbin
+	install -m755  lang.csh lang.sh $(ROOT)/etc/profile.d
 	install -m755  sys-unconfig $(ROOT)/usr/sbin
 	install -m644  sys-unconfig.8 $(ROOT)$(mandir)/man8
 	install -m644 sysctl.conf $(ROOT)/etc/sysctl.conf
@@ -56,15 +53,14 @@ install:
 	  ln -sf ifdown-ippp ifdown-isdn ; \
 	  ln -sf ../../../sbin/ifup . ; \
 	  ln -sf ../../../sbin/ifdown . )
-	(cd src; make install ROOT=$(ROOT) mandir=$(mandir))
-	(cd po ; make install PREFIX=$(ROOT))
+	make install ROOT=$(ROOT) mandir=$(mandir) -C src
+	make install PREFIX=$(ROOT) -C po
 
 # Make sure locale stuff from initscripts goes in /usr/share/locale too
 	mkdir -p $(ROOT)/usr/share/locale
 	cp -a $(ROOT)/etc/locale/* $(ROOT)/usr/share/locale/
 
-	mkdir -p $(ROOT)/var/run/netreport
-	mkdir -p $(ROOT)/var/log
+	mkdir -p $(ROOT)/var/run/netreport $(ROOT)/var/log
 	chown $(SUPERUSER).$(SUPERGROUP) $(ROOT)/var/run/netreport
 	chmod u=rwx,g=rwx,o=rx $(ROOT)/var/run/netreport
 	touch $(ROOT)/var/run/utmp
@@ -116,8 +112,8 @@ changelog:
 	 rm -f changenew
 
 clean:
-	(cd src; make clean)
-	(cd po; make clean)
+	make clean -C src
+	make clean -C po
 	@rm -fv *~ changenew ChangeLog.old *gz
 tag-archive:
 	@cvs -Q tag -F $(CVSTAG)

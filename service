@@ -12,8 +12,7 @@ if [ $# -eq 0 ]; then
 fi
 
 cd /
-while [ $# -gt 0 ]
-do
+while [ $# -gt 0 ]; do
   case "${1}" in
     --help | -h | --h* )
        echo $"${USAGE}" >&2
@@ -26,7 +25,7 @@ do
     *)
        if [ -z "${SERVICE}" -a $# -eq 1 -a "${1}" = "--status-all" ]; then
           cd /
-          for SERVICE in *; do
+          for SERVICE in * ; do
             case "${SERVICE}" in
               functions | halt | killall | single| linuxconf| kudzu | \
                   *rpmorig | *rpmnew | *rpmsave | *~ | *.orig)

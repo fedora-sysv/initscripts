@@ -244,6 +244,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Wed Jun 26 2002 Florian La Roche <Florian.LaRoche@redhat.de>
+- start some sh coding cleanups
+
 * Wed Jun 12 2002 Bill Nottingham <notting@redhat.com> 6.78-1
 - fix UTF-8 checks
 
