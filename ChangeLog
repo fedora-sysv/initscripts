@@ -1,6 +1,166 @@
-2000-11-30  Bill Nottingham  <notting@redhat.com>
+2001-04-02  Bill Nottingham  <notting@redhat.com>
 
-	* rc.d/rc.sysinit: don't set NIS domain name
+        Big pile of backports from current tree.
+
+	* initscripts.spec: bump version
+
+	* sysconfig/network-scripts/ifup:
+	fix typo (#31627)
+	get rid of error message if ${GATEWAY} isn't set
+	fix typos (DHCPDARGS vs. DHCPCDARGS) (#26378)
+	remove old broken code
+	allow devices without an IP address (#24127)
+	don't try and run pump if it's not there
+	honor PEERDNS=no for pump and dhcpcd too (#18619)
+	fix ARP handling, allow for setting promiscuous or all-multicast mode
+	fix more ifconfig greps (patch from Conectiva)
+
+	* sysconfig/network-scripts/ifdown-ppp:
+	fix redial loop (#17380)
+
+	* sysconfig/network-scripts/network-functions:
+	handle aliases better in check_device_down (#18687)
+	fix ARP handling, allow for setting promiscuous or all-multicast mode
+	oops, put the LANG=C in the right place
+	fix the adding default route if GATEWAY" = "0.0.0.0
+
+	* sysconfig/network-scripts/ifup-post:
+	fix scoping isuse (#22547)
+	fix more ifconfig greps (patch from Conectiva)
+
+	* sysconfig/network-scripts/ifup-ipx:
+	deuglify (#23198)
+
+	* sysconfig/network-scripts/ifup-aliases:
+	fix more ifconfig greps (patch from Conectiva)
+	fix a couple of typos
+
+	* sysconfig/network-scripts/ifdown-aliases:
+	fix more ifconfig greps (patch from Conectiva)
+
+	* sysconfig/network-scripts/ifdown:
+	add ifdown-pre-local (#10936)
+	source /etc/sysconfig/network (#30595)
+	retcode wasn't used. initialize it.
+
+	* rc.d/rc.sysinit:
+	load ide-cd before ide-scsi
+	load ide-scsi if they asked for it
+
+	* rc.d/rc.sysinit:
+	do explicitly load usb-storage; it's the simplest solution for now
+	fix /boot/kernel.h generation (#32081)
+	tweak raid startup slightly to deal with /etc/raitab but no raid in the kernel (#25291)
+	avoid some error messages from USB startup (#31040)
+	run pam_console_apply on startup to reset permissions
+	insert multiple USB controllers correctly
+	mount usbdevfs before loading host controller module
+	don't run isapnp on isapnp-enabled 2.4 kernels
+	initialize multiple USB controllers if necessary
+	disable hotplug if 'nomodules' is specified
+	mon has a subdirectory in odd places as well. (#26924)
+	do USB initialization even if we don't need to load a host-controller module (#26318)
+	fix raid start if it's all modular, and no initrd (#25291)
+	add sleep 1 to avoid race (#17842)
+	add devfs to mtab (#20261)
+	deal with new location of console-tools stuff
+	turn on accounting at bootup
+	use modprobe -c to handle possible conditional modules.conf constructs (#21283)
+	don't exclude proc when you're doing mount -a -t nonfs...
+	don't remount r/w if it is r/w (#12097)
+	don't try and load fonts and keymaps on a serial console. Duh.
+
+	* rc.d/rc.local:
+	touch /var/lock/subsys/local so we only get run once
+
+	* rc.d/rc:
+	ask for startup of each network devie in CONFIRM mode. Patch from <rasmusin@wpi.edu>
+
+	* rc.d/init.d/network:
+	run *all* greps in C locale
+	don't error if kernel.hotplug isn't there (#33256)
+	disable hotplug during network initscript
+	fix network up/down logic
+	ignore backup files in /etc/sysconfig/network-scripts
+	only load the module if there is one to load.
+	only load modules for ethernet devices
+	ask for startup of each network devie in CONFIRM mode. Patch from <rasmusin@wpi.edu>
+	fix more ifconfig greps (patch from Conectiva)
+
+	* rc.d/init.d/single:
+	don't explicitly kill things, init will do that
+
+	* rc.d/init.d/random:
+	use /var/lib/for random seed; /var/run is cleared at bootup (#31521)
+
+	* rc.d/init.d/netfs:
+	unmount loopback stuff before stopping netfs or shutting down
+	don't exclude proc when you're doing mount -a -t nonfs...
+
+	* rc.d/init.d/killall:
+	don't barf errors if files aren't there (say, rc.local)
+
+	* rc.d/init.d/halt:
+	change message to be less misleading (#30087)
+	unmount loopback stuff before stopping netfs or shutting down
+	add autofs (#17288)
+	do something less surprising when called with arguments (#18216)
+	read /etc/sysconfig/clock on syncing hwclock
+	sync hardware clock to system time on halt (#21187)
+
+	* rc.d/init.d/functions:
+	- --background is fundamentally broken. Remove it for now.
+	- fix some ## substitutions to be correct
+	- use 'su -' , not just 'su' (#26894)
+	- make pidofproc() and killproc() try to use the PID associated with the full
+	  pathname first before killing the daemon by its basename (for daemons that
+	  share the same basename, i.e. "master" in postfix and cyrus-imapd) (#19016)
+	- fix status() as well
+	- return 1 in killproc if process isn't running (#26718)
+	- various cleanups (#10761, from mjt@tls.msk.ru)
+	- for daemon(), look only at the pid file to see if it's running (#17244, others)
+
+	* prefdm:
+	allow choice of desktop/displaymanager (#23315)
+
+	* ppp/ip-up:
+	only run ifup-post if the ifcfg file is there (#19741)
+
+	* ppp/ip-down:
+	export a $PATH here too (#22784)
+
+	* lang.sh: fix su errors
+	don't turn locale settings of 'C' into en_US
+
+	* lang.csh: fix su errors
+	specify full path to /sbin/consoletype (from milan.kerslager@spsselib.hiedu.cz)
+	don't turn locale settings of 'C' into en_US
+
+	* sysctl.conf, sysctl.conf.sparc:
+	ip_always_defrag goes *poof*
+
+	* sysconfig.txt:
+	ip_always_defrag goes *poof* (in the documentation)
+	honor PEERDNS=no for pump and dhcpcd too (#18619)
+	fix ARP handling, allow for setting promiscuous or all-multicast mode
+
+	* src/testd.c: add prototype
+
+	* src/process.c:
+	close extra file descriptors before exec()ing commands in initlog
+
+	* src/netreport.c: use O_NOFOLLOW
+
+	* src/minilogd.c:
+	add an alarm, so we don't wait forever for input (#23482)
+	wait another second
+	add an upper bound on how much stuff we'll keep in memory
+
+	* src/initlog.c:
+	don't close the magic file descriptor
+	fix segfaults in popt when called with bogus stuff (#28140)
+
+	* src/initlog.1: document -q
 
 2000-11-02  Than Ngo  <than@redhat.com>
 

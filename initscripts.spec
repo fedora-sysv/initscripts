@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.50.1
+Version: 5.49.1
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -229,7 +229,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Mon Apr  2 2001 Bill Nottingham <notting@redhat.com>
-- backport a *large* pile of fixes from the current tree
+- backport a *large* pile of fixes from the current tree; see ChangeLog
 
 * Tue Oct 10 2000 Nalin Dahyabhai <nalin@redhat.com>
 - handle "gw x.x.x.x" as the last pair of flags in ifup-routes (#18804)
