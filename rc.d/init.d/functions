@@ -148,9 +148,9 @@ pidofproc() {
 	fi
 
 	# Finally try to extract it from ps
-	ps auxw | awk 'BEGIN { prog=ARGV[1]; ARGC=1 } 
-			   { if ((prog == $11) || (("(" prog ")") == $11) ||
-			   ((prog ":") == $11)) { print $2 ; exit 0 } }' $1
+	ps ax | awk 'BEGIN { prog=ARGV[1]; ARGC=1 } 
+			   { if ((prog == $5) || (("(" prog ")") == $5) ||
+			   ((prog ":") == $5)) { print $1 ; exit 0 } }' $1
 }
 
 status() {
