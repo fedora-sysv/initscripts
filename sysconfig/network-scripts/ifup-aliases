@@ -293,7 +293,7 @@ for FILE in ifcfg-${parent_device}:*[^~] ; do
        ini_env;
        . $FILE;
        [ -z "$DEVICE" ] && DEVICE=${FILE##ifcfg-}
-       new_interface;
+       [ "$ONPARENT" != "no" -a "$ONPARENT" != "NO" ] && new_interface;
        unset DEVICE
 done
 
