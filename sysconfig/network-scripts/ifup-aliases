@@ -320,7 +320,7 @@ for FILE in ifcfg-${parent_device}-range*[^~] ; do
        while [ $ipaddr_num -le $ipaddr_endnum ]; do
                IPADDR="$ipaddr_prefix.$ipaddr_num"
                DEVICE="$parent_device:$ipaddr_clonenum"
-               new_interface;
+	       [ "$ONPARENT" != "no" -a "$ONPARENT" != "NO" ] && new_interface;
                let 'ipaddr_num=ipaddr_num+1'
                let 'ipaddr_clonenum=ipaddr_clonenum+1'
        done
