@@ -17,7 +17,6 @@
 #include <unistd.h>
 #include <errno.h>
 
-#include <newt.h>
 #include <popt.h>
 
 #include <sys/utsname.h>
