@@ -31,6 +31,11 @@ fi
 
 source_config
 
+# Check to make sure the device is actually up.
+# we still run the script if the device is down and it was configured
+# with DHCP or BOOTP, to insure dhcp/bootp dies.
+check_device_down ${DEVICE} && [ "$BOOTPROTO" != "dhcp" -a "$BOOTPROTO" != "bootp" ] && exit 0
+
 if [ -x /sbin/ifdown-pre-local ]; then
     /sbin/ifdown-pre-local ${DEVICE}
 fi
@@ -44,9 +49,6 @@ if [ -x $OTHERSCRIPT ]; then
 fi
 
 . /etc/sysconfig/network
-
-# Check to make sure the device is actually up
-check_device_down ${DEVICE} && [ "$BOOTPROTO" != "dhcp" -a "$BOOTPROTO" != "bootp" ] && exit 0
 
 if [ -n "${HWADDR}" ]; then
     FOUNDMACADDR=`LC_ALL= LANG= ip -o link show ${REALDEVICE} | \
