@@ -16,7 +16,7 @@ grep "^$1 " /etc/sysconfig/static-routes | while read device args; do
 	/sbin/route add -$args $device
 done
 grep "^any " /etc/sysconfig/static-routes | while read ignore type net netmask mask bogus dev ; do
-	if [ "$dev" = "$device" ]; then
+	if [ "$dev" = "$1" ]; then
 		/sbin/route add -$type $net $netmask $mask $dev
 	fi
 done
