@@ -113,7 +113,7 @@ fi
 
 # Get the modules ready to go -- we use awk here as cut is in /usr/bin
 rm -f /lib/modules/preferred
-if [ -n $USEMODULES -a ! -d /lib/modules/`uname -r` ]; then
+if [ -n $USEMODULES ]; then
     set `cat /proc/cmdline`
     while [ $# -gt 0 ]; do
 	if echo $1 | grep '^BOOT_IMAGE=' > /dev/null ; then
