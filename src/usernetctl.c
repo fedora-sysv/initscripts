@@ -135,8 +135,9 @@ int main(int argc, char ** argv) {
     }
 
     /* automatically prepend "ifcfg-" if it is not specified */
-    if (!strncmp(ifaceConfig, "ifcfg-", 6)) {
+    if (strncmp(ifaceConfig, "ifcfg-", 6)) {
 	char *temp;
+
 	temp = (char *) alloca(strlen(ifaceConfig) + 7);
 	strcpy(temp, "ifcfg-");
 	/* strcat is safe because we got the length from strlen */
