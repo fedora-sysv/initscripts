@@ -22,7 +22,7 @@
 NFSFSTAB=`LC_ALL=C awk '!/^#/ && $3 == "nfs" && $4 !~ /noauto/ { print $2 }' /etc/fstab`
 SMBFSTAB=`LC_ALL=C awk '!/^#/ && $3 == "smbfs" && $4 !~ /noauto/ { print $2 }' /etc/fstab`
 NCPFSTAB=`LC_ALL=C awk '!/^#/ && $3 == "ncpfs" && $4 !~ /noauto/ { print $2 }' /etc/fstab`
-NETDEVMTAB=`LC_ALL=C awk '!/^#/ && $4 ~ /_netdev/ && $2 != "/" { print $2 }' /proc/mounts`
+NETDEVMTAB=`LC_ALL=C awk '!/^#/ && $4 ~ /_netdev/ && $2 != "/" { print $2 }' /etc/mtab`
 NFSMTAB=`LC_ALL=C awk '!/^#/ && $3 == "nfs" && $2 != "/" { print $2 }' /proc/mounts`
 SMBMTAB=`LC_ALL=C awk '!/^#/ && $3 == "smbfs" { print $2 }' /proc/mounts`
 NCPMTAB=`LC_ALL=C awk '!/^#/ && $3 == "ncpfs" { print $2 }' /proc/mounts`
@@ -70,7 +70,7 @@ case "$1" in
   	[ -n "$NETDEVMTAB" ] && {
 		sig=
 		retry=3
-		remaining=`LC_ALL=C awk '!/^#/ && $4 ~ /_netdev/ && $2 != "/" {print $2}' /proc/mounts`
+		remaining=`LC_ALL=C awk '!/^#/ && $4 ~ /_netdev/ && $2 != "/" {print $2}' /etc/mtab`
 		while [ -n "$remaining" -a "$retry" -gt 0 ]
 		do
 			if [ "$retry" -lt 3 ]; then
@@ -79,7 +79,7 @@ case "$1" in
 				action $"Unmounting network block filesystems: " umount -a -O _netdev
 			fi
 			sleep 2
-			remaining=`LC_ALL=C awk '!/^#/ && $4 ~ /_netdev/ && $2 != "/" {print $2}' /proc/mounts`
+			remaining=`LC_ALL=C awk '!/^#/ && $4 ~ /_netdev/ && $2 != "/" {print $2}' /etc/mtab`
 			[ -z "$remaining" ] && break
 			/sbin/fuser -k -m $sig $remaining >/dev/null
 			sleep 5
