@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.56
+Version: 5.57
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -11,7 +11,7 @@ Requires: procps >= 2.0.6-5, sysklogd >= 1.3.31
 Requires: setup >= 2.0.3, /sbin/fuser, which
 Requires: modutils >= 2.3.11-5
 Requires: util-linux >= 2.10
-Requires: gettext >= 0.10.35-25
+Requires: bash >= 2.0
 Conflicts: kernel <= 2.2, timeconfig < 3.0, pppd < 2.3.9, wvdial < 1.40-3
 Conflicts: initscripts < 1.22.1-5 ypbind < 1.6-12
 Obsoletes: rhsound sapinit
@@ -72,24 +72,23 @@ mkdir -p $RPM_BUILD_ROOT/var/{log,run}
 touch $RPM_BUILD_ROOT/var/run/utmp
 touch $RPM_BUILD_ROOT/var/log/wtmp
 
-# Put this stuff in /etc/locale too
-mkdir -p $RPM_BUILD_ROOT/etc/locale
-cp -a $RPM_BUILD_ROOT/usr/share/locale/* $RPM_BUILD_ROOT/etc/locale
+# Put this stuff in /usr/share/locale too
+mkdir -p $RPM_BUILD_ROOT/usr/share/locale
+cp -a $RPM_BUILD_ROOT/etc/locale/* $RPM_BUILD_ROOT/usr/share/locale/
 
 pushd %{buildroot}/%{_datadir}/locale
 for foo in * ; do
-  echo "%lang($foo) %{_datadir}/locale/$foo/*/*" >> \
+ echo  "%lang($foo) %{_datadir}/locale/$foo/*/*" >> \
       $RPM_BUILD_DIR/%{name}-%{version}/trans.list
 done
 popd
 
-pushd %{buildroot}/etc/locale
+pushd  %{buildroot}/etc/locale
 for foo in * ; do
-  echo "%lang($foo) %{_datadir}/locale/$foo/*/*" >> \
+  echo "%lang($foo) /etc/locale/$foo/*/*" >> \
       $RPM_BUILD_DIR/%{name}-%{version}/trans.list
 done
 popd
-
 
 %pre
 /usr/sbin/groupadd -g 22 -r -f utmp
@@ -183,7 +182,7 @@ fi
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%files
+%files -f trans.list
 %defattr(-,root,root)
 %dir /etc/sysconfig/network-scripts
 %config(noreplace) %verify(not md5 mtime size) /etc/adjtime

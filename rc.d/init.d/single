@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 #
 # rc.single     This file is executed by init when it goes into runlevel
@@ -23,10 +23,10 @@ fi
 # Kill all processes.
 [ "${BASH+bash}" = bash ] && enable kill
 
-gprintf "Sending all processes the %s signal...\n" "TERM"
+echo $"Sending all processes the TERM signal..."
 kill -15 -1
 sleep 5
-gprintf "Sending all processes the %s signal..\n" "KILL"
+echo $"Sending all processes the KILL signal.."
 kill -9 -1
 
 rm -f /var/lock/subsys/*
@@ -53,5 +53,5 @@ for i in /etc/rc1.d/S[0-9][0-9]*; do
 done						
 
 # Now go to the single user level.
-gprintf "Telling INIT to go to single user mode.\n"
+echo $"Telling INIT to go to single user mode."
 exec init -t1 S

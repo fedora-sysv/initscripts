@@ -62,7 +62,7 @@ TEXTDOMAIN=initscripts
 
 device=$1
 if [ "$device" = "" ]; then
-	gprintf "usage: %s <net-device>\n" "$0"
+	echo $"usage: ifup-aliases <net-device>\n"
 	exit 1
 fi
 
@@ -104,7 +104,7 @@ eval ` (
 # read defaults from the parent config file
 PARENTCONFIG=ifcfg-$device
 [ -f $PARENTCONFIG ] || {
-       echo "Missing config file $PARENTCONFIG." >&2
+       echo $"Missing config file $PARENTCONFIG." >&2
        exit 1
 }
 eval ` (
@@ -145,15 +145,15 @@ function new_interface ()
        ";
 
        if [ -n "$ipseen" ]; then
-              echo "error in $FILE: already seen ipaddr $IPADDR in $ipseen" >&2;exit 0
+              echo $"error in $FILE: already seen ipaddr $IPADDR in $ipseen" >&2;exit 0
        fi
 
        if [ -n "$devseen" ]; then
-              echo "error in $FILE: already seen device $parent_device:$DEVNUM\ in $devseen" >&2; exit 0
+              echo $"error in $FILE: already seen device $parent_device:$DEVNUM\ in $devseen" >&2; exit 0
        fi
        
        if [ -z "$DEVICE" -o -z "$IPADDR" ]; then
-              echo "error in $FILE: didn't specify device or ipaddr" >&2 ; exit 0
+              echo $"error in $FILE: didn't specify device or ipaddr" >&2 ; exit 0
        fi
 
        if [ -z "$NETMASK" ]; then
@@ -219,7 +219,7 @@ function new_interface ()
                                setup_this=yes
                        fi
                        if [ -n "$rdev_mark" -a "$rdev_mark" != "$newmark" ]; then
-                               echo "error in ifcfg-${parent_device}:\* files" >&2 ; exit 0
+                               echo $"error in ifcfg-${parent_device}:\* files" >&2 ; exit 0
                        fi
                        eval " rdev_${DEVNUM}_mark=\$newmark ";
                else
@@ -229,7 +229,7 @@ function new_interface ()
                if [ -n "$rdevip" -a "$rdevip" != "${DEVNUM}" ]; then
                        eval " mark_remove=\$rdev_${rdevip}_mark ";
                        if [ -n "$mark_remove" -a "$mark_remove" != "remove" ]; then
-                               echo "error in ifcfg-${parent_device}:\* files" >&2 ; exit 0
+                               echo $"error in ifcfg-${parent_device}:\* files" >&2 ; exit 0
                        fi
                        if [ "$mark_remove" != "remove" ]; then
                                eval " rdev_${rdevip}_mark=remove ";
@@ -334,11 +334,11 @@ for FILE in ifcfg-${parent_device}-range* ; do
        ipaddr_endnum=${IPADDR_END##*.}
 
        if [ "${IPADDR_START%.*}" != "${IPADDR_END%.*}" ]; then
-               echo "error in $FILE: IPADDR_START and IPADDR_END don't argree" >&2; exit 0
+               echo $"error in $FILE: IPADDR_START and IPADDR_END don't argree" >&2; exit 0
        fi
 
        if [ $ipaddr_startnum -gt $ipaddr_endnum ]; then
-               echo "error in $FILE: IPADDR_START greater than IPADDR_END" >&2; exit 0
+               echo $"error in $FILE: IPADDR_START greater than IPADDR_END" >&2; exit 0
        fi
 
        ipaddr_num=$ipaddr_startnum

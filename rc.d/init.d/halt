@@ -14,13 +14,12 @@ PATH=/sbin:/bin:/usr/bin:/usr/sbin
 . /etc/init.d/functions
 
 runcmd() {
-   gprintf_msg_rest "$@"
-   echo -n "$GPRINTF_MSG "
+   echo -n $"$1 "
    shift
    if [ "$BOOTUP" = "color" ]; then
-      $GPRINTF_REST && echo_success || echo_failure
+      $* && echo_success || echo_failure
    else
-      $GPRINTF_REST
+      $*
    fi
    echo
 }
@@ -28,15 +27,15 @@ runcmd() {
 # See how we were called.
 case "$0" in
   *halt)
-	message=`gprintf "The system is halted"`
+	message=$"The system is halted"
 	command="halt"
 	;;
   *reboot)
-	message=`gprintf "Please stand by while rebooting the system..."`
+	message=$"Please stand by while rebooting the system..."
 	command="reboot"
 	;;
   *)
-	gprintf "%s: call me as 'halt' or 'reboot' please!" $0
+	echo $"$0: call me as \"rc.halt\" or \"rc.reboot\" please!"
 	exit 1
 	;;
 esac
@@ -44,9 +43,9 @@ esac
 # Kill all processes.
 [ "${BASH+bash}" = bash ] && enable kill
 
-runcmd "Sending all processes the %s signal..." "TERM" /sbin/killall5 -15
+runcmd "Sending all processes the TERM signal..." /sbin/killall5 -15
 sleep 5
-runcmd "Sending all processes the %s signal.." "KILL" /sbin/killall5 -9
+runcmd "Sending all processes the KILL signal..."  /sbin/killall5 -9
 
 # Write to wtmp file before unmounting /var
 halt -w
@@ -91,7 +90,7 @@ done
 [ -f /proc/bus/usb/devices ] && umount /proc/bus/usb
 
 # Remount read only anything that's left mounted.
-#echo "Remounting remaining filesystems (if any) readonly"
+#echo $"Remounting remaining filesystems (if any) readonly"
 mount | awk '/ext2/ { print $3 }' | while read line; do
     mount -n -o ro,remount $line
 done
@@ -99,11 +98,11 @@ done
 runcmd "Unmounting proc file system: " umount /proc
 
 # Now halt or reboot.
-echo "$message"
+echo $"$message"
 if [ -f /fastboot ]; then
- gprintf "On the next boot fsck will be skipped.\n"
+ echo $"On the next boot fsck will be skipped."
 elif [ -f /forcefsck ]; then
- gprintf "On the next boot fsck will be forced.\n"
+ echo $"On the next boot fsck will be forced."
 fi
 
 HALTARGS="-i -d"

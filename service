@@ -7,7 +7,7 @@ SERVICE=
 SERVICEDIR="/etc/init.d"
 
 if [ $# -eq 0 ]; then
-   echo "${USAGE}" >&2
+   echo $"${USAGE}" >&2
    exit 1
 fi
 
@@ -15,11 +15,11 @@ while [ $# -gt 0 ]
 do
   case "${1}" in
     --help | -h | --h* )
-       echo "${USAGE}" >&2
+       echo $"${USAGE}" >&2
        exit 0
        ;;
     --version | -V )
-       echo "${VERSION}" >&2
+       echo $"${VERSION}" >&2
        exit 0
        ;;
     *)
@@ -59,6 +59,6 @@ done
 if [ -x "${SERVICEDIR}/${SERVICE}" ]; then
    "${SERVICEDIR}/${SERVICE}" ${OPTIONS}
 else
-   echo "${SERVICE}: unrecognized service" >&2
+   echo $"${SERVICE}: unrecognized service" >&2
    exit 1
 fi

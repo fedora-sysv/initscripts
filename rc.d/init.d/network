@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # network       Bring up/down networking
 #
@@ -46,7 +46,7 @@ case "$1" in
   
   	action "Setting network parameters: " sysctl -p /etc/sysctl.conf
 
-	action "Bringing up interface %s: " lo ./ifup ifcfg-lo
+	action "Bringing up interface lo: " ./ifup ifcfg-lo
 
 	case "$IPX" in
 	  yes|true)
@@ -114,7 +114,7 @@ case "$1" in
 	
 	for i in $interfaces ; do
 	        if LC_ALL= LANG= ifconfig $i 2>/dev/null | grep -q " UP " >/dev/null 2>&1 ; then
-		   action "Shutting down interface %s: " $i ./ifdown $i boot
+		   action "Shutting down interface $i: " ./ifdown $i boot
 		fi
 	done
 	case "$IPX" in
@@ -141,18 +141,18 @@ case "$1" in
         rm -f /var/lock/subsys/network
         ;;
   status)
-	gprintf "Configured devices:\n"
+	echo $"Configured devices:"
 	echo lo $interfaces
 
 	if [ -x /sbin/linuxconf ] ; then
 		eval `/sbin/linuxconf --hint netdev`
-		gprintf "Devices that are down:\n"
+		echo $"Devices that are down:"
 		echo $DEV_UP
-		gprintf "Devices with modified configuration:\n"
+		echo $"Devices with modified configuration:"
 		echo $DEV_RECONF
 	else
-		gprintf "Currently active devices:\n"
-		echo `LC_ALL= LANG= /sbin/ifconfig | grep ^[a-z] | awk '{print $1}'`
+		echo $"Currently active devices:"
+		echo `/sbin/ifconfig | grep ^[a-z] | awk '{print $1}'`
 	fi
 	;;
   restart)
@@ -217,7 +217,7 @@ case "$1" in
 	fi
 	;;
   *)
-	gprintf "Usage: %s {start|stop|restart|reload|status|probe}\n" "network"
+        echo $"Usage: network {start|stop|restart|reload|status|probe}"
         exit 1
 esac
 

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 
 cd /etc/sysconfig/network-scripts
@@ -44,18 +44,18 @@ if [ "${2}" = "boot" -a "${ONBOOT}" = "no" ]; then
 fi
 
 [ -x /usr/sbin/pppd ] || {
-  gprintf "/usr/sbin/pppd does not exist or is not executable\n"
-  gprintf "ifup-ppp for %s exiting\n" "${DEVICE}"
+  echo $"/usr/sbin/pppd does not exist or is not executable"
+  echo $"ifup-ppp for ${DEVICE} exiting"
   logger -p daemon.info -t ifup-ppp \
-    `gprintf "/usr/sbin/pppd does not exist or is not executable for %s\n" "${DEVICE}"`
+    $"/usr/sbin/pppd does not exist or is not executable for ${DEVICE}"
   exit 1
 }
 
 [ -n "${WVDIALSECT}" -o -f /etc/sysconfig/network-scripts/chat-${DEVICE} ] || {
-  echo "/etc/sysconfig/network-scripts/chat-${DEVICE} does not exist"
-  echo "ifup-ppp for ${DEVICE} exiting"
+  echo $"/etc/sysconfig/network-scripts/chat-${DEVICE} does not exist"
+  echo $"ifup-ppp for ${DEVICE} exiting"
   logger -p daemon.info -t ifup-ppp \
-    `gprintf "/etc/sysconfig/network-scripts/chat-%s does not exist for %s" "${DEVICE}" "${DEVICE}"`
+    $"/etc/sysconfig/network-scripts/chat-${DEVICE} does not exist for ${DEVICE}"
   exit 1
 }
 
@@ -109,7 +109,7 @@ else
 fi
 
 (logger -p daemon.info -t ifup-ppp \
-  "pppd started for ${DEVICE} on ${MODEMPORT} at ${LINESPEED}" &)&
+  $"pppd started for ${DEVICE} on ${MODEMPORT} at ${LINESPEED}" &)&
 
 if [ -n "${WVDIALSECT}" ] ; then
   exec /usr/sbin/pppd $opts ${MODEMPORT} ${LINESPEED} \

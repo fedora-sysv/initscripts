@@ -11,14 +11,14 @@
 case "$1" in
   start)
         # Start daemons.
-        echo -n "Starting testd: "
+        echo -n $"Starting testd: "
         testd &
         echo
         touch /var/lock/subsys/testd
         ;;
   stop)
         # Stop daemons.
-        echo -n "Shutting down testd: "
+        echo -n $"Shutting down testd: "
 	killproc testd
         echo
         rm -f /var/lock/subsys/testd
@@ -29,15 +29,15 @@ case "$1" in
 	exit $?
         ;;
   restart)
-	echo -n "Shutting down testd: "
+	echo -n $"Shutting down testd: "
 	killproc testd
 	echo
-	echo -n "Starting testd: "
+	echo -n $"Starting testd: "
 	testd &
 	echo
 	;;
   *)
-        echo "Usage: testd {start|stop|status|restart}"
+        echo $"Usage: testd {start|stop|status|restart}"
         exit 1
 esac
 

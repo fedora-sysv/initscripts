@@ -11,13 +11,13 @@ need_hostname
 CONFIG=${1}
 
 [ -z "${CONFIG}" ] && {
-    gprintf "usage: ifup <device name>\n" >&2
+    echo $"usage: ifup <device name>" >&2
     exit 1
 }
 
 [ -f "${CONFIG}" ] || CONFIG=ifcfg-${CONFIG}
 [ -f "${CONFIG}" ] || {
-    gprintf "usage: ifup <device name>\n" >&2
+    echo $"usage: ifup <device name>" >&2
     exit 1
 }
 
@@ -27,7 +27,7 @@ if [ ${UID} != 0 ]; then
 	    exec /usr/sbin/usernetctl ${CONFIG} up
 	fi
     fi
-    gprintf "Users cannot control this device.\n" >&2
+    echo $"Users cannot control this device." >&2
     exit 1
 fi
 
@@ -74,7 +74,7 @@ fi
 # is this device available? (this catches PCMCIA devices for us)
 LC_ALL= LANG= /sbin/ifconfig ${REALDEVICE} 2>&1 | grep -s "not found" > /dev/null
 if [ "$?" = "0" ]; then
-    gprintf "Delaying %s initialization.\n" "${DEVICE}"
+    echo $"Delaying ${DEVICE} initialization."
     exit 1
 fi
 
@@ -83,7 +83,7 @@ if [ "${SLAVE}" = yes -a "${ISALIAS}" = no -a "${MASTER}" != "" -a \
     RFLAG="" ; [ "${RECEIVEONLY}" = yes ] && RFLAG="-r"
 
     ifconfig ${DEVICE} down
-    gprintf "Enslaving %s to %s" "${DEVICE}" "${MASTER}"
+    echo $"Enslaving ${DEVICE} to ${MASTER}"
     ifenslave ${RFLAG} "${MASTER}" "${DEVICE}"
 
     exit 0
@@ -108,14 +108,14 @@ if [ -n "${DYNCONFIG}" ]; then
        PUMPARGS="${PUMPARGS} -d"
        DHCPDARGS="${DHCPDARGS} -R"
     fi
-    gprintf "Determining IP information for %s..." "${DEVICE}"
+    echo -n $"Determining IP information for ${DEVICE}..."
     
     if [ -x /sbin/pump ] && /sbin/pump ${PUMPARGS} -i ${DEVICE} ; then
-	gprintf " done.\n"
+	echo $" done."
     elif [ -x /sbin/dhcpcd ] && /sbin/dhcpcd ${DHCPCDARGS} ${DEVICE} ; then
-	gprintf " done.\n"
+	echo $" done."
     else
-	gprintf " failed.\n"
+	echo $" failed."
 	exit 1
     fi
 else 

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # rawdevices       This shell script assignes rawdevices to block devices
 #
@@ -28,17 +28,17 @@ function assign_raw()
    cat /etc/sysconfig/rawdevices | egrep -v '^ *#' | while read RAW BLOCK; do 
      if [ -n "$RAW" -a -n "$BLOCK" ]; then 
          if [ "`dirname $RAW`" = "/dev" -a -d /dev/raw ]; then
-           gprintf "  Please correct your /etc/sysconfig/rawdevices:\n"
-           gprintf "     rawdevices are now located in the directory /dev/raw/\n"
-           gprintf "  If the command 'raw' still refers to /dev/raw as a file.\n"
-           gprintf "   you'll have to upgrade your util-linux package\n"
+           echo $"  Please correct your /etc/sysconfig/rawdevices:"
+           echo $"     rawdevices are now located in the directory /dev/raw/ "
+           echo $"  If the command 'raw' still refers to /dev/raw as a file."
+           echo $"   you'll have to upgrade your util-linux package"
            exit 0
          fi
          if [ "`dirname $RAW`" = "/dev/raw" -a -f /dev/raw ]; then
-           gprintf "  Please correct your /etc/sysconfig/rawdevices:\n"
-           gprintf "     rawdevices are now located in the directory /dev/raw/\n"
-           gprintf "  If the command 'raw' still refers to /dev/raw as a file.\n"
-           gprintf "   you'll have to upgrade your util-linux package\n"
+           echo $"  Please correct your /etc/sysconfig/rawdevices:"
+           echo $"     rawdevices are now located in the directory /dev/raw/ "
+           echo $"  If the command 'raw' still refers to /dev/raw as a file."
+           echo $"   you'll have to upgrade your util-linux package"
            exit 0
          fi
 
@@ -52,9 +52,9 @@ function assign_raw()
 case "$1" in
   start)
         # Assign devices
-        gprintf "Assigning devices: "
+        echo $"Assigning devices: "
         assign_raw
-        echo "done"
+        echo $"done"
         ;;
   stop)
         # No action to be taken here
@@ -65,7 +65,7 @@ case "$1" in
         if [ $ID -eq 0 ]; then 
           raw -qa
         else
-          gprintf "You need to be root to use this command!\n"
+          echo $"You need to be root to use this command ! "
         fi
         ;;
 
@@ -74,7 +74,7 @@ case "$1" in
         ;;
 
   *)
-        gprintf "Usage: rawdevice {start|stop|status|restart}\n"
+        echo $"Usage: rawdevice {start|stop|status|restart}"
         exit 1
 esac
 
