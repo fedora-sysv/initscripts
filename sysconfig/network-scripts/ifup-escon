@@ -30,7 +30,7 @@ ifconfig ${DEVICE} ${IPADDR} ${opts} pointopoint ${REMIP}
 # Wait for the device to come up - the chandev'ified ctc driver can take
 # quite a while...
 timeout=0
-while ! ping -w 30 -c ${REMIP} &>/dev/null; do
+while ! ping -w 30 -c 1 ${REMIP} &>/dev/null; do
 	timeout=$(($timeout + 1))
 	if [ $timeout = 20 ]; then
 		echo $"ERROR: ${DEVICE} did not come up!"
