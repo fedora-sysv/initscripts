@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.69
+Version: 5.70
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -249,11 +249,16 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/ppp/ip-up
 %config /etc/ppp/ip-down
 %config /etc/initlog.conf
-%doc sysconfig.txt sysvinitfiles ChangeLog sysconfig/static-routes-ipv6 ipv6-tunnel.howto
+%doc sysconfig.txt sysvinitfiles ChangeLog static-routes-ipv6 ipv6-tunnel.howto
 %ghost %attr(0664,root,utmp) /var/log/wtmp
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Mar  5 2001 Bill Nottingham <notting@redhat.com>
+- IPv6 fixes (#30506)
+- make static-routes handling more sane and consistent (#29500, #29549)
+- handle multiple USB controllers *correctly*
+
 * Wed Feb 28 2001 Nalin Dahyabhai <nalin@redhat.com>
 - usernetctl, ppp-watch: cleanups
 - netreport: use O_NOFOLLOW
