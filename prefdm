@@ -2,6 +2,12 @@
 
 PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin
 
+
+# shut down any graphical boot that might exist
+if [ -x /usr/bin/rhgb-client ]; then
+    /usr/bin/rhgb-client -quit
+fi
+
 # We need to source this so that the login screens get translated
 [ -f /etc/profile.d/lang.sh ] && . /etc/profile.d/lang.sh
 

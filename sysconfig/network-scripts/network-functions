@@ -131,9 +131,15 @@ check_device_down ()
 check_link_down ()
 {
     if [ -x /sbin/mii-tool ]; then
-        LC_ALL=C ip link show $1 2>/dev/null| grep -q UP || ip link set $1 up >/dev/null 2>&1
-	# wait for link to come up
-	sleep 5
+        if ! LC_ALL=C ip link show $1 2>/dev/null| grep -q UP ; then
+	   ip link set $1 up >/dev/null 2>&1
+	   timeout=0
+	   while [ $timeout -le 10 ]; do
+	   	LC_ALL=C ip link show $1 2>/dev/null | grep -q UP && break
+		usleep 500000
+		timeout=$((timeout+1))
+	   done
+	fi
 	/sbin/mii-tool $1 >/dev/null 2>&1 || return 1
 	output=`LC_ALL=C /sbin/mii-tool $1 2>&1`
 	if echo $output | grep -q "Operation not supported"; then
