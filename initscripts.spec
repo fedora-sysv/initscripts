@@ -194,6 +194,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Aug 13 1999 Bill Nottingham <notting@redhat.com>
+- add new /boot/kernel.h boot kernel version file
+- new RAID startup
+
 * Fri Aug 13 1999 Michael K. Johnson <johnsonm@redhat.com>
 - use new linkname argument to pppd to make if{up,down}-ppp
   reliable -- requires ppp-2.3.9 or higher
