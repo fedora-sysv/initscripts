@@ -73,6 +73,7 @@
 #include <sys/socket.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
+#include <termios.h>
 #include <net/if.h>
 
 #include "shvar.h"
@@ -347,6 +348,33 @@ interfaceStatus(char *device) {
 }
 
 
+/* very, very minimal hangup function.  This is just to attempt to
+ * hang up a device that should already be hung up, so it does not
+ * need to be bulletproof.
+ */
+void
+hangup(shvarFile *ifcfg) {
+    int fd;
+    char *filename;
+    struct termios ots, ts;
+
+    filename = svGetValue(ifcfg, "MODEMPORT");
+    if (!filename) return;
+    fd = open(filename, O_RDWR|O_NOCTTY|O_NONBLOCK);
+    if (fd == -1) goto clean; 
+    if (tcgetattr(fd, &ts)) goto clean;
+    ots = ts;
+    write(fd, "\r", 1); /* tickle modems that do not like dropped DTR */
+    usleep(1000);
+    cfsetospeed(&ts, B0);
+    tcsetattr(fd, TCSANOW, &ts);
+    usleep(100000);
+    tcsetattr(fd, TCSANOW, &ots);
+
+clean:
+    free(filename);
+}
+
 
 
 
@@ -453,7 +481,10 @@ main(int argc, char **argv) {
 	    if (!pppdPid) cleanExit(34);
 	    kill(pppdPid, sendsig);
 	    if (sendsig == SIGKILL) {
+		kill(-pppdPid, SIGTERM); /* give it a chance to die nicely */
+		usleep(2500000);
 		kill(-pppdPid, sendsig);
+		hangup(ifcfg);
 		cleanExit(32);
 	    }
 	}
@@ -502,7 +533,12 @@ main(int argc, char **argv) {
 	     * hold the modem if we do not get rid of them.
 	     * We have kept the old pid/pgrp around in pppdPid.
 	     */
-	    if (pppdPid) kill(-pppdPid, SIGKILL);
+	    if (pppdPid) {
+		kill(-pppdPid, SIGTERM); /* give it a chance to die nicely */
+		usleep(2500000);
+		kill(-pppdPid, SIGKILL);
+		hangup(ifcfg);
+	    }
 	    pppdPid = 0;
 
 	    if (!WIFEXITED(status)) cleanExit(29);
