@@ -398,7 +398,7 @@ if [ "${TYPE}" =  "Bonding" ] || ethtool -i $DEVICE 2>/dev/null| grep -q "driver
 		DEV=$DEVICE
                 eval $(LANG=C fgrep "DEVICE=" $device)
 		ip link set ${DEVICE} up
-		ip route flush dev ${DEVICE}
+		ip route flush dev ${DEVICE} >/dev/null 2>&1
 		DEVICE=$DEV
 	fi
     done
