@@ -47,10 +47,21 @@ delete $DST $SRC esp $SPI_ESP_IN;
 EOF
 fi
 
-setkey -c << EOF
-spddelete $SRC $DST any -P out;
-spddelete $DST $SRC any -P in;
+if [ "$MODE" = "host" ]; then
+	setkey -c << EOF
+	spddelete $SRC $DST any -P out;
+	spddelete $DST $SRC any -P in;
 EOF
+else
+      [ -z "$SRCNET" ] && SRCNET="$SRC/32"
+      [ -z "$DSTNET" ] && DSTNET="$DST/32"
+
+      /sbin/setkey -c >/dev/null 2>&1 << EOF
+	spddelete $SRCNET $DSTNET any -P out;
+	spddelete $DSTNET $SRCNET any -P in;
+EOF
+fi
+
 
 if [ "$KEYING" = "automatic" ]; then
    racoontmp=`mktemp /etc/racoon/racoon.XXXXXX`
