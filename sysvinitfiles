@@ -1,5 +1,5 @@
-Writing a System V init script for Red Hat Linux
-================================================
+Writing System V init scripts for Red Hat Linux
+===============================================
 
 All System V init scripts are named /etc/rc.d/init.d/<servicename>
 where <servicename> is the name of the service.  There must be no
@@ -64,6 +64,13 @@ case "$1" in
 esac
 
 
+Notes: the restart and reload functions may be (and commonly are)
+combined into one test, vis:
+    restart|reload)
+You are not prohibited from adding other commands; list all commands
+which you intend to be used interactively to the usage message.
+
+
 
 Functions in /etc/rc.d/init.d/functions
 =======================================
@@ -111,6 +118,12 @@ Tags
 	Required.  Several lines of description, continued with '\'
 	characters.  The initial comment and following whitespace
 	on the following lines is ignored.
+
+# description[ln]: <multi-line description of service in the language \
+#                  ln, whatever that is>
+
+	Optional.  Should be the description translated into the
+	specified language.
 
 # autoreload: true
 
