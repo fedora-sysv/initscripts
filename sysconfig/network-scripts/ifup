@@ -215,16 +215,19 @@ else
     
     if [ -n "$SRCADDR" ]; then
        SRC="src $SRCADDR"
-       sysctl -w "net.ipv4.conf.${REALDEVICE}.arp_filter=1"
     else
        SRC=
     fi
-
+    
     if ! LC_ALL=C ip addr ls ${REALDEVICE} | grep -q "${IPADDR}/${PREFIX}" ; then
 	 if ! ip addr add ${IPADDR}/${PREFIX} \
 	    brd ${BROADCAST:-+} dev ${REALDEVICE} ${SCOPE} label ${DEVICE}; then
 	    echo $"Error adding address ${IPADDR} for ${DEVICE}."
 	 fi
+    fi
+    
+    if [ -n "$SRCADDR" ]; then
+           sysctl -w "net.ipv4.conf.${REALDEVICE}.arp_filter=1" >/dev/null 2>&1
     fi
 
     # update ARP cache of neighboring computers
