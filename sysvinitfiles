@@ -125,12 +125,6 @@ Tags
 	Optional.  Should be the description translated into the
 	specified language.
 
-# autoreload: true
-
-	Optional.  If this line exists, the daemon checks its
-	configuration files and reloads them automatically when
-	they change.
-
 # processname:
 
 	Optional, multiple entries allowed.  For each process name
@@ -147,9 +141,8 @@ Tags
 	# config: /etc/httpd/conf/srm.conf
 
 	Optionally, if the server will automatically reload the config
-	file if it is changed (but not others, hence the autoreload:
-	tag is not specified for the whole file), you can append the
-	word "autoreload" to the line:
+	file if it is changed, you can append the word "autoreload" to
+	the line:
 	# config: /etc/foobar.conf autoreload
 
 # pidfile:
@@ -163,9 +156,9 @@ Tags
 
 # probe: true
 
-	Optional, used IN PLACE of autoreload, processname, config,
-	and pidfile.  If it exists, then a proper reload-if-necessary
-	cycle may be acheived by running these commands:
+	Optional, used IN PLACE of processname, config, and pidfile.
+	If it exists, then a proper reload-if-necessary cycle may be
+	acheived by running these commands:
 
 	command=$(/etc/rd.d/init.d/SCRIPT probe)
 	[ -n "$command" ] && /etc/rc.d/init.d/SCRIPT $command
