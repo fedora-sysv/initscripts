@@ -29,6 +29,7 @@ fi
 # Even if IPX is configured, without the utilities we can't do much
 [ ! -x /sbin/ipx_internal_net -o ! -x /sbin/ipx_configure ] && IPX=
 
+CWD=`pwd`
 cd /etc/sysconfig/network-scripts
 
 # find all the interfaces besides loopback.
@@ -118,6 +119,7 @@ case "$1" in
 	fi
 	;;
   restart)
+        cd $CWD
 	$0 stop
 	$0 start
 	;;
