@@ -176,6 +176,14 @@ if [ "${SLAVE}" = yes -a "${ISALIAS}" = no -a "${MASTER}" != "" -a \
     exit 0
 fi
 
+# master device?
+if [ "${TYPE}" =  "Bonding" ] || ethtool -i $DEVICE | grep -q "driver: bonding" ; then
+    /sbin/ip link set ${DEVICE} up
+    for device in `fgrep -l "MASTER=${DEVICE}" /etc/sysconfig/network-scripts/ifcfg-*` ; do
+        /sbin/ifup ${device##*/}
+    done
+fi
+
 # this isn't the same as the MAC in the configuration filename.  It is
 # available as a configuration option in the config file, forcing the kernel
 # to think an ethernet card has a different MAC address than it really has.
