@@ -92,4 +92,6 @@ for i in /etc/rc$runlevel.d/S* ; do
 	fi
 done
 rm -f /var/run/confirm
-[ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --quit
+if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
+  /usr/bin/rhgb-client --quit
+fi
