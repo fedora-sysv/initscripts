@@ -29,12 +29,6 @@ if [ "${NETWORK}" != "" ] ; then
 	route add -net ${NETWORK} netmask ${NETMASK} ${DEVICE}
 fi
 
-# this is broken! it's only here to keep compatibility with old RH sytstems
-if [ "${GATEWAY}" != "" -a "${GATEWAY}" != "none" ]
-then
-	route add default gw ${GATEWAY} metric 1 ${DEVICE}
-fi
-
 . /etc/sysconfig/network
 
 if [ "${GATEWAY}" != "" ]; then
