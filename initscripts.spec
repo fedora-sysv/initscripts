@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.84
+Version: 5.84.1
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -255,6 +255,12 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Sep 21 2001 Bill Nottingham <notting@redhat.com>
+- backport some fixes from the 7.2 branch:
+- unmounting of loopback devices
+- unmounting of /initrd
+- don't blow up on ext3/reiserfs in /etc/init.d/halt
+
 * Wed Sep  5 2001 Preston Brown <pbrown@redhat.com>
 - quota changes
 
