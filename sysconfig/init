@@ -1,5 +1,20 @@
-# color => new RH6.0 bootup
-# verbose => old-style bootup
+# enable/disable parallel initscript bootup support
+SEREL_BOOT=yes
+# no boot daemon logging
+# SERELD_OPTIONS="-d 0"
+# max boot daemon logging
+SERELD_OPTIONS="-d 5 -l /var/log/sereld.log --log-truncate"
+
+# uncomment the following two lines to turn on max client logging
+# export SEREL_DEBUG_LEVEL=3
+# export SEREL_LOG_NAME=/var/log/serelc.log
+
+# This generates an xml/rdf file that can be used to visualize
+# initscript dependencies.  See http://www.fastboot.org/visual.html
+# SEREL_GENERATE_RDF=/var/log/serel.rdf
+
+# color => RH6.x/7.x style bootup
+# verbose => old style bootup
 # anything else => new style bootup without ANSI colors or positioning
 BOOTUP=color
 # column to start "[  OK  ]" label in 
@@ -15,7 +30,9 @@ SETCOLOR_FAILURE="echo -en \\033[0;31m"
 SETCOLOR_WARNING="echo -en \\033[0;33m"
 # terminal sequence to reset to the default color.
 SETCOLOR_NORMAL="echo -en \\033[0;39m"
+
 # default kernel loglevel on boot (syslog will reset this)
 LOGLEVEL=3
+
 # Set to anything other than 'no' to allow hotkey interactive startup...
 PROMPT=yes

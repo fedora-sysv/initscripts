@@ -1,9 +1,9 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.95
+Version: 6.96
 License: GPL
 Group: System Environment/Base
-Release: 1
+Release: 1serel
 Source: initscripts-%{version}.tar.bz2
 URL: http://rhlinux.redhat.com/initscripts/
 Patch0: initscripts-s390.patch
@@ -16,6 +16,7 @@ Requires: util-linux >= 2.10s-11, mount >= 2.11g-5
 Requires: bash >= 2.0, SysVinit
 Requires: /sbin/ip, /sbin/arping, net-tools
 Requires: /sbin/update, /etc/redhat-release
+Requires: serel
 Conflicts: kernel <= 2.2, timeconfig < 3.0, pppd < 2.3.9, wvdial < 1.40-3
 Conflicts: ypbind < 1.6-12, psacct < 6.3.2-12, kbd < 1.06-19, lokkit < 0.50-14
 Obsoletes: rhsound sapinit
@@ -245,6 +246,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Wed Oct 23 2002 Preston Brown <pbrown@redhat.com> 6.96-1serel
+- Add serel (parallel boot) support
+
 * Mon Sep 16 2002 Than Ngo <than@redhat.com> 6.96-1
 - owns directory /etc/ppp/peers (bug #74037)
 

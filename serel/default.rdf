@@ -1,0 +1,1033 @@
+<?xml version="1.0" encoding="utf-8"?> 
+
+<!--
+/*
+ * Copyright (C) 2002  Leni Mayo.
+ * Copyright (C) 2002  Red Hat, Inc.
+ *
+ *	This program is free software; you can redistribute it and/or modify
+ *	it under the terms of the GNU General Public License, version 2, as
+ *	published by the Free Software Foundation.
+ *
+ * This software is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
+ * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
+
+Default service definitions for services used with Redhat Linux.
+
+To change the dependencies or add a new entry - don't change
+this file - modify /etc/serel/local.rdf instead.
+Service definitions in that file will take precedence over this file
+as per the default value of rdfpath set in /etc/serel/serel.conf.
+
+--> 
+
+<rdf:RDF
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:serel="http://www.fastboot.org/2002/03/serel-schema#"
+  xmlns:graph="http://www.fastboot.org/2002/03/graph-schema#"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns="http://www.fastboot.org/2002/03/graph-schema#"
+> 
+
+<!-- anacron BEGINS -->
+<service rdf:ID="anacron" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-syslog-anacron" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-syslog-anacron" >
+  <source rdf:resource="#syslog"/>
+  <target rdf:resource="#anacron"/>
+</edge>
+<!-- anacron ENDS -->
+
+<!-- apmd BEGINS -->
+<service rdf:ID="apmd" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-syslog-apmd" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-syslog-apmd" >
+  <source rdf:resource="#syslog"/>
+  <target rdf:resource="#apmd"/>
+</edge>
+<!-- apmd ENDS -->
+
+<!-- arpwatch BEGINS -->
+<service rdf:ID="arpwatch" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-network-arpwatch" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-network-arpwatch" >
+  <source rdf:resource="#network"/>
+  <target rdf:resource="#arpwatch"/>
+</edge>
+<!-- arpwatch ENDS -->
+
+<!-- atd BEGINS -->
+<service rdf:ID="atd" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-kudzu-atd" />
+      <rdf:li rdf:resource="#edge-syslog-atd" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-kudzu-atd" >
+  <source rdf:resource="#kudzu"/>
+  <target rdf:resource="#atd"/>
+</edge>
+
+<edge rdf:ID="edge-syslog-atd" >
+  <source rdf:resource="#syslog"/>
+  <target rdf:resource="#atd"/>
+</edge>
+<!-- atd ENDS -->
+
+<!-- autofs BEGINS -->
+<service rdf:ID="autofs" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-network-autofs" />
+      <rdf:li rdf:resource="#edge-syslog-autofs" />
+      <rdf:li rdf:resource="#edge-netfs-autofs" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-network-autofs" >
+  <source rdf:resource="#network"/>
+  <target rdf:resource="#autofs"/>
+</edge>
+
+<edge rdf:ID="edge-syslog-autofs" >
+  <source rdf:resource="#syslog"/>
+  <target rdf:resource="#autofs"/>
+</edge>
+
+<edge rdf:ID="edge-netfs-autofs" >
+  <source rdf:resource="#netfs"/>
+  <target rdf:resource="#autofs"/>
+</edge>
+<!-- autofs ENDS -->
+
+<!-- bcm5820 BEGINS -->
+<service rdf:ID="bcm5820" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-network-bcm5820" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-network-bcm5820" >
+  <source rdf:resource="#network"/>
+  <target rdf:resource="#bcm5820"/>
+</edge>
+<!-- bcm5820 ENDS -->
+
+<!-- crond BEGINS -->
+<service rdf:ID="crond" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-kudzu-crond" />
+      <rdf:li rdf:resource="#edge-syslog-crond" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-kudzu-crond" >
+  <source rdf:resource="#kudzu"/>
+  <target rdf:resource="#crond"/>
+</edge>
+
+<edge rdf:ID="edge-syslog-crond" >
+  <source rdf:resource="#syslog"/>
+  <target rdf:resource="#crond"/>
+</edge>
+<!-- crond ENDS -->
+
+<!-- cups BEGINS -->
+<service rdf:ID="cups" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-syslog-cups" />
+      <rdf:li rdf:resource="#edge-lpd-cups" />
+      <rdf:li rdf:resource="#edge-smb-cups" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-syslog-cups" >
+  <source rdf:resource="#syslog"/>
+  <target rdf:resource="#cups"/>
+</edge>
+
+<edge rdf:ID="edge-lpd-cups" >
+  <source rdf:resource="#lpd"/>
+  <target rdf:resource="#cups"/>
+</edge>
+
+<edge rdf:ID="edge-smb-cups" >
+  <source rdf:resource="#smb"/>
+  <target rdf:resource="#cups"/>
+</edge>
+<!-- cups ENDS -->
+
+<!-- dhcpd BEGINS -->
+<service rdf:ID="dhcpd" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-network-dhcpd" />
+      <rdf:li rdf:resource="#edge-syslog-dhcpd" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-network-dhcpd" >
+  <source rdf:resource="#network"/>
+  <target rdf:resource="#dhcpd"/>
+</edge>
+
+<edge rdf:ID="edge-syslog-dhcpd" >
+  <source rdf:resource="#syslog"/>
+  <target rdf:resource="#dhcpd"/>
+</edge>
+<!-- dhcpd ENDS -->
+
+<!-- gpm BEGINS -->
+<service rdf:ID="gpm" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-kudzu-gpm" />
+      <rdf:li rdf:resource="#edge-syslog-gpm" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-kudzu-gpm" >
+  <source rdf:resource="#kudzu"/>
+  <target rdf:resource="#gpm"/>
+</edge>
+
+<edge rdf:ID="edge-syslog-gpm" >
+  <source rdf:resource="#syslog"/>
+  <target rdf:resource="#gpm"/>
+</edge>
+<!-- gpm ENDS -->
+
+<!-- httpd BEGINS -->
+<service rdf:ID="httpd" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-network-httpd" />
+      <rdf:li rdf:resource="#edge-syslog-httpd" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-network-httpd" >
+  <source rdf:resource="#network"/>
+  <target rdf:resource="#httpd"/>
+</edge>
+
+<edge rdf:ID="edge-syslog-httpd" >
+  <source rdf:resource="#syslog"/>
+  <target rdf:resource="#httpd"/>
+</edge>
+<!-- httpd ENDS -->
+
+<!-- identd BEGINS -->
+<service rdf:ID="identd" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-network-identd" />
+      <rdf:li rdf:resource="#edge-syslog-identd" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-network-identd" >
+  <source rdf:resource="#network"/>
+  <target rdf:resource="#identd"/>
+</edge>
+
+<edge rdf:ID="edge-syslog-identd" >
+  <source rdf:resource="#syslog"/>
+  <target rdf:resource="#identd"/>
+</edge>
+<!-- identd ENDS -->
+
+<!-- ipchains BEGINS -->
+<service rdf:ID="ipchains" >
+</service>
+<!-- ipchains ENDS -->
+
+<!-- iptables BEGINS -->
+<service rdf:ID="iptables" >
+</service>
+<!-- iptables ENDS -->
+
+<!-- isdn BEGINS -->
+<service rdf:ID="isdn" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-network-isdn" />
+      <rdf:li rdf:resource="#edge-syslog-isdn" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-network-isdn" >
+  <source rdf:resource="#network"/>
+  <target rdf:resource="#isdn"/>
+</edge>
+
+<edge rdf:ID="edge-syslog-isdn" >
+  <source rdf:resource="#syslog"/>
+  <target rdf:resource="#isdn"/>
+</edge>
+<!-- isdn ENDS -->
+
+<!-- kdcrotate BEGINS -->
+<service rdf:ID="kdcrotate" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-syslog-kdcrotate" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-syslog-kdcrotate" >
+  <source rdf:resource="#syslog"/>
+  <target rdf:resource="#kdcrotate"/>
+</edge>
+<!-- kdcrotate ENDS -->
+
+<!-- keytable BEGINS -->
+<service rdf:ID="keytable" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-kudzu-keytable" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-kudzu-keytable" >
+  <source rdf:resource="#kudzu"/>
+  <target rdf:resource="#keytable"/>
+</edge>
+<!-- keytable ENDS -->
+
+<!-- killall BEGINS -->
+<service rdf:ID="killall" >
+</service>
+<!-- killall ENDS -->
+
+<!-- kudzu BEGINS -->
+<service rdf:ID="kudzu" >
+</service>
+<!-- kudzu ENDS -->
+
+<!-- lpd BEGINS -->
+<service rdf:ID="lpd" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-syslog-lpd" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-syslog-lpd" >
+  <source rdf:resource="#syslog"/>
+  <target rdf:resource="#lpd"/>
+</edge>
+<!-- lpd ENDS -->
+
+<!-- named BEGINS -->
+<service rdf:ID="named" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-network-named" />
+      <rdf:li rdf:resource="#edge-syslog-named" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-network-named" >
+  <source rdf:resource="#network"/>
+  <target rdf:resource="#named"/>
+</edge>
+
+<edge rdf:ID="edge-syslog-named" >
+  <source rdf:resource="#syslog"/>
+  <target rdf:resource="#named"/>
+</edge>
+<!-- named ENDS -->
+
+<!-- netfs BEGINS -->
+<service rdf:ID="netfs" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-network-netfs" />
+      <rdf:li rdf:resource="#edge-syslog-netfs" />
+      <rdf:li rdf:resource="#edge-portmap-netfs" />
+      <rdf:li rdf:resource="#edge-nfslock-netfs" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-network-netfs" >
+  <source rdf:resource="#network"/>
+  <target rdf:resource="#netfs"/>
+</edge>
+
+<edge rdf:ID="edge-syslog-netfs" >
+  <source rdf:resource="#syslog"/>
+  <target rdf:resource="#netfs"/>
+</edge>
+
+<edge rdf:ID="edge-portmap-netfs" >
+  <source rdf:resource="#portmap"/>
+  <target rdf:resource="#netfs"/>
+</edge>
+
+<edge rdf:ID="edge-nfslock-netfs" >
+  <source rdf:resource="#nfslock"/>
+  <target rdf:resource="#netfs"/>
+</edge>
+<!-- netfs ENDS -->
+
+<!-- network BEGINS -->
+<service rdf:ID="network" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-ipchains-network" />
+      <rdf:li rdf:resource="#edge-iptables-network" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-ipchains-network" >
+  <source rdf:resource="#ipchains"/>
+  <target rdf:resource="#network"/>
+</edge>
+
+<edge rdf:ID="edge-iptables-network" >
+  <source rdf:resource="#iptables"/>
+  <target rdf:resource="#network"/>
+</edge>
+<!-- network ENDS -->
+
+<!-- nfs BEGINS -->
+<service rdf:ID="nfs" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-network-nfs" />
+      <rdf:li rdf:resource="#edge-syslog-nfs" />
+      <rdf:li rdf:resource="#edge-portmap-nfs" />
+      <rdf:li rdf:resource="#edge-nfslock-nfs" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-network-nfs" >
+  <source rdf:resource="#network"/>
+  <target rdf:resource="#nfs"/>
+</edge>
+
+<edge rdf:ID="edge-syslog-nfs" >
+  <source rdf:resource="#syslog"/>
+  <target rdf:resource="#nfs"/>
+</edge>
+
+<edge rdf:ID="edge-portmap-nfs" >
+  <source rdf:resource="#portmap"/>
+  <target rdf:resource="#nfs"/>
+</edge>
+
+<edge rdf:ID="edge-nfslock-nfs" >
+  <source rdf:resource="#nfslock"/>
+  <target rdf:resource="#nfs"/>
+</edge>
+<!-- nfs ENDS -->
+
+<!-- nfslock BEGINS -->
+<service rdf:ID="nfslock" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-network-nfslock" />
+      <rdf:li rdf:resource="#edge-syslog-nfslock" />
+      <rdf:li rdf:resource="#edge-portmap-nfslock" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-network-nfslock" >
+  <source rdf:resource="#network"/>
+  <target rdf:resource="#nfslock"/>
+</edge>
+
+<edge rdf:ID="edge-syslog-nfslock" >
+  <source rdf:resource="#syslog"/>
+  <target rdf:resource="#nfslock"/>
+</edge>
+
+<edge rdf:ID="edge-portmap-nfslock" >
+  <source rdf:resource="#portmap"/>
+  <target rdf:resource="#nfslock"/>
+</edge>
+<!-- nfslock ENDS -->
+
+<!-- nscd BEGINS -->
+<service rdf:ID="nscd" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-network-nscd" />
+      <rdf:li rdf:resource="#edge-syslog-nscd" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-network-nscd" >
+  <source rdf:resource="#network"/>
+  <target rdf:resource="#nscd"/>
+</edge>
+
+<edge rdf:ID="edge-syslog-nscd" >
+  <source rdf:resource="#syslog"/>
+  <target rdf:resource="#nscd"/>
+</edge>
+<!-- nscd ENDS -->
+
+<!-- ntpd BEGINS -->
+<service rdf:ID="ntpd" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-network-ntpd" />
+      <rdf:li rdf:resource="#edge-syslog-ntpd" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-network-ntpd" >
+  <source rdf:resource="#network"/>
+  <target rdf:resource="#ntpd"/>
+</edge>
+
+<edge rdf:ID="edge-syslog-ntpd" >
+  <source rdf:resource="#syslog"/>
+  <target rdf:resource="#ntpd"/>
+</edge>
+<!-- ntpd ENDS -->
+
+<!-- portmap BEGINS -->
+<service rdf:ID="portmap" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-network-portmap" />
+      <rdf:li rdf:resource="#edge-syslog-portmap" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-network-portmap" >
+  <source rdf:resource="#network"/>
+  <target rdf:resource="#portmap"/>
+</edge>
+
+<edge rdf:ID="edge-syslog-portmap" >
+  <source rdf:resource="#syslog"/>
+  <target rdf:resource="#portmap"/>
+</edge>
+<!-- portmap ENDS -->
+
+<!-- postgresql BEGINS -->
+<service rdf:ID="postgresql" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-network-postgresql" />
+      <rdf:li rdf:resource="#edge-syslog-postgresql" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-network-postgresql" >
+  <source rdf:resource="#network"/>
+  <target rdf:resource="#postgresql"/>
+</edge>
+
+<edge rdf:ID="edge-syslog-postgresql" >
+  <source rdf:resource="#syslog"/>
+  <target rdf:resource="#postgresql"/>
+</edge>
+<!-- postgresql ENDS -->
+
+<!-- pppoe BEGINS -->
+<service rdf:ID="pppoe" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-network-pppoe" />
+      <rdf:li rdf:resource="#edge-syslog-pppoe" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-network-pppoe" >
+  <source rdf:resource="#network"/>
+  <target rdf:resource="#pppoe"/>
+</edge>
+
+<edge rdf:ID="edge-syslog-pppoe" >
+  <source rdf:resource="#syslog"/>
+  <target rdf:resource="#pppoe"/>
+</edge>
+<!-- pppoe ENDS -->
+
+<!-- radvd BEGINS -->
+<service rdf:ID="radvd" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-network-radvd" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-network-radvd" >
+  <source rdf:resource="#network"/>
+  <target rdf:resource="#radvd"/>
+</edge>
+<!-- radvd ENDS -->
+
+<!-- random BEGINS -->
+<service rdf:ID="random" >
+</service>
+<!-- random ENDS -->
+
+<!-- rawdevices BEGINS -->
+<service rdf:ID="rawdevices" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-kudzu-rawdevices" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-kudzu-rawdevices" >
+  <source rdf:resource="#kudzu"/>
+  <target rdf:resource="#rawdevices"/>
+</edge>
+<!-- rawdevices ENDS -->
+
+<!-- rhnsd BEGINS -->
+<service rdf:ID="rhnsd" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-network-rhnsd" />
+      <rdf:li rdf:resource="#edge-syslog-rhnsd" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-network-rhnsd" >
+  <source rdf:resource="#network"/>
+  <target rdf:resource="#rhnsd"/>
+</edge>
+
+<edge rdf:ID="edge-syslog-rhnsd" >
+  <source rdf:resource="#syslog"/>
+  <target rdf:resource="#rhnsd"/>
+</edge>
+<!-- rhnsd ENDS -->
+
+<!-- rstatd BEGINS -->
+<service rdf:ID="rstatd" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-network-rstatd" />
+      <rdf:li rdf:resource="#edge-syslog-rstatd" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-network-rstatd" >
+  <source rdf:resource="#network"/>
+  <target rdf:resource="#rstatd"/>
+</edge>
+
+<edge rdf:ID="edge-syslog-rstatd" >
+  <source rdf:resource="#syslog"/>
+  <target rdf:resource="#rstatd"/>
+</edge>
+<!-- rstatd ENDS -->
+
+<!-- rusersd BEGINS -->
+<service rdf:ID="rusersd" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-network-rusersd" />
+      <rdf:li rdf:resource="#edge-syslog-rusersd" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-network-rusersd" >
+  <source rdf:resource="#network"/>
+  <target rdf:resource="#rusersd"/>
+</edge>
+
+<edge rdf:ID="edge-syslog-rusersd" >
+  <source rdf:resource="#syslog"/>
+  <target rdf:resource="#rusersd"/>
+</edge>
+<!-- rusersd ENDS -->
+
+<!-- rwall BEGINS -->
+<service rdf:ID="rwall" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-network-rwall" />
+      <rdf:li rdf:resource="#edge-syslog-rwall" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-network-rwall" >
+  <source rdf:resource="#network"/>
+  <target rdf:resource="#rwall"/>
+</edge>
+
+<edge rdf:ID="edge-syslog-rwall" >
+  <source rdf:resource="#syslog"/>
+  <target rdf:resource="#rwall"/>
+</edge>
+<!-- rwall ENDS -->
+
+<!-- rwhod BEGINS -->
+<service rdf:ID="rwhod" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-network-rwhod" />
+      <rdf:li rdf:resource="#edge-syslog-rwhod" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-network-rwhod" >
+  <source rdf:resource="#network"/>
+  <target rdf:resource="#rwhod"/>
+</edge>
+
+<edge rdf:ID="edge-syslog-rwhod" >
+  <source rdf:resource="#syslog"/>
+  <target rdf:resource="#rwhod"/>
+</edge>
+<!-- rwhod ENDS -->
+
+<!-- sendmail BEGINS -->
+<service rdf:ID="sendmail" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-network-sendmail" />
+      <rdf:li rdf:resource="#edge-syslog-sendmail" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-network-sendmail" >
+  <source rdf:resource="#network"/>
+  <target rdf:resource="#sendmail"/>
+</edge>
+
+<edge rdf:ID="edge-syslog-sendmail" >
+  <source rdf:resource="#syslog"/>
+  <target rdf:resource="#sendmail"/>
+</edge>
+<!-- sendmail ENDS -->
+
+<!-- smb BEGINS -->
+<service rdf:ID="smb" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-network-smb" />
+      <rdf:li rdf:resource="#edge-syslog-smb" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-network-smb" >
+  <source rdf:resource="#network"/>
+  <target rdf:resource="#smb"/>
+</edge>
+
+<edge rdf:ID="edge-syslog-smb" >
+  <source rdf:resource="#syslog"/>
+  <target rdf:resource="#smb"/>
+</edge>
+<!-- smb ENDS -->
+
+<!-- snmpd BEGINS -->
+<service rdf:ID="snmpd" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-network-snmpd" />
+      <rdf:li rdf:resource="#edge-syslog-snmpd" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-network-snmpd" >
+  <source rdf:resource="#network"/>
+  <target rdf:resource="#snmpd"/>
+</edge>
+
+<edge rdf:ID="edge-syslog-snmpd" >
+  <source rdf:resource="#syslog"/>
+  <target rdf:resource="#snmpd"/>
+</edge>
+<!-- snmpd ENDS -->
+
+<!-- squid BEGINS -->
+<service rdf:ID="squid" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-network-squid" />
+      <rdf:li rdf:resource="#edge-syslog-squid" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-network-squid" >
+  <source rdf:resource="#network"/>
+  <target rdf:resource="#squid"/>
+</edge>
+
+<edge rdf:ID="edge-syslog-squid" >
+  <source rdf:resource="#syslog"/>
+  <target rdf:resource="#squid"/>
+</edge>
+<!-- squid ENDS -->
+
+<!-- sshd BEGINS -->
+<service rdf:ID="sshd" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-network-sshd" />
+      <rdf:li rdf:resource="#edge-syslog-sshd" />
+      <rdf:li rdf:resource="#edge-random-sshd" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-network-sshd" >
+  <source rdf:resource="#network"/>
+  <target rdf:resource="#sshd"/>
+</edge>
+
+<edge rdf:ID="edge-syslog-sshd" >
+  <source rdf:resource="#syslog"/>
+  <target rdf:resource="#sshd"/>
+</edge>
+
+<edge rdf:ID="edge-random-sshd" >
+  <source rdf:resource="#random"/>
+  <target rdf:resource="#sshd"/>
+</edge>
+<!-- sshd ENDS -->
+
+<!-- syslog BEGINS -->
+<service rdf:ID="syslog" >
+</service>
+<!-- syslog ENDS -->
+
+<!-- tux BEGINS -->
+<service rdf:ID="tux" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-network-tux" />
+      <rdf:li rdf:resource="#edge-syslog-tux" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-network-tux" >
+  <source rdf:resource="#network"/>
+  <target rdf:resource="#tux"/>
+</edge>
+
+<edge rdf:ID="edge-syslog-tux" >
+  <source rdf:resource="#syslog"/>
+  <target rdf:resource="#tux"/>
+</edge>
+<!-- tux ENDS -->
+
+<!-- vncserver BEGINS -->
+<service rdf:ID="vncserver" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-network-vncserver" />
+      <rdf:li rdf:resource="#edge-syslog-vncserver" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-network-vncserver" >
+  <source rdf:resource="#network"/>
+  <target rdf:resource="#vncserver"/>
+</edge>
+
+<edge rdf:ID="edge-syslog-vncserver" >
+  <source rdf:resource="#syslog"/>
+  <target rdf:resource="#vncserver"/>
+</edge>
+<!-- vncserver ENDS -->
+
+<!-- xfs BEGINS -->
+<service rdf:ID="xfs" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-syslog-xfs" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-syslog-xfs" >
+  <source rdf:resource="#syslog"/>
+  <target rdf:resource="#xfs"/>
+</edge>
+<!-- xfs ENDS -->
+
+<!-- xfstt BEGINS -->
+<service rdf:ID="xfstt" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-syslog-xfstt" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-syslog-xfstt" >
+  <source rdf:resource="#syslog"/>
+  <target rdf:resource="#xfstt"/>
+</edge>
+<!-- xfstt ENDS -->
+
+<!-- xinetd BEGINS -->
+<service rdf:ID="xinetd" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-network-xinetd" />
+      <rdf:li rdf:resource="#edge-syslog-xinetd" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-network-xinetd" >
+  <source rdf:resource="#network"/>
+  <target rdf:resource="#xinetd"/>
+</edge>
+
+<edge rdf:ID="edge-syslog-xinetd" >
+  <source rdf:resource="#syslog"/>
+  <target rdf:resource="#xinetd"/>
+</edge>
+<!-- xinetd ENDS -->
+
+<!-- ypbind BEGINS -->
+<service rdf:ID="ypbind" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-network-ypbind" />
+      <rdf:li rdf:resource="#edge-syslog-ypbind" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-network-ypbind" >
+  <source rdf:resource="#network"/>
+  <target rdf:resource="#ypbind"/>
+</edge>
+
+<edge rdf:ID="edge-syslog-ypbind" >
+  <source rdf:resource="#syslog"/>
+  <target rdf:resource="#ypbind"/>
+</edge>
+<!-- ypbind ENDS -->
+
+<!-- yppasswdd BEGINS -->
+<service rdf:ID="yppasswdd" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-network-yppasswdd" />
+      <rdf:li rdf:resource="#edge-syslog-yppasswdd" />
+      <rdf:li rdf:resource="#edge-ypbind-yppasswdd" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-network-yppasswdd" >
+  <source rdf:resource="#network"/>
+  <target rdf:resource="#yppasswdd"/>
+</edge>
+
+<edge rdf:ID="edge-syslog-yppasswdd" >
+  <source rdf:resource="#syslog"/>
+  <target rdf:resource="#yppasswdd"/>
+</edge>
+
+<edge rdf:ID="edge-ypbind-yppasswdd" >
+  <source rdf:resource="#ypbind"/>
+  <target rdf:resource="#yppasswdd"/>
+</edge>
+<!-- yppasswdd ENDS -->
+
+<!-- ypserv BEGINS -->
+<service rdf:ID="ypserv" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-yppasswdd-ypserv" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-yppasswdd-ypserv" >
+  <source rdf:resource="#yppasswdd"/>
+  <target rdf:resource="#ypserv"/>
+</edge>
+<!-- ypserv ENDS -->
+
+<!-- ypxfrd BEGINS -->
+<service rdf:ID="ypxfrd" >
+  <edges>
+    <rdf:Bag> 
+      <rdf:li rdf:resource="#edge-yppasswdd-ypxfrd" />
+    </rdf:Bag> 
+  </edges>
+</service>
+
+<edge rdf:ID="edge-yppasswdd-ypxfrd" >
+  <source rdf:resource="#yppasswdd"/>
+  <target rdf:resource="#ypxfrd"/>
+</edge>
+<!-- ypxfrd ENDS -->
+
+<service rdf:ID="local" serel:last="true" />
+<service rdf:ID="wine"  serel:late="true" />
+
+<rdf:Description about="file:/etc/rc.d/init.d/network" serel:parse="false" />
+<rdf:Description about="file:/etc/rc.d/init.d/netfs"   serel:parse="false" />
+
+</rdf:RDF>
