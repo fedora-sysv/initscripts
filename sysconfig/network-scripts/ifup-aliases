@@ -62,12 +62,14 @@ TEXTDOMAIN=initscripts
 
 device=$1
 if [ "$device" = "" ]; then
-	echo $"usage: ifup-aliases <net-device>\n"
+	echo $"usage: ifup-aliases <net-device> [<parent-config>]\n"
 	exit 1
 fi
 
+PARENTCONFIG=${2:-ifcfg-$device}
 parent_device=$device
 
+cd /etc/sysconfig/network-scripts  
 . network-functions
 
        #
@@ -102,7 +104,6 @@ eval ` (
 ) `
 
 # read defaults from the parent config file
-PARENTCONFIG=ifcfg-$device
 [ -f $PARENTCONFIG ] || {
        echo $"Missing config file $PARENTCONFIG." >&2
        exit 1
