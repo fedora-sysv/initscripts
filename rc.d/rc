@@ -56,8 +56,8 @@ for i in /etc/rc$runlevel.d/K* ; do
 
 	# Check if the subsystem is already up.
 	subsys=${i#/etc/rc$runlevel.d/K??}
-	[ -f /var/lock/subsys/$subsys ] || \
-		[ -f /var/lock/subsys/${subsys}.init ] || continue
+	[ -f /var/lock/subsys/$subsys -o -f /var/lock/subsys/$subsys.init ] \
+		|| continue
 
 	# Bring the subsystem down.
 	if egrep -q "(killproc |action )" $i ; then
@@ -73,8 +73,8 @@ for i in /etc/rc$runlevel.d/S* ; do
 
 	# Check if the subsystem is already up.
 	subsys=${i#/etc/rc$runlevel.d/S??}
-	[ -f /var/lock/subsys/$subsys ] || \
-		[ -f /var/lock/subsys/${subsys}.init ] && continue
+	[ -f /var/lock/subsys/$subsys -o -f /var/lock/subsys/$subsys.init ] \
+		&& continue
 		    
 	# If we're in confirmation mode, get user confirmation
 	if [ -n "$CONFIRM" ]; then
@@ -92,7 +92,7 @@ for i in /etc/rc$runlevel.d/S* ; do
 		unset LC_ALL
 		exec $i start
 	fi
-	if egrep -q "(daemon |action )" $i \
+	if egrep -q "(daemon |action )" $i 2>/dev/null \
 			|| [ "$subsys" = "single" -o "$subsys" = "local" ]; then
 		$i start
 	else
