@@ -87,10 +87,13 @@ fi
 # Get local IPv4 address of dedicated tunnel
 ipv4addr6to4local="`ipv6_get_ipv4addr_of_tunnel tun6to4 local`"
 
-# Check against configured 6to4 tunnel to see if this interface was used before
-if [ "$ipv4addr" != "$ipv4addr6to4local" ]; then
-        # IPv4 address of interface does't match local tunnel address, interface was not used for current 6to4 setup
-        valid6to4config="no"
+# IPv6to4 not enabled on this interface? 
+if [ $IPV6TO4INIT != "yes" ]; then
+	# Check against configured 6to4 tunnel to see if this interface was regardless used before
+	if [ "$ipv4addr" != "$ipv4addr6to4local" ]; then
+        	# IPv4 address of interface does't match local tunnel address, interface was not used for current 6to4 setup
+	        valid6to4config="no"
+	fi
 fi
 
 if [ "$valid6to4config" = "yes" ]; then

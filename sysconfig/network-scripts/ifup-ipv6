@@ -202,7 +202,7 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 
 	# Setup 6to4 tunnel (hardwired name is "tun6to4"), if config is valid
         if [ "$valid6to4config" = "yes" ]; then
-		ipv6_add_6to4_tunnel tun6to4 $ipv4addr
+		ipv6_add_6to4_tunnel tun6to4 $ipv4addr || exit 1
 
 		# Add default route, if device matches
 		if [ "$IPV6_DEFAULTDEV" = "tun6to4" ]; then

@@ -162,10 +162,10 @@ ipv6_log() {
 
 ##### Test for "ipv6calc" (used for better existing address detection)
 EXISTS_ipv6calc=no	
-	if which ipv6calc >/dev/null 2>&1; then
-		if ipv6calc --if_inet62addr 3ffe04000100f1010000000000000001 40 | LC_ALL=C grep -q -v '3ffe:400:100:f101::1/64'; then
+	if [ -x /bin/ipv6calc ]; then
+		if /bin/ipv6calc --if_inet62addr 3ffeffff0100f1010000000000000001 40 | LC_ALL=C grep -q -v '3ffe:ffff:100:f101::1/64'; then
 			false
-		elif ipv6calc --addr2if_inet6 3ffe:400:100::1/64 | LC_ALL=C grep -q -v '3ffe0400010000000000000000000001 00 40'; then
+		elif /bin/ipv6calc --addr2if_inet6 3ffe:ffff:100::1/64 | LC_ALL=C grep -q -v '3ffeffff010000000000000000000001 00 40'; then
 			false
 		else
 			EXISTS_ipv6calc=yes
@@ -204,8 +204,13 @@ ipv6_test() {
 		return 2
 	fi
 
-	if ! which ip 2>&1 >/dev/null; then
-		ipv6_log $"Utility 'ip' (from iproute-package) doesn't exist or isn't executable - stop" crit $fn
+	if [ ! -x /sbin/ip ]; then
+		ipv6_log $"Utility 'ip' (package: iproute) doesn't exist or isn't executable - stop" crit $fn
+		return 2													
+	fi
+
+	if [ ! -x /sbin/sysctl ]; then
+		ipv6_log $"Utility 'sysctl' (package: procps) doesn't exist or isn't executable - stop" crit $fn
 		return 2													
 	fi
 
@@ -213,7 +218,7 @@ ipv6_test() {
 }
 
 
-##### Get version of this function libary
+##### Get version of this function library
 # stdout: <version number YYYYMMDD>
 getversion_ipv6_functions() {
 	local version_ipv6_functions="`cat /etc/sysconfig/network-scripts/network-functions-ipv6 | LC_ALL=C grep "^# Version:" | awk '{ print $3 }' | sed 's/-//g' | sed 's/[A-Za-z]*$//g'`"
@@ -228,7 +233,7 @@ getversion_ipv6_functions() {
 ipv6_exec_ifconfig() {
 	local options=$*
 
-	LC_ALL=C ifconfig $options 2>&1
+	LC_ALL=C /sbin/ifconfig $options 2>&1
 
 	return $?
 }
@@ -240,7 +245,7 @@ ipv6_exec_ifconfig() {
 ipv6_exec_route() {
 	local options=$*
 
-	LC_ALL=C route $options 2>&1
+	LC_ALL=C /sbin/route $options 2>&1
 
 	return $?
 }
@@ -252,7 +257,7 @@ ipv6_exec_route() {
 ipv6_exec_ip() {
 	local options=$*
 
-	LC_ALL=C ip $options 2>&1
+	LC_ALL=C /sbin/ip $options 2>&1
 
 	return $?
 }
@@ -264,7 +269,7 @@ ipv6_exec_ip() {
 ipv6_exec_sysctl() {
 	local options=$*
 
-	LC_ALL=C sysctl $options 2>&1
+	LC_ALL=C /sbin/sysctl $options 2>&1
 
 	return $?
 }
@@ -557,7 +562,7 @@ ipv6_test_addr_exists_on_device() {
 	if [ "$EXISTS_ipv6calc" = "yes" ]; then
 		# Using ipv6calc and compare against /proc/net/if_inet6
 
-		local convertresult="`ipv6calc --addr2if_inet6 $testaddr/$testprefix`"
+		local convertresult="`/bin/ipv6calc --addr2if_inet6 $testaddr/$testprefix`"
 
 		# Split in address, scope and prefix length
 		local test_addr="`echo $convertresult | awk '{ print $1 }'`"
@@ -806,7 +811,7 @@ ipv6_test_ipv6_addr_valid() {
 	local address_implicit="`echo $testipv6addr_valid | awk -F/ '{ print $1 }'`"
 
 	if [ "$EXISTS_ipv6calc" = "yes" ]; then
-		if ! ipv6calc --addr2uncompaddr $testipv6addr_valid >/dev/null 2>&1; then
+		if ! /bin/ipv6calc --addr2uncompaddr $testipv6addr_valid >/dev/null 2>&1; then
 			if [ "$modequiet" != "quiet" ]; then
 				ipv6_log $"Given IPv6 address '$testipv6addr_valid' is not valid" err $fn
 			fi
@@ -907,19 +912,19 @@ ipv6_test_ipv4_addr_global_usable() {
 
 	# Test for a globally usable IPv4 address now
 		# test 0.0.0.0/8
-		ipcalc --network $testipv4addr_globalusable 255.0.0.0   | LC_ALL=C grep -q "NETWORK=0\.0\.0\.0"     && return 10
+		/bin/ipcalc --network $testipv4addr_globalusable 255.0.0.0   | LC_ALL=C grep -q "NETWORK=0\.0\.0\.0"     && return 10
 		# test 10.0.0.0/8     (RFC 1918 / private)
-		ipcalc --network $testipv4addr_globalusable 255.0.0.0   | LC_ALL=C grep -q "NETWORK=10\.0\.0\.0"    && return 10
+		/bin/ipcalc --network $testipv4addr_globalusable 255.0.0.0   | LC_ALL=C grep -q "NETWORK=10\.0\.0\.0"    && return 10
 		# test 127.0.0.0/8    (loopback)
-		ipcalc --network $testipv4addr_globalusable 255.0.0.0   | LC_ALL=C grep -q "NETWORK=127\.0\.0\.0"   && return 10
+		/bin/ipcalc --network $testipv4addr_globalusable 255.0.0.0   | LC_ALL=C grep -q "NETWORK=127\.0\.0\.0"   && return 10
 		# test 169.254.0.0/16 (APIPA / DHCP link local)
-		ipcalc --network $testipv4addr_globalusable 255.255.0.0 | LC_ALL=C grep -q "NETWORK=169\.254\.0\.0" && return 10
+		/bin/ipcalc --network $testipv4addr_globalusable 255.255.0.0 | LC_ALL=C grep -q "NETWORK=169\.254\.0\.0" && return 10
 		# test 172.16.0.0/12  (RFC 1918 / private)
-		ipcalc --network $testipv4addr_globalusable 255.240.0.0 | LC_ALL=C grep -q "NETWORK=172\.16\.0\.0"  && return 10
+		/bin/ipcalc --network $testipv4addr_globalusable 255.240.0.0 | LC_ALL=C grep -q "NETWORK=172\.16\.0\.0"  && return 10
 		# test 192.168.0.0/16 (RFC 1918 / private)
-		ipcalc --network $testipv4addr_globalusable 255.255.0.0 | LC_ALL=C grep -q "NETWORK=192\.168\.0\.0" && return 10
+		/bin/ipcalc --network $testipv4addr_globalusable 255.255.0.0 | LC_ALL=C grep -q "NETWORK=192\.168\.0\.0" && return 10
 		# test 224.0.0.0/3    (multicast and reserved, broadcast)
-		ipcalc --network $testipv4addr_globalusable 224.0.0.0   | LC_ALL=C grep -q "NETWORK=224\.0\.0\.0"   && return 10
+		/bin/ipcalc --network $testipv4addr_globalusable 224.0.0.0   | LC_ALL=C grep -q "NETWORK=224\.0\.0\.0"   && return 10
 	
 	return 0
 }
