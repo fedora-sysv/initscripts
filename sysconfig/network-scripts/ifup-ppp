@@ -60,6 +60,10 @@ fi
 
 PEERCONF=/etc/ppp/peers/${DEVNAME}
 
+if [ "${DEBUG}" = "yes" ]; then
+  CHATDBG="-v"
+fi
+
 if [ ! -f ${PEERCONF} ]; then
   if [ -z "${WVDIALSECT}" ] ; then
     CHATSCRIPT=/etc/sysconfig/network-scripts/chat-${DEVNAME}
@@ -84,7 +88,7 @@ if [ ! -f ${PEERCONF} ]; then
   if [ "${WVDIALSECT}" ]; then
     echo "connect \"/usr/bin/wvdial --remotename ${DEVNAME} --chat '${WVDIALSECT}'\"" >> ${PEERCONF}
   else
-    echo "connect \"/usr/sbin/chat $chatdbg -f ${CHATSCRIPT}\"" >> ${PEERCONF}
+    echo "connect \"/usr/sbin/chat ${CHATDBG} -f ${CHATSCRIPT}\"" >> ${PEERCONF}
   fi
 fi
     
@@ -122,7 +126,6 @@ if [ -n "${PAPNAME}" ] ; then
 fi
 if [ "${DEBUG}" = yes ] ; then
   opts="$opts debug"
-  chatdbg="-v"
 fi
 
 if [ ${DEMAND} = yes ] ; then
