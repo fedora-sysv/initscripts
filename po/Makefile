@@ -15,7 +15,7 @@ POTFILES = ../rc.d/init.d/* ../rc.d/rc.* ../sysconfig/network-scripts/*
 all: $(NLSPACKAGE).pot $(FMTCATALOGS)
 
 $(NLSPACKAGE).pot: $(POTFILES)
-	echo "Please don't do that."
+	@echo "Please don't do that."
 #
 #       ./xgettext_sh --initscripts $(POTFILES) > $(NLSPACKAGE).po
 #	if cmp -s $(NLSPACKAGE).po $(NLSPACKAGE).pot; then \
