@@ -95,18 +95,19 @@ void runDaemon(int sock) {
 	 message = calloc(8192,sizeof(char));
 	 recvsock = accept(sock,(struct sockaddr *) &addr, &addrlen);
 	 len = read(recvsock,message,8192);
-	 if (buffer)
-	   buffer = realloc(buffer,(buflines+1)*sizeof(char *));
-	 else
-	   buffer = malloc(sizeof(char *));
+	 close(recvsock);
 	 if (len>0) {
-	     message[strlen(message)]='\n';
-	    buffer[buflines]=message;
-	    buflines++;
-	    close(recvsock);
+		 if (buflines < 200000) {
+			 if (buffer)
+			   buffer = realloc(buffer,(buflines+1)*sizeof(char *));
+			 else
+			   buffer = malloc(sizeof(char *));
+			 message[strlen(message)]='\n';
+			 buffer[buflines]=message;
+			 buflines++;
+		 }
 	 }
 	 else {
-	    close(recvsock);
 	    recvsock=-1;
 	 }
       }
