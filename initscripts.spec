@@ -210,6 +210,10 @@ rm -rf $RPM_BUILD_ROOT
 * Tue Oct  5 2004 Dan Walsh <notting@redhat.com> - 7.87-1
 - Change SELinux relabel to not remount / 
 
+* Mon Oct  4 2004 Bill Nottingham <notting@redhat.com>
+- use runuser instead of su; require it
+- init.d/halt: use right file name for random seed (#134432)
+
 * Fri Oct  1 2004 Bill Nottingham <notting@redhat.com> - 7.86-1
 - use /etc/hotplug/blacklist to blacklist modules in hardware init (#132719)
 - filter indic locales on the console (#134198)
