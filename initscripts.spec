@@ -1,10 +1,10 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 3.92
+%define version 3.93
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
-Release: 2
+Release: 1
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /var/tmp/initbld
 Requires: mingetty, bash, /bin/awk, mktemp, modutils >= 2.1.85-3, e2fsprogs, console-tools, sysklogd >= 1.3.31, pump
@@ -168,6 +168,10 @@ rm -rf $RPM_BUILD_ROOT
 %doc sysconfig.txt
 
 %changelog
+* Sun Mar 14 1999 Bill Nottingham <notting@redhat.com>
+- fixes in functions for 'action'
+- fixes for pump
+
 * Wed Mar 10 1999 Bill Nottingham <notting@redhat.com>
 - Mmm. Must always remove debugging code. before release. *thwap*
 - pump support
