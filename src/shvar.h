@@ -50,6 +50,10 @@ struct _shvarFile {
 };
 
 
+/* Create the file <name>, return shvarFile on success, NULL on failure */
+shvarFile *
+svCreateFile(char *name);
+
 /* Open the file <name>, return shvarFile on success, NULL on failure */
 shvarFile *
 svNewFile(char *name);

@@ -84,6 +84,53 @@ bail:
     return NULL;
 }
 
+/* Create a new file structure, returning actual data if the file exists,
+ * and a suitable starting point if it doesn't. */
+shvarFile *
+svCreateFile(char *name)
+{
+    shvarFile *s = NULL;
+    int closefd = 0;
+
+    s = g_malloc0(sizeof(shvarFile));
+
+    s->fd = open(name, O_RDWR); /* NOT O_CREAT */
+    if (s->fd == -1) {
+	/* try read-only */
+	s->fd = open(name, O_RDONLY); /* NOT O_CREAT */
+	if (s->fd != -1) closefd = 1;
+    }
+    s->fileName = g_strdup(name);
+
+    if (s->fd != -1) {
+	struct stat buf;
+	char *p, *q;
+
+	if (fstat(s->fd, &buf) < 0) goto bail;
+	s->arena = g_malloc0(buf.st_size + 1);
+
+	if (read(s->fd, s->arena, buf.st_size) < 0) goto bail;
+
+	for(p = s->arena; (q = strchr(p, '\n')) != NULL; p = q + 1) {
+		s->lineList = g_list_append(s->lineList, g_strndup(p, q - p));
+	}
+
+	if (closefd) {
+	    close(s->fd);
+	    s->fd = -1;
+	}
+
+    }
+    return s;
+
+bail:
+    if (s->fd != -1) close(s->fd);
+    if (s->arena) g_free (s->arena);
+    if (s->fileName) g_free (s->fileName);
+    g_free (s);
+    return NULL;
+}
+
 /* remove escaped characters in place */
 static void
 unescape(char *s) {
