@@ -1,22 +1,31 @@
 #! /bin/bash
 #
 # adds static routes which go through device $1
-
 if [ -z "$1" ]; then
     echo $"usage: ifup-routes <net-device>"
     exit 1
 fi
 
-[ -f "/etc/sysconfig/network-scripts/route-$1" ] || exit 0
+CONFIG="/etc/sysconfig/networking/devices/$1.route"
+[ -f $CONFIG ] || exit 0
 
+. $CONFIG
+
+# Red Hat network configuration format
+
+routenum=0
+while [ "x$(eval echo '$'ADDRESS$routenum)x" != "xx" ]; do
+    eval `ipcalc -p $(eval echo '$'ADDRESS$routenum) $(eval echo '$'NETMASK$routenum)`
+    line="$(eval echo '$'ADDRESS$routenum)/$PREFIX"
+    if [ "x$(eval echo '$'GATEWAY$routenum)x" != "xx" ]; then
+	line="$line via $(eval echo '$'GATEWAY$routenum)"
+    fi
+    line="$line dev $1"
+    /sbin/ip route add $line
+    routenum=$(($routenum+1))
+done
+
+# Older format
 while read line; do
     /sbin/ip route add $line
 done < "/etc/sysconfig/network-scripts/route-$1"
-
-# XXX old version:
-#grep "^$1[[:space:]]" /etc/sysconfig/static-routes | while read device args; do
-#	/sbin/route add -$args $device
-#done
-#grep "^any[[:space:]]" /etc/sysconfig/static-routes | while read ignore args ; do
-#        /sbin/route add -$args
-#done
