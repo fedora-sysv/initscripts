@@ -129,6 +129,8 @@ fi
 FWACTIVE=
 if iptables -L -n 2>/dev/null | grep -q RH-Lokkit-0-50-INPUT ; then
     FWACTIVE=1
+else
+    modprobe -r iptable_filter >/dev/null 2>&1
 fi
 
 # Remove any temporary references which were previously added to dhclient config
