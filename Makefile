@@ -4,6 +4,7 @@ SUPERGROUP=root
 
 VERSION=$(shell awk '/Version:/ { print $$2 }' initscripts.spec)
 CVSTAG = r$(subst .,-,$(VERSION))
+CVSROOT = $(shell cat CVS/Root)
 
 mandir=/usr/share/man
 
@@ -59,8 +60,8 @@ check:
 	done
 
 changelog:
-	rcs2log | sed "s|@.*redhat\.com|@redhat.com|" | sed "s|@@|@|" | \
-	 sed "s|/mnt/devel/CVS/initscripts/||g" > changenew
+	@rcs2log | sed "s|@.*redhat\.com|@redhat.com|" | sed "s|@.*redhat\.de|@redhat.com|" | sed "s|@redhat\.de|@redhat.com|" | sed "s|@@|@|" | \
+	 sed "s|/mnt/devel/CVS/initscripts/||g" | sed "s|/cvs/rhl/initscripts/||g" > changenew
 	 mv ChangeLog ChangeLog.old
 	 cat changenew ChangeLog.old > ChangeLog
 	 rm -f changenew
@@ -76,11 +77,11 @@ create-archive: tag-archive
 	@rm -rf /tmp/initscripts
 	@cd /tmp; cvs -Q -d $(CVSROOT) export -r$(CVSTAG) initscripts || echo GRRRrrrrr -- ignore [export aborted]
 	@mv /tmp/initscripts /tmp/initscripts-$(VERSION)
-	@cd /tmp; tar czSpf initscripts-$(VERSION).tar.gz initscripts-$(VERSION)
+	@cd /tmp; tar --bzip2 -cSpf initscripts-$(VERSION).tar.bz2 initscripts-$(VERSION)
 	@rm -rf /tmp/initscripts-$(VERSION)
-	@cp /tmp/initscripts-$(VERSION).tar.gz .
-	@rm -f /tmp/initscripts-$(VERSION).tar.gz 
+	@cp /tmp/initscripts-$(VERSION).tar.bz2 .
+	@rm -f /tmp/initscripts-$(VERSION).tar.bz2 
 	@echo " "
-	@echo "The final archive is ./initscripts-$(VERSION).tar.gz."
+	@echo "The final archive is ./initscripts-$(VERSION).tar.bz2."
 
 archive: clean check tag-archive create-archive

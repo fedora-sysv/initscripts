@@ -4,7 +4,7 @@ Version: 5.84.1
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
-Source: initscripts-%{version}.tar.gz
+Source: initscripts-%{version}.tar.bz2
 BuildRoot: /%{_tmppath}/%{name}-%{version}-%{release}-root
 Requires: mingetty, /bin/awk, /bin/sed, mktemp, e2fsprogs >= 1.15
 Requires: procps >= 2.0.7-7, sysklogd >= 1.3.31
