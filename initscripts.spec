@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.94
+%define version 4.95
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
@@ -230,6 +230,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Thu Feb 17 2000 Bill Nottingham <notting@redhat.com>
 - sanitize repair prompt
+- initial support for isdn-config stuff
 
 * Mon Feb 14 2000 Nalin Dahyabhai <nalin@redhat.com>
 - add which as a package dependency (bug #9416)
