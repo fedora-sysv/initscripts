@@ -174,8 +174,8 @@ is_available ()
     LC_ALL= LANG= ip -o link | grep -q $1
     [ "$?" = "1" ] || return 0
 
-    alias=`modprobe -c | awk "/^alias $1 / { print \\$3 }"`
-    if [ -z "$alias" -o "$alias" = "off" ]; then
+    alias=`modprobe -c | awk "/^(alias|install) $1 / { print \\$3 }"`
+    if [ -z "$alias" -o "$alias" = "off" -o "$alias" = "/bin/true" ]; then
         return 2
     fi
     HOTPLUG=`cat /proc/sys/kernel/hotplug`
