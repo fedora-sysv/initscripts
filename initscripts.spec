@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.40.2
+Version: 6.41
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -240,6 +240,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Thu Jan 17 2002 Michael K. Johnson <johnsonm@redhat.com>
+- Added support for libredhat-kernel.so.* symlink handling (6.41)
+
 * Tue Oct 16 2001 Bill Nottingham <notting@redhat.com>
 - add ifup-ipx back in (#54686)
 - don't run logger if /usr isn't mounted in ifup-post (#54685)
