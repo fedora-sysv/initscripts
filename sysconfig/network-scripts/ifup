@@ -89,13 +89,15 @@ fi
 # is this device available? (this catches PCMCIA devices for us)
 LC_ALL= LANG= ip -o link | grep -q ${REALDEVICE}
 if [ "$?" = "1" ]; then
-    echo $"Device does not seem to be present, delaying ${DEVICE} initialization."
-    exit 1
+    modprobe -c | grep -q ${REALDEVICE} && modprobe ${REALDEVICE} || {
+      echo $"Device does not seem to be present, delaying ${DEVICE} initialization."
+      exit 1
+    }
 fi
-if [ -n "${MACADDR}" ]; then
+if [ -n "${HWADDR}" ]; then
     FOUNDMACADDR=`LC_ALL= LANG= ip -o link show ${REALDEVICE} | \
 	sed 's/.*link\/ether \([[:alnum:]:]*\).*/\1/'`
-    if [ "${FOUNDMACADDR}" != "${MACADDR}" ]; then
+    if [ "${FOUNDMACADDR}" != "${HWADDR}" ]; then
 	echo $"Device ${DEVICE} has different MAC address than expected, ignoring."
 	exit 1
     fi
@@ -179,11 +181,11 @@ else
     fi
   
     if [ -z "${NETMASK}" ]; then
-	eval `/bin/ipcalc --prefix ${IPADDR}`
+	eval `/bin/ipcalc --netmask ${IPADDR}`
     fi
 
     if [ -z "${PREFIX}" ]; then
-	eval `/bin/ipcalc --prefix ${NETMASK}`
+	eval `/bin/ipcalc --prefix ${IPADDR} ${NETMASK}`
     fi
 
     if [ -z "${BROADCAST}" ]; then
@@ -218,9 +220,9 @@ else
     # update ARP cache of neighboring computers
     arping -q -A -c 1 -I ${DEVICE} ${IPADDR}
     ( sleep 2;
-      arping -q -U -c 1 -I ${DEVICE} ${IPADDR} ) >& /dev/null < /dev/null &
-    ip route add unreachable 224.0.0.0/24 >& /dev/null
-    ip route add unreachable 255.255.255.255 >& /dev/null
+      arping -q -U -c 1 -I ${DEVICE} ${IPADDR} ) > /dev/null 2>&1 < /dev/null &
+    ip route add unreachable 224.0.0.0/24 > /dev/null 2>&1
+    ip route add unreachable 255.255.255.255 > /dev/null 2>&1
 
     # if the device is multicast enabled, add a default multicast route
     if [ `ip link ls ${DEVICE} | grep -c MULTICAST` -ge 1 ]; then

@@ -98,7 +98,8 @@ check_link_down ()
 
 check_default_route ()
 {
-   return ip route | grep -q default
+   ip route | grep -q default
+   return $?
 }
 
 find_gateway_dev ()
