@@ -254,6 +254,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Feb 12 2001 Bill Nottingham <notting@redhat.com>
+- fix ifup-post so that it will work right when not called from ifup
+
 * Sat Feb 10 2001 Florian La Roche <Florian.LaRoche@redhat.de>
 - add all save changes for s390 s390x that won't break anything
   patches are from Oliver Paukstadt @ millenux.com
