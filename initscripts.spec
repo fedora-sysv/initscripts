@@ -7,7 +7,7 @@ Group: Base
 Release: 1
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /var/tmp/initbld
-Requires: mingetty, bash, mktemp, modutils >= 2.1.85-3
+Requires: mingetty, bash, mktemp, modutils >= 2.1.85-3, e2fsprogs
 Conflicts: redhat-release <= 5.1
 Prereq: /sbin/chkconfig
 
@@ -155,7 +155,8 @@ rm -rf $RPM_BUILD_ROOT
 %doc sysconfig.txt
 
 %changelog
-* Fri Sep 25 1998 Cristian Gafton <gafton@redhat.com>
+* Mon Oct 05 1998 Cristian Gafton <gafton@redhat.com>
+- requires e2fsprogs (for fsck)
 - set INPUTRC and LESSCHARSET on linux-lat
 
 * Wed Sep 16 1998 Jeff Johnson <jbj@redhat.com>
