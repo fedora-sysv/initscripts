@@ -184,10 +184,11 @@ if [ -x /sbin/depmod -a -n "$USEMODULES" ]; then
     fi
     [ -n "$mver" -a -f "/boot/module-info-$mver" ] && ln -sf /boot/module-info-$mver /boot/module-info
     [ -n "$mver" -a -f "/boot/System.map-$mver" ] && ln -sf /boot/System.map-$mver /boot/System.map
-    if [ -L /lib/modules/default ]
+    if [ -L /lib/modules/default ]; then
     	action "Finding module dependencies" depmod -a default
     else
 	action "Finding module dependencies" depmod -a
+    fi
 fi
 
 # load sound modules
