@@ -1,4 +1,117 @@
+2001-01-30  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/killall:
+	don't barf errors if files aren't there (say, rc.local)
+
+	* rc.d/init.d/functions:
+	various cleanups (#10761, from mjt@tls.msk.ru)
+
+	* rc.d/init.d/functions:
+	for daemon(), look only at the pid file to see if it's running (#17244, others)
+
+	* src/ipcalc.c:
+	change hostnames to all lowercase (#9579)
+
+	* sysconfig/network-scripts/ifup:
+	hack default gw setting
+
+	* src/initlog.1: document -q
+
+	* sysconfig/network-scripts/ifup-ppp:
+	ifup-ppp enhancements (#17388, <ayn2@cornell.edu>)
+
+	* rc.d/init.d/network, rc.d/init.d/random, rc.d/init.d/rawdevices, rc.d/init.d/netfs:
+	tweak usage messages (#24085)
+
+	* rc.d/rc.sysinit:
+	fix raid start if it's all modular, and no initrd (#25291)
+
+	* src/ppp-watch.c: fix build
+
+2001-01-29  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit:
+	add sleep 1 to avoid race (#17842)
+
+	* sysconfig/network-scripts/ifdown-ppp:
+	fix redial loop (#17380)
+
+	* rc.d/init.d/halt: add autofs (#17288)
+
+	* rc.d/rc.local:
+	touch /var/lock/subsys/local so we only get run once
+
+	* src/ppp-watch.c, initscripts.spec, sysconfig.txt:
+	make boot timeout configurable (BOOTTIMEOUT); patch from <awk@awks.org>
+
+	* sysconfig/network-scripts/network-functions:
+	handle aliases better in check_device_down (#18687)
+
+	* rc.d/init.d/halt:
+	do something less surprising when called with arguments (#18216)
+
+	* sysconfig/network-scripts/ifup:
+	remove old broken code
+
+	* initscripts.spec, sysconfig/network-scripts/ifdown-ppp, src/ppp-watch.c:
+	don't ignore RETRYTIMEOUT when we never connect (#14701)
+
+	* src/minilogd.c:
+	add an alarm, so we don't wait forever for input (#23482)
+
+	* sysconfig/network-scripts/ifup-plusb:
+	add plusb support (#18892)
+
+	* prefdm:
+	allow choice of desktop/displaymanager (#23315)
+
+	* sysconfig/network-scripts/ifup:
+	allow devices without an IP address (#24127)
+
+	* rc.d/rc.sysinit:
+	add devfs to mtab (#20261)
+
+	* sysconfig/network-scripts/ifup-ipx:
+	deuglify (#23198)
+
+	* sysconfig/static-routes-ipv6: clean up
+
+	* sysconfig/network-scripts/ifdown, sysconfig/network-scripts/ifdown-ipv6, sysconfig/network-scripts/ifdown-sit, sysconfig/network-scripts/ifup, sysconfig/network-scripts/ifup-ipv6, sysconfig/network-scripts/ifup-sit, sysconfig/network-scripts/network-functions-ipv6, sysconfig/static-routes-ipv6:
+	add ipv6 support (#23576)
+
+	* src/minilogd.c: wait another second
+
+	* src/minilogd.c:
+	add an upper bound on how much stuff we'll keep in memory
+
+2001-01-29  I18N Processor  <i18n@redhat.com>
+
+	* po/no.po: Auto-update by kmaraas@online.no
+
+	* po/da.po: Auto-update by claus_h@image.dk
+
+2001-01-28  I18N Processor  <i18n@redhat.com>
+
+	* po/pt.po:
+	Auto-update by pmmm@rnl.ist.utl.pt
+
+2001-01-27  I18N Processor  <i18n@redhat.com>
+
+	* po/gl.po: Auto-update by jba@pobox.com
+
+2001-01-26  I18N Processor  <i18n@redhat.com>
+
+	* po/is.po: Auto-update by ra@xo.hp.is
+
+2001-01-25  I18N Processor  <i18n@redhat.com>
+
+	* po/sv.po:
+	Auto-update by menthos@menthos.com
+
 2001-01-24  Bill Nottingham  <notting@redhat.com>
+
+	* ChangeLog, initscripts.spec:
+	5.59-1
 
 	* rc.d/init.d/functions, rc.d/init.d/halt, rc.d/rc:
 	fix inability to shutdown cleanly

@@ -245,6 +245,14 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Jan 30 2001 Bill Nottingham <notting@redhat.com>
+- various init.d/functions cleanups (#10761, from <mjt@tls.msk.ru>)
+- in daemon(), only look at pidfile to determine if process is running
+  (#17244, others)
+- ifup-ppp enhancements (#17388, from <ayn2@cornell.edu>)
+- ipv6 support (#23576, originally by Peter Bieringer <pb@bieringer.de>)
+- lots of other minor fixes (see ChangeLog)
+
 * Mon Jan 29 2001 Bill Nottingham <notting@redhat.com>
 - add plusb support (#18892, patch from <eric.ayers@compgen.com>)
 - don't ignore RETRYTIMEOUT when we never connect (#14071, patch from
