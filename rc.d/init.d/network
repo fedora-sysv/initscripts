@@ -110,16 +110,16 @@ case "$1" in
 		if [ -z "$DEVICE" ] ; then DEVICE="$i"; fi
 
 		if [ "${DEVICE##cipcb}" != "$DEVICE" ] ; then
-			cipeinterfaces="$cipeinterfaces $DEVICE"
+			cipeinterfaces="$cipeinterfaces $i"
 			continue
 		fi
 		if [ "$TYPE" = "xDSL" ]; then
-		        xdslinterfaces="$xdslinterfaces $DEVICE"
+		        xdslinterfaces="$xdslinterfaces $i"
 			continue
 		fi
 		
 		if [ -n "$BRIDGE" ]; then
-		        bridgeinterfaces="$bridgeinterfaces $DEVICE"
+		        bridgeinterfaces="$bridgeinterfaces $i"
 			continue
 		fi
 		
@@ -205,15 +205,15 @@ case "$1" in
 		if [ -z "$DEVICE" ] ; then DEVICE="$i"; fi
 
 		if [ "${DEVICE##cipcb}" != "$DEVICE" ] ; then
-			cipeinterfaces="$cipeinterfaces $DEVICE"
+			cipeinterfaces="$cipeinterfaces $i"
 			continue
 		fi
 		if [ -n "$BRIDGE" ]; then
-		        bridgeinterfaces="$bridgeinterfaces $DEVICE"
+		        bridgeinterfaces="$bridgeinterfaces $i"
 		        continue
 		fi
 		if [ "$TYPE" = "xDSL" ]; then
-		        xdslinterfaces="$xdslinterfaces $DEVICE"
+		        xdslinterfaces="$xdslinterfaces $i"
 			continue
 		fi
 	done
@@ -222,7 +222,7 @@ case "$1" in
 		eval $(fgrep "DEVICE=" ifcfg-$i)
 		if [ -z "$DEVICE" ] ; then DEVICE="$i"; fi
 
-		if ! check_device_down $i; then
+		if ! check_device_down $DEVICE; then
 		   action $"Shutting down interface $i: " ./ifdown $i boot
 		fi
 	done
@@ -232,7 +232,7 @@ case "$1" in
 		eval $(fgrep "DEVICE=" ifcfg-$i)
 		if [ -z "$DEVICE" ] ; then DEVICE="$i"; fi
 
-		if ! check_device_down $i; then
+		if ! check_device_down $DEVICE; then
 		   action $"Shutting down interface $i: " ./ifdown $i boot
 		fi
 	done
