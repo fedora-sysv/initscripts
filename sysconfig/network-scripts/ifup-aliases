@@ -163,7 +163,7 @@ function new_interface ()
                eval `/bin/ipcalc --netmask ${IPADDR}`
        fi
 
-       if [ -z "$BROADCAST" ]; then
+       if [ -z "$BROADCAST" -o "$BROADCAST" = "$default_BROADCAST" ]; then
                eval `/bin/ipcalc --broadcast ${IPADDR} ${NETMASK}`
                nma=$NETMASK; nmb=${nma#*.}; nmc=${nmb#*.};
                NMGLOP="${nma%%.*}_${nmb%%.*}_${nmc%%.*}_${nmc#*.}";
