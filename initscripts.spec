@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.62
+Version: 6.63
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -244,6 +244,13 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Fri Apr 12 2002 Bill Nottingham <notting@redhat.com> 6.63-1
+- ipcalc cleanups (#58410)
+- quit stripping binaries
+- do LVM init after RAID init too (#63238)
+- export all locale variables (#56142)
+- run sysctl -p after network init as well
+
 * Tue Apr 09 2002 Bill Nottingham <notting@redhat.com> 6.62-1
 - delete X/VNC locks on startup (#63035)
 - shut up DMA disabling, move it to after ide-scsi (#62873, #62956)

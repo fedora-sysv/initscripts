@@ -1,3 +1,63 @@
+2002-04-12  Bill Nottingham  <notting@redhat.com>
+
+	* ChangeLog, initscripts.spec: 6.63-1
+
+	* sysconfig/network-scripts/ifdown-ipv6:
+	fix always trying to shut down 6to4 (#63352, <pekkas@netcore.fi>)
+
+	* rc.d/rc.sysinit:
+	minor tweaks to libredhat-kernel.so handling
+
+	* src/ipcalc.c:
+	some minor ipcalc cleanups (#58410)
+
+	* src/ipcalc.c, src/Makefile:
+	quit stripping binaries
+
+	* rc.d/rc.sysinit:
+	do LVM initialization twice (#63238)
+
+	* rc.d/rc.sysinit:
+	deal with devfs on initrd (#59562)
+
+	* sysconfig/network-scripts/network-functions-ipv6:
+	use -e argument to sysctl
+
+	* rc.d/init.d/network:
+	run sysctl again at the end of network (for interface-specific parameters)
+
+	* sysconfig/network-scripts/ifup-aliases:
+	don't process backup files (#60248, <dharris@drh.net>, <agrino@porsiempre.cl>)
+
+	* lang.sh:
+	export the entire gamut of locale variables (#56142)
+
+2002-04-10  Leon Kanter  <leon@geon.donetsk.ua>
+
+	* po/ru.po: update
+
+2002-04-10  Bill Nottingham  <notting@redhat.com>
+
+	* service: oops, broke translations
+
+	* ChangeLog, initscripts.spec:
+	6.62-1
+
+	* sysconfig/network-scripts/ifup-aliases:
+	use full path to /sbin/ifconfig (#59457)
+
+	* service:
+	change to root directory before staring/stopping; also sanitize environment (#53304, #61371)
+
+	* rc.d/rc.sysinit:
+	move DMA hammer-of-doom to after loading of ide-scsi
+
+	* rc.d/rc.sysinit:
+	delete X/VNC locks on startup (#63035)
+
+	* rc.d/rc.sysinit:
+	shut up DMA disabling (#62873, #62956)
+
 2002-04-10  Bill Nottingham  <notting@redhat.com>
 
 	* ChangeLog, initscripts.spec: 6.62-1
