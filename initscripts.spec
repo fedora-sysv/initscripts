@@ -10,7 +10,7 @@ Requires: mingetty, /bin/awk, /bin/sed, mktemp, e2fsprogs >= 1.15
 Requires: procps >= 2.0.6-5, sysklogd >= 1.3.31
 Requires: setup >= 2.0.3, /sbin/fuser, which
 Requires: modutils >= 2.3.11-5
-Requires: util-linux >= 2.10
+Requires: util-linux >= 2.10s-11
 Requires: bash >= 2.0
 Conflicts: kernel <= 2.2, timeconfig < 3.0, pppd < 2.3.9, wvdial < 1.40-3
 Conflicts: ypbind < 1.6-12
@@ -254,6 +254,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Mar 22 2001 Erik Troan <ewt@redhat.com>
+- take advantage of new swapon behaviors
+
 * Wed Mar 14 2001 Bill Nottingham <notting@redhat.com>
 - add cipe interfaces last (#31597)
 
