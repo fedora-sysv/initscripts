@@ -212,12 +212,22 @@ else
     else
         SCOPE=
     fi
-
+    
+    if [ -n "$SRCADDR" ]; then
+       SRC="src $SRCADDR"
+    else
+       SRC=
+    fi
+    
     if ! LC_ALL=C ip addr ls ${REALDEVICE} | grep -q "${IPADDR}/${PREFIX}" ; then
 	 if ! ip addr add ${IPADDR}/${PREFIX} \
 	    brd ${BROADCAST:-+} dev ${REALDEVICE} ${SCOPE} label ${DEVICE}; then
 	    echo $"Error adding address ${IPADDR} for ${DEVICE}."
 	 fi
+    fi
+    
+    if [ -n "$SRCADDR" ]; then
+           sysctl -w "net.ipv4.conf.${REALDEVICE}.arp_filter=1" >/dev/null 2>&1
     fi
 
     # update ARP cache of neighboring computers
@@ -227,17 +237,17 @@ else
 
     # Add a route for the subnet.  Replace any existing route.
     if [ "${ISALIAS}" = no ]; then
-	ip route replace ${NETWORK}/${PREFIX} dev ${REALDEVICE}
+	ip route replace ${NETWORK}/${PREFIX} ${SRC} dev ${REALDEVICE}
     fi
 
     # Set a default route.
     if [ -z "${GATEWAYDEV}" -o "${GATEWAYDEV}" = "${REALDEVICE}" ]; then
 	# set up default gateway
 	if [ -n "${GATEWAY}" -a "`ipcalc --network ${GATEWAY} ${NETMASK} 2>/dev/null`" = "NETWORK=${NETWORK}" ]; then
-	    ip route add default via ${GATEWAY}
+	    ip route add default via ${GATEWAY} ${SRC}
 	    DEFGW=${GATEWAY}
 	elif [ "${GATEWAYDEV}" = "${DEVICE}" ]; then
-	    ip route add default dev ${REALDEVICE}
+	    ip route add default ${SRC} dev ${REALDEVICE} 
 	fi
     fi
 fi
