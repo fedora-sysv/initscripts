@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.31.21.EL
+Version: 7.31.22.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -249,6 +249,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Feb  9 2005 Bill Nottingham <notting@redhat.com> 7.31.22.EL-1
+- fix _netdev unmounting (#147610, <alewis@redhat.com>)
+
 * Thu Feb  3 2005 Bill Nottingham <notting@redhat.com> 7.31.21.EL-1
 - fix handling of VMware files (#139381)
 - don't mount GFS filesystems (#140281)
