@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.61.1
+Version: 5.62
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -251,6 +251,11 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Feb  6 2001 Bill Nottingham <notting@redhat.com>
+- modify firewall on ifup to allow any new DNS servers through (#25951)
+- don't muck with the font in lang.csh/lang.sh (#26349)
+- don't display Japanese if we aren't on a pty (#25041)
+
 * Mon Feb  5 2001 Trond Eivind Glomsrød <teg@redhat.com>
 - i18n updates
 
