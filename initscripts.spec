@@ -114,7 +114,7 @@ if [ -L /etc/localtime ]; then
     fi
 fi
 
-%postun
+%preun
 if [ $1 = 0 ]; then
   chkconfig --del random
   chkconfig --del netfs
