@@ -208,6 +208,11 @@ if [ -f /proc/sys/kernel/modprobe ]; then
    fi
 fi
 
+# Load modules (for backward compatibility with VARs)
+if [ -f /etc/rc.d/rc.modules ]; then
+	/etc/rc.d/rc.modules
+fi
+
 # Add raid devices
 if [ -f /proc/mdstat -a -f /etc/raidtab -a -x /sbin/raidstart ]; then
 	action "Starting up RAID devices" raidstart -a
@@ -354,11 +359,6 @@ action "Enabling swap space" /bin/true
 # Initialize the serial ports.
 if [ -f /etc/rc.d/rc.serial ]; then
 	. /etc/rc.d/rc.serial
-fi
-
-# Load modules (for backward compatibility with VARs)
-if [ -f /etc/rc.d/rc.modules ]; then
-	/etc/rc.d/rc.modules
 fi
 
 # If a SCSI tape has been detected, load the st module unconditionally
