@@ -8,6 +8,9 @@
 # description: Saves and restores system entropy pool for higher quality \
 #              random number generation.
 
+# Source function library.
+. /etc/rc.d/init.d/functions
+
 random_seed=/var/run/random-seed
 
 # See how we were called.
@@ -51,7 +54,7 @@ case "$1" in
   *)
 	# do not advertise unreasonable commands that there is no reason
 	# to use with this device
-	echo "Usage: random {start|stop}"
+	echo "Usage: random {start|stop|status|restart|reload}"
 	exit 1
 esac
 
