@@ -37,9 +37,9 @@ install:
 	  ln -sf ../../../sbin/ifup . ; \
 	  ln -sf ../../../sbin/ifdown . )
 	(cd src; make install ROOT=$(ROOT) mandir=$(mandir))
-	mkdir -p /var/run/netreport
-	chown root.root /var/run/netreport
-	chmod og=rwx,o=rx /var/run/netreport
+	mkdir -p $(ROOT)/var/run/netreport
+	chown root.root $(ROOT)/var/run/netreport
+	chmod og=rwx,o=rx $(ROOT)/var/run/netreport
 
 check:
 	for afile in `find . -type f -perm +111|grep -v \.csh ` ; do \
