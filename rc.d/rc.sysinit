@@ -195,6 +195,11 @@ if [ "$BOOTUP" != "serial" ]; then
 else
 	fsckoptions="-V $fsckoptions"
 fi
+ 
+# LVM Setting
+if [ -e /proc/lvm -a -x /sbin/vgchange ]; then
+        /sbin/vgchange -a y
+fi
 
 _RUN_QUOTACHECK=0
 ROOTFSTYPE=`grep " / " /proc/mounts | awk '{ print $3 }'`
