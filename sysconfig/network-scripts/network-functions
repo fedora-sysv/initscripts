@@ -352,8 +352,13 @@ configure_ccwgroup_device ()
     SYSDIR="$DIR/${SUBCHANNELS//,*/}"
     [ ! -e $DIR/group ] && return
     echo "$SUBCHANNELS" > $DIR/group
-    [ -n "$PORTNAME" -a -e $SYSDIR/portname ] && \
-         echo "$PORTNAME" > $SYSDIR/portname
+    if [ -n "$PORTNAME" -a -e $SYSDIR/portname ]; then
+         if [ "$TYPE" = "LCS" ]; then
+		[ -e $SYSDIR/portno ] && echo "$PORTNAME" > $SYSDIR/portno
+	 else
+		[ -e $SYSDIR/portname ] && echo "$PORTNAME" > $SYSDIR/portname
+	 fi
+    fi
     [ -e $SYSDIR/online ] && echo 1 > $SYSDIR/online
 }
 

@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.73
+Version: 7.74
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -252,6 +252,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Aug 30 2004 Karsten Hopp <karsten@redhat.de> 7.74-1 
+- fix support for LCS portnumbers (mainframe)
+
 * Fri Aug 27 2004 Jason Vas Dias  <jvdias@redhat.com> 7.73-1
 - Add support for running the DHCPv6 client to ifup 
 - (new DHCPV6C=yes/no ifcfg-${IF} variable) + update sysconfig.txt 
