@@ -306,6 +306,8 @@ Files in /etc/sysconfig/network-scripts/
     {IPXNETNUM,IPXPRIMARY,IPXACTIVE}_{802_2,802_3,ETHERII,SNAP}
     configuration matrix for IPX.  Only used if IPX is active.
     Managed from /etc/sysconfig/network-scripts/ifup-ipx
+    ARP=yes|no (adds 'arp' flag to ifconfig, for use with the
+      ethertap device)
 
   PPP/SLIP items:
     PERSIST=yes|no
@@ -348,7 +350,7 @@ Files in /etc/sysconfig/network-scripts/
     RETRYTIMEOUT=<number of seconds, default currently 60>
       (time to wait before re-attempting to establish a connection
       after a previous attempt fails.)
-
+      
 /etc/sysconfig/network-scripts/chat-<interface-name>:
 
   chat script for PPP or SLIP connection intended to establish
