@@ -25,7 +25,7 @@ if [ -f /etc/sysconfig/i18n ]; then
     fi
     
     if [ -n "$SYSFONTACM" ]; then
-        case $SYSFONTACN in
+        case $SYSFONTACM in
 	   iso01*|iso02*|iso15*|koi*)
 	        LESSCHARSET=latin1
 		INPUTRC=/etc/inputrc
