@@ -22,18 +22,19 @@ export PATH
 # Get a sane screen width
 [ -z "${COLUMNS:-}" ] && COLUMNS=80
 
+[ -z "${CONSOLETYPE:-}" ] && CONSOLETYPE="`/sbin/consoletype`"
+
 if [ -f /etc/sysconfig/i18n -a -z "${NOLOCALE:-}" ] ; then
   . /etc/sysconfig/i18n
-  if [ "${LANG:-}" = "ja_JP.eucJP" -a "`/sbin/consoletype`" != "pty" ]; then
-    unset LANG
-  elif [ "${LANG:-}" = "ko_KR.eucKR" -a "`/sbin/consoletype`" != "pty" ]; then
-    unset LANG
-  elif [ "${LANG:-}" = "zh_CN.GB2312" -a "`/sbin/consoletype`" != "pty" ]; then
-    unset LANG
-  elif [ "${LANG:-}" = "zh_TW.Big5" -a "`/sbin/consoletype`" != "pty" ]; then
-    unset LANG
+  if [ "$CONSOLETYPE" != "pty" ]; then
+	case "${LANG:-}" in
+		ja_JP.eucJP|ko_KR.eucKR|zh_CN.GB2312|zh_TW.Big5)
+			unset LANG;;
+		*)
+			export LANG
+	esac
   else
-    export LANG
+	export LANG
   fi
 fi
 
@@ -53,15 +54,13 @@ if [ -z "${BOOTUP:-}" ]; then
     SETCOLOR_NORMAL="echo -en \\033[0;39m"
     LOGLEVEL=1
   fi
-  if [ -x /sbin/consoletype ]; then
-    if [ "`consoletype`" = "serial" ]; then
+  if [ "$CONSOLETYPE" = "serial" ]; then
       BOOTUP=serial
       MOVE_TO_COL=
       SETCOLOR_SUCCESS=
       SETCOLOR_FAILURE=
       SETCOLOR_WARNING=
       SETCOLOR_NORMAL=
-    fi
   fi
 fi
 
