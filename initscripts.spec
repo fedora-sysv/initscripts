@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.11
+Version: 7.12
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -246,8 +246,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
-* Mon Feb 24 2003 Bill Nottingham <notting@redhat.com> 7.11-1
+* Mon Feb 24 2003 Bill Nottingham <notting@redhat.com> 7.12-1
 - handle changed chain name
+- init vts used in all cases
 
 * Fri Feb 21 2003 Bill Nottingham <notting@redhat.com> 7.10-1
 - handle LANGUAGE specially for zh_CN.GB18030 and gdm (#84773)
