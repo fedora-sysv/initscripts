@@ -432,6 +432,8 @@ if [ "${NETWORKING_IPV6}" = "yes" ]; then
     /etc/sysconfig/network-scripts/ifup-ipv6 ${CONFIG}
     if [[ "${DHCPV6C}"  = [Yy1]* ]] && [ -x /sbin/dhcp6c ]; then
 	/sbin/dhcp6c ${DEVICE};
+        dhcp6_pid=(`/bin/ps -eo 'pid,args' | /bin/grep "dhcp6c ${DEVICE}" | egrep -v grep`);
+	echo ${dhcp6_pid[0]} > /var/run/dhcp6c_${DEVICE}.pid
     fi;
 fi
 
