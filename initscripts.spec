@@ -239,7 +239,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
-* Web Aug 29 2001 David Sainty <dsainty@redhat.com>
+* Wed Aug 29 2001 David Sainty <dsainty@redhat.com>
 - fix ifdown for multiple dhcpcd interfaces
 
 * Wed Aug 29 2001 Than Ngo <than@redhat.com>
