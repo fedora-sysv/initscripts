@@ -356,7 +356,7 @@ echo_warning() {
 
 # Inform the graphical boot of our current state
 update_boot_stage() {
-  if [ "$BOOTUP" = "graphical" -a -x /usr/bin/rhgb-client ]; then
+  if [ "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb-client ]; then
     /usr/bin/rhgb-client --update="$1"
   fi
   return 0
