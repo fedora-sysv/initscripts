@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.99
+Version: 7.00
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -256,6 +256,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Tue Dec 17 2002 Bill Nottingham <notting@redhat.com> 7.00-1
+- tweaks for potential GUI bootup
+- loop checking for network link state, don't unilterally wait five
+  seconds
+
 * Fri Dec 14 2002 Karsten Hopp <karsten@redhat.de> 6.99-1
 - remove call to /sbin/update for S/390, too
 
