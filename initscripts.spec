@@ -54,6 +54,13 @@ for foo in * ; do
 done
 popd
 
+%ifnarch s390 s390x
+rm /etc/sysconfig/init.s390
+rm /etc/sysconfig/network-scripts/ifdown-ctc
+rm /etc/sysconfig/network-scripts/ifdown-escon
+rm /etc/sysconfig/network-scripts/ifdown-iucv
+%endif
+
 
 %pre
 /usr/sbin/groupadd -g 22 -r -f utmp
@@ -185,6 +192,7 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/sysconfig/network-scripts/ifup-ippp
 %config /etc/sysconfig/network-scripts/ifdown-ippp
 %config /etc/sysconfig/network-scripts/ifup-wireless
+%config /etc/sysconfig/network-scripts/ifdown-aliases
 /etc/sysconfig/network-scripts/ifup-isdn
 /etc/sysconfig/network-scripts/ifdown-isdn
 %ifarch s390 s390x
