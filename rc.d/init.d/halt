@@ -16,7 +16,12 @@ PATH=/sbin:/bin:/usr/bin:/usr/sbin
 runcmd() {
    echo -n $1
    shift
-   $* && echo_success -n || echo_failure -n
+   if [ "$BOOTUP" = "color" ]; then
+      $* && echo_success || echo_failure
+   else
+      $*
+   fi
+   echo
 }
 
 # See how we were called.

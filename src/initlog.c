@@ -11,6 +11,7 @@
 #define SYSLOG_NAMES
 #include <syslog.h>
 
+#include <sys/stat.h>
 #include <sys/wait.h>
 
 #define _(String) gettext((String))
@@ -86,10 +87,10 @@ int startDaemon() {
     if ( pid ) {
 	/* parent */
 	waitpid(pid,&rc,0);
-        if (rc)
-	 return -1;
-        else 
-	 return 0;
+	if (WIFEXITED(rc))
+	  return WEXITSTATUS(rc);
+	else
+	  return -1;
     } else {
 	int fd;
 	
@@ -107,44 +108,28 @@ int startDaemon() {
 int logLine(struct logInfo *logEnt) {
     /* Logs a line... somewhere. */
     int x;
+    struct stat statbuf;
     
     /* Don't log empty or null lines */
     if (!logEnt->line || !strcmp(logEnt->line,"\n")) return 0;
 
-    if ((x=access(_PATH_LOG,W_OK))) {
-       /* syslog isn't running, so start something... */
-       if ( (x=startDaemon()) ==-1) {
-	    logData=realloc(logData,(logEntries+1)*sizeof(struct logInfo));
-	    logData[logEntries]= (*logEnt);
-	    logEntries++;
-	} else {
-	   if (logEntries>0) {
-	      for (x=0;x<logEntries;x++) {
-		 openlog(logData[x].cmd,0,logData[x].fac);
-		 syslog(logData[x].pri,"%s",logData[x].line);
-		 closelog();
-	      }
-	      free(logData);
-	      logEntries = 0;
-	   }
-	   openlog(logEnt->cmd,0,logEnt->fac);
-	   syslog(logEnt->pri,"%s",logEnt->line);
-	   closelog();
-	}
+    if ( (stat(_PATH_LOG,&statbuf)==-1) && ((x=startDaemon())) ) {
+	logData=realloc(logData,(logEntries+1)*sizeof(struct logInfo));
+	logData[logEntries]= (*logEnt);
+	logEntries++;
     } else {
-       if (logEntries>0) {
-	  for (x=0;x<logEntries;x++) {
-	     openlog(logData[x].cmd,0,logData[x].fac);
-	     printf("flushing %s\n",logData[x].line);
-	     syslog(logData[x].pri,"%s",logData[x].line);
-	     closelog();
-	  }
-	  free(logData);
-	  logEntries = 0;
-       }
-       openlog(logEnt->cmd,0,logEnt->fac);
-       syslog(logEnt->pri,"%s",logEnt->line);
-       closelog();
+	if (logEntries>0) {
+	    for (x=0;x<logEntries;x++) {
+		openlog(logData[x].cmd,0,logData[x].fac);
+		syslog(logData[x].pri,"%s",logData[x].line);
+		closelog();
+	    }
+	    free(logData);
+	    logEntries = 0;
+	}
+	openlog(logEnt->cmd,0,logEnt->fac);
+	syslog(logEnt->pri,"%s",logEnt->line);
+	closelog();
     }
     return 0;
 }

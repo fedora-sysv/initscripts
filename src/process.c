@@ -115,7 +115,7 @@ int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet)
     }
 	
     while (!done) {
-       if ((x=poll(pfds,numfds,500))==-1) {
+       if (((x=poll(pfds,numfds,500))==-1)&&errno!=EINTR) {
 	  perror("poll");
 	  return -1;
        }
@@ -164,11 +164,7 @@ int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet)
 	  y++;
        }
     }
-   rc = rc>>8;
- 
-   if (!rc)
-      return 0;
-   else {
+    if ((!WIFEXITED(rc)) || (rc=WEXITSTATUS(rc))) {
       /* If there was an error and we're quiet, be loud */
       int x;
       
@@ -183,6 +179,7 @@ int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet)
       }
       return (rc);
    }
+   return 0;
 }
 
 int runCommand(char *cmd, int reexec, int quiet) {

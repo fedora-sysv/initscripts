@@ -25,15 +25,18 @@ fi
 # Source functions
 . /etc/rc.d/init.d/functions
 
+# Fix console loglevel
+/sbin/loglevel 1
+
 # Start up swapping.
-action -n "Activating swap partitions" swapon -a
+action "Activating swap partitions" swapon -a
 
 # Set the hostname.
-action -n "Setting hostname ${HOSTNAME}" hostname ${HOSTNAME}
+action "Setting hostname ${HOSTNAME}" hostname ${HOSTNAME}
 
 # Set the NIS domain name
 if [ -n "$NISDOMAIN" ]; then
-    action -n "Setting NIS domain name $NISDOMAIN" domainname $NISDOMAIN
+    action "Setting NIS domain name $NISDOMAIN" domainname $NISDOMAIN
 else
     domainname ""
 fi
@@ -49,7 +52,7 @@ if [ -f /forcefsck ]; then
 fi
 
 if [ ! -f /fastboot ]; then
-	action -n "Checking root filesystem" fsck -T -a $fsckoptions /
+	action "Checking root filesystem" fsck -T -a $fsckoptions /
 	rc=$?
 	
         # A return of 2 or higher means there were serious problems.
@@ -69,12 +72,12 @@ if [ ! -f /fastboot ]; then
 		echo "Automatic reboot in progress."
 		reboot
 	elif [ "$rc" = "1" -a -x /sbin/quotacheck ]; then
-		action -n "Checking root filesystem quotas"  /sbin/quotacheck -v /
+		action "Checking root filesystem quotas"  /sbin/quotacheck -v /
 	fi
 fi
 
 if [ -x /sbin/quotaon ]; then
-    action -n "Turning on user and group quotas for root filesystem"  /sbin/quotaon /
+    action "Turning on user and group quotas for root filesystem"  /sbin/quotaon /
 fi
 
 # check for arguments 
@@ -90,14 +93,14 @@ fi
 # set up pnp 
 if [ -x /sbin/isapnp -a -f /etc/isapnp.conf ]; then
     if [ -n "$PNP" ]; then
-	action -n "Setting up ISA PNP devices" /sbin/isapnp /etc/isapnp.conf
+	action "Setting up ISA PNP devices" /sbin/isapnp /etc/isapnp.conf
     else
-	action -n "Skipping ISA PNP configuration at users request" /bin/true
+	action "Skipping ISA PNP configuration at users request" /bin/true
     fi
 fi
 
 # Remount the root filesystem read-write.
-action -n "Remounting root filesystem in read-write mode" mount -n -o remount,rw /
+action "Remounting root filesystem in read-write mode" mount -n -o remount,rw /
 
 if [ -n "$IN_INITLOG" ]; then
     IN_INITLOG=
@@ -138,9 +141,9 @@ fi
 if [ -x /sbin/depmod -a -n "$USEMODULES" ]; then
     # Get ready for kerneld if module support in the kernel
     if [ -e /lib/modules/preferred ]; then
-	    action -n "Finding module dependencies" depmod -a preferred
+	    action "Finding module dependencies" depmod -a preferred
     else
-	    action -n "Finding module dependencies" depmod -a
+	    action "Finding module dependencies" depmod -a
     fi
 fi
 
@@ -148,9 +151,9 @@ fi
 if ! grep -i nomodules /proc/cmdline >/dev/null ; then
     if [ -n "$USEMODULES" ]; then
 	if grep -s "alias sound" /etc/conf.modules > /dev/null ; then
-	    action -n "Loading sound module" modprobe sound
+	    action "Loading sound module" modprobe sound
 	    if grep -s "alias midi" /etc/conf.modules > /dev/null ; then
-		action -n "Loading midi module" modprobe midi
+		action "Loading midi module" modprobe midi
 	    fi
 	fi
     fi
@@ -168,7 +171,7 @@ fi
 
 # Add raid devices
 if [ -f /proc/mdstat -a -f /etc/raidtab -a -x /sbin/raidadd ]; then
-	action -n "Starting up RAID devices" raidadd -a
+	action "Starting up RAID devices" raidadd -a
 
 	rc=$?
 
@@ -198,7 +201,7 @@ fi
 
 # Check filesystems
 if [ ! -f /fastboot ]; then
-	action -n "Checking filesystems" fsck -T -R -A -a $fsckoptions
+	action "Checking filesystems" fsck -T -R -A -a $fsckoptions
 
 	rc=$?
 
@@ -219,14 +222,14 @@ if [ ! -f /fastboot ]; then
 		echo "Automatic reboot in progress."
 		reboot
 	elif [ "$rc" = "1" -a -x /sbin/quotacheck ]; then
-		action -n "Checking filesystem quotas" /sbin/quotacheck -v -R -a
+		action "Checking filesystem quotas" /sbin/quotacheck -v -R -a
 	fi
 fi
 
 # Mount all other filesystems (except for NFS and /proc, which is already
 # mounted). Contrary to standard usage,
 # filesystems are NOT unmounted in single user mode.
-action -n "Mounting local filesystems" mount -a -t nonfs,proc
+action "Mounting local filesystems" mount -a -t nonfs,proc
 
 # set the console font
 if [ -x /sbin/setsysfont ]; then
@@ -234,7 +237,7 @@ if [ -x /sbin/setsysfont ]; then
 fi
 
 if [ -x /sbin/quotaon ]; then
-    action -n "Turning on user and group quotas for local filesystems" /sbin/quotaon -a
+    action "Turning on user and group quotas for local filesystems" /sbin/quotaon -a
 fi
 
 # Clean out /etc.
@@ -299,10 +302,10 @@ case "$ARC" in
 esac
 
 $CLOCK $CLOCKFLAGS
-action -n "Setting clock $CLOCKDEF: `date`" date
+action "Setting clock $CLOCKDEF: `date`" date
 
 # Right, now turn on swap in case we swap to files.
-action -n "Enabling swap space" swapon -a 2>&1 | grep -v "busy"
+action "Enabling swap space" swapon -a 2>&1 | grep -v "busy"
 
 # Initialize the serial ports.
 if [ -f /etc/rc.d/rc.serial ]; then

@@ -18,9 +18,14 @@ if [ -f /etc/sysconfig/init ]; then
     . /etc/sysconfig/init
 else
     BOOTUP=color
+    LOGLEVEL=1
 fi
-	
 
+if [ "$BOOTUP" = "color" ]; then
+   INITLOG_ARGS="-q"
+else
+   INITLOG_ARGS=
+fi
 
 # A function to start a program.
 daemon() {
@@ -45,10 +50,10 @@ daemon() {
 	ulimit -c 0
 	
 	# Echo daemon
-        [ $BOOTUP != "color" ] && echo -n $base
+        [ $BOOTUP != "color" ] && echo -n " $base"
 
 	# And start it up.
-	nice -n $nicelevel initlog -q -c "$*" && success -n "$base startup" || failure -n "$base startup"
+	nice -n $nicelevel initlog $INITLOG_ARGS -c "$*" && success "$base startup" || failure "$base startup"
 }
 
 # A function to stop a program.
@@ -76,24 +81,24 @@ killproc() {
 
         # Kill it.
         if [ "$pid" != "" ] ; then
-                [ $BOOTUP != "color" ] && echo -n $base
+                [ $BOOTUP != "color" ] && echo -n "$base "
 		if [ "$notset" = 1 ] ; then
 			# TERM first, then KILL if not dead
-			kill -TERM $pid && success -n "$base shutdown" || failure -n "$base shutdown"
+			kill -TERM $pid && success "$base shutdown" || failure "$base shutdown"
 			usleep 100000
 			if ps h $pid >/dev/null 2>&1 ; then
 				sleep 1
 				if ps h $pid >/dev/null 2>&1 ; then
 					sleep 3
-					kill -KILL $pid && success -n "$base shutdown" || failure -n "$base shutdown"
+					kill -KILL $pid && success "$base shutdown" || failure "$base shutdown"
 				fi
 			fi
 		# use specified level only
 		else
-	                kill $killlevel $pid && success -n "$base shutdown" || failure -n "$base shutdown"
+	                kill $killlevel $pid && success "$base shutdown" || failure "$base shutdown"
 		fi
 	else
-	    failure -n "$base shutdown"
+	    failure "$base shutdown"
 	fi
 
         # Remove pid file if any.
@@ -167,62 +172,48 @@ status() {
 }
 
 echo_success() {
-  echo $* "[300C[10D[  [1;32mOK[0;39m  ]"
+  echo -n "[300C[10D[  [1;32mOK[0;39m  ]"
   return 0
 }
 
 echo_failure() {
-  echo $* "[300C[10D[[1;31mFAILED[0;39m]"
-  return 0
+  echo -n "[300C[10D[[1;31mFAILED[0;39m]"
+  return 1
 }
 
 # Log that something succeeded
 success() {
-  if [ "$1" = "-n" ]; then
-    ECHOARGS="-n"
-    shift
-  else
-    ECHOARGS=""
-  fi
   if [ -z "$IN_INITLOG" ]; then
      initlog -n $0 -s "$1" -e 1
   else
      echo "-n $0 -s \"$1\" -e 1" >&21
   fi
-  [ "$BOOTUP" = "color" ] && echo_success $ECHOARGS
+  [ "$BOOTUP" = "color" ] && echo_success
   return 0
 }
 
 # Log that something failed
 failure() {
-  if [ "$1" = "-n" ]; then
-    ECHOARGS="-n"
-    shift
-  else
-    ECHOARGS=""
-  fi
+  rc=$?
   if [ -z "$IN_INITLOG" ]; then
      initlog -n $0 -s "$1" -e 2
   else
      echo "-n $0 -s \"$1\" -e 2" >&21
   fi
-  [ "$BOOTUP" = "color" ] && echo_failure $ECHOARGS
-  return 0
+  [ "$BOOTUP" = "color" ] && echo_failure
+  return $rc
 }
 
 # Run some action. Log its output.
 action() {
-  if [ "$1" = "-n" ]; then
-     ECHOARGS="-n"
-     shift
-  else
-     ECHOARGS=""
-  fi
   STRING=$1
-  echo $ECHOARGS "$STRING "
+  echo -n "$STRING "
   shift
   if [ -z "$IN_INITLOG" ]; then
-      initlog -q -c "$*" && success "$STRING" || failure "$STRING"
+      initlog $INITLOG_ARGS -c "$*" && success "$STRING" || failure "$STRING"
+      rc=$?
+      [ "$BOOTUP" = "color" ] && echo
+      return $rc
   else
       # This sucks.
       output=`$*`
@@ -234,13 +225,16 @@ action() {
       fi
 
       if [ $rc ]; then
+         [ "$BOOTUP" = "color" ] || { echo ; echo $output ; }
          success "$STRING"
       else
+         echo
          echo $output
          failure "$STRING"
       fi
+      [ "$BOOTUP" = "color" ] && echo
+      return $rc
   fi
-  return 0
 }
 
 # Confirm whether we really want to run this service

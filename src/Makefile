@@ -1,6 +1,6 @@
 CFLAGS+=-Wall -D_GNU_SOURCE
 
-PROGS=usernetctl doexec netreport testd usleep ipcalc initlog minilogd
+PROGS=usernetctl doexec netreport testd usleep ipcalc initlog minilogd loglevel
 INITLOG_OBJS=initlog.o process.o
 
 all:	$(PROGS)
@@ -17,6 +17,7 @@ install:
 	install -s -m 755 ipcalc $(ROOT)/bin/ipcalc
 	install -s -m 755 initlog $(ROOT)/sbin/initlog
 	install -s -m 755 minilogd $(ROOT)/sbin/minilogd
+	install -s -m 755 loglevel $(ROOT)/sbin/loglevel
 	install -m 644 initlog.1 $(ROOT)/usr/man/man1
 	install -m 644 doexec.1 $(ROOT)/usr/man/man1
 	install -m 644 netreport.1 $(ROOT)/usr/man/man1
