@@ -25,7 +25,7 @@ do
        ;;
     *)
        if [ -z "${SERVICE}" -a $# -eq 1 -a "${1}" = "--status-all" ]; then
-          cd "${SERVICEDIR}"
+          cd /
           for SERVICE in *; do
             case "${SERVICE}" in
               functions | halt | killall | single| linuxconf| kudzu | \
@@ -41,7 +41,7 @@ do
           exit 0
        elif [ $# -eq 2 -a "${2}" = "--full-restart" ]; then
           SERVICE="${1}"
-          cd "${SERVICEDIR}"
+          cd /
           if [ -x "${SERVICEDIR}/${SERVICE}" ]; then
             env -i LANG=$LANG "${SERVICEDIR}/${SERVICE}" stop
             env -i LANG=$LANG "${SERVICEDIR}/${SERVICE}" start
