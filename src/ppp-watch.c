@@ -766,13 +766,8 @@ main(int argc, char **argv) {
 		}
 		if ( maxfail != 0 ) {
 		    dialCount++;
-		    if ( dialCount < maxfail ) {
-			fork_exec(FALSE, IFUP_PPP, "daemon", device, boot);
-	   	    } else {
+		    if ( dialCount >= maxfail )
 			failureExit(WEXITSTATUS(status));
-		    }	
-		} else {	
-	   	    fork_exec(FALSE, IFUP_PPP, "daemon", device, boot);
 		} 
 	    } else {
 		failureExit(WEXITSTATUS(status));
