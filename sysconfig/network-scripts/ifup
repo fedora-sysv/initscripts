@@ -112,7 +112,7 @@ if [ -n "${HWADDR}" ]; then
 fi
 
 # is the device wireless? If so, configure wireless device specifics
-is_wireless_device ${DEVICE} && ./ifup-wireless ${CONFIG}
+is_wireless_device ${DEVICE} && . ./ifup-wireless
 
 if [ "${SLAVE}" = yes -a "${ISALIAS}" = no -a "${MASTER}" != "" -a \
      -x /sbin/ifenslave ]; then
