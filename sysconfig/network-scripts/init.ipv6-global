@@ -4,14 +4,14 @@
 #
 #
 # Taken from: init.ipv6-global
-# (P) & (C) 2001-2002 by Peter Bieringer <pb@bieringer.de>
+# (P) & (C) 2001-2005 by Peter Bieringer <pb@bieringer.de>
 #
-#  You will find more information in the IPv6-HowTo for Linux at
-#   http://www.bieringer.de/linux/IPv6/
+#  You will find more information on the initscripts-ipv6 homepage at
+#   http://www.deepspace6.net/projects/initscripts-ipv6.html
 #
 # RHL integration assistance by Pekka Savola <pekkas@netcore.fi>
 #
-# Version 2002-10-30
+# Version 2005-01-04
 #
 # Calling parameters:
 #  $1: action (currently supported: start|stop|showsysctl)
@@ -150,7 +150,7 @@ case $ACTION in
 		ipv6_cleanup_tunnel_devices
 
 		# Shut down generic tunnel interface now
-		ipv6_exec_ifconfig sit0 down
+		ipv6_exec_ip link set sit0 down
 		;;
 
 	    *)

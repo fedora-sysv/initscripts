@@ -3,15 +3,12 @@
 # network-functions-ipv6
 #
 # Taken from: network-functions-ipv6
-# (P) & (C) 1997-2004 by Peter Bieringer <pb@bieringer.de>
+# (P) & (C) 1997-2005 by Peter Bieringer <pb@bieringer.de>
 #
 #  You will find more information on the initscripts-ipv6 homepage at
 #   http://www.deepspace6.net/projects/initscripts-ipv6.html
 #
-# Version: 2004-12-08
-#
-# Extended address detection is enabled, if 'ipv6calc' is installed
-#  see here for more: http://www.deepspace6.net/projects/ipv6calc.html
+# Version: 2005-01-07
 #
 #
 
@@ -162,20 +159,6 @@ ipv6_log() {
 
 
 ###### Beginning of main code here, always executed on "source|. network-functions-ipv6"
-
-##### Test for "ipv6calc" (used for better existing address detection)
-EXISTS_ipv6calc=no	
-	if [ -x /bin/ipv6calc ]; then
-		if /bin/ipv6calc --if_inet62addr 3ffeffff0100f1010000000000000001 40 | LC_ALL=C grep -q -v '3ffe:ffff:100:f101::1/64'; then
-			false
-		elif /bin/ipv6calc --addr2if_inet6 3ffe:ffff:100::1/64 | LC_ALL=C grep -q -v '3ffeffff010000000000000000000001 00 40'; then
-			false
-		else
-			EXISTS_ipv6calc=yes
-		fi
-	else
-		false
-	fi
 
 
 
@@ -446,23 +429,19 @@ ipv6_cleanup_routes() {
 		return 1
 	fi
 
-	ipv6_test testonly || return 2   
+	ipv6_test testonly || return 2
 
-	# Get all IPv6 routes through given interface and remove them
-	ipv6_exec_route -A inet6 -n | LC_ALL=C grep "$device\W*$" | while read ipv6net nexthop flags metric ref use iface args; do
-		if [ "$iface" = "$device" ]; then
-			if [ -n "$gatewaymatch" ]; then
-				# Test if given gateway matches
-				if [ "$gatewaymatch" != "$nexthop" ]; then
-					continue
-				fi
-			fi
-			# Only non addrconf (automatic installed) routes should be removed
-			if echo $flags | LC_ALL=C grep -v -q "A"; then
-				ipv6_exec_route -A inet6 del $ipv6net gw $nexthop dev $iface
-			fi
-		fi
-	done
+	if [ -n "$gatewaymatch" ]; then
+		# Get all IPv6 routes (except default link-local and multicast) through given interface via a given gateway and remove them
+		ipv6_exec_ip -6 route show dev $device via $gatewaymatch | LC_ALL=C grep -v -w expires | LC_ALL=C egrep -v "^fe80::/64|^ff00::/8" | while read ipv6net dummy; do
+			ipv6_exec_ip -6 route del $ipv6net via $gatewaymatch dev $iface
+		done
+	else
+		# Get all IPv6 routes (except default link-local and multicast) through given interface and remove them
+		ipv6_exec_ip -6 route show dev $device | LC_ALL=C grep -v -w expires | LC_ALL=C egrep -v "^fe80::/64|^ff00::/8" | while read ipv6net dummy; do
+			ipv6_exec_ip -6 route del $ipv6net dev $iface
+		done
+	fi
 
 	return 0
 }
@@ -482,7 +461,7 @@ ipv6_enable_autotunnel() {
 		true
 	else
 		# bring up basic tunnel device
-		ipv6_exec_ifconfig sit0 up
+		ipv6_exec_ip link set sit0 up
 
 			if ! ipv6_test_device_status sit0; then
 				ipv6_log $"Tunnel device 'sit0' enabling didn't work" err $fn
@@ -509,7 +488,7 @@ ipv6_disable_autotunnel() {
 	if ipv6_test_device_status sit0; then
 
 		# disable IPv6-over-IPv4 tunnels (if a tunnel is no longer up)
-		if ipv6_exec_route -A inet6 -n 2>/dev/null | LC_ALL=C grep "sit0\W*$" | awk '{ print $2 }' | LC_ALL=C grep -v -q "^::$"; then
+		if ipv6_exec_ip -6 route show dev sit0 | LC_ALL=C grep -w via | awk '{ print $3 }' | LC_ALL=C grep -v -q "^::$"; then
 			# still existing routes, skip shutdown of sit0
 			true
 		elif ipv6_exec_ip -6 -o addr show dev sit0 | awk '{ print $4 }' | LC_ALL=C grep -v -q '^::'; then
@@ -521,7 +500,7 @@ ipv6_disable_autotunnel() {
 			ipv6_exec_sysctl -w net.ipv6.conf.sit0.accept_ra=0 >/dev/null 2>&1
 			ipv6_exec_sysctl -w net.ipv6.conf.sit0.accept_redirects=0 >/dev/null 2>&1
 			
-			ipv6_exec_ifconfig sit0 down
+			ipv6_exec_ip link set sit0 down
 
 				if ipv6_test_device_status sit0; then
 					ipv6_log $"Tunnel device 'sit0' is still up" err $fn
@@ -532,74 +511,6 @@ ipv6_disable_autotunnel() {
 
 	return 0
 }	
-
-
-
-##### Test, whether an IPv6 address exists on an interface
-# $1: <Interface> : to testing
-# $2: <IPv6 Address> : to test (without prefix length)
-# $3: <Prefix length> : of address $2
-# return values: 0=ok (exists) 1=argument error 3=major problem 10=not exists
-ipv6_test_addr_exists_on_device() {
-	local fn="ipv6_test_addr_exists_on_device"
-
-	local testdevice=$1
-	local testaddr=$2
-	local testprefix=$3
-
-	if [ -z "$testdevice" ]; then
-		ipv6_log $"Missing parameter 'device' (arg 1)" err $fn
-		return 1
-	fi
-	if [ -z "$testaddr" ]; then
-		ipv6_log $"Missing parameter 'IPv6 address to test' (arg 2)" err $fn
-		return 1
-	fi
-	if [ -z "$testprefix" ]; then
-		ipv6_log $"Missing parameter 'IPv6 address prefix length' (arg 3)" err $fn
-		return 1
-	fi
-
-	ipv6_test testonly || return 2
-
-	if [ "$EXISTS_ipv6calc" = "yes" ]; then
-		# Using ipv6calc and compare against /proc/net/if_inet6
-
-		local convertresult="`/bin/ipv6calc --addr2if_inet6 $testaddr/$testprefix`"
-
-		# Split in address, scope and prefix length
-		local test_addr="`echo $convertresult | awk '{ print $1 }'`"
-		local test_scope="`echo $convertresult | awk '{ print $2 }'`"
-		local test_prefixlength="`echo $convertresult | awk '{ print $3 }'`"
-
-		if [ -z "$test_prefixlength" ]; then
-			local testresult="`LC_ALL=C grep "$test_addr .. .. $test_scope .." /proc/net/if_inet6 2>/dev/null | LC_ALL=C grep $testdevice$`"
-		else
-			local testresult="`LC_ALL=C grep "$test_addr .. $test_prefixlength $test_scope .." /proc/net/if_inet6 2>/dev/null | LC_ALL=C grep $testdevice$`"
-		fi
-		if [ -n "$testresult" ]; then
-			# exists
-			return 0
-		else
-			# not exists
-			return 10
-		fi
-	else
-		# low budget version, only works if given address is in equal form like "ip" displays
-		local testresult="`ipv6_exec_ip -o -6 addr show dev $testdevice | awk '{ print $4 }' | LC_ALL=C grep -i "^$testaddr/$testprefix$"`"
-		if [ -n "$testresult" ]; then
-			# exists
-			return 0
-		else
-			# not exists
-			return 10
-		fi
-	fi
-
-	# Normally this lines not reached
-	return 3
-}
-
 
 
 ##### Interface configuration
@@ -637,7 +548,7 @@ ipv6_add_addr_on_device() {
 		ipv6_log $"Device '$device' doesn't exist" err $fn
 		return 3
 	else
-		ipv6_exec_ifconfig $device up
+		ipv6_exec_ip link set $device up
 
 			if ! ipv6_test_device_status $device; then
 				ipv6_log $"Device '$device' enabling didn't work" err $fn
@@ -655,18 +566,14 @@ ipv6_add_addr_on_device() {
 		local address="$address_implicit/$prefixlength_implicit"
 	fi
 
-	# Only add if address does not already exist
-	ipv6_test_addr_exists_on_device $device $address_implicit $prefixlength_implicit
+	ipv6_exec_ip -6 addr add $address dev $device
 	local result=$?
 
-	if [ $result -ne 0 -a $result -ne 10 ]; then
+	if [ $result -eq 2 ]; then
+		return 0
+	elif [ $result -ne 0 ]; then
+		ipv6_log $"Cannot add IPv6 address '$address' on dev '$device'" err $fn
 		return 3
-	fi
-
-	if [ $result -eq 0 ]; then
-		true
-	else
-		ipv6_exec_ifconfig $device inet6 add $address || return 3
 	fi
 
 	return 0
@@ -734,20 +641,16 @@ ipv6_del_addr_on_device() {
 		local address="$address_implicit/$prefixlength_implicit"
 	fi
 
-	# Only remove, if address exists and is not link-local (prevents from kernel crashing)
-	ipv6_test_addr_exists_on_device $device $address_implicit $prefixlength_implicit
+	ipv6_exec_ip -6 addr del $address dev $device
 	local result=$?
 
-	if [ $result -ne 0 -a $result -ne 10 ]; then
+	if [ $result -eq 2 ]; then
+		return 0
+	elif [ $result -ne 0 ]; then
+		ipv6_log $"Cannot delete IPv6 address '$address' on dev '$device'" err $fn
 		return 3
 	fi
 
-	if [ $result -eq 0 ]; then
-		ipv6_exec_ifconfig $device inet6 del $address || return 3
-	else
-		true
-	fi
-    
 	return 0
 }
 
@@ -778,14 +681,6 @@ ipv6_test_ipv6_addr_valid() {
 	local prefixlength_implicit="`echo $testipv6addr_valid | awk -F/ '{ print $2 }'`"
 	local address_implicit="`echo $testipv6addr_valid | awk -F/ '{ print $1 }'`"
 
-	if [ "$EXISTS_ipv6calc" = "yes" ]; then
-		if ! /bin/ipv6calc --addr2uncompaddr $testipv6addr_valid >/dev/null 2>&1; then
-			if [ "$modequiet" != "quiet" ]; then
-				ipv6_log $"Given IPv6 address '$testipv6addr_valid' is not valid" err $fn
-			fi
-			return 10
-		fi
-	else
 		# Test for a valid format
 		if ! echo "$address_implicit" | LC_ALL=C egrep -q '^[[:xdigit:]]|[:\.]*$'; then
 			if [ "$modequiet" != "quiet" ]; then
@@ -793,7 +688,6 @@ ipv6_test_ipv6_addr_valid() {
 			fi
 			return 10
 		fi
-	fi
 
 	# Test for prefix length
 	if [ -z "$prefixlength_implicit" ]; then
@@ -912,13 +806,13 @@ ipv6_test_device_status() {
 	fi
 
 	# Test if device exists
-	if ! ipv6_exec_ifconfig $device >/dev/null 2>&1; then
+	if ! ipv6_exec_ip link show dev $device >/dev/null 2>&1; then
 		# not exists
 		return 10
 	fi
 
 	# Test if device is up
-	if ipv6_exec_ifconfig $device 2>/dev/null | LC_ALL=C grep -q "UP "; then
+	if ipv6_exec_ip link show dev $device 2>/dev/null | LC_ALL=C grep -q "UP"; then
 		# up
 		return 0
 	else
@@ -1208,7 +1102,7 @@ ipv6_add_tunnel_device() {
 			return 3
 		fi
 
-		ipv6_exec_ifconfig $device up
+		ipv6_exec_ip link set $device up
 
 		if ! ipv6_test_device_status $device; then
 			ipv6_log $"Tunnel device '$device' bringing up didn't work" err $fn
