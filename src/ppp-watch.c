@@ -489,8 +489,16 @@ main(int argc, char **argv) {
     set_signal(SIGIO, signal_handler);
     set_signal(SIGCHLD, signal_handler);
     if (theBoot) {
+	temp = svGetValue(ifcfg, "BOOTTIMEOUT");
+	if (temp) {
+	    timeout = atoi(temp);
+	    if (timeout < 1) timeout = 1;
+	    free(temp);
+	} else {
+	    timeout = 30;
+	}
 	set_signal(SIGALRM, signal_handler);
-	alarm(30);
+	alarm(timeout);
     }
 
     fork_exec(1, "/sbin/netreport", NULL, NULL, NULL);

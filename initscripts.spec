@@ -247,6 +247,8 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Mon Jan 29 2001 Bill Nottingham <notting@redhat.com>
 - add plusb support (#18892, patch from <eric.ayers@compgen.com>)
+- don't ignore RETRYTIMEOUT when we never connect (#14071, patch from
+  <ak@cave.hop.stu.neva.ru>)
 
 * Wed Jan 24 2001 Bill Nottingham <notting@redhat.com>
 - quiet LVM setup (#24841)
