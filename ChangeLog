@@ -1,3 +1,49 @@
+1999-09-09  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/halt:
+	swapoff swap that isn't in /etc/fstab, too.
+
+1999-09-08  Michael K. Johnson  <johnsonm@redhat.com>
+
+	* initscripts.spec: new version
+
+	* sysconfig/network-scripts/ifdown, sysconfig/network-scripts/ifdown-ppp, sysconfig/network-scripts/ifdown-sl, sysconfig/network-scripts/ifup, sysconfig/network-scripts/network-functions:
+	make ifdown synchronous modulo timeout
+
+1999-09-07  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/init, rc.d/rc.sysinit, sysconfig.txt:
+	allow turning off of 'press 'i' prompt'
+
+	* prefdm: add path to prefdm
+
+1999-09-07  Michael K. Johnson  <johnsonm@redhat.com>
+
+	* sysconfig/network-scripts/network-functions:
+	work right in the background
+
+	* sysconfig/network-scripts/ifup-ppp:
+	work with ppp-watch
+
+	* src/ppp-watch.c:
+	do not overload physicalDevice
+	sleep only when appropriate
+
+1999-09-07  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit:
+	add an 'unconfigure' sort of thing.
+
+1999-09-07  Michael K. Johnson  <johnsonm@redhat.com>
+
+	* src/Makefile: link statically
+
+	* src/ppp-watch.c:
+	seems to work for basic operation
+
+	* sysconfig/network-scripts/ifup-post:
+	do not read /etc/resolv.conf forever...
+
 1999-09-07  Bill Nottingham  <notting@redhat.com>
 
 	* sysconfig/init, rc.d/rc.sysinit, sysconfig.txt:
