@@ -41,6 +41,11 @@ if [ -n "$selinuxfs" ] && [ "`cat /proc/self/attr/current`" != "kernel" ]; then
 	fi
 fi
 
+if [ "$SELINUX" = "1" -a -x /sbin/restorecon ] && fgrep -q " /dev " /proc/mounts ; then
+	restorecon  /dev /dev/null
+	restorecon  /dev/* 2> /dev/null
+fi
+
 disable_selinux() {
 	echo "*** Warning -- SELinux is active"
 	echo "*** Disabling security enforcement for system recovery."
