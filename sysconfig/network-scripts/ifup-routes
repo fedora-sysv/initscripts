@@ -1,9 +1,12 @@
 #!/bin/sh
+TEXTDOMAIN=initscripts
 
 # adds static routes which go through device $1
 
+. /etc/rc.d/init.d/functions
+
 if [ "$1" = "" ]; then
-	echo "usage: $0 <net-device>"
+	gprintf "usage: %s <net-device>\n" "$0"
 	exit 1
 fi
 

@@ -1,21 +1,23 @@
 #!/bin/bash
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
+TEXTDOMAIN=initscripts
 
 cd /etc/sysconfig/network-scripts
 . network-functions
+. /etc/rc.d/init.d/functions
 
 need_hostname
 
 CONFIG=${1}
 
 [ -z "${CONFIG}" ] && {
-    echo "usage: ifup <device name>" >&2
+    gprintf "usage: ifup <device name>\n" >&2
     exit 1
 }
 
 [ -f "${CONFIG}" ] || CONFIG=ifcfg-${CONFIG}
 [ -f "${CONFIG}" ] || {
-    echo "usage: ifup <device name>" >&2
+    gprintf "usage: ifup <device name>\n" >&2
     exit 1
 }
 
@@ -25,7 +27,7 @@ if [ ${UID} != 0 ]; then
 	    exec /usr/sbin/usernetctl ${CONFIG} up
 	fi
     fi
-    echo "Users cannot control this device." >&2
+    gprintf "Users cannot control this device.\n" >&2
     exit 1
 fi
 
@@ -72,7 +74,7 @@ fi
 # is this device available? (this catches PCMCIA devices for us)
 LC_ALL= LANG= /sbin/ifconfig ${REALDEVICE} 2>&1 | grep -s "not found" > /dev/null
 if [ "$?" = "0" ]; then
-    echo "Delaying ${DEVICE} initialization."
+    gprintf "Delaying %s initialization.\n" "${DEVICE}"
     exit 1
 fi
 
@@ -81,7 +83,7 @@ if [ "${SLAVE}" = yes -a "${ISALIAS}" = no -a "${MASTER}" != "" -a \
     RFLAG="" ; [ "${RECEIVEONLY}" = yes ] && RFLAG="-r"
 
     ifconfig ${DEVICE} down
-    echo "Enslaving ${DEVICE} to ${MASTER}"
+    gprintf "Enslaving %s to %s" "${DEVICE}" "${MASTER}"
     ifenslave ${RFLAG} "${MASTER}" "${DEVICE}"
 
     exit 0
@@ -106,14 +108,14 @@ if [ -n "${DYNCONFIG}" ]; then
        PUMPARGS="${PUMPARGS} -d"
        DHCPDARGS="${DHCPDARGS} -R"
     fi
-    echo -n "Determining IP information for ${DEVICE}..."
+    gprintf "Determining IP information for %s..." "${DEVICE}"
     
     if [ -x /sbin/pump ] && /sbin/pump ${PUMPARGS} -i ${DEVICE} ; then
-	echo " done."
+	gprintf " done.\n"
     elif [ -x /sbin/dhcpcd ] && /sbin/dhcpcd ${DHCPCDARGS} ${DEVICE} ; then
-	echo " done."
+	gprintf " done.\n"
     else
-	echo " failed."
+	gprintf " failed.\n"
 	exit 1
     fi
 else 

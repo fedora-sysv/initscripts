@@ -70,6 +70,10 @@ mkdir -p $RPM_BUILD_ROOT/var/{log,run}
 touch $RPM_BUILD_ROOT/var/run/utmp
 touch $RPM_BUILD_ROOT/var/log/wtmp
 
+# Put this stuff in /etc/locale too
+mkdir -p $RPM_BUILD_ROOT/etc/locale
+cp -a $RPM_BUILD_ROOT/usr/share/locale/* $RPM_BUILD_ROOT/etc/locale
+
 %pre
 /usr/sbin/groupadd -g 22 -r -f utmp
 
@@ -220,6 +224,8 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/service
 /sbin/ppp-watch
 %{_mandir}/man*/*
+/etc/locale/*/*/*.mo
+/usr/share/locale/*/*/*.mo
 %dir %attr(775,root,root) /var/run/netreport
 %config /etc/ppp/ip-up
 %config /etc/ppp/ip-down

@@ -3,6 +3,8 @@ PATH=/sbin:/usr/sbin:/bin:/usr/bin
 
 cd /etc/sysconfig/network-scripts
 . network-functions
+. /etc/rc.d/init.d/functions
+
 
 # ifup-post for PPP is handled through /etc/ppp/ip-up
 
@@ -42,10 +44,10 @@ if [ "${2}" = "boot" -a "${ONBOOT}" = "no" ]; then
 fi
 
 [ -x /usr/sbin/pppd ] || {
-  echo "/usr/sbin/pppd does not exist or is not executable"
-  echo "ifup-ppp for ${DEVICE} exiting"
+  gprintf "/usr/sbin/pppd does not exist or is not executable\n"
+  gprintf "ifup-ppp for %s exiting\n" "${DEVICE}"
   logger -p daemon.info -t ifup-ppp \
-    "/usr/sbin/pppd does not exist or is not executable for ${DEVICE}"
+    `gprintf "/usr/sbin/pppd does not exist or is not executable for %s\n" "${DEVICE}"`
   exit 1
 }
 
@@ -53,7 +55,7 @@ fi
   echo "/etc/sysconfig/network-scripts/chat-${DEVICE} does not exist"
   echo "ifup-ppp for ${DEVICE} exiting"
   logger -p daemon.info -t ifup-ppp \
-    "/etc/sysconfig/network-scripts/chat-${DEVICE} does not exist for ${DEVICE}"
+    `gprintf "/etc/sysconfig/network-scripts/chat-%s does not exist for %s" "${DEVICE}" "${DEVICE}"`
   exit 1
 }
 

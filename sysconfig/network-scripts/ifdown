@@ -1,19 +1,21 @@
 #!/bin/sh
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
+TEXTDOMAIN=initscripts
 
 cd /etc/sysconfig/network-scripts
 . network-functions
+. /etc/rc.d/init.d/functions
 
 CONFIG=$1
 
 [ -z "$CONFIG" ] && {
-    echo "usage: ifdown <device name>" >&2
+    gprintf "usage: %s <device name>\n" ifdown >&2
     exit 1
 }
 
 [ -f "$CONFIG" ] || CONFIG=ifcfg-$CONFIG
 [ -f "$CONFIG" ] || {
-    echo "usage: ifdown <device name>" >&2
+    gprintf "usage: %s <device name>\n" ifdown >&2
     exit 1
 }
 
@@ -23,7 +25,7 @@ if [ $UID != 0 ]; then
 	    exec /usr/sbin/usernetctl $CONFIG down
 	fi
     fi
-    echo "Users cannot control this device." >&2
+    gprintf "Users cannot control this device.\n" >&2
     exit 1
 fi
 

@@ -9,9 +9,6 @@
 #               Miquel van Smoorenburg, <miquels@drinkel.nl.mugnet.org>
 #
 
-# Source function library.
-. /etc/init.d/functions
-
 # Now find out what the current and what the previous runlevel are.
 argv1="$1"
 set `/sbin/runlevel`
@@ -19,15 +16,18 @@ runlevel=$2
 previous=$1
 export runlevel previous
 
+# Source function library.
+. /etc/init.d/functions
+
 # See if we want to be in user confirmation mode
 if [ "$previous" = "N" ]; then
     if grep -i confirm /proc/cmdline >/dev/null || [ -f /var/run/confirm ] ; then
       rm -f /var/run/confirm
       CONFIRM=yes
-      echo "Entering interactive startup"
+      gprintf "Entering interactive startup\n"
     else
       CONFIRM=
-      echo "Entering non-interactive startup"
+      gprintf "Entering non-interactive startup\n"
     fi
 fi
 
@@ -58,7 +58,7 @@ if [ -d /etc/rc$runlevel.d ]; then
 		if egrep -q "(killproc |action )" $i ; then
 			$i stop
 		else
-			action "Stopping $subsys: " $i stop
+			action "Stopping %s: " $subsys $i stop
 		fi
 	done
 
@@ -101,7 +101,7 @@ if [ -d /etc/rc$runlevel.d ]; then
 			if [ "$subsys" = "halt" -o "$subsys" = "reboot" -o "$subsys" = "single" -o "$subsys" = "local" ]; then
 			    $i start
 			else
-			    action "Starting $subsys: " $i start
+			    action "Starting %s: " $subsys $i start
 			fi
 		fi
 	done

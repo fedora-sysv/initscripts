@@ -14,12 +14,13 @@ PATH=/sbin:/bin:/usr/bin:/usr/sbin
 . /etc/init.d/functions
 
 runcmd() {
-   echo -n "$1 "
+   gprintf_msg_rest "$@"
+   echo -n "$GPRINTF_MSG "
    shift
    if [ "$BOOTUP" = "color" ]; then
-      $* && echo_success || echo_failure
+      $GPRINTF_REST && echo_success || echo_failure
    else
-      $*
+      $GPRINTF_REST
    fi
    echo
 }
@@ -27,15 +28,15 @@ runcmd() {
 # See how we were called.
 case "$0" in
   *halt)
-	message="The system is halted"
+	message=`gprintf "The system is halted"`
 	command="halt"
 	;;
   *reboot)
-	message="Please stand by while rebooting the system..."
+	message=`gprintf "Please stand by while rebooting the system..."`
 	command="reboot"
 	;;
   *)
-	echo "$0: call me as \"rc.halt\" or \"rc.reboot\" please!"
+	gprintf "%s: call me as 'halt' or 'reboot' please!" $0
 	exit 1
 	;;
 esac
@@ -43,9 +44,9 @@ esac
 # Kill all processes.
 [ "${BASH+bash}" = bash ] && enable kill
 
-runcmd "Sending all processes the TERM signal..." /sbin/killall5 -15
+runcmd "Sending all processes the %s signal..." "TERM" /sbin/killall5 -15
 sleep 5
-runcmd "Sending all processes the KILL signal..."  /sbin/killall5 -9
+runcmd "Sending all processes the %s signal.." "KILL" /sbin/killall5 -9
 
 # Write to wtmp file before unmounting /var
 halt -w
@@ -100,9 +101,9 @@ runcmd "Unmounting proc file system: " umount /proc
 # Now halt or reboot.
 echo "$message"
 if [ -f /fastboot ]; then
- echo "On the next boot fsck will be skipped."
+ gprintf "On the next boot fsck will be skipped.\n"
 elif [ -f /forcefsck ]; then
- echo "On the next boot fsck will be forced."
+ gprintf "On the next boot fsck will be forced.\n"
 fi
 
 HALTARGS="-i -d"

@@ -9,6 +9,7 @@ mandir=/usr/share/man
 
 all:
 	(cd src; make)
+	(make -C po)
 install:
 	mkdir -p $(ROOT)/etc/profile.d $(ROOT)/sbin $(ROOT)/usr/sbin
 	mkdir -p $(ROOT)$(mandir)/man8
@@ -39,6 +40,7 @@ install:
 	  ln -sf ../../../sbin/ifup . ; \
 	  ln -sf ../../../sbin/ifdown . )
 	(cd src; make install ROOT=$(ROOT) mandir=$(mandir))
+	(cd po ; make install PREFIX=$(ROOT))
 	mkdir -p $(ROOT)/var/run/netreport
 	chown $(SUPERUSER).$(SUPERGROUP) $(ROOT)/var/run/netreport
 	chmod og=rwx,o=rx $(ROOT)/var/run/netreport
@@ -59,6 +61,7 @@ changelog:
 
 clean:
 	(cd src; make clean)
+	(cd po; make clean)
 	@rm -fv *~ changenew ChangeLog.old
 
 tag-archive:

@@ -1,5 +1,7 @@
 #!/bin/sh
+TEXTDOMAIN=initscripts
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
+. /etc/rc.d/init.d/functions
 
 # ifup-post can't be done for slip :-( Solution: use PPP
 
@@ -28,8 +30,8 @@ if [ -z "$RETRYTIMEOUT" ]; then
 fi
 
 [ -x /usr/sbin/dip ] || {
-  echo "/usr/sbin/dip does not exist or is not executable"
-  echo "ifup-sl for $DEVICE exiting"
+  gprintf "%s does not exist or is not executable\n" "/usr/sbin/dip"
+  gprintf "%s for %s exiting\n" "ifup-sl" "$DEVICE"
   logger -p daemon.info -t ifup-sl \
     "/usr/sbin/dip does not exist or is not executable for $DEVICE"
   exit 1
@@ -40,8 +42,8 @@ DIPSCRIPT=/etc/sysconfig/network-scripts/dip-$DEVNAME
   DIPSCRIPT=/etc/sysconfig/network-scripts/dip-$PARENTDEVNAME
 }
 [ -f $DIPSCRIPT ] || {
-  echo "/etc/sysconfig/network-scripts/dip-$DEVICE does not exist"
-  echo "ifup-sl for $DEVICE exiting"
+  gprintf "%s does not exist\n" "/etc/sysconfig/network-scripts/dip-$DEVICE"
+  gprintf "%s for %s exiting\n" "ifup-sl" "$DEVICE"
   logger -p daemon.info -t ifup-sl \
     "/etc/sysconfig/network-scripts/dip-$DEVICE does not exist for $DEVICE"
   exit 1

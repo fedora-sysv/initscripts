@@ -34,14 +34,13 @@ fi
 . /etc/init.d/functions
 
 # Print a banner. ;)
-echo -en "\t\t\tWelcome to "
+gprintf "\t\t\tWelcome to "
 [ "$BOOTUP" != "serial" ] && echo -en "\\033[1;31m"
 echo -en "Red Hat"
 [ "$BOOTUP" != "serial" ] && echo -en "\\033[0;39m"
 echo " Linux"
 if [ "$PROMPT" != "no" ]; then
- echo -en "\t\tPress 'I' to enter interactive startup."
- echo
+ gprintf "\t\tPress 'I' to enter interactive startup.\n"
  sleep 1
 fi
 
@@ -101,7 +100,7 @@ esac
 
 /sbin/hwclock $CLOCKFLAGS
 
-action "Setting clock $CLOCKDEF: `date`" date
+action "Setting clock %s: %s" "$CLOCKDEF" "`date`" date
 
 if [ "`/sbin/consoletype`" == "vt" ]; then
  # Load keymap
@@ -121,9 +120,9 @@ if [ "`/sbin/consoletype`" == "vt" ]; then
  if [ -n "$KEYMAP" ]; then 
   # Since this takes in/output from stdin/out, we can't use initlog
   if [ -n "$KEYTABLE" ]; then
-    echo -n "Loading default keymap ($KEYTABLE): "
+    gprintf "Loading default keymap (%s): " "$KEYTABLE"
   else
-    echo -n "Loading default keymap: "
+    gprintf "Loading default keymap: "
   fi
   loadkeys $KEYMAP < /dev/tty0 > /dev/tty0 2>/dev/null && \
      success "Loading default keymap" || failure "Loading default keymap"
@@ -138,7 +137,7 @@ if [ "`/sbin/consoletype`" == "vt" ]; then
          -f /usr/lib/kbd/consolefonts/$SYSFONT.psf.gz -o \
          -f /etc/sysconfig/console/$SYSFONT.gz -o \
          -f /usr/lib/kbd/consolefonts/$SYSFONT.gz ]; then
-       action "Setting default font ($SYSFONT): " /sbin/setsysfont
+       action "Setting default font (%s): " "$SYSFONT" /sbin/setsysfont
     fi
  fi
 fi
@@ -147,7 +146,7 @@ fi
 action "Activating swap partitions: " swapon -a
 
 # Set the hostname.
-action "Setting hostname ${HOSTNAME}: " hostname ${HOSTNAME}
+action "Setting hostname %s: " "${HOSTNAME}" hostname ${HOSTNAME}
 
 # Initialize USB controller and HID devices
 usb=0
@@ -201,7 +200,7 @@ _RUN_QUOTACHECK=0
 ROOTFSTYPE=`grep " / " /proc/mounts | awk '{ print $3 }'`
 if [ -z "$fastboot" -a "$ROOTFSTYPE" != "nfs" ]; then 
 
-        STRING="Checking root filesystem"
+        STRING=`gprintf "Checking root filesystem"`
 	echo $STRING
 	initlog -c "fsck -T -a $fsckoptions /"
 	rc=$?
@@ -219,17 +218,17 @@ if [ -z "$fastboot" -a "$ROOTFSTYPE" != "nfs" ]; then
 		failure "$STRING"
 		echo
 		echo
-		echo "*** An error occurred during the file system check."
-		echo "*** Dropping you to a shell; the system will reboot"
-		echo "*** when you leave the shell."
+		gprintf "*** An error occurred during the file system check.\n"
+		gprintf "*** Dropping you to a shell; the system will reboot\n"
+		gprintf "*** when you leave the shell.\n"
 
-		PS1="(Repair filesystem) \# # "; export PS1
+		PS1=`gprintf "(Repair filesystem) # "`; export PS1
 		sulogin
 
-		echo "Unmounting file systems"
+		gprintf "Unmounting file systems\n"
 		umount -a
 		mount -n -o remount,ro /
-		echo "Automatic reboot in progress."
+		gprintf "Automatic reboot in progress.\n"
 		reboot -f
 	elif [ "$rc" = "1" ]; then
 		_RUN_QUOTACHECK=1
@@ -389,7 +388,7 @@ fi
 
 # Add raid devices
 if [ -f /proc/mdstat -a -f /etc/raidtab ]; then
-	echo -n "Starting up RAID devices: " 
+	gprintf "Starting up RAID devices: " 
 
 	rc=0
 	
@@ -429,17 +428,17 @@ if [ -f /proc/mdstat -a -f /etc/raidtab ]; then
 	if [ $rc -gt 0 ]; then
 		echo
 		echo
-		echo "*** An error occurred during the RAID startup"
-		echo "*** Dropping you to a shell; the system will reboot"
-		echo "*** when you leave the shell."
+		gprintf "*** An error occurred during the RAID startup\n"
+		gprintf "*** Dropping you to a shell; the system will reboot\n"
+		gprintf "*** when you leave the shell.\n"
 
-		PS1="(RAID Repair) \# # "; export PS1
+		PS1=`gprintf "(RAID Repair) # "`; export PS1
 		sulogin
 
-		echo "Unmounting file systems"
+		gprintf "Unmounting file systems\n"
 		umount -a
 		mount -n -o remount,ro /
-		echo "Automatic reboot in progress."
+		gprintf "Automatic reboot in progress.\n"
 		reboot -f
 	fi
 fi
@@ -447,8 +446,8 @@ fi
 _RUN_QUOTACHECK=0
 # Check filesystems
 if [ -z "$fastboot" ]; then
-        STRING="Checking filesystems"
-	echo $STRING
+        STRING=`gprintf "Checking filesystems"`
+	printf "$STRING\n"
 	initlog -c "fsck -T -R -A -a $fsckoptions"
 	rc=$?
         if [ "$rc" = "0" ]; then
@@ -464,17 +463,17 @@ if [ -z "$fastboot" ]; then
 	        failure "$STRING"
 		echo
 		echo
-		echo "*** An error occurred during the file system check."
-		echo "*** Dropping you to a shell; the system will reboot"
-		echo "*** when you leave the shell."
+		gprintf "*** An error occurred during the file system check.\n"
+		gprintf "*** Dropping you to a shell; the system will reboot\n"
+		gprintf "*** when you leave the shell.\n"
 
-		PS1="(Repair filesystem) \# # "; export PS1
+		PS1=`gprintf "(Repair filesystem) # "`; export PS1
 		sulogin
 
-		echo "Unmounting file systems"
+		gprintf "Unmounting file systems"
 		umount -a
 		mount -n -o remount,ro /
-		echo "Automatic reboot in progress."
+		gprintf "Automatic reboot in progress.\n"
 		reboot -f
 	elif [ "$rc" = "1" -a -x /sbin/quotacheck ]; then
 		_RUN_QUOTACHECK=1

@@ -8,6 +8,11 @@
 # Author:	Miquel van Smoorenburg, <miquels@drinkel.nl.mugnet.org>
 # Hacked by:    Greg Galloway and Marc Ewing
 #
+#
+# i18n originally by: 	Arnaldo Carvalho de Melo <acme@conectiva.com.br>,
+#			Wanderlei Antonio Cavassin
+TEXTDOMAIN=initscripts
+TEXTDOMAINDIR=/etc/locale
 
 # First set up a default search path.
 export PATH="/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin"
@@ -49,6 +54,49 @@ else
    INITLOG_ARGS=
 fi
 
+if [ -z "$GP_LANG" -a -f /etc/sysconfig/i18n ]; then
+   GP_LANG=$(sed -n 's/"//g ; s/^LANG=//p' /etc/sysconfig/i18n )
+fi
+
+gprintf() {
+        if [ -x /usr/bin/gettext ]; then 
+	   local TEXT=`LC_MESSAGES=$GP_LANG gettext -e --domain=$TEXTDOMAIN "$1"`
+	else
+	   local TEXT=$1
+	fi
+	[ "${1#*\\n}" ] || TEXT="$TEXT\n"
+	shift
+	printf "$TEXT" "$@"
+}	
+
+# Frontend to gprintf (support up to 4 %s in format string)
+# returns the message transleted in GPRINTF_MSG and
+# the resting parms in GPRINTF_REST
+# This simplifies a lot the call of functions like action,
+# now with i18n support
+gprintf_msg_rest() {
+case "$1" in
+       *%s*%s*%s*%s*)
+               GPRINTF_MSG=$(gprintf "$1" "$2" "$3" "$4" "$5")
+               shift 5;;
+       *%s*%s*%s*)
+               GPRINTF_MSG=$(gprintf "$1" "$2" "$3" "$4")
+               shift 4;;
+       *%s*%s*)
+               GPRINTF_MSG=$(gprintf "$1" "$2" "$3")
+               shift 3;;
+       *%s*)
+               GPRINTF_MSG=$(gprintf "$1" "$2")
+               shift 2;;
+       *)
+               GPRINTF_MSG=$(gprintf "$1")
+               shift;;
+esac
+GPRINTF_REST="$@"
+}
+
+
+
 # Check if $pid (could be plural) are running
 checkpid() {
 	while [ "$1" ]; do
@@ -67,7 +115,7 @@ daemon() {
 	nicelevel=0
 	while [ "$1" != "${1##-}" -o "$1" != "${1##+}" ]; do 
 	  case $1 in
-	    '')    echo '$0: Usage: daemon [+/-nicelevel] {program}'
+	    '')    gprintf "$0: Usage: daemon [+/-nicelevel] {program}\n" $0
 	           return 1;;
 	    --check)
 	           shift
@@ -121,7 +169,7 @@ killproc() {
 	RC=0
 	# Test syntax.
 	if [ $# = 0 ]; then
-		echo "Usage: killproc {program} [signal]"
+		gprintf "Usage: killproc {program} [signal]\n"
 		return 1
 	fi
 
@@ -219,14 +267,14 @@ status() {
 
 	# Test syntax.
 	if [ $# = 0 ] ; then
-		echo "Usage: status {program}"
+		gprintf "Usage: status {program}\n"
 		return 1
 	fi
 
 	# First try "pidof"
 	pid=`pidof -o $$ -o $PPID -o %PPID -x ${base}`
 	if [ "$pid" != "" ] ; then
-	        echo "${base} (pid $pid) is running..."
+	        gprintf "%s (pid %s) is running...\n" "${base}"  "$pid"
 	        return 0
 	fi
 
@@ -234,16 +282,16 @@ status() {
 	if [ -f /var/run/${base}.pid ] ; then
 	        pid=`cat /var/run/${base}.pid | { read foo ; echo $foo ; }`
 	        if [ "$pid" != "" ] ; then
-	                echo "${base} dead but pid file exists"
+	                gprintf "%s dead but pid file exists\n" "${base}"
 	                return 1
 	        fi
 	fi
 	# See if /var/lock/subsys/${base} exists
 	if [ -f /var/lock/subsys/${base} ]; then
-		echo "${base} dead but subsys locked"
+		gprintf "%s dead but subsys locked\n" "${base}"
 		return 2
 	fi
-	echo "${base} is stopped"
+	gprintf "%s is stopped\n" "${base}"
 	return 3
 }
 
@@ -251,7 +299,7 @@ echo_success() {
   [ "$BOOTUP" = "color" ] && $MOVE_TO_COL
   echo -n "[  "
   [ "$BOOTUP" = "color" ] && $SETCOLOR_SUCCESS
-  echo -n "OK"
+  gprintf "OK"
   [ "$BOOTUP" = "color" ] && $SETCOLOR_NORMAL
   echo -n "  ]"
   echo -ne "\r"
@@ -262,7 +310,7 @@ echo_failure() {
   [ "$BOOTUP" = "color" ] && $MOVE_TO_COL
   echo -n "["
   [ "$BOOTUP" = "color" ] && $SETCOLOR_FAILURE
-  echo -n "FAILED"
+  gprintf "FAILED"
   [ "$BOOTUP" = "color" ] && $SETCOLOR_NORMAL
   echo -n "]"
   echo -ne "\r"
@@ -273,7 +321,7 @@ echo_passed() {
   [ "$BOOTUP" = "color" ] && $MOVE_TO_COL
   echo -n "["
   [ "$BOOTUP" = "color" ] && $SETCOLOR_WARNING
-  echo -n "PASSED"
+  gprintf "PASSED"
   [ "$BOOTUP" = "color" ] && $SETCOLOR_NORMAL
   echo -n "]"
   echo -ne "\r"
@@ -282,11 +330,13 @@ echo_passed() {
 
 # Log that something succeeded
 success() {
+  gprintf_msg_rest "$@"
   if [ -z "$IN_INITLOG" ]; then
-     initlog $INITLOG_ARGS -n $0 -s "$1" -e 1
+     initlog $INITLOG_ARGS -n $0 -s "$GPRINTF_MSG" -e 1
   else
      # silly hack to avoid EPIPE killing rc.sysinit
      trap "" SIGPIPE
+# FIXME?
      echo "$INITLOG_ARGS -n $0 -s \"$1\" -e 1" >&21
      trap - SIGPIPE
   fi
@@ -297,11 +347,12 @@ success() {
 # Log that something failed
 failure() {
   rc=$?
+  gprintf_msg_rest "$@"
   if [ -z "$IN_INITLOG" ]; then
-     initlog $INITLOG_ARGS -n $0 -s "$1" -e 2
+     initlog $INITLOG_ARGS -n $0 -s "$GPRINTF_MSG" -e 2
   else
      trap "" SIGPIPE
-     echo "$INITLOG_ARGS -n $0 -s \"$1\" -e 2" >&21
+     echo "-n $0 -s \"$GPRINTF_MSG\" -e 1" >&21
      trap - SIGPIPE
   fi
   [ "$BOOTUP" != "verbose" ] && echo_failure
@@ -311,10 +362,12 @@ failure() {
 # Log that something passed, but may have had errors. Useful for fsck
 passed() {
   rc=$?
+  gprintf_msg_rest "$@"
   if [ -z "$IN_INITLOG" ]; then
-     initlog $INITLOG_ARGS -n $0 -s "$1" -e 1
+     initlog $INITLOG_ARGS -n $0 -s "$GPRINTF_MSG" -e 1
   else
      trap "" SIGPIPE
+#FIXME?
      echo "$INITLOG_ARGS -n $0 -s \"$1\" -e 1" >&21
      trap - SIGPIPE
   fi
@@ -324,32 +377,39 @@ passed() {
 
 # Run some action. Log its output.
 action() {
-  STRING=$1
-  echo -n "$STRING "
-  shift
-  initlog $INITLOG_ARGS -c "$*" && success "$STRING" || failure "$STRING"
+  gprintf_msg_rest "$@"
+  echo -n "$GPRINTF_MSG "
+  initlog $INITLOG_ARGS -c "$GPRINTF_REST" && success "$GPRINTF_MSG" || failure "$GPRINTF_MSG"
   rc=$?
   echo
   return $rc
 }
 
+# returns OK if $1 contains $2
+strstr() {
+  [ "$1" = "$2" ] && return 0
+  slice=${1#*$2*}
+  [ "$slice" = "$1" ] && return 1
+  return 0
+}
+
+
 # Confirm whether we really want to run this service
 confirm() {
-  echo -n "Start service $1 (Y)es/(N)o/(C)ontinue? [Y] "
+  gprintf "Start service %s (Y)es/(N)o/(C)ontinue? [Y] " $1
+  local YES=`gprintf "yY"`
+  local NOT=`gprintf "nN"`
+  local CNT=`gprintf "cC"`
+
   read answer
-  case $answer in
-    y|Y|"")
-      return 0
-    ;;
-    c|C)
-      return 2
-    ;;
-    n|N)
-      return 1
-    ;;
-    *)
-      confirm $1
-      return $?
-    ;;
-    esac
+
+  if strstr "$YES" "$answer" || [ "$answer" = "" ] ; then
+    return 0
+  elif strstr "$CNT" "$answer" ; then
+    return 2
+  elif strstr "$NOT" "$answer" ; then
+    return 1
+  fi
+  confirm $*
+
 }
