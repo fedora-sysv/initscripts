@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.18
+Version: 6.20
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -238,6 +238,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Wed Aug 15 2001 Bill Nottingham <notting@redhat.com>
+- add is_available() network function, use it; cleans up ugly modprobe
+  error messages
+- update translation info
+- fix #51787
+
 * Wed Aug 15 2001 Bernhard Rosenkraenzer <bero@redhat.com>
 - adjust s390 patch
 - fix up ifup-ctc and mkkerneldoth.s390 (both are s390 specific)
