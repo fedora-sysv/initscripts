@@ -1,0 +1,49 @@
+#! /bin/bash
+
+. /etc/init.d/functions
+
+cd /etc/sysconfig/network-scripts
+. network-functions
+
+[ -f ../network ] && . ../network
+
+CONFIG=${1}
+
+source_config
+
+# On hotplug events, just bring the virtual device up as if it's normal Ethernet
+if [ -n "$IN_HOTPLUG" ]; then
+	exec /etc/sysconfig/network-scripts/ifdown-eth ${CONFIG} $2
+fi
+
+stop_panu()
+{
+	kill -TERM `cat /var/run/pand-${DEVICE}.pid`
+}
+
+stop_nap()
+{
+	kill -TERM `cat /var/run/pand-${DEVICE}.pid`
+	/usr/bin/pand -K
+}
+
+stop_gn()
+{
+	:
+}
+
+case "$ROLE" in
+	PANU)
+		stop_panu
+		;;
+	NAP)
+		stop_nap
+		;;
+	GN)
+		stop_gn
+		;;
+	*)
+		echo Unknown BNEP mode :$ROLE
+		;;
+esac
+

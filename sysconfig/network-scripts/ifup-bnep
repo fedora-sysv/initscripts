@@ -1,0 +1,55 @@
+#! /bin/bash
+
+. /etc/init.d/functions
+
+cd /etc/sysconfig/network-scripts
+. network-functions
+
+[ -f ../network ] && . ../network
+
+CONFIG=${1}
+
+source_config
+
+# On hotplug events, just bring the virtual device up as if it's normal Ethernet
+if [ -n "$IN_HOTPLUG" ]; then
+	exec sh -x /etc/sysconfig/network-scripts/ifup-eth ${CONFIG} $2 &>/tmp/fish2
+fi
+
+start_panu()
+{
+	PANDARGS="--persist --pidfile=/var/run/pand-${DEVICE}.pid --device=${DEVICE} --autozap"
+	[ "${CACHE}" != "no" -a "${CACHE}" != "NO" ] && PANDARGS="${PANDARGS} --cache"
+	if [ "${REMOTEBDADDR}" = "" ]; then
+		PANDARGS="${PANDARGS} --search"
+	else
+		PANDARGS="${PANDARGS} --connect ${REMOTEBDADDR}"
+	fi
+	/usr/bin/pand ${PANDARGS}
+}
+
+start_nap()
+{
+	:
+}
+
+start_gn()
+{
+	:
+}
+
+case "$ROLE" in
+	PANU)
+		start_panu
+		;;
+	NAP)
+		start_nap
+		;;
+	GN)
+		start_gn
+		;;
+	*)
+		echo Unknown BNEP mode :$ROLE
+		;;
+esac
+
