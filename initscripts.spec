@@ -8,7 +8,7 @@ Release: 1
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /var/tmp/initbld
 Requires: mingetty bash mktemp
-Prerequires: /sbin/chkconfig
+Prereq: /sbin/chkconfig
 
 %description
 This package contains the scripts use to boot a system, change run
