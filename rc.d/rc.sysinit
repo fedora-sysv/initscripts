@@ -538,6 +538,10 @@ if [ -f /etc/rc.modules ]; then
 fi
 
 update_boot_stage RCraid
+if [ -f /etc/mdadm.conf ]; then
+    /sbin/mdadm -A -s
+fi
+
 if [ -f /etc/raidtab ]; then
     # Add raid devices
     [ -f /proc/mdstat ] || modprobe md >/dev/null 2>&1
@@ -568,6 +572,10 @@ if [ -f /etc/raidtab ]; then
 			if [ $NOAUTO -gt 0 ]; then
 			    RESULT=0
 			    RAIDDEV="$RAIDDEV(skipped)"
+			fi
+			if [ $RESULT -gt 0 -a -x /sbin/mdadm ]; then
+				/sbin/mdadm -Ac partitions $i -m dev
+				RESULT=$?
 			fi
 			if [ $RESULT -gt 0 -a -x /sbin/raidstart ]; then
 				/sbin/raidstart $i
