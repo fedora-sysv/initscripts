@@ -7,7 +7,7 @@ Release: 1
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /%{_tmppath}/%{name}-%{version}-%{release}-root
 Requires: mingetty, /bin/awk, /bin/sed, mktemp, e2fsprogs >= 1.15, console-tools
-Requires: procps >= 2.0.4, sysklogd >= 1.3.31
+Requires: procps >= 2.0.6-5, sysklogd >= 1.3.31
 Requires: setup >= 2.0.3, /sbin/fuser, which
 Requires: modutils >= 2.1.121
 %ifarch alpha
