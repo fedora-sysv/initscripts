@@ -155,6 +155,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc sysconfig.txt
 
 %changelog
+* Mon Oct 15 1998 Erik Troan <ewt@redhat.com>
+- fixed raid start stuff
+
 * Mon Oct 12 1998 Cristian Gafton <gafton@redhat.com>
 - handle LC_ALL
 
