@@ -254,7 +254,7 @@ else
       arping -q -U -c 1 -I ${REALDEVICE} ${IPADDR} ) > /dev/null 2>&1 < /dev/null &
 
     # Add a route for the subnet.  Replace any existing route.
-    if [ "${ISALIAS}" = no ]; then
+    if [ "${ISALIAS}" = no -a "${NETMASK}" != "255.255.255.255" ]; then
 	ip route replace ${NETWORK}/${PREFIX} ${SRC} dev ${REALDEVICE}
     fi
 
