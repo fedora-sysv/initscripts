@@ -809,12 +809,3 @@ if [ "$PROMPT" != "no" ]; then
    /sbin/getkey i && touch /var/run/confirm
 fi
 wait
-
-PROC=$(/bin/uname -p)
-[ $PROC == "i686" -o $PROC == ia64 -o $PROC == x86_64 ] &&
-    [ -x /sbin/redhat-support-check ] &&
-    [ -f /var/lib/supportinfo ] &&
-        /sbin/redhat-support-check || {
-	    echo "statup will continue in 30 seconds"
-	    sleep 30
-	}
