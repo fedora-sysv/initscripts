@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.81
+%define version 4.82
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
@@ -227,6 +227,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Jan 13 2000 Bill Nottingham <notting@redhat.com>
+- link popt statically
+
 * Mon Jan 10 2000 Bill Nottingham <notting@redhat.com>
 - don't try to umount /loopfs
 
