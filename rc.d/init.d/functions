@@ -1,40 +1,40 @@
-# -*-Shell-script-*-
+#!/bin/bash
 #
 # functions	This file contains functions to be used by most or all
 #		shell scripts in the /etc/init.d directory.
 #
+# Version:	@(#) /etc/init.d/functions 1.01 26-Oct-1993
+#
 # Author:	Miquel van Smoorenburg, <miquels@drinkel.nl.mugnet.org>
 # Hacked by:    Greg Galloway and Marc Ewing
 #
+#
 # i18n originally by: 	Arnaldo Carvalho de Melo <acme@conectiva.com.br>,
 #			Wanderlei Antonio Cavassin
-
 TEXTDOMAIN=initscripts
 TEXTDOMAINDIR=/etc/locale
 
 # Make sure umask is sane
 umask 022
 
-# Set up a default search path.
-PATH="/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin"
-export PATH
+# First set up a default search path.
+export PATH="/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin"
 
 # Get a sane screen width
 [ -z "${COLUMNS:-}" ] && COLUMNS=80
 
-[ -z "${CONSOLETYPE:-}" ] && CONSOLETYPE="`/sbin/consoletype`"
-
 if [ -f /etc/sysconfig/i18n -a -z "${NOLOCALE:-}" ] ; then
   . /etc/sysconfig/i18n
-  if [ "$CONSOLETYPE" != "pty" ]; then
-	case "${LANG:-}" in
-		ja_JP.eucJP|ko_KR.eucKR|zh_CN.GB2312|zh_TW.Big5|zh_CN.GB18030)
-			unset LANG;;
-		*)
-			export LANG
-	esac
+  if [ "${LANG:-}" = "ja_JP.eucJP" -a "`/sbin/consoletype`" != "pty" ]; then
+    unset LANG
+  elif [ "${LANG:-}" = "ko_KR.eucKR" -a "`/sbin/consoletype`" != "pty" ]; then
+    unset LANG
+  elif [ "${LANG:-}" = "zh_CN.GB2312" -a "`/sbin/consoletype`" != "pty" ]; then
+    unset LANG
+  elif [ "${LANG:-}" = "zh_TW.Big5" -a "`/sbin/consoletype`" != "pty" ]; then
+    unset LANG
   else
-	export LANG
+    export LANG
   fi
 fi
 
@@ -54,13 +54,15 @@ if [ -z "${BOOTUP:-}" ]; then
     SETCOLOR_NORMAL="echo -en \\033[0;39m"
     LOGLEVEL=1
   fi
-  if [ "$CONSOLETYPE" = "serial" ]; then
+  if [ -x /sbin/consoletype ]; then
+    if [ "`consoletype`" = "serial" ]; then
       BOOTUP=serial
       MOVE_TO_COL=
       SETCOLOR_SUCCESS=
       SETCOLOR_FAILURE=
       SETCOLOR_WARNING=
       SETCOLOR_NORMAL=
+    fi
   fi
 fi
 
@@ -72,12 +74,11 @@ fi
 
 # Check if $pid (could be plural) are running
 checkpid() {
-	local i
-
-	for i in $* ; do
-		[ -d "/proc/$i" ] && return 0
+	while [ "$1" ]; do
+	   [ -d /proc/$1 ] || return 1
+	   shift
 	done
-	return 1
+	return 0
 }
 	
 
@@ -85,7 +86,7 @@ checkpid() {
 daemon() {
 	# Test syntax.
 	local gotbase= force=
-	local base= user= nice= bg= pid=
+	local base= user= nice= bg= pid
 	nicelevel=0
 	while [ "$1" != "${1##[-+]}" ]; do
 	  case $1 in
@@ -126,13 +127,7 @@ daemon() {
         [ -z "$gotbase" ] && base=${1##*/}
 
         # See if it's already running. Look *only* at the pid file.
-	if [ -f /var/run/${base}.pid ]; then
-		local line p
-		read line < /var/run/${base}.pid
-		for p in $line ; do
-			[ -z "${p//[0-9]/}" -a -d "/proc/$p" ] && pid="$pid $p"
-		done
-	fi
+        pid=`pidfileofproc $base`
 	
 	[ -n "${pid:-}" -a -z "${force:-}" ] && return
 
@@ -163,7 +158,7 @@ killproc() {
 
 	notset=0
 	# check for second arg to be kill level
-	if [ -n "$2" ]; then
+	if [ "$2" != "" ] ; then
 		killlevel=$2
 	else
 		notset=1
@@ -174,17 +169,9 @@ killproc() {
         base=${1##*/}
 
         # Find pid.
-	pid=
-	if [ -f /var/run/${base}.pid ]; then
-		local line p
-		read line < /var/run/${base}.pid
-		for p in $line ; do
-			[ -z "${p//[0-9]/}" -a -d "/proc/$p" ] && pid="$pid $p"
-		done
-	fi
-	if [ -z "$pid" ]; then
-		pid=`pidof -o $$ -o $PPID -o %PPID -x $1 || \
-			pidof -o $$ -o $PPID -o %PPID -x $base`
+	pid=`pidofproc $1`
+	if [ -z "${pid:-}" ] ; then
+		pid=`pidofproc $base`
 	fi
 
         # Kill it.
@@ -208,7 +195,7 @@ killproc() {
 			RC=$((! $RC))
 		# use specified level only
 		else
-		        if checkpid $pid; then
+		        if checkpid $pid >/dev/null 2>&1; then
 	                	kill $killlevel $pid
 				RC=$?
 				[ "$RC" -eq 0 ] && success $"$base $killlevel" || failure $"$base $killlevel"
@@ -229,6 +216,7 @@ killproc() {
 # A function to find the pid of a program. Looks *only* at the pidfile
 pidfileofproc() {
 	local base=${1##*/}
+	local pid
 	
 	# Test syntax.
 	if [ "$#" = 0 ] ; then
@@ -237,13 +225,13 @@ pidfileofproc() {
 	fi
 
 	# First try "/var/run/*.pid" files
-	if [ -f /var/run/$base.pid ] ; then
+	if [ -f /var/run/${base}.pid ] ; then
 	        local line p pid=
-		read line < /var/run/$base.pid
+		read line < /var/run/${base}.pid
 		for p in $line ; do
 		       [ -z "${p//[0-9]/}" -a -d /proc/$p ] && pid="$pid $p"
 		done
-	        if [ -n "$pid" ]; then
+	        if [ -n "${pid:-}" ] ; then
 	                echo $pid
 	                return 0
 	        fi
@@ -255,25 +243,27 @@ pidofproc() {
 	base=${1##*/}
 
 	# Test syntax.
-	if [ "$#" = 0 ]; then
+	if [ "$#" = 0 ] ; then
 		echo $"Usage: pidofproc {program}"
 		return 1
 	fi
 
 	# First try "/var/run/*.pid" files
-	if [ -f /var/run/$base.pid ]; then
+	if [ -f /var/run/${base}.pid ] ; then
 	        local line p pid=
-		read line < /var/run/$base.pid
+		read line < /var/run/${base}.pid
 		for p in $line ; do
 		       [ -z "${p//[0-9]/}" -a -d /proc/$p ] && pid="$pid $p"
 		done
-	        if [ -n "$pid" ]; then
+	        if [ -n "${pid:-}" ] ; then
 	                echo $pid
 	                return 0
 	        fi
 	fi
+
+	# Next try "pidof"
 	pidof -o $$ -o $PPID -o %PPID -x $1 || \
-		pidof -o $$ -o $PPID -o %PPID -x $base
+	pidof -o $$ -o $PPID -o %PPID -x ${base}
 }
 
 status() {
@@ -289,7 +279,7 @@ status() {
 	# First try "pidof"
 	pid=`pidof -o $$ -o $PPID -o %PPID -x $1 || \
 	     pidof -o $$ -o $PPID -o %PPID -x ${base}`
-	if [ -n "$pid" ]; then
+	if [ "$pid" != "" ] ; then
 	        echo $"${base} (pid $pid) is running..."
 	        return 0
 	fi
@@ -297,7 +287,7 @@ status() {
 	# Next try "/var/run/*.pid" files
 	if [ -f /var/run/${base}.pid ] ; then
 	        read pid < /var/run/${base}.pid
-	        if [ -n "$pid" ]; then
+	        if [ "$pid" != "" ] ; then
 	                echo $"${base} dead but pid file exists"
 	                return 1
 	        fi
@@ -424,10 +414,6 @@ action() {
 
 # returns OK if $1 contains $2
 strstr() {
-	#case "$1" in
-	#	*${2}*)	return 0 ;;
-	#esac
-	#return 1
   [ "$1" = "$2" ] && return 0
   slice=${1#*$2*}
   [ "$slice" = "$1" ] && return 1
