@@ -45,12 +45,10 @@ fi
 }
 
 opts="lock"
-if [ "${HARDFLOWCTL}" = yes ] ; then
+if [ "${HARDFLOWCTL}" != no ] ; then
   opts="$opts modem crtscts"
 fi
-if [ "${ESCAPECHARS}" = yes ] ; then
-  opts="$opts asyncmap FFFFFFFF"
-elif [ "${ESCAPECHARS}" = no ] ; then
+if [ "${ESCAPECHARS}" != yes ] ; then
   opts="$opts asyncmap 00000000"
 fi
 if [ "${DEFROUTE}" != no ] ; then
