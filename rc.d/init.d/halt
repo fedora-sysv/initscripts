@@ -56,6 +56,9 @@ if [ $? = 0 -a -x /bin/aumix-minimal ]; then
    runcmd "Saving mixer settings" /bin/aumix-minimal -f /etc/.aumixrc -S
 fi
 
+# Sync clock
+runcmd "Syncing hardware clock to system time" /sbin/hwclock --systohc
+
 # Turn off swap, then unmount file systems.
 SWAPS=`awk '! /^Filename/ { print $1 }' /proc/swaps`
 [ -n "$SWAPS" ] && runcmd "Turning off swap: " swapoff $SWAPS
