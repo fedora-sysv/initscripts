@@ -38,7 +38,7 @@ case "$1" in
         [ -n "$SMBFSTAB" ] && action $"Mounting SMB filesystems: " mount -a -t smbfs
         [ -n "$NCPFSTAB" ] && action $"Mounting NCP filesystems: " mount -a -t ncpfs
 	touch /var/lock/subsys/netfs
-	action $"Mounting other filesystems: " mount -a -t nonfs,nonfs4,smbfs,ncpfs
+	action $"Mounting other filesystems: " mount -a -t nonfs,nfs4,smbfs,ncpfs
 	;;
   stop)
         # Unmount loopback stuff first
