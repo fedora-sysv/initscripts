@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.47
+%define version 4.48
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
@@ -195,6 +195,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Sep 24 1999 Bill Nottingham <notting@redhat.com>
+- munge C locale definitions to en_US
+- use fsck's completion bar
+
 * Thu Sep 23 1999 Michael K. Johnson <johnsonm@redhat.com>
 - ppp-watch now always kills pppd pgrp to make sure dialers are dead,
   and tries to hang up the modem
