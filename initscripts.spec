@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.45
+Version: 6.46
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -240,6 +240,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Fri Apr 12 2002 Bill Nottingham <notting@redhat.com>
+- minor tweaks to libredhat-kernel.so handling
+
 * Mon Mar 11 2002 Bill Nottingham <notting@redhat.com>
 - initial support for setting source addresses for LVS
 
