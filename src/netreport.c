@@ -1,6 +1,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
@@ -21,16 +22,20 @@ int main(int argc, char ** argv) {
 
     if (argc > 2) usage();
 
-    if (argc > 1)
+    if (argc > 1) {
 	  if (!strcmp(argv[1], "-r")) {
 		  action = DEL;
 	  } else {
 		  usage();
 	  }
+    }
 
-    sprintf(netreport_name, "/var/run/netreport/%d", getppid());
+    snprintf(netreport_name, sizeof(netreport_name),
+	     "/var/run/netreport/%d", getppid());
     if (action == ADD) {
-	netreport_file = creat(netreport_name, 0);
+	netreport_file = open(netreport_name,
+			      O_EXCL | O_CREAT | O_WRONLY | O_TRUNC,
+			      0);
 	if (netreport_file < 0) {
 	    if (errno != EEXIST) {
 		perror("Could not create netreport file");
