@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.83
+Version: 5.84
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -255,6 +255,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Sep  5 2001 Preston Brown <pbrown@redhat.com>
+- quota changes
+
 * Sat Apr  7 2001 Preston Brown <pbrown@redhat.com>
 - broke out kernel.h updater from rc.sysinit into /sbin/mkkerneldoth
 
