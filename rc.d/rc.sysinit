@@ -60,9 +60,6 @@ if [ ! -f /fastboot ]; then
 		mount -n -o remount,ro /
 		echo "Automatic reboot in progress."
 		reboot
-	elif [ "$rc" = "1" -a -x /sbin/quotacheck ]; then
-		echo "Checking root filesystem quotas"
-		/sbin/quotacheck -v /
 	fi
 fi
 
@@ -93,6 +90,12 @@ fi
 # Remount the root filesystem read-write.
 echo "Remounting root filesystem in read-write mode."
 mount -n -o remount,rw /
+
+# Check quotas if fsck fixed something.
+if [ "$rc" = "1" -a -x /sbin/quotacheck ]; then
+	echo "Checking root filesystem quotas"
+	/sbin/quotacheck -v /
+fi
 
 if [ ! -f /etc/HOSTNAME ]; then
     echo ${HOSTNAME} > /etc/HOSTNAME
@@ -211,9 +214,6 @@ if [ ! -f /fastboot ]; then
 		mount -n -o remount,ro /
 		echo "Automatic reboot in progress."
 		reboot
-	elif [ "$rc" = "1" -a -x /sbin/quotacheck ]; then
-		echo "Checking filesystem quotas"
-		/sbin/quotacheck -v -R -a
 	fi
 fi
 
@@ -226,6 +226,12 @@ mount -a -t nonfs,proc
 # set the console font
 if [ -x /sbin/setsysfont ]; then
     /sbin/setsysfont
+fi
+
+# Check quotas if fsck fixed something.
+if [ "$rc" = "1" -a -x /sbin/quotacheck ]; then
+	echo "Checking filesystem quotas"
+	/sbin/quotacheck -v -R -a
 fi
 
 if [ -x /sbin/quotaon ]; then
@@ -329,4 +335,7 @@ fi
 dmesg > /var/log/dmesg
 
 # Feed entropy into the entropy pool
+# XXX Random is also started as S20random but randomization may be needed
+# XXX for packet sequence numbers during network initialization so we'll
+# XXX add entropy here too.
 /etc/rc.d/init.d/random start
