@@ -3,7 +3,7 @@
 # Generate a header that defines the boot kernel.
 #
 
-KERNEL_TYPE=`uname -r | sed 's_^[^se]*\(\|smp\|enterprise\)$_-\1_;s_^-$__'`
+KERNEL_TYPE=`uname -r | sed 's_^.*\(smp\|enterprise\)$_-\1_;t;s_.*__;'`
 KERNEL_RELEASE=`uname -r | sed 's|smp\|enterprise||g'`
 
 rpm -q kernel$KERNEL_TYPE-$KERNEL_RELEASE >/dev/null 2>&1 && KERNEL_ARCH=`rpm -q --qf '%{ARCH}' kernel$KERNEL_TYPE-$KERNEL_RELEASE 2>/dev/null` || KERNEL_ARCH=`uname -m`
