@@ -56,10 +56,6 @@ if [ -n "${HWADDR}" ]; then
         NEWCONFIG=`fgrep -l "HWADDR=${HWADDR}" /etc/sysconfig/network-scripts/ifcfg-*`
 	if [ -n "${NEWCONFIG}" ]; then
 	   exec /sbin/ifdown ${NEWCONFIG}
-	fi
-        NEWCONFIG=`fgrep -l "HWADDR=${HWADDR}" /etc/sysconfig/networking/default/ifcfg-*`
-	if [ -n "${NEWCONFIG}" ]; then
-	   exec /sbin/ifdown ${NEWCONFIG}
 	else
 	   echo $"Device ${DEVICE} has different MAC address than expected, ignoring."
 	   exit 1
