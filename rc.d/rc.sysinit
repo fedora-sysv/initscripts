@@ -126,7 +126,7 @@ if [ "`/sbin/consoletype`" == "vt" ]; then
     echo -n $"Loading default keymap: "
   fi
   loadkeys $KEYMAP < /dev/tty0 > /dev/tty0 2>/dev/null && \
-     action $"Loading default keymap" || action $"Loading default keymap"
+     success $"Loading default keymap" || failure $"Loading default keymap"
   echo
  fi   
  fi
@@ -211,16 +211,16 @@ if [ -z "$fastboot" -a "$ROOTFSTYPE" != "nfs" ]; then
 	rc=$?
 	
 	if [ "$rc" = "0" ]; then
-		action $"$STRING"
+		success "$STRING"
 		echo
 	elif [ "$rc" = "1" ]; then
-	        action $"$STRING"
+	        passed $"$STRING"
 		echo
         fi
 	
         # A return of 2 or higher means there were serious problems.
 	if [ $rc -gt 1 ]; then
-		action $"$STRING"
+		failure "$STRING"
 		echo
 		echo
 		echo $"*** An error occurred during the file system check."
@@ -456,16 +456,16 @@ if [ -z "$fastboot" ]; then
 	initlog -c "fsck -T -R -A -a $fsckoptions"
 	rc=$?
         if [ "$rc" = "0" ]; then
-		action $"$STRING"
+		success "$STRING"
 		echo
 	elif [ "$rc" = "1" ]; then
-	        action $"$STRING"
+	        passed "$STRING"
 		echo
 	fi
 
 	# A return of 2 or higher means there were serious problems.
 	if [ $rc -gt 1 ]; then
-	        action $"$STRING"
+	        failure "$STRING"
 		echo
 		echo
 		echo $"*** An error occurred during the file system check."

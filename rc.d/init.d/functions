@@ -332,7 +332,7 @@ action() {
   STRING=$1
   echo -n "$STRING "
   shift
-  initlog $INITLOG_ARGS -c "$*" && action $"$STRING" || action $"$STRING"
+  initlog $INITLOG_ARGS -c "$*" && success $"$STRING" || failure $"$STRING"
   rc=$?
   echo
   return $rc
