@@ -84,7 +84,7 @@ daemon() {
         [ "$BOOTUP" = "verbose" ] && echo -n " $base"
 
 	# And start it up.
-	nice -n $nicelevel initlog $INITLOG_ARGS -c "$*" && success "$base startup" || failure "$base startup"
+	nice -n $nicelevel initlog $INITLOG_ARGS -c "$*" </dev/null && success "$base startup" || failure "$base startup"
 }
 
 # A function to stop a program.
