@@ -110,7 +110,7 @@ if [ -L /etc/localtime ]; then
     rm /etc/localtime
     cp -f $_FNAME /etc/localtime
     if ! grep -q "^ZONE=" /etc/sysconfig/clock ; then
-      echo "ZONE=\"$_FNAME"\" | sed -e "s|[^"]*/usr/share/zoneinfo/||" >> /etc/sysconfig/clock
+      echo "ZONE=\"$_FNAME"\" | sed -e "s|[^\"]*/usr/share/zoneinfo/||" >> /etc/sysconfig/clock
     fi
 fi
 
