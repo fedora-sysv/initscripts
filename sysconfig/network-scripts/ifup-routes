@@ -15,7 +15,7 @@ handle_file () {
 	if [ "x$(eval echo '$'GATEWAY$routenum)x" != "xx" ]; then
 	    line="$line via $(eval echo '$'GATEWAY$routenum)"
 	fi
-	line="$line dev $1"
+	line="$line dev $2"
 	/sbin/ip route add $line
 	routenum=$(($routenum+1))
     done
@@ -30,7 +30,7 @@ for file in $FILES; do
    if [ -f "$file" ]; then
        if egrep -q 'ADDRESS[0-9]+=' $file ; then
            # new format
-	   handle_file $file
+	   handle_file $file $1
        else
            # older format
            while read line; do
@@ -44,4 +44,4 @@ done
 # Red Hat network configuration format
 NICK=${2:-$1}
 CONFIG="/etc/sysconfig/network-scripts/$NICK.route"
-[ -f $CONFIG ] && handle_file $CONFIG
+[ -f $CONFIG ] && handle_file $CONFIG $1
