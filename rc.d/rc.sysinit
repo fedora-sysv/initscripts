@@ -494,6 +494,11 @@ if [ X"$_RUN_QUOTACHECK" = X1 -a -x /sbin/quotacheck ]; then
 	action "Checking filesystem quotas: "  /sbin/quotacheck -v -R -a
 fi
 
+# Turn on process accounting
+if [ -x /sbin/accton ] ; then
+	action "Turning on process accounting" /sbin/accton /var/log/pacct
+fi
+
 # Configure machine if necessary.
 if [ -f /.unconfigured ]; then
     if [ -x /usr/bin/passwd ]; then 
