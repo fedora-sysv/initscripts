@@ -146,7 +146,7 @@ if [ "`/sbin/consoletype`" == "vt" ]; then
 fi
 
 # Start up swapping.
-action $"Activating swap partitions: " swapon -a
+action $"Activating swap partitions: " swapon -a -e
 
 # Set the hostname.
 action $"Setting hostname ${HOSTNAME}: " hostname ${HOSTNAME}
@@ -618,7 +618,7 @@ rm -f /tmp/.X*-lock
 rm -f /tmp/.s.PGSQL.*
 
 # Now turn on swap in case we swap to files.
-swapon -a >/dev/null 2>&1
+swapon -a
 action $"Enabling swap space: " /bin/true
 
 # Initialize the serial ports.
