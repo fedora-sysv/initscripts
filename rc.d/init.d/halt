@@ -175,6 +175,9 @@ done
 # Try them all, one last time.
 umount -a -f
 
+# remove the crash indicator flag
+rm -f /.autofsck
+
 # Remount read only anything that's left mounted.
 #echo $"Remounting remaining filesystems (if any) readonly"
 mount | awk '/( \/ |^\/dev\/root)/ { print $3 }' | while read line; do

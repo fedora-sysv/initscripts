@@ -206,6 +206,52 @@ fi
 
 if [ -f /forcefsck ]; then
 	fsckoptions="-f $fsckoptions"
+elif [ -f /.autofsck ]; then
+	echo $"Your system appears to have shut down in an uncertain state"
+	AUTOFSCK_TIMEOUT=5
+	AUTOFSCK_DEF_CHECK=no
+	[ -f /etc/sysconfig/autofsck ] && . /etc/sysconfig/autofsck
+	if [ "$AUTOFSCK_DEF_CHECK" = "yes" ] ; then
+		AUTOFSCK_OPT=-f
+	else
+		AUTOFSCK_OPT=
+	fi
+
+	if [ "$PROMPT" != "no" ]; then
+		(
+			while [ "$AUTOFSCK_TIMEOUT" -gt 0 ] do
+				if [ "$AUTOFSCK_DEF_CHECK" = "yes" ] ; then
+					echo -e -n $"\rPress N within $AUTOFSCK_TIMEOUT seconds to not force file system integrity check..."
+				else
+					echo -e -n $"\rPress Y within $AUTOFSCK_TIMEOUT seconds to force file system integrity check..."
+				fi
+				sleep 1
+				AUTOFSCK_TIMEOUT=$(($AUTOFSCK_TIMEOUT-1))
+			done
+			kill -TERM `/sbin/pidof getkey` >/dev/null 2>&1
+		) &
+		if [ "$AUTOFSCK_DEF_CHECK" = "yes" ] ; then
+			if /sbin/getkey n ; then
+				kill %%
+				AUTOFSCK_OPT=
+			fi
+		else
+			if /sbin/getkey y ; then
+				kill %%
+				AUTOFSCK_OPT=-f
+			fi
+		fi
+		echo
+		wait
+	else
+		# PROMPT not allowed
+		if [ "$AUTOFSCK_DEF_CHECK" = "yes" ] ; then
+			echo $"Will force file system integrity check due to default setting"
+		else
+			echo $"Will not force file system integrity check due to default setting"
+		fi
+	fi
+	fsckoptions="$AUTOFSCK_OPT $fsckoptions"
 fi
 
 if [ "$BOOTUP" != "serial" ]; then
@@ -604,7 +650,7 @@ if [ -f /.unconfigured ]; then
 fi
 
 # Clean out /etc.
-rm -f /fastboot /fsckoptions /forcefsck /halt /poweroff
+rm -f /fastboot /fsckoptions /forcefsck /.autofsck /halt /poweroff
 
 # Do we need (w|u)tmpx files? We don't set them up, but the sysadmin might...
 _NEED_XFILES=
@@ -690,6 +736,18 @@ fi
 # Now that we have all of our basic modules loaded and the kernel going,
 # let's dump the syslog ring somewhere so we can find it later
 dmesg -s 131072 > /var/log/dmesg
+# Also keep kernel symbols around in case we need them for debugging
+i=5
+while [ $i -ge 0 ] ; do
+	if [ -f /var/log/ksyms.$i ] ; then
+		mv /var/log/ksyms.$i /var/log/ksyms.$(($i+1))
+	fi
+	i=$(($i-1))
+done
+(/bin/date; /bin/uname -r;
+ /bin/cat /proc/modules; /bin/cat /proc/ksyms) >/var/log/ksyms.0
+# create the crash indicator flag to warn on crashes, offer fsck with timeout
+touch /.autofsck
 sleep 1
 kill -TERM `/sbin/pidof getkey` >/dev/null 2>&1
 } &
