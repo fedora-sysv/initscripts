@@ -22,7 +22,8 @@
 #
 #   _IN and _OUT specifiers are for using different keys or protocols for inccoming
 #   and outgoing packets. If neither _IN or _OUT variants are set for protocols or
-#   keys, the same will be used for both.
+#   keys, the same will be used for both. Hexadecimal keys need to be prefixed with
+#   "0x".
 #
 #   Automatic keying:
 #
@@ -36,6 +37,28 @@
 #       IKE_DNSSEC = retrieve peer public certs from DNS
 #     (otherwise uses certificate information sent over IKE)
 
+handle_keys() {
+	if [ -z "$KEY_AH_IN" -a -n "$KEY_AH" ]; then
+  		KEY_AH_IN=$KEY_AH
+	fi
+
+	if [ -z "$KEY_AH_OUT" -a -n "$KEY_AH" ]; then
+  		KEY_AH_OUT=$KEY_AH
+	fi
+
+	if [ -z "$KEY_ESP_IN" -a -n "$KEY_ESP" ]; then
+  		KEY_ESP_IN=$KEY_ESP
+	fi
+
+	if [ -z "$KEY_ESP_OUT" -a -n "$KEY_ESP" ]; then
+  		KEY_ESP_OUT=$KEY_ESP
+	fi
+	
+	[ "$KEY_AH_IN" = "${KEY_AH_IN##0x}" ] && KEY_AH_IN=\"$KEY_AH_IN\"
+	[ "$KEY_AH_OUT" = "${KEY_AH_OUT##0x}" ] && KEY_AH_OUT=\"$KEY_AH_OUT\"
+	[ "$KEY_ESP_IN" = "${KEY_ESP_IN##0x}" ] && KEY_ESP_IN=\"$KEY_ESP_IN\"
+	[ "$KEY_ESP_OUT" = "${KEY_ESP_OUT##0x}" ] && KEY_ESP_OUT=\"$KEY_ESP_OUT\"
+}
 
 . /etc/init.d/functions
 cd /etc/sysconfig/network-scripts
@@ -45,25 +68,12 @@ CONFIG=$1
 [ -f "${CONFIG}" ] || CONFIG=ifcfg-${1}
 source_config
 
+handle_keys
+
 if [ -n "$KEY_AH" -o -n "$KEY_ESP" ]; then
   KEYING=manual
 fi
 
-if [ -z "$KEY_AH_IN" -a -n "$KEY_AH" ]; then
-  KEY_AH_IN=$KEY_AH
-fi
-
-if [ -z "$KEY_AH_OUT" -a -n "$KEY_AH" ]; then
-  KEY_AH_OUT=$KEY_AH
-fi
-
-if [ -z "$KEY_ESP_IN" -a -n "$KEY_ESP" ]; then
-  KEY_ESP_IN=$KEY_ESP
-fi
-
-if [ -z "$KEY_ESP_OUT" -a -n "$KEY_ESP" ]; then
-  KEY_ESP_OUT=$KEY_ESP
-fi
 
 if [ -n "$IKE_PSK" ]; then
   KEYING=automatic
@@ -116,12 +126,12 @@ spddelete $SRC $DST any -P out;
 spddelete $DST $SRC any -P in;
 
 # ESP
-${KEY_ESP_IN:+add $DST $SRC esp $SPI_ESP_IN -E ${ESP_PROTO_IN:-$ESP_PROTO} $(echo '"')$KEY_ESP_IN$(echo '"');}
-${KEY_ESP_OUT:+add $SRC $DST esp $SPI_ESP_OUT -E ${ESP_PROTO_OUT:-$ESP_PROTO} $(echo '"')$KEY_ESP_OUT$(echo '"');}
+${KEY_ESP_IN:+add $DST $SRC esp $SPI_ESP_IN -E ${ESP_PROTO_IN:-$ESP_PROTO} $KEY_ESP_IN;}
+${KEY_ESP_OUT:+add $SRC $DST esp $SPI_ESP_OUT -E ${ESP_PROTO_OUT:-$ESP_PROTO} $KEY_ESP_OUT;}
 
 # AH
-${KEY_AH_IN:+add $DST $SRC ah $SPI_AH_IN -A ${AH_PROTO_IN:-$AH_PROTO} $(echo '"')$KEY_AH_IN$(echo '"');}
-${KEY_AH_OUT:+add $SRC $DST ah $SPI_AH_OUT -A ${AH_PROTO_OUT:-$AH_PROTO} $(echo '"')$KEY_AH_OUT$(echo '"');}
+${KEY_AH_IN:+add $DST $SRC ah $SPI_AH_IN -A ${AH_PROTO_IN:-$AH_PROTO} $KEY_AH_IN;}
+${KEY_AH_OUT:+add $SRC $DST ah $SPI_AH_OUT -A ${AH_PROTO_OUT:-$AH_PROTO} $KEY_AH_OUT;}
 
 spdadd $SRC $DST any -P out ipsec
             ${KEY_ESP_OUT:+esp/transport//require}
@@ -149,12 +159,12 @@ spddelete $SRCNET $DSTNET any -P out;
 spddelete $DSTNET $SRCNET any -P in;
 
 # ESP
-${KEY_ESP_IN:+add $DST $SRC esp $SPI_ESP_IN -m tunnel -E ${ESP_PROTO_IN:-$ESP_PROTO} $(echo '"')$KEY_ESP_IN$(echo '"');}
-${KEY_ESP_OUT:+add $SRC $DST esp $SPI_ESP_OUT -m tunnel -E ${ESP_PROTO_OUT:-$ESP_PROTO} $(echo '"')$KEY_ESP_OUT$(echo '"');}
+${KEY_ESP_IN:+add $DST $SRC esp $SPI_ESP_IN -m tunnel -E ${ESP_PROTO_IN:-$ESP_PROTO} $KEY_ESP_IN;}
+${KEY_ESP_OUT:+add $SRC $DST esp $SPI_ESP_OUT -m tunnel -E ${ESP_PROTO_OUT:-$ESP_PROTO} $KEY_ESP_OUT;}
 
 # AH
-${KEY_AH_IN:+add $DST $SRC ah $SPI_AH_IN -m tunnel -A ${AH_PROTO_IN:-$AH_PROTO} $(echo '"')$KEY_AH_IN$(echo '"');}
-${KEY_AH_OUT:+add $SRC $DST ah $SPI_AH_OUT -m tunnel -A ${AH_PROTO_OUT:-$AH_PROTO} $(echo '"')$KEY_AH_OUT$(echo '"');}
+${KEY_AH_IN:+add $DST $SRC ah $SPI_AH_IN -m tunnel -A ${AH_PROTO_IN:-$AH_PROTO} $KEY_AH_IN;}
+${KEY_AH_OUT:+add $SRC $DST ah $SPI_AH_OUT -m tunnel -A ${AH_PROTO_OUT:-$AH_PROTO} $KEY_AH_OUT;}
 
 spdadd $SRCNET $DSTNET any -P out ipsec
             ${KEY_ESP_OUT:+esp/tunnel/$SRC-$DST/require}
