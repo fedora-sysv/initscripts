@@ -25,6 +25,11 @@ swapon -a
 hostname ${HOSTNAME}
 echo hostname: `hostname`
 
+# Set the NIS domain name
+if [ -n "$NISDOMAIN" ]; then
+    domainname $NISDOMAIN
+fi
+
 if [ ! -f /fastboot ]; then
 	echo "Checking root filesystems."
 	fsck -V -a /

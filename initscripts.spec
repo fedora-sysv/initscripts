@@ -1,6 +1,6 @@
 Summary: inittab and /etc/rc.d scripts
 Name: initscripts
-%define version 3.18
+%define version 3.19
 Version: %{version}
 Copyright: GPL
 Group: Base
@@ -16,6 +16,10 @@ levels, and shut the system down cleanly. It also contains the scripts
 that activate and deactivate most network interfaces.
 
 %changelog
+
+* Wed Oct 15 1997 Erik Troan <ewt@redhat.com>
+
+- run domainname if NISDOMAIN is set 
 
 * Wed Oct 15 1997 Michael K. Johnson <johnsonm@redhat.com>
 
