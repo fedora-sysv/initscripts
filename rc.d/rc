@@ -32,6 +32,10 @@ if [ -d /etc/rc.d/rc$runlevel.d ]; then
 		# Check if the script is there.
 		[ ! -f $i ] && continue
 
+		# Don't run [KS]??foo.{rpmsave,rpmorig} scripts
+		[ "${1%.rpmsave}" != "${1}" ] && continue
+		[ "${1%.rpmorig}" != "${1}" ] && continue
+
 		# Check if the subsystem is already up.
 		subsys=${i#/etc/rc.d/rc$runlevel.d/K??}
 		[ ! -f /var/lock/subsys/$subsys ] && \
@@ -45,6 +49,10 @@ if [ -d /etc/rc.d/rc$runlevel.d ]; then
 	for i in /etc/rc.d/rc$runlevel.d/S*; do
 		# Check if the script is there.
 		[ ! -f $i ] && continue
+
+		# Don't run [KS]??foo.{rpmsave,rpmorig} scripts
+		[ "${1%.rpmsave}" != "${1}" ] && continue
+		[ "${1%.rpmorig}" != "${1}" ] && continue
 
 		# Check if the subsystem is already up.
 		subsys=${i#/etc/rc.d/rc$runlevel.d/S??}
