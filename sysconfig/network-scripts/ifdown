@@ -72,7 +72,6 @@ if [ "${NETWORKING_IPV6}" = "yes" ]; then
 fi
 
 retcode=0
-if [ "$BOOTPROTO" = bootp -o "$BOOTPROTO" = dhcp ]; then
 	[ -n "`pidof -x dhcpcd`" ] && {
 		kill `cat /var/run/dhcpcd-${DEVICE}.pid`
 		retcode=$?
@@ -81,7 +80,6 @@ if [ "$BOOTPROTO" = bootp -o "$BOOTPROTO" = dhcp ]; then
 	 	pump -r -i ${DEVICE}
 		retcode=$?
 	}
-else
 	expand_config
 	# we can't just delete the configured address because that address
 	# may have been changed in the config file since the device was
@@ -92,7 +90,6 @@ else
 	else
 		ip addr flush dev ${REALDEVICE} label ${DEVICE} 2>/dev/null
 	fi
-fi
 
 if [ "${REALDEVICE}" = "${DEVICE}" ]; then
   ip link set ${DEVICE} down
