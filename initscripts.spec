@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 3.97
+%define version 3.98
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
@@ -165,9 +165,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir /var/run/netreport
 %config /etc/ppp/ip-up
 %config /etc/ppp/ip-down
-%doc sysconfig.txt
+%doc sysconfig.txt sysvinitfiles
 
 %changelog
+* Sat Mar 27 1999 Cristian Gafton <gafton@redhat.com>
+- added sysvinitfiles as a documenattaion file
+
 * Fri Mar 26 1999 Bill Nottingham <notting@redhat.com>
 - nfsfs -> netfs
 
