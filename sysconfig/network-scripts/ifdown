@@ -29,6 +29,10 @@ fi
 
 source_config
 
+if [ -x /sbin/ifdown-pre-local ]; then
+    /sbin/ifdown-pre-local ${DEVICE}
+fi
+
 DEVICETYPE=`echo $DEVICE | sed "s/[0-9]*$//"`
 OTHERSCRIPT="/etc/sysconfig/network-scripts/ifdown-${DEVICETYPE}"
 
@@ -36,15 +40,27 @@ if [ -x $OTHERSCRIPT ]; then
 	exec $OTHERSCRIPT $CONFIG $2
 fi
 
+. /etc/sysconfig/network
+
 # Check to make sure the device is actually up
 check_device_down && exit 0
 
+retcode=0
 if [ "$BOOTPROTO" = bootp -o "$BOOTPROTO" = dhcp ]; then
-	[ -n "`pidof -x pump`" ] && pump -r -i ${DEVICE}
-	[ -n "`pidof -x dhcpcd`" ] && dhcpcd -k ${DEVICE}
+	[ -n "`pidof -x pump`" ] && {
+	 	pump -r -i ${DEVICE}
+		retcode=$?
+	}
+	[ -n "`pidof -x dhcpcd`" ] && {
+		dhcpcd -k ${DEVICE}
+		retcode=$?
+	}	
 fi
 
+
 ifconfig ${DEVICE} down
+[ "$retcode" = "0" ] && retcode=$?
+
 # wait up to 5 seconds for device to actually come down...
 waited=0
 while ! check_device_down && [ "$waited" -lt 50 ] ; do
