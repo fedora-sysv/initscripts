@@ -101,8 +101,8 @@ daemon() {
         # Save basename.
         [ -z $gotbase ] && base=`basename $1`
 
-        # See if it's already running.
-        pidlist=`pidofproc $1`
+        # See if it's already running. Look *only* at the pid file.
+        pidlist=`pidfileofproc $1`
 	
 	pid=
 	for apid in $pidlist ; do
@@ -195,6 +195,26 @@ killproc() {
             rm -f /var/run/$base.pid
 	fi
 	return $RC
+}
+
+# A function to find the pid of a program. Looks *only* at the pidfile
+pidfileofproc() {
+	base=`basename $1`
+	
+	# Test syntax.
+	if [ $# = 0 ] ; then
+		echo $"Usage: pidofproc {program}"
+		return 1
+	fi
+
+	# First try "/var/run/*.pid" files
+	if [ -f /var/run/${base}.pid ] ; then
+	        pid=`cat /var/run/${base}.pid | { read foo ; echo $foo ; }`
+	        if [ "$pid" != "" ] ; then
+	                echo $pid
+	                return 0
+	        fi
+	fi
 }
 
 # A function to find the pid of a program.
