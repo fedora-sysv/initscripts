@@ -26,11 +26,6 @@ int forkCommand(char **args, int *outfd, int *errfd, int *cmdfd, int quiet) {
     int outpipe[2], errpipe[2], fdpipe[2];
     int ourpid;
     
-    if ( (pipe(outpipe)==-1) || (pipe(errpipe)==-1) || (pipe(fdpipe)==-1) ) {
-	perror("pipe");
-	return -1;
-    }
-    
     if (outfd) {
        if (pipe(outpipe)==-1) {
 	       perror("pipe");
@@ -79,7 +74,6 @@ int forkCommand(char **args, int *outfd, int *errfd, int *cmdfd, int quiet) {
      * fucks up and we segfault or something, we don't kill rc.sysinit. */
     if ( (cmdfd&&!pid) || (pid &&!cmdfd)) {
 	/* parent */
-	close(fdin);
 	close(fdout);
 	close(fderr);
 	close(fdcmd);
@@ -133,7 +127,7 @@ int forkCommand(char **args, int *outfd, int *errfd, int *cmdfd, int quiet) {
 
 int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet, int debug) {
     struct pollfd *pfds;
-    char *buf;=malloc(8192*sizeof(char));
+    char *buf;
     char *outbuf=NULL;
     char *tmpstr=NULL;
     int x,y,rc=-1;
