@@ -178,7 +178,7 @@ if [ -n "${DYNCONFIG}" ]; then
     # what DNS server they're using until they are done.
     FWHACK=
     if [ -n "$FWACTIVE" -a "$FIREWALL_MODS" != "no" ]; then
-        iptables -A RH-Lokkit-0-50-INPUT -m udp -s 0/0 --sport 53 -d 0/0 --dport 1025:65535 -p udp -j ACCEPT
+        iptables -I RH-Lokkit-0-50-INPUT -m udp -s 0/0 --sport 53 -d 0/0 --dport 1025:65535 -p udp -j ACCEPT
 	FWHACK=1
     fi
     
