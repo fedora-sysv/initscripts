@@ -99,6 +99,8 @@ if [ -x /sbin/raidstop -a -f /etc/raidtab ]; then
     #runcmd "Turning off RAID" /sbin/raidstop -a
 fi
 
+[ -d /proc/bus/usb ] && umount /proc/bus/usb
+
 runcmd "Unmounting proc file system" umount /proc
 
 # Remount read only anything that's left mounted.
