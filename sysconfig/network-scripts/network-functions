@@ -219,7 +219,10 @@ set_hostname ()
     hostname $1
     if ! grep search /etc/resolv.conf >/dev/null 2>&1; then
 	domain=`echo $1 | sed 's/^[^\.]*\.//'`
-	echo "search $domain" >> /etc/resolv.conf
+	/bin/cp -fp /etc/resolv.conf /tmp/set_hostname_resolv.conf
+	echo "search $domain" >> /tmp/set_hostname_resolv.conf
+	change_resolv_conf /tmp/set_hostname_resolv.conf
+	/bin/rm -f /tmp/set_hostname_resolv.conf
     fi
 }
 
@@ -351,4 +354,35 @@ configure_ccwgroup_device ()
     [ -n "$PORTNAME" -a -e $SYSDIR/portname ] && \
          echo "$PORTNAME" > $SYSDIR/portname
     [ -e $SYSDIR/online ] && echo 1 > $SYSDIR/online
+}
+
+# Invoke this when /etc/resolv.conf has changed:
+# (see bugzilla #125712)
+change_resolv_conf ()
+{
+    s='';
+    if [ $# -gt 1 ]; then
+       let n_args=$#;
+       while [ $n_args -gt 0 ]; 
+	 do 
+	    s="$s$1";
+            shift; 
+	    if [ $# -gt 0 ]; then
+		s="$s\n";
+	    fi;
+	    let n_args=n_args-1; 
+         done;       
+    elif [ $# -eq 1 ]; then
+       s=`/bin/cat $1`;
+    fi;
+    /bin/chmod +w /etc/resolv.conf
+    (echo -e "$s" > /etc/resolv.conf;) >/dev/null 2>&1;   
+    /bin/chmod a-w /etc/resolv.conf
+    r=$?
+    if [ $r -eq 0 ]; then
+	/usr/bin/logger -p local0.notice -t NET "$0 : updated /etc/resolv.conf";
+	/sbin/service nscd condrestart >/dev/null 2>&1;
+	return $?;
+    fi;
+    return $r;
 }
