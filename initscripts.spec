@@ -34,7 +34,7 @@ make
 %install
 rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT/etc
-make ROOT=$RPM_BUILD_ROOT mandir=$RPM_BUILD_ROOT/%{_mandir} install 
+make ROOT=$RPM_BUILD_ROOT mandir=%{_mandir} install 
 mkdir -p $RPM_BUILD_ROOT/var/run/netreport
 #chown root.root $RPM_BUILD_ROOT/var/run/netreport
 chmod u=rwx,g=rwx,o=rx $RPM_BUILD_ROOT/var/run/netreport
