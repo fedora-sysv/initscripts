@@ -46,7 +46,7 @@ fi
 . /etc/sysconfig/network
 
 # Check to make sure the device is actually up
-check_device_down ${DEVICE} && exit 0
+check_device_down ${DEVICE} && [ "$BOOTPROTO" != "dhcp" -a "$BOOTPROTO" != "bootp" ] && exit 0
 
 if [ -n "${HWADDR}" ]; then
     FOUNDMACADDR=`LC_ALL= LANG= ip -o link show ${REALDEVICE} | \
