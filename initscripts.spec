@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.54
+Version: 5.55
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -246,6 +246,11 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Jan 22 2001 Bill Nottingham <notting@redhat.com>
+- do LVM setup through normal initscripts mechanisms
+- ignore backup files in /etc/sysconfig/network-scripts
+- lots of .po file updates
+
 * Tue Jan  2 2001 Bill Nottingham <notting@redhat.com>
 - initial i18n support - originally from Conectiva
 
