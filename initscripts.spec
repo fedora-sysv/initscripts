@@ -4,7 +4,7 @@ Name: initscripts
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
-Release: 4
+Release: 5
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /var/tmp/initbld
 Requires: mingetty, bash, /bin/awk, mktemp, modutils >= 2.1.85-3, e2fsprogs, sysklogd >= 1.3.31, pump
