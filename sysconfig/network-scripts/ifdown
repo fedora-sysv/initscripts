@@ -83,7 +83,7 @@ retcode=0
 if [ "$BOOTPROTO" = bootp -o "$BOOTPROTO" = dhcp ]; then
 	[ -n "`pidof -x dhclient`" ] && {
 		if [ -f "/var/run/dhclient-${DEVICE}.pid" ]; then
-		   if [ "$DHCPRELEASE" = [yY1]* ];  then
+		   if [[ "$DHCPRELEASE" = [yY1]* ]];  then
 		   	/sbin/dhclient -r -lf /var/lib/dhcp/dhclient-${DEVICE}.leases -pf /var/run/dhclient-${DEVICE}.pid ${DEVICE} >/dev/null 2>&1
 		   else
 		   	reason=STOP interface=${DEVICE} /sbin/dhclient-script
