@@ -147,13 +147,6 @@ action "Activating swap partitions: " swapon -a
 # Set the hostname.
 action "Setting hostname ${HOSTNAME}: " hostname ${HOSTNAME}
 
-# Set the NIS domain name
-if [ -n "$NISDOMAIN" ]; then
-    action "Setting NIS domain name $NISDOMAIN: " domainname $NISDOMAIN
-else
-    domainname ""
-fi
-
 # Initialize USB controller and HID devices
 usb=0
 if ! grep -iq "nousb" /proc/cmdline 2>/dev/null && ! grep -q "usb" /proc/devices 2>/dev/null ; then
@@ -507,13 +500,6 @@ if [ -f /.unconfigured ]; then
 
 	# Reset the hostname.
 	action "Resetting hostname ${HOSTNAME}: " hostname ${HOSTNAME}
-
-	# Reset the NIS domain name.
-	if [ -n "$NISDOMAIN" ]; then
-	    action "Resetting NIS domain name $NISDOMAIN: " domainname $NISDOMAIN
-	else
-	    domainname ""
-	fi
     fi
 
     rm -f /.unconfigured
