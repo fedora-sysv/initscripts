@@ -50,11 +50,11 @@ source_config
 
 if [ "foo$2" = "fooboot" -a "${ONBOOT}" = "no" -o "${ONBOOT}" = "NO" ]
 then
-    exit
+    exit 0
 fi
 if [ -n "$IN_HOTPLUG" -a "${HOTPLUG}" = "no" -o "${HOTPLUG}" = "NO" ]
 then
-    exit
+    exit 0
 fi
 
 # figure out more about what we are dealing with
@@ -88,8 +88,12 @@ fi
 # is this device available? (this catches PCMCIA devices for us)
 LC_ALL= LANG= ip -o link | grep -q ${REALDEVICE}
 if [ "$?" = "1" ]; then
-    LC_ALL=C modprobe -c | grep -q ${REALDEVICE} && modprobe ${REALDEVICE} || {
-      echo $"Device does not seem to be present, delaying ${DEVICE} initialization."
+    alias=`modprobe -c | awk "/^alias ${REALDEVICE} / { print \\$3 }"`
+    if [ -z "$alias" -o "$alias" = "off" ]; then
+    	exit 0
+    fi
+    modprobe $alias || {
+      echo $"$alias device does not seem to be present, delaying ${DEVICE} initialization."
       exit 1
     }
 fi
