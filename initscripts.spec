@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.91
+Version: 6.92
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -244,6 +244,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Wed Aug 28 2002 Bill Nottingham <notting@redhat.com>
+- don't infinite loop on ifdown
+- remove disabling of DMA; this can cause problems
+- move swap startup to after LVM (#66588)
+
 * Tue Aug 20 2002 Bill Nottingham <notting@redhat.com>
 - don't cycle through eth0-eth9 on dhcp link check (#68127)
 - don't retry indefinitely on ppp startup
