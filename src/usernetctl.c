@@ -8,13 +8,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-/* this will be running setuid root, so be careful! */
-
-void usage(void) {
-    fprintf(stderr, "usage: usernetctl <interface-config> <up|down|report>\n");
-    exit(1);
-}
-
+/* This will be running setuid root, so be careful! */
 static char * safeEnviron[] = {
 	"PATH=/bin:/sbin:/usr/bin:/usr/sbin",
 	"HOME=/root",
@@ -25,18 +19,24 @@ static char * safeEnviron[] = {
 #define NOT_FOUND 0
 #define FOUND_TRUE 1
 
+static void
+usage(void) {
+    fprintf(stderr, "usage: usernetctl <interface-config> <up|down|report>\n");
+    exit(1);
+}
 
-int testSafe(char * ifaceConfig) {
+static size_t
+testSafe(char *ifaceConfig) {
     struct stat sb;
 
-    /* these shouldn't be symbolic links -- anal, but that's fine w/ me */
+    /* These shouldn't be symbolic links -- anal, but that's fine w/ mkj. */
     if (lstat(ifaceConfig, &sb)) {
 	fprintf(stderr, "failed to stat %s: %s\n", ifaceConfig, 
 		strerror(errno));
 	exit(1);
     }
 
-    /* safety checks */
+    /* Safety/sanity checks. */
     if (!S_ISREG(sb.st_mode)) {
 	fprintf(stderr, "%s is not a normal file\n", ifaceConfig);
 	exit(1);
@@ -56,18 +56,19 @@ int testSafe(char * ifaceConfig) {
 }
 
 
-int userCtl(char * file) {
-    char * contents;
-    char * chptr;
-    char * end;
-    int fd;
-    int size;
+static int
+userCtl(char *file) {
+    char *contents = NULL;
+    char *chptr = NULL;
+    char *next = NULL;
+    int fd = -1, retval = NOT_FOUND;
+    size_t size = 0;
 
     size = testSafe(file);
 
-    contents = alloca(size + 2);
+    contents = malloc(size + 2);
 
-    if ((fd = open(file, O_RDONLY)) < 0) {
+    if ((fd = open(file, O_RDONLY)) == -1) {
 	fprintf(stderr, "failed to open %s: %s\n", file, strerror(errno));
 	exit(1);
     }
@@ -81,12 +82,12 @@ int userCtl(char * file) {
     contents[size] = '\n';
     contents[size + 1] = '\0';
 
-    /* each pass parses a single line (until an answer is found), contents
-       itself points to the beginning of the current line */
+    /* Each pass parses a single line (until an answer is found),  The contents
+       pointer itself points to the beginning of the current line. */
     while (*contents) {
 	chptr = contents;
 	while (*chptr != '\n') chptr++;
-	end = chptr + 1;
+	next = chptr + 1;
 	while (chptr >= contents && isspace(*chptr)) chptr--;
 	*(++chptr) = '\0';
 
@@ -99,19 +100,23 @@ int userCtl(char * file) {
 	    }
 
 	    if (!strcmp(contents, "yes") || !strcmp(contents, "true")) 
-		return FOUND_TRUE;
+		retval = FOUND_TRUE;
 	    else 
-		return FOUND_FALSE;
+		retval = FOUND_FALSE;
+
+	    break;
 	}
 
-	contents = end;
+	contents = next;
     }
 
-    return NOT_FOUND;
+    free(contents);
+
+    return retval;
 }
 
-
-int main(int argc, char ** argv) {
+int
+main(int argc, char ** argv) {
     char * ifaceConfig;
     char * chptr;
     char * cmd;
