@@ -1,6 +1,6 @@
 Summary: inittab and /etc/rc.d scripts
 Name: initscripts
-%define version 3.23
+%define version 3.24
 Version: %{version}
 Copyright: GPL
 Group: Base
@@ -16,6 +16,11 @@ levels, and shut the system down cleanly. It also contains the scripts
 that activate and deactivate most network interfaces.
 
 %changelog
+
+* Thu Nov 06 1997 Michael K. Johnson <johnsonm@redhat.com>
+
+- Fixed DEBUG option in ifup-ppp
+- Fixed PPP persistance
 
 * Tue Oct 28 1997 Donnie Barnes <djb@redhat.com>
 
