@@ -215,8 +215,14 @@ fork_exec(int wait, char *path, char *arg1, char *arg2, char *arg3)
     pid_t child;
     int status;
 
+    sigset_t sigs;
+
     if (!(child = fork())) {
 	/* child */
+
+	/* don't leave signals blocked for pppd */
+	sigemptyset(&sigs);
+	sigprocmask(SIG_SETMASK, &sigs, NULL);
 
 	if (!wait) {
 	    /* make sure that pppd is in its own process group */
