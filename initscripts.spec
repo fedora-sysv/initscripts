@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.48
+%define version 4.49
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
@@ -195,6 +195,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Sep 30 1999 Bill Nottingham <notting@redhat.com>
+- req. e2fsprogs >= 1.15
+
 * Fri Sep 24 1999 Bill Nottingham <notting@redhat.com>
 - munge C locale definitions to en_US
 - use fsck's completion bar
