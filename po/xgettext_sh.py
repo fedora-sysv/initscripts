@@ -76,13 +76,11 @@ def print_pot():
 def main():
 	i18n_tokens = []
         i18n_tokens.append('gprintf')
-	if '--initscripts' in argv:
-        	i18n_tokens.append('action')
-        	i18n_tokens.append('failure')
-        	i18n_tokens.append('passed')
-        	i18n_tokens.append('runcmd')
-        	i18n_tokens.append('success')
-		argv.remove('--initscripts')
+	i18n_tokens.append('action')
+	i18n_tokens.append('failure')
+	i18n_tokens.append('passed')
+	i18n_tokens.append('runcmd')
+	i18n_tokens.append('success')
 
 	for a in argv:
 		xgettext(a, i18n_tokens)
