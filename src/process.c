@@ -12,8 +12,12 @@
 
 #include <popt.h>
 
+#include <regex.h>
+
 #include "initlog.h"
 #include "process.h"
+
+extern regex_t **regList;
 
 int forkCommand(char **args, int *outfd, int *errfd, int *cmdfd, int quiet) {
    /* Fork command 'cmd', returning pid, and optionally pointer
@@ -109,7 +113,7 @@ int forkCommand(char **args, int *outfd, int *errfd, int *cmdfd, int quiet) {
 
 int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet, int debug) {
     struct pollfd *pfds;
-    char *buf=malloc(2048*sizeof(char));
+    char *buf=malloc(8192*sizeof(char));
     int outpipe[2];
     char *tmpstr=NULL;
     int x,y,rc=-1;
@@ -134,6 +138,7 @@ int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet,
     }
 	
     while (!done) {
+       usleep(500);
        if (((x=poll(pfds,numfds,500))==-1)&&errno!=EINTR) {
 	  perror("poll");
 	  return -1;
@@ -153,8 +158,8 @@ int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet,
 	     int bytesread = 0;
 	     
 	     do {
-		buf=calloc(2048,sizeof(char));
-		bytesread = read(pfds[y].fd,buf,2048);
+		buf=calloc(8192,sizeof(char));
+		bytesread = read(pfds[y].fd,buf,8192);
 		if (bytesread==-1) {
 		   perror("read");
 		   return -1;
@@ -167,40 +172,54 @@ int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet,
 		     write(outpipe[1],buf,bytesread);
 		  }
 		  while ((tmpstr=getLine(&buf))) {
-		     if (!reexec) {
-			 if (getenv("IN_INITLOG")) {
-			     char *buffer=calloc(2048,sizeof(char));
-			     DDEBUG("sending =%s= to initlog parent\n",tmpstr);
-			     snprintf(buffer,2048,"-n %s -s \"%s\"\n",
-				      cmdname,tmpstr);
-			     /* don't blow up if parent isn't there */
-			     signal(SIGPIPE,SIG_IGN);
-			     write(CMD_FD,buffer,strlen(buffer));
-			     signal(SIGPIPE,SIG_DFL);
-			     free(buffer);
-			 } else {
-			     logString(cmdname,tmpstr);
-			 }
-		     } else {
-			int z; 
+		      int ignore=0;
+		      
+		      if (regList) {
+			  int count=0;
+			 
+			  while (regList[count]) {
+			      if (!regexec(regList[count],tmpstr,0,NULL,0)) {
+				  ignore=1;
+				  break;
+			      }
+			      count++;
+			  }
+		      }
+		      if (!ignore) {
+			  if (!reexec) {
+			      if (getenv("IN_INITLOG")) {
+				  char *buffer=calloc(8192,sizeof(char));
+				  DDEBUG("sending =%s= to initlog parent\n",tmpstr);
+				  snprintf(buffer,8192,"-n %s -s \"%s\"\n",
+					   cmdname,tmpstr);
+				  /* don't blow up if parent isn't there */
+				  signal(SIGPIPE,SIG_IGN);
+				  write(CMD_FD,buffer,strlen(buffer));
+				  signal(SIGPIPE,SIG_DFL);
+				  free(buffer);
+			      } else {
+				  logString(cmdname,tmpstr);
+			      }
+			  } else {
+			      int z; 
 			
-			cmdargs=NULL;
-			tmpargs=NULL;
-			cmdargc=0;
-			
-			poptParseArgvString(tmpstr,&cmdargc,&tmpargs);
-			cmdargs=malloc( (cmdargc+2) * sizeof(char *) );
-			cmdargs[0]=strdup("initlog");
-			for (z=0;z<(cmdargc);z++) {
-			   cmdargs[z+1]=tmpargs[z];
-			}
-			cmdargs[cmdargc+1]=NULL;
-			processArgs(cmdargc+1,cmdargs,1);
-		     }
+			      cmdargs=NULL;
+			      tmpargs=NULL;
+			      cmdargc=0;
+			      
+			      poptParseArgvString(tmpstr,&cmdargc,&tmpargs);
+			      cmdargs=malloc( (cmdargc+2) * sizeof(char *) );
+			      cmdargs[0]=strdup("initlog");
+			      for (z=0;z<(cmdargc);z++) {
+				  cmdargs[z+1]=tmpargs[z];
+			      }
+			      cmdargs[cmdargc+1]=NULL;
+			      processArgs(cmdargc+1,cmdargs,1);
+			  }
+		      }
 		  }
 		}
-	        
-	     } while ( bytesread==2048 );
+	     } while ( bytesread==8192 );
 	  }
 	  y++;
        }
@@ -209,13 +228,13 @@ int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet,
       /* If there was an error and we're quiet, be loud */
       
       if (quiet && output) {
-	 buf=calloc(2048,sizeof(char));
+	 buf=calloc(8192,sizeof(char));
 	 do {
-	    x=read(outpipe[0],buf,2048);
+	    x=read(outpipe[0],buf,8192);
 	    write(1,"\n",1);
 	    write(1,buf,x);
-	    buf=calloc(2048,sizeof(char));
-	 } while (x==2048);
+	    buf=calloc(8192,sizeof(char));
+	 } while (x==8192);
       }
       return (rc);
    }
