@@ -40,7 +40,8 @@ fi
 check_device_down && exit 0
 
 if [ "$BOOTPROTO" = bootp -o "$BOOTPROTO" = dhcp ]; then
-	pump -r -i ${DEVICE}
+	[ -n "`pidof -x pump`" ] && pump -r -i ${DEVICE}
+	[ -n "`pidof -x dhcpcd'" ] && dhcpcd -k ${DEVICE}
 fi
 
 ifconfig ${DEVICE} down
