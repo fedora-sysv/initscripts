@@ -50,7 +50,7 @@ void readConfiguration(char *fname) {
 	if (line[0]=='#') continue;
 	if (!strncmp(line,"ignore ",7)) {
 	    regexp = malloc(sizeof(regex_t));
-	    if (!regcomp(regexp,line+7,REG_EXTENDED|REG_NOSUB)) {
+	    if (!regcomp(regexp,line+7,REG_EXTENDED|REG_NOSUB|REG_NEWLINE)) {
 		regList = realloc(regList,(num+2) * sizeof(regex_t *));
 		regList[num] = regexp;
 		regList[num+1] = NULL;
@@ -92,7 +92,7 @@ void readConfiguration(char *fname) {
     
 char *getLine(char **data) {
     /* Get one line from data */
-    /* Anything up to a carraige return (\r) is discarded. */
+    /* Anything up to a carraige return (\r) or a backspace (\b) is discarded. */
     /* If this really bothers you, mail me and I might make it configurable. */
     /* It's here to avoid confilcts with fsck's progress bar. */
     char *x, *y;
@@ -100,8 +100,8 @@ char *getLine(char **data) {
     if (!*data) return NULL;
     x=*data;
     while (*x && (*x != '\n')) {
-	while (*x && (*x != '\n') && (*x != '\r')) x++;
-	if (*x && *x=='\r') {
+	while (*x && (*x != '\n') && (*x != '\r') && (*x != '\b')) x++;
+	if (*x && (*x=='\r' || *x =='\b')) {
 		*data = x+1;
 		x++;
 	}
