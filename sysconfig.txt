@@ -1,0 +1,246 @@
+
+Files in /etc/sysconfig
+=======================
+
+/etc/sysconfig/clock:
+
+  deprecated values from earlier releases:
+
+    CLOCKMODE=GMT indicates that the clock is set to UTC
+    CLOCKMODE=ARC on alpha only indicates the ARC console's
+      42-year time offset is in effect
+
+  currently correct values:
+
+    UTC=true indicates that the clock is set to UTC; anything
+      else indicates that it is set to local time
+    ARC=true on alpha only indicates the ARC console's
+      42-year time offset is in effect; otherwise the normal
+      Unix epoch is assumed
+
+
+/etc/sysconfig/keyboard:
+
+  KEYTABLE=<keytable file>
+  for example: KEYTABLE="/usr/lib/kbd/keytables/us.map"
+
+/etc/sysconfig/mouse:
+
+  MOUSETYPE=microsoft|mouseman|mousesystems|ps/2|msbm|logibm|atibm|
+    logitech|mmseries|mmhittab
+  XEMU3=yes|no (emulate three buttons with two buttons whenever
+    necessary, most notably in X)
+
+  In addition, /dev/mouse points to the mouse device.
+
+/etc/sysconfig/network:
+
+  NETWORKING=yes|no
+  HOSTNAME=<fqdn by default, but whatever hostname you want>
+    Note: for compatibility with some old software people might
+    install (like trn), the /etc/HOSTNAME file should contain the
+    same value as here.
+  FORWARD_IPV4=yes|no (The current Red Hat Linux installation
+    sets this to no by default for RFC compliance, but if
+    FORWARD_IPV4 is not set at all, forwarding is *enabled*
+    for compatibility with the configuration files used on
+    Red Hat Linux versions 4.2 and earlier.)
+  GATEWAY=<gateway IP>
+  GATEWAYDEV=<gateway device> (e.g. eth0)
+  NISDOMAIN=<nis domain name>
+
+/etc/sysconfig/pcmcia:
+
+  PCMCIA=yes|no
+  PCIC=i82365|tcic
+  PCIC_OPTS=<socket driver (i82365 or tcic) timing parameters>
+  CORE_OPTS=<pcmcia_core options>
+  CARDMGR_OPTS=<cardmgr options>
+
+/etc/sysconfig/amd:
+
+  ADIR=/.automount  (normally never changed)
+  MOUNTPTS='/net /etc/amd.conf'  (standard automount stuff)
+  AMDOPTS=  (extra options for AMD)
+
+/etc/sysconfig/tape:
+
+  DEV=/dev/nst0
+    Tape device.  Use the non-rewinding one for these scripts.
+  
+    For SCSI tapes this is /dev/nst#, where # is the number of the
+    tape drive you want to use.  If you only have one then use
+    nst0.
+ 
+    For IDE tapes you use /dev/ht#, where # is the number of the tape
+    drive you want to use (usually ht0).
+ 
+    For floppy tape drives use /dev/ftape.
+
+  ADMIN=root
+    Person to mail to if the backup fails for any reason
+
+  SLEEP=5
+    Time to sleep between tape operations.  Some drives need a bit
+    more than others, but 5 seems to work for 8mm, 4mm, and DLT
+
+  BLOCKSIZE=32768
+    This worked fine for 8mm, then 4mm, and now DLT.  An optimal
+    setting is probably however much data your drive writes at one
+    time.
+
+  SHORTDATE=$(date +%y:%m:%d:%H:%M)
+    A short date string, used in backup log filenames.
+
+  DAY=$(date +log-%y:%m:%d)
+    This is used for the log file directory.
+
+  DATE=$(date)
+    Regular date string, used in log files.
+
+  LOGROOT=/var/log/backup
+    Root of the logging directory
+
+  LIST=$LOGROOT/incremental-list
+    This is the file name the incremental backup will use to store
+    the incremental list.  It will be $LIST-{some number}.
+
+  DOTCOUNT=$LOGROOT/.count
+    For counting as you go to know which incremental list to use
+
+  COUNTER=$LOGROOT/counter-file
+    For rewinding when done...might not use.
+
+  BACKUPTAB=/etc/backuptab
+    The file in which we keep our list of backup(s) we want to make.
+
+
+
+Files in /etc/sysconfig/network-scripts/
+========================================
+
+/etc/sysconfig/network-scripts/ifup:
+/etc/sysconfig/network-scripts/ifdown:
+
+  Symlinks to /sbin/ifup and /sbin/ifdown, respectively.
+  These are the only two scripts "in" this directory that should
+  be called directly; these two scripts call all the other
+  scripts as needed.  These symlinks are here for legacy purposes
+  only -- they'll will probably be removed in future versions, so
+  only /sbin/ifup and /sbin/ifdown should currently be used.
+
+  These scripts take one argument normally: the name of the device
+  (e.g. eth0).  They are called with a second argument of "boot"
+  during the boot sequence so that devices that are not meant to
+  be brought up on boot (ONBOOT=no, see below) can be ignored at
+  that time.
+
+/etc/sysconfig/network-scripts/network-functions:
+
+  Not really a public file.  Contains functions which the scripts use
+  for bringing interfaces up and down.  In particular, it contains
+  most of the code for handling alternative interface configurations
+  and interface change notification through netreport.
+
+/etc/sysconfig/network-scripts/ifcfg-<interface-name> and
+/etc/sysconfig/network-scripts/ifcfg-<interface-name>-<clone-name>:
+
+  The first defines an interface, and the second contains
+  only the parts of the definition that are different in a
+  "clone" (or alternative) interface.  For example, the
+  network numbers might be different, but everything else
+  might be the same, so only the network numbers would be
+  in the clone file, but all the device information would
+  be in the base ifcfg file.
+
+  The items that can be defined in an ifcfg file depend on the
+  interface type.  The really obvious ones I'm not going to
+  bother to define; you can figure out what "IPADDR" is, I
+  think...  :-)
+
+  Base items:
+    DEVICE=<name of physical device (except dynamically-allocated PPP
+      devices where it is the "logical name")
+    IPADDR=
+    NETMASK=
+    NETWORK=
+    BROADCAST=
+    GATEWAY=
+    ONBOOT=yes|no
+    USERCTL=yes|no
+    BOOTPROTO=none|bootp|dhcp
+
+  PPP/SLIP items:
+    PERSIST=yes|no
+    MODEMPORT=<device, say /dev/modem>
+    LINESPEED=<speed, say 115200>
+    DEFABORT=yes|no (tells netcfg whether or not to put default
+      abort strings in when creating/editing the chat script and/or
+      dip script for this interface)
+ 
+  PPP-specific items
+    DEFROUTE=yes|no (set this interface as default route?)
+    ESCAPECHARS=yes|no (simplified interface here doesn't let people
+      specify which characters to escape; almost everyone can use
+      asyncmap 00000000 anyway, and they can set PPPOPTIONS to
+      asyncmap foobar if they want to set options perfectly)
+    HARDFLOWCTL=yes|no (yes imples "modem crtscts" options)
+    PPPOPTIONS=<arbitrary option string; is placed last on the
+      command line, so it can override other options like asyncmap
+      that were specified differently>
+    PAPNAME=<"name $PAPNAME" on pppd command line> (note that
+      the "remotename" option is always specified as the logical
+      ppp device name, like "ppp0" (which might perhaps be the
+      physical device ppp1 if some other ppp device was brought
+      up earlier...), which makes it easy to manage pap/chap
+      files -- name/password pairs are associated with the
+      logical ppp device name so that they can be managed
+      together.
+
+      In principal, I'm not aware of anything that would keep
+      the logical PPP device names from being "worldnet" or
+      "myISP" instead of ppp0-pppN)
+    REMIP=<remote ip address, normally unspecified>
+    MTU=
+    MRU=
+    DISCONNECTTIMEOUT=<number of seconds, default currently 5>
+      (time to wait before re-establishing the connection after
+      a successfully-connected session terminates before attempting
+      to establish a new connection.)
+    RETRYTIMEOUT=<number of seconds, default currently 60>
+      (time to wait before re-attempting to establish a connection
+      after a previous attempt fails.)
+
+/etc/sysconfig/network-scripts/chat-<interface-name>:
+
+  chat script for PPP or SLIP connection intended to establish
+  the connection.  For SLIP devices, a DIP script is written
+  from the chat script; for PPP devices, the chat script is used
+  directly.
+
+/etc/sysconfig/network-scripts/dip-<interface-name>
+
+  A write-only script created from the chat script by netcfg.
+  Do not modify this.  In the future, this file may disappear
+  by default and created on-the-fly from the chat script if
+  it does not exist.
+
+/etc/sysconfig/network-scripts/ifup-post
+
+  Called when any network device EXCEPT a SLIP device comes
+  up.  Calls /etc/sysconfig/network-scripts/ifup-routes to
+  bring up static routes that depend on that device.  Brings
+  up aliases for that device.  Sets the hostname if it is not
+  already set and a hostname can be found for the IP for that
+  device.  Sends SIGIO to any programs that have requested
+  notification of network events.
+
+  Could be extended to fix up nameservice configuration, call
+  arbitrary scripts, etc, as needed.
+
+/etc/sysconfig/network-scripts/ifdhcpc-done
+
+  Called by dhcpcd once dhcp configuration is complete; sets
+  up /etc/resolv.conf from the version dhcpcd dropped in
+  /etc/dhcpc/resolv.conf
+
