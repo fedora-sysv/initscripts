@@ -260,7 +260,9 @@ rm -rf $RPM_BUILD_ROOT
 - don't munge wireless keys in ifup; that will be done with the
   PCMCIA wireless stuff
 - run sndconfig --mungepnp for non-native-isapnp soundcards
-- don't excplicitly kill things in init.d/single, init will do it
+- don't explicitly kill things in init.d/single, init will do it
+- don't explicitly load usb-storage; mount the usbdevfs before initializing
+  host controller modules
 
 * Wed Feb 21 2001 Bill Nottingham <notting@redhat.com>
 - initialize multiple USB controllers if necessary
