@@ -255,6 +255,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Apr 24 2001 Than Ngo <than@redhat.com>
+- add shutdown UPS into halt (bug #34312)
+
 * Sat Apr  7 2001 Preston Brown <pbrown@redhat.com>
 - broke out kernel.h updater from rc.sysinit into /sbin/mkkerneldoth
 
