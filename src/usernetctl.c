@@ -7,6 +7,7 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <limits.h>
 
 /* This will be running setuid root, so be careful! */
 static char * safeEnviron[] = {
@@ -153,8 +154,15 @@ main(int argc, char ** argv) {
     /* automatically prepend "ifcfg-" if it is not specified */
     if (strncmp(ifaceConfig, "ifcfg-", 6)) {
 	char *temp;
+        size_t len = strlen(ifaceConfig);
 
-	temp = (char *) alloca(strlen(ifaceConfig) + 7);
+	/* Make sure a wise guys hasn't tried an integer wrap-around or
+	   stack overflow attack. There's no way it could refer to anything 
+	   bigger than the largest filename, so cut 'em off there. */
+        if (len > PATH_MAX)
+		exit(1);
+
+	temp = (char *) alloca(len + 7);
 	strcpy(temp, "ifcfg-");
 	/* strcat is safe because we got the length from strlen */
 	strcat(temp, ifaceConfig);
