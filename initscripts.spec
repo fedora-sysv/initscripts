@@ -17,6 +17,10 @@ that activate and deactivate most network interfaces.
 
 %changelog
 
+* Mon Oct 13 1997 Erik Troan <ewt@redhat.com>
+
+- moved to new chkconfig conventions
+
 * Sat Oct 11 1997 Erik Troan <ewt@redhat.com>
 
 - fixed rc.sysinit for hwclock compatibility
