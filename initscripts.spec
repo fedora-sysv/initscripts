@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.68
+Version: 5.69
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -254,6 +254,11 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Feb 28 2001 Nalin Dahyabhai <nalin@redhat.com>
+- usernetctl, ppp-watch: cleanups
+- netreport: use O_NOFOLLOW
+- ifup-ppp: let ppp-watch watch over demand-dialed connections
+
 * Tue Feb 27 2001 Bill Nottingham <notting@redhat.com>
 - don't run isapnp on isapnp-enabled 2.4 kernels (part of #29450)
 - disable hotplug during network initscript
