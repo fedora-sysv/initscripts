@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.34
+Version: 6.35
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -239,6 +239,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Sun Sep  2 2001 Than Ngo <than@redhat.com>
+- add ISDN patches from pekkas@netcore.fi and pb@bieringer.de (bug #52491)
+- fix handling of ISDN LSZ Compresssion
+
 * Thu Aug 30 2001 Than Ngo <than@redhat.com>
 - po/de.po: fix typo bug, lo instead 1o
 

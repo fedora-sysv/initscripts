@@ -2,6 +2,9 @@
 
 PATH=/sbin:/usr/sbin:/bin:/usr/bin 
 
+# Get global network configuration
+[ -f /etc/sysconfig/network ] && . /etc/sysconfig/network
+
 CONFIG=$1
 
 . $CONFIG
@@ -11,6 +14,11 @@ if [ -f /var/lock/subsys/ibod ] ; then
     kill -9  $(pidof ibod) >/dev/null 2>&1
     rm -f /var/lock/subsys/ibod
 fi
+
+# Shut down IPv6
+#if [ "${NETWORKING_IPV6}" = "yes" ]; then
+#    /etc/sysconfig/network-scripts/ifdown-ipv6 $DEVICE
+#fi
 
 # shutdown isdn device
 isdnctrl hangup $DEVICE >/dev/null 2>&1
