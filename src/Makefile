@@ -1,7 +1,7 @@
 CFLAGS+=$(RPM_OPT_FLAGS) -Wall -D_GNU_SOURCE
 
 PROGS=usernetctl doexec netreport testd usleep ipcalc initlog minilogd \
-	getkey ppp-watch consoletype genhostid
+	getkey ppp-watch consoletype genhostid kmodule
 PPPWATCH_OBJS=ppp-watch.o shvar.o
 INITLOG_OBJS=initlog.o process.o
 USLEEP_OBJS=usleep.o
@@ -16,6 +16,7 @@ clean:
 install:
 	mkdir -p $(ROOT)/bin $(ROOT)/usr/sbin $(ROOT)$(mandir)/man{1,8} $(ROOT)/etc
 	install -m 755 doexec $(ROOT)/bin/doexec
+	install -m 755 kmodule $(ROOT)/sbin/kmodule
 	install -m 755 usleep $(ROOT)/bin/usleep
 	install -m 4755 usernetctl $(ROOT)/usr/sbin/usernetctl
 	install -m 2755 netreport $(ROOT)/sbin/netreport
@@ -69,3 +70,6 @@ shvar.o: shvar.c
 
 ppp-watch.o: ppp-watch.c
 	$(CC) $(CFLAGS) `pkg-config glib-2.0 --cflags` -c ppp-watch.c -o ppp-watch.o
+
+kmodule: kmodule.o
+	$(CC) $(LDFLAGS) -o $@ $< -Wl,-Bstatic -lpopt -Wl,-Bdynamic -lkudzu -lpci

@@ -26,13 +26,7 @@ fi
 mount -n -t proc /proc /proc
 mount -n -t sysfs /sys /sys >/dev/null 2>&1
 
-if [ -f /etc/udev/udev.conf ];then
-	. /etc/udev/udev.conf
-fi
-
-if [ "$USE_UDEV" = "yes" -a "$UDEV_RAMFS" = "yes" ]; then
-	[ -x /sbin/start_udev ] && /sbin/start_udev
-fi
+. /etc/init.d/functions
 
 # Check SELinux status
 selinuxfs=`awk '/ selinuxfs / { print $2 }' /proc/mounts`
@@ -72,7 +66,6 @@ relabel_selinux() {
 }
 
 
-. /etc/init.d/functions
 
 if [ "$HOSTTYPE" != "s390" -a "$HOSTTYPE" != "s390x" ]; then
   last=0
@@ -125,6 +118,96 @@ if [ -n "$LOGLEVEL" ]; then
 	/bin/dmesg -n $LOGLEVEL
 fi
 
+if [ -f /etc/udev/udev.conf ];then
+	. /etc/udev/udev.conf
+fi
+
+if [ "$USE_UDEV" = "yes" -a "$UDEV_RAMFS" = "yes" ]; then
+	[ -x /sbin/start_udev ] && /sbin/start_udev
+fi
+
+# Initialize hardware
+if [ -f /proc/sys/kernel/modprobe ]; then
+   if ! strstr cmdline nomodules && [ -f /proc/modules ] ; then
+       sysctl -w kernel.modprobe="/sbin/modprobe" >/dev/null 2>&1
+       sysctl -w kernel.hotplug="/sbin/hotplug" >/dev/null 2>&1
+   else
+       # We used to set this to NULL, but that causes 'failed to exec' messages"
+       sysctl -w kernel.modprobe="/bin/true" >/dev/null 2>&1
+       sysctl -w kernel.hotplug="/bin/true" >/dev/null 2>&1
+   fi
+fi
+
+echo -n $"Initializing hardware... "
+
+ide=""
+scsi=""
+network=""
+audio=""
+other=""
+eval `kmodule | while read devtype mod ; do
+	case "$devtype" in
+		"IDE")	ide="$ide $mod"
+		   echo "ide=\"$ide"\";;
+		"SCSI") scsi="$scsi $mod"
+		   echo "scsi=\"$scsi"\";;
+		"NETWORK") network="$network $mod"
+		   echo "network=\"$network"\";;
+		"AUDIO") audio="$audio $mod"
+		   echo "audio=\"$audio"\";;
+		*) other="$other $mod"
+		   echo "other=\"$other"\";;
+	esac
+done`
+
+# IDE
+for module in $ide ; do
+	modprobe $module >/dev/null 2>&1
+done
+
+# SCSI
+for module in `/sbin/modprobe -c | awk '/^alias[[:space:]]+scsi_hostadapter[[:space:]]/ { print $3 }'` $scsi; do
+	modprobe $module >/dev/null 2>&1
+done
+modprobe floppy >/dev/null 2>&1
+
+echo -n $" storage"
+
+# Network
+pushd /etc/sysconfig/network-scripts >/dev/null 2>&1
+interfaces=`ls ifcfg* | LANG=C egrep -v '(ifcfg-lo|:|rpmsave|rpmorig|rpmnew)' | \
+            LANG=C egrep -v '(~|\.bak)$' | \
+            LANG=C egrep 'ifcfg-[A-Za-z0-9\._-]+$' | \
+	    sed 's/^ifcfg-//g' |
+	    sed 's/[0-9]/ &/' | LANG=C sort -k 1,1 -k 2n | sed 's/ //'`
+
+for i in $interfaces ; do
+	eval $(LANG=C fgrep "DEVICE=" ifcfg-$i)
+	modprobe $DEVICE >/dev/null 2>&1
+done
+popd >/dev/null 2>&1
+
+for module in $network ; do
+	modprobe $module >/dev/null 2>&1
+done
+
+echo -n $" network"
+
+# Sound
+for module in `/sbin/modprobe -c | awk '/^alias[[:space:]]+snd-card-[[:digit:]]+[[:space:]]/ { print $3 }'` $audio; do
+	modprobe $module >/dev/null 2>&1
+done
+
+echo -n $" audio"
+
+# Everything else (duck and cover)
+for module in $other ; do
+	modprobe $module >/dev/null 2>&1
+done
+
+echo -n $" done"
+success
+echo
 
 # Start the graphical boot, if necessary; /usr may not be mounted yet, so we
 # may have to do this again after mounting
@@ -217,30 +300,6 @@ if [ -d /proc/acpi ]; then
    for module in /lib/modules/$unamer/kernel/drivers/acpi/* ; do
       insmod $module >/dev/null 2>&1
    done
-fi
-
-# Initialize USB controller and HID devices
-update_boot_stage RCusb
-usb=0
-if ! strstr "$cmdline" nousb && ! strstr "$cmdline" nomodules ; then
-    aliases=`/sbin/modprobe -c | awk '/^alias[[:space:]]+usb-controller/ { print $3 }'`
-    if [ -n "$aliases" -a "$aliases" != "off" ]; then
-      modprobe usbcore >/dev/null 2>&1
-      for alias in $aliases ; do 
-      	[ "$alias" = "off" ] && continue
-	action $"Initializing USB controller ($alias): " modprobe $alias
-      done
-      [ $? -eq 0 -a -n "$aliases" ] && usb=1
-    fi
-fi
-
-if [ $usb -eq 1 -a ! -f /proc/bus/usb/devices ]; then
-    action $"Mounting USB filesystem: "  mount -t usbdevfs usbdevfs /proc/bus/usb
-fi
-
-needusbstorage=
-if [ $usb -eq "1" ]; then
-    needusbstorage=`LC_ALL=C grep -e "^I.*Cls=08" /proc/bus/usb/devices 2>/dev/null`
 fi
 
 if [ -f /fastboot ] || strstr "$cmdline" fastboot ; then
@@ -463,34 +522,6 @@ fi
 
 if ! strstr "$cmdline" nomodules && [ -f /proc/modules ] ; then
     USEMODULES=y
-fi
-
-# tweak isapnp settings if needed.
-if [ -n "$PNP" -a  -f /proc/isapnp -a -x /sbin/sndconfig ]; then
-    /sbin/sndconfig --mungepnp >/dev/null 2>&1
-fi
-
-# Load sound modules if and only if they need persistent DMA buffers
-if LC_ALL=C grep -q "options[[:space:]]\+sound[[:space:]].*dmabuf=1" /etc/modules.conf 2>/dev/null ; then
-  alias=`/sbin/modprobe -c | awk '/^alias[[:space:]]+sound[[:space:]]/ { print $3 }'`
-  if [ -n "$alias" -a "$alias" != "off" ]; then
-      action $"Loading sound module ($alias): " modprobe sound
-  fi
-  alias=`/sbin/modprobe -c | awk '/^alias[[:space:]]+sound-slot-0[[:space:]]/ { print $3 }'`
-  if [ -n "$alias" -a "$alias" != "off" ]; then
-      action $"Loading sound module ($alias): " modprobe sound-slot-0
-  fi
-fi
-
-if [ -f /proc/sys/kernel/modprobe ]; then
-   if [ -n "$USEMODULES" ]; then
-       sysctl -w kernel.modprobe="/sbin/modprobe" >/dev/null 2>&1
-       sysctl -w kernel.hotplug="/sbin/hotplug" >/dev/null 2>&1
-   else
-       # We used to set this to NULL, but that causes 'failed to exec' messages"
-       sysctl -w kernel.modprobe="/bin/true" >/dev/null 2>&1
-       sysctl -w kernel.hotplug="/bin/true" >/dev/null 2>&1
-   fi
 fi
 
 # Load modules (for backward compatibility with VARs)
@@ -781,34 +812,6 @@ action $"Enabling swap space: " swapon -a -e
 # Initialize the serial ports.
 if [ -f /etc/rc.serial ]; then
 	. /etc/rc.serial
-fi
-
-# If a SCSI tape has been detected, load the st module unconditionally
-# since many SCSI tapes don't deal well with st being loaded and unloaded
-if [ -f /proc/scsi/scsi -a -n "$USEMODULES" ]; then
-    if LC_ALL=C fgrep -q 'Type:   Sequential-Access' /proc/scsi/scsi 2>/dev/null ; then
-	if LC_ALL=C fgrep -qv ' 9 st' /proc/devices ; then
-		modprobe st >/dev/null 2>&1
-	fi
-    fi
-fi
-
-# Load usb storage here, to match most other things
-if [ -n "$needusbstorage" ]; then
-	modprobe usb-storage >/dev/null 2>&1
-fi
-
-# Ooh, firewire too.
-if ! strstr "$cmdline" nofirewire && ! strstr "$cmdline" nomodules ; then
-   aliases=`/sbin/modprobe -c | awk '/^alias[[:space:]]+ieee1394-controller/ { print $3 }'`
-   if [ -n "$aliases" -a "$aliases" != "off" ]; then
-      for alias in $aliases ; do 
-      	[ "$alias" = "off" ] && continue
-	action $"Initializing firewire controller ($alias): " modprobe $alias
-      done
-      LC_ALL=C fgrep -q "SBP2" /proc/bus/ieee1394/devices 2>/dev/null && \
-		modprobe sbp2 >/dev/null 2>&1
-   fi
 fi
 
 # If they asked for ide-scsi, load it
