@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.45
+Version: 5.46
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -232,6 +232,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Aug 18 2000 Bill Nottingham <notting@redhat.com>
+- don't load usb drivers if they're compiled statically
+- don't call ifdown twice for ppp (#15285)
+
 * Wed Aug 16 2000 Bill Nottingham <notting@redhat.com>
 - fix /boot/kernel.h generation (#16236, #16250)
 
