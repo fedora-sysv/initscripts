@@ -12,44 +12,44 @@ if [ "$1" = daemon ] ; then
 else
   # just in case a full path to the configuration file is passed in
   CONFIG=$(basename $1)
-  [ -f "$CONFIG" ] || CONFIG=ifcfg-$1
+  [ -f "${CONFIG}" ] || CONFIG=ifcfg-${1}
   source_config
-  if [ "$DEMAND" != yes ] ; then
+  if [ "${DEMAND}" != yes ] ; then
     # let ppp-watch do the right thing
     shift
     exec /sbin/ppp-watch "${DEVICE}" "$@"
   fi
 fi
 
-CONFIG=$1
-[ -f "$CONFIG" ] || CONFIG=ifcfg-$1
+CONFIG=${1}
+[ -f "${CONFIG}" ] || CONFIG=ifcfg-$1
 source_config
 
-if [ -z "$DISCONNECTTIMEOUT" ]; then
+if [ -z "${DISCONNECTTIMEOUT}" ]; then
   DISCONNECTTIMEOUT=2
 fi
 
-if [ -z "$RETRYTIMEOUT" ]; then
+if [ -z "${RETRYTIMEOUT}" ]; then
   RETRYTIMEOUT=30
 fi
 
-if [ "$2" = "boot" -a "${ONBOOT}" = "no" ]; then
+if [ "${2}" = "boot" -a "${ONBOOT}" = "no" ]; then
   exit
 fi
 
 [ -x /usr/sbin/pppd ] || {
   echo "/usr/sbin/pppd does not exist or is not executable"
-  echo "ifup-ppp for $DEVICE exiting"
+  echo "ifup-ppp for ${DEVICE} exiting"
   logger -p daemon.info -t ifup-ppp \
-    "/usr/sbin/pppd does not exist or is not executable for $DEVICE"
+    "/usr/sbin/pppd does not exist or is not executable for ${DEVICE}"
   exit 1
 }
 
-[ -n "$WVDIALSECT" -o -f /etc/sysconfig/network-scripts/chat-$DEVICE ] || {
-  echo "/etc/sysconfig/network-scripts/chat-$DEVICE does not exist"
-  echo "ifup-ppp for $DEVICE exiting"
+[ -n "${WVDIALSECT}" -o -f /etc/sysconfig/network-scripts/chat-${DEVICE} ] || {
+  echo "/etc/sysconfig/network-scripts/chat-${DEVICE} does not exist"
+  echo "ifup-ppp for ${DEVICE} exiting"
   logger -p daemon.info -t ifup-ppp \
-    "/etc/sysconfig/network-scripts/chat-$DEVICE does not exist for $DEVICE"
+    "/etc/sysconfig/network-scripts/chat-${DEVICE} does not exist for ${DEVICE}"
   exit 1
 }
 
@@ -94,28 +94,28 @@ if [ ${DEMAND} = yes ] ; then
   fi
 fi
 
-if [ -z "$WVDIALSECT" ] ; then
-  CHATSCRIPT=/etc/sysconfig/network-scripts/chat-$DEVNAME
-  [ -f $CHATSCRIPT ] || {
-    CHATSCRIPT=/etc/sysconfig/network-scripts/chat-$PARENTDEVNAME
+if [ -z "${WVDIALSECT}" ] ; then
+  CHATSCRIPT=/etc/sysconfig/network-scripts/chat-${DEVNAME}
+  [ -f "${CHATSCRIPT}" ] || {
+    CHATSCRIPT=/etc/sysconfig/network-scripts/chat-${PARENTDEVNAME}
   }
 else
   CHATSCRIPT=
 fi
 
 (logger -p daemon.info -t ifup-ppp \
-  "pppd started for $DEVICE on $MODEMPORT at $LINESPEED" &)&
+  "pppd started for ${DEVICE} on ${MODEMPORT} at ${LINESPEED}" &)&
 
-if [ -n "$WVDIALSECT" ] ; then
-  exec /usr/sbin/pppd -detach $opts $MODEMPORT $LINESPEED \
-    ipparam $DEVICE linkname $DEVICE \
+if [ -n "${WVDIALSECT}" ] ; then
+  exec /usr/sbin/pppd -detach $opts ${MODEMPORT} ${LINESPEED} \
+    ipparam ${DEVICE} linkname ${DEVICE} \
     noauth \
     ${PPPOPTIONS} \
-    connect "/usr/bin/wvdial --remotename $DEVICE --chat $WVDIALSECT"
+    connect "/usr/bin/wvdial --remotename ${DEVICE} --chat ${WVDIALSECT}"
 else
-  exec /usr/sbin/pppd -detach $opts $MODEMPORT $LINESPEED \
-    ipparam $DEVICE linkname $DEVICE \
+  exec /usr/sbin/pppd -detach $opts ${MODEMPORT} ${LINESPEED} \
+    ipparam ${DEVICE} linkname ${DEVICE} \
     noauth \
     ${PPPOPTIONS} \
-    connect "/usr/sbin/chat $chatdbg -f $CHATSCRIPT"
+    connect "/usr/sbin/chat $chatdbg -f ${CHATSCRIPT}"
 fi

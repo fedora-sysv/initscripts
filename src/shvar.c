@@ -133,8 +133,8 @@ unescape(char *s) {
 /* create a new string with all necessary characters escaped.
  * caller must free returned string
  */
-static const char escapees[] = "\"'\\$~`";	/* must be escaped */
-static const char spaces[] = " \t";		/* only require "" */
+static const char escapees[] = "\"'\\$~`";		/* must be escaped */
+static const char spaces[] = " \t|&;()<>";		/* only require "" */
 static char *
 escape(const char *s) {
     char *new;
@@ -280,7 +280,7 @@ svSetValue(shvarFile *s, const char *key, const char *value)
     if (val1 && newval && !strcmp(val1, newval)) goto bail;
     if (s->parent) val2 = svGetValue(s->parent, key);
 
-    if (!newval) {
+    if (!newval || !newval[0]) {
 	/* delete value somehow */
 	if (val2) {
 	    /* change/append line to get key= */

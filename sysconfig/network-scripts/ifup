@@ -6,23 +6,23 @@ cd /etc/sysconfig/network-scripts
 
 need_hostname
 
-CONFIG=$1
+CONFIG=${1}
 
-[ -z "$CONFIG" ] && {
+[ -z "${CONFIG}" ] && {
     echo "usage: ifup <device name>" >&2
     exit 1
 }
 
-[ -f "$CONFIG" ] || CONFIG=ifcfg-$CONFIG
-[ -f "$CONFIG" ] || {
+[ -f "${CONFIG}" ] || CONFIG=ifcfg-${CONFIG}
+[ -f "${CONFIG}" ] || {
     echo "usage: ifup <device name>" >&2
     exit 1
 }
 
-if [ $UID != 0 ]; then
+if [ ${UID} != 0 ]; then
     if [ -x /usr/sbin/usernetctl ]; then
-	if /usr/sbin/usernetctl $CONFIG report ; then
-	    exec /usr/sbin/usernetctl $CONFIG up
+	if /usr/sbin/usernetctl ${CONFIG} report ; then
+	    exec /usr/sbin/usernetctl ${CONFIG} up
 	fi
     fi
     echo "Users cannot control this device." >&2
@@ -38,20 +38,20 @@ fi
 
 IPSETUP=no
 
-DEVICETYPE=`echo $DEVICE | sed "s/[0-9]*$//"`
-REALDEVICE=`echo $DEVICE | sed 's/:.*//g'`
-if echo $DEVICE | grep -q ':' ; then
+DEVICETYPE=`echo ${DEVICE} | sed "s/[0-9]*$//"`
+REALDEVICE=`echo ${DEVICE} | sed 's/:.*//g'`
+if echo ${DEVICE} | grep -q ':' ; then
     ISALIAS=yes
 else
     ISALIAS=no
 fi
 
 # Old BOOTP variable
-if [ "$BOOTP" = "yes" ]; then
+if [ "${BOOTP}" = "yes" ]; then
     BOOTPROTO=bootp
 fi
 
-if [ "$BOOTPROTO" = bootp -o "$BOOTPROTO" = dhcp ]; then
+if [ "${BOOTPROTO}" = bootp -o "${BOOTPROTO}" = dhcp ]; then
     DYNCONFIG=true
 fi
 
@@ -61,8 +61,8 @@ fi
 
 OTHERSCRIPT="/etc/sysconfig/network-scripts/ifup-${DEVICETYPE}"
 
-if [ -x $OTHERSCRIPT ]; then
-    exec $OTHERSCRIPT $CONFIG $2
+if [ -x ${OTHERSCRIPT} ]; then
+    exec ${OTHERSCRIPT} ${CONFIG} $2
 fi
 
 # is this device available? (this catches PCMCIA devices for us)
@@ -72,51 +72,51 @@ if [ "$?" = "0" ]; then
     exit 1
 fi
 
-if [ "$SLAVE" = yes -a "$ISALIAS" = no -a "$MASTER" != "" -a \
+if [ "${SLAVE}" = yes -a "${ISALIAS}" = no -a "${MASTER}" != "" -a \
      -x /sbin/ifenslave ]; then
-    RFLAG="" ; [ "$RECEIVEONLY" = yes ] && RFLAG="-r"
+    RFLAG="" ; [ "${RECEIVEONLY}" = yes ] && RFLAG="-r"
 
     ifconfig ${DEVICE} down
-    echo "Enslaving $DEVICE to $MASTER"
-    ifenslave $RFLAG "$MASTER" "$DEVICE"
+    echo "Enslaving ${DEVICE} to ${MASTER}"
+    ifenslave ${RFLAG} "${MASTER}" "${DEVICE}"
 
     exit 0
 fi
 
-if [ -n "$MACADDR" ]; then
+if [ -n "${MACADDR}" ]; then
    ifconfig ${DEVICE} hw ether ${MACADDR}
 fi
 
-if [ -n "$DYNCONFIG" ]; then
+if [ -n "${DYNCONFIG}" ]; then
     PUMPARGS=
     DHCPCDARGS=
-    if [ -n "$DHCP_HOSTNAME" ]; then
-       PUMPARGS="-h $DHCP_HOSTNAME"
-       DHCPCDARGS="-h $DHCP_HOSTNAME"
+    if [ -n "${DHCP_HOSTNAME}" ]; then
+       PUMPARGS="-h ${DHCP_HOSTNAME}"
+       DHCPCDARGS="-h ${DHCP_HOSTNAME}"
     fi
-    if [ -n "$NEEDHOSTNAME" ]; then
-       PUMPARGS="$PUMPARGS --lookup-hostname"
-       DHCPCDARGS="$DHCPCDARGS -H"
+    if [ -n "${NEEDHOSTNAME}" ]; then
+       PUMPARGS="${PUMPARGS} --lookup-hostname"
+       DHCPCDARGS="${DHCPCDARGS} -H"
     fi
-    echo -n "Determining IP information for $DEVICE..."
-    if /sbin/pump $PUMPARGS -i $DEVICE ; then
+    echo -n "Determining IP information for ${DEVICE}..."
+    if /sbin/pump ${PUMPARGS} -i ${DEVICE} ; then
 	echo " done."
-    elif /sbin/dhcpcd $DHCPCDARGS $DEVICE ; then
+    elif /sbin/dhcpcd ${DHCPCDARGS} ${DEVICE} ; then
 	echo " done."
     else
 	echo " failed."
 	exit 1
     fi
 else 
-    if [ -z "$NETMASK" ]; then
+    if [ -z "${NETMASK}" ]; then
 	eval `/bin/ipcalc --netmask ${IPADDR}`
     fi
 
-    if [ -z "$BROADCAST" ]; then
+    if [ -z "${BROADCAST}" ]; then
 	eval `/bin/ipcalc --broadcast ${IPADDR} ${NETMASK}`
     fi
 
-    if [ -z "$NETWORK" ]; then
+    if [ -z "${NETWORK}" ]; then
 	eval `/bin/ipcalc --network ${IPADDR} ${NETMASK}`
     fi
     
@@ -148,8 +148,8 @@ fi
 
 . /etc/sysconfig/network
 
-if [ "$IPX" = yes ]; then
-	/etc/sysconfig/network-scripts/ifup-ipx $DEVICE
+if [ "${IPX}" = yes ]; then
+	/etc/sysconfig/network-scripts/ifup-ipx ${DEVICE}
 fi
 
-exec /etc/sysconfig/network-scripts/ifup-post $CONFIG $2
+exec /etc/sysconfig/network-scripts/ifup-post ${CONFIG} ${2}
