@@ -116,9 +116,9 @@ remaining=`awk '!/(^#|proc|loopfs|^none|^\/dev\/root| \/ )/ {print $2}' /proc/mo
 while [ -n "$remaining" -a "$retry" -gt 0 ]
 do
 	if [ "$retry" -lt 3 ]; then
-		runcmd $"Unmounting file systems (retry): "  umount -a -f -t noproc
+		LANG=C runcmd $"Unmounting file systems (retry): "  umount -a -f -t noproc
 	else
-		runcmd $"Unmounting file systems: "  umount -a -f -t noproc
+		LANG=C runcmd $"Unmounting file systems: "  umount -a -f -t noproc
 	fi
 	sleep 2
 	remaining=`awk '!/(^#|proc|loopfs|^none|^\/dev\/root| \/ )/ {print $2}' /proc/mounts`
