@@ -341,7 +341,8 @@ mount -f /proc
 
 
 
-# The root filesystem is now read-write, so we can now log via syslog() directly..
+# The root filesystem is now read-write, so we can now log
+# via syslog() directly..
 if [ -n "$IN_INITLOG" ]; then
     IN_INITLOG=
 fi
@@ -354,8 +355,7 @@ fi
 
 # Our modutils don't support it anymore, so we might as well remove
 # the preferred link.
-rm -f /lib/modules/preferred
-rm -f /lib/modules/default
+rm -f /lib/modules/preferred /lib/modules/default
 if [ -x /sbin/depmod -a -n "$USEMODULES" ]; then
     # If they aren't using a recent sane kernel, make a link for them
     if [ ! -n "`uname -r | grep -- "-"`" ]; then
@@ -411,12 +411,12 @@ if [ -f /etc/rc.modules ]; then
 	/etc/rc.modules
 fi
 
-# Add raid devices
-if [ ! -f /proc/mdstat ]; then
-	modprobe md >/dev/null 2>&1
-fi	
+if [ -f /etc/raidtab ]; then
+	# Add raid devices
+	[ -f /proc/mdstat ] || modprobe md >/dev/null 2>&1
+fi
+if [ -f /etc/raidtab -a -f /proc/mdstat ]; then
 
-if [ -f /proc/mdstat -a -f /etc/raidtab ]; then
 	echo -n $"Starting up RAID devices: " 
 
 	rc=0
