@@ -52,7 +52,7 @@ halt -w
 
 # Save mixer settings, here for lack of a better place.
 grep -q "\(sparcaudio\|sound\)" /proc/devices
-if [ $? = 0 ]; then
+if [ $? = 0 -a -x /bin/aumix-minimal ]; then
    runcmd "Saving mixer settings" /bin/aumix-minimal -f /etc/.aumixrc -S
 fi
 
