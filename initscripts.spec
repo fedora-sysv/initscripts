@@ -4,12 +4,12 @@ Name: initscripts
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
-Release: 1
+Release: 2
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /%{_tmppath}/%{name}-%{version}-%{release}-root
 Requires: mingetty, /bin/awk, /bin/sed, mktemp, e2fsprogs >= 1.15, console-tools
 Requires: procps >= 2.0.4, modutils >= 2.1.121, sysklogd >= 1.3.31
-Requires: setup >= 2.0.3, /sbin/fuser
+Requires: setup >= 2.0.3, /sbin/fuser, which
 %ifarch alpha
 Requires: util-linux >= 2.9w-26
 %endif
@@ -228,6 +228,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Feb 14 2000 Nalin Dahyabhai <nalin@redhat.com>
+- add which as a package dependency (bug #9416)
+
 * Tue Feb  8 2000 Bill Nottingham <notting@redhat.com>
 - fixes for sound module loading
 
