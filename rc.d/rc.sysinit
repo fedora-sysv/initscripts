@@ -303,7 +303,7 @@ if [ -f /proc/mdstat -a -f /etc/raidtab ]; then
 
 	rc=0
 	
-	for i in `grep "raiddev" /etc/raidtab | awk '{print $2}'`
+	for i in `grep "^raiddev" /etc/raidtab | awk '{print $2}'`
 	do
 		RAIDDEV=`basename $i`
 		RAIDSTAT=`grep "^$RAIDDEV : active" /proc/mdstat`
