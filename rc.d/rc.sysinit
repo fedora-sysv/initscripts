@@ -392,6 +392,7 @@ if ! strstr "$cmdline" nomodules && [ -f /proc/modules ] ; then
 fi
 
 unamer=`uname -r`
+eval version=`echo unamer | awk -F '.' '{ print "(" $1 " " $2 ")" }'`
 
 # tweak isapnp settings if needed.
 if [ -n "$PNP" -a  -f /proc/isapnp -a -x /sbin/sndconfig ]; then
@@ -786,16 +787,9 @@ if [ -x /usr/sbin/redhat-config-network-cmd ]; then
 fi
 
 # Generate a header that defines the boot kernel.
-/sbin/mkkerneldoth
-
-# Adjust symlinks as necessary in /boot to keep system services from
-# spewing messages about mismatched System maps and so on.
-if [ -L /boot/System.map -a -r /boot/System.map-$unamer -a \
-	! /boot/System.map -ef /boot/System.map-$unamer ]; then
-	ln -s -f System.map-$unamer /boot/System.map
-fi
-if [ ! -e /boot/System.map -a -r /boot/System.map-$unamer ]; then
-	ln -s -f System.map-$unamer /boot/System.map
+# remove after Fedora Core 2
+if [ "${version[0]}" -lt "3" -a "${version[1]}" -lt "6" ]; then
+ /sbin/mkkerneldoth
 fi
 
 # The special Red Hat kernel library symlink must point to the right library
