@@ -177,7 +177,7 @@ rm -rf $RPM_BUILD_ROOT
 - fixed ifup-ipx mix-up over . and _
 
 * Tue Apr 06 1999 Erik Troan <ewt@redhat.com>
-- run /sbin/ipup-local after bringing up an interface (if that file exists)
+- run /sbin/ifup-local after bringing up an interface (if that file exists)
 
 * Mon Apr  5 1999 Bill Nottingham <notting@redhat.com>
 - load keymaps & console font early
