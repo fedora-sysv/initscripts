@@ -62,42 +62,44 @@ checkpid() {
 # A function to start a program.
 daemon() {
 	# Test syntax.
-	gotbase=
-	user=
+	local gotbase=
+	local base= user= nice= bg= pid
 	nicelevel=0
-	while [ "$1" != "${1##-}" -o "$1" != "${1##+}" ]; do 
+	while [ "$1" != "${1##[-+]}" ]; do
 	  case $1 in
-	    '')    echo '$0: Usage: daemon [+/-nicelevel] {program}'
+	    '')    echo "$0: Usage: daemon [+/-nicelevel] {program}"
 	           return 1;;
 	    --check)
-	           shift
-		   base=$1
+		   base=$2
 		   gotbase="yes"
+		   shift 2
+		   ;;
+	    --check=?*)
+	    	   base=${1#--user=}
 		   shift
 		   ;;
 	    --user)
-	    	   shift
-		   daemon_user=$1
+		   user=$2
+		   shift 2
+		   ;;
+	    --user=?*)
+	           user=${1#--user=}
 		   shift
 		   ;;
-	    -*|+*) nicelevel=$1
+	    [-+][0-9]*)
+	    	   nice="nice -n $1"
 	           shift
 		   ;;
-	     *)    nicelevel=0
-	     	   ;;
+	    *)     echo "$0: Usage: daemon [+/-nicelevel] {program}"
+	           return 1;;
 	  esac
 	done
 
         # Save basename.
-        [ -z $gotbase ] && base=`basename $1`
+        [ -z $gotbase ] && base=${1##*/}
 
-        # See if it's already running.
-        pidlist=`pidofproc $1`
-	
-	pid=
-	for apid in $pidlist ; do
-	   [ -d /proc/$apid ] && pid="$pid $apid"
-	done
+        # See if it's already running. Look *only* at the pid file.
+        pidlist=`pidfileofproc $base`
 	
 	[ -n "$pid" ] && return
 
@@ -109,11 +111,12 @@ daemon() {
         [ "$BOOTUP" = "verbose" ] && echo -n " $base"
 
 	# And start it up.
-	if [ -z "$daemon_user" ]; then 
-	   nice -n $nicelevel initlog $INITLOG_ARGS -c "$*" && success "$base startup" || failure "$base startup"
+	if [ -z "$user" ]; then
+	   $nice initlog $INITLOG_ARGS -c "$*"
 	else
-	   nice -n $nicelevel initlog $INITLOG_ARGS -c "su $daemon_user -c \"$*\"" && success "$base startup" || failure "$base startup"
+	   $nice initlog $INITLOG_ARGS -c "su - $user -c \"$*\"" && success "$base startup" || failure "$base startup"
 	fi
+	[ $? = 0 ] && success "$base startup" || failure "$base startup"
 }
 
 # A function to stop a program.
@@ -135,36 +138,30 @@ killproc() {
 	fi
 
         # Save basename.
-        base=`basename $1`
+        base=${1##*/}
 
         # Find pid.
-        pidlist=`pidofproc $1`
-	
-	pid=
-	for apid in $pidlist ; do
-	   [ -d /proc/$apid ] && pid="$pid $apid"
-	done
+	pid=`pidofproc $1`
+	if [ -z "$pid" ] ; then
+		pid=`pidofproc $base`
+	fi
 
         # Kill it.
-        if [ "$pid" != "" ] ; then
+        if [ -n "$pid" ] ; then
                 [ $BOOTUP = "verbose" ] && echo -n "$base "
 		if [ "$notset" = "1" ] ; then
 		       if checkpid $pid 2>&1; then
 			   # TERM first, then KILL if not dead
 			   kill -TERM $pid
 			   usleep 100000
-			   if checkpid $pid >/dev/null 2>&1 ; then
-				sleep 1
-				if checkpid $pid >/dev/null 2>&1 ; then
-				        sleep 3
-					if checkpid $pid >/dev/null 2>&1 ; then
-					   kill -KILL $pid
-					   usleep 100000
-					fi
-				fi
+			   if checkpid $pid && sleep 1 &&
+			      checkpid $pid && sleep 3 &&
+			      checkpid $pid ; then
+                                kill -KILL $pid
+				usleep 100000
 			   fi
 		        fi
-			checkpid $pid >/dev/null 2>&1
+			checkpid $pid
 			RC=$?
 			[ $RC -eq 0 ] && failure "$base shutdown" || success "$base shutdown"
 			RC=$((! $RC))
@@ -178,6 +175,7 @@ killproc() {
 		fi
 	else
 	    failure "$base shutdown"
+	    RC=1
 	fi
 
         # Remove pid file if any.
@@ -187,9 +185,33 @@ killproc() {
 	return $RC
 }
 
+# A function to find the pid of a program. Looks *only* at the pidfile
+pidfileofproc() {
+	local base=${1##*/}
+	local pid
+	
+	# Test syntax.
+	if [ $# = 0 ] ; then
+		echo "Usage: pidfileofproc {program}"
+		return 1
+	fi
+
+	# First try "/var/run/*.pid" files
+	if [ -f /var/run/${base}.pid ] ; then
+	        read pid < /var/run/${base}.pid
+		for p in $line ; do
+		       [ -z "${p//[0-9]/}" -a -d /proc/$p ] && pid="$pid $p"
+		done
+	        if [ -n "$pid" ] ; then
+	                echo $pid
+	                return 0
+	        fi
+	fi
+}
+
 # A function to find the pid of a program.
 pidofproc() {
-	base=`basename $1`
+	base=${1##*/}
 
 	# Test syntax.
 	if [ $# = 0 ] ; then
@@ -199,23 +221,25 @@ pidofproc() {
 
 	# First try "/var/run/*.pid" files
 	if [ -f /var/run/${base}.pid ] ; then
-	        pid=`cat /var/run/${base}.pid | { read foo ; echo $foo ; }`
-	        if [ "$pid" != "" ] ; then
+	        local line p pid=
+		read line < /var/run/${base}.pid
+		for p in $line ; do
+		       [ -z "${p//[0-9]/}" -a -d /proc/$p ] && pid="$pid $p"
+		done
+	        if [ -n "$pid" ] ; then
 	                echo $pid
 	                return 0
 	        fi
 	fi
 
 	# Next try "pidof"
-	pid=`pidof -o $$ -o $PPID -o %PPID -x ${base}`
-	if [ "$pid" != "" ] ; then
-	        echo $pid
-	        return 0
-	fi
+	pidof -o $$ -o $PPID -o %PPID -x $1 || \
+	pidof -o $$ -o $PPID -o %PPID -x ${base}
 }
 
 status() {
-	base=`basename $1`
+	local base=${1##*/}
+	local pid
 
 	# Test syntax.
 	if [ $# = 0 ] ; then
@@ -224,7 +248,8 @@ status() {
 	fi
 
 	# First try "pidof"
-	pid=`pidof -o $$ -o $PPID -o %PPID -x ${base}`
+	pid=`pidof -o $$ -o $PPID -o %PPID -x $1 || \
+	     pidof -o $$ -o $PPID -o %PPID -x ${base}`
 	if [ "$pid" != "" ] ; then
 	        echo "${base} (pid $pid) is running..."
 	        return 0
@@ -232,7 +257,7 @@ status() {
 
 	# Next try "/var/run/*.pid" files
 	if [ -f /var/run/${base}.pid ] ; then
-	        pid=`cat /var/run/${base}.pid | { read foo ; echo $foo ; }`
+	        read pid < /var/run/${base}.pid
 	        if [ "$pid" != "" ] ; then
 	                echo "${base} dead but pid file exists"
 	                return 1
@@ -333,23 +358,30 @@ action() {
   return $rc
 }
 
+# returns OK if $1 contains $2
+strstr() {
+  [ "$1" = "$2" ] && return 0
+  slice=${1#*$2*}
+  [ "$slice" = "$1" ] && return 1
+  return 0
+}
+
+
 # Confirm whether we really want to run this service
 confirm() {
-  echo -n "Start service $1 (Y)es/(N)o/(C)ontinue? [Y] "
-  read answer
-  case $answer in
-    y|Y|"")
-      return 0
-    ;;
-    c|C)
-      return 2
-    ;;
-    n|N)
-      return 1
-    ;;
-    *)
-      confirm $1
-      return $?
-    ;;
-    esac
+  local YES="yY"
+  local NO="nN"
+  local CONT="cC"
+
+  while : ; do 
+      echo -n "Start service $1 (Y)es/(N)o/(C)ontinue? [Y] "
+      read answer
+      if strstr "$YES" "$answer" || [ "$answer" = "" ] ; then
+         return 0
+      elif strstr "$CONT" "$answer" ; then
+         return 2
+      elif strstr "$NO" "$answer" ; then
+         return 1
+      fi
+  done
 }
