@@ -64,10 +64,7 @@ void runDaemon(int sock) {
    char *message;
    struct stat s1,s2;
    struct pollfd pfds;
-    FILE *foo;
     
-    foo=fopen("./foo","a");
-	
     daemon(0,-1);
     /* try not to leave stale sockets lying around */
     /* Hopefully, we won't actually get any of these */
@@ -93,7 +90,6 @@ void runDaemon(int sock) {
 	 cleanup(-1);
       }
       if ( (x>0) && pfds.revents & (POLLIN | POLLPRI)) {
-	 printf("foo!\n");
 	 message = calloc(8192,sizeof(char));
 	 recvsock = accept(sock,(struct sockaddr *) &addr, &addrlen);
 	 len = read(recvsock,message,8192);
@@ -103,7 +99,6 @@ void runDaemon(int sock) {
 	   buffer = malloc(sizeof(char *));
 	 if (len>0) {
 	     message[strlen(message)]='\n';
-	     fprintf(foo,"%s",message);
 	    buffer[buflines]=message;
 	    buflines++;
 	    close(recvsock);
@@ -123,7 +118,6 @@ void runDaemon(int sock) {
 	 we_own_log = 0;
       }
    }
-    fclose(foo);
    cleanup(0);
 }
 
