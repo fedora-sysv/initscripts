@@ -29,7 +29,9 @@ cd /etc/sysconfig/network-scripts
 
 # find all the interfaces besides loopback.
 # ignore aliases, alternative configurations, and editor backup files
-interfaces=`ls ifcfg* | egrep -v '(ifcfg-lo|:)' | egrep 'ifcfg-[a-z0-9]+$'`
+interfaces=`ls ifcfg* | egrep -v '(ifcfg-lo|:)' | egrep 'ifcfg-[a-z0-9]+$' | \
+            sed 's/^ifcfg-//g'`
+
 
 # See how we were called.
 case "$1" in
@@ -76,14 +78,42 @@ case "$1" in
         rm -f /var/lock/subsys/network
         ;;
   status)
-	status network
+	echo "Configured devices:"
+	echo lo $interfaces
+
+	if [ -x /bin/linuxconf ] ; then
+		eval `/bin/linuxconf --hint netdev`
+		echo "Devices that are down:"
+		echo $DEV_UP
+		echo "Devices with modified configuration:"
+		echo $DEV_RECONF
+	else
+		echo "Currently active devices:"
+		echo `/sbin/ifconfig | grep ^[a-z] | awk '{print $1}'`
+	fi
 	;;
   restart)
 	$0 stop
 	$0 start
 	;;
+  reload)
+	if [ -x /bin/linuxconf ] ; then
+		eval `/bin/linuxconf --hint netdev`
+		for device in $DEV_UP ; do
+			./ifup $device boot
+		done
+		for device in $DEV_DOWN ; do
+			./ifdown $device boot
+		done
+		for device in $DEV_RECONF ; do
+			./ifdown $device boot
+			./ifup $device boot
+		done
+	else
+		$0 restart
+	fi
   *)
-        echo "Usage: network {start|stop|restart|status}"
+        echo "Usage: network {start|stop|restart|reload|status}"
         exit 1
 esac
 
