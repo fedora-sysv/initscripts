@@ -6,7 +6,8 @@
 LOGDEVICE=$6
 REALDEVICE=$1
 
-export PATH=/sbin:/usr/sbin:/bin:/usr/bin
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
+export PATH
 
 [ -f /etc/sysconfig/network-scripts/ifcfg-${LOGDEVICE} ] && /etc/sysconfig/network-scripts/ifup-post ifcfg-${LOGDEVICE}
 
