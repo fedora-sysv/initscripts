@@ -107,6 +107,7 @@ int main(int argc, char ** argv) {
     char * chptr;
     char * cmd;
     int report = 0;
+    char tmp;
 
     if (argc != 3) usage();
 
@@ -154,10 +155,14 @@ int main(int argc, char ** argv) {
 	    dash = strrchr(ifaceConfig, '-');
 	    if (*(dash-1) != 'g') {
 		/* This was a clone configuration; ask the parent config */
+		tmp = *dash;
 		*dash = '\0';
-		if (userCtl(ifaceConfig) == FOUND_TRUE)
+		if (userCtl(ifaceConfig) == FOUND_TRUE) {
 		    /* exit the switch; users are allowed to control */
+		    *dash = tmp;
 		    break;
+		}
+		*dash = tmp;
 	    }
 	    /* else fall through */
 	case FOUND_FALSE:
