@@ -91,16 +91,17 @@ while : ; do
   (logger -p daemon.info -t ifup-ppp \
     "pppd started for $DEVICE on $MODEMPORT at $LINESPEED" &)&
 
-  > /var/run/ppp-$DEVICE.dev
   if [ -n "$WVDIALSECT" ] ; then
     /usr/sbin/pppd -detach $opts $MODEMPORT $LINESPEED \
       remotename $DEVICE ipparam $DEVICE \
       ${PPPOPTIONS} \
+      linkname $DEVICE \
       connect "/usr/bin/wvdial --chat $WVDIALSECT"
   else
     /usr/sbin/pppd -detach $opts $MODEMPORT $LINESPEED \
       remotename $DEVICE ipparam $DEVICE \
       ${PPPOPTIONS} \
+      linkname $DEVICE \
       connect "/usr/sbin/chat $chatdbg -f $CHATSCRIPT"
   fi
 
@@ -127,11 +128,13 @@ while : ; do
   sleep $timeout || {
     # sleep was killed
     rm -f /var/run/ppp-$DEVICE.dev
+    rm -f /var/run/ppp-$DEVICE.pid
     exit 0
   }
 
   # exit if our lock file disappeared while we slept
   if [ ! -f /var/run/ppp-$DEVICE.dev ]; then
+    rm -f /var/run/ppp-$DEVICE.pid
     exit 0
   fi
 done

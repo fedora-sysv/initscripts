@@ -10,7 +10,7 @@ BuildRoot: /var/tmp/initbld
 Requires: mingetty, bash, /bin/awk, /bin/sed, mktemp, e2fsprogs, console-tools
 Requires: procps, modutils >= 2.1.85-3, sysklogd >= 1.3.31
 Requires: setup >= 2.0.3
-Conflicts: kernel <= 2.2, timeconfig < 3.0
+Conflicts: kernel <= 2.2, timeconfig < 3.0, pppd < 2.3.9
 Prereq: /sbin/chkconfig, /usr/sbin/groupadd, gawk
 
 %description
@@ -194,6 +194,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Aug 13 1999 Michael K. Johnson <johnsonm@redhat.com>
+- use new linkname argument to pppd to make if{up,down}-ppp
+  reliable -- requires ppp-2.3.9 or higher
+
 * Mon Aug  2 1999 Bill Nottingham <notting@redhat.com>
 - fix typo.
 - add 'make check'
