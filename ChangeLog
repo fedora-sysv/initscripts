@@ -1,3 +1,79 @@
+2003-04-30  Bill Nottingham  <notting@redhat.com>
+
+	* ChangeLog, initscripts.spec: 7.17-1
+
+	* lang.csh, rc.d/init.d/functions, rc.d/rc.sysinit:
+	rhgb updates
+
+2003-04-21  Florian La Roche  <laroche@redhat.com>
+
+	* initscripts-s390.patch, initscripts.spec, rc.d/rc.sysinit:
+	- further eliminate consoletype calls with CONSOLETYPE
+
+	* initscripts-s390.patch, initscripts.spec, inittab.s390:
+	- mainframe cleanup
+
+2003-04-19  Florian La Roche  <laroche@redhat.com>
+
+	* rc.d/rc.sysinit:
+	- no need to delete /var/run/confirm, as it is already deleted right
+	  above in the /var/run+/var/lock cleanup
+
+2003-04-18  Florian La Roche  <laroche@redhat.com>
+
+	* initscripts.spec, rc.d/init.d/functions, rc.d/init.d/network, rc.d/rc, rc.d/rc.sysinit, sysconfig/init.s390:
+	- new release
+
+2003-04-16  Bill Nottingham  <notting@redhat.com>
+
+	* setsysfont:
+	hey, where's that brown paper bag (#88999)
+
+2003-04-03  Bill Nottingham  <notting@redhat.com>
+
+	* lang.csh, lang.sh, setsysfont:
+	switch back
+
+	* rc.d/rc.sysinit: um, no, that's correct
+
+2003-04-03  Karsten Hopp  <karsten@redhat.com>
+
+	* rc.d/rc.sysinit, ChangeLog, initscripts.spec, lang.csh, lang.sh, setsysfont:
+	- sync with beehive package
+	- prepare for rebuild in 3.0E:
+	  Mainframe has no /dev/ttyX devices and no mingetty, don't
+	  initialize them. This gave error messages during startup
+
+2003-03-28  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit: fix rc.sysinit for 2.5
+
+2003-03-26  Karsten Hopp  <karsten@redhat.com>
+
+	* rc.d/rc.sysinit:
+	There are no /dev/ttyX devices and no mingetty on mainframe.
+	This code tried to create new files in /dev/ while / was mounted ro.
+
+2003-03-26  Sarah Smith  <sarahs@redhat.com>
+
+	* po/zh_CN.po:
+	translated red hat into chinese term
+
+2003-03-25  Audrey Simons  <asimons@redhat.com>
+
+	* po/fr.po: Checked
+
+2003-03-17  Nalin Dahyabhai  <nalin@redhat.com>
+
+	* initscripts.spec, rc.d/init.d/network:
+	- init.d/network: don't advertise "probe: true" in the header if we don't
+	  recognize "probe" as an argument
+
+2003-03-17  Mohamed Eldesoky  <mohamed.eldesoky@linux-egypt.org>
+
+	* po/ar.po:
+	Arabic translation for initscripts.
+
 2003-03-13  Bill Nottingham  <notting@redhat.com>
 
 	* ChangeLog, initscripts.spec:
