@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.93.11.EL
+Version: 7.93.12.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -206,6 +206,17 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Feb  3 2005 Bill Nottingham <notting@redhat.com> 7.93.12.EL-1
+- fix netfs w.r.t nfs root filesystem (#142169)
+- fix multiple scsi_hostadapter loads (#145432)
+- don't run the DDC probe in kmodule
+- fix ONxxx (#136531, <cww@redhat.com>)
+- fix various fgreps to not catch commented lines (#136531, expanded
+  from <cww@redhat.com>)
+- kill dhcp client even if BOOTOPROTO is now static (#127726, others)
+- set ETHTOOL_OPTS on addressless devices (#144682, <mpoole@redhat.com>)
+- change setting of IPv6 default route (#142308, <pb@bieringer.de>)
+
 * Wed Nov 24 2004 Bill Nottingham <notting@redhat.com> 7.93.11.EL-1
 - don't mount GFS in netfs (#140281)
 - fix various minilogd errors (#106338)
