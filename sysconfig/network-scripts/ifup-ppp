@@ -66,8 +66,9 @@ fi
 if [ -n "${PAPNAME}" ] ; then
   opts="$opts name ${PAPNAME}"
 fi
-if [ -n "${DEBUG}" ] ; then
+if [ "${DEBUG}" = yes ] ; then
   opts="$opts debug"
+  chatdbg="-v"
 fi
 
 CHATSCRIPT=/etc/sysconfig/network-scripts/chat-$DEVNAME
@@ -83,7 +84,7 @@ while : ; do
   /usr/sbin/pppd -detach $opts $MODEMPORT $LINESPEED \
     remotename $DEVICE ipparam $DEVICE \
     ${PPPOPTIONS} \
-    connect "/usr/sbin/chat ${DEBUG:+-v} -f $CHATSCRIPT"
+    connect "/usr/sbin/chat $chatdbg -f $CHATSCRIPT"
 
   # exit if we're not supposed to persist or our lock file has disappeared 
   if [ "$PERSIST" != "yes" -o ! -f /var/run/ppp-$DEVICE.dev ]; then
@@ -92,8 +93,6 @@ while : ; do
   fi
 
   size=`wc -c < /var/run/ppp-$DEVICE.dev`
-
-  rm -f /var/run/ppp-$DEVICE.dev
 
   if [ $size = 0 ]; then
     # pppd never connected
@@ -109,6 +108,7 @@ while : ; do
 
   sleep $timeout || {
     # sleep was killed
+    rm -f /var/run/ppp-$DEVICE.dev
     exit 0
   }
 

@@ -16,3 +16,15 @@ source_config ()
 	. $PARENTCONFIG
     fi
 }
+
+do_netreport ()
+{
+  # Notify programs that have requested notification
+  ( cd /var/run/netreport || exit
+    for i in * ; do
+      [ -f $i ] && \
+        kill -SIGIO $i >/dev/null 2>&1 || \
+          rm -f $i >/dev/null 2>&1
+    done
+  )
+}

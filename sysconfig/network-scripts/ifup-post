@@ -35,12 +35,6 @@ if [ `hostname` = '(none)' -o `hostname` = localhost -a ${DEVICE} != lo ]; then
 fi
 
 # Notify programs that have requested notification
-( cd /var/run/netreport || exit
-  for i in * ; do
-    [ -f $i ] && \
-      kill -SIGIO $i >/dev/null 2>&1 || \
-        rm -f $i >/dev/null 2>&1
-  done
-)
+do_netreport
 
 exit 0
