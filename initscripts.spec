@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.68
+%define version 4.69
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
@@ -198,6 +198,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Sat Nov 28 1999 Bill Nottingham <notting@redhat.com>
+- impressive. Three new features, three new bugs.
+
 * Mon Nov 22 1999 Michael K. Johnson <johnsonm@redhat.com>
 - fix more possible failed CHAP authentication (with chat scripts)
 - fix ppp default route problem
