@@ -244,6 +244,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Wed Jun 26 2002 Bill Nottingham <notting@redhat.com>
+- move /proc/bus/usb mount, in case USB is in the initrd
+
 * Wed Jun 26 2002 Preston Brown <pbrown@redhat.com>
 - don't try to set wireless freq/channel when in Managed mode
 

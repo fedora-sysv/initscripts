@@ -1,18 +1,26 @@
+2002-06-27  Bill Nottingham  <notting@redhat.com>
+
+	* ChangeLog, initscripts.spec: 6.81-1
+
+	* rc.d/rc.sysinit:
+	move /proc/bus/usb mount elsewhere, in case USB is in the initrd
+
 2002-06-27  Preston Brown  <pbrown@redhat.com>
+
+	* sysconfig/network-scripts/ifup:
+	make sure we don't match default as anything but a route (instead of, say, someone's device name
+
+2002-06-27  Preston Brown  <pbrown@redhat.com>
+
+	* ChangeLog: update changelog.
 
 	* sysconfig/network-scripts/ifup, sysconfig/network-scripts/network-functions:
 	handle duplicate default routes better.
-
-	* sysconfig/network-scripts/ifdown:
-	move device down checking higher up, and clarify.
 
 	* sysconfig/network-scripts/ifup-wireless:
 	essid setup fix
 
 	* initscripts.spec: bump ver.
-
-	* sysconfig/network-scripts/network-functions:
-	fix check_device_down logic
 
 	* sysconfig/network-scripts/ifup:
 	avoid ifconfig/route, try to avoid duplicate default routes
@@ -86,14 +94,6 @@
 2002-06-18  Bill Nottingham  <notting@redhat.com>
 
 	* sysconfig/init: no more bold
-
-2002-06-12  Bill Nottingham  <notting@redhat.com>
-
-	* ChangeLog, initscripts.spec:
-	6.78-1
-
-	* lang.csh, lang.sh, setsysfont:
-	fix UTF-8 checks
 
 2002-06-12  Bill Nottingham  <notting@redhat.com>
 
