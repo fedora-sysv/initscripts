@@ -467,10 +467,10 @@ rm -f /etc/mtab~ /etc/mtab~~
 
 # Enter mounted filesystems into /etc/mtab
 mount -f /
-mount -f /proc
-mount -f /sys
-mount -f /dev/pts
-mount -f /proc/bus/usb
+mount -f /proc >/dev/null 2>&1
+mount -f /sys >/dev/null 2>&1
+mount -f /dev/pts >/dev/null 2>&1
+mount -f /proc/bus/usb >/dev/null 2>&1
 
 # Mount all other filesystems (except for NFS and /proc, which is already
 # mounted). Contrary to standard usage,
