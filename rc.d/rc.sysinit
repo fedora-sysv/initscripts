@@ -398,12 +398,6 @@ if grep -q "options sound dmabuf=1" /etc/modules.conf 2>/dev/null ; then
       action $"Loading sound module ($alias): " modprobe $alias
       RETURN=$?
   fi
-  # Load mixer settings
-  if grep -q "\(sparcaudio\|sound\)" /proc/devices 2>/dev/null ; then
-      if [ $RETURN -eq 0 -a -f /etc/.aumixrc -a -x /bin/aumix-minimal ]; then
-	  action $"Loading mixer settings: " /bin/aumix-minimal -f /etc/.aumixrc -L
-      fi
-  fi
 fi
 
 if [ -f /proc/sys/kernel/modprobe ]; then
