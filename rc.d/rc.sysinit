@@ -291,7 +291,7 @@ grep -E '[[:space:]]+/[[:space:]]+' /etc/fstab | \
     grep -q quota
 _ROOT_HAS_QUOTA=$?
 if [ X"$_RUN_QUOTACHECK" = X1 -a \
-    "$_ROOT_HAS_QUOTA" -a \
+    "$_ROOT_HAS_QUOTA" = "0" -a \
     -x /sbin/quotacheck ]; then
 	if [ -x /sbin/convertquota ]; then
 	    if [ -f /quota.user ]; then
