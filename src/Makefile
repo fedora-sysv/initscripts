@@ -10,7 +10,7 @@ clean:
 	rm -f $(PROGS) *.o
 
 install:
-	mkdir -p $(ROOT)/bin $(ROOT)/usr/sbin $(ROOT)/usr/man/man1
+	mkdir -p $(ROOT)/bin $(ROOT)/usr/sbin $(ROOT)/usr/man/man1 $(ROOT)/etc
 	install -s -m 755 doexec $(ROOT)/bin/doexec
 	install -s -m 755 usleep $(ROOT)/bin/usleep
 	install -s -m 4755 usernetctl $(ROOT)/usr/sbin/usernetctl
@@ -25,6 +25,7 @@ install:
 	install -m 644 usleep.1 $(ROOT)/usr/man/man1
 	install -m 644 usernetctl.1 $(ROOT)/usr/man/man1
 	install -m 644 ipcalc.1 $(ROOT)/usr/man/man1
+	install -m 644 initlog.conf $(ROOT)/etc
 
 # this daemon and initscript are useful for testing the up/down/status stuff
 # not installed by default, only comes from sources.
