@@ -11,7 +11,7 @@
 #
 # RHL integration assistance by Pekka Savola <pekkas@netcore.fi>
 #
-# Version 2002-01-25
+# Version 2002-04-12
 #
 # Note: if called as (like normally) by /etc/sysconfig/network-scripts/ifdown
 #        exit codes aren't handled by "ifdown"
@@ -100,10 +100,15 @@ fi
 # Get local IPv4 address of dedicated tunnel
 ipv4addr6to4local="`ipv6_get_ipv4addr_of_tunnel tun6to4 local`"
 
-# Check against configured 6to4 tunnel to see if this interface was used before
-if [ "$ipv4addr" != "$ipv4addr6to4local" ]; then
-	# IPv4 address of interface does't match local tunnel address, interface was not used for current 6to4 setup
+if [ -z "$ipv4addr" -o -z "$ipv4addr6to4local" ]; then
+	# no IPv4 addresses given, 6to4 sure not configured
 	valid6to4config="no"
+else
+	# Check against configured 6to4 tunnel to see if this interface was used before
+	if [ "$ipv4addr" != "$ipv4addr6to4local" ]; then
+		# IPv4 address of interface does't match local tunnel address, interface was not used for current 6to4 setup
+		valid6to4config="no"
+	fi
 fi
 
 # Shutdown of 6to4, if configured
