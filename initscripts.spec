@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.30
+Version: 6.31
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -241,6 +241,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Tue Aug 28 2001 Bill Nottingham <notting@redhat.com>
 - message un-tweaks (<johnsonm@redhat.com>)
+- make getkey more useful, fix some of the autofsck stuff (<johnsonm@redhat.com>)
 
 * Mon Aug 27 2001 Bill Nottingham <notting@redhat.com>
 - autofsck support, archive modules/symbol info (<johnsonm@redhat.com>)
