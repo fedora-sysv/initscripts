@@ -34,16 +34,17 @@ if [ "$BOOTUP" = "graphical" ]; then
   fi
 fi
 
-if [ "`/sbin/consoletype`" = "vt" -a -x /sbin/setsysfont ]; then
-   last=0
-   for i in `LC_ALL=C grep '^[0-9]*.*respawn:/sbin/mingetty' /etc/inittab | sed 's/^.* tty\([0-9][0-9]*\).*/\1/g'`; do
+last=0
+for i in `LC_ALL=C grep '^[0-9]*.*respawn:/sbin/mingetty' /etc/inittab | sed 's/^.* tty\([0-9][0-9]*\).*/\1/g'`; do
       > /dev/tty$i
       last=$i
-   done
-   if [ $last -gt 0 ]; then
+done
+if [ $last -gt 0 ]; then
      > /dev/tty$((last+1))
      > /dev/tty$((last+2))
-   fi
+fi
+
+if [ "`/sbin/consoletype`" = "vt" -a -x /sbin/setsysfont ]; then
    
    echo -n "Setting default font ($SYSFONT): "
    /sbin/setsysfont
