@@ -147,7 +147,7 @@ if [ "$IPSETUP" != yes ]; then
 	    done
 	fi
 
-	if [ -n "$BOOTPHOSTNAME" -a -z "`hostname`" ]; then
+	if [ -n "$BOOTPHOSTNAME" -a "`hostname`" = "(none)" ]; then
 	    hostname $BOOTPHOSTNAME
 	fi
     fi
