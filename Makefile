@@ -37,6 +37,7 @@ install:
 	install -m755 prefdm $(ROOT)/etc/X11/prefdm
 
 	cp -af rc.d sysconfig ppp $(ROOT)/etc
+	mkdir -p $(ROOT)/etc/sysconfig/console
 	if uname -m | grep -q s390 ; then \
 	  install -m644 sysconfig/init.s390 $(ROOT)/etc/sysconfig/init ; \
 	fi
@@ -98,7 +99,7 @@ check:
 	done
 
 changelog:
-	rcs2log | sed "s|@.*redhat\.com|@redhat.com|" | sed "s|@.*redhat\.de|@redhat.com|" | sed "s|@redhat\.de|@redhat.com|" | sed "s|@@|@|" | \
+	@rcs2log | sed "s|@.*redhat\.com|@redhat.com|" | sed "s|@.*redhat\.de|@redhat.com|" | sed "s|@redhat\.de|@redhat.com|" | sed "s|@@|@|" | \
 	 sed "s|/mnt/devel/CVS/initscripts/||g" | sed "s|/cvs/rhl/initscripts/||g" > changenew
 	 mv ChangeLog ChangeLog.old
 	 cat changenew ChangeLog.old > ChangeLog
