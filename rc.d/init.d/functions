@@ -49,6 +49,16 @@ else
    INITLOG_ARGS=
 fi
 
+# Check if $pid (could be plural) are running
+checkpid() {
+	while [ "$1" ]; do
+	   [ -d /proc/$1 ] && return 0
+	   shift
+	done
+	return 1
+}
+	
+
 # A function to start a program.
 daemon() {
 	# Test syntax.
@@ -89,7 +99,7 @@ daemon() {
 	   [ -d /proc/$apid ] && pid="$pid $apid"
 	done
 	
-	[ -n "$pid" ] && ps h $pid >/dev/null 2>&1 && return
+	[ -n "$pid" ] && return
 
 	# make sure it doesn't core dump anywhere; while this could mask
 	# problems with the daemon, it also closes some security problems
@@ -139,27 +149,27 @@ killproc() {
         if [ "$pid" != "" ] ; then
                 [ $BOOTUP = "verbose" ] && echo -n "$base "
 		if [ "$notset" = "1" ] ; then
-		       if ps h $pid>/dev/null 2>&1; then
+		       if checkpid $pid 2>&1; then
 			   # TERM first, then KILL if not dead
 			   kill -TERM $pid
 			   usleep 100000
-			   if ps h $pid >/dev/null 2>&1 ; then
+			   if checkpid $pid >/dev/null 2>&1 ; then
 				sleep 1
-				if ps h $pid >/dev/null 2>&1 ; then
+				if checkpid $pid >/dev/null 2>&1 ; then
 				        sleep 3
-					if ps h $pid >/dev/null 2>&1 ; then
+					if checpid $pid >/dev/null 2>&1 ; then
 					   kill -KILL $pid
 					fi
 				fi
 			   fi
 		        fi
-			ps h $pid >/dev/null 2>&1
+			checkpid $pid >/dev/null 2>&1
 			RC=$?
 			[ $RC -eq 0 ] && failure "$base shutdown" || success "$base shutdown"
 			RC=$((! $RC))
 		# use specified level only
 		else
-		        if ps h $pid >/dev/null 2>&1; then
+		        if checkpid $pid >/dev/null 2>&1; then
 	                	kill $killlevel $pid
 				RC=$?
 				[ $RC -eq 0 ] && success "$base $killlevel" || failure "$base $killlevel"
