@@ -48,11 +48,11 @@ fi
 
 source_config
 
-if [ "foo$2" = "fooboot" -a "${ONBOOT}" = "no" -o "${ONBOOT}" = "NO" ]
+if [ "foo$2" = "fooboot" ] && [ "${ONBOOT}" = "no" -o "${ONBOOT}" = "NO" ]
 then
     exit 0
 fi
-if [ -n "$IN_HOTPLUG" -a "${HOTPLUG}" = "no" -o "${HOTPLUG}" = "NO" ]
+if [ -n "$IN_HOTPLUG" ] && [ "${HOTPLUG}" = "no" -o "${HOTPLUG}" = "NO" ]
 then
     exit 0
 fi
