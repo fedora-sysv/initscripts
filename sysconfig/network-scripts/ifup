@@ -94,7 +94,8 @@ if [ "$BOOTPROTO" = bootp -a "$ISALIAS" = no ]; then
     rm -f ${TMPFILE}
 elif [ "$BOOTPROTO" = dhcp -a "$ISALIAS" = no ]; then
     echo -n "Using DHCP for ${DEVICE}... "
-    /sbin/dhcpcd -c /etc/sysconfig/network-scripts/ifdhcpc-done ${DEVICE} 
+    IFNAME=${DEVICE} \
+	/sbin/dhcpcd -c /etc/sysconfig/network-scripts/ifdhcpc-done ${DEVICE} 
     echo "echo \$$ > /var/run/dhcp-wait-${DEVICE}.pid; exec sleep 30" | sh
 
     if [ -f /var/run/dhcp-wait-${DEVICE}.pid ]; then
