@@ -144,6 +144,12 @@ else
     domainname ""
 fi
 
+if [ -f /fastboot -o grep -q "fastboot" /proc/cmdline 2>/dev/null ]; then
+	fastboot=yes
+    else
+        fastboot=
+fi
+
 if [ -f /fsckoptions ]; then
 	fsckoptions=`cat /fsckoptions`
     else
@@ -161,7 +167,8 @@ else
 fi
 
 _RUN_QUOTACHECK=0
-if [ ! -f /fastboot ]; then
+if [ -z "$fastboot" ]; then 
+
         STRING="Checking root filesystem"
 	echo $STRING
 	initlog -c "fsck -T -a $fsckoptions /"
@@ -434,7 +441,7 @@ fi
 
 _RUN_QUOTACHECK=0
 # Check filesystems
-if [ ! -f /fastboot ]; then
+if [ -z "$fastboot" ]; then
         STRING="Checking filesystems"
 	echo $STRING
 	initlog -c "fsck -T -R -A -a $fsckoptions"
