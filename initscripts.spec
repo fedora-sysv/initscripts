@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.39
+%define version 4.40
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
@@ -198,6 +198,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Sun Sep 12 1999 Bill Nottingham <notting@redhat.com>
+- a couple of /bin/sh -> /bin/bash fixes
+- fix swapoff silliness
+
 * Fri Sep 10 1999 Bill Nottingham <notting@redhat.com>
 - chkconfig --del in %preun, not %postun
 - use killall5 in halt

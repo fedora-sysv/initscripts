@@ -38,7 +38,7 @@ check:
 	done
 
 changelog:
-	rcs2log | sed "s|@.*redhat\.com|@redhat.com|" | \
+	rcs2log | sed "s|@.*redhat\.com|@redhat.com|" | sed "s|@@|@|" | \
 	 sed "s|/mnt/devel/CVS/initscripts/||g" > changenew
 	 mv ChangeLog ChangeLog.old
 	 cat changenew ChangeLog.old > ChangeLog
