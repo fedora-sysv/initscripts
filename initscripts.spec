@@ -223,6 +223,10 @@ rm -rf $RPM_BUILD_ROOT
 	- remove some calls to basename/sed with shell builtins
 - sysconfig.txt: document new PROMPT=no default
 
+* Wed Oct 27 2004 Bill Nottingham <notting@redhat.com> 7.93.2-1
+- fix prefdm fallback to installed display managers (#137274)
+- fix incorrect rhgb temporary path (#137391)
+
 * Mon Oct 18 2004 Bill Nottingham <notting@redhat.com> 7.93-1
 - translation updates
 - fix handling of GATEWAYDEV (#133575, <pekkas@netcore.fi>)
