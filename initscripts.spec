@@ -257,7 +257,7 @@ rm -rf $RPM_BUILD_ROOT
 * Wed Feb 28 2001 Nalin Dahyabhai <nalin@redhat.com>
 - usernetctl, ppp-watch: cleanups
 - netreport: use O_NOFOLLOW
-- ifup-ppp: let ppp-watch watch over demand-dialed connections
+- ifup-ppp: let ppp-watch watch over demand-dialed connections (#28927)
 
 * Tue Feb 27 2001 Bill Nottingham <notting@redhat.com>
 - don't run isapnp on isapnp-enabled 2.4 kernels (part of #29450)
