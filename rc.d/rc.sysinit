@@ -63,12 +63,8 @@ relabel_selinux() {
 	 *** depending on file system size.          ***
 	 "
     echo "0" > $selinuxfs/enforce
-    mount -n -o remount,rw /
-    mount -a
     /sbin/fixfiles -F relabel > /dev/null 2>&1 
     rm -f  /.autorelabel 
-    mount -n -o remount,ro /
-    umount -a
     echo "*** Enabling security enforcement.         ***"
     echo $SELINUX > $selinuxfs/enforce
 }

@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.86
+Version: 7.87
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -207,6 +207,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Oct  5 2004 Dan Walsh <notting@redhat.com> - 7.87-1
+- Change SELinux relabel to not remount / 
+
 * Fri Oct  1 2004 Bill Nottingham <notting@redhat.com> - 7.86-1
 - use /etc/hotplug/blacklist to blacklist modules in hardware init (#132719)
 - filter indic locales on the console (#134198)
