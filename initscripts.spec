@@ -1,10 +1,10 @@
 Summary: inittab and /etc/rc.d scripts
 Name: initscripts
-%define version 3.84
+%define version 3.85
 Version: %{version}
 Copyright: GPL
 Group: Base
-Release: 2
+Release: 1
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /var/tmp/initbld
 Requires: mingetty, bash, mktemp, modutils >= 2.1.85-3, e2fsprogs, kbd
@@ -159,6 +159,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc sysconfig.txt
 
 %changelog
+* Wed Feb 10 1999 Bill Nottingham <notting@redhat.com>
+- turn off xdm in runlevel 5 (now a separate service)
+
 * Thu Feb  4 1999 Bill Nottingham <notting@redhat.com>
 - bugfixes (ifup-ppp, kill -TERM, force fsck, hwclock --adjust, setsysfont)
 - add initlog support. Now everything is logged (and bootup looks different)
