@@ -371,6 +371,21 @@ Files in /etc/sysconfig
   BACKUPTAB=/etc/backuptab
     The file in which we keep our list of backup(s) we want to make.
 
+/etc/sysconfig/saslauthd:
+
+  used by the saslauthd init script (part of the cyrus-sasl package) to
+  control which arguments are passed to saslauthd at startup time; changes
+  made to this file have no effect until saslauthd is restarted
+
+  MECH=shadow
+    controls which data source saslauthd will consult when checking user
+    passwords; run 'saslauthd -a' to get a full list of available
+    authentication mechanisms
+  SOCKETDIR=/var/run/saslauthd
+    controls in which directory saslauthd will be directed to create its
+    listening socket; any change to this value will require a corresponding
+    change in client configuration files
+
 /etc/sysconfig/sendmail:
   DAEMON=yes|no
     yes implies -bd (i.e., listen on port 25 for new mail)
