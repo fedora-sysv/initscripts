@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.91
+Version: 7.92
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -206,6 +206,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Oct 18 2004 Bill Nottingham <notting@redhat.com> 7.92-1
+- translation updates
+- fix handling of GATEWAYDEV (#133575, <pekkas@netcore.fi>)
+
 * Sun Oct 17 2004 Bill Nottingham <notting@redhat.com> 7.91-1
 - rc.d/rc.sysinit: remove devlabel call
 - mdadm support, now that raidtools is gone (#126636, #88785)
