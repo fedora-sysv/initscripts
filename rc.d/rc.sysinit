@@ -187,7 +187,7 @@ if [ $usb = "1" ]; then
     fi
 fi
 
-if [ -f /fastboot -o grep -q "fastboot" /proc/cmdline 2>/dev/null ]; then
+if [ -f /fastboot ] || grep -q "fastboot" /proc/cmdline 2>/dev/null ; then
 	fastboot=yes
     else
         fastboot=
