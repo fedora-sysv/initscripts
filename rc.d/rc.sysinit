@@ -422,9 +422,6 @@ if [ -z "$fastboot" -a "$READONLY" != "yes" ]; then
 fi
 # Unmount the initrd, if necessary
 if LC_ALL=C fgrep -q /initrd /proc/mounts && ! LC_ALL=C fgrep -q /initrd/loopfs /proc/mounts ; then
-   if [ -e /initrd/dev/.devfsd ]; then
-      umount /initrd/dev
-   fi
    umount /initrd
    /sbin/blockdev --flushbufs /dev/ram0 >/dev/null 2>&1
 fi
@@ -478,13 +475,12 @@ fi
 # Remove stale backups
 rm -f /etc/mtab~ /etc/mtab~~
 
-# Enter root, /proc and (potentially) /proc/bus/usb and devfs into mtab.
+# Enter root, /proc and (potentially) /proc/bus/usb into mtab.
 mount -f /
 mount -f /proc
 mount -f /sys >/dev/null 2>&1
 mount -f /dev/pts
 [ -f /proc/bus/usb/devices ] && mount -f -t usbfs usbfs /proc/bus/usb
-[ -e /dev/.devfsd ] && mount -f -t devfs devfs /dev 
 
 # The root filesystem is now read-write, so we can now log
 # via syslog() directly..
