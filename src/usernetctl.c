@@ -91,8 +91,17 @@ int userCtl(char * file) {
 	*(++chptr) = '\0';
 
 	if (!strncmp(contents, "USERCTL=", 8)) {
-	    if (!strcmp(contents+8, "yes")) return FOUND_TRUE;
-	    else return FOUND_FALSE;
+	    contents += 8;
+	    if (contents[0] == '"' &&
+		contents[strlen(contents) - 1] == '"') {
+		contents++;
+		contents[strlen(contents) - 1] = '\0';
+	    }
+
+	    if (!strcmp(contents, "yes") || !strcmp(contents, "true")) 
+		return FOUND_TRUE;
+	    else 
+		return FOUND_FALSE;
 	}
 
 	contents = end;

@@ -153,6 +153,11 @@ rm -rf $RPM_BUILD_ROOT
 %doc sysconfig.txt
 
 %changelog
+
+* Wed Jul 01 1998 Erik Troan <ewt@redhat.com>
+
+- usernetctl didn't understand "" around USERCTL attribute
+
 * Wed Jul  1 1998 Jeff Johnson <jbj@redhat.com>
 - Use /proc/version to find preferred modules.
 - Numerous buglets fixed.
