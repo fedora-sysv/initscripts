@@ -511,7 +511,7 @@ chmod 600 /var/lib/random-seed
 dd if=/dev/urandom of=/var/lib/random-seed count=1 bs=512 2>/dev/null
 
 # Use the hardware RNG to seed the entropy pool, if available
-[ -x /sbin/rngd -a -f /dev/hw_random ] && rngd
+[ -x /sbin/rngd -a -c /dev/hw_random ] && rngd
 
 # Configure machine if necessary.
 if [ -f /.unconfigured ]; then
