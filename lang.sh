@@ -4,7 +4,9 @@ if [ -f /etc/sysconfig/i18n ]; then
     . /etc/sysconfig/i18n
     if [ -n "$LANG" ] ; then
        [ "$LANG" = "C" ] && LANG="en_US"
-       export LANG || unset LANG
+       export LANG
+    else
+      unset LANG
     fi
     [ -n "$LC_CTYPE" ] && export LC_CTYPE || unset LC_CTYPE
     [ -n "$LC_COLLATE" ] && export LC_COLLATE || unset LC_COLLATE
@@ -14,12 +16,16 @@ if [ -f /etc/sysconfig/i18n ]; then
     [ -n "$LC_TIME" ] && export LC_TIME || unset LC_TIME
     if [ -n "$LC_ALL" ]; then
        [ "$LC_ALL" = "C" ] && LC_ALL="en_US"
-       export LC_ALL || unset LC_ALL
+       export LC_ALL
+    else
+       unset LC_ALL
     fi
     [ -n "$LANGUAGE" ] && export LANGUAGE || unset LANGUAGE
     if [ -n "$LINGUAS" ]; then
        [ "$LINGUAS" = "C" ] && LINGUAS="en_US"
-       export LINGUAS || unset LINGUAS
+       export LINGUAS
+    else 
+       unset LINGUAS
     fi
     [ -n "$_XKB_CHARSET" ] && export _XKB_CHARSET || unset _XKB_CHARSET
 
