@@ -162,6 +162,9 @@ detach(char *device) {
      * of the pppd process to its parent (i.e., it reads nothing). */
     close (pipeArray[0]);
 
+    /* Don't leak this into programs we call. */
+    fcntl(pipeArray[1], F_SETFD, FD_CLOEXEC);
+
     /* Redirect stdio to /dev/null. */
     fd = open("/dev/null", O_RDONLY);
     dup2(fd, STDIN_FILENO);
