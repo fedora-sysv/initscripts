@@ -240,6 +240,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Wed Nov  7 2001 Than Ngo <than@redhat.com>
+- fix bug in setting netmask on s390/s390x (bug #55421)
+  nmbd daemon works now ;-)
+
 * Fri Nov  2 2001 Than Ngo <than@redhat.com>
 - fixed typo bug ifup-ippp
 

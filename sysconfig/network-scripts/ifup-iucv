@@ -24,9 +24,9 @@ then
 fi
 [ -n "${MTU}" ] && opts="${opts} mtu ${MTU}"
 
-ifconfig ${DEVICE} ${IPADDR} ${opts} pointopoint ${REMIP}
+ifconfig ${DEVICE} ${IPADDR} ${opts} pointopoint ${REMIP} netmask ${NETMASK}
 if [ "${NETWORK}" != "" ] ; then
-	route add -net ${NETWORK} netmask ${NETMASK} ${DEVICE}
+	route add -host ${REMIP} metric 1 ${DEVICE}
 fi
 
 . /etc/sysconfig/network
