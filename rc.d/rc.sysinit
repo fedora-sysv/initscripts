@@ -146,25 +146,29 @@ fi
 
 # Initialize USB controller and HID devices
 
-usb=1
-modprobe usb-controller 2>/dev/null || usb=0
-if [ $usb = "0" ] ; then
-    usbpresent=`grep -i usb /proc/pci`
-    uhci=`grep -A2 -i usb /proc/pci |grep "I/O at"`
+if [  grep -q "nousb" /proc/cmdline 2>/dev/null ]; then
+    usb=0
+else
+    usb=1
+    modprobe usb-controller 2>/dev/null || usb=0
+    if [ $usb = "0" ] ; then
+	usbpresent=`grep -i usb /proc/pci`
+	uhci=`grep -A2 -i usb /proc/pci |grep "I/O at"`
 
-    # Don't try to initialize disabled USB controllers
-    uhciirq=`grep -A1 -i usb /proc/pci |grep "IRQ"`
-    if [ -n "$usbpresent" ]; then
-	usb=1
-	if [ -n "$uhci" ] && [ -n "$uhciirq" ] ; then
-	    modprobe uhci 2>/dev/null || usb=0
-	else
-	    modprobe usb-ohci 2>/dev/null || usb=0
+	# Don't try to initialize disabled USB controllers
+	uhciirq=`grep -A1 -i usb /proc/pci |grep "IRQ"`
+	if [ -n "$usbpresent" ]; then
+	    usb=1
+	    if [ -n "$uhci" ] && [ -n "$uhciirq" ] ; then
+		modprobe uhci 2>/dev/null || usb=0
+	    else
+		modprobe usb-ohci 2>/dev/null || usb=0
+	    fi
 	fi
-   fi
-fi
-if [ $usb = "1" ]; then
-    action "Initializing USB controller: " /bin/true
+    fi
+    if [ $usb = "1" ]; then
+	action "Initializing USB controller: " /bin/true
+    fi
 fi
 
 if [ $usb = "1" ]; then
@@ -272,7 +276,7 @@ rm -f /etc/mtab~ /etc/mtab~~
 # Enter root and /proc and /proc/bus/usb into mtab.
 mount -f /
 mount -f /proc
-[ -f /proc/bus/usb/devices ] && mount -f /proc/bus/usb
+[ -f /proc/bus/usb/devices ] && mount -f -t usbdevfs usbdevfs /proc/bus/usb
 
 # Turn on harddisk optimization
 if [ -f /etc/sysconfig/harddisks ]  && [ -x /sbin/hdparm ]; then

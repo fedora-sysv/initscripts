@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.34
+Version: 5.35
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -229,6 +229,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Jul 18 2000 Trond Eivind Glomsrød <teg@redhat.com>
+- add "nousb" command line parameter
+- fix some warnings when mounting /proc/bus/usb
+
 * Sat Jul 15 2000 Matt Wilson <msw@redhat.com>
 - kill all the PreTransaction stuff
 - directory ownership cleanups, add more LSB symlinks
