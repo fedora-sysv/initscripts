@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.61
+Version: 6.62
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -244,6 +244,13 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Tue Apr 09 2002 Bill Nottingham <notting@redhat.com> 6.62-1
+- delete X/VNC locks on startup (#63035)
+- shut up DMA disabling, move it to after ide-scsi (#62873, #62956)
+- use full path to /sbin/ifconfig (#59457)
+- /sbin/service: change to root directory before staring/stopping;
+  also sanitize environment
+		
 * Tue Apr 02 2002 Bill Nottingham <notting@redhat.com> 6.61-1
 - when disabling DMA, don't use things in /usr
 
