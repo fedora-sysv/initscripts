@@ -1,6 +1,6 @@
 Summary: inittab and /etc/rc.d scripts
 Name: initscripts
-Version: 3.15
+Version: 3.16
 Copyright: GPL
 Group: Base
 Release: 1
@@ -14,6 +14,11 @@ levels, and shut the system down cleanly. It also contains the scripts
 that activate and deactivate most network interfaces.
 
 %changelog
+
+* Mon Oct 06 1997 Erik Troan <ewt@redhat.com>
+
+- fixed network-scripts to allow full pathnames as config files
+- removed some old 3.0.3 pcmcia device handling
 
 * Wed Oct 01 1997 Michael K. Johnson <johnsonm@redhat.com>
 
