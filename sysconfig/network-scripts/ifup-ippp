@@ -181,7 +181,9 @@ function addprovider()
     [ -n "$CBHUP" ] && log_isdnctrl cbhup $DEVICE $CBHUP
  
     options="$options ipparam $DEVICE"
-    log_isdnctrl pppbind $DEVICE
+
+    [ "$ENCAP" = "syncppp" ] && log_isdnctrl pppbind $DEVICE
+
     if [ "$IPADDR" = "0.0.0.0" ]; then
         options="$options ipcp-accept-local"
     else

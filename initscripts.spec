@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.35
+Version: 6.36
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -239,6 +239,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Mon Sep  3 2001 Than Ngo <than@redhat.com>
+- don't start pppbind if encapsulation is rawip (bug #52491)
+
 * Sun Sep  2 2001 Than Ngo <than@redhat.com>
 - add ISDN patches from pekkas@netcore.fi and pb@bieringer.de (bug #52491)
 - fix handling of ISDN LSZ Compresssion
