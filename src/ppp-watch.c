@@ -166,12 +166,18 @@ detach(int now, int parentExitCode, char *device) {
 	    exit(exitCode);
 
 	} else {
+	    int devnull;
+		
 	    /* child process */
 	    close (pipeArray[0]);
 	    /* become a daemon */
-	    close (0);
-	    close (1);
-	    close (2);
+	    devnull = open("/dev/null", O_RDONLY);
+	    dup2(devnull,0);
+	    close(devnull);
+	    devnull = open("/dev/null", O_WRONLY);
+	    dup2(devnull,1);
+	    dup2(devnull,2);
+	    close(devnull);
 	    setsid();
 	    setpgid(0, 0);
 	}
