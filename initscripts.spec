@@ -166,6 +166,7 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/initlog
 /sbin/loglevel
 /sbin/minilogd
+/sbin/service
 /usr/man/man1/doexec.1
 /usr/man/man1/initlog.1
 /usr/man/man1/ipcalc.1

@@ -1,0 +1,11 @@
+#!/bin/sh
+
+if [ -z "$1" ]; then
+	echo "no service specified" >&2
+	exit 1
+elif [ -x "/etc/rc.d/init.d/$1" ]; then
+	"/etc/rc.d/init.d/$1" "basename \"$0\""
+else
+	echo "$1: unrecognized service" >&2
+	exit 1
+fi
