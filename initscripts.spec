@@ -40,24 +40,24 @@ mkdir -p $RPM_BUILD_ROOT/var/run/netreport
 chmod u=rwx,g=rwx,o=rx $RPM_BUILD_ROOT/var/run/netreport
 
 for i in 0 1 2 3 4 5 6 ; do
-  file=$RPM_BUILD_ROOT/etc/rc.d/rc$i.d
+  file=$RPM_BUILD_ROOT/etc/rc$i.d
   mkdir $file
 # chown root.root $file
   chmod u=rwx,g=rx,o=rx $file
 done
 
 # Can't store symlinks in a CVS archive
-ln -s ../init.d/killall $RPM_BUILD_ROOT/etc/rc.d/rc0.d/S00killall
-ln -s ../init.d/killall $RPM_BUILD_ROOT/etc/rc.d/rc6.d/S00killall
+ln -s ../init.d/killall $RPM_BUILD_ROOT/etc/rc0.d/S00killall
+ln -s ../init.d/killall $RPM_BUILD_ROOT/etc/rc6.d/S00killall
 
-ln -s ../init.d/halt $RPM_BUILD_ROOT/etc/rc.d/rc0.d/S01halt
-ln -s ../init.d/halt $RPM_BUILD_ROOT/etc/rc.d/rc6.d/S01reboot
+ln -s ../init.d/halt $RPM_BUILD_ROOT/etc/rc0.d/S01halt
+ln -s ../init.d/halt $RPM_BUILD_ROOT/etc/rc6.d/S01reboot
 
-ln -s ../init.d/single $RPM_BUILD_ROOT/etc/rc.d/rc1.d/S00single
+ln -s ../init.d/single $RPM_BUILD_ROOT/etc/rc1.d/S00single
 
-ln -s ../rc.local $RPM_BUILD_ROOT/etc/rc.d/rc2.d/S99local
-ln -s ../rc.local $RPM_BUILD_ROOT/etc/rc.d/rc3.d/S99local
-ln -s ../rc.local $RPM_BUILD_ROOT/etc/rc.d/rc5.d/S99local
+ln -s ../rc.local $RPM_BUILD_ROOT/etc/rc2.d/S99local
+ln -s ../rc.local $RPM_BUILD_ROOT/etc/rc3.d/S99local
+ln -s ../rc.local $RPM_BUILD_ROOT/etc/rc5.d/S99local
 
 mkdir -p $RPM_BUILD_ROOT/var/{log,run}
 touch $RPM_BUILD_ROOT/var/run/utmp
@@ -66,6 +66,14 @@ touch $RPM_BUILD_ROOT/var/log/wtmp
 
 %pre
 /usr/sbin/groupadd -g 22 -r -f utmp
+if [ -d /etc/rc.d -a -d /etc/init.d ]; then
+   echo "can't move /etc/rc.d/init.d -> /etc/init.d - bailing"
+   exit 1
+fi
+if [ -d /etc/rc.d ]; then
+   mv /etc/rc.d/* /etc
+   ln -snf /etc /etc/rc.d
+fi
 
 %post
 touch /var/log/wtmp
@@ -182,14 +190,14 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/sysconfig/network-scripts/ifup-ipx
 %config /etc/X11/prefdm
 %config /etc/inittab
-%dir    /etc/rc.d
-%config /etc/rc.d/rc.sysinit
-%dir    /etc/rc.d/rc*.d
-%config(missingok) /etc/rc.d/rc*.d/*
-%dir    /etc/rc.d/init.d
-%config(missingok) /etc/rc.d/init.d/*
-%config /etc/rc.d/rc
-%config(noreplace) /etc/rc.d/rc.local
+/etc/rc.d
+%config /etc/rc.sysinit
+%dir    /etc/rc*.d
+%config(missingok) /etc/rc*.d/*
+%dir    /etc/init.d
+%config(missingok) /etc/init.d/*
+%config /etc/rc
+%config(noreplace) /etc/rc.local
 %config(noreplace) /etc/sysctl.conf
 %config /etc/profile.d/lang.sh
 %config /etc/profile.d/lang.csh

@@ -10,7 +10,7 @@
 #
 
 # Source function library.
-. /etc/rc.d/init.d/functions
+. /etc/init.d/functions
 
 # Now find out what the current and what the previous runlevel are.
 argv1="$1"
@@ -35,12 +35,12 @@ fi
 [ "$1" != "" ] && runlevel="$argv1"
 
 # Tell linuxconf what runlevel we are in
-[ -d /var/run ] && echo "/etc/rc.d/rc$runlevel.d" > /var/run/runlevel.dir
+[ -d /var/run ] && echo "/etc/rc$runlevel.d" > /var/run/runlevel.dir
 
 # Is there an rc directory for this new runlevel?
-if [ -d /etc/rc.d/rc$runlevel.d ]; then
+if [ -d /etc/rc$runlevel.d ]; then
 	# First, run the KILL scripts.
-	for i in /etc/rc.d/rc$runlevel.d/K*; do
+	for i in /etc/rc$runlevel.d/K*; do
 		# Check if the script is there.
 		[ ! -f $i ] && continue
 
@@ -50,7 +50,7 @@ if [ -d /etc/rc.d/rc$runlevel.d ]; then
 		[ "${i%.rpmnew}" != "${i}" ] && continue
 
 		# Check if the subsystem is already up.
-		subsys=${i#/etc/rc.d/rc$runlevel.d/K??}
+		subsys=${i#/etc/rc$runlevel.d/K??}
 		[ ! -f /var/lock/subsys/$subsys ] && \
 		    [ ! -f /var/lock/subsys/${subsys}.init ] && continue
 
@@ -63,7 +63,7 @@ if [ -d /etc/rc.d/rc$runlevel.d ]; then
 	done
 
 	# Now run the START scripts.
-	for i in /etc/rc.d/rc$runlevel.d/S*; do
+	for i in /etc/rc$runlevel.d/S*; do
 		# Check if the script is there.
 		[ ! -f $i ] && continue
 
@@ -73,7 +73,7 @@ if [ -d /etc/rc.d/rc$runlevel.d ]; then
 		[ "${i%.rpmnew}" != "${i}" ] && continue
 
 		# Check if the subsystem is already up.
-		subsys=${i#/etc/rc.d/rc$runlevel.d/S??}
+		subsys=${i#/etc/rc$runlevel.d/S??}
 		[ -f /var/lock/subsys/$subsys ] || \
 		    [ -f /var/lock/subsys/${subsys}.init ] && continue
 		    

@@ -1,13 +1,13 @@
 #!/bin/sh
 #
-# /etc/rc.d/rc.sysinit - run once at boot time
+# /etc/rc.sysinit - run once at boot time
 #
 # Taken in part from Miquel van Smoorenburg's bcheckrc.
 #
 
 # Rerun ourselves through initlog
 if [ -z "$IN_INITLOG" ]; then
- [ -f /sbin/initlog ] && exec /sbin/initlog $INITLOG_ARGS -r /etc/rc.d/rc.sysinit
+ [ -f /sbin/initlog ] && exec /sbin/initlog $INITLOG_ARGS -r /etc/rc.sysinit
 fi
 
 # If we're using devfs, start devfsd now - we need the old device names
@@ -30,7 +30,7 @@ else
 fi
 
 # Source functions
-. /etc/rc.d/init.d/functions
+. /etc/init.d/functions
 
 # Print a banner. ;)
 echo -en "\t\t\tWelcome to "
@@ -304,8 +304,8 @@ if [ -f /proc/sys/kernel/modprobe ]; then
 fi
 
 # Load modules (for backward compatibility with VARs)
-if [ -f /etc/rc.d/rc.modules ]; then
-	/etc/rc.d/rc.modules
+if [ -f /etc/rc.modules ]; then
+	/etc/rc.modules
 fi
 
 # Add raid devices
@@ -492,8 +492,8 @@ swapon -a >/dev/null 2>&1
 action "Enabling swap space" /bin/true
 
 # Initialize the serial ports.
-if [ -f /etc/rc.d/rc.serial ]; then
-	. /etc/rc.d/rc.serial
+if [ -f /etc/rc.serial ]; then
+	. /etc/rc.serial
 fi
 
 # If a SCSI tape has been detected, load the st module unconditionally
