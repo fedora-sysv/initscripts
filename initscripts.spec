@@ -1,9 +1,9 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.32
+Version: 5.33
 Copyright: GPL
 Group: System Environment/Base
-Release: 2
+Release: 1
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /%{_tmppath}/%{name}-%{version}-%{release}-root
 Requires: mingetty, /bin/awk, /bin/sed, mktemp, e2fsprogs >= 1.15, console-tools
@@ -195,6 +195,8 @@ rm -rf $RPM_BUILD_ROOT
 /etc/rc[0-9].d
 %config(missingok) /etc/rc.d/rc[0-9].d/*
 /etc/init.d
+/etc/rc
+/etc/rc.sysinit
 %config(missingok) /etc/rc.d/init.d/*
 %config /etc/rc.d/rc
 %config(noreplace) /etc/rc.d/rc.local
