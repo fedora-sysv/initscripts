@@ -212,7 +212,8 @@ action() {
   if [ -z "$IN_INITLOG" ]; then
       initlog $INITLOG_ARGS -c "$*" && success "$STRING" || failure "$STRING"
       rc=$?
-      [ "$BOOTUP" = "color" ] && echo
+#      [ "$BOOTUP" = "color" ] && echo
+      echo
       return $rc
   else
       # This sucks.
@@ -225,10 +226,16 @@ action() {
       fi
 
       if [ $rc ]; then
-         [ "$BOOTUP" = "color" ] || { echo ; echo $output ; }
+	 [ "$BOOTUP" != "color" ] && {
+	    if [ -n "$output" ]; then
+	      echo
+	      echo $output
+	    else
+	      echo
+	    fi
+	 }
          success "$STRING"
       else
-         echo
          echo $output
          failure "$STRING"
       fi

@@ -26,7 +26,7 @@ fi
 . /etc/rc.d/init.d/functions
 
 # Fix console loglevel
-/sbin/loglevel 1
+/sbin/loglevel $LOGLEVEL
 
 # Start up swapping.
 action "Activating swap partitions" swapon -a
@@ -157,8 +157,6 @@ if [ -n "$USEMODULES" ]; then
    fi
 fi
 
-if [ -n "$USEMODULES" ]; then
-    
 if [ -f /proc/sys/kernel/modprobe ]; then
    # /proc/sys/kernel/modprobe indicates built-in kmod instead
    if [ -n "$USEMODULES" ]; then
@@ -308,7 +306,7 @@ $CLOCK $CLOCKFLAGS
 action "Setting clock $CLOCKDEF: `date`" date
 
 # Right, now turn on swap in case we swap to files.
-swapon -a 2>&1 >/dev/null
+swapon -a >/dev/null 2>&1
 action "Enabling swap space" /bin/true
 
 # Initialize the serial ports.
