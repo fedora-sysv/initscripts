@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.93.10.EL
+Version: 7.93.11.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -206,6 +206,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Nov 24 2004 Bill Nottingham <notting@redhat.com> 7.93.11.EL-1
+- don't mount GFS in netfs (#140281)
+- fix various minilogd errors (#106338)
+
 * Mon Nov 15 2004 Karsten Hopp <karsten@redhat.de> 7.93.10.EL-1 
 - configure the CTC protocol if CTCPROT is set (mainframe)
 
