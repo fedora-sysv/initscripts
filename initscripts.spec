@@ -4,7 +4,7 @@ Name: initscripts
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
-Release: 5
+Release: 6
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /var/tmp/initbld
 Requires: mingetty, bash, /bin/awk, mktemp, modutils >= 2.1.85-3, e2fsprogs, sysklogd >= 1.3.31, pump
@@ -168,6 +168,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc sysconfig.txt
 
 %changelog
+* Mon Mar 22 1999 Bill Nottingham <notting@redhat.com>
+- don't source /etc/sysconfig/init if $BOOTUP is already set
+
 * Fri Mar 19 1999 Bill Nottingham <notting@redhat.com>
 - don't run linuxconf if /usr isn't mounted
 - set macaddr before bootp
