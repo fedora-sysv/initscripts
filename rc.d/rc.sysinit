@@ -730,6 +730,7 @@ fi
 shopt -s nullglob
 for library in /lib/kernel/$(uname -r)/libredhat-kernel.so* ; do
 	ln -s -f $library /lib/
+	ldconfig -n /lib/
 done
 shopt -u nullglob
 
