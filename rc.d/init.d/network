@@ -67,7 +67,7 @@ case "$1" in
 	    ;;
 	esac
 
-	oldhotplug=`sysctl kernel.hotplug | awk '{ print $3 }' 2>/dev/null`
+	oldhotplug=`sysctl kernel.hotplug  2>/dev/null| awk '{ print $3 }' 2>/dev/null`
 	sysctl -w kernel.hotplug="/bin/true" > /dev/null 2>&1
 
 	for i in $interfaces; do
