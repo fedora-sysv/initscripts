@@ -127,8 +127,7 @@ fi
 
 # Is there a firewall running, and does it look like one we configured?
 FWACTIVE=
-if [ -f /etc/sysconfig/ipchains -a \
-    "`ipchains -L input -n 2>&1 | awk 'END { print NR }'`" -gt 1 ]; then
+if iptables -L 2>/dev/null | grep -q RH-Lokkit-0-50-INPUT ; then
     FWACTIVE=1
 fi
 
@@ -179,7 +178,7 @@ if [ -n "${DYNCONFIG}" ]; then
     # what DNS server they're using until they are done.
     FWHACK=
     if [ -n "$FWACTIVE" -a "$FIREWALL_MODS" != "no" ]; then
-        ipchains -I input -s 0/0 53 -d 0/0 1025:65535 -p udp -j ACCEPT
+        iptables -A RH-Lokkit-0-50-INPUT -s 0/0 --sport 53 -d 0/0 --dport 1025:65535 -p udp -m udp -j ACCEPT
 	FWHACK=1
     fi
     
@@ -191,11 +190,11 @@ if [ -n "${DYNCONFIG}" ]; then
 	echo $" done."
     else
 	echo $" failed."
-	[ -n "$FWHACK" ] && ipchains -D input -s 0/0 53 -d 0/0 1025:65535 -p udp -j ACCEPT
+	[ -n "$FWHACK" ] && iptables -D RH-Lokkit-0-50-INPUT -s 0/0 --sport 53 -d 0/0 --dport 1025:65535 -p udp -m udp -j ACCEPT
 	exit 1
     fi
 
-    [ -n "$FWHACK" ] && ipchains -D input -s 0/0 53 -d 0/0 1025:65535 -p udp -j ACCEPT
+    [ -n "$FWHACK" ] && iptables -D RH-Lokkit-0-50-INPUT -s 0/0 --sport 53 -d 0/0 --dport 1025:65535 -p udp -m udp -j ACCEPT
 
     # DHCP likes to create duplicate routes.  Fix that up.
     NUMDEFROUTES=`ip -o route | \
