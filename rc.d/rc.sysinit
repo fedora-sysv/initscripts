@@ -118,7 +118,7 @@ fi
 mount -f /
 mount -f /proc
 
-if [ -f /proc/ksyms ]; then
+if ! grep -i nomodules /proc/cmdline >/dev/null && [ -f /proc/ksyms ]; then
     USEMODULES=y
 else
     USEMODULES=
@@ -148,25 +148,28 @@ if [ -x /sbin/depmod -a -n "$USEMODULES" ]; then
 fi
 
 # load sound modules
-if ! grep -i nomodules /proc/cmdline >/dev/null ; then
-    if [ -n "$USEMODULES" ]; then
-	if grep -s "alias sound" /etc/conf.modules > /dev/null ; then
-	    action "Loading sound module" modprobe sound
-	    if grep -s "alias midi" /etc/conf.modules > /dev/null ; then
-		action "Loading midi module" modprobe midi
-	    fi
-	fi
-    fi
+if [ -n "$USEMODULES" ]; then
+   if grep -s "alias sound" /etc/conf.modules > /dev/null ; then
+      action "Loading sound module" modprobe sound
+   fi
+   if grep -s "alias midi" /etc/conf.modules > /dev/null ; then
+      action "Loading midi module" modprobe midi
+   fi
 fi
 
-if [ -x /sbin/kerneld -a -n "$USEMODULES" ]; then
-    if [ -f /proc/sys/kernel/modprobe ]; then
-	# /proc/sys/kernel/modprobe indicates built-in kmod instead
-	echo "/sbin/modprobe" > /proc/sys/kernel/modprobe
-    else
-	/sbin/kerneld
-	KERNELD=yes
-    fi
+if [ -n "$USEMODULES" ]; then
+    
+if [ -f /proc/sys/kernel/modprobe ]; then
+   # /proc/sys/kernel/modprobe indicates built-in kmod instead
+   if [ -n "$USEMODULES" ]; then
+       echo "/sbin/modprobe" > /proc/sys/kernel/modprobe
+   else
+       echo "" > /proc/sys/kernel/modprobe
+   fi
+else
+   if [ -n "$USEMODULES" ]; then
+      [ -x /sbin/kerneld ] && action "Starting kerneld" /sbin/kerneld && KERNELD=yes
+   fi
 fi
 
 # Add raid devices
@@ -305,7 +308,8 @@ $CLOCK $CLOCKFLAGS
 action "Setting clock $CLOCKDEF: `date`" date
 
 # Right, now turn on swap in case we swap to files.
-action "Enabling swap space" swapon -a 2>&1 | grep -v "busy"
+swapon -a 2>&1 >/dev/null
+action "Enabling swap space" /bin/true
 
 # Initialize the serial ports.
 if [ -f /etc/rc.d/rc.serial ]; then

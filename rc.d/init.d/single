@@ -26,7 +26,11 @@ rm -f /var/lock/subsys/*
 [ -x /usr/bin/clear ] && /usr/bin/clear
 
 # we just killed kerneld :-(
-/etc/rc.d/init.d/kerneld start
+if [ -f /proc/sys/kernel/modprobe ]; then
+   # /proc/sys/kernel/modprobe indicates built-in kmod instead
+   echo "/sbin/modprobe" > /proc/sys/kernel/modprobe
+else
+   /etc/rc.d/init.d/kerneld start
 
 # Now go to the single user level.
 echo "Telling INIT to go to single user mode."
