@@ -18,7 +18,7 @@ fi
 
 start_panu()
 {
-	PANDARGS="--persist --pidfile=/var/run/pand-${DEVICE}.pid --device=${DEVICE} --autozap"
+	PANDARGS="--persist --pidfile=/var/run/pand-${DEVICE}.pid --ethernet=${DEVICE} --autozap"
 	[ "${CACHE}" != "no" -a "${CACHE}" != "NO" ] && PANDARGS="${PANDARGS} --cache"
 	if [ "${REMOTEBDADDR}" = "" ]; then
 		PANDARGS="${PANDARGS} --search"
