@@ -116,7 +116,7 @@ daemon() {
         [ -z $gotbase ] && base=${1##*/}
 
         # See if it's already running. Look *only* at the pid file.
-        pidlist=`pidfileofproc $base`
+        pid=`pidfileofproc $base`
 	
 	[ -n "$pid" ] && return
 
