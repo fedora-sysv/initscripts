@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.35
+Version: 7.36
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -249,6 +249,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Oct  8 2003 Bill Nottingham <notting@redhat.com. 7.36-1
+- mount /dev/pts before starting rhgb
+
 * Wed Oct  1 2003 Bill Nottingham <notting@redhat.com> 7.35-1
 - load acpi modules on startup if necessary
 - fix typo in ipsec comments & sysconfig.txt
