@@ -10,7 +10,7 @@ export PATH
 get_hwaddr ()
 {
     LC_ALL= LANG= ip -o link show ${1} 2>/dev/null | \
-      sed 's/.*link\/ether \([[:alnum:]:]*\).*/\1/' | \
+      sed 's/.*link\/[^ ]* \([[:alnum:]:]*\).*/\1/' | \
       awk '{ print toupper($0) }'
 }    
 
