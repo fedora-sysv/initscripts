@@ -108,9 +108,7 @@ esac
 
 action $"Setting clock $CLOCKDEF: `date`" date
 
-if [ "`/sbin/consoletype`" = "vt" ]; then
- # Load keymap
- if [ -x /bin/loadkeys ]; then
+if [ "`/sbin/consoletype`" = "vt" -a -x /bin/loadkeys ]; then
  KEYTABLE=
  KEYMAP=
  if [ -f /etc/sysconfig/console/default.kmap ]; then
@@ -133,18 +131,17 @@ if [ "`/sbin/consoletype`" = "vt" ]; then
   loadkeys $KEYMAP < /dev/tty0 > /dev/tty0 2>/dev/null && \
      success $"Loading default keymap" || failure $"Loading default keymap"
   echo
- fi   
  fi
 
  # Load system font
  if [ -x /sbin/setsysfont ]; then
     [ -f /etc/sysconfig/i18n ] && . /etc/sysconfig/i18n
-    case $LANG in 
-    	*.utf8|*.UTF-8)
-		action $"Setting default font ($SYSFONT): " /bin/unicode_start $SYSFONT
+    case "$LANG" in 
+      *.utf8|*.UTF-8)
+	action $"Setting default font ($SYSFONT): " /bin/unicode_start $SYSFONT
 	;;
-	*)
-                action $"Setting default font ($SYSFONT): " /sbin/setsysfont
+      *)
+	action $"Setting default font ($SYSFONT): " /sbin/setsysfont
 	;;
     esac
  fi
