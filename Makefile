@@ -12,6 +12,7 @@ install:
 	install -m644  adjtime $(ROOT)/etc
 	install -m755  setsysfont $(ROOT)/sbin
 	install -m755  lang.sh $(ROOT)/etc/profile.d
+	install -m755  lang.sh $(ROOT)/etc/profile.d
 	install -m755  service $(ROOT)/sbin
 	mkdir -p $(ROOT)/etc/X11
 	install -m755 prefdm $(ROOT)/etc/X11/prefdm
