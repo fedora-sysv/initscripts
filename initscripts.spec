@@ -1,10 +1,10 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.93
+%define version 4.94
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
-Release: 2
+Release: 1
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /%{_tmppath}/%{name}-%{version}-%{release}-root
 Requires: mingetty, /bin/awk, /bin/sed, mktemp, e2fsprogs >= 1.15, console-tools
@@ -228,6 +228,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Feb 17 2000 Bill Nottingham <notting@redhat.com>
+- sanitize repair prompt
+
 * Mon Feb 14 2000 Nalin Dahyabhai <nalin@redhat.com>
 - add which as a package dependency (bug #9416)
 
