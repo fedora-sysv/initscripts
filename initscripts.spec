@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.55.1
+Version: 7.55.2
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -249,6 +249,19 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Jan 11 2005 Bill Nottingham <notting@redhat.com> 7.55.2-1
+- use usbfs, not usbdevfs (#144756)
+- handle binfmt_misc here for the case where it's built in (#129954)
+- use s-c-keyboard, not kbdconfig (#133929)
+- fix various minilogd bogosities (#106338)
+- fix bonding + no IP (#127825)
+- fix handling of nonexistent devices (#132839)
+- fix shell quoting in ifup
+- fix GATEWAYDEV (#133375, <pekkas@netcore.fi>)
+- fix typo (#134787, <bnocera@redhat.com>)
+- fix firmware loading (#129155)
+- change setting of IPv6 default route (#142308, <pb@bieringer.de>)
+
 * Mon Jul 12 2004 Bill Nottingham <notting@redhat.com> 7.55.1-1
 - build for FC2 update
   - rc.d/rc.sysinit: hack: make ICE directory on boot (#86480)
