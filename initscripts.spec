@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.48
+Version: 7.49
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -249,6 +249,11 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Mar 26 2004 Bill Nottingham <notting@redhat.com> 7.49-1
+- use alsa for mixer saving in halt
+- don't umount /proc in halt (#118880)
+- various translation updates from translators
+
 * Wed Mar 17 2004 Bill Nottingham <notting@redhat.com> 7.48-1
 - disable enforcing in emergency mode for now, relabel some commonly
   mislabeled files on boot
