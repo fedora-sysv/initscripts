@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.44
+%define version 4.45
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
@@ -195,6 +195,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Sep 20 1999 Michael K. Johnson <johnsonm@redhat.com>
+- changed to more modern defaults for PPP connections
+
 * Mon Sep 20 1999 Bill Nottingham <notting@redhat.com>
 - kill processes for umount in halt, too.
 - fixes to remove /usr dependencies
