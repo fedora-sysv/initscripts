@@ -78,11 +78,18 @@
 #include "shvar.h"
 
 static int theSigterm = 0;
+static int theSigint = 0;
 static int theSighup = 0;
 static int theSigio = 0;
 static int theSigchld = 0;
 
-static char *theBoot = NULL;
+
+
+static void
+cleanExit(int exitCode);
+
+
+
 
 static void
 detach(int now, int parentExitCode) {
@@ -146,9 +153,13 @@ doPidFile(char *device) {
 	sprintf(pidFilePath, "/var/run/pppwatch-%s.pid", pidFileName);
 	fd = open(pidFilePath, O_WRONLY|O_TRUNC|O_CREAT,
 		  S_IRUSR|S_IWUSR | S_IRGRP | S_IROTH);
-	f = fdopen(fd, "r+");
-	fprintf(f, "%d\n", getpid());
-	fclose(f);
+	f = fdopen(fd, "w");
+	if (f) {
+	    fprintf(f, "%d\n", getpid());
+	    fclose(f);
+	} else {
+	    cleanExit(31);
+	}
     }
 }
 
@@ -164,7 +175,7 @@ fork_exec(int wait, char *path, char *arg1, char *arg2, char *arg3)
 
     if (!(child = fork())) {
 	/* child */
-	execl(path, path, arg1, arg2, arg3, 0);
+	execl(path, path, arg1, arg2, arg3, NULL);
 	perror(path);
 	_exit (1);
     }
@@ -198,6 +209,8 @@ signal_handler (int signum) {
     switch(signum) {
     case SIGTERM:
 	theSigterm = 1; break;
+    case SIGINT:
+	theSigint = 1; break;
     case SIGHUP:
 	theSighup = 1; break;
     case SIGIO:
@@ -276,7 +289,7 @@ interfaceStatus(char *device) {
     if (!sock) return 0;
 
     memset(&ifr, 0, sizeof(ifr));
-    strcpy(ifr.ifr_name, device);
+    strncpy(ifr.ifr_name, device, IFNAMSIZ);
 
     if (ioctl(sock, SIOCGIFFLAGS, &ifr) < 0) {
         retcode = 0;
@@ -300,7 +313,8 @@ interfaceStatus(char *device) {
 int
 main(int argc, char **argv) {
     int status, waited;
-    char *device, *logicalDevice;
+    char *device, *physicalDevice = NULL;
+    char *theBoot = NULL;
     shvarFile *ifcfg;
     sigset_t sigs;
     int pppdPid;
@@ -317,27 +331,6 @@ main(int argc, char **argv) {
 
     detach(0, 0); /* prepare */
 
-    signal(SIGTERM, signal_handler);
-    signal(SIGHUP, signal_handler);
-    signal(SIGIO, signal_handler);
-    signal(SIGCHLD, signal_handler);
-
-    sigemptyset(&sigs);
-    sigaddset(&sigs, SIGTERM);
-    sigaddset(&sigs, SIGHUP);
-    sigaddset(&sigs, SIGIO);
-    sigaddset(&sigs, SIGCHLD);
-    sigprocmask(SIG_BLOCK, &sigs, NULL);
-
-    sigfillset(&sigs);
-    sigdelset(&sigs, SIGTERM);
-    sigdelset(&sigs, SIGHUP);
-    sigdelset(&sigs, SIGIO);
-    sigdelset(&sigs, SIGCHLD);
-
-    doPidFile(device);
-
-    fork_exec(1, "/sbin/netreport", NULL, NULL, NULL);
 
     if (argc > 2 && !strcmp("boot", argv[2])) {
 	theBoot = argv[2];
@@ -348,6 +341,38 @@ main(int argc, char **argv) {
     } else {
 	device = argv[1];
     }
+
+    doPidFile(device);
+
+    signal(SIGTERM, signal_handler);
+    signal(SIGINT, signal_handler);
+    signal(SIGHUP, signal_handler);
+    signal(SIGIO, signal_handler);
+    signal(SIGCHLD, signal_handler);
+
+    fork_exec(1, "/sbin/netreport", NULL, NULL, NULL);
+    theSigchld = 0;
+
+    /* don't set up the procmask until after we have received the netreport
+     * signal
+     */
+    sigemptyset(&sigs);
+    sigaddset(&sigs, SIGTERM);
+    sigaddset(&sigs, SIGINT);
+    sigaddset(&sigs, SIGHUP);
+    sigaddset(&sigs, SIGIO);
+    sigaddset(&sigs, SIGCHLD);
+    sigprocmask(SIG_BLOCK, &sigs, NULL);
+
+    /* prepare for sigsuspend later */
+    sigfillset(&sigs);
+    sigdelset(&sigs, SIGTERM);
+    sigdelset(&sigs, SIGINT);
+    sigdelset(&sigs, SIGHUP);
+    sigdelset(&sigs, SIGIO);
+    sigdelset(&sigs, SIGCHLD);
+
+
     ifcfg = shvarfilesGet(device);
     if (!ifcfg) cleanExit(28);
 
@@ -362,34 +387,34 @@ main(int argc, char **argv) {
 
     while (1) {
 	sigsuspend(&sigs);
-	if (theSigterm) {
-	    theSigterm = 0;
+	if (theSigterm || theSigint) {
+	    theSigterm = theSigint = 0;
 
 	    if (dieing) sendsig = SIGKILL;
 	    else sendsig = SIGTERM;
 	    dieing = 1;
 
-	    if (logicalDevice) free(logicalDevice);
-	    logicalDevice = pppLogicalToPhysical(&pppdPid, device);
-	    if (logicalDevice) free(logicalDevice);
-	    kill(-pppdPid, sendsig);
-	    cleanExit(0);
+	    if (physicalDevice) free(physicalDevice);
+	    physicalDevice = pppLogicalToPhysical(&pppdPid, device);
+	    if (physicalDevice) free(physicalDevice);
+	    kill(pppdPid, sendsig);
+	    if (sendsig == SIGKILL) cleanExit(32);
 	}
 	if (theSighup) {
 	    theSighup = 0;
 	    if (ifcfg->parent) svCloseFile(ifcfg->parent);
 	    svCloseFile(ifcfg);
 	    ifcfg = shvarfilesGet(device);
-	    logicalDevice = pppLogicalToPhysical(&pppdPid, device);
-	    if (logicalDevice) free(logicalDevice);
-	    kill(-pppdPid, SIGTERM);
+	    physicalDevice = pppLogicalToPhysical(&pppdPid, device);
+	    if (physicalDevice) free(physicalDevice);
+	    kill(pppdPid, SIGTERM);
 	    /* redial when SIGCHLD arrives */
 	    timeout = 1; /* give things time to stabilize... */
 	}
 	if (theSigio) {
 	    theSigio = 0;
-	    if (logicalDevice) {
-		free(logicalDevice);
+	    if (physicalDevice) {
+		free(physicalDevice);
 		temp = svGetValue(ifcfg, "DISCONNECTTIMEOUT");
 		if (temp) {
 		    timeout = atoi(temp);
@@ -398,9 +423,9 @@ main(int argc, char **argv) {
 		    timeout = 2;
 		}
 	    }
-	    logicalDevice = pppLogicalToPhysical(NULL, device);
-	    if (logicalDevice) {
-		if (interfaceStatus(device)) {
+	    physicalDevice = pppLogicalToPhysical(NULL, device);
+	    if (physicalDevice) {
+		if (interfaceStatus(physicalDevice)) {
 		    /* device is up */
 		    detach(1, 0);
 		}
@@ -412,6 +437,7 @@ main(int argc, char **argv) {
 	    if (waited < 0) continue;
 
 	    if (!WIFEXITED(status)) cleanExit(29);
+	    if (dieing) cleanExit(WEXITSTATUS(status));
 
 	    if (svTrueValue(ifcfg, "PERSIST", 0)) {
 		fork_exec(0, "/etc/sysconfig/network-scripts/ifup-ppp", "daemon", device, theBoot);
@@ -425,7 +451,7 @@ main(int argc, char **argv) {
 		tv.tv_sec = timeout;
 		select(0, NULL, NULL, NULL, &tv);
 	    } else {
-		cleanExit(0);
+		cleanExit(WEXITSTATUS(status));
 	    }
 	}
     }
