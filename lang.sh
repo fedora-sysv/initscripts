@@ -15,15 +15,23 @@ if [ -f /etc/sysconfig/i18n ]; then
     [ -n "$LC_MONETARY" ] && export LC_MONETARY || unset LC_MONETARY
     [ -n "$LC_TIME" ] && export LC_TIME || unset LC_TIME
     if [ -n "$LC_ALL" ]; then
-       [ "$LC_ALL" = "C" ] && LC_ALL="en_US"
-       export LC_ALL
+       if [ "$LC_ALL" != "$LANG" ]; then
+         [ "$LC_ALL" = "C" ] && LC_ALL="en_US"
+         export LC_ALL
+       else
+         unset LC_ALL
+       fi
     else
        unset LC_ALL
     fi
     [ -n "$LANGUAGE" ] && export LANGUAGE || unset LANGUAGE
     if [ -n "$LINGUAS" ]; then
-       [ "$LINGUAS" = "C" ] && LINGUAS="en_US"
-       export LINGUAS
+       if [ "$LINGUAS" != "$LANG" ]; then
+          [ "$LINGUAS" = "C" ] && LINGUAS="en_US"
+          export LINGUAS
+       else
+          unset LINGUAS
+       fi
     else 
        unset LINGUAS
     fi

@@ -3,6 +3,12 @@
 test -f /etc/sysconfig/i18n
 if ($status == 0) then
     eval `sed 's|=C$|=en_US|g' /etc/sysconfig/i18n | sed 's|\([^=]*\)=\([^=]*\)|setenv \1 \2|g' | sed 's|$|;|' `
+    if ($LC_ALL == $LANG) then
+       unsetenv LC_ALL
+    endif
+    if ($LINGUAS == $LANG) then
+       unsetenv LINGUAS
+    endif
 
     if ($?SYSFONTACM) then
         switch ($SYSFONTACM)
