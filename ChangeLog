@@ -1,4 +1,11 @@
-2001-07-26  Bill Nottingham <notting@redhat.com>
+2001-07-26  Bill Nottingham  <notting@redhat.com>
+
+	* ChangeLog, initscripts.spec: 6.10-1
+
+	* sysconfig/network-scripts/ifdown, sysconfig/network-scripts/ifup, sysconfig/network-scripts/network-functions:
+	- only bring link down if check_link_down fails
+	- add a sleep in check_link_down; some cards take time to negotiate
+	- only expand_config for the static IP case in ifdown
 
 	* ChangeLog, initscripts.spec: 6.09-1
 
