@@ -238,6 +238,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Wed Aug 15 2001 Bernhard Rosenkraenzer <bero@redhat.com>
+- adjust s390 patch
+- fix up ifup-ctc and mkkerneldoth.s390 (both are s390 specific)
+
 * Mon Aug 13 2001 Yukihiro Nakai <ynakai@redhat.com>
 - don't display Chinese Korean if we aren't on a pty
 

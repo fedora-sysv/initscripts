@@ -1,6 +1,6 @@
---- initscripts-5.97/rc.d/init.d/halt.s390init	Thu Jul  5 17:55:32 2001
-+++ initscripts-5.97/rc.d/init.d/halt	Thu Jul  5 17:54:42 2001
-@@ -110,7 +110,9 @@
+--- initscripts-6.14/rc.d/init.d/halt.s390init	Tue Aug  7 09:04:12 2001
++++ initscripts-6.14/rc.d/init.d/halt	Mon Aug 13 17:49:05 2001
+@@ -115,7 +115,9 @@
       ;;
  esac
  
@@ -11,8 +11,8 @@
  
  # Turn off swap, then unmount file systems.
  SWAPS=`awk '! /^Filename/ { print $1 }' /proc/swaps`
---- initscripts-5.97/rc.d/rc.sysinit.s390init	Thu Jun 21 19:06:53 2001
-+++ initscripts-5.97/rc.d/rc.sysinit	Thu Jul  5 17:55:07 2001
+--- initscripts-6.14/rc.d/rc.sysinit.s390init	Thu Aug  9 00:03:09 2001
++++ initscripts-6.14/rc.d/rc.sysinit	Mon Aug 13 17:51:55 2001
 @@ -105,9 +105,13 @@
       ;;
  esac
@@ -30,7 +30,7 @@
  
  if [ "`/sbin/consoletype`" = "vt" ]; then
   # Load keymap
-@@ -269,6 +273,9 @@
+@@ -290,6 +294,9 @@
      else
  	action $"Skipping ISA PNP configuration at users request: " /bin/true
      fi
@@ -40,7 +40,7 @@
  fi
  
  # Remount the root filesystem read-write.
-@@ -276,6 +283,24 @@
+@@ -297,6 +304,24 @@
  [ "$state" != "rw" ] && \
    action $"Remounting root filesystem in read-write mode: " mount -n -o remount,rw /
  
@@ -64,26 +64,46 @@
 +
  # LVM initialization
  if [ -e /proc/lvm -a -x /sbin/vgchange -a -f /etc/lvmtab ]; then
-         action $"Setting up LVM:" /sbin/vgscan && /sbin/vgchange -a y
-@@ -576,21 +601,6 @@
-     if [ -x /usr/bin/passwd ]; then 
-         /usr/bin/passwd root
+         action $"Setting up Logical Volume Management:" /sbin/vgscan && /sbin/vgchange -a y
+@@ -573,23 +598,29 @@
+ 
+ # Configure machine if necessary.
+ if [ -f /.unconfigured ]; then
+-    if [ -x /usr/bin/passwd ]; then 
+-        /usr/bin/passwd root
++    # on S390 console we don't have newt
++    if [ "`/bin/arch`" = "s390" ] ; then
++      ARCH=".s390"
++    else
++      ARCH=""
++    fi
++    if [ -x /usr/bin/passwd$ARCH ]; then 
++        /usr/bin/passwd$ARCH root
      fi
 -    if [ -x /usr/sbin/netconfig ]; then
 -	/usr/sbin/netconfig
--    fi
++    if [ -x /usr/sbin/netconfig$ARCH ]; then
++	/usr/sbin/netconfig$ARCH
+     fi
 -    if [ -x /usr/sbin/timeconfig ]; then
 -	/usr/sbin/timeconfig
--    fi
++    if [ -x /usr/sbin/timeconfig$ARCH ]; then
++	/usr/sbin/timeconfig$ARCH
+     fi
 -    if [ -x /usr/sbin/kbdconfig ]; then
 -	/usr/sbin/kbdconfig
--    fi
++    if [ -x /usr/sbin/kbdconfig$ARCH ]; then
++	/usr/sbin/kbdconfig$ARCH
+     fi
 -    if [ -x /usr/sbin/authconfig ]; then
 -	/usr/sbin/authconfig --nostart
--    fi
++    if [ -x /usr/sbin/authconfig$ARCH ]; then
++	/usr/sbin/authconfig$ARCH --nostart
+     fi
 -    if [ -x /usr/sbin/ntsysv ]; then
 -	/usr/sbin/ntsysv --level 35
--    fi
++    if [ -x /usr/sbin/ntsysv$ARCH ]; then
++	/usr/sbin/ntsysv$ARCH --level 35
+     fi
  
      # Reread in network configuration data.
-     if [ -f /etc/sysconfig/network ]; then
