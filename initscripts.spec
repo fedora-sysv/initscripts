@@ -10,9 +10,7 @@ Requires: mingetty, /bin/awk, /bin/sed, mktemp, e2fsprogs >= 1.15
 Requires: procps >= 2.0.6-5, sysklogd >= 1.3.31
 Requires: setup >= 2.0.3, /sbin/fuser, which
 Requires: modutils >= 2.3.11-5
-%ifarch alpha
-Requires: util-linux >= 2.9w-26
-%endif
+Requires: util-linux >= 2.10
 Conflicts: kernel <= 2.2, timeconfig < 3.0, pppd < 2.3.9, wvdial < 1.40-3
 Conflicts: initscripts < 1.22.1-5
 Obsoletes: rhsound sapinit
