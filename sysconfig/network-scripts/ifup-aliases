@@ -13,10 +13,6 @@ if [ -x /bin/linuxconf -a -f /usr/lib/libncurses.so.4.2 ] ; then
     # add	<device>	<ip>
     # del	<device>
     # reload	<number_of_aliases>
-    KERN20=
-    if uname -r | grep -q "^2\.0"; then
-        KERN20=true
-    fi
     linuxconf --hint ipalias $1 | while read verb arg1 arg2 arg3 arg4; do
 	case $verb in
 	  add)
@@ -27,16 +23,11 @@ if [ -x /bin/linuxconf -a -f /usr/lib/libncurses.so.4.2 ] ; then
 		    # new linuxconf
 		    /sbin/ifconfig $arg1 $arg2 netmask $arg3 broadcast $arg4
 		fi
-		[ -n "$KERN20" ] && /sbin/route add $arg2 $arg1
 		;;
 	  del)
-		# the <device>- 0.0.0.0 tells the kernel to remove the device
+		# the <device> 0.0.0.0 tells the kernel to remove the device
 		# it is necessary to remove it in order for reload to work.
-		if [ -n "$KERN20" ]; then 
-                     /sbin/ifconfig ${arg1}- 0.0.0.0
-		else
-                     /sbin/ifconfig ${arg1} 0.0.0.0
-		fi
+                /sbin/ifconfig ${arg1} 0.0.0.0
 		;;
 	  reload)
 		echo $arg1 > /proc/sys/net/core/net_alias_max
