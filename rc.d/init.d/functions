@@ -253,7 +253,7 @@ action() {
         echo "$initlogcmds" >&21
       fi
 
-      if [ $rc ]; then
+      if [ $rc -eq 0 ]; then
 	 [ "$BOOTUP" = "verbose" ] && {
 	    if [ -n "$output" ]; then
 	      echo

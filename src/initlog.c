@@ -147,7 +147,6 @@ int logEvent(char *cmd, int eventtype,char *string) {
     int x=0,len;
     struct logInfo logentry;
     
-    
     if (cmd) {
 	logentry.cmd = strdup(basename(cmd));
 	if ((logentry.cmd[0] =='K' || logentry.cmd[0] == 'S') && ( 30 <= logentry.cmd[1] <= 39 )

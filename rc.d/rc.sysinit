@@ -52,7 +52,7 @@ if [ -f /forcefsck ]; then
 fi
 
 if [ ! -f /fastboot ]; then
-	action "Checking root filesystem" fsck -T -a $fsckoptions /
+	action "Checking root filesystem" fsck -V -T -a $fsckoptions /
 	rc=$?
 	
         # A return of 2 or higher means there were serious problems.
@@ -200,7 +200,7 @@ fi
 
 # Check filesystems
 if [ ! -f /fastboot ]; then
-	action "Checking filesystems" fsck -T -R -A -a $fsckoptions
+	action "Checking filesystems" fsck -V -T -R -A -a $fsckoptions
 
 	rc=$?
 
