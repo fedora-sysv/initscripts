@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.53
+Version: 5.54
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -11,6 +11,7 @@ Requires: procps >= 2.0.6-5, sysklogd >= 1.3.31
 Requires: setup >= 2.0.3, /sbin/fuser, which
 Requires: modutils >= 2.3.11-5
 Requires: util-linux >= 2.10
+Requires: gettext >= 0.10.35-25
 Conflicts: kernel <= 2.2, timeconfig < 3.0, pppd < 2.3.9, wvdial < 1.40-3
 Conflicts: initscripts < 1.22.1-5 ypbind < 1.6-12
 Obsoletes: rhsound sapinit
@@ -235,6 +236,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Jan  2 2000 Bill Nottingham <notting@redhat.com>
+- initial i18n support - originally from Conectiva
+
 * Mon Dec 11 2000 Bill Nottingham <notting@redhat.com>
 - only load sound if persistent DMA buffers are necessary
 - fix lots of bugs: #18619, #21187, #21283, #12097
