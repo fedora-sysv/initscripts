@@ -11,4 +11,8 @@ source_config
 # Notify programs that have requested notification
 do_netreport
 
+if [ -x /sbin/ifdown-local ]; then
+    /sbin/ifdown-local ${DEVICE}
+fi
+
 exit 0
