@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.87
+Version: 7.88
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -207,6 +207,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Oct  6 2004 Bill Nottingham <notting@redhat.com> - 7.88-1
+- fix requires
+
 * Tue Oct  5 2004 Dan Walsh <dwalsh@redhat.com> - 7.87-1
 - Change SELinux relabel to not remount / 
 
