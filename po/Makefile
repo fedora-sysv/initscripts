@@ -10,12 +10,12 @@ NLSPACKAGE = initscripts
 CATALOGS = $(shell ls *.po)
 FMTCATALOGS = $(patsubst %.po,%.mo,$(CATALOGS))
 
-POTFILES = ../rc.d/init.d/* ../rc.d/rc.* ../sysconfig/network-scripts/*
+POTFILES = /etc/rc.d/init.d/* /etc/rc.d/rc.* /etc/sysconfig/network-scripts/*
 
 all: $(NLSPACKAGE).pot $(FMTCATALOGS)
 
 $(NLSPACKAGE).pot: $(POTFILES)
-	@echo "Please don't do that."
+	@echo "Please don't run 'make initscripts.pot unless you have a *FULL*, current install."
 
 	#./xgettext_sh.py $(POTFILES) > $(NLSPACKAGE).po
 	#if cmp -s $(NLSPACKAGE).po $(NLSPACKAGE).pot; then \
@@ -50,6 +50,12 @@ refresh-po: Makefile
 			echo "$(MSGMERGE) of $$lang failed" ; \
 			rm -f $$lang.pot ; \
 		fi \
+	done
+
+report:
+	@for cat in $(CATALOGS); do \
+		echo -n "$$cat: "; \
+		msgfmt -v --statistics -o /dev/null $$cat; \
 	done
 
 clean:
