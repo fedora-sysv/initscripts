@@ -354,11 +354,6 @@ Files in /etc/sysconfig/network-scripts/
     GATEWAY=
     ONBOOT=yes|no
     USERCTL=yes|no
-    DEMAND=yes|no
-      Only used for PPP.  Switches on demand-dialing mode.
-    IDLETIMEOUT=600
-      Only used for PPP.  The amount of time the link needs to be inactive
-      before pppd will bring it down automatically.
     BOOTPROTO=none|bootp|dhcp
     MTU=
     PEERDNS=yes|no
@@ -432,6 +427,11 @@ Files in /etc/sysconfig/network-scripts/
       is made to bring up the connection.  Note that some connect
       scripts (for example, wvdial) might do their own retries (such
       as BUSY or NO DIALTONE conditions).
+    DEMAND=yes|no
+      Switches on demand-dialing mode using pppd's "demand" option.
+    IDLETIMEOUT=600
+      The amount of time the link needs to be inactive before pppd will
+      bring it down automatically.
       
 /etc/sysconfig/network-scripts/chat-<interface-name>:
 

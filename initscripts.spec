@@ -3,7 +3,7 @@ Name: initscripts
 Version: 5.44
 Copyright: GPL
 Group: System Environment/Base
-Release: 1
+Release: 2
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /%{_tmppath}/%{name}-%{version}-%{release}-root
 Requires: mingetty, /bin/awk, /bin/sed, mktemp, e2fsprogs >= 1.15
@@ -232,6 +232,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Sat Aug 11 2000 Nalin Dahyabhai <nalin@redhat.com>
+- move documentation for the DEMAND and IDLETIMEOUT values to the right
+  section of sysconfig.txt
+
 * Wed Aug  9 2000 Bill Nottingham <notting@redhat.com>
 - load agpgart if necessary (hack)
 - fix /boot/kernel.h stuff (jakub)
