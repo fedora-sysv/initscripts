@@ -341,6 +341,17 @@ state=`awk '/ \/ / && ($3 !~ /rootfs/) { print $4 }' /proc/mounts`
 [ "$state" != "rw" ] && \
   action $"Remounting root filesystem in read-write mode: " mount -n -o remount,rw /
 
+# LVM2 initialization
+if [ -d /etc/lvm/ -a -x /sbin/lvm ]; then
+    if ! LC_ALL=C fgrep -q "device-mapper" /proc/devices 2>/dev/null ; then
+	modprobe dm-mod >/dev/null 2>&1
+    fi
+    /bin/rm -f /dev/mapper/control
+    echo "mkdmnod" | /sbin/nash --quiet >/dev/null 2>&1
+    if [ -e /dev/mapper/control -a -x /sbin/lvm ]; then
+	action $"Setting up Logical Volume Management:" /sbin/lvm vgscan --mknodes && /sbin/lvm vgchange -a y
+    fi
+fi
 # LVM initialization
 if [ -f /etc/lvmtab ]; then
     [ -e /proc/lvm ] || modprobe lvm-mod > /dev/null 2>&1
@@ -510,6 +521,10 @@ if [ -f /etc/raidtab ]; then
 		mount -n -o remount,ro /
 		echo $"Automatic reboot in progress."
 		reboot -f
+	fi
+	# LVM2 initialization, take 2
+	if [ -f /dev/mapper/control -a -x /sbin/lvm -a -d /etc/lvm ]; then
+		action $"Setting up Logical Volume Management:" /sbin/lvm vgscan --mknodes && /sbin/lvm vgchange -a y
 	fi
 	# LVM initialization, take 2 (it could be on top of RAID)
 	if [ -e /proc/lvm -a -x /sbin/vgchange -a -f /etc/lvmtab ]; then
