@@ -262,9 +262,11 @@ fi
 # Load sound modules
 #
 # I think this now qualifies as over-engineered.
+RETURN=0
 alias=`egrep -s "^alias[[:space:]]+sound[[:space:]]+" /etc/conf.modules | awk '{ print $3 }'`
 if [ -n "$alias" -a "$alias" != "off" ] ; then
       action "Loading sound module ($alias)" modprobe sound
+      RETURN=$?
 fi
 alias=`egrep -s "^alias[[:space:]]+midi[[:space:]]+" /etc/conf.modules | awk '{ print $3 }'`
 if [ -n "$alias" -a "$alias" != "off" ]; then
@@ -272,7 +274,7 @@ if [ -n "$alias" -a "$alias" != "off" ]; then
 fi
 
 # Load mixer settings
-if grep -q "\(sparcaudio\|sound\)" /proc/devices 2>/dev/null && [ -f /etc/.aumixrc -a -x /bin/aumix-minimal ]; then
+if grep -q "\(sparcaudio\|sound\)" /proc/devices 2>/dev/null && [ $RETURN -eq 0 -a -f /etc/.aumixrc -a -x /bin/aumix-minimal ]; then
 	action "Loading mixer settings" /bin/aumix-minimal -f /etc/.aumixrc -L
 fi
 
