@@ -213,6 +213,7 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/sysconfig/network-scripts/ifup-ipx
 %ifarch s390 s390x
 %config /etc/sysconfig/network-scripts/ifup-ctc
+%config /etc/sysconfig/network-scripts/ifup-iucv
 %endif
 %config /etc/X11/prefdm
 %config /etc/inittab
@@ -255,6 +256,11 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Apr 25 2001 Florian La Roche <Florian.LaRoche@redhat.de>
+- add further s390 changes:
+	- ifup-iucv
+	- mkkerneldoth.s390
+
 * Tue Apr 24 2001 Than Ngo <than@redhat.com>
 - add shutdown UPS into halt (bug #34312)
 
