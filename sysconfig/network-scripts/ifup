@@ -141,8 +141,7 @@ is_available ${REALDEVICE}
 # remap, if the device is bound with a MAC address and not the right device num
 # bail out, if the MAC does not fit
 if [ -n "${HWADDR}" ]; then
-    FOUNDMACADDR=`LC_ALL= LANG= ip -o link show ${REALDEVICE} 2>/dev/null| \
-	sed 's/.*link\/ether \([[:alnum:]:]*\).*/\1/'`
+    FOUNDMACADDR=`get_hwaddr ${REALDEVICE}`
     if [ "${FOUNDMACADDR}" != "${HWADDR}" ]; then
 	/sbin/nameif "${REALDEVICE}" "${HWADDR}" || {
 	    echo $"Device ${DEVICE} has different MAC address than expected, ignoring."

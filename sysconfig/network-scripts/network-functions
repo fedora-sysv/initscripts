@@ -7,10 +7,27 @@
 PATH="/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin"
 export PATH
 
+get_hwaddr ()
+{
+    LC_ALL= LANG= ip -o link show ${1} 2>/dev/null | \
+      sed 's/.*link\/ether \([[:alnum:]:]*\).*/\1/' | \
+      awk '{ print toupper($0) }'
+}    
+
 need_config ()
 {
     CONFIG="ifcfg-${1}"
-    [ -f "${CONFIG}" ] && return || CONFIG="${1}"
+    [ -f "${CONFIG}" ] && return
+    CONFIG="${1}"
+    [ -f "${CONFIG}" ] && return
+    local addr=`get_hwaddr ${1}`
+    if [ -n "$addr" ]; then
+      local nconfig=`fgrep -il "HWADDR=$addr" /etc/sysconfig/network-scripts/ifcfg-*`
+      if [ -n "$nconfig" ] ; then
+        CONFIG=$nconfig
+	[ -f "${CONFIG}" ] && return
+      fi
+    fi
 }
 
 source_config ()
@@ -60,6 +77,12 @@ source_config ()
         ISALIAS=yes
     else
 	ISALIAS=no
+    fi
+    if [ -n "$HWADDR" ]; then
+        HWADDR=`echo $HWADDR | awk '{ print toupper($0) }'`
+    fi
+    if [ -n "$MACADDR" ]; then
+        MACADDR=`echo $MACADDR | awk '{ print toupper($0) }'`
     fi
 }
 
