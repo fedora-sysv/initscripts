@@ -235,6 +235,9 @@ rm -rf $RPM_BUILD_ROOT
 * Tue Aug 22 2000 Than Ngo <than@redhat.de>
 - add KDE2 support to prefdm
 
+* Mon Aug 21 2000 Bill Nottingham <notting@redhat.com>
+- add usleep after kill -KILL in pidofproc, works around lockd issues (#14847)
+
 * Fri Aug 18 2000 Bill Nottingham <notting@redhat.com>
 - don't load usb drivers if they're compiled statically
 - don't call ifdown-post twice for ppp (#15285)

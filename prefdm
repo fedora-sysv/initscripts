@@ -41,4 +41,11 @@ fi
 if [ -n "$preferred" ] && which $preferred >/dev/null 2>&1; then 
 	exec `which $preferred` $*
 fi
-exit 1
+if which gdm >/dev/null 2>&1; then
+	exec `which gdm` $*
+elif which kdm >/dev/null 2>&1; then
+	exec `which kdm` $*
+elif which xdm >/dev/null 2>&1; then
+	exec `which xdm` $*
+fi
+fexit 1
