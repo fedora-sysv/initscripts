@@ -120,7 +120,9 @@ check_device_down ()
 check_link_down ()
 {
     if [ -x /sbin/mii-tool ]; then
+        ip link set $1 up >/dev/null 2>&1
 	output=`LC_ALL=C /sbin/mii-tool $1 2>&1`
+	ip link set $1 down >/dev/null 2>&1
 	if echo $output | grep -q "Operation not supported"; then
 	    return 1
 	elif echo $output | grep -q "link ok"; then
