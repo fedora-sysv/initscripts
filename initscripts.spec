@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.54
+Version: 6.55
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -242,6 +242,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Tue Mar 12 2002 Mike A. Harris  <mharris@redhat.com> 6.55-1
+- Removed process accounting stuff from rc.sysinit and halt scripts as it is
+  now handled by the psacct initscript in the psacct package
+
 * Thu Feb 28 2002 Bill Nottingham <notting@redhat.com>
 - conflict with older psacct
 

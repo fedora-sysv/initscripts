@@ -121,8 +121,6 @@ runcmd $"Syncing hardware clock to system time" /sbin/hwclock $CLOCKFLAGS
 SWAPS=`awk '! /^Filename/ { print $1 }' /proc/swaps`
 [ -n "$SWAPS" ] && runcmd $"Turning off swap: " swapoff $SWAPS
 
-[ -x /sbin/accton ] && runcmd $"Turning off accounting: " /sbin/accton
-
 [ -x /sbin/quotaoff ] && runcmd $"Turning off quotas: " /sbin/quotaoff -aug
 
 # Unmount file systems, killing processes if we have to.
