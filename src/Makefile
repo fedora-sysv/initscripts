@@ -1,6 +1,6 @@
 CFLAGS+=-Wall
 
-PROGS=usernetctl doexec netreport testd usleep
+PROGS=usernetctl doexec netreport testd usleep ipcalc
 
 all:	$(PROGS)
 
@@ -13,6 +13,7 @@ install:
 	install -o 0 -g 0 -s -m 755 usleep $(ROOT)/bin/usleep
 	install -o 0 -g 0 -s -m 4755 usernetctl $(ROOT)/usr/sbin/usernetctl
 	install -o 0 -g 0 -s -m 2755 netreport $(ROOT)/sbin/netreport
+	install -o 0 -g 0 -s -m 2755 ipcalc $(ROOT)/sbin/ipcalc
 	install -m 644 doexec.1 $(ROOT)/usr/man/man1
 	install -m 644 netreport.1 $(ROOT)/usr/man/man1
 	install -m 644 usleep.1 $(ROOT)/usr/man/man1
@@ -24,3 +25,5 @@ install-test:
 	install -o 0 -g 0 -s -m 755 testd $(ROOT)/usr/sbin/testd
 	install -o 0 -g 0 -m 755 testdinit $(ROOT)/etc/rc.d/init.d/testd
 
+ipcalc: ipcalc.o
+	$(CC) $(LDFLAGS) -o $@ $< -lpopt
