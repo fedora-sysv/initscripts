@@ -92,14 +92,13 @@ Files in /etc/sysconfig
     on SPARC only, sun means a sun keyboard is attached on /dev/kbd,
     pc means a PS/2 keyboard is on ps/2 port.
   
-  
-
 /etc/sysconfig/mouse:
 
   MOUSETYPE=microsoft|mouseman|mousesystems|ps/2|msbm|logibm|atibm|
     logitech|mmseries|mmhittab
   XEMU3=yes|no (emulate three buttons with two buttons whenever
     necessary, most notably in X)
+  DEVICE=<a device node> (the device of the mouse)
 
   In addition, /dev/mouse points to the mouse device.
 
@@ -142,8 +141,6 @@ Files in /etc/sysconfig
 
   All IPv6 options can be overridden in interface-specific configuration.
 
-  All the IPX stuff is optional, and should default to off.
-
   obsoleted values from earlier releases:
 
     FORWARD_IPV4=yes|no
@@ -156,6 +153,11 @@ Files in /etc/sysconfig
       a bad idea otherwise. This setting was moved into
       net.ipv4.ip_always_defrag setting in /etc/sysctl.conf. It
       is no longer valid for 2.4 kernels.
+    IPX=yes|no
+    IPXAUTOPRIMARY=on|off (note, that MUST be on|off, not yes|no)
+    IPXAUTOFRAME=on|off (again, not yes|no)
+    IPXINTERNALNETNUM=<netnum>
+    IPXINTERNALNODENUM=<nodenum>
 
 /etc/sysconfig/static-routes:
 
@@ -495,9 +497,6 @@ Files in /etc/sysconfig/network-scripts/
      local IPv6 address of a numbered tunnel
 
   Ethernet-only items:
-    {IPXNETNUM,IPXPRIMARY,IPXACTIVE}_{802_2,802_3,ETHERII,SNAP}
-    configuration matrix for IPX.  Only used if IPX is active.
-    Managed from /etc/sysconfig/network-scripts/ifup-ipx
     ARP=yes|no (adds 'arp' flag to ifconfig, for use with the
       ethertap device)
     PROMISC=yes|no (enable or disable promiscuous mode)
