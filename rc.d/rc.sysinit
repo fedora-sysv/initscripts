@@ -158,7 +158,7 @@ if ! grep -iq "nousb" /proc/cmdline 2>/dev/null && ! grep -q "usb" /proc/devices
     if [ -n "$aliases" -a "$aliases" != "off" ] ; then
       modprobe usbcore
       action $"Mounting USB filesystem: "  mount -t usbdevfs usbdevfs /proc/bus/usb
-      for alias in aliases ; do 
+      for alias in $aliases ; do 
       	action $"Initializing USB controller ($alias): " modprobe $alias
       done
       [ $? -eq 0 ] && usb=1
