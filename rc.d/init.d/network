@@ -107,8 +107,12 @@ case "$1" in
 	    ;;
 	esac
 	./ifdown ifcfg-lo
-	action "Disabling IPv4 packet forwarding" /bin/true
-	echo 0 > /proc/sys/net/ipv4/ip_forward
+	if [ -d /proc/sys/net/ipv4 -a -f /proc/sys/net/ipv4/ip_forward ]; then
+		if [ `cat /proc/sys/net/ipv4/ip_forward` != 0 ]; then
+			action "Disabling IPv4 packet forwarding" /bin/true
+			echo 0 > /proc/sys/net/ipv4/ip_forward
+		fi
+	fi
         rm -f /var/lock/subsys/network
         ;;
   status)
