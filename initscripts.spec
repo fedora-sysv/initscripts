@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.05
+Version: 8.06
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -207,6 +207,17 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Mar 30 2005 Bill Nottingham <notting@redhat.com> 8.06-1
+- handle alternate VLAN naming schemes (#115001, <kas@informatics.muni.cz>)
+- ifup-ipsec: handle non-ascii keys (#150552)
+- add proper ipsec route (#146169, #140654)
+- add a restorecon for /tmp to rc.sysinit
+- document ONHOTPLUG in sysconfig.txt
+- fix mistranslation (#151120)
+- don't return 1 for stopping a process if it isn't running at all
+- don't explicitly set fwd polices for ipsec traffic. Let setkey
+  handle it.
+
 * Mon Mar  7 2005 Bill Nottingham <notting@redhat.com> 8.05-1
 - ipv6 cleanups (<pb@bieringer.de>)
 - rc.sysinit: fix rngd check (#130350)
