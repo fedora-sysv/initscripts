@@ -137,6 +137,7 @@ if [ -n "${DYNCONFIG}" ]; then
 else 
     if [ -z "${IPADDR}" ]; then
          # enable device without IP, useful for e.g. PPPoE
+	 ifconfig ${DEVICE} up
 	 exec /etc/sysconfig/network-scripts/ifup-post ${CONFIG} ${2}
     fi
   
