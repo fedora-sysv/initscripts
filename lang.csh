@@ -75,10 +75,12 @@ if ($sourced == 1) then
 		    if ( "$TERM" == "linux" ) then
 			if ( `/sbin/consoletype` == "vt" ) then
 			    if ( -x /bin/unicode_start ) then
-			      if ( $?SYSFONTACM ) then
-			        unicode_start $SYSFONT $SYSFONTACM
-			      else
-			        unicode_start $SYSFONT
+			      if ( $?SYSFONT ) then
+			        if ( $?SYSFONTACM ) then
+			          unicode_start $SYSFONT $SYSFONTACM
+			        else
+			          unicode_start $SYSFONT
+			        endif
 			      endif
 			    endif
 			endif

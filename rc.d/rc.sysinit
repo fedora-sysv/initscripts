@@ -44,6 +44,7 @@ if [ "$HOSTTYPE" != "s390" -a "$HOSTTYPE" != "s390x" ]; then
   fi
 fi
 
+update_boot_stage RCconsole
 if [ "$CONSOLETYPE" = "vt" -a -x /sbin/setsysfont ]; then
    echo -n "Setting default font ($SYSFONT): "
    /sbin/setsysfont
@@ -78,6 +79,7 @@ if [ -n "$LOGLEVEL" ]; then
 fi
 
 # Mount /proc (done here so volume labels can work with fsck)
+update_boot_stage RCproc
 action $"Mounting proc filesystem: " mount -n -t proc /proc /proc
 
 # Unmount the initrd, if necessary
@@ -90,9 +92,11 @@ if LC_ALL=C grep -q /initrd /proc/mounts && ! LC_ALL=C grep -q /initrd/loopfs /p
 fi
 
 # Configure kernel parameters
+update_boot_stage RCkernelparam
 action $"Configuring kernel parameters: " sysctl -e -p /etc/sysctl.conf
 
 # Set the system clock.
+update_boot_stage RCclock
 ARC=0
 SRM=0
 UTC=0
@@ -157,12 +161,14 @@ if [ "$CONSOLETYPE" = "vt" -a -x /bin/loadkeys ]; then
 fi
 
 # Set the hostname.
+update_boot_stage RChostname
 action $"Setting hostname ${HOSTNAME}: " hostname ${HOSTNAME}
 
 # Only read this once.
 cmdline=$(cat /proc/cmdline)
 
 # Initialize USB controller and HID devices
+update_boot_stage RCusb
 usb=0
 if ! strstr "$cmdline" nousb ; then
   if ! LC_ALL=C grep -q "usb" /proc/devices 2>/dev/null ; then
@@ -318,6 +324,7 @@ if [ -x /sbin/isapnp -a -f /etc/isapnp.conf -a ! -f /proc/isapnp ]; then
 fi
 
 # Remount the root filesystem read-write.
+update_boot_stage RCmountfs
 state=`awk '/ \/ / && ($3 !~ /rootfs/) { print $4 }' /proc/mounts`
 [ "$state" != "rw" ] && \
   action $"Remounting root filesystem in read-write mode: " mount -n -o remount,rw /
@@ -331,6 +338,7 @@ if [ -f /etc/lvmtab ]; then
 fi
 
 # Start up swapping.
+update_boot_stage RCswap
 action $"Activating swap partitions: " swapon -a -e
 
 # Clear mtab
@@ -414,6 +422,7 @@ if [ -f /etc/rc.modules ]; then
 	/etc/rc.modules
 fi
 
+update_boot_stage RCraid
 if [ -f /etc/raidtab ]; then
     # Add raid devices
     [ -f /proc/mdstat ] || modprobe md >/dev/null 2>&1

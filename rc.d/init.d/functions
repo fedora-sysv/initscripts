@@ -318,9 +318,6 @@ echo_success() {
   [ "$BOOTUP" = "color" ] && $SETCOLOR_NORMAL
   echo -n "  ]"
   echo -ne "\r"
-  if [ "$BOOTUP" = "graphical" -a -x /usr/bin/rhgb-client ]; then
-    /usr/bin/rhgb-client -ping
-  fi
   return 0
 }
 
@@ -332,9 +329,6 @@ echo_failure() {
   [ "$BOOTUP" = "color" ] && $SETCOLOR_NORMAL
   echo -n "]"
   echo -ne "\r"
-  if [ "$BOOTUP" = "graphical" -a -x /usr/bin/rhgb-client ]; then
-    /usr/bin/rhgb-client -ping
-  fi
   return 1
 }
 
@@ -346,9 +340,6 @@ echo_passed() {
   [ "$BOOTUP" = "color" ] && $SETCOLOR_NORMAL
   echo -n "]"
   echo -ne "\r"
-  if [ "$BOOTUP" = "graphical" -a -x /usr/bin/rhgb-client ]; then
-    /usr/bin/rhgb-client -ping
-  fi
   return 1
 }
 
@@ -360,10 +351,15 @@ echo_warning() {
   [ "$BOOTUP" = "color" ] && $SETCOLOR_NORMAL
   echo -n "]"
   echo -ne "\r"
-  if [ "$BOOTUP" = "graphical" -a -x /usr/bin/rhgb-client ]; then
-    /usr/bin/rhgb-client -ping
-  fi
   return 1
+}
+
+# Inform the graphical boot of our current state
+update_boot_stage() {
+  if [ "$BOOTUP" = "graphical" -a -x /usr/bin/rhgb-client ]; then
+    /usr/bin/rhgb-client --update="$1"
+  fi
+  return 0
 }
 
 # Log that something succeeded
