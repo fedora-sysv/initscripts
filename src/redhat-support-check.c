@@ -150,7 +150,7 @@ int main(int argc, char **argv) {
 	get_release_info();
 	
 	openlog("redhat-support-check", 0, LOG_USER);
-	if (min_mem && memory < min_mem) {
+	if (min_mem && memory < (0.9 * min_mem)) {
 		printf(_("WARNING: %s requires at least %dMB RAM to run as a supported configuration. (%lluMB detected)\n"),
 		       release_name, min_mem, memory);
 		syslog(LOG_NOTICE,_("WARNING: %s requires at least %dMB RAM to run as a supported configuration. (%lluMB detected)\n"),
