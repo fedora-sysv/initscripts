@@ -396,9 +396,15 @@ if [ -z "$fastboot" -a "$READONLY" != "yes" -a "X$ROOTFSTYPE" != "Xnfs" -a "X$RO
 	elif [ "$rc" -eq "1" ]; then
 	        passed "$STRING"
 		echo
+	elif [ "$rc" -eq "2" -o "$rc" -eq "3" ]; then 
+		echo $"Unmounting file systems"
+		umount -a
+		mount -n -o remount,ro /
+		echo $"Automatic reboot in progress."
+		reboot -f
         fi
 	
-        # A return of 2 or higher means there were serious problems.
+        # A return of 4 or higher means there were serious problems.
 	if [ $rc -gt 1 ]; then
 	        if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
 		    chvt 1
@@ -652,9 +658,15 @@ if [ -z "$fastboot" ]; then
 	elif [ "$rc" -eq "1" ]; then
 	        passed "$STRING"
 		echo
+	elif [ "$rc" -eq "2" -o "$rc" -eq "3" ]; then 
+		echo $"Unmounting file systems"
+		umount -a
+		mount -n -o remount,ro /
+		echo $"Automatic reboot in progress."
+		reboot -f
 	fi
 
-	# A return of 2 or higher means there were serious problems.
+	# A return of 4 or higher means there were serious problems.
 	if [ $rc -gt 1 ]; then
 	        if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
 		    chvt 1
