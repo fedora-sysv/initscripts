@@ -1,10 +1,10 @@
 Summary: inittab and /etc/rc.d scripts
 Name: initscripts
-Version: 3.12
+Version: 3.13
 Copyright: GPL
 Group: Base
 Release: 1
-Source: initscripts-3.12.tar.gz
+Source: initscripts-3.13.tar.gz
 BuildRoot: /var/tmp/initbld
 Requires: mingetty bash
 
@@ -15,6 +15,9 @@ that activate and deactivate most network interfaces.
 
 %changelog
 
+* Thu Sep 18 1997 Donnie Barnes <djb@redhat.com>
+
+- fixed some init.d/functions bugs for stopping httpd
 
 * Tue Sep 16 1997 Donnie Barnes <djb@redhat.com>
 
