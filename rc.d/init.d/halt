@@ -99,15 +99,15 @@ if [ -x /sbin/raidstop -a -f /etc/raidtab ]; then
     #runcmd "Turning off RAID" /sbin/raidstop -a
 fi
 
-[ -d /proc/bus/usb ] && umount /proc/bus/usb
-
-runcmd "Unmounting proc file system" umount /proc
+[ -f /proc/bus/usb/devices ] && umount /proc/bus/usb
 
 # Remount read only anything that's left mounted.
 #echo "Remounting remaining filesystems (if any) readonly"
 mount | awk '/ext2/ { print $3 }' | while read line; do
     mount -n -o ro,remount $line
 done
+
+runcmd "Unmounting proc file system" umount /proc
 
 # Now halt or reboot.
 echo "$message"
