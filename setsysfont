@@ -1,0 +1,18 @@
+#!/bin/sh
+
+if [ -f /etc/sysconfig/i18n ]; then
+  . /etc/sysconfig/i18n
+fi
+
+if [ -x /usr/bin/setfont ]; then
+
+  if [ -n "$SYSFONT" ]; then
+    /usr/bin/setfont $SYSFONT
+  else
+    /usr/bin/setfont default8x16
+  fi
+
+else
+  echo "can't set font"
+  exit 1
+fi
