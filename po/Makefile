@@ -24,21 +24,6 @@ $(NLSPACKAGE).pot: $(POTFILES)
 	#    mv $(NLSPACKAGE).po $(NLSPACKAGE).pot; \
 	#fi
 
-
-update-po: Makefile
-	$(MAKE) $(NLSPACKAGE).pot
-	catalogs='$(CATALOGS)'; \
-	for cat in $$catalogs; do \
-		lang=`basename $$cat .po`; \
-		if $(MSGMERGE) $$lang.po $(NLSPACKAGE).pot > $$lang.pot ; then \
-			mv -f $$lang.pot $$lang.po ; \
-			echo "$(MSGMERGE) of $$lang succeeded" ; \
-		else \
-			echo "$(MSGMERGE) of $$lang failed" ; \
-			rm -f $$lang.pot ; \
-		fi \
-	done
-
 refresh-po: Makefile
 	catalogs='$(CATALOGS)'; \
 	for cat in $$catalogs; do \
@@ -51,6 +36,8 @@ refresh-po: Makefile
 			rm -f $$lang.pot ; \
 		fi \
 	done
+
+update-po: $(NLSPACKAGE).pot Makefile refresh-po
 
 report:
 	@for cat in $(CATALOGS); do \
