@@ -1,7 +1,32 @@
-2000-03-08  Bill Nottingham  <notting@redhat.com>
+2000-03-20  Bill Nottingham  <notting@redhat.com>
 
-	* rc.d/init.d/halt, sysconfig/network-scripts/ifdown, sysconfig/network-scripts/network-functions:
-	check that a device is up before bringing it down
+	* src/netreport.c:
+	show usage on bogus arguments
+
+	* rc.d/init.d/functions:
+	remove calls to ps - this should speed things up on slower machines
+
+	* sysconfig.txt, sysconfig/network-scripts/ifup:
+	allow for setting of MTU for a device
+
+	* sysconfig/network-scripts/ifup-post:
+	set umask before writing /etc/resolv.conf
+
+	* sysconfig/network-scripts/ifup:
+	honor NEEDHOSTNAME flag for pump as well
+
+	* src/ppp-watch.c:
+	open /dev/null for child process instead of closing fds 0,1,2
+
+2000-03-17  Bernhard "Bero" Rosenkränzer  <brosenkr@redhat.com>
+
+	* rc.d/rc.sysinit:
+	Launch devfsd if required and installed
+
+2000-03-10  Nalin Dahyabhai  <nalin@redhat.com>
+
+	* ppp/ip-down, ppp/ip-up:
+	use $@ intead of $* to fix bug #9697
 
 2000-03-08  Cristian Gafton  <gafton@redhat.com>
 
@@ -9,6 +34,11 @@
 
 	* initscripts.spec, sysconfig.txt:
 	documentation update from jakub
+
+2000-03-08  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/halt, sysconfig/network-scripts/ifdown, sysconfig/network-scripts/network-functions:
+	check that a device is up before bringing it down
 
 2000-03-07  Bill Nottingham  <notting@redhat.com>
 
