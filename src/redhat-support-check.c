@@ -120,6 +120,7 @@ int main(int argc, char **argv) {
 			poptStrerror(rc));
 		return 1;
 	}
+	rc = 0;
 	if (test) {
 		max_mem = 1024;
 		min_mem = 256;
