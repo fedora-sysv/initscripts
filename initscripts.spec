@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.55
+Version: 5.56
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -246,6 +246,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Jan 23 2001 Matt Wilson <msw@redhat.com>
+- fixed typo in init.d/network - missing | in pipeline
+
 * Mon Jan 22 2001 Bill Nottingham <notting@redhat.com>
 - do LVM setup through normal initscripts mechanisms
 - ignore backup files in /etc/sysconfig/network-scripts
