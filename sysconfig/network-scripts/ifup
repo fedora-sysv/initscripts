@@ -125,11 +125,13 @@ else
 
     . /etc/sysconfig/network
 
-    if [ "${GATEWAY}" != "" ]; then
-	if [ "${GATEWAYDEV}" = "" -o "${GATEWAYDEV}" = "${DEVICE}" ]; then
-	    # set up default gateway
+    if [ "${GATEWAYDEV}" = "" -o "${GATEWAYDEV}" = "${DEVICE}" ]; then
+	# set up default gateway
+	if [ "${GATEWAY}" != "" ]; then
 	    route add default gw ${GATEWAY} ${DEVICE}
 	    DEFGW=${GATEWAY}
+	else
+	    route add default ${DEVICE}
 	fi
     fi
 fi
