@@ -241,8 +241,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Thu Feb 19 2004 Bill Nottingham <notting@redhat.com> 6.47.8-1
-- regenerate /boot/kernel.h on each boot (workaround for previous bug
-  #112116)
+- regenerate /boot/kernel.h on each boot (workaround for previous bug #112116)
 
 * Wed Jan  7 2004 Bill Nottingham <notting@redhat.com>
 - fix bonding support (#112926)
