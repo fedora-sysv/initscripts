@@ -198,7 +198,7 @@ pidofproc() {
 
 	# First try "/var/run/*.pid" files
 	if [ -f /var/run/${base}.pid ] ; then
-	        pid=`head -1 /var/run/${base}.pid`
+	        pid=`cat /var/run/${base}.pid | { read foo ; echo $foo ; }`
 	        if [ "$pid" != "" ] ; then
 	                echo $pid
 	                return 0
@@ -231,7 +231,7 @@ status() {
 
 	# Next try "/var/run/*.pid" files
 	if [ -f /var/run/${base}.pid ] ; then
-	        pid=`head -1 /var/run/${base}.pid`
+	        pid=`cat /var/run/${base}.pid | { read foo ; echo $foo ; }`
 	        if [ "$pid" != "" ] ; then
 	                echo "${base} dead but pid file exists"
 	                return 1
