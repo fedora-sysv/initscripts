@@ -226,12 +226,6 @@ else
     arping -q -A -c 1 -I ${DEVICE} ${IPADDR}
     ( sleep 2;
       arping -q -U -c 1 -I ${DEVICE} ${IPADDR} ) > /dev/null 2>&1 < /dev/null &
-    ip route add unreachable 224.0.0.0/24 > /dev/null 2>&1
-
-    # if the device is multicast enabled, add a default multicast route
-    if [ `ip link ls ${DEVICE} | grep -c MULTICAST` -ge 1 ]; then
-	ip route add 224.0.0.0/4 dev ${DEVICE} scope global >& /dev/null
-    fi
 
     # Add a route for the subnet.  Replace any existing route.
     if [ "${ISALIAS}" = no ]; then
