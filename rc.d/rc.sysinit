@@ -672,17 +672,11 @@ if [ -n "$_NEED_XFILES" ]; then
   chmod 0664 /var/run/utmpx /var/log/wtmpx
 fi
 
-# Delete X locks
-rm -f /tmp/.X*-lock
-
-# Delete VNC & X locks
-rm -rf /tmp/.X*-unix 
-
-# Delete ICE locks
-rm -rf /tmp/.ICE-unix
-
-# Delete Postgres sockets
-rm -f /tmp/.s.PGSQL.*
+# Clean up various /tmp bits
+rm -f /tmp/.X*-lock /tmp/.lock.* /tmp/.gdm_socket /tmp/.s.PGSQL.*
+rm -rf /tmp/.X*-unix /tmp/.ICE-unix /tmp/.font-unix /tmp/hsperfdata_* \
+       /tmp/kde-* /tmp/ksocket-* /tmp/mc-* /tmp/mcop-* /tmp/orbit-*  \
+       /tmp/scrollkeeper-*  /tmp/ssh-*
 
 # Now turn on swap in case we swap to files.
 swapon -a
