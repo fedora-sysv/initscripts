@@ -38,8 +38,6 @@ if [ -x /sbin/ifdown-pre-local ]; then
     /sbin/ifdown-pre-local ${DEVICE}
 fi
 
-DEVICETYPE=`echo $DEVICE | sed "s/[0-9]*$//"`
-[ -z "$REALDEVICE" ] && REALDEVICE=`echo ${DEVICE} | sed 's/:.*//g'`
 OTHERSCRIPT="/etc/sysconfig/network-scripts/ifdown-${DEVICETYPE}"
 
 if [ -x $OTHERSCRIPT ]; then

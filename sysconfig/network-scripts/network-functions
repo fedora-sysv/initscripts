@@ -27,7 +27,43 @@ source_config ()
 	. $PARENTCONFIG
     fi
     . $CONFIG
+    case "$TYPE" in
+    	Ethernet)
+		DEVICETYPE="eth"
+		;;
+	CIPE)
+		DEVICETYPE="cipcb"
+		;;
+	Modem)
+		DEVICETPYE="ppp"
+		;;
+	ISDN)
+		DEVICETYPE="ippp"
+		;;
+	Wireless)
+		DEVICETYPE="eth"
+		;;
+	"Token Ring")
+		DEVICETYPE="eth"
+		;;
+	CTC)
+		DEVICETYPE="ctc"
+		;;
+	IUCV)
+		DEVICETYPE="iucv"
+		;;
+    esac
+    [ -z "$DEVICETYPE" ] && DEVICETYPE=`echo ${DEVICE} | sed "s/[0-9]*$//"`
+    [ -z "$REALDEVICE" -a -n "$PARENTDEVICE" ] && REALDEVICE=$PARENTDEVICE
+    [ -z "$REALDEVICE" ] && REALDEVICE=${DEVICE%%:*}
+    if [ "${DEVICE}" != "${REALDEVICE}" ]; then
+        ISALIAS=yes
+    else
+	ISALIAS=no
+    fi
 }
+
+
 
 expand_config ()
 {
@@ -87,7 +123,7 @@ is_available ()
         return 2
     fi
     modprobe $1 > /dev/null 2>&1 || return 1
-
+    [ -n "$HWADDR" ] && /sbin/nameif "$1" "$HWADDR"
     LC_ALL= LANG= ip -o link | grep -q $1
     return $?
 }

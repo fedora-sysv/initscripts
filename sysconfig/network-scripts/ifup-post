@@ -8,14 +8,6 @@ cd /etc/sysconfig/network-scripts
 CONFIG=$1
 source_config
 
-DEVICETYPE=`echo $DEVICE | sed "s/[0-9]*$//"`
-REALDEVICE=`echo $DEVICE | sed 's/:.*//g'`
-if echo $DEVICE | grep -q ':' ; then
-    ISALIAS=yes
-else
-    ISALIAS=no
-fi
-
 if [ "$ISALIAS" = no ] ; then
     /etc/sysconfig/network-scripts/ifup-aliases ${DEVICE} ${CONFIG}
 fi
