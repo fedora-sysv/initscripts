@@ -59,16 +59,18 @@ ln -s ../rc.local $RPM_BUILD_ROOT/etc/rc.d/rc2.d/S99local
 ln -s ../rc.local $RPM_BUILD_ROOT/etc/rc.d/rc3.d/S99local
 ln -s ../rc.local $RPM_BUILD_ROOT/etc/rc.d/rc5.d/S99local
 
+# These are LSB compatibility symlinks.  At some point in the future
+# the actual files will be here instead of symlinks
 for i in 0 1 2 3 4 5 6 ; do
   ln -s rc.d/rc$i.d $RPM_BUILD_ROOT/etc/rc$i.d
 done
-
-ln -s rc.d/init.d $RPM_BUILD_ROOT/etc/init.d
+for i in init.d rc rc.sysinit; do
+  ln -s rc.d/$i $RPM_BUILD_ROOT/etc/$i
+done
 
 mkdir -p $RPM_BUILD_ROOT/var/{log,run}
 touch $RPM_BUILD_ROOT/var/run/utmp
 touch $RPM_BUILD_ROOT/var/log/wtmp
-
 
 %pre
 /usr/sbin/groupadd -g 22 -r -f utmp
@@ -193,6 +195,8 @@ rm -rf $RPM_BUILD_ROOT
 /etc/rc[0-9].d
 %config(missingok) /etc/rc.d/rc[0-9].d/*
 /etc/init.d
+/etc/rc
+/etc/rc.sysinit
 %config(missingok) /etc/rc.d/init.d/*
 %config /etc/rc.d/rc
 %config(noreplace) /etc/rc.d/rc.local
