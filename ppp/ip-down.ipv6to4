@@ -97,9 +97,6 @@ if [ $IPV6TO4INIT != "yes" ]; then
 fi
 
 if [ "$valid6to4config" = "yes" ]; then
-	# Beep
-	if [ -x /usr/bin/beep ]; then /usr/bin/beep -f 2666; else echo -en "\a" >/dev/console; fi
-
 	if [ "$IPV6_CONTROL_RADVD" = "yes" ]; then
 		# Control running radvd
 		ipv6_trigger_radvd down "$IPV6_RADVD_TRIGGER_ACTION" $IPV6_RADVD_PIDFILE
@@ -115,7 +112,4 @@ if [ "$valid6to4config" = "yes" ]; then
 
 	# Delete all configured 6to4 address
 	ipv6_cleanup_6to4_tunnels tun6to4 
-
-	# Beep
-	if [ -x /usr/bin/beep ]; then /usr/bin/beep -f 2000; else echo -en "\a" >/dev/console; fi
 fi

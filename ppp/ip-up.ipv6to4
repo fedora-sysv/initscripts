@@ -108,9 +108,6 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 	fi
  
 	if [ "$valid6to4config" = "yes" ]; then
-		# Beep 
-		if [ -x /usr/bin/beep ]; then /usr/bin/beep -f 2000; else echo -en "\a" >/dev/console; fi
-
 		# Delete routes to local networks
        		for devsuf in $IPV6TO4_ROUTING; do
 			dev="`echo $devsuf | awk -F- '{ print $1 }'`"
@@ -198,8 +195,5 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 				echo $"radvd control enabled, but config is not complete"
 			fi
 		fi
-
-		# Beep 
-		if [ -x /usr/bin/beep ]; then /usr/bin/beep -f 2666; else echo -en "\a" >/dev/console; fi
 	fi
 fi
