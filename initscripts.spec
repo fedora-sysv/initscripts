@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.86
+Version: 6.87
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -17,7 +17,7 @@ Requires: bash >= 2.0, SysVinit
 Requires: /sbin/ip, /sbin/arping, net-tools
 Requires: /sbin/update
 Conflicts: kernel <= 2.2, timeconfig < 3.0, pppd < 2.3.9, wvdial < 1.40-3
-Conflicts: ypbind < 1.6-12, psacct < 6.3.2-12, kbd < 1.06-19
+Conflicts: ypbind < 1.6-12, psacct < 6.3.2-12, kbd < 1.06-19, lokkit < 0.50-14
 Obsoletes: rhsound sapinit
 Prereq: /sbin/chkconfig, /usr/sbin/groupadd, gawk, fileutils, sh-utils
 BuildPrereq: glib-devel popt
@@ -244,6 +244,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Tue Jul 16 2002 Bill Nottingham <notting@redhat.com>
+- use iptables, not ipchains
+
 * Tue Jul 16 2002 Florian La Roche <Florian.LaRoche@redhat.de>
 - /sbin/service: set PATH before calling startup scripts
   HOME and TERM are also set during bootup, but they should not make
