@@ -1,6 +1,71 @@
-2001-07-31  Bill Nottingham  <notting@redhat.com>
+2001-08-08  Bill Nottingham  <notting@redhat.com>
 
-	* ChangeLog, initscripts.spec: 6.11-1
+	* rc.d/rc.sysinit:
+	tweak raidtab grep slightly (#51231)
+
+2001-08-08  Leon Kanter  <leon@geon.donetsk.ua>
+
+	* po/ru.po: update ipv6 stuff
+
+2001-08-07  Leon Kanter  <leon@geon.donetsk.ua>
+
+	* po/ru.po: update russian translation
+
+2001-08-07  Satoru Sato  <ssato@redhat.com>
+
+	* po/ja.po: initscripts/ja.po: complete trans.
+
+	* po/ja.po: netcfg/ja.po: complete trans.
+
+2001-08-07  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* po/no.po: Update
+
+2001-08-07  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/halt, rc.d/init.d/netfs:
+	detach loopback devices at shutdown (#43919, #45826)
+
+	* rc.d/rc.sysinit:
+	use a bigger buffer size argument to dmesg when dumping the log (#44024)
+
+	* sys-unconfig.8, rc.d/rc.sysinit:
+	run kbdconfig when /.unconfigre'd (#43941)
+
+	* po/initscripts.pot, rc.d/init.d/network, rc.d/rc.sysinit, sysconfig/network-scripts/ifup:
+	use awk, not grep & other cruft (#49616)
+	exit happily if ifup is called on a device that doesn't exist and has
+	no alias (fixes all those nasty PCMCIA onboot complaints)
+
+	* rc.d/init.d/halt, rc.d/rc.sysinit:
+	support setting $CLOCKFLAGS in /etc/sysconfig/clock (#50974)
+
+	* sysconfig/network-scripts/ifup:
+	don't do anything in ifup if we're running under hotplug and $HOTPLUG is set to 'no'
+
+2001-08-05  Bill Nottingham  <notting@redhat.com>
+
+	* po/de.po: fix typo (#50943)
+
+2001-08-03  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/halt:
+	define halt_get_remaining before it's used (#50720)
+
+2001-08-02  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifdown:
+	do the same thing for ifdown too
+
+	* sysconfig/network-scripts/ifup, sysconfig/network-scripts/network-functions:
+	don't worry about profiles just now. look for alternate config files that contain the correct MAC address for the adapter
+
+2001-08-01  Bill Nottingham  <notting@redhat.com>
+
+	* ChangeLog, initscripts.spec:
+	6.11-1
+
+2001-07-31  Bill Nottingham  <notting@redhat.com>
 
 	* rc.d/init.d/halt:
 	more FS umounting cleanups (<sopwith@redhat.com>)
@@ -16,7 +81,7 @@
 	* rc.d/rc.sysinit, initscripts-s390.patch:
 	fix typo
 
-2001-07-31  kmaraas  <kmaraas@redhat.com>
+2001-07-31  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* po/nn.po: Update nynorsk too :)
 
@@ -36,12 +101,9 @@
 	* po/uk.po, po/wa.po, po/zh_CN.GB2312.po, po/zh.po, po/sk.po, po/sl.po, po/sr.po, po/sv.po, po/tr.po, po/gl.po, po/hu.po, po/id.po, po/initscripts.pot, po/is.po, po/it.po, po/ja.po, po/ko.po, po/nn.po, po/no.po, po/pl.po, po/pt_BR.po, po/pt.po, po/ro.po, po/ru.po, po/cs.po, po/da.po, po/de.po, po/es.po, po/eu_ES.po, po/fi.po, po/fr.po, po/Makefile:
 	refresh from public beta
 
-2001-07-29  menthos  <menthos@redhat.com>
+2001-07-29  Christian Rose  <menthos@menthos.com>
 
-	* po/sv.po:
-	2001-07-29  Christian Rose  <menthos@menthos.com>
-
-		* sv.po: Some fixes to the Swedish translation.
+	* sv.po: Some fixes to the Swedish translation.
 
 2001-07-28  Bill Nottingham  <notting@redhat.com>
 
@@ -120,13 +182,10 @@
 	* sysconfig/network-scripts/ifdown, sysconfig/network-scripts/ifup:
 	fix ifup/ifdown
 
-2001-07-17  kmaraas  <kmaraas@redhat.com>
+2001-07-17  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* po/.cvsignore, po/nn.po:
-	2001-07-17  Kjartan Maraas  <kmaraas@gnome.org>
-
-		* nn.po: Added Norwegian (nynorsk) translation.
-		* ChangeLog: Added this so we won't flood the master ChangeLog.
+	* nn.po: Added Norwegian (nynorsk) translation.
+	* ChangeLog: Added this so we won't flood the master ChangeLog.
 
 2001-07-17  Bill Nottingham  <notting@redhat.com>
 
@@ -143,7 +202,7 @@
 
 	* initscripts.spec: own some more directories
 
-2001-07-17  tayninh1  <tayninh1@redhat.com>
+2001-07-17  Than Ngo  <than@redhat.com>
 
 	* ChangeLog, initscripts.spec, sysconfig/network-scripts/ifup-ippp:
 	* fixed country_code
