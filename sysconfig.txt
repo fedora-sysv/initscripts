@@ -56,11 +56,22 @@ Files in /etc/sysconfig
 
   currently correct values:
 
-    UTC=true indicates that the clock is set to UTC; anything
-      else indicates that it is set to local time
+    UTC=true,yes
+      Indicates that the hardware clock is set to UTC.
+    UTC=no,false
+      Indicates that the hardware clock is set to Local Time.
+    
+    Not having UTC set defaults to the last used (if recorded
+    in the adjtime file), or to localtime, if not adjtime file
+    exists.
+
     ARC=true on alpha only indicates the ARC console's
       42-year time offset is in effect; otherwise the normal
-      Unix epoch is assumed
+      Unix epoch is assumed.
+      
+    SRM=true on alpha only indicates the SRM 1900 epoch is in
+      effect; otherwise the normal Unix epoch is assumed.
+      
     ZONE="filename" indicates the zonefile under /usr/share/zoneinfo
       that /etc/localtime is a copy of, for example:
         ZONE="US/Eastern"
