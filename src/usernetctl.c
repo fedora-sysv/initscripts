@@ -87,7 +87,7 @@ int userCtl(char * file) {
 	chptr = contents;
 	while (*chptr != '\n') chptr++;
 	end = chptr + 1;
-	while (chptr > contents && isspace(*chptr)) chptr--;
+	while (chptr >= contents && isspace(*chptr)) chptr--;
 	*(++chptr) = '\0';
 
 	if (!strncmp(contents, "USERCTL=", 8)) {

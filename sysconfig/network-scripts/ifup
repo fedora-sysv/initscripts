@@ -173,10 +173,8 @@ if [ "$IPSETUP" != yes ]; then
     fi
 fi
 
-case $CONFIG in
-  eth*)
-	/etc/sysconfig/network-scripts/ifup-ipx $CONFIG
-	;;
-esac
+if [ "$IPX" = yes ]; then
+	/etc/sysconfig/network-scripts/ifup-ipx $DEVICE
+fi
 
 exec /etc/sysconfig/network-scripts/ifup-post $CONFIG

@@ -52,7 +52,7 @@ if [ ! -f /fastboot ]; then
 		echo "*** Dropping you to a shell; the system will reboot"
 		echo "*** when you leave the shell."
 
-		PS1="(Repair filesystem) #"; export PS1
+		PS1="(Repair filesystem) \#"; export PS1
 		sulogin
 
 		echo "Unmounting file systems"
@@ -119,6 +119,20 @@ if [ -n $USEMODULES ]; then
 	if echo $1 | grep '^BOOT_IMAGE=' > /dev/null ; then
 	    image=`echo $1 | awk -F= '{ print $2 }'`
 	    kernelfile=`/sbin/lilo -I $image`
+	    firstkernelfile=`/sbin/lilo -I $image`
+	    kernelfile="$firstkernelfile"
+	    # Traverse symbolic links
+	    while [ -L "$kernelfile" ]; do
+		newkernelfile="`ls -l $kernelfile | awk '-F-> ' '{print $2}'`"
+		if [ "${newkernelfile#/}" != "$newkernelfile" ]; then
+		    # newkernelfile is an absolut path
+		    kernelfile=$newkernelfile
+		else
+		    kernelfile="${kernelfile%$(basename $kernelfile)}$newkernelfile"
+		fi
+		# Check if we're looping
+		[ "$kernelfile" = "$firstkernelfile" ] && break
+	    done
 	elif echo $1 | grep '^bootfile=' > /dev/null ; then
 	    kernelfile=`echo $1 | awk -F= '{ print $2 }'`
 	fi
@@ -136,7 +150,7 @@ if [ -n $USEMODULES ]; then
     fi
 fi
 
-if [ -x /sbin/depmod -a -n "$USEMODULES" ]; then
+if [ -x /sbin/depmod -a -n "$USEMODULES" -a ! -f /proc/sys/kernel/modprobe ]; then
     # Get ready for kerneld if module support in the kernel
     echo -n "Finding module dependencies... "
     if [ -e /lib/modules/preferred ]; then
@@ -182,7 +196,7 @@ if [ ! -f /fastboot ]; then
 		echo "*** Dropping you to a shell; the system will reboot"
 		echo "*** when you leave the shell."
 
-		PS1="(Repair filesystem) #"; export PS1
+		PS1="(Repair filesystem) \#"; export PS1
 		sulogin
 
 		echo "Unmounting file systems"
@@ -256,14 +270,20 @@ else
     CLOCK=/sbin/clock
 fi
 
-if [ $UTC = "true" ]; then
+case "$UTC" in
+  yes|true)
     CLOCKFLAGS="$CLOCKFLAGS -u";
     echo -n " (utc)"
-fi
-if [ $ARC = "true" ]; then
+  ;;
+esac
+
+case "$ARC" in
+  yes|true)
     CLOCKFLAGS="$CLOCKFLAGS -A";
     echo -n " (arc)"
-fi
+  ;;
+esac
+
 echo -n ": "
 $CLOCK $CLOCKFLAGS
 

@@ -22,6 +22,7 @@ cd /etc/sysconfig/network-scripts
 . network-functions
 
 CONFIG=$1
+[ -f "$CONFIG" ] || CONFIG=ifcfg-$CONFIG
 source_config
 
 for frametype in 802_2 802_3 ETHERII SNAP ; do
