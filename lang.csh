@@ -23,11 +23,15 @@ if ($sourced == 1) then
 
     if ($?SYSFONTACM) then
         switch ($SYSFONTACM)
-	    case iso01*|iso02*|iso15*|koi*|latin2-ucw*:
+	    case iso01*:
+	    case iso02*:
+	    case iso15*:
+	    case koi*:
+	    case latin2-ucw*:
 	        if ( $?TERM ) then
 		    if ( "$TERM" == "linux" ) then
-		        if ( ls -l /proc/$$/fd/0 2>/dev/null | grep -- '-> /dev/tty[0-9]*$' >/dev/null 2>&1)  then
-			    echo -n -e '\033(K' > /proc/$$/fd/0
+		        if ( `consoletype` == "vt" ) then
+			    echo -n -e '\033(K' > /proc/$$/fd/15
 		        endif
 		    endif
 		endif
