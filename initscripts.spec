@@ -75,6 +75,21 @@ touch $RPM_BUILD_ROOT/var/log/wtmp
 mkdir -p $RPM_BUILD_ROOT/etc/locale
 cp -a $RPM_BUILD_ROOT/usr/share/locale/* $RPM_BUILD_ROOT/etc/locale
 
+pushd %{buildroot}/%{_datadir}/locale
+for foo in * ; do
+  echo "%lang($foo) %{_datadir}/locale/$foo/*/*" >> \
+      $RPM_BUILD_DIR/%{name}-%{version}/trans.list
+done
+popd
+
+pushd %{buildroot}/etc/locale
+for foo in * ; do
+  echo "%lang($foo) %{_datadir}/locale/$foo/*/*" >> \
+      $RPM_BUILD_DIR/%{name}-%{version}/trans.list
+done
+popd
+
+
 %pre
 /usr/sbin/groupadd -g 22 -r -f utmp
 
@@ -225,8 +240,6 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/service
 /sbin/ppp-watch
 %{_mandir}/man*/*
-/etc/locale/*/*/*.mo
-/usr/share/locale/*/*/*.mo
 %dir %attr(775,root,root) /var/run/netreport
 %config /etc/ppp/ip-up
 %config /etc/ppp/ip-down
