@@ -10,7 +10,7 @@ BuildRoot: /var/tmp/initbld
 Requires: mingetty, bash, /bin/awk, /bin/sed, mktemp, e2fsprogs, console-tools
 Requires: procps, modutils >= 2.1.85-3, sysklogd >= 1.3.31
 Requires: setup >= 2.0.3, lsof
-Conflicts: kernel <= 2.2, timeconfig < 3.0, pppd < 2.3.9
+Conflicts: kernel <= 2.2, timeconfig < 3.0, pppd < 2.3.9, wvdial < 1.40-3
 Prereq: /sbin/chkconfig, /usr/sbin/groupadd, gawk
 
 %description
@@ -198,6 +198,18 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Sep 13 1999 Michael K. Johnson <johnsonm@redhat.com>
+- add --remotename option to wvdial code
+- make sure we do not have an earlier version of wvdial that doesn't
+  know how handle --remotename
+- make ppp-watch background itself after 30 seconds even if
+  connection does not come up, at boot time only, so that a
+  non-functional PPP connection cannot hang boot.
+
+* Sun Sep 12 1999 Bill Nottingham <notting@redhat.com>
+- a couple of /bin/sh -> /bin/bash fixes
+- fix swapoff silliness
+
 * Fri Sep 10 1999 Bill Nottingham <notting@redhat.com>
 - chkconfig --del in %preun, not %postun
 - use killall5 in halt

@@ -94,7 +94,7 @@ if [ -n "$WVDIALSECT" ] ; then
     remotename $DEVICE ipparam $DEVICE \
     ${PPPOPTIONS} \
     linkname $DEVICE \
-    connect "/usr/bin/wvdial --chat $WVDIALSECT"
+    connect "/usr/bin/wvdial --remotename $DEVICE --chat $WVDIALSECT"
 else
   exec /usr/sbin/pppd -detach $opts $MODEMPORT $LINESPEED \
     remotename $DEVICE ipparam $DEVICE \
