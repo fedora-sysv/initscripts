@@ -171,6 +171,8 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Wed Mar 10 1999 Bill Nottingham <notting@redhat.com>
 - Mmm. Must always remove debugging code. before release. *thwap*
+- pump support
+- mount -a after mount -a -t nfs
 
 * Thu Feb 25 1999 Bill Nottingham <notting@redhat.com>
 - put preferred support back in
