@@ -262,7 +262,7 @@ if [ -z "$fastboot" -a "X$ROOTFSTYPE" != "Xnfs" ]; then
 	
         # A return of 2 or higher means there were serious problems.
 	if [ $rc -gt 1 ]; then
-	        if [ -x /usr/bin/rhgb-client -a /usr/bin/rhgb-client --ping ]; then
+	        if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
 		    chvt 1
 		fi
 
@@ -520,7 +520,7 @@ if [ -z "$fastboot" ]; then
 
 	# A return of 2 or higher means there were serious problems.
 	if [ $rc -gt 1 ]; then
-	        if [ -x /usr/bin/rhgb-client -a /usr/bin/rhgb-client --ping ]; then
+	        if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
 		    chvt 1
 		fi
 
@@ -576,7 +576,7 @@ fi
 
 # Configure machine if necessary.
 if [ -f /.unconfigured ]; then
-    if [ -x /usr/bin/rhgb-client -a /usr/bin/rhgb-client --ping ]; then
+    if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
 	chvt 1
     fi
 
