@@ -89,21 +89,3 @@ if ($sourced == 1) then
     unsetenv SYSFONTACM
     unsetenv SYSFONT
 endif
-
-if ($?LANG) then
-    switch ($LANG)
-	case ja*UTF-8:
-	case zh*UTF-8:
-	case ko*UTF-8:
-	     set dspmbyte=utf8
-	     breaksw
-	case zh_TW*:
-	     set dspmbyte=big5
-	     breaksw
-	case ja*:
-	case ko*:
-	case zh*:
-	     set dspmbyte=euc
-	     breaksw
-    endsw
-endif
