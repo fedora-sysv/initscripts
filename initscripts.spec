@@ -160,10 +160,9 @@ rm -rf $RPM_BUILD_ROOT
 %config /sbin/ifup
 %dir /etc/sysconfig/console
 %dir /etc/sysconfig/networking
-%dir /etc/sysconfig/networking/default
 %dir /etc/sysconfig/networking/devices
 %dir /etc/sysconfig/networking/profiles
-%config /etc/sysconfig/networking/ifcfg-lo
+%dir /etc/sysconfig/networking/profiles/default
 %config(noreplace) /etc/sysconfig/rawdevices
 %config /etc/sysconfig/network-scripts/network-functions
 %config /etc/sysconfig/network-scripts/network-functions-ipv6
