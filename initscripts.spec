@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.93
+Version: 7.93.1
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -206,6 +206,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Oct 27 2004 Bill Nottingham <notting@redhat.com> 7.93.1-1
+- fix prefdm fallback to installed display managers (#137274)
+
 * Mon Oct 18 2004 Bill Nottingham <notting@redhat.com> 7.93-1
 - translation updates
 - fix handling of GATEWAYDEV (#133575, <pekkas@netcore.fi>)
