@@ -570,6 +570,9 @@ for afile in /var/lock/* /var/run/*; do
    fi
 done
 
+# Reset pam_console permissions
+[ -x /sbin/pam_console_apply ] && /sbin/pam_console_apply -r
+
 {
 # Clean up utmp/wtmp
 >/var/run/utmp
