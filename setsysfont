@@ -6,25 +6,18 @@ if [ -f /etc/sysconfig/i18n ]; then
   . /etc/sysconfig/i18n
 fi
 
-if [ -x /bin/consolechars -o -x /usr/bin/consolechars ]; then
-  if [ -n "$SYSFONT" ]; then
-    ARGS=$SYSFONT
-    if [ -n "$UNIMAP" ]; then
-       ARGS="$ARGS --sfm $UNIMAP"
-    fi
-    if [ -n "$SYSFONTACM" ]; then
-       ARGS="$ARGS --acm $SYSFONTACM"
-    fi
-    consolechars -f $ARGS
-  fi
-elif [ -x /usr/bin/setfont ]; then
-  if [ -n "$SYSFONT" -a -n "$UNIMAP" ]; then
-    /usr/bin/setfont $SYSFONT -u $UNIMAP
-  elif [ -n "$SYSFONT" ]; then
-    /usr/bin/setfont $SYSFONT
-#  else
-#    /usr/bin/setfont
-  fi
+[ -z "$SYSFONT" ] && exit 0
+
+if [ -x /bin/setfont -o -x /usr/bin/setfont ]; then
+  PARMS="$SYSFONT"
+  [ -n "$UNIMAP" ] && PARMS="$PARMS -n $UNIMAP"
+  [ -n "$CHARSET" ] && PARMS="$PARMS -m $CHARSET"
+  setfont $PARMS
+elif [ -x /bin/consolechars -o -x /usr/bin/consolechars ]; then
+  ARGS="$SYSFONT"
+  [ -n "$UNIMAP" ] && ARGS="$ARGS --sfm $UNIMAP"
+  [ -n "$SYSFONTACM" ] && ARGS="$ARGS --acm $SYSFONTACM"
+  consolechars -f $ARGS
 else
   echo $"can't set font"
   exit 1
