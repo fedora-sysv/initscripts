@@ -331,6 +331,14 @@ fi
 
 # Update quotas if fsck was run on /.
 if [ X"$_RUN_QUOTACHECK" = X1 -a -x /sbin/quotacheck ]; then
+	if [ -x /sbin/convertquota ]; then
+	    if [ -f /quota.user ]; then
+		/sbin/convertquota -u / && rm -f /quota.user
+	    fi
+	    if [ -f /quota.group ]; then
+		/sbin/convertquota -g / && rm -f /quota.group
+	    fi
+	fi
 	action $"Checking root filesystem quotas: "  /sbin/quotacheck -v /
 fi
 
@@ -512,6 +520,18 @@ fi
 action $"Mounting local filesystems: " mount -a -t nonfs,smbfs,ncpfs
 
 if [ X"$_RUN_QUOTACHECK" = X1 -a -x /sbin/quotacheck ]; then
+	if [ -x /sbin/convertquota ]; then
+	    # try to convert old quotas
+	    for mountpt in `cat /etc/mtab | awk '$4 ~ /quota/{print $2}'`; do
+		if [ -f "$mountpt/quota.user" ]; then
+		    /sbin/convertquota -u $mountpt && \
+			rm -f $mountpt/quota.user
+		fi
+		if [ -f "$mountpt/quota.group" ]; then
+		    /sbin/convertquota -g $mountpt && \
+			rm -f $mountpt/quota.group
+		fi
+	    done
 	action $"Checking filesystem quotas: "  /sbin/quotacheck -v -R -a
 fi
 
