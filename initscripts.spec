@@ -251,6 +251,11 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Feb  7 2001 Bill Nottingham <notting@redhat.com>
+- ipv6 sync ups (#26502, #25775)
+- fix hangs at shutdown (#25744)
+- fix ifup-ppp (#26323)
+
 * Tue Feb  6 2001 Bill Nottingham <notting@redhat.com>
 - modify firewall on ifup to allow any new DNS servers through (#25951)
 - don't muck with the font in lang.csh/lang.sh (#26349)
