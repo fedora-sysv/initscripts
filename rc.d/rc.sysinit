@@ -285,10 +285,10 @@ fi
 if [ -n "$USEMODULES" ]; then
    if grep -s -q "^alias sound " /etc/conf.modules ; then
       action "Loading sound module" modprobe sound
-   fi
-   # Get mixer settings
-   if [ $? -eq 0 -a -f /etc/.aumixrc -a -x /bin/aumix-minimal ]; then
-      action "Loading mixer settings" /bin/aumix-minimal -f /etc/.aumixrc -L >/dev/null
+      # Get mixer settings
+      if [ $? -eq 0 -a -f /etc/.aumixrc -a -x /bin/aumix-minimal ]; then
+        action "Loading mixer settings" /bin/aumix-minimal -f /etc/.aumixrc -L >/dev/null
+      fi
    fi
    if grep -s -q "^alias midi " /etc/conf.modules ; then
       action "Loading midi module" modprobe midi
