@@ -64,7 +64,7 @@ ln -s ../rc.local $RPM_BUILD_ROOT/etc/rc.d/rc5.d/S99local
 for i in 0 1 2 3 4 5 6 ; do
   ln -s rc.d/rc$i.d $RPM_BUILD_ROOT/etc/rc$i.d
 done
-for i in init.d rc rc.sysinit; do
+for i in init.d rc rc.sysinit rc.local ; do
   ln -s rc.d/$i $RPM_BUILD_ROOT/etc/$i
 done
 
@@ -196,6 +196,7 @@ rm -rf $RPM_BUILD_ROOT
 %config(missingok) /etc/rc.d/rc[0-9].d/*
 /etc/init.d
 /etc/rc
+/etc/rc.local
 /etc/rc.sysinit
 %config(missingok) /etc/rc.d/init.d/*
 %config /etc/rc.d/rc
