@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.41
+Version: 5.42
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -240,6 +240,7 @@ rm -rf $RPM_BUILD_ROOT
 
 * Mon Aug  7 2000 Nalin Dahyabhai <nalin@redhat.com>
 - fix demand-dialing support for PPP devices
+- change updetach back to nodetach
 
 * Sun Aug  6 2000 Bill Nottingham <notting@redhat.com>
 - add RETRYCONNECT option for ifcfg-pppX files (kenn@linux.ie)
