@@ -29,6 +29,14 @@ fi
 # Even if IPX is configured, without the utilities we can't do much
 [ ! -x /sbin/ipx_internal_net -o ! -x /sbin/ipx_configure ] && IPX=
 
+# If IPv6 is explicitly configured, make sure it's available.
+if [ "$NETWORKING_IPV6" = "yes" ]; then
+	alias=`modprobe -c | grep net-pf-10 | awk '{ print $2 }'`
+	if [ "$alias" != "ipv6" -a ! -f /proc/net/if_inet6 ]; then
+		echo "alias net-pf-10 ipv6" >> /etc/modules.conf
+	fi
+fi
+
 CWD=`pwd`
 cd /etc/sysconfig/network-scripts
 
