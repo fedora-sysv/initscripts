@@ -11,6 +11,8 @@
 #include <string.h>
 #include <stdio.h>
 
+#include "popt.h"
+
 int main(int argc, char **argv) {
   unsigned long count;
   poptContext optCon;
