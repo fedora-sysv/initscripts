@@ -77,7 +77,10 @@ if [ "$BOOTPROTO" = bootp -a "$ISALIAS" = no ]; then
     ifconfig ${DEVICE} 0.0.0.0 broadcast 255.255.255.255 netmask 0.0.0.0
     route add default ${DEVICE}
     echo "Sending bootp request"
-    TMPFILE=`/bin/mktemp /tmp/bootp-${DEVICE}.XXXXXX`
+    TMPFILE=`/bin/mktemp /tmp/bootp-${DEVICE}.XXXXXX` || {
+	echo 'mktemp failed'
+	exit 1
+    }
     bootpc --returniffail --timeoutwait 6 --dev ${DEVICE} 2>/dev/null > ${TMPFILE}
     if [ "$?" = "0" ]; then
 	. ${TMPFILE}
