@@ -344,7 +344,7 @@ if [ -f /forcefsck ] || strstr "$cmdline" forcefsck ; then
 elif [ -f /.autofsck ]; then
 	[ -f /etc/sysconfig/autofsck ] && . /etc/sysconfig/autofsck
 	if [ "$AUTOFSCK_DEF_CHECK" = "yes" ]; then
-		AUTOFSCK_OPT=-f
+		AUTOFSCK_OPT="$AUTOFSCK_OPT -f"
 	fi
 	fsckoptions="$AUTOFSCK_OPT $fsckoptions"
 fi
