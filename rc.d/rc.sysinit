@@ -45,8 +45,14 @@ fi
 action "Mounting proc filesystem" mount -n -t proc /proc /proc
 
 # Turn off sysrq
-if [ "$MAGIC_SYSRQ" = "no" ]; then
+if [ -f /proc/sys/kernel/sysrq -a "$MAGIC_SYSRQ" = "no" ]; then
 	echo "0" > /proc/sys/kernel/sysrq
+	action "Turning off Magic SysRq key" /bin/true
+fi
+# Turn off Stop-A
+if [ -f /proc/sys/kernel/stop-a -a "$MAGIC_SYSRQ" = "no" ]; then
+	echo "0" > /proc/sys/kernel/stop-a
+	action "Turning off Stop-A" /bin/true
 fi
 
 # Set the system clock.
