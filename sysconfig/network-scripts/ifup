@@ -242,5 +242,9 @@ if [ "${NETWORKING_IPV6}" = "yes" ]; then
     /etc/sysconfig/network-scripts/ifup-ipv6 ${CONFIG}
 fi
 
+if [ "${IPX}" = yes ]; then
+       /etc/sysconfig/network-scripts/ifup-ipx ${DEVICE}
+fi
+
 exec /etc/sysconfig/network-scripts/ifup-post ${CONFIG} ${2}
 
