@@ -17,6 +17,10 @@ that activate and deactivate most network interfaces.
 
 %changelog
 
+* Thu Oct 23 1997 Donnie Barnes <djb@redhat.com>
+
+- added status|restart to init scripts
+
 * Thu Oct 23 1997 Michael K. Johnson <johnsonm@redhat.com>
 
 - touch random seed file before chmod'ing it.
