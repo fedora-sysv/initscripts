@@ -272,6 +272,12 @@ else
 	    ip route replace default ${SRC} dev ${REALDEVICE}
 	fi
     fi
+    
+fi
+
+# Add Zeroconf route.
+if [ -z "${NOZEROCONF}" -a "${ISALIAS}" = "no" ]; then
+    ip route replace 169.254.0.0/16 dev eth0 
 fi
 
 # IPv6 initialisation?
