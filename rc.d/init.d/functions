@@ -424,10 +424,22 @@ warning() {
 action() {
   STRING=$1
   echo -n "$STRING "
+  if [ "${RHGB_STARTED}" != "" -a -w /etc/rhgb/temp/rhgb-console ]; then
+      echo -n "$STRING " > /etc/rhgb/temp/rhgb-console
+  fi
   shift
   initlog $INITLOG_ARGS -c "$*" && success $"$STRING" || failure $"$STRING"
   rc=$?
   echo
+  if [ "${RHGB_STARTED}" != "" -a -w /etc/rhgb/temp/rhgb-console ]; then
+      if [ "$rc" = "0" ]; then
+      	echo_success > /etc/rhgb/temp/rhgb-console
+      else
+        echo_failed > /etc/rhgb/tmp/rhgb-console
+	[ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --details=yes
+      fi
+      echo
+  fi
   return $rc
 }
 

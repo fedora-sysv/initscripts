@@ -383,7 +383,11 @@ if [ -z "$fastboot" -a "$READONLY" != "yes" -a "X$ROOTFSTYPE" != "Xnfs" -a "X$RO
 	else
 		rootdev=/
 	fi
-	initlog -c "fsck -T -a $rootdev $fsckoptions"
+	if [ "${RHGB_STARTED}" != "" -a -w /etc/rhgb/temp/rhgb-console ]; then
+		fsck -T -a $rootdev $fsckoptions > /etc/rhgb/temp/rhgb-console
+	else
+		initlog -c "fsck -T -a $rootdev $fsckoptions"
+	fi
 	rc=$?
 	
 	if [ "$rc" -eq "0" ]; then
@@ -639,7 +643,11 @@ _RUN_QUOTACHECK=0
 if [ -z "$fastboot" ]; then
         STRING=$"Checking filesystems"
 	echo $STRING
-	initlog -c "fsck -T -R -A -a $fsckoptions"
+	if [ "${RHGB_STARTED}" != "" -a -w /etc/rhgb/temp/rhgb-console ]; then
+		fsck -T -R -A -a $fsckoptions > /etc/rhgb/temp/rhgb-console
+	else
+		initlog -c "fsck -T -R -A -a $fsckoptions"
+	fi
 	rc=$?
         if [ "$rc" -eq "0" ]; then
 		success "$STRING"
