@@ -59,3 +59,4 @@ if [ "$sourced" = 1 ]; then
 
     unset SYSFONTACM SYSFONT
 fi
+unset sourced
