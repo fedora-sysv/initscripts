@@ -4,7 +4,7 @@ Name: initscripts
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
-Release: 1
+Release: 2
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /%{_tmppath}/%{name}-%{version}-%{release}-root
 Requires: mingetty, /bin/awk, /bin/sed, mktemp, e2fsprogs >= 1.15, console-tools
@@ -227,6 +227,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Dec 27 1999 Bill Nottingham <notting@redhat.com>
+- switch to using sysctl
+
 * Mon Dec 13 1999 Bill Nottingham <notting@redhat.com>
 - umount /proc *after* trying to turn off raid
 
