@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.47.12
+Version: 6.47.13
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -240,6 +240,8 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Fri Dec  3 2004 Bill Nottingham <notting@redhat.com> 6.47.13-1
+- more fix for #140639
 * Tue Nov 23 2004 Bill Nottingham <notting@redhat.com> 6.47.12-1
 - backport Makefile fix for (#140639)
 

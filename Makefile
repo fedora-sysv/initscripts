@@ -38,8 +38,7 @@ install:
 
 	cp -af rc.d sysconfig ppp $(ROOT)/etc
 	chmod 755 $(ROOT)/etc/rc.d/* $(ROOT)/etc/rc.d/init.d/*
-        chmod 755 $(ROOT)/etc/ppp/peers
-        chmod 755 $(ROOT)/etc/ppp/ip*
+	chmod 755 $(ROOT)/etc/ppp/ip*
 	chmod 755 $(ROOT)/etc/sysconfig/network-scripts/ifup-*
 	chmod 755 $(ROOT)/etc/sysconfig/network-scripts/ifdown-*
 	chmod 755 $(ROOT)/etc/sysconfig/network-scripts/init*
