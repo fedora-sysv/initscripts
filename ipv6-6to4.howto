@@ -1,4 +1,4 @@
-v1.4 10th Jan 2002, Pekka Savola <pekkas@netcore.fi>
+v1.5 1st Sep 2003, Pekka Savola <pekkas@netcore.fi>
 
 HOW TO SET UP IPV6 WITH 6TO4
 ----------------------------
@@ -120,7 +120,7 @@ Usually the following is enough:
 2. Configure radvd as outlined in radvd.conf(5); the file could
    be something like:
 
-   interface eth0
+   interface eth1
    {
 	AdvSendAdvert on;
 	MinRtrAdvInterval 3;
@@ -145,6 +145,18 @@ Usually the following is enough:
 
   IPV6_CONTROL_RADVD=yes
 
+5. Configure the associated routes to other 6to4 subnets to point at 
+   your LAN interfaces; this can be done automatically with 
+   IPV6TO4_ROUTING variable; please refer sysconfig.txt for details.
+   In the particular example, above, this would be like:
+
+  /etc/sysconfig/network-scripts/ifcfg-eth0:
+
+  IPV6TO4_ROUTING="eth1-:1::0/64"
+
+   However, please note that no global address is configured on the
+   interface, just a route!
+
 MORE INFORMATION
 ----------------
 
@@ -157,6 +169,6 @@ Clouds") is the RFC about 6to4.
 ftp://ftp.isi.edu/in-notes/rfc3068.txt ("An Anycast Prefix for 6to4 Relay
 Routers") is the RFC about finding a close 6to4 relay automatically.
 
-http:://www.ietf.org/internet-drafts/draft-savola-ngtrans-6to4-security-00.txt
+http://www.ietf.org/internet-drafts/draft-savola-v6ops-6to4-security-02.txt
 ("Security Considerations and Enhancements for 6to4") explains some
 security considerations in 6to4.
