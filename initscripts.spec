@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.99
+Version: 8.00
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -206,6 +206,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Nov 29 2004 Bill Nottingham <notting@redhat.com> 8.00-1
+- fix previous fix (#139656)
+
 * Wed Nov 24 2004 Bill Nottingham <notting@redhat.com> 7.99-1
 - clear and repopulate mtab before mounting other filesystems (#139656)
 - remove more devfs compat
