@@ -1,7 +1,7 @@
 CFLAGS+=$(RPM_OPT_FLAGS) -Wall -D_GNU_SOURCE
 
 PROGS=usernetctl doexec netreport testd usleep ipcalc initlog minilogd \
-	getkey ppp-watch consoletype
+	getkey ppp-watch consoletype redhat-support-check
 PPPWATCH_OBJS=ppp-watch.o shvar.o
 INITLOG_OBJS=initlog.o process.o
 USLEEP_OBJS=usleep.o
@@ -35,6 +35,7 @@ install:
 	install -m 644 consoletype.1 $(ROOT)$(mandir)/man1
 	install -m 644 initlog.conf $(ROOT)/etc
 	install -m 755 mkkerneldoth $(ROOT)/sbin
+	install -m 755 redhat-support-check $(ROOT)/sbin
 	if uname -m | grep -q s390 ; then \
 	  install -m 755 mkkerneldoth.s390 $(ROOT)/sbin/mkkerneldoth ; \
 	fi
@@ -60,9 +61,15 @@ usleep: $(USLEEP_OBJS)
 ppp-watch: $(PPPWATCH_OBJS)
 	$(CC) $(LDFLAGS) -o $@ $(PPPWATCH_OBJS) -Wl,-Bstatic `pkg-config glib-2.0 --libs` -Wl,-Bdynamic
 
+redhat-support-check: redhat-support-check.o
+	$(CC) $(LDFLAGS) -o $@ redhat-support-check.o -Wl,-Bstatic -lpopt `pkg-config glib-2.0 --libs` -Wl,-Bdynamic
+
 shvar.o: shvar.c
 	$(CC) $(CFLAGS) `pkg-config glib-2.0 --cflags` -c shvar.c -o shvar.o
 
 ppp-watch.o: ppp-watch.c
 	$(CC) $(CFLAGS) `pkg-config glib-2.0 --cflags` -c ppp-watch.c -o ppp-watch.o
+
+redhat-support-check.o: redhat-support-check.c
+	$(CC) $(CFLAGS) `pkg-config glib-2.0 --cflags` -c redhat-support-check.c -o redhat-support-check.o
 
