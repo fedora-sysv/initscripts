@@ -240,6 +240,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Tue Feb 12 2002 Mike A. Harris  <mharris@redhat.com>
+- rc.sysinit: changed /var/log/pacct to /var/account/pacct for FHS 2.2 compliance
+
 * Wed Jan 30 2002 Bill Nottingham <notting@redhat.com>
 - run /bin/setfont, not /usr/bin/setfont (kbd)
 - lots-o-random bugfixes/tweaks (see ChangeLog)
