@@ -39,7 +39,7 @@ install:
 	cp -af rc.d sysconfig ppp $(ROOT)/etc
 	mkdir -p $(ROOT)/etc/sysconfig/networking/default
 	mkdir -p $(ROOT)/etc/sysconfig/networking/devices
-	mkdir -p $(ROOT)/etc/sysconfig/networking/profiles
+	mkdir -p $(ROOT)/etc/sysconfig/networking/profiles/default
 	mv  $(ROOT)/etc/sysconfig/network-scripts/ifcfg-lo \
 		$(ROOT)/etc/sysconfig/networking
 	ln -s ../networking/ifcfg-lo \
