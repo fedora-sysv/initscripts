@@ -260,7 +260,7 @@ rm -rf $RPM_BUILD_ROOT
 - correctly remove non-packaged files for mainframe
 
 * Tue Nov 12 2002 Bill Nottingham <notting@redhat.com> 6.96-1
-- fix various static-routes brokennes (#74317, #74318, #74320, #76619,
+- fix various static-routes brokeness (#74317, #74318, #74320, #76619,
   #75604)
 - fix handling of SYSFONTACM in setsysfont (#75662)
 - fix lang.csh for CJK (#76908, <ynakai@redhat.com>)
