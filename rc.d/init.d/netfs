@@ -1,0 +1,90 @@
+#!/bin/sh
+#
+# netfs         Mount network filesystems.
+#
+# Authors:	Bill Nottingham <notting@redhat.com>
+# 		Miquel van Smoorenburg, <miquels@drinkel.nl.mugnet.org>
+#
+# chkconfig: 345 15 85
+# description: Mounts and unmounts all Network File System (NFS), \
+#	       SMB (Lan Manager/Windows), and NCP (NetWare) mount points.
+
+# Source networking configuration.
+if [ ! -f /etc/sysconfig/network ]; then
+    exit 0
+fi
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+. /etc/sysconfig/network
+
+# Check that networking is up.
+[ ${NETWORKING} = "no" ] && exit 0
+
+NFSFSTAB=`grep -v '^#' /etc/fstab | awk '{ if ($3 ~ /^nfs$/ && $4 !~ /noauto/) print $2}'`
+SMBFSTAB=`grep -v '^#' /etc/fstab | awk '{ if ($3 ~ /^smbfs$/ && $4 !~ /noauto/) print $2}'`
+NCPFSTAB=`grep -v '^#' /etc/fstab | awk '{ if ($3 ~ /^ncpfs$/ && $4 !~ /noauto/) print $2}'`
+NFSMTAB=`grep -v '^#' /proc/mounts | awk '{ if ($3 ~ /^nfs$/ && $4 !~ /noauto/) print $2}'`
+SMBMTAB=`grep -v '^#' /proc/mounts | awk '{ if ($3 ~ /^smbfs$/ && $4 !~ /noauto/) print $2}'`
+NCPMTAB=`grep -v '^#' /proc/mounts | awk '{ if ($3 ~ /^ncpfs$/ && $4 !~ /noauto/) print $2}'`
+
+# See how we were called.
+case "$1" in
+  start)
+        [ -n "$NFSFSTAB" ] && action "Mounting NFS filesystems" mount -a -t nfs
+        [ -n "$SMBFSTAB" ] && action "Mounting SMB filesystems" mount -a -t smbfs
+        [ -n "$NCPFSTAB" ] && action "Mounting NCP filesystems" mount -a -t ncpfs
+	touch /var/lock/subsys/netfs
+	action "Mounting other filesystems" mount -a
+	;;
+  stop)
+	[ -n "$NFSMTAB" ] && action "Unmounting NFS filesystems" umount -a -t nfs
+	[ -n "$SMBMTAB" ] && action "Unmounting SMB filesystems" umount -a -t smbfs
+	[ -n "$NCPMTAB" ] && action "Unmounting NCP filesystems" umount -a -t ncpfs
+	rm -f /var/lock/subsys/netfs
+	;;
+  status)
+	if [ -f /proc/mounts ] ; then
+	        [ -n "$NFSFSTAB" ] && {
+		     echo "Configured NFS mountpoints:"
+		     for fs in $NFSFSTAB; do echo $fs ; done
+		}
+	        [ -n "$SMBFSTAB" ] && {
+		     echo "Configured SMB mountpoints:"
+		     for fs in $SMBFSTAB; do echo $fs ; done
+		}
+	        [ -n "$NCPFSTAB" ] && {
+		     echo "Configured NCP mountpoints:"
+		     for fs in $NCPFSTAB; do echo $fs ; done
+		}
+		[ -n "$NFSMTAB" ] && {
+                      echo "Active NFS mountpoints:"
+		      for fs in $NFSMTAB; do echo $fs ; done
+		}
+		[ -n "$SMBMTAB" ] && {
+                      echo "Active SMB mountpoints:"
+		      for fs in $SMBMTAB; do echo $fs ; done
+		}
+		[ -n "$NCPMTAB" ] && {
+                      echo "Active NCP mountpoints:"
+		      for fs in $NCPMTAB; do echo $fs ; done
+		}
+	else
+		echo "/proc filesystem unavailable"
+	fi
+	;;
+  restart)
+	$0 stop
+	$0 start
+	;;
+  reload)
+        $0 start
+	;;
+  *)
+	echo "Usage: netfs {start|stop|restart|reload|status}"
+	exit 1
+esac
+
+exit 0
+
