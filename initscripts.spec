@@ -182,6 +182,11 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue May 11 1999 Bill Nottingham <notting@redhat.com>
+- various fixes to rc.sysinit
+- fix raid startup
+- allow for multi-processor /etc/issues
+
 * Sun Apr 18 1999 Matt Wilson <msw@redhat.com>
 - fixed typo - "Determing" to "Determining"
 
