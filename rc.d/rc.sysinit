@@ -117,6 +117,10 @@ else
     domainname ""
 fi
 
+# Mount /proc (done here so volume labels can work with fsck)
+
+action "Mounting proc filesystem" mount -n -t proc /proc /proc
+
 if [ -f /fsckoptions ]; then
 	fsckoptions=`cat /fsckoptions`
     else
@@ -166,8 +170,6 @@ fi
 
 # check for arguments 
 
-mount -t proc /proc /proc
-
 if grep -i nopnp /proc/cmdline >/dev/null ; then
     PNP=
 else
@@ -185,6 +187,9 @@ fi
 
 # Remount the root filesystem read-write.
 action "Remounting root filesystem in read-write mode" mount -n -o remount,rw /
+
+# Add /proc to /etc/mtab
+mount -f -t proc /proc /proc
 
 # Update quotas if fsck was run on /.
 if [ X"$_RUN_QUOTACHECK" = X1 -a -x /sbin/quotacheck ]; then
