@@ -84,7 +84,6 @@ add_default_route ()
     . /etc/sysconfig/network
     find_gateway_dev
     if [ "${GATEWAY}" != "" -a "${GATEWAY}" != "none" -a "${GATEWAYDEV}" != "" ] ; then
-        DEVICE=$GATEWAYDEV
         if ! check_device_down ; then
             /sbin/route add default gw ${GATEWAY} ${GATEWAYDEV}
         fi
