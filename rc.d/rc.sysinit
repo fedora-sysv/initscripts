@@ -21,8 +21,9 @@ if [ -z "$HOSTNAME" -o "$HOSTNAME" = "(none)" ]; then
     HOSTNAME=localhost
 fi
 
-# Mount /proc (done here so volume labels can work with fsck)
+# Mount /proc and /sys (done here so volume labels can work with fsck)
 mount -n -t proc /proc /proc
+mount -n -t sysfs /sys /sys >/dev/null 2>&1
 
 . /etc/init.d/functions
 
@@ -373,6 +374,7 @@ rm -f /etc/mtab~ /etc/mtab~~
 # Enter root, /proc and (potentially) /proc/bus/usb and devfs into mtab.
 mount -f /
 mount -f /proc
+mount -f /sys >/dev/null 2>&1
 mount -f /dev/pts
 [ -f /proc/bus/usb/devices ] && mount -f -t usbdevfs usbdevfs /proc/bus/usb
 [ -e /dev/.devfsd ] && mount -f -t devfs devfs /dev 
