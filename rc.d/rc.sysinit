@@ -223,7 +223,7 @@ fi
 
 # Configure kernel parameters
 update_boot_stage RCkernelparam
-action $"Configuring kernel parameters: " sysctl -e -p /etc/sysctl.conf
+sysctl -e -p /etc/sysctl.conf >/dev/null
 
 # Set the system clock.
 update_boot_stage RCclock
