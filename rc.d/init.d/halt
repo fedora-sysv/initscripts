@@ -62,6 +62,8 @@ SWAPS=`awk '! /^Filename/ { print $1 }' /proc/swaps`
 
 [ -x /sbin/accton ] && runcmd "Turning off accounting" /sbin/accton
 
+[ -x /sbin/qutoaoff ] && runcmd "Turning off quotas" /sbin/quotaoff -a
+
 # Unmount file systems, killing processes if we have to.
 sig=
 retry=3
