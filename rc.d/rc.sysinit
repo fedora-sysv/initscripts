@@ -144,6 +144,42 @@ else
     domainname ""
 fi
 
+# Initialize USB controller and HID devices
+
+usb=1
+modprobe usb-controller 2>/dev/null || usb=0
+if [ $usb == "0" ] ; then
+    usbpresent=`grep -i usb /proc/pci`
+    uhci=`grep -A2 -i usb /proc/pci |grep "I/O at"`
+    if [ -n "$usbpresent" ]; then
+	usb=1
+	if [ -n "$uhci" ]; then
+	    modprobe uhci 2>/dev/null || usb=0
+	else
+	    modprobe usb-ohci 2>/dev/null || usb=0
+	fi
+   fi
+fi
+if [ $usb == "1" ]; then
+    action "Initializing USB controller: " /bin/true
+fi
+
+if [ $usb == "1" ]; then
+    sleep 5
+    action "Mount USB filesystem"  mount -t usbdevfs usbdevfs /proc/bus/usb
+    mouseoutput=`cat /proc/bus/usb/devices|grep -E "^I.*Cls=03.*Prot=02"`
+    kbdoutput=`cat /proc/bus/usb/devices|grep -E "^I.*Cls=03.*Prot=01"`
+    if [ -n "$kbdoutput" ] || [ -n "$mouseoutput" ]; then
+	action "Initializing USB HID interface" modprobe hid 2> /dev/null
+    fi
+    if [ -n "$kbdoutput" ]; then
+	action "Initializing USB keyboard:" modprobe keybdev
+    fi
+    if [ -n "$mouseoutput" ]; then
+	action "Initializing USB mouse" modprobe mousedev
+    fi
+fi
+
 if [ -f /fastboot -o grep -q "fastboot" /proc/cmdline 2>/dev/null ]; then
 	fastboot=yes
     else
@@ -230,9 +266,10 @@ action "Remounting root filesystem in read-write mode" mount -n -o remount,rw /
 # Remove stale backups
 rm -f /etc/mtab~ /etc/mtab~~
 
-# Enter root and /proc into mtab.
+# Enter root and /proc and /proc/bus/usb into mtab.
 mount -f /
 mount -f /proc
+[ -f /proc/bus/usb/devices ] && mount -f /proc/bus/usb
 
 # Turn on harddisk optimization
 if [ -f /etc/sysconfig/harddisks ]  && [ -x /sbin/hdparm ]; then
@@ -264,42 +301,6 @@ if [ -f /etc/sysconfig/harddisks ]  && [ -x /sbin/hdparm ]; then
  	done
     fi
 fi    
-
-# Initialize USB controller and HID devices
-
-usb=1
-modprobe usb-controller 2>/dev/null || usb=0
-if [ $usb == "0" ] ; then
-    usbpresent=`grep -i usb /proc/pci`
-    uhci=`grep -A2 -i usb /proc/pci |grep "I/O at"`
-    if [ -n "$usbpresent" ]; then
-	usb=1
-	if [ -n "$uhci" ]; then
-	    modprobe uhci 2>/dev/null || usb=0
-	else
-	    modprobe usb-ohci 2>/dev/null || usb=0
-	fi
-   fi
-fi
-if [ $usb == "1" ]; then
-    action "Initializing USB controller: " /bin/true
-fi
-
-if [ $usb == "1" ]; then
-    sleep 5
-    action "Mount USB filesystem"  mount -t usbdevfs usbdevfs /proc/bus/usb
-    mouseoutput=`cat /proc/bus/usb/devices|grep -E "^I.*Cls=03.*Prot=02"`
-    kbdoutput=`cat /proc/bus/usb/devices|grep -E "^I.*Cls=03.*Prot=01"`
-    if [ -n "$kbdoutput" ] || [ -n "$mouseoutput" ]; then
-	action "Initializing USB HID interface" modprobe hid 2> /dev/null
-    fi
-    if [ -n "$kbdoutput" ]; then
-	action "Initializing USB keyboard:" modprobe keybdev
-    fi
-    if [ -n "$mouseoutput" ]; then
-	action "Initializing USB mouse" modprobe mousedev
-    fi
-fi
 
 # Update quotas if fsck was run on /.
 if [ X"$_RUN_QUOTACHECK" = X1 -a -x /sbin/quotacheck ]; then
