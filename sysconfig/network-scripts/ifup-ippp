@@ -246,10 +246,15 @@ function addprovider()
     [ -n "$ISDN_HOSTNAME" ] && options="$options hostname $ISDN_HOSTNAME"
  
     # Set authentication
-    for i in $AUTH ; do
+    #for i in $AUTH ; do
+    #    options="$options $i"
+    #done
+
+    # add ppp options
+    for i in $PPPOPTIONS ; do
         options="$options $i"
     done
- 
+
     # check dns entry
     if [ -z "$DNS1" -a -z "$DNS2" ]; then
         options="$options ms-get-dns"

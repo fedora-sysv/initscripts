@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.93
+Version: 5.94
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -222,6 +222,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Jun 27 2001 Than Ngo <than@redhat.com>
+- fix pap/chap authentication for syncppp
+- support ippp options
+	
 * Mon Jun 25 2001 Bill Nottingham <notting@redhat.com>
 - add ifup-wireless
 
