@@ -283,6 +283,9 @@ fi
 # Clean out /etc.
 rm -f /etc/mtab~ /fastboot /fsckoptions /forcefsck
 >/var/run/utmp
+>/var/log/wtmp
+chgrp utmp /var/run/utmp /var/log/wtmp
+chmod 0664 /var/run/utmp /var/log/wtmp
 
 # Delete pam_console lock and refcount files
 rm -f /var/lock/console.lock

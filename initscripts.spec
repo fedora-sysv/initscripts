@@ -4,12 +4,12 @@ Name: initscripts
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
-Release: 4
+Release: 5
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /var/tmp/initbld
 Requires: mingetty, bash, /bin/awk, /bin/sed, mktemp, modutils >= 2.1.85-3, e2fsprogs, sysklogd >= 1.3.31, procps
 Conflicts: redhat-release <= 5.1
-Prereq: /sbin/chkconfig
+Prereq: /sbin/chkconfig, /usr/sbin/groupadd
 
 %description
 The initscripts package contains the basic system scripts used to boot
@@ -75,10 +75,14 @@ ln -s ../rc.local $RPM_BUILD_ROOT/etc/rc.d/rc2.d/S99local
 ln -s ../rc.local $RPM_BUILD_ROOT/etc/rc.d/rc3.d/S99local
 ln -s ../rc.local $RPM_BUILD_ROOT/etc/rc.d/rc5.d/S99local
 
+%pre
+/usr/sbin/groupadd -r -f utmp
 
 %post
 if [ ! -f /var/log/wtmp ]; then
   touch /var/log/wtmp
+  chgrp utmp /var/log/wtmp
+  chmod 664 /var/log/wtmp
 fi
 
 chkconfig --add random 
@@ -169,6 +173,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc sysconfig.txt sysvinitfiles
 
 %changelog
+* Wed Apr 07 1999 Erik Troan <ewt@redhat.com>
+- changed utmp,wtmp to be group writeable and owned by group wtmp
+
 * Tue Apr 06 1999 Bill Nottingham <notting@redhat.com>
 - fix loading of consolefonts/keymaps
 - three changelogs. three developers. one day. Woohoo!
