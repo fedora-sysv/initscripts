@@ -74,8 +74,12 @@ if [ "$PEERDNS" != "no" -o "$RESOLV_MODS" != "no" ]; then
     done
     
     # maintain permissions
+    # but set umask in case it doesn't exist!
+    oldumask=`umask`
+    umask 022
     cat $tr > /etc/resolv.conf
     rm -f $tr
+    umask $oldumask
   fi
 fi
 
