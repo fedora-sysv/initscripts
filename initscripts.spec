@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.83
+Version: 7.84
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -206,9 +206,15 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Sep 22 2004 Bill Nottingham <notting@redhat.com> - 7.84-1
+- only start udev once
+
 * Wed Sep 22 2004 Jeremy Katz <katzj@redhat.com> - 7.83-1
 - conflict with old udev
 - use udev if it's present
+
+* Tue Sep 21 2004 Bill Nottingham <notting@redhat.com>
+- don't mount usbfs without usb. also, at least be consistent in filesystem type
 
 * Fri Sep 17 2004 Bill Nottingham <notting@redhat.com> - 7.82-1
 - fix handling of nonexistent devices (#132839)
