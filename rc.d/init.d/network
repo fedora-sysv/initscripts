@@ -66,6 +66,9 @@ case "$1" in
 	    ;;
 	esac
 
+	oldhotplug=`sysctl kernel.hotplug | awk '{ print $3 }' 2>/dev/null`
+	sysctl -w kernel.hotplug="/bin/true" > /dev/null 2>&1
+
 	for i in $interfaces; do
 		if egrep -L "^ONBOOT=\"?[Nn][Oo]\"?" ifcfg-$i >/dev/null 2>&1 ; then
 		        if [ "${i##eth}" != "$i" ]; then
@@ -95,6 +98,8 @@ case "$1" in
 			action $"Bringing up interface $i: " ./ifup $i boot
 		fi
 	done
+	
+	sysctl -w kernel.hotplug=$oldhotplug > /dev/null 2>&1
 	
 	# Add non interface-specific static-routes.
 	if [ -f /etc/sysconfig/static-routes ]; then
