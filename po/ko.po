@@ -20,7 +20,7 @@ msgstr "$1 서비스를 시작할까요? 예(Y)/아니오(N)/계속(C) [Y] "
 msgid "Starting UPS monitor (slave): "
 msgstr "UPS 모니터 (slave) 시작중 입니다: "
 
-#: /etc/rc.d/rc.sysinit:504
+#: /etc/rc.d/rc.sysinit:502
 msgid "Checking filesystems"
 msgstr "파일시스템을 확인하고 있습니다"
 
@@ -28,8 +28,8 @@ msgstr "파일시스템을 확인하고 있습니다"
 msgid "Reloading cron daemon configuration: "
 msgstr "cron 데몬 설정을 다시 읽음: "
 
-#: /etc/rc.d/init.d/ip6tables:193 /etc/rc.d/init.d/ip6tables:194
-#: /etc/rc.d/init.d/iptables:195 /etc/rc.d/init.d/iptables:196
+#: /etc/rc.d/init.d/ip6tables:195 /etc/rc.d/init.d/ip6tables:196
+#: /etc/rc.d/init.d/iptables:197 /etc/rc.d/init.d/iptables:198
 msgid "Saving current rules to $IPTABLES_CONFIG"
 msgstr "$IPTABLES_CONFIG로 현재의 규칙들을 저장하고 있습니다."
 
@@ -37,9 +37,15 @@ msgstr "$IPTABLES_CONFIG로 현재의 규칙들을 저장하고 있습니다."
 msgid "Stopping YP map server: "
 msgstr "YP map 서버를 종료함: "
 
+#: /etc/sysconfig/network-scripts/ifup:85
+#: /etc/sysconfig/network-scripts/ifup:145
+#, fuzzy
+msgid ""
+"$alias device ${DEVICE} does not seem to be present, delaying initialization."
+msgstr "$alias 장치가 없는것 같습니다. $[DEVICE]의 기초화를 연기합니다."
+
 #: /etc/rc.d/init.d/amd:96 /etc/rc.d/init.d/autofs:320
-#: /etc/rc.d/init.d/bgpd:56 /etc/rc.d/init.d/irda:69
-#: /etc/rc.d/init.d/keytable:72 /etc/rc.d/init.d/ospfd:57
+#: /etc/rc.d/init.d/bgpd:56 /etc/rc.d/init.d/irda:69 /etc/rc.d/init.d/ospfd:57
 #: /etc/rc.d/init.d/ripd:56 /etc/rc.d/init.d/ripngd:56
 #: /etc/rc.d/init.d/sshd:151 /etc/rc.d/init.d/zebra:54
 msgid "Usage: $0 {start|stop|restart|reload|condrestart|status}"
@@ -53,7 +59,7 @@ msgstr "$x 시작"
 msgid "Starting console mouse services: "
 msgstr "콘솔 마우스 서비스를 시작함: "
 
-#: /etc/rc.d/init.d/ntpd:69
+#: /etc/rc.d/init.d/ntpd:65
 msgid "$prog: Opening firewall for input from $server port 123"
 msgstr "$prog: 입력을 위해 $server 포트 123에서 방화벽을 여는 중입니다."
 
@@ -73,7 +79,7 @@ msgstr "X가 설정되지 않았습니다.  redhat-config-xfree86를 실행합�
 msgid "Shutting down $MODEL: "
 msgstr "$MODEL (을)를 종료하고 있습니다: "
 
-#: /etc/rc.d/init.d/httpd:103
+#: /etc/rc.d/init.d/httpd:107
 msgid ""
 "Usage: $prog {start|stop|restart|condrestart|reload|status|fullstatus|"
 "graceful|help|configtest}"
@@ -127,7 +133,7 @@ msgstr "INND 시스템을 시작하고 있습니다: "
 msgid "Unmounting loopback filesystems (retry):"
 msgstr "loopback 파일시스템을 분리하고 있습니다 (재시도): "
 
-#: /etc/rc.d/init.d/ip6tables:148 /etc/rc.d/init.d/iptables:150
+#: /etc/rc.d/init.d/ip6tables:151 /etc/rc.d/init.d/iptables:153
 msgid "Table: $table"
 msgstr "테이블: $table"
 
@@ -151,7 +157,7 @@ msgstr "터널의 원거리 IPv4주소가 없습니다, 설정이 맞지 않습�
 msgid "Shutting down PCMCIA services:"
 msgstr "PCMCIA 서비스를 종료하고 있습니다: "
 
-#: /etc/rc.d/rc.sysinit:741
+#: /etc/rc.d/rc.sysinit:740
 msgid "Setting hard drive parameters for ${disk[$device]}: "
 msgstr "${disk[$device]}의 하드디스크 매개 변수를 설정하고 있습니다: "
 
@@ -164,11 +170,11 @@ msgid "restart"
 msgstr "재시작"
 
 #: /etc/sysconfig/network-scripts/ifdown:59
-#: /etc/sysconfig/network-scripts/ifup:97
+#: /etc/sysconfig/network-scripts/ifup:156
 msgid "Device ${DEVICE} has different MAC address than expected, ignoring."
 msgstr "${DEVICE} 장치가 예기치 않은 MAC주소를 가지고 있습니다, 무시합니다."
 
-#: /etc/sysconfig/network-scripts/ifup:231
+#: /etc/sysconfig/network-scripts/ifup:290
 msgid "Error, some other host already uses address ${IPADDR}."
 msgstr "에러 발생, 다른 호스트에서 ${IPADDR}를 사용하고 있습니다."
 
@@ -182,25 +188,26 @@ msgstr "NCP 장착점을 설정하였습니다: "
 
 #: /etc/rc.d/init.d/privoxy:265
 msgid "Usage: $PRIVOXY_PRG {start|stop|reload|restart|condrestart|status|top}"
-msgstr "사용법: $PRIVOXY_PRG {start|stop|reload|restart|condrestart|status|top}"
+msgstr ""
+"사용법: $PRIVOXY_PRG {start|stop|reload|restart|condrestart|status|top}"
 
-#: /etc/rc.d/init.d/ip6tables:79
-msgid "Applying ip6tables firewall rules: "
-msgstr "ip6tables 방화벽 규칙들을 적용함: "
+#: /etc/rc.d/init.d/halt:158
+msgid "Unmounting file systems (retry): "
+msgstr "파일시스템을 분리하고 있습니다 (재시도):"
 
 #: /etc/rc.d/init.d/apmd:26
 msgid "Starting up APM daemon: "
 msgstr "APM 데몬을 시작함: "
 
-#: /etc/rc.d/init.d/ip6tables:199 /etc/rc.d/init.d/iptables:201
+#: /etc/rc.d/init.d/ip6tables:201 /etc/rc.d/init.d/iptables:203
 msgid "Usage: $0 {start|stop|restart|condrestart|status|panic|save}"
 msgstr "사용법: $0 {start|stop|restart|condrestart|status|panic|save}"
 
-#: /etc/rc.d/init.d/functions:317
-msgid "OK"
-msgstr "확인"
+#: /etc/rc.d/init.d/functions:331
+msgid "FAILED"
+msgstr "실패"
 
-#: /etc/rc.d/init.d/ip6tables:189 /etc/rc.d/init.d/iptables:191
+#: /etc/rc.d/init.d/ip6tables:191 /etc/rc.d/init.d/iptables:193
 msgid "Saving current rules to $IPTABLES_CONFIG: "
 msgstr "현 규칙들을 $IPTABLES_CONFIG:로 저장하고 있습니다: "
 
@@ -208,9 +215,9 @@ msgstr "현 규칙들을 $IPTABLES_CONFIG:로 저장하고 있습니다: "
 msgid "Starting $KIND services: "
 msgstr "$KIND서비스를 시작하고 있습니다: "
 
-#: /etc/sysconfig/network-scripts/ifup:112
-msgid "Enslaving ${DEVICE} to ${MASTER}"
-msgstr "${DEVICE} 장치를 ${MASTER}에 종속 시키고 있습니다"
+#: /etc/rc.d/init.d/vncserver:50 /etc/rc.d/init.d/vncserver:51
+msgid "vncserver shutdown"
+msgstr "vncserver 종료"
 
 #: /etc/rc.d/init.d/rwhod:32
 msgid "Stopping rwho services: "
@@ -221,7 +228,7 @@ msgid "cardmgr is stopped"
 msgstr "cardmgr이 종료되었습니다."
 
 #: /etc/rc.d/init.d/rhnsd:82 /etc/rc.d/init.d/snmpd:76
-#: /etc/rc.d/init.d/snmptrapd:74 /etc/rc.d/init.d/xinetd:118
+#: /etc/rc.d/init.d/snmptrapd:74 /etc/rc.d/init.d/xinetd:114
 msgid "Usage: $0 {start|stop|status|restart|condrestart|reload}"
 msgstr "사용법: $0 {start|stop|status|restart|condrestart|reload}"
 
@@ -249,7 +256,7 @@ msgstr "firmware를 읽어오는데 실패했습니다."
 msgid "Forcing file system integrity check due to default setting"
 msgstr "기본설정을 따라 파일 시스템 무결성 검사에 들어갑니다"
 
-#: /etc/rc.d/init.d/network:211
+#: /etc/rc.d/init.d/network:224
 msgid "Disabling IPv4 automatic defragmentation: "
 msgstr "IPv4의 자동 조각모음을 종료하고 있습니다: "
 
@@ -277,9 +284,9 @@ msgstr "$FILE에 오류 발생: IPADDR_START 와 IPADDR_END가 일치하지 않�
 msgid "Device '$DEVICE' is already up, please shutdown first"
 msgstr "'$DEVICE' 장치가 이미 켜져 있습니다. 먼저 종료하십시오."
 
-#: /etc/sysconfig/network-scripts/ifup:188
-#: /etc/sysconfig/network-scripts/ifup:190
-#: /etc/sysconfig/network-scripts/ifup:192
+#: /etc/sysconfig/network-scripts/ifup:247
+#: /etc/sysconfig/network-scripts/ifup:249
+#: /etc/sysconfig/network-scripts/ifup:251
 msgid " done."
 msgstr " 완료."
 
@@ -317,11 +324,12 @@ msgstr "$0: 'halt'나 'reboot'로 불러 주십시요!"
 msgid "WARNING"
 msgstr "주의"
 
-#: /etc/rc.d/init.d/isdn:232
-msgid "$NAME is attached to $DEVICE"
-msgstr "$NAME이 $DEVICE에 연결되어 있습니다"
+#: /etc/rc.d/init.d/network:87
+#, fuzzy
+msgid "Setting 802.1Q VLAN parameters: "
+msgstr "네트워크 매개 변수를 설정하고 있습니다: "
 
-#: /etc/rc.d/init.d/named:104
+#: /etc/rc.d/init.d/named:106
 msgid "Usage: $0 {start|stop|status|restart|condrestart|reload|probe}"
 msgstr "사용법: $0 {start|stop|status|restart|condrestart|reload|probe}"
 
@@ -336,29 +344,27 @@ msgstr ""
 "더 자세한 내용은 $SYSDOCDIR/postgresql-$PGVERSION/README.rpm-dist를 참고하시"
 "기 바랍니다."
 
-#: /etc/rc.d/init.d/bgpd:33 /etc/rc.d/init.d/dhcpd:38
-#: /etc/rc.d/init.d/dhcrelay:45 /etc/rc.d/init.d/FreeWnn:43
-#: /etc/rc.d/init.d/irda:31 /etc/rc.d/init.d/ntpd:121
-#: /etc/rc.d/init.d/ospf6d:33 /etc/rc.d/init.d/ospfd:34
-#: /etc/rc.d/init.d/ripd:33 /etc/rc.d/init.d/ripngd:33
-#: /etc/rc.d/init.d/sendmail:73 /etc/rc.d/init.d/vncserver:41
-#: /etc/rc.d/init.d/vsftpd:54 /etc/rc.d/init.d/xfs:70
-#: /etc/rc.d/init.d/zebra:31
+#: /etc/rc.d/init.d/bgpd:33 /etc/rc.d/init.d/bluetooth:48
+#: /etc/rc.d/init.d/dhcpd:38 /etc/rc.d/init.d/dhcrelay:45
+#: /etc/rc.d/init.d/FreeWnn:43 /etc/rc.d/init.d/irda:31
+#: /etc/rc.d/init.d/ntpd:123 /etc/rc.d/init.d/ospf6d:33
+#: /etc/rc.d/init.d/ospfd:34 /etc/rc.d/init.d/ripd:33
+#: /etc/rc.d/init.d/ripngd:33 /etc/rc.d/init.d/sendmail:73
+#: /etc/rc.d/init.d/vncserver:41 /etc/rc.d/init.d/vsftpd:54
+#: /etc/rc.d/init.d/xfs:70 /etc/rc.d/init.d/zebra:31
 msgid "Shutting down $prog: "
 msgstr "$prog를 종료하고 있습니다: "
 
-#: /etc/rc.d/init.d/halt:158
-msgid "Unmounting file systems (retry): "
-msgstr "파일시스템을 분리하고 있습니다 (재시도):"
+#: /etc/rc.d/init.d/ip6tables:79
+msgid "Applying ip6tables firewall rules: "
+msgstr "ip6tables 방화벽 규칙들을 적용함: "
 
 #: /etc/sysconfig/network-scripts/ifup-aliases:314
 msgid "error in $FILE: IPADDR_START greater than IPADDR_END"
 msgstr "$FILE에 오류 발생: IPADDR_START가 IPADDR_END보다 큽니다"
 
-#: /etc/rc.d/init.d/ip6tables:100 /etc/rc.d/init.d/ip6tables:184
-#: /etc/rc.d/init.d/ip6tables:185 /etc/rc.d/init.d/ipchains:103
-#: /etc/rc.d/init.d/iptables:102 /etc/rc.d/init.d/iptables:186
-#: /etc/rc.d/init.d/iptables:187
+#: /etc/rc.d/init.d/ip6tables:100 /etc/rc.d/init.d/ipchains:103
+#: /etc/rc.d/init.d/iptables:102
 msgid "Removing user defined chains:"
 msgstr "사용자 정의한 chain을 삭제중 입니다: "
 
@@ -379,7 +385,7 @@ msgstr "정보    "
 msgid "Unmounting network block filesystems (retry): "
 msgstr "네트워크 블록 파일시스템을 분리중입니다 (재시도): "
 
-#: /etc/rc.d/rc.sysinit:269 /etc/rc.d/rc.sysinit:478 /etc/rc.d/rc.sysinit:527
+#: /etc/rc.d/rc.sysinit:268 /etc/rc.d/rc.sysinit:476 /etc/rc.d/rc.sysinit:524
 msgid "*** Dropping you to a shell; the system will reboot"
 msgstr "*** 쉘로 들어갑니다; 시스템이 재시작 할것입니다"
 
@@ -392,11 +398,11 @@ msgstr "/etc/auto.master의 변동사항 확인중 ..."
 msgid "Please restart network with '/sbin/service network restart'"
 msgstr "'/sbin/service network restart'로 네트워크를 다시 시작하시기 바랍니다"
 
-#: /etc/rc.d/rc.sysinit:300 /etc/rc.d/rc.sysinit:560
+#: /etc/rc.d/rc.sysinit:299 /etc/rc.d/rc.sysinit:557
 msgid "Converting old group quota files: "
 msgstr "옛 그룹 쿼터 파일을 업그레이드중 입니다:"
 
-#: /etc/rc.d/init.d/kudzu:49
+#: /etc/rc.d/init.d/kudzu:53
 msgid "Hardware configuration timed out."
 msgstr "하드웨어 설정 시간 만료"
 
@@ -412,7 +418,7 @@ msgstr "다른 파일시스템을 장착하고 있습니다."
 msgid "No Printers Defined"
 msgstr "설정된 프린터가 없습니다"
 
-#: /etc/rc.d/init.d/network:66
+#: /etc/rc.d/init.d/network:69
 msgid "Setting network parameters: "
 msgstr "네트워크 매개 변수를 설정하고 있습니다: "
 
@@ -428,11 +434,7 @@ msgstr "NFS 데몬을 종료 중입니다: "
 msgid "Unmounting NCP filesystems: "
 msgstr "NCP 파일시스템을 분리중입니다: "
 
-#: /etc/rc.d/init.d/netdump:171
-msgid "disabling netdump"
-msgstr "netdump를 종료하고 있습니다."
-
-#: /etc/rc.d/init.d/network:226
+#: /etc/rc.d/init.d/network:239
 msgid "Configured devices:"
 msgstr "설정된 장치들:"
 
@@ -440,10 +442,8 @@ msgstr "설정된 장치들:"
 msgid "Stopping INNFeed service: "
 msgstr "INNFeed 서비스를 정지하고 있습니다: "
 
-#: /etc/rc.d/init.d/ip6tables:90 /etc/rc.d/init.d/ip6tables:174
-#: /etc/rc.d/init.d/ip6tables:175 /etc/rc.d/init.d/ipchains:102
-#: /etc/rc.d/init.d/iptables:91 /etc/rc.d/init.d/iptables:176
-#: /etc/rc.d/init.d/iptables:177
+#: /etc/rc.d/init.d/ip6tables:90 /etc/rc.d/init.d/ipchains:102
+#: /etc/rc.d/init.d/iptables:91
 msgid "Flushing all chains:"
 msgstr "Chain을 모두 삭제중  입니다:"
 
@@ -498,7 +498,7 @@ msgstr "IPTABLES 방화벽 규칙들을 적용함: "
 msgid "ifup-sl for $DEVICE exiting"
 msgstr "$DEVICE의 ifup-sl 종료중"
 
-#: /etc/rc.d/init.d/kudzu:77
+#: /etc/rc.d/init.d/kudzu:81
 msgid "Usage: $0 {start|stop}"
 msgstr "사용법: $0 {start|stop}"
 
@@ -514,13 +514,15 @@ msgstr "랜덤 데이터 소스가 존재합니다"
 msgid "Mounting USB filesystem: "
 msgstr "USB 파일시스템을 장착중 입니다: "
 
-#: /etc/rc.d/rc.sysinit:481
+#: /etc/rc.d/rc.sysinit:479
 msgid "(RAID Repair)"
 msgstr "(RAID 복구)"
 
-#: /etc/rc.d/init.d/vncserver:50 /etc/rc.d/init.d/vncserver:51
-msgid "vncserver shutdown"
-msgstr "vncserver 종료"
+#: /etc/rc.d/init.d/cups:97 /etc/rc.d/init.d/httpd:70 /etc/rc.d/init.d/lisa:61
+#: /etc/rc.d/init.d/lpd:101 /etc/rc.d/init.d/named:69
+#: /etc/rc.d/init.d/snmpd:38 /etc/rc.d/init.d/xfs:84
+msgid "Reloading $prog: "
+msgstr "$prog를 재시작 하고 있습니다: "
 
 #: /etc/rc.d/init.d/psacct:18
 msgid "Starting process accounting: "
@@ -530,7 +532,7 @@ msgstr "프로세스 계산을 시작: "
 msgid "Starting YP map server: "
 msgstr "YP map서버를 시작 중입니다: "
 
-#: /etc/rc.d/rc.sysinit:547
+#: /etc/rc.d/rc.sysinit:544
 msgid "Mounting local filesystems: "
 msgstr "로컬 파일시스템 장착중 입니다: "
 
@@ -600,7 +602,7 @@ msgstr "     Raw장치가 이제 /dev/raw/디렉토리에 존재합니다"
 msgid "Shutting down APM daemon: "
 msgstr "APM 데몬을 종료중입니다: "
 
-#: /etc/sysconfig/network-scripts/ifup:194
+#: /etc/sysconfig/network-scripts/ifup:253
 msgid " failed."
 msgstr " 실패."
 
@@ -620,11 +622,11 @@ msgstr "NFS 장착점을 설정했습니다: "
 msgid "/etc/sysconfig/network-scripts/chat-${DEVNAME} does not exist"
 msgstr "/etc/sysconfig/network-scripts/chat-${DEVNAME} 가 존재하지 않습니다"
 
-#: /etc/rc.d/rc.sysinit:268 /etc/rc.d/rc.sysinit:526
+#: /etc/rc.d/rc.sysinit:267 /etc/rc.d/rc.sysinit:523
 msgid "*** An error occurred during the file system check."
 msgstr "*** 파일시스템 검사중 에러가 발생했습니다."
 
-#: /etc/rc.d/init.d/ip6tables:154 /etc/rc.d/init.d/iptables:156
+#: /etc/rc.d/init.d/ip6tables:157 /etc/rc.d/init.d/iptables:159
 msgid "Changing target policies to DROP: "
 msgstr "목표 규칙을 DROP으로 바꾸고 있습니다: "
 
@@ -648,9 +650,9 @@ msgstr "시스템 기록을 종료하고 있습니다:  "
 msgid "Usage: status {program}"
 msgstr "사용법: status {program}"
 
-#: /etc/rc.d/init.d/functions:213
-msgid "$base $killlevel"
-msgstr "$base $killlevel"
+#: /etc/rc.d/init.d/netdump:171
+msgid "disabling netdump"
+msgstr "netdump를 종료하고 있습니다."
 
 #: /etc/rc.d/init.d/microcode_ctl:73
 msgid "$0: reading microcode status is not yet supported"
@@ -672,7 +674,7 @@ msgstr "$prog를 종료중 입니다"
 msgid "cardmgr (pid $pid) is running..."
 msgstr "cardmgr (pid $pid)가 실행중 입니다..."
 
-#: /etc/sysconfig/network-scripts/ifup:174
+#: /etc/sysconfig/network-scripts/ifup:233
 msgid " failed; no link present.  Check cable?"
 msgstr " 실패; 연결이 존재하지 않습니다.  케이블을 확인하시겠습니까?"
 
@@ -700,28 +702,28 @@ msgstr "다음 모듈을 읽어오는데 실패했습니다: isicom"
 msgid "Sending all processes the KILL signal..."
 msgstr "모든 프로세스에 종료 명령을 보내고 있습니다..."
 
-#: /etc/rc.d/rc.sysinit:313
+#: /etc/rc.d/rc.sysinit:312
 msgid "Setting up ISA PNP devices: "
 msgstr "ISA PNP 장치 설정중입니다: "
 
-#: /etc/sysconfig/network-scripts/ifup:250
+#: /etc/sysconfig/network-scripts/ifup:309
 msgid "Error adding address ${IPADDR} for ${DEVICE}."
 msgstr "${DEVICE}를 위한 주소 ${IPADDR}를 추가 하는데 에러 발생"
 
-#: /etc/rc.d/rc.sysinit:423
+#: /etc/rc.d/rc.sysinit:422
 msgid "Starting up RAID devices: "
 msgstr "RAID 장치를 시작중입니다: "
 
 #: /etc/rc.d/init.d/anacron:58 /etc/rc.d/init.d/atd:80
 #: /etc/rc.d/init.d/canna:59 /etc/rc.d/init.d/dhcpd:71
 #: /etc/rc.d/init.d/dhcrelay:78 /etc/rc.d/init.d/gpm:86
-#: /etc/rc.d/init.d/ntpd:154 /etc/rc.d/init.d/sendmail:114
+#: /etc/rc.d/init.d/ntpd:156 /etc/rc.d/init.d/sendmail:114
 #: /etc/rc.d/init.d/ups:102 /etc/rc.d/init.d/vncserver:78
 #: /etc/rc.d/init.d/vsftpd:87
 msgid "Usage: $0 {start|stop|restart|condrestart|status}"
 msgstr "사용법: $0 {start|stop|restart|condrestart|status}"
 
-#: /etc/rc.d/init.d/network:201
+#: /etc/rc.d/init.d/network:214
 msgid "Shutting down loopback interface: "
 msgstr "loopback 인터페이스를 종료함: "
 
@@ -742,7 +744,7 @@ msgstr "YP passwd 서비스를 정지하고 있습니다: "
 msgid "Configured Mount Points:"
 msgstr "설정된 장착점: "
 
-#: /etc/rc.d/rc.sysinit:566
+#: /etc/rc.d/rc.sysinit:563
 msgid "Checking local filesystem quotas: "
 msgstr "로컬 파일시스템의 쿼터를 검사함: "
 
@@ -758,7 +760,7 @@ msgstr "$message"
 msgid "$prog: Synchronizing with time server: "
 msgstr "$prog: 시간 서버와 동기화함: "
 
-#: /etc/rc.d/rc.sysinit:296 /etc/rc.d/rc.sysinit:555
+#: /etc/rc.d/rc.sysinit:295 /etc/rc.d/rc.sysinit:552
 msgid "Converting old user quota files: "
 msgstr "이전 사용자 쿼터 파일을 업그레이드 중입니다: "
 
@@ -766,7 +768,7 @@ msgstr "이전 사용자 쿼터 파일을 업그레이드 중입니다: "
 msgid "Starting $prog for $site: "
 msgstr "$site에 대한 $prog을 시작합니다: "
 
-#: /etc/rc.d/rc.sysinit:570
+#: /etc/rc.d/rc.sysinit:567
 msgid "Enabling local filesystem quotas: "
 msgstr "로컬 파일시스템 쿼타를 활성화 중입니다: "
 
@@ -774,20 +776,26 @@ msgstr "로컬 파일시스템 쿼타를 활성화 중입니다: "
 msgid "Stopping routed (RIP) services: "
 msgstr "routed (RIP) 서비스를 종료함: "
 
+#: /etc/rc.d/init.d/bluetooth:78
+#, fuzzy
+msgid "Usage: $0 {start|stop|restart|reload|condrestart}"
+msgstr "사용법: $0 {start|stop|restart|reload|condrestart|status}"
+
 #: /etc/rc.d/init.d/aep1000:56 /etc/rc.d/init.d/amd:30
 #: /etc/rc.d/init.d/anacron:15 /etc/rc.d/init.d/arpwatch:28
 #: /etc/rc.d/init.d/atd:29 /etc/rc.d/init.d/bgpd:26
-#: /etc/rc.d/init.d/bootparamd:29 /etc/rc.d/init.d/canna:26
-#: /etc/rc.d/init.d/crond:24 /etc/rc.d/init.d/cups:57
-#: /etc/rc.d/init.d/dhcpd:28 /etc/rc.d/init.d/dhcrelay:33
-#: /etc/rc.d/init.d/FreeWnn:32 /etc/rc.d/init.d/httpd:50
-#: /etc/rc.d/init.d/identd:48 /etc/rc.d/init.d/irda:23
+#: /etc/rc.d/init.d/bluetooth:34 /etc/rc.d/init.d/bootparamd:29
+#: /etc/rc.d/init.d/canna:26 /etc/rc.d/init.d/crond:24
+#: /etc/rc.d/init.d/cups:57 /etc/rc.d/init.d/dhcpd:28
+#: /etc/rc.d/init.d/dhcrelay:33 /etc/rc.d/init.d/FreeWnn:32
+#: /etc/rc.d/init.d/httpd:54 /etc/rc.d/init.d/identd:48
+#: /etc/rc.d/init.d/irda:23 /etc/rc.d/init.d/irqbalance:46
 #: /etc/rc.d/init.d/kadmin:40 /etc/rc.d/init.d/kprop:30
 #: /etc/rc.d/init.d/krb524:30 /etc/rc.d/init.d/krb5kdc:30
 #: /etc/rc.d/init.d/ldap:38 /etc/rc.d/init.d/ldap:50 /etc/rc.d/init.d/lisa:35
 #: /etc/rc.d/init.d/lpd:43 /etc/rc.d/init.d/mdmonitor:37
 #: /etc/rc.d/init.d/mysqld:40 /etc/rc.d/init.d/mysqld:42
-#: /etc/rc.d/init.d/named:36 /etc/rc.d/init.d/nscd:49 /etc/rc.d/init.d/ntpd:91
+#: /etc/rc.d/init.d/named:36 /etc/rc.d/init.d/nscd:49 /etc/rc.d/init.d/ntpd:93
 #: /etc/rc.d/init.d/ospf6d:26 /etc/rc.d/init.d/ospfd:27
 #: /etc/rc.d/init.d/portmap:55 /etc/rc.d/init.d/pxe:23
 #: /etc/rc.d/init.d/radvd:38 /etc/rc.d/init.d/rarpd:22
@@ -796,7 +804,7 @@ msgstr "routed (RIP) 서비스를 종료함: "
 #: /etc/rc.d/init.d/sendmail:40 /etc/rc.d/init.d/snmpd:20
 #: /etc/rc.d/init.d/snmptrapd:21 /etc/rc.d/init.d/squid:60
 #: /etc/rc.d/init.d/ups:39 /etc/rc.d/init.d/vncserver:22
-#: /etc/rc.d/init.d/xfs:58 /etc/rc.d/init.d/xinetd:48
+#: /etc/rc.d/init.d/xfs:58 /etc/rc.d/init.d/xinetd:44
 #: /etc/rc.d/init.d/zebra:24
 msgid "Starting $prog: "
 msgstr "$prog (을)를 시작합니다: "
@@ -834,10 +842,6 @@ msgstr "YP 서버 서비스를 정지중 입니다: "
 msgid "RSA key generation"
 msgstr "RSA 키 생성"
 
-#: /etc/sysconfig/network-scripts/ifup:86
-msgid "$alias device does not seem to be present, delaying ${DEVICE} initialization."
-msgstr "$alias 장치가 없는것 같습니다. $[DEVICE]의 기초화를 연기합니다."
-
 #: /etc/rc.d/init.d/halt:187
 msgid "On the next boot fsck will be skipped."
 msgstr "다음 부팅때 fsck를 건너 뛸것입니다."
@@ -846,7 +850,7 @@ msgstr "다음 부팅때 fsck를 건너 뛸것입니다."
 msgid "Turning off quotas: "
 msgstr "쿼터를 종료중 입니다: "
 
-#: /etc/sysconfig/network-scripts/ifup:226
+#: /etc/sysconfig/network-scripts/ifup:285
 msgid "Failed to bring up ${DEVICE}."
 msgstr "${DEVICE} 활성화에 실패했습니다."
 
@@ -862,7 +866,8 @@ msgstr "NFS 파일시스템을 장착하고 있습니다: "
 msgid "\t\tPress 'I' to enter interactive startup."
 msgstr "\t\t 'I'를 눌러 대화식 시작모드를 시작합니다."
 
-#: /etc/rc.d/init.d/netfs:152 /etc/rc.d/init.d/network:238
+#: /etc/rc.d/init.d/keytable:72 /etc/rc.d/init.d/netfs:152
+#: /etc/rc.d/init.d/network:251
 msgid "Usage: $0 {start|stop|restart|reload|status}"
 msgstr "사용법: $0 {start|stop|restart|reload|status}"
 
@@ -878,7 +883,7 @@ msgstr "커널관련 기록을 시작함: "
 msgid "/usr/sbin/dip does not exist or is not executable"
 msgstr "/usr/sbin/dip 이 존재치 않거나, 실행할수 없습니다"
 
-#: /etc/rc.d/rc.sysinit:603
+#: /etc/rc.d/rc.sysinit:600
 msgid "Resetting hostname ${HOSTNAME}: "
 msgstr "호스트이름 ${HOSTNAME}을 재설정중 입니다: "
 
@@ -899,8 +904,8 @@ msgid ""
 "Warning: configured MTU '$IPV6TO4_MTU' for 6to4 exceeds maximum limit of "
 "'$tunnelmtu', ignored"
 msgstr ""
-"경고: 6to4에 설정된 MTU '$IPV6TO4_MTU'이 '$tunnelmtu'의 최대 한계를 "
-"초과합니다. 무시합니다."
+"경고: 6to4에 설정된 MTU '$IPV6TO4_MTU'이 '$tunnelmtu'의 최대 한계를 초과합니"
+"다. 무시합니다."
 
 #: /etc/rc.d/init.d/functions:159
 msgid "Usage: killproc {program} [signal]"
@@ -910,7 +915,7 @@ msgstr "사용법: killproc {program} [signal]"
 msgid "Setting hostname ${HOSTNAME}: "
 msgstr "호스트이름 ${HOSTNAME} 설정중 입니다:"
 
-#: /etc/rc.d/init.d/kudzu:50
+#: /etc/rc.d/init.d/kudzu:54
 msgid "Run '/usr/sbin/kudzu' from the command line to re-detect."
 msgstr "하드웨어를 다시 탐색하기 위해 '/usr/sbin/kudzu'를 실행하십시요."
 
@@ -950,7 +955,7 @@ msgstr "ISDN 모듈을 설치하고 있습니다"
 msgid "ERROR: [ipv6_log] Cannot log to channel '$channel'"
 msgstr "에러: [ipv6_log] '$channel' 채널로 로그할 수 없습니다"
 
-#: /etc/rc.d/init.d/network:69
+#: /etc/rc.d/init.d/network:72
 msgid "Bringing up loopback interface: "
 msgstr "loopback 인터페이스 활성화중 입니다: "
 
@@ -974,7 +979,7 @@ msgstr "smb.conf를 다시 읽고 있습니다: "
 msgid "Saving current rules to $IPCHAINS_CONFIG: "
 msgstr "현재 규칙들을 $IPCHAINS_CONFIG에 저장하고 있습니다: "
 
-#: /etc/rc.d/rc.sysinit:270 /etc/rc.d/rc.sysinit:479 /etc/rc.d/rc.sysinit:528
+#: /etc/rc.d/rc.sysinit:269 /etc/rc.d/rc.sysinit:477 /etc/rc.d/rc.sysinit:525
 msgid "*** when you leave the shell."
 msgstr "쉘을 나가실때 ***"
 
@@ -982,7 +987,7 @@ msgstr "쉘을 나가실때 ***"
 msgid "Starting sm-client: "
 msgstr "sm-client을 시작하고 있습니다: "
 
-#: /etc/sysconfig/network-scripts/ifup:172
+#: /etc/sysconfig/network-scripts/ifup:231
 msgid "Determining IP information for ${DEVICE}..."
 msgstr "${DEVICE}에 관한 IP 정보를 얻고 있습니다..."
 
@@ -998,9 +1003,10 @@ msgstr "사용법: $prog {start|stop|restart|status|condrestart}"
 msgid "Changing target policies to DENY: "
 msgstr "목표 규칙을 DENY로 고치는 중입니다: "
 
-#: /etc/rc.d/init.d/arpwatch:66 /etc/rc.d/init.d/nscd:107
-#: /etc/rc.d/init.d/portmap:99 /etc/rc.d/init.d/yppasswdd:79
-#: /etc/rc.d/init.d/ypserv:74 /etc/rc.d/init.d/ypxfrd:61
+#: /etc/rc.d/init.d/arpwatch:66 /etc/rc.d/init.d/irqbalance:87
+#: /etc/rc.d/init.d/nscd:107 /etc/rc.d/init.d/portmap:99
+#: /etc/rc.d/init.d/yppasswdd:79 /etc/rc.d/init.d/ypserv:74
+#: /etc/rc.d/init.d/ypxfrd:61
 msgid "Usage: $0 {start|stop|status|restart|reload|condrestart}"
 msgstr "사용법: $0 {start|stop|status|restart|reload|condrestart}"
 
@@ -1040,21 +1046,22 @@ msgstr "NFS 데몬을 시작함: "
 msgid "Initializing USB controller ($alias): "
 msgstr "USB 컨트롤러($alias)를 초기화 중입니다: "
 
-#: /etc/rc.d/init.d/xinetd:79
+#: /etc/rc.d/init.d/xinetd:75
 msgid "Reloading configuration: "
 msgstr "설정을 다시 읽고 있습니다: "
 
 #: /etc/rc.d/init.d/innd:26
 msgid "Please run makehistory and/or makedbz before starting innd."
-msgstr "innd를 실행하기 전에, makehistory 혹은/또는 makedbz을 실행하여 주십시요."
+msgstr ""
+"innd를 실행하기 전에, makehistory 혹은/또는 makedbz을 실행하여 주십시요."
 
 #: /etc/sysconfig/network-scripts/ifup-ipv6:203
 msgid ""
 "IPv6to4 configuration needs an IPv4 address on related interface or "
 "otherwise specified"
 msgstr ""
-"IPv6to4 설정에서 특별히 다르게 지정되지 않은 한 "
-"관련 인터페이스에 IPv4 주소가 필요합니다."
+"IPv6to4 설정에서 특별히 다르게 지정되지 않은 한 관련 인터페이스에 IPv4 주소"
+"가 필요합니다."
 
 #: /etc/rc.d/init.d/privoxy:218
 msgid "Stopping $PRIVOXY_PRG: "
@@ -1080,16 +1087,15 @@ msgstr "경고    "
 msgid "Shutting down NFS services: "
 msgstr "NFS 서비스를 종료 중입니다: "
 
-#: /etc/rc.d/init.d/ip6tables:163 /etc/rc.d/init.d/ip6tables:164
-#: /etc/rc.d/init.d/iptables:165 /etc/rc.d/init.d/iptables:166
-msgid "Changing target policies to DROP"
-msgstr "목표 규칙을 DROP으로 바꿉니다"
+#: /etc/rc.d/init.d/functions:317
+msgid "OK"
+msgstr "확인"
 
-#: /etc/rc.d/rc.sysinit:391 /etc/rc.d/rc.sysinit:396
+#: /etc/rc.d/rc.sysinit:390 /etc/rc.d/rc.sysinit:395
 msgid "Loading sound module ($alias): "
 msgstr "사운드 모듈 ($alias) 실행 중입니다: "
 
-#: /etc/rc.d/init.d/ntpd:115
+#: /etc/rc.d/init.d/ntpd:117
 msgid "$prog: Removing firewall opening for $server port 123"
 msgstr "$prog: $server 포트 123에 열린 방화벽을 닫습니다."
 
@@ -1107,7 +1113,7 @@ msgstr "사용법: $0 {start|stop|status|restart|reload}"
 msgid "Please stand by while rebooting the system..."
 msgstr "시스템을 재부팅하고 있습니다. 잠시만 기다려 주십시오..."
 
-#: /etc/rc.d/rc.sysinit:276 /etc/rc.d/rc.sysinit:485 /etc/rc.d/rc.sysinit:534
+#: /etc/rc.d/rc.sysinit:275 /etc/rc.d/rc.sysinit:483 /etc/rc.d/rc.sysinit:531
 msgid "Unmounting file systems"
 msgstr "파일시스템을 분리하고 있습니다"
 
@@ -1131,11 +1137,15 @@ msgstr "rstat 서비스를 시작하고 있습니다: "
 msgid "Applying ipchains firewall rules: "
 msgstr "IPCHAINS 방화벽 규칙을 적용하고 있습니다: "
 
+#: /etc/sysconfig/network-scripts/ifup:100
+msgid "ERROR: could not add vlan ${VID} as ${DEVICE} on dev ${PHYSDEV}"
+msgstr ""
+
 #: /etc/rc.d/init.d/vncserver:34
 msgid "vncserver startup"
 msgstr "VNCSERVER 시작"
 
-#: /etc/rc.d/init.d/network:118 /etc/rc.d/init.d/network:140
+#: /etc/rc.d/init.d/network:131 /etc/rc.d/init.d/network:153
 msgid "Bringing up interface $i: "
 msgstr "$i 인터페이스 활성화중 입니다: "
 
@@ -1143,7 +1153,7 @@ msgstr "$i 인터페이스 활성화중 입니다: "
 msgid "Usage: $0 {start|stop|reload|restart|showsysctl}"
 msgstr "사용법: $0 {start|stop|reload|restart|showsysctl}"
 
-#: /etc/rc.d/init.d/network:206
+#: /etc/rc.d/init.d/network:219
 msgid "Disabling IPv4 packet forwarding: "
 msgstr "IPv4 패켓 forwarding을 종료하고 있습니다: "
 
@@ -1151,21 +1161,19 @@ msgstr "IPv4 패켓 forwarding을 종료하고 있습니다: "
 msgid "Unmounting loopback filesystems: "
 msgstr "loopback 파일시스템을 분리함: "
 
-#: /etc/rc.d/rc.sysinit:304
+#: /etc/rc.d/rc.sysinit:303
 msgid "Checking root filesystem quotas: "
 msgstr "root 파일시스템의 쿼타를 확인하고 있습니다: "
 
-#: /etc/rc.d/init.d/cups:97 /etc/rc.d/init.d/httpd:66 /etc/rc.d/init.d/lisa:61
-#: /etc/rc.d/init.d/lpd:101 /etc/rc.d/init.d/named:67
-#: /etc/rc.d/init.d/snmpd:38 /etc/rc.d/init.d/xfs:84
-msgid "Reloading $prog: "
-msgstr "$prog를 재시작 하고 있습니다: "
+#: /etc/rc.d/init.d/network:89 /etc/sysconfig/network-scripts/ifup:69
+msgid "No 802.1Q VLAN support available in kernel."
+msgstr ""
 
 #: /etc/rc.d/init.d/ipchains:62 /etc/rc.d/init.d/ipchains:63
 msgid "Applying ipchains firewall rules"
 msgstr "IPCHAINS 방화벽의 규칙을 적용하고 있습니다"
 
-#: /etc/rc.d/rc.sysinit:315
+#: /etc/rc.d/rc.sysinit:314
 msgid "Skipping ISA PNP configuration at users request: "
 msgstr "사용자 요청으로 ISA PNP 설정을 건너뛰고 있습니다: "
 
@@ -1181,7 +1189,7 @@ msgstr "다시 읽기"
 msgid "Mounting NCP filesystems: "
 msgstr "NCP 파일시스템을 장착함: "
 
-#: /etc/rc.d/rc.sysinit:329 /etc/rc.d/rc.sysinit:493
+#: /etc/rc.d/rc.sysinit:328 /etc/rc.d/rc.sysinit:491
 msgid "Setting up Logical Volume Management:"
 msgstr "논리적 볼륨 메니지먼트를 설정함: "
 
@@ -1225,13 +1233,14 @@ msgstr "INN 활성 중인 서비스들을 종료함"
 msgid "Generating SSH1 RSA host key: "
 msgstr "SSH1 RSA 호스트 키를 생성함: "
 
-#: /etc/rc.d/init.d/named:69
+#: /etc/rc.d/init.d/named:71
 msgid "$prog reload"
 msgstr "$prog 다시 읽기"
 
 #: /etc/sysconfig/network-scripts/ifup-aliases:155
 msgid "error in $FILE: already seen device $parent_device:$DEVNUM in $devseen"
-msgstr "$FILE에 오류 발생: $devseen에 $parent_device:$DEVNUM 장치가 이미 존재합니다"
+msgstr ""
+"$FILE에 오류 발생: $devseen에 $parent_device:$DEVNUM 장치가 이미 존재합니다"
 
 #: /etc/rc.d/init.d/aep1000:38 /etc/rc.d/init.d/bcm5820:46
 msgid "Loading $module module"
@@ -1264,6 +1273,10 @@ msgstr "시스템을 중지합니다..."
 #: /etc/sysconfig/network-scripts/ifup-aliases:151
 msgid "error in $FILE: already seen ipaddr $IPADDR in $ipseen"
 msgstr "$FILE에 오류 발생: $ipseen에 ip주소 $IPADDR가 이미 존재합니다"
+
+#: /etc/sysconfig/network-scripts/ifup:171
+msgid "Enslaving ${DEVICE} to ${MASTER}"
+msgstr "${DEVICE} 장치를 ${MASTER}에 종속 시키고 있습니다"
 
 #: /etc/rc.d/init.d/innd:52
 msgid "Stopping INNWatch service: "
@@ -1299,16 +1312,21 @@ msgid "Starting NFS statd: "
 msgstr "NFS statd을 시작하고 있습니다: "
 
 #: /etc/sysconfig/network-scripts/ifup-ipv6:268
-msgid "Using 6to4 and RADVD IPv6 forwarding usually should be enabled, but it isn't"
+msgid ""
+"Using 6to4 and RADVD IPv6 forwarding usually should be enabled, but it isn't"
 msgstr ""
 "6to4 와 RADVD IPv6 forwarding이 보통 활성화 되어 있어야 하는데, 그렇지 않습니"
 "다!"
+
+#: /etc/sysconfig/network-scripts/ifup:70
+msgid "Error initializing device ${DEVICE}"
+msgstr ""
 
 #: /etc/rc.d/init.d/rusersd:35
 msgid "Stopping rusers services: "
 msgstr "rusers 서비스를 종료함: "
 
-#: /etc/rc.d/rc.sysinit:659
+#: /etc/rc.d/rc.sysinit:658
 msgid "Enabling swap space: "
 msgstr "스왑 공간을 활성화함: "
 
@@ -1328,7 +1346,7 @@ msgstr "$0: $(1)의 설정을 찾을수 없습니다."
 msgid "Changing target policies to DENY"
 msgstr "목표 규칙을 DENY로 변경합니다"
 
-#: /etc/rc.d/rc.sysinit:333
+#: /etc/rc.d/rc.sysinit:332
 msgid "Activating swap partitions: "
 msgstr "스왑 공간를 활성화함: "
 
@@ -1344,7 +1362,7 @@ msgstr "마침"
 msgid "Stopping $prog:"
 msgstr "$prog (을)를 종료함:"
 
-#: /etc/rc.d/rc.sysinit:375 /etc/rc.d/rc.sysinit:377
+#: /etc/rc.d/rc.sysinit:374 /etc/rc.d/rc.sysinit:376
 msgid "Finding module dependencies: "
 msgstr "모듈의 의존성을 찾음: "
 
@@ -1360,11 +1378,16 @@ msgstr "iSCSI을 시작하고 있습니다: iscsi"
 msgid "Loading default keymap: "
 msgstr "기본 키맵을 시작함: "
 
+#: /etc/rc.d/init.d/isicom:63
+#, fuzzy
+msgid "Usage: ${0##*/} {start|stop|status|restart|reload|condrestart}"
+msgstr "사용법: $0 {start|stop|status|restart|reload|condrestart}"
+
 #: /etc/rc.d/rc.sysinit:73
 msgid "Mounting proc filesystem: "
 msgstr "proc 파일시스템을 장착함: "
 
-#: /etc/rc.d/rc.sysinit:684
+#: /etc/rc.d/rc.sysinit:683
 msgid "Initializing firewire controller ($alias): "
 msgstr "firewire 컨트롤러($alias)를 초기화 중입니다: "
 
@@ -1375,10 +1398,6 @@ msgstr "PLX 장치를 비활성화 합니다..."
 #: /etc/rc.d/rc.sysinit:190
 msgid "Initializing USB mouse: "
 msgstr "USB 마우스 초기화함: "
-
-#: /etc/rc.d/init.d/functions:331
-msgid "FAILED"
-msgstr "실패"
 
 #: /etc/rc.d/init.d/iscsi:126
 msgid "Stopping iSCSI:"
@@ -1392,7 +1411,7 @@ msgstr "NFS 파일시스템을 분리함 (재시도): "
 msgid "You need to be root to use this command ! "
 msgstr "이 명령어는 Root 계정에서 사용해야 합니다 ! "
 
-#: /etc/rc.d/init.d/network:229
+#: /etc/rc.d/init.d/network:242
 msgid "Currently active devices:"
 msgstr "현재 사용 중인 장치들:"
 
@@ -1409,7 +1428,7 @@ msgstr ""
 msgid "start"
 msgstr "시작"
 
-#: /etc/rc.d/init.d/network:190
+#: /etc/rc.d/init.d/network:203
 msgid "Shutting down interface $i: "
 msgstr "인터페이스 $i (을)를 종료함: "
 
@@ -1439,18 +1458,23 @@ msgstr " cardmgr."
 msgid "Listening for an NIS domain server."
 msgstr "NIS 도메인 서버를 찾고 있습니다."
 
-#: /etc/rc.d/rc.sysinit:272 /etc/rc.d/rc.sysinit:530
+#: /etc/rc.d/rc.sysinit:271 /etc/rc.d/rc.sysinit:527
 msgid "(Repair filesystem)"
 msgstr "(파일 시스템 복구)"
 
 #: /etc/sysconfig/network-scripts/ifup-ipv6:172
 msgid "Device 'tun6to4' (from '$DEVICE') is already up, shutdown first"
-msgstr "'$DEVICE'로 부터 'tun6to4' 장치가 이미 켜져 있습니다. 먼저 종료하십시오."
+msgstr ""
+"'$DEVICE'로 부터 'tun6to4' 장치가 이미 켜져 있습니다. 먼저 종료하십시오."
 
 #: /etc/rc.d/init.d/autofs:246 /etc/rc.d/init.d/autofs:290
 #: /etc/rc.d/init.d/autofs:291
 msgid "could not make temp file"
 msgstr "temp 파일을 만들 수 없습니다"
+
+#: /etc/rc.d/init.d/isdn:232
+msgid "$NAME is attached to $DEVICE"
+msgstr "$NAME이 $DEVICE에 연결되어 있습니다"
 
 #: /etc/rc.d/init.d/ipchains:111 /etc/rc.d/init.d/ipchains:112
 msgid "Saving current rules to $IPCHAINS_CONFIG"
@@ -1475,6 +1499,10 @@ msgstr "InitiatorName 파일인 /etc/initiatorname.iscsi이 없습니다!"
 #: /etc/rc.d/init.d/isdn:138
 msgid "Unloading ISDN modules"
 msgstr "ISDN 모듈을 종료하고 있습니다"
+
+#: /etc/rc.d/init.d/functions:213
+msgid "$base $killlevel"
+msgstr "$base $killlevel"
 
 #: /etc/sysconfig/network-scripts/ifup-ipv6:291
 msgid "6to4 configuration is not valid"
@@ -1516,7 +1544,7 @@ msgstr "넷웨어 에뮬레이터-서버를 시작함: "
 msgid "nN"
 msgstr "nN"
 
-#: /etc/rc.d/rc.sysinit:322
+#: /etc/rc.d/rc.sysinit:321
 msgid "Remounting root filesystem in read-write mode: "
 msgstr "루트 파일시스템을 읽기-쓰기 모드로 재장착함: "
 
@@ -1566,10 +1594,6 @@ msgstr "디버그    "
 msgid "Generating SSH2 DSA host key: "
 msgstr "SSH2 DSA 호스트 키를 생성하고 있습니다: "
 
-#: /etc/rc.d/init.d/isicom:63
-msgid "Usage: isicom {start|stop|status|restart|reload|condrestart}"
-msgstr "사용법: isicom {start|stop|status|restart|reload|condrestart}"
-
 #: /etc/sysconfig/network-scripts/ifdown-aliases:7
 #: /etc/sysconfig/network-scripts/ifup-ipx:7
 msgid "usage: $0 <net-device>"
@@ -1595,7 +1619,7 @@ msgstr "$prog를 시작함:"
 msgid "Starting rwho services: "
 msgstr "rwho 서비스를 시작함: "
 
-#: /etc/rc.d/rc.sysinit:279 /etc/rc.d/rc.sysinit:488 /etc/rc.d/rc.sysinit:537
+#: /etc/rc.d/rc.sysinit:278 /etc/rc.d/rc.sysinit:486 /etc/rc.d/rc.sysinit:534
 msgid "Automatic reboot in progress."
 msgstr "자동 재시동을 하고 있습니다."
 
@@ -1615,7 +1639,7 @@ msgstr "iscsi.o 모듈을 불러올 수 없습니다!"
 msgid "$STRING"
 msgstr "$STRING"
 
-#: /etc/rc.d/init.d/kudzu:57
+#: /etc/rc.d/init.d/kudzu:61
 msgid "Updating /etc/fstab"
 msgstr "/etc/fstab를 업데이트 합니다."
 
@@ -1635,7 +1659,7 @@ msgstr "콘솔 마우스 서비스를 종료함: "
 msgid "Setting NIS domain name $NISDOMAIN: "
 msgstr "NIS 도메인 이름을 $NISDOMAIN로 설정함: "
 
-#: /etc/rc.d/init.d/kudzu:37
+#: /etc/rc.d/init.d/kudzu:41
 msgid "Checking for new hardware"
 msgstr "새로운 하드웨어 찾고 있습니다"
 
@@ -1655,7 +1679,7 @@ msgstr "NFS mountd를 시작하고 있습니다: "
 msgid "Unmounting initrd: "
 msgstr "initrd 를 분리함: "
 
-#: /etc/rc.d/rc.sysinit:477
+#: /etc/rc.d/rc.sysinit:475
 msgid "*** An error occurred during the RAID startup"
 msgstr "*** RAID를 시작하는 도중 에러가 발생했습니다"
 
@@ -1674,18 +1698,18 @@ msgstr "주어진 IPv4 주소 '$ipv4addr'는 시스템 전역적으로 사용할
 #: /etc/rc.d/init.d/aep1000:73 /etc/rc.d/init.d/amd:39
 #: /etc/rc.d/init.d/anacron:25 /etc/rc.d/init.d/arpwatch:35
 #: /etc/rc.d/init.d/atd:39 /etc/rc.d/init.d/bootparamd:38
-#: /etc/rc.d/init.d/crond:33 /etc/rc.d/init.d/httpd:59
-#: /etc/rc.d/init.d/identd:57 /etc/rc.d/init.d/kadmin:47
-#: /etc/rc.d/init.d/kprop:37 /etc/rc.d/init.d/krb524:37
-#: /etc/rc.d/init.d/krb5kdc:37 /etc/rc.d/init.d/ldap:63
-#: /etc/rc.d/init.d/ldap:70 /etc/rc.d/init.d/lisa:48 /etc/rc.d/init.d/lpd:66
-#: /etc/rc.d/init.d/mysqld:52 /etc/rc.d/init.d/mysqld:54
-#: /etc/rc.d/init.d/named:47 /etc/rc.d/init.d/nscd:58
-#: /etc/rc.d/init.d/portmap:65 /etc/rc.d/init.d/pxe:32
-#: /etc/rc.d/init.d/radvd:45 /etc/rc.d/init.d/rarpd:32
+#: /etc/rc.d/init.d/crond:33 /etc/rc.d/init.d/httpd:63
+#: /etc/rc.d/init.d/identd:57 /etc/rc.d/init.d/irqbalance:56
+#: /etc/rc.d/init.d/kadmin:47 /etc/rc.d/init.d/kprop:37
+#: /etc/rc.d/init.d/krb524:37 /etc/rc.d/init.d/krb5kdc:37
+#: /etc/rc.d/init.d/ldap:63 /etc/rc.d/init.d/ldap:70 /etc/rc.d/init.d/lisa:48
+#: /etc/rc.d/init.d/lpd:66 /etc/rc.d/init.d/mysqld:52
+#: /etc/rc.d/init.d/mysqld:54 /etc/rc.d/init.d/named:47
+#: /etc/rc.d/init.d/nscd:58 /etc/rc.d/init.d/portmap:65
+#: /etc/rc.d/init.d/pxe:32 /etc/rc.d/init.d/radvd:45 /etc/rc.d/init.d/rarpd:32
 #: /etc/rc.d/init.d/rwalld:33 /etc/rc.d/init.d/saslauthd:38
 #: /etc/rc.d/init.d/snmpd:29 /etc/rc.d/init.d/snmptrapd:30
-#: /etc/rc.d/init.d/ups:63 /etc/rc.d/init.d/xinetd:69
+#: /etc/rc.d/init.d/ups:63 /etc/rc.d/init.d/xinetd:65
 msgid "Stopping $prog: "
 msgstr "$prog 를 정지함: "
 
@@ -1714,6 +1738,12 @@ msgstr "파일 시스템 검사를 하시려면 %d초 안에 [Y]를 눌러주십
 #: /etc/rc.d/init.d/iptables:112
 msgid "Resetting built-in chains to the default ACCEPT policy:"
 msgstr "IP CHAINS의 ACCEPT 정책들을 기본값으로 재설정 합니다:"
+
+#~ msgid "Changing target policies to DROP"
+#~ msgstr "목표 규칙을 DROP으로 바꿉니다"
+
+#~ msgid "Usage: isicom {start|stop|status|restart|reload|condrestart}"
+#~ msgstr "사용법: isicom {start|stop|status|restart|reload|condrestart}"
 
 #~ msgid "Wine binary format handlers are registered."
 #~ msgstr "Wine 이진 형식 처리기가 등록되었습니다."
@@ -1807,4 +1837,3 @@ msgstr "IP CHAINS의 ACCEPT 정책들을 기본값으로 재설정 합니다:"
 
 #~ msgid "$prog: No servers in $ntpconf and $ntpstep"
 #~ msgstr "$prog:$ntpconf와 $ntpstep에 아무런 서버도 없습니다."
-
