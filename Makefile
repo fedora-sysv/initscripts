@@ -1,6 +1,6 @@
 ROOT=/
 
-VERSION=3.18
+VERSION=$(shell awk '/define version/ { print $$3 }' initscripts.spec)
 CVSTAG = r$(subst .,-,$(VERSION))
 
 all:
