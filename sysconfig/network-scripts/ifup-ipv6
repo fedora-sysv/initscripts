@@ -126,9 +126,9 @@ else
 		ipv6_local_auto=0
 	fi
 fi
-ipv6_exec_sysctl -w net.ipv6.conf.$DEVICE.forwarding=$ipv6_local_forwarding >/dev/null
-ipv6_exec_sysctl -w net.ipv6.conf.$DEVICE.accept_ra=$ipv6_local_auto >/dev/null
-ipv6_exec_sysctl -w net.ipv6.conf.$DEVICE.accept_redirects=$ipv6_local_auto >/dev/null
+ipv6_exec_sysctl -w net.ipv6.conf.$DEVICE.forwarding=$ipv6_local_forwarding >/dev/null 2>&1
+ipv6_exec_sysctl -w net.ipv6.conf.$DEVICE.accept_ra=$ipv6_local_auto >/dev/null 2>&1
+ipv6_exec_sysctl -w net.ipv6.conf.$DEVICE.accept_redirects=$ipv6_local_auto >/dev/null 2>&1
 
 # Set IPv6 MTU, if given
 if [ -n "$IPV6_MTU" ]; then
