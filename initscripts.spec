@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.22
+%define version 4.23
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
@@ -183,6 +183,11 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Jun 25 1999 Bill Nottingham <notting@redhat.com>
+- don't make module-info, System.map links
+- handle utmpx/wtmpx
+- fix lots of bugs in 4.21 release :)
+
 * Thu Jun 17 1999 Bill Nottingham <notting@redhat.com>
 - set clock as soon as possible
 - use INITLOG_ARGS everywhere
