@@ -28,7 +28,7 @@ fi
 # Print a banner. ;)
 echo -en $"\t\tWelcome to "
 if grep -q "Red Hat" /etc/redhat-release ; then 
- [ "$BOOTUP" = "color" ] && echo -en $"\\033[1;31m"
+ [ "$BOOTUP" = "color" ] && echo -en $"\\033[0;31m"
  echo -en "Red Hat"
  [ "$BOOTUP" = "color" ] && echo -en $"\\033[0;39m"
  PRODUCT=`sed "s/Red Hat \(.*\) release.*/\1/" /etc/redhat-release`
