@@ -249,6 +249,7 @@ rm -rf $RPM_BUILD_ROOT
 - allow tweaking of more devices with hdparm (#53511), and
   tweak non-disk devices iff they explicitly have a config file
   for that device (#56575, #63415)
+- some translation updates
 
 * Fri Apr 12 2002 Bill Nottingham <notting@redhat.com> 6.63-1
 - ipcalc cleanups (#58410)
