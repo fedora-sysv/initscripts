@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.24
+%define version 4.25
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
