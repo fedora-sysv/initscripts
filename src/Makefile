@@ -13,7 +13,7 @@ install:
 	install -o 0 -g 0 -s -m 755 usleep $(ROOT)/bin/usleep
 	install -o 0 -g 0 -s -m 4755 usernetctl $(ROOT)/usr/sbin/usernetctl
 	install -o 0 -g 0 -s -m 2755 netreport $(ROOT)/sbin/netreport
-	install -o 0 -g 0 -s -m 2755 ipcalc $(ROOT)/sbin/ipcalc
+	install -o 0 -g 0 -s -m 2755 ipcalc $(ROOT)/bin/ipcalc
 	install -m 644 doexec.1 $(ROOT)/usr/man/man1
 	install -m 644 netreport.1 $(ROOT)/usr/man/man1
 	install -m 644 usleep.1 $(ROOT)/usr/man/man1
