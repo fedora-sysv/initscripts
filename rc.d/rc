@@ -45,7 +45,7 @@ if [ -d /etc/rc.d/rc$runlevel.d ]; then
 
 		# Check if the subsystem is already up.
 		subsys=${i#/etc/rc.d/rc$runlevel.d/S??}
-		[ -f /var/lock/subsys/$subsys ] && \
+		[ -f /var/lock/subsys/$subsys ] || \
 		    [ -f /var/lock/subsys/${subsys}.init ] && continue
 
 		# Bring the subsystem up.
