@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.59
+%define version 4.60
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
@@ -198,6 +198,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Nov  2 1999 Bill Nottingham <notting@redhat.com>
+- fix lang.csh /tmp race oops
+
 * Wed Oct 27 1999 Bill Nottingham <notting@redhat.com>
 - we now ship hwclock on alpha.
 
