@@ -46,8 +46,8 @@ install:
 	mkdir -p $(ROOT)/etc/sysconfig/console
 	if uname -m | grep -q s390 ; then \
 	  install -m644 sysconfig/init.s390 $(ROOT)/etc/sysconfig/init ; \
-	else
-	  rm -f $(ROOT)/etc/sysconfig/init.s390
+	else \
+	  rm -f $(ROOT)/etc/sysconfig/init.s390 \
 	fi
 
 	mv $(ROOT)/etc/sysconfig/network-scripts/ifup $(ROOT)/sbin
