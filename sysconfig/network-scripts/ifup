@@ -181,21 +181,7 @@ else
 	 exec /etc/sysconfig/network-scripts/ifup-post ${CONFIG} ${2}
     fi
   
-    if [ -z "${NETMASK}" ]; then
-	eval `/bin/ipcalc --netmask ${IPADDR}`
-    fi
-
-    if [ -z "${PREFIX}" ]; then
-	eval `/bin/ipcalc --prefix ${IPADDR} ${NETMASK}`
-    fi
-
-    if [ -z "${BROADCAST}" ]; then
-	eval `/bin/ipcalc --broadcast ${IPADDR} ${NETMASK}`
-    fi
-
-    if [ -z "${NETWORK}" ]; then
-	eval `/bin/ipcalc --network ${IPADDR} ${NETMASK}`
-    fi
+    expand_config
     
     [ -n "${ARP}${PROMISC}${ALLMULTI}" ] && \
 	ip link set ${DEVICE} $(toggle_value arp $ARP) \

@@ -29,6 +29,25 @@ source_config ()
     . $CONFIG
 }
 
+expand_config ()
+{
+    if [ -z "${NETMASK}" ]; then
+	eval `/bin/ipcalc --netmask ${IPADDR}`
+    fi
+
+    if [ -z "${PREFIX}" ]; then
+	eval `/bin/ipcalc --prefix ${IPADDR} ${NETMASK}`
+    fi
+
+    if [ -z "${BROADCAST}" ]; then
+	eval `/bin/ipcalc --broadcast ${IPADDR} ${NETMASK}`
+    fi
+
+    if [ -z "${NETWORK}" ]; then
+	eval `/bin/ipcalc --network ${IPADDR} ${NETMASK}`
+    fi
+}
+
 toggle_value()
 {
 	if [ -z "$2" ]
