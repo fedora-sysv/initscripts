@@ -53,7 +53,7 @@ fi
 
 # Print a text banner.
 echo -en $"\t\tWelcome to "
-if LC_ALL=C grep -q "Red Hat" /etc/redhat-release ; then 
+if LC_ALL=C fgrep -q "Red Hat" /etc/redhat-release ; then 
  [ "$BOOTUP" = "color" ] && echo -en "\\033[0;31m"
  echo -en "Red Hat"
  [ "$BOOTUP" = "color" ] && echo -en "\\033[0;39m"
@@ -80,7 +80,7 @@ RHGB_STARTED=0
 mount -n -t devpts /dev/pts /dev/pts
 
 # Unmount the initrd, if necessary
-if LC_ALL=C grep -q /initrd /proc/mounts && ! LC_ALL=C grep -q /initrd/loopfs /proc/mounts ; then
+if LC_ALL=C fgrep -q /initrd /proc/mounts && ! LC_ALL=C fgrep -q /initrd/loopfs /proc/mounts ; then
    if [ -e /initrd/dev/.devfsd ]; then
       umount /initrd/dev
    fi
@@ -180,7 +180,7 @@ fi
 update_boot_stage RCusb
 usb=0
 if ! strstr "$cmdline" nousb ; then
-  if ! LC_ALL=C grep -q "usb" /proc/devices 2>/dev/null ; then
+  if ! LC_ALL=C fgrep -q "usb" /proc/devices 2>/dev/null ; then
     aliases=`/sbin/modprobe -c | awk '/^alias usb-controller/ { print $3 }'`
     if [ -n "$aliases" -a "$aliases" != "off" ]; then
       modprobe usbcore
@@ -191,7 +191,7 @@ if ! strstr "$cmdline" nousb ; then
       [ $? -eq 0 -a -n "$aliases" ] && usb=1
     fi
   fi
-  if LC_ALL=C grep -q "usb" /proc/devices 2>/dev/null ; then
+  if LC_ALL=C fgrep -q "usb" /proc/devices 2>/dev/null ; then
     usb=1
   fi
 fi
@@ -203,7 +203,7 @@ fi
 needusbstorage=
 if [ $usb = "1" ]; then
     needusbstorage=`LC_ALL=C grep -e "^I.*Cls=08" /proc/bus/usb/devices 2>/dev/null`
-    LC_ALL=C grep 'hid' /proc/bus/usb/drivers || action $"Initializing USB HID interface: " modprobe hid 2> /dev/null
+    LC_ALL=C fgrep 'hid' /proc/bus/usb/drivers || action $"Initializing USB HID interface: " modprobe hid 2> /dev/null
     action $"Initializing USB keyboard: " modprobe keybdev 2> /dev/null
     action $"Initializing USB mouse: " modprobe mousedev 2> /dev/null 
 fi
@@ -305,7 +305,7 @@ fi
 # Possibly update quotas if fsck was run on /.
 LC_ALL=C grep -E '[[:space:]]+/[[:space:]]+' /etc/fstab | \
     awk '{ print $4 }' | \
-    LC_ALL=C grep -q quota
+    LC_ALL=C fgrep -q quota
 _ROOT_HAS_QUOTA=$?
 if [ X"$_RUN_QUOTACHECK" = X1 -a \
     "$_ROOT_HAS_QUOTA" = "0" -a \
@@ -387,7 +387,7 @@ if [ -x /sbin/depmod -a -n "$USEMODULES" ]; then
     # If they aren't using a recent sane kernel, make a link for them
     if ! strstr $unamer -  ; then
        ktag="`cat /proc/version`"
-       mtag=`LC_ALL=C grep -l "$ktag" /lib/modules/*/.rhkmvtag 2> /dev/null`
+       mtag=`LC_ALL=C fgrep -l "$ktag" /lib/modules/*/.rhkmvtag 2> /dev/null`
        if [ -n "$mtag" ]; then
           mver=`echo $mtag | sed -e 's,/lib/modules/,,' -e 's,/.rhkmvtag,,' -e 's,[       ].*$,,'`
        fi
@@ -408,7 +408,7 @@ if [ -n "$PNP" -a  -f /proc/isapnp -a -x /sbin/sndconfig ]; then
 fi
 
 # Load sound modules if and only if they need persistent DMA buffers
-if LC_ALL=C grep -q "options sound dmabuf=1" /etc/modules.conf 2>/dev/null ; then
+if LC_ALL=C fgrep -q "options sound dmabuf=1" /etc/modules.conf 2>/dev/null ; then
   alias=`/sbin/modprobe -c | awk '/^alias sound / { print $3 }'`
   if [ -n "$alias" -a "$alias" != "off" ]; then
       action $"Loading sound module ($alias): " modprobe sound
@@ -462,7 +462,7 @@ if [ -f /etc/raidtab ]; then
 			    RESULT=0
 			    RAIDDEV="$RAIDDEV(skipped)"
 			fi
-			NOAUTO=`LC_ALL=C grep "^$i" /etc/fstab | LC_ALL=C grep -c "noauto"`
+			NOAUTO=`LC_ALL=C grep "^$i" /etc/fstab | LC_ALL=C fgrep -c "noauto"`
 			if [ $NOAUTO -gt 0 ]; then
 			    RESULT=0
 			    RAIDDEV="$RAIDDEV(skipped)"
@@ -696,8 +696,8 @@ fi
 # If a SCSI tape has been detected, load the st module unconditionally
 # since many SCSI tapes don't deal well with st being loaded and unloaded
 if [ -f /proc/scsi/scsi -a -n "$USEMODULES" ]; then
-    if LC_ALL=C grep -q 'Type:   Sequential-Access' /proc/scsi/scsi 2>/dev/null ; then
-	if LC_ALL=C grep -qv ' 9 st' /proc/devices ; then
+    if LC_ALL=C fgrep -q 'Type:   Sequential-Access' /proc/scsi/scsi 2>/dev/null ; then
+	if LC_ALL=C fgrep -qv ' 9 st' /proc/devices ; then
 		modprobe st >/dev/null 2>&1
 	fi
     fi
@@ -716,7 +716,7 @@ if ! strstr "$cmdline" nofirewire ; then
       	[ "$alias" = "off" ] && continue
 	action $"Initializing firewire controller ($alias): " modprobe $alias
       done
-      LC_ALL=C grep -q "SBP2" /proc/bus/ieee1394/devices 2>/dev/null && \
+      LC_ALL=C fgrep -q "SBP2" /proc/bus/ieee1394/devices 2>/dev/null && \
 		modprobe sbp2 >/dev/null 2>&1
    fi
 fi
