@@ -20,6 +20,7 @@ that activate and deactivate most network interfaces.
 * Tue Oct 28 1997 Donnie Barnes <djb@redhat.com>
 
 - removed the skeleton init script
+- added the ability to 'nice' daemons
 
 * Tue Oct 28 1997 Erik Troan <ewt@redhat.com>
 
