@@ -4,7 +4,7 @@ Name: initscripts
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
-Release: 3
+Release: 4
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /var/tmp/initbld
 Requires: mingetty, bash, /bin/awk, /bin/sed, mktemp, modutils >= 2.1.85-3, e2fsprogs, sysklogd >= 1.3.31, procps
@@ -169,6 +169,10 @@ rm -rf $RPM_BUILD_ROOT
 %doc sysconfig.txt sysvinitfiles
 
 %changelog
+* Tue Apr 06 1999 Bill Nottingham <notting@redhat.com>
+- fix loading of consolefonts/keymaps
+- three changelogs. three developers. one day. Woohoo!
+
 * Tue Apr 06 1999 Michael K. Johnson <johnsonm@redhat.com>
 - fixed ifup-ipx mix-up over . and _
 
