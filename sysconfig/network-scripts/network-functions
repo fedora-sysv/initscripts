@@ -86,11 +86,11 @@ check_link_down ()
     if [ -x /sbin/mii-tool ]; then
 	output=`/sbin/mii-tool $1 2>&1`
 	if echo $output | grep -q "Operation not supported"; then
-	    return 0
-	elif echo $output | grep -q "link ok"; then
-	    return 0
-	else
 	    return 1
+	elif echo $output | grep -q "link ok"; then
+	    return 1
+	else
+	    return 0
         fi
     fi
     return 0
@@ -99,7 +99,6 @@ check_link_down ()
 check_default_route ()
 {
    ip route | grep -q default
-   return $?
 }
 
 find_gateway_dev ()
@@ -135,7 +134,8 @@ add_default_route ()
 is_wireless_device ()
 {
   if [ -x /sbin/iwconfig ]; then
-    return iwconfig $1 | grep -q -v "no wireless extensions"
+    iwconfig $1 2>&1 | grep -q -v "no wireless extensions"
+    return $?
   else
     return 1
   fi
