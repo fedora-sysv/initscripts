@@ -64,9 +64,9 @@ runcmd $"Sending all processes the KILL signal..."  /sbin/killall5 -9
 /sbin/halt -w
 
 # Save mixer settings, here for lack of a better place.
-grep -q "\(sparcaudio\|sound\)" /proc/devices
-if [ $? = 0 -a -x /bin/aumix-minimal ]; then
-   runcmd $"Saving mixer settings" /bin/aumix-minimal -f /etc/.aumixrc -S
+grep -q "\(alsa\)" /proc/devices
+if [ $? = 0 -a -x /usr/sbin/alsactl ]; the
+   runcmd $"Saving mixer settings" alsactl store
 fi
 
 # Sync the system clock.
