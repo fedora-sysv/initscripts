@@ -91,6 +91,7 @@ else
   MODE=host
 fi
 
+[ -n "$IKE_METHOD" ] && KEYING=automatic
 [ -z "$KEYING" ] && KEYING=manual
 
 # Get source address
@@ -153,13 +154,13 @@ ${KEY_AH_IN:+add $DST $SRC ah $SPI_AH_IN -m tunnel -A ${AH_PROTO_IN:-$AH_PROTO} 
 ${KEY_AH_OUT:+add $SRC $DST ah $SPI_AH_OUT -m tunnel -A ${AH_PROTO_OUT:-$AH_PROTO} $(echo '"')$KEY_AH_OUT$(echo '"');}
 
 spdadd $SRCNET $DSTNET any -P out ipsec
-            ${KEY_ESP_OUT:+esp/tunnel/$SRC-$DEST/require}
-            ${KEY_AH_OUT:+ah/tunnel/$SRC-$DEST/require}
+            ${KEY_ESP_OUT:+esp/tunnel/$SRC-$DST/require}
+            ${KEY_AH_OUT:+ah/tunnel/$SRC-$DST/require}
 	    ;
 		      
 spdadd $DSTNET $SRCNET any -P in ipsec
-	    ${KEY_ESP_IN:+esp/tunnel/$DEST-$SRC/require}
-	    ${KEY_AH_IN:+ah/tunnel/$DEST-$SRC/require}
+	    ${KEY_ESP_IN:+esp/tunnel/$DST-$SRC/require}
+	    ${KEY_AH_IN:+ah/tunnel/$DST-$SRC/require}
 	    ;
 EOF
     fi
@@ -193,13 +194,13 @@ spddelete $SRCNET $DSTNET any -P out;
 spddelete $DSTNET $SRCNET any -P in;
 
 spdadd $SRCNET $DSTNET any -P out ipsec
-	    esp/tunnel/$SRC-$DEST/require
-	    ah/tunnel/$SRC-$DEST/require
+	    esp/tunnel/$SRC-$DST/require
+	    ah/tunnel/$SRC-$DST/require
 	    ;
 		      
 spdadd $DSTNET $SRCNET any -P in ipsec
-	    esp/tunnel/$DEST-$SRC/require
-	    ah/tunnel/$DEST-$SRC/require
+	    esp/tunnel/$DST-$SRC/require
+	    ah/tunnel/$DST-$SRC/require
 	    ;
 EOF
     fi
