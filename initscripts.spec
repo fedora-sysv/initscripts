@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.93.6
+Version: 7.93.7
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -206,6 +206,16 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Mar 30 2005 Bill Nottingham <notting@redhat.com> 7.93.7-1
+- fix mistranslation (#151120)
+- netfs: fix _netdev unmounting (#147610, <alewis@redhat.com>)
+- rc.sysinit: fix rngd check (#130350)
+  ... then turn it off entirely
+- handle alternate VLAN naming schemes (#115001, <kas@informatics.muni.cz>)
+- add proper ipsec route (#146169, #140654)
+- dhcp release cleanups (<jvdias@redhat.com>)
+- ifdown: handle being called on down devices better
+
 * Wed Jan 19 2005 Bill Nottingham <notting@redhat.com> 7.93.6-1
 - add support for releasing DHCP lease (<jvdias@redhat.com>)
 - fix multiple scsi_hostadapter loads (#145432)
