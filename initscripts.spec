@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.13
+Version: 7.15
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -246,9 +246,16 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Apr 03 2003 Karsten Hopp <karsten@redhat.de> 7.15-1
+- Mainframe has no /dev/ttyX devices and no mingetty, don't 
+  initialize them. This gave error messages during startup
+
 * Mon Mar 17 2003 Nalin Dahyabhai <nalin@redhat.com>
 - init.d/network: don't advertise "probe: true" in the header if we don't
   recognize "probe" as an argument
+
+* Wed Mar 12 2003 Bill Nottingham <notting@redhat.com> 7.14-1
+* - do not handle changed chain name; change was reverted
 
 * Tue Feb 25 2003 Bill Nottingham <notting@redhat.com> 7.13-1
 - handle 7.x SYSFONTACM settings in setsysfont (#84183)

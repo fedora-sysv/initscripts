@@ -70,7 +70,7 @@ if [ "$sourced" = 1 ]; then
       case $LANG in
     	*.utf8*|*.UTF-8*)
     	if [ "$TERM" = "linux" -a "`/sbin/consoletype`" = "vt" ]; then
-		[ -x /bin/unicode_start ] && unicode_start $SYSFONT $SYSFONTACM
+		unicode_start $SYSFONT $SYSFONTACM
         fi
 	;;
       esac
