@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.19
+Version: 6.21
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -238,9 +238,16 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Sun Aug 18 2001 Bill Nottingham <notting@redhat.com>
+- fix a broken call to check_device_down
+- make all loopback addresses have host scope, not global scope.
+  Fixes #49374, possibly others
+
 * Wed Aug 15 2001 Bill Nottingham <notting@redhat.com>
 - add is_available() network function, use it; cleans up ugly modprobe
   error messages
+- update translation info
+- fix #51787
 
 * Wed Aug 15 2001 Bernhard Rosenkraenzer <bero@redhat.com>
 - adjust s390 patch
