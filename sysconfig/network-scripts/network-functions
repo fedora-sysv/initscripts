@@ -3,10 +3,10 @@
 
 source_config ()
 {
-    DEVNAME=`echo $CONFIG | sed 's/^ifcfg-//g'`
+    DEVNAME=`basename $CONFIG | sed 's/^ifcfg-//g'`
 
     . $CONFIG
-    if echo $CONFIG | grep -q '[^g]-' ; then
+    if basename $CONFIG | grep -q '[^g]-' ; then
 	PARENTCONFIG=`echo $CONFIG | sed 's/-[^-]*$//g'`
 	PARENTDEVNAME=`echo $PARENTCONFIG | sed 's/^ifcfg-//g'`
 	[ -f $PARENTCONFIG ] || {
