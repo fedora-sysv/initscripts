@@ -1,5 +1,7 @@
+#include <fcntl.h>
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 #include <sys/ioctl.h>
 #include <sys/stat.h>
 #include <sys/sysmacros.h>
@@ -19,8 +21,23 @@ int main(int argc, char **argv)
 	    type = "serial";
 	    ret = 1;
 	} else {
+#ifdef __powerpc__
+	    int fd;
+	    char buf[65536];
+	    
+	    fd = open("/proc/tty/drivers",O_RDONLY);
+	    read(fd, buf, 65535);
+	    if (strstr(buf,"vioconsole           /dev/tty")) {
+		    type = "vio";
+		    ret = 3;
+	    } else {
+		    type = "vt";
+		    ret = 0;
+	    }
+#else
 	    type = "vt";
 	    ret = 0;
+#endif
 	}
     } else {
 	type = "pty";
