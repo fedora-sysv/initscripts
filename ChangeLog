@@ -1,3 +1,70 @@
+2001-07-24  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec, ChangeLog: 6.07-1
+
+	* rc.d/init.d/netfs, rc.d/rc.sysinit, initscripts.spec:
+	fix netdev umount stuff
+
+	* sysconfig/network-scripts/ifdown, sysconfig/network-scripts/ifup, sysconfig/network-scripts/network-functions:
+	do config expansion (NETMASK, PREFIX, etc) in a function, call it from ifdown (fixes #49777, #49783)
+
+	* ppp/ip-up.ipv6to4, sysconfig/network-scripts/ifdown-ipv6, sysconfig/network-scripts/ifdown-sit, sysconfig/network-scripts/ifup-ipv6, sysconfig/network-scripts/ifup-sit, sysconfig/network-scripts/init.ipv6-global, sysconfig/network-scripts/network-functions-ipv6, ipv6-6to4.howto, ipv6-tunnel.howto, ppp/ip-down.ipv6to4, sysconfig.txt:
+	ipv6 update (<pekkas@netcore.fi>)
+
+2001-07-24  Phil Knirsch  <pknirsch@redhat.com>
+
+	* initscripts.spec:
+	- Final profile support with correct reflection of directories and names.
+
+2001-07-20  Preston Brown  <pbrown@redhat.com>
+
+	* initscripts.spec, rc.d/rc.sysinit:
+	updates for quota support.
+
+2001-07-19  Karsten Hopp  <karsten@redhat.com>
+
+	* sysconfig/network-scripts/ifup-iucv, sysconfig/network-scripts/ifup-ctc:
+	remove broken compatibility hack for gateway which results in having two default gateways
+
+2001-07-17  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifdown:
+	only remove the IP address for the !DHCP case
+
+	* ChangeLog, initscripts.spec:
+	6.05-1
+
+	* sysconfig/network-scripts/ifdown, sysconfig/network-scripts/ifup:
+	fix ifup/ifdown
+
+2001-07-17  kmaraas  <kmaraas@redhat.com>
+
+	* po/.cvsignore, po/nn.po:
+	2001-07-17  Kjartan Maraas  <kmaraas@gnome.org>
+
+		* nn.po: Added Norwegian (nynorsk) translation.
+		* ChangeLog: Added this so we won't flood the master ChangeLog.
+
+2001-07-17  Bill Nottingham  <notting@redhat.com>
+
+	* src/initlog.1, src/initlog.c:
+	don't allow --event to be used with --cmd/--run (#49203)
+
+	* ChangeLog, initscripts.spec:
+	6.04-1
+
+	* sysconfig.txt: some docs updates
+
+	* rc.d/init.d/netfs, rc.d/rc.sysinit, initscripts.spec:
+	use -O nonetdev; require new mount package
+
+	* initscripts.spec: own some more directories
+
+2001-07-17  tayninh1  <tayninh1@redhat.com>
+
+	* ChangeLog, initscripts.spec, sysconfig/network-scripts/ifup-ippp:
+	* fixed country_code
+
 2001-07-17  Bill Nottingham  <notting@redhat.com>
 
 	* initscripts.spec, ChangeLog: 6.05-1

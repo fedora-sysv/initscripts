@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.06
+Version: 6.07
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -237,6 +237,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Tue Jul 23 2001 Bill Nottingham <notting@redhat.com>
+- update netdev stuff to use _netdev
+- IPv6 updates (<pekkas@netcore.fi>)
+- fix downing of devices with static IPs (#49777, #49783)
+
 * Fri Jul 20 2001 Preston Brown <pbrown@redhat.com> 6.06
 - updates for quota
 
