@@ -152,10 +152,10 @@ if [ -x /sbin/depmod -a -n "$USEMODULES" ]; then
        fi
        if [ -n "$mver" ]; then
          ln -sf /lib/modules/$mver /lib/modules/default
-         ln -sf /boot/System.map-$mver /boot/System.map
        fi
     fi
     [ -n "$mver" -a -f "/boot/module-info-$mver" ] && ln -sf /boot/module-info-$mver /boot/module-info
+    [ -n "$mver" -a -f "/boot/System.map-$mver" ] && ln -sf /boot/System.map-$mver /boot/System.map
     action "Finding module dependencies" depmod -a
 fi
 
