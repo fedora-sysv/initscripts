@@ -1,9 +1,9 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.07
+Version: 6.08
 License: GPL
 Group: System Environment/Base
-Release: 2
+Release: 1
 Source: initscripts-%{version}.tar.bz2
 Patch0: initscripts-s390.patch
 BuildRoot: /%{_tmppath}/%{name}-%{version}-%{release}-root
@@ -238,7 +238,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
-* Tue Jul 23 2001 Bill Nottingham <notting@redhat.com>
+* Wed Jul 25 2001 Bill Nottingham <notting@redhat.com>
+- set link up before checking with mii-tool (#49949)
+
+* Tue Jul 24 2001 Bill Nottingham <notting@redhat.com>
 - update netdev stuff to use _netdev
 - IPv6 updates (<pekkas@netcore.fi>)
 - fix downing of devices with static IPs (#49777, #49783)
