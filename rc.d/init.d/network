@@ -50,10 +50,10 @@ ipv4_forward_set ()
 	    else
 		if [ "$FORWARD_IPV4" = "no" -o "$FORWARD_IPV4" = "false" ]; then
 		    value=0
-		    message="Disabling IPv4 packet forwarding."
+		    message="Disabling IPv4 packet forwarding"
 		else
 		    value=1
-		    message="Enabling IPv4 packet forwarding."
+		    message="Enabling IPv4 packet forwarding"
 		fi
 
 		if [ $value != `cat /proc/sys/net/ipv4/ip_forward` ]; then
@@ -95,7 +95,7 @@ case "$1" in
 	    ;;
 	esac
 	./ifdown ifcfg-lo
-	action -n "Disabling IPv4 packet forwarding." echo 0 > /proc/sys/net/ipv4/ip_forward
+	action -n "Disabling IPv4 packet forwarding" echo 0 > /proc/sys/net/ipv4/ip_forward
         rm -f /var/lock/subsys/network
         ;;
   status)
@@ -124,34 +124,34 @@ case "$1" in
 			ipv4_forward_set
 		fi
 		for device in $DEV_UP ; do
-			./ifup $device
+			action "Bringing up device $device" ./ifup $device
 		done
 		for device in $DEV_DOWN ; do
-			./ifdown $device
+			action "Shutting down device $device" ./ifdown $device
 		done
 		for device in $DEV_RECONF ; do
-			./ifdown $device
-			./ifup $device
+			action "Shutting down device $device" ./ifdown $device
+			action "Bringing up device $device" ./ifup $device
 		done
 		for device in $DEV_RECONF_ALIASES ; do
-			/etc/sysconfig/network-scripts/ifup-aliases $device
+			action "Briging up alias $device" /etc/sysconfig/network-scripts/ifup-aliases $device
 		done
 		for device in $DEV_RECONF_ROUTES ; do
-			/etc/sysconfig/network-scripts/ifup-routes $device
+			action "Bringing up route $device" /etc/sysconfig/network-scripts/ifup-routes $device
 		done
 		case $IPX in yes|true)
 		  case $IPXINTERNALNET in
 		    reconf)
-			/sbin/ipx_internal_net del
-			/sbin/ipx_internal_net add $IPXINTERNALNETNUM \
+			action "Deleting internal IPX network" /sbin/ipx_internal_net del
+			action "Adding internal IPX network $IPXINTERNALNETNUM $IPXINTERNALNODENUM" /sbin/ipx_internal_net add $IPXINTERNALNETNUM \
 						      $IPXINTERNALNODENUM
 			;;
 		    add)
-			/sbin/ipx_internal_net add $IPXINTERNALNETNUM \
+			action "Adding internal IPX network $IPXINTERNALNETNUM $IPXINTERNALNODENUM"/sbin/ipx_internal_net add $IPXINTERNALNETNUM \
 						      $IPXINTERNALNODENUM
 			;;
 		    del)
-			/sbin/ipx_internal_net del
+			action "Deleting internal IPX network" /sbin/ipx_internal_net del
 			;;
 		  esac
 		  ;;

@@ -30,36 +30,37 @@ esac
 # Kill all processes.
 [ "${BASH+bash}" = bash ] && enable kill
 
-echo "Sending all processes the TERM signal..."
-kill -15 -1
+action "Sending all processes the TERM signal..." kill -15 -1
 sleep 5
-echo "Sending all processes the KILL signal.."
-kill -9 -1
+action "Sending all processes the KILL signal.." kill -9 -1
 
 # Write to wtmp file before unmounting /var
 halt -w
 
 # Turn off swap, then unmount file systems.
-echo "Turning off swap and accounting"
-swapoff -a
+action "Turning off swap and accounting" swapoff -a
 [ -x /sbin/accton ] && /sbin/accton
-echo "Unmounting file systems"
-umount -a -f
+action "Unmounting file systems" umount -a -f
 mount -n -o remount,ro /
 
 # turn off raid
 if [ -x /sbin/raidstop -a -f /etc/raidtab ]; then
-    /sbin/raidstop -a
+    action "Turning off RAID" /sbin/raidstop -a
 fi
 
-echo "Remounting remaining filesystems (if any) readonly"
+# Remount read only anything that's left mounted.
+#echo "Remounting remaining filesystems (if any) readonly"
 mount | awk '/ext2/ { print $3 }' | while read line; do
     mount -n -o ro,remount $line
 done
 
 # Now halt or reboot.
 echo "$message"
-[ -f /fastboot ] && echo "On the next boot fsck will be skipped."
+if [ -f /fastboot ]; then
+ echo "On the next boot fsck will be skipped."
+elif [ -f /forcefsck ];
+ echo "On the next boot fsck will be forced."
+fi
 eval $command -i -d
 
 

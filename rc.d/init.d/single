@@ -16,11 +16,9 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin
 # Kill all processes.
 [ "${BASH+bash}" = bash ] && enable kill
 
-echo "Sending all processes the TERM signal..."
-kill -15 -1
+action "Sending all processes the TERM signal..." kill -15 -1
 sleep 5
-echo "Sending all processes the KILL signal.."
-kill -9 -1
+action "Sending all processes the KILL signal.." kill -9 -1
 
 rm -f /var/lock/subsys/*
 

@@ -51,7 +51,11 @@ if [ -d /etc/rc.d/rc$runlevel.d ]; then
 		    [ ! -f /var/lock/subsys/${subsys}.init ] && continue
 
 		# Bring the subsystem down.
-		$i stop
+		if [ egrep -q "(killproc|action)" $i ]; then
+			$i stop
+		else
+			action "Stopping $subsys" $i stop
+		fi
 	done
 
 	# Now run the START scripts.
@@ -86,6 +90,10 @@ if [ -d /etc/rc.d/rc$runlevel.d ]; then
 		  }
 
 		# Bring the subsystem up.
-		$i start
+		if [ egrep -q "(daemon|action)" $i ]; then
+			$i start
+		else
+			action "Starting $subsys" $i start
+		fi
 	done
 fi
