@@ -25,10 +25,12 @@
 
 from sys import argv
 from string import find, split, strip
+import re
 
 s = {}
+pattern = re.compile('[ =]\$"')
 
-def xgettext(arq, tokens_i18n):
+def xgettext(arq):
 	line = 0
 	f = open(arq, "r")
         while 1:
@@ -38,15 +40,9 @@ def xgettext(arq, tokens_i18n):
 		if l[0:1] == '#':       continue
 		elif l[0:1] == '\n':    continue
 		else:
-			for token in tokens_i18n:
-			        if token == '=':
-				    pos = find(l, token + '$"')
-				else:
-				    pos = find(l, token + ' $"')
-				if pos != -1:
+			for match in pattern.finditer(l):
+				pos = match.start()
 					text = split(l[pos:], '"')[1]
-					#if find (text, '$') != -1:
-					#	continue
 					if s.has_key(text):
 						s[text].append((arq, line))
 					else:
@@ -77,22 +73,8 @@ def print_pot():
 		print 'msgstr ""\n'
 				
 def main():
-	i18n_tokens = []
-	i18n_tokens.append('echo')
-	i18n_tokens.append('echo -n')
-	i18n_tokens.append('echo -e')
-	i18n_tokens.append('echo -en')
-	i18n_tokens.append('echo -ne')
-	i18n_tokens.append('action')
-	i18n_tokens.append('failure')
-	i18n_tokens.append('passed')
-	i18n_tokens.append('runcmd')
-	i18n_tokens.append('success')
-	i18n_tokens.append('/sbin/getkey -c $AUTOFSCK_TIMEOUT -m')
-	i18n_tokens.append('=')
-
 	for a in argv:
-		xgettext(a, i18n_tokens)
+		xgettext(a)
 
 	print_pot()
 
