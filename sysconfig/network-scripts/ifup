@@ -173,6 +173,10 @@ if [ "${SLAVE}" = yes -a "${ISALIAS}" = no -a "${MASTER}" != "" -a \
     echo $"Enslaving ${DEVICE} to ${MASTER}"
     ifenslave ${RFLAG} "${MASTER}" "${DEVICE}" >/dev/null 2>&1
 
+    if [ -n "$ETHTOOL_OPTS" ] ; then
+        /sbin/ethtool -s ${REALDEVICE} $ETHTOOL_OPTS
+    fi
+
     exit 0
 fi
 
