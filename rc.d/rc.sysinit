@@ -422,11 +422,6 @@ if [ -z "$fastboot" -a "$READONLY" != "yes" -a "X$ROOTFSTYPE" != "Xnfs" -a "X$RO
 		_RUN_QUOTACHECK=1
 	fi
 fi
-#
-# Check to see if SELinux requires a relabel
-#
-[ -n "$SELINUX" ] && [ -f /.autorelabel ] && relabel_selinux
-
 # Unmount the initrd, if necessary
 if LC_ALL=C fgrep -q /initrd /proc/mounts && ! LC_ALL=C fgrep -q /initrd/loopfs /proc/mounts ; then
    if [ -e /initrd/dev/.devfsd ]; then
@@ -711,6 +706,11 @@ fi
 if [ -x /sbin/quotaon ]; then
     action $"Enabling local filesystem quotas: " /sbin/quotaon -aug
 fi
+
+#
+# Check to see if SELinux requires a relabel
+#
+[ -n "$SELINUX" ] && [ -f /.autorelabel ] && relabel_selinux
 
 # Initialize pseudo-random number generator
 if [ -f "/var/lib/random-seed" ]; then
