@@ -27,7 +27,7 @@ if [ -z "$PID" ]; then
   exit 1
 fi
 
-# pppd might have chat as a child; remember chat's pid to kill after pppd.
+# pppd might have chat/wvdial as a child; remember its pid to kill after pppd.
 # (After, not before, so that pppd doesn't just restart it).
 
 CHATPID=`ps axl | awk '$4 ~ /^'"$PID"'$/ {print $3}' 2>/dev/null`
@@ -35,12 +35,10 @@ CHATPID=`ps axl | awk '$4 ~ /^'"$PID"'$/ {print $3}' 2>/dev/null`
 kill $PID > /dev/null 2>&1
 [ -n "$CHATPID" ] && kill $CHATPID > /dev/null 2>&1
 if [ ! -d /proc/$PID ]; then
-  /etc/sysconfig/network-scripts/ifdown-post $1
   exit 0
 fi
 sleep 2
 if [ ! -d /proc/$PID ]; then
-  /etc/sysconfig/network-scripts/ifdown-post $1
   exit 0
 fi
 
@@ -48,6 +46,7 @@ kill -KILL $PID > /dev/null 2>&1
 if [ -d /proc/$PID ]; then
   logger -p daemon.info -t ifdown-ppp "ifdown-ppp unable to kill pppd-$DEVICE" &
 else
+  # ip-down won't run in this case
   /etc/sysconfig/network-scripts/ifdown-post $1
 fi
 
