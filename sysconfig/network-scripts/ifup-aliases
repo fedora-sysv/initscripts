@@ -1,6 +1,62 @@
 #!/bin/sh
 
-# adds aliases of device $1
+#
+# configures aliases of device $1
+#
+# This script goes out of its way to arrive at the configuration of ip
+# aliases described in the ifcfg-$DEV:* and ifcfg-$DEV-range* files from
+# whatever existing configuration it may be given: existing aliases not
+# specified in the configuration will be removed, netmasks and broadcast
+# addrs will be updated on existing aliases, and new aliases will be setup.
+#
+#   range specification files:
+#
+# One can specify ranges of alised ipaddress using ifcfg-$DEV-range* files.
+# Specify multiple ranges using multiple files, such as ifcfg-eth0-range0 and
+# ifcfg-eth0-range1, etc. In these files, the following configuration variables 
+# specify the range:
+#
+#    IPADDR_START    -- ipaddr to start range at. eg "192.168.30.1"
+#    IPADDR_END      -- ipaddr to end range at. eg "192.168.30.254"
+#    CLONENUM_START  -- interface clone number to start using for this range. eg "0"
+#
+# The above example values create the interfaces eth0:0 through eth0:253 using
+# ipaddrs 192.168.30.1 through 192.168.30.254, inclusive.
+#
+# Other configuration variables such as NETMASK and BROADCAST may be specified
+# in the range file and will apply to all of the ipaddresses in the range. Range
+# files also inherit configuration from the ifcfg-$DEV file just like normal.
+#
+# Note that IPADDR_START and IPADR_END are required to be in the same class-c
+# block. I.e. IPADDR_START=192.168.30.1 and IPADDR_END=192.168.31.255 is
+# not valid.
+#
+#   speed with large sets of interfaces:
+#
+# Considerable effort was spent making this script fast. It can efficiently 
+# handle a thousand ip aliases on one interface.
+# 
+# With large sets of ipaddresses the NO_ALIASROUTING=yes configuration is
+# highly recommended. (This can be specified in ifcfg-$DEV and inherited.) This
+# prevents this script from setting up routing details for the virtual
+# interfaces, which I don't think is needed, because outgoing traffic can use the
+# main interface. However, make your own conclusions on what you need.
+# 
+# My test setup of four class C address blocks on a P166 took 25 seconds of 
+# which 16 seconds of this was spent in the ifcconfig calls. Without the 
+# NO_ALIASROUTING=yes config an additional 12 seconds is spent in route calls.
+#
+#   notes on internals:
+#
+# This script uses the bash "eval" command to lookup shell variables with names
+# which are generated from other shell variables. This allows us to, in effect,
+# create hashes using the shell variable namesspace by just including the hash
+# key in the name of the variable.
+#
+# This script written by: David Harris <dharris@drh.net> 
+#                         Principal Engineer, DRH Internet
+#                         June 30, 1999
+#
 
 device=$1
 if [ "$device" = "" ]; then
@@ -8,11 +64,292 @@ if [ "$device" = "" ]; then
 	exit 1
 fi
 
-current=0
-while : ; do
-	if [ ! -f /etc/sysconfig/network-scripts/$device:$current ]; then
-	    exit 0
+parent_device=$device
+
+. network-functions
+
+       #
+       # Grab the current configuration of any running aliases device info is placed into 
+       # variables in the form: rdev_$DEVICE_addr, dev_$DEVICE_mb and rdevip_$IPGLOP.
+       # A list of all the devices is created in rdev_LIST.
+       #
+
+# sorry this is all one line -- it didn't work on multiple lines for me
+eval ` ifconfig | sed -e ' /^[^[:space:]]*:[0-9]*/ { s|^\([^:]*\):\([0-9]*\).*$|X=x; TMP="\2"; [ "$device" != "\1" ] \|\| |g; b; }; /^[^[:space:]]/ { s|.*|X=x; [ 0 = 0 ] \|\| |g; b; }; /inet addr:[0-9]*\.[0-9]*\.[0-9]*\.[0-9]* *Bcast:[0-9.]* *Mask:[0-9.]*/ { s|^.*inet addr:\(\([0-9]*\)\.\([0-9]*\)\.\([0-9]*\)\.\([0-9]*\)\) *Bcast:\([0-9.]*\) *Mask:\([0-9.]*\).*$|eval " rdev_${TMP}_addr=\1; rdev_${TMP}_mb=\7_\6; rdevip_\2_\3_\4_\5=${TMP}; rdev_LIST=\\\\"\\\\$rdev_LIST \\\\${TMP}\\\\"; " \|\| |g; b; }; s|^.*$||g; ' ` X=x;
+
+if [ -z "$rdev_LIST" ]; then
+       no_devices_are_up=yes
+fi
+
+##for DEVNUM in $rdev_LIST ; do
+##eval "
+##echo \"rdev_${DEVNUM}_addr = \$rdev_${DEVNUM}_addr\"
+##echo \"rdev_${DEVNUM}_mb = \$rdev_${DEVNUM}_mb\" ";
+##done
+##echo ""; echo "-----"; echo ""
+
+       #
+       # Store configuration of the parent device and network
+       #
+
+# read from the /etc/sysconfig/network
+eval ` (
+       . /etc/sysconfig/network;
+       echo network_GATEWAY=$GATEWAY\;;
+       echo network_GATEWAYDEV=$GATEWAYDEV\;;
+) `
+
+# read defaults from the parent config file
+PARENTCONFIG=ifcfg-$device
+[ -f $PARENTCONFIG ] || {
+       echo "Missing config file $PARENTCONFIG." >&2
+       exit 1
+}
+eval ` (
+       . $PARENTCONFIG;
+       echo default_NETMASK=$NETMASK\;;
+       echo default_BROADCAST=$BROADCAST\;;
+       echo default_GATEWAY=$GATEWAY\;;
+       echo default_GATEWAYDEV=$GATEWAYDEV\;;
+       echo default_NO_ALIASROUTING=$NO_ALIASROUTING\;;
+) `
+
+function ini_env ()
+{
+       DEVICE=""
+       IPADDR=""
+       NETMASK=$default_NETMASK
+       BROADCAST=$default_BROADCAST
+       GATEWAY=$default_GATEWAY
+       GATEWAYDEV=$default_GATEWAYDEV
+       NO_ALIASROUTING=$default_NO_ALIASROUTING
+}
+
+       #
+       # Read the alias configuation files and enable each aliased
+       # device using new_interface()
+       #
+
+function new_interface ()
+{
+
+       ipa=$IPADDR; ipb=${ipa#*.}; ipc=${ipb#*.};
+       IPGLOP="${ipa%%.*}_${ipb%%.*}_${ipc%%.*}_${ipc#*.}";
+       DEVNUM=${DEVICE#*:}
+
+       eval "
+              ipseen=\$ipseen_${IPGLOP}; devseen=\$devseen_${DEVNUM};
+              ipseen_${IPGLOP}=$FILE; devseen_${DEVNUM}=$FILE;
+       ";
+
+       if [ -n "$ipseen" ]; then
+              echo "error in $FILE: already seen ipaddr $IPADDR in $ipseen" >&2;exit 0
+       fi
+
+       if [ -n "$devseen" ]; then
+              echo "error in $FILE: already seen device $parent_device:$DEVNUM\ in $devseen" >&2; exit 0
+       fi
+
+       if [ -z "$DEVICE" -o -z "$IPADDR" ]; then
+              echo "error in $FILE: didn't specify device or ipaddr" >&2 ; exit 0
+       fi
+
+       if [ -z "$NETMASK" ]; then
+               eval `/bin/ipcalc --netmask ${IPADDR}`
+       fi
+
+       if [ -z "$BROADCAST" ]; then
+               eval `/bin/ipcalc --broadcast ${IPADDR} ${NETMASK}`
+               nma=$NETMASK; nmb=${nma#*.}; nmc=${nmb#*.};
+               NMGLOP="${nma%%.*}_${nmb%%.*}_${nmc%%.*}_${nmc#*.}";
+               if [ ${nma%%.*} -eq 0 ]; then ipnm_a=0; else ipnm_a=${ipa%%.*}; fi
+               if [ ${nmb%%.*} -eq 0 ]; then ipnm_b=0; else ipnm_b=${ipb%%.*}; fi
+               if [ ${nmc%%.*} -eq 0 ]; then ipnm_c=0; else ipnm_c=${ipc%%.*}; fi
+               if [ ${nmc#*.}  -eq 0 ]; then ipnm_d=0; else ipnm_d=${ipc#*.};  fi
+               CACHENAME="${NMGLOP}_${ipnm_a}_${ipnm_b}_${ipnm_c}_${ipnm_d}"
+               eval "
+                       if [ -z \"\$bcastcache_${CACHENAME}\" ]; then
+                               eval `/bin/ipcalc --broadcast \$IPADDR \$NETMASK`
+                               bcastcache_${CACHENAME}=\$BROADCAST
+                       else
+                               BROADCAST=\$bcastcache_${CACHENAME}
+                       fi
+               ";
+       fi
+
+##echo "";
+##echo "----------------------------"
+##echo "device = $DEVICE"
+##echo "ipaddr = $IPADDR"
+##echo "netmask = $NETMASK"
+##echo "broadcast = $BROADCAST"
+##echo "devnum = $DEVNUM";
+##echo "";
+
+       if [ "$no_devices_are_up" = "yes" ]; then
+               setup_this=yes
+       else
+
+               setup_this=""
+
+               eval "
+                       rdev_addr=\$rdev_${DEVNUM}_addr;
+                       rdev_mb=\$rdev_${DEVNUM}_mb;
+                       rdev_mark=\$rdev_${DEVNUM}_mark;
+                       rdevip=\$rdevip_${IPGLOP};
+               ";
+
+               if [ -n "$rdev_addr" ]; then
+                       if [ "$rdev_addr" = "${IPADDR}" ]; then
+                               newmark=keep
+                               if [ "$rdev_mb" != "${NETMASK}_${BROADCAST}" ]; then
+                                       setup_this=freshen
+                               else
+                                       setup_this=no
+                               fi
+                       else
+                               if [ "$rdev_mark" != "remove" ]; then
+##echo "removing device $parent_device:${DEVNUM} (devnum conflict)"
+                                       /sbin/ifconfig $parent_device:${DEVNUM} down
+                                       do_netreport=yes
+                               fi
+                               newmark=remove
+                               setup_this=yes
+                       fi
+                       if [ -n "$rdev_mark" -a "$rdev_mark" != "$newmark" ]; then
+                               echo "error in ifcfg-${parent_device}:\* files" >&2 ; exit 0
+                       fi
+                       eval " rdev_${DEVNUM}_mark=\$newmark ";
+               else
+                       setup_this=yes
+               fi
+
+               if [ -n "$rdevip" -a "$rdevip" != "${DEVNUM}" ]; then
+                       eval " mark_remove=\$rdev_${rdevip}_mark ";
+                       if [ -n "$mark_remove" -a "$mark_remove" != "remove" ]; then
+                               echo "error in ifcfg-${parent_device}:\* files" >&2 ; exit 0
+                       fi
+                       if [ "$mark_remove" != "remove" ]; then
+                               eval " rdev_${rdevip}_mark=remove ";
+##echo "removing device $parent_device:$rdevip (ipaddr conflict)"
+                               /sbin/ifconfig $parent_device:$rdevip down
+                               do_netreport=yes
+                       fi
+               fi
+
+       fi
+
+       if [ "$setup_this" = "freshen" ] ; then
+               # we can do the freshen stuff right now
+##echo "freshening device $DEVICE"
+               /sbin/ifconfig $DEVICE netmask $NETMASK broadcast $BROADCAST;
+       fi
+
+       if [ "$setup_this" = "yes" ] ; then
+
+##echo "setting up device $DEVICE"
+
+               ifconfig ${DEVICE} ${IPADDR} netmask ${NETMASK} broadcast ${BROADCAST}
+
+               if [ "$NO_ALIASROUTING" != yes ]; then
+
+                       route add -host ${IPADDR} ${DEVICE}
+
+                       # this is broken! it's only here for compatibility with old RH systems
+                       if [ "${GATEWAY}" != "" -a "${GATEWAY}" != "none" ]; then
+                               route add default gw ${GATEWAY} metric 1 ${DEVICE}
+                       fi
+
+                       GATEWAY=$network_GATEWAY;
+                       GATEWAYDEV=$network_GATEWAYDEV;
+
+                       if [ "${GATEWAY}" != "" ]; then
+                               if [ "${GATEWAYDEV}" = "" -o "${GATEWAYDEV}" = "${DEVICE}" ]; then
+                                       # set up default gateway
+                                       route add default gw ${GATEWAY} ${DEVICE}
+                               fi
+                       fi
+
+                       if [ -f /etc/sysconfig/static-routes ]; then
+                               #note the trailing space in the grep gets rid of aliases
+                               grep "^$1 " /etc/sysconfig/static-routes | while read device args; do
+                                       /sbin/route add -$args $device
+                               done
+                       fi
+
+                       do_netreport=yes
+                       ifuplocal_queue="$ifuplocal_queue $DEVICE"
+
+               fi
+
 	fi
-	/etc/sysconfig/network-scripts/ifup $device:$current
-	current=`expr $current + 1`
+
+}
+
+if [ "$BASH_VERSINFO" ]; then shopt -s nullglob; else allow_null_glob_expansion=foo; fi
+
+for FILE in ifcfg-${parent_device}:* ; do
+
+       ini_env;
+       . $FILE;
+       new_interface;
+
 done
+
+for FILE in ifcfg-${parent_device}-range* ; do
+
+       ini_env;
+       . $FILE;
+
+       ipaddr_prefix=${IPADDR_START%.*}
+       ipaddr_startnum=${IPADDR_START##*.}
+       ipaddr_endnum=${IPADDR_END##*.}
+
+       if [ "${IPADDR_START%.*}" != "${IPADDR_END%.*}" ]; then
+               echo "error in $FILE: IPADDR_START and IPADDR_END don't argree" >&2; exit 0
+       fi
+
+       if [ $ipaddr_startnum -gt $ipaddr_endnum ]; then
+               echo "error in $FILE: IPADDR_START greater than IPADDR_END" >&2; exit 0
+       fi
+
+       ipaddr_num=$ipaddr_startnum
+       ipaddr_clonenum=$CLONENUM_START
+
+       while [ $ipaddr_num -le $ipaddr_endnum ]; do
+               IPADDR="$ipaddr_prefix.$ipaddr_num"
+               DEVICE="$parent_device:$ipaddr_clonenum"
+               new_interface;
+               let 'ipaddr_num=ipaddr_num+1'
+               let 'ipaddr_clonenum=ipaddr_clonenum+1'
+       done
+       
+done
+
+       #
+       # Remove any devices that should not be around
+       #
+
+for DEVNUM in $rdev_LIST ; do
+       eval " rdev_mark=\$rdev_${DEVNUM}_mark ";
+       if [ -z "$rdev_mark" ]; then
+##echo "removing device $parent_device:${DEVNUM} (lingering)"
+               /sbin/ifconfig $parent_device:${DEVNUM} down
+               do_netreport=yes
+       fi
+done
+
+       #
+       # Notify of new device creation
+       #
+
+if [ -n "$do_netreport" ]; then
+       do_netreport
+fi
+
+if [ -x /sbin/ifup-local ]; then
+       for DEVICE in $ifuplocal_queue ; do
+               /sbin/ifup-local ${DEVICE}
+       done
+fi
+
