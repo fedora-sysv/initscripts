@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.31.2.EL
+Version: 7.31.3.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -249,9 +249,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
-* Thu Sep 11 2003 Bill Nottingham <notting@redhat.com> 7.31.2.EL-1
+* Thu Sep 11 2003 Bill Nottingham <notting@redhat.com> 7.31.3.EL-1
 - ipsec fixes
 - fix ip calls for some device names (#104187)
+- more ipsec fixes (#104227, <harald@redhat.com>)
 
 * Fri Sep  5 2003 Bill Nottingham <notting@redhat.com> 7.31.1.EL-1
 - fix bonding + dhcp (#91399)
