@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.49
+%define version 4.50
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
@@ -195,6 +195,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Oct  5 1999 Bill Nottingham <notting@redhat.com>
+- assorted brown paper bag fixes
+- check for programs/files before executing/sourcing them
+
 * Thu Sep 30 1999 Bill Nottingham <notting@redhat.com>
 - req. e2fsprogs >= 1.15
 
