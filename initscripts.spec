@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-Version: 5.03
+Version: 5.04
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -46,30 +46,6 @@ for i in 0 1 2 3 4 5 6 ; do
 done
 
 # Can't store symlinks in a CVS archive
-ln -s ../init.d/random $RPM_BUILD_ROOT/etc/rc.d/rc0.d/K80random
-ln -s ../init.d/random $RPM_BUILD_ROOT/etc/rc.d/rc1.d/S20random
-ln -s ../init.d/random $RPM_BUILD_ROOT/etc/rc.d/rc2.d/S20random
-ln -s ../init.d/random $RPM_BUILD_ROOT/etc/rc.d/rc3.d/S20random
-ln -s ../init.d/random $RPM_BUILD_ROOT/etc/rc.d/rc4.d/S20random
-ln -s ../init.d/random $RPM_BUILD_ROOT/etc/rc.d/rc5.d/S20random
-ln -s ../init.d/random $RPM_BUILD_ROOT/etc/rc.d/rc6.d/K80random
-
-ln -s ../init.d/netfs $RPM_BUILD_ROOT/etc/rc.d/rc0.d/K75netfs
-ln -s ../init.d/netfs $RPM_BUILD_ROOT/etc/rc.d/rc1.d/K75netfs
-ln -s ../init.d/netfs $RPM_BUILD_ROOT/etc/rc.d/rc2.d/K75netfs
-ln -s ../init.d/netfs $RPM_BUILD_ROOT/etc/rc.d/rc3.d/S25netfs
-ln -s ../init.d/netfs $RPM_BUILD_ROOT/etc/rc.d/rc4.d/S25netfs
-ln -s ../init.d/netfs $RPM_BUILD_ROOT/etc/rc.d/rc5.d/S25netfs
-ln -s ../init.d/netfs $RPM_BUILD_ROOT/etc/rc.d/rc6.d/K75netfs
-
-ln -s ../init.d/network $RPM_BUILD_ROOT/etc/rc.d/rc0.d/K90network
-ln -s ../init.d/network $RPM_BUILD_ROOT/etc/rc.d/rc1.d/K90network
-ln -s ../init.d/network $RPM_BUILD_ROOT/etc/rc.d/rc2.d/S10network
-ln -s ../init.d/network $RPM_BUILD_ROOT/etc/rc.d/rc3.d/S10network
-ln -s ../init.d/network $RPM_BUILD_ROOT/etc/rc.d/rc4.d/S10network
-ln -s ../init.d/network $RPM_BUILD_ROOT/etc/rc.d/rc5.d/S10network
-ln -s ../init.d/network $RPM_BUILD_ROOT/etc/rc.d/rc6.d/K90network
-
 ln -s ../init.d/killall $RPM_BUILD_ROOT/etc/rc.d/rc0.d/S00killall
 ln -s ../init.d/killall $RPM_BUILD_ROOT/etc/rc.d/rc6.d/S00killall
 
@@ -125,6 +101,11 @@ if [ $1 = 0 ]; then
   chkconfig --del netfs
   chkconfig --del network
 fi
+
+%triggerpostun -- initscripts <= 5.04
+/sbin/chkconfig --add random
+/sbin/chkconfig --add netfs
+/sbin/chkconfig --add network
 
 %triggerpostun -- initscripts <= 4.72
 
