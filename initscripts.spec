@@ -1,6 +1,6 @@
 Summary: inittab and /etc/rc.d scripts
 Name: initscripts
-%define version 3.32
+%define version 3.50
 Version: %{version}
 Copyright: GPL
 Group: Base
@@ -16,6 +16,10 @@ levels, and shut the system down cleanly. It also contains the scripts
 that activate and deactivate most network interfaces.
 
 %changelog
+
+* Tue Mar 10 1998 Erik Troan <ewt@redhat.com>
+
+- added and made use of ipcalc
 
 * Tue Mar 10 1998 Erik Troan <ewt@redhat.com>
 
