@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.51
+Version: 7.52
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -249,6 +249,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue May  4 2004 Bill Nottingham <notting@redhat.com> 7.52-1
+- ipv4 addresses are ints, not longs (#122479)
+
 * Tue May  4 2004 Bill Nottingham <notting@redhat.com> 7.51-1
 - get rid of LVM error when no volumes are defined (#121197)
 - fix selinux short-circuit test (#121143, <michal@harddata.com>)
