@@ -1,9 +1,8 @@
 CFLAGS+=$(RPM_OPT_FLAGS) -Wall -D_GNU_SOURCE
 
-PROGS=usernetctl doexec netreport testd usleep ipcalc initlog minilogd \
+PROGS=usernetctl doexec netreport testd usleep ipcalc \
 	getkey ppp-watch consoletype genhostid kmodule
 PPPWATCH_OBJS=ppp-watch.o shvar.o
-INITLOG_OBJS=initlog.o process.o
 USLEEP_OBJS=usleep.o
 
 mandir=/usr/share/man
@@ -22,12 +21,9 @@ install:
 	install -m 2755 netreport $(ROOT)/sbin/netreport
 	install -m 755 ipcalc $(ROOT)/bin/ipcalc
 	install -m 755 genhostid $(ROOT)/sbin/genhostid
-	install -m 755 initlog $(ROOT)/sbin/initlog
-	install -m 755 minilogd $(ROOT)/sbin/minilogd
 	install -m 755 getkey $(ROOT)/sbin/getkey
 	install -m 755 ppp-watch $(ROOT)/sbin/ppp-watch
 	install -m 755 consoletype $(ROOT)/sbin/consoletype
-	install -m 644 initlog.1 $(ROOT)$(mandir)/man1
 	install -m 644 genhostid.1 $(ROOT)$(mandir)/man1
 	install -m 644 doexec.1 $(ROOT)$(mandir)/man1
 	install -m 644 netreport.1 $(ROOT)$(mandir)/man1
@@ -36,7 +32,6 @@ install:
 	install -m 644 ppp-watch.8 $(ROOT)$(mandir)/man8
 	install -m 644 ipcalc.1 $(ROOT)$(mandir)/man1
 	install -m 644 consoletype.1 $(ROOT)$(mandir)/man1
-	install -m 644 initlog.conf $(ROOT)/etc
 
 # this daemon and initscript are useful for testing the up/down/status stuff
 # not installed by default, only comes from sources.
@@ -49,9 +44,6 @@ getkey: getkey.o
 
 ipcalc: ipcalc.o
 	$(CC) $(LDFLAGS) -o $@ $< -Wl,-Bstatic -lpopt -Wl,-Bdynamic
-
-initlog: $(INITLOG_OBJS)
-	$(CC) $(LDFLAGS) -o $@ $(INITLOG_OBJS) -Wl,-Bstatic -lpopt -Wl,-Bdynamic
 
 usleep: $(USLEEP_OBJS)
 	$(CC) $(LDFLAGS) -o $@ $(USLEEP_OBJS) -Wl,-Bstatic -lpopt -Wl,-Bdynamic

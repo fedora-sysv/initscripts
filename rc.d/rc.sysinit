@@ -5,11 +5,6 @@
 # Taken in part from Miquel van Smoorenburg's bcheckrc.
 #
 
-# Rerun ourselves through initlog
-if [ -z "$IN_INITLOG" -a -x /sbin/initlog ]; then
-    exec /sbin/initlog -r /etc/rc.d/rc.sysinit
-fi
-
 HOSTNAME=`/bin/hostname`
 HOSTTYPE=`uname -m`
 unamer=`uname -r`
@@ -283,7 +278,6 @@ if [ "$CONSOLETYPE" = "vt" -a -x /bin/loadkeys ]; then
   fi
  fi
  if [ -n "$KEYMAP" ]; then 
-  # Since this takes in/output from stdin/out, we can't use initlog
   if [ -n "$KEYTABLE" ]; then
     echo -n $"Loading default keymap ($KEYTABLE): "
   else
@@ -372,7 +366,7 @@ if [ -z "$fastboot" -a "$READONLY" != "yes" ]; then
 	if [ "${RHGB_STARTED}" != "0" -a -w /etc/rhgb/temp/rhgb-console ]; then
 		fsck -T -A -a $fsckoptions > /etc/rhgb/temp/rhgb-console
 	else
-		initlog -c "fsck -T -A -a $fsckoptions"
+		fsck -T -A -a $fsckoptions
 	fi
 	rc=$?
 	

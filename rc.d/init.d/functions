@@ -145,9 +145,9 @@ daemon() {
 
 	# And start it up.
 	if [ -z "$user" ]; then
-	   $nice initlog $INITLOG_ARGS -c "$*"
+	   $nice $*
 	else
-	   $nice initlog $INITLOG_ARGS -c "runuser -s /bin/bash - $user -c \"$*\""
+	   $nice runuser -s /bin/bash - $user -c \"$*\"
 	fi
 	[ "$?" -eq 0 ] && success $"$base startup" || failure $"$base startup"
 }
@@ -365,14 +365,9 @@ update_boot_stage() {
 
 # Log that something succeeded
 success() {
-  if [ -z "${IN_INITLOG:-}" ]; then
-     initlog $INITLOG_ARGS -n $0 -s "$1" -e 1
-  else
-     # silly hack to avoid EPIPE killing rc.sysinit
-     trap "" SIGPIPE
-     echo "$INITLOG_ARGS -n $0 -s \"$1\" -e 1" >&21
-     trap - SIGPIPE
-  fi
+  #if [ -z "${IN_INITLOG:-}" ]; then
+  #   initlog $INITLOG_ARGS -n $0 -s "$1" -e 1
+  #fi
   [ "$BOOTUP" != "verbose" -a -z "$LSB" ] && echo_success
   return 0
 }
@@ -380,13 +375,9 @@ success() {
 # Log that something failed
 failure() {
   rc=$?
-  if [ -z "${IN_INITLOG:-}" ]; then
-     initlog $INITLOG_ARGS -n $0 -s "$1" -e 2
-  else
-     trap "" SIGPIPE
-     echo "$INITLOG_ARGS -n $0 -s \"$1\" -e 2" >&21
-     trap - SIGPIPE
-  fi
+  #if [ -z "${IN_INITLOG:-}" ]; then
+  #   initlog $INITLOG_ARGS -n $0 -s "$1" -e 2
+  #fi
   [ "$BOOTUP" != "verbose" -a -z "$LSB" ] && echo_failure
   [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --details=yes
   return $rc
@@ -395,13 +386,9 @@ failure() {
 # Log that something passed, but may have had errors. Useful for fsck
 passed() {
   rc=$?
-  if [ -z "${IN_INITLOG:-}" ]; then
-     initlog $INITLOG_ARGS -n $0 -s "$1" -e 1
-  else
-     trap "" SIGPIPE
-     echo "$INITLOG_ARGS -n $0 -s \"$1\" -e 1" >&21
-     trap - SIGPIPE
-  fi
+  #if [ -z "${IN_INITLOG:-}" ]; then
+  #   initlog $INITLOG_ARGS -n $0 -s "$1" -e 1
+  #fi
   [ "$BOOTUP" != "verbose" -a -z "$LSB" ] && echo_passed
   return $rc
 }  
@@ -409,13 +396,9 @@ passed() {
 # Log a warning
 warning() {
   rc=$?
-  if [ -z "${IN_INITLOG:-}" ]; then
-     initlog $INITLOG_ARGS -n $0 -s "$1" -e 1
-  else
-     trap "" SIGPIPE
-     echo "$INITLOG_ARGS -n $0 -s \"$1\" -e 1" >&21
-     trap - SIGPIPE
-  fi
+  #if [ -z "${IN_INITLOG:-}" ]; then
+  #   initlog $INITLOG_ARGS -n $0 -s "$1" -e 1
+  #fi
   [ "$BOOTUP" != "verbose" -a -z "$LSB" ] && echo_warning
   return $rc
 }  
@@ -428,7 +411,7 @@ action() {
       echo -n "$STRING " > /etc/rhgb/temp/rhgb-console
   fi
   shift
-  initlog $INITLOG_ARGS -c "$*" && success $"$STRING" || failure $"$STRING"
+  $* && success $"$STRING" || failure $"$STRING"
   rc=$?
   echo
   if [ "${RHGB_STARTED}" != "" -a -w /etc/rhgb/temp/rhgb-console ]; then
