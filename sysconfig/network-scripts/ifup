@@ -169,7 +169,7 @@ if [ -n "${DYNCONFIG}" ]; then
     # what DNS server they're using until they are done.
     FWHACK=
     if [ -n "$FWACTIVE" -a "$FIREWALL_MODS" != "no" ]; then
-        ipchains -I input -s 0/0 53 -p udp -j ACCEPT
+        ipchains -I input -s 0/0 53 -d 0/0 1025:65535 -p udp -j ACCEPT
 	FWHACK=1
     fi
     
@@ -179,11 +179,11 @@ if [ -n "${DYNCONFIG}" ]; then
 	echo $" done."
     else
 	echo $" failed."
-	[ -n "$FWHACK" ] && ipchains -D input -s 0/0 53 -p udp -j ACCEPT
+	[ -n "$FWHACK" ] && ipchains -D input -s 0/0 53 -d 0/0 1025:65535 -p udp -j ACCEPT
 	exit 1
     fi
 
-    [ -n "$FWHACK" ] && ipchains -D input -s 0/0 53 -p udp -j ACCEPT
+    [ -n "$FWHACK" ] && ipchains -D input -s 0/0 53 -d 0/0 1025:65535 -p udp -j ACCEPT
 else 
     if [ -z "${IPADDR}" ]; then
          # enable device without IP, useful for e.g. PPPoE
