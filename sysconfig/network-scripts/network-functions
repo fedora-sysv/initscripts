@@ -22,7 +22,7 @@ need_config ()
     [ -f "${CONFIG}" ] && return
     local addr=`get_hwaddr ${1}`
     if [ -n "$addr" ]; then
-      local nconfig=`fgrep -il "HWADDR=$addr" /etc/sysconfig/network-scripts/ifcfg-*`
+      local nconfig=`LANG=C grep -il "^[[:space:]]*HWADDR=$addr" /etc/sysconfig/network-scripts/ifcfg-*`
       if [ -n "$nconfig" ] ; then
         CONFIG=$nconfig
 	[ -f "${CONFIG}" ] && return
@@ -155,7 +155,7 @@ rename_device()
 {
     /sbin/nameif "$1" "$2" || {
       local hw2=`get_hwaddr ${1}`
-      local nconfig=`fgrep -il "HWADDR=$hw2" /etc/sysconfig/network-scripts/ifcfg-*`
+      local nconfig=`LANG=C grep -il "^[[:space:]]*HWADDR=$hw2" /etc/sysconfig/network-scripts/ifcfg-*`
       local dev=
       if [ -n "$nconfig"  ]; then
          dev=$(. $nconfig ; echo $DEVICE)
