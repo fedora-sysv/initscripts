@@ -98,7 +98,7 @@ fi
 
 # Load system font
 if [ -x /sbin/setsysfont ]; then
-    . /etc/sysconfig/i18n
+    [ -f /etc/sysconfig/i18n ] && . /etc/sysconfig/i18n
     if [ -f /etc/sysconfig/console/$SYSFONT.psf.gz -o -f /usr/lib/kbd/consolefonts/$SYSFONT.psf.gz ]; then
        action "Setting default font" /sbin/setsysfont
     fi
