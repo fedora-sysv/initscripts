@@ -309,7 +309,8 @@ function addprovider()
     if [ -z "$DNS1" -a -z "$DNS2" ]; then
         options="$options ms-get-dns"
     else
-        options="$options ms-dns $DNS1 $DNS2"
+        [ -n "$DNS1" ] && options="$options ms-dns $DNS1"
+        [ -n "$DNS2" ] && options="$options ms-dns $DNS2"
     fi
 
     # set debug 

@@ -240,6 +240,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Fri Nov  2 2001 Than Ngo <than@redhat.com>
+- fixed typo bug ifup-ippp
+
 * Mon Oct 29 2001 Than Ngo <than@redhat.com>
 - fix bug in channel bundling if MSN is missed
 - support DEBUG option
