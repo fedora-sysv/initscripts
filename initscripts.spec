@@ -208,6 +208,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Mon Nov  1 2004 Bill Nottingham <notting@redhat.com> 7.93.6.EL-1
 - fix some of the rhgb fsck code (<laroche@redhat.com>)
+- fix module blacklisting to not mismatch (#137755)
 
 * Fri Oct 29 2004 Bill Nottingham <notting@redhat.com> 7.93.5.EL-1
 - speed up hardware init some
