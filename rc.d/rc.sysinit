@@ -53,8 +53,9 @@ fi
 action $"Mounting proc filesystem: " mount -n -t proc /proc /proc
 
 # Unmount the initrd, if necessary
-if grep -q /tmp/initrd /proc/mounts ; then
-   action $"Unmounting initrd: " umount /tmp/initrd
+if grep -q /boot/initrd /proc/mounts ; then
+   action $"Unmounting initrd: " umount /boot/initrd
+   /sbin/blockdev --flushbufs /dev/ram0 >/dev/null 2>&1
 fi
 
 # Configure kernel parameters
