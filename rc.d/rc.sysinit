@@ -111,6 +111,28 @@ else
     USEMODULES=
 fi
 
+# Get the modules ready to go
+rm -f /lib/modules/default
+if [ -n $USEMODULES ]; then
+    set `cat /proc/cmdline`
+    while [ $# -gt 0 ]; do
+	if echo $1 | grep '^BOOT_IMAGE=' > /dev/null ; then
+	    image=`echo $1 | cut -d= -f2`
+	    kernelfile=`/sbin/lilo -I $image`
+	    if [ -n "$kernelfile" ]; then
+		kernelname=`echo $kernelfile | cut -f1 -d-`
+		versioninfo=`echo $kernelfile | cut -f2- -d-`
+		if [ $kernelname = "/boot/vmlinuz" -a \
+		     -d /lib/modules/$versioninfo -a \
+		     $versioninfo != `uname -r` ]; then
+		     ln -sf $versioninfo /lib/modules/default
+		fi
+	    fi
+	fi
+	shift
+    done
+fi
+
 if [ -x /sbin/depmod -a -n "$USEMODULES" ]; then
     # Get ready for kerneld if module support in the kernel
     echo -n "Finding module dependencies"
