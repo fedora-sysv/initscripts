@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.46
+%define version 4.47
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
@@ -196,7 +196,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Thu Sep 23 1999 Michael K. Johnson <johnsonm@redhat.com>
-- ppp-watch now always kills pppd pgrp to make sure dialers are dead
+- ppp-watch now always kills pppd pgrp to make sure dialers are dead,
+  and tries to hang up the modem
 
 * Tue Sep 21 1999 Bill Nottingham <notting@redhat.com>
 - add a DEFRAG_IPV4 option
