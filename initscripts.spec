@@ -139,41 +139,40 @@ fi
 if [ -n "$FORWARD_IPV4" -a "$FORWARD_IPV4" != "no" -a "$FORWARD_IPV4" != "false" ]; then
 	echo "# added by initscripts install on `date`" >> /etc/sysctl.conf
 	echo "net.ipv4.ip_forward = 1" >> /etc/sysctl.conf
-	echo >> /etc/syctl.conf
 fi
 if [ "$DEFRAG_IPV4" = "yes" -o "$DEFRAG_IPV4" = "true" ]; then
 	echo "# added by initscripts install on `date`" >> /etc/sysctl.conf
 	echo "net.ipv4.ip_always_defrag = 1" >> /etc/sysctl.conf
-	echo >> /etc/syctl.conf
 fi
 
 newnet=`mktemp /etc/sysconfig/network.XXXXXX`
-sed "s|FORWARD_IPV4|# FORWARD_IPV4 removed; see /etc/sysctl.conf|g" \
+if [ -n "$newnet" ]; then
+  sed "s|FORWARD_IPV4.*|# FORWARD_IPV4 removed; see /etc/sysctl.conf|g" \
    /etc/sysconfig/network > $newnet
-sed "s|DEFRAG_IPV4|# DEFRAG_IPV4 removed; see /etc/sysctl.conf|g" \
+  sed "s|DEFRAG_IPV4.*|# DEFRAG_IPV4 removed; see /etc/sysctl.conf|g" \
    $newnet > /etc/sysconfig/network
-rm -f $newnet
-
+  rm -f $newnet
+fi
 
 if [ -n "$MAGIC_SYSRQ" -a "$MAGIC_SYSRQ" != "no" ]; then
 	echo "# added by initscripts install on `date`" >> /etc/sysctl.conf
 	echo "kernel.sysrq = 1" >> /etc/sysctl.conf
-	echo >> /etc/syctl.conf
 fi
 if uname -m | grep -q sparc ; then
    if [ -n "$STOP_A" -a "$STOP_A" != "no" ]; then
 	echo "# added by initscripts install on `date`" >> /etc/sysctl.conf
 	echo "kernel.stop-a = 1" >> /etc/sysctl.conf
-	echo >> /etc/syctl.conf
    fi
 fi
 
-newinit=`mktemp /etc/syconfig/init.XXXXXX`
-sed "s|MAGIC_SYSRQ|# MAGIC_SYSRQ removed; see /etc/sysctl.conf|g" \
-  /etc/sysconfig/init > $newinit
-sed "s|STOP_A|# STOP_A removed; see /etc/sysctl.conf|g" \
-  $newinit > /etc/sysconfig/init
-
+newinit=`mktemp /etc/sysconfig/init.XXXXXX`
+if [ -n "$newinit" ]; then
+  sed "s|MAGIC_SYSRQ.*|# MAGIC_SYSRQ removed; see /etc/sysctl.conf|g" \
+   /etc/sysconfig/init > $newinit
+  sed "s|STOP_A.*|# STOP_A removed; see /etc/sysctl.conf|g" \
+   $newinit > /etc/sysconfig/init
+  rm -f $newinit
+fi
 
 %clean
 rm -rf $RPM_BUILD_ROOT
