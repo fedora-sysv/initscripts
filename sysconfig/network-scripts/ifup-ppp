@@ -38,22 +38,24 @@ if [ "${2}" = "boot" -a "${ONBOOT}" = "no" ]; then
   exit
 fi
 
-[ -x /usr/sbin/pppd ] || {
-  echo $"/usr/sbin/pppd does not exist or is not executable"
+[ -x /sbin/pppd -o -x /usr/sbin/pppd ] || {
+  echo $"pppd does not exist or is not executable"
   echo $"ifup-ppp for ${DEVICE} exiting"
   logger -p daemon.info -t ifup-ppp \
-    $"/usr/sbin/pppd does not exist or is not executable for ${DEVICE}"
+    $"pppd does not exist or is not executable for ${DEVICE}"
   exit 1
 }
 
 # check that xDSL connection
-if [ "$TYPE" = "xDSL" -a -x /usr/sbin/adsl-start ] ; then
-    adsl-start "$ETH" "$USER" /etc/sysconfig/network-scripts/$CONFIG
-    exit $?
-elif [ "$TYPE" = "xDSL" ]; then
-    logger -p daemon.info -t ifup-ppp \
-        $"/usr/sbin/adsl-start does not exist or is not executable for ${DEVICE}"
-    exit 1
+if [ "$TYPE" = "xDSL" ] ; then
+    if [ -x /sbin/adsl-start -o -x /usr/sbin/adsl-start ] ; then
+        adsl-start /etc/sysconfig/network-scripts/$CONFIG
+        exit $?
+    else
+        logger -p daemon.info -t ifup-ppp \
+            $"adsl-start does not exist or is not executable for ${DEVICE}"
+        exit 1
+    fi
 fi
 
 PEERCONF=/etc/ppp/peers/${DEVNAME}
@@ -130,7 +132,7 @@ fi
 (logger -p daemon.info -t ifup-ppp \
   $"pppd started for ${DEVNAME} on ${MODEMPORT} at ${LINESPEED}" &)&
 
-exec /usr/sbin/pppd -detach $opts ${MODEMPORT} ${LINESPEED} \
+exec pppd -detach $opts ${MODEMPORT} ${LINESPEED} \
     ipparam ${DEVNAME} linkname ${DEVNAME} call ${DEVNAME}\
     noauth \
     ${PPPOPTIONS}
