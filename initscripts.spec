@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.41
+Version: 6.42
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -240,6 +240,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Mon Oct 29 2001 Than Ngo <than@redhat.com>
+- fix bug in channel bundling if MSN is missed
+- support DEBUG option
+	
 * Wed Sep 19 2001 Than Ngo <than@redhat.com>
 - don't show user name by DSL connection
 
