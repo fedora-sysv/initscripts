@@ -251,7 +251,7 @@ pidofproc() {
 		for p in $line ; do
 		       [ -z "${p//[0-9]/}" -a -d /proc/$p ] && pid="$pid $p"
 		done
-	        if [ -n "${pid-:}" ] ; then
+	        if [ -n "${pid:-}" ] ; then
 	                echo $pid
 	                return 0
 	        fi
