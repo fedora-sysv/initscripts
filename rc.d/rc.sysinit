@@ -688,7 +688,7 @@ fi
 
 # Now that we have all of our basic modules loaded and the kernel going,
 # let's dump the syslog ring somewhere so we can find it later
-dmesg > /var/log/dmesg
+dmesg -s 131072 > /var/log/dmesg
 sleep 1
 kill -TERM `/sbin/pidof getkey` >/dev/null 2>&1
 } &
