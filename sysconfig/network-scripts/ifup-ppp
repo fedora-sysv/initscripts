@@ -11,8 +11,10 @@ if [ "$1" != daemon ] ; then
 fi
 shift
 
-CONFIG=$1
+cd /etc/sysconfig/network-scripts
 . network-functions
+
+CONFIG=$1
 source_config
 
 if [ -z "$DISCONNECTTIMEOUT" ]; then

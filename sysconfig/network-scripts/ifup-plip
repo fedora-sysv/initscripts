@@ -1,8 +1,10 @@
 #!/bin/sh
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 
-CONFIG=$1
+cd /etc/sysconfig/network-scripts
 . network-functions
+
+CONFIG=$1
 source_config
 
 if [ "foo$2" = "fooboot" -a "${ONBOOT}" = "no" ]

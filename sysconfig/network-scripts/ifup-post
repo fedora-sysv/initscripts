@@ -1,11 +1,10 @@
 #!/bin/sh
 
 cd /etc/sysconfig/network-scripts
-
-CONFIG=$1
 . network-functions
 
 need_hostname
+CONFIG=$1
 source_config
 
 DEVICETYPE=`echo $DEVICE | sed "s/[0-9]*$//"`
