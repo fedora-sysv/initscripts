@@ -1,10 +1,10 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.30
+%define version 4.31
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
-Release: 3
+Release: 1
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /var/tmp/initbld
 Requires: mingetty, bash, /bin/awk, /bin/sed, mktemp, e2fsprogs, console-tools
@@ -194,6 +194,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Aug 19 1999 Bill Nottingham <notting@redhat.com>
+- more wvdial updates
+- fix a *stupid* bug in process reading
+
 * Fri Aug 13 1999 Bill Nottingham <notting@redhat.com>
 - add new /boot/kernel.h boot kernel version file
 - new RAID startup
