@@ -195,6 +195,39 @@ Files in /etc/sysconfig
     -q option is not given to sendmail if /etc/sysconfig/sendmail
     exists and QUEUE is empty or undefined.
 
+/etc/sysconfig/i18n
+
+  LANG= set locale for all categories, can be any two letter ISO
+    language code
+  LC_CTYPE= localedata configuration for classification and conversion
+    of characters
+  LC_COLLATE= localedata configuration for collation (sort order) of
+    strings
+  LC_MESSAGES= localedata configuration for translation of yes and no
+    messages
+  LC_NUMERIC= localedata configuration for non-monetary numeric data
+  LC_MONETARY= localedata configuration for monetary data
+  LC_TIME= localedata configuration for date and time
+  LC_ALL= localedata configuration overriding all of the above
+  LANGUAGE= can be a : separated list of ISO language codes
+  LINGUAS= can be a ' ' separated list of ISO language codes
+
+  The above variables are used in /etc/profile.d/lang.sh.
+
+  SYSFONT= any font that is legal when used as
+	/usr/bin/consolechars -f $SYSFONT ...
+    (See console-tools package for consolechars command)
+
+  UNIMAP= any SFM (screen font map, formerly called Unicode mapping
+    table - see consolechars(8))
+	/usr/bin/consolechars -f $SYSFONT --sfm $UNIMAP
+ 
+  SYSFONTACM= any ACM (application charset map - see consolechars(8))
+        /usr/bin/consolechars -f $SYSFONT --acm $SYSFONTACM
+ 
+  The above is used by the /sbin/setsysfont command (which is run
+  by rc.sysinit at boot time.)
+
 
 Files in /etc/sysconfig/network-scripts/
 ========================================
@@ -349,34 +382,3 @@ Files in /etc/sysconfig/network-scripts/
   up /etc/resolv.conf from the version dhcpcd dropped in
   /etc/dhcpc/resolv.conf
 
-/etc/sysconfig/i18n
-
-  LANG= can be any two letter ISO language code
-  LC_CTYPE= localedata configuration for classification and conversion
-    of characters
-  LC_COLLATE= localedata configuration for collation (sort order) of
-    strings
-  LC_MESSAGES= localedata configuration for translation of yes and no
-    messages
-  LC_NUMERIC= localedata configuration for non-monetary numeric data
-  LC_MONETARY= localedata configuration for monetary data
-  LC_TIME= localedata configuration for date and time
-  LC_ALL= localedata configuration overriding all the above
-  LANGUAGE= can be any two letter ISO language code
-  LINGUAS= can be a : separated list of ISO language codes
-
-  The above variables are used in /etc/profile.d/lang.sh.
-
-  SYSFONT= any font that is legal when used as
-	/usr/bin/consolechars -f $SYSFONT ...
-    (See console-tools package for consolechars command)
-
-  UNIMAP= any SFM (screen font map, formerly called Unicode mapping
-    table - see consolechars(8))
-	/usr/bin/consolechars -f $SYSFONT --sfm $UNIMAP
- 
-  SYSFONTACM= any ACM (application charset map - see consolechars(8))
-        /usr/bin/consolechars -f $SYSFONT --acm $SYSFONTACM
- 
-  The above is used by the /sbin/setsysfont command (which is run
-  by rc.sysinit at boot time.)

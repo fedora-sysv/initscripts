@@ -16,7 +16,7 @@ if [ -f /etc/sysconfig/i18n ]; then
 
     if [ -n "$SYSFONTACM" ]; then
 	case $SYSFONTACM in
-	    iso01*|iso02*|iso15*|koi*)
+	    iso01*|iso02*|iso15*|koi*|latin2-ucw*)
 		if [ "$TERM" = "linux" ]; then
 		    if ls -l /proc/$$/fd/0 2>/dev/null | grep -- '-> /dev/tty[0-9]*$' >/dev/null 2>&1; then
 			echo -n -e '\033(K' > /proc/$$/fd/0
