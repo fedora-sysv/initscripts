@@ -1,14 +1,17 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-Version: 5.11
+Version: 5.12
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /%{_tmppath}/%{name}-%{version}-%{release}-root
 Requires: mingetty, /bin/awk, /bin/sed, mktemp, e2fsprogs >= 1.15, console-tools
-Requires: procps >= 2.0.4, modutils >= 2.1.121, sysklogd >= 1.3.31
+Requires: procps >= 2.0.4, sysklogd >= 1.3.31
 Requires: setup >= 2.0.3, /sbin/fuser, which
+%ifnarch ia64
+Requires: modutils >= 2.1.121
+%endif
 %ifarch alpha
 Requires: util-linux >= 2.9w-26
 %endif
