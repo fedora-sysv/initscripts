@@ -261,6 +261,9 @@ rm -rf $RPM_BUILD_ROOT
 * Sat Apr  7 2001 Preston Brown <pbrown@redhat.com>
 - broke out kernel.h updater from rc.sysinit into /sbin/mkkerneldoth
 
+* Fri Apr  6 2001 Bill Nottingham <notting@redhat.com>
+- be a little more careful in do_netreport (#34933)
+
 * Tue Apr  3 2001 Bill Nottingham <notting@redhat.com>
 - set umask explicitly to 022 in /etc/init.d/functions
 
