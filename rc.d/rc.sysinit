@@ -206,6 +206,11 @@ if [ -n "$IN_INITLOG" ]; then
     IN_INITLOG=
 fi
 
+# /etc/HOSTNAME is obsolete.
+if [ -f /etc/HOSTNAME ]; then
+    rm -f /etc/HOSTNAME
+fi
+
 # Clear mtab
 >/etc/mtab
 
