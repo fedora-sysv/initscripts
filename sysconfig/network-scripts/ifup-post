@@ -21,15 +21,6 @@ fi
 
 /etc/sysconfig/network-scripts/ifup-routes ${DEVICE}
 
-# don't set hostname on ppp/slip connections
-if [ "$2" = "boot" -a -n "$NEEDHOSTNAME" -a "${DEVICE}" != lo -a "${DEVICETYPE}" != "ppp" -a "${DEVICETYPE}" != "slip" ]; then
-    IPADDR=`LANG= LC_ALL= ifconfig ${DEVICE} | grep 'inet addr' | 
-	    awk -F: '{ print $2 } ' | awk '{ print $1 }'`
-    eval `/bin/ipcalc --silent --hostname ${IPADDR}`
-    if [ "$?" = "0" ]; then
-    	set_hostname $HOSTNAME
-    fi
-fi
 
 if [ "$PEERDNS" != "no" -o -n "$RESOLV_MODS" -a "$RESOLV_MODS" != "no" ]; then
   [ -n "$MS_DNS1" ] && DNS1=$MS_DNS1
@@ -87,6 +78,27 @@ if [ "$PEERDNS" != "no" -o -n "$RESOLV_MODS" -a "$RESOLV_MODS" != "no" ]; then
     rm -f $tr
     umask $oldumask
   fi
+fi
+
+if [ "$FIREWALL_MODS" != "no" -a -n "$FWACTIVE" ]; then
+	ns=`awk '/^nameserver / { print $2 }' /etc/resolv.conf`
+	if [ -n "$ns" ]; then
+		for nameserver in $ns ; do
+			if ! ipchains -L input -n | grep -q $nameserver ; then
+				ipchains -I input -s $nameserver/32 53 -p udp -j ACCEPT
+			fi
+		done
+	fi
+fi
+
+# don't set hostname on ppp/slip connections
+if [ "$2" = "boot" -a -n "$NEEDHOSTNAME" -a "${DEVICE}" != lo -a "${DEVICETYPE}" != "ppp" -a "${DEVICETYPE}" != "slip" ]; then
+    IPADDR=`LANG= LC_ALL= ifconfig ${DEVICE} | grep 'inet addr' | 
+	    awk -F: '{ print $2 } ' | awk '{ print $1 }'`
+    eval `/bin/ipcalc --silent --hostname ${IPADDR}`
+    if [ "$?" = "0" ]; then
+    	set_hostname $HOSTNAME
+    fi
 fi
 
 # Notify programs that have requested notification
