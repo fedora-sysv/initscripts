@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2003 Red Hat, Inc. All rights reserved.
+ * Copyright (c) 2003-2004 Red Hat, Inc. All rights reserved.
  *
  * This software may be freely redistributed under the terms of the GNU
  * public license.
@@ -37,10 +37,19 @@ static char *release_name = NULL;
 
 static int test = 0;
 
-#ifdef __i386__
+#if defined(__i386__)
 static inline void cpuid(int op, int *eax, int *ebx, int *ecx, int *edx)
 {
 	__asm__("pushl %%ebx; cpuid; movl %%ebx,%1; popl %%ebx"
+		: "=a"(*eax), "=r"(*ebx), "=c"(*ecx), "=d"(*edx)
+		: "0" (op));
+}
+#endif
+
+#if defined(__x86_64__)
+static inline void cpuid(int op, int *eax, int *ebx, int *ecx, int *edx)
+{
+	__asm__("cpuid"
 		: "=a"(*eax), "=r"(*ebx), "=c"(*ecx), "=d"(*edx)
 		: "0" (op));
 }
@@ -57,7 +66,7 @@ unsigned int get_num_cpus() {
 	int ncpus = sysconf(_SC_NPROCESSORS_ONLN);
 	u_int32_t eax = 0, ebx = 0, ecx = 0, edx = 0;
 	
-#ifdef __i386__
+#if defined(__i386__) || defined(__x86_64__)
 	cpuid(0, &eax, &ebx, &ecx, &edx);
 	if (ebx == 0x756e6547) { /* Intel */
 		cpuid(1, &eax, &ebx, &ecx, &edx);
