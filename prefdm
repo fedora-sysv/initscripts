@@ -19,6 +19,7 @@ fi
 preferred=
 if [ -f /etc/sysconfig/desktop ]; then
 	source /etc/sysconfig/desktop >/dev/null 2>&1
+	[ -n "$DISPLAYMANAGER" ] && DESKTOP=$DISPLAYMANAGER
 	if [ "$DESKTOP" = GNOME ]; then
 		preferred=gdm
 	elif [ "$DESKTOP" = KDE -o "$DESKTOP" = KDE1 ]; then
