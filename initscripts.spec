@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 3.93
+%define version 3.94
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
@@ -168,6 +168,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc sysconfig.txt
 
 %changelog
+* Mon Mar 15 1999 Michael Johnson <johnsonm@redhat.com>
+- pam_console lockfile cleanup added to rc.sysinit
+
 * Sun Mar 14 1999 Bill Nottingham <notting@redhat.com>
 - fixes in functions for 'action'
 - fixes for pump

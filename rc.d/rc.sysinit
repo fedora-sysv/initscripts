@@ -243,6 +243,10 @@ fi
 rm -f /etc/mtab~ /fastboot /fsckoptions /forcefsck
 >/var/run/utmp
 
+# Delete pam_console lock and refcount files
+rm -f /var/lock/console.lock
+rm -f /var/lock/console/*
+
 # Delete UUCP lock files.
 rm -f /var/lock/LCK*
 
