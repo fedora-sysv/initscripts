@@ -7,7 +7,7 @@ cd /etc/sysconfig/network-scripts
 CONFIG=$1
 source_config
 
-if [ "${DEMAND}" != no -a -f /var/run/ppp-${DEVICE}.pid ] ; then
+if [ "${DEMAND}" = "yes" -a -f /var/run/ppp-${DEVICE}.pid ] ; then
     PID=`head -1 /var/run/ppp-${DEVICE}.pid`
     kill -TERM ${PID}
     sleep 2
