@@ -27,7 +27,7 @@ runcmd() {
 # See how we were called.
 case "$0" in
   *halt)
-	message="The system is halted"
+	message="Halting system..."
 	command="halt"
 	;;
   *reboot)
@@ -35,10 +35,20 @@ case "$0" in
 	command="reboot"
 	;;
   *)
-	echo "$0: call me as \"rc.halt\" or \"rc.reboot\" please!"
+	echo "$0: call me as 'rc.halt' or 'rc.reboot' please!"
 	exit 1
 	;;
 esac
+if [ -n "$1" ]; then
+ case "$1" in
+   *start)
+   	;;
+   *)
+   	echo "Usage: (halt|reboot) {start}"
+	exit 1
+	;;
+ esac
+fi
 
 # Kill all processes.
 [ "${BASH+bash}" = bash ] && enable kill
@@ -56,6 +66,51 @@ if [ $? = 0 -a -x /bin/aumix-minimal ]; then
    runcmd "Saving mixer settings" /bin/aumix-minimal -f /etc/.aumixrc -S
 fi
 
+# Sync the system clock.
+ARC=0
+SRM=0
+UTC=0
+
+if [ -f /etc/sysconfig/clock ]; then
+   . /etc/sysconfig/clock
+
+   # convert old style clock config to new values
+   if [ "${CLOCKMODE}" = "GMT" ]; then
+      UTC=true
+   elif [ "${CLOCKMODE}" = "ARC" ]; then
+      ARC=true
+   fi
+fi
+
+CLOCKDEF=""
+CLOCKFLAGS="--systohc"
+
+case "$UTC" in
+   yes|true)
+    CLOCKFLAGS="$CLOCKFLAGS -u";
+    CLOCKDEF="$CLOCKDEF (utc)";
+   ;;
+   no|false)
+    CLOCKFLAGS="$CLOCKFLAGS --localtime";
+    CLOCKDEF="$CLOCKDEF (localtime)";
+   ;;
+esac
+
+case "$ARC" in
+     yes|true)
+     	CLOCKFLAGS="$CLOCKFLAGS -A";
+     	CLOCKDEF="$CLOCKDEF (arc)";
+     ;;
+esac
+case "$SRM" in
+     yes|true)
+	CLOCKFLAGS="$CLOCKFLAGS -S";
+	CLOCKDEF="$CLOCKDEF (srm)";
+     ;;
+esac
+
+runcmd "Syncing hardware clock to system time" /sbin/hwclock $CLOCKFLAGS
+
 # Turn off swap, then unmount file systems.
 SWAPS=`awk '! /^Filename/ { print $1 }' /proc/swaps`
 [ -n "$SWAPS" ] && runcmd "Turning off swap: " swapoff $SWAPS
@@ -65,9 +120,30 @@ SWAPS=`awk '! /^Filename/ { print $1 }' /proc/swaps`
 [ -x /sbin/quotaoff ] && runcmd "Turning off quotas: " /sbin/quotaoff -a
 
 # Unmount file systems, killing processes if we have to.
+# Unmount loopback stuff first
+remaining=`awk '!/^#/ && $1 ~ /^\/dev\/loop/ && $2 != "/" {print $2}' /proc/mounts`
+[ -n "$remaining" ] && {
+	sig=
+	retry=3
+	while [ -n "$remaining" -a "$retry" -gt 0 ]
+	do
+		if [ "$retry" -lt 3 ]; then
+			runcmd "Unmounting loopback filesystems (retry):" umount $remaining
+		else
+			runcmd "Unmounting loobpack filesystems: " umount $remaining
+		fi
+		remaining=`awk '!/^#/ && $1 ~ /^\/dev\/loop/ && $2 != "/" {print $2}' /proc/mounts`
+		[ -z "$remaining" ] && break
+		/sbin/fuser -k -m $sig $remaining >/dev/null
+		sleep 5
+		retry=$(($retry -1))
+		sig=-9
+	done
+}
+
 sig=
 retry=3
-remaining=`awk '!/(^#|proc|loopfs|^none|^\/dev\/root| \/ )/ {print $2}' /proc/mounts`
+remaining=`awk '!/(^#|proc|loopfs|autofs|^none|^\/dev\/root| \/ )/ {print $2}' /proc/mounts`
 while [ -n "$remaining" -a "$retry" -gt 0 ]
 do
 	if [ "$retry" -lt 3 ]; then
@@ -76,7 +152,7 @@ do
 		runcmd "Unmounting file systems: "  umount -a -f -t noproc
 	fi
 	sleep 2
-	remaining=`awk '!/(^#|proc|loopfs|^none|^\/dev\/root| \/ )/ {print $2}' /proc/mounts`
+	remaining=`awk '!/(^#|proc|loopfs|autofs|^none|^\/dev\/root| \/ )/ {print $2}' /proc/mounts`
 	[ -z "$remaining" ] && break
 	/sbin/fuser -k -m $sig $remaining >/dev/null
 	sleep 5
