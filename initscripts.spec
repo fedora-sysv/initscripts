@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.95
+Version: 6.67.1
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -15,9 +15,9 @@ Requires: modutils >= 2.3.11-5
 Requires: util-linux >= 2.10s-11, mount >= 2.11g-5
 Requires: bash >= 2.0, SysVinit
 Requires: /sbin/ip, /sbin/arping, net-tools
-Requires: /sbin/update, /etc/redhat-release
+Requires: /sbin/update
 Conflicts: kernel <= 2.2, timeconfig < 3.0, pppd < 2.3.9, wvdial < 1.40-3
-Conflicts: ypbind < 1.6-12, psacct < 6.3.2-12, kbd < 1.06-19, lokkit < 0.50-14
+Conflicts: ypbind < 1.6-12, psacct < 6.3.2-12
 Obsoletes: rhsound sapinit
 Prereq: /sbin/chkconfig, /usr/sbin/groupadd, gawk, fileutils, sh-utils
 BuildPrereq: glib-devel popt
@@ -229,7 +229,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man*/*
 %dir %attr(775,root,root) /var/run/netreport
 %dir /etc/ppp
-%dir /etc/ppp/peers
 %config /etc/ppp/ip-up
 %config /etc/ppp/ip-down
 %config /etc/ppp/ip-up.ipv6to4
@@ -245,105 +244,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
-* Mon Sep 16 2002 Than Ngo <than@redhat.com> 6.96-1
-- owns directory /etc/ppp/peers (bug #74037)
-
-* Wed Sep  4 2002 Bill Nottingham <notting@redhat.com> 6.95-1
-- fix syntax error in duplicate route removal section of ifup
-
-* Wed Sep  4 2002 Nalin Dahyabhai <nalin@redhat.com> 6.94-1
-- fix syntax error calling unicode_start when SYSFONTACM isn't set
-
-* Mon Sep  2 2002 Bill Nottingham <notting@redhat.com>
-- fix calling of unicode_start in lang.{sh,csh}
-- ipv6 tweak
-
-* Wed Aug 28 2002 Bill Nottingham <notting@redhat.com>
-- don't infinite loop on ifdown
-- remove disabling of DMA; this can cause problems
-- move swap startup to after LVM (#66588)
-
-* Tue Aug 20 2002 Bill Nottingham <notting@redhat.com>
-- don't cycle through eth0-eth9 on dhcp link check (#68127)
-- don't retry indefinitely on ppp startup
-- activate network profile passed on kernel commandline via netprofile=
-- fix iptables invocations again
-- translation refresh
-
-* Wed Aug 14 2002 Bill Nottingham <notting@redhat.com>
-- fix silly typo in rc.sysinit
-- increase timeout for link to 5 seconds (#70545)
-
-* Tue Aug 13 2002 Bill Nottingham <notting@redhat.com>
-- require /etc/redhat-release (#68903)
-- fix tty2-tty6 (sort of)
-- fix iptables invocations (#70807, #71201, #68368)
-- other minor tweaks
-
-* Wed Jul 24 2002 Bill Nottingham <notting@redhat.com>
-- fix unicode checks in rc.sysinit, lang.{sh,csh} to handle UTF-8@euro
-
-* Tue Jul 16 2002 Bill Nottingham <notting@redhat.com>
-- use iptables, not ipchains
-
-* Tue Jul 16 2002 Florian La Roche <Florian.LaRoche@redhat.de>
-- /sbin/service: set PATH before calling startup scripts
-  HOME and TERM are also set during bootup, but they should not make
-  a difference for well-written daemons.
-
-* Mon Jul 15 2002 Bill Nottingham <notting@redhat.com>
-- fix boot-time cleanup of /var
-- update po files
-
-* Thu Jul 11 2002 Florian La Roche <Florian.LaRoche@redhat.de>
-- /etc/init.d/functions:
-	daemon(): avoid starting another bash
-	killproc(): avoid starting another bash for the default case
-- do not call "insmod -p" before loading the "st" module
-
-* Tue Jul 09 2002 Florian La Roche <Florian.LaRoche@redhat.de>
-- allow an option for ups poweroff  #68123
-- change grep for ONBOOT=  #63903
-- allow building with a cross-compiler  #64362,#64255
-- faster check in network-functions:check_default_route()
-- better checks for backup files
-- drastically reduce the number of consoletype invocations
-- do not export "GATEWAY" in network-functions
-- code cleanups in rc.sysinit
-
-* Fri Jul 05 2002 Florian La Roche <Florian.LaRoche@redhat.de>
-- rc.sysinit: do not load raid modules unless /etc/raidtab exists
-- many cleanups for more consistent shell programming and also
-  many smaller speedups within network scripts, no un-necessary sourcing
-  of files etc
-- nearly re-code /etc/rc.d/rc
-
-* Thu Jun 27 2002 Bill Nottingham <notting@redhat.com>
-- a couple minor unicode tweaks in rc.sysinit
-
-* Wed Jun 26 2002 Bill Nottingham <notting@redhat.com>
-- move /proc/bus/usb mount, in case USB is in the initrd
-
-* Wed Jun 26 2002 Preston Brown <pbrown@redhat.com>
-- don't try to set wireless freq/channel when in Managed mode
-
-* Wed Jun 26 2002 Florian La Roche <Florian.LaRoche@redhat.de>
-- start some sh coding cleanups
-- change to /etc/init.d/functions
-- eliminate some un-necessary PATH settings
-- eliminate some TEXTDOMAIN settings
-
-* Wed Jun 12 2002 Bill Nottingham <notting@redhat.com> 6.78-1
-- fix UTF-8 checks
-
-* Wed Jun 05 2002 Than Ngo <than@redhat.com> 6.77-1
-- fixed a bug in setting defaultgateway
-
-* Thu May 30 2002 Bill Nottingham <notting@redhat.com> 6.76-1
-- call unicode_start in lang.{sh,csh}, setsysfont when necessary
-
-* Tue May 28 2002 Bill Nottingham <notting@redhat.com> 6.75-1
-- add check for link for dhcp back in
+* Fri Oct 18 2002 Bill Nottingham <notting@redhat.com> 6.67.1-1
+- load usb keyboard and mouse modules unconditionally, like later
+  releases
+- some other minor tweaks from HEAD
 
 * Fri Apr 19 2002 Bill Nottingham <notting@redhat.com> 6.67-1
 - fix silly cut&paste bug in hdparm settings in initscripts
