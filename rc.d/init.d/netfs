@@ -56,7 +56,7 @@ case "$1" in
 				action $"Unmounting loobpack filesystems: " umount $remaining
 		        fi
 			remaining=`awk '!/^#/ && $1 ~ /^\/dev\/loop/ && $2 != "/" {print $2}' /proc/mounts`
-			[ -z "$remaining" && break
+			[ -z "$remaining" ] && break
 			/sbin/fuser -k -m $sig $remaining >/dev/null
 			sleep 5
 			retry=$(($retry -1))
