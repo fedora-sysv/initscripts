@@ -59,11 +59,13 @@ if [ ! -f ${PEERCONF} ]; then
     [ -f ${CHATSCRIPT} ] || {
       CHATSCRIPT=/etc/sysconfig/network-scripts/chat-${PARENTDEVNAME}
     }
-    echo $"/etc/sysconfig/network-scripts/chat-${DEVNAME} does not exist"
-    echo $"ifup-ppp for ${DEVNAME} exiting"
-    logger -p daemon.info -t ifup-ppp \
-      $"/etc/sysconfig/network-scripts/chat-${DEVNAME} does not exist for ${DEVICE}"
-    exit 1
+    [ -f ${CHATSCRIPT} ] || {
+     echo $"/etc/sysconfig/network-scripts/chat-${DEVNAME} does not exist"
+     echo $"ifup-ppp for ${DEVNAME} exiting"
+     logger -p daemon.info -t ifup-ppp \
+       $"/etc/sysconfig/network-scripts/chat-${DEVNAME} does not exist for ${DEVICE}"
+     exit 1
+    }
   fi
   logger -s -p daemon.notice -t ifup-ppp \
     $"Setting up a new ${PEERCONF} config file"
