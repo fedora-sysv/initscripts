@@ -195,8 +195,6 @@ rm -rf $RPM_BUILD_ROOT
 /etc/rc[0-9].d
 %config(missingok) /etc/rc.d/rc[0-9].d/*
 /etc/init.d
-/etc/rc
-/etc/rc.sysinit
 %config(missingok) /etc/rc.d/init.d/*
 %config /etc/rc.d/rc
 %config(noreplace) /etc/rc.d/rc.local
