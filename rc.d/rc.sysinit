@@ -392,7 +392,7 @@ if ! strstr "$cmdline" nomodules && [ -f /proc/modules ] ; then
 fi
 
 unamer=`uname -r`
-eval version=`echo unamer | awk -F '.' '{ print "(" $1 " " $2 ")" }'`
+eval version=`echo $unamer | awk -F '.' '{ print "(" $1 " " $2 ")" }'`
 
 # tweak isapnp settings if needed.
 if [ -n "$PNP" -a  -f /proc/isapnp -a -x /sbin/sndconfig ]; then
