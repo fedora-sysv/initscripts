@@ -115,7 +115,7 @@ esac
 runcmd $"Syncing hardware clock to system time" /sbin/hwclock $CLOCKFLAGS
 
 # Turn off swap, then unmount file systems.
-SWAPS=`awk '! /^Filename/ { print $1 }' /proc/swaps`
+[ -f /proc/swaps ] && SWAPS=`awk '! /^Filename/ { print $1 }' /proc/swaps`
 [ -n "$SWAPS" ] && runcmd $"Turning off swap: " swapoff $SWAPS
 
 [ -x /sbin/quotaoff ] && runcmd $"Turning off quotas: " /sbin/quotaoff -aug
