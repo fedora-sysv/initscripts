@@ -112,7 +112,8 @@ fi
 
 if [ -n "$VLAN" -a -x /sbin/vconfig ]; then
     # 802.1q VLAN
-    if echo ${DEVICE} | LANG=C egrep -v '(:)' | LANG=C egrep -q '(eth|bond)[0-9][0-9]*\.[0-9][0-9]?[0-9]?[0-9]?' ; then
+    if echo ${DEVICE} | LANG=C egrep -v '(:)' | LANG=C egrep -q '(eth|bond)[0-9][0-9]*\.[0-9][0-9]?[0-9]?[0-9]?' \
+	|| echo ${DEVICE} | LANG=C egrep -q 'vlan[0-9][0-9]?[0-9]?[0-9]?' ; then
 	[ -f /proc/net/vlan/${DEVICE} ] && {
 	    /sbin/vconfig rem ${DEVICE}
 	}
