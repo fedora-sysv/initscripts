@@ -46,17 +46,20 @@ install-test:
 	install -m 755 testdinit $(ROOT)/etc/init.d/testd
 
 ipcalc: ipcalc.o
-	$(CC) $(LDFLAGS) -o $@ $< /usr/lib/libpopt.a
+	$(CC) $(LDFLAGS) -o $@ $< -Wl,-Bstatic -lpopt -Wl,-Bdynamic
 
 initlog: $(INITLOG_OBJS)
-	$(CC) $(LDFLAGS) -o $@ $(INITLOG_OBJS) /usr/lib/libpopt.a
+	$(CC) $(LDFLAGS) -o $@ $(INITLOG_OBJS) -Wl,-Bstatic -lpopt -Wl,-Bdynamic
 
 usleep: $(USLEEP_OBJS)
-	$(CC) $(LDFLAGS) -o $@ $(USLEEP_OBJS) /usr/lib/libpopt.a
+	$(CC) $(LDFLAGS) -o $@ $(USLEEP_OBJS) -Wl,-Bstatic -lpopt -Wl,-Bdynamic
 
 ppp-watch: $(PPPWATCH_OBJS)
-	$(CC) $(LDFLAGS) -o $@ $(PPPWATCH_OBJS) /usr/lib/libglib.a
+	$(CC) $(LDFLAGS) -o $@ $(PPPWATCH_OBJS) -Wl,-Bstatic -lglib -Wl,-Bdynamic
+
 shvar.o: shvar.c
 	$(CC) $(CFLAGS) `glib-config --cflags` -c shvar.c -o shvar.o
+
 ppp-watch.o: ppp-watch.c
 	$(CC) $(CFLAGS) `glib-config --cflags` -c ppp-watch.c -o ppp-watch.o
+

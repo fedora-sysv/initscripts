@@ -244,6 +244,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Tue Jul 09 2002 Florian La Roche <Florian.LaRoche@redhat.de>
+- allow an option for ups poweroff  #68123
+- change grep for ONBOOT=  #63903
+- allow building with a cross-compiler  #64362,#64255
+- faster check in network-functions:check_default_route()
+
 * Fri Jul 05 2002 Florian La Roche <Florian.LaRoche@redhat.de>
 - rc.sysinit: do not load raid modules unless /etc/raidtab exists
 - many cleanups for more consistent shell programming and also
