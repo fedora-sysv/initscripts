@@ -6,7 +6,7 @@
  * one argument: the logical name of the device to bring up.  Does not
  * detach until the interface is up or has permanently failed to come up.
  *
- * Copyright 1999-2002 Red Hat, Inc.
+ * Copyright 1999-2001 Red Hat, Inc.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by
@@ -161,6 +161,9 @@ detach(char *device) {
     /* We're in the child process, which only writes the exit status
      * of the pppd process to its parent (i.e., it reads nothing). */
     close (pipeArray[0]);
+
+    /* Don't leak this into programs we call. */
+    fcntl(pipeArray[1], F_SETFD, FD_CLOEXEC);
 
     /* Redirect stdio to /dev/null. */
     fd = open("/dev/null", O_RDONLY);
@@ -711,11 +714,10 @@ main(int argc, char **argv) {
 		break;
 	    }
 
-            /* PGB 08/20/02: We no longer retry connecting MAXFAIL
-	       times on a failed connect script unless RETRYCONNECT is
-	       true. */
+            /* We default to retrying the connect phase for backward
+	     * compatibility, unless RETRYCONNECT is false. */
 	    if ((WEXITSTATUS(status) == 8) &&
-		!svTrueValue(ifcfg, "RETRYCONNECT", FALSE)) {
+		!svTrueValue(ifcfg, "RETRYCONNECT", TRUE)) {
                 failureExit(WEXITSTATUS(status));
             }
 
