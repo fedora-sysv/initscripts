@@ -10,12 +10,10 @@
 #	       the file /etc/sysconfig/rawdevices.
 # config: /etc/sysconfig/rawdevices
 
-PATH=/usr/bin:/bin:/usr/sbin:/sbin
-
 [ -f /usr/bin/raw ] || exit 0
 [ -f /etc/sysconfig/rawdevices ] || exit 0
 # Exit if the file just has the default comments.
-grep -q -v "^#" /etc/sysconfig/rawdevices 2>/dev/null || exit 0
+/bin/grep -q -v "^#" /etc/sysconfig/rawdevices 2>/dev/null || exit 0
 
 . /etc/init.d/functions
 

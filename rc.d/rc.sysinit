@@ -13,23 +13,16 @@ fi
 # If we're using devfs, start devfsd now - we need the old device names
 [ -e /dev/.devfsd -a -x /sbin/devfsd ] && /sbin/devfsd /dev
 
-PATH=/bin:/sbin:/usr/bin:/usr/sbin
-export PATH
-
 HOSTNAME=`/bin/hostname`
-
-# Read in config data.
 if [ -f /etc/sysconfig/network ]; then
     . /etc/sysconfig/network
 else
     NETWORKING=no
 fi
-
 if [ -z "$HOSTNAME" -o "$HOSTNAME" = "(none)" ]; then
     HOSTNAME=localhost
 fi
 
-# Source functions
 . /etc/init.d/functions
 
 # Print a banner. ;)
@@ -54,7 +47,6 @@ fi
 /bin/dmesg -n $LOGLEVEL
 
 # Mount /proc (done here so volume labels can work with fsck)
-
 action $"Mounting proc filesystem: " mount -n -t proc /proc /proc
 
 # Unmount the initrd, if necessary
