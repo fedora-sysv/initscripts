@@ -83,15 +83,6 @@ fi
 RHGB_STARTED=0
 mount -n /dev/pts
 
-# Unmount the initrd, if necessary
-if LC_ALL=C fgrep -q /initrd /proc/mounts && ! LC_ALL=C fgrep -q /initrd/loopfs /proc/mounts ; then
-   if [ -e /initrd/dev/.devfsd ]; then
-      umount /initrd/dev
-   fi
-   umount /initrd
-   /sbin/blockdev --flushbufs /dev/ram0 >/dev/null 2>&1
-fi
-
 if fgrep rhgb /proc/cmdline > /dev/null 2>&1 && [ "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
    /usr/bin/rhgb
    RHGB_STARTED=1
@@ -265,14 +256,19 @@ else
 	fsckoptions="-V $fsckoptions"
 fi
  
-
 _RUN_QUOTACHECK=0
 ROOTFSTYPE=`awk '/ \/ / && ($3 !~ /rootfs/) { print $3 }' /proc/mounts`
 if [ -z "$fastboot" -a "X$ROOTFSTYPE" != "Xnfs" -a "X$ROOTFSTYPE" != "Xnfs4" ]; then 
 
         STRING=$"Checking root filesystem"
 	echo $STRING
-	initlog -c "fsck -T -a / $fsckoptions"
+	rootdev=`awk '/ \/ / && ($3 !~ /rootfs/) {print $1}' /proc/mounts`
+	if [ -b /initrd/"$rootdev" ] ; then
+		rootdev=/initrd/"$rootdev"
+	else
+		rootdev=/
+	fi
+	initlog -c "fsck -T -a $rootdev $fsckoptions"
 	rc=$?
 	
 	if [ "$rc" = "0" ]; then
@@ -310,6 +306,15 @@ if [ -z "$fastboot" -a "X$ROOTFSTYPE" != "Xnfs" -a "X$ROOTFSTYPE" != "Xnfs4" ]; 
 	fi
 fi
 
+# Unmount the initrd, if necessary
+if LC_ALL=C fgrep -q /initrd /proc/mounts && ! LC_ALL=C fgrep -q /initrd/loopfs /proc/mounts ; then
+   if [ -e /initrd/dev/.devfsd ]; then
+      umount /initrd/dev
+   fi
+   umount /initrd
+   /sbin/blockdev --flushbufs /dev/ram0 >/dev/null 2>&1
+fi
+                                                                                
 # Possibly update quotas if fsck was run on /.
 LC_ALL=C grep -E '[[:space:]]+/[[:space:]]+' /etc/fstab | \
     awk '{ print $4 }' | \
