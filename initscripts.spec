@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.33
+Version: 6.34
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -239,6 +239,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Thu Aug 30 2001 Than Ngo <than@redhat.com>
+- po/de.po: fix typo bug, lo instead 1o
+
 * Wed Aug 29 2001 David Sainty <dsainty@redhat.com>
 - fix ifdown for multiple dhcpcd interfaces
 
