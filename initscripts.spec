@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.60
+Version: 7.59
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -249,11 +249,6 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
-* Fri Jul 30 2004 Jason Vas Dias <jvdias@redhat.com> 7.60-1
-- for bug 125712:
-- added 'change_resolv_conf' function to network-functions ;
-- made ifup-post and if-down post invoke it to change resolv.conf
-
 * Fri Jul  2 2004 Bill Nottingham <notting@redhat.com> 7.59-1
 - set context on ICE directory after making it (#127099, <concert@europe.com>)
 - don't mount GFS filesystems in rc.sysinit

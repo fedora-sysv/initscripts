@@ -67,7 +67,7 @@ if [ "$PEERDNS" != "no" -o -n "$RESOLV_MODS" -a "$RESOLV_MODS" != "no" ]; then
     # but set umask in case it doesn't exist!
     oldumask=`umask`
     umask 022
-    change_resolv_conf $tr 
+    cat $tr > /etc/resolv.conf
     rm -f $tr
     umask $oldumask
   fi

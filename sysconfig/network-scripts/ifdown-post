@@ -10,7 +10,7 @@ source_config
 
 if [ "${DEVICETYPE}" = "ppp" -o "${DEVICETYPE}" = "ippp" ]; then
     if [ -f /etc/resolv.conf.save ]; then
-	change_resolv_conf /etc/resolv.conf.save
+	cat /etc/resolv.conf.save > /etc/resolv.conf
 	rm -f /etc/resolv.conf.save
     fi
     if [ -f /etc/ppp/peers/$DEVICE ] ; then
