@@ -1,4 +1,4 @@
-Summary: The inittab file and the /etc/rc.d scripts.
+Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
 Version: 5.18
 Copyright: GPL
@@ -192,7 +192,7 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/inittab
 /etc/rc.d
 %config /etc/rc.sysinit
-%dir    /etc/rc*.d
+%dir    /etc/rc[0-9].d
 %config(missingok) /etc/rc*.d/*
 %dir    /etc/init.d
 %config(missingok) /etc/init.d/*
@@ -224,6 +224,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Jun 15 2000 Bill Nottingham <notting@redhat.com>
+- move from /etc/rc.d/init.d -> /etc/init.d
+
 * Tue Jun 13 2000 Bill Nottingham <notting@redhat.com>
 - set soft limit, not hard, in daemon function
 - /var/shm -> /dev/shm
