@@ -17,7 +17,7 @@
 #     ESP_PROTO{_IN,_OUT} = protocol to use for ESP (defaults to 3DES)
 #     KEY_AH{_IN,_OUT} = AH key
 #     KEY_ESP{_IN,_OUT} = ESP key
-#     SPI[1..4] = SPIs to use
+#     SPI_{EH,AH_{IN,OUT}} = SPIs to use
 #
 #   _IN and _OUT specifiers are for using different keys or protocols for inccoming
 #   and outgoing packets. If neither _IN or _OUT variants are set, the same keys
@@ -25,7 +25,7 @@
 #
 #   Automatic keying:
 #
-#     IKE_METHOD=PSK|X509|RSA
+#     IKE_METHOD=PSK|X509|RSA|GSSAPI
 #         PSK = preshared keys (shared secret)
 #         X509 = X.509 certificates
 #         RSA = RSA host keys in DNS (not yet implemented)
@@ -112,12 +112,12 @@ spddelete $SRC $DST any -P out;
 spddelete $DST $SRC any -P in;
 
 # ESP
-${KEY_ESP_IN:+add $DST $SRC esp $SPI3 -E ${ESP_PROTO_IN:-$ESP_PROTO} $KEY_ESP_IN;}
-${KEY_ESP_OUT:+add $SRC $DST esp $SPI4 -E ${ESP_PROTO_OUT:-$ESP_PROTO} $KEY_ESP_OUT;}
+${KEY_ESP_IN:+add $DST $SRC esp $SPI_ESP_IN -E ${ESP_PROTO_IN:-$ESP_PROTO} $KEY_ESP_IN;}
+${KEY_ESP_OUT:+add $SRC $DST esp $SPI_ESP_OUT -E ${ESP_PROTO_OUT:-$ESP_PROTO} $KEY_ESP_OUT;}
 
 # AH
 ${KEY_AH_IN:+add $DST $SRC ah $SPI1 -A ${AH_PROTO_IN:-$AH_PROTO} $KEY_AH_IN;}
-${KEY_AH_OUT:+add $SRC $DST ah $SPI2 -A ${AH_PROTO_OUT:-$AH_PROTO} $KEY_AH_OUT;}
+${KEY_AH_OUT:+add $SRC $DST ah $SPI_AH_OUT -A ${AH_PROTO_OUT:-$AH_PROTO} $KEY_AH_OUT;}
 
 spdadd $SRC $DST any -P out ipsec
             ${KEY_ESP_OUT:+esp/transport//require}
@@ -142,12 +142,12 @@ spddelete $SRCNET $DSTNET any -P out;
 spddelete $DSTNET $SRCNET any -P in;
 
 # ESP
-${KEY_ESP_IN:+add $DST $SRC esp $SPI3 -m tunnel -E ${ESP_PROTO_IN:-$ESP_PROTO} $KEY_ESP_IN;}
-${KEY_ESP_OUT:+add $SRC $DST esp $SPI4 -m tunnel -E ${ESP_PROTO_OUT:-$ESP_PROTO} $KEY_ESP_OUT;}
+${KEY_ESP_IN:+add $DST $SRC esp $SPI_ESP_IN -m tunnel -E ${ESP_PROTO_IN:-$ESP_PROTO} $KEY_ESP_IN;}
+${KEY_ESP_OUT:+add $SRC $DST esp $SPI_ESP_OUT -m tunnel -E ${ESP_PROTO_OUT:-$ESP_PROTO} $KEY_ESP_OUT;}
 
 # AH
-${KEY_AH_IN:+add $DST $SRC ah $SPI1 -m tunnel -A ${AH_PROTO_IN:-$AH_PROTO} $KEY_AH_IN;}
-${KEY_AH_OUT:+add $SRC $DST ah $SPI2 -m tunnel -A ${AH_PROTO_OUT:-$AH_PROTO} $KEY_AH_OUT;}
+${KEY_AH_IN:+add $DST $SRC ah $SPI_AH_IN -m tunnel -A ${AH_PROTO_IN:-$AH_PROTO} $KEY_AH_IN;}
+${KEY_AH_OUT:+add $SRC $DST ah $SPI_AH_OUT -m tunnel -A ${AH_PROTO_OUT:-$AH_PROTO} $KEY_AH_OUT;}
 
 spdadd $SRCNET $DSTNET any -P out ipsec
             ${KEY_ESP_OUT:+esp/tunnel/$SRC-$DEST/require}
