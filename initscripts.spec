@@ -17,6 +17,10 @@ that activate and deactivate most network interfaces.
 
 %changelog
 
+* Thu Feb 05 1998 Erik Troan <ewt@redhat.com>
+
+- fixed support for user manageable cloned devices
+
 * Mon Jan 12 1998 Michael K. Johnson <johnsonm@redhat.com>
 
 - /sbin/ isn't always in $PATH, so call /sbin/route in ifup-routes
