@@ -156,7 +156,7 @@ fi
 
 # Initialize USB controller and HID devices
 usb=0
-if ! grep -q "nousb" /proc/cmdline 2>/dev/null ; then
+if ! grep -iq "nousb" /proc/cmdline 2>/dev/null ; then
     alias=`egrep -s "^alias[[:space:]]+usb-controller[[:space:]]+" /etc/modules.conf | awk '{ print $3 }'`
     if [ -n "$alias" -a "$alias" != "off" ] ; then
       action "Initializing USB controller ($alias): " modprobe $alias
@@ -180,7 +180,7 @@ if [ $usb = "1" ]; then
     fi
 fi
 
-if [ -f /fastboot ] || grep -q "fastboot" /proc/cmdline 2>/dev/null ; then
+if [ -f /fastboot ] || grep -iq "fastboot" /proc/cmdline 2>/dev/null ; then
 	fastboot=yes
     else
         fastboot=
@@ -243,7 +243,7 @@ fi
 
 # check for arguments 
 
-if grep -i nopnp /proc/cmdline >/dev/null ; then
+if grep -iq nopnp /proc/cmdline >/dev/null 2>&1 ; then
     PNP=
 else
     PNP=yes
@@ -313,7 +313,7 @@ if [ -n "$IN_INITLOG" ]; then
     IN_INITLOG=
 fi
 
-if ! grep -i nomodules /proc/cmdline >/dev/null && [ -f /proc/ksyms ]; then
+if ! grep -iq nomodules /proc/cmdline >/dev/null 2>&1 && [ -f /proc/ksyms ]; then
     USEMODULES=y
 else
     USEMODULES=
