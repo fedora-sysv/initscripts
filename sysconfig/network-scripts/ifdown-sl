@@ -3,7 +3,9 @@ PATH=/sbin:/usr/sbin:/bin:/usr/bin
 
 cd /etc/sysconfig/network-scripts
 
-. $1
+CONFIG=$1
+. network-functions
+source_config
 
 # signals ifup-sl not to persist
 rm -f /var/run/sl-$DEVICE.dev

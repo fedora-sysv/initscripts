@@ -3,7 +3,9 @@ PATH=/sbin:/usr/sbin:/bin:/usr/bin
 
 cd /etc/sysconfig/network-scripts
 
-. $1
+CONFIG=$1
+. network-functions
+source_config
 
 if [ ! -f /var/run/ppp-$DEVICE.dev ]; then
     # ppp isn't running, or we didn't start it

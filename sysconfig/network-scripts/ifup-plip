@@ -1,7 +1,9 @@
 #!/bin/sh
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 
-. $1
+CONFIG=$1
+. network-functions
+source_config
 
 if [ "foo$2" = "fooboot" -a ${ONBOOT} = "no" ]
 then

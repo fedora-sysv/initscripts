@@ -1,6 +1,9 @@
 #!/bin/sh
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 
+CONFIG=$1
+. network-functions
+
 # ifup-post for PPP is handled through /etc/ppp/ip-up
 
 if [ "$1" != daemon ] ; then
@@ -10,7 +13,7 @@ fi
 
 shift
 
-. $1
+source_config
 
 if [ -z "$DISCONNECTTIMEOUT" ]; then
   DISCONNECTTIMEOUT=2
@@ -67,6 +70,11 @@ if [ -n "${DEBUG}" ] ; then
   opts="$opts debug"
 fi
 
+CHATSCRIPT=/etc/sysconfig/network-scripts/chat-$DEVNAME
+[ -f $CHATSCRIPT ] || {
+  CHATSCRIPT=/etc/sysconfig/network-scripts/chat-$PARENTDEVNAME
+}
+
 while : ; do
   (logger -p daemon.info -t ifup-ppp \
     "pppd started for $DEVICE on $MODEMPORT at $LINESPEED" &)&
@@ -75,7 +83,7 @@ while : ; do
   /usr/sbin/pppd -detach $opts $MODEMPORT $LINESPEED \
     remotename $DEVICE ipparam $DEVICE \
     ${PPPOPTIONS} \
-    connect "/usr/sbin/chat ${DEBUG:+-v} -f /etc/sysconfig/network-scripts/chat-$DEVICE"
+    connect "/usr/sbin/chat ${DEBUG:+-v} -f $CHATSCRIPT"
 
   # exit if we're not supposed to persist or our lock file has disappeared 
   if [ "$PERSIST" != "yes" -o ! -f /var/run/ppp-$DEVICE.dev ]; then

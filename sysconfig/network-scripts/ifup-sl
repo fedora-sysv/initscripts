@@ -3,14 +3,16 @@ PATH=/sbin:/usr/sbin:/bin:/usr/bin
 
 # ifup-post can't be done for slip :-( Solution: use PPP
 
+# become a daemon in case we have to persist.
 if [ "$1" != daemon ] ; then
   $0 daemon $*&
   exit 0
 fi
-
 shift
 
-. $1
+CONFIG=$1
+. network-functions
+source_config
 
 if [ "foo$2" = "fooboot" -a ${ONBOOT} = "no" ]
 then
@@ -29,7 +31,11 @@ fi
   exit 1
 }
 
-[ -f /etc/sysconfig/network-scripts/dip-$DEVICE ] || {
+DIPSCRIPT=/etc/sysconfig/network-scripts/dip-$DEVNAME
+[ -f $DIPSCRIPT ] || {
+  DIPSCRIPT=/etc/sysconfig/network-scripts/dip-$PARENTDEVNAME
+}
+[ -f $DIPSCRIPT ] || {
   echo "/etc/sysconfig/network-scripts/dip-$DEVICE does not exist"
   echo "ifup-sl for $DEVICE exiting"
   logger -p daemon.info -t ifup-sl \
@@ -41,7 +47,7 @@ while : ; do
   echo > /var/run/sl-$DEVICE.dev
   (logger -p daemon.info -t ifup-sl \
     "dip started for $DEVICE on $MODEMPORT at $LINESPEED" &)&
-  doexec /usr/sbin/dip dip-$DEVICE /etc/sysconfig/network-scripts/dip-$DEVICE
+  doexec /usr/sbin/dip dip-$DEVICE $DIPSCRIPT
   if [ "$PERSIST" != "yes" -o ! -f /var/run/sl-$DEVICE.dev ] ; then
     exit 0
   fi

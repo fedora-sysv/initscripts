@@ -2,7 +2,10 @@
 
 cd /etc/sysconfig/network-scripts
 
-. $1
+CONFIG=$1
+. network-functions
+
+source_config
 
 DEVICETYPE=`echo $DEVICE | sed "s/[0-9]*$//"`
 REALDEVICE=`echo $DEVICE | sed 's/:.*//g'`
@@ -15,11 +18,11 @@ fi
 /etc/sysconfig/network-scripts/ifup-routes ${DEVICE}
 
 if [ "$ISALIAS" = no ] ; then
+    allow_null_glob_expansion=foo
     for alias in /etc/sysconfig/network-scripts/ifcfg-${DEVICE}:* ; do
-	if [ -f $alias ] ; then
-	    /etc/sysconfig/network-scripts/ifup $alias
-	fi
+	/etc/sysconfig/network-scripts/ifup $alias
     done
+    unset allow_null_glob_expansion
 fi
 
 if [ `hostname` = '(none)' -o `hostname` = localhost -a ${DEVICE} != lo ]; then
