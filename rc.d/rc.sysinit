@@ -25,7 +25,16 @@ fi
 
 . /etc/init.d/functions
 
-# Print a banner. ;)
+# Start the graphical boot, if necessary
+if [ "$BOOTUP" = "graphical" ]
+  if [ -x /usr/bin/rhgb ]; then
+     /usr/bin/rhgb
+  else
+     export BOOTUP=color
+  fi
+fi
+
+# Print a text banner.
 echo -en $"\t\tWelcome to "
 if grep -q "Red Hat" /etc/redhat-release ; then 
  [ "$BOOTUP" = "color" ] && echo -en $"\\033[0;31m"
@@ -248,6 +257,10 @@ if [ -z "$fastboot" -a "X$ROOTFSTYPE" != "Xnfs" ]; then
 	
         # A return of 2 or higher means there were serious problems.
 	if [ $rc -gt 1 ]; then
+	        if [ "$BOOTUP" = "graphical" ]; then
+		    chvt 1
+		fi
+
 		failure "$STRING"
 		echo
 		echo
@@ -494,6 +507,10 @@ if [ -z "$fastboot" ]; then
 
 	# A return of 2 or higher means there were serious problems.
 	if [ $rc -gt 1 ]; then
+	        if [ "$BOOTUP" = "graphical" ]; then
+		    chvt 1
+		fi
+
 	        failure "$STRING"
 		echo
 		echo
@@ -545,6 +562,10 @@ fi
 
 # Configure machine if necessary.
 if [ -f /.unconfigured ]; then
+    if [ "$BOOTUP" = "graphical" ]; then
+	chvt 1
+    fi
+
     if [ -x /usr/bin/passwd ]; then 
         /usr/bin/passwd root
     fi
