@@ -249,6 +249,7 @@ rm -rf $RPM_BUILD_ROOT
 - change grep for ONBOOT=  #63903
 - allow building with a cross-compiler  #64362,#64255
 - faster check in network-functions:check_default_route()
+- better checks for backup files
 
 * Fri Jul 05 2002 Florian La Roche <Florian.LaRoche@redhat.de>
 - rc.sysinit: do not load raid modules unless /etc/raidtab exists
