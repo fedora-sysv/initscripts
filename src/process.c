@@ -105,6 +105,9 @@ int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet,
     int x,y,rc=-1;
     int done=0;
     int output=0;
+    char **cmdargs=NULL;
+    char **tmpargs=NULL;
+    int cmdargc;
     
     pipe(outpipe);
    
@@ -153,15 +156,15 @@ int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet,
 			     logString(cmdname,tmpstr);
 			 }
 		     } else {
-			char **cmdargs=NULL;
-			char **tmpargs=NULL;
-			int cmdargc,x;
+			cmdargs=NULL;
+			tmpargs=NULL;
+			cmdargc=0;
 			
 			poptParseArgvString(tmpstr,&cmdargc,&tmpargs);
-			cmdargs=malloc( (cmdargc++) * sizeof(char *) );
+			cmdargs=malloc( (cmdargc+1) * sizeof(char *) );
 			cmdargs[0]=strdup("initlog");
-			for (x=0;x<(cmdargc-1);x++) {
-			   cmdargs[x+1]=tmpargs[x];
+			for (z=0;z<(cmdargc);z++) {
+			   cmdargs[z+1]=tmpargs[z];
 			}
 			processArgs(cmdargc,cmdargs,1);
 		     }
@@ -175,7 +178,6 @@ int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet,
     }
     if ((!WIFEXITED(rc)) || (rc=WEXITSTATUS(rc))) {
       /* If there was an error and we're quiet, be loud */
-      int x;
       
       if (quiet && output) {
 	 buf=calloc(2048,sizeof(char));
