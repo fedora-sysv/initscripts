@@ -52,7 +52,7 @@ case "$1" in
 		    message="Enabling IPv4 packet forwarding."
 		fi
 
-		if [ $value != `cat /proc/sys/net/ipv4/ip_forward` ];
+		if [ $value != `cat /proc/sys/net/ipv4/ip_forward` ]; then
 		    echo $message
 		    echo "$value" > /proc/sys/net/ipv4/ip_forward
 		fi
