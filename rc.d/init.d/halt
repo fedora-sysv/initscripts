@@ -141,7 +141,7 @@ devremaining=`awk '!/^#/ && $1 ~ /^\/dev\/loop/ && $2 != "/" {print $1}' /proc/m
 		fi
 		for dev in $devremaining ; do
 			losetup $dev > /dev/null 2>&1 && \
-				runcmd $"Detaching loopback device $dev: " losetup -d $device
+				runcmd $"Detaching loopback device $dev: " losetup -d $dev
 		done
 		remaining=`awk '!/^#/ && $1 ~ /^\/dev\/loop/ && $2 != "/" {print $2}' /proc/mounts`
 		devremaining=`awk '!/^#/ && $1 ~ /^\/dev\/loop/ && $2 != "/" {print $1}' /proc/mounts`
