@@ -109,6 +109,18 @@ if [ -x /sbin/depmod -a -n "$USEMODULES" ]; then
     echo ""
 fi
 
+# load sound modules
+if ! grep -i nomodules /proc/cmdline >/dev/null ; then
+    if [ -n "$USEMODULES" ]; then
+	if grep -s "alias sound" /etc/conf.modules > /dev/null ; then
+	    modprobe sound
+	    if grep -s "alias midi" /etc/conf.modules > /dev/null ; then
+		modprobe midi
+	    fi
+	fi
+    fi
+fi
+
 if [ -x /sbin/kerneld -a -n "$USEMODULES" ]; then
     /sbin/kerneld
     KERNELD=yse
