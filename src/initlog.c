@@ -272,8 +272,9 @@ int logEvent(char *cmd, int eventtype,char *string) {
     
     if (cmd) {
 	logentry.cmd = strdup(basename(cmd));
-	if ((logentry.cmd[0] =='K' || logentry.cmd[0] == 'S') && ( 30 <= logentry.cmd[1] <= 39 )
-	    && ( 30 <= logentry.cmd[2] <= 39 ) )
+	if ((logentry.cmd[0] =='K' || logentry.cmd[0] == 'S') &&
+	    ( logentry.cmd[1] >= '0' && logentry.cmd[1] <= '9' ) &&
+	    ( logentry.cmd[2] >= '0' && logentry.cmd[2] <= '9' ) )
 	  logentry.cmd+=3;
     } else
       logentry.cmd = strdup(_("(none)"));
@@ -298,8 +299,9 @@ int logString(char *cmd, char *string) {
     
     if (cmd) {
 	logentry.cmd = strdup(basename(cmd));
-	if ((logentry.cmd[0] =='K' || logentry.cmd[0] == 'S') && ( 30 <= logentry.cmd[1] <= 39 )
-	    && ( 30 <= logentry.cmd[2] <= 39 ) )
+	if ((logentry.cmd[0] =='K' || logentry.cmd[0] == 'S') && 
+	    ( logentry.cmd[1] >= '0' && logentry.cmd[1] <= 0x39 ) &&
+	    ( logentry.cmd[2] >= '0' && logentry.cmd[2] <= 0x39 ) )
 	  logentry.cmd+=3;
     } else
       logentry.cmd = strdup(_(""));
