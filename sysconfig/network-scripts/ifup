@@ -34,8 +34,9 @@ need_config ${CONFIG}
 
 if [ ${UID} != 0 ]; then
     if [ -x /usr/sbin/usernetctl ]; then
-	if /usr/sbin/usernetctl ${CONFIG} report ; then
-	    exec /usr/sbin/usernetctl ${CONFIG} up
+	source_config
+	if /usr/sbin/usernetctl ${DEVICE} report ; then
+	    exec /usr/sbin/usernetctl ${DEVICE} up
 	fi
     fi
     echo $"Users cannot control this device." >&2

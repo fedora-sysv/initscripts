@@ -9,9 +9,14 @@ export PATH
 
 need_config ()
 {
-    [ -f "${CONFIG}" ] || CONFIG=../networking/default/${1}
-    [ -f "${CONFIG}" ] || CONFIG=../networking/default/ifcfg-${1}
-    [ -f "${CONFIG}" ] || CONFIG="ifcfg-${1}"
+    CURRENT_PROFILE=${CURRENT_PROFILE:-default}
+    CURRENT_PROFILE=${CURRENT_PROFILE##*/}
+    CONFIG=../networking/profiles/$CURRENT_PROFILE/ifcfg-${1}
+    [ -f "${CONFIG}" ] && return || CONFIG=../networking/profiles/$CURRENT_PROFILE/${1}
+    [ -f "${CONFIG}" ] && return || CONFIG=../networking/default/ifcfg-${1}
+    [ -f "${CONFIG}" ] && return || CONFIG=../networking/default/${1}
+    [ -f "${CONFIG}" ] && return || CONFIG="ifcfg-${1}"
+    [ -f "${CONFIG}" ] && return || CONFIG="${1}"
 }
 
 source_config ()
