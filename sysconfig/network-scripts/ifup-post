@@ -99,15 +99,16 @@ fi
 
 # don't set hostname on ppp/slip connections
 if [ "$2" = "boot" -a \
-     need_hostname -a \
      "${DEVICE}" != lo -a \
      "${DEVICETYPE}" != "ppp" -a \
      "${DEVICETYPE}" != "slip" ]; then
-    IPADDR=`LANG= LC_ALL= ifconfig ${DEVICE} | grep 'inet addr' | 
-	    awk -F: '{ print $2 } ' | awk '{ print $1 }'`
-    eval `/bin/ipcalc --silent --hostname ${IPADDR}`
-    if [ "$?" = "0" ]; then
-    	set_hostname $HOSTNAME
+    if need_hostname; then
+	IPADDR=`LANG= LC_ALL= ifconfig ${DEVICE} | grep 'inet addr' | 
+		awk -F: '{ print $2 } ' | awk '{ print $1 }'`
+	eval `/bin/ipcalc --silent --hostname ${IPADDR}`
+	if [ "$?" = "0" ]; then
+	    set_hostname $HOSTNAME
+	fi
     fi
 fi
 
