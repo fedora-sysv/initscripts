@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.93
+Version: 6.94
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -244,6 +244,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Wed Sep  4 2002 Nalin Dahyabhai <nalin@redhat.com> 6.94-1
+- fix syntax error calling unicode_start when SYSFONTACM isn't set
+
 * Mon Sep  2 2002 Bill Nottingham <notting@redhat.com>
 - fix calling of unicode_start in lang.{sh,csh}
 - ipv6 tweak
