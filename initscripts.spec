@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.05
+Version: 6.06
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -9,10 +9,10 @@ Patch0: initscripts-s390.patch
 BuildRoot: /%{_tmppath}/%{name}-%{version}-%{release}-root
 Requires: mingetty, /bin/awk, /bin/sed, mktemp, e2fsprogs >= 1.15
 Requires: procps >= 2.0.7-7, sysklogd >= 1.3.31
-Requires: setup >= 2.0.3, /sbin/fuser, which
+Requires: setup >= 2.0.3, /sbin/fuser, which, /bin/grep
 Requires: modutils >= 2.3.11-5
 Requires: util-linux >= 2.10s-11, mount >= 2.11g-4
-Requires: bash >= 2.0
+Requires: bash >= 2.0 
 Requires: /sbin/ip, /sbin/arping
 Conflicts: kernel <= 2.2, timeconfig < 3.0, pppd < 2.3.9, wvdial < 1.40-3
 Conflicts: ypbind < 1.6-12
@@ -238,6 +238,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Fri Jul 20 2001 Preston Brown <pbrown@redhat.com> 6.06
+- updates for quota
+
 * Tue Jul 17 2001 Bill Nottingham <notting@redhat.com>
 - own some more directories
 - use -O nonetdev, require mount package that understands this
