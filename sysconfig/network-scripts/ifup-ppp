@@ -5,9 +5,7 @@ cd /etc/sysconfig/network-scripts
 . network-functions
 . /etc/rc.d/init.d/functions
 
-
 # ifup-post for PPP is handled through /etc/ppp/ip-up
-
 if [ "${1}" = daemon ] ; then
   # we've been called from ppp-watch, so don't invoke it for persistence
   shift
@@ -16,11 +14,7 @@ else
   CONFIG=$(basename $1)
   [ -f "${CONFIG}" ] || CONFIG=ifcfg-${1}
   source_config
-  if [ "${DEMAND}" != yes ] ; then
-    # let ppp-watch do the right thing
-    shift
-    exec /sbin/ppp-watch "${DEVICE}" "$@"
-  fi
+  exec /sbin/ppp-watch "${DEVICE}" "$@"
 fi
 
 CONFIG=$1
@@ -117,8 +111,6 @@ fi
 
 if [ ${DEMAND} = yes ] ; then
   opts="$opts demand ktune idle ${IDLETIMEOUT} holdoff ${RETRYTIMEOUT}"
-else
-  opts="$opts nodetach"
 fi
 
 (logger -p daemon.info -t ifup-ppp \
