@@ -107,13 +107,15 @@ int startDaemon() {
 
 int logLine(struct logInfo *logEnt) {
     /* Logs a line... somewhere. */
-    int x;
+    int x,y,z;
     struct stat statbuf;
     
     /* Don't log empty or null lines */
     if (!logEnt->line || !strcmp(logEnt->line,"\n")) return 0;
 
-    if ( (stat(_PATH_LOG,&statbuf)==-1) && ((x=startDaemon())) ) {
+    if  ( ((stat(_PATH_LOG,&statbuf)==-1)||(access(_PATH_LOG,W_OK)==-1))
+	  && (x=startDaemon())
+	) {
 	logData=realloc(logData,(logEntries+1)*sizeof(struct logInfo));
 	logData[logEntries]= (*logEnt);
 	logEntries++;
