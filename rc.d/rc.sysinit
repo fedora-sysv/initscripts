@@ -218,31 +218,16 @@ elif [ -f /.autofsck ]; then
 	fi
 
 	if [ "$PROMPT" != "no" ]; then
-		(
-			while [ "$AUTOFSCK_TIMEOUT" -gt 0 ]; do
-				if [ "$AUTOFSCK_DEF_CHECK" = "yes" ] ; then
-					echo -ne $"\rPress N within $AUTOFSCK_TIMEOUT seconds to not force filesystem check..."
-				else
-					echo -ne $"\rPress Y within $AUTOFSCK_TIMEOUT seconds to force filesystem check..."
-				fi
-				sleep 1
-				AUTOFSCK_TIMEOUT=$(($AUTOFSCK_TIMEOUT-1))
-			done
-			kill -TERM `/sbin/pidof getkey` >/dev/null 2>&1
-		) &
 		if [ "$AUTOFSCK_DEF_CHECK" = "yes" ] ; then
-			if /sbin/getkey n ; then
-				kill %%
+			if /sbin/getkey -c $AUTOFSCK_TIMEOUT -m $"Press N within %d seconds to not force file system integrity check..." n ; then
 				AUTOFSCK_OPT=
 			fi
 		else
-			if /sbin/getkey y ; then
-				kill %%
+			if /sbin/getkey -c $AUTOFSCK_TIMEOUT -m $"Press Y within %d seconds to force file system integrity check..." y ; then
 				AUTOFSCK_OPT=-f
 			fi
 		fi
 		echo
-		wait
 	else
 		# PROMPT not allowed
 		if [ "$AUTOFSCK_DEF_CHECK" = "yes" ] ; then
