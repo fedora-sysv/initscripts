@@ -543,7 +543,7 @@ if [ -f /etc/raidtab ]; then
 		reboot -f
 	fi
 	# LVM2 initialization, take 2
-	if [ -f /dev/mapper/control -a -x /sbin/lvm.static ]; then
+	if [ -c /dev/mapper/control -a -x /sbin/lvm.static ]; then
 		action $"Setting up Logical Volume Management:" /sbin/lvm.static vgscan --mknodes && /sbin/lvm.static vgchange -a y
 	fi
 	# LVM initialization, take 2 (it could be on top of RAID)
