@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.81
+Version: 7.82
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -205,6 +205,12 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Sep 17 2004 Bill Nottingham <notting@redhat.com> - 7.82-1
+- fix handling of nonexistent devices (#132839)
+- rhgb enhancements (<veillard@redhat.com>, #132665)
+- initscripts.spec: require nash (#132513)
+- translation updates
+
 * Tue Sep 14 2004 Karsten Hopp <karsten@redhat.de> 7.81-1 
 - load iucv device config after /etc/sysconfig/network so that
   GATEWAY doesn't get overwritten
