@@ -33,6 +33,10 @@ if [ -z "${RETRYTIMEOUT}" ]; then
   RETRYTIMEOUT=30
 fi
 
+if [ -z "${IDLETIMEOUT}" ]; then
+  IDLETIMEOUT=600
+fi
+
 if [ "${2}" = "boot" -a "${ONBOOT}" = "no" ]; then
   exit
 fi
@@ -86,12 +90,9 @@ if [ "${DEBUG}" = yes ] ; then
   opts="$opts debug"
   chatdbg="-v"
 fi
+
 if [ ${DEMAND} = yes ] ; then
-  if [ -n "${IDLETIMEOUT}" ] ; then
-    opts="$opts demand idle ${IDLETIMEOUT}"
-  else
-    opts="$opts demand idle 600"
-  fi
+  opts="$opts demand ktune idle ${IDLETIMEOUT} holdoff ${RETRYTIMEOUT}"
 else
   opts="$opts nodetach"
 fi

@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.48
+Version: 5.49
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -232,6 +232,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Aug 23 2000 Nalin Dahyabhai <nalin@redhat.com>
+- set "holdoff ${RETRYTIMEOUT} ktune" for demand-dialed PPP links
+
 * Tue Aug 22 2000 Bill Nottingham <notting@redhat.com>
 - update documentation (#15475)
 
