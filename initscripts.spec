@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.47.2
+Version: 6.47.3
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -13,7 +13,7 @@ Requires: setup >= 2.0.3, /sbin/fuser, which, /bin/grep
 Requires: modutils >= 2.3.11-5
 Requires: util-linux >= 2.10s-11, mount >= 2.11g-5
 Requires: bash >= 2.0, SysVinit
-Requires: /sbin/ip, /sbin/arping, net-tools
+Requires: /sbin/ip, /sbin/arping, net-tools, ethtool >= 1.8
 Conflicts: kernel <= 2.2, timeconfig < 3.0, pppd < 2.3.9, wvdial < 1.40-3
 Conflicts: ypbind < 1.6-12
 Obsoletes: rhsound sapinit
@@ -240,6 +240,15 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Thu Oct 16 2003 Bill Nottingham <notting@redhat.com>
+- clean up sudo files in rc.sysinit
+- fix quota test (#83206)
+- fix checkpid for multiple pids (#83401)
+- initlog, usernetctl, and ppp-watch fixes (<linux_4ever@yahoo.com>)
+- handle sorting > 10 network devices (#98209)
+- add bond devices first (#91399)
+- require new ethtool
+
 * Sat Dec 14 2002 Bill Nottingham <notting@redhat.com>
 - LSB support
 
