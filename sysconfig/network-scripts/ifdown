@@ -45,7 +45,7 @@ if [ -x $OTHERSCRIPT ]; then
 fi
 
 if [ -n "${BRIDGE}" -a -x /usr/sbin/brctl ]; then
-      /sbin/ip link set ${DEVICE} down
+      /sbin/ip link set dev ${DEVICE} down
       /usr/sbin/brctl delif ${BRIDGE} ${DEVICE}
       exit 0
 fi 
@@ -106,7 +106,7 @@ else
 fi
 
 if [ "${REALDEVICE}" = "${DEVICE}" ]; then
-  ip link set ${DEVICE} down
+  ip link set dev ${DEVICE} down
 fi
 [ "$retcode" = "0" ] && retcode=$?
 

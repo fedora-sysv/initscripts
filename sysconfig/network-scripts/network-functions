@@ -247,8 +247,8 @@ check_ethtool ()
 check_link_down ()
 {
     if [ -x /sbin/mii-tool -o -x /sbin/ethtool ]; then
-        if ! LC_ALL=C ip link show $1 2>/dev/null| grep -q UP ; then
-	   ip link set $1 up >/dev/null 2>&1
+        if ! LC_ALL=C ip link show dev $1 2>/dev/null| grep -q UP ; then
+	   ip link set dev $1 up >/dev/null 2>&1
 	   timeout=0
 	   while [ $timeout -le 10 ]; do
 	   	check_mii_tool $1
