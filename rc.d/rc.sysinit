@@ -574,11 +574,14 @@ _NEED_XFILES=
 
 # Clean up /var.  I'd use find, but /usr may not be mounted.
 for afile in /var/lock/* /var/run/* ; do
-	[ -d "$afile" ] || continue
-	case "`basename $afile`" in
+	if [ -d "$afile" ]; then
+	   case "`basename $afile`" in
 		news|sudo|mon)	;;
 		*)		rm -f $afile/* ;;
-	esac
+	   esac
+	else
+	   rm -f $afile
+	fi
 done
 rm -f /var/lib/rpm/__db*
 
@@ -603,6 +606,9 @@ rm -f /tmp/.X*-lock
 
 # Delete VNC & X locks
 rm -rf /tmp/.X*-unix 
+
+# Delete ICE locks
+rm -rf /tmp/.ICE-unix
 
 # Delete Postgres sockets
 rm -f /tmp/.s.PGSQL.*
