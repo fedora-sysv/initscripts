@@ -39,7 +39,7 @@ elif [ -x /bin/setfont ]; then
     /bin/setfont $SYSFONT $ARGS
 #  else
 #    /bin/setfont
-    echo -ne "\033(K" > /dev/console
+    echo -ne "\033(K" 2>/dev/null > /proc/$$/fd/0
   fi
 else
   echo $"can't set font"
