@@ -1,6 +1,6 @@
 Summary: inittab and /etc/rc.d scripts
 Name: initscripts
-%define version 3.70
+%define version 3.71
 Version: %{version}
 Copyright: GPL
 Group: Base
@@ -154,6 +154,11 @@ rm -rf $RPM_BUILD_ROOT
 %doc sysconfig.txt
 
 %changelog
+* Wed Sep 16 1998 Jeff Johnson <jbj@redhat.com>
+- /etc/rc.d/rc: don't run /etc/rc.d/rcN.d/[KS]??foo.{rpmsave,rpmorig} scripts.
+- /etc/rc.d/rc.sysinit: raid startup (Nigel.Metheringham@theplanet.net).
+- /sbin/setsysfont: permit unicode fonts.
+
 * Mon Aug 17 1998 Erik Troan <ewt@redhat.com>
 - don't add 'Red Hat Linux' to /etc/issue; use /etc/redhat-release as is
 
