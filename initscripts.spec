@@ -20,7 +20,7 @@ BuildPrereq: glib-devel
 
 %description
 The initscripts package contains the basic system scripts used to boot
-your Red Hat system, change run levels, and shut the system down
+your Red Hat system, change runlevels, and shut the system down
 cleanly.  Initscripts also contains the scripts that activate and
 deactivate most network interfaces.
 
