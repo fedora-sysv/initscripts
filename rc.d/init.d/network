@@ -69,8 +69,15 @@ case "$1" in
 	./ifdown ifcfg-lo
         rm -f /var/lock/subsys/network
         ;;
+  status)
+	status network
+	;;
+  restart)
+	$0 stop
+	$0 start
+	;;
   *)
-        echo "Usage: network {start|stop}"
+        echo "Usage: network {start|stop|restart|status}"
         exit 1
 esac
 

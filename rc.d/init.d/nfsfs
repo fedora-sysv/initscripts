@@ -34,8 +34,15 @@ case "$1" in
 	rm -f /var/lock/subsys/nfsfs
 	echo
 	;;
+  status)
+	status nfsfs
+	;;
+  restart)
+	$0 stop
+	$0 start
+	;;
   *)
-	echo "Usage: nfsfs {start|stop}"
+	echo "Usage: nfsfs {start|stop|restart|status}"
 	exit 1
 esac
 
