@@ -173,4 +173,10 @@ if [ "$IPSETUP" != yes ]; then
     fi
 fi
 
+case $CONFIG in
+  eth*)
+	/etc/sysconfig/network-scripts/ifup-ipx $CONFIG
+	;;
+esac
+
 exec /etc/sysconfig/network-scripts/ifup-post $CONFIG

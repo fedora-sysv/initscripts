@@ -8,10 +8,8 @@ if [ "$1" = "" ]; then
 fi
 
 if [ -x /bin/linuxconf ] ; then
-	rm -f /var/run/routes.current
 	linuxconf --hint routing "$1" | while read args; do
 	    /sbin/route $args
-	    echo $args >> /var/run/routes.current
 	done
 else
 	if [ ! -f /etc/sysconfig/static-routes ]; then

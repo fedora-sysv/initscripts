@@ -48,6 +48,13 @@ Files in /etc/sysconfig
   GATEWAY=<gateway IP>
   GATEWAYDEV=<gateway device> (e.g. eth0)
   NISDOMAIN=<nis domain name>
+  IPX=yes|no
+  IPXAUTOPRIMARY=on|off (note, that MUST be on|off, not yes|no)
+  IPXAUTOFRAME=on|off (again, not yes|no)
+  IPXINTERNALNETNUM=<netnum>
+  IPXINTERNALNODENUM=<nodenum>
+
+  All the IPX stuff is optional, and should default to off.
 
 /etc/sysconfig/static-routes:
 
@@ -58,6 +65,11 @@ Files in /etc/sysconfig
   <device> may be a device name to have the route brought up and
   down with the device, or "any" to have the correct devices calculated
   at run time.
+
+/etc/sysconfig/routed:
+
+  SILENT=yes|no
+  EXPORT_GATEWAY=yes|no
 
 /etc/sysconfig/pcmcia:
 
@@ -186,6 +198,11 @@ Files in /etc/sysconfig/network-scripts/
     NETWORK=<will be calculated automatically with ifcalc>
     BROADCAST=<will be calculated automatically with ifcalc>
 
+  Ethernet-only items:
+    {IPXNETNUM,IPXPRIMARY,IPXACTIVE}_{802_2,802_3,ETHERII,SNAP}
+    configuration matrix for IPX.  Only used if IPX is active.
+    Managed from /etc/sysconfig/network-scripts/ifup-ipx
+
   PPP/SLIP items:
     PERSIST=yes|no
     MODEMPORT=<device, say /dev/modem>
@@ -245,14 +262,23 @@ Files in /etc/sysconfig/network-scripts/
 
   Called when any network device EXCEPT a SLIP device comes
   up.  Calls /etc/sysconfig/network-scripts/ifup-routes to
-  bring up static routes that depend on that device.  Brings
-  up aliases for that device.  Sets the hostname if it is not
+  bring up static routes that depend on that device.  Calls
+  /etc/sysconfig/network-scripts/ifup-aliases to bring up
+  aliases for that device.  Sets the hostname if it is not
   already set and a hostname can be found for the IP for that
   device.  Sends SIGIO to any programs that have requested
   notification of network events.
 
   Could be extended to fix up nameservice configuration, call
   arbitrary scripts, etc, as needed.
+
+/etc/sysconfig/network-scripts/ifup-routes
+
+  Set up static routes for a device.
+
+/etc/sysconfig/network-scripts/ifup-aliases
+
+  Bring up aliases for a device.
 
 /etc/sysconfig/network-scripts/ifdhcpc-done
 

@@ -26,6 +26,9 @@ fi
 
 [ -x /sbin/ifconfig ] || exit 0
 
+# Even if IPX is configured, without the utilities we can't do much
+[ ! -x /usr/bin/ipx_internal_net -o ! -x /usr/bin/ipx_configure ] && IPX=
+
 cd /etc/sysconfig/network-scripts
 
 # find all the interfaces besides loopback.
@@ -68,6 +71,15 @@ case "$1" in
 	ipv4_forward_set
 
 	./ifup ifcfg-lo
+
+	case "$IPX" in
+	  yes|true)
+	    /usr/bin/ipx_configure --auto_primary=$IPXAUTOPRIMARY \
+				   --auto_interface=$IPXAUTOFRAME
+	    /usr/bin/ipx_internal_net add $IPXINTERNALNETNUM $IPXINTERNALNODENUM
+	    ;;
+	esac
+
 	for i in $interfaces; do
 		./ifup $i boot
 	done
@@ -78,6 +90,11 @@ case "$1" in
 	for i in $interfaces; do
 		./ifdown $i boot
 	done
+	case "$IPX" in
+	  yes|true)
+	    /usr/bin/ipx_internal_net del
+	    ;;
+	esac
 	./ifdown ifcfg-lo
 	echo "Disabling IPv4 packet forwarding."
 	echo 0 > /proc/sys/net/ipv4/ip_forward
@@ -124,6 +141,23 @@ case "$1" in
 		for device in $DEV_RECONF_ROUTES ; do
 			/etc/sysconfig/network-scripts/ifup-routes $device
 		done
+		case $IPX in yes|true)
+		  case $IPXINTERNALNET in
+		    reconf)
+			/usr/bin/ipx_internal_net del
+			/usr/bin/ipx_internal_net add $IPXINTERNALNETNUM \
+						      $IPXINTERNALNODENUM
+			;;
+		    add)
+			/usr/bin/ipx_internal_net add $IPXINTERNALNETNUM \
+						      $IPXINTERNALNODENUM
+			;;
+		    del)
+			/usr/bin/ipx_internal_net del
+			;;
+		  esac
+		  ;;
+		esac
 	else
 		$0 restart
 	fi
@@ -132,13 +166,15 @@ case "$1" in
 	if [ -x /bin/linuxconf ] ; then
 		eval `/bin/linuxconf --hint netdev`
 		[ -n "$DEV_UP$DEV_DOWN$DEV_RECONF$DEV_RECONF_ALIASES" -o \
-		  -n "$DEV_RECONF_ROUTES" -o \
+		  -n "$DEV_RECONF_ROUTES$IPXINTERNALNET" -o \
 		  "$RECONF_IPV4ROUTING" = yes ] && \
 			echo reload
 		exit 0
 	else
 		# if linuxconf isn't around to figure stuff out for us,
-		# we punt.
+		# we punt.  Probably better than completely reloading
+		# networking if user isn't sure which to do.  If user
+		# is sure, they would run restart or reload, not probe.
 		exit 0
 	fi
 	;;

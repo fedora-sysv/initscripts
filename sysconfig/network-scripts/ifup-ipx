@@ -1,0 +1,44 @@
+#!/bin/bash
+# configures IPX on $1 if appropriate
+
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
+
+if [ "$1" = "" ]; then
+	echo "usage: $0 <net-device>"
+	exit 1
+fi
+
+if [ ! -x /usr/bin/ipx_interface ] ; then
+	# cannot configure IPX with non-existant utilities
+	exit 0
+fi
+
+. /etc/sysconfig/network
+
+case $IPX in yes|true) ;; *) exit 0 ;; esac
+
+cd /etc/sysconfig/network-scripts
+
+. network-functions
+
+CONFIG=$1
+source_config
+
+for frametype in 802_2 802_3 ETHERII SNAP ; do
+    # Yes, this kind of evaluation is really necessary to do this.
+    # Welcome to shell programming...  No, we were not smoking some
+    # particularly good floppies while we wrote this.  :-)
+    case $(eval echo $(echo \$`echo IPXACTIVE_$frametype`)) in
+	yes|true)
+		case $(eval echo $(echo \$`echo IPXPRIMARY_$frametype`)) in
+		    yes|true) primary=-p ;;
+		    *) primary= ;;
+		esac
+		/usr/bin/ipx_interface add $1 $primary $frametype \
+		  $(eval echo $(echo \$`echo IPXNETNUM_$frametype`))
+		;;
+    esac
+done
+
+exit 0
+
