@@ -239,13 +239,6 @@ int main(int argc, const char **argv) {
     } else
 	prefixStr = NULL;
     
-    if (!inet_aton(ipStr, &ip)) {
-	if (!beSilent)
-	    fprintf(stderr, "ipcalc: bad ip address: %s\n",
-		    ipStr);
-	return 1;
-    }
-
     if (prefixStr != NULL) {
 	prefix = atoi(prefixStr);
 	if (prefix == 0) {
@@ -262,6 +255,12 @@ int main(int argc, const char **argv) {
 	    if (!beSilent) {
 		fprintf(stderr, "ipcalc: netmask or prefix expected\n");
 		poptPrintHelp(optCon, stderr, 0);
+	    }
+	    return 1;
+	} else if (netmaskStr && prefix != 0) {
+	    if (!beSilent) {
+		    fprintf(stderr, "ipcalc: both netmask and prefix specified\n");
+		    poptPrintHelp(optCon, stderr, 0);
 	    }
 	    return 1;
 	} else if (netmaskStr) {
@@ -281,6 +280,26 @@ int main(int argc, const char **argv) {
 	    poptPrintHelp(optCon, stderr, 0);
 	}
 	return 1;
+    }
+
+    /* Handle CIDR entries such as 172/8 */
+    if (prefix) {
+    	char *tmp = ipStr;
+	int i;
+	    
+	for(i=3; i> 0; i--) {
+		tmp = strchr(tmp,'.');
+		if (!tmp) 
+			break;
+		else
+			tmp++;
+	}
+	tmp = NULL;
+	for (; i>0; i--) {
+	   tmp = malloc(strlen(ipStr + 3));
+	   sprintf(tmp,"%s.0",ipStr);
+	   ipStr = tmp;
+	}
     }
 
     if (!inet_aton(ipStr, (struct in_addr *) &ip)) {
