@@ -25,11 +25,6 @@ if ($sourced == 1) then
             unsetenv LC_ALL
         endif
     endif
-    if ($?LINGUAS && $?LANG) then
-        if ($LINGUAS == $LANG) then
-            unsetenv LINGUAS
-        endif
-    endif
 
     if ($?CHARSET) then
         switch ($CHARSET)

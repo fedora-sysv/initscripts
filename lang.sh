@@ -38,15 +38,7 @@ if [ "$sourced" = 1 ]; then
        unset LC_ALL
     fi
     [ -n "$LANGUAGE" ] && export LANGUAGE || unset LANGUAGE
-    if [ -n "$LINGUAS" ]; then
-       if [ "$LINGUAS" != "$LANG" ]; then
-          export LINGUAS
-       else
-          unset LINGUAS
-       fi
-    else 
-       unset LINGUAS
-    fi
+    [ -n "$LINGUAS" ] && export LINGUAS || unset LINGUAS
     [ -n "$_XKB_CHARSET" ] && export _XKB_CHARSET || unset _XKB_CHARSET
 
     if [ -n "$CHARSET" ]; then
