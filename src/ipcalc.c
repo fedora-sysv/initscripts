@@ -206,7 +206,7 @@ int main(int argc, const char **argv) {
 	    { "silent", 's', 0, &beSilent, 0,
 		"Don't ever display error messages " },
 	    POPT_AUTOHELP
-	    POPT_TABLEEND
+	    { NULL, '\0', 0, 0, 0, NULL, NULL }
     };
 
     optCon = poptGetContext("ipcalc", argc, argv, optionsTable, 0);
