@@ -1,3 +1,62 @@
+2003-06-19  Bill Nottingham  <notting@redhat.com>
+
+	* Changelog, initscripts.spec:
+	7.25-1
+	
+	* rc.d/rc.local:
+	revert rhgb hack
+
+	* sysconfig/network-scripts/ifup-post:
+	fix DNS punching in the case of other rules for the DNS server (#97686, <martin@zepler.org>)
+
+2003-06-18  pclouds  <pclouds@redhat.com>
+
+	* po/vi.po: add vi.po
+
+2003-06-18  morais  <morais@redhat.com>
+
+	* po/pt.po: consistency fixes
+
+2003-06-18  Bernd Groh  <bgroh@redhat.com>
+
+	* po/de.po: software translation update
+
+2003-06-16  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit: fix bad syntax
+
+2003-06-13  Bill Nottingham  <notting@redhat.com>
+
+	* src/initlog.c, src/ppp-watch.c, src/process.c, src/usernetctl.c:
+	fix leaked fd, potential usernetctl badness, and initlog/process bogons (<linux_4ever@yahoo.com>)
+
+2003-06-11  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit: fix grep (#97188)
+
+2003-06-05  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit:
+	change order for .unconfigured (#92346, <pmatilai@welho.com>)
+
+2003-06-02  Bill Nottingham  <notting@redhat.com>
+
+	* ppp/ip-down.ipv6to4, ppp/ip-up.ipv6to4:
+	beep? erhm, no. (#92019)
+
+2003-05-28  Bill Nottingham  <notting@redhat.com>
+
+	* Makefile, sysconfig/network-scripts/ifdown, sysconfig/network-scripts/ifup, sysconfig/network-scripts/ifup-post, sysconfig/network-scripts/ifup-routes, sysconfig/network-scripts/network-functions:
+	- make usernetctl use the nickname instead of the device name
+	- don't look in /etc/sysconfig/networking
+	- fix calling of nameif before the device was loaded
+	- clean up route handling
+	(<harald@redhat.com>)
+
+2003-05-27  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit: make ksyms.* 0600
+
 2003-05-23  Bill Nottingham  <notting@redhat.com>
 
 	* ChangeLog, initscripts.spec: 7.24-1
