@@ -1,0 +1,160 @@
+#!/bin/bash
+#
+# ip-up.ipv6to4
+#
+#
+# Taken from:
+# (P) & (C) 2000-2001 by Peter Bieringer <pb@bieringer.de>
+#  
+# Version 2001-05-07
+#
+# Calling parameters:
+#  $1: interface name
+#
+# Called by (mostly) /etc/ppp/ip-up.local
+#  like: /etc/ppp/ip-up.ipv6to4 $1 >>/var/log/ppp-ipv6to4.log 2>&1
+#
+# Uses following information from /etc/sysconfig/network:
+#  NETWORKING_IPV6=yes|no: controls IPv6 initialization (global setting)
+#
+# Uses following information from /etc/sysconfig/network-scripts/ifcfg-$1:
+#  IPV6TO4INIT=yes|no: controls configuration
+#  IPV6TO4_IPV4ADDR=IPv4addr: special local address for 6to4 tunneling (only needed behind a NAT gateway)
+#  IPV6TO4_RELAY=IPv4addr: remote IPv6to4 relay address
+#  IPV6TO4_ROUTING="eth0-:f101::0/64 eth1-:f102::0/64": information to setup local subnetting
+#  IPV6TO4_CONTROL_RADVD=yes|no: controls radvd triggering
+#  IPV6TO4_RADVD_PIDFILE=file: PID file of radvd for sending signals, default is "/var/run/radvd/radvd.pid"
+#
+# Requirements
+#  radvd-0.6.2p3 or newer supporting option "Base6to4Interface"
+#
+
+
+if [ -z "$1" ]; then
+	echo $"Option 1 is empty but should contain interface name - skip IPv6to4 initialization" >/dev/stderr
+	exit 1
+fi
+
+# Get global network configuration
+. /etc/sysconfig/network
+
+# Source IPv4 helper functions
+cd /etc/sysconfig/network-scripts
+. network-functions
+
+CONFIG=$1
+[ -f "$CONFIG" ] || CONFIG=ifcfg-$CONFIG
+source_config
+
+# Test if IPv6 is globally enabled
+if [ ! "${NETWORKING_IPV6}" = "yes" ]; then
+        # Global IPv6 switch not enabled, end now
+        exit 0
+fi
+
+if [ ! -f /etc/sysconfig/network-scripts/network-functions-ipv6 ]; then 
+	# IPv6 setup isn't well
+        exit 1 
+fi 
+
+. /etc/sysconfig/network-scripts/network-functions-ipv6
+
+# Run basic IPv6 test (and make sure the ipv6 module will be loaded), if not ok, skip IPv6 initialization
+test_ipv6 || exit 1
+
+
+# Setup of 6to4, if configured
+valid6to4config="yes"
+if [ "$IPV6TO4INIT" = "yes" ]; then
+	if [ ! -z "$IPV6TO4_IPV4ADDR" ]; then
+		# Take special configured from config file (precedence 1)
+		ipv4addr="$IPV6TO4_IPV4ADDR"
+        else
+		# Get IPv4 address from interface first (has precedence 2)
+		ipv4addr="`LC_ALL=C ifconfig $DEVICE |grep "inet addr:" | tr : " " | awk '{ print $3 }'`"
+		if [ -z "$ipv4addr" ]; then
+                	# Take configured from config file (precedence 3)
+                	ipv4addr="$IPADDR"
+            	fi
+        fi
+        if [ ! -z "$ipv4addr" ]; then
+		# Test for non-global IPv4 address
+		if ! testipv4_globalusable $ipv4addr; then
+                	echo $"Given IPv4 address $ipv4addr is not a globally usable one, 6to4 configuration is not valid!"
+			valid6to4config="no"
+		fi
+		if [ -z "$IPV6TO4_RELAY" ]; then
+			echo $"IPv6to4 configuration needs an IPv6to4 relay address, 6to4 configuration is not valid!"
+			valid6to4config="no"
+        	fi
+	else
+		echo $"IPv6to4 configuration needs an IPv4 address on related interface or extra specified, 6to4 configuration is not valid!"
+		valid6to4config="no"
+	fi
+	if [ "$valid6to4config" = "yes" ]; then
+		# Beep 
+		if [ -x /usr/bin/beep ]; then /usr/bin/beep -f 2000; else echo -en "\a" >/dev/console; fi
+
+		# Cleanup all old data (needed, if "ip-down.ipv6to4" wasn't executed)
+
+	        # Delete all static IPv6to4 routes to relay
+	        ifdown_ipv6_route_all sit0 ::$IPV6TO4_RELAY
+
+		# Delete routes to local networks
+        	for devsuf in $IPV6TO4_ROUTING; do
+            		dev="`echo $devsuf | awk -F- '{ print $1 }'`"
+			ifdown_ipv6_route_all $dev ::
+		done
+
+        	# Delete all configured 6to4 address
+	        ifdown_ipv6to4_all sit0
+ 
+		# Setup new data
+		ifup_ipv6to4 $DEVICE $ipv4addr || exit 1
+	
+		if [ -f /etc/sysconfig/static-routes-ipv6 ]; then
+			grep "^sit0" /etc/sysconfig/static-routes-ipv6 | while read device args; do
+				if [ "$device" = "sit0" ]; then
+					ifup_ipv6_route $args ::$IPV6TO4_RELAY sit0
+				fi
+			done
+		fi
+
+	        if [ "$IPV6TO4_CONTROL_RADVD" = "yes" ]; then
+			if [ -z "$IPV6TO4_RADVD_PIDFILE" ]; then
+				# Take default
+				IPV6TO4_RADVD_PIDFILE="/var/run/radvd/radvd.pid"
+			fi
+
+			# Send SIGHUP to radvd
+			if [ -f "$IPV6TO4_RADVD_PIDFILE" ]; then
+				pid="`cat $IPV6TO4_RADVD_PIDFILE`"
+				if [ ! -z "$pid" ]; then
+					echo $"Trigger RADVD for IPv6to4 prefix recalculation"	
+					kill -HUP $pid
+				else
+					false
+				fi
+			fi
+		        if [ ! -z "$IPV6TO4_ROUTING" ]; then
+				# Generate 6to4 address
+				ipv6to4prefix="`create6to4prefix $ipv4addr`"
+				if [ ! -z "$ipv6to4prefix" ]; then
+					# Add route to local networks
+					for devsuf in $IPV6TO4_ROUTING; do
+						dev="`echo $devsuf | awk -F- '{ print $1 }'`"
+						suf="`echo $devsuf | awk -F- '{ print $2 }'`"
+						ifup_ipv6_route ${ipv6to4prefix}$suf :: $dev
+					done
+				else
+					echo $"Error occured while calculating the IPv6to4 prefix"
+				fi
+			else
+				echo $"RADVD control enabled, but config is not complete!"
+			fi
+		fi
+
+		# Beep 
+		if [ -x /usr/bin/beep ]; then /usr/bin/beep -f 2666; else echo -en "\a" >/dev/console; fi
+	fi
+fi

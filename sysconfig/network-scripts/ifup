@@ -167,7 +167,7 @@ if [ -n "${DYNCONFIG}" ]; then
     
     if [ -x /sbin/dhcpcd ] && /sbin/dhcpcd ${DHCPCDARGS} ${DEVICE} ; then
 	echo $" done."
-    elif [ -x /sbin/pump ] && /sbin/pump ${PUMPARGS} -i ${DEVICE} ; then
+    elif [ -x /sbin/pump ] && /sbin/pump ${PUMPARGS} -i ${DEVICE}; then
 	echo $" done."
     else
 	echo $" failed."
@@ -180,6 +180,9 @@ else
     if [ -z "${IPADDR}" ]; then
          # enable device without IP, useful for e.g. PPPoE
 	 ip link set ${DEVICE} up
+	 if [ "${NETWORKING_IPV6}" = "yes" ]; then
+	    /etc/sysconfig/network-scripts/ifup-ipv6 ${CONFIG}
+	 fi
 	 exec /etc/sysconfig/network-scripts/ifup-post ${CONFIG} ${2}
     fi
   
@@ -246,7 +249,7 @@ fi
 
 # IPv6 initialisation?
 if [ "${NETWORKING_IPV6}" = "yes" ]; then
-    /etc/sysconfig/network-scripts/ifup-ipv6 $DEVICE
+    /etc/sysconfig/network-scripts/ifup-ipv6 ${CONFIG}
 fi
 
 exec /etc/sysconfig/network-scripts/ifup-post ${CONFIG} ${2}

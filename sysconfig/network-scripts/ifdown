@@ -48,7 +48,7 @@ fi
 check_device_down ${DEVICE} && exit 0
 
 if [ "${NETWORKING_IPV6}" = "yes" ]; then
-    /etc/sysconfig/network-scripts/ifdown-ipv6 $DEVICE
+    /etc/sysconfig/network-scripts/ifdown-ipv6 ${CONFIG}
 fi
 
 retcode=0

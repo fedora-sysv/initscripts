@@ -115,8 +115,32 @@ Files in /etc/sysconfig
   IPXAUTOFRAME=on|off (again, not yes|no)
   IPXINTERNALNETNUM=<netnum>
   IPXINTERNALNODENUM=<nodenum>
+
   NETWORKING_IPV6=yes|no
     Enable or disable global IPv6 initialization
+  IPV6FORWARDING=yes|no
+    Enable or disable global forwarding of incoming IPv6 packes 
+    on all interfaces.
+    Note: Actual packet forwarding cannot be controlled per-device.
+  IPV6INIT=yes|no
+    Enable or disable IPv6 configuration for all interfaces.
+    Use with caution!
+
+  IPV6_AUTOCONF=yes|no
+    Sets the default for device-based autoconfiguration.
+    Default: yes if IPV6FORWARDING=no, no if IPV6FORWARDING=yes
+  IPV6_ROUTER=yes|no
+    Sets the default for device-based Host/Router behaviour.
+    Default: yes if IPV6FORWARDING=yes, no if IPV6FORWARDING=no
+  IPV6_AUTOTUNNEL=yes|no
+    Controls automatic IPv6 tunneling.
+
+  IPV6_TUNNELMODE=IP|NBMA [OPTIONAL: IP by default]
+    Mode of tunnel setup
+    IP: separate tunnel device mode (now recommeded) 
+    NBMA: NBMA-styled tunnel mode (now mostly obsolete)
+
+  All IPv6 options can be overridden in interface-specific configuration.
 
   All the IPX stuff is optional, and should default to off.
 
@@ -347,6 +371,11 @@ Files in /etc/sysconfig/network-scripts/
   be brought up on boot (ONBOOT=no, see below) can be ignored at
   that time.
 
+/etc/sysconfig/network-scripts/init.ipv6-global:
+  Not really a public file.  Contains different basic settings that
+  are set from /etc/rc.d/init.d/network at different stages of
+  network initialization.
+
 /etc/sysconfig/network-scripts/network-functions:
 
   Not really a public file.  Contains functions which the scripts use
@@ -407,10 +436,10 @@ Files in /etc/sysconfig/network-scripts/
 
   IPv6-only items for real interfaces:
     IPV6INIT=yes|no
-      enable or disable IPv6 configuration for this interface
+      Enable or disable IPv6 configuration for this interface
     IPV6FORWARDING=yes|no
-      enable or disable forwarding of incoming IPv6 packes on this
-       interface (perhaps moved to sysctl in the future)
+      Enable or disable global forwarding of incoming IPv6 packets
+      Note! Obsolete in interface specification.
     IPV6ADDR=<ipv6address>/<prefixlength>
       specify primary static IPv6 address here
       Example:
@@ -420,16 +449,44 @@ Files in /etc/sysconfig/network-scripts/
       Example:
         IPV6ADDR_SECONDARIES="3ffe:400:100:f101::10/64 3ffe:400:100:f101::11/64"
 
+  Special configuration options for multi-homed hosts etc.
+    IPV6_ROUTER=yes|no: controls IPv6 autoconfiguration
+    IPV6_AUTOCONF=yes|no: controls IPv6 autoconfiguration
+      defaults:
+          global IPV6FORWARDING=yes: IPV6_AUTOCONF=no, IPV6_ROUTER=yes
+          global IPV6FORWARDING=no: IPV6_AUTOCONF=yes
+
+  Optional settings for a 6to4 tunnel
+    IPV6TO4INIT=yes|no
+      Enable or disable 6to4 tunneling setup
+    IPV6TO4_RELAY=<ipv4address>
+      IPv4 address of the remote 6to4 relay
+    IPV6TO4_IPV4ADDR=<ipv6address> [OPTIONAL]
+      overwrite local IPv4 address which is accessable from the Internet
+       (optional, in case of NAT or other special scenarios)
+    IPV6TO4_ROUTING=<LAN-routing-setup-tokens> [OPTIONAL]
+      a list of routing tokens to setup proper IPv6 routes on the LAN
+      Example:
+         IPV6TO4_ROUTING="eth0-:f101::0/64 eth1-:f102::0/64"
+         Will create one route per eth0 and eth1, taking given SLA
+    IPV6TO4_CONTROL_RADVD=yes|no [OPTIONAL]
+      Enable signalling radvd that the 6to4 prefix has been changed
+    IPV6TO4_RADVD_PIDFILE=<path-to-pid-file> [OPTIONAL]
+      location of PID file to get PID for sending signal
+      default is "/var/run/radvd/radvd.pid"
+      Example:
+         IPV6TO4_RADVD_PIDFILE="/some/other/location/radvd.pid"
+
   IPv6-only items for automatic tunnel interface: 
     Virtual interface name: sit0
     IPV6INIT=yes|no
-      enable or disable IPv6 configuration for this interface
-    (Perhaps this configuration will be moved to /etc/rc.d/init.d/network in the future)
-    
+      Enable or disable IPv6 configuration for this interface
+      Obsolete now, see IPV6_AUTOTUNNEL in /etc/sysconfig/network    
+
   IPv6-only items for static unnumbered tunnel interface:
     Virtual interface name: sit1..
     IPV6INIT=yes|no
-      enable or disable IPv6 configuration for this interface
+      Enable or disable IPv6 configuration for this interface
     IPV6TUNNELIPV4=<ipv4 address of foreign tunnel endpoint>
       specify IPv4 address of a foreign IPv6-in-IPv4 tunnel endpoint
       Example:

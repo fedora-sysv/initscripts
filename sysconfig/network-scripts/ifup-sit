@@ -6,13 +6,27 @@
 # Taken from:
 # (P) & (C) 2000-2001 by Peter Bieringer <pb@bieringer.de>
 #
-# Version 2001-03-03
+# RHL integration assistance by Pekka Savola <pekkas@netcore.fi>
+#
+# Version 2001-05-22d
+#
+# Uses following information from "/etc/sysconfig/network":
+#  NETWORKING_IPV6=yes|no: controls IPv6 initialization (global setting)
+#
+# Uses following information from "/etc/sysconfig/network-scripts/ifcfg-$1":
+#  IPV6INIT=yes|no: controls IPv6 configuration for this interface
+#  IPV6_TUNNELMODE=IP|NBMA: mode of tunnel creation [default: IP]
+# 
+#  For static tunnels 
+#  IPV6TUNNELIPV4="<ipv4 address of foreign tunnel endpoint>"
+#  IPV6ADDR=<ipv6address>/<prefixlength> [OPTIONAL: numbered tunnels]
 #
 
-# Filter tags (for stripping, empty lines following if all is stripped)
 
+# Get global network configuration
 . /etc/sysconfig/network 
 
+# Source IPv4 helper functions
 cd /etc/sysconfig/network-scripts
 . network-functions 
 
@@ -22,22 +36,32 @@ source_config
 
 # Test if IPv6 configuration is enabled for this interface
 if [ ! "$IPV6INIT" = "yes" ]; then
-	# not enabled, stop here
 	exit 0
 fi                                                  
 
 # Test if IPv6 is up
-if [ "${NETWORKING_IPV6}" = "yes" ]; then
-	
-	. /etc/sysconfig/network-scripts/network-functions-ipv6
+if [ ! "${NETWORKING_IPV6}" = "yes" ]; then
+        exit 0
+fi
 
-	# Run basic IPv6 test (and make sure the ipv6 module will be loaded)
-	test_ipv6 || exit 0
+if [ ! -f /etc/sysconfig/network-scripts/network-functions-ipv6 ]; then
+	# IPv6 setup isn't well
+	exit 1
+fi
 
-	# Setup IPv6-in-IPv4 tunnel(s)
-	if [ "$DEVICE" = "sit0" ]; then
-		ifup_ipv6_autotunnel
-	elif [ ! -z "$IPV6TUNNELIPV4" ]; then
+# Source IPv6 helper functions	
+. /etc/sysconfig/network-scripts/network-functions-ipv6
+
+# IPv6 test, module loaded, exit if system is not IPv6-ready
+test_ipv6 || exit 1
+
+# Setup IPv6-in-IPv4 tunnel(s)
+if [ "$DEVICE" = "sit0" ]; then
+	ifup_ipv6_autotunnel || exit 1
+
+elif [ ! -z "$IPV6TUNNELIPV4" ]; then
+	if [ "$IPV6_TUNNELMODE" = "NBMA" ]; then
+		# NBMA-styled tunneling
 		if [ ! -z "$IPV6ADDR" ]; then
 			# Numbered tunnel
 			ifup_ipv6_real sit0 $IPV6ADDR
@@ -51,5 +75,22 @@ if [ "${NETWORKING_IPV6}" = "yes" ]; then
 				fi
 			done
 		fi
+	elif [ -z "$IPV6_TUNNELMODE" -o "$IPV6_TUNNELMODE" = "IP" ]; then
+		ifup_ipv6_tunneldev $DEVICE $IPV6TUNNELIPV4 || exit 1
+
+		if [ ! -z "$IPV6ADDR" ]; then
+			# Numbered tunnel
+			ifup_ipv6_real $DEVICE $IPV6ADDR
+		fi
+			
+		if [ -f /etc/sysconfig/static-routes-ipv6 ]; then
+			grep "^$DEVICE\W" /etc/sysconfig/static-routes-ipv6 | while read device ipv6route args; do
+				if [ "$device" = "$DEVICE" ]; then
+					ifup_ipv6_route $ipv6route :: $DEVICE
+				fi
+			done
+		fi
+	else
+		echo $"Tunnel creation mode '$IPV6_TUNNELMODE' not supported - skip!"
 	fi
-fi 
+fi

@@ -1,0 +1,188 @@
+#!/bin/sh
+#
+# init.ipv6-global
+#
+#
+# Taken from:
+# (P) & (C) 2001 by Peter Bieringer <pb@bieringer.de>
+#
+# RHL integration assistance by Pekka Savola <pekkas@netcore.fi>
+#
+# Version 2001-05-22d
+#
+# Calling parameters:
+#  $1: action (currently supported: start|stop|showsysctl)
+#  $2: position for start|stop (currently supported: pre|post)
+#
+# Called by hooks from /etc/rc.d/init.d/network
+#
+# Uses following information from /etc/sysconfig/network:
+#  NETWORKING_IPV6=yes|no: controls global IPv6 initialization (default: no)
+#  IPV6FORWARDING=yes|no: controls global IPv6 forwarding (default: no)
+#  IPV6AUTOCONF=yes|no: controls global automatic IPv6 configuration
+#   (default: yes if IPV6FORWARDING=no, no if IPV6FORWARDING=yes)
+#  IPV6_AUTOTUNNEL=yes|no: controls automatic IPv6 tunneling (default: no)
+#
+
+
+
+# Get global network configuration
+. /etc/sysconfig/network 
+
+# Source IPv4 helper functions
+cd /etc/sysconfig/network-scripts
+. network-functions 
+
+# Get action and hook position
+ACTION="$1"
+POSITION="$2"
+
+# Test for IPv6 enabling
+if [ ! "${NETWORKING_IPV6}" = "yes" ]; then
+	exit 0
+fi
+
+if [ ! -f /etc/sysconfig/network-scripts/network-functions-ipv6 ]; then
+	exit 1
+fi
+
+# Source IPv6 helper functions
+. /etc/sysconfig/network-scripts/network-functions-ipv6
+
+# Initialize IPv6, depending on caller option
+case $ACTION in
+    start)
+	case $POSITION in 
+	    pre)
+		# IPv6 test, module loaded, exit if system is not IPv6-ready
+		test_ipv6 || exit 1
+
+
+		if [ "$IPV6FORWARDING" = "yes" ]; then
+			ipv6_global_forwarding=1
+			ipv6_global_auto=0
+		else
+			ipv6_global_forwarding=0
+			if [ "$IPV6AUTO" = "no" ]; then
+				ipv6_global_auto=0
+			else
+				ipv6_global_auto=1
+			fi
+		fi
+
+		# Reset IPv6 sysctl switches for "all", "default" and still existing devices
+		for i in /proc/sys/net/ipv6/conf/*; do
+			if [ ! -d $i ]; then
+				continue
+			fi
+			interface="`echo $i | awk -F/ '{ print $NF}'`"
+			# Host/Router behaviour for the interface
+			sysctl -w net.ipv6.conf.$interface.forwarding=$ipv6_global_forwarding >/dev/null
+
+			# Autoconfiguration and redirect handling for Hosts
+			sysctl -w net.ipv6.conf.$interface.accept_ra=$ipv6_global_auto >/dev/null
+			sysctl -w net.ipv6.conf.$interface.accept_redirects=$ipv6_global_auto >/dev/null
+		done
+
+		if [ "$IPV6_AUTOTUNNEL" = "yes" ]; then
+			ifup_ipv6_autotunnel 
+		fi
+		;;
+
+	    post)
+		# IPv6 test, module loaded, exit if system is not IPv6-ready
+		test_ipv6 || exit 1
+
+
+		## Add some routes which should never appear on the wire
+		# Unreachable IPv4-only addresses, normally blocked by source address selection
+		ip route add unreach  ::ffff:0.0.0.0/96
+		# Unreachable IPv4-mapped addresses
+		ip route add unreach  ::0.0.0.0/96
+		# Unreachable 6to4: IPv4 multicast, reserved, limited broadcast
+		ip route add unreach  2002:e000::/19
+		# Unreachable 6to4: IPv4 loopback
+		ip route add unreach  2002:7f00::/24
+		# Unreachable 6to4: IPv4 private (RFC1918)
+		ip route add unreach  2002:0a00::/24
+		ip route add unreach  2002:ac10::/28
+		ip route add unreach  2002:c0a8::/32
+		# Unreachable 6to4: IPv4 private (DHCP link-local)
+		ip route add unreach  2002:a9fe::/32
+		;;
+
+	    *)
+		echo "Usage: $0 $1 {pre|post}"
+		;;
+
+	esac
+	;;
+
+    stop)
+	case $POSITION in 
+	    pre)
+		# IPv6 test, no module loaded, exit if system is not IPv6-ready
+		test_ipv6 testonly || exit 0
+
+
+		;;
+
+	    post)
+		# IPv6 test, no module loaded, exit if system is not IPv6-ready
+		test_ipv6 testonly || exit 0
+
+
+		for i in /proc/sys/net/ipv6/conf/*; do
+			if [ ! -d $i ]; then
+				continue
+			fi
+			interface="`echo $i | awk -F/ '{ print $NF}'`"
+			# Assume Host behaviour
+			sysctl -w net.ipv6.conf.$interface.forwarding=0 >/dev/null  
+
+			# Disable autoconfiguration and redirects
+			sysctl -w net.ipv6.conf.$interface.accept_ra=0 >/dev/null  
+			sysctl -w net.ipv6.conf.$interface.accept_redirects=0 >/dev/null  
+		done
+
+		# Find still existing tunnel devices and shutdown and delete them
+		LC_ALL=C ip tunnel | grep "ipv6/ip" | awk -F: '{ print $1 }' | while read device; do
+			ifdown_ipv6_tunneldev $device
+		done
+
+		;;
+
+	    *)
+		echo "Usage: $0 $1 {pre|post}"
+		;;
+
+	esac	
+	;;
+
+    restart|reload)
+	# do nothing, will be handled by main script
+	;;
+
+    showsysctl)
+	# Run only basic tests, no module is loaded, if not ok, skip IPv6 initialization
+	test_ipv6 testonly || exit 0
+
+	# Show sysctl switches 
+	for i in /proc/sys/net/ipv6/conf/default/*; do
+		if [ ! -f $i ]; then continue; fi
+		switch="`echo $i | awk -F/ '{ print $NF}'`"
+		for j in /proc/sys/net/ipv6/conf/*; do
+			if [ ! -d $j ]; then continue; fi
+			interface="`echo $j | awk -F/ '{ print $NF}'`"
+			sysctl net.ipv6.conf.$interface.$switch
+		done
+		echo
+	done
+	;;
+
+    *)
+	echo "Usage: $0 {start|stop|showsysctl}"
+	exit 1
+	;;	
+
+esac

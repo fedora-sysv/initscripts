@@ -1,34 +1,40 @@
 #!/bin/sh
 #
-# ifdown-ipv6
+# ip-down.ipv6to4
 #
 #
 # Taken from:
 # (P) & (C) 2000-2001 by Peter Bieringer <pb@bieringer.de>
 #
-# RHL integration assistance by Pekka Savola <pekkas@netcore.fi>
+# Version 2001-05-07
 #
-# Version 2001-05-22d
+# Calling parameters:
+#  $1: interface name
+#
+# Called by (mostly) /etc/ppp/ip-down.local
+#  like: /etc/ppp/ip-down.ipv6to4 $1 >>/var/log/ppp-ipv6to4.log 2>&1
 #
 # Uses following information from /etc/sysconfig/network:
 #  NETWORKING_IPV6=yes|no: controls IPv6 initialization (global setting)
 #
 # Uses following information from /etc/sysconfig/network-scripts/ifcfg-$1:
-#  IPV6INIT=yes|no: controls IPv6 configuration for this interface
-#
-# Optional for 6to4 tunneling:
-#  IPV6TO4_RELAY=<ipv4address>: IPv4 address of the remote 6to4 relay
+#  IPV6TO4INIT=yes|no: controls configuration
+#  IPV6TO4_RELAY=IPv4addr: remote IPv6to4 relay address
 #  IPV6TO4_ROUTING="eth0-:f101::0/64 eth1-:f102::0/64": information to setup local subnetting
-#  IPV6TO4_CONTROL_RADVD=yes|no: controls radvd triggering [optional]
-#  IPV6TO4_RADVD_PIDFILE=file: PID file of radvd for sending signals, default is "/var/run/radvd/radvd.pid" [optional]
-#
-#  Requirements for 6to4 if using radvd:
-#   radvd-0.6.2p3 or newer supporting option "Base6to4Interface"
+#  IPV6TO4_CONTROL_RADVD=yes|no: controls radvd triggering
+#  IPV6TO4_RADVD_PIDFILE=file: PID file of radvd for sending signals, default is "/var/run/radvd/radvd.pid"
 #
 
 
+if [ -z "$1" ]; then
+  	echo $"Arg 1 is empty but should contain interface name - skip IPv6to4 initialization" >/dev/stderr
+	exit 1
+fi
+
+# Get global network configuration
 . /etc/sysconfig/network 
 
+# Source IPv4 helper functions
 cd /etc/sysconfig/network-scripts
 . network-functions 
 
@@ -43,21 +49,14 @@ if [ ! "${NETWORKING_IPV6}" = "yes" ]; then
 fi
 
 if [ ! -f /etc/sysconfig/network-scripts/network-functions-ipv6 ]; then
-	# IPv6 setup isn't well
 	exit 1
 fi
 
-# Source IPv6 helper functions
 . /etc/sysconfig/network-scripts/network-functions-ipv6
 
-# IPv6 test, no module loaded, exit if system is not IPv6-ready
+# Run basic IPv6 test, if not ok, skip IPv6 initialization
 test_ipv6 testonly || exit 0
 
-
-# Switch some sysctls to secure mode
-sysctl -w net.ipv6.conf.$DEVICE.forwarding=0 >/dev/null
-sysctl -w net.ipv6.conf.$DEVICE.accept_ra=0 >/dev/null
-sysctl -w net.ipv6.conf.$DEVICE.accept_redirects=0 >/dev/null
 
 # Shutdown of 6to4, if configured
 valid6to4config="yes"
@@ -65,6 +64,9 @@ if [ -z "$IPV6TO4_RELAY" ]; then
 	valid6to4config="no"
 fi
 if [ "$valid6to4config" = "yes" ]; then
+	# Beep
+	if [ -x /usr/bin/beep ]; then /usr/bin/beep -f 2666; else echo -en "\a" >/dev/console; fi
+
 	if [ "$IPV6TO4_CONTROL_RADVD" = "yes" ]; then
 		# stop RADVD from distributing no longer usable 6to4 prefixes
 		if [ -z "$IPV6TO4_RADVD_PIDFILE" ]; then
@@ -75,7 +77,7 @@ if [ "$valid6to4config" = "yes" ]; then
 		if [ -f "$IPV6TO4_RADVD_PIDFILE" ]; then
 			pid="`cat $IPV6TO4_RADVD_PIDFILE`"
 			if [ ! -z "$pid" ]; then
-				#  still waiting for feature enabling: stopping distribution of prefixes in RADVD....
+				#  still waiting for feature enabling: stopping distribution of prefixes in RADVD....		
 				# kill -SOMETHING $pid
 				false
 			else
@@ -83,6 +85,9 @@ if [ "$valid6to4config" = "yes" ]; then
 			fi
 		fi
 	fi
+
+	# Delete all static IPv6to4 routes to relay
+	ifdown_ipv6_route_all sit0 ::$IPV6TO4_RELAY
 
 	if [ ! -z "$IPV6TO4_ROUTING" ]; then
 		# Delete routes to local networks
@@ -92,12 +97,9 @@ if [ "$valid6to4config" = "yes" ]; then
 		done
 	fi
 
-	# Delete all static IPv6to4 routes
-	ifdown_ipv6_route_all sit0 ::$IPV6TO4_RELAY
-
 	# Delete all configured 6to4 address
 	ifdown_ipv6to4_all sit0 
-fi
 
-# Delete all current configured IPv6 addresses on this interface 
-ifdown_ipv6_real_all $DEVICE
+	# Beep
+	if [ -x /usr/bin/beep ]; then /usr/bin/beep -f 2000; else echo -en "\a" >/dev/console; fi
+fi

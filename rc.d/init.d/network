@@ -51,6 +51,12 @@ interfaces=`ls ifcfg* | LANG=C egrep -v '(ifcfg-lo|:|rpmsave|rpmorig|rpmnew)' | 
 # See how we were called.
 case "$1" in
   start)
+	# IPv6 hook (pre IPv4 start)
+	if [ "$NETWORKING_IPV6" = "yes" ]; then
+		if [ -x /etc/sysconfig/network-scripts/init.ipv6-global ]; then
+			/etc/sysconfig/network-scripts/init.ipv6-global start pre
+		fi
+	fi
   
   	action $"Setting network parameters: " sysctl -e -p /etc/sysctl.conf
 
@@ -135,6 +141,13 @@ case "$1" in
 	   done
 	fi    
 
+ 	# IPv6 hook (post IPv4 start)
+ 	if [ "$NETWORKING_IPV6" = "yes" ]; then
+ 		if [ -x /etc/sysconfig/network-scripts/init.ipv6-global ]; then
+ 			/etc/sysconfig/network-scripts/init.ipv6-global start post
+ 		fi
+ 	fi
+ 
         touch /var/lock/subsys/network
         ;;
   stop)
@@ -150,6 +163,13 @@ case "$1" in
 		fi
 	fi
 	
+ 	# IPv6 hook (pre IPv4 stop)
+ 	if [ "$NETWORKING_IPV6" = "yes" ]; then
+ 		if [ -x /etc/sysconfig/network-scripts/init.ipv6-global ]; then
+ 			/etc/sysconfig/network-scripts/init.ipv6-global stop pre
+ 		fi
+ 	fi
+ 
 	for i in $interfaces ; do
 	        if LC_ALL= LANG= ifconfig $i 2>/dev/null | grep -q " UP " >/dev/null 2>&1 ; then
 		   action $"Shutting down interface $i: " ./ifdown $i boot
@@ -174,6 +194,13 @@ case "$1" in
 		        action $"Disabling IPv4 automatic defragmentation: " sysctl -w net.ipv4.ip_always_defrag=0
 		fi
 	  fi
+	fi
+
+	# IPv6 hook (post IPv4 stop)
+	if [ "$NETWORKING_IPV6" = "yes" ]; then
+		if [ -x /etc/sysconfig/network-scripts/init.ipv6-global ]; then
+			/etc/sysconfig/network-scripts/init.ipv6-global stop post
+		fi
 	fi
 	
         rm -f /var/lock/subsys/network

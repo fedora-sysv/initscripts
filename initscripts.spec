@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.01
+Version: 6.02
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -167,6 +167,7 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) /etc/sysconfig/rawdevices
 %config /etc/sysconfig/network-scripts/network-functions
 %config /etc/sysconfig/network-scripts/network-functions-ipv6
+%config /etc/sysconfig/network-scripts/init.ipv6-global
 %config /etc/sysconfig/network-scripts/ifcfg-lo
 %config /etc/sysconfig/network-scripts/ifup-post
 %config /etc/sysconfig/network-scripts/ifdown-ppp
@@ -225,8 +226,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr(775,root,root) /var/run/netreport
 %config /etc/ppp/ip-up
 %config /etc/ppp/ip-down
+%config /etc/ppp/ip-up.ipv6to4
+%config /etc/ppp/ip-down.ipv6to4
 %config /etc/initlog.conf
-%doc sysconfig.txt sysvinitfiles ChangeLog static-routes-ipv6 ipv6-tunnel.howto
+%doc sysconfig.txt sysvinitfiles ChangeLog static-routes-ipv6 ipv6-tunnel.howto ipv6-6to4.howto
 %ghost %attr(0664,root,utmp) /var/log/wtmp
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
@@ -237,6 +240,7 @@ rm -rf $RPM_BUILD_ROOT
 - fix some invocations of reboot/halt (#45966)
 - fix typo in ifup-wireless
 - don't muck with /etc/issue each boot
+- big IPv6 update (<pekkas@netcore.fi>)
 
 * Fri Jul  6 2001 Trond Eivind Glomsrød <teg@redhat.com>
 - Add new directories required by new network tool
