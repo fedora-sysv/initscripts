@@ -1,5 +1,5 @@
 #!/bin/sh
-
+#
 # This script will be executed *after* all the other init scripts.
 # You can put your own initialization stuff in here if you don't
 # want to do the full Sys V style init stuff.
@@ -14,8 +14,8 @@ if [ -f /etc/redhat-release ]; then
 	    _i*) a="an";;
     esac
     
-    NUMPROC=$[`cat /proc/cpuinfo | grep -i  ^bogomips | wc -l`]
-    if [ $NUMPROC -gt 1 ]; then
+    NUMPROC=`grep -cl "^cpu[0-9]+" /proc/stat`
+    if [ "$NUMPROC" -gt "1" ]; then
         SMP="$NUMPROC-processor "
         if [ "$NUMPROC" = "8" -o "$NUMPROC" = "11" ]; then
             a="an"
