@@ -249,6 +249,7 @@ rm -rf $RPM_BUILD_ROOT
 - many cleanups for more consistent shell programming and also
   many smaller speedups within network scripts, no un-necessary sourcing
   of files etc
+- nearly re-code /etc/rc.d/rc
 
 * Thu Jun 27 2002 Bill Nottingham <notting@redhat.com>
 - a couple minor unicode tweaks in rc.sysinit
