@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.47
+Version: 6.47.1
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -240,6 +240,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Thu Aug 22 2002 Bill Nottingham <notting@redhat.com>
+- fix usb startup (#71355)
+
 * Mon Apr 29 2002 Bill Nottingham <notting@redhat.com>
 - libredhat-kernel.so* should be hardlinks, not symlinks
 
