@@ -155,7 +155,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir    /etc/rc.d/init.d
 %config(missingok) /etc/rc.d/init.d/*
 %config /etc/rc.d/rc
-%config /etc/rc.d/rc.local
+%config(noreplace) /etc/rc.d/rc.local
 %config /etc/profile.d/lang.sh
 /sbin/setsysfont
 /bin/doexec
