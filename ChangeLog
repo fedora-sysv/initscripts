@@ -1,4 +1,28 @@
+2000-12-26  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifup-post:
+	fix scoping isuse (#22547)
+
+	* ppp/ip-up:
+	only run ifup-post if the ifcfg file is there (#19741)
+
+	* ppp/ip-down:
+	export a $PATH here too (#22784)
+
+	* sysconfig/network-scripts/ifdown:
+	retcode wasn't used. initialize it.
+
+	* sysconfig/network-scripts/ifdown, sysconfig/network-scripts/ifup:
+	toss out spurious errors from iwconfig
+
+2000-12-20  Erik Troan  <ewt@redhat.com>
+
+	* sysconfig/network-scripts/ifdown, sysconfig/network-scripts/ifup:
+	added wireless support
+
 2000-12-12  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifup: fix typo
 
 	* rc.d/init.d/halt:
 	sync hardware clock to system time on halt (#21187)
