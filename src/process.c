@@ -24,20 +24,20 @@ int forkCommand(char **args, int *outfd, int *errfd, int *cmdfd, int quiet) {
 	return -1;
     }
     
-    dup2(0,fdin);
+    fdin=dup(0);
     if (outfd) {
        fdout = outpipe[1];
       *outfd = outpipe[0];
     } else {
        if (!quiet)
-	 dup2(1,fdout);
+	 fdout=dup(1);
     }
     if (errfd) {
        fderr = errpipe[1];
       *errfd = errpipe[0];
     } else {
        if (!quiet)
-	 dup2(2,fderr);
+	 fderr=dup(2);
     }
     fdcmd = fdpipe[1];
     if (cmdfd)

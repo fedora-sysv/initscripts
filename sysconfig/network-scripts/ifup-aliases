@@ -40,7 +40,7 @@ else
     # not have to parse linuxconf ipalias ranges, either.
     allow_null_glob_expansion=foo
     for alias in /etc/sysconfig/network-scripts/ifcfg-$1:* ; do
-	/etc/sysconfig/network-scripts/ifup $alias
+	[ -f $alias ] && /etc/sysconfig/network-scripts/ifup $alias
     done
     unset allow_null_glob_expansion
 fi
