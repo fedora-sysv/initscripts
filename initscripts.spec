@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.67
+Version: 5.68
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -260,6 +260,7 @@ rm -rf $RPM_BUILD_ROOT
 - don't munge wireless keys in ifup; that will be done with the
   PCMCIA wireless stuff
 - run sndconfig --mungepnp for non-native-isapnp soundcards
+- don't excplicitly kill things in init.d/single, init will do it
 
 * Wed Feb 21 2001 Bill Nottingham <notting@redhat.com>
 - initialize multiple USB controllers if necessary
