@@ -32,7 +32,7 @@ if [ -z "$BOOTUP" ]; then
     SETCOLOR_NORMAL="echo -en \\033[0;39m"
     LOGLEVEL=1
   fi
-  if [ "`tty`" = "not a tty" ]; then
+  if [ -x /usr/bin/tty -a "`tty`" = "not a tty" ]; then
     BOOTUP=serial
     MOVE_TO_COL=
     SETCOLOR_SUCCESS=
