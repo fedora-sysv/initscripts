@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.97
+Version: 7.98
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -206,11 +206,23 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Nov 23 2004 Bill Nottingham <notting@redhat.com> 7.98-1
+- various kmodule speedups
+- rc.d/init.d/netfs: don't mount GFS (#140281)
+- fix various minilogd bogosities (#106338)
+
 * Mon Nov 15 2004 Karsten Hopp <karsten@redhat.de> 7.97-1 
 - configure CTC protocol if CTCPROT is set (#133088)
 
+* Mon Nov 15 2004 Bill Nottingham <notting@redhat.com>
+- fix check_link_down to still check negotiation if link is
+  listed as "up" on entering (#110164, <dbaron@dbaron.org>)
+
 * Thu Nov 11 2004 Karsten Hopp <karsten@redhat.de> 7.96-1 
 - parse OPTIONS for QETH, CTC, LCS interfaces (#136256, mainframe)
+
+* Tue Nov  9 2004 Bill Nottingham <notting@redhat.com>
+- fix typo (#134787, <bnocera@redhat.com>)
 
 * Sun Nov  7 2004 Bill Nottingham <notting@redhat.com> 7.95-1
 - various translation updates
