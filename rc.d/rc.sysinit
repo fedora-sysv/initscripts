@@ -125,7 +125,7 @@ if [ -f /etc/udev/udev.conf ];then
 	. /etc/udev/udev.conf
 fi
 
-if [ "$USE_UDEV" = "yes" -a "$UDEV_RAMFS" = "yes" ]; then
+if [ "$USE_UDEV" = "yes" -a "$UDEV_TMPFS" = "yes" ]; then
 	[ -x /sbin/start_udev ] && /sbin/start_udev
 fi
 
@@ -466,7 +466,7 @@ state=`awk '/ \/ / && ($3 !~ /rootfs/) { print $4 }' /proc/mounts`
 [ "$state" != "rw" -a "$READONLY" != "yes" ] && \
   action $"Remounting root filesystem in read-write mode: " mount -n -o remount,rw /
 
-if [ "$USE_UDEV" = "yes" -a "$UDEV_RAMFS" = "no" ]; then
+if [ "$USE_UDEV" = "yes" -a "$UDEV_TMPFS" = "no" ]; then
 	[ -x /sbin/start_udev ] && /sbin/start_udev
 fi
 
