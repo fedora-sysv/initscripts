@@ -194,20 +194,15 @@ fi
 update_boot_stage RCusb
 usb=0
 if ! strstr "$cmdline" nousb && ! strstr "$cmdline" nomodules ; then
-  if ! LC_ALL=C fgrep -q "usb" /proc/devices 2>/dev/null ; then
     aliases=`/sbin/modprobe -c | awk '/^alias usb-controller/ { print $3 }'`
     if [ -n "$aliases" -a "$aliases" != "off" ]; then
-      modprobe usbcore
+      modprobe usbcore >/dev/null 2>&1
       for alias in $aliases ; do 
       	[ "$alias" = "off" ] && continue
 	action $"Initializing USB controller ($alias): " modprobe $alias
       done
       [ $? -eq 0 -a -n "$aliases" ] && usb=1
     fi
-  fi
-  if LC_ALL=C fgrep -q "usb" /proc/devices 2>/dev/null ; then
-    usb=1
-  fi
 fi
 
 if [ $usb = 1 -a ! -f /proc/bus/usb/devices ]; then
