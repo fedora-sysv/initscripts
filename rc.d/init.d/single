@@ -44,7 +44,7 @@ for i in /etc/rc.d/rc1.d/S[0-9][0-9]*; do
 	[ "${i%.rpmorig}" != "${i}" ] && continue
 	[ "$i" = "/etc/rc.d/rc1.d/S00single" ] && continue
 	$i start
-fi						
+done						
 
 # Now go to the single user level.
 echo "Telling INIT to go to single user mode."
