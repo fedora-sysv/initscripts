@@ -13,5 +13,5 @@ fi
 
 #note the trailing space in the grep gets rid of aliases
 grep "^$1 " /etc/sysconfig/static-routes | while read device args; do
-    route add -$args $device
+    /sbin/route add -$args $device
 done
