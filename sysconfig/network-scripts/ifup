@@ -134,19 +134,39 @@ if [ -f /etc/sysconfig/ipchains -a \
     FWACTIVE=1
     export FWACTIVE
 fi
-			     
+
+# Remove any temporary references which were previously added to dhclient config
+if [ -w /etc/dhclient-${DEVICE}.conf ] && [ -x /sbin/dhclient ] ; then
+   grep -v "# temporary RHL ifup addition" /etc/dhclient-${DEVICE}.conf > /etc/dhclient-${DEVICE}.conf.ifupnew 2> /dev/null
+   cat /etc/dhclient-${DEVICE}.conf.ifupnew > /etc/dhclient-${DEVICE}.conf
+   rm -f /etc/dhclient-${DEVICE}.conf.ifupnew
+fi
+		     
 if [ -n "${DYNCONFIG}" ]; then
     PUMPARGS=$PUMPARGS
     DHCPCDARGS="$DHCPCDARGS -n"
+    DHCLIENTARGS="${DHCLIENTARGS} -1 -q -lf /var/lib/dhcp/dhclient-${DEVICE}.leases -pf /var/run/dhclient-${DEVICE}.pid -cf /etc/dhclient-${DEVICE}.conf"
     if [ -n "${DHCP_HOSTNAME}" ]; then
+       # Send a host-name to the DHCP server (requ. by some dhcp servers).
        PUMPARGS="${PUMPARGS} -h ${DHCP_HOSTNAME}"
        DHCPCDARGS="${DHCPCDARGS} -h ${DHCP_HOSTNAME}"
+       if [ -x /sbin/dhclient ] ; then
+          if [ -w /etc/dhclient-${DEVICE}.conf ] ; then
+             if ! grep "send *host-name *\"${DHCP_HOSTNAME}\"" /etc/dhclient-${DEVICE}.conf > /dev/null 2>&1 ; then
+                echo "send host-name \"${DHCP_HOSTNAME}\";  # temporary RHL ifup addition" >> /etc/dhclient-${DEVICE}.conf
+             fi
+          elif ! [ -e /etc/dhclient-${DEVICE}.conf ] ; then
+             echo "send host-name \"${DHCP_HOSTNAME}\";  # temporary RHL ifup addition" >> /etc/dhclient-${DEVICE}.conf
+          fi
+       fi
     fi
     if need_hostname; then
+       # Set hostname of host to host-name option supplied by DHCP.
        PUMPARGS="${PUMPARGS} --lookup-hostname"
        DHCPCDARGS="${DHCPCDARGS} -H"
     fi
     if [ "${PEERDNS}" = "no" ]; then
+       # Do not update/replace resolv.conf.
        PUMPARGS="${PUMPARGS} -d"
        DHCPCDARGS="${DHCPCDARGS} -R"
     fi
@@ -165,9 +185,11 @@ if [ -n "${DYNCONFIG}" ]; then
 	FWHACK=1
     fi
     
-    if [ -x /sbin/dhcpcd ] && /sbin/dhcpcd ${DHCPCDARGS} ${DEVICE} ; then
+    if [ -x /sbin/dhclient ] && /sbin/dhclient ${DHCLIENTARGS} ${DEVICE} ; then
 	echo $" done."
-    elif [ -z "`pidof -x dhcpcd`" ] && [ -x /sbin/pump ] && /sbin/pump ${PUMPARGS} -i ${DEVICE}; then
+    elif [ -z "`pidof -x dhclient`" ] && [ -x /sbin/dhcpcd ] && /sbin/dhcpcd ${DHCLIENTARGS} ${DEVICE} ; then
+	echo $" done."
+    elif [ -z "`pidof -x dhclient`" ] && [ -z "`pidof -x dhcpcd`" ] && [ -x /sbin/pump ] && /sbin/pump ${PUMPARGS} -i ${DEVICE}; then
 	echo $" done."
     else
 	echo $" failed."
