@@ -153,7 +153,7 @@ else
 
     if [ "${GATEWAYDEV}" = "" -o "${GATEWAYDEV}" = "${DEVICE}" ]; then
 	# set up default gateway
-	if [ "${GATEWAY}" != "" -a "`ipcalc --network ${GATEWAY} ${NETMASK}`" = "${NETWORK}" ]; then
+	if [ "${GATEWAY}" != "" -a "`ipcalc --network ${GATEWAY} ${NETMASK}`" = "NETWORK=${NETWORK}" ]; then
 	    route add default gw ${GATEWAY} ${DEVICE}
 	    DEFGW=${GATEWAY}
 	elif [ "${GATEWAYDEV}" = "${DEVICE}" ]; then
