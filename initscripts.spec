@@ -17,6 +17,10 @@ that activate and deactivate most network interfaces.
 
 %changelog
 
+* Thu Oct 23 1997 Michael K. Johnson <johnsonm@redhat.com>
+
+- touch random seed file before chmod'ing it.
+
 * Wed Oct 15 1997 Erik Troan <ewt@redhat.com>
 
 - run domainname if NISDOMAIN is set 
