@@ -230,7 +230,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Tue Oct 10 2000 Nalin Dahyabhai <nalin@redhat.com>
-- handle "gw x.x.x.x" as the last pair of flags in ifup-routes
+- handle "gw x.x.x.x" as the last pair of flags in ifup-routes (#18804)
 
 * Sun Sep  3 2000 Florian La Roche <Florian.LaRoche@redhat.com>
 - /etc/init.d is already provided by chkconfig
