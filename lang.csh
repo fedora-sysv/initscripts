@@ -57,3 +57,11 @@ if ($sourced == 1) then
     unsetenv SYSFONTACM
     unsetenv SYSFONT
 endif
+
+switch ($LANG)
+	case ja*:
+	case zh*:
+	case ko*:
+	     set dspmpbyte=euc
+	     breaksw
+endsw
