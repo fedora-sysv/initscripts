@@ -35,8 +35,12 @@ install:
 
 	cp -af rc.d sysconfig ppp $(ROOT)/etc
 	mkdir -p $(ROOT)/etc/ppp/peers
+	chmod 755 $(ROOT)/etc/rc.d/* $(ROOT)/etc/rc.d/init.d/*
 	chmod 755 $(ROOT)/etc/ppp/peers
 	chmod 755 $(ROOT)/etc/ppp/ip*
+	chmod 755 $(ROOT)/etc/sysconfig/network-scripts/ifup-*
+	chmod 755 $(ROOT)/etc/sysconfig/network-scripts/ifdown-*
+	chmod 755 $(ROOT)/etc/sysconfig/network-scripts/init*
 	mkdir -p $(ROOT)/etc/sysconfig/networking/devices
 	mkdir -p $(ROOT)/etc/sysconfig/networking/profiles/default
 	#mv  $(ROOT)/etc/sysconfig/network-scripts/ifcfg-lo \
@@ -63,7 +67,7 @@ install:
 	make install PREFIX=$(ROOT) -C po
 
 	mkdir -p $(ROOT)/var/run/netreport $(ROOT)/var/log
-	chown $(SUPERUSER).$(SUPERGROUP) $(ROOT)/var/run/netreport
+	chown $(SUPERUSER):$(SUPERGROUP) $(ROOT)/var/run/netreport
 	chmod u=rwx,g=rwx,o=rx $(ROOT)/var/run/netreport
 	touch $(ROOT)/var/run/utmp
 	touch $(ROOT)/var/log/wtmp
