@@ -51,7 +51,8 @@ interfaces=`ls ifcfg* | LANG=C egrep -v '(ifcfg-lo|:|rpmsave|rpmorig|rpmnew)' | 
 	    LANG=C egrep -v '(~|\.bak)$' | \
 	    LANG=C egrep -v 'ifcfg-cipcb[0-9]+$' | \
             LANG=C egrep 'ifcfg-[a-z0-9]+$' | \
-            sed 's/^ifcfg-//g'`
+            sed 's/^ifcfg-//g' |
+            sed 's/[0-9]/ &/' | LANG=C sort -k 1,1 -k 2n | sed 's/ //'`
 
 # See how we were called.
 case "$1" in
