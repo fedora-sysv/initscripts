@@ -13,30 +13,28 @@
 #
 #   Manual keying:
 #
-#     AH_PROTO{_IN,_OUT} = protocol to use for AH (defaults to HMAC-MD5)
+#     AH_PROTO{_IN,_OUT} = protocol to use for AH (defaults to HMAC-SHA1)
 #     ESP_PROTO{_IN,_OUT} = protocol to use for ESP (defaults to 3DES)
 #     KEY_AH{_IN,_OUT} = AH key
 #     KEY_ESP{_IN,_OUT} = ESP key
 #     SPI_{EH,AH_{IN,OUT}} = SPIs to use
 #
 #   _IN and _OUT specifiers are for using different keys or protocols for inccoming
-#   and outgoing packets. If neither _IN or _OUT variants are set, the same keys
-#   or protocols will be used for both.
+#   and outgoing packets. If neither _IN or _OUT variants are set for protocols or
+#   keys, the same will be used for both.
 #
 #   Automatic keying:
 #
-#     IKE_METHOD=PSK|X509|RSA|GSSAPI
+#     IKE_METHOD=PSK|X509|GSSAPI
 #         PSK = preshared keys (shared secret)
 #         X509 = X.509 certificates
-#         RSA = RSA host keys in DNS (not yet implemented)
 #         GSSAPI = GSSAPI authentication
 #     IKE_PSK = preshared key for this connection
-#     IKE_CERTFILE = our certificate file name for X509 IKE
+#     IKE_CERTFILE = our certificate file name for X509 IKE 
 #       IKE_PEER_CERTFILE = peer public cert filename for X509 IKE
 #       IKE_DNSSEC = retrieve peer public certs from DNS
 #     (otherwise uses certificate information sent over IKE)
-#     IKE_RSA_KEY = RSA key for RSA IKE
-#
+
 
 . /etc/init.d/functions
 cd /etc/sysconfig/network-scripts
@@ -86,12 +84,6 @@ if [ -n "$IKE_DNSSEC" ]; then
   IKE_METHOD=X509
 fi
 
-
-if [ -n "$RSA_KEY" ]; then
-  KEYING=automatic
-  IKE_METHOD=RSA
-fi
-
 if [ -n "$SRCNET" -o -n "$DSTNET" ]; then
   MODE=tunnel
 else
@@ -108,7 +100,7 @@ fi
 
 if [ "$KEYING" = "manual" ]; then
     
-    [ -z "$AH_PROTO" ] && AH_PROTO=hmac-md5
+    [ -z "$AH_PROTO" ] && AH_PROTO=hmac-sha1
     [ -z "$ESP_PROTO" ] && ESP_PROTO=3des-cbc
     
     if [ "$MODE" = "host" ]; then
@@ -173,7 +165,7 @@ EOF
 fi
 
 if [ "$KEYING" = "automatic" ]; then
-    [ -z "$AH_PROTO" ] && AH_PROTO=md5
+    [ -z "$AH_PROTO" ] && AH_PROTO=sha1
     [ -z "$ESP_PROTO" ] && ESP_PROTO=3des
     
     if [ "$MODE" = "host" ]; then
@@ -257,9 +249,6 @@ EOF
 	}
 }
 EOF
-              ;;
-           RSA)
-	      # not supported yet, only in freeswan
               ;;
 	   GSSAPI)
 	      cat >> /etc/racoon/$DST.conf << EOF
