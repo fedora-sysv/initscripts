@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.37
+Version: 5.38
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -232,6 +232,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Jul 25 2000 Nalin Dahyabhai <nalin@redhat.com>
+- s/nill/null/g
+
 * Tue Jul 25 2000 Bill Nottingham <notting@redhat.com>
 - unmount usb filesystem on halt
 - run /sbin/ifup-pre-local if it exists
