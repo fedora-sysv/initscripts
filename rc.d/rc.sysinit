@@ -274,17 +274,17 @@ fi
 #
 # I think this now qualifies as over-engineered.
 RETURN=0
-alias=`egrep -s "^alias[[:space:]]+sound[[:space:]]+" /etc/conf.modules | awk '{ print $3 }'`
+alias=`egrep -s "^alias[[:space:]]+sound[[:space:]]+" /etc/modules.conf | awk '{ print $3 }'`
 if [ -n "$alias" -a "$alias" != "off" ] ; then
       action "Loading sound module ($alias)" modprobe $alias
       RETURN=$?
 fi
-alias=`egrep -s "^alias[[:space:]]+sound-slot-0[[:space:]]+" /etc/conf.modules | awk '{ print $3 }'`
+alias=`egrep -s "^alias[[:space:]]+sound-slot-0[[:space:]]+" /etc/modules.conf | awk '{ print $3 }'`
 if [ -n "$alias" -a "$alias" != "off" ] ; then
       action "Loading sound module ($alias)" modprobe $alias
       RETURN=$?
 fi
-alias=`egrep -s "^alias[[:space:]]+midi[[:space:]]+" /etc/conf.modules | awk '{ print $3 }'`
+alias=`egrep -s "^alias[[:space:]]+midi[[:space:]]+" /etc/modules.conf | awk '{ print $3 }'`
 if [ -n "$alias" -a "$alias" != "off" ]; then
       action "Loading midi module ($alias)" modprobe $alias
 fi
