@@ -7,7 +7,7 @@ Group: System Environment/Base
 Release: 1
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /var/tmp/initbld
-Requires: mingetty, bash, /bin/awk, /bin/sed, mktemp, e2fsprogs >= 1.15, console-tools
+Requires: mingetty, /bin/awk, /bin/sed, mktemp, e2fsprogs >= 1.15, console-tools
 Requires: procps, modutils >= 2.1.85-3, sysklogd >= 1.3.31
 Requires: setup >= 2.0.3, /sbin/fuser
 %ifarch alpha
