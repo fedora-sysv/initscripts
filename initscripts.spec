@@ -12,6 +12,7 @@ Requires: setup >= 2.0.3, /sbin/fuser, which
 Requires: modutils >= 2.3.11-5
 Requires: util-linux >= 2.10s-11, mount >= 2.10r-5
 Requires: bash >= 2.0
+Requires: /sbin/ip
 Conflicts: kernel <= 2.2, timeconfig < 3.0, pppd < 2.3.9, wvdial < 1.40-3
 Conflicts: ypbind < 1.6-12
 Obsoletes: rhsound sapinit
@@ -33,62 +34,23 @@ make
 
 %install
 rm -rf $RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT/etc
 make ROOT=$RPM_BUILD_ROOT SUPERUSER=`id -un` SUPERGROUP=`id -gn` mandir=%{_mandir} install 
-mkdir -p $RPM_BUILD_ROOT/var/run/netreport
-#chown root.root $RPM_BUILD_ROOT/var/run/netreport
-chmod u=rwx,g=rwx,o=rx $RPM_BUILD_ROOT/var/run/netreport
 
-for i in 0 1 2 3 4 5 6 ; do
-  file=$RPM_BUILD_ROOT/etc/rc.d/rc$i.d
-  mkdir $file
-# chown root.root $file
-  chmod u=rwx,g=rx,o=rx $file
-done
-
-# Can't store symlinks in a CVS archive
-ln -s ../init.d/killall $RPM_BUILD_ROOT/etc/rc.d/rc0.d/S00killall
-ln -s ../init.d/killall $RPM_BUILD_ROOT/etc/rc.d/rc6.d/S00killall
-
-ln -s ../init.d/halt $RPM_BUILD_ROOT/etc/rc.d/rc0.d/S01halt
-ln -s ../init.d/halt $RPM_BUILD_ROOT/etc/rc.d/rc6.d/S01reboot
-
-ln -s ../init.d/single $RPM_BUILD_ROOT/etc/rc.d/rc1.d/S00single
-
-ln -s ../rc.local $RPM_BUILD_ROOT/etc/rc.d/rc2.d/S99local
-ln -s ../rc.local $RPM_BUILD_ROOT/etc/rc.d/rc3.d/S99local
-ln -s ../rc.local $RPM_BUILD_ROOT/etc/rc.d/rc5.d/S99local
-
-# These are LSB compatibility symlinks.  At some point in the future
-# the actual files will be here instead of symlinks
-for i in 0 1 2 3 4 5 6 ; do
-  ln -s rc.d/rc$i.d $RPM_BUILD_ROOT/etc/rc$i.d
-done
-for i in rc rc.sysinit rc.local ; do
-  ln -s rc.d/$i $RPM_BUILD_ROOT/etc/$i
-done
-
-mkdir -p $RPM_BUILD_ROOT/var/{log,run}
-touch $RPM_BUILD_ROOT/var/run/utmp
-touch $RPM_BUILD_ROOT/var/log/wtmp
-
-# Put this stuff in /usr/share/locale too
-mkdir -p $RPM_BUILD_ROOT/usr/share/locale
-cp -a $RPM_BUILD_ROOT/etc/locale/* $RPM_BUILD_ROOT/usr/share/locale/
-
+# build file list of locale stuff in with lang tags
 pushd %{buildroot}/%{_datadir}/locale
 for foo in * ; do
- echo  "%lang($foo) %{_datadir}/locale/$foo/*/*" >> \
-      $RPM_BUILD_DIR/%{name}-%{version}/trans.list
+	echo  "%lang($foo) %{_datadir}/locale/$foo/*/*" >> \
+	$RPM_BUILD_DIR/%{name}-%{version}/trans.list
 done
 popd
 
 pushd  %{buildroot}/etc/locale
 for foo in * ; do
-  echo "%lang($foo) /etc/locale/$foo/*/*" >> \
-      $RPM_BUILD_DIR/%{name}-%{version}/trans.list
+	echo "%lang($foo) /etc/locale/$foo/*/*" >> \
+	$RPM_BUILD_DIR/%{name}-%{version}/trans.list
 done
 popd
+
 
 %pre
 /usr/sbin/groupadd -g 22 -r -f utmp
@@ -107,7 +69,7 @@ chkconfig --add rawdevices
 # handle serial installs semi gracefully
 if [ $1 = 0 ]; then
   if [ "$TERM" = "vt100" ]; then
-      tmpfile=/etc/sysconfig/tmp.$$
+      tmpfile=`mktemp /etc/sysconfig/tmp.XXXXXX`
       sed -e '/BOOTUP=color/BOOTUP=serial/' /etc/sysconfig/init > $tmpfile
       mv -f $tmpfile /etc/sysconfig/init
   fi
@@ -194,10 +156,10 @@ rm -rf $RPM_BUILD_ROOT
 %config /sbin/ifup
 %dir /etc/sysconfig/console
 %config(noreplace) /etc/sysconfig/rawdevices
+%config /etc/sysconfig/networking/ifcfg-lo
 %config /etc/sysconfig/network-scripts/network-functions
 %config /etc/sysconfig/network-scripts/network-functions-ipv6
 %config /etc/sysconfig/network-scripts/ifup-post
-%config /etc/sysconfig/network-scripts/ifcfg-lo
 %config /etc/sysconfig/network-scripts/ifdown-ppp
 %config /etc/sysconfig/network-scripts/ifdown-sl
 %config /etc/sysconfig/network-scripts/ifup-ppp
@@ -256,6 +218,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri May 11 2001 Preston Brown <pbrown@redhat.com>
+- new network-scripts infrastructure; ifcfg-lo moved to /etc/sysconfig/networking
+
 * Wed May  2 2001 Bernhard Rosenkraenzer <bero@redhat.com> 5.86-1
 - support kbd in setsysfont
 - bzip2 source

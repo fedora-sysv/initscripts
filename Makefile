@@ -11,8 +11,10 @@ all:
 	(cd src; make)
 	(make -C po)
 install:
+	mkdir -p $(ROOT)/etc
 	mkdir -p $(ROOT)/etc/profile.d $(ROOT)/sbin $(ROOT)/usr/sbin
 	mkdir -p $(ROOT)$(mandir)/man8
+
 	install -m644  inittab $(ROOT)/etc
 	if uname -m | grep -q s390 ; then \
 	  install -m644 inittab.s390 $(ROOT)/etc/inittab ; \
@@ -29,17 +31,15 @@ install:
 	  install -m644 sysctl.conf.sparc $(ROOT)/etc/sysctl.conf ; fi
 	if uname -m | grep -q s390 ; then \
 	  install -m644 sysctl.conf.s390 $(ROOT)/etc/sysctl.conf ; fi
+
 	mkdir -p $(ROOT)/etc/X11
 	install -m755 prefdm $(ROOT)/etc/X11/prefdm
-	mkdir -p $(ROOT)/etc/sysconfig
-	mkdir -p $(ROOT)/etc/sysconfig/console
-	install -m644 sysconfig/init $(ROOT)/etc/sysconfig/init
-	install -m644 sysconfig/rawdevices $(ROOT)/etc/sysconfig/rawdevices
+
 	cp -af rc.d sysconfig ppp $(ROOT)/etc
 	if uname -m | grep -q s390 ; then \
 	  install -m644 sysconfig/init.s390 $(ROOT)/etc/sysconfig/init ; \
 	fi
-	mkdir -p $(ROOT)/sbin
+
 	mv $(ROOT)/etc/sysconfig/network-scripts/ifup $(ROOT)/sbin
 	mv $(ROOT)/etc/sysconfig/network-scripts/ifdown $(ROOT)/sbin
 	(cd $(ROOT)/etc/sysconfig/network-scripts; \
@@ -47,9 +47,47 @@ install:
 	  ln -sf ../../../sbin/ifdown . )
 	(cd src; make install ROOT=$(ROOT) mandir=$(mandir))
 	(cd po ; make install PREFIX=$(ROOT))
+
+# Make sure locale stuff from initscripts goes in /usr/share/locale too
+	mkdir -p $(ROOT)/usr/share/locale
+	cp -a $(ROOT)/etc/locale/* $(ROOT)/usr/share/locale/
+
 	mkdir -p $(ROOT)/var/run/netreport
+	mkdir -p $(ROOT)/var/log
 	chown $(SUPERUSER).$(SUPERGROUP) $(ROOT)/var/run/netreport
-	chmod og=rwx,o=rx $(ROOT)/var/run/netreport
+	chmod u=rwx,g=rwx,o=rx $(ROOT)/var/run/netreport
+	touch $(ROOT)/var/run/utmp
+	touch $(ROOT)/var/log/wtmp
+
+	for i in 0 1 2 3 4 5 6 ; do \
+		dir=$(ROOT)/etc/rc.d/rc$$i.d; \
+	  	mkdir $$dir; \
+		chmod u=rwx,g=rx,o=rx $$dir; \
+	done
+
+# Can't store symlinks in a CVS archive
+	ln -s ../init.d/killall $(ROOT)/etc/rc.d/rc0.d/S00killall
+	ln -s ../init.d/killall $(ROOT)/etc/rc.d/rc6.d/S00killall
+
+	ln -s ../init.d/halt $(ROOT)/etc/rc.d/rc0.d/S01halt
+	ln -s ../init.d/halt $(ROOT)/etc/rc.d/rc6.d/S01reboot
+
+	ln -s ../init.d/single $(ROOT)/etc/rc.d/rc1.d/S00single
+
+	ln -s ../rc.local $(ROOT)/etc/rc.d/rc2.d/S99local
+	ln -s ../rc.local $(ROOT)/etc/rc.d/rc3.d/S99local
+	ln -s ../rc.local $(ROOT)/etc/rc.d/rc5.d/S99local
+
+# These are LSB compatibility symlinks.  At some point in the future
+# the actual files will be here instead of symlinks
+	for i in 0 1 2 3 4 5 6 ; do \
+		ln -s rc.d/rc$$i.d $(ROOT)/etc/rc$$i.d; \
+	done
+	for i in rc rc.sysinit rc.local ; do \
+		ln -s rc.d/$$i $(ROOT)/etc/$$i; \
+	done
+
+
 
 check:
 	for afile in `find . -type f -perm +111|grep -v \.csh | grep -v po/ ` ; do \
