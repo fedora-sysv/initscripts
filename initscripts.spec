@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.50
+Version: 6.51
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -240,6 +240,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
+* Wed Jan 30 2002 Bill Nottingham <notting@redhat.com>
+- run /bin/setfont, not /usr/bin/setfont (kbd)
+- lots-o-random bugfixes/tweaks (see ChangeLog)
+
 * Thu Jan 17 2002 Michael K. Johnson <johnsonm@redhat.com>
 - Added support for libredhat-kernel.so.* symlink handling
 
