@@ -20,15 +20,6 @@ if [ "$1" != "start" ] ; then
    exit 0
 fi
 
-# Kill all processes.
-[ "${BASH+bash}" = bash ] && enable kill
-
-echo $"Sending all processes the TERM signal..."
-kill -15 -1
-sleep 5
-echo $"Sending all processes the KILL signal.."
-kill -9 -1
-
 rm -f /var/lock/subsys/*
 
 # this looks nices
@@ -54,4 +45,4 @@ done
 
 # Now go to the single user level.
 echo $"Telling INIT to go to single user mode."
-init -t1 S
+exec init -t1 S
