@@ -136,6 +136,9 @@ if [ "`/sbin/consoletype`" = "vt" -a -x /bin/loadkeys ]; then
  # Load system font
  if [ -x /sbin/setsysfont ]; then
     [ -f /etc/sysconfig/i18n ] && . /etc/sysconfig/i18n
+    for i in 2 3 4 5 6; do
+      > /dev/tty$1
+    done
     case "$LANG" in 
       *.utf8*|*.UTF-8*)
 	action $"Setting default font ($SYSFONT): " /bin/unicode_start $SYSFONT
