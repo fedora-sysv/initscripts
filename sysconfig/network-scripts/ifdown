@@ -64,7 +64,7 @@ if [ "$BOOTPROTO" = bootp -o "$BOOTPROTO" = dhcp ]; then
 	}
 fi
 
-
+ip addr del ${IPADDR}/${PREFIX} brd ${BROADCAST:-+} dev ${DEVICE}
 ip link set ${DEVICE} down
 [ "$retcode" = "0" ] && retcode=$?
 
