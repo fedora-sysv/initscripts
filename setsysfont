@@ -8,7 +8,7 @@ fi
 
 case "$LANG" in
     *.utf8|*.UTF-8)
-         if [ -x /bin/unicode_start ]; then
+         if [ -x /bin/unicode_start ] && /sbin/consoletype fg ; then
       	    exec unicode_start $SYSFONT $SYSFONTACM
 	 fi
 	 ;;
