@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 6.41
+Version: 6.40.1
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -239,8 +239,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/locale/*/LC_MESSAGES
 
 %changelog
-* Wed Sep 19 2001 Than Ngo <than@redhat.com>
-- don't show user name by DSL connection
+* Wed Sep 25 2001 Bill Nottingham <notting@redhat.com>
+- flush all relevant addresses on ifdown (<pbrown@redhat.com>, #53531, #53704)
+- don't umount initrd on partitionless systems (#53509)
 
 * Sat Sep  8 2001 Bill Nottingham <notting@redhat.com>
 - don't run hwclock --adjust on a read-only filesystem

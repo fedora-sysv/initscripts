@@ -1,19 +1,33 @@
-2001-09-21  romanm  <romanm@redhat.com>
+2001-09-26  Bill Nottingham  <notting@redhat.com>
 
-	* po/sl.po: partially translated
+	* ChangeLog, initscripts.spec: 6.40.1-1
 
-2001-09-19  Than Ngo  <than@redhat.com>
+	* rc.d/rc.sysinit:
+	don't umount initrd on partitionless installs
 
-	* ChangeLog, initscripts.spec, sysconfig/network-scripts/ifdown-ppp, sysconfig/network-scripts/ifup-ppp:
-	* don't show user name by DSL connection
+	* sysconfig/network-scripts/ifdown, sysconfig/network-scripts/ifup:
+	some more DEVICE -> REALDEVICE changes; flush all addresses on bringing down main device
 
-2001-09-14  Preston Brown  <pbrown@redhat.com>
+	* sysconfig/network-scripts/ifdown:
+	throw away stderr
 
-	* rc.d/init.d/network:
-	remove remnants of LinuxConf.  Don't use ifconfig, only /sbin/ip.  Use check_device_down from network-functions instead of re-implementation.
+	* sysconfig/network-scripts/ifdown:
+	backport flush fix from -HEAD
 
-	* prefdm:
-	slight prefdm cleanup (i.e. no AnotherLevel support).
+01-09-25  Preston Brown  <pbrown@redhat.com>
+
+	* sysconfig/network-scripts/ifdown:
+	flush all addresses associated with a device when bringing it down, not just
+	the configured address.  The configured address may have changed after
+	the device was brought up, leaving around a stale address associated with
+	the downed device.
+
+2001-09-21  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/functions: fix typo
+
+	* rc.d/init.d/halt, rc.d/init.d/netfs:
+	umount /dev/loopX doesn't work; you must use the mount point
 
 2001-09-14  Karsten Hopp  <karsten@redhat.com>
 
@@ -30,12 +44,6 @@
 	* rc.d/rc.sysinit:
 	don't run hwclock --adjust on a readonly filesystem
 
-* 2001-09-19	Than Ngo	<than@redhat.com>
-	* ChangeLog, initscripts.spec: 6.41-1
-
-	* sysconfig/network-scripts/ifup-ppp, sysconfig/network-scripts/ifdown-ppp:
-	don't show user name by DSL connection
-	
 2001-09-09  Bill Nottingham  <notting@redhat.com>
 
 	* ChangeLog, initscripts.spec: 6.40-1
