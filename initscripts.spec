@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.43
+Version: 5.44
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -232,6 +232,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Aug  9 2000 Bill Nottingham <notting@redhat.com>
+- load agpgart if necessary (hack)
+- fix /boot/kernel.h stuff (jakub)
+
 * Mon Aug  7 2000 Bill Nottingham <notting@redhat.com>
 - remove console-tools requirement
 - in netfs, start portmap if needed
