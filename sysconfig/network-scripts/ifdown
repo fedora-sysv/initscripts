@@ -53,14 +53,14 @@ fi
 
 retcode=0
 if [ "$BOOTPROTO" = bootp -o "$BOOTPROTO" = dhcp ]; then
-	[ -n "`pidof -x pump`" ] && {
-	 	pump -r -i ${DEVICE}
-		retcode=$?
-	}
 	[ -n "`pidof -x dhcpcd`" ] && {
 		dhcpcd -k ${DEVICE}
 		retcode=$?
 	}	
+	[ -n "`pidof -x pump`" ] && {
+	 	pump -r -i ${DEVICE}
+		retcode=$?
+	}
 fi
 
 
