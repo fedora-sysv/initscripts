@@ -88,6 +88,9 @@ case "$1" in
 		if LANG=C egrep -L "^ONBOOT=\"?[Nn][Oo]\"?" ifcfg-$i > /dev/null ; then
 			continue
 		fi
+		if LANG=C egrep -L "^SLAVE=\"?[Yy][Ee][Ss]\"?" ifcfg-$i > /dev/null ; then
+		        continue
+		fi
 		# If we're in confirmation mode, get user confirmation
 		[ -n "$CONFIRM" ]  && 
 			{ 
