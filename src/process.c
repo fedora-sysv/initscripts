@@ -144,7 +144,7 @@ int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet)
 		     if (!reexec) {
 			 if (getenv("IN_INITLOG")) {
 			     char *buffer=calloc(2048,sizeof(char));
-			     snprintf(buffer,2048,"-n %s -s \"%s\"",
+			     snprintf(buffer,2048,"-n %s -s \"%s\"\n",
 				      cmdname,tmpstr);
 			     write(CMD_FD,buffer,strlen(buffer));
 			     free(buffer);

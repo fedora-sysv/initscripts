@@ -189,7 +189,7 @@ int logString(char *cmd, char *string) {
     return logLine(&logentry);
 }
 
-void processArgs(int argc, char **argv) {
+int processArgs(int argc, char **argv) {
     char *cmdname=NULL;
     int cmdevent=0;
     char *cmd=NULL;
@@ -270,26 +270,28 @@ void processArgs(int argc, char **argv) {
 	fprintf(stderr, "%s: %s\n",
 		poptBadOption(context, POPT_BADOPTION_NOALIAS),
 		poptStrerror(rc));
-	exit(-1);
+       
+	return -1;
     }
     if ( (cmd && logstring) || (cmd && cmdname) ) {
 	fprintf(stderr, _("--cmd and --run are incompatible with --string or --name\n"));
-	exit(-1);
+	return -1;
     }
     if ( cmdname && (!logstring && !cmdevent)) {
 	fprintf(stderr, _("--name requires one of --event or --string\n"));
-	exit(-1);
+	return -1;
     }
     if (cmdevent) {
 	logEvent(cmdname,cmdevent,logstring);
     } else if (logstring) {
 	logString(cmdname,logstring);
     } else if ( cmd ) {
-	exit(runCommand(cmd,reexec,quiet));
+	return(runCommand(cmd,reexec,quiet));
     } else {
 	fprintf(stderr,"nothing to do!\n");
-	exit(-1);
+	return -1;
     }
+   return 0;
 }
 
 int main(int argc, char **argv) {
@@ -297,6 +299,5 @@ int main(int argc, char **argv) {
     setlocale(LC_ALL,"");
     bindtextdomain("initlog","/etc/locale");
     textdomain("initlog");
-    processArgs(argc,argv);
-    exit (0);
+    exit(processArgs(argc,argv));
 }
