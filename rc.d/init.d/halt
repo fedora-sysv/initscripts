@@ -67,7 +67,7 @@ SWAPS=`awk '! /^Filename/ { print $1 }' /proc/swaps`
 # Unmount file systems, killing processes if we have to.
 sig=
 retry=3
-remaining=`awk '!/(^#|proc|^none|^\/dev\/root| \/ )/ {print $2}' /proc/mounts`
+remaining=`awk '!/(^#|proc|loopfs|^none|^\/dev\/root| \/ )/ {print $2}' /proc/mounts`
 while [ -n "$remaining" -a "$retry" -gt 0 ]
 do
 	if [ "$retry" -lt 3 ]; then
@@ -76,7 +76,7 @@ do
 		runcmd "Unmounting file systems"  umount -a -f -t noproc
 	fi
 	sleep 2
-	remaining=`awk '!/(^#|proc|^none|^\/dev\/root| \/ )/ {print $2}' /proc/mounts`
+	remaining=`awk '!/(^#|proc|loopfs|^none|^\/dev\/root| \/ )/ {print $2}' /proc/mounts`
 	[ -z "$remaining" ] && break
 	/sbin/fuser -k -m $sig $remaining >/dev/null
 	sleep 5
