@@ -23,9 +23,9 @@ toggle_value()
 	then
 		echo ''
 	elif [ "$2" = "yes"  -o "$2" = "YES" ] ; then
-		echo "$1"
+		echo "$1 on"
 	elif [ "$2" = "no"  -o "$2" = "NO" ] ; then
-		echo "-$1"
+		echo "$1 off"
 	else
 		echo ''
 	fi
@@ -66,14 +66,14 @@ set_hostname()
 
 check_device_down ()
 {
-    if echo ${DEVICE} | grep -q ':' ; then
-     if LANG=C ifconfig -a 2>/dev/null | grep -q ${DEVICE} ; then
+    if echo $1 | grep -q ':' ; then
+     if LANG=C ifconfig -a 2>/dev/null | grep -q $1 ; then
 	  retcode=1
      else
 	  retcode=0
      fi
     else 
-     if LANG=C ifconfig ${DEVICE} 2>/dev/null | grep " UP " >/dev/null 2>&1 ; then
+     if LANG=C ip -o link ls dev $1 2>/dev/null | grep ",UP" >/dev/null 2>&1 ; then
 	retcode=1
      else
 	retcode=0
@@ -82,9 +82,10 @@ check_device_down ()
     return $retcode
 }
 
+
 check_default_route ()
 {
-    return `/sbin/route -n|gawk 'BEGIN{r=1} $3=="0.0.0.0" && $4=="UG" {r=0} END{print r}'`
+   return ip route | grep -q default
 }
 
 find_gateway_dev ()
@@ -107,7 +108,7 @@ add_default_route ()
     . /etc/sysconfig/network
     find_gateway_dev
     if [ "${GATEWAY}" != "" -a "${GATEWAY}" != "none" -a "${GATEWAYDEV}" != "" ] ; then
-        if ! check_device_down ; then
+        if ! check_device_down $1; then
             if [ "$GATEWAY" = "0.0.0.0" ]; then
                 /sbin/route add default ${GATEWAYDEV}
             else
@@ -115,4 +116,25 @@ add_default_route ()
             fi
         fi
     fi
+}
+
+is_wireless_device ()
+{
+  if [ -x /sbin/iwconfig ]; then
+    return iwconfig $1 | grep -q -v "no wireless extensions"
+  else
+    return 1
+  fi
+}
+  
+
+current_profile ()
+{
+  if [ "${CURRENT_PROFILE}" != "" ]; then
+    echo ${CURRENT_PROFILE}
+  elif [ "${DEFAULT_PROFILE}" != "" ]; then
+    echo ${DEFAULT_PROFILE}
+  else
+    echo "default"
+  fi
 }
