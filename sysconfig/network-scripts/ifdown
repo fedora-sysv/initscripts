@@ -80,40 +80,27 @@ if [ "${NETWORKING_IPV6}" = "yes" ]; then
 fi;
 
 retcode=0
-	[ -n "`pidof -x dhclient`" ] && {
-		if [ -f "/var/run/dhclient-${DEVICE}.pid" ]; then
-		   if [[ "$DHCPRELEASE" = [yY1]* ]];  then
-		   	/sbin/dhclient -r -lf /var/lib/dhcp/dhclient-${DEVICE}.leases -pf /var/run/dhclient-${DEVICE}.pid ${DEVICE} >/dev/null 2>&1
-		   else
+[ -n "`pidof -x dhclient`" ] && {
+	if [ -f "/var/run/dhclient-${DEVICE}.pid" ]; then
+		if [[ "$DHCPRELEASE" = [yY1]* ]];  then
+			/sbin/dhclient -r -lf /var/lib/dhcp/dhclient-${DEVICE}.leases -pf /var/run/dhclient-${DEVICE}.pid ${DEVICE} >/dev/null 2>&1
+		else
 		   	reason=STOP interface=${DEVICE} /sbin/dhclient-script
-		   fi
-		   kill `cat /var/run/dhclient-${DEVICE}.pid` >/dev/null 2>&1
-		   rm -f /var/run/dhclient-${DEVICE}.pid
-		   retcode=$?
 		fi
-	}	
-	[ -n "`pidof -x dhcpcd`" ] && {
-		if [ -f "/etc/dhcpc/dhcpcd-${DEVICE}.pid" ]; then
-		   kill `cat /etc/dhcpc/dhcpcd-${DEVICE}.pid` >/dev/null 2>&1
-		   retcode=$?
-		elif [ -f "/var/run/dhcpcd-${DEVICE}.pid" ]; then
-		   kill `cat /var/run/dhcpcd-${DEVICE}.pid` >/dev/null 2>&1
-		   retcode=$?
-		fi
-	}	
-	[ -n "`pidof -x pump`" ] && {
-	 	pump -r -i ${DEVICE}
+		kill `cat /var/run/dhclient-${DEVICE}.pid` >/dev/null 2>&1
+		rm -f /var/run/dhclient-${DEVICE}.pid
 		retcode=$?
-	}
-	# we can't just delete the configured address because that address
-	# may have been changed in the config file since the device was
-	# brought up.  Flush all addresses associated with this
-	# instance instead.
-	if [ "${REALDEVICE}" = "${DEVICE}" ]; then
-		ip addr flush dev ${REALDEVICE} 2>/dev/null
-	else
-		ip addr flush dev ${REALDEVICE} label ${DEVICE} 2>/dev/null
 	fi
+}	
+# we can't just delete the configured address because that address
+# may have been changed in the config file since the device was
+# brought up.  Flush all addresses associated with this
+# instance instead.
+if [ "${REALDEVICE}" = "${DEVICE}" ]; then
+	ip addr flush dev ${REALDEVICE} 2>/dev/null
+else
+	ip addr flush dev ${REALDEVICE} label ${DEVICE} 2>/dev/null
+fi
 
 if [ "${REALDEVICE}" = "${DEVICE}" ]; then
   ip link set dev ${DEVICE} down

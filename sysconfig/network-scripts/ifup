@@ -312,10 +312,6 @@ if [ -n "${DYNCONFIG}" ]; then
     
     if [ -x /sbin/dhclient ] && /sbin/dhclient ${DHCLIENTARGS} ${DEVICE} ; then
 	echo $" done."
-    elif [ -z "`pidof -x dhclient`" ] && [ -x /sbin/dhcpcd ] && /sbin/dhcpcd ${DHCPCDARGS} ${DEVICE} ; then
-	echo $" done."
-    elif [ -z "`pidof -x dhclient`" ] && [ -z "`pidof -x dhcpcd`" ] && [ -x /sbin/pump ] && /sbin/pump ${PUMPARGS} -i ${DEVICE}; then
-	echo $" done."
     else
 	echo $" failed."
 	[ -n "$FWHACK" ] && iptables -D RH-Lokkit-0-50-INPUT -m udp -s 0/0 --sport 53 -d 0/0 --dport 1025:65535 -p udp -j ACCEPT
