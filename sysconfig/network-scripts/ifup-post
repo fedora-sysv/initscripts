@@ -15,11 +15,11 @@ fi
 /etc/sysconfig/network-scripts/ifup-routes ${DEVICE}
 
 if [ "$ISALIAS" = no ] ; then
-    allow_null_glob_expansion=foo
     for alias in /etc/sysconfig/network-scripts/ifcfg-${DEVICE}:* ; do
-	/etc/sysconfig/network-scripts/ifup $alias
+	if [ -f $alias ] ; then
+	    /etc/sysconfig/network-scripts/ifup $alias
+	fi
     done
-    unset allow_null_glob_expansion
 fi
 
 if [ `hostname` = '(none)' -o `hostname` = localhost -a ${DEVICE} != lo ]; then
