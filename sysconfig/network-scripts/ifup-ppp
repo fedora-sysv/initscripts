@@ -51,14 +51,34 @@ fi
   exit 1
 }
 
-[ -n "${WVDIALSECT}" -o -f /etc/sysconfig/network-scripts/chat-${DEVICE} ] || {
-  echo $"/etc/sysconfig/network-scripts/chat-${DEVICE} does not exist"
-  echo $"ifup-ppp for ${DEVICE} exiting"
-  logger -p daemon.info -t ifup-ppp \
-    $"/etc/sysconfig/network-scripts/chat-${DEVICE} does not exist for ${DEVICE}"
-  exit 1
-}
+PEERCONF=/etc/ppp/peers/${DEVNAME}
 
+if [ ! -f ${PEERCONF} ]; then
+  if [ -z "${WVDIALSECT}" ] ; then
+    CHATSCRIPT=/etc/sysconfig/network-scripts/chat-${DEVNAME}
+    [ -f ${CHATSCRIPT} ] || {
+      CHATSCRIPT=/etc/sysconfig/network-scripts/chat-${PARENTDEVNAME}
+    }
+    echo $"/etc/sysconfig/network-scripts/chat-${DEVNAME} does not exist"
+    echo $"ifup-ppp for ${DEVNAME} exiting"
+    logger -p daemon.info -t ifup-ppp \
+      $"/etc/sysconfig/network-scripts/chat-${DEVNAME} does not exist for ${DEVICE}"
+    exit 1
+  fi
+  logger -s -p daemon.notice -t ifup-ppp \
+    $"Setting up a new ${PEERCONF} config file"
+  if [ -f /etc/ppp/peers/${DEVICE} ]; then
+    cp -f /etc/ppp/peers/${DEVICE} ${PEERCONF}
+  else
+    touch ${PEERCONF}
+  fi
+  if [ "${WVDIALSECT}" ]; then
+    echo "connect \"/usr/bin/wvdial --remotename ${DEVNAME} --chat ${WVDIALSECT}\"" >> ${PEERCONF}
+  else
+    echo "connect \"/usr/sbin/chat $chatdbg -f ${CHATSCRIPT}\"" >> ${PEERCONF}
+  fi
+fi
+    
 opts="lock"
 if [ "${HARDFLOWCTL}" != no ] ; then
   opts="$opts modem crtscts"
@@ -99,28 +119,11 @@ else
   opts="$opts nodetach"
 fi
 
-if [ -z "${WVDIALSECT}" ] ; then
-  CHATSCRIPT=/etc/sysconfig/network-scripts/chat-${DEVNAME}
-  [ -f "${CHATSCRIPT}" ] || {
-    CHATSCRIPT=/etc/sysconfig/network-scripts/chat-${PARENTDEVNAME}
-  }
-else
-  CHATSCRIPT=
-fi
-
 (logger -p daemon.info -t ifup-ppp \
-  $"pppd started for ${DEVICE} on ${MODEMPORT} at ${LINESPEED}" &)&
+  $"pppd started for ${DEVNAME} on ${MODEMPORT} at ${LINESPEED}" &)&
 
-if [ -n "${WVDIALSECT}" ] ; then
-  exec /usr/sbin/pppd $opts ${MODEMPORT} ${LINESPEED} \
-    ipparam ${DEVICE} linkname ${DEVICE} \
+exec /usr/sbin/pppd -detach $opts ${MODEMPORT} ${LINESPEED} \
+    ipparam ${DEVNAME} linkname ${DEVNAME} call ${DEVNAME}\
     noauth \
-    ${PPPOPTIONS} \
-    connect "/usr/bin/wvdial --remotename ${DEVICE} --chat ${WVDIALSECT}"
-else
-  exec /usr/sbin/pppd $opts ${MODEMPORT} ${LINESPEED} \
-    ipparam ${DEVICE} linkname ${DEVICE} \
-    noauth \
-    ${PPPOPTIONS} \
-    connect "/usr/sbin/chat $chatdbg -f ${CHATSCRIPT}"
+    ${PPPOPTIONS}
 fi
