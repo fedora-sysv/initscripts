@@ -232,6 +232,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Aug 16 2000 Bill Nottingham <notting@redhat.com>
+- fix /boot/kernel.h generation (#16236, #16250)
+
 * Tue Aug 15 2000 Nalin Dahyabhai <nalin@redhat.com>
 - be more careful about creating files in netreport (#16164)
 
