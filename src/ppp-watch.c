@@ -6,7 +6,7 @@
  * one argument: the logical name of the device to bring up.  Does not
  * detach until the interface is up or has permanently failed to come up.
  *
- * Copyright 1999-2002 Red Hat, Inc.
+ * Copyright 1999-2003 Red Hat, Inc.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by
