@@ -108,7 +108,7 @@ else
 	eval `/bin/ipcalc --network ${IPADDR} ${NETMASK}`
     fi
 
-    ifconfig ${DEVICE} ${IPADDR} netmask ${NETMASK} broadcast ${BROADCAST}
+    ifconfig ${DEVICE} ${IPADDR} netmask ${NETMASK} broadcast ${BROADCAST} ${ARP:+arp}
     # don't re-add subnet route on 2.2 kernels, but add a route
     # to a non-local subnet.
     # stupid hack, but it should work
