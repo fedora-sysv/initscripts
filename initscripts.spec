@@ -21,6 +21,7 @@ that activate and deactivate most network interfaces.
 
 - Added lots of linuxconf support.  Should still work on systems that
   do not have linuxconf installed, but linuxconf gives enhanced support.
+- In concert with linuxconf, added IPX support.  Updated docs to reflect it.
 
 * Fri May 01 1998 Erik Troan <ewt@redhat.com>
 
