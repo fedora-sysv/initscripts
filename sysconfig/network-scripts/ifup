@@ -66,7 +66,7 @@ if [ -x ${OTHERSCRIPT} ]; then
 fi
 
 # is this device available? (this catches PCMCIA devices for us)
-/sbin/ifconfig ${REALDEVICE} 2>&1 | grep -s "not found" > /dev/null
+LC_ALL= LANG= /sbin/ifconfig ${REALDEVICE} 2>&1 | grep -s "not found" > /dev/null
 if [ "$?" = "0" ]; then
     echo "Delaying ${DEVICE} initialization."
     exit 1
@@ -98,16 +98,27 @@ if [ -n "${DYNCONFIG}" ]; then
        PUMPARGS="${PUMPARGS} --lookup-hostname"
        DHCPCDARGS="${DHCPCDARGS} -H"
     fi
+    if [ "${PEERDNS}" = "no" ]; then
+       PUMPARGS="${PUMPARGS} -d"
+       DHCPCDARGS="${DHCPCDARGS} -R"
+    fi
     echo -n "Determining IP information for ${DEVICE}..."
-    if /sbin/pump ${PUMPARGS} -i ${DEVICE} ; then
+    
+    if [ -x /sbin/pump ] && /sbin/pump ${PUMPARGS} -i ${DEVICE} ; then
 	echo " done."
-    elif /sbin/dhcpcd ${DHCPCDARGS} ${DEVICE} ; then
+    elif [ -x /sbin/dhcpcd ] && /sbin/dhcpcd ${DHCPCDARGS} ${DEVICE} ; then
 	echo " done."
     else
 	echo " failed."
 	exit 1
     fi
 else 
+    if [ -z "${IPADDR}" ]; then
+         # enable device without IP, useful for e.g. PPPoE
+         ifconfig ${DEVICE} up ${MTU:+mtu $MTU}
+	 exec /etc/sysconfig/network-scripts/ifup-post ${CONFIG} ${2}
+    fi
+  
     if [ -z "${NETMASK}" ]; then
 	eval `/bin/ipcalc --netmask ${IPADDR}`
     fi
@@ -120,7 +131,11 @@ else
 	eval `/bin/ipcalc --network ${IPADDR} ${NETMASK}`
     fi
     
-    ifconfig ${DEVICE} ${IPADDR} netmask ${NETMASK} broadcast ${BROADCAST} ${ARP:+arp} ${MTU:+mtu $MTU}
+    ifconfig ${DEVICE} ${IPADDR} netmask ${NETMASK} broadcast ${BROADCAST} \
+    	$(toggle_value arp $ARP) \
+	$(toggle_value promisc $PROMISC) \
+	$(toggle_value allmulti $ALLMULTI)
+	
     # don't re-add subnet route on 2.2 kernels, but add a route
     # to a non-local subnet.
     # stupid hack, but it should work
@@ -128,16 +143,11 @@ else
 	route add -net ${NETWORK} netmask ${NETMASK} dev ${DEVICE}
     fi
 
-    # this is broken! it's only here for compatibility with old RH systems
-    if [ "${GATEWAY}" != "" -a "${GATEWAY}" != "none" ]; then
-	route add default gw ${GATEWAY} metric 1 ${DEVICE}
-    fi
-
     . /etc/sysconfig/network
 
-    if [ "${GATEWAYDEV}" = "" -o "${GATEWAYDEV}" = "${DEVICE}" ]; then
+    if [ -z "${GATEWAYDEV}" -o "${GATEWAYDEV}" = "${DEVICE}" ]; then
 	# set up default gateway
-	if [ "${GATEWAY}" != "" ]; then
+	if [ -n "${GATEWAY}" -a "`ipcalc --network ${GATEWAY} ${NETMASK} 2>/dev/null`" = "NETWORK=${NETWORK}" ]; then
 	    route add default gw ${GATEWAY} ${DEVICE}
 	    DEFGW=${GATEWAY}
 	elif [ "${GATEWAYDEV}" = "${DEVICE}" ]; then
