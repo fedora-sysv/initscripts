@@ -29,7 +29,7 @@ if ($sourced == 1) then
 	    case latin2-ucw*:
 	        if ( $?TERM ) then
 		    if ( "$TERM" == "linux" ) then
-		        if ( `consoletype` == "vt" ) then
+		        if ( `/sbin/consoletype` == "vt" ) then
 			    /bin/echo -n -e '\033(K' > /proc/$$/fd/15
 		        endif
 		    endif
