@@ -52,6 +52,9 @@ if [ "${ESCAPECHARS}" != yes ] ; then
   opts="$opts asyncmap 00000000"
 fi
 if [ "${DEFROUTE}" != no ] ; then
+  # pppd will no longer delete an existing default route
+  # so we have to help it out a little here.
+  route del default >/dev/null 2>&1
   opts="$opts defaultroute"
 fi
 if [ "${PEERDNS}" != no ] ; then
