@@ -233,7 +233,7 @@ getversion_ipv6_functions() {
 ipv6_exec_ifconfig() {
 	local options=$*
 
-	LC_ALL=C /sbin/ifconfig $options 2>&1
+	LC_ALL=C /sbin/ifconfig $options
 
 	return $?
 }
@@ -245,7 +245,7 @@ ipv6_exec_ifconfig() {
 ipv6_exec_route() {
 	local options=$*
 
-	LC_ALL=C /sbin/route $options 2>&1
+	LC_ALL=C /sbin/route $options
 
 	return $?
 }
@@ -257,7 +257,7 @@ ipv6_exec_route() {
 ipv6_exec_ip() {
 	local options=$*
 
-	LC_ALL=C /sbin/ip $options 2>&1
+	LC_ALL=C /sbin/ip $options
 
 	return $?
 }
@@ -269,7 +269,7 @@ ipv6_exec_ip() {
 ipv6_exec_sysctl() {
 	local options=$*
 
-	LC_ALL=C /sbin/sysctl -e $options 2>&1
+	LC_ALL=C /sbin/sysctl -e $options
 
 	return $?
 }
@@ -307,7 +307,7 @@ ipv6_control_forwarding() {
 
 	# Global control? (if no device is given)
 	if [ -z "$fw_device" ]; then
-		ipv6_exec_sysctl -w net.ipv6.conf.all.forwarding=$status >/dev/null
+		ipv6_exec_sysctl -w net.ipv6.conf.all.forwarding=$status >/dev/null 2>&1
 	fi
 	
 	# Per device control (not implemented in kernel)
@@ -349,20 +349,20 @@ ipv6_add_route() {
 	ipv6_test_ipv6_addr_valid $gatewayipv6 || return 2
 
 	if [ -z "$device" ]; then
-		local returntxt="`ipv6_exec_ip -6 route add $networkipv6 via $gatewayipv6 metric 1`"
+		local returntxt="`ipv6_exec_ip -6 route add $networkipv6 via $gatewayipv6 metric 1 2>&1`"
 	else
 		if [ "$gatewayipv6" = "::" ]; then
-			local returntxt="`ipv6_exec_ip -6 route add $networkipv6 dev $device metric 1`"
+			local returntxt="`ipv6_exec_ip -6 route add $networkipv6 dev $device metric 1 2>&1`"
 		else
-			local returntxt="`ipv6_exec_ip -6 route add $networkipv6 via $gatewayipv6 dev $device metric 1`"
+			local returntxt="`ipv6_exec_ip -6 route add $networkipv6 via $gatewayipv6 dev $device metric 1 2>&1`"
 		fi
 	fi
 
 	if [ -n "$returntxt" ]; then
-		if echo $returntxt | grep -q "File exists"; then
+		if echo $returntxt | LC_ALL=C grep -q "File exists"; then
 			# Netlink: "File exists"
 			true
-		elif echo $returntxt | grep -q "No route to host"; then
+		elif echo $returntxt | LC_ALL=C grep -q "No route to host"; then
 			# Netlink: "No route to host"
 			ipv6_log $"'No route to host' adding route '$networkipv6' via gateway '$gatewayipv6' through device '$device'" warn $fn
 			return 3
@@ -487,9 +487,9 @@ ipv6_enable_autotunnel() {
 			fi
 
 		# Set sysctls proper (regardless "default")
-		ipv6_exec_sysctl -w net.ipv6.conf.sit0.forwarding=1 >/dev/null
-		ipv6_exec_sysctl -w net.ipv6.conf.sit0.accept_ra=0 >/dev/null
-		ipv6_exec_sysctl -w net.ipv6.conf.sit0.accept_redirects=0 >/dev/null
+		ipv6_exec_sysctl -w net.ipv6.conf.sit0.forwarding=1 >/dev/null 2>&1
+		ipv6_exec_sysctl -w net.ipv6.conf.sit0.accept_ra=0 >/dev/null 2>&1
+		ipv6_exec_sysctl -w net.ipv6.conf.sit0.accept_redirects=0 >/dev/null 2>&1
 	fi
 	
 	return 0
@@ -506,7 +506,7 @@ ipv6_disable_autotunnel() {
 	if ipv6_test_device_status sit0; then
 
 		# disable IPv6-over-IPv4 tunnels (if a tunnel is no longer up)
-		if ipv6_exec_route -A inet6 -n | LC_ALL=C grep "sit0\W*$" | awk '{ print $2 }' | LC_ALL=C grep -v -q "^::$"; then
+		if ipv6_exec_route -A inet6 -n 2>/dev/null | LC_ALL=C grep "sit0\W*$" | awk '{ print $2 }' | LC_ALL=C grep -v -q "^::$"; then
 			# still existing routes, skip shutdown of sit0
 			true
 		elif ipv6_exec_ip addr show dev sit0 | LC_ALL=C grep inet6 | awk '{ print $2 }' | LC_ALL=C grep -v -q '^::'; then
@@ -514,9 +514,9 @@ ipv6_disable_autotunnel() {
 			true
 		else
 			# take down basic tunnel device
-			ipv6_exec_sysctl -w net.ipv6.conf.sit0.forwarding=0 >/dev/null
-			ipv6_exec_sysctl -w net.ipv6.conf.sit0.accept_ra=0 >/dev/null
-			ipv6_exec_sysctl -w net.ipv6.conf.sit0.accept_redirects=0 >/dev/null
+			ipv6_exec_sysctl -w net.ipv6.conf.sit0.forwarding=0 >/dev/null 2>&1
+			ipv6_exec_sysctl -w net.ipv6.conf.sit0.accept_ra=0 >/dev/null 2>&1
+			ipv6_exec_sysctl -w net.ipv6.conf.sit0.accept_redirects=0 >/dev/null 2>&1
 			
 			ipv6_exec_ifconfig sit0 down
 
@@ -578,17 +578,17 @@ ipv6_test_addr_exists_on_device() {
 			# exists
 			return 0
 		else
-			# not exits
+			# not exists
 			return 10
 		fi
 	else
 		# low budget version, only works if given address is in equal form like "ip" displays
 		local testresult="`ipv6_exec_ip addr show dev $testdevice | LC_ALL=C grep inet6 | awk '{ print $2 }' | LC_ALL=C grep -i "^$testaddr/$testprefix$"`"
 		if [ -n "$testresult" ]; then
-			# exits
+			# exists
 			return 0
 		else
-			# not exits
+			# not exists
 			return 10
 		fi
 	fi
@@ -944,13 +944,13 @@ ipv6_test_device_status() {
 	fi
 
 	# Test if device exists
-	if ! ipv6_exec_ifconfig $device >/dev/null; then
+	if ! ipv6_exec_ifconfig $device >/dev/null 2>&1; then
 		# not exists
 		return 10
 	fi
 
 	# Test if device is up
-	if ipv6_exec_ifconfig $device | LC_ALL=C grep -q "UP "; then
+	if ipv6_exec_ifconfig $device 2>/dev/null | LC_ALL=C grep -q "UP "; then
 		# up
 		return 0
 	else
@@ -1196,7 +1196,7 @@ ipv6_add_tunnel_device() {
 		fi
 
 		# Test whether remote IPv4 address was already applied to another tunnel (does not catch IPv4 addresses with leading 0's)
-		ipv6_exec_ip tunnel show 2>/dev/null | LC_ALL=C grep $addressipv4tunnel | while read dev type tag remote tag local tag ttl rest; do
+		ipv6_exec_ip tunnel show 2>/dev/null | LC_ALL=C grep -w "ipv6/ip" | LC_ALL=C grep $addressipv4tunnel | while read dev type tag remote tag local tag ttl rest; do
 			local devnew="`echo $dev | sed 's/:$//g'`"
 			if [ "$remote" = "$addressipv4tunnel" ]; then
 				ipv6_log $"Given remote address '$addressipv4tunnel' on tunnel device '$device' is already configured on device '$devnew'" err $fn
@@ -1217,7 +1217,7 @@ ipv6_add_tunnel_device() {
 		fi
 
 		# Test, whether "ip tunnel show" reports valid content
-		if ! ipv6_exec_ip tunnel show $device | LC_ALL=C grep -q "remote"; then
+		if ! ipv6_exec_ip tunnel show $device 2>/dev/null | LC_ALL=C grep -q -w "remote"; then
 			ipv6_log $"Tunnel device '$device' creation didn't work" err $fn
 			return 3
 		fi
@@ -1230,9 +1230,9 @@ ipv6_add_tunnel_device() {
 		fi
 
 		# Set sysctls proper (regardless "default")
-		ipv6_exec_sysctl -w net.ipv6.conf.$device.forwarding=1 >/dev/null
-		ipv6_exec_sysctl -w net.ipv6.conf.$device.accept_ra=0 >/dev/null
-		ipv6_exec_sysctl -w net.ipv6.conf.$device.accept_redirects=0 >/dev/null
+		ipv6_exec_sysctl -w net.ipv6.conf.$device.forwarding=1 >/dev/null 2>&1
+		ipv6_exec_sysctl -w net.ipv6.conf.$device.accept_ra=0 >/dev/null 2>&1
+		ipv6_exec_sysctl -w net.ipv6.conf.$device.accept_redirects=0 >/dev/null 2>&1
 
 		if [ -n "$addressipv6local" ]; then
 			# Setup P-t-P address
@@ -1296,7 +1296,7 @@ ipv6_cleanup_tunnel_devices() {
 
 	# Find still existing tunnel devices and shutdown and delete them
 
-	ipv6_exec_ip tunnel | grep "ipv6/ip" | awk -F: '{ print $1 }' | while read device; do
+	ipv6_exec_ip tunnel | LC_ALL=C grep -w "ipv6/ip" | awk -F: '{ print $1 }' | while read device; do
 		ipv6_del_tunnel_device $device
 	done
 
@@ -1432,7 +1432,7 @@ ipv6_set_mtu() {
 	fi
 
 	# Set value
-	ipv6_exec_sysctl -w net.ipv6.conf.$device.mtu=$ipv6_mtu >/dev/null
+	ipv6_exec_sysctl -w net.ipv6.conf.$device.mtu=$ipv6_mtu >/dev/null 2>&1
 	
 	return 0
 }
@@ -1561,7 +1561,7 @@ ipv6_test_route_requires_next_hop() {
 		return 10
 	fi
 
-	if ipv6_exec_ip link show $device |  LC_ALL=C grep -q "POINTOPOINT"; then
+	if ipv6_exec_ip link show $device 2>/dev/null |  LC_ALL=C grep -q "POINTOPOINT"; then
 		return 10
 	fi
 

@@ -70,9 +70,9 @@ if [ $? != 0 -a $? != 11 ]; then
 fi
 
 # Switch some sysctls to secure mode
-ipv6_exec_sysctl -w net.ipv6.conf.$DEVICE.forwarding=0 >/dev/null
-ipv6_exec_sysctl -w net.ipv6.conf.$DEVICE.accept_ra=0 >/dev/null
-ipv6_exec_sysctl -w net.ipv6.conf.$DEVICE.accept_redirects=0 >/dev/null
+ipv6_exec_sysctl -w net.ipv6.conf.$DEVICE.forwarding=0 >/dev/null 2>&1
+ipv6_exec_sysctl -w net.ipv6.conf.$DEVICE.accept_ra=0 >/dev/null 2>&1
+ipv6_exec_sysctl -w net.ipv6.conf.$DEVICE.accept_redirects=0 >/dev/null 2>&1
 
 # Shutdown of 6to4, if configured
 valid6to4config="yes"
