@@ -267,16 +267,39 @@ if [ -f /etc/rc.d/rc.modules ]; then
 	/etc/rc.d/rc.modules
 fi
 
-# Add raid devices, old style...
-if [ -f /proc/mdstat -a -f /etc/raidtab -a -x /sbin/raidadd ]; then
-	action "Starting up RAID devices" raidadd -a
+# Add raid devices
+if [ -f /proc/mdstat -a -f /etc/raidtab ]; then
+	echo -n "Starting up RAID devices: " 
 
-	rc=$?
-
-	if [ $rc = 0 ]; then
-		raidrun -a
-		rc=$?
-	fi
+	rc=0
+	
+	for i in `grep "raiddev" /etc/raidtab | awk '{print $2}'`
+	do
+		RAIDDEV=`basename $i`
+		RAIDSTAT=`grep "^$RAIDDEV : active" /proc/mdstat`
+		if [ -z "$RAIDSTAT" ]; then
+			# Try raidstart first...if that fails then
+			# fall back to raidadd, raidrun.  If that
+			# also fails, then we drop to a shell
+			if [ -x raidstart ]; then
+				raidstart $i
+				RESULT=$?
+			else
+				RESULT=1
+			fi
+			if [ $RESULT -gt 0 -a -x raidadd -a -x raidrun ]; then
+				raidadd $i
+				raidrun $i
+				RESULT=$?
+			fi
+			if [ $RESULT -gt 0 ]; then
+				rc=1
+			fi
+			echo -n "$RAIDDEV "
+		else
+			echo -n "$RAIDDEV "
+		fi
+	done
 
 	# A non-zero return means there were problems.
 	if [ $rc -gt 0 ]; then
