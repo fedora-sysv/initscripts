@@ -41,9 +41,9 @@ if [ -n "$selinuxfs" ] && [ "`cat /proc/self/attr/current`" != "kernel" ]; then
 	fi
 fi
 
-if [ "$SELINUX" = "1" -a -x /sbin/restorecon ] && fgrep -q " /dev " /proc/mounts ; then
-	restorecon  /dev /dev/null
-	restorecon  /dev/* 2> /dev/null
+if [ -x /sbin/restorecon ] && fgrep -q " /dev " /proc/mounts ; then
+	/sbin/restorecon  /dev /dev/null
+	/sbin/restorecon  /dev/* 2> /dev/null
 fi
 
 disable_selinux() {

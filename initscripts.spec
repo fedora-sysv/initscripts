@@ -3,7 +3,7 @@ Name: initscripts
 Version: 7.78
 License: GPL
 Group: System Environment/Base
-Release: 1
+Release: 2
 Source: initscripts-%{version}.tar.bz2
 URL: http://fedora.redhat.com/projects/additional-projects/initscripts/
 Patch0: initscripts-s390.patch
@@ -205,6 +205,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Sep  8 2004 Dan Walsh <dwalshg@redhat.com> - 7.78-2
+- fix setting SELinux contexts on udev-created-in-initrd devices
+- Let restorecon check if selinux is enabled.
+
 * Wed Sep  8 2004 Bill Nottingham <notting@redhat.com> - 7.78-1
 - set SELinux contexts on udev-created-in-initrd devices, if necessary
 
