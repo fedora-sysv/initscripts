@@ -1,10 +1,10 @@
 Summary: The inittab file and the /etc/rc.d scripts.
 Name: initscripts
-%define version 4.13
+%define version 4.15
 Version: %{version}
 Copyright: GPL
 Group: System Environment/Base
-Release: 2
+Release: 1
 Source: initscripts-%{version}.tar.gz
 BuildRoot: /var/tmp/initbld
 Requires: mingetty, bash, /bin/awk, /bin/sed, mktemp, modutils >= 2.1.85-3, e2fsprogs, sysklogd >= 1.3.31, console-tools, procps
@@ -184,6 +184,9 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Sun Apr 18 1999 Matt Wilson <msw@redhat.com>
 - fixed typo - "Determing" to "Determining"
+
+* Fri Apr 16 1999 Preston Brown <pbrown@redhat.com>
+- updated inputrc so that home/end/del work on console, not just X
 
 * Thu Apr 08 1999 Bill Nottingham <notting@redhat.com>
 - fix more logic in initlog
