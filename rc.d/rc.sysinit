@@ -83,7 +83,7 @@ CLOCKFLAGS="$CLOCKFLAGS --hctosys"
 
 case "$UTC" in
    yes|true)
-    CLOCKFLAGS="$CLOCKFLAGS -u";
+    CLOCKFLAGS="$CLOCKFLAGS --utc";
     CLOCKDEF="$CLOCKDEF (utc)";
    ;;
    no|false)
@@ -94,17 +94,18 @@ esac
 
 case "$ARC" in
      yes|true)
-     	CLOCKFLAGS="$CLOCKFLAGS -A";
+     	CLOCKFLAGS="$CLOCKFLAGS --arc";
      	CLOCKDEF="$CLOCKDEF (arc)";
      ;;
 esac
 case "$SRM" in
      yes|true)
-	CLOCKFLAGS="$CLOCKFLAGS -S";
+	CLOCKFLAGS="$CLOCKFLAGS --srm";
 	CLOCKDEF="$CLOCKDEF (srm)";
      ;;
 esac
 
+/sbin/hwclock --adjust
 /sbin/hwclock $CLOCKFLAGS
 
 action $"Setting clock $CLOCKDEF: `date`" date
@@ -303,7 +304,7 @@ if [ X"$_RUN_QUOTACHECK" = X1 -a \
 		    /sbin/convertquota -g / && rm -f /quota.group
 	    fi
 	fi
-	action $"Checking root filesystem quotas: " /sbin/quotacheck -n /
+	action $"Checking root filesystem quotas: " /sbin/quotacheck -nug /
 fi
 
 # check for arguments passed from kernel
@@ -590,11 +591,11 @@ if [ X"$_RUN_QUOTACHECK" = X1 -a -x /sbin/quotacheck ]; then
 		fi
 	    done
 	fi
-	action $"Checking local filesystem quotas: " /sbin/quotacheck -aR
+	action $"Checking local filesystem quotas: " /sbin/quotacheck -aRnug
 fi
 
 if [ -x /sbin/quotaon ]; then
-    action $"Enabling local filesystem quotas: " /sbin/quotaon -a
+    action $"Enabling local filesystem quotas: " /sbin/quotaon -aug
 fi
 
 # Turn on process accounting
