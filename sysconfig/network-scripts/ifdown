@@ -38,6 +38,8 @@ if [ -x $OTHERSCRIPT ]; then
 	exec $OTHERSCRIPT $CONFIG $2
 fi
 
+. /etc/sysconfig/network
+
 if [ "${NETWORKING_IPV6}" = "yes" ]; then
     /etc/sysconfig/network-scripts/ifdown-ipv6 $DEVICE
 fi
