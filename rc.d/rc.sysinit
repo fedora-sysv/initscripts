@@ -636,16 +636,13 @@ if [ -n "$needusbstorage" ]; then
 fi
 
 # Ooh, firewire too.
-if
-    aliases=`/sbin/modprobe -c | awk '/^alias ieee1394-controller/ { print $3 }'`
-    if [ -n "$aliases" -a "$aliases" != "off" ]; then
+aliases=`/sbin/modprobe -c | awk '/^alias ieee1394-controller/ { print $3 }'`
+if [ -n "$aliases" -a "$aliases" != "off" ]; then
       for alias in $aliases ; do 
       	[ "$alias" != "off" ] && action $"Initializing firewire controller ($alias): " modprobe $alias
       done
       grep -q "SBP2" /proc/bus/ieee1394/devices 2>/dev/null && modprobe sbp2 >/dev/null 2>&1
-    fi
 fi
-
 
 # If they asked for ide-scsi, load it
 if grep -q "ide-scsi" /proc/cmdline ; then
