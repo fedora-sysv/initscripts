@@ -1,5 +1,8 @@
 ROOT=/
 
+VERSION=3.18
+CVSTAG = r$(subst .,-,$(VERSION))
+
 all:
 	(cd src; make CFLAGS="$(CFLAGS)")
 
@@ -19,5 +22,14 @@ install:
 	chown root.root /var/run/netreport
 	chmod og=rwx,o=rx /var/run/netreport
 
-clean:
-	(cd src; make clean)
+archive: 
+	@cvs tag -F $(CVSTAG)
+	@rm -rf /tmp/initscripts-$(VERSION)
+	@mkdir /tmp/initscripts-$(VERSION)
+	@cvs export -r$(CVSTAG) -d /tmp/initscripts-$(VERSION) initscripts
+	@cd /tmp; tar czSpf initscripts-$(VERSION).tar.gz initscripts-$(VERSION)
+	@rm -rf /tmp/initscripts-$(VERSION)
+	@cp /tmp/initscripts-$(VERSION).tar.gz .
+	@rm -f /tmp/initscripts-$(VERSION).tar.gz 
+	@echo " "
+	@echo "The final archive is ./initscripts-$(VERSION).tar.gz."
