@@ -23,6 +23,8 @@ then
 fi
 [ -n "${MTU}" ] && opts="${opts} mtu ${MTU}"
 
+echo "$PEERID" > /sys/bus/iucv/drivers/netiucv/connection 2>/dev/null
+
 ifconfig ${DEVICE} ${IPADDR} ${opts} pointopoint ${REMIP} netmask ${NETMASK}
 if [ "${NETWORK}" != "" ] ; then
 	route add -host ${REMIP} metric 1 ${DEVICE}
