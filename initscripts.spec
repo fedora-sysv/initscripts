@@ -182,6 +182,11 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Jun 17 1999 Bill Nottingham <notting@redhat.com>
+- set clock as soon as possible
+- use INITLOG_ARGS everywhere
+- other random fixes
+
 * Mon Jun 14 1999 Bill Nottingham <notting@redhat.com>
 - oops, don't create /var/run/utmp and then remove it.
 - stomp RAID bugs flat. Sort of.
