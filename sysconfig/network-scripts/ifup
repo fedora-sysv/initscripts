@@ -147,7 +147,11 @@ if [ -n "${DYNCONFIG}" ]; then
        DHCPCDARGS="${DHCPCDARGS} -R"
     fi
     echo -n $"Determining IP information for ${DEVICE}..."
-    
+    if check_link_down ${DEVICE}; then
+	echo " failed; no link present.  Check cable?"
+	exit 1
+    fi
+
     # DHCP clients need DNS to be available, and we don't know
     # what DNS server they're using until they are done.
     FWHACK=

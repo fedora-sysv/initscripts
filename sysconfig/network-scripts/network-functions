@@ -81,6 +81,20 @@ check_device_down ()
     return $retcode
 }
 
+check_link_down ()
+{
+    if [ -x /sbin/mii-tool ]; then
+	output=`/sbin/mii-tool $1 2>&1`
+	if echo $output | grep -q "Operation not supported"; then
+	    return 0
+	elif echo $output | grep -q "link ok"; then
+	    return 0
+	else
+	    return 1
+        fi
+    fi
+    return 0
+}
 
 check_default_route ()
 {
