@@ -70,7 +70,7 @@
   \return a network mask, in network byte order.
 */
 unsigned long int prefix2mask(int prefix) {
-    return htonl(~((2 << (31 - prefix)) - 1));
+    return htonl(~((1 << (32 - prefix)) - 1));
 }
 
 /*!
