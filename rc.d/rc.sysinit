@@ -476,8 +476,6 @@ state=`awk '/ \/ / && ($3 !~ /rootfs/) { print $4 }' /proc/mounts`
 [ "$state" != "rw" -a "$READONLY" != "yes" ] && \
   action $"Remounting root filesystem in read-write mode: " mount -n -o remount,rw /
 
-[ -x /sbin/start_udev ] && /sbin/start_udev
-
 # LVM2 initialization
 if [ -x /sbin/lvm.static ]; then
     if ! LC_ALL=C fgrep -q "device-mapper" /proc/devices 2>/dev/null ; then
