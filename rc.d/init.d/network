@@ -43,9 +43,9 @@ interfaces=`ls ifcfg* | egrep -v '(ifcfg-lo|:)' | \
 case "$1" in
   start)
   
-  	action "Setting network parameters" sysctl -p /etc/sysctl.conf
+  	action "Setting network parameters: " sysctl -p /etc/sysctl.conf
 
-	action "Bringing up interface lo" ./ifup ifcfg-lo
+	action "Bringing up interface lo: " ./ifup ifcfg-lo
 
 	case "$IPX" in
 	  yes|true)
@@ -62,7 +62,7 @@ case "$1" in
 			# Probe module to preserve interface ordering
 			/sbin/ifconfig $i >/dev/null 2>&1
 		else
-			action "Bringing up interface $i" ./ifup $i boot
+			action "Bringing up interface $i: " ./ifup $i boot
 		fi
 	done
 	
@@ -93,8 +93,8 @@ case "$1" in
 	fi
 	
 	for i in $interfaces ; do
-	        if ifconfig $i | grep -q "UP" >/dev/null 2>&1 ; then
-		   action "Shutting down interface $i" ./ifdown $i boot
+	        if ifconfig $i 2>/dev/null | grep -q "UP" >/dev/null 2>&1 ; then
+		   action "Shutting down interface $i: " ./ifdown $i boot
 		fi
 	done
 	case "$IPX" in
@@ -108,12 +108,12 @@ case "$1" in
 	if [ -d /proc/sys/net/ipv4 ]; then
 	  if [ -f /proc/sys/net/ipv4/ip_forward ]; then
 		if [ `cat /proc/sys/net/ipv4/ip_forward` != 0 ]; then
-			action "Disabling IPv4 packet forwarding" sysctl -w net.ipv4.ip_forward=0
+			action "Disabling IPv4 packet forwarding: " sysctl -w net.ipv4.ip_forward=0
 		fi
 	  fi
 	  if [ -f /proc/sys/net/ipv4/ip_always_defrag ]; then
 	        if [ `cat /proc/sys/net/ipv4/ip_always_defrag` != 0 ]; then
-		        action "Disabling IPv4 automatic defragmentation" sysctl -w net.ipv4.ip_always_defrag=0
+		        action "Disabling IPv4 automatic defragmentation: " sysctl -w net.ipv4.ip_always_defrag=0
 		fi
 	  fi
 	fi
@@ -144,34 +144,34 @@ case "$1" in
 	if [ -x /bin/linuxconf ] ; then
 		eval `/bin/linuxconf --hint netdev`
 		for device in $DEV_UP ; do
-			action "Bringing up device $device" ./ifup $device
+			action "Bringing up device $device: " ./ifup $device
 		done
 		for device in $DEV_DOWN ; do
-			action "Shutting down device $device" ./ifdown $device
+			action "Shutting down device $device: " ./ifdown $device
 		done
 		for device in $DEV_RECONF ; do
-			action "Shutting down device $device" ./ifdown $device
-			action "Bringing up device $device" ./ifup $device
+			action "Shutting down device $device: " ./ifdown $device
+			action "Bringing up device $device: " ./ifup $device
 		done
 		for device in $DEV_RECONF_ALIASES ; do
-			action "Briging up alias $device" /etc/sysconfig/network-scripts/ifup-aliases $device
+			action "Briging up alias $device: " /etc/sysconfig/network-scripts/ifup-aliases $device
 		done
 		for device in $DEV_RECONF_ROUTES ; do
-			action "Bringing up route $device" /etc/sysconfig/network-scripts/ifup-routes $device
+			action "Bringing up route $device: " /etc/sysconfig/network-scripts/ifup-routes $device
 		done
 		case $IPX in yes|true)
 		  case $IPXINTERNALNET in
 		    reconf)
-			action "Deleting internal IPX network" /sbin/ipx_internal_net del
-			action "Adding internal IPX network $IPXINTERNALNETNUM $IPXINTERNALNODENUM" /sbin/ipx_internal_net add $IPXINTERNALNETNUM \
+			action "Deleting internal IPX network: " /sbin/ipx_internal_net del
+			action "Adding internal IPX network $IPXINTERNALNETNUM $IPXINTERNALNODENUM: " /sbin/ipx_internal_net add $IPXINTERNALNETNUM \
 						      $IPXINTERNALNODENUM
 			;;
 		    add)
-			action "Adding internal IPX network $IPXINTERNALNETNUM $IPXINTERNALNODENUM"/sbin/ipx_internal_net add $IPXINTERNALNETNUM \
+			action "Adding internal IPX network $IPXINTERNALNETNUM $IPXINTERNALNODENUM: "/sbin/ipx_internal_net add $IPXINTERNALNETNUM \
 						      $IPXINTERNALNODENUM
 			;;
 		    del)
-			action "Deleting internal IPX network" /sbin/ipx_internal_net del
+			action "Deleting internal IPX network: " /sbin/ipx_internal_net del
 			;;
 		  esac
 		  ;;
