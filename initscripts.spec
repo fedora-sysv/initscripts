@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.47
+Version: 7.48
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -249,6 +249,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Mar 17 2004 Bill Nottingham <notting@redhat.com> 7.48-1
+- disable enforcing in emergency mode for now, relabel some commonly
+  mislabeled files on boot
+
 * Wed Mar 17 2004 Bill Nottingham <notting@redhat.com> 7.47-1
 - translation: catch more input strings (#106285, <mitr@volny.cz>)
 - remove autologin from prefdm (#108969)
