@@ -74,7 +74,7 @@ if [ -n "${IPADDR}${REMIP}" ] ; then
   opts="$opts ${IPADDR}:${REMIP}"
 fi
 if [ -n "${PAPNAME}" ] ; then
-  opts="$opts name ${PAPNAME}"
+  opts="$opts user ${PAPNAME} remotename ${DEVNAME}"
 fi
 if [ "${DEBUG}" = yes ] ; then
   opts="$opts debug"
@@ -95,15 +95,13 @@ fi
 
 if [ -n "$WVDIALSECT" ] ; then
   exec /usr/sbin/pppd -detach $opts $MODEMPORT $LINESPEED \
-    remotename $DEVICE ipparam $DEVICE \
-    linkname $DEVICE \
+    ipparam $DEVICE linkname $DEVICE \
     noauth \
     ${PPPOPTIONS} \
     connect "/usr/bin/wvdial --remotename $DEVICE --chat $WVDIALSECT"
 else
   exec /usr/sbin/pppd -detach $opts $MODEMPORT $LINESPEED \
-    remotename $DEVICE ipparam $DEVICE \
-    linkname $DEVICE \
+    ipparam $DEVICE linkname $DEVICE \
     noauth \
     ${PPPOPTIONS} \
     connect "/usr/sbin/chat $chatdbg -f $CHATSCRIPT"
