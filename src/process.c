@@ -22,7 +22,7 @@ extern regex_t **regList;
 int forkCommand(char **args, int *outfd, int *errfd, int *cmdfd, int quiet) {
    /* Fork command 'cmd', returning pid, and optionally pointer
     * to open file descriptor fd */
-    int fdin, fdout, fderr, fdcmd, pid;
+    int fdout, fderr, fdcmd, pid;
     int outpipe[2], errpipe[2], fdpipe[2];
     int ourpid;
     
@@ -45,9 +45,13 @@ int forkCommand(char **args, int *outfd, int *errfd, int *cmdfd, int quiet) {
        if (!quiet)
 	 fderr=dup(2);
     }
-    fdcmd = fdpipe[1];
-    if (cmdfd)
-      *cmdfd = fdpipe[0];
+    
+    if (cmdfd) {
+	*cmdfd = fdpipe[0];
+	fdcmd = fdpipe[1];
+    } else {
+        fdcmd = open("/dev/null",O_WRONLY);
+    }
     ourpid = getpid();
     if ((pid = fork())==-1) {
 	perror("fork");
@@ -58,7 +62,6 @@ int forkCommand(char **args, int *outfd, int *errfd, int *cmdfd, int quiet) {
      * fucks up and we segfault or something, we don't kill rc.sysinit. */
     if ( (cmdfd&&!pid) || (pid &&!cmdfd)) {
 	/* parent */
-	close(fdin);
 	close(fdout);
 	close(fderr);
 	close(fdcmd);
