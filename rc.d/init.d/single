@@ -15,6 +15,10 @@
 # Set the path.
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
 
+if [ "$1" != "start" ] ; then
+   exit 0
+fi
+
 # Kill all processes.
 [ "${BASH+bash}" = bash ] && enable kill
 
