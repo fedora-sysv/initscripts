@@ -238,9 +238,9 @@ if [ -x /sbin/depmod -a -n "$USEMODULES" ]; then
        fi
     fi
     if [ -L /lib/modules/default ]; then
-    	action "Finding module dependencies" depmod -a default
+    	INITLOG_ARGS= action "Finding module dependencies" depmod -a default
     else
-	action "Finding module dependencies" depmod -a
+	INITLOG_ARGS= action "Finding module dependencies" depmod -a
     fi
 fi
 
