@@ -75,20 +75,31 @@ if [ "${DEBUG}" = yes ] ; then
   chatdbg="-v"
 fi
 
-CHATSCRIPT=/etc/sysconfig/network-scripts/chat-$DEVNAME
-[ -f $CHATSCRIPT ] || {
-  CHATSCRIPT=/etc/sysconfig/network-scripts/chat-$PARENTDEVNAME
-}
+if [ -z "$WVDIALSECT" ] ; then
+  CHATSCRIPT=/etc/sysconfig/network-scripts/chat-$DEVNAME
+  [ -f $CHATSCRIPT ] || {
+    CHATSCRIPT=/etc/sysconfig/network-scripts/chat-$PARENTDEVNAME
+  }
+else
+  CHATSCRIPT=
+fi
 
 while : ; do
   (logger -p daemon.info -t ifup-ppp \
     "pppd started for $DEVICE on $MODEMPORT at $LINESPEED" &)&
 
   > /var/run/ppp-$DEVICE.dev
-  /usr/sbin/pppd -detach $opts $MODEMPORT $LINESPEED \
-    remotename $DEVICE ipparam $DEVICE \
-    ${PPPOPTIONS} \
-    connect "/usr/sbin/chat $chatdbg -f $CHATSCRIPT"
+  if [ -n "$WVDIALSECT ] ; then
+    /usr/sbin/pppd -detach $opts $MODEMPORT $LINESPEED \
+      remotename $DEVICE ipparam $DEVICE \
+      ${PPPOPTIONS} \
+      connect "/usr/bin/wvdial --chat $WVDIALSECT"
+  else
+    /usr/sbin/pppd -detach $opts $MODEMPORT $LINESPEED \
+      remotename $DEVICE ipparam $DEVICE \
+      ${PPPOPTIONS} \
+      connect "/usr/sbin/chat $chatdbg -f $CHATSCRIPT"
+  fi
 
   # exit if we're not supposed to persist or our lock file has disappeared 
   if [ "$PERSIST" != "yes" -o ! -f /var/run/ppp-$DEVICE.dev ]; then

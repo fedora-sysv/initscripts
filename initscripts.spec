@@ -10,6 +10,7 @@ BuildRoot: /var/tmp/initbld
 Requires: mingetty, bash, /bin/awk, /bin/sed, mktemp, e2fsprogs, console-tools
 Requires: procps, modutils >= 2.1.85-3, sysklogd >= 1.3.31
 Requires: setup >= 2.0.3
+Requires: wvdial >= 1.31
 Conflicts: kernel <= 2.2, timeconfig < 3.0
 Prereq: /sbin/chkconfig, /usr/sbin/groupadd, gawk
 
@@ -194,6 +195,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Jul 28 1999 Michael K. Johnson <johnsonm@redhat.com>
+- simple wvdial support for ppp connections
+
 * Mon Jul 26 1999 Bill Nottingham <notting@redhat.com>
 - stability fixes for initlog
 - initlog now has a config file
