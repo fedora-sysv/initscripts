@@ -188,6 +188,8 @@ killproc() {
 
 # A function to find the pid of a program.
 pidofproc() {
+	base=`basename $1`
+
 	# Test syntax.
 	if [ $# = 0 ] ; then
 		echo "Usage: pidofproc {program}"
@@ -195,8 +197,8 @@ pidofproc() {
 	fi
 
 	# First try "/var/run/*.pid" files
-	if [ -f /var/run/$1.pid ] ; then
-	        pid=`head -1 /var/run/$1.pid`
+	if [ -f /var/run/${base}.pid ] ; then
+	        pid=`head -1 /var/run/${base}.pid`
 	        if [ "$pid" != "" ] ; then
 	                echo $pid
 	                return 0
@@ -204,7 +206,7 @@ pidofproc() {
 	fi
 
 	# Next try "pidof"
-	pid=`pidof -o $$ -o $PPID -o %PPID -x $1`
+	pid=`pidof -o $$ -o $PPID -o %PPID -x ${base}`
 	if [ "$pid" != "" ] ; then
 	        echo $pid
 	        return 0
@@ -212,6 +214,8 @@ pidofproc() {
 }
 
 status() {
+	base=`basename $1`
+
 	# Test syntax.
 	if [ $# = 0 ] ; then
 		echo "Usage: status {program}"
@@ -219,26 +223,26 @@ status() {
 	fi
 
 	# First try "pidof"
-	pid=`pidof -o $$ -o $PPID -o %PPID -x $1`
+	pid=`pidof -o $$ -o $PPID -o %PPID -x ${base}`
 	if [ "$pid" != "" ] ; then
-	        echo "$1 (pid $pid) is running..."
+	        echo "${base} (pid $pid) is running..."
 	        return 0
 	fi
 
 	# Next try "/var/run/*.pid" files
-	if [ -f /var/run/$1.pid ] ; then
-	        pid=`head -1 /var/run/$1.pid`
+	if [ -f /var/run/${base}.pid ] ; then
+	        pid=`head -1 /var/run/${base}.pid`
 	        if [ "$pid" != "" ] ; then
-	                echo "$1 dead but pid file exists"
+	                echo "${base} dead but pid file exists"
 	                return 1
 	        fi
 	fi
-	# See if /var/lock/subsys/$1 exists
-	if [ -f /var/lock/subsys/$1 ]; then
-		echo "$1 dead but subsys locked"
+	# See if /var/lock/subsys/${base} exists
+	if [ -f /var/lock/subsys/${base} ]; then
+		echo "${base} dead but subsys locked"
 		return 2
 	fi
-	echo "$1 is stopped"
+	echo "${base} is stopped"
 	return 3
 }
 
