@@ -111,4 +111,9 @@ while : ; do
     # sleep was killed
     exit 0
   }
+
+  # exit if our lock file disappeared while we slept
+  if [ ! -f /var/run/ppp-$DEVICE.dev ]; then
+    exit 0
+  fi
 done
