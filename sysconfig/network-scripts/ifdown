@@ -53,11 +53,11 @@ if [ -n "${HWADDR}" ]; then
     FOUNDMACADDR=`LC_ALL= LANG= ip -o link show ${REALDEVICE} | \
 	sed 's/.*link\/ether \([[:alnum:]:]*\).*/\1/'`
     if [ "${FOUNDMACADDR}" != "${HWADDR}" ]; then
-        NEWCONFIG=`fgrep -l "HWADDR=${HWADDR}" /etc/sysconfig/network-scripts/ifcfg-*`
+        NEWCONFIG=`LANG=C grep -l "^[[:space:]]*HWADDR=${HWADDR}" /etc/sysconfig/network-scripts/ifcfg-*`
 	if [ -n "${NEWCONFIG}" ]; then
 	   exec /sbin/ifdown ${NEWCONFIG}
 	fi
-        NEWCONFIG=`fgrep -l "HWADDR=${HWADDR}" /etc/sysconfig/networking/default/ifcfg-*`
+        NEWCONFIG=`LANG=C grep -l "^[[:space:]]*HWADDR=${HWADDR}" /etc/sysconfig/networking/default/ifcfg-*`
 	if [ -n "${NEWCONFIG}" ]; then
 	   exec /sbin/ifdown ${NEWCONFIG}
 	else
