@@ -722,7 +722,7 @@ fi
 # We need to deal with cases where there is no library, and we need to
 # deal with any version numbers that show up.
 shopt -s nullglob
-for library in /lib/modules/$(uname -r)/libredhat-kernel.so* ; do
+for library in /lib/kernel/$(uname -r)/libredhat-kernel.so* ; do
 	ln -s -f $library /lib/
 done
 shopt -u nullglob
