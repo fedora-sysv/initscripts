@@ -137,12 +137,22 @@ Files in /etc/sysconfig
 
   Contains lines of the form:
 
-    <device> net <network> netmask <netmask> gw <gateway>
+    <device> host|net <arguments to route command>
 
   <device> may be a device name to have the route brought up and
   down with the device, or "any" to have the correct devices calculated
   at run time.
-
+  
+  For example:
+  
+  eth0 host 192.168.2.2 eth0
+  
+  adds a host route through eth0 to 192.168.2.2, while
+  
+  any net 192.168.2.0 netmask 255.255.255.0 ppp0
+  
+  adds a network route to the 192.168.2.0 network through ppp0.
+  
 /etc/sysconfig/routed:
 
   SILENT=yes|no
