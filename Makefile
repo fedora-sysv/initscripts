@@ -42,6 +42,8 @@ install:
 	mkdir -p $(ROOT)/etc/sysconfig/networking/profiles
 	mv  $(ROOT)/etc/sysconfig/network-scripts/ifcfg-lo \
 		$(ROOT)/etc/sysconfig/networking
+	ln -s ../networking/ifcfg-lo \
+	        $(ROOT)/etc/sysconfig/network-scripts/ifcfg-lo
 	mkdir -p $(ROOT)/etc/sysconfig/console
 	if uname -m | grep -q s390 ; then \
 	  install -m644 sysconfig/init.s390 $(ROOT)/etc/sysconfig/init ; \
