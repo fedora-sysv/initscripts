@@ -64,11 +64,11 @@ ln -s ../init.d/network $RPM_BUILD_ROOT/etc/rc.d/rc4.d/S10network
 ln -s ../init.d/network $RPM_BUILD_ROOT/etc/rc.d/rc5.d/S10network
 ln -s ../init.d/network $RPM_BUILD_ROOT/etc/rc.d/rc6.d/K90network
 
-ln -s ../init.d/killall $RPM_BUILD_ROOT/etc/rc.d/rc0.d/K90killall
-ln -s ../init.d/killall $RPM_BUILD_ROOT/etc/rc.d/rc6.d/K90killall
+ln -s ../init.d/killall $RPM_BUILD_ROOT/etc/rc.d/rc0.d/S00killall
+ln -s ../init.d/killall $RPM_BUILD_ROOT/etc/rc.d/rc6.d/S00killall
 
-ln -s ../init.d/halt $RPM_BUILD_ROOT/etc/rc.d/rc0.d/S00halt
-ln -s ../init.d/halt $RPM_BUILD_ROOT/etc/rc.d/rc6.d/S00reboot
+ln -s ../init.d/halt $RPM_BUILD_ROOT/etc/rc.d/rc0.d/S01halt
+ln -s ../init.d/halt $RPM_BUILD_ROOT/etc/rc.d/rc6.d/S01reboot
 
 ln -s ../init.d/single $RPM_BUILD_ROOT/etc/rc.d/rc1.d/S00single
 
