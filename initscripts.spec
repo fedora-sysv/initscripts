@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 5.60.1
+Version: 5.61
 Copyright: GPL
 Group: System Environment/Base
 Release: 1
@@ -195,6 +195,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/sysconfig/console
 %config(noreplace) /etc/sysconfig/rawdevices
 %config /etc/sysconfig/network-scripts/network-functions
+%config /etc/sysconfig/network-scripts/network-functions-ipv6
 %config /etc/sysconfig/network-scripts/ifup-post
 %config /etc/sysconfig/network-scripts/ifcfg-lo
 %config /etc/sysconfig/network-scripts/ifdown-ppp
@@ -203,6 +204,11 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/sysconfig/network-scripts/ifup-sl
 %config /etc/sysconfig/network-scripts/ifup-routes
 %config /etc/sysconfig/network-scripts/ifup-plip
+%config /etc/sysconfig/network-scripts/ifup-plusb
+%config /etc/sysconfig/network-scripts/ifup-ipv6
+%config /etc/sysconfig/network-scripts/ifdown-ipv6
+%config /etc/sysconfig/network-scripts/ifup-sit
+%config /etc/sysconfig/network-scripts/ifdown-sit
 %config /etc/sysconfig/network-scripts/ifup-aliases
 %config /etc/sysconfig/network-scripts/ifup-ipx
 %config /etc/X11/prefdm
@@ -240,11 +246,14 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/ppp/ip-up
 %config /etc/ppp/ip-down
 %config /etc/initlog.conf
-%doc sysconfig.txt sysvinitfiles ChangeLog
+%doc sysconfig.txt sysvinitfiles ChangeLog sysconfig/static-routes-ipv6
 %ghost %attr(0664,root,utmp) /var/log/wtmp
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Feb  2 2001 Bill Nottingham <notting@redhat.com>
+- actually *ship* the ipv6 (and plusb) files
+
 * Thu Feb  1 2001 Trond Eivind Glomsrød <teg@redhat.com>
 - updated i18n
 

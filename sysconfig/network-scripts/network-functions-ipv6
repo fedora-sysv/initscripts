@@ -33,7 +33,7 @@ function test_ipv6()
     fi
 
     if ! [ -f /proc/net/if_inet6 ]; then
-        echo "Do not found IPv6 in kernel, try to load module"
+        echo "Did not find IPv6 in kernel, trying to load module"
 	modprobe ipv6
 	
         if ! [ -f /proc/net/if_inet6 ]; then
@@ -89,7 +89,7 @@ function ifup_ipv6_route() {
 	device=$3		# maybe empty
 
 	if [ -z $networkipv6 ]; then
-		echo $"Missing option IPv6-network'"
+		echo $"Missing option 'IPv6-network'"
 		ifup_ipv6_route_usage
 		return 1
 	fi
@@ -237,7 +237,7 @@ function ifdown_ipv6_tunnel() {
 		route -A inet6 del $routeipv6 gw ::$addressipv4tunnel dev sit0
         fi
 
-        # disable IPv6-over-IPv4 tunnels (if no longer a tunnel is up)
+        # disable IPv6-over-IPv4 tunnels (if tunnel is no longer up)
 	if route -A inet6 -n | grep sit0 | grep -v -q "^::"; then
 		# existing routes, do nothing
 		true

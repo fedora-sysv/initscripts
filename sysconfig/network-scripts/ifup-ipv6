@@ -15,7 +15,7 @@ CONFIG=$1
 [ -f "$CONFIG" ] || CONFIG=ifcfg-$CONFIG
 source_config  
 
-# Test if IPv6 configuration is enabled
+# Test if IPv6 configuration is enabled for this interface
 if [ ! "$IPV6INIT" = "yes" ]; then
 	# not enabled, stop here
 	exit 0
@@ -41,7 +41,7 @@ if [ "${NETWORKING_IPV6}" = "yes" ]; then
 	fi
 
 	# Setup additional static IPv6 routes on specified interface
-        [ -f /etc/sysconfig/static-routes-ipv6 ]; then
+        if [ -f /etc/sysconfig/static-routes-ipv6 ]; then
 		grep "^$DEVICE" /etc/sysconfig/static-routes-ipv6 | while read device args; do
 			if [ "$device" = "$DEVICE" ]; then
 				ifup_ipv6_route $args $DEVICE
