@@ -218,7 +218,7 @@ pidfileofproc() {
 	if [ -f /var/run/${base}.pid ] ; then
 	        read pid < /var/run/${base}.pid
 		for p in $line ; do
-		       [ -z "$p##[0-9]}" -a -d /proc/$p ] && pid="$pid $p"
+		       [ -z "${p//[0-9]/}" -a -d /proc/$p ] && pid="$pid $p"
 		done
 	        if [ -n "$pid" ] ; then
 	                echo $pid
@@ -242,7 +242,7 @@ pidofproc() {
 	        local line p pid=
 		read line < /var/run/${base}.pid
 		for p in $line ; do
-		       [ -z "$p##[0-9]}" -a -d /proc/$p ] && pid="$pid $p"
+		       [ -z "${p//[0-9]/}" -a -d /proc/$p ] && pid="$pid $p"
 		done
 	        if [ -n "$pid" ] ; then
 	                echo $pid
