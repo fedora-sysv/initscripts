@@ -605,7 +605,7 @@ fi
 # Mount all other filesystems (except for NFS and /proc, which is already
 # mounted). Contrary to standard usage,
 # filesystems are NOT unmounted in single user mode.
-action $"Mounting local filesystems: " mount -a -t nonfs,nfs4,smbfs,ncpfs -O no_netdev
+action $"Mounting local filesystems: " mount -a -t nonfs,nfs4,smbfs,ncpfs,cifs -O no_netdev
 
 # Start the graphical boot, if necessary and not done yet.
 if fgrep rhgb /proc/cmdline > /dev/null 2>&1 && [ "$RHGB_STARTED" -eq 0 -a "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
