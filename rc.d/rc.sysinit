@@ -121,6 +121,11 @@ fi
 
 action "Mounting proc filesystem" mount -n -t proc /proc /proc
 
+# Turn off sysrq
+if [ "$MAGIC_SYSRQ" = "no" ]; then
+	echo "0" > /proc/sys/kernel/sysrq
+fi
+
 if [ -f /fsckoptions ]; then
 	fsckoptions=`cat /fsckoptions`
     else
