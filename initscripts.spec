@@ -1,6 +1,6 @@
 Summary: inittab and /etc/rc.d scripts
 Name: initscripts
-%define version 3.73
+%define version 3.74
 Version: %{version}
 Copyright: GPL
 Group: Base
@@ -155,7 +155,8 @@ rm -rf $RPM_BUILD_ROOT
 %doc sysconfig.txt
 
 %changelog
-* Mon Oct 05 1998 Cristian Gafton <gafton@redhat.com>
+* Tue Oct 06 1998 Cristian Gafton <gafton@redhat.com>
+- rc.sysvinit should be working with all kernel versions now
 - requires e2fsprogs (for fsck)
 - set INPUTRC and LESSCHARSET on linux-lat
 
