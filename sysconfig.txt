@@ -53,7 +53,12 @@ Files in /etc/sysconfig
 /etc/sysconfig/keyboard:
 
   KEYTABLE=<keytable file>
-  for example: KEYTABLE="/usr/lib/kbd/keytables/us.map"
+     for example: KEYTABLE="/usr/lib/kbd/keytables/us.map"
+  KEYBOARDTYPE=sun|pc
+    on SPARC only, sun means a sun keyboard is attached on /dev/kbd,
+    pc means a PS/2 keyboard is on ps/2 port.
+  
+  
 
 /etc/sysconfig/mouse:
 
@@ -334,12 +339,15 @@ Files in /etc/sysconfig/network-scripts/
   The above four variables are used in rc.sysinit.
 
   SYSFONT= any font that is legal when used as
-	/usr/sbin/setfont $SYSFONT ...
-    (See kbd package for sysfont command)
+	/usr/bin/consolechars -f $SYSFONT ...
+    (See console-tools package for sysfont command)
 
   UNIMAP= any unicode font that is legal fodder for
-	/usr/sbin/setfont $SYSFONT-u $UNIMAP
-
+	/usr/bin/consolechars -f $SYSFONT --sfm $UNIMAP
+ 
+  SYSFONTACM= any ACM (application charset map - see consolechars(8))
+        /usr/bin/consolechars -f $SYSFONT --acm $SYSFONTACM
+ 
   The above is used by the /sbin/setsysfont command (which is run
   by rc.sysinit at boot time).
 
