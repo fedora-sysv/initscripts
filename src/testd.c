@@ -1,7 +1,8 @@
 #include <sys/signal.h>
 #include <unistd.h>
 
-void main() {
+int main() {
     signal(SIGTERM, SIG_IGN);
     while (1) sleep(20);
+    exit(0);
 }

@@ -208,9 +208,9 @@ int runCommand(char *cmd, int reexec, int quiet, int debug) {
     }
     args[pid] = NULL;
     if (strcmp(args[0],"sh") && strcmp(args[0],"/bin/sh")) 
-      cmdname = basename(args[0]);
+      cmdname = (char *)basename(args[0]);
     else
-      cmdname = basename(args[1]);
+      cmdname = (char *)basename(args[1]);
     if ((cmdname[0] =='K' || cmdname[0] == 'S') && ( 30 <= cmdname[1] <= 39 )
        && ( 30 <= cmdname[2] <= 39 ) )
       cmdname+=3;

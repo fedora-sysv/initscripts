@@ -11,7 +11,7 @@
 #include <string.h>
 #include <stdio.h>
 
-void main(int argc, char **argv)
+int main(int argc, char **argv)
 {
 
   double count;
