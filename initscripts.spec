@@ -18,7 +18,6 @@ Requires: /sbin/ip, /sbin/arping, net-tools
 Requires: /etc/redhat-release, dev
 Requires: ethtool >= 1.8-2, kernel >= 2.6, /sbin/nash, /sbin/runuser
 Conflicts: mkinitrd < 4.0
-Conflicts: timeconfig < 3.0, ppp < 2.3.9, wvdial < 1.40-3
 Conflicts: ypbind < 1.6-12, psacct < 6.3.2-12, kbd < 1.06-19, lokkit < 0.50-14
 Conflicts: udev < 0:048
 Conflicts: tcsh < 6.13-5
