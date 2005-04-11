@@ -28,13 +28,15 @@ fi
 
 for file in $FILES; do
    if [ -f "$file" ]; then
-       if egrep -q 'ADDRESS[0-9]+=' $file ; then
+       if egrep -q '^[[:space:]]*ADDRESS[0-9]+=' ; then
            # new format
 	   handle_file $file $1
        else
            # older format
            while read line; do
-               /sbin/ip route add $line
+               if [ "$line" == "${line##\#}" ]; then
+                   /sbin/ip route add $line
+               fi
            done < "$file"
        fi
    fi
