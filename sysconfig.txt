@@ -877,8 +877,32 @@ Files in /etc/sysconfig/network-scripts/
 
 /etc/sysconfig/network-scripts/route-<interface-name>
 
-  Contains lines that are arguments to "/sbin/ip route add"
-  For example:
+  Contains lines that specify additional routes that should be added when the
+  associated interface is brought up.
+
+  The files are processed by the ifup-routes script and uses the /sbin/ipcalc
+  utility for all network masks and numbers. Routes are specified using the
+  syntax:
+
+    ADDRESSn=<network>
+    NETMASKn=<network/prefix mask>
+    GATEWAYn=<next-hop router/gateway IP address>
+
+  The "n" can be any integer number, but is expected to be monotonically
+  increasing and counting starts from 0. For example:
+
+    ADDRESS0=192.168.2.0
+    NETMASK0=255.255.255.0
+    GATEWAY0=192.168.1.1
+
+  adds a network route to the 192.168.2.0 network via the gateway at
+  192.168.1.1. Since you must already have a route to the network of the
+  gateway, there is no need to specify a device.
+
+  Note: The ifup-routes script also supports an older syntax designed to be
+  used directly as an argument to "/sbin/ip route add". This syntax is
+  deprecated, but if no "ADDRESSn" lines are found the following will still
+  work:
   
   192.168.2.0/24 dev ppp0
   
