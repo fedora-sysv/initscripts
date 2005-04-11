@@ -22,7 +22,7 @@ Conflicts: ypbind < 1.6-12, psacct < 6.3.2-12, kbd < 1.06-19, lokkit < 0.50-14
 Conflicts: udev < 0:048
 Conflicts: tcsh < 6.13-5
 Obsoletes: rhsound sapinit
-Prereq: /sbin/chkconfig, /usr/sbin/groupadd, gawk, fileutils, sh-utils
+Prereq: /sbin/chkconfig, /usr/sbin/groupadd, /bin/sed, mktemp, fileutils, sh-utils
 BuildPrereq: glib2-devel popt gettext pkgconfig
 BuildPrereq: kudzu-devel >= 1.1.80
 
