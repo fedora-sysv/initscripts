@@ -86,16 +86,6 @@ if [ $1 = 0 ]; then
   fi
 fi
 
-# dup of timeconfig %post - here to avoid a dependency
-if [ -L /etc/localtime ]; then
-    _FNAME=`ls -ld /etc/localtime | awk '{ print $11}' | sed 's/lib/share/'`
-    rm /etc/localtime
-    cp -f $_FNAME /etc/localtime
-    if ! grep -q "^ZONE=" /etc/sysconfig/clock ; then
-      echo "ZONE=\"$_FNAME"\" | sed -e "s|[^\"]*/usr/share/zoneinfo/||" >> /etc/sysconfig/clock
-    fi
-fi
-
 %preun
 if [ $1 = 0 ]; then
   /sbin/chkconfig --del netfs
