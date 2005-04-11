@@ -26,12 +26,12 @@ fi
 
 shopt -s execfail
 
-[ -n "$preferred" ] && exec $preferred $* >/dev/null 2>&1
+[ -n "$preferred" ] && exec $preferred "$@" >/dev/null 2>&1
 
 # Fallbacks, in order
-exec gdm $* >/dev/null 2>&1
-exec kdm $* >/dev/null 2>&1
-exec xdm $* >/dev/null 2>&1
+exec gdm "$@" >/dev/null 2>&1
+exec kdm "$@" >/dev/null 2>&1
+exec xdm "$@" >/dev/null 2>&1
 
 # catch all exit error
 exit 1
