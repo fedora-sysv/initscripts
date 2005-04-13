@@ -34,7 +34,7 @@ for file in $FILES; do
        else
            # older format
            while read line; do
-               if [ "$line" == "${line##\#}" ]; then
+               if [[ ! "$line" =~ '^[[:space:]]*(\#.*)?$' ]; then
                    /sbin/ip route add $line
                fi
            done < "$file"
