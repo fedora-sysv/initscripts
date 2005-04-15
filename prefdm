@@ -20,6 +20,8 @@ if [ -f /etc/sysconfig/desktop ]; then
 		preferred=kdm
 	elif [ "$DISPLAYMANAGER" = XDM ]; then
 	        preferred=xdm
+        elif [ -n "$DISPLAYMANAGER" ]; then
+		preferred=$DISPLAYMANAGER
 	fi
 fi
 
