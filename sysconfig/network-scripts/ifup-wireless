@@ -25,6 +25,7 @@
 #    FRAG: Fragmentation threshold to split packets.  Usually not specified.
 #    SPYIPS: List of IP addresses to "spy" on for link performance stats.
 #    IWCONFIG: Extra parameters to pass directly to IWCONFIG
+#    SECURITYMODE: Security mode, e.g: 'open' or 'restricted'
 #    IWPRIV: Extra parameters to pass directly to IWPRIV
 
 # Only meant to be called from ifup.
@@ -62,6 +63,9 @@ if [ -n "$KEY" -o -n "$KEY1" -o -n "$KEY2" -o -n "$KEY3" -o -n "$KEY4" ] ; then
     [ -n "$KEY" ] && iwconfig $DEVICE key $KEY
 else
     iwconfig $DEVICE key off
+fi
+if [ -n "$SECURITYMODE" ]; then
+    iwconfig $DEVICE enc $SECURITYMODE
 fi
 if [ -n "$RTS" ] ; then
     iwconfig $DEVICE rts $RTS
