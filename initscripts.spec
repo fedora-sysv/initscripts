@@ -119,6 +119,7 @@ rm -rf $RPM_BUILD_ROOT
 /etc/sysconfig/network-scripts/ifup
 %config /sbin/ifup
 %dir /etc/sysconfig/console
+%dir /etc/sysconfig/modules
 %dir /etc/sysconfig/networking
 %dir /etc/sysconfig/networking/devices
 %dir /etc/sysconfig/networking/profiles

@@ -41,6 +41,7 @@ install:
 	chmod 755 $(ROOT)/etc/sysconfig/network-scripts/ifup-*
 	chmod 755 $(ROOT)/etc/sysconfig/network-scripts/ifdown-*
 	chmod 755 $(ROOT)/etc/sysconfig/network-scripts/init*
+	mkdir -p $(ROOT)/etc/sysconfig/modules
 	mkdir -p $(ROOT)/etc/sysconfig/networking/devices
 	mkdir -p $(ROOT)/etc/sysconfig/networking/profiles/default
 	#mv  $(ROOT)/etc/sysconfig/network-scripts/ifcfg-lo \
