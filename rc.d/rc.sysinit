@@ -487,12 +487,6 @@ if [ -n "$SELINUX" -a strstr "$cmdline" autorelabel ]; then
    relabel_selinux
 fi
 
-# The root filesystem is now read-write, so we can now log
-# via syslog() directly..
-if [ -n "$IN_INITLOG" ]; then
-    IN_INITLOG=
-fi
-
 # Load modules (for backward compatibility with VARs)
 if [ -f /etc/rc.modules ]; then
 	/etc/rc.modules
