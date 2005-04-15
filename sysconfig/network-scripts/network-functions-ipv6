@@ -137,11 +137,6 @@ ipv6_log() {
 		fi
 		;;
 	    'syslog')
-		# note: logger resides in /usr/bin, but not used by default
-		if ! [ -x logger ]; then
-			echo $"ERROR: [ipv6_log] Syslog is chosen, but binary 'logger' doesn't exist or isn't executable" >/dev/stderr
-			return 3
-		fi
 		if [ -z "$txt_name" ]; then
 			logger -p $facility.$priority $message
 		else
@@ -188,16 +183,6 @@ ipv6_test() {
 
 	if ! [ -d /proc/sys/net/ipv6/conf/ ]; then
 		return 2
-	fi
-
-	if ! [ -x /sbin/ip ]; then
-		ipv6_log $"Utility 'ip' (package: iproute) doesn't exist or isn't executable - stop" crit $fn
-		return 2													
-	fi
-
-	if ! [ -x /sbin/sysctl ]; then
-		ipv6_log $"Utility 'sysctl' (package: procps) doesn't exist or isn't executable - stop" crit $fn
-		return 2													
 	fi
 
 	return 0
