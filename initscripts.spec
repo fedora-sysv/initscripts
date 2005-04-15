@@ -13,7 +13,7 @@ Requires: /sbin/sysctl, sysklogd >= 1.3.31
 Requires: setup >= 2.0.3, /sbin/fuser, /bin/grep
 Requires: modutils >= 2.3.11-5
 Requires: util-linux >= 2.10s-11, mount >= 2.11l
-Requires: bash >= 2.0, SysVinit
+Requires: bash >= 3.0, SysVinit
 Requires: /sbin/ip, /sbin/arping, net-tools
 Requires: /etc/redhat-release, dev
 Requires: ethtool >= 1.8-2, kernel >= 2.6, /sbin/nash, /sbin/runuser
