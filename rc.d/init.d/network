@@ -59,7 +59,7 @@ case "$1" in
 		fi
 	fi
   
-	sysctl -e -p /etc/sysctl.conf >/dev/null
+	sysctl -e -p /etc/sysctl.conf >/dev/null 2>&1
 
 	# bring up loopback interface
 	action $"Bringing up loopback interface: " ./ifup ifcfg-lo
@@ -174,7 +174,7 @@ case "$1" in
  		fi
  	fi
 	# Run this again to catch any interface-specific actions
-	sysctl -e -p /etc/sysctl.conf >/dev/null
+	sysctl -e -p /etc/sysctl.conf >/dev/null 2>&1
  
         touch /var/lock/subsys/network
         ;;
