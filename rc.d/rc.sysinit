@@ -220,7 +220,7 @@ echo
 RHGB_STARTED=0
 mount -n /dev/pts
 
-if strstr "$cmdline" rhgb && [ "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
+if strstr "$cmdline" rhgb && ! strstr "$cmdline" early-login && [ "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
    LC_MESSAGES= /usr/bin/rhgb
    RHGB_STARTED=1
 fi
@@ -496,7 +496,7 @@ if [ -f /etc/rc.modules ]; then
 fi
 
 # Start the graphical boot, if necessary and not done yet.
-if strstr "$cmdline" rhgb && [ "$RHGB_STARTED" -eq 0 -a "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
+if strstr "$cmdline" rhgb && ! strstr "$cmdline" early-login && [ "$RHGB_STARTED" -eq 0 -a "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
    LC_MESSAGES= /usr/bin/rhgb
    RHGB_STARTED=1
 fi

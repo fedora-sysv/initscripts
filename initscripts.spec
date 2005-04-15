@@ -85,6 +85,12 @@ if [ $1 = 0 ]; then
   fi
 fi
 
+# Handle converting prefdm to run-once
+if fgrep -q "x:5:respawn:/etc/X11/prefdm -nodaemon" /etc/inittab ; then
+    sed --in-place=.rpmsave 's|^x:5:respawn:/etc/X11/prefdm -nodaemon|x:5:once:/etc/X11/prefdm -nodaemon|g' /etc/inittab
+fi
+
+
 %preun
 if [ $1 = 0 ]; then
   /sbin/chkconfig --del netfs
