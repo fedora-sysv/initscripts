@@ -177,14 +177,6 @@ if [ -n "${DYNCONFIG}" -a -x /sbin/dhclient ]; then
 	echo $" failed."
 	exit 1
     fi
-
-    # DHCP likes to create duplicate routes.  Fix that up.
-    NUMDEFROUTES=`ip -o route | \
-                  awk '/^default/ { nlines++ } END { print nlines }'`
-    if [ -n "$NUMDEFROUTES" ] && [ "$NUMDEFROUTES" -gt 1 ]; then
-	# remove the default route for the new device (old route wins)
-	ip route del default dev ${DEVICE}
-    fi
 # end dynamic device configuration
 else 
     if [ -z "${IPADDR}" ]; then
