@@ -205,6 +205,34 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Apr 15 2005 Bill Nottingham <notting@redhat.com> 8.08-1
+- update translation base
+- automatically send hostname for DHCP if it's available and not
+  overridden (#149667)
+- load user-defined module scripts from /etc/sysconfig/modules at
+  boot (#123927)
+- halt: reverse sort the mount list, avoiding errors
+  (#147254, <jamesodhunt@hotmail.com>)
+- ifup-wireless: add SECURITYMODE (#145407)
+- network-functions: don't error out if hotplug doesn't exist (#140008)
+- ifup: always return errors on trying to bring up nonexistent devices (#131461)
+- ifup: fix error message (#143674)
+- rc.sysinit: add a autorelabel boot target (#154496)
+- prefdm: if something else is specified as $DISPLAYMANAGER, try that (#147304)
+- remove support for the old firewall type
+- network: optimize some (#138557, <drepper@redhat.com>)
+- prefdm: fix prefdm arg handling (#154312, <khc@pm.waw.pl>)
+- gdm early-login support (adapted from <rstrode@redhat.com>)
+- ifup-routes: make sure commented lines are handled correctly (#154353,
+  #114548, <link@pobox.com>)
+- some sysconfig.txt updates (<link@pobox.com>, <jvdias@redhat.com>)
+- rc.sysinit: fix restorecon invocation (#153100)
+- initlog: free some of the more egregious memory leaks (#85935)
+- initlog: fix potential memory overread (#153685, <in-redhat@baka.org>)
+- remove some conflicts, %post scripts, etc. that were only relelvant
+  for upgrades from pre-7.0
+- other minor fixes, see ChangeLog
+
 * Thu Mar 31 2005 Bill Nottingham <notting@redhat.com> 8.07-1
 - bring back initlog for third-party scripts until a new framework is
   in place

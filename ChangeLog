@@ -1,3 +1,109 @@
+2005-04-15  Bill Nottingham  <notting@redhat.com>
+
+	* ChangeLog, initscripts.spec: 8.08-1
+
+	* po/sl.po, po/sq.po, po/sr.po, po/sv.po, po/ta.po, po/tr.po, po/uk.po, po/ur.po, po/vi.po, po/wa.po, po/zh_CN.po, po/zh_TW.po, po/nb.po, po/nl.po, po/nn.po, po/no.po, po/pa.po, po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po, po/ru.po, po/si.po, po/sk.po, po/he.po, po/hi.po, po/hr.po, po/hu.po, po/id.po, po/initscripts.pot, po/is.po, po/it.po, po/ja.po, po/ka.po, po/ko.po, po/ku.po, po/lo.po, po/lt.po, po/mk.po, po/mr.po, po/ms.po, po/ar.po, po/bg.po, po/bn.po, po/bn_IN.po, po/ca.po, po/cs.po, po/cy.po, po/da.po, po/de.po, po/en_GB.po, po/es.po, po/et.po, po/eu_ES.po, po/fi.po, po/fr.po, po/gl.po, po/gu.po:
+	update-po && refresh po
+
+	* sysconfig/network-scripts/network-functions-ipv6:
+	get rid of excess messages
+
+	* initscripts.spec: the recent ifup-routes change requires bash 3.0
+
+	* sysconfig/network-scripts/ifup-eth:
+	automatically send hostname if it's available and not overridden
+	(#149667)
+
+	* Makefile, initscripts.spec, rc.d/rc.sysinit:
+	load user-defined module scripts from /etc/sysconfig/modules at boot
+	(#123927)
+
+	* rc.d/rc.sysinit: remove more initlog code
+
+	* rc.d/init.d/halt:
+	reverse sort the mount list, avoiding errors (#147254, <jamesodhunt@hotmail.com>)
+
+	* sysconfig/network-scripts/ifup-wireless: add SECURITYMODE (#145407)
+
+	* sysconfig/network-scripts/network-functions:
+	don't error out if hotplug doesn't exist (#140008)
+
+	* rc.d/init.d/network: optimize some (#138557, <drepper@redhat.com>)
+
+	* sysconfig/network-scripts/ifdown-ippp: get rid of an ifconfig use
+
+	* rc.d/init.d/network, rc.d/rc.sysinit: silence sysctl some more
+
+	* sysconfig/network-scripts/ifup-eth:
+	- always return errors on trying to bring up nonexistent devices (#131461)
+	- fix error message (#143674)
+
+	* sysconfig.txt: add DHCLIENT_IGNORE_GATEWAY comment
+
+	* sysconfig/network-scripts/ifup-eth:
+	remove duplicate route check... this should get fixed in
+	dhclient-script (or wherever) if it still happens
+
+	* rc.d/rc.sysinit: add a autorelabel boot target (#154496)
+
+	* prefdm:
+	if something else is specified as $DISPLAYMANAGER, try that (#147304)
+
+	* inittab.s390, prefdm, rc.d/rc.sysinit, initscripts.spec, inittab:
+	early-login support
+
+	* sysconfig/network-scripts/ifup-eth: cleanups
+
+	* sysconfig.txt, sysconfig/network-scripts/ifup-eth:
+	more pump/dhcpcd removal
+
+	* sysconfig.txt, sysconfig/network-scripts/ifup-eth, sysconfig/network-scripts/ifup-post:
+	remove support for the old firewall type
+
+2005-04-15  Tamas Szanto  <tszanto@mol.hu>
+
+	* po/hu.po: *** empty log message ***
+
+2005-04-13  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifup-routes:
+	cleanup (#154353, <link@pobox.com>)
+
+2005-04-11  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec: setup-2.0.3 was for RHL 6.1; remove version.
+	setup is required by basesystem. basesystem is required by glibc.
+	ergo, requirement is superfluous
+
+	* initscripts.spec: remove some conflicts for versions pre-7.0
+
+	* initscripts.spec: remove legacy code for upgrades from 6.0 or earlier
+
+	* prefdm: fix prefdm arg handling (#154312, <khc@pm.waw.pl>)
+
+	* sysconfig/network-scripts/ifup-routes:
+	make sure commented lines are handled correctly (#154353, #114548)
+
+	* sysconfig.txt: update documentation (#154531, <link@pobox.com>)
+
+2005-04-05  Bill Nottingham  <notting@redhat.com>
+
+	* src/process.c:
+	fix potential memory overread (#153685, <in-redhat@baka.org>)
+
+2005-04-02  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* po/nb.po: Update
+
+2005-04-01  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit: fix restorecon invocation (#153100)
+
+2005-03-31  Bill Nottingham  <notting@redhat.com>
+
+	* src/initlog.c, src/process.c:
+	free some of the more egregious memory leaks (#85935)
+
 2005-03-31  Bill Nottingham  <notting@redhat.com>
 
 	* ChangeLog, initscripts.spec: 8.07-1
