@@ -167,20 +167,11 @@ if [ -n "${DYNCONFIG}" -a -x /sbin/dhclient ]; then
 	exit 1
     fi
 
-    # Check for a a running instance
-    if [ -f /var/run/dhclient-${DEVICE}.pid ]; then
-    	dhcpid=`cat /var/run/dhclient-${DEVICE}.pid`
-    	if [[ "`readlink /proc/$dhcpid/exe`" =~ "^/sbin/dhclient" ]]; then
-	   echo $" failed - dhclient already running for interface ${DEVICE} (pid $dhcpid)."
-	   exit 1
-	fi
-    fi
-    
     if [ -n "$ETHTOOL_OPTS" ] ; then
         /sbin/ethtool -s ${REALDEVICE} $ETHTOOL_OPTS
     fi
 
-    if /sbin/dhclient ${DHCLIENTARGS} ${DEVICE} >/dev/null 2>&1 ; then
+    if /sbin/dhclient ${DHCLIENTARGS} ${DEVICE} ; then
 	echo $" done."
     else
 	echo $" failed."
