@@ -23,7 +23,7 @@ fi
 # shutdown isdn device
 isdnctrl hangup $DEVICE >/dev/null 2>&1
 sleep 1
-ifconfig $DEVICE down >/dev/null 2>&1
+ip link set dev $DEVICE down >/dev/null 2>&1
 
 # delete isdn device
 isdnctrl delif $DEVICE >/dev/null 2>&1
