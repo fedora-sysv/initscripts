@@ -136,8 +136,6 @@ if [ -w /etc/dhclient-${DEVICE}.conf ] && [ -x /sbin/dhclient ] ; then
 fi
 		     
 if [ -n "${DYNCONFIG}" ]; then
-    PUMPARGS=$PUMPARGS
-    DHCPCDARGS="$DHCPCDARGS -n"
     if [[ "${PERSISTENT_DHCLIENT}" =  [yY1]* ]]; then
        ONESHOT="";
     else
@@ -145,8 +143,6 @@ if [ -n "${DYNCONFIG}" ]; then
     fi;
     if [ -n "${DHCP_HOSTNAME}" ]; then
        # Send a host-name to the DHCP server (requ. by some dhcp servers).
-       PUMPARGS="${PUMPARGS} -h ${DHCP_HOSTNAME}"
-       DHCPCDARGS="${DHCPCDARGS} -h ${DHCP_HOSTNAME}"
        if [ -x /sbin/dhclient ] ; then
           if [ -w /etc/dhclient-${DEVICE}.conf ] ; then
              if ! LC_ALL=C grep "send *host-name *\"${DHCP_HOSTNAME}\"" /etc/dhclient-${DEVICE}.conf > /dev/null 2>&1 ; then
@@ -165,16 +161,6 @@ if [ -n "${DYNCONFIG}" ]; then
        DHCLIENTCONF='';
     fi;
     DHCLIENTARGS="${DHCLIENTARGS} ${ONESHOT} -q ${DHCLIENTCONF} -lf /var/lib/dhcp/dhclient-${DEVICE}.leases -pf /var/run/dhclient-${DEVICE}.pid"
-    if need_hostname; then
-       # Set hostname of host to host-name option supplied by DHCP.
-       PUMPARGS="${PUMPARGS} --lookup-hostname"
-       DHCPCDARGS="${DHCPCDARGS} -H"
-    fi
-    if [ "${PEERDNS}" = "no" ]; then
-       # Do not update/replace resolv.conf.
-       PUMPARGS="${PUMPARGS} -d"
-       DHCPCDARGS="${DHCPCDARGS} -R"
-    fi
     echo
     echo -n $"Determining IP information for ${DEVICE}..."
     if check_link_down ${DEVICE}; then
