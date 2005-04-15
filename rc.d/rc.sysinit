@@ -483,6 +483,9 @@ fi
 if [ -n "$SELINUX" -a -f /.autorelabel ]; then
    relabel_selinux
 fi
+if [ -n "$SELINUX" -a strstr "$cmdline" autorelabel ]; then
+   relabel_selinux
+fi
 
 # The root filesystem is now read-write, so we can now log
 # via syslog() directly..
