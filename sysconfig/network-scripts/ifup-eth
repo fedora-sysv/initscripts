@@ -39,7 +39,7 @@ is_available ${REALDEVICE}
 # bail out, if the MAC does not fit
 if [ -n "${HWADDR}" ]; then
     FOUNDMACADDR=`get_hwaddr ${REALDEVICE}`
-    if [ "${FOUNDMACADDR}" != "${HWADDR}" ]; then
+    if [ -n "${FOUNDMACADDR}" -a "${FOUNDMACADDR}" != "${HWADDR}" ]; then
         curdev=`ip -o link | awk -F ':' -vIGNORECASE=1 "/$HWADDR/ { print \\$2 }"`
         [ -n "$curdev" ] && rename_device "${REALDEVICE}" "${HWADDR}" "${curdev}" || {
 	    echo $"Device ${DEVICE} has different MAC address than expected, ignoring."
@@ -79,12 +79,12 @@ fi
 
 # now check the real state
 is_available ${REALDEVICE} || {
-      if [ "$?" = "1" ] ; then
+      if [ -n "$alias" ]; then
          echo $"$alias device ${DEVICE} does not seem to be present, delaying initialization."
-         exit 1
       else
-         exit 0
+         echo $"Device ${DEVICE} does not seem to be present, delaying initialization."
       fi
+      exit 1
 }
 
 # is the device wireless? If so, configure wireless device specifics
