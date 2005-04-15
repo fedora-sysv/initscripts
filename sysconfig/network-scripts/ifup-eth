@@ -128,14 +128,14 @@ if [ -n "${MTU}" ]; then
    ip link set dev ${DEVICE} mtu ${MTU}
 fi
 
-# Remove any temporary references which were previously added to dhclient config
-if [ -w /etc/dhclient-${DEVICE}.conf ] && [ -x /sbin/dhclient ] ; then
-   LC_ALL=C grep -v "# temporary RHL ifup addition" /etc/dhclient-${DEVICE}.conf > /etc/dhclient-${DEVICE}.conf.ifupnew 2> /dev/null
-   cat /etc/dhclient-${DEVICE}.conf.ifupnew > /etc/dhclient-${DEVICE}.conf
-   rm -f /etc/dhclient-${DEVICE}.conf.ifupnew
-fi
 		     
-if [ -n "${DYNCONFIG}" ]; then
+if [ -n "${DYNCONFIG}" -a -x /sbin/dhclient ]; then
+    # Remove any temporary references which were previously added to dhclient config
+    if [ -w /etc/dhclient-${DEVICE}.conf ] ; then
+        LC_ALL=C grep -v "# temporary RHL ifup addition" /etc/dhclient-${DEVICE}.conf > /etc/dhclient-${DEVICE}.conf.ifupnew 2> /dev/null
+        cat /etc/dhclient-${DEVICE}.conf.ifupnew > /etc/dhclient-${DEVICE}.conf
+        rm -f /etc/dhclient-${DEVICE}.conf.ifupnew
+    fi
     if [[ "${PERSISTENT_DHCLIENT}" =  [yY1]* ]]; then
        ONESHOT="";
     else
@@ -143,14 +143,12 @@ if [ -n "${DYNCONFIG}" ]; then
     fi;
     if [ -n "${DHCP_HOSTNAME}" ]; then
        # Send a host-name to the DHCP server (requ. by some dhcp servers).
-       if [ -x /sbin/dhclient ] ; then
-          if [ -w /etc/dhclient-${DEVICE}.conf ] ; then
-             if ! LC_ALL=C grep "send *host-name *\"${DHCP_HOSTNAME}\"" /etc/dhclient-${DEVICE}.conf > /dev/null 2>&1 ; then
-                echo "send host-name \"${DHCP_HOSTNAME}\";  # temporary RHL ifup addition" >> /etc/dhclient-${DEVICE}.conf
-             fi
-          elif ! [ -e /etc/dhclient-${DEVICE}.conf ] ; then
-             echo "send host-name \"${DHCP_HOSTNAME}\";  # temporary RHL ifup addition" >> /etc/dhclient-${DEVICE}.conf
-          fi
+       if [ -w /etc/dhclient-${DEVICE}.conf ] ; then
+           if ! LC_ALL=C grep "send *host-name *\"${DHCP_HOSTNAME}\"" /etc/dhclient-${DEVICE}.conf > /dev/null 2>&1 ; then
+               echo "send host-name \"${DHCP_HOSTNAME}\";  # temporary RHL ifup addition" >> /etc/dhclient-${DEVICE}.conf
+           fi
+       elif ! [ -e /etc/dhclient-${DEVICE}.conf ] ; then
+           echo "send host-name \"${DHCP_HOSTNAME}\";  # temporary RHL ifup addition" >> /etc/dhclient-${DEVICE}.conf
        fi
     fi
     # allow users to use generic '/etc/dhclient.conf' (as documented in manpage!) 
@@ -173,7 +171,7 @@ if [ -n "${DYNCONFIG}" ]; then
         /sbin/ethtool -s ${REALDEVICE} $ETHTOOL_OPTS
     fi
 
-    if [ -x /sbin/dhclient ] && /sbin/dhclient ${DHCLIENTARGS} ${DEVICE} ; then
+    if /sbin/dhclient ${DHCLIENTARGS} ${DEVICE} ; then
 	echo $" done."
     else
 	echo $" failed."
