@@ -565,6 +565,13 @@ Files in /etc/sysconfig/network-scripts/
       With this option set to 'yes' (1), when a dhcp configured
       interface is brought down with 'ifdown', the lease will be
       released. Otherwise, leases are not released.
+    DHCLIENT_IGNORE_GATEWAY=yes|no|1|0
+      If set to 'yes', it will cause dhclient-script to ignore any $GATEWAY
+      setting that may be in the ifcfg file for this interface.
+      Otherwise, the dhclient session which obtains an ip-address
+      on the same subnet as $GATEWAY will set the default route
+      to be via $GATEWAY, and no other dhclient session will set
+      the default route.
 
   If BOOTPROTO is not "none", then the only other item that
   must be set is the DEVICE item; all the rest will be determined
