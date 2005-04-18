@@ -493,7 +493,7 @@ fi
 if [ -n "$SELINUX" -a -f /.autorelabel ]; then
    relabel_selinux
 fi
-if [ -n "$SELINUX" -a strstr "$cmdline" autorelabel ]; then
+if [ -n "$SELINUX" ] && strstr "$cmdline" autorelabel ; then
    relabel_selinux
 fi
 

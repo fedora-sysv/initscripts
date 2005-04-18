@@ -205,6 +205,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Apr 18 2005 Florian La Roche <laroche@redhat.com>
+- fix strstr call in rc.sysinit
+
 * Fri Apr 15 2005 Bill Nottingham <notting@redhat.com> 8.08-1
 - update translation base
 - automatically send hostname for DHCP if it's available and not
