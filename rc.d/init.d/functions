@@ -380,6 +380,7 @@ failure() {
   #fi
   [ "$BOOTUP" != "verbose" -a -z "$LSB" ] && echo_failure
   [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --details=yes
+  [ -w /var/gdm/.gdmfifo ] && echo "BOOTUP_ERRORS" > /var/gdm/.gdmfifo
   return $rc
 }
 
