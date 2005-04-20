@@ -75,6 +75,14 @@ unsigned int get_num_cpus() {
 			return ncpus / nsibs;
 		}
 	}
+	if (ebx==0x68747541 && edx==0x69746e65 && ecx==0x444d4163) {
+		int nsibs;
+		
+		cpuid(1, &eax, &ebx, &ecx, &edx);
+		nsibs = (ebx & 0xff0000) >> 16;
+		if (nsibs == 0) nsibs = 1;
+		return ncpus / nsibs;
+	}
 #endif
 	return ncpus;
 }
