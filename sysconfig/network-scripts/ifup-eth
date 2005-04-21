@@ -141,9 +141,6 @@ if [ -n "${DYNCONFIG}" -a -x /sbin/dhclient ]; then
     else
        ONESHOT="-1";
     fi;
-    if ! need_hostname && [ -z "${DHCP_HOSTNAME}" ]; then
-       DHCP_HOSTNAME=`hostname`
-    fi
     if [ -n "${DHCP_HOSTNAME}" ]; then
        # Send a host-name to the DHCP server (requ. by some dhcp servers).
        if [ -w /etc/dhclient-${DEVICE}.conf ] ; then
