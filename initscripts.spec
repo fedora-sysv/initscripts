@@ -70,8 +70,9 @@ rm -f \
 %post
 touch /var/log/wtmp
 touch /var/run/utmp
-chown root:utmp /var/log/wtmp /var/run/utmp
-chmod 664 /var/log/wtmp /var/run/utmp
+touch /var/log/btmp
+chown root:utmp /var/log/wtmp /var/run/utmp /var/log/btmp
+chmod 664 /var/log/wtmp /var/run/utmp /var/log/btmp
 
 /sbin/chkconfig --add netfs 
 /sbin/chkconfig --add network 
@@ -201,6 +202,7 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/ppp/ipv6-down
 %config /etc/initlog.conf
 %doc sysconfig.txt sysvinitfiles ChangeLog static-routes-ipv6 ipv6-tunnel.howto ipv6-6to4.howto changes.ipv6
+%ghost %attr(0664,root,utmp) /var/log/btmp
 %ghost %attr(0664,root,utmp) /var/log/wtmp
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
