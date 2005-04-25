@@ -141,7 +141,17 @@ fi
 (logger -p daemon.info -t ifup-ppp \
   $"pppd started for ${DEVNAME} on ${MODEMPORT} at ${LINESPEED}" &)&
 
-exec pppd $opts ${MODEMPORT} ${LINESPEED} \
+pppd $opts ${MODEMPORT} ${LINESPEED} \
     ipparam ${DEVNAME} linkname ${DEVNAME} call ${DEVNAME}\
     noauth \
-    ${PPPOPTIONS}
+    ${PPPOPTIONS} || exit
+
+if [ "${DEMAND}" = "yes" ] ; then
+  # pppd is a tad slow to write the pid-file.
+  sleep 2
+  if [ -f /var/run/ppp-${DEVNAME}.pid ] ; then
+    REALDEVICE=`tail -1 /var/run/ppp-${DEVNAME}.pid`
+    /etc/sysconfig/network-scripts/ifup-routes ${REALDEVICE} ${DEVNAME}
+  fi
+fi
+
