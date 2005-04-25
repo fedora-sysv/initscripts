@@ -183,8 +183,8 @@ killproc() {
 		done
 	fi
 	if [ -z "$pid" ]; then
-		pid=`pidof -o $$ -o $PPID -o %PPID -x $1 || \
-			pidof -o $$ -o $PPID -o %PPID -x $base`
+		pid=`pidof -c -o $$ -o $PPID -o %PPID -x $1 || \
+			pidof -c -o $$ -o $PPID -o %PPID -x $base`
 	fi
 
         # Kill it.
@@ -272,8 +272,8 @@ pidofproc() {
 	                return 0
 	        fi
 	fi
-	pidof -o $$ -o $PPID -o %PPID -x $1 || \
-		pidof -o $$ -o $PPID -o %PPID -x $base
+	pidof -c -o $$ -o $PPID -o %PPID -x $1 || \
+		pidof -c -o $$ -o $PPID -o %PPID -x $base
 }
 
 status() {
