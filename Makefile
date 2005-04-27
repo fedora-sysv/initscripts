@@ -72,6 +72,7 @@ install:
 	chmod u=rwx,g=rwx,o=rx $(ROOT)/var/run/netreport
 	touch $(ROOT)/var/run/utmp
 	touch $(ROOT)/var/log/wtmp
+	touch $(ROOT)/var/log/btmp
 
 	for i in 0 1 2 3 4 5 6 ; do \
 		dir=$(ROOT)/etc/rc.d/rc$$i.d; \
