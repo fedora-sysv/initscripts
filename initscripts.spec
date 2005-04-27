@@ -1,9 +1,9 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.08
+Version: 8.09
 License: GPL
 Group: System Environment/Base
-Release: 3
+Release: 1
 Source: initscripts-%{version}.tar.bz2
 URL: http://fedora.redhat.com/projects/additional-projects/initscripts/
 Patch0: initscripts-s390.patch
@@ -207,6 +207,16 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Apr 27 2005 Bill Nottingham <notting@redhat.com> 8.09-1
+- rc.sysinit: clean up screen sockets (#155969)
+- functions: use pidof -c in various functions
+- ifup-ppp: fix static routes with ppp demand dialing (#20142,
+  <ohrn+redhat@chalmers.se>)
+- add btmp support (#155537)
+- don't send dhcp hostname (revert of fix for #149667)
+- more early-login modifications (<mclasen@redhat.com>)
+- functions: fix echo (#155270)
+
 * Mon Apr 18 2005 Karsten Hopp <karsten@redhat.de> 8.08-3
 - fix ifup-routes script (#155195)
 
