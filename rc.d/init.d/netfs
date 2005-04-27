@@ -24,10 +24,10 @@ SMBFSTAB=`LC_ALL=C awk '!/^#/ && $3 == "smbfs" && $4 !~ /noauto/ { print $2 }' /
 CIFSFSTAB=`LC_ALL=C awk '!/^#/ && $3 == "cifs" && $4 !~ /noauto/ { print $2 }' /etc/fstab`
 NCPFSTAB=`LC_ALL=C awk '!/^#/ && $3 == "ncpfs" && $4 !~ /noauto/ { print $2 }' /etc/fstab`
 NETDEVMTAB=`LC_ALL=C awk '!/^#/ && $4 ~ /_netdev/ && $2 != "/" { print $2 }' /etc/mtab`
-NFSMTAB=`LC_ALL=C awk '!/^#/ && $3 ~ /^nfs/ && $3 != "nfsd" && $2 != "/" { print $2 }' /proc/mounts`
-SMBMTAB=`LC_ALL=C awk '!/^#/ && $3 == "smbfs" { print $2 }' /proc/mounts`
-CIFSMTAB=`LC_ALL=C awk '!/^#/ && $3 == "cifs" { print $2 }' /proc/mounts`
-NCPMTAB=`LC_ALL=C awk '!/^#/ && $3 == "ncpfs" { print $2 }' /proc/mounts`
+NFSMTAB=`LC_ALL=C awk '$3 ~ /^nfs/ && $3 != "nfsd" && $2 != "/" { print $2 }' /proc/mounts`
+SMBMTAB=`LC_ALL=C awk '$3 == "smbfs" { print $2 }' /proc/mounts`
+CIFSMTAB=`LC_ALL=C awk '$3 == "cifs" { print $2 }' /proc/mounts`
+NCPMTAB=`LC_ALL=C awk '$3 == "ncpfs" { print $2 }' /proc/mounts`
 
 # See how we were called.
 case "$1" in
@@ -45,8 +45,8 @@ case "$1" in
 	;;
   stop)
         # Unmount loopback stuff first
-	remaining=`LC_ALL=C awk '!/^#/ && $1 ~ /^\/dev\/loop/ && $2 != "/" {print $2}' /proc/mounts`
-	devremaining=`LC_ALL=C awk '!/^#/ && $1 ~ /^\/dev\/loop/ && $2 != "/" {print $1}' /proc/mounts`
+	remaining=`LC_ALL=C awk '$1 ~ /^\/dev\/loop/ && $2 != "/" {print $2}' /proc/mounts`
+	devremaining=`LC_ALL=C awk '$1 ~ /^\/dev\/loop/ && $2 != "/" {print $1}' /proc/mounts`
 	[ -n "$remaining" ] && {
 	        sig=
 		retry=3
@@ -61,8 +61,8 @@ case "$1" in
 				losetup $dev >/dev/null 2>&1 && \
 				action $"Detaching loopback device $dev: " losetup -d $dev
 			done	
-			remaining=`LC_ALL=C awk '!/^#/ && $1 ~ /^\/dev\/loop/ && $2 != "/" {print $2}' /proc/mounts`
-			devremaining=`LC_ALL=C awk '!/^#/ && $1 ~ /^\/dev\/loop/ && $2 != "/" {print $1}' /proc/mounts`
+			remaining=`LC_ALL=C awk '$1 ~ /^\/dev\/loop/ && $2 != "/" {print $2}' /proc/mounts`
+			devremaining=`LC_ALL=C awk '$1 ~ /^\/dev\/loop/ && $2 != "/" {print $1}' /proc/mounts`
 			[ -z "$remaining" ] && break
 			/sbin/fuser -k -m $sig $remaining >/dev/null
 			sleep 5
@@ -93,7 +93,7 @@ case "$1" in
   	[ -n "$NFSMTAB" ] && {
 		sig=
 		retry=3
-		remaining=`LC_ALL=C awk '!/^#/ && $3 ~ /^nfs/ && $2 != "/" {print $2}' /proc/mounts`
+		remaining=`LC_ALL=C awk '$3 ~ /^nfs/ && $2 != "/" {print $2}' /proc/mounts`
 		while [ -n "$remaining" -a "$retry" -gt 0 ]
 		do
 			if [ "$retry" -lt 3 ]; then
@@ -102,7 +102,7 @@ case "$1" in
 				action $"Unmounting NFS filesystems: " umount -f -l $remaining
 			fi
 			sleep 2
-			remaining=`LC_ALL=C awk '!/^#/ && $3 ~ /^nfs/ && $2 != "/" {print $2}' /proc/mounts`
+			remaining=`LC_ALL=C awk '$3 ~ /^nfs/ && $2 != "/" {print $2}' /proc/mounts`
 			[ -z "$remaining" ] && break
 			/sbin/fuser -k -m $sig $remaining >/dev/null
 			sleep 5

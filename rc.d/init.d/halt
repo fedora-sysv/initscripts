@@ -127,8 +127,8 @@ runcmd $"Syncing hardware clock to system time" /sbin/hwclock $CLOCKFLAGS
 
 # Unmount file systems, killing processes if we have to.
 # Unmount loopback stuff first
-remaining=`awk '!/^#/ && $1 ~ /^\/dev\/loop/ && $2 != "/" {print $2}' /proc/mounts`
-devremaining=`awk '!/^#/ && $1 ~ /^\/dev\/loop/ && $2 != "/" {print $1}' /proc/mounts`
+remaining=`awk '$1 ~ /^\/dev\/loop/ && $2 != "/" {print $2}' /proc/mounts`
+devremaining=`awk '$1 ~ /^\/dev\/loop/ && $2 != "/" {print $1}' /proc/mounts`
 [ -n "$remaining" ] && {
 	sig=
 	retry=3
@@ -143,8 +143,8 @@ devremaining=`awk '!/^#/ && $1 ~ /^\/dev\/loop/ && $2 != "/" {print $1}' /proc/m
 			losetup $dev > /dev/null 2>&1 && \
 				runcmd $"Detaching loopback device $dev: " losetup -d $dev
 		done
-		remaining=`awk '!/^#/ && $1 ~ /^\/dev\/loop/ && $2 != "/" {print $2}' /proc/mounts`
-		devremaining=`awk '!/^#/ && $1 ~ /^\/dev\/loop/ && $2 != "/" {print $1}' /proc/mounts`
+		remaining=`awk '$1 ~ /^\/dev\/loop/ && $2 != "/" {print $2}' /proc/mounts`
+		devremaining=`awk '$1 ~ /^\/dev\/loop/ && $2 != "/" {print $1}' /proc/mounts`
 		[ -z "$remaining" ] && break
 		/sbin/fuser -k -m $sig $remaining >/dev/null
 		sleep 5
@@ -156,7 +156,7 @@ devremaining=`awk '!/^#/ && $1 ~ /^\/dev\/loop/ && $2 != "/" {print $1}' /proc/m
 # Unmount RPC pipe file systems
 sig=
 retry=3
-remaining=`awk '!/^#/ && $3 ~ /^rpc_pipefs$/ || $3 ~ /^rpc_svc_gss_pipefs$/ {print $2}' /proc/mounts`
+remaining=`awk '$3 ~ /^rpc_pipefs$/ || $3 ~ /^rpc_svc_gss_pipefs$/ {print $2}' /proc/mounts`
 
 while [ -n "$remaining" -a "$retry" -gt 0 ]
 do
@@ -166,7 +166,7 @@ do
 		runcmd $"Unmounting pipe file systems: "  umount -f $remaining
 	fi
 	sleep 2
-	remaining=`awk '!/^#/ && $3 ~ /^rpc_pipefs$/ || $3 ~ /^rpc_svc_gss_pipefs$/ {print $2}' /proc/mounts`
+	remaining=`awk '$3 ~ /^rpc_pipefs$/ || $3 ~ /^rpc_svc_gss_pipefs$/ {print $2}' /proc/mounts`
 	[ -z "$remaining" ] && break
 	/sbin/fuser -k -m $sig $remaining >/dev/null
 	sleep 5
