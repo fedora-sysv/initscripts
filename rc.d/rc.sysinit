@@ -579,6 +579,7 @@ for afile in /var/lock/* /var/run/* ; do
 	fi
 done
 rm -f /var/lib/rpm/__db* &> /dev/null
+rm -f /var/gdm/.gdmfifo &> /dev/null
 
 # Reset pam_console permissions
 [ -x /sbin/pam_console_apply ] && /sbin/pam_console_apply -r
