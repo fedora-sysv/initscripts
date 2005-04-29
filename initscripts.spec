@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.09
+Version: 8.10
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -207,6 +207,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Apr 29 2005 Bill Nottingham <notting@redhat.com> 8.10-1
+- fix hang on stale GDM sockets (#156355)
+
 * Wed Apr 27 2005 Bill Nottingham <notting@redhat.com> 8.09-1
 - rc.sysinit: clean up screen sockets (#155969)
 - functions: use pidof -c in various functions
