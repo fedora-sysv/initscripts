@@ -490,11 +490,14 @@ if [ -x /sbin/quotaon ]; then
 fi
 
 # Check to see if a full relabel is needed
-if [ -n "$SELINUX" -a -f /.autorelabel ]; then
-   relabel_selinux
-fi
-if [ -n "$SELINUX" ] && strstr "$cmdline" autorelabel ; then
-   relabel_selinux
+if [ -n "$SELINUX" ]; then 
+    if [ -f /.autorelabel ] || strstr "$cmdline" autorelabel ; then
+	relabel_selinux
+    fi
+else
+    if [ -d /etc/selinux ]; then
+        [ -f /.autorelabel ] || touch /.autorelabel
+    fi
 fi
 
 
