@@ -61,7 +61,7 @@ relabel_selinux() {
 	 *** depending on file system size.          ***
 	 "
     echo "0" > $selinuxfs/enforce
-    /sbin/fixfiles -F relabel > /dev/null 2>&1 
+    /sbin/fixfiles -f -F relabel > /dev/null 2>&1 
     rm -f  /.autorelabel 
     echo "*** Enabling security enforcement.         ***"
     echo $SELINUX > $selinuxfs/enforce
