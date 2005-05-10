@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.10
+Version: 8.11
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -208,6 +208,15 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue May 10 2005 Bill Nottingham <notting@redhat.com> 8.11-1
+- fix mis-bringup of interfaces due to accidentally matched HWADDR
+  (a.k.a. ONBOOT=no not working) (#153669, #157252)
+- support automatic relabeling later if rebooted w/o SELinux
+  (<dwalsh@redhat.com>)
+- rc.sysinit: fix fixfiles invocation (#157182)
+- btmp should be 0600 (#156900)
+- translation updates: fr, bg, ru, mk, pa, es
+
 * Fri Apr 29 2005 Bill Nottingham <notting@redhat.com> 8.10-1
 - fix hang on stale GDM sockets (#156355)
 

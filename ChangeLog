@@ -1,3 +1,76 @@
+2005-05-10  Bill Nottingham  <notting@redhat.com>
+
+	* ChangeLog, initscripts.spec: 8.11-1
+
+	* sysconfig/network-scripts/ifdown-eth, sysconfig/network-scripts/network-functions:
+	fix grep to always match the full hwaddr, as opposed to matching '0'
+	against '00:AA:BB:CC:DD:EE'. Take into account lines that end with
+	spaces, or with "# this is a comment", too. Also, put the grep in only
+	one place instead of 3. Fixes #157252, #153669.
+
+2005-05-10  Philippe  <kissifrot@kissifrot.com>
+
+	* po/fr.po: *** empty log message ***
+
+2005-05-09  Philippe  <kissifrot@kissifrot.com>
+
+	* po/fr.po: *** empty log message ***
+
+2005-05-09  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit:
+	if you boot without selinux support, make sure things are
+	automaitically relabelled later (<dwalsh@redhat.com>)
+
+	* rc.d/rc.sysinit: fix fixfiles invocation (#157182)
+
+2005-05-05  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec: btmp should be 0600 (#156900)
+
+2005-05-04  Nikolay Sarmadzhiev  <nikolays@phxa.com>
+
+	* po/bg.po: *** empty log message ***
+
+2005-05-04  Dmitri Alenitchev  <alenitchev@nm.ru>
+
+	* po/ru.po:
+	Замена "сброс postfix" на "очистка postfix"
+	Замена "отмена postfix" на "экстренный останов postfix"
+
+2005-05-04  Arangel Angov  <ufo@users.ossm.org.mk>
+
+	* po/mk.po: fix
+
+2005-05-03  Dmitri Alenitchev  <alenitchev@nm.ru>
+
+	* po/ru.po: *** empty log message ***
+
+2005-05-03  Amanpreet Singh Alam  <aalam@redhat.com>
+
+	* po/pa.po: update by alam
+
+2005-05-01  Rodolfo M. Raya  <rodolfo@heartsome.net>
+
+	* po/es.po: Reviewed fuzzy entries. This file deserves thorough review
+
+2005-04-30  Jaswinder Singh Phulewala  <jaswinderphulewala@yahoo.com>
+
+	* po/pa.po: update by jaswinderphulewala@yahoo.com
+
+2005-04-29  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec: 8.10-1
+
+	* rc.d/init.d/functions, rc.d/rc.sysinit:
+	fix hang on stale gdm fifo (#156355)
+
+2005-04-27  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/halt, rc.d/init.d/netfs, rc.d/init.d/network:
+	I'm going to go out on a limb and say that /proc/mounts *doesn't* have
+	comments.
+
 2005-04-27  Bill Nottingham  <notting@redhat.com>
 
 	* ChangeLog, initscripts.spec: 8.09-1
