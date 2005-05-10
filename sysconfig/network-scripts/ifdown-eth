@@ -37,7 +37,7 @@ check_device_down ${DEVICE} && [ "$BOOTPROTO" != "dhcp" -a "$BOOTPROTO" != "boot
 if [ -n "${HWADDR}" -a -z "${MACADDR}" ]; then
     FOUNDMACADDR=`get_hwaddr ${REALDEVICE}`
     if [ -n "${FOUNDMACADDR}" -a "${FOUNDMACADDR}" != "${HWADDR}" ]; then
-        NEWCONFIG=`LANG=C grep -il "^[[:space:]]*HWADDR=${HWADDR}" /etc/sysconfig/network-scripts/ifcfg-*`
+        NEWCONFIG=`get_config_by_hwaddr ${FOUNDMACADDR}`
 	if [ -n "${NEWCONFIG}" -a "${NEWCONFIG##*/}" != "${CONFIG##*/}" ]; then
 	   exec /sbin/ifdown ${NEWCONFIG}
 	else

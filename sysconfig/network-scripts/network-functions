@@ -14,6 +14,11 @@ get_hwaddr ()
       awk '{ print toupper($0) }'
 }    
 
+get_config_by_hwaddr ()
+{
+    LANG=C grep -il "^[[:space:]]*HWADDR=${1}\([[:space:]]\+\|#\+\|$\)" /etc/sysconfig/network-scripts/ifcfg-*
+}
+
 need_config ()
 {
     CONFIG="ifcfg-${1}"
@@ -22,7 +27,7 @@ need_config ()
     [ -f "${CONFIG}" ] && return
     local addr=`get_hwaddr ${1}`
     if [ -n "$addr" ]; then
-      local nconfig=`LANG=C grep -il "^[[:space:]]*HWADDR=$addr" /etc/sysconfig/network-scripts/ifcfg-*`
+      local nconfig=`get_config_by_hwaddr ${addr}`
       if [ -n "$nconfig" ] ; then
         CONFIG=$nconfig
 	[ -f "${CONFIG}" ] && return
@@ -155,7 +160,7 @@ rename_device()
 {
     /sbin/nameif "$1" "$2" || {
       local hw2=`get_hwaddr ${1}`
-      local nconfig=`LANG=C grep -il "^[[:space:]]*HWADDR=$hw2" /etc/sysconfig/network-scripts/ifcfg-*`
+      local nconfig=`get_config_by_hwaddr ${hw2}`
       local dev=
       if [ -n "$nconfig"  ]; then
          dev=$(. $nconfig ; echo $DEVICE)
