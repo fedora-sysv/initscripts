@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.11
+Version: 8.11.1
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -208,6 +208,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed May 25 2005 Bill Nottingham <notting@redhat.com> 8.11.1-1
+- fix inability to rename devices brought about by the fix for
+  #131461/#143674 (#158774)
+
 * Tue May 10 2005 Bill Nottingham <notting@redhat.com> 8.11-1
 - fix mis-bringup of interfaces due to accidentally matched HWADDR
   (a.k.a. ONBOOT=no not working) (#153669, #157252)
