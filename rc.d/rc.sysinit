@@ -307,13 +307,15 @@ fi
 update_boot_stage RChostname
 action $"Setting hostname ${HOSTNAME}: " hostname ${HOSTNAME}
 
-# Initialiaze ACPI bits
+# Initialize ACPI bits
 if [ -d /proc/acpi ]; then
-   for module in /lib/modules/$unamer/kernel/drivers/acpi/* ; do
-      insmod $module >/dev/null 2>&1
-   done
+    for module in /lib/modules/$unamer/kernel/drivers/acpi/* ; do
+        module=${module##*/}
+        module=${module%.ko}
+        modprobe $module >/dev/null 2>&1
+    done
 fi
-
+										
 # configure all zfcp (scsi over fibrechannel) devices before trying to mount them
 # zfcpconf.sh exists only on mainframe
 [ -x /sbin/zfcpconf.sh ] && /sbin/zfcpconf.sh
