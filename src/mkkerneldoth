@@ -4,7 +4,7 @@
 #
 
 KERNEL_TYPE=`uname -r | sed 's_^.*\(smp\|enterprise\|bigmem\|hugemem\)$_-\1_;t;s_.*__;'`
-KERNEL_RELEASE=`uname -r | sed 's_smp\|enterprise\|bigmem\|hugemem__g'`
+KERNEL_RELEASE=`uname -r | sed 's|smp\|enterprise\|bigmem\|hugemem||g'`
 
 rpm -q kernel$KERNEL_TYPE-$KERNEL_RELEASE >/dev/null 2>&1 && KERNEL_ARCH=`rpm -q --qf '%{ARCH}' kernel$KERNEL_TYPE-$KERNEL_RELEASE 2>/dev/null` || KERNEL_ARCH=`uname -m`
 
