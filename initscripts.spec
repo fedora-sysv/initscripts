@@ -16,7 +16,7 @@ Requires: util-linux >= 2.10s-11, mount >= 2.11l
 Requires: bash >= 3.0, SysVinit >= 2.85-38
 Requires: /sbin/ip, /sbin/arping, net-tools
 Requires: /etc/redhat-release, dev
-Requires: ethtool >= 1.8-2, kernel >= 2.6, /sbin/nash, /sbin/runuser
+Requires: ethtool >= 1.8-2, kernel >= 2.6.11, /sbin/nash, /sbin/runuser
 Conflicts: mkinitrd < 4.0
 Conflicts: ypbind < 1.6-12, psacct < 6.3.2-12, kbd < 1.06-19, lokkit < 0.50-14
 Conflicts: udev < 0:048
