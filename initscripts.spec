@@ -216,6 +216,7 @@ rm -rf $RPM_BUILD_ROOT
 - initlog: free some of the more egregious memory leaks (#85935)
 - initlog: fix potential memory overread (#153685, <in-redhat@baka.org>)
 - add proper ipsec route (#146169, #140654)
+- fix grep mismatching interfaces (#157252, #153669)
 
 * Wed Apr 20 2005 Bill Nottingham <notting@redhat.com> 7.93.13.EL-2
 - check number of siblings on AMD64 processors as well (#155331)
