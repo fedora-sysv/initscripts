@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.31.23.EL
+Version: 7.31.24.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -249,6 +249,16 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Jun  9 2005 Bill Nottingham <notting@redhat.com> 7.31.24.EL-1
+- initlog: free some of the more egregious memory leaks (#85935)
+- initlog: fix potential memory overread (#153685, <in-redhat@baka.org>)
+- ifup-routes: make sure commented lines are handled correctly (#154353,
+  #114548, <link@pobox.com>)
+- mkkerneldoth: fix for newer sed (#159159, <trevin@xmission.com>)
+
+* Wed Apr 20 2005 Bill Nottingham <notting@redhat.com>
+- check number of siblings on AMD64 processors as well (#155331)
+
 * Thu Mar 31 2005 Bill Nottingham <notting@redhat.com> 7.31.23.EL-1
 - fix mistranslation (#151120)
 - handle alternate VLAN naming schemes (#115001, <kas@informatics.muni.cz>)
