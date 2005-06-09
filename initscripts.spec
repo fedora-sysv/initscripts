@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.93.13.EL
+Version: 7.93.14.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -206,7 +206,21 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
-* Wed Feb  9 2005 Bill Nottingham <notting@redhat.com. 7.93.13.EL-1
+* Thu Jun  9 2005 Bill Nottingham <notting@redhat.com> 7.93.14.EL-1
+- prefdm: fix prefdm arg handling (#154312, <khc@pm.waw.pl>)
+- sysconfig.txt: update route documentation (#154531, <link@pobox.com>)
+- fix mistranslation (#151120)
+- rc.sysinit: reinitialize LVM on top of RAID in the mdadm case (#149514)
+- don't run rngd (#130350, essentially)
+- init.d/functions: fix echo (#155270)
+- initlog: free some of the more egregious memory leaks (#85935)
+- initlog: fix potential memory overread (#153685, <in-redhat@baka.org>)
+- add proper ipsec route (#146169, #140654)
+
+* Wed Apr 20 2005 Bill Nottingham <notting@redhat.com> 7.93.13.EL-2
+- check number of siblings on AMD64 processors as well (#155331)
+
+* Wed Feb  9 2005 Bill Nottingham <notting@redhat.com> 7.93.13.EL-1
 - fix _netdev unmounting (#147610, <alewis@redhat.com>)
 
 * Thu Feb  3 2005 Bill Nottingham <notting@redhat.com> 7.93.12.EL-1
