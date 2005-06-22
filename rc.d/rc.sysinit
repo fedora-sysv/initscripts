@@ -479,13 +479,26 @@ state=`awk '/ \/ / && ($3 !~ /rootfs/) { print $4 }' /proc/mounts`
   action $"Remounting root filesystem in read-write mode: " mount -n -o remount,rw /
 
 # LVM2 initialization
-if [ -x /sbin/lvm.static ]; then
+if [ -x /sbin/lvm.static -o -x /sbin/multipath -o -x /sbin/dmraid ]; then
     if ! LC_ALL=C fgrep -q "device-mapper" /proc/devices 2>/dev/null ; then
 	modprobe dm-mod >/dev/null 2>&1
     fi
     echo "mkdmnod" | /sbin/nash --quiet >/dev/null 2>&1
     [ -n "$SELINUX" ] && restorecon /dev/mapper/control >/dev/null 2>&1
-    if [ -c /dev/mapper/control -a -x /sbin/lvm.static ]; then
+fi
+
+if [ -c /dev/mapper/control ]; then
+    if [ -x /sbin/multipath ]; then
+	modprobe dm-multipath >/dev/null 2>&1
+	/sbin/multipath -v 0
+    fi
+
+    if [ -x /sbin/dmraid ]; then
+        modprobe dm-mirror > /dev/null 2>&1
+	/sbin/dmraid -i -a y
+    fi
+    
+    if [ -x /sbin/lvm.static ]; then
 	if /sbin/lvm.static vgscan --mknodes --ignorelockingfailure > /dev/null 2>&1 ; then
 	    action $"Setting up Logical Volume Management:" /sbin/lvm.static vgchange -a y --ignorelockingfailure
 	fi
@@ -536,9 +549,21 @@ update_boot_stage RCraid
 if [ -f /etc/mdadm.conf ]; then
 	/sbin/mdadm -A -s
 	# LVM2 initialization, take 2
-	if [ -c /dev/mapper/control -a -x /sbin/lvm.static ]; then
-		if /sbin/lvm.static vgscan > /dev/null 2>&1 ; then 
-			action $"Setting up Logical Volume Management:" /sbin/lvm.static vgscan --mknodes --ignorelockingfailure && /sbin/lvm.static vgchange -a y --ignorelockingfailure
+	if [ -c /dev/mapper/control ]; then
+    		if [ -x /sbin/multipath ]; then
+			modprobe dm-multipath >/dev/null 2>&1
+			/sbin/multipath -v 0
+    		fi
+
+    		if [ -x /sbin/dmraid ]; then
+        		modprobe dm-mirror > /dev/null 2>&1
+			/sbin/dmraid -i -a y
+    		fi
+    
+		if [ -x /sbin/lvm.static ]; then
+			if /sbin/lvm.static vgscan > /dev/null 2>&1 ; then 
+				action $"Setting up Logical Volume Management:" /sbin/lvm.static vgscan --mknodes --ignorelockingfailure && /sbin/lvm.static vgchange -a y --ignorelockingfailure
+			fi
 		fi
 	fi
 fi
@@ -624,9 +649,21 @@ if [ -f /etc/raidtab ]; then
 		reboot -f
 	fi
 	# LVM2 initialization, take 2
-	if [ -c /dev/mapper/control -a -x /sbin/lvm.static ]; then
-		if /sbin/lvm.static vgscan > /dev/null 2>&1 ; then 
-			action $"Setting up Logical Volume Management:" /sbin/lvm.static vgscan --mknodes --ignorelockingfailure && /sbin/lvm.static vgchange -a y --ignorelockingfailure
+	if [ -c /dev/mapper/control ]; then
+    		if [ -x /sbin/multipath ]; then
+			modprobe dm-multipath >/dev/null 2>&1
+			/sbin/multipath -v 0
+    		fi
+
+    		if [ -x /sbin/dmraid ]; then
+        		modprobe dm-mirror > /dev/null 2>&1
+			/sbin/dmraid -i -a y
+    		fi
+    
+		if [ -x /sbin/lvm.static ]; then
+			if /sbin/lvm.static vgscan > /dev/null 2>&1 ; then 
+				action $"Setting up Logical Volume Management:" /sbin/lvm.static vgscan --mknodes --ignorelockingfailure && /sbin/lvm.static vgchange -a y --ignorelockingfailure
+			fi
 		fi
 	fi
     fi
