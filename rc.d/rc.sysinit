@@ -491,13 +491,6 @@ if [ -x /sbin/lvm.static ]; then
 	fi
     fi
 fi
-# LVM initialization
-if [ -f /etc/lvmtab ]; then
-    [ -e /proc/lvm ] || modprobe lvm-mod > /dev/null 2>&1
-    if [ -e /proc/lvm -a -x /sbin/vgchange ]; then
-	action $"Setting up Logical Volume Management:" /sbin/vgscan && /sbin/vgchange -a y
-    fi
-fi
 
 # Clean up SELinux labels
 if [ -n "$SELINUX" ]; then
@@ -547,10 +540,6 @@ if [ -f /etc/mdadm.conf ]; then
 		if /sbin/lvm.static vgscan > /dev/null 2>&1 ; then 
 			action $"Setting up Logical Volume Management:" /sbin/lvm.static vgscan --mknodes --ignorelockingfailure && /sbin/lvm.static vgchange -a y --ignorelockingfailure
 		fi
-	fi
-	# LVM initialization, take 2 (it could be on top of RAID)
-	if [ -e /proc/lvm -a -x /sbin/vgchange -a -f /etc/lvmtab ]; then
-		action $"Setting up Logical Volume Management:" /sbin/vgscan && /sbin/vgchange -a y
 	fi
 fi
 
@@ -639,10 +628,6 @@ if [ -f /etc/raidtab ]; then
 		if /sbin/lvm.static vgscan > /dev/null 2>&1 ; then 
 			action $"Setting up Logical Volume Management:" /sbin/lvm.static vgscan --mknodes --ignorelockingfailure && /sbin/lvm.static vgchange -a y --ignorelockingfailure
 		fi
-	fi
-	# LVM initialization, take 2 (it could be on top of RAID)
-	if [ -e /proc/lvm -a -x /sbin/vgchange -a -f /etc/lvmtab ]; then
-		action $"Setting up Logical Volume Management:" /sbin/vgscan && /sbin/vgchange -a y
 	fi
     fi
 fi
