@@ -312,16 +312,28 @@ if [ -f /etc/mdadm.conf ]; then
     /sbin/mdadm -A -s
 fi
 
-# LVM2 initialization
-if [ -x /sbin/lvm.static ]; then
-    if ! LC_ALL=C fgrep -q "device-mapper" /proc/devices 2>/dev/null ; then
+# Device mapper & related initialization
+if ! LC_ALL=C fgrep -q "device-mapper" /proc/devices 2>/dev/null ; then
 	modprobe dm-mod >/dev/null 2>&1
-    fi
-    echo "mkdmnod" | /sbin/nash --quiet >/dev/null 2>&1
-    [ -n "$SELINUX" ] && restorecon /dev/mapper/control >/dev/null 2>&1
-    if [ -c /dev/mapper/control -a -x /sbin/lvm.static ]; then
-	if /sbin/lvm.static vgscan --mknodes --ignorelockingfailure > /dev/null 2>&1 ; then
-	    action $"Setting up Logical Volume Management:" /sbin/lvm.static vgchange -a y --ignorelockingfailure
+fi
+echo "mkdmnod" | /sbin/nash --quiet >/dev/null 2>&1
+[ -n "$SELINUX" ] && restorecon /dev/mapper/control >/dev/null 2>&1
+    
+if [ -c /dev/mapper/control ]; then
+        if [ -x /sbin/multipath ] ; then
+		modprobe dm-multipath > /dev/null 2>&1
+		/sbin/multipath -v 0
+	fi
+	
+	if [ -x /sbin/dmraid ]; then
+		modprobe dm-mirror >/dev/null 2>&1
+		/sbin/dmraid -a y
+	fi
+	
+	if [ -x /sbin/lvm.static ]; then
+		if /sbin/lvm.static vgscan --mknodes --ignorelockingfailure > /dev/null 2>&1 ; then
+			action $"Setting up Logical Volume Management:" /sbin/lvm.static vgchange -a y --ignorelockingfailure
+		fi
 	fi
     fi
 fi
