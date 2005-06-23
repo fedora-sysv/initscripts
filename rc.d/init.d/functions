@@ -145,7 +145,7 @@ daemon() {
 
 	# And start it up.
 	if [ -z "$user" ]; then
-	   $nice $*
+	   $nice /bin/bash -c "$*"
 	else
 	   $nice runuser -s /bin/bash - $user -c "$*"
 	fi
