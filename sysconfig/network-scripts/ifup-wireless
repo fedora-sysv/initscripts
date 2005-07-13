@@ -52,7 +52,7 @@ if [ -n "$SENS" ] ; then
     iwconfig $DEVICE sens $SENS
 fi
 if [ -n "$RATE" ] ; then
-    iwconfig $DEVICE rate $RATE
+    iwconfig $DEVICE rate "$RATE"
 fi
 if [ -n "$KEY" -o -n "$KEY1" -o -n "$KEY2" -o -n "$KEY3" -o -n "$KEY4" ] ; then
     [ -n "$KEY1" ] && iwconfig $DEVICE key [1] $KEY1
