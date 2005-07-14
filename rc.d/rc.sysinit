@@ -610,9 +610,9 @@ mkdir -m 1777 -p /tmp/.ICE-unix >/dev/null 2>&1
 chown root:root /tmp/.ICE-unix
 [ -n "$SELINUX" ] && restorecon /tmp/.ICE-unix >/dev/null 2>&1
 
-if [ -x /etc/init.d/diskdump ]; then
-	/etc/init.d/diskdump swapsavecore
-fi
+#if [ -x /etc/init.d/diskdump ]; then
+#	/etc/init.d/diskdump swapsavecore
+#fi
 
 # Start up swapping.
 update_boot_stage RCswap
