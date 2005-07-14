@@ -218,6 +218,7 @@ rm -rf $RPM_BUILD_ROOT
 - add proper ipsec route (#146169, #140654)
 - fix grep mismatching interfaces (#157252, #153669)
 - handle alternate vlan naming schemes (#115001)
+- netfs: handle lvm & fsck for network block devices (#148764, <alewis@redhat.com>)
 
 * Wed Apr 20 2005 Bill Nottingham <notting@redhat.com> 7.93.13.EL-2
 - check number of siblings on AMD64 processors as well (#155331)
