@@ -219,6 +219,7 @@ rm -rf $RPM_BUILD_ROOT
 - fix grep mismatching interfaces (#157252, #153669)
 - handle alternate vlan naming schemes (#115001)
 - netfs: handle lvm & fsck for network block devices (#148764, <alewis@redhat.com>)
+- support for diskdump on swap partitions (#160223)
 
 * Wed Apr 20 2005 Bill Nottingham <notting@redhat.com> 7.93.13.EL-2
 - check number of siblings on AMD64 processors as well (#155331)
