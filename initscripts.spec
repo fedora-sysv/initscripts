@@ -256,6 +256,7 @@ rm -rf $RPM_BUILD_ROOT
   #114548, <link@pobox.com>)
 - mkkerneldoth: fix for newer sed (#159159, <trevin@xmission.com>)
 - fix grep mismatching interfaces (#157252, #153669)
+- handle lvm & fsck for network block devices (#148764, <alewis@redhat.com>)
 
 * Wed Apr 20 2005 Bill Nottingham <notting@redhat.com>
 - check number of siblings on AMD64 processors as well (#155331)
