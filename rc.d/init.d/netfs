@@ -3,6 +3,7 @@
 # netfs         Mount network filesystems.
 #
 # Authors:	Bill Nottingham <notting@redhat.com>
+#		AJ Lewis <alewis@redhat.com>
 # 		Miquel van Smoorenburg, <miquels@drinkel.nl.mugnet.org>
 #
 # chkconfig: 345 25 75
@@ -23,11 +24,13 @@ NFSFSTAB=`LC_ALL=C awk '!/^#/ && $3 ~ /^nfs/ && $3 != "nfsd" && $4 !~ /noauto/ {
 SMBFSTAB=`LC_ALL=C awk '!/^#/ && $3 == "smbfs" && $4 !~ /noauto/ { print $2 }' /etc/fstab`
 CIFSFSTAB=`LC_ALL=C awk '!/^#/ && $3 == "cifs" && $4 !~ /noauto/ { print $2 }' /etc/fstab`
 NCPFSTAB=`LC_ALL=C awk '!/^#/ && $3 == "ncpfs" && $4 !~ /noauto/ { print $2 }' /etc/fstab`
-NETDEVMTAB=`LC_ALL=C awk '!/^#/ && $4 ~ /_netdev/ && $2 != "/" { print $2 }' /etc/mtab`
+NETDEVFSTAB=`LC_ALL=C awk '!/^#/ && $4 ~/_netdev/ && $4 !~ /noauto/ { print $1 }' /etc/fstab`
+
 NFSMTAB=`LC_ALL=C awk '$3 ~ /^nfs/ && $3 != "nfsd" && $2 != "/" { print $2 }' /proc/mounts`
 SMBMTAB=`LC_ALL=C awk '$3 == "smbfs" { print $2 }' /proc/mounts`
 CIFSMTAB=`LC_ALL=C awk '$3 == "cifs" { print $2 }' /proc/mounts`
 NCPMTAB=`LC_ALL=C awk '$3 == "ncpfs" { print $2 }' /proc/mounts`
+NETDEVMTAB=`LC_ALL=C awk '!/^#/ && $4 ~ /_netdev/ && $2 != "/" { print $2 }' /etc/mtab`
 
 # See how we were called.
 case "$1" in
@@ -40,6 +43,47 @@ case "$1" in
         [ -n "$SMBFSTAB" ] && action $"Mounting SMB filesystems: " mount -a -t smbfs
         [ -n "$CIFSFSTAB" ] && action $"Mounting CIFS filesystems: " mount -a -t cifs
         [ -n "$NCPFSTAB" ] && action $"Mounting NCP filesystems: " mount -a -t ncpfs
+        [ -n "$NETDEVFSTAB" ] &&
+	  {
+	    if [ -x /sbin/lvm.static ]; then
+		if /sbin/lvm.static vgscan > /dev/null 1>&1 ; then
+		       action $"Setting up Logical Volume Management:" /sbin/lvm.static vgchange -a y
+		fi
+	    fi
+	    STRING=$"Checking network-attached filesystems"
+	    
+	    echo $STRING
+	    fsck -A -T -R -a -t opts=_netdev
+	    rc=$?
+	    
+	    if [ "$rc" -eq "0" ]; then
+	    	success "$STRING"
+		echo
+	    elif [ "$rc" -eq "1" ]; then
+	        passed "$STRING"
+	        echo
+	    fi
+	    
+	    if [ "$rc" -gt 1 ]; then
+	    	if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
+			/usr/bin/rhgb-client --details=yes >/dev/null 2>&1
+		fi
+	        
+                failure "$STRING"
+		echo
+		echo
+		echo $"*** An error occurred during the file system check."
+		echo $"*** Dropping you to a shell; the system will reboot"
+		echo $"*** when you leave the shell."
+		
+		str=$"(Repair filesystem)"
+		PS1="$str \# # "; export PS1
+		[ "$SELINUX" = "1" ] && disable_selinux
+		sulogin
+		
+		shutdown -r now
+	   fi
+	  }
 	touch /var/lock/subsys/netfs
 	action $"Mounting other filesystems: " mount -a -t nonfs,nfs4,smbfs,cifs,ncpfs,gfs
 	;;
@@ -133,6 +177,10 @@ case "$1" in
 		     echo $"Configured NCP mountpoints: "
 		     for fs in $NCPFSTAB; do echo $fs ; done
 		}
+		[ -n "$NETDEVFSTAB" ] && {
+		      echo $"Configured network block devices: "
+		      for fs in $NETDEVFSTAB; do echo $fs ; done
+		}
 		[ -n "$NFSMTAB" ] && {
                       echo $"Active NFS mountpoints: "
 		      for fs in $NFSMTAB; do echo $fs ; done
@@ -148,6 +196,10 @@ case "$1" in
 		[ -n "$NCPMTAB" ] && {
                       echo $"Active NCP mountpoints: "
 		      for fs in $NCPMTAB; do echo $fs ; done
+		}
+		[ -n "$NETDEVMTAB" ] && {
+		      echo $"Active network block devices: "
+		      for fs in $NETDEVMTAB; do echo $fs ; done
 		}
 	else
 		echo $"/proc filesystem unavailable"
