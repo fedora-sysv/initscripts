@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.31.24.EL
+Version: 7.31.25.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -249,6 +249,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Jul 18 2005 Bill Nottingham <notting@redhat.com> 7.31.25.EL-1
+- ifup: ensure module always gets loaded if necessary (#163339)
+
 * Thu Jun  9 2005 Bill Nottingham <notting@redhat.com> 7.31.24.EL-1
 - initlog: free some of the more egregious memory leaks (#85935)
 - initlog: fix potential memory overread (#153685, <in-redhat@baka.org>)
