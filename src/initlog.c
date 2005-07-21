@@ -250,11 +250,12 @@ int logEvent(char *cmd, int eventtype,char *string) {
     struct logInfo logentry;
     
     if (cmd) {
-	logentry.cmd = strdup(basename(cmd));
+	logentry.cmd = basename(cmd);
 	if ((logentry.cmd[0] =='K' || logentry.cmd[0] == 'S') &&
 	    ( logentry.cmd[1] >= '0' && logentry.cmd[1] <= '9' ) &&
 	    ( logentry.cmd[2] >= '0' && logentry.cmd[2] <= '9' ) )
 	  logentry.cmd+=3;
+	logentry.cmd = strdup(logentry.cmd);
     } else
       logentry.cmd = strdup(_("(none)"));
     if (!string) {
@@ -283,11 +284,12 @@ int logString(char *cmd, char *string) {
     int rc;
     
     if (cmd) {
-	logentry.cmd = strdup(basename(cmd));
+	logentry.cmd = basename(cmd);
 	if ((logentry.cmd[0] =='K' || logentry.cmd[0] == 'S') && 
 	    ( logentry.cmd[1] >= '0' && logentry.cmd[1] <= 0x39 ) &&
 	    ( logentry.cmd[2] >= '0' && logentry.cmd[2] <= 0x39 ) )
 	  logentry.cmd+=3;
+	logentry.cmd = strdup(logentry.cmd);
     } else
       logentry.cmd = strdup(_(""));
     logentry.line = strdup(string);
