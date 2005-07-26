@@ -26,7 +26,8 @@
 
 #define _(String) gettext((String))
 
-#define SUPPORTINFO "/var/lib/supportinfo"
+#define SUPPORTINFO 	"/var/lib/supportinfo"
+#define CPUINFO		"/proc/cpuinfo"
 
 static int min_mem = 0;
 static int max_mem = 0;
@@ -64,9 +65,10 @@ guint64 get_memory() {
 
 unsigned int get_num_cpus() {
 	int ncpus = sysconf(_SC_NPROCESSORS_ONLN);
-	u_int32_t eax = 0, ebx = 0, ecx = 0, edx = 0;
 	
 #if defined(__i386__) || defined(__x86_64__)
+	u_int32_t eax = 0, ebx = 0, ecx = 0, edx = 0;
+	
 	cpuid(0, &eax, &ebx, &ecx, &edx);
 	if (ebx == 0x756e6547) { /* Intel */
 		cpuid(1, &eax, &ebx, &ecx, &edx);
@@ -90,6 +92,30 @@ unsigned int get_num_cpus() {
 			if (nsibs == 0) nsibs = 1;
 			return ncpus / nsibs;
 		}
+	}
+#endif
+#if defined(__ia64__)
+	gchar *contents, **lines;
+	gsize len;
+	int x;
+	GList *list = NULL;
+	
+	g_file_get_contents(CPUINFO, &contents, &len, NULL);
+	if (!contents)
+		return ncpus;
+	lines = g_strsplit(contents,"\n", 0);
+	
+	len = 0;
+	for (x = 0; lines[x]; x++) {
+		if (g_str_has_prefix(lines[x],"physical id")) {
+			if (!g_list_find_custom(list, lines[x],g_ascii_strcasecmp))
+				list = g_list_prepend(list, lines[x]);
+		}
+	}
+	len = g_list_length(list);
+	if (len) {
+		g_list_free(list);
+		ncpus = len;
 	}
 #endif
 	return ncpus;
