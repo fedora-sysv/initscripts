@@ -431,38 +431,6 @@ Files in /etc/sysconfig
   The above is used by the /sbin/setsysfont command (which is run
   by rc.sysinit at boot time.)
 
-/etc/sysconfig/harddisks
-/etc/sysconfig/harddiskhd[a-h] (for specific devices)
-  These options are used to tune (E)IDE hard drives and other
-  devices - read the hdparm man page for more information
-
-  USE_DMA=1
-    Set this to 1 to enable DMA. This might cause some 
-    data corruption on certain chipset / hard drive
-    combinations. USE WITH CAUTION AND BACKUP.
-    This is used with the "-d" option
-  
-  MULTIPLE_IO=16
-    Multiple sector I/O. a feature of most modern IDE hard drives,
-    permitting the transfer of multiple sectors per I/O interrupt,
-    rather than the usual one sector per interrupt.  When this feature
-    is enabled, it typically reduces operating system overhead for disk
-    I/O by 30-50%.  On many systems, it also provides increased data
-    throughput of anywhere from 5% to 50%.  Some drives, however (most
-    notably the WD Caviar series), seem to run slower with multiple mode
-    enabled. Under rare circumstances, such failures can result in
-    massive filesystem corruption. USE WITH CAUTION AND BACKUP.
-    This is the sector count for multiple sector I/O - the "-m" option
-  
-  EIDE_32BIT=3
-    (E)IDE 32-bit I/O support (to interface card). USE WITH CAUTION.
-  
-  LOOKAHEAD=1
-    Enable drive read-lookahead (safe)
-
-  EXTRA_PARAMS=<anything>
-    Add any extra parameters you want to pass to hdparm here.
-
 Files in /etc/sysconfig/network-scripts/
 ========================================
 
