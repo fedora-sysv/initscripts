@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.93.17.EL
+Version: 7.93.18.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -206,6 +206,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Aug  1 2005 Bill Nottingham <notting@redhat.com> 7.93.18.EL-1
+- don't run multipath unless there's a multipath configuration
+
 * Tue Jul 26 2005 Bill Nottingham <notting@redhat.com> 7.93.17.EL-1
 - redhat-support-check: handle multi-core ia64 (#163783)
 
