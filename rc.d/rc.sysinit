@@ -488,7 +488,7 @@ if [ -x /sbin/lvm.static -o -x /sbin/multipath -o -x /sbin/dmraid ]; then
 fi
 
 if [ -c /dev/mapper/control ]; then
-    if [ -f /etc/multipath.conf -x /sbin/multipath ]; then
+    if [ -f /etc/multipath.conf -a -x /sbin/multipath ]; then
 	modprobe dm-multipath >/dev/null 2>&1
 	/sbin/multipath -v 0
     fi
