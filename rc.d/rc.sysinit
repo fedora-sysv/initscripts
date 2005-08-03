@@ -322,7 +322,7 @@ echo "mkdmnod" | /sbin/nash --quiet >/dev/null 2>&1
 if [ -c /dev/mapper/control ]; then
         if [ -f /etc/multipath.conf -a -x /sbin/multipath ] ; then
 		modprobe dm-multipath > /dev/null 2>&1
-		/sbin/multipath -m -v 0
+		/sbin/multipath -v 0
 	fi
 	
 	if [ -x /sbin/dmraid ]; then
