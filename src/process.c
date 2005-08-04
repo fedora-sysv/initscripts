@@ -252,9 +252,8 @@ int monitor(char *cmdname, int pid, int numfds, int *fds, int reexec, int quiet,
 			      }
 			      cmdargs[cmdargc+1]=NULL;
 			      processArgs(cmdargc+1,cmdargs,1);
-			      for (z=0;z<(cmdargc);z++) {
-				  free(cmdargs[z]);
-			      }
+			      free(cmdargs[0]);
+			      free(tmpargs);
 			      free(cmdargs);
 			  }
 		      }
