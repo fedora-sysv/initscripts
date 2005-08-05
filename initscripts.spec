@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.93.19.EL
+Version: 7.93.20.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -206,6 +206,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Aug  4 2005 Bill Nottingham <notting@redhat.com> 7.93.20.EL-1
+- fix invalid free (#165033)
+
 * Mon Aug  1 2005 Bill Nottingham <notting@redhat.com> 7.93.19.EL-1
 - don't run multipath unless there's a multipath configuration
 
