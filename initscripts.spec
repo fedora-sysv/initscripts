@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.31.26.EL
+Version: 7.31.27.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -249,6 +249,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Aug  4 2005 Bill Nottingham <notting@redhat.com> 7.31.27.EL-1
+- fix invalid free (#165033)
+
 * Fri Jul 22 2005 Bill Nottingham <notting@redhat.com> 7.31.26.EL-1
 - fix invalid free (#163973, <dwalsh@redhat.com>)
 
