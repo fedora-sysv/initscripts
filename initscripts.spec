@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.11
+Version: 8.12
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -209,6 +209,26 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Aug 22 2005 Bill Nottingham <notting@redhat.com> 8.12-1
+- ifup-eth: fix interface renaming (#158774)
+- rc.sysinit: use modprobe, not insmod (#159120, <tmus@tmus.dk>)
+- remove workaround for the fonts-not-initialized-on-secondary-consoles
+  problem (fixed in 2.6.12-rc4 and later)
+- setsysfont: correctly bracket systfontacm (#159706)
+- rc.sysinit: always use udevsend, even if no modules (#160987)
+- ifdown-aliases: add 'cd' to the proper dir (#161170)
+- add diskdump restore support (<tuchida@redhat.com>),
+  conflict with appropriate diskdumputils
+- rc.sysinit: dmraid/multipath support
+  - remove LVM1 support
+- init.d/functions: handle odd quoting in args (#161316, <stransky@redhat.com>)
+- ifup-wireless: set rate in quotes (#163123)
+- handle lvm & fsck for network block devices (#148764,
+  <alewis@redhat.com>)
+- initlog: fix invalid free calls,  (#165033), (#163973,<dwalsh@redhat.com>)
+- sysconfig.txt: remove hdparm docs, since the code isn't there (#162962)
+- updated translations: ms, ja, ko, et, zh_CN, zh_TW, sr, ar
+
 * Tue May 10 2005 Bill Nottingham <notting@redhat.com> 8.11-1
 - fix mis-bringup of interfaces due to accidentally matched HWADDR
   (a.k.a. ONBOOT=no not working) (#153669, #157252)
