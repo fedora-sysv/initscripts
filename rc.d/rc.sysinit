@@ -54,16 +54,15 @@ relabel_selinux() {
     if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
 	chvt 1
     fi
+    . /etc/selinux/config
     echo "
-         *** Warning -- SELinux relabel is required. ***
-	 *** Disabling security enforcement.         ***
-	 *** Relabeling could take a very long time, ***
-	 *** depending on file system size.          ***
+         *** Warning -- SELinux ${SELINUXTYPE} policy relabel is required. ***
+	 *** Relabelling could take a very long time, depending on file    ***
+         *** system size and speed of hard drives.                         ***
 	 "
     echo "0" > $selinuxfs/enforce
-    /sbin/fixfiles -f -F relabel > /dev/null 2>&1 
+    /sbin/fixfiles restore > /dev/null 2>&1 
     rm -f  /.autorelabel 
-    echo "*** Enabling security enforcement.         ***"
     echo $SELINUX > $selinuxfs/enforce
     if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
 	chvt 8
