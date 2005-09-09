@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.12
+Version: 8.13
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -209,6 +209,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Sep  9 2005 Bill Nottingham <notting@redhat.com> 8.13-1
+- fix on-boot relabelling (<dwalsh@redhat.com>)
+
 * Mon Aug 22 2005 Bill Nottingham <notting@redhat.com> 8.12-1
 - ifup-eth: fix interface renaming (#158774)
 - rc.sysinit: use modprobe, not insmod (#159120, <tmus@tmus.dk>)
