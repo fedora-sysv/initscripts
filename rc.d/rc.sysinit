@@ -146,8 +146,13 @@ eval `kmodule -d | while read devtype mod ; do
 	esac
 done`
 
+blacklist=$(modprobe -c | LC_ALL=C awk '/^[[:space:]]*blacklist/ { print $2 }')
+
 load_module () {
-	LC_ALL=C fgrep -xq "$1" /etc/hotplug/blacklist 2>/dev/null || modprobe $1 >/dev/null 2>&1
+	for module in $blacklist ; do
+		[ "$1" = "$module" ] && return
+	done
+	modprobe $1 >/dev/null 2>&1
 }
 
 # IDE
