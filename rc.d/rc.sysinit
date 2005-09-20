@@ -479,7 +479,7 @@ state=`awk '/ \/ / && ($3 !~ /rootfs/) { print $4 }' /proc/mounts`
   action $"Remounting root filesystem in read-write mode: " mount -n -o remount,rw /
 
 # LVM2 initialization
-if [ -x /sbin/lvm.static -o -x /sbin/multipath -o -x /sbin/dmraid ]; then
+if [ -x /sbin/lvm.static -o -x /sbin/multipath.static -o -x /sbin/dmraid ]; then
     if ! LC_ALL=C fgrep -q "device-mapper" /proc/devices 2>/dev/null ; then
 	modprobe dm-mod >/dev/null 2>&1
     fi
@@ -488,9 +488,9 @@ if [ -x /sbin/lvm.static -o -x /sbin/multipath -o -x /sbin/dmraid ]; then
 fi
 
 if [ -c /dev/mapper/control ]; then
-    if [ -f /etc/multipath.conf -a -x /sbin/multipath ]; then
+    if [ -f /etc/multipath.conf -a -x /sbin/multipath.static ]; then
 	modprobe dm-multipath >/dev/null 2>&1
-	/sbin/multipath -v 0
+	/sbin/multipath.static -v 0
     fi
 
     if [ -x /sbin/dmraid ]; then
