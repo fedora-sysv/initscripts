@@ -249,6 +249,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Sep 21 2005 Bill Nottingham <notting@redhat.com>
+- backport ia64 multi-core support to redhat-support-check (#164305)
+
 * Thu Aug  4 2005 Bill Nottingham <notting@redhat.com> 7.31.27.EL-1
 - fix invalid free (#165033)
 
