@@ -54,6 +54,9 @@ relabel_selinux() {
     if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
 	chvt 1
     fi
+    # if /sbin/init is not labeled correctly this process is running in the 
+    # wrong context, so a reboot will be reuired after relabel
+    REBOOTFLAG=`restorecon -v /sbin/init`
     . /etc/selinux/config
     echo "
          *** Warning -- SELinux ${SELINUXTYPE} policy relabel is required. ***
@@ -63,6 +66,10 @@ relabel_selinux() {
     echo "0" > $selinuxfs/enforce
     /sbin/fixfiles restore > /dev/null 2>&1 
     rm -f  /.autorelabel 
+    if [ ! -z "$REBOOTFLAG" ]; then 
+		echo $"Automatic reboot in progress."
+		reboot -f
+    fi
     echo $SELINUX > $selinuxfs/enforce
     if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
 	chvt 8
