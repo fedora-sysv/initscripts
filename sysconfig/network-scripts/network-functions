@@ -158,7 +158,7 @@ do_netreport ()
 
 rename_device()
 {
-    /sbin/nameif "$1" "$2" || {
+    /sbin/nameif "$1" "$2" 2>/dev/null || {
       local hw2=`get_hwaddr ${1}`
       local nconfig=`get_config_by_hwaddr ${hw2}`
       local dev=
@@ -170,7 +170,7 @@ rename_device()
       fi 
       [ -z "$dev" ] && dev=dev$RANDOM
       rename_device $dev $hw2 "$3 $1"
-      /sbin/nameif "$1" "$2"
+      /sbin/nameif "$1" "$2" 2>/dev/null
     }
 }
 
