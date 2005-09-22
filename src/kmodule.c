@@ -97,7 +97,7 @@ int main(int argc, char **argv)
 	char *bus = NULL, *class = NULL;
 	int x, rc, isdaemon = 0;
 	enum deviceBus probeBus = BUS_UNSPEC & ~BUS_SERIAL;
-	enum deviceClass probeClass = CLASS_UNSPEC;
+	enum deviceClass probeClass = CLASS_UNSPEC & ~CLASS_FLOPPY & ~CLASS_HD & ~CLASS_CDROM;
 	poptContext context;
 	struct device **devs;
 	struct poptOption options[] = {
