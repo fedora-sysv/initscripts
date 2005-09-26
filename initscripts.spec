@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.14
+Version: 8.15
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -209,6 +209,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Sep 26 2005 Than Ngo <than@redhat.com> 8.15-1
+- support proper dial-in configuration, thanks to Peter Bieringer (#158380)
+
 * Mon Sep 12 2005 Bill Nottingham <notting@redhat.com> 8.14-1
 - fix usage of the module blacklist (#168020)
 

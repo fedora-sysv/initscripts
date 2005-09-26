@@ -111,10 +111,11 @@ function addprovider()
     # set authentication
     _auth=`echo "$AUTH" | sed 's/[a-z -]*//g'`
     if [ -n "$_auth" ]; then
-        if [ -z "$USER" ]; then
+        if [ -z "$USER" -a "$DIALIN" != "on" ]; then
             log_echo " Error: $1 (syncppp) user is not set"
             return 1
         fi
+        if [ "$DIALIN" != "on" ]; then
         # we should hide the user name, so i add user name to option file.
         if [ "$AUTH" = "-pap +chap" ]; then
             create_option_file "name \"$USER\""
@@ -122,6 +123,7 @@ function addprovider()
             create_option_file "user \"$USER\""
         fi
         options="$options file /etc/ppp/ioption-secret-$DEVICE"
+        fi
  
         # authentication options:
         # +pap and/or +chap does not work correct by dialout - remove
@@ -185,7 +187,9 @@ function addprovider()
     if [ "$IPADDR" = "0.0.0.0" ]; then
         options="$options ipcp-accept-local"
     else
+        if [ "$DIALIN" != "on" ]; then
         options="$options noipdefault"
+        fi
     fi
     # Add device
     options="$options /dev/$DEVICE"
@@ -203,7 +207,12 @@ function addprovider()
         [ -z "$SLAVE_DIALMAX" ] && SLAVE_DIALMAX="$DIALMAX"
         [ -z "$SLAVE_CALLBACK" ] && SLAVE_CALLBACK="$CALLBACK"
         [ -z "$SLAVE_CBDELAY" ] && SLAVE_CBDELAY="$CBDELAY"
-        [ -z "$SLAVE_DIALMODE" ] && SLAVE_DIALMODE="auto"
+        if [ "$DIALIN" != "on" ] ; then
+               [ -z "$SLAVE_DIALMODE" ] && SLAVE_DIALMODE="auto"
+        else
+               # Master should not dial by default on incoming MPPP
+               [ -z "$SLAVE_DIALMODE" ] && SLAVE_DIALMODE="$DIALMODE"
+        fi
 
         slave=$SLAVE_DEVICE
         options="$options /dev/$slave +mp"
@@ -249,7 +258,9 @@ function addprovider()
     fi
 
     if [ "$GATEWAY" = "0.0.0.0" ]; then
+        if [ "$DIALIN" != "on" ]; then
         options="$options ipcp-accept-remote"
+        fi
         options="$IPADDR:$GATEWAY $options"
     else
         options="$options $IPADDR:$GATEWAY"
@@ -336,7 +347,9 @@ function addprovider()
         ipppd $options $netmask >/dev/null 2>&1
 
         # start ibod daemon
-        [ "$BUNDLING" = "yes" -o "$BUNDLING" = "on" ] && [ -n "$SLAVE_DEVICE" ] && start_ibod $DEVICE
+        if [ "$DIALIN" != "on" ]; then
+            [ "$BUNDLING" = "yes" -o "$BUNDLING" = "on" ] && [ -n "$SLAVE_DEVICE" ] && start_ibod $DEVICE
+        fi
     fi
 
     # set default gateway for dial on demand
