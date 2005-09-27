@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.15
+Version: 8.16
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -209,6 +209,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Sep 27 2005 Than Ngo <than@redhat.com> 8.16-1
+- fix typo bug
+
 * Mon Sep 26 2005 Than Ngo <than@redhat.com> 8.15-1
 - support proper dial-in configuration, thanks to Peter Bieringer (#158380)
 
