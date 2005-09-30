@@ -100,11 +100,8 @@ if [ $1 = 0 ]; then
   /sbin/chkconfig --del network
 fi
 
-%triggerun -- initscripts <= 7.59
-/sbin/chkconfig --del random
-exit 0
-
 %triggerun -- initscripts < 7.62
+/sbin/chkconfig --del random
 /sbin/chkconfig --del rawdevices
 exit 0
 
