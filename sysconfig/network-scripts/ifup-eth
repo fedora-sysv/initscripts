@@ -50,6 +50,19 @@ if [ -n "${HWADDR}" ]; then
     fi
 fi
 
+# now check the real state
+is_available ${REALDEVICE} || {
+      if [ -n "$alias" ]; then
+         echo $"$alias device ${DEVICE} does not seem to be present, delaying initialization."
+      else
+         echo $"Device ${DEVICE} does not seem to be present, delaying initialization."
+      fi
+      exit 1
+}
+
+# is the device wireless? If so, configure wireless device specifics
+is_wireless_device ${DEVICE} && . ./ifup-wireless
+
 if [ "${TYPE}" = "Bridge" ]; then
       if [ ! -x /usr/sbin/brctl ]; then
 	  echo $"Bridge support not available: brctl not found"
@@ -78,19 +91,6 @@ if [ -n "${BRIDGE}" -a -x /usr/sbin/brctl ]; then
       [ -r /var/run/radvd/radvd.pid ] && kill -HUP `cat /var/run/radvd/radvd.pid`
       exit 0
 fi 
-
-# now check the real state
-is_available ${REALDEVICE} || {
-      if [ -n "$alias" ]; then
-         echo $"$alias device ${DEVICE} does not seem to be present, delaying initialization."
-      else
-         echo $"Device ${DEVICE} does not seem to be present, delaying initialization."
-      fi
-      exit 1
-}
-
-# is the device wireless? If so, configure wireless device specifics
-is_wireless_device ${DEVICE} && . ./ifup-wireless
 
 # slave device?
 if [ "${SLAVE}" = yes -a "${ISALIAS}" = no -a "${MASTER}" != "" -a \
