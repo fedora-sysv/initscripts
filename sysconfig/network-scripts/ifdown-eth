@@ -41,7 +41,7 @@ if [ -n "${HWADDR}" -a -z "${MACADDR}" ]; then
 	if [ -n "${NEWCONFIG}" -a "${NEWCONFIG##*/}" != "${CONFIG##*/}" ]; then
 	   exec /sbin/ifdown ${NEWCONFIG}
 	else
-	   echo $"Device ${DEVICE} has different MAC address than expected, ignoring."
+	   echo $"Device ${DEVICE} has MAC address ${FOUNDMACADDR}, instead of configured address ${HWADDR}. Ignoring."
 	   exit 1
 	fi
     fi
