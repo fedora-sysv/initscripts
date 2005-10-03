@@ -33,11 +33,11 @@ for file in $FILES; do
 	   handle_file $file $1
        else
            # older format
-           while read line; do
+           { cat "$file" ; echo ; } | while read line; do
                if [[ ! "$line" =~ '^[[:space:]]*(\#.*)?$' ]]; then
                    /sbin/ip route add $line
                fi
-           done < "$file"
+           done
        fi
    fi
 done
