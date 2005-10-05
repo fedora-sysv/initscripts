@@ -1,3 +1,43 @@
+2005-10-05  Bill Nottingham  <notting@redhat.com>
+
+	* ChangeLog, initscripts.spec: 8.17-1
+
+2005-10-05  Chung Cheng  <ccheng@redhat.com>
+
+	* po/zh_TW.po: Automerge
+
+2005-10-03  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/functions:
+	make sure corefile limiting works for user processes as well (#166511, <ville.skytta@iki.fi>)
+
+	* sysconfig/network-scripts/ifup-routes:
+	handle no EOF in the route file (#156972)
+
+	* rc.d/rc.sysinit: tweak message (#146532)
+
+	* sysconfig/network-scripts/ifdown-eth:
+	clean up error message (#135167)
+
+	* rc.d/rc.sysinit: call kpartx on multipath devices (#160227)
+
+2005-09-30  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifup-eth:
+	move wireless options before bridge options (#122801)
+
+	* initscripts.spec: collapse triggers due to rpm bug (#164053)
+
+	* sysconfig/network-scripts/ifup-wireless: silence error (#90601)
+
+	* sysconfig.txt: clarify docs (#84296)
+
+2005-09-29  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/netfs: set status correctly (#60711)
+
+	* rc.d/init.d/functions: change translated string (#54682)
+
 2005-09-27	Than Ngo <than@redhat.com>
 
 	* Changelog, initscripts.spec: 8.16-1
@@ -9,6 +49,40 @@
 	* ChangeLog, initscripts.spec: 8.15-1
 
 	* sysconfig/network-scripts/ifup-ippp: support proper dial-in configuration #158380
+
+2005-09-22  Bill Nottingham  <notting@redhat.com>
+
+	* src/kmodule.c:
+	don't probe for uninteresting devices. speeds things up (floppy probe is slow)
+
+	* sysconfig/network-scripts/network-functions:
+	deal with broken networks better (#168947)
+
+2005-09-21  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit:
+	automatically reboot if labels are really out of date (<dwalsh@redhat.com>)
+
+	* sysconfig/network-scripts/network-functions:
+	throw out nameif error messages
+
+2005-09-20  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit: use multipath.static (#168321)
+
+	* rc.d/rc.sysinit: move clock earlier, remove echo for font
+
+2005-09-18  Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>
+
+	* po/ms.po: Updated Malay translation
+
+2005-09-15  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec: make the Requires: a Conflicts: for dep happiness
+
+2005-09-13  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit: use ignorelocking (#168195)
 
 2005-09-12  Bill Nottingham  <notting@redhat.com>
 

@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.16
+Version: 8.17
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -206,11 +206,31 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Oct  5 2005 Bill Nottingham <notting@redhat.com> 8.17-1
+- make sure corefile limiting works for user processes as well
+  (#166511, <ville.skytta@iki.fi>)
+- ifup-routes: handle no EOF in the route file (#156972)
+- rc.sysinit: tweak mesage (#156972)
+- ifdown-eth: clean up error message (#135167)
+- rc.sysinit: call kpartx on multipath devices (#160227)
+- ifup-eth: move wireless options before bridge options (#122801)
+- ifup-wireless: silence error (#90601)
+- init.d/functions: change translated string (#54682)
+
 * Tue Sep 27 2005 Than Ngo <than@redhat.com> 8.16-1
 - fix typo bug
 
 * Mon Sep 26 2005 Than Ngo <than@redhat.com> 8.15-1
 - support proper dial-in configuration, thanks to Peter Bieringer (#158380)
+
+* Thu Sep 22 2005 Bill Nottingham <notting@redhat.com>
+- kmodule: don't probe for uninteresting devices. speeds things up
+- network-functions: deal with broken networks better (#168947)
+- rc.sysinit: automatically reboot if labels are really out of date
+  (<dwalsh@redhat.com>)
+- network-functions: throw out nameif error messages
+- rc.sysinit: use multipath.static (#168321)
+- rc.sysinit: use ignorelocking (#168195)
 
 * Mon Sep 12 2005 Bill Nottingham <notting@redhat.com> 8.14-1
 - fix usage of the module blacklist (#168020)
