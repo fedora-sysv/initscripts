@@ -237,7 +237,10 @@ int logLine(struct logInfo *logEnt) {
 	) {
 	DDEBUG("starting daemon failed, pooling entry %d\n",logEntries);
 	logData=realloc(logData,(logEntries+1)*sizeof(struct logInfo));
-	logData[logEntries]= (*logEnt);
+	logData[logEntries].fac = logEnt->fac;
+	logData[logEntries].pri = logEnt->pri;
+	logData[logEntries].cmd = strdup(logEnt->cmd);
+	logData[logEntries].line = strdup(logEnt->line);
 	logEntries++;
     } else {
 	if (logEntries>0) {
