@@ -206,6 +206,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Oct 27 2005 Bill Nottingham <notting@redhat.com>
+- fix use-after-free (#171912)
+
 * Thu Aug  4 2005 Bill Nottingham <notting@redhat.com> 7.93.20.EL-1
 - fix invalid free (#165033)
 
