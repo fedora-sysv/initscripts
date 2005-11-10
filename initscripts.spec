@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.31.27.EL
+Version: 7.31.28.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -249,6 +249,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Nov 10 2005 Bill Nottingham <notting@redhat.com> 7.31.28.EL-1
+- don't fsck netdev filesystems in rc.sysinit (#169403)
+
 * Thu Oct 27 2005 Bill Nottingham <notting@redhat.com>
 - fix use-after-free (#171198)
 
