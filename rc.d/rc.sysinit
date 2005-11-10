@@ -550,9 +550,9 @@ if [ -f /etc/mdadm.conf ]; then
 	/sbin/mdadm -A -s
 	# LVM2 initialization, take 2
 	if [ -c /dev/mapper/control ]; then
-    		if [ -x /sbin/multipath ]; then
+    		if [ -x /sbin/multipath.static ]; then
 			modprobe dm-multipath >/dev/null 2>&1
-			/sbin/multipath -v 0
+			/sbin/multipath.static -v 0
     		fi
 
     		if [ -x /sbin/dmraid ]; then
@@ -650,9 +650,9 @@ if [ -f /etc/raidtab ]; then
 	fi
 	# LVM2 initialization, take 2
 	if [ -c /dev/mapper/control ]; then
-    		if [ -x /sbin/multipath ]; then
+    		if [ -x /sbin/multipath.static ]; then
 			modprobe dm-multipath >/dev/null 2>&1
-			/sbin/multipath -v 0
+			/sbin/multipath.static -v 0
     		fi
 
     		if [ -x /sbin/dmraid ]; then
