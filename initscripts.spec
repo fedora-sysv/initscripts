@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.93.20.EL
+Version: 7.93.21.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -206,6 +206,11 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Nov 10 2005 Bill Nottingham <notting@redhat.com> 7.93.21.EL-1
+- rc.sysinit: add call to kpartx for multipath devices (#168538)
+- use multipath.static, not dynamic multipath (#168321)
+- don't fsck netdev filesystems in rc.sysinit (#169403)
+
 * Thu Oct 27 2005 Bill Nottingham <notting@redhat.com>
 - fix use-after-free (#171912)
 
