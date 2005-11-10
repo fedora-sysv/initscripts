@@ -209,7 +209,7 @@ rm -rf $RPM_BUILD_ROOT
 * Thu Nov 10 2005 Bill Nottingham <notting@redhat.com> 7.93.21.EL-1
 - rc.sysinit: add call to kpartx for multipath devices (#168538)
 - use multipath.static, not dynamic multipath (#168321)
-- don't fsck netdev filesystems in rc.sysinit (#169403)
+- don't fsck netdev filesystems in rc.sysinit (#172804)
 
 * Thu Oct 27 2005 Bill Nottingham <notting@redhat.com>
 - fix use-after-free (#171912)
