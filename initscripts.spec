@@ -19,7 +19,7 @@ Requires: /etc/redhat-release, dev
 Requires: ethtool >= 1.8-2, /sbin/nash, /sbin/runuser
 Conflicts: mkinitrd < 4.0, kernel < 2.6.12
 Conflicts: ypbind < 1.6-12, psacct < 6.3.2-12, kbd < 1.06-19, lokkit < 0.50-14
-Conflicts: udev < 0:048
+Conflicts: udev < 0:048, dhclient < 3.0.3-7
 Conflicts: tcsh < 6.13-5
 #Conflicts: diskdumputils < 1.1.0
 Obsoletes: rhsound sapinit

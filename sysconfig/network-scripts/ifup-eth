@@ -160,7 +160,7 @@ if [ -n "${DYNCONFIG}" -a -x /sbin/dhclient ]; then
     else
        DHCLIENTCONF='';
     fi;
-    DHCLIENTARGS="${DHCLIENTARGS} ${ONESHOT} -q ${DHCLIENTCONF} -lf /var/lib/dhcp/dhclient-${DEVICE}.leases -pf /var/run/dhclient-${DEVICE}.pid"
+    DHCLIENTARGS="${DHCLIENTARGS} ${ONESHOT} -q ${DHCLIENTCONF} -lf /var/lib/dhclient/dhclient-${DEVICE}.leases -pf /var/run/dhclient-${DEVICE}.pid"
     echo
     echo -n $"Determining IP information for ${DEVICE}..."
     if check_link_down ${DEVICE}; then

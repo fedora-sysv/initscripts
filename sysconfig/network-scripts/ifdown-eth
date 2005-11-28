@@ -60,7 +60,7 @@ retcode=0
 	if [ -f "/var/run/dhclient-${DEVICE}.pid" ]; then
 		dhcpid=`cat /var/run/dhclient-${DEVICE}.pid`
 		if [[ "$DHCPRELEASE" = [yY1]* ]];  then
-			/sbin/dhclient -r -lf /var/lib/dhcp/dhclient-${DEVICE}.leases -pf /var/run/dhclient-${DEVICE}.pid ${DEVICE} >/dev/null 2>&1
+			/sbin/dhclient -r -lf /var/lib/dhclient/dhclient-${DEVICE}.leases -pf /var/run/dhclient-${DEVICE}.pid ${DEVICE} >/dev/null 2>&1
 			retcode=$?
 		else
 			kill $dhcpid >/dev/null 2>&1
