@@ -208,7 +208,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Wed Nov 30 2005 Bill Nottingham <notting@redhat.com> 7.93.22.EL-1
-- add ifup-ib for Infiniband (#108227, <dledford@redhat.com>)
+- add ifup-ib for Infiniband (#108827, <dledford@redhat.com>)
 
 * Thu Nov 10 2005 Bill Nottingham <notting@redhat.com> 7.93.21.EL-1
 - rc.sysinit: add call to kpartx for multipath devices (#168538)
