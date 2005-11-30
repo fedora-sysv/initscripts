@@ -1,0 +1,151 @@
+#!/bin/bash
+# Network Interface Configuration System
+# Copyright (c) 1996-2001 Red Hat, Inc. all rights reserved.
+#
+# This software may be freely redistributed under the terms of the GNU
+# public license.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+. /etc/init.d/functions
+
+cd /etc/sysconfig/network-scripts
+. network-functions
+
+[ -f ../network ] && . ../network
+
+CONFIG=${1}
+
+[ -z "${CONFIG}" ] && {
+    echo $"Usage: ifup <device name>" >&2
+    exit 1
+}
+
+need_config ${CONFIG}
+
+[ -f "${CONFIG}" ] || {
+    echo $"$0: configuration for ${1} not found." >&2
+    echo $"Usage: ifup <device name>" >&2
+    exit 1
+}
+
+source_config
+
+# Old BOOTP variable
+if [ "${BOOTP}" = "yes" ]; then
+    BOOTPROTO=bootp
+fi
+
+if [ "${BOOTPROTO}" = "bootp" -o "${BOOTPROTO}" = "dhcp" ]; then
+    echo $"This device does not (yet) support dynamic IP configuration." >&2
+    exit 1
+fi
+
+# load the module associated with that device
+# /sbin/modprobe ${REALDEVICE}
+is_available ${REALDEVICE}
+
+# remap, if the device is bound with a MAC address and not the right device num
+# bail out, if the MAC does not fit
+if [ -n "${HWADDR}" ]; then
+    FOUNDMACADDR=`get_hwaddr ${REALDEVICE}`
+    if [ "${FOUNDMACADDR}" != "${HWADDR}" ]; then
+        curdev=`ip -o link | awk -F ':' -vIGNORECASE=1 "/$HWADDR/ { print \\$2 }"`
+        [ -n "$curdev" ] && rename_device "${REALDEVICE}" "${HWADDR}" "${curdev}" || {
+	    echo $"Device ${DEVICE} has different MAC address than expected, ignoring."
+	    exit 1
+	}
+    fi
+fi
+
+# now check the real state
+is_available ${REALDEVICE} || {
+      if [ "$?" = "1" ] ; then
+         echo $"$alias device ${DEVICE} does not seem to be present, delaying initialization."
+         exit 1
+      else
+         exit 0
+      fi
+}
+
+# slave device?
+if [ "${SLAVE}" = yes ]; then
+    echo $"This device does not slave operation." >&2
+    exit 1
+fi
+
+# this isn't the same as the MAC in the configuration filename.  It is
+# available as a configuration option in the config file, forcing the kernel
+# to think an ethernet card has a different MAC address than it really has.
+if [ -n "${MACADDR}" ]; then
+   ip link set dev ${DEVICE} address ${MACADDR}
+fi
+if [ -n "${MTU}" ]; then
+   ip link set dev ${DEVICE} mtu ${MTU}
+fi
+
+# Is there a firewall running, and does it look like one we configured?
+FWACTIVE=
+if iptables -L -n 2>/dev/null | LC_ALL=C grep -q RH-Lokkit-0-50-INPUT ; then
+    FWACTIVE=1
+else
+    modprobe -r iptable_filter >/dev/null 2>&1
+fi
+
+if [ -z "${IPADDR}" ]; then
+    # enable device without IP, useful for e.g. PPPoE
+    ip link set dev ${REALDEVICE} up
+
+    if [ "${NETWORKING_IPV6}" = "yes" ]; then
+	/etc/sysconfig/network-scripts/ifup-ipv6 ${CONFIG}
+    fi
+    exec /etc/sysconfig/network-scripts/ifup-post ${CONFIG} ${2}
+fi
+  
+expand_config
+    
+[ -n "${ARP}" ] && \
+	ip link set dev ${REALDEVICE} $(toggle_value arp $ARP)
+   
+if ! ip link set dev ${REALDEVICE} up ; then
+	echo $"Failed to bring up ${DEVICE}."
+	exit 1
+fi
+
+SCOPE=${SCOPE:-}
+    
+if ! LC_ALL=C ip addr ls ${REALDEVICE} | LC_ALL=C grep -q "${IPADDR}/${PREFIX}" ; then
+    if ! ip addr add ${IPADDR}/${PREFIX} \
+	brd ${BROADCAST:-+} dev ${REALDEVICE} ${SCOPE} label ${DEVICE}; then
+	echo $"Error adding address ${IPADDR} for ${DEVICE}."
+    fi
+fi
+    
+if [ -n "$SRCADDR" ]; then
+    sysctl -w "net.ipv4.conf.${REALDEVICE}.arp_filter=1" >/dev/null 2>&1
+fi
+
+# Set a default route.
+if [ -z "${GATEWAYDEV}" -o "${GATEWAYDEV}" = "${REALDEVICE}" ]; then
+    # set up default gateway. replace if one already exists
+    if [ -n "${GATEWAY}" -a "`ipcalc --network ${GATEWAY} ${NETMASK} 2>/dev/null`" = "NETWORK=${NETWORK}" ]; then
+	ip route replace default via ${GATEWAY} ${WINDOW:+window $WINDOW} ${SRC} ${GATEWAYDEV:+dev $GATEWAYDEV}
+    elif [ "${GATEWAYDEV}" = "${DEVICE}" ]; then
+	ip route replace default ${SRC} ${WINDOW:+window $WINDOW} dev ${REALDEVICE}
+    fi
+fi
+
+# Add Zeroconf route.
+if [ -z "${NOZEROCONF}" -a "${ISALIAS}" = "no" ]; then
+    ip route replace 169.254.0.0/16 dev ${REALDEVICE} 
+fi
+
+# IPv6 initialisation?
+if [ "${NETWORKING_IPV6}" = "yes" ]; then
+    /etc/sysconfig/network-scripts/ifup-ipv6 ${CONFIG}
+fi
+
+exec /etc/sysconfig/network-scripts/ifup-post ${CONFIG} ${2}
+
