@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.17
+Version: 8.18
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -206,6 +206,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Dec  2 2005 Bill Nottingham <notting@redhat.com> 8.18-1
+- use new dhclient file paths, add appropriate conflict (#169164)
+	
 * Wed Oct  5 2005 Bill Nottingham <notting@redhat.com> 8.17-1
 - make sure corefile limiting works for user processes as well
   (#166511, <ville.skytta@iki.fi>)
