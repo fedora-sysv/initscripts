@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.93.22.EL
+Version: 7.93.23.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -207,6 +207,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Dec  2 2005 Bill Nottingham <notting@redhat.com> 7.93.23.EL-1
+- fix quoting of environment variables (#174849)
+
 * Wed Nov 30 2005 Bill Nottingham <notting@redhat.com> 7.93.22.EL-1
 - add ifup-ib for Infiniband (#108827, <dledford@redhat.com>)
 
