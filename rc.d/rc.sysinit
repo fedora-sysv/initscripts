@@ -389,9 +389,9 @@ if [ -z "$fastboot" -a "$READONLY" != "yes" ]; then
         STRING=$"Checking filesystems"
 	echo $STRING
 	if [ "${RHGB_STARTED}" != "0" -a -w /etc/rhgb/temp/rhgb-console ]; then
-		fsck -T -t opts=!_netdev -A -a $fsckoptions > /etc/rhgb/temp/rhgb-console
+		fsck -T -t noopts=_netdev -A -a $fsckoptions > /etc/rhgb/temp/rhgb-console
 	else
-		fsck -T -t opts=!_netdev -A -a $fsckoptions
+		fsck -T -t noopts=_netdev -A -a $fsckoptions
 	fi
 	rc=$?
 	

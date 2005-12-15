@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.18
+Version: 8.19
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -208,6 +208,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Thu Dec 15 2005 Bill Nottingham <notting@redhat.com>
 - Require syslog, for alternate implementations thereof (#172885)
+- Fix fsck invocation for weeding out netdev devices (#175803)
 
 * Fri Dec  2 2005 Bill Nottingham <notting@redhat.com> 8.18-1
 - use new dhclient file paths, add appropriate conflict (#169164)
