@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.93.23.EL
+Version: 7.93.24.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -207,6 +207,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Dec 15 2005 Bill Nottingham <notting@redhat.com> 7.93.24.EL-1
+- correct fix for #172804
+
 * Fri Dec  2 2005 Bill Nottingham <notting@redhat.com> 7.93.23.EL-1
 - fix quoting of environment variables (#174849)
 
