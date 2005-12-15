@@ -526,7 +526,7 @@ _RUN_QUOTACHECK=0
 if [ -z "$fastboot" ]; then
         STRING=$"Checking filesystems"
 	echo $STRING
-	initlog -c "fsck -T -t opts=!_netdev -R -A -a $fsckoptions"
+	initlog -c "fsck -T -t noopts=_netdev -R -A -a $fsckoptions"
 	rc=$?
         if [ "$rc" = "0" ]; then
 		success "$STRING"
