@@ -9,7 +9,7 @@ URL: http://fedora.redhat.com/projects/additional-projects/initscripts/
 Patch0: initscripts-s390.patch
 BuildRoot: /%{_tmppath}/%{name}-%{version}-%{release}-root
 Requires: mingetty, /bin/awk, /bin/sed, mktemp, e2fsprogs >= 1.15
-Requires: /sbin/sysctl, sysklogd >= 1.3.31
+Requires: /sbin/sysctl, syslog
 Requires: /sbin/fuser, /bin/grep
 Requires: module-init-tools
 Requires: util-linux >= 2.10s-11, mount >= 2.11l
@@ -206,6 +206,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Dec 15 2005 Bill Nottingham <notting@redhat.com>
+- Require syslog, for alternate implementations thereof (#172885)
+
 * Fri Dec  2 2005 Bill Nottingham <notting@redhat.com> 8.18-1
 - use new dhclient file paths, add appropriate conflict (#169164)
 	
