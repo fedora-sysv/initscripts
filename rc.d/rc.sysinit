@@ -153,13 +153,11 @@ if [ -n "$LOGLEVEL" ]; then
 	/bin/dmesg -n $LOGLEVEL
 fi
 
-[ -x /sbin/start_udev ] && /sbin/start_udev
 
 # Only read this once.
 cmdline=$(cat /proc/cmdline)
 
 # Initialize hardware
-sysctl -w kernel.hotplug="/sbin/udevsend" >/dev/null 2>&1
 if [ -f /proc/sys/kernel/modprobe ]; then
    if ! strstr "$cmdline" nomodules && [ -f /proc/modules ] ; then
        sysctl -w kernel.modprobe="/sbin/modprobe" >/dev/null 2>&1
@@ -169,85 +167,7 @@ if [ -f /proc/sys/kernel/modprobe ]; then
    fi
 fi
 
-echo -n $"Initializing hardware... "
-
-ide=""
-scsi=""
-network=""
-audio=""
-other=""
-eval `kmodule -d | while read devtype mod ; do
-	case "$devtype" in
-		"IDE")	ide="$ide $mod"
-		   echo "ide=\"$ide"\";;
-		"SCSI") scsi="$scsi $mod"
-		   echo "scsi=\"$scsi"\";;
-		"NETWORK") network="$network $mod"
-		   echo "network=\"$network"\";;
-		"AUDIO") audio="$audio $mod"
-		   echo "audio=\"$audio"\";;
-		*) other="$other $mod"
-		   echo "other=\"$other"\";;
-	esac
-done`
-
-blacklist=$(modprobe -c | LC_ALL=C awk '/^[[:space:]]*blacklist/ { print $2 }')
-
-load_module () {
-	for module in $blacklist ; do
-		[ "$1" = "$module" ] && return
-	done
-	modprobe $1 >/dev/null 2>&1
-}
-
-# IDE
-for module in $ide ; do
-	load_module $module
-done
-
-# SCSI
-for module in `/sbin/modprobe -c | LC_ALL=C awk '/^alias[[:space:]]+scsi_hostadapter[0-9]*[[:space:]]/ { print $3 }'` $scsi; do
-	load_module $module
-done
-load_module floppy
-
-echo -n $" storage"
-
-# Network
-pushd /etc/sysconfig/network-scripts >/dev/null 2>&1
-interfaces=`ls ifcfg* | LC_ALL=C egrep -v '(ifcfg-lo|:|rpmsave|rpmorig|rpmnew)' | \
-            LC_ALL=C egrep -v '(~|\.bak)$' | \
-            LC_ALL=C egrep 'ifcfg-[A-Za-z0-9\._-]+$' | \
-	    sed 's/^ifcfg-//g' |
-	    sed 's/[0-9]/ &/' | LC_ALL=C sort -k 1,1 -k 2n | sed 's/ //'`
-
-for i in $interfaces ; do
-	eval $(LC_ALL=C fgrep "DEVICE=" ifcfg-$i)
-	load_module $DEVICE
-done
-popd >/dev/null 2>&1
-
-for module in $network ; do
-	load_module $module
-done
-
-echo -n $" network"
-
-# Sound
-for module in `/sbin/modprobe -c | LC_ALL=C awk '/^alias[[:space:]]+snd-card-[[:digit:]]+[[:space:]]/ { print $3 }'` $audio; do
-	load_module $module
-done
-
-echo -n $" audio"
-
-# Everything else (duck and cover)
-for module in $other ; do
-	load_module $module
-done
-
-echo -n $" done. "
-success
-echo
+/sbin/start_udev
 
 # Load other user-defined modules
 for file in /etc/sysconfig/modules/*.modules ; do

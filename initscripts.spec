@@ -17,15 +17,15 @@ Requires: bash >= 3.0, SysVinit >= 2.85-38
 Requires: /sbin/ip, /sbin/arping, net-tools
 Requires: /etc/redhat-release, dev
 Requires: ethtool >= 1.8-2, /sbin/nash, /sbin/runuser
+Requires: udev >= 078-1
 Conflicts: mkinitrd < 4.0, kernel < 2.6.12
 Conflicts: ypbind < 1.6-12, psacct < 6.3.2-12, kbd < 1.06-19, lokkit < 0.50-14
-Conflicts: udev < 0:048, dhclient < 3.0.3-7
+Conflicts: dhclient < 3.0.3-7
 Conflicts: tcsh < 6.13-5
 #Conflicts: diskdumputils < 1.1.0
 Obsoletes: rhsound sapinit
 Prereq: /sbin/chkconfig, /usr/sbin/groupadd, /bin/sed, mktemp, fileutils, sh-utils
 BuildPrereq: glib2-devel popt gettext pkgconfig
-BuildPrereq: kudzu-devel >= 1.1.80
 
 %description
 The initscripts package contains the basic system scripts used to boot
@@ -184,7 +184,6 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/consoletype
 /sbin/genhostid
 /sbin/getkey
-/sbin/kmodule
 %attr(2755,root,root) /sbin/netreport
 /sbin/initlog
 /sbin/service
@@ -206,7 +205,11 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
-* Thu Dec 15 2005 Bill Nottingham <notting@redhat.com>
+* Wed Dec 21 2005 Bill Nottingham <notting@redhat.com> 8.20-1
+- remove kmodule. udev handles module loading now
+- require appropriate udev
+
+* Thu Dec 15 2005 Bill Nottingham <notting@redhat.com> 8.19-1
 - Require syslog, for alternate implementations thereof (#172885)
 - Fix fsck invocation for weeding out netdev devices (#175803)
 

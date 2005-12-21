@@ -183,13 +183,9 @@ is_available ()
     if [ -z "$alias" -o "$alias" = "off" -o "$alias" = "/bin/true" ]; then
         return 2
     fi
-    HOTPLUG=`cat /proc/sys/kernel/hotplug 2>/dev/null`
-    echo "/etc/hotplug/firmware.agent" > /proc/sys/kernel/hotplug
     modprobe $1 > /dev/null 2>&1 || {
-      [ -f /proc/sys/kernel/hotplug ] && echo "$HOTPLUG" > /proc/sys/kernel/hotplug
       return 1
     }
-    [ -f /proc/sys/kernel/hotplug ] && echo "$HOTPLUG"  > /proc/sys/kernel/hotplug
     # if it is a mainframe ccwgroup device, configure it before
     # trying to rename it:
     configure_ccwgroup_device
