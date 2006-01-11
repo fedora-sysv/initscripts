@@ -89,6 +89,14 @@ msgstr "Покрећем Red Hat Network демона: "
 msgid "$prog already running"
 msgstr "$prog: већ покренут"
 
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:1069
+msgid ""
+"Given remote address '$addressipv4tunnel' on tunnel device '$device' is "
+"already configured on device '$devnew'"
+msgstr ""
+"Задата удаљена адреса „$addressipv4tunnel“ на тунелском уређају „$device“ је "
+"већ подешена на уређају „$devnew“"
+
 #: /etc/rc.d/init.d/tog-pegasus:51
 #, fuzzy
 msgid "Starting up CIM server: "
@@ -127,11 +135,10 @@ msgstr "Употреба: pidfileofproc {програм}"
 msgid "vncserver start"
 msgstr "vncserver покретање"
 
-#: /etc/rc.d/init.d/crond:93 /etc/rc.d/init.d/krb5kdc:80
-#: /etc/rc.d/init.d/newscache:74 /etc/rc.d/init.d/saslauthd:75
-#: /etc/rc.d/init.d/squid:160
-msgid "Usage: $0 {start|stop|status|reload|restart|condrestart}"
-msgstr "Употреба: $0 {start|stop|status|reload|restart|condrestart}"
+#: /etc/rc.d/init.d/cvsupd:63
+#, fuzzy
+msgid "$prog is not started..."
+msgstr "$prog $site"
 
 #: /etc/rc.d/init.d/rpcsvcgssd:44
 msgid "Starting RPC svcgssd: "
@@ -146,14 +153,15 @@ msgstr "Покрећем RPC svcgssd: "
 #: /etc/rc.d/init.d/cfsd:36 /etc/rc.d/init.d/cfservd:26
 #: /etc/rc.d/init.d/clamd-wrapper:42 /etc/rc.d/init.d/cpuspeed:40
 #: /etc/rc.d/init.d/crond:25 /etc/rc.d/init.d/cups:57
-#: /etc/rc.d/init.d/dc_client:33 /etc/rc.d/init.d/dc_server:29
-#: /etc/rc.d/init.d/ddclient:26 /etc/rc.d/init.d/dhcp6r:32
-#: /etc/rc.d/init.d/dhcp6s:36 /etc/rc.d/init.d/dhcpd:57
-#: /etc/rc.d/init.d/dhcp-fwd:25 /etc/rc.d/init.d/dhcrelay:33
-#: /etc/rc.d/init.d/dictd:23 /etc/rc.d/init.d/dovecot:19
-#: /etc/rc.d/init.d/ez-ipupdate:33 /etc/rc.d/init.d/fnfxd:18
-#: /etc/rc.d/init.d/FreeWnn:32 /etc/rc.d/init.d/fyre-cluster:31
-#: /etc/rc.d/init.d/gkrellmd:24 /etc/rc.d/init.d/httpd:60
+#: /etc/rc.d/init.d/cvsupd:41 /etc/rc.d/init.d/dc_client:33
+#: /etc/rc.d/init.d/dc_server:29 /etc/rc.d/init.d/ddclient:26
+#: /etc/rc.d/init.d/dhcp6r:32 /etc/rc.d/init.d/dhcp6s:36
+#: /etc/rc.d/init.d/dhcpd:57 /etc/rc.d/init.d/dhcp-fwd:25
+#: /etc/rc.d/init.d/dhcrelay:33 /etc/rc.d/init.d/dictd:23
+#: /etc/rc.d/init.d/dovecot:19 /etc/rc.d/init.d/ez-ipupdate:33
+#: /etc/rc.d/init.d/fnfxd:18 /etc/rc.d/init.d/FreeWnn:32
+#: /etc/rc.d/init.d/fyre-cluster:31 /etc/rc.d/init.d/gkrellmd:24
+#: /etc/rc.d/init.d/httpd:60 /etc/rc.d/init.d/i8kbuttons:26
 #: /etc/rc.d/init.d/icmpdnd:31 /etc/rc.d/init.d/inadyn:33
 #: /etc/rc.d/init.d/ipsec:144 /etc/rc.d/init.d/ip-sentinel:27
 #: /etc/rc.d/init.d/ircd:26 /etc/rc.d/init.d/irda:23
@@ -262,10 +270,10 @@ msgstr "Покрећем $subsys: "
 msgid "Flushing all current rules and user defined chains:"
 msgstr "Испуштам сва тренутна правила и кориснички дефинисане ланце:"
 
-#: /etc/rc.d/init.d/bwbar:64 /etc/rc.d/init.d/netplugd:59
-#: /etc/rc.d/init.d/rdisc:77 /etc/rc.d/init.d/rstatd:63
-#: /etc/rc.d/init.d/rusersd:66 /etc/rc.d/init.d/rwalld:64
-#: /etc/rc.d/init.d/rwhod:63
+#: /etc/rc.d/init.d/bwbar:64 /etc/rc.d/init.d/kdump:106
+#: /etc/rc.d/init.d/netplugd:59 /etc/rc.d/init.d/rdisc:77
+#: /etc/rc.d/init.d/rstatd:63 /etc/rc.d/init.d/rusersd:66
+#: /etc/rc.d/init.d/rwalld:64 /etc/rc.d/init.d/rwhod:63
 msgid "Usage: $0 {start|stop|status|restart}"
 msgstr "Употреба: $0 {start|stop|status|restart}"
 
@@ -325,15 +333,16 @@ msgstr "$NAME је прикачен на $DEVICE"
 #: /etc/rc.d/init.d/dhcpd:76 /etc/rc.d/init.d/dhcrelay:45
 #: /etc/rc.d/init.d/dictd:43 /etc/rc.d/init.d/ez-ipupdate:42
 #: /etc/rc.d/init.d/fnfxd:29 /etc/rc.d/init.d/FreeWnn:43
-#: /etc/rc.d/init.d/gkrellmd:31 /etc/rc.d/init.d/icmpdnd:40
-#: /etc/rc.d/init.d/inadyn:42 /etc/rc.d/init.d/ipsec:150
-#: /etc/rc.d/init.d/irda:34 /etc/rc.d/init.d/mailman:91
-#: /etc/rc.d/init.d/ntpd:106 /etc/rc.d/init.d/ospf6d:36
-#: /etc/rc.d/init.d/ospfd:37 /etc/rc.d/init.d/proftpd:42
-#: /etc/rc.d/init.d/ripd:36 /etc/rc.d/init.d/ripngd:36
-#: /etc/rc.d/init.d/sendmail:104 /etc/rc.d/init.d/smartd:51
-#: /etc/rc.d/init.d/vncserver:49 /etc/rc.d/init.d/vsftpd:46
-#: /etc/rc.d/init.d/xfs:82 /etc/rc.d/init.d/zebra:37
+#: /etc/rc.d/init.d/gkrellmd:31 /etc/rc.d/init.d/i8kbuttons:40
+#: /etc/rc.d/init.d/icmpdnd:40 /etc/rc.d/init.d/inadyn:42
+#: /etc/rc.d/init.d/ipsec:150 /etc/rc.d/init.d/irda:34
+#: /etc/rc.d/init.d/mailman:91 /etc/rc.d/init.d/ntpd:106
+#: /etc/rc.d/init.d/ospf6d:36 /etc/rc.d/init.d/ospfd:37
+#: /etc/rc.d/init.d/proftpd:42 /etc/rc.d/init.d/ripd:36
+#: /etc/rc.d/init.d/ripngd:36 /etc/rc.d/init.d/sendmail:104
+#: /etc/rc.d/init.d/smartd:51 /etc/rc.d/init.d/vncserver:49
+#: /etc/rc.d/init.d/vsftpd:46 /etc/rc.d/init.d/xfs:82
+#: /etc/rc.d/init.d/zebra:37
 msgid "Shutting down $prog: "
 msgstr "Гасим $prog: "
 
@@ -482,6 +491,10 @@ msgstr "Покрећем сервер YP мапе: "
 msgid "database check"
 msgstr ""
 
+#: /etc/rc.d/init.d/apmd:76
+msgid "Usage: apmd {start|stop|status|restart|reload|condrestart}"
+msgstr "Употреба: apmd {start|stop|status|restart|reload|condrestart}"
+
 #: /etc/rc.d/rc.sysinit:211
 msgid "Loading default keymap ($KEYTABLE): "
 msgstr "Учитавам подразумевани распоред тастатуре ($KEYTABLE): "
@@ -526,14 +539,15 @@ msgstr "Поново учитавам датотеку smb.conf: "
 msgid "Unmounting NFS filesystems: "
 msgstr "Демонтирам NFS системе датотека: "
 
-#: /etc/rc.d/init.d/sendmail:94
-msgid "reloading sm-client: "
-msgstr "поново учитавам sm-client: "
+#: /etc/rc.d/init.d/apmd:37
+msgid "Shutting down APM daemon: "
+msgstr "Гасим APM демона: "
 
-#: /etc/rc.d/init.d/hddtemp:68 /etc/rc.d/init.d/lirc:92
-#: /etc/rc.d/init.d/moomps:70 /etc/rc.d/init.d/openct:74
-#: /etc/rc.d/init.d/pcscd:62 /etc/rc.d/init.d/rinetd:81
-#: /etc/rc.d/init.d/syslog-ng:86 /etc/rc.d/init.d/wesnothd:93
+#: /etc/rc.d/init.d/athcool:78 /etc/rc.d/init.d/hddtemp:68
+#: /etc/rc.d/init.d/lirc:92 /etc/rc.d/init.d/moomps:70
+#: /etc/rc.d/init.d/openct:74 /etc/rc.d/init.d/pcscd:62
+#: /etc/rc.d/init.d/rinetd:81 /etc/rc.d/init.d/syslog-ng:86
+#: /etc/rc.d/init.d/wesnothd:93
 #, fuzzy
 msgid "Usage: $0 {start|stop|status|restart|try-restart|reload|force-reload}"
 msgstr "Употреба: $0 {start|stop|status|restart|reload|force-reload}"
@@ -757,10 +771,10 @@ msgstr "Монтирам NFS системе датотека: "
 msgid "Starting NetworkManager daemon: "
 msgstr "Покрећем NetworkManager демон: "
 
-#: /etc/rc.d/init.d/amd:60
+#: /etc/rc.d/init.d/cyrus-imapd:84
 #, fuzzy
-msgid "amd shutdown"
-msgstr "$base гашење"
+msgid "done. "
+msgstr "готово."
 
 #: /etc/rc.d/init.d/hplip:85
 #, fuzzy
@@ -1017,6 +1031,10 @@ msgstr "Покрећем $PRIVOXY_PRG: "
 msgid "Stopping INN actived service: "
 msgstr "Заустављам INN actived сервис: "
 
+#: /etc/rc.d/init.d/athcool:21
+msgid "Enabling Athlon powersaving mode..."
+msgstr ""
+
 #: /etc/sysconfig/network-scripts/ifup-aliases:156
 msgid "error in $FILE: already seen device $parent_device:$DEVNUM in $devseen"
 msgstr "грешка у $FILE: већ виђен уређај $parent_device:$DEVNUM у $devseen"
@@ -1089,10 +1107,10 @@ msgid "Forwarding control parameter isn't valid '$fw_control' (arg 1)"
 msgstr ""
 "Параметар за контролу прослеђивања није исправан „$fw_control“ (арг. 1)"
 
-#: /etc/rc.d/init.d/cyrus-imapd:84
+#: /etc/rc.d/init.d/amd:60
 #, fuzzy
-msgid "done. "
-msgstr "готово."
+msgid "amd shutdown"
+msgstr "$base гашење"
 
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:519
 msgid "Missing parameter 'IPv6-address' (arg 2)"
@@ -1127,13 +1145,9 @@ msgstr "$0: подешавање за ${1} није нађено."
 msgid "Stopping $PRIVOXY_PRG: "
 msgstr "Заустављам $PRIVOXY_PRG: "
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:1069
-msgid ""
-"Given remote address '$addressipv4tunnel' on tunnel device '$device' is "
-"already configured on device '$devnew'"
-msgstr ""
-"Задата удаљена адреса „$addressipv4tunnel“ на тунелском уређају „$device“ је "
-"већ подешена на уређају „$devnew“"
+#: /etc/rc.d/init.d/functions:340
+msgid "PASSED"
+msgstr "ПРОШЛО"
 
 #: /etc/rc.d/init.d/gfs:49
 #, fuzzy
@@ -1153,8 +1167,8 @@ msgstr ""
 msgid "Enabling nightly yum update: "
 msgstr "Укључујем ноћно yum ажурирање: "
 
-#: /etc/rc.d/init.d/denyhosts:89 /etc/rc.d/init.d/moodle:64
-#: /etc/rc.d/init.d/yum:65
+#: /etc/rc.d/init.d/apt:66 /etc/rc.d/init.d/denyhosts:89
+#: /etc/rc.d/init.d/moodle:64 /etc/rc.d/init.d/yum:65
 msgid "Usage: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
 msgstr ""
 "Употреба: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
@@ -1222,6 +1236,10 @@ msgstr "$*"
 msgid "Usage: $prog {start|stop|restart|condrestart|status|help}"
 msgstr "Употреба: $prog {start|stop|restart|condrestart|status|help}"
 
+#: /etc/rc.d/init.d/wine:33
+msgid "Wine binary format handlers are registered."
+msgstr ""
+
 #: /etc/rc.d/init.d/ypbind:44
 msgid "Listening for an NIS domain server."
 msgstr "Ослушкујем за NIS сервера домена."
@@ -1288,10 +1306,13 @@ msgstr "Покрећем sm-client: "
 msgid "Shutting down pand: "
 msgstr "Гасим pand: "
 
-#: /etc/rc.d/init.d/zope:23 /etc/rc.d/init.d/zope:28
-#, fuzzy
-msgid "Starting $prog:  "
-msgstr "Покрећем $prog: "
+#: /etc/rc.d/init.d/wine:21
+msgid "Unregistering binary handler for Windows applications"
+msgstr ""
+
+#: /etc/sysconfig/network-scripts/ifup:87
+msgid "No 802.1Q VLAN support available in kernel for device ${DEVICE}"
+msgstr "Нема доступне 802.1Q VLAN подршке у језгру за уређај ${DEVICE}"
 
 #: /etc/sysconfig/network-scripts/ifup-routes:5
 msgid "usage: ifup-routes <net-device> [<nickname>]"
@@ -1342,6 +1363,11 @@ msgstr "Гасим $prog: "
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:1444
 msgid "No reason given for sending trigger to radvd"
 msgstr "Није наведен разлог за слање окидача за radvd"
+
+#: /etc/rc.d/init.d/apt:61
+#, fuzzy
+msgid "Nightly apt update is disabled."
+msgstr "Ноћно yum ажурирање је искључено."
 
 #: /etc/rc.d/init.d/openct:34
 #, fuzzy
@@ -1401,6 +1427,11 @@ msgstr "Постављам име NIS домена $NISDOMAIN: "
 #, fuzzy
 msgid "Shutting down CIM server: "
 msgstr "Гасим NIS сервисе: "
+
+#: /etc/rc.d/init.d/zope:23 /etc/rc.d/init.d/zope:28
+#, fuzzy
+msgid "Starting $prog:  "
+msgstr "Покрећем $prog: "
 
 #: /etc/rc.d/init.d/monotone:104
 msgid "Generating RSA key for server $MONOTONE_KEYID"
@@ -1562,6 +1593,11 @@ msgstr "Табела: $table"
 #: /etc/rc.d/init.d/netfs:169
 msgid "Configured SMB mountpoints: "
 msgstr "Подешене SMB тачке монтирања: "
+
+#: /etc/rc.d/init.d/apt:58
+#, fuzzy
+msgid "Nightly apt update is enabled."
+msgstr "Ноћно yum ажурирање је укључено."
 
 #: /etc/rc.d/init.d/cfenvd:35
 msgid "Stopping GNU cfengine environmental history daemon: "
@@ -1887,9 +1923,10 @@ msgstr "Подешени уређаји:"
 msgid "/sbin/$IPTABLES does not exist."
 msgstr "/sbin/$IPTABLES не постоји."
 
-#: /etc/sysconfig/network-scripts/ifup-eth:68
-msgid "Bridge support not available: brctl not found"
-msgstr "Подршка за мост није доступна: brctl није нађена"
+#: /etc/rc.d/init.d/wine:63
+#, fuzzy
+msgid "Usage: $prog {start|stop|status|restart|condrestart}"
+msgstr "Употреба: $0 {start|stop|status|restart|condrestart}"
 
 #: /etc/rc.d/init.d/ip6tables:85 /etc/rc.d/init.d/iptables:85
 msgid "Flushing firewall rules: "
@@ -1997,6 +2034,10 @@ msgstr "Заустављам $subsys: "
 #: /etc/rc.d/init.d/ipsec:98
 msgid "cannot find ipsec command"
 msgstr "не могу да нађем ipsec наредбу"
+
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:1189
+msgid "Unsupported selection '$selection' specified (arg 2)"
+msgstr "Наведен је неподржан избор „$selection“ (арг. 2)"
 
 #: /etc/rc.d/init.d/named:185
 #, fuzzy
@@ -2135,6 +2176,10 @@ msgstr "$prog $site"
 msgid "Stopping YP server services: "
 msgstr "Заустављам сервисе YP сервера: "
 
+#: /etc/rc.d/init.d/wine:14
+msgid "Registering binary handler for Windows applications"
+msgstr ""
+
 #: /etc/rc.d/init.d/denyhosts:33
 #, fuzzy
 msgid "Disabling denyhosts: "
@@ -2177,9 +2222,10 @@ msgstr "\t\tПритисните „И“ за ступање у интерак�
 msgid "Generating SSH2 DSA host key: "
 msgstr "Производим SSH2 DSA кључ домаћина: "
 
-#: /etc/sysconfig/network-scripts/ifup:87
-msgid "No 802.1Q VLAN support available in kernel for device ${DEVICE}"
-msgstr "Нема доступне 802.1Q VLAN подршке у језгру за уређај ${DEVICE}"
+#: /etc/rc.d/init.d/cvsupd:36
+#, fuzzy
+msgid "$prog is already started..."
+msgstr "$prog: већ покренут"
 
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:1383
 msgid "Given IPv6 default device '$device' doesn't exist or isn't up"
@@ -2359,6 +2405,11 @@ msgstr ""
 "IPv6to4 подешавању је потребна IPv4 адреса на придруженој спрези, или "
 "наведена другачије"
 
+#: /etc/rc.d/init.d/apt:30
+#, fuzzy
+msgid "Disabling nightly apt update: "
+msgstr "Искључујем ноћно yum ажурирање: "
+
 #: /etc/rc.d/init.d/nfs:53
 msgid "Starting NFS services: "
 msgstr "Покрећем NFS сервисе: "
@@ -2510,9 +2561,11 @@ msgstr "иницијализујем netconsole"
 msgid "Fixing /proc entries visibility..."
 msgstr ""
 
-#: /etc/rc.d/init.d/functions:340
-msgid "PASSED"
-msgstr "ПРОШЛО"
+#: /etc/rc.d/init.d/crond:93 /etc/rc.d/init.d/krb5kdc:80
+#: /etc/rc.d/init.d/newscache:74 /etc/rc.d/init.d/saslauthd:75
+#: /etc/rc.d/init.d/squid:160
+msgid "Usage: $0 {start|stop|status|reload|restart|condrestart}"
+msgstr "Употреба: $0 {start|stop|status|reload|restart|condrestart}"
 
 #: /etc/rc.d/init.d/netdump:364
 msgid "disabling netconsole"
@@ -2527,9 +2580,9 @@ msgstr "Испитујем за нови хардвер"
 msgid "Restarting $prog:"
 msgstr "Поново покрећем $prog:"
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:1189
-msgid "Unsupported selection '$selection' specified (arg 2)"
-msgstr "Наведен је неподржан избор „$selection“ (арг. 2)"
+#: /etc/sysconfig/network-scripts/ifup-eth:68
+msgid "Bridge support not available: brctl not found"
+msgstr "Подршка за мост није доступна: brctl није нађена"
 
 #: /etc/rc.d/init.d/ipmi:306
 #, fuzzy
@@ -2694,6 +2747,10 @@ msgstr "ipchains и $IP6TABLES се не могу заједно користи�
 msgid "Unmounting NFS filesystems (retry): "
 msgstr "Демонтирам NFS системе датотека (поновни покушај): "
 
+#: /etc/rc.d/init.d/wine:36
+msgid "Wine binary format handlers are not registered."
+msgstr ""
+
 #: /etc/rc.d/init.d/nfs:141 /etc/rc.d/init.d/nfslock:110
 msgid "start"
 msgstr "покретање"
@@ -2776,6 +2833,10 @@ msgstr ""
 "Задати IPv6 подразумевани пролаз „$address“ има дефинисан опсег "
 "„$device_scope“, дати подразумевани пролазни уређај „$device“ неће бити "
 "употребљен"
+
+#: /etc/rc.d/init.d/apmd:26
+msgid "Starting up APM daemon: "
+msgstr "Покрећем APM демона: "
 
 #: /etc/rc.d/init.d/isdn:138
 msgid "Unloading ISDN modules"
@@ -2869,8 +2930,9 @@ msgstr "сС"
 msgid "DEBUG    "
 msgstr "ИСПРАВИ  "
 
-#: /etc/rc.d/init.d/gfs:94 /etc/rc.d/init.d/netfs:217
-#: /etc/rc.d/init.d/network:298 /etc/rc.d/init.d/yum-updateonboot:81
+#: /etc/rc.d/init.d/gfs:94 /etc/rc.d/init.d/i8kbuttons:56
+#: /etc/rc.d/init.d/netfs:217 /etc/rc.d/init.d/network:298
+#: /etc/rc.d/init.d/yum-updateonboot:81
 msgid "Usage: $0 {start|stop|restart|reload|status}"
 msgstr "Употреба: $0 {start|stop|restart|reload|status}"
 
@@ -2911,6 +2973,15 @@ msgstr "$STRING"
 #, fuzzy
 msgid "Starting $named: "
 msgstr "Покрећем dund: "
+
+#: /etc/rc.d/init.d/apt:23
+#, fuzzy
+msgid "Enabling nightly apt update: "
+msgstr "Укључујем ноћно yum ажурирање: "
+
+#: /etc/rc.d/init.d/sendmail:94
+msgid "reloading sm-client: "
+msgstr "поново учитавам sm-client: "
 
 #: /etc/rc.d/init.d/lock_gulmd:403
 #, fuzzy
@@ -2963,30 +3034,30 @@ msgstr "$prog поновно учитавање"
 #: /etc/rc.d/init.d/cfsd:52 /etc/rc.d/init.d/cfservd:35
 #: /etc/rc.d/init.d/clamd-wrapper:51 /etc/rc.d/init.d/cpuspeed:54
 #: /etc/rc.d/init.d/crond:42 /etc/rc.d/init.d/cups:71
-#: /etc/rc.d/init.d/dc_client:41 /etc/rc.d/init.d/dc_server:37
-#: /etc/rc.d/init.d/ddclient:35 /etc/rc.d/init.d/dhcp-fwd:34
-#: /etc/rc.d/init.d/dovecot:27 /etc/rc.d/init.d/fyre-cluster:39
-#: /etc/rc.d/init.d/httpd:69 /etc/rc.d/init.d/ip-sentinel:51
-#: /etc/rc.d/init.d/ircd:34 /etc/rc.d/init.d/irqbalance:56
-#: /etc/rc.d/init.d/kadmin:51 /etc/rc.d/init.d/kprop:37
-#: /etc/rc.d/init.d/krb524:41 /etc/rc.d/init.d/krb5kdc:41
-#: /etc/rc.d/init.d/ldap:182 /etc/rc.d/init.d/ldap:189
-#: /etc/rc.d/init.d/lighttpd:42 /etc/rc.d/init.d/lisa:48
-#: /etc/rc.d/init.d/lm_sensors:80 /etc/rc.d/init.d/mdmpd:57
-#: /etc/rc.d/init.d/milter-greylist:39 /etc/rc.d/init.d/mysqld:114
-#: /etc/rc.d/init.d/mysqld:118 /etc/rc.d/init.d/mysqld:121
-#: /etc/rc.d/init.d/mysqld:125 /etc/rc.d/init.d/nscd:57
-#: /etc/rc.d/init.d/opensm:46 /etc/rc.d/init.d/portmap:57
-#: /etc/rc.d/init.d/pure-ftpd:40 /etc/rc.d/init.d/radvd:45
-#: /etc/rc.d/init.d/rarpd:32 /etc/rc.d/init.d/rbldnsd:72
-#: /etc/rc.d/init.d/rinetd:34 /etc/rc.d/init.d/roundup:37
-#: /etc/rc.d/init.d/rwalld:33 /etc/rc.d/init.d/saslauthd:45
-#: /etc/rc.d/init.d/snmpd:34 /etc/rc.d/init.d/snmptrapd:32
-#: /etc/rc.d/init.d/spamassassin:52 /etc/rc.d/init.d/squid:83
-#: /etc/rc.d/init.d/sshd:115 /etc/rc.d/init.d/syslog-ng:43
-#: /etc/rc.d/init.d/tclhttpd:151 /etc/rc.d/init.d/thttpd:42
-#: /etc/rc.d/init.d/tinyerp-server:58 /etc/rc.d/init.d/ups:67
-#: /etc/rc.d/init.d/xinetd:68
+#: /etc/rc.d/init.d/cvsupd:55 /etc/rc.d/init.d/dc_client:41
+#: /etc/rc.d/init.d/dc_server:37 /etc/rc.d/init.d/ddclient:35
+#: /etc/rc.d/init.d/dhcp-fwd:34 /etc/rc.d/init.d/dovecot:27
+#: /etc/rc.d/init.d/fyre-cluster:39 /etc/rc.d/init.d/httpd:69
+#: /etc/rc.d/init.d/ip-sentinel:51 /etc/rc.d/init.d/ircd:34
+#: /etc/rc.d/init.d/irqbalance:56 /etc/rc.d/init.d/kadmin:51
+#: /etc/rc.d/init.d/kprop:37 /etc/rc.d/init.d/krb524:41
+#: /etc/rc.d/init.d/krb5kdc:41 /etc/rc.d/init.d/ldap:182
+#: /etc/rc.d/init.d/ldap:189 /etc/rc.d/init.d/lighttpd:42
+#: /etc/rc.d/init.d/lisa:48 /etc/rc.d/init.d/lm_sensors:80
+#: /etc/rc.d/init.d/mdmpd:57 /etc/rc.d/init.d/milter-greylist:39
+#: /etc/rc.d/init.d/mysqld:114 /etc/rc.d/init.d/mysqld:118
+#: /etc/rc.d/init.d/mysqld:121 /etc/rc.d/init.d/mysqld:125
+#: /etc/rc.d/init.d/nscd:57 /etc/rc.d/init.d/opensm:46
+#: /etc/rc.d/init.d/portmap:57 /etc/rc.d/init.d/pure-ftpd:40
+#: /etc/rc.d/init.d/radvd:45 /etc/rc.d/init.d/rarpd:32
+#: /etc/rc.d/init.d/rbldnsd:72 /etc/rc.d/init.d/rinetd:34
+#: /etc/rc.d/init.d/roundup:37 /etc/rc.d/init.d/rwalld:33
+#: /etc/rc.d/init.d/saslauthd:45 /etc/rc.d/init.d/snmpd:34
+#: /etc/rc.d/init.d/snmptrapd:32 /etc/rc.d/init.d/spamassassin:52
+#: /etc/rc.d/init.d/squid:83 /etc/rc.d/init.d/sshd:115
+#: /etc/rc.d/init.d/syslog-ng:43 /etc/rc.d/init.d/tclhttpd:151
+#: /etc/rc.d/init.d/thttpd:42 /etc/rc.d/init.d/tinyerp-server:58
+#: /etc/rc.d/init.d/ups:67 /etc/rc.d/init.d/xinetd:68
 msgid "Stopping $prog: "
 msgstr "Заустављам $prog: "
 
@@ -3005,17 +3076,11 @@ msgstr "Заустављам $prog: "
 #~ msgid "Allow users to login from display manager:"
 #~ msgstr "Дозволи корисницима пријаву са управљача приказа:"
 
-#~ msgid "Usage: apmd {start|stop|status|restart|reload|condrestart}"
-#~ msgstr "Употреба: apmd {start|stop|status|restart|reload|condrestart}"
-
 #~ msgid "Shutting down all Xen domains:"
 #~ msgstr "Гасим све Xen домене:"
 
 #~ msgid "Usage: $0 {start|stop)"
 #~ msgstr "Употреба: $0 {start|stop)"
-
-#~ msgid "Shutting down APM daemon: "
-#~ msgstr "Гасим APM демона: "
 
 #~ msgid "postfix reload"
 #~ msgstr "postfix поновно учитавање"
@@ -3088,9 +3153,6 @@ msgstr "Заустављам $prog: "
 
 #~ msgid " network"
 #~ msgstr " мрежа"
-
-#~ msgid "Starting up APM daemon: "
-#~ msgstr "Покрећем APM демона: "
 
 #~ msgid "Starting IIIMF input server: "
 #~ msgstr "Покрећем IIIMF сервер уноса: "

@@ -92,6 +92,14 @@ msgstr "Red Hat ネットワークデーモンを起動中: "
 msgid "$prog already running"
 msgstr "$prog: 既に実行中です"
 
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:1069
+msgid ""
+"Given remote address '$addressipv4tunnel' on tunnel device '$device' is "
+"already configured on device '$devnew'"
+msgstr ""
+"与えられたトンネルデバイス '$device' のリモートアドレス '$addressipv4tunnel' "
+"は既にデバイス '$devnew' に設定されています。"
+
 #: /etc/rc.d/init.d/tog-pegasus:51
 #, fuzzy
 msgid "Starting up CIM server: "
@@ -130,11 +138,10 @@ msgstr "使い方: pidfileofproc {program}"
 msgid "vncserver start"
 msgstr "vncserver 起動"
 
-#: /etc/rc.d/init.d/crond:93 /etc/rc.d/init.d/krb5kdc:80
-#: /etc/rc.d/init.d/newscache:74 /etc/rc.d/init.d/saslauthd:75
-#: /etc/rc.d/init.d/squid:160
-msgid "Usage: $0 {start|stop|status|reload|restart|condrestart}"
-msgstr "使い方: $0 {start|stop|status|reload|restart|condrestart}"
+#: /etc/rc.d/init.d/cvsupd:63
+#, fuzzy
+msgid "$prog is not started..."
+msgstr "$prog $site"
 
 #: /etc/rc.d/init.d/rpcsvcgssd:44
 msgid "Starting RPC svcgssd: "
@@ -149,14 +156,15 @@ msgstr "RPC svcgssd を起動中: "
 #: /etc/rc.d/init.d/cfsd:36 /etc/rc.d/init.d/cfservd:26
 #: /etc/rc.d/init.d/clamd-wrapper:42 /etc/rc.d/init.d/cpuspeed:40
 #: /etc/rc.d/init.d/crond:25 /etc/rc.d/init.d/cups:57
-#: /etc/rc.d/init.d/dc_client:33 /etc/rc.d/init.d/dc_server:29
-#: /etc/rc.d/init.d/ddclient:26 /etc/rc.d/init.d/dhcp6r:32
-#: /etc/rc.d/init.d/dhcp6s:36 /etc/rc.d/init.d/dhcpd:57
-#: /etc/rc.d/init.d/dhcp-fwd:25 /etc/rc.d/init.d/dhcrelay:33
-#: /etc/rc.d/init.d/dictd:23 /etc/rc.d/init.d/dovecot:19
-#: /etc/rc.d/init.d/ez-ipupdate:33 /etc/rc.d/init.d/fnfxd:18
-#: /etc/rc.d/init.d/FreeWnn:32 /etc/rc.d/init.d/fyre-cluster:31
-#: /etc/rc.d/init.d/gkrellmd:24 /etc/rc.d/init.d/httpd:60
+#: /etc/rc.d/init.d/cvsupd:41 /etc/rc.d/init.d/dc_client:33
+#: /etc/rc.d/init.d/dc_server:29 /etc/rc.d/init.d/ddclient:26
+#: /etc/rc.d/init.d/dhcp6r:32 /etc/rc.d/init.d/dhcp6s:36
+#: /etc/rc.d/init.d/dhcpd:57 /etc/rc.d/init.d/dhcp-fwd:25
+#: /etc/rc.d/init.d/dhcrelay:33 /etc/rc.d/init.d/dictd:23
+#: /etc/rc.d/init.d/dovecot:19 /etc/rc.d/init.d/ez-ipupdate:33
+#: /etc/rc.d/init.d/fnfxd:18 /etc/rc.d/init.d/FreeWnn:32
+#: /etc/rc.d/init.d/fyre-cluster:31 /etc/rc.d/init.d/gkrellmd:24
+#: /etc/rc.d/init.d/httpd:60 /etc/rc.d/init.d/i8kbuttons:26
 #: /etc/rc.d/init.d/icmpdnd:31 /etc/rc.d/init.d/inadyn:33
 #: /etc/rc.d/init.d/ipsec:144 /etc/rc.d/init.d/ip-sentinel:27
 #: /etc/rc.d/init.d/ircd:26 /etc/rc.d/init.d/irda:23
@@ -267,10 +275,10 @@ msgstr "$subsys を起動中: "
 msgid "Flushing all current rules and user defined chains:"
 msgstr "現在のすべてのルールとユーザ定義チェインを初期化中:"
 
-#: /etc/rc.d/init.d/bwbar:64 /etc/rc.d/init.d/netplugd:59
-#: /etc/rc.d/init.d/rdisc:77 /etc/rc.d/init.d/rstatd:63
-#: /etc/rc.d/init.d/rusersd:66 /etc/rc.d/init.d/rwalld:64
-#: /etc/rc.d/init.d/rwhod:63
+#: /etc/rc.d/init.d/bwbar:64 /etc/rc.d/init.d/kdump:106
+#: /etc/rc.d/init.d/netplugd:59 /etc/rc.d/init.d/rdisc:77
+#: /etc/rc.d/init.d/rstatd:63 /etc/rc.d/init.d/rusersd:66
+#: /etc/rc.d/init.d/rwalld:64 /etc/rc.d/init.d/rwhod:63
 msgid "Usage: $0 {start|stop|status|restart}"
 msgstr "使い方: $0 {start|stop|status|restart}"
 
@@ -329,15 +337,16 @@ msgstr "$NAME は $DEVICE に接続されています"
 #: /etc/rc.d/init.d/dhcpd:76 /etc/rc.d/init.d/dhcrelay:45
 #: /etc/rc.d/init.d/dictd:43 /etc/rc.d/init.d/ez-ipupdate:42
 #: /etc/rc.d/init.d/fnfxd:29 /etc/rc.d/init.d/FreeWnn:43
-#: /etc/rc.d/init.d/gkrellmd:31 /etc/rc.d/init.d/icmpdnd:40
-#: /etc/rc.d/init.d/inadyn:42 /etc/rc.d/init.d/ipsec:150
-#: /etc/rc.d/init.d/irda:34 /etc/rc.d/init.d/mailman:91
-#: /etc/rc.d/init.d/ntpd:106 /etc/rc.d/init.d/ospf6d:36
-#: /etc/rc.d/init.d/ospfd:37 /etc/rc.d/init.d/proftpd:42
-#: /etc/rc.d/init.d/ripd:36 /etc/rc.d/init.d/ripngd:36
-#: /etc/rc.d/init.d/sendmail:104 /etc/rc.d/init.d/smartd:51
-#: /etc/rc.d/init.d/vncserver:49 /etc/rc.d/init.d/vsftpd:46
-#: /etc/rc.d/init.d/xfs:82 /etc/rc.d/init.d/zebra:37
+#: /etc/rc.d/init.d/gkrellmd:31 /etc/rc.d/init.d/i8kbuttons:40
+#: /etc/rc.d/init.d/icmpdnd:40 /etc/rc.d/init.d/inadyn:42
+#: /etc/rc.d/init.d/ipsec:150 /etc/rc.d/init.d/irda:34
+#: /etc/rc.d/init.d/mailman:91 /etc/rc.d/init.d/ntpd:106
+#: /etc/rc.d/init.d/ospf6d:36 /etc/rc.d/init.d/ospfd:37
+#: /etc/rc.d/init.d/proftpd:42 /etc/rc.d/init.d/ripd:36
+#: /etc/rc.d/init.d/ripngd:36 /etc/rc.d/init.d/sendmail:104
+#: /etc/rc.d/init.d/smartd:51 /etc/rc.d/init.d/vncserver:49
+#: /etc/rc.d/init.d/vsftpd:46 /etc/rc.d/init.d/xfs:82
+#: /etc/rc.d/init.d/zebra:37
 msgid "Shutting down $prog: "
 msgstr "$prog を停止中: "
 
@@ -488,6 +497,10 @@ msgstr "YP マップサーバを起動中: "
 msgid "database check"
 msgstr ""
 
+#: /etc/rc.d/init.d/apmd:76
+msgid "Usage: apmd {start|stop|status|restart|reload|condrestart}"
+msgstr "使い方: apmd {start|stop|status|restart|reload|condrestart}"
+
 #: /etc/rc.d/rc.sysinit:211
 msgid "Loading default keymap ($KEYTABLE): "
 msgstr "標準キーマップ ($KEYTABLE) を読み込み中: "
@@ -532,14 +545,15 @@ msgstr "cyrus.conf ファイルを再読み込み中: "
 msgid "Unmounting NFS filesystems: "
 msgstr "NFS ファイルシステムをアンマウント中: "
 
-#: /etc/rc.d/init.d/sendmail:94
-msgid "reloading sm-client: "
-msgstr "sm-client を再読み込み中: "
+#: /etc/rc.d/init.d/apmd:37
+msgid "Shutting down APM daemon: "
+msgstr "APM デーモンを停止中: "
 
-#: /etc/rc.d/init.d/hddtemp:68 /etc/rc.d/init.d/lirc:92
-#: /etc/rc.d/init.d/moomps:70 /etc/rc.d/init.d/openct:74
-#: /etc/rc.d/init.d/pcscd:62 /etc/rc.d/init.d/rinetd:81
-#: /etc/rc.d/init.d/syslog-ng:86 /etc/rc.d/init.d/wesnothd:93
+#: /etc/rc.d/init.d/athcool:78 /etc/rc.d/init.d/hddtemp:68
+#: /etc/rc.d/init.d/lirc:92 /etc/rc.d/init.d/moomps:70
+#: /etc/rc.d/init.d/openct:74 /etc/rc.d/init.d/pcscd:62
+#: /etc/rc.d/init.d/rinetd:81 /etc/rc.d/init.d/syslog-ng:86
+#: /etc/rc.d/init.d/wesnothd:93
 #, fuzzy
 msgid "Usage: $0 {start|stop|status|restart|try-restart|reload|force-reload}"
 msgstr "使い方: $0 {start|stop|status|restart|reload|force-reload}"
@@ -763,10 +777,9 @@ msgstr "NFS ファイルシステムをマウント中: "
 msgid "Starting NetworkManager daemon: "
 msgstr "NetworkManager デーモンを起動中: "
 
-#: /etc/rc.d/init.d/amd:60
-#, fuzzy
-msgid "amd shutdown"
-msgstr "$base 停止"
+#: /etc/rc.d/init.d/cyrus-imapd:84
+msgid "done. "
+msgstr "完了。 "
 
 #: /etc/rc.d/init.d/hplip:85
 #, fuzzy
@@ -1022,6 +1035,10 @@ msgstr "$PRIVOXY_PRG を起動中: "
 msgid "Stopping INN actived service: "
 msgstr "INN サービスを停止中: "
 
+#: /etc/rc.d/init.d/athcool:21
+msgid "Enabling Athlon powersaving mode..."
+msgstr ""
+
 #: /etc/sysconfig/network-scripts/ifup-aliases:156
 msgid "error in $FILE: already seen device $parent_device:$DEVNUM in $devseen"
 msgstr ""
@@ -1095,9 +1112,10 @@ msgstr "$prog デーモンを停止中: "
 msgid "Forwarding control parameter isn't valid '$fw_control' (arg 1)"
 msgstr "転送御パラメーター '$fw_controll' は正当なパラメーターではありません。"
 
-#: /etc/rc.d/init.d/cyrus-imapd:84
-msgid "done. "
-msgstr "完了。 "
+#: /etc/rc.d/init.d/amd:60
+#, fuzzy
+msgid "amd shutdown"
+msgstr "$base 停止"
 
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:519
 msgid "Missing parameter 'IPv6-address' (arg 2)"
@@ -1132,13 +1150,9 @@ msgstr "$0: ${1} に対する設定がみつかりません"
 msgid "Stopping $PRIVOXY_PRG: "
 msgstr "$PRIVOXY_PRG を停止中: "
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:1069
-msgid ""
-"Given remote address '$addressipv4tunnel' on tunnel device '$device' is "
-"already configured on device '$devnew'"
-msgstr ""
-"与えられたトンネルデバイス '$device' のリモートアドレス '$addressipv4tunnel' "
-"は既にデバイス '$devnew' に設定されています。"
+#: /etc/rc.d/init.d/functions:340
+msgid "PASSED"
+msgstr "パス"
 
 #: /etc/rc.d/init.d/gfs:49
 #, fuzzy
@@ -1158,8 +1172,8 @@ msgstr ""
 msgid "Enabling nightly yum update: "
 msgstr "夜間 yum 更新の有効化中"
 
-#: /etc/rc.d/init.d/denyhosts:89 /etc/rc.d/init.d/moodle:64
-#: /etc/rc.d/init.d/yum:65
+#: /etc/rc.d/init.d/apt:66 /etc/rc.d/init.d/denyhosts:89
+#: /etc/rc.d/init.d/moodle:64 /etc/rc.d/init.d/yum:65
 msgid "Usage: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
 msgstr "使い方: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
 
@@ -1224,6 +1238,10 @@ msgstr "$*"
 #: /etc/rc.d/init.d/dc_client:74 /etc/rc.d/init.d/dc_server:70
 msgid "Usage: $prog {start|stop|restart|condrestart|status|help}"
 msgstr "使い方: $prog {start|stop|restart|condrestart|status|help}"
+
+#: /etc/rc.d/init.d/wine:33
+msgid "Wine binary format handlers are registered."
+msgstr "Wine バイナリ形式のハンドラーが登録されています。"
 
 #: /etc/rc.d/init.d/ypbind:44
 msgid "Listening for an NIS domain server."
@@ -1291,10 +1309,13 @@ msgstr "sm-client を起動中: "
 msgid "Shutting down pand: "
 msgstr "pandを停止中: "
 
-#: /etc/rc.d/init.d/zope:23 /etc/rc.d/init.d/zope:28
-#, fuzzy
-msgid "Starting $prog:  "
-msgstr "$prog を起動中: "
+#: /etc/rc.d/init.d/wine:21
+msgid "Unregistering binary handler for Windows applications"
+msgstr "Windows アプリケーション用にバイナリハンドラーを登録解除しています。"
+
+#: /etc/sysconfig/network-scripts/ifup:87
+msgid "No 802.1Q VLAN support available in kernel for device ${DEVICE}"
+msgstr "802.1Q VLAN サポートはカーネルで有効ではありません"
 
 #: /etc/sysconfig/network-scripts/ifup-routes:5
 msgid "usage: ifup-routes <net-device> [<nickname>]"
@@ -1346,6 +1367,11 @@ msgstr "$prog を停止中: "
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:1444
 msgid "No reason given for sending trigger to radvd"
 msgstr "radvd に開始信号を送る理由が示されていません。"
+
+#: /etc/rc.d/init.d/apt:61
+#, fuzzy
+msgid "Nightly apt update is disabled."
+msgstr "夜間 yum 更新を無効にしました。"
 
 #: /etc/rc.d/init.d/openct:34
 #, fuzzy
@@ -1404,6 +1430,11 @@ msgstr "NIS ドメイン名 $NISDOMAINを設定中: "
 #, fuzzy
 msgid "Shutting down CIM server: "
 msgstr "NIS サービスを停止中: "
+
+#: /etc/rc.d/init.d/zope:23 /etc/rc.d/init.d/zope:28
+#, fuzzy
+msgid "Starting $prog:  "
+msgstr "$prog を起動中: "
 
 #: /etc/rc.d/init.d/monotone:104
 msgid "Generating RSA key for server $MONOTONE_KEYID"
@@ -1566,6 +1597,11 @@ msgstr "テーブル: $table"
 #: /etc/rc.d/init.d/netfs:169
 msgid "Configured SMB mountpoints: "
 msgstr "設定された SMB マウントポイント: "
+
+#: /etc/rc.d/init.d/apt:58
+#, fuzzy
+msgid "Nightly apt update is enabled."
+msgstr "夜間 yum 更新が有効"
 
 #: /etc/rc.d/init.d/cfenvd:35
 msgid "Stopping GNU cfengine environmental history daemon: "
@@ -1892,9 +1928,9 @@ msgstr "設定されたデバイス:"
 msgid "/sbin/$IPTABLES does not exist."
 msgstr "/sbin/$IPTABLES がありません。"
 
-#: /etc/sysconfig/network-scripts/ifup-eth:68
-msgid "Bridge support not available: brctl not found"
-msgstr "ブリッジのサポートが有効ではありません。 brctl が見つかりません。"
+#: /etc/rc.d/init.d/wine:63
+msgid "Usage: $prog {start|stop|status|restart|condrestart}"
+msgstr "使い方: $prog {start|stop|status|restart|condrestart}"
 
 #: /etc/rc.d/init.d/ip6tables:85 /etc/rc.d/init.d/iptables:85
 msgid "Flushing firewall rules: "
@@ -2001,6 +2037,10 @@ msgstr "$subsys を停止中: "
 #: /etc/rc.d/init.d/ipsec:98
 msgid "cannot find ipsec command"
 msgstr "ipsec コマンドが見付かりません"
+
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:1189
+msgid "Unsupported selection '$selection' specified (arg 2)"
+msgstr "サポートされないセレクション '$selection' が指定されました。"
 
 #: /etc/rc.d/init.d/named:185
 #, fuzzy
@@ -2139,6 +2179,10 @@ msgstr "$prog は停止"
 msgid "Stopping YP server services: "
 msgstr "YP サーバサービスを停止中: "
 
+#: /etc/rc.d/init.d/wine:14
+msgid "Registering binary handler for Windows applications"
+msgstr "Windows アプリケーション用にバイナリハンドラーを登録中です"
+
 #: /etc/rc.d/init.d/denyhosts:33
 #, fuzzy
 msgid "Disabling denyhosts: "
@@ -2181,9 +2225,10 @@ msgstr "\t\t対話起動モードに移るには 'I'を押して下さい"
 msgid "Generating SSH2 DSA host key: "
 msgstr "SSH2 DSAホストキーを生成中: "
 
-#: /etc/sysconfig/network-scripts/ifup:87
-msgid "No 802.1Q VLAN support available in kernel for device ${DEVICE}"
-msgstr "802.1Q VLAN サポートはカーネルで有効ではありません"
+#: /etc/rc.d/init.d/cvsupd:36
+#, fuzzy
+msgid "$prog is already started..."
+msgstr "$prog: 既に実行中です"
 
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:1383
 msgid "Given IPv6 default device '$device' doesn't exist or isn't up"
@@ -2363,6 +2408,11 @@ msgstr ""
 "IPv6to4 設定は、関連または他で指定されたインターフェースの IPv4 アドレスを必"
 "要とします。"
 
+#: /etc/rc.d/init.d/apt:30
+#, fuzzy
+msgid "Disabling nightly apt update: "
+msgstr "夜間 yum 更新を無効にする"
+
 #: /etc/rc.d/init.d/nfs:53
 msgid "Starting NFS services: "
 msgstr "NFS サービスを起動中: "
@@ -2515,9 +2565,11 @@ msgstr "netconsole を初期化中: "
 msgid "Fixing /proc entries visibility..."
 msgstr ""
 
-#: /etc/rc.d/init.d/functions:340
-msgid "PASSED"
-msgstr "パス"
+#: /etc/rc.d/init.d/crond:93 /etc/rc.d/init.d/krb5kdc:80
+#: /etc/rc.d/init.d/newscache:74 /etc/rc.d/init.d/saslauthd:75
+#: /etc/rc.d/init.d/squid:160
+msgid "Usage: $0 {start|stop|status|reload|restart|condrestart}"
+msgstr "使い方: $0 {start|stop|status|reload|restart|condrestart}"
 
 #: /etc/rc.d/init.d/netdump:364
 msgid "disabling netconsole"
@@ -2532,9 +2584,9 @@ msgstr "新規ハードウェアを検査中"
 msgid "Restarting $prog:"
 msgstr "$prog を再起動中:"
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:1189
-msgid "Unsupported selection '$selection' specified (arg 2)"
-msgstr "サポートされないセレクション '$selection' が指定されました。"
+#: /etc/sysconfig/network-scripts/ifup-eth:68
+msgid "Bridge support not available: brctl not found"
+msgstr "ブリッジのサポートが有効ではありません。 brctl が見つかりません。"
 
 #: /etc/rc.d/init.d/ipmi:306
 #, fuzzy
@@ -2699,6 +2751,10 @@ msgstr "ipchains と $IP6TABLES を一緒に使用することができません
 msgid "Unmounting NFS filesystems (retry): "
 msgstr "NFS ファイルシステムをアンマウント中 (再試行): "
 
+#: /etc/rc.d/init.d/wine:36
+msgid "Wine binary format handlers are not registered."
+msgstr "Wine バイナリ形式のハンドラーは登録されていません。"
+
 #: /etc/rc.d/init.d/nfs:141 /etc/rc.d/init.d/nfslock:110
 msgid "start"
 msgstr "起動"
@@ -2782,6 +2838,10 @@ msgid ""
 msgstr ""
 "与えられたデフォルト IPv6 ゲートウェイ '$address' はスコープ '$device_scope' "
 "で定義されました。与えられたゲートウェイデバイス '$device'は使用されません。"
+
+#: /etc/rc.d/init.d/apmd:26
+msgid "Starting up APM daemon: "
+msgstr "APM デーモンを起動中: "
 
 #: /etc/rc.d/init.d/isdn:138
 msgid "Unloading ISDN modules"
@@ -2876,8 +2936,9 @@ msgstr "cC"
 msgid "DEBUG    "
 msgstr "デバッグ   "
 
-#: /etc/rc.d/init.d/gfs:94 /etc/rc.d/init.d/netfs:217
-#: /etc/rc.d/init.d/network:298 /etc/rc.d/init.d/yum-updateonboot:81
+#: /etc/rc.d/init.d/gfs:94 /etc/rc.d/init.d/i8kbuttons:56
+#: /etc/rc.d/init.d/netfs:217 /etc/rc.d/init.d/network:298
+#: /etc/rc.d/init.d/yum-updateonboot:81
 msgid "Usage: $0 {start|stop|restart|reload|status}"
 msgstr "使い方: $0 {start|stop|restart|reload|status}"
 
@@ -2918,6 +2979,15 @@ msgstr "$STRING"
 #, fuzzy
 msgid "Starting $named: "
 msgstr "dund を起動中: "
+
+#: /etc/rc.d/init.d/apt:23
+#, fuzzy
+msgid "Enabling nightly apt update: "
+msgstr "夜間 yum 更新の有効化中"
+
+#: /etc/rc.d/init.d/sendmail:94
+msgid "reloading sm-client: "
+msgstr "sm-client を再読み込み中: "
 
 #: /etc/rc.d/init.d/lock_gulmd:403
 #, fuzzy
@@ -2970,30 +3040,30 @@ msgstr "$prog 再読み込み"
 #: /etc/rc.d/init.d/cfsd:52 /etc/rc.d/init.d/cfservd:35
 #: /etc/rc.d/init.d/clamd-wrapper:51 /etc/rc.d/init.d/cpuspeed:54
 #: /etc/rc.d/init.d/crond:42 /etc/rc.d/init.d/cups:71
-#: /etc/rc.d/init.d/dc_client:41 /etc/rc.d/init.d/dc_server:37
-#: /etc/rc.d/init.d/ddclient:35 /etc/rc.d/init.d/dhcp-fwd:34
-#: /etc/rc.d/init.d/dovecot:27 /etc/rc.d/init.d/fyre-cluster:39
-#: /etc/rc.d/init.d/httpd:69 /etc/rc.d/init.d/ip-sentinel:51
-#: /etc/rc.d/init.d/ircd:34 /etc/rc.d/init.d/irqbalance:56
-#: /etc/rc.d/init.d/kadmin:51 /etc/rc.d/init.d/kprop:37
-#: /etc/rc.d/init.d/krb524:41 /etc/rc.d/init.d/krb5kdc:41
-#: /etc/rc.d/init.d/ldap:182 /etc/rc.d/init.d/ldap:189
-#: /etc/rc.d/init.d/lighttpd:42 /etc/rc.d/init.d/lisa:48
-#: /etc/rc.d/init.d/lm_sensors:80 /etc/rc.d/init.d/mdmpd:57
-#: /etc/rc.d/init.d/milter-greylist:39 /etc/rc.d/init.d/mysqld:114
-#: /etc/rc.d/init.d/mysqld:118 /etc/rc.d/init.d/mysqld:121
-#: /etc/rc.d/init.d/mysqld:125 /etc/rc.d/init.d/nscd:57
-#: /etc/rc.d/init.d/opensm:46 /etc/rc.d/init.d/portmap:57
-#: /etc/rc.d/init.d/pure-ftpd:40 /etc/rc.d/init.d/radvd:45
-#: /etc/rc.d/init.d/rarpd:32 /etc/rc.d/init.d/rbldnsd:72
-#: /etc/rc.d/init.d/rinetd:34 /etc/rc.d/init.d/roundup:37
-#: /etc/rc.d/init.d/rwalld:33 /etc/rc.d/init.d/saslauthd:45
-#: /etc/rc.d/init.d/snmpd:34 /etc/rc.d/init.d/snmptrapd:32
-#: /etc/rc.d/init.d/spamassassin:52 /etc/rc.d/init.d/squid:83
-#: /etc/rc.d/init.d/sshd:115 /etc/rc.d/init.d/syslog-ng:43
-#: /etc/rc.d/init.d/tclhttpd:151 /etc/rc.d/init.d/thttpd:42
-#: /etc/rc.d/init.d/tinyerp-server:58 /etc/rc.d/init.d/ups:67
-#: /etc/rc.d/init.d/xinetd:68
+#: /etc/rc.d/init.d/cvsupd:55 /etc/rc.d/init.d/dc_client:41
+#: /etc/rc.d/init.d/dc_server:37 /etc/rc.d/init.d/ddclient:35
+#: /etc/rc.d/init.d/dhcp-fwd:34 /etc/rc.d/init.d/dovecot:27
+#: /etc/rc.d/init.d/fyre-cluster:39 /etc/rc.d/init.d/httpd:69
+#: /etc/rc.d/init.d/ip-sentinel:51 /etc/rc.d/init.d/ircd:34
+#: /etc/rc.d/init.d/irqbalance:56 /etc/rc.d/init.d/kadmin:51
+#: /etc/rc.d/init.d/kprop:37 /etc/rc.d/init.d/krb524:41
+#: /etc/rc.d/init.d/krb5kdc:41 /etc/rc.d/init.d/ldap:182
+#: /etc/rc.d/init.d/ldap:189 /etc/rc.d/init.d/lighttpd:42
+#: /etc/rc.d/init.d/lisa:48 /etc/rc.d/init.d/lm_sensors:80
+#: /etc/rc.d/init.d/mdmpd:57 /etc/rc.d/init.d/milter-greylist:39
+#: /etc/rc.d/init.d/mysqld:114 /etc/rc.d/init.d/mysqld:118
+#: /etc/rc.d/init.d/mysqld:121 /etc/rc.d/init.d/mysqld:125
+#: /etc/rc.d/init.d/nscd:57 /etc/rc.d/init.d/opensm:46
+#: /etc/rc.d/init.d/portmap:57 /etc/rc.d/init.d/pure-ftpd:40
+#: /etc/rc.d/init.d/radvd:45 /etc/rc.d/init.d/rarpd:32
+#: /etc/rc.d/init.d/rbldnsd:72 /etc/rc.d/init.d/rinetd:34
+#: /etc/rc.d/init.d/roundup:37 /etc/rc.d/init.d/rwalld:33
+#: /etc/rc.d/init.d/saslauthd:45 /etc/rc.d/init.d/snmpd:34
+#: /etc/rc.d/init.d/snmptrapd:32 /etc/rc.d/init.d/spamassassin:52
+#: /etc/rc.d/init.d/squid:83 /etc/rc.d/init.d/sshd:115
+#: /etc/rc.d/init.d/syslog-ng:43 /etc/rc.d/init.d/tclhttpd:151
+#: /etc/rc.d/init.d/thttpd:42 /etc/rc.d/init.d/tinyerp-server:58
+#: /etc/rc.d/init.d/ups:67 /etc/rc.d/init.d/xinetd:68
 msgid "Stopping $prog: "
 msgstr "$prog を停止中: "
 
@@ -3012,17 +3082,11 @@ msgstr "$prog を停止中: "
 #~ msgid "Allow users to login from display manager:"
 #~ msgstr "ユーザーにディスプレイマネージャからのログインを許可:"
 
-#~ msgid "Usage: apmd {start|stop|status|restart|reload|condrestart}"
-#~ msgstr "使い方: apmd {start|stop|status|restart|reload|condrestart}"
-
 #~ msgid "Shutting down all Xen domains:"
 #~ msgstr "全ての Xen ドメインを停止中: "
 
 #~ msgid "Usage: $0 {start|stop)"
 #~ msgstr "使い方: $0 {start|stop)"
-
-#~ msgid "Shutting down APM daemon: "
-#~ msgstr "APM デーモンを停止中: "
 
 #~ msgid "postfix reload"
 #~ msgstr "postfix 再読み込み"
@@ -3101,9 +3165,6 @@ msgstr "$prog を停止中: "
 
 #~ msgid " network"
 #~ msgstr " ネットワーク"
-
-#~ msgid "Starting up APM daemon: "
-#~ msgstr "APM デーモンを起動中: "
 
 #~ msgid "Starting IIIMF input server: "
 #~ msgstr "IIIMF 入力サーバを起動中: "
@@ -3395,18 +3456,11 @@ msgstr "$prog を停止中: "
 #~ msgid "Usage: isicom {start|stop|status|restart|reload|condrestart}"
 #~ msgstr "使い方: isicom {start|stop|status|restart|reload|condrestart}"
 
-#~ msgid "Wine binary format handlers are registered."
-#~ msgstr "Wine バイナリ形式のハンドラーが登録されています。"
-
 #~ msgid "The iSCSI module could not be unloaded."
 #~ msgstr "iSCSI モジュールはアンロードできませんでした。"
 
 #~ msgid "Setting default font ($SYSFONT): "
 #~ msgstr "標準フォント ($SYSFONT) を設定中: "
-
-#~ msgid "Unregistering binary handler for Windows applications"
-#~ msgstr ""
-#~ "Windows アプリケーション用にバイナリハンドラーを登録解除しています。"
 
 #~ msgid "\\033[0;39m"
 #~ msgstr "\\033[0;39m"
@@ -3417,20 +3471,11 @@ msgstr "$prog を停止中: "
 #~ msgid " iscsilun"
 #~ msgstr " iscsilun"
 
-#~ msgid "Registering binary handler for Windows applications"
-#~ msgstr "Windows アプリケーション用にバイナリハンドラーを登録中です"
-
-#~ msgid "Wine binary format handlers are not registered."
-#~ msgstr "Wine バイナリ形式のハンドラーは登録されていません。"
-
 #~ msgid "\\033[0;31m"
 #~ msgstr "\\033[0;31m"
 
 #~ msgid "$1 "
 #~ msgstr "$1"
-
-#~ msgid "Usage: $prog {start|stop|status|restart|condrestart}"
-#~ msgstr "使い方: $prog {start|stop|status|restart|condrestart}"
 
 #~ msgid "Stopping NFS mountd: "
 #~ msgstr "NFS mountd を停止中: "
