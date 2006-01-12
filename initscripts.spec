@@ -207,6 +207,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Jan 12 2006 Bill Nottingham <notting@redhat.com>
+- ignore sysfs but not /sys<otherstuff> (#177612, <bnocera@redhat.com>)
+
 * Thu Dec 15 2005 Bill Nottingham <notting@redhat.com> 7.93.24.EL-1
 - correct fix for #172804
 

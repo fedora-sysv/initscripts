@@ -67,7 +67,7 @@ unsigned int get_num_cpus() {
 	int ncpus = sysconf(_SC_NPROCESSORS_ONLN);
 	
 #if defined(__i386__) || defined(__x86_64__)
-	u_int32_t eax = 0, ebx = 0, ecx = 0, edx = 0;
+	u_int32_t eax = 0, ebx = 1, ecx = 0, edx = 0;
 	
 	cpuid(0, &eax, &ebx, &ecx, &edx);
 	if (ebx == 0x756e6547) { /* Intel */
