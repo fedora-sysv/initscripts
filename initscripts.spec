@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.20
+Version: 8.21
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -24,6 +24,7 @@ Conflicts: dhclient < 3.0.3-7
 Conflicts: tcsh < 6.13-5
 #Conflicts: diskdumputils < 1.1.0
 Obsoletes: rhsound sapinit
+Obsoletes: hotplug
 Prereq: /sbin/chkconfig, /usr/sbin/groupadd, /bin/sed, mktemp, fileutils, sh-utils
 BuildPrereq: glib2-devel popt gettext pkgconfig
 
@@ -154,10 +155,12 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/sysconfig/network-scripts/ifup-wireless
 /etc/sysconfig/network-scripts/ifup-isdn
 /etc/sysconfig/network-scripts/ifdown-isdn
+/etc/sysconfig/network-scripts/net.hotplug
 %ifarch s390 s390x
 %config /etc/sysconfig/network-scripts/ifup-ctc
 %config /etc/sysconfig/network-scripts/ifup-iucv
 %endif
+/etc/udev/rules.d/*
 %config /etc/X11/prefdm
 %config(noreplace) /etc/inittab
 %dir /etc/rc.d
@@ -205,6 +208,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Jan 20 2005 Bill Nottingham <notting@redhat.com> 8.21-1
+- move handling of network hotplug events here, add appropriate udev
+  rules, obsolete hotplug
+
 * Wed Dec 21 2005 Bill Nottingham <notting@redhat.com> 8.20-1
 - remove kmodule. udev handles module loading now
 - require appropriate udev

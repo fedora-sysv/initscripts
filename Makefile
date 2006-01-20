@@ -33,7 +33,7 @@ install:
 	mkdir -p $(ROOT)/etc/X11
 	install -m755 prefdm $(ROOT)/etc/X11/prefdm
 
-	cp -af rc.d sysconfig ppp $(ROOT)/etc
+	cp -af rc.d sysconfig ppp udev $(ROOT)/etc
 	mkdir -p $(ROOT)/etc/ppp/peers
 	chmod 755 $(ROOT)/etc/rc.d/* $(ROOT)/etc/rc.d/init.d/*
 	chmod 755 $(ROOT)/etc/ppp/peers
@@ -41,6 +41,7 @@ install:
 	chmod 755 $(ROOT)/etc/sysconfig/network-scripts/ifup-*
 	chmod 755 $(ROOT)/etc/sysconfig/network-scripts/ifdown-*
 	chmod 755 $(ROOT)/etc/sysconfig/network-scripts/init*
+	chmod 755 $(ROOT)/etc/sysconfig/network-scripts/net.hotplug
 	mkdir -p $(ROOT)/etc/sysconfig/modules
 	mkdir -p $(ROOT)/etc/sysconfig/networking/devices
 	mkdir -p $(ROOT)/etc/sysconfig/networking/profiles/default
