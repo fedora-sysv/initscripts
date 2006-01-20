@@ -208,7 +208,7 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
-* Fri Jan 20 2005 Bill Nottingham <notting@redhat.com> 8.21-1
+* Fri Jan 20 2006 Bill Nottingham <notting@redhat.com> 8.21-1
 - move handling of network hotplug events here, add appropriate udev
   rules, obsolete hotplug
 - get rid of some path lookups (#178321, <mclasen@redhat.com>)
