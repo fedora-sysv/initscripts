@@ -212,6 +212,12 @@ rm -rf $RPM_BUILD_ROOT
 * Fri Jan 20 2005 Bill Nottingham <notting@redhat.com> 8.21-1
 - move handling of network hotplug events here, add appropriate udev
   rules, obsolete hotplug
+- get rid of some path lookups (#178321, <mclasen@redhat.com>)
+- get hwaddrs from sysfs as opposed to ip | sed
+- translation updates
+- lang.sh: don't run unicode_start for subshells (#176832)
+- halt: ignore sysfs but not /sys<otherstuff> (#177612, <bnocera@redhat.com>)
+- add service(8) man page (#44857) <mitr@redhat.com>
 
 * Wed Dec 21 2005 Bill Nottingham <notting@redhat.com> 8.20-1
 - remove kmodule. udev handles module loading now
