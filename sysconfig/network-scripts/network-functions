@@ -9,8 +9,14 @@ export PATH
 
 get_hwaddr ()
 {
-    LC_ALL= LANG= ip -o link show ${1} 2>/dev/null | \
-      sed 's/.*link\/[^ ]* \([[:alnum:]:]*\).*/\1/' | \
+      {
+    	if [ -f /sys/class/net/${1}/address ]; then
+		cat /sys/class/net/${1}/address
+	else	
+	    LC_ALL= LANG= ip -o link show ${1} 2>/dev/null | \
+      	    sed 's/.*link\/[^ ]* \([[:alnum:]:]*\).*/\1/'
+        fi
+      } | \
       awk '{ print toupper($0) }'
 }    
 
