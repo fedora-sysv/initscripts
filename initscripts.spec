@@ -22,6 +22,7 @@ Conflicts: mkinitrd < 4.0, kernel < 2.6.12
 Conflicts: ypbind < 1.6-12, psacct < 6.3.2-12, kbd < 1.06-19, lokkit < 0.50-14
 Conflicts: dhclient < 3.0.3-7
 Conflicts: tcsh < 6.13-5
+Conflicts: xorg-x11
 #Conflicts: diskdumputils < 1.1.0
 Obsoletes: rhsound sapinit
 Obsoletes: hotplug
