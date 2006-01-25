@@ -18,11 +18,6 @@ fi
 
 # Mount /proc and /sys (done here so volume labels can work with fsck)
 mount -n -t proc /proc /proc
-if [ ! -d /proc/bus/usb ]; then
-	modprobe usbcore >/dev/null 2>&1 && mount -n -t usbfs /proc/bus/usb /proc/bus/usb
-else
-	mount -n -t usbfs /proc/bus/usb /proc/bus/usb
-fi
 mount -n -t sysfs /sys /sys >/dev/null 2>&1
 
 . /etc/init.d/functions
