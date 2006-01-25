@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1999-2003 Red Hat, Inc. All rights reserved.
+ * Copyright (c) 1999-2003, 2006 Red Hat, Inc. All rights reserved.
  *
  * This software may be freely redistributed under the terms of the GNU
  * public license.
@@ -24,37 +24,35 @@
 #include <sys/poll.h>
 #include "popt.h"
 
-struct termios tp;
+static struct termios orig_tp;
 
-void reset_term(int x) {
-	tcsetattr(0,TCSANOW,&tp);
-	exit(x);
+static void reset_term(int x) {
+	tcsetattr(0,TCSANOW,&orig_tp);
+	_exit(x);
 }
 
 int main(int argc, char **argv) {
-	char foo[2];
-	char list[100]; /* should be enough */
+        static const char default_list[] = "";
+
+	const char *list;
 	char *waitmessage = NULL;
 	char *waitprint, *waitsprint;
-	const char *fooptr;
 	int waitseconds=0;
 	int alarmlen=0;
 	int ignore_control=0;
-	int tp_if,tp_of,tp_lf;
-	int x, r;
+	struct termios tp;
+	int r;
 	struct pollfd ufds; /* only one, no need for an array... */
         poptContext context;
 	struct poptOption options[] = {
             { "wait", 'c', POPT_ARG_INT, &waitseconds, 0, "Number of seconds to wait for keypress", NULL },
-	    /*            { "message", 'm', POPT_ARG_STRING, &waitmessage, 0, "Message to print out while waiting for string", "NOTE: argument must have a \"%d\" in it so the number of seconds\nleft until getkey times out can be printed" },*/
-            { "message", 'm', POPT_ARG_STRING, &waitmessage, 0, "Message to print out while waiting for string\nNOTE: message must have a \"%d\" in it, to hold the number of seconds left to wait", NULL },
+            { "message", 'm', POPT_ARG_STRING, &waitmessage, 0, "Message to print out while waiting for string\nNOTE: The message may have a \"%d\" in it, to hold the number of seconds left to wait.", NULL },
             { "ignore-control-chars", 'i', POPT_ARG_NONE, &ignore_control, 0, "Ignore Control-C and Control-D", NULL },
             POPT_AUTOHELP
             POPT_TABLEEND
         };
 
-	strcpy(list, "");
-        context = poptGetContext("getkey", argc, argv, options, 
+	context = poptGetContext("getkey", argc, (const char **)argv, options,
                                 POPT_CONTEXT_POSIXMEHARDER);
         poptSetOtherOptionHelp(context, "[keys]");
 
@@ -66,44 +64,51 @@ int main(int argc, char **argv) {
 
             return -1;
         }
-        fooptr = poptGetArg(context);
-	if (fooptr != NULL) {
-	    strncpy(list, fooptr, sizeof(list) - 1);
-	    list[99] = '\0';
-	    for (x=0;list[x];x++) list[x]=toupper(list[x]);
-	}
+        list = poptGetArg(context);
+	if (list != NULL) {
+	    char *p;
+
+	    p = strdup(list);
+	    list = p;
+	    while (*p != 0) {
+		*p = toupper(*p);
+		p++;
+	    }
+	} else
+	    list = default_list;
 	if (waitseconds) {
+	    if (waitseconds < 0) {
+		fprintf(stderr, "--wait: Invalid time %d seconds\n",
+			waitseconds);
+		return -1;
+	    }
 	    alarmlen = waitseconds;
 	}
-	foo[0]=foo[1]='\0';
-
-	signal(SIGTERM,reset_term);
-	alarm(alarmlen);
-	signal(SIGALRM,reset_term);
 
 	tcgetattr(0,&tp);
-	tp_if=tp.c_iflag;
-	tp_of=tp.c_oflag;
-	tp_lf=tp.c_lflag;
+	orig_tp = tp;
+	signal(SIGTERM,reset_term);
+	if (alarmlen != 0) {
+	    signal(SIGALRM,reset_term);
+	    alarm(alarmlen);
+	}
+
 	tp.c_iflag=0;
 	tp.c_oflag &= ~OPOST;
 	tp.c_lflag &= ~(ISIG | ICANON);
 	tcsetattr(0,TCSANOW,&tp);
-	tp.c_iflag=tp_if;
-	tp.c_oflag=tp_of;
-	tp.c_lflag=tp_lf;
 
 	ufds.events = POLLIN;
 	ufds.fd = 0;
 
-	if (waitseconds && waitmessage) {
+	if (waitmessage) {
 	    waitprint = alloca (strlen(waitmessage)+15); /* long enough */
 	    waitprint[0] = '\r';
 	    waitsprint = waitprint + 1;
 	}
 
 	while (1) {
-	    if (waitseconds && waitmessage) {
+	    if (waitmessage) {
 		sprintf (waitsprint, waitmessage, waitseconds);
 		write (1, waitprint, strlen(waitprint));
 	    }
@@ -113,19 +118,18 @@ int main(int argc, char **argv) {
 		waitseconds--;
 	    }
 	    if (r > 0) {
-		read(0,foo,1);
-		foo[0]=toupper(foo[0]);
+		char ch;
+
+		read(0, &ch, sizeof(ch));
+		ch = toupper(ch);
 		/* Die if we get a control-c or control-d */
-                if (ignore_control == 0) {
-		    if (foo[0]==3 || foo[0]==4) reset_term(1);
-                }
+                if (ignore_control == 0 && (ch == 3 || ch == 4))
+		    reset_term(1);
 		/* Don't let a null character be interpreted as a match
-		   by strstr */
-		if (foo[0] != 0) {
-		    if (strcmp(list, "") == 0 || strstr(list,foo)) {
-		      reset_term(0);
-		    }
-		}
+		   by strchr */
+		if (ch != 0
+		    && (strcmp(list, "") == 0 || strchr(list, ch) != NULL))
+		    reset_term(0);
 	    }
 	}
 }
