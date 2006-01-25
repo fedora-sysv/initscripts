@@ -1,0 +1,80 @@
+.\" A man page for getkey(1). -*- nroff -*-
+.\"
+.\" Copyright (C) 2006 Red Hat, Inc. All rights reserved.
+.\"
+.\" This copyrighted material is made available to anyone wishing to use,
+.\" modify, copy, or redistribute it subject to the terms and conditions of the
+.\" GNU General Public License v.2.
+.\"
+.\" This program is distributed in the hope that it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for 
+.\" more details.
+.\"
+.\" You should have received a copy of the GNU General Public License along
+.\" with this program; if not, write to the Free Software Foundation, Inc.,
+.\" 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+.\"
+.\" Author: Miloslav Trmac <mitr@redhat.com>
+.TH getkey 1 "Jan 2006"
+
+.SH NAME
+getkey \- wait until a key is pressed
+
+.SH SYNOPSIS
+\fBgetkey\fR [\fIOPTION\fR]... [\fIKEYS\fR]
+
+.SH DESCRIPTION
+.B getkey
+waits until one of
+.I KEYS
+is pressed.
+If
+.I KEYS
+are not specified, any key is accepted.
+.I KEYS
+are matched case-insensitive.
+
+.SH EXIT STATUS
+.B getkey
+exits with status 0 if one of the expected keys is pressed.
+If invalid arguments are specified,
+.B getkey
+exits with status 255.
+If
+.B getkey
+is interrupted or the wait times out,
+.B getkey
+exits with other non-zero status.
+
+.SH OPTIONS
+.TP
+\fB\-c\fR, \fB\-\-wait\fR \fISECONDS\fR
+Wait only for
+.I SECONDS
+seconds.
+The default is 0, which means to wait without a time limit.
+
+.TP
+\fB\-i\fR, \fB\-\-ignore\-control\-chars\fR
+Don't treat Ctrl+C and Ctrl+D specially.
+When this option is not specified, these characters interrupt \fBgetkey\fR.
+
+.TP
+\fB\-m\fR, \fB\-\-message\fR \fIMESSAGE\fR
+Display
+.I MESSAGE
+while waiting.
+The message is used as a format string in
+.BR sprintf (8),
+with a single argument, the number of seconds left.
+Typical usage is therefore
+\fB"Press a key within %d seconds to ..."\fR.
+If
+.I MESSAGE
+contains other format string directives, the behavior is undefined and
+.B getkey
+may crash.
+
+If there is no time limit specified,
+the number of seconds left is reported as 0.

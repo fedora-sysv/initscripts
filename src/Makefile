@@ -28,6 +28,7 @@ install:
 	install -m 644 initlog.1 $(ROOT)$(mandir)/man1
 	install -m 644 genhostid.1 $(ROOT)$(mandir)/man1
 	install -m 644 doexec.1 $(ROOT)$(mandir)/man1
+	install -m 644 getkey.1 $(ROOT)$(mandir)/man1
 	install -m 644 netreport.1 $(ROOT)$(mandir)/man1
 	install -m 644 usleep.1 $(ROOT)$(mandir)/man1
 	install -m 644 usernetctl.8 $(ROOT)$(mandir)/man8
