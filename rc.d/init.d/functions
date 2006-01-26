@@ -31,7 +31,7 @@ if [ -f /etc/sysconfig/i18n -a -z "${NOLOCALE:-}" ] ; then
 			;;
 	esac
   else
-  	[ -n "$LC_MESSAGES" ] && export LC_MESSAGES
+  	[ -n "${LC_MESSAGES:-}" ] && export LC_MESSAGES
 	export LANG
   fi
 fi
@@ -77,13 +77,42 @@ checkpid() {
 	done
 	return 1
 }
-	
+
+# __proc_pids {program} [pidfile]
+# Set $pid to pids from /var/run* for {program}.  $pid should be declared
+# local in the caller.
+# Returns LSB exit code for the 'status' action.
+__pids_var_run() {
+	local base=${1##*/}
+	local pid_file=${2:-/var/run/$base.pid}
+
+	pid=
+	if [ -f "$pid_file" ] ; then
+	        local line p
+		read line < "$pid_file"
+		for p in $line ; do
+			[ -z "${p//[0-9]/}" -a -d "/proc/$p" ] && pid="$pid $p"
+		done
+	        if [ -n "$pid" ]; then
+	                return 0
+	        fi
+		return 1 # "Program is dead and /var/run pid file exists"
+	fi
+	return 3 # "Program is not running"
+}
+
+# Output PIDs of matching processes, found using pidof
+__pids_pidof() {
+	pidof -c -o $$ -o $PPID -o %PPID -x "$1" || \
+		pidof -c -o $$ -o $PPID -o %PPID -x "${1##*/}"
+}
+
 
 # A function to start a program.
 daemon() {
 	# Test syntax.
-	local gotbase= force=
-	local base= user= nice= bg= pid=
+	local gotbase= force= nicelevel corelimit
+	local pid base= user= nice= bg= pid_file=
 	nicelevel=0
 	while [ "$1" != "${1##[-+]}" ]; do
 	  case $1 in
@@ -107,6 +136,14 @@ daemon() {
 	           user=${1#--user=}
 		   shift
 		   ;;
+	    --pidfile)
+		   pid_file=$2
+		   shift 2
+		   ;;
+	    --pidfile=?*)
+		   pid_file=${$1#--pidfile=}
+		   shift
+		   ;;
 	    --force)
 	    	   force="force"
 		   shift
@@ -124,24 +161,18 @@ daemon() {
         [ -z "$gotbase" ] && base=${1##*/}
 
         # See if it's already running. Look *only* at the pid file.
-	if [ -f /var/run/${base}.pid ]; then
-		local line p
-		read line < /var/run/${base}.pid
-		for p in $line ; do
-			[ -z "${p//[0-9]/}" -a -d "/proc/$p" ] && pid="$pid $p"
-		done
-	fi
-	
-	[ -n "${pid:-}" -a -z "${force:-}" ] && return
+	__pids_var_run "$1" "$pid_file"
+
+	[ -n "$pid" -a -z "$force" ] && return
 
 	# make sure it doesn't core dump anywhere unless requested
 	corelimit="ulimit -S -c ${DAEMON_COREFILE_LIMIT:-0}"
 	
 	# if they set NICELEVEL in /etc/sysconfig/foo, honor it
-	[ -n "$NICELEVEL" ] && nice="nice -n $NICELEVEL"
+	[ -n "${NICELEVEL:-}" ] && nice="nice -n $NICELEVEL"
 	
 	# Echo daemon
-        [ "${BOOTUP:-}" = "verbose" -a -z "$LSB" ] && echo -n " $base"
+        [ "${BOOTUP:-}" = "verbose" -a -z "${LSB:-}" ] && echo -n " $base"
 
 	# And start it up.
 	if [ -z "$user" ]; then
@@ -154,43 +185,35 @@ daemon() {
 
 # A function to stop a program.
 killproc() {
+	local RC killlevel= base pid pid_file=
+
 	RC=0
 	# Test syntax.
 	if [ "$#" -eq 0 ]; then
-		echo $"Usage: killproc {program} [signal]"
+		echo $"Usage: killproc [-p pidfile] {program} [signal]"
 		return 1
 	fi
-
-	notset=0
-	# check for second arg to be kill level
-	if [ -n "$2" ]; then
-		killlevel=$2
-	else
-		notset=1
-		killlevel="-9"
+	if [ "$1" = "-p" ]; then
+		pid_file=$2
+		shift 2
 	fi
+
+	# check for second arg to be kill level
+	[ -n "${2:-}" ] && killlevel=$2
 
         # Save basename.
         base=${1##*/}
 
         # Find pid.
-	pid=
-	if [ -f /var/run/${base}.pid ]; then
-		local line p
-		read line < /var/run/${base}.pid
-		for p in $line ; do
-			[ -z "${p//[0-9]/}" -a -d "/proc/$p" ] && pid="$pid $p"
-		done
-	fi
-	if [ -z "$pid" ]; then
-		pid=`pidof -c -o $$ -o $PPID -o %PPID -x $1 || \
-			pidof -c -o $$ -o $PPID -o %PPID -x $base`
+	__pids_var_run "$1" "$pid_file"
+	if [ -z "$pid_file" -a -z "$pid" ]; then
+		pid="$(__pids_pidof "$1")"
 	fi
 
         # Kill it.
-        if [ -n "${pid:-}" ] ; then
-                [ "$BOOTUP" = "verbose" -a -z "$LSB" ] && echo -n "$base "
-		if [ "$notset" -eq "1" ] ; then
+        if [ -n "$pid" ] ; then
+                [ "$BOOTUP" = "verbose" -a -z "${LSB:-}" ] && echo -n "$base "
+		if [ -z "$killlevel" ] ; then
 		       if checkpid $pid 2>&1; then
 			   # TERM first, then KILL if not dead
 			   kill -TERM $pid >/dev/null 2>&1
@@ -212,15 +235,21 @@ killproc() {
 	                	kill $killlevel $pid >/dev/null 2>&1
 				RC=$?
 				[ "$RC" -eq 0 ] && success $"$base $killlevel" || failure $"$base $killlevel"
+			elif [ -n "${LSB:-}" ]; then
+				RC=7 # Program is not running
 			fi
 		fi
 	else
-	    failure $"$base shutdown"
-	    RC=0
+		if [ -n "${LSB:-}" -a -n "$killlevel" ]; then
+			RC=7 # Program is not running
+		else
+			failure $"$base shutdown"
+			RC=0
+		fi
 	fi
 
         # Remove pid file if any.
-	if [ "$notset" = "1" ]; then
+	if [ -z "$killlevel" ]; then
             rm -f /var/run/$base.pid
 	fi
 	return $RC
@@ -228,52 +257,44 @@ killproc() {
 
 # A function to find the pid of a program. Looks *only* at the pidfile
 pidfileofproc() {
-	local base=${1##*/}
-	
+	local pid
+
 	# Test syntax.
 	if [ "$#" = 0 ] ; then
 		echo $"Usage: pidfileofproc {program}"
 		return 1
 	fi
 
-	# First try "/var/run/*.pid" files
-	if [ -f /var/run/$base.pid ] ; then
-	        local line p pid=
-		read line < /var/run/$base.pid
-		for p in $line ; do
-		       [ -z "${p//[0-9]/}" -a -d /proc/$p ] && pid="$pid $p"
-		done
-	        if [ -n "$pid" ]; then
-	                echo $pid
-	                return 0
-	        fi
-	fi
+	__pids_var_run "$1"
+	[ -n "$pid" ] && echo $pid
+	return 0
 }
 
 # A function to find the pid of a program.
 pidofproc() {
-	base=${1##*/}
+	local RC pid pid_file=
 
 	# Test syntax.
 	if [ "$#" = 0 ]; then
-		echo $"Usage: pidofproc {program}"
+		echo $"Usage: pidofproc [-p pidfile] {program}"
 		return 1
 	fi
+	if [ "$1" = "-p" ]; then
+		pid_file=$2
+		shift 2
+	fi
+	fail_code=3 # "Program is not running"
 
 	# First try "/var/run/*.pid" files
-	if [ -f /var/run/$base.pid ]; then
-	        local line p pid=
-		read line < /var/run/$base.pid
-		for p in $line ; do
-		       [ -z "${p//[0-9]/}" -a -d /proc/$p ] && pid="$pid $p"
-		done
-	        if [ -n "$pid" ]; then
-	                echo $pid
-	                return 0
-	        fi
+	__pids_var_run "$1" "$pid_file"
+	RC=$?
+	if [ -n "$pid" ]; then
+		echo $pid
+		return 0
 	fi
-	pidof -c -o $$ -o $PPID -o %PPID -x $1 || \
-		pidof -c -o $$ -o $PPID -o %PPID -x $base
+
+	[ -n "$pid_file" ] && return $RC
+	__pids_pidof "$1" || return $RC
 }
 
 status() {
@@ -287,8 +308,7 @@ status() {
 	fi
 
 	# First try "pidof"
-	pid=`pidof -o $$ -o $PPID -o %PPID -x $1 || \
-	     pidof -o $$ -o $PPID -o %PPID -x ${base}`
+	pid="$(__pids_pidof "$1")"
 	if [ -n "$pid" ]; then
 	        echo $"${base} (pid $pid) is running..."
 	        return 0
@@ -368,7 +388,7 @@ success() {
   #if [ -z "${IN_INITLOG:-}" ]; then
   #   initlog $INITLOG_ARGS -n $0 -s "$1" -e 1
   #fi
-  [ "$BOOTUP" != "verbose" -a -z "$LSB" ] && echo_success
+  [ "$BOOTUP" != "verbose" -a -z "${LSB:-}" ] && echo_success
   return 0
 }
 
@@ -378,7 +398,7 @@ failure() {
   #if [ -z "${IN_INITLOG:-}" ]; then
   #   initlog $INITLOG_ARGS -n $0 -s "$1" -e 2
   #fi
-  [ "$BOOTUP" != "verbose" -a -z "$LSB" ] && echo_failure
+  [ "$BOOTUP" != "verbose" -a -z "${LSB:-}" ] && echo_failure
   [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --details=yes
   [ -w /var/gdm/.gdmfifo ] && echo "BOOTUP_ERRORS" > /var/gdm/.gdmfifo &
   return $rc
@@ -390,7 +410,7 @@ passed() {
   #if [ -z "${IN_INITLOG:-}" ]; then
   #   initlog $INITLOG_ARGS -n $0 -s "$1" -e 1
   #fi
-  [ "$BOOTUP" != "verbose" -a -z "$LSB" ] && echo_passed
+  [ "$BOOTUP" != "verbose" -a -z "${LSB:-}" ] && echo_passed
   return $rc
 }  
 
@@ -400,7 +420,7 @@ warning() {
   #if [ -z "${IN_INITLOG:-}" ]; then
   #   initlog $INITLOG_ARGS -n $0 -s "$1" -e 1
   #fi
-  [ "$BOOTUP" != "verbose" -a -z "$LSB" ] && echo_warning
+  [ "$BOOTUP" != "verbose" -a -z "${LSB:-}" ] && echo_warning
   return $rc
 }  
 
@@ -408,14 +428,14 @@ warning() {
 action() {
   STRING=$1
   echo -n "$STRING "
-  if [ "${RHGB_STARTED}" != "" -a -w /etc/rhgb/temp/rhgb-console ]; then
+  if [ "${RHGB_STARTED:-}" != "" -a -w /etc/rhgb/temp/rhgb-console ]; then
       echo -n "$STRING " > /etc/rhgb/temp/rhgb-console
   fi
   shift
   $* && success $"$STRING" || failure $"$STRING"
   rc=$?
   echo
-  if [ "${RHGB_STARTED}" != "" -a -w /etc/rhgb/temp/rhgb-console ]; then
+  if [ "${RHGB_STARTED:-}" != "" -a -w /etc/rhgb/temp/rhgb-console ]; then
       if [ "$rc" = "0" ]; then
       	echo_success > /etc/rhgb/temp/rhgb-console
       else
