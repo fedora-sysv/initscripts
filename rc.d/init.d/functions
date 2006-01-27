@@ -298,14 +298,18 @@ pidofproc() {
 }
 
 status() {
-	local base=${1##*/}
-	local pid
+	local base pid pid_file=
 
 	# Test syntax.
 	if [ "$#" = 0 ] ; then
-		echo $"Usage: status {program}"
+		echo $"Usage: status [-p pidfile] {program}"
 		return 1
 	fi
+	if [ "$1" = "-p" ]; then
+		pid_file=$2
+		shift 2
+	fi
+	base=${1##*/}
 
 	# First try "pidof"
 	pid="$(__pids_pidof "$1")"
@@ -315,8 +319,9 @@ status() {
 	fi
 
 	# Next try "/var/run/*.pid" files
-	if [ -f /var/run/${base}.pid ] ; then
-	        read pid < /var/run/${base}.pid
+	[ -z "$pid_file" ] && pid_file=/var/run/${base}.pid
+	if [ -f "$pid_file" ] ; then
+	        read pid < "$pid_file"
 	        if [ -n "$pid" ]; then
 	                echo $"${base} dead but pid file exists"
 	                return 1
