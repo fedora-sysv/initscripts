@@ -252,7 +252,7 @@ if [ -c /dev/mapper/control ]; then
 		for x in $(dmraid -ay -t --ignorelocking 2>/dev/null | grep -v "No RAID disks" | awk -F ':' '{ print $1 }') ; do
 			dmname=$(resolve_dm_name $x)
 			if [ -z "$dmname" ]; then
-				/sbin/dmraid -ay --ignorelocking "$dmname"
+				/sbin/dmraid -ay --ignorelocking "$x"
 			fi
 		done
 	fi
