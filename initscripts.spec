@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.21
+Version: 8.22
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -208,6 +208,21 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Jan 31 2006 Bill Nottingham <notting@redhat.com> 8.22-1
+- remove references to /usr/X11R6/bin (#177938)
+- rc.sysinit: fix SELinux message formatting (#178532)
+- rc.sysinit: clean cvs as well (#178539, <ville.skytta@iki.fi>)
+- init.d/halt: move halt.local so that it runs before /  is remounted r/o (#179314)
+- rc.sysinit: don't activate already active dmraids (<pjones@redhat.com>)
+- rc.sysinit: don't mount usbfs, libusb no longer uses it
+- init.d/functions: Add -p to status() (#134363, <mitr@redhat.com>)
+- init.d/functions: Separate /var/run/*.pid handling and pidof calls
+  to private functions (#63440, <mitr@redhat.com>)
+- init.d/functions: update for current LSB, including -p pidfile
+  (#99325, #134363, <mitr@redhat.com>, <tobias.burnus@physik.fu-berlin.de>)
+- getkey: various cleanups, add man page (#54481, <mitr@redhat.com>)
+- lang.sh: don't always call consoletype (<laroche@redhat.com>)
+
 * Fri Jan 20 2006 Bill Nottingham <notting@redhat.com> 8.21-1
 - move handling of network hotplug events here, add appropriate udev
   rules, obsolete hotplug

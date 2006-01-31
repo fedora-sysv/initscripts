@@ -1,8 +1,123 @@
-2006-01-31  Peter Jones  <pjones@redhat.com> 
+2006-01-31  Bill Nottingham  <notting@redhat.com>
+
+	* ChangeLog, initscripts.spec: 8.22-1
+
+	* prefdm, rc.d/init.d/functions, service, sysconfig/network-scripts/network-functions:
+	remove references to /usr/X11R6/bin (#177938)
+
+	* rc.d/rc.sysinit: fix formatting (#178532)
+
+	* rc.d/rc.sysinit: clean cvs as well (#178539, <ville.skytta@iki.fi>)
+
+2006-01-31  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/halt:
+	move halt.local so that it runs before /  is remounted r/o (#179314)
+
+2006-01-31  Peter Jones  <pjones@redhat.com>
 
 	* rc.d/init.d/functions: add functions to remap dmraid names
-
 	* rc.d/rc.sysinit: don't activate already active dmraids
+	
+2006-01-31  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit: remove stray 'ok/failed'
+
+2006-01-31  Chung Cheng  <ccheng@redhat.com>
+
+	* po/zh_TW.po: *** empty log message ***
+
+2006-01-30  Chung Cheng  <ccheng@redhat.com>
+
+	* po/zh_TW.po: *** empty log message ***
+
+2006-01-29  Miloš Komarčević <kmilos@gmail.com>
+
+	* po/sr@Latn.po, po/sr.po: *** empty log message ***
+
+2006-01-29  Andrew Martynov <andrewm@inventa.ru>
+
+	* po/ru.po: Updated translation and fix mistakes in commit 1.83
+
+2006-01-29  Peter van Egdom <p.van.egdom@chello.nl>
+
+	* po/nl.po: Some fixes for initscripts nl.po
+
+2006-01-28  Nikola Štohanzl  <niko@srnet.cz>
+
+	* po/cs.po: Fuzzy entries corrected, missing supplied.
+
+2006-01-27  Miloslav Trmac  <mitr@redhat.com>
+
+	* rc.d/init.d/functions: Add -p to status() (#134363)
+
+2006-01-26  Jamil Ahmed  <jam@siriusbb.com>
+
+	* po/bn.po: Updated translation on Jan 26, 2006
+
+2006-01-26  Miloslav Trmac  <mitr@redhat.com>
+
+	* rc.d/init.d/functions:
+	- Separate /var/run/*.pid handling and pidof calls to private functions
+	  (#63440)
+	- Update to implement current LSB specification for init script functions,
+	  notably including -p pidfile (#99325, #134363) (based in part on patch
+	  by Tobias Burnus)
+	- Misc. cleanups:
+	  - Fix failures when run with (set -u)
+	  - Mark more variables as local
+
+2006-01-25  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit: usbfs is no longer needed
+
+2006-01-25  Miloslav Trmac  <mitr@redhat.com>
+
+	* src/Makefile, src/getkey.1: Add man page for getkey.
+
+	* src/getkey.c: - Print message even if there is no timeout (#54481)
+	- Reject negative timeout (#54481)
+	- Misc. cleanups:
+	  - Use _exit(), not exit() within a signal handler
+	  - Only install signal handlers after data they reference is initialized
+	  - Don't limit the number of allowed keys to 100
+
+	* src/.cvsignore: Add genhostid
+
+2006-01-24  Peter van Egdom <p.van.egdom@chello.nl>
+
+	* po/nl.po: Some fixes for initscripts nl.po
+
+2006-01-24  Amanpreet Brar  <aalam@redhat.com>
+
+	* po/pa.po: update for Punjabi
+
+2006-01-24  Ankitkumar Rameshchandra Patel  <ankit@redhat.com>
+
+	* po/gu.po: Updated Gujarati Translations
+
+2006-01-23  Peter van Egdom <p.van.egdom@chello.nl>
+
+	* po/nl.po: Some fixes for initscripts nl.po
+
+2006-01-22  Florian La Roche  <laroche@redhat.com>
+
+	* lang.sh:
+	- avoid calling consoletype if one of the other conditions already fail
+
+2006-01-21  Christian Rose  <menthos@menthos.com>
+
+	* po/sv.po: Updated Swedish translation.
+
+2006-01-21  Miloslav Trmac  <mitr@redhat.com>
+
+	* lang.sh: Restore fix of #176832
+
+	* service.8: Fix copyright year
+
+2006-01-21  Dima  <dimazest@gmail.com>
+
+	* po/ru.po: some entries were translated
 
 2006-01-20  Bill Nottingham  <notting@redhat.com>
 
