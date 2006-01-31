@@ -204,6 +204,10 @@ mount |  awk '!/( \/ |^\/dev\/root|^\/dev\/ram| \/proc )/ { print $3 }' | sort -
     umount -f $line
 done
 
+if [ -x /sbin/halt.local ]; then
+   /sbin/halt.local
+fi
+
 # Remount read only anything that's left mounted.
 # echo $"Remounting remaining filesystems readonly"
 mount | awk '{ print $3 }' | while read line; do
@@ -225,10 +229,6 @@ if [ "$command" = /sbin/halt -a -r /etc/ups/upsmon.conf -a -f /etc/killpower -a 
 	elif [ "$SERVER" = "yes" -a "$MODEL" != "NONE" -a -n "$MODEL" -a -n "$DEVICE" ] ; then
 		$MODEL $OPTIONS_HALT -k $DEVICE
 	fi
-fi
-
-if [ -x /sbin/halt.local ]; then
-   /sbin/halt.local
 fi
 
 HALTARGS="-i -d"
