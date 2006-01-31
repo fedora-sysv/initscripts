@@ -249,7 +249,12 @@ if [ -c /dev/mapper/control ]; then
 	
 	if [ -x /sbin/dmraid ]; then
 		modprobe dm-mirror >/dev/null 2>&1
-		/sbin/dmraid -a y --ignorelocking
+		for x in $(dmraid -ay -t --ignorelocking | cut -d: -f1) ; do
+			dmname=$(resolve_dm_name $x)
+			if [ -z "$dmname" ]; then
+				/sbin/dmraid -a y --ignorelocking "$dmname"
+			fi
+		done
 	fi
 	
 	if [ -x /sbin/lvm.static ]; then
