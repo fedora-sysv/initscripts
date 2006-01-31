@@ -483,7 +483,7 @@ get_numeric_dev() {
     if [ "$1" == "hex" ]; then
         fmt="%x:%x"
     fi
-    ls -l "$1" | awk '{ print $5 $6 }' | awk -F ',' "{ printf \"$fmt\", \$1, \$2 }"
+    ls -l "$2" | awk '{ print $5 $6 }' | awk -F ',' "{ printf \"$fmt\", \$1, \$2 }"
 ) 2>/dev/null
 }
 
@@ -493,7 +493,7 @@ resolve_dm_name() {
 (
     name="$1"
 
-    line=$(/sbin/dmraid -ay -t --ignorelocking | awk -F ':' "{ if (\$1 =~ /^$name$/) { print \$2; }}")
+    line=$(/sbin/dmraid -ay -t --ignorelocking | awk -F ':' "{ if (\$1 ~ /^$name$/) { print \$2; }}")
     newline=$line
     for x in $line ; do
         if [[ "$x" =~ "^/dev/" ]] ; then
