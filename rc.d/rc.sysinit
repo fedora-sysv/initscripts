@@ -251,7 +251,7 @@ if [ -c /dev/mapper/control ]; then
 		modprobe dm-mirror >/dev/null 2>&1
 		for x in $(dmraid -ay -t --ignorelocking 2>/dev/null | grep -v "No RAID disks" | awk -F ':' '{ print $1 }') ; do
 			dmname=$(resolve_dm_name $x)
-			if [ -n "$dmname" ]; then
+			if [ -z "$dmname" ]; then
 				/sbin/dmraid -ay --ignorelocking "$dmname"
 			fi
 		done
