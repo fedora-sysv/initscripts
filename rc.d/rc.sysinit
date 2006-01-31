@@ -252,7 +252,7 @@ if [ -c /dev/mapper/control ]; then
 		for x in $(dmraid -ay -t --ignorelocking | awk -F ':' '{ print $1 }') ; do
 			dmname=$(resolve_dm_name $x)
 			if [ -z "$dmname" ]; then
-				/sbin/dmraid -a y --ignorelocking "$dmname"
+				/sbin/dmraid -ay --ignorelocking "$dmname"
 			fi
 		done
 	fi
