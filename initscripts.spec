@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.22
+Version: 8.23
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -208,6 +208,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Jan 31 2006 Peter Jones <pjones@redhat.com> 8.23-1
+- rc.sysinit: do a better job of not activating already active dmraids
+
 * Tue Jan 31 2006 Bill Nottingham <notting@redhat.com> 8.22-1
 - remove references to /usr/X11R6/bin (#177938)
 - rc.sysinit: fix SELinux message formatting (#178532)
