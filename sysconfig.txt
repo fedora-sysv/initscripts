@@ -77,7 +77,7 @@ Files in /etc/sysconfig
         ZONE="US/Eastern"
 
 /etc/sysconfig/desktop:
-  DESKTOP=GNOME|KDE|AnotherLevel
+  DESKTOP=GNOME|KDE
      This determines the default desktop for new users.
   DISPLAYMANAGER=GNOME|KDE|XDM
      This determines display manager started by /etc/X11/prefdm,
@@ -178,6 +178,8 @@ Files in /etc/sysconfig
   IPXAUTOFRAME=on|off (again, not yes|no)
   IPXINTERNALNETNUM=<netnum>
   IPXINTERNALNODENUM=<nodenum>
+  NOZEROCONF=
+    Set this to not set a route for dynamic link-local addresses.
 
   All the IPX stuff is optional, and should default to off.
 
@@ -185,7 +187,7 @@ Files in /etc/sysconfig
     Enable or disable global IPv6 initialization
     Default: no
   IPV6FORWARDING=yes|no
-    Enable or disable global forwarding of incoming IPv6 packes 
+    Enable or disable global forwarding of incoming IPv6 packets 
     on all interfaces.
     Note: Actual packet forwarding cannot be controlled per-device, use netfilter6 for such issues
     Default: no
@@ -402,16 +404,15 @@ Files in /etc/sysconfig
 
   LANG= set locale for all categories, can be any two letter ISO
     language code
-  LC_CTYPE= localedata configuration for classification and conversion
+  LC_CTYPE= locale data configuration for classification and conversion
     of characters
-  LC_COLLATE= localedata configuration for collation (sort order) of
+  LC_COLLATE= locale data configuration for collation (sort order) of
     strings
-  LC_MESSAGES= localedata configuration for translation of yes and no
-    messages
-  LC_NUMERIC= localedata configuration for non-monetary numeric data
-  LC_MONETARY= localedata configuration for monetary data
-  LC_TIME= localedata configuration for date and time
-  LC_ALL= localedata configuration overriding all of the above
+  LC_MESSAGES= locale data configuration for translation of messages
+  LC_NUMERIC= locale data configuration for non-monetary numeric data
+  LC_MONETARY= locale data configuration for monetary data
+  LC_TIME= locale data configuration for date and time
+  LC_ALL= locale data configuration overriding all of the above
   LANGUAGE= can be a : separated list of ISO language codes
   LINGUAS= can be a ' ' separated list of ISO language codes
 
@@ -506,7 +507,7 @@ Files in /etc/sysconfig/network-scripts/
     PEERDNS=yes|no
       modify /etc/resolv.conf if peer uses msdns extension (PPP only) or
       DNS{1,2} are set, or if using dhclient. default to "yes".
-    DNS{1,2}=<ipaddress>
+    DNS{1,2}=<ip address>
       provide DNS addresses that are dropped into the resolv.conf
       file if PEERDNS is not set to "no".
     SRCADDR=
@@ -518,7 +519,7 @@ Files in /etc/sysconfig/network-scripts/
       Use of this in conjunction with HWADDR= may cause
       unintended behavior.
     NOZEROCONF=
-      Set this to not set a route for dynamic link-local addreses
+      Set this to not set a route for dynamic link-local addresses
       over this device.
     PERSISTENT_DHCLIENT=yes|no|1|0
       Without this option, or if it is 'no'/'0', and BOOTPROTO=dhcp,
@@ -546,8 +547,8 @@ Files in /etc/sysconfig/network-scripts/
   by the boot protocol.  No "dummy" entries need to be created.
 
   Base items being deprecated:
-    NETWORK=<will be calculated automatically with ifcalc>
-    BROADCAST=<will be calculated automatically with ifcalc>
+    NETWORK=<will be calculated automatically with ipcalc>
+    BROADCAST=<will be calculated automatically with ipcalc>
 
   Alias specific items:
     ONPARENT=yes|no
@@ -596,7 +597,7 @@ Files in /etc/sysconfig/network-scripts/
       IPv4 address of the remote 6to4 relay
       Note: if this is omitted, ::192.88.99.1 (the anycast relay address) is chosen
     IPV6TO4_IPV4ADDR=<IPv6 address>[/<prefix length>] (optional)
-      Overwrite local IPv4 address which is accessable from the Internet
+      Overwrite local IPv4 address which is accessible from the Internet
        (optional, in case of static IPv4-NAT behind a router or other special scenarios)
     IPV6TO4_MTU=<MTU for IPv6> (optional)
       Controls IPv6 MTU for the 6to4 tunnel
@@ -612,7 +613,7 @@ Files in /etc/sysconfig/network-scripts/
 
   Optional settings for a 6to4 tunnel or a ppp link
     IPV6_CONTROL_RADVD=yes|no (optional)
-      Enable signalling radvd that the 6to4 prefix has been changed or a
+      Enable signaling radvd that the 6to4 prefix has been changed or a
        preconfigured dynamic device is up or down
       Default: no
 
@@ -698,7 +699,7 @@ Files in /etc/sysconfig/network-scripts/
       specify which characters to escape; almost everyone can use
       asyncmap 00000000 anyway, and they can set PPPOPTIONS to
       asyncmap foobar if they want to set options perfectly)
-    HARDFLOWCTL=yes|no (yes imples "modem crtscts" options)
+    HARDFLOWCTL=yes|no (yes implies "modem crtscts" options)
     PPPOPTIONS=<arbitrary option string; is placed last on the
       command line, so it can override other options like asyncmap
       that were specified differently>
@@ -773,11 +774,33 @@ Files in /etc/sysconfig/network-scripts/
     BSDCOMP=off|on
     CCP=off|on
     SLAVE_DEVICE=ippp[0-9]
-    
+
   ippp0 items being deprecated:
     BOOT=[on|off] will be converted to ONBOOT=[yes|no] by netconf
     LOCAL_IP=     will be converted to IPADDR by netconf
     REMOTE_IP=    will be converted to GATEWAY by netconf
+
+  Wireless-specific items:
+    See iwconfig(8) for additional information.
+    MODE=[Ad-Hoc|Managed|Master|Repeater|Secondary|Monitor|Auto]
+    ESSID=
+      Defaults to "any".
+    NWID=
+    FREQ=
+      Ignored if MODE=Managed.
+    CHANNEL=
+      Ignored if MODE=Managed.
+    SENS=<sensitivity threshold>
+    RATE=
+    KEY{1,2,3,4}=<WEP key with the given index>
+    DEFAULTKEY=<default key index>
+    KEY=<default WEP key>
+    SECURITYMODE=[on|off|open|restricted]
+    RTS=[auto|fixed|off|<rts threshold>]
+    FRAG=[off|<fragmentation threshold>]
+    IWCONFIG=<other iwconfig(8) options>
+    SPYIPS=<list of IP addresses to monitor for link quality>
+    IWPRIV=<iwpriv(8) commands>
 
   IPSEC specific items
      SRC=source address. Not required.
@@ -794,7 +817,7 @@ Files in /etc/sysconfig/network-scripts/
      KEY_ESP{_IN,_OUT}=ESP key
      SPI_{ESP,AH_{IN,OUT}}=SPIs to use
 
-   _IN and _OUT specifiers are for using different keys or protocols for inccoming
+   _IN and _OUT specifiers are for using different keys or protocols for incoming
    and outgoing packets. If neither _IN or _OUT variants are set for protocols or
    keys, the same will be used for both.
 
