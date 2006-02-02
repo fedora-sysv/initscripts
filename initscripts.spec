@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.23
+Version: 8.24
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -208,6 +208,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Feb  1 2006 Bill Nottingham <notting@redhat.com> 8.24-1
+- init.d/functions: fix sendmail startup
+- sysconfig.txt: fix typos (<mitr@redhat.com>)
+
 * Tue Jan 31 2006 Peter Jones <pjones@redhat.com> 8.23-1
 - rc.sysinit: do a better job of not activating already active dmraids
 
