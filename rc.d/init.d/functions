@@ -161,7 +161,7 @@ daemon() {
         [ -z "$gotbase" ] && base=${1##*/}
 
         # See if it's already running. Look *only* at the pid file.
-	__pids_var_run "$1" "$pid_file"
+	__pids_var_run "$base" "$pid_file"
 
 	[ -n "$pid" -a -z "$force" ] && return
 
