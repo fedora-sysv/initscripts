@@ -214,10 +214,6 @@ else
         /sbin/ethtool -s ${REALDEVICE} $ETHTOOL_OPTS
     fi
 
-    if ! arping -q -c 2 -w 3 -D -I ${REALDEVICE} ${IPADDR} ; then
-	echo $"Error, some other host already uses address ${IPADDR}."
-	exit 1
-    fi
 
     if [ "${DEVICE}" = "lo" ]; then
     	SCOPE="scope host"
@@ -232,6 +228,10 @@ else
     fi
     
     if ! LC_ALL=C ip addr ls ${REALDEVICE} | LC_ALL=C grep -q "${IPADDR}/${PREFIX}" ; then
+	 if ! arping -q -c 2 -w 3 -D -I ${REALDEVICE} ${IPADDR} ; then
+	    echo $"Error, some other host already uses address ${IPADDR}."
+	    exit 1
+	 fi
 	 if ! ip addr add ${IPADDR}/${PREFIX} \
 	    brd ${BROADCAST:-+} dev ${REALDEVICE} ${SCOPE} label ${DEVICE}; then
 	    echo $"Error adding address ${IPADDR} for ${DEVICE}."
