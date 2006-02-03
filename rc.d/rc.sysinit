@@ -16,10 +16,6 @@ if [ -z "$HOSTNAME" -o "$HOSTNAME" = "(none)" ]; then
     HOSTNAME=localhost
 fi
 
-# Mount /proc and /sys (done here so volume labels can work with fsck)
-mount -n -t proc /proc /proc
-mount -n -t sysfs /sys /sys >/dev/null 2>&1
-
 . /etc/init.d/functions
 
 # Check SELinux status
