@@ -115,9 +115,9 @@ eval ` (
        echo default_NETMASK=$NETMASK\;;
        echo default_BROADCAST=$BROADCAST\;;
        echo default_GATEWAY=$GATEWAY\;;
-       echo default_GATEWAYDEV=$GATEWAYDEV\;;
        echo default_NO_ALIASROUTING=$NO_ALIASROUTING\;;
 ) `
+[ -z "$default_GATEWAY" ] && default_GATEWAY=$network_GATEWAY
 
 function ini_env ()
 {
@@ -126,13 +126,19 @@ function ini_env ()
        NETMASK=$default_NETMASK
        BROADCAST=$default_BROADCAST
        GATEWAY=$default_GATEWAY
-       GATEWAYDEV=$default_GATEWAYDEV
        NO_ALIASROUTING=$default_NO_ALIASROUTING
        ONPARENT=""
 }
 
+function is_default_gateway ()
+{
+	LC_ALL=C /sbin/route -n \
+		| awk '$1 == "0.0.0.0" && $2 == "'"$1"'" { found = 1; }
+		       END { exit found == 0; }'
+}
+
        #
-       # Read the alias configuation files and enable each aliased
+       # Read the alias configuration files and enable each aliased
        # device using new_interface()
        #
 
@@ -143,21 +149,29 @@ function new_interface ()
        IPGLOP="${ipa%%.*}_${ipb%%.*}_${ipc%%.*}_${ipc#*.}";
        DEVNUM=${DEVICE#*:}
 
+       if [[ ! "$DEVNUM" =~ '^[0123456789]*$' ]]; then
+	      echo $"error in $FILE: invalid alias number" >&2
+	      return 1
+       fi
+
        eval "
               ipseen=\$ipseen_${IPGLOP}; devseen=\$devseen_${DEVNUM};
               ipseen_${IPGLOP}=$FILE; devseen_${DEVNUM}=$FILE;
        ";
 
        if [ -n "$ipseen" ]; then
-              echo $"error in $FILE: already seen ipaddr $IPADDR in $ipseen" >&2;exit 0
+              echo $"error in $FILE: already seen ipaddr $IPADDR in $ipseen" >&2
+	      return 1
        fi
 
        if [ -n "$devseen" ]; then
-              echo $"error in $FILE: already seen device $parent_device:$DEVNUM in $devseen" >&2; exit 0
+              echo $"error in $FILE: already seen device $parent_device:$DEVNUM in $devseen" >&2
+	      return 1
        fi
-       
+
        if [ -z "$DEVICE" -o -z "$IPADDR" ]; then
-              echo $"error in $FILE: didn't specify device or ipaddr" >&2 ; exit 0
+              echo $"error in $FILE: didn't specify device or ipaddr" >&2
+	      return 1
        fi
 
        if [ -z "$NETMASK" ]; then
@@ -223,7 +237,8 @@ function new_interface ()
                                setup_this=yes
                        fi
                        if [ -n "$rdev_mark" -a "$rdev_mark" != "$newmark" ]; then
-                               echo $"error in ifcfg-${parent_device}: files" >&2 ; exit 0
+                               echo $"error in ifcfg-${parent_device}: files" >&2
+			       return 1
                        fi
                        eval " rdev_${DEVNUM}_mark=\$newmark ";
                else
@@ -233,7 +248,8 @@ function new_interface ()
                if [ -n "$rdevip" -a "$rdevip" != "${DEVNUM}" ]; then
                        eval " mark_remove=\$rdev_${rdevip}_mark ";
                        if [ -n "$mark_remove" -a "$mark_remove" != "remove" ]; then
-                               echo $"error in ifcfg-${parent_device}: files" >&2 ; exit 0
+                               echo $"error in ifcfg-${parent_device}: files" >&2
+			       return 1
                        fi
                        if [ "$mark_remove" != "remove" ]; then
                                eval " rdev_${rdevip}_mark=remove ";
@@ -259,19 +275,16 @@ function new_interface ()
 
                if [ "$NO_ALIASROUTING" != yes ]; then
 
-                       GATEWAY=$network_GATEWAY;
                        GATEWAYDEV=$network_GATEWAYDEV;
 
-                       if [ "${GATEWAY}" != "" ]; then
-                               if [ "${GATEWAYDEV}" = "" -o "${GATEWAYDEV}" = "${DEVICE}" ]; then
-                                       # set up default gateway, if it isn't already there
-				       CURGW=`LC_ALL=C route -n | grep ^0\.0\.0\.0 | awk '{ print $2 }'`
-				       if [ "$CURGW" != "$GATEWAY" ]; then
-                                       		route add default gw ${GATEWAY} ${DEVICE}
-				       fi
-                               fi
+                       if [ -n "${GATEWAY}" -a \
+			       \( -z "${GATEWAYDEV}" -o "${GATEWAYDEV}" = "${DEVICE}" \) ]; then
+                               # set up default gateway, if it isn't already there
+			       if ! is_default_gateway "$GATEWAY"; then
+				       route add default gw ${GATEWAY} ${DEVICE}
+			       fi
                        fi
-		       
+
 		       /etc/sysconfig/network-scripts/ifup-routes ${DEVICE} ${NAME}
 
                        do_netreport=yes
@@ -303,11 +316,11 @@ for FILE in ifcfg-${parent_device}-range*[^~] ; do
        ipaddr_endnum=${IPADDR_END##*.}
 
        if [ "${IPADDR_START%.*}" != "${IPADDR_END%.*}" ]; then
-               echo $"error in $FILE: IPADDR_START and IPADDR_END don't agree" >&2; exit 0
+               echo $"error in $FILE: IPADDR_START and IPADDR_END don't agree" >&2; continue
        fi
 
        if [ $ipaddr_startnum -gt $ipaddr_endnum ]; then
-               echo $"error in $FILE: IPADDR_START greater than IPADDR_END" >&2; exit 0
+               echo $"error in $FILE: IPADDR_START greater than IPADDR_END" >&2; continue
        fi
 
        ipaddr_num=$ipaddr_startnum
