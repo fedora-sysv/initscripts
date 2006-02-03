@@ -119,6 +119,11 @@ esac
 
 runcmd $"Syncing hardware clock to system time" /sbin/hwclock $CLOCKFLAGS
 
+# Try to unmount tmpfs filesystems to avoid swapping them in.  Ignore failures.
+tmpfs=$(awk '$2 ~ /^\/($|proc|dev)/ { next; }
+	     $3 == "tmpfs" { print $2; }' /proc/mounts | sort -r)
+[ -n "$tmpfs" ] && umount $tmpfs 2>/dev/null
+
 # Turn off swap, then unmount file systems.
 [ -f /proc/swaps ] && SWAPS=`awk '! /^Filename/ { print $1 }' /proc/swaps`
 [ -n "$SWAPS" ] && runcmd $"Turning off swap: " swapoff $SWAPS
