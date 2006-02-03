@@ -77,14 +77,15 @@ fi
 
 # Print a text banner.
 echo -en $"\t\tWelcome to "
-if LC_ALL=C fgrep -q "Red Hat" /etc/redhat-release ; then 
+read -r redhat_release < /etc/redhat-release
+if [[ "$redhat_release" =~ "Red Hat" ]]; then
  [ "$BOOTUP" = "color" ] && echo -en "\\033[0;31m"
  echo -en "Red Hat"
  [ "$BOOTUP" = "color" ] && echo -en "\\033[0;39m"
  PRODUCT=`sed "s/Red Hat \(.*\) release.*/\1/" /etc/redhat-release`
  echo " $PRODUCT"
-elif LC_ALL=C fgrep -q "Fedora" /etc/redhat-release ; then 
- [ "$BOOTUP" = "color" ] && echo -en "\\033[0;31m"
+elif [[ "$redhat_release" =~ "Fedora" ]]; then
+ [ "$BOOTUP" = "color" ] && echo -en "\\033[0;34m"
  echo -en "Fedora"
  [ "$BOOTUP" = "color" ] && echo -en "\\033[0;39m"
  PRODUCT=`sed "s/Fedora \(.*\) release.*/\1/" /etc/redhat-release`
