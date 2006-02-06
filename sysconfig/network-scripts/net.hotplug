@@ -9,6 +9,9 @@ fi
 case $ACTION in
 add|register)
     # Don't do anything if the network is stopped
+    if [ -f /dev/.in_sysinit ] ; then
+	exit 0
+    fi
     if [ ! -f /var/lock/subsys/network ]; then
 	exit 0
     fi
