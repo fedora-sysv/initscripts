@@ -16,6 +16,12 @@ if [ -z "$HOSTNAME" -o "$HOSTNAME" = "(none)" ]; then
     HOSTNAME=localhost
 fi
 
+if [ ! -d /proc/bus/usb ]; then
+	modprobe usbcore >/dev/null 2>&1 && mount -n -t usbfs /proc/bus/usb /proc/bus/usb
+else
+	mount -n -t usbfs /proc/bus/usb /proc/bus/usb
+fi
+ 
 . /etc/init.d/functions
 
 # Check SELinux status
