@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.25
+Version: 8.26
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -208,6 +208,15 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Feb  7 2006 Bill Nottingham <notting@redhat.com> 8.26-1
+- revert "rc.sysinit: don't mount usbfs, libusb no longer uses it" change
+- add some ugly hacks to make sure net hotplug doesn't run after unclean
+  shutdown (#177795)
+- don't mount /sys and /proc in rc.sysinit - the initrd already does
+  (<pjones@redhat.com>)
+- halt: try to unmount tmpfs filesystems before swapoff (#174000,
+  <mitr@redhat.com>)
+
 * Thu Feb  2 2006 Bill Nottingham <notting@redhat.com> 8.25-1
 - ifup: don't run the arping check if the address is already on the device
 
