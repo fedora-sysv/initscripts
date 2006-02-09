@@ -149,11 +149,6 @@ function new_interface ()
        IPGLOP="${ipa%%.*}_${ipb%%.*}_${ipc%%.*}_${ipc#*.}";
        DEVNUM=${DEVICE#*:}
 
-       if [[ ! "$DEVNUM" =~ '^[0123456789]*$' ]]; then
-	      echo $"error in $FILE: invalid alias number" >&2
-	      return 1
-       fi
-
        eval "
               ipseen=\$ipseen_${IPGLOP}; devseen=\$devseen_${DEVNUM};
               ipseen_${IPGLOP}=$FILE; devseen_${DEVNUM}=$FILE;
@@ -302,7 +297,7 @@ for FILE in ifcfg-${parent_device}:*[^~] ; do
        ini_env;
        . $FILE;
        [ -z "$DEVICE" ] && DEVICE=${FILE##ifcfg-}
-       [ "$ONPARENT" != "no" -a "$ONPARENT" != "NO" ] && new_interface;
+       [[ ! "$ONPARENT" =~ "NO|no" ]] && [ "$DEVICE" == "${FILE##ifcfg-}" ] && new_interface;
        unset DEVICE
 done
 
