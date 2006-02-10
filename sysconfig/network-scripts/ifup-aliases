@@ -74,14 +74,33 @@ parent_device=$device
 cd /etc/sysconfig/network-scripts  
 . network-functions
 
-       #
-       # Grab the current configuration of any running aliases device info is placed into 
-       # variables in the form: rdev_$DEVICE_addr, dev_$DEVICE_mb and rdevip_$IPGLOP.
-       # A list of all the devices is created in rdev_LIST.
-       #
+# Grab the current configuration of any running aliases device info is placed
+# into variables in the form: rdev_$DEVICE_addr, dev_$DEVICE_mb and
+# rdevip_$IPGLOP.  A list of all the devices is created in rdev_LIST.
 
-# sorry this is all one line -- it didn't work on multiple lines for me
-eval `LC_ALL= LANG= /sbin/ifconfig | sed -e ' /^[^[:space:]]*:[0-9]*/ { s|^\([^:]*\):\([0-9]*\).*$|X=x; TMP="\2"; [ "$device" != "\1" ] \|\| |g; b; }; /^[^[:space:]]/ { s|.*|X=x; [ 0 = 0 ] \|\| |g; b; }; /inet addr:[0-9]*\.[0-9]*\.[0-9]*\.[0-9]* *Bcast:[0-9.]* *Mask:[0-9.]*/ { s|^.*inet addr:\(\([0-9]*\)\.\([0-9]*\)\.\([0-9]*\)\.\([0-9]*\)\) *Bcast:\([0-9.]*\) *Mask:\([0-9.]*\).*$|eval " rdev_${TMP}_addr=\1; rdev_${TMP}_mb=\7_\6; rdevip_\2_\3_\4_\5=${TMP}; rdev_LIST=\\\\"\\\\$rdev_LIST \\\\${TMP}\\\\"; " \|\| |g; b; }; s|^.*$||g; ' ` X=x;
+# Update also ifdown-aliases!
+eval $(LC_ALL= LANG= /sbin/ifconfig | LC_ALL=C sed -n '
+# Alias name: store the number in TMP, ignore the following address if the
+# device name does not match.  This may leave a hanging ||, so dummy X=x
+# comands are used to ignore a possible previous condition.
+/^[^[:space:]]*:[0-9A-Za-z_]*/ {
+	s|^\([^:]*\):\([0-9A-Za-z_]*\).*$|X=x; TMP="\2"; [ "$device" != "\1" ] \|\| |p
+	b
+}
+# Non-alias device: always ignore the following address
+/^[^[:space:]]/ {
+	s|^.*$|X=x; true \|\| |p
+	b
+}
+# Address: Preceded by a device name, which was converted into
+#	condition ||
+# So this triggers only for $device.
+# Add a trailing || (which will be swallowed by X=x) to keep the syntax
+# correct.
+/inet addr:[0-9]*\.[0-9]*\.[0-9]*\.[0-9]* *Bcast:[0-9.]* *Mask:[0-9.]*/ {
+	s|^.*inet addr:\(\([0-9]*\)\.\([0-9]*\)\.\([0-9]*\)\.\([0-9]*\)\) *Bcast:\([0-9.]*\) *Mask:\([0-9.]*\).*$|eval "rdev_${TMP}_addr=\1; rdev_${TMP}_mb=\7_\6; rdevip_\2_\3_\4_\5=${TMP}; rdev_LIST=\\"\\$rdev_LIST \\${TMP}\\"; " \|\| |p
+	b
+}') X=x
 
 if [ -z "$rdev_LIST" ]; then
        no_devices_are_up=yes
@@ -148,6 +167,11 @@ function new_interface ()
        ipa=$IPADDR; ipb=${ipa#*.}; ipc=${ipb#*.};
        IPGLOP="${ipa%%.*}_${ipb%%.*}_${ipc%%.*}_${ipc#*.}";
        DEVNUM=${DEVICE#*:}
+
+       if (LC_ALL=C; [[ ! "$DEVNUM" =~ '^[0-9A-Za-z_]*$' ]]); then
+	      echo $"error in $FILE: invalid alias number" >&2
+	      return 1
+       fi
 
        eval "
               ipseen=\$ipseen_${IPGLOP}; devseen=\$devseen_${DEVNUM};
@@ -297,7 +321,7 @@ for FILE in ifcfg-${parent_device}:*[^~] ; do
        ini_env;
        . $FILE;
        [ -z "$DEVICE" ] && DEVICE=${FILE##ifcfg-}
-       [[ ! "$ONPARENT" =~ "NO|no" ]] && [ "$DEVICE" == "${FILE##ifcfg-}" ] && new_interface;
+       [ "$ONPARENT" != "no" -a "$ONPARENT" != "NO" ] && new_interface;
        unset DEVICE
 done
 

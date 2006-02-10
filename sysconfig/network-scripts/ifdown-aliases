@@ -15,7 +15,29 @@ cd /etc/sysconfig/network-scripts
 . network-functions
 
 # This is the same messy sed script as in the ifup-aliases script.
-eval `LC_ALL= LANG= ifconfig | sed -e ' /^[^[:space:]]*:[0-9]*/ { s|^\([^:]*\):\([0-9]*\).*$|X=x; TMP="\2"; [ "$device" != "\1" ] \|\| |g; b; }; /^[^[:space:]]/ { s|.*|X=x; [ 0 = 0 ] \|\| |g; b; }; /inet addr:[0-9]*\.[0-9]*\.[0-9]*\.[0-9]* *Bcast:[0-9.]* *Mask:[0-9.]*/ { s|^.*inet addr:\(\([0-9]*\)\.\([0-9]*\)\.\([0-9]*\)\.\([0-9]*\)\) *Bcast:\([0-9.]*\) *Mask:\([0-9.]*\).*$|eval " rdev_${TMP}_addr=\1; rdev_${TMP}_mb=\7_\6; rdevip_\2_\3_\4_\5=${TMP}; rdev_LIST=\\\\"\\\\$rdev_LIST \\\\${TMP}\\\\"; " \|\| |g; b; }; s|^.*$||g; ' ` X=x;
+# Update also ifup-aliases!
+eval $(LC_ALL= LANG= /sbin/ifconfig | LC_ALL=C sed -n '
+# Alias name: store the number in TMP, ignore the following address if the
+# device name does not match.  This may leave a hanging ||, so dummy X=x
+# comands are used to ignore a possible previous condition.
+/^[^[:space:]]*:[0-9A-Za-z_]*/ {
+	s|^\([^:]*\):\([0-9A-Za-z_]*\).*$|X=x; TMP="\2"; [ "$device" != "\1" ] \|\| |p
+	b
+}
+# Non-alias device: always ignore the following address
+/^[^[:space:]]/ {
+	s|^.*$|X=x; true \|\| |p
+	b
+}
+# Address: Preceded by a device name, which was converted into
+#	condition ||
+# So this triggers only for $device.
+# Add a trailing || (which will be swallowed by X=x) to keep the syntax
+# correct.
+/inet addr:[0-9]*\.[0-9]*\.[0-9]*\.[0-9]* *Bcast:[0-9.]* *Mask:[0-9.]*/ {
+	s|^.*inet addr:\(\([0-9]*\)\.\([0-9]*\)\.\([0-9]*\)\.\([0-9]*\)\) *Bcast:\([0-9.]*\) *Mask:\([0-9.]*\).*$|eval "rdev_${TMP}_addr=\1; rdev_${TMP}_mb=\7_\6; rdevip_\2_\3_\4_\5=${TMP}; rdev_LIST=\\"\\$rdev_LIST \\${TMP}\\"; " \|\| |p
+	b
+}') X=x
 
 for DEVNUM in $rdev_LIST ; do
        ifconfig $parent_device:$DEVNUM down
