@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.28-1
+Version: 8.28
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -208,7 +208,7 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
-* Mon Feb 13 2006 XXX 8.28-1
+* Mon Feb 13 2006 Bill Nottingham <notting@redhat.com> 8.28-1
 - kill nash-hotplug before starting udev (<pjones@redhat.com>)
 - silence warnings on /dev/pts remount (<pjones@redhat.com>)
 - more translation updates
