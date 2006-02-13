@@ -42,10 +42,9 @@ msgstr ""
 "Upozorenje: postavljeni MTU '$IPV6TO4_MTU'za 6u4 prekoračuje najveći broj "
 "'$tunnelmtu', ignoriram"
 
-#: /etc/rc.d/init.d/tclhttpd:51
-#, fuzzy
-msgid "$base dead but pid file exists"
-msgstr "${base} ne radi ali postoji pid datoteka"
+#: /etc/rc.d/init.d/ypxfrd:31
+msgid "Stopping YP map server: "
+msgstr "Zaustavljam YP map poslužitelj: "
 
 #: /etc/sysconfig/network-scripts/ifup:84
 msgid "Could not set 802.1Q VLAN parameters."
@@ -58,8 +57,8 @@ msgid ""
 msgstr "Izgleda da $alias uređaj ${DEVICE} nije prisutan, odgađam pokretanje."
 
 #: /etc/rc.d/init.d/amd:92 /etc/rc.d/init.d/autofs:618
-#: /etc/rc.d/init.d/bgpd:59 /etc/rc.d/init.d/btseed:67
-#: /etc/rc.d/init.d/bttrack:67 /etc/rc.d/init.d/gkrellmd:54
+#: /etc/rc.d/init.d/bgpd:59 /etc/rc.d/init.d/btseed:68
+#: /etc/rc.d/init.d/bttrack:71 /etc/rc.d/init.d/gkrellmd:54
 #: /etc/rc.d/init.d/irda:72 /etc/rc.d/init.d/ospfd:60 /etc/rc.d/init.d/ripd:59
 #: /etc/rc.d/init.d/ripngd:59 /etc/rc.d/init.d/sshd:168
 #: /etc/rc.d/init.d/zebra:60
@@ -125,7 +124,7 @@ msgstr ""
 msgid "Unmounting CIFS filesystems: "
 msgstr "Odmontiravam NFS datotečne sustave: "
 
-#: /etc/rc.d/init.d/functions:235
+#: /etc/rc.d/init.d/functions:264
 msgid "Usage: pidfileofproc {program}"
 msgstr "Uporaba: pidfileofproc {program}"
 
@@ -138,12 +137,12 @@ msgstr "pokretanje servisa vncserver"
 msgid "$prog is not started..."
 msgstr "isključivanje programa $prog"
 
-#: /etc/rc.d/init.d/rpcsvcgssd:44
+#: /etc/rc.d/init.d/rpcsvcgssd:45
 #, fuzzy
 msgid "Starting RPC svcgssd: "
 msgstr "Pokrećem NFS servise: "
 
-#: /etc/rc.d/init.d/amd:30 /etc/rc.d/init.d/anacron:15
+#: /etc/rc.d/init.d/amd:30 /etc/rc.d/init.d/anacron:16
 #: /etc/rc.d/init.d/arpwatch:28 /etc/rc.d/init.d/atd:29
 #: /etc/rc.d/init.d/auditd:42 /etc/rc.d/init.d/autofs:531
 #: /etc/rc.d/init.d/bgpd:29 /etc/rc.d/init.d/boa:36
@@ -171,23 +170,25 @@ msgstr "Pokrećem NFS servise: "
 #: /etc/rc.d/init.d/lisa:35 /etc/rc.d/init.d/lm_sensors:57
 #: /etc/rc.d/init.d/mailman:77 /etc/rc.d/init.d/mdmonitor:37
 #: /etc/rc.d/init.d/mdmpd:38 /etc/rc.d/init.d/milter-greylist:25
-#: /etc/rc.d/init.d/mysqld:88 /etc/rc.d/init.d/mysqld:90
-#: /etc/rc.d/init.d/mysqld:93 /etc/rc.d/init.d/nscd:48
+#: /etc/rc.d/init.d/mysqld:89 /etc/rc.d/init.d/mysqld:91
+#: /etc/rc.d/init.d/mysqld:94 /etc/rc.d/init.d/nscd:48
 #: /etc/rc.d/init.d/ntpd:97 /etc/rc.d/init.d/opensm:29
 #: /etc/rc.d/init.d/ospf6d:29 /etc/rc.d/init.d/ospfd:30
+#: /etc/rc.d/init.d/plague-builder:24 /etc/rc.d/init.d/plague-server:24
 #: /etc/rc.d/init.d/portmap:47 /etc/rc.d/init.d/proftpd:34
 #: /etc/rc.d/init.d/pure-ftpd:32 /etc/rc.d/init.d/radvd:38
 #: /etc/rc.d/init.d/rarpd:22 /etc/rc.d/init.d/rbldnsd:60
 #: /etc/rc.d/init.d/rinetd:25 /etc/rc.d/init.d/ripd:29
 #: /etc/rc.d/init.d/ripngd:29 /etc/rc.d/init.d/roundup:27
-#: /etc/rc.d/init.d/rwalld:24 /etc/rc.d/init.d/saslauthd:36
-#: /etc/rc.d/init.d/sendmail:40 /etc/rc.d/init.d/smartd:44
-#: /etc/rc.d/init.d/snmpd:20 /etc/rc.d/init.d/snmptrapd:23
-#: /etc/rc.d/init.d/spamassassin:41 /etc/rc.d/init.d/squid:60
-#: /etc/rc.d/init.d/sshd:106 /etc/rc.d/init.d/syslog-ng:34
-#: /etc/rc.d/init.d/tclhttpd:143 /etc/rc.d/init.d/thttpd:32
-#: /etc/rc.d/init.d/tinyerp-server:39 /etc/rc.d/init.d/ups:43
-#: /etc/rc.d/init.d/vncserver:23 /etc/rc.d/init.d/xfs:63
+#: /etc/rc.d/init.d/rwalld:24 /etc/rc.d/init.d/salinfod:32
+#: /etc/rc.d/init.d/saslauthd:36 /etc/rc.d/init.d/sendmail:40
+#: /etc/rc.d/init.d/smartd:44 /etc/rc.d/init.d/snmpd:20
+#: /etc/rc.d/init.d/snmptrapd:23 /etc/rc.d/init.d/spamassassin:41
+#: /etc/rc.d/init.d/squid:60 /etc/rc.d/init.d/sshd:106
+#: /etc/rc.d/init.d/syslog-ng:34 /etc/rc.d/init.d/thttpd:32
+#: /etc/rc.d/init.d/tinyerp-server:34 /etc/rc.d/init.d/ups:43
+#: /etc/rc.d/init.d/ushare:28 /etc/rc.d/init.d/vncserver:23
+#: /etc/rc.d/init.d/wpa_supplicant:34 /etc/rc.d/init.d/xfs:57
 #: /etc/rc.d/init.d/xinetd:44 /etc/rc.d/init.d/zebra:27
 msgid "Starting $prog: "
 msgstr "Pokrećem $prog: "
@@ -233,8 +234,8 @@ msgstr "Onemogućeno računanje procesa."
 msgid "Disabling nightly yum update: "
 msgstr ""
 
-#: /etc/rc.d/init.d/arptables_jf:171 /etc/rc.d/init.d/ip6tables:320
-#: /etc/rc.d/init.d/iptables:320
+#: /etc/rc.d/init.d/arptables_jf:171 /etc/rc.d/init.d/ip6tables:325
+#: /etc/rc.d/init.d/iptables:325
 msgid "Usage: $0 {start|stop|restart|condrestart|status|panic|save}"
 msgstr "Korištenje: $0 {start|stop|restart|condrestart|status|panic|save}"
 
@@ -242,7 +243,7 @@ msgstr "Korištenje: $0 {start|stop|restart|condrestart|status|panic|save}"
 msgid "Stopping UPS monitor: "
 msgstr "Zaustavljam nadgledanja UPS-a: "
 
-#: /etc/rc.d/init.d/firstboot:47
+#: /etc/rc.d/init.d/firstboot:50
 #, fuzzy
 msgid "X is not configured.  Running system-config-display"
 msgstr "X nije podešen. Pokrećem redhat-config-xfree86"
@@ -289,7 +290,7 @@ msgstr "Greška kod učitavanja programa u sklopovlju"
 msgid "Starting $prog daemon: "
 msgstr "Pokretanje acpi daemona:"
 
-#: /etc/rc.d/rc.sysinit:90
+#: /etc/rc.d/rc.sysinit:81
 msgid "\t\tWelcome to "
 msgstr "\t\tDobro došli u  "
 
@@ -297,29 +298,19 @@ msgstr "\t\tDobro došli u  "
 msgid "Stopping rstat services: "
 msgstr "Zaustavljam servise rstat: "
 
-#: /etc/rc.d/init.d/pmud:25
-#, fuzzy
-msgid "Starting pmud daemon: "
-msgstr "Pokretanje acpi daemona:"
-
 #: /etc/rc.d/init.d/syslog:50
 msgid "Shutting down system logger: "
 msgstr "Isključujem zapisivanje dnevnika sustava:: "
 
-#: /etc/rc.d/init.d/tclhttpd:60
-#, fuzzy
-msgid "$base is stopped"
-msgstr "${base} je zaustavljen"
-
-#: /etc/rc.d/init.d/avahi-daemon:90 /etc/rc.d/init.d/avahi-dnsconfd:83
+#: /etc/rc.d/init.d/avahi-daemon:97 /etc/rc.d/init.d/avahi-dnsconfd:93
 #: /etc/rc.d/init.d/cups-config-daemon:67 /etc/rc.d/init.d/FreeWnn:77
-#: /etc/rc.d/init.d/haldaemon:71 /etc/rc.d/init.d/hplip:166
+#: /etc/rc.d/init.d/haldaemon:71 /etc/rc.d/init.d/hplip:165
 #: /etc/rc.d/init.d/imapproxy:72 /etc/rc.d/init.d/innd:112
 #: /etc/rc.d/init.d/kprop:67 /etc/rc.d/init.d/krb524:70
 #: /etc/rc.d/init.d/lm_sensors:133 /etc/rc.d/init.d/milter-greylist:81
 #: /etc/rc.d/init.d/NetworkManager:82
 #: /etc/rc.d/init.d/NetworkManagerDispatcher:77 /etc/rc.d/init.d/syslog:114
-#: /etc/rc.d/init.d/tinyerp-server:113 /etc/rc.d/init.d/ypbind:109
+#: /etc/rc.d/init.d/tinyerp-server:109 /etc/rc.d/init.d/ypbind:109
 #: /etc/rc.d/init.d/zope:73
 msgid "Usage: $0 {start|stop|status|restart|condrestart}"
 msgstr "Korištenje: $0 {start|stop|status|restart|condrestart}"
@@ -350,12 +341,12 @@ msgstr "$NAME je priključen za $DEVICE"
 #: /etc/rc.d/init.d/proftpd:42 /etc/rc.d/init.d/ripd:36
 #: /etc/rc.d/init.d/ripngd:36 /etc/rc.d/init.d/sendmail:104
 #: /etc/rc.d/init.d/smartd:51 /etc/rc.d/init.d/vncserver:49
-#: /etc/rc.d/init.d/vsftpd:46 /etc/rc.d/init.d/xfs:82
+#: /etc/rc.d/init.d/vsftpd:46 /etc/rc.d/init.d/xfs:76
 #: /etc/rc.d/init.d/zebra:37
 msgid "Shutting down $prog: "
 msgstr "Zaustavljam $prog: "
 
-#: /etc/rc.d/init.d/halt:184
+#: /etc/rc.d/init.d/halt:189
 msgid "Unmounting file systems (retry): "
 msgstr "Odmontiravam datotečne sustave (ponovni pokušaj): "
 
@@ -377,6 +368,11 @@ msgstr "INFO     "
 msgid "Unmounting network block filesystems (retry): "
 msgstr "Odmontiravam mrežne datotečne sustave (ponovni pokušaj): "
 
+#: /etc/rc.d/init.d/amavisd:35
+#, fuzzy
+msgid "Starting ${prog_base}:"
+msgstr "Pokrećem $prog: "
+
 #: /etc/rc.d/init.d/halt:59
 msgid "Sending all processes the TERM signal..."
 msgstr "Šaljem svim procesima TERM signal..."
@@ -394,7 +390,7 @@ msgstr ""
 msgid "cannot stop crond: crond is not running."
 msgstr ""
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:160
+#: /etc/sysconfig/network-scripts/ifup-aliases:173
 msgid "error in $FILE: didn't specify device or ipaddr"
 msgstr "greška u $FILE: nije određen uređaj ili or ip adresa"
 
@@ -414,11 +410,6 @@ msgstr "Gasim NFS daemon: "
 #: /etc/rc.d/init.d/netfs:159
 msgid "Unmounting NCP filesystems: "
 msgstr "Odmontiravam NCP datotečne sustave: "
-
-#: /etc/rc.d/init.d/tclhttpd:46
-#, fuzzy
-msgid "$base (pid $pid) is running..."
-msgstr "${base} (pid $pid) se izvršava..."
 
 #: /etc/rc.d/init.d/postfix:48
 #, fuzzy
@@ -451,7 +442,7 @@ msgstr "Korištenje: $0 {start|stop|restart|reload|status|condrestart}"
 msgid "Given IPv4 address '$testipv4addr_valid' has no proper format"
 msgstr "Data IPv4 adresa '$ipv4addr' ne može se globalno koristit"
 
-#: /etc/rc.d/init.d/halt:144 /etc/rc.d/init.d/netfs:106
+#: /etc/rc.d/init.d/halt:149 /etc/rc.d/init.d/netfs:106
 msgid "Detaching loopback device $dev: "
 msgstr "Isključujem uređaj povratne veze $dev: "
 
@@ -459,11 +450,11 @@ msgstr "Isključujem uređaj povratne veze $dev: "
 msgid "Unmounting network block filesystems: "
 msgstr "Odmontiravam mrežne datotečne sustave: "
 
-#: /etc/rc.d/init.d/ip6tables:217
+#: /etc/rc.d/init.d/ip6tables:222
 msgid "Saving firewall rules to $IP6TABLES_DATA: "
 msgstr "Spremanje pravila vatrozida u $IP6TABLES_DATA: "
 
-#: /etc/rc.d/init.d/dkms_autoinstaller:126 /etc/rc.d/init.d/kudzu:65
+#: /etc/rc.d/init.d/kudzu:65
 msgid "Usage: $0 {start|stop}"
 msgstr "Korištenje: $0 {start|stop}"
 
@@ -479,7 +470,8 @@ msgstr "Pokrećem $prog: "
 #: /etc/rc.d/init.d/nscd:102 /etc/rc.d/init.d/pure-ftpd:60
 #: /etc/rc.d/init.d/radvd:61 /etc/rc.d/init.d/rbldnsd:87
 #: /etc/rc.d/init.d/rinetd:49 /etc/rc.d/init.d/snmpd:48
-#: /etc/rc.d/init.d/sshd:128 /etc/rc.d/init.d/xfs:96
+#: /etc/rc.d/init.d/sshd:128 /etc/rc.d/init.d/ushare:44
+#: /etc/rc.d/init.d/xfs:90
 msgid "Reloading $prog: "
 msgstr "Ponovo učitavam $prog: "
 
@@ -507,7 +499,12 @@ msgstr ""
 msgid "Usage: apmd {start|stop|status|restart|reload|condrestart}"
 msgstr "Uporaba: apmd {start|stop|status|restart|reload|condrestart}"
 
-#: /etc/rc.d/rc.sysinit:211
+#: /etc/rc.d/init.d/amavisd:41
+#, fuzzy
+msgid "Shutting down ${prog_base}:"
+msgstr "Zaustavljam $prog: "
+
+#: /etc/rc.d/rc.sysinit:205
 msgid "Loading default keymap ($KEYTABLE): "
 msgstr "Učitavam uobičajenu mapu tipkovnice ($KEYTABLE): "
 
@@ -559,12 +556,12 @@ msgstr "Isključujem APM servis: "
 #: /etc/rc.d/init.d/lirc:92 /etc/rc.d/init.d/moomps:70
 #: /etc/rc.d/init.d/openct:74 /etc/rc.d/init.d/pcscd:62
 #: /etc/rc.d/init.d/rinetd:81 /etc/rc.d/init.d/syslog-ng:86
-#: /etc/rc.d/init.d/wesnothd:93
+#: /etc/rc.d/init.d/wesnothd:93 /etc/rc.d/init.d/wpa_supplicant:83
 #, fuzzy
 msgid "Usage: $0 {start|stop|status|restart|try-restart|reload|force-reload}"
 msgstr "Korištenje: $0 {start|stop|status|restart|reload|condrestart}"
 
-#: /etc/rc.d/init.d/avahi-daemon:29
+#: /etc/rc.d/init.d/avahi-daemon:31
 #, fuzzy
 msgid "Starting Avahi daemon... "
 msgstr "Pokretanje acpi daemona:"
@@ -588,7 +585,7 @@ msgstr "Postavljene NFS točke montiranja: "
 msgid "Shutting down hidd: "
 msgstr "Zaustavljanje pand-a:"
 
-#: /etc/rc.d/init.d/halt:166
+#: /etc/rc.d/init.d/halt:171
 #, fuzzy
 msgid "Unmounting pipe file systems: "
 msgstr "Odmontiravam datotečne sustave: "
@@ -603,7 +600,7 @@ msgstr "\t\tPritisnite 'I' za ulazak u interaktivno podizanje."
 msgid "Usage: $0 {start|stop|status|restart|condrestart|reload|rotate}"
 msgstr "Korištenje: $0 {start|stop|status|restart|condrestart|reload|probe}"
 
-#: /etc/rc.d/init.d/xfs:149
+#: /etc/rc.d/init.d/xfs:143
 msgid "Usage: $prog {start|stop|status|restart|reload|condrestart}"
 msgstr "Uporaba: $prog {start|stop|status|restart|reload|condrestart}"
 
@@ -623,7 +620,7 @@ msgstr ""
 msgid "Starting $ID: "
 msgstr "Pokrećem $MODEL: "
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:306
+#: /etc/sysconfig/network-scripts/ifup-aliases:319
 msgid "error in $FILE: IPADDR_START and IPADDR_END don't agree"
 msgstr "greška u $FILE: IPADDR_START i IPADDR_END se ne slažu"
 
@@ -663,12 +660,12 @@ msgstr ""
 "U postavkama je oneomogućeno globalno IPv6 prosljeđivanje, ali nije trenutno "
 "oneomogućeno u jezgri Linux-a"
 
-#: /etc/rc.d/init.d/iptables:217
+#: /etc/rc.d/init.d/iptables:222
 msgid "Saving firewall rules to $IPTABLES_DATA: "
 msgstr "Spremanje pravila vatrozida u $IPTABLES_DATA: "
 
-#: /etc/rc.d/init.d/rpcgssd:99 /etc/rc.d/init.d/rpcidmapd:85
-#: /etc/rc.d/init.d/rpcsvcgssd:98
+#: /etc/rc.d/init.d/rpcgssd:100 /etc/rc.d/init.d/rpcidmapd:86
+#: /etc/rc.d/init.d/rpcsvcgssd:99
 #, fuzzy
 msgid "Usage: $0 {start|stop|restart|condstart|condrestart|status}"
 msgstr "Korištenje: $0 {start|stop|restart|condrestart|status}"
@@ -689,7 +686,7 @@ msgstr "Ponovo pokrećem postavljanje cron servisa: "
 msgid "mdmpd"
 msgstr "mdadm"
 
-#: /etc/rc.d/init.d/network:261
+#: /etc/rc.d/init.d/network:262
 msgid "Shutting down loopback interface: "
 msgstr "Isključujem sučelje povratne petlje:"
 
@@ -705,7 +702,7 @@ msgstr "Pokrećem kernel zapisivanje dnevnika: "
 msgid "Stopping YP passwd service: "
 msgstr "Zaustavljam YP servis za lozinke: "
 
-#: /etc/rc.d/rc.sysinit:385
+#: /etc/rc.d/rc.sysinit:384
 msgid "Checking local filesystem quotas: "
 msgstr "Provjeravam kvote lokalnog datotečnog sustava: "
 
@@ -713,7 +710,7 @@ msgstr "Provjeravam kvote lokalnog datotečnog sustava: "
 msgid "Telling INIT to go to single user mode."
 msgstr "Pokrećem INIT za prelazak u jednokorisnički način rada."
 
-#: /etc/rc.d/init.d/halt:214
+#: /etc/rc.d/init.d/halt:223
 msgid "$message"
 msgstr "$message"
 
@@ -721,7 +718,7 @@ msgstr "$message"
 msgid " done."
 msgstr " izvršeno."
 
-#: /etc/rc.d/init.d/halt:138 /etc/rc.d/init.d/netfs:100
+#: /etc/rc.d/init.d/halt:143 /etc/rc.d/init.d/netfs:100
 msgid "Unmounting loopback filesystems (retry):"
 msgstr "Odmontiravam loopback datotečne sustave (ponovni pokušaj): "
 
@@ -729,11 +726,6 @@ msgstr "Odmontiravam loopback datotečne sustave (ponovni pokušaj): "
 #, fuzzy
 msgid "Stopping hpiod: "
 msgstr "Zaustavljam $prog: "
-
-#: /etc/rc.d/init.d/tclhttpd:57
-#, fuzzy
-msgid "$base dead but subsys locked"
-msgstr "${base} zaustavljen ali je zaključan subsys"
 
 #: /etc/rc.d/init.d/dhcdbd:101
 #, fuzzy
@@ -773,7 +765,7 @@ msgstr "RSA generacija ključa"
 msgid "Usage: pure-ftpd {start|stop|restart|reload|condrestart|status}"
 msgstr "Korištenje: $prog {start|stop|restart|reload|condrestart|status}"
 
-#: /etc/rc.d/init.d/halt:126
+#: /etc/rc.d/init.d/halt:131
 msgid "Turning off quotas: "
 msgstr "Isključujem kvote: "
 
@@ -781,7 +773,7 @@ msgstr "Isključujem kvote: "
 msgid "Pidfile '$pidfile' is empty, cannot send trigger to radvd"
 msgstr ""
 
-#: /etc/rc.d/init.d/rpcsvcgssd:76
+#: /etc/rc.d/init.d/rpcsvcgssd:77
 #, fuzzy
 msgid "Shutting down RPC svcgssd: "
 msgstr "Gasim NFS servise: "
@@ -841,7 +833,7 @@ msgstr "Uporaba: nfs {start|stop|status|restart|reload|condrestart}"
 msgid "usage: ifup-aliases <net-device> [<parent-config>]\n"
 msgstr "Uporaba: ifup-aliases <mrežni uređaj> [<parent-config>]\n"
 
-#: /etc/rc.d/init.d/bttrack:32
+#: /etc/rc.d/init.d/bttrack:33
 #, fuzzy
 msgid "Starting BitTorrent tracker: "
 msgstr "Pokrećem nadzor UPS-a (poslužitelj): "
@@ -850,7 +842,7 @@ msgstr "Pokrećem nadzor UPS-a (poslužitelj): "
 msgid "ERROR: [ipv6_log] Cannot log to channel '$channel'"
 msgstr "GREŠKA: [ipv6_log] ne mogu zapisati dnevnik u kanal '$channel'"
 
-#: /etc/rc.d/init.d/network:66
+#: /etc/rc.d/init.d/network:67
 msgid "Bringing up loopback interface: "
 msgstr "Pokrećem sučelje povratne veze: "
 
@@ -858,9 +850,10 @@ msgstr "Pokrećem sučelje povratne veze: "
 msgid "Reopening $prog log file: "
 msgstr "Ponovno otvaram datoteku dnevnika $prog:"
 
-#: /etc/rc.d/init.d/functions:301
-msgid "${base} dead but pid file exists"
-msgstr "${base} ne radi ali postoji pid datoteka"
+#: /etc/rc.d/init.d/avahi-daemon:51 /etc/rc.d/init.d/avahi-dnsconfd:46
+#: /etc/rc.d/init.d/functions:230 /etc/rc.d/init.d/functions:246
+msgid "$base shutdown"
+msgstr "$base isključi"
 
 #: /etc/rc.d/init.d/smb:77 /etc/rc.d/init.d/winbind:65
 msgid "Reloading smb.conf file: "
@@ -883,8 +876,9 @@ msgstr "Određujem IP informacije za ${DEVICE}..."
 msgid "Stopping ${NAME} service: "
 msgstr "Zaustavljam servis ${NAME}: "
 
-#: /etc/rc.d/init.d/avahi-daemon:37 /etc/rc.d/init.d/avahi-dnsconfd:30
-#: /etc/rc.d/init.d/avahi-dnsconfd:47 /etc/rc.d/init.d/functions:152
+#: /etc/rc.d/init.d/avahi-daemon:39 /etc/rc.d/init.d/avahi-daemon:41
+#: /etc/rc.d/init.d/avahi-dnsconfd:34 /etc/rc.d/init.d/avahi-dnsconfd:36
+#: /etc/rc.d/init.d/avahi-dnsconfd:56 /etc/rc.d/init.d/functions:183
 msgid "$base startup"
 msgstr "$base pokretanje"
 
@@ -921,11 +915,11 @@ msgstr "GREŠKA   "
 msgid "Please run makehistory and/or makedbz before starting innd."
 msgstr "Molim, pokrenite makehistory i/ili makedbz prije pokretanja innd-a."
 
-#: /etc/rc.d/init.d/ip6tables:172
+#: /etc/rc.d/init.d/ip6tables:177
 msgid "Loading additional $IP6TABLES modules: "
 msgstr "Učitavanje dodatnih $IP6TABLES modula: "
 
-#: /etc/rc.d/rc.sysinit:420
+#: /etc/rc.d/rc.sysinit:419
 msgid "Enabling local filesystem quotas: "
 msgstr "Omogućujem kvote na lokalnom datotečnom sustavu: "
 
@@ -943,7 +937,7 @@ msgstr "Zaustavljanje pand-a:"
 msgid "Usage: $prog {start|stop|restart|condrestart}"
 msgstr "Korištenje: $prog {start|stop|restart|status|condrestart}"
 
-#: /etc/rc.d/init.d/rpcgssd:77
+#: /etc/rc.d/init.d/rpcgssd:78
 #, fuzzy
 msgid "Shutting down RPC gssd: "
 msgstr "Gasim NFS servise: "
@@ -957,24 +951,25 @@ msgstr "Zaustavljam $prog:"
 msgid "Usage: $0 {start|stop|status|restart|reload}"
 msgstr "Korištenje: $0 {start|stop|status|restart|reload}"
 
-#: /etc/rc.d/init.d/functions:442
+#: /etc/rc.d/init.d/functions:467
 msgid "yY"
 msgstr ""
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:226
-#: /etc/sysconfig/network-scripts/ifup-aliases:236
+#: /etc/sysconfig/network-scripts/ifup-aliases:240
+#: /etc/sysconfig/network-scripts/ifup-aliases:251
 msgid "error in ifcfg-${parent_device}: files"
 msgstr "Greška u ifcfg-${parent_device}: datotekama"
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:1007
-msgid "Missing parameter 'local IPv4 address' (arg 2)"
-msgstr ""
+#: /etc/rc.d/init.d/avahi-daemon:83
+#, fuzzy
+msgid "Avahi daemon is not running"
+msgstr "već je pokrenut servis iSCSI "
 
 #: /etc/rc.d/init.d/nfs:106
 msgid "Shutting down NFS quotas: "
 msgstr "Gasim NFS kvote: "
 
-#: /etc/rc.d/init.d/functions:90 /etc/rc.d/init.d/functions:118
+#: /etc/rc.d/init.d/functions:119 /etc/rc.d/init.d/functions:155
 msgid "$0: Usage: daemon [+/-nicelevel] {program}"
 msgstr "$0: Korištenje: daemon [+/-nice razina] {program}"
 
@@ -983,7 +978,7 @@ msgstr "$0: Korištenje: daemon [+/-nice razina] {program}"
 msgid "Mounting CFS dir: "
 msgstr "Montiram NFS datotečne sustave: "
 
-#: /etc/rc.d/init.d/functions:307
+#: /etc/rc.d/init.d/functions:332
 msgid "${base} dead but subsys locked"
 msgstr "${base} zaustavljen ali je zaključan subsys"
 
@@ -1009,7 +1004,7 @@ msgstr "pokrećem vncserver"
 msgid "Usage: $0 {start|stop|reload|restart|showsysctl}"
 msgstr "Uporaba: $0 {start|stop|reload|restart|showsysctl}"
 
-#: /etc/rc.d/init.d/ircd:74
+#: /etc/rc.d/init.d/ircd:74 /etc/rc.d/init.d/ushare:76
 #, fuzzy
 msgid "Usage: $prog {start|stop|restart|condrestart|reload|status"
 msgstr "Uporaba: $prog {start|stop|restart|condrestart|reload|status}"
@@ -1023,11 +1018,11 @@ msgstr ""
 msgid "Stopping HAL daemon: "
 msgstr "Pokretanje acpi daemona:"
 
-#: /etc/rc.d/init.d/network:84
+#: /etc/rc.d/init.d/network:85
 msgid "No 802.1Q VLAN support available in kernel."
 msgstr "Nema podrške u jezgri Linux-a za 802.1Q VLAN"
 
-#: /etc/rc.d/init.d/rpcgssd:46
+#: /etc/rc.d/init.d/rpcgssd:47
 #, fuzzy
 msgid "Starting RPC gssd: "
 msgstr "Pokrećem NFS statd: "
@@ -1036,7 +1031,7 @@ msgstr "Pokrećem NFS statd: "
 msgid "reload"
 msgstr "ponovno učitaj"
 
-#: /etc/rc.d/init.d/netfs:50 /etc/rc.d/rc.sysinit:268
+#: /etc/rc.d/init.d/netfs:50 /etc/rc.d/rc.sysinit:267
 msgid "Setting up Logical Volume Management:"
 msgstr "Postavljam upravljane logičkim diskovima:"
 
@@ -1065,7 +1060,7 @@ msgstr "Zaustavljam aktivirane INN servise: "
 msgid "Enabling Athlon powersaving mode..."
 msgstr ""
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:156
+#: /etc/sysconfig/network-scripts/ifup-aliases:168
 msgid "error in $FILE: already seen device $parent_device:$DEVNUM in $devseen"
 msgstr "greška u $FILE: već viđen uređaj $parent_device:$DEVNUM u $devseen"
 
@@ -1077,7 +1072,7 @@ msgstr "Gasim kernel logiranje: "
 msgid "Starting UPS monitor (master): "
 msgstr "Pokrećem nadzor UPS-a (poslužitelj): "
 
-#: /etc/rc.d/init.d/btseed:43
+#: /etc/rc.d/init.d/btseed:44
 #, fuzzy
 msgid "Shutting down BitTorrent seed client: "
 msgstr "Isključujem sm-klijenta:"
@@ -1090,6 +1085,11 @@ msgstr "Zaustavi $command"
 msgid "Halting system..."
 msgstr "Zaustavljam sustav..."
 
+#: /etc/rc.d/init.d/avahi-daemon:58
+#, fuzzy
+msgid "Reloading Avahi daemon... "
+msgstr "Pokretanje acpi daemona:"
+
 #: /etc/rc.d/init.d/lirc:26
 #, fuzzy
 msgid "Starting infrared remote control daemon ($prog): "
@@ -1100,13 +1100,9 @@ msgstr "Pokretanje acpi daemona:"
 msgid "$prog check"
 msgstr "isključivanje programa $prog"
 
-#: /etc/rc.d/init.d/iptables:158
+#: /etc/rc.d/init.d/iptables:163
 msgid "Applying $IPTABLES firewall rules: "
 msgstr "Primjena $IPTABLES pravila vatrozida:"
-
-#: /etc/rc.d/init.d/functions:285 /etc/rc.d/init.d/tclhttpd:37
-msgid "Usage: status {program}"
-msgstr "Korištenje: status {program}"
 
 #: /etc/rc.d/init.d/amd:89
 msgid "Reloading $prog:"
@@ -1120,6 +1116,10 @@ msgstr "Zaustavljam Red Hat mrežni servis: "
 #, fuzzy
 msgid "Stopping $prog daemon: "
 msgstr "Pokretanje acpi daemona:"
+
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:1007
+msgid "Missing parameter 'local IPv4 address' (arg 2)"
+msgstr ""
 
 #: /etc/sysconfig/network-scripts/ifup-ipv6:277
 msgid ""
@@ -1176,7 +1176,7 @@ msgstr "$0: nisu nađene postavke za ${1}."
 msgid "Stopping $PRIVOXY_PRG: "
 msgstr "Zaustavljam $PRIVOXY_PRG: "
 
-#: /etc/rc.d/init.d/functions:340
+#: /etc/rc.d/init.d/functions:365
 msgid "PASSED"
 msgstr "PROŠAO "
 
@@ -1199,8 +1199,8 @@ msgstr ""
 msgid "Enabling nightly yum update: "
 msgstr "Omogućujem swap prostor: "
 
-#: /etc/rc.d/init.d/apt:66 /etc/rc.d/init.d/denyhosts:89
-#: /etc/rc.d/init.d/moodle:64 /etc/rc.d/init.d/yum:65
+#: /etc/rc.d/init.d/denyhosts:89 /etc/rc.d/init.d/moodle:64
+#: /etc/rc.d/init.d/yum:65
 #, fuzzy
 msgid "Usage: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
 msgstr "Korištenje: $0 {start|stop|status|restart|reload|condrestart}"
@@ -1224,11 +1224,11 @@ msgstr "Inicijaliziram bazu podataka"
 msgid "Starting network plug daemon: "
 msgstr "Pokretanje acpi daemona:"
 
-#: /etc/rc.d/init.d/network:289
+#: /etc/rc.d/init.d/network:290
 msgid "Currently active devices:"
 msgstr "Trenutno aktivni uređaji:"
 
-#: /etc/rc.d/init.d/network:240 /etc/rc.d/init.d/network:250
+#: /etc/rc.d/init.d/network:241 /etc/rc.d/init.d/network:251
 msgid "Shutting down interface $i: "
 msgstr "Isključujem sučelje $i: "
 
@@ -1263,6 +1263,11 @@ msgstr "Postavljam ISA PNP uređaje: "
 msgid "Importing packets to monotone database: "
 msgstr ""
 
+#: /etc/rc.d/init.d/tinyerp-server:73
+#, fuzzy
+msgid "$prog is running..."
+msgstr "cardmgr (pid $pid) je pokrenut..."
+
 #: /etc/sysconfig/network-scripts/ifup-ippp:55
 #: /etc/sysconfig/network-scripts/ifup-isdn:55
 msgid "$*"
@@ -1281,7 +1286,7 @@ msgstr ""
 msgid "Listening for an NIS domain server."
 msgstr "Slušam za NIS domenski poslužitelj."
 
-#: /etc/rc.d/init.d/netfs:79 /etc/rc.d/rc.sysinit:345
+#: /etc/rc.d/init.d/netfs:79 /etc/rc.d/rc.sysinit:344
 msgid "(Repair filesystem)"
 msgstr "(Popravi datotečni sustav)"
 
@@ -1325,6 +1330,11 @@ msgstr "RSA generacija ključa"
 msgid "Enabling Moodle cron job: "
 msgstr ""
 
+#: /etc/rc.d/init.d/functions:193
+#, fuzzy
+msgid "Usage: killproc [-p pidfile] {program} [signal]"
+msgstr "Uporaba: killproc {program} [signal]"
+
 #: /etc/rc.d/init.d/rebootmgr:11 /etc/rc.d/init.d/vprocunhide:10
 #: /etc/rc.d/init.d/vservers-legacy:8
 msgid ""
@@ -1336,7 +1346,7 @@ msgstr ""
 msgid "*** Please see /usr/share/doc/clamav-server-*/README how"
 msgstr ""
 
-#: /etc/rc.d/init.d/btseed:33
+#: /etc/rc.d/init.d/btseed:34
 #, fuzzy
 msgid "Starting BitTorrent seed client: "
 msgstr "Pokrećem sm-klijenta: "
@@ -1405,10 +1415,6 @@ msgstr "Zaustavljam $prog: "
 msgid "No reason given for sending trigger to radvd"
 msgstr ""
 
-#: /etc/rc.d/init.d/apt:61
-msgid "Nightly apt update is disabled."
-msgstr ""
-
 #: /etc/rc.d/init.d/openct:34
 #, fuzzy
 msgid "Stopping OpenCT smart card terminals: "
@@ -1440,7 +1446,7 @@ msgstr "Pokrećem rwho servise: "
 msgid "Stopping INND service: "
 msgstr "Zaustavljam INND servis: "
 
-#: /etc/rc.d/init.d/halt:140 /etc/rc.d/init.d/netfs:102
+#: /etc/rc.d/init.d/halt:145 /etc/rc.d/init.d/netfs:102
 msgid "Unmounting loopback filesystems: "
 msgstr "Odmontiram loopback datotečne sustave: "
 
@@ -1523,8 +1529,8 @@ msgstr "Inicijaliziram bazu podataka"
 msgid "Shutting down $KIND services: "
 msgstr "Isključujem servis $KIND: "
 
-#: /etc/rc.d/init.d/ip6tables:259 /etc/rc.d/init.d/ip6tables:263
-#: /etc/rc.d/init.d/iptables:259 /etc/rc.d/init.d/iptables:263
+#: /etc/rc.d/init.d/ip6tables:264 /etc/rc.d/init.d/ip6tables:268
+#: /etc/rc.d/init.d/iptables:264 /etc/rc.d/init.d/iptables:268
 #, fuzzy
 msgid "Firewall is not configured. "
 msgstr "Nisu postavljene mrežne postavke - izlazim"
@@ -1537,7 +1543,7 @@ msgstr ""
 msgid "Resetting built-in chains to the default ACCEPT policy:"
 msgstr "Ponovo pokrećem ugrađena pravila za uobičajenu politiku ACCEPT:"
 
-#: /etc/rc.d/init.d/functions:440
+#: /etc/rc.d/init.d/functions:465
 msgid "Start service $1 (Y)es/(N)o/(C)ontinue? [Y] "
 msgstr "Pokrećem servis $1 (D)a/(N)e/N(A)stavi? [D] "
 
@@ -1549,12 +1555,12 @@ msgstr ""
 msgid "Reloading RADIUS server: "
 msgstr "Ponovo učitavanje RADIUS poslužitelja:"
 
-#: /etc/rc.d/init.d/bttrack:43
+#: /etc/rc.d/init.d/bttrack:47
 #, fuzzy
 msgid "Shutting down BitTorrent tracker: "
 msgstr "Isključujem sučelje $i: "
 
-#: /etc/rc.d/rc.sysinit:309
+#: /etc/rc.d/rc.sysinit:308
 msgid "Checking filesystems"
 msgstr "Provjeravam datotečne sustave"
 
@@ -1572,13 +1578,18 @@ msgstr "cardmgr je zaustavljen"
 msgid "Starting $MODEL: "
 msgstr "Pokrećem $MODEL: "
 
-#: /etc/rc.d/init.d/netfs:76 /etc/rc.d/rc.sysinit:342
+#: /etc/rc.d/init.d/netfs:76 /etc/rc.d/rc.sysinit:341
 msgid "*** Dropping you to a shell; the system will reboot"
 msgstr "*** Odbacujem vas u korisničku ljusku; sustav će se ponovno pokrenuti"
 
-#: /etc/rc.d/init.d/ip6tables:158
+#: /etc/rc.d/init.d/ip6tables:163
 msgid "Applying $IP6TABLES firewall rules: "
 msgstr "Primjena $IP6TABLES pravila vatrozida:"
+
+#: /etc/rc.d/init.d/tinyerp-server:75 /etc/rc.d/init.d/tinyerp-server:78
+#, fuzzy
+msgid "$prog is stopped"
+msgstr "cardmgr je zaustavljen"
 
 #: /etc/rc.d/init.d/httpd:118
 msgid ""
@@ -1631,18 +1642,14 @@ msgstr "Pokrećem INND sustav: "
 msgid "is stopped"
 msgstr "cardmgr je zaustavljen"
 
-#: /etc/rc.d/init.d/arptables_jf:138 /etc/rc.d/init.d/ip6tables:275
-#: /etc/rc.d/init.d/iptables:275
+#: /etc/rc.d/init.d/arptables_jf:138 /etc/rc.d/init.d/ip6tables:280
+#: /etc/rc.d/init.d/iptables:280
 msgid "Table: $table"
 msgstr "Tablica: $table"
 
 #: /etc/rc.d/init.d/netfs:169
 msgid "Configured SMB mountpoints: "
 msgstr "Postavljene SMB točke montiranja: "
-
-#: /etc/rc.d/init.d/apt:58
-msgid "Nightly apt update is enabled."
-msgstr ""
 
 #: /etc/rc.d/init.d/cfenvd:35
 msgid "Stopping GNU cfengine environmental history daemon: "
@@ -1665,7 +1672,7 @@ msgstr "ponovno pokreni"
 msgid "Starting exim: "
 msgstr "Pokretanje pand-a:"
 
-#: /etc/sysconfig/network-scripts/ifup-eth:218
+#: /etc/sysconfig/network-scripts/ifup-eth:232
 msgid "Error, some other host already uses address ${IPADDR}."
 msgstr "Greška, nko drugo računalo već koristi adresu ${IPADDR}."
 
@@ -1691,7 +1698,7 @@ msgstr "Aktivne NFS točke montiranja: "
 msgid "Cannot delete IPv6 address '$address' on dev '$device'"
 msgstr ""
 
-#: /etc/rc.d/rc.sysinit:216
+#: /etc/rc.d/rc.sysinit:210
 msgid "Loading default keymap"
 msgstr "Učitavam podrazumijevanu mapu tipkovnice"
 
@@ -1701,18 +1708,22 @@ msgid ""
 "address ${HWADDR}. Ignoring."
 msgstr ""
 
-#: /etc/rc.d/init.d/functions:329
+#: /etc/rc.d/init.d/functions:354
 msgid "FAILED"
 msgstr "NEUSPJEH"
 
-#: /etc/rc.d/init.d/ipmi:440
+#: /etc/rc.d/init.d/avahi-daemon:48
 #, fuzzy
-msgid "Stopping all ${MODULE_NAME} drivers: "
-msgstr "Zaustavljam servis ${NAME}: "
+msgid "Shutting down Avahi daemon: "
+msgstr "Isključujem APM servis: "
 
 #: /etc/rc.d/init.d/smb:42 /etc/rc.d/init.d/smb:47 /etc/rc.d/init.d/winbind:40
 msgid "Starting $KIND services: "
 msgstr "Pokrećem $KIND servise:"
+
+#: /etc/sysconfig/network-scripts/ifup-aliases:153
+msgid "error in $FILE: invalid alias number"
+msgstr ""
 
 #: /etc/rc.d/init.d/acpid:77 /etc/rc.d/init.d/messagebus:75
 #: /etc/rc.d/init.d/multipathd:87 /etc/rc.d/init.d/opensm:92
@@ -1746,7 +1757,7 @@ msgstr "Pokrećem $MODEL: "
 msgid "Nightly yum update is disabled."
 msgstr ""
 
-#: /etc/rc.d/init.d/network:271
+#: /etc/rc.d/init.d/network:272
 msgid "Disabling IPv4 automatic defragmentation: "
 msgstr "Isključujem IPv4 automatsku defragmentaciju: "
 
@@ -1771,7 +1782,7 @@ msgstr ""
 msgid "Moving old server passphrase file to new location: "
 msgstr ""
 
-#: /etc/rc.d/init.d/iptables:172
+#: /etc/rc.d/init.d/iptables:177
 msgid "Loading additional $IPTABLES modules: "
 msgstr "Učitavanje dodatnih $IPTABLES modula: "
 
@@ -1798,15 +1809,15 @@ msgstr "$prog nije pokrenut"
 msgid "Shutting down NFS mountd: "
 msgstr "Gasim NFS mountd: "
 
-#: /etc/rc.d/init.d/halt:218
+#: /etc/rc.d/init.d/halt:227
 msgid "On the next boot fsck will be forced."
 msgstr "Kod sljedećeg pokretanja sustava fsck će biti izvršen."
 
-#: /etc/rc.d/init.d/functions:351
+#: /etc/rc.d/init.d/functions:376
 msgid "WARNING"
 msgstr "UPOZORENJE"
 
-#: /etc/rc.d/init.d/network:82
+#: /etc/rc.d/init.d/network:83
 msgid "Setting 802.1Q VLAN parameters: "
 msgstr "Postavljam postavke za 802.1Q VLAN: "
 
@@ -1818,7 +1829,7 @@ msgstr "Korištenje: $0 {start|stop|status|restart|condrestart|reload|probe}"
 msgid "Shutting down sm-client: "
 msgstr "Isključujem sm-klijenta:"
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:310
+#: /etc/sysconfig/network-scripts/ifup-aliases:323
 msgid "error in $FILE: IPADDR_START greater than IPADDR_END"
 msgstr "greška u $FILE: IPADDR_START je veći od IPADDR_END"
 
@@ -1826,7 +1837,7 @@ msgstr "greška u $FILE: IPADDR_START je veći od IPADDR_END"
 msgid "Checking for changes to /etc/auto.master ...."
 msgstr "Provjeravam izmjene u /etc/auto.master ...."
 
-#: /etc/rc.d/rc.sysinit:379
+#: /etc/rc.d/rc.sysinit:378
 msgid "Converting old group quota files: "
 msgstr "Pretvaram datoteke stare grupe kvota: "
 
@@ -1834,11 +1845,11 @@ msgstr "Pretvaram datoteke stare grupe kvota: "
 msgid "No Mountpoints Defined"
 msgstr ""
 
-#: /etc/rc.d/init.d/functions:318
+#: /etc/rc.d/init.d/functions:343
 msgid "  OK  "
 msgstr ""
 
-#: /etc/rc.d/init.d/network:286
+#: /etc/rc.d/init.d/network:287
 msgid "Configured devices:"
 msgstr "Postavljeni uređaji:"
 
@@ -1880,6 +1891,11 @@ msgstr "Zaustavljam $prog: "
 #: /etc/rc.d/init.d/carp:57
 msgid "no IPADDR found in interface file ifcfg-${BIND_INTERFACE}:"
 msgstr ""
+
+#: /etc/rc.d/init.d/functions:279
+#, fuzzy
+msgid "Usage: pidofproc [-p pidfile] {program}"
+msgstr "Korištenje: pidofproc {program}"
 
 #: /etc/rc.d/init.d/rgmanager:73
 #, fuzzy
@@ -1956,7 +1972,7 @@ msgid ""
 "through device '$device'"
 msgstr ""
 
-#: /etc/rc.d/init.d/network:143 /etc/rc.d/init.d/network:154
+#: /etc/rc.d/init.d/network:144 /etc/rc.d/init.d/network:155
 msgid "Bringing up interface $i: "
 msgstr "Pokrećem sučelje $i: "
 
@@ -1987,7 +2003,7 @@ msgstr "Odbacivanje pravila vatrozida:"
 msgid "Error in named configuration"
 msgstr "Ponovo pokrećem postavljanje cron servisa: "
 
-#: /etc/rc.d/init.d/halt:164
+#: /etc/rc.d/init.d/halt:169
 #, fuzzy
 msgid "Unmounting pipe file systems (retry): "
 msgstr "Odmontiravam datotečne sustave (ponovni pokušaj): "
@@ -2055,7 +2071,7 @@ msgstr "$0: jezgra nema podršku za mikrokod uređaje"
 msgid "/etc/sysconfig/network-scripts/chat-${DEVNAME} does not exist"
 msgstr "/etc/sysconfig/network-scripts/chat-${DEVNAME} ne postoji"
 
-#: /etc/rc.d/init.d/netfs:75 /etc/rc.d/rc.sysinit:341
+#: /etc/rc.d/init.d/netfs:75 /etc/rc.d/rc.sysinit:340
 msgid "*** An error occurred during the file system check."
 msgstr "*** Dogodila se greška tijekom provjere datotečnog sustava."
 
@@ -2064,10 +2080,15 @@ msgstr "*** Dogodila se greška tijekom provjere datotečnog sustava."
 msgid "Changing target policies to DROP: "
 msgstr "Mijenjam pravila za odredište u DENY: "
 
-#: /etc/sysconfig/network-scripts/ifup-ippp:375
-#: /etc/sysconfig/network-scripts/ifup-isdn:375
-msgid "Warning: link doesn't support IPv6 using encapsulation 'rawip'"
-msgstr "Upozorenje: vezane podržava IPv4, koristim enkapsulaciju 'rawip'"
+#: /etc/rc.d/init.d/functions:305
+#, fuzzy
+msgid "Usage: status [-p pidfile] {program}"
+msgstr "Korištenje: status {program}"
+
+#: /etc/rc.d/init.d/amavisd:60
+#, fuzzy
+msgid "Reloading ${prog_base}:"
+msgstr "Ponovno učitavam $prog:"
 
 #: /etc/sysconfig/network-scripts/ifup-ppp:86
 msgid "Setting up a new ${PEERCONF} config file"
@@ -2140,28 +2161,29 @@ msgstr "Ponovno učitavam $prog:"
 msgid "Saving current rules to $ARPTABLES_CONFIG: "
 msgstr "Spremam trenutna pravila u $IPCHAINS_CONFIG: "
 
-#: /etc/rc.d/init.d/avahi-dnsconfd:27
+#: /etc/rc.d/init.d/avahi-dnsconfd:29
 #, fuzzy
 msgid "Starting Avahi DNS daemon... "
 msgstr "Pokrećem NFS daemon: "
 
-#: /etc/rc.d/init.d/anacron:56 /etc/rc.d/init.d/atd:80
+#: /etc/rc.d/init.d/anacron:59 /etc/rc.d/init.d/atd:80
 #: /etc/rc.d/init.d/canna:64 /etc/rc.d/init.d/carp:139
 #: /etc/rc.d/init.d/cpuspeed:91 /etc/rc.d/init.d/dhcp6r:75
 #: /etc/rc.d/init.d/dhcp6s:79 /etc/rc.d/init.d/dhcrelay:78
 #: /etc/rc.d/init.d/dictd:74 /etc/rc.d/init.d/fnfxd:59 /etc/rc.d/init.d/gpm:94
 #: /etc/rc.d/init.d/icmpdnd:73 /etc/rc.d/init.d/ipsec:197
 #: /etc/rc.d/init.d/ipsec:202 /etc/rc.d/init.d/ntpd:139
-#: /etc/rc.d/init.d/roundup:78 /etc/rc.d/init.d/sendmail:149
-#: /etc/rc.d/init.d/spamass-milter:80 /etc/rc.d/init.d/trackpad:59
+#: /etc/rc.d/init.d/roundup:78 /etc/rc.d/init.d/salinfod:85
+#: /etc/rc.d/init.d/sendmail:149 /etc/rc.d/init.d/spamass-milter:80
 #: /etc/rc.d/init.d/ups:116 /etc/rc.d/init.d/vncserver:88
 #: /etc/rc.d/init.d/vsftpd:79
 msgid "Usage: $0 {start|stop|restart|condrestart|status}"
 msgstr "Korištenje: $0 {start|stop|restart|condrestart|status}"
 
-#: /etc/rc.d/init.d/ypxfrd:31
-msgid "Stopping YP map server: "
-msgstr "Zaustavljam YP map poslužitelj: "
+#: /etc/rc.d/init.d/ipmi:440
+#, fuzzy
+msgid "Stopping all ${MODULE_NAME} drivers: "
+msgstr "Zaustavljam servis ${NAME}: "
 
 #: /etc/rc.d/init.d/autofs:387
 #, fuzzy
@@ -2185,7 +2207,7 @@ msgstr "$prog: je već pokrenut"
 msgid "$prog: Synchronizing with time server: "
 msgstr "$prog: Sinkroniziram se s poslužiteljem vremena: "
 
-#: /etc/rc.d/rc.sysinit:374
+#: /etc/rc.d/rc.sysinit:373
 msgid "Converting old user quota files: "
 msgstr "Pretvaram stare korisničke datoteke kvota: "
 
@@ -2202,16 +2224,16 @@ msgstr "Pokretanje acpi daemona:"
 msgid "Usage: $0 {start|stop|restart|reload|condrestart}"
 msgstr "Korištenje: $0 {start|stop|restart|reload|condrestart}"
 
-#: /etc/rc.d/init.d/functions:310 /etc/rc.d/init.d/kudzu:58
+#: /etc/rc.d/init.d/functions:335 /etc/rc.d/init.d/kudzu:58
 msgid "${base} is stopped"
 msgstr "${base} je zaustavljen"
 
 #: /etc/sysconfig/network-scripts/ifup-aliases:110
-#: /etc/sysconfig/network-scripts/network-functions:45
+#: /etc/sysconfig/network-scripts/network-functions:51
 msgid "Missing config file $PARENTCONFIG."
 msgstr "Nedostaje datoteka postavki $PARENTCONFIG."
 
-#: /etc/rc.d/init.d/rpcidmapd:38
+#: /etc/rc.d/init.d/rpcidmapd:39
 #, fuzzy
 msgid "Starting RPC idmapd: "
 msgstr "Pokrećem NFS statd: "
@@ -2238,7 +2260,7 @@ msgstr ""
 msgid "Disabling denyhosts: "
 msgstr "Isključujem PLX uređaje... "
 
-#: /etc/rc.d/init.d/halt:216
+#: /etc/rc.d/init.d/halt:225
 msgid "On the next boot fsck will be skipped."
 msgstr "Kod sljedećeg pokretanja sustava fsck će biti izostavljen."
 
@@ -2268,7 +2290,7 @@ msgstr ""
 msgid "Starting Bluetooth services:"
 msgstr "Pokrećem servis rstat: "
 
-#: /etc/rc.d/rc.sysinit:108
+#: /etc/rc.d/rc.sysinit:100
 msgid "\t\tPress 'I' to enter interactive startup."
 msgstr "\t\tPritisnite 'I' za ulazak u interaktivno podizanje."
 
@@ -2289,7 +2311,7 @@ msgstr ""
 msgid "/usr/sbin/dip does not exist or is not executable"
 msgstr "ne postoji /usr/sbin/dip ili nije izvršna datoteka"
 
-#: /etc/rc.d/rc.sysinit:483
+#: /etc/rc.d/rc.sysinit:482
 msgid "Resetting hostname ${HOSTNAME}: "
 msgstr "Ponovo postavljam ime računala ${HOSTNAME}: "
 
@@ -2310,7 +2332,7 @@ msgstr ""
 msgid "error in one or more of the carp configurations, see above:"
 msgstr ""
 
-#: /etc/rc.d/init.d/halt:186
+#: /etc/rc.d/init.d/halt:191
 msgid "Unmounting file systems: "
 msgstr "Odmontiravam datotečne sustave: "
 
@@ -2318,11 +2340,7 @@ msgstr "Odmontiravam datotečne sustave: "
 msgid "Services are stopped."
 msgstr ""
 
-#: /etc/rc.d/init.d/functions:160 /etc/rc.d/init.d/tclhttpd:69
-msgid "Usage: killproc {program} [signal]"
-msgstr "Uporaba: killproc {program} [signal]"
-
-#: /etc/rc.d/rc.sysinit:223
+#: /etc/rc.d/rc.sysinit:217
 msgid "Setting hostname ${HOSTNAME}: "
 msgstr "Postavljam naziv računala ${HOSTNAME}: "
 
@@ -2379,7 +2397,7 @@ msgstr "Molim, ponovno pokrenite mrežu sa '/sbin/service network restart'"
 msgid "common address redundancy protocol daemon"
 msgstr ""
 
-#: /etc/rc.d/init.d/netfs:77 /etc/rc.d/rc.sysinit:343
+#: /etc/rc.d/init.d/netfs:77 /etc/rc.d/rc.sysinit:342
 msgid "*** when you leave the shell."
 msgstr "*** kada napustite korisničku ljusku."
 
@@ -2415,10 +2433,6 @@ msgstr "Montiram NFS datotečne sustave: "
 msgid "Usage: $0 {start|stop|status|restart|reload|condrestart}"
 msgstr "Korištenje: $0 {start|stop|status|restart|reload|condrestart}"
 
-#: /etc/rc.d/init.d/functions:259
-msgid "Usage: pidofproc {program}"
-msgstr "Korištenje: pidofproc {program}"
-
 #: /etc/rc.d/init.d/rusersd:26
 msgid "Starting rusers services: "
 msgstr "Pokrećem servis rusers: "
@@ -2445,7 +2459,7 @@ msgstr "Pokrećem NFS daemon: "
 msgid "Given address '$addr' is not a global IPv4 one (arg 1)"
 msgstr "Data IPv4 adresa '$ipv4addr' ne može se globalno koristit"
 
-#: /etc/rc.d/init.d/firstboot:54
+#: /etc/rc.d/init.d/firstboot:57
 msgid "Running system reconfiguration tool"
 msgstr "Pokrećem alat za mijenjanje postavki sustava"
 
@@ -2460,11 +2474,6 @@ msgid ""
 msgstr ""
 "IPv6u4 postavke trebaju IPv4 adresu za pridruženo sučelje ili drukčiju "
 "postavku"
-
-#: /etc/rc.d/init.d/apt:30
-#, fuzzy
-msgid "Disabling nightly apt update: "
-msgstr "Omogućujem swap prostor: "
 
 #: /etc/rc.d/init.d/nfs:53
 msgid "Starting NFS services: "
@@ -2491,7 +2500,7 @@ msgstr "Pokretanje acpi daemona:"
 msgid "/proc entries were fixed"
 msgstr ""
 
-#: /etc/rc.d/init.d/rpcidmapd:63
+#: /etc/rc.d/init.d/rpcidmapd:64
 #, fuzzy
 msgid "Shutting down RPC idmapd: "
 msgstr "Gasim NFS mountd: "
@@ -2509,7 +2518,7 @@ msgstr ""
 msgid "Starting hpiod: "
 msgstr "Pokretanje pand-a:"
 
-#: /etc/rc.d/rc.sysinit:325 /etc/rc.d/rc.sysinit:350
+#: /etc/rc.d/rc.sysinit:324 /etc/rc.d/rc.sysinit:349
 msgid "Unmounting file systems"
 msgstr "Odmontiram datotečni sustav"
 
@@ -2545,7 +2554,7 @@ msgid ""
 "See $SYSDOCDIR/postgresql-$PGVERSION/README.rpm-dist for more information."
 msgstr ""
 
-#: /etc/rc.d/rc.sysinit:149
+#: /etc/rc.d/rc.sysinit:141
 msgid "Setting clock $CLOCKDEF: `date`"
 msgstr "Postavljam sat $CLOCKDEF: `date`"
 
@@ -2589,6 +2598,11 @@ msgstr ""
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:1490
 msgid "Given pidfile '$pidfile' doesn't exist, cannot send trigger to radvd"
 msgstr ""
+
+#: /etc/sysconfig/network-scripts/ifup-ippp:375
+#: /etc/sysconfig/network-scripts/ifup-isdn:375
+msgid "Warning: link doesn't support IPv6 using encapsulation 'rawip'"
+msgstr "Upozorenje: vezane podržava IPv4, koristim enkapsulaciju 'rawip'"
 
 #: /etc/rc.d/init.d/halt:39
 msgid "Please stand by while rebooting the system..."
@@ -2637,7 +2651,7 @@ msgstr "isključujem netdump"
 msgid "Checking for hardware changes"
 msgstr "Provjeravam da li je dodano novo sklopovlje"
 
-#: /etc/rc.d/init.d/xfs:109
+#: /etc/rc.d/init.d/xfs:103
 msgid "Restarting $prog:"
 msgstr "Ponovno pokrećem $prog:"
 
@@ -2654,7 +2668,7 @@ msgstr "Zaustavljam YP map poslužitelj: "
 msgid "Generating SSH1 RSA host key: "
 msgstr "Generiram SSH1 RSA računalni ključ: "
 
-#: /etc/rc.d/init.d/iptables:195
+#: /etc/rc.d/init.d/iptables:200
 msgid "Unloading $IPTABLES modules: "
 msgstr "Otpuštanje $IPTABLES modula: "
 
@@ -2671,7 +2685,7 @@ msgstr ""
 msgid "stale lock files may be present in $directory"
 msgstr ""
 
-#: /etc/rc.d/init.d/halt:124
+#: /etc/rc.d/init.d/halt:129
 msgid "Turning off swap: "
 msgstr "Isključujem swap: "
 
@@ -2693,7 +2707,7 @@ msgstr "Zaustavljam YP map poslužitelj: "
 msgid "Starting imapproxyd: "
 msgstr "Pokrećem NFS statd: "
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:152
+#: /etc/sysconfig/network-scripts/ifup-aliases:163
 msgid "error in $FILE: already seen ipaddr $IPADDR in $ipseen"
 msgstr "greška u $FILE: već postoji ip adresa $IPADDR u $ipseen"
 
@@ -2747,17 +2761,15 @@ msgstr "Pokrećem NFS statd: "
 msgid "Given device '$device' is not supported (arg 1)"
 msgstr ""
 
-#: /etc/rc.d/rc.sysinit:417
+#: /etc/rc.d/rc.sysinit:416
 msgid "Mounting local filesystems: "
 msgstr "Montiram lokalne datotečne sustave:"
 
-#: /etc/rc.d/init.d/avahi-daemon:46 /etc/rc.d/init.d/functions:207
-#: /etc/rc.d/init.d/functions:218 /etc/rc.d/init.d/tclhttpd:116
-#: /etc/rc.d/init.d/tclhttpd:127
-msgid "$base shutdown"
-msgstr "$base isključi"
+#: /etc/rc.d/init.d/functions:326
+msgid "${base} dead but pid file exists"
+msgstr "${base} ne radi ali postoji pid datoteka"
 
-#: /etc/rc.d/init.d/mysqld:157
+#: /etc/rc.d/init.d/mysqld:158
 msgid "Usage: $0 {start|stop|status|condrestart|restart}"
 msgstr "Korištenje: $0 {start|stop|status|condrestart|restart}"
 
@@ -2777,7 +2789,7 @@ msgstr "ifup-ppp za ${DEVICE} izlaz"
 msgid "Usage: $prog {start|stop|restart|condrestart|reload|status}"
 msgstr "Uporaba: $prog {start|stop|restart|condrestart|reload|status}"
 
-#: /etc/rc.d/rc.sysinit:213
+#: /etc/rc.d/rc.sysinit:207
 msgid "Loading default keymap: "
 msgstr "Učitavam podrazumijevanu mapu tipkovnice: "
 
@@ -2829,7 +2841,7 @@ msgstr ""
 msgid "WARNING: vconfig not able to disable REORDER_HDR on ${DEVICE}"
 msgstr ""
 
-#: /etc/rc.d/rc.sysinit:551
+#: /etc/rc.d/rc.sysinit:554
 msgid "Enabling swap space: "
 msgstr "Omogućujem swap prostor: "
 
@@ -2876,7 +2888,7 @@ msgstr "Pokretanje pand-a:"
 msgid "ipchains and $IPTABLES can not be used together."
 msgstr "ipchains i $IPTABLES ne mogu raditi zajedno."
 
-#: /etc/rc.d/init.d/network:266
+#: /etc/rc.d/init.d/network:267
 msgid "Disabling IPv4 packet forwarding: "
 msgstr "Isključujem IPv4 paket prosljeđivanje: "
 
@@ -2904,7 +2916,7 @@ msgstr "Pokrećem APM servis: "
 msgid "Unloading ISDN modules"
 msgstr "Brišem ISDN module iz memorije"
 
-#: /etc/rc.d/init.d/functions:214 /etc/rc.d/init.d/tclhttpd:123
+#: /etc/rc.d/init.d/functions:237
 msgid "$base $killlevel"
 msgstr "$base $killlevel"
 
@@ -2933,11 +2945,11 @@ msgstr "pokrećem netdump"
 msgid "Stopping $prog:  "
 msgstr "Zaustavljam $prog: "
 
-#: /etc/rc.d/init.d/ip6tables:195
+#: /etc/rc.d/init.d/ip6tables:200
 msgid "Unloading $IP6TABLES modules: "
 msgstr "Otpuštanje $IP6TABLES modula: "
 
-#: /etc/rc.d/init.d/firstboot:49
+#: /etc/rc.d/init.d/firstboot:52
 msgid "X is now configured.  Starting Setup Agent"
 msgstr "X je sada postavljen. Pokrećem agent postavki"
 
@@ -2945,7 +2957,7 @@ msgstr "X je sada postavljen. Pokrećem agent postavki"
 msgid "Device '$device' enabling didn't work"
 msgstr ""
 
-#: /etc/rc.d/init.d/functions:448
+#: /etc/rc.d/init.d/functions:473
 msgid "nN"
 msgstr ""
 
@@ -2957,7 +2969,7 @@ msgstr ""
 msgid "You need to upgrade the data format before using PostgreSQL."
 msgstr ""
 
-#: /etc/rc.d/rc.sysinit:392
+#: /etc/rc.d/rc.sysinit:391
 msgid "Remounting root filesystem in read-write mode: "
 msgstr "Ponovno montiram root datotečni sustav u čitaj-piši modu: "
 
@@ -2983,7 +2995,7 @@ msgstr "Sinhroniziram hardwerski sat sa sustavskim vremenom"
 msgid "Configuration file or keys are invalid"
 msgstr "Neispravne datoteke postavki ili ključevi"
 
-#: /etc/rc.d/init.d/functions:444
+#: /etc/rc.d/init.d/functions:469
 msgid "cC"
 msgstr ""
 
@@ -2992,7 +3004,7 @@ msgid "DEBUG    "
 msgstr "ISPRAVLJAM "
 
 #: /etc/rc.d/init.d/gfs:94 /etc/rc.d/init.d/i8kbuttons:56
-#: /etc/rc.d/init.d/netfs:217 /etc/rc.d/init.d/network:298
+#: /etc/rc.d/init.d/netfs:217 /etc/rc.d/init.d/network:299
 #: /etc/rc.d/init.d/yum-updateonboot:81
 msgid "Usage: $0 {start|stop|restart|reload|status}"
 msgstr "Korištenje: $0 {start|stop|restart|reload|status}"
@@ -3005,6 +3017,11 @@ msgstr "Data IPv4 adresa '$ipv4addr' ne može se globalno koristit"
 #: /etc/rc.d/init.d/portmap:29
 msgid "Networking not configured - exiting"
 msgstr "Nisu postavljene mrežne postavke - izlazim"
+
+#: /etc/rc.d/init.d/avahi-daemon:83
+#, fuzzy
+msgid "Avahi daemon is running"
+msgstr "već je pokrenut servis iSCSI "
 
 #: /etc/rc.d/init.d/acpid:26
 msgid "Starting acpi daemon: "
@@ -3019,16 +3036,16 @@ msgstr "Montiram SMB datotečne sustave: "
 msgid "Missing parameter 'IPv6-network' (arg 1)"
 msgstr ""
 
-#: /etc/rc.d/init.d/ip6tables:253 /etc/rc.d/init.d/iptables:253
+#: /etc/rc.d/init.d/ip6tables:258 /etc/rc.d/init.d/iptables:258
 #, fuzzy
 msgid "Firewall is stopped."
 msgstr "${base} je zaustavljen"
 
-#: /etc/rc.d/rc.sysinit:70 /etc/rc.d/rc.sysinit:328 /etc/rc.d/rc.sysinit:353
+#: /etc/rc.d/rc.sysinit:67 /etc/rc.d/rc.sysinit:327 /etc/rc.d/rc.sysinit:352
 msgid "Automatic reboot in progress."
 msgstr "U tijeku je automatsko ponovno pokretanje sustava."
 
-#: /etc/rc.d/init.d/functions:415
+#: /etc/rc.d/init.d/functions:440
 msgid "$STRING"
 msgstr "$STRING"
 
@@ -3036,11 +3053,6 @@ msgstr "$STRING"
 #, fuzzy
 msgid "Starting $named: "
 msgstr "Pokretanje pand-a:"
-
-#: /etc/rc.d/init.d/apt:23
-#, fuzzy
-msgid "Enabling nightly apt update: "
-msgstr "Omogućujem swap prostor: "
 
 #: /etc/rc.d/init.d/sendmail:94
 #, fuzzy
@@ -3064,7 +3076,7 @@ msgstr "nedostupan datotečni sustav /proc"
 msgid "Starting NFS mountd: "
 msgstr "Pokrećem NFS mountd: "
 
-#: /etc/rc.d/init.d/functions:293
+#: /etc/rc.d/init.d/functions:317
 msgid "${base} (pid $pid) is running..."
 msgstr "${base} (pid $pid) se izvršava..."
 
@@ -3086,12 +3098,12 @@ msgstr "Spajam se na NIS domenu: "
 msgid "Moodle cron job is enabled."
 msgstr "Uključen je računanje procesa."
 
-#: /etc/rc.d/init.d/avahi-daemon:55
+#: /etc/rc.d/init.d/avahi-daemon:61
 #, fuzzy
 msgid "$base reload"
 msgstr "$prog ponovno učitan"
 
-#: /etc/rc.d/init.d/amd:39 /etc/rc.d/init.d/anacron:24
+#: /etc/rc.d/init.d/amd:39 /etc/rc.d/init.d/anacron:26
 #: /etc/rc.d/init.d/arpwatch:35 /etc/rc.d/init.d/atd:39
 #: /etc/rc.d/init.d/auditd:70 /etc/rc.d/init.d/boa:46
 #: /etc/rc.d/init.d/bootparamd:38 /etc/rc.d/init.d/cfexecd:31
@@ -3109,21 +3121,51 @@ msgstr "$prog ponovno učitan"
 #: /etc/rc.d/init.d/ldap:189 /etc/rc.d/init.d/lighttpd:42
 #: /etc/rc.d/init.d/lisa:48 /etc/rc.d/init.d/lm_sensors:80
 #: /etc/rc.d/init.d/mdmpd:57 /etc/rc.d/init.d/milter-greylist:39
-#: /etc/rc.d/init.d/mysqld:114 /etc/rc.d/init.d/mysqld:118
-#: /etc/rc.d/init.d/mysqld:121 /etc/rc.d/init.d/mysqld:125
+#: /etc/rc.d/init.d/mysqld:115 /etc/rc.d/init.d/mysqld:119
+#: /etc/rc.d/init.d/mysqld:122 /etc/rc.d/init.d/mysqld:126
 #: /etc/rc.d/init.d/nscd:57 /etc/rc.d/init.d/opensm:46
+#: /etc/rc.d/init.d/plague-builder:34 /etc/rc.d/init.d/plague-server:34
 #: /etc/rc.d/init.d/portmap:57 /etc/rc.d/init.d/pure-ftpd:40
 #: /etc/rc.d/init.d/radvd:45 /etc/rc.d/init.d/rarpd:32
 #: /etc/rc.d/init.d/rbldnsd:72 /etc/rc.d/init.d/rinetd:34
 #: /etc/rc.d/init.d/roundup:37 /etc/rc.d/init.d/rwalld:33
-#: /etc/rc.d/init.d/saslauthd:45 /etc/rc.d/init.d/snmpd:34
-#: /etc/rc.d/init.d/snmptrapd:32 /etc/rc.d/init.d/spamassassin:52
-#: /etc/rc.d/init.d/squid:83 /etc/rc.d/init.d/sshd:115
-#: /etc/rc.d/init.d/syslog-ng:43 /etc/rc.d/init.d/tclhttpd:151
-#: /etc/rc.d/init.d/thttpd:42 /etc/rc.d/init.d/tinyerp-server:58
-#: /etc/rc.d/init.d/ups:67 /etc/rc.d/init.d/xinetd:68
+#: /etc/rc.d/init.d/salinfod:42 /etc/rc.d/init.d/saslauthd:45
+#: /etc/rc.d/init.d/snmpd:34 /etc/rc.d/init.d/snmptrapd:32
+#: /etc/rc.d/init.d/spamassassin:52 /etc/rc.d/init.d/squid:83
+#: /etc/rc.d/init.d/sshd:115 /etc/rc.d/init.d/syslog-ng:43
+#: /etc/rc.d/init.d/thttpd:42 /etc/rc.d/init.d/tinyerp-server:44
+#: /etc/rc.d/init.d/ups:67 /etc/rc.d/init.d/ushare:36
+#: /etc/rc.d/init.d/wpa_supplicant:43 /etc/rc.d/init.d/xinetd:68
 msgid "Stopping $prog: "
 msgstr "Zaustavljam $prog: "
+
+#, fuzzy
+#~ msgid "$base dead but pid file exists"
+#~ msgstr "${base} ne radi ali postoji pid datoteka"
+
+#, fuzzy
+#~ msgid "Starting pmud daemon: "
+#~ msgstr "Pokretanje acpi daemona:"
+
+#, fuzzy
+#~ msgid "$base is stopped"
+#~ msgstr "${base} je zaustavljen"
+
+#, fuzzy
+#~ msgid "$base (pid $pid) is running..."
+#~ msgstr "${base} (pid $pid) se izvršava..."
+
+#, fuzzy
+#~ msgid "$base dead but subsys locked"
+#~ msgstr "${base} zaustavljen ali je zaključan subsys"
+
+#, fuzzy
+#~ msgid "Disabling nightly apt update: "
+#~ msgstr "Omogućujem swap prostor: "
+
+#, fuzzy
+#~ msgid "Enabling nightly apt update: "
+#~ msgstr "Omogućujem swap prostor: "
 
 #, fuzzy
 #~ msgid "Shutting down display manager: "
@@ -3339,9 +3381,6 @@ msgstr "Zaustavljam $prog: "
 
 #~ msgid "Mounting USB filesystem: "
 #~ msgstr "Montiram USB datotečni sustav: "
-
-#~ msgid "iSCSI daemon already running"
-#~ msgstr "već je pokrenut servis iSCSI "
 
 #~ msgid "Could not find /etc/iscsi.conf!"
 #~ msgstr "Ne mogu naći /etc/iscsi.conf!"

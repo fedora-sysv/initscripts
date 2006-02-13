@@ -42,10 +42,9 @@ msgstr ""
 "Varoitus: asetettu MTU-arvo \"$IPV6TO4_MTU\" 6to4:lle ylittää enimmäisarvon "
 "\"$tunnelmtu\", ohitetaan."
 
-#: /etc/rc.d/init.d/tclhttpd:51
-#, fuzzy
-msgid "$base dead but pid file exists"
-msgstr "${base} on kuollut, mutta pid-tiedosto on olemassa"
+#: /etc/rc.d/init.d/ypxfrd:31
+msgid "Stopping YP map server: "
+msgstr "Suljetaan YP-liitospalvelu: "
 
 #: /etc/sysconfig/network-scripts/ifup:84
 msgid "Could not set 802.1Q VLAN parameters."
@@ -58,8 +57,8 @@ msgid ""
 msgstr "$alias-laitetta ${DEVICE} ei löydy, viivästetään alustusta."
 
 #: /etc/rc.d/init.d/amd:92 /etc/rc.d/init.d/autofs:618
-#: /etc/rc.d/init.d/bgpd:59 /etc/rc.d/init.d/btseed:67
-#: /etc/rc.d/init.d/bttrack:67 /etc/rc.d/init.d/gkrellmd:54
+#: /etc/rc.d/init.d/bgpd:59 /etc/rc.d/init.d/btseed:68
+#: /etc/rc.d/init.d/bttrack:71 /etc/rc.d/init.d/gkrellmd:54
 #: /etc/rc.d/init.d/irda:72 /etc/rc.d/init.d/ospfd:60 /etc/rc.d/init.d/ripd:59
 #: /etc/rc.d/init.d/ripngd:59 /etc/rc.d/init.d/sshd:168
 #: /etc/rc.d/init.d/zebra:60
@@ -128,7 +127,7 @@ msgstr "Puuttuva parametri \"IPv6-gateway\" (argumentti 2)"
 msgid "Unmounting CIFS filesystems: "
 msgstr "Irrotetaan CIFS-tiedostojärjestelmät: "
 
-#: /etc/rc.d/init.d/functions:235
+#: /etc/rc.d/init.d/functions:264
 msgid "Usage: pidfileofproc {program}"
 msgstr "Käyttö: ohjelman_pid_tiedosto {ohjelma}"
 
@@ -141,12 +140,12 @@ msgstr "vncserver-käynnistys"
 msgid "$prog is not started..."
 msgstr "$prog $site"
 
-#: /etc/rc.d/init.d/rpcsvcgssd:44
+#: /etc/rc.d/init.d/rpcsvcgssd:45
 #, fuzzy
 msgid "Starting RPC svcgssd: "
 msgstr "Käynnistetään NFS4 svcgssd: "
 
-#: /etc/rc.d/init.d/amd:30 /etc/rc.d/init.d/anacron:15
+#: /etc/rc.d/init.d/amd:30 /etc/rc.d/init.d/anacron:16
 #: /etc/rc.d/init.d/arpwatch:28 /etc/rc.d/init.d/atd:29
 #: /etc/rc.d/init.d/auditd:42 /etc/rc.d/init.d/autofs:531
 #: /etc/rc.d/init.d/bgpd:29 /etc/rc.d/init.d/boa:36
@@ -174,23 +173,25 @@ msgstr "Käynnistetään NFS4 svcgssd: "
 #: /etc/rc.d/init.d/lisa:35 /etc/rc.d/init.d/lm_sensors:57
 #: /etc/rc.d/init.d/mailman:77 /etc/rc.d/init.d/mdmonitor:37
 #: /etc/rc.d/init.d/mdmpd:38 /etc/rc.d/init.d/milter-greylist:25
-#: /etc/rc.d/init.d/mysqld:88 /etc/rc.d/init.d/mysqld:90
-#: /etc/rc.d/init.d/mysqld:93 /etc/rc.d/init.d/nscd:48
+#: /etc/rc.d/init.d/mysqld:89 /etc/rc.d/init.d/mysqld:91
+#: /etc/rc.d/init.d/mysqld:94 /etc/rc.d/init.d/nscd:48
 #: /etc/rc.d/init.d/ntpd:97 /etc/rc.d/init.d/opensm:29
 #: /etc/rc.d/init.d/ospf6d:29 /etc/rc.d/init.d/ospfd:30
+#: /etc/rc.d/init.d/plague-builder:24 /etc/rc.d/init.d/plague-server:24
 #: /etc/rc.d/init.d/portmap:47 /etc/rc.d/init.d/proftpd:34
 #: /etc/rc.d/init.d/pure-ftpd:32 /etc/rc.d/init.d/radvd:38
 #: /etc/rc.d/init.d/rarpd:22 /etc/rc.d/init.d/rbldnsd:60
 #: /etc/rc.d/init.d/rinetd:25 /etc/rc.d/init.d/ripd:29
 #: /etc/rc.d/init.d/ripngd:29 /etc/rc.d/init.d/roundup:27
-#: /etc/rc.d/init.d/rwalld:24 /etc/rc.d/init.d/saslauthd:36
-#: /etc/rc.d/init.d/sendmail:40 /etc/rc.d/init.d/smartd:44
-#: /etc/rc.d/init.d/snmpd:20 /etc/rc.d/init.d/snmptrapd:23
-#: /etc/rc.d/init.d/spamassassin:41 /etc/rc.d/init.d/squid:60
-#: /etc/rc.d/init.d/sshd:106 /etc/rc.d/init.d/syslog-ng:34
-#: /etc/rc.d/init.d/tclhttpd:143 /etc/rc.d/init.d/thttpd:32
-#: /etc/rc.d/init.d/tinyerp-server:39 /etc/rc.d/init.d/ups:43
-#: /etc/rc.d/init.d/vncserver:23 /etc/rc.d/init.d/xfs:63
+#: /etc/rc.d/init.d/rwalld:24 /etc/rc.d/init.d/salinfod:32
+#: /etc/rc.d/init.d/saslauthd:36 /etc/rc.d/init.d/sendmail:40
+#: /etc/rc.d/init.d/smartd:44 /etc/rc.d/init.d/snmpd:20
+#: /etc/rc.d/init.d/snmptrapd:23 /etc/rc.d/init.d/spamassassin:41
+#: /etc/rc.d/init.d/squid:60 /etc/rc.d/init.d/sshd:106
+#: /etc/rc.d/init.d/syslog-ng:34 /etc/rc.d/init.d/thttpd:32
+#: /etc/rc.d/init.d/tinyerp-server:34 /etc/rc.d/init.d/ups:43
+#: /etc/rc.d/init.d/ushare:28 /etc/rc.d/init.d/vncserver:23
+#: /etc/rc.d/init.d/wpa_supplicant:34 /etc/rc.d/init.d/xfs:57
 #: /etc/rc.d/init.d/xinetd:44 /etc/rc.d/init.d/zebra:27
 msgid "Starting $prog: "
 msgstr "Käynnistetään $prog: "
@@ -234,8 +235,8 @@ msgstr "Prosessien kirjanpito pois käytöstä"
 msgid "Disabling nightly yum update: "
 msgstr "Poistetaan jokaöinen yum-päivitys käytöstä: "
 
-#: /etc/rc.d/init.d/arptables_jf:171 /etc/rc.d/init.d/ip6tables:320
-#: /etc/rc.d/init.d/iptables:320
+#: /etc/rc.d/init.d/arptables_jf:171 /etc/rc.d/init.d/ip6tables:325
+#: /etc/rc.d/init.d/iptables:325
 msgid "Usage: $0 {start|stop|restart|condrestart|status|panic|save}"
 msgstr "Käyttö: $0 {start|stop|restart|condrestart|status|panic|save}"
 
@@ -243,7 +244,7 @@ msgstr "Käyttö: $0 {start|stop|restart|condrestart|status|panic|save}"
 msgid "Stopping UPS monitor: "
 msgstr "Suljetaan UPS-monitori: "
 
-#: /etc/rc.d/init.d/firstboot:47
+#: /etc/rc.d/init.d/firstboot:50
 msgid "X is not configured.  Running system-config-display"
 msgstr "X ei ole konfiguroitu. Käynnistetään system-config-display"
 
@@ -288,7 +289,7 @@ msgstr "Laitteen ohjelmiston lataus epäonnistui."
 msgid "Starting $prog daemon: "
 msgstr "Käynnistetään acpi-palvelin: "
 
-#: /etc/rc.d/rc.sysinit:90
+#: /etc/rc.d/rc.sysinit:81
 msgid "\t\tWelcome to "
 msgstr "\t\tTervetuloa "
 
@@ -296,29 +297,19 @@ msgstr "\t\tTervetuloa "
 msgid "Stopping rstat services: "
 msgstr "Suljetaan rstat-palvelut: "
 
-#: /etc/rc.d/init.d/pmud:25
-#, fuzzy
-msgid "Starting pmud daemon: "
-msgstr "Käynnistetään acpi-palvelin: "
-
 #: /etc/rc.d/init.d/syslog:50
 msgid "Shutting down system logger: "
 msgstr "Suljetaan järjestelmän lokipalvelu: "
 
-#: /etc/rc.d/init.d/tclhttpd:60
-#, fuzzy
-msgid "$base is stopped"
-msgstr "${base} on pysäytetty"
-
-#: /etc/rc.d/init.d/avahi-daemon:90 /etc/rc.d/init.d/avahi-dnsconfd:83
+#: /etc/rc.d/init.d/avahi-daemon:97 /etc/rc.d/init.d/avahi-dnsconfd:93
 #: /etc/rc.d/init.d/cups-config-daemon:67 /etc/rc.d/init.d/FreeWnn:77
-#: /etc/rc.d/init.d/haldaemon:71 /etc/rc.d/init.d/hplip:166
+#: /etc/rc.d/init.d/haldaemon:71 /etc/rc.d/init.d/hplip:165
 #: /etc/rc.d/init.d/imapproxy:72 /etc/rc.d/init.d/innd:112
 #: /etc/rc.d/init.d/kprop:67 /etc/rc.d/init.d/krb524:70
 #: /etc/rc.d/init.d/lm_sensors:133 /etc/rc.d/init.d/milter-greylist:81
 #: /etc/rc.d/init.d/NetworkManager:82
 #: /etc/rc.d/init.d/NetworkManagerDispatcher:77 /etc/rc.d/init.d/syslog:114
-#: /etc/rc.d/init.d/tinyerp-server:113 /etc/rc.d/init.d/ypbind:109
+#: /etc/rc.d/init.d/tinyerp-server:109 /etc/rc.d/init.d/ypbind:109
 #: /etc/rc.d/init.d/zope:73
 msgid "Usage: $0 {start|stop|status|restart|condrestart}"
 msgstr "Käyttö: $0 {start|stop|status|restart|condrestart}"
@@ -348,12 +339,12 @@ msgstr "$NAME on liitetty laitteeseen $DEVICE"
 #: /etc/rc.d/init.d/proftpd:42 /etc/rc.d/init.d/ripd:36
 #: /etc/rc.d/init.d/ripngd:36 /etc/rc.d/init.d/sendmail:104
 #: /etc/rc.d/init.d/smartd:51 /etc/rc.d/init.d/vncserver:49
-#: /etc/rc.d/init.d/vsftpd:46 /etc/rc.d/init.d/xfs:82
+#: /etc/rc.d/init.d/vsftpd:46 /etc/rc.d/init.d/xfs:76
 #: /etc/rc.d/init.d/zebra:37
 msgid "Shutting down $prog: "
 msgstr "Suljetaan $prog: "
 
-#: /etc/rc.d/init.d/halt:184
+#: /etc/rc.d/init.d/halt:189
 msgid "Unmounting file systems (retry): "
 msgstr "Irrotetaan tiedostojärjestelmät (uudelleenyritys): "
 
@@ -374,6 +365,11 @@ msgstr "INFO     "
 msgid "Unmounting network block filesystems (retry): "
 msgstr "Irrotetaan verkon tiedostojärjestelmät (uudelleenyritys):"
 
+#: /etc/rc.d/init.d/amavisd:35
+#, fuzzy
+msgid "Starting ${prog_base}:"
+msgstr "Käynnistetään $prog: "
+
 #: /etc/rc.d/init.d/halt:59
 msgid "Sending all processes the TERM signal..."
 msgstr "Lähetetään kaikille prosesseille TERM-signaali..."
@@ -391,7 +387,7 @@ msgstr ""
 msgid "cannot stop crond: crond is not running."
 msgstr ""
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:160
+#: /etc/sysconfig/network-scripts/ifup-aliases:173
 msgid "error in $FILE: didn't specify device or ipaddr"
 msgstr "virhe tiedostossa $FILE: laite tai IP-osoite puuttuu"
 
@@ -411,11 +407,6 @@ msgstr "Suljetaan NFS-palvelin: "
 #: /etc/rc.d/init.d/netfs:159
 msgid "Unmounting NCP filesystems: "
 msgstr "Irrotetaan NCP-tiedostojärjestelmät: "
-
-#: /etc/rc.d/init.d/tclhttpd:46
-#, fuzzy
-msgid "$base (pid $pid) is running..."
-msgstr "${base} (pid $pid) on käynnissä..."
 
 #: /etc/rc.d/init.d/postfix:48
 #, fuzzy
@@ -446,7 +437,7 @@ msgstr "Käyttö: $0 {start|stop|restart|reload|status|condrestart}"
 msgid "Given IPv4 address '$testipv4addr_valid' has no proper format"
 msgstr "Annettu IPv4-osoite \"$testipv4addr_valid\" on virheellinen"
 
-#: /etc/rc.d/init.d/halt:144 /etc/rc.d/init.d/netfs:106
+#: /etc/rc.d/init.d/halt:149 /etc/rc.d/init.d/netfs:106
 msgid "Detaching loopback device $dev: "
 msgstr "Irrotetaan loopback-laite $dev: "
 
@@ -454,11 +445,11 @@ msgstr "Irrotetaan loopback-laite $dev: "
 msgid "Unmounting network block filesystems: "
 msgstr "Irrotetaan verkon tiedostojärjestelmät: "
 
-#: /etc/rc.d/init.d/ip6tables:217
+#: /etc/rc.d/init.d/ip6tables:222
 msgid "Saving firewall rules to $IP6TABLES_DATA: "
 msgstr "Tallennetaan palomuurisäännöt tiedostoon $IP6TABLES_DATA: "
 
-#: /etc/rc.d/init.d/dkms_autoinstaller:126 /etc/rc.d/init.d/kudzu:65
+#: /etc/rc.d/init.d/kudzu:65
 msgid "Usage: $0 {start|stop}"
 msgstr "Käyttö: $0 {start|stop}"
 
@@ -474,7 +465,8 @@ msgstr "Käynnistetään $prog: "
 #: /etc/rc.d/init.d/nscd:102 /etc/rc.d/init.d/pure-ftpd:60
 #: /etc/rc.d/init.d/radvd:61 /etc/rc.d/init.d/rbldnsd:87
 #: /etc/rc.d/init.d/rinetd:49 /etc/rc.d/init.d/snmpd:48
-#: /etc/rc.d/init.d/sshd:128 /etc/rc.d/init.d/xfs:96
+#: /etc/rc.d/init.d/sshd:128 /etc/rc.d/init.d/ushare:44
+#: /etc/rc.d/init.d/xfs:90
 msgid "Reloading $prog: "
 msgstr "Ladataan $prog uudelleen: "
 
@@ -504,7 +496,12 @@ msgstr ""
 msgid "Usage: apmd {start|stop|status|restart|reload|condrestart}"
 msgstr "Käyttö: apmd {start|stop|status|restart|reload|condrestart}"
 
-#: /etc/rc.d/rc.sysinit:211
+#: /etc/rc.d/init.d/amavisd:41
+#, fuzzy
+msgid "Shutting down ${prog_base}:"
+msgstr "Suljetaan $prog: "
+
+#: /etc/rc.d/rc.sysinit:205
 msgid "Loading default keymap ($KEYTABLE): "
 msgstr "Ladataan oletusnäppäimistökartta ($KEYTABLE): "
 
@@ -554,12 +551,12 @@ msgstr "Suljetaan APM-palvelin: "
 #: /etc/rc.d/init.d/lirc:92 /etc/rc.d/init.d/moomps:70
 #: /etc/rc.d/init.d/openct:74 /etc/rc.d/init.d/pcscd:62
 #: /etc/rc.d/init.d/rinetd:81 /etc/rc.d/init.d/syslog-ng:86
-#: /etc/rc.d/init.d/wesnothd:93
+#: /etc/rc.d/init.d/wesnothd:93 /etc/rc.d/init.d/wpa_supplicant:83
 #, fuzzy
 msgid "Usage: $0 {start|stop|status|restart|try-restart|reload|force-reload}"
 msgstr "Käyttö: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
 
-#: /etc/rc.d/init.d/avahi-daemon:29
+#: /etc/rc.d/init.d/avahi-daemon:31
 #, fuzzy
 msgid "Starting Avahi daemon... "
 msgstr "Käynnistetään acpi-palvelin: "
@@ -580,7 +577,7 @@ msgstr "Konfiguroidut NFS-liitoskohdat: "
 msgid "Shutting down hidd: "
 msgstr "Suljetaan hidd: "
 
-#: /etc/rc.d/init.d/halt:166
+#: /etc/rc.d/init.d/halt:171
 msgid "Unmounting pipe file systems: "
 msgstr "Irrotetaan putkitiedostojärjestelmät: "
 
@@ -593,7 +590,7 @@ msgstr "Siirrytään vuorovaikutteiseen käynnistykseen"
 msgid "Usage: $0 {start|stop|status|restart|condrestart|reload|rotate}"
 msgstr "Käyttö: $0 {start|stop|status|restart|condrestart|reload|probe}"
 
-#: /etc/rc.d/init.d/xfs:149
+#: /etc/rc.d/init.d/xfs:143
 msgid "Usage: $prog {start|stop|status|restart|reload|condrestart}"
 msgstr "Käyttö: $prog {start|stop|status|restart|reload|condrestart}"
 
@@ -614,7 +611,7 @@ msgstr "$0: $DEVICE ei ole merkkilaite?"
 msgid "Starting $ID: "
 msgstr "Käynnistetään $MODEL: "
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:306
+#: /etc/sysconfig/network-scripts/ifup-aliases:319
 msgid "error in $FILE: IPADDR_START and IPADDR_END don't agree"
 msgstr "virhe tiedostossa $FILE: IPADDR_START ja IPADDR_END eivät sovi yhteen"
 
@@ -650,12 +647,12 @@ msgid ""
 "disabled in kernel"
 msgstr "Yleinen IPv6 välitys on estetty asetuksissa, mutta ei ytimessä"
 
-#: /etc/rc.d/init.d/iptables:217
+#: /etc/rc.d/init.d/iptables:222
 msgid "Saving firewall rules to $IPTABLES_DATA: "
 msgstr "Tallennetaan palomuurisäännöt tiedostoon $IPTABLES_DATA: "
 
-#: /etc/rc.d/init.d/rpcgssd:99 /etc/rc.d/init.d/rpcidmapd:85
-#: /etc/rc.d/init.d/rpcsvcgssd:98
+#: /etc/rc.d/init.d/rpcgssd:100 /etc/rc.d/init.d/rpcidmapd:86
+#: /etc/rc.d/init.d/rpcsvcgssd:99
 msgid "Usage: $0 {start|stop|restart|condstart|condrestart|status}"
 msgstr "Käyttö: $0 {start|stop|restart|condstart|condrestart|status}"
 
@@ -676,7 +673,7 @@ msgstr "Ladataan cron-palvelimen asetukset uudelleen: "
 msgid "mdmpd"
 msgstr "mdmpd"
 
-#: /etc/rc.d/init.d/network:261
+#: /etc/rc.d/init.d/network:262
 msgid "Shutting down loopback interface: "
 msgstr "Suljetaan loopback-liitäntä: "
 
@@ -692,7 +689,7 @@ msgstr "Suljetaan ytimen lokipalvelu: "
 msgid "Stopping YP passwd service: "
 msgstr "Suljetaan YP-salasanapalvelu: "
 
-#: /etc/rc.d/rc.sysinit:385
+#: /etc/rc.d/rc.sysinit:384
 msgid "Checking local filesystem quotas: "
 msgstr "Tarkistetaan paikalliset tied.järj. tilankäyttörajoitukset: "
 
@@ -700,7 +697,7 @@ msgstr "Tarkistetaan paikalliset tied.järj. tilankäyttörajoitukset: "
 msgid "Telling INIT to go to single user mode."
 msgstr "Pyydetään INIT-ohjelmaa siirtymään yhden käyttäjän tilaan."
 
-#: /etc/rc.d/init.d/halt:214
+#: /etc/rc.d/init.d/halt:223
 msgid "$message"
 msgstr "$message"
 
@@ -708,7 +705,7 @@ msgstr "$message"
 msgid " done."
 msgstr " valmis."
 
-#: /etc/rc.d/init.d/halt:138 /etc/rc.d/init.d/netfs:100
+#: /etc/rc.d/init.d/halt:143 /etc/rc.d/init.d/netfs:100
 msgid "Unmounting loopback filesystems (retry):"
 msgstr "Irrotetaan loop-tiedostojärjestelmät (uudelleenyritys):"
 
@@ -716,11 +713,6 @@ msgstr "Irrotetaan loop-tiedostojärjestelmät (uudelleenyritys):"
 #, fuzzy
 msgid "Stopping hpiod: "
 msgstr "Suljetaan $prog: "
-
-#: /etc/rc.d/init.d/tclhttpd:57
-#, fuzzy
-msgid "$base dead but subsys locked"
-msgstr "${base} kuollut, mutta alijärjestelmä lukittu"
 
 #: /etc/rc.d/init.d/dhcdbd:101
 #, fuzzy
@@ -757,7 +749,7 @@ msgstr "RSA-avaimen generointi"
 msgid "Usage: pure-ftpd {start|stop|restart|reload|condrestart|status}"
 msgstr "Käyttö: $prog {start|stop|restart|reload|condrestart|status}"
 
-#: /etc/rc.d/init.d/halt:126
+#: /etc/rc.d/init.d/halt:131
 msgid "Turning off quotas: "
 msgstr "Otetaan levytilarajoitukset pois käytöstä: "
 
@@ -767,7 +759,7 @@ msgstr ""
 "Pid-tiedosto \"$pidfile\" on tyhjä, ei voida lähettää merkkisignaalia radvd:"
 "lle"
 
-#: /etc/rc.d/init.d/rpcsvcgssd:76
+#: /etc/rc.d/init.d/rpcsvcgssd:77
 #, fuzzy
 msgid "Shutting down RPC svcgssd: "
 msgstr "Suljetaan NFS4 svcgssd: "
@@ -823,7 +815,7 @@ msgstr "Käyttö: nfs {start|stop|status|restart|reload|condrestart}"
 msgid "usage: ifup-aliases <net-device> [<parent-config>]\n"
 msgstr "käyttö: ifup-aliases <verkkolaite> [<parent-config>]\n"
 
-#: /etc/rc.d/init.d/bttrack:32
+#: /etc/rc.d/init.d/bttrack:33
 #, fuzzy
 msgid "Starting BitTorrent tracker: "
 msgstr "Käynnistetään UPS-monitori (master): "
@@ -832,7 +824,7 @@ msgstr "Käynnistetään UPS-monitori (master): "
 msgid "ERROR: [ipv6_log] Cannot log to channel '$channel'"
 msgstr "VIRHE: [ipv6_log] lokia ei voida kirjoittaa: '$channel'"
 
-#: /etc/rc.d/init.d/network:66
+#: /etc/rc.d/init.d/network:67
 msgid "Bringing up loopback interface: "
 msgstr "Otetaan loopback-liitäntä käyttöön: "
 
@@ -840,9 +832,10 @@ msgstr "Otetaan loopback-liitäntä käyttöön: "
 msgid "Reopening $prog log file: "
 msgstr "Avataan $prog:n lokitiedosto uudelleen: "
 
-#: /etc/rc.d/init.d/functions:301
-msgid "${base} dead but pid file exists"
-msgstr "${base} on kuollut, mutta pid-tiedosto on olemassa"
+#: /etc/rc.d/init.d/avahi-daemon:51 /etc/rc.d/init.d/avahi-dnsconfd:46
+#: /etc/rc.d/init.d/functions:230 /etc/rc.d/init.d/functions:246
+msgid "$base shutdown"
+msgstr "$base suljetaan"
 
 #: /etc/rc.d/init.d/smb:77 /etc/rc.d/init.d/winbind:65
 msgid "Reloading smb.conf file: "
@@ -865,8 +858,9 @@ msgstr "Selvitetään IP-tiedot laitteelle ${DEVICE}..."
 msgid "Stopping ${NAME} service: "
 msgstr "Suljetaan ${NAME}-palvelu: "
 
-#: /etc/rc.d/init.d/avahi-daemon:37 /etc/rc.d/init.d/avahi-dnsconfd:30
-#: /etc/rc.d/init.d/avahi-dnsconfd:47 /etc/rc.d/init.d/functions:152
+#: /etc/rc.d/init.d/avahi-daemon:39 /etc/rc.d/init.d/avahi-daemon:41
+#: /etc/rc.d/init.d/avahi-dnsconfd:34 /etc/rc.d/init.d/avahi-dnsconfd:36
+#: /etc/rc.d/init.d/avahi-dnsconfd:56 /etc/rc.d/init.d/functions:183
 msgid "$base startup"
 msgstr "$base käynnistys"
 
@@ -903,11 +897,11 @@ msgstr "VIRHE    "
 msgid "Please run makehistory and/or makedbz before starting innd."
 msgstr "Suorita makehistory ja/tai makedbz ennen kuin käynnistät innd:n"
 
-#: /etc/rc.d/init.d/ip6tables:172
+#: /etc/rc.d/init.d/ip6tables:177
 msgid "Loading additional $IP6TABLES modules: "
 msgstr "Ladataan $IP6TABLES-lisämoduulit: "
 
-#: /etc/rc.d/rc.sysinit:420
+#: /etc/rc.d/rc.sysinit:419
 msgid "Enabling local filesystem quotas: "
 msgstr "Otetaan käyttöön paikalliset tiedostojärjestelmien tilarajoitukset: "
 
@@ -924,7 +918,7 @@ msgstr "Suljetaan exim: "
 msgid "Usage: $prog {start|stop|restart|condrestart}"
 msgstr "Käyttö: $prog {start|stop|restart|status|condrestart}"
 
-#: /etc/rc.d/init.d/rpcgssd:77
+#: /etc/rc.d/init.d/rpcgssd:78
 #, fuzzy
 msgid "Shutting down RPC gssd: "
 msgstr "Suljetaan NFS4:n gssd: "
@@ -938,24 +932,24 @@ msgstr "Suljetaan $prog:"
 msgid "Usage: $0 {start|stop|status|restart|reload}"
 msgstr "Käyttö: $0 {start|stop|status|restart|reload}"
 
-#: /etc/rc.d/init.d/functions:442
+#: /etc/rc.d/init.d/functions:467
 msgid "yY"
 msgstr "yYkK"
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:226
-#: /etc/sysconfig/network-scripts/ifup-aliases:236
+#: /etc/sysconfig/network-scripts/ifup-aliases:240
+#: /etc/sysconfig/network-scripts/ifup-aliases:251
 msgid "error in ifcfg-${parent_device}: files"
 msgstr "virhe ifcfg-${parent_device}:-tiedostoissa"
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:1007
-msgid "Missing parameter 'local IPv4 address' (arg 2)"
-msgstr "Puuttuva parametri \"paikallinen IPv4-osoite\" (argumentti 2)"
+#: /etc/rc.d/init.d/avahi-daemon:83
+msgid "Avahi daemon is not running"
+msgstr ""
 
 #: /etc/rc.d/init.d/nfs:106
 msgid "Shutting down NFS quotas: "
 msgstr "Suljetaan NFS-levytilarajoitukset: "
 
-#: /etc/rc.d/init.d/functions:90 /etc/rc.d/init.d/functions:118
+#: /etc/rc.d/init.d/functions:119 /etc/rc.d/init.d/functions:155
 msgid "$0: Usage: daemon [+/-nicelevel] {program}"
 msgstr "$0: Käyttö: palvelin [+/-nice-taso] {ohjelma}"
 
@@ -964,7 +958,7 @@ msgstr "$0: Käyttö: palvelin [+/-nice-taso] {ohjelma}"
 msgid "Mounting CFS dir: "
 msgstr "Liitetään CIFS-tiedostojärjestelmät: "
 
-#: /etc/rc.d/init.d/functions:307
+#: /etc/rc.d/init.d/functions:332
 msgid "${base} dead but subsys locked"
 msgstr "${base} kuollut, mutta alijärjestelmä lukittu"
 
@@ -991,7 +985,7 @@ msgstr "vnc-palvelimen käynnistys"
 msgid "Usage: $0 {start|stop|reload|restart|showsysctl}"
 msgstr "Käyttö: $0 {start|stop|reload|restart|showsysctl}"
 
-#: /etc/rc.d/init.d/ircd:74
+#: /etc/rc.d/init.d/ircd:74 /etc/rc.d/init.d/ushare:76
 #, fuzzy
 msgid "Usage: $prog {start|stop|restart|condrestart|reload|status"
 msgstr "Käyttö: $prog {start|stop|restart|condrestart|reload|status}"
@@ -1004,11 +998,11 @@ msgstr "Annettu IPv6-oletusyhdyskäytävä \"$address\" on virheellinen."
 msgid "Stopping HAL daemon: "
 msgstr "Suljetaan HAL-palvelin: "
 
-#: /etc/rc.d/init.d/network:84
+#: /etc/rc.d/init.d/network:85
 msgid "No 802.1Q VLAN support available in kernel."
 msgstr "Ytimessä ei ole 802.1Q VLAN -tukea."
 
-#: /etc/rc.d/init.d/rpcgssd:46
+#: /etc/rc.d/init.d/rpcgssd:47
 #, fuzzy
 msgid "Starting RPC gssd: "
 msgstr "Käynnistetään NFS4 gssd: "
@@ -1017,7 +1011,7 @@ msgstr "Käynnistetään NFS4 gssd: "
 msgid "reload"
 msgstr "uudelleenlataus"
 
-#: /etc/rc.d/init.d/netfs:50 /etc/rc.d/rc.sysinit:268
+#: /etc/rc.d/init.d/netfs:50 /etc/rc.d/rc.sysinit:267
 msgid "Setting up Logical Volume Management:"
 msgstr "Asetetaan LVM:"
 
@@ -1046,7 +1040,7 @@ msgstr "Suljetaan INN actived -palvelu: "
 msgid "Enabling Athlon powersaving mode..."
 msgstr ""
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:156
+#: /etc/sysconfig/network-scripts/ifup-aliases:168
 msgid "error in $FILE: already seen device $parent_device:$DEVNUM in $devseen"
 msgstr ""
 "virhe tiedostossa $FILE: laite $parent_device:$DEVNUM on jo nähty: $devseen"
@@ -1059,7 +1053,7 @@ msgstr "Suljetaan ytimen lokipalvelu: "
 msgid "Starting UPS monitor (master): "
 msgstr "Käynnistetään UPS-monitori (master): "
 
-#: /etc/rc.d/init.d/btseed:43
+#: /etc/rc.d/init.d/btseed:44
 #, fuzzy
 msgid "Shutting down BitTorrent seed client: "
 msgstr "Suljetaan sm-asiakas: "
@@ -1072,6 +1066,11 @@ msgstr "Sulje $command"
 msgid "Halting system..."
 msgstr "Sammutetaan järjestelmä..."
 
+#: /etc/rc.d/init.d/avahi-daemon:58
+#, fuzzy
+msgid "Reloading Avahi daemon... "
+msgstr "Käynnistetään acpi-palvelin: "
+
 #: /etc/rc.d/init.d/lirc:26
 #, fuzzy
 msgid "Starting infrared remote control daemon ($prog): "
@@ -1082,13 +1081,9 @@ msgstr "Käynnistetään network plug -palvelin: "
 msgid "$prog check"
 msgstr "$prog $site"
 
-#: /etc/rc.d/init.d/iptables:158
+#: /etc/rc.d/init.d/iptables:163
 msgid "Applying $IPTABLES firewall rules: "
 msgstr "Otetaan $IPTABLES-palomuurisäännöt käyttöön: "
-
-#: /etc/rc.d/init.d/functions:285 /etc/rc.d/init.d/tclhttpd:37
-msgid "Usage: status {program}"
-msgstr "Käyttö: status {ohjelma}"
 
 #: /etc/rc.d/init.d/amd:89
 msgid "Reloading $prog:"
@@ -1102,6 +1097,10 @@ msgstr "Suljetaan Red Hat Network -palvelin: "
 #, fuzzy
 msgid "Stopping $prog daemon: "
 msgstr "Suljetaan acpi-palvelin: "
+
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:1007
+msgid "Missing parameter 'local IPv4 address' (arg 2)"
+msgstr "Puuttuva parametri \"paikallinen IPv4-osoite\" (argumentti 2)"
 
 #: /etc/sysconfig/network-scripts/ifup-ipv6:277
 msgid ""
@@ -1157,7 +1156,7 @@ msgstr "$0: ${1}:n asetuksia ei löytynyt."
 msgid "Stopping $PRIVOXY_PRG: "
 msgstr "Suljetaan $PRIVOXY_PRG: "
 
-#: /etc/rc.d/init.d/functions:340
+#: /etc/rc.d/init.d/functions:365
 msgid "PASSED"
 msgstr "ONNISTUI"
 
@@ -1179,8 +1178,8 @@ msgstr ""
 msgid "Enabling nightly yum update: "
 msgstr "Otetaan käyttöön jokaöinen yum-päivitys: "
 
-#: /etc/rc.d/init.d/apt:66 /etc/rc.d/init.d/denyhosts:89
-#: /etc/rc.d/init.d/moodle:64 /etc/rc.d/init.d/yum:65
+#: /etc/rc.d/init.d/denyhosts:89 /etc/rc.d/init.d/moodle:64
+#: /etc/rc.d/init.d/yum:65
 msgid "Usage: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
 msgstr "Käyttö: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
 
@@ -1202,11 +1201,11 @@ msgstr "Alustetaan tietokanta: "
 msgid "Starting network plug daemon: "
 msgstr "Käynnistetään network plug -palvelin: "
 
-#: /etc/rc.d/init.d/network:289
+#: /etc/rc.d/init.d/network:290
 msgid "Currently active devices:"
 msgstr "Tällä hetkellä aktiiviset laitteet:"
 
-#: /etc/rc.d/init.d/network:240 /etc/rc.d/init.d/network:250
+#: /etc/rc.d/init.d/network:241 /etc/rc.d/init.d/network:251
 msgid "Shutting down interface $i: "
 msgstr "Suljetaan liitäntä $i: "
 
@@ -1239,6 +1238,11 @@ msgstr "Tarkistetaan SMART-laitteet nyt: "
 msgid "Importing packets to monotone database: "
 msgstr ""
 
+#: /etc/rc.d/init.d/tinyerp-server:73
+#, fuzzy
+msgid "$prog is running..."
+msgstr "cardmgr (pid $pid) on käynnissä..."
+
 #: /etc/sysconfig/network-scripts/ifup-ippp:55
 #: /etc/sysconfig/network-scripts/ifup-isdn:55
 msgid "$*"
@@ -1256,7 +1260,7 @@ msgstr ""
 msgid "Listening for an NIS domain server."
 msgstr "Kuunnellaan NIS-verkkoalueen palvelinta."
 
-#: /etc/rc.d/init.d/netfs:79 /etc/rc.d/rc.sysinit:345
+#: /etc/rc.d/init.d/netfs:79 /etc/rc.d/rc.sysinit:344
 msgid "(Repair filesystem)"
 msgstr "(Tiedostojärjestelmän korjaus)"
 
@@ -1299,6 +1303,11 @@ msgstr "RSA-avaimen generointi"
 msgid "Enabling Moodle cron job: "
 msgstr ""
 
+#: /etc/rc.d/init.d/functions:193
+#, fuzzy
+msgid "Usage: killproc [-p pidfile] {program} [signal]"
+msgstr "Käyttö: killproc {ohjelma} [signaali]"
+
 #: /etc/rc.d/init.d/rebootmgr:11 /etc/rc.d/init.d/vprocunhide:10
 #: /etc/rc.d/init.d/vservers-legacy:8
 msgid ""
@@ -1310,7 +1319,7 @@ msgstr ""
 msgid "*** Please see /usr/share/doc/clamav-server-*/README how"
 msgstr ""
 
-#: /etc/rc.d/init.d/btseed:33
+#: /etc/rc.d/init.d/btseed:34
 #, fuzzy
 msgid "Starting BitTorrent seed client: "
 msgstr "Käynnistetään sm-asiakas: "
@@ -1380,11 +1389,6 @@ msgstr "Suljetaan $prog: "
 msgid "No reason given for sending trigger to radvd"
 msgstr "Syytä ei annettu merkkisignaalin lähettämiseksi radvd:lle"
 
-#: /etc/rc.d/init.d/apt:61
-#, fuzzy
-msgid "Nightly apt update is disabled."
-msgstr "Jokaöinen yum-päivitys on pois käytöstä."
-
 #: /etc/rc.d/init.d/openct:34
 #, fuzzy
 msgid "Stopping OpenCT smart card terminals: "
@@ -1415,7 +1419,7 @@ msgstr "Käynnistetään rwho-palvelut: "
 msgid "Stopping INND service: "
 msgstr "Suljetaan INND-palvelu: "
 
-#: /etc/rc.d/init.d/halt:140 /etc/rc.d/init.d/netfs:102
+#: /etc/rc.d/init.d/halt:145 /etc/rc.d/init.d/netfs:102
 msgid "Unmounting loopback filesystems: "
 msgstr "Irrotetaan loopback-tiedostojärjestelmät: "
 
@@ -1496,8 +1500,8 @@ msgstr "Alustetaan tietokanta: "
 msgid "Shutting down $KIND services: "
 msgstr "Suljetaan $KIND -palvelut: "
 
-#: /etc/rc.d/init.d/ip6tables:259 /etc/rc.d/init.d/ip6tables:263
-#: /etc/rc.d/init.d/iptables:259 /etc/rc.d/init.d/iptables:263
+#: /etc/rc.d/init.d/ip6tables:264 /etc/rc.d/init.d/ip6tables:268
+#: /etc/rc.d/init.d/iptables:264 /etc/rc.d/init.d/iptables:268
 msgid "Firewall is not configured. "
 msgstr "Palomuuria ei ole asetettu."
 
@@ -1509,7 +1513,7 @@ msgstr "Ydintä ei ole käännetty IPv6-tuen kanssa"
 msgid "Resetting built-in chains to the default ACCEPT policy:"
 msgstr "Palautetaan sisäänrakennetut ketjut oletus-ACCEPT-sääntöön:"
 
-#: /etc/rc.d/init.d/functions:440
+#: /etc/rc.d/init.d/functions:465
 msgid "Start service $1 (Y)es/(N)o/(C)ontinue? [Y] "
 msgstr "Käynnistetäänkö palvelu $1 (K)yllä/(E)i/(J)atka? [K] "
 
@@ -1521,12 +1525,12 @@ msgstr ""
 msgid "Reloading RADIUS server: "
 msgstr "Ladataan RADIUS-palvelu uudelleen: "
 
-#: /etc/rc.d/init.d/bttrack:43
+#: /etc/rc.d/init.d/bttrack:47
 #, fuzzy
 msgid "Shutting down BitTorrent tracker: "
 msgstr "Suljetaan liitäntä $i: "
 
-#: /etc/rc.d/rc.sysinit:309
+#: /etc/rc.d/rc.sysinit:308
 msgid "Checking filesystems"
 msgstr "Tarkistetaan tiedostojärjestelmät"
 
@@ -1543,13 +1547,18 @@ msgstr "${base} on pysäytetty"
 msgid "Starting $MODEL: "
 msgstr "Käynnistetään $MODEL: "
 
-#: /etc/rc.d/init.d/netfs:76 /etc/rc.d/rc.sysinit:342
+#: /etc/rc.d/init.d/netfs:76 /etc/rc.d/rc.sysinit:341
 msgid "*** Dropping you to a shell; the system will reboot"
 msgstr "*** Poistutaan komentoriville; järjestelmä käynnistyy uudelleen"
 
-#: /etc/rc.d/init.d/ip6tables:158
+#: /etc/rc.d/init.d/ip6tables:163
 msgid "Applying $IP6TABLES firewall rules: "
 msgstr "Otetaan $IP6TABLES-palomuurisäännöt käyttöön: "
+
+#: /etc/rc.d/init.d/tinyerp-server:75 /etc/rc.d/init.d/tinyerp-server:78
+#, fuzzy
+msgid "$prog is stopped"
+msgstr "${base} on pysäytetty"
 
 #: /etc/rc.d/init.d/httpd:118
 msgid ""
@@ -1602,19 +1611,14 @@ msgstr "Käynnistetään INND-järjestelmä: "
 msgid "is stopped"
 msgstr "cardmgr on pysäytetty"
 
-#: /etc/rc.d/init.d/arptables_jf:138 /etc/rc.d/init.d/ip6tables:275
-#: /etc/rc.d/init.d/iptables:275
+#: /etc/rc.d/init.d/arptables_jf:138 /etc/rc.d/init.d/ip6tables:280
+#: /etc/rc.d/init.d/iptables:280
 msgid "Table: $table"
 msgstr "Taulu: $table"
 
 #: /etc/rc.d/init.d/netfs:169
 msgid "Configured SMB mountpoints: "
 msgstr "Konfiguroidut SMB-liitoskohdat: "
-
-#: /etc/rc.d/init.d/apt:58
-#, fuzzy
-msgid "Nightly apt update is enabled."
-msgstr "Öinen yum-päivitys on käytössä"
 
 #: /etc/rc.d/init.d/cfenvd:35
 msgid "Stopping GNU cfengine environmental history daemon: "
@@ -1636,7 +1640,7 @@ msgstr "uudelleenkäynnistys"
 msgid "Starting exim: "
 msgstr "Käynnistetään exim: "
 
-#: /etc/sysconfig/network-scripts/ifup-eth:218
+#: /etc/sysconfig/network-scripts/ifup-eth:232
 msgid "Error, some other host already uses address ${IPADDR}."
 msgstr "Virhe, osoite ${IPADDR} on jo käytössä."
 
@@ -1662,7 +1666,7 @@ msgstr "Aktiiviset NFS-liitoskohdat: "
 msgid "Cannot delete IPv6 address '$address' on dev '$device'"
 msgstr ""
 
-#: /etc/rc.d/rc.sysinit:216
+#: /etc/rc.d/rc.sysinit:210
 msgid "Loading default keymap"
 msgstr "Ladataan oletusnäppäimistökartta"
 
@@ -1672,18 +1676,22 @@ msgid ""
 "address ${HWADDR}. Ignoring."
 msgstr ""
 
-#: /etc/rc.d/init.d/functions:329
+#: /etc/rc.d/init.d/functions:354
 msgid "FAILED"
 msgstr "EPÄONNISTUI"
 
-#: /etc/rc.d/init.d/ipmi:440
+#: /etc/rc.d/init.d/avahi-daemon:48
 #, fuzzy
-msgid "Stopping all ${MODULE_NAME} drivers: "
-msgstr "Suljetaan ${NAME}-palvelu: "
+msgid "Shutting down Avahi daemon: "
+msgstr "Suljetaan APM-palvelin: "
 
 #: /etc/rc.d/init.d/smb:42 /etc/rc.d/init.d/smb:47 /etc/rc.d/init.d/winbind:40
 msgid "Starting $KIND services: "
 msgstr "Käynnistetään $KIND-palvelut: "
+
+#: /etc/sysconfig/network-scripts/ifup-aliases:153
+msgid "error in $FILE: invalid alias number"
+msgstr ""
 
 #: /etc/rc.d/init.d/acpid:77 /etc/rc.d/init.d/messagebus:75
 #: /etc/rc.d/init.d/multipathd:87 /etc/rc.d/init.d/opensm:92
@@ -1716,7 +1724,7 @@ msgstr "Käynnistetään $BASENAME: "
 msgid "Nightly yum update is disabled."
 msgstr "Jokaöinen yum-päivitys on pois käytöstä."
 
-#: /etc/rc.d/init.d/network:271
+#: /etc/rc.d/init.d/network:272
 msgid "Disabling IPv4 automatic defragmentation: "
 msgstr "Estetään IPv4:n automaattinen defragmentointi: "
 
@@ -1741,7 +1749,7 @@ msgstr ""
 msgid "Moving old server passphrase file to new location: "
 msgstr ""
 
-#: /etc/rc.d/init.d/iptables:172
+#: /etc/rc.d/init.d/iptables:177
 msgid "Loading additional $IPTABLES modules: "
 msgstr "Ladataan $IPTABLES-lisämoduulit: "
 
@@ -1769,15 +1777,15 @@ msgstr "$prog $site"
 msgid "Shutting down NFS mountd: "
 msgstr "Suljetaan NFS:n mountd: "
 
-#: /etc/rc.d/init.d/halt:218
+#: /etc/rc.d/init.d/halt:227
 msgid "On the next boot fsck will be forced."
 msgstr "Seuraavalla käynnistyskerralla ajetaan fsck."
 
-#: /etc/rc.d/init.d/functions:351
+#: /etc/rc.d/init.d/functions:376
 msgid "WARNING"
 msgstr "VAROITUS"
 
-#: /etc/rc.d/init.d/network:82
+#: /etc/rc.d/init.d/network:83
 msgid "Setting 802.1Q VLAN parameters: "
 msgstr "Asetetaan 802.1Q VLAN -parametrit: "
 
@@ -1789,7 +1797,7 @@ msgstr "Käyttö: $0 {start|stop|status|restart|condrestart|reload|probe}"
 msgid "Shutting down sm-client: "
 msgstr "Suljetaan sm-asiakas: "
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:310
+#: /etc/sysconfig/network-scripts/ifup-aliases:323
 msgid "error in $FILE: IPADDR_START greater than IPADDR_END"
 msgstr "virhe tiedostossa $FILE: IPADDR_START suurempi kuin IPADDR_END"
 
@@ -1797,7 +1805,7 @@ msgstr "virhe tiedostossa $FILE: IPADDR_START suurempi kuin IPADDR_END"
 msgid "Checking for changes to /etc/auto.master ...."
 msgstr "Tarkistetaan /etc/auto.master-tiedoston muutokset ...."
 
-#: /etc/rc.d/rc.sysinit:379
+#: /etc/rc.d/rc.sysinit:378
 msgid "Converting old group quota files: "
 msgstr "Muunnetaan vanhat ryhmien tilarajoitustiedostot: "
 
@@ -1805,11 +1813,11 @@ msgstr "Muunnetaan vanhat ryhmien tilarajoitustiedostot: "
 msgid "No Mountpoints Defined"
 msgstr "Liitospisteitä ei ole määritelty"
 
-#: /etc/rc.d/init.d/functions:318
+#: /etc/rc.d/init.d/functions:343
 msgid "  OK  "
 msgstr ""
 
-#: /etc/rc.d/init.d/network:286
+#: /etc/rc.d/init.d/network:287
 msgid "Configured devices:"
 msgstr "Konfiguroidut laitteet:"
 
@@ -1851,6 +1859,11 @@ msgstr "Suljetaan $prog: "
 #: /etc/rc.d/init.d/carp:57
 msgid "no IPADDR found in interface file ifcfg-${BIND_INTERFACE}:"
 msgstr ""
+
+#: /etc/rc.d/init.d/functions:279
+#, fuzzy
+msgid "Usage: pidofproc [-p pidfile] {program}"
+msgstr "Käyttö: ohjelman_pid {ohjelma}"
 
 #: /etc/rc.d/init.d/rgmanager:73
 #, fuzzy
@@ -1927,7 +1940,7 @@ msgstr ""
 "Virhe \"Ei reititystä isäntään\" lisättäessä reittiä \"$networkipv6\" "
 "laitteelle \"$device\" yhdyskäytävän \"$gatewayipv6\" kautta"
 
-#: /etc/rc.d/init.d/network:143 /etc/rc.d/init.d/network:154
+#: /etc/rc.d/init.d/network:144 /etc/rc.d/init.d/network:155
 msgid "Bringing up interface $i: "
 msgstr "Otetaan liitäntä $i käyttöön: "
 
@@ -1958,7 +1971,7 @@ msgstr "Poistetaan palomuurisäännöt: "
 msgid "Error in named configuration"
 msgstr "Ladataan cron-palvelimen asetukset uudelleen: "
 
-#: /etc/rc.d/init.d/halt:164
+#: /etc/rc.d/init.d/halt:169
 msgid "Unmounting pipe file systems (retry): "
 msgstr "Irrotetaan putki-tiedostojärjestelmät (uudelleenyritys): "
 
@@ -2024,7 +2037,7 @@ msgstr "$0: ytimessä ei ole mikrokoodilaitteen tukea"
 msgid "/etc/sysconfig/network-scripts/chat-${DEVNAME} does not exist"
 msgstr "Tiedostoa /etc/sysconfig/network-scripts/chat-${DEVNAME} ei ole"
 
-#: /etc/rc.d/init.d/netfs:75 /etc/rc.d/rc.sysinit:341
+#: /etc/rc.d/init.d/netfs:75 /etc/rc.d/rc.sysinit:340
 msgid "*** An error occurred during the file system check."
 msgstr "*** Tiedostojärjestelmän tarkistuksessa tapahtui virhe."
 
@@ -2032,10 +2045,15 @@ msgstr "*** Tiedostojärjestelmän tarkistuksessa tapahtui virhe."
 msgid "Changing target policies to DROP: "
 msgstr "Muutetaan kohdesäännöksi DROP: "
 
-#: /etc/sysconfig/network-scripts/ifup-ippp:375
-#: /etc/sysconfig/network-scripts/ifup-isdn:375
-msgid "Warning: link doesn't support IPv6 using encapsulation 'rawip'"
-msgstr "Varoitus: yhteys ei tue IPv6:tta rawip-kapsuloinnilla"
+#: /etc/rc.d/init.d/functions:305
+#, fuzzy
+msgid "Usage: status [-p pidfile] {program}"
+msgstr "Käyttö: status {ohjelma}"
+
+#: /etc/rc.d/init.d/amavisd:60
+#, fuzzy
+msgid "Reloading ${prog_base}:"
+msgstr "Ladataan uudelleen $prog:"
 
 #: /etc/sysconfig/network-scripts/ifup-ppp:86
 msgid "Setting up a new ${PEERCONF} config file"
@@ -2107,28 +2125,29 @@ msgstr "Ladataan uudelleen $prog:"
 msgid "Saving current rules to $ARPTABLES_CONFIG: "
 msgstr "Talletetaan nykyiset säännöt tiedostoon $ARPTABLES_CONFIG: "
 
-#: /etc/rc.d/init.d/avahi-dnsconfd:27
+#: /etc/rc.d/init.d/avahi-dnsconfd:29
 #, fuzzy
 msgid "Starting Avahi DNS daemon... "
 msgstr "Käynnistetään NFS-palvelin: "
 
-#: /etc/rc.d/init.d/anacron:56 /etc/rc.d/init.d/atd:80
+#: /etc/rc.d/init.d/anacron:59 /etc/rc.d/init.d/atd:80
 #: /etc/rc.d/init.d/canna:64 /etc/rc.d/init.d/carp:139
 #: /etc/rc.d/init.d/cpuspeed:91 /etc/rc.d/init.d/dhcp6r:75
 #: /etc/rc.d/init.d/dhcp6s:79 /etc/rc.d/init.d/dhcrelay:78
 #: /etc/rc.d/init.d/dictd:74 /etc/rc.d/init.d/fnfxd:59 /etc/rc.d/init.d/gpm:94
 #: /etc/rc.d/init.d/icmpdnd:73 /etc/rc.d/init.d/ipsec:197
 #: /etc/rc.d/init.d/ipsec:202 /etc/rc.d/init.d/ntpd:139
-#: /etc/rc.d/init.d/roundup:78 /etc/rc.d/init.d/sendmail:149
-#: /etc/rc.d/init.d/spamass-milter:80 /etc/rc.d/init.d/trackpad:59
+#: /etc/rc.d/init.d/roundup:78 /etc/rc.d/init.d/salinfod:85
+#: /etc/rc.d/init.d/sendmail:149 /etc/rc.d/init.d/spamass-milter:80
 #: /etc/rc.d/init.d/ups:116 /etc/rc.d/init.d/vncserver:88
 #: /etc/rc.d/init.d/vsftpd:79
 msgid "Usage: $0 {start|stop|restart|condrestart|status}"
 msgstr "Käyttö: $0 {start|stop|restart|condrestart|status}"
 
-#: /etc/rc.d/init.d/ypxfrd:31
-msgid "Stopping YP map server: "
-msgstr "Suljetaan YP-liitospalvelu: "
+#: /etc/rc.d/init.d/ipmi:440
+#, fuzzy
+msgid "Stopping all ${MODULE_NAME} drivers: "
+msgstr "Suljetaan ${NAME}-palvelu: "
 
 #: /etc/rc.d/init.d/autofs:387
 msgid ""
@@ -2155,7 +2174,7 @@ msgstr "$prog: on jo käynnissä"
 msgid "$prog: Synchronizing with time server: "
 msgstr "$prog: Synkronoidaan kello aikapalvelimesta: "
 
-#: /etc/rc.d/rc.sysinit:374
+#: /etc/rc.d/rc.sysinit:373
 msgid "Converting old user quota files: "
 msgstr "Muunnetaan vanhat käyttäjien tilarajoitustiedostot: "
 
@@ -2172,16 +2191,16 @@ msgstr "Käynnistetään acpi-palvelin: "
 msgid "Usage: $0 {start|stop|restart|reload|condrestart}"
 msgstr "Käyttö: $0 {start|stop|restart|reload|condrestart}"
 
-#: /etc/rc.d/init.d/functions:310 /etc/rc.d/init.d/kudzu:58
+#: /etc/rc.d/init.d/functions:335 /etc/rc.d/init.d/kudzu:58
 msgid "${base} is stopped"
 msgstr "${base} on pysäytetty"
 
 #: /etc/sysconfig/network-scripts/ifup-aliases:110
-#: /etc/sysconfig/network-scripts/network-functions:45
+#: /etc/sysconfig/network-scripts/network-functions:51
 msgid "Missing config file $PARENTCONFIG."
 msgstr "Puuttuva asetustiedosto $PARENTCONFIG."
 
-#: /etc/rc.d/init.d/rpcidmapd:38
+#: /etc/rc.d/init.d/rpcidmapd:39
 #, fuzzy
 msgid "Starting RPC idmapd: "
 msgstr "Käynnistetään NFS4:n idmapd: "
@@ -2208,7 +2227,7 @@ msgstr ""
 msgid "Disabling denyhosts: "
 msgstr "Suljetaan PLX-laitteet... "
 
-#: /etc/rc.d/init.d/halt:216
+#: /etc/rc.d/init.d/halt:225
 msgid "On the next boot fsck will be skipped."
 msgstr "Seuraavassa käynnistyksessä fsck ohitetaan."
 
@@ -2238,7 +2257,7 @@ msgstr "Puuttuva parametri \"välityksen ohjaus\" (argumentti 1)"
 msgid "Starting Bluetooth services:"
 msgstr "Käynnistetään Bluetooth-palvelut: "
 
-#: /etc/rc.d/rc.sysinit:108
+#: /etc/rc.d/rc.sysinit:100
 msgid "\t\tPress 'I' to enter interactive startup."
 msgstr "\t\tPaina \"I\" siirtyäksesi vuorovaikutteiseen käynnistykseen."
 
@@ -2260,7 +2279,7 @@ msgstr ""
 msgid "/usr/sbin/dip does not exist or is not executable"
 msgstr "/usr/sbin/dip puuttuu tai ei ole suoritettava"
 
-#: /etc/rc.d/rc.sysinit:483
+#: /etc/rc.d/rc.sysinit:482
 msgid "Resetting hostname ${HOSTNAME}: "
 msgstr "Palautetaan konenimeksi ${HOSTNAME}: "
 
@@ -2281,7 +2300,7 @@ msgstr "Puuttuva parametri \"IPv6 address\" (argumentti 2)"
 msgid "error in one or more of the carp configurations, see above:"
 msgstr ""
 
-#: /etc/rc.d/init.d/halt:186
+#: /etc/rc.d/init.d/halt:191
 msgid "Unmounting file systems: "
 msgstr "Irrotetaan tiedostojärjestelmät: "
 
@@ -2289,11 +2308,7 @@ msgstr "Irrotetaan tiedostojärjestelmät: "
 msgid "Services are stopped."
 msgstr ""
 
-#: /etc/rc.d/init.d/functions:160 /etc/rc.d/init.d/tclhttpd:69
-msgid "Usage: killproc {program} [signal]"
-msgstr "Käyttö: killproc {ohjelma} [signaali]"
-
-#: /etc/rc.d/rc.sysinit:223
+#: /etc/rc.d/rc.sysinit:217
 msgid "Setting hostname ${HOSTNAME}: "
 msgstr "Asetetaan konenimeksi ${HOSTNAME}: "
 
@@ -2349,7 +2364,7 @@ msgstr ""
 msgid "common address redundancy protocol daemon"
 msgstr ""
 
-#: /etc/rc.d/init.d/netfs:77 /etc/rc.d/rc.sysinit:343
+#: /etc/rc.d/init.d/netfs:77 /etc/rc.d/rc.sysinit:342
 msgid "*** when you leave the shell."
 msgstr "*** kun poistut komentotulkista."
 
@@ -2384,10 +2399,6 @@ msgstr "Liitetään CIFS-tiedostojärjestelmät: "
 msgid "Usage: $0 {start|stop|status|restart|reload|condrestart}"
 msgstr "Käyttö: $0 {start|stop|status|restart|reload|condrestart}"
 
-#: /etc/rc.d/init.d/functions:259
-msgid "Usage: pidofproc {program}"
-msgstr "Käyttö: ohjelman_pid {ohjelma}"
-
 #: /etc/rc.d/init.d/rusersd:26
 msgid "Starting rusers services: "
 msgstr "Käynnistetään rusers-palvelut: "
@@ -2413,7 +2424,7 @@ msgstr "Käynnistetään NFS-palvelin: "
 msgid "Given address '$addr' is not a global IPv4 one (arg 1)"
 msgstr "Annettu osoite '$ipv4addr' ei ole yleinen IPv4-osoite (argumentti 1)"
 
-#: /etc/rc.d/init.d/firstboot:54
+#: /etc/rc.d/init.d/firstboot:57
 msgid "Running system reconfiguration tool"
 msgstr "Käynnistetään järjestelmän uudelleenkonfigurointiohjelma"
 
@@ -2426,11 +2437,6 @@ msgid ""
 "IPv6to4 configuration needs an IPv4 address on related interface or "
 "otherwise specified"
 msgstr "IPv6to4-konfiguraatio tarvitsee liitännän IPv4-osoitteen."
-
-#: /etc/rc.d/init.d/apt:30
-#, fuzzy
-msgid "Disabling nightly apt update: "
-msgstr "Poistetaan jokaöinen yum-päivitys käytöstä: "
 
 #: /etc/rc.d/init.d/nfs:53
 msgid "Starting NFS services: "
@@ -2455,7 +2461,7 @@ msgstr "Käynnistetään cups-config-palvelin: "
 msgid "/proc entries were fixed"
 msgstr ""
 
-#: /etc/rc.d/init.d/rpcidmapd:63
+#: /etc/rc.d/init.d/rpcidmapd:64
 #, fuzzy
 msgid "Shutting down RPC idmapd: "
 msgstr "Suljetaan NFS4:n idmapd: "
@@ -2473,7 +2479,7 @@ msgstr "Tunnelilaitteen \"$device\" luominen ei onnistunut"
 msgid "Starting hpiod: "
 msgstr "Käynnistetään hidd: "
 
-#: /etc/rc.d/rc.sysinit:325 /etc/rc.d/rc.sysinit:350
+#: /etc/rc.d/rc.sysinit:324 /etc/rc.d/rc.sysinit:349
 msgid "Unmounting file systems"
 msgstr "Irrotetaan tiedostojärjestelmät"
 
@@ -2507,7 +2513,7 @@ msgid ""
 "See $SYSDOCDIR/postgresql-$PGVERSION/README.rpm-dist for more information."
 msgstr ""
 
-#: /etc/rc.d/rc.sysinit:149
+#: /etc/rc.d/rc.sysinit:141
 msgid "Setting clock $CLOCKDEF: `date`"
 msgstr "Asetetaan kello $CLOCKDEF: `date`"
 
@@ -2554,6 +2560,11 @@ msgstr ""
 "Annettu pid-tiedosto \"$pidfile\" ei ole olemassa, ei voida lähettää "
 "merkkisignaalia radvd:lle"
 
+#: /etc/sysconfig/network-scripts/ifup-ippp:375
+#: /etc/sysconfig/network-scripts/ifup-isdn:375
+msgid "Warning: link doesn't support IPv6 using encapsulation 'rawip'"
+msgstr "Varoitus: yhteys ei tue IPv6:tta rawip-kapsuloinnilla"
+
 #: /etc/rc.d/init.d/halt:39
 msgid "Please stand by while rebooting the system..."
 msgstr "Odota, kun järjestelmä käynnistyy uudelleen..."
@@ -2598,7 +2609,7 @@ msgstr "suljetaan netconsole"
 msgid "Checking for hardware changes"
 msgstr "Etsitään uusia laitteita"
 
-#: /etc/rc.d/init.d/xfs:109
+#: /etc/rc.d/init.d/xfs:103
 msgid "Restarting $prog:"
 msgstr "Käynnistetään $prog uudelleen: "
 
@@ -2615,7 +2626,7 @@ msgstr "Suljetaan YP-liitospalvelu: "
 msgid "Generating SSH1 RSA host key: "
 msgstr "Generoidaan SSH1 RSA-konenimiavain: "
 
-#: /etc/rc.d/init.d/iptables:195
+#: /etc/rc.d/init.d/iptables:200
 msgid "Unloading $IPTABLES modules: "
 msgstr "Poistetaan $IPTABLES-moduulit:"
 
@@ -2633,7 +2644,7 @@ msgstr ""
 msgid "stale lock files may be present in $directory"
 msgstr ""
 
-#: /etc/rc.d/init.d/halt:124
+#: /etc/rc.d/init.d/halt:129
 msgid "Turning off swap: "
 msgstr "Otetaan sivutustila pois käytöstä: "
 
@@ -2655,7 +2666,7 @@ msgstr "Suljetaan YP-liitospalvelu: "
 msgid "Starting imapproxyd: "
 msgstr "Käynnistetään NFS4:n idmapd: "
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:152
+#: /etc/sysconfig/network-scripts/ifup-aliases:163
 msgid "error in $FILE: already seen ipaddr $IPADDR in $ipseen"
 msgstr ""
 "virhe tiedostossa $FILE: jo käytetty IP-osoite $IPADDR muuttujassa $ipseen"
@@ -2710,17 +2721,15 @@ msgstr "Käynnistetään NFS:n statd: "
 msgid "Given device '$device' is not supported (arg 1)"
 msgstr "Annettu laite \"$device\" ei ole tuettu (argumentti 1)"
 
-#: /etc/rc.d/rc.sysinit:417
+#: /etc/rc.d/rc.sysinit:416
 msgid "Mounting local filesystems: "
 msgstr "Liitetään paikalliset tiedostojärjestelmät: "
 
-#: /etc/rc.d/init.d/avahi-daemon:46 /etc/rc.d/init.d/functions:207
-#: /etc/rc.d/init.d/functions:218 /etc/rc.d/init.d/tclhttpd:116
-#: /etc/rc.d/init.d/tclhttpd:127
-msgid "$base shutdown"
-msgstr "$base suljetaan"
+#: /etc/rc.d/init.d/functions:326
+msgid "${base} dead but pid file exists"
+msgstr "${base} on kuollut, mutta pid-tiedosto on olemassa"
 
-#: /etc/rc.d/init.d/mysqld:157
+#: /etc/rc.d/init.d/mysqld:158
 msgid "Usage: $0 {start|stop|status|condrestart|restart}"
 msgstr "Käyttö: $0 {start|stop|status|condrestart|restart}"
 
@@ -2740,7 +2749,7 @@ msgstr "ifup-ppp laitteelle ${DEVICE} lopettaa"
 msgid "Usage: $prog {start|stop|restart|condrestart|reload|status}"
 msgstr "Käyttö: $prog {start|stop|restart|condrestart|reload|status}"
 
-#: /etc/rc.d/rc.sysinit:213
+#: /etc/rc.d/rc.sysinit:207
 msgid "Loading default keymap: "
 msgstr "Ladataan oletusnäppäimistökartta: "
 
@@ -2791,7 +2800,7 @@ msgstr ""
 msgid "WARNING: vconfig not able to disable REORDER_HDR on ${DEVICE}"
 msgstr "VAROITUS: vconfig ei voi sulkea REORDER_HDR:ää laitteessa {$DEVICE}"
 
-#: /etc/rc.d/rc.sysinit:551
+#: /etc/rc.d/rc.sysinit:554
 msgid "Enabling swap space: "
 msgstr "Otetaan sivutustila käyttöön: "
 
@@ -2838,7 +2847,7 @@ msgstr "Tallennetaan panic-vedos: "
 msgid "ipchains and $IPTABLES can not be used together."
 msgstr "ipchains- ja $IPTABLES-palveluja ei voi käyttää samanaikaisesti."
 
-#: /etc/rc.d/init.d/network:266
+#: /etc/rc.d/init.d/network:267
 msgid "Disabling IPv4 packet forwarding: "
 msgstr "Estetään IPv4-pakettien välitys: "
 
@@ -2867,7 +2876,7 @@ msgstr "Käynnistetään APM-palvelin: "
 msgid "Unloading ISDN modules"
 msgstr "Poistetaan ISDN-moduulit"
 
-#: /etc/rc.d/init.d/functions:214 /etc/rc.d/init.d/tclhttpd:123
+#: /etc/rc.d/init.d/functions:237
 msgid "$base $killlevel"
 msgstr "$base $killlevel"
 
@@ -2897,11 +2906,11 @@ msgstr "alustetaan netdump"
 msgid "Stopping $prog:  "
 msgstr "Suljetaan $prog: "
 
-#: /etc/rc.d/init.d/ip6tables:195
+#: /etc/rc.d/init.d/ip6tables:200
 msgid "Unloading $IP6TABLES modules: "
 msgstr "Poistetaan $IP6TABLES-moduulit: "
 
-#: /etc/rc.d/init.d/firstboot:49
+#: /etc/rc.d/init.d/firstboot:52
 msgid "X is now configured.  Starting Setup Agent"
 msgstr "X on nyt konfiguroitu. Käynnistetään asetusohjelma"
 
@@ -2909,7 +2918,7 @@ msgstr "X on nyt konfiguroitu. Käynnistetään asetusohjelma"
 msgid "Device '$device' enabling didn't work"
 msgstr "Laitteen \"$device\" käynnistäminen ei onnistunut"
 
-#: /etc/rc.d/init.d/functions:448
+#: /etc/rc.d/init.d/functions:473
 msgid "nN"
 msgstr "nNeE"
 
@@ -2921,7 +2930,7 @@ msgstr ""
 msgid "You need to upgrade the data format before using PostgreSQL."
 msgstr ""
 
-#: /etc/rc.d/rc.sysinit:392
+#: /etc/rc.d/rc.sysinit:391
 msgid "Remounting root filesystem in read-write mode: "
 msgstr "Liitän juuritiedostojärjestelmän uudelleen luku-kirjoitus-tilassa: "
 
@@ -2947,7 +2956,7 @@ msgstr "Synkronoidaan laitteistokello järjestelmän aikaan"
 msgid "Configuration file or keys are invalid"
 msgstr "Asetustiedosto tai avaimet ovat virheellisiä"
 
-#: /etc/rc.d/init.d/functions:444
+#: /etc/rc.d/init.d/functions:469
 msgid "cC"
 msgstr "cCjJ"
 
@@ -2956,7 +2965,7 @@ msgid "DEBUG    "
 msgstr "VIANETS. "
 
 #: /etc/rc.d/init.d/gfs:94 /etc/rc.d/init.d/i8kbuttons:56
-#: /etc/rc.d/init.d/netfs:217 /etc/rc.d/init.d/network:298
+#: /etc/rc.d/init.d/netfs:217 /etc/rc.d/init.d/network:299
 #: /etc/rc.d/init.d/yum-updateonboot:81
 msgid "Usage: $0 {start|stop|restart|reload|status}"
 msgstr "Käyttö: $0 {start|stop|restart|reload|status}"
@@ -2971,6 +2980,11 @@ msgstr ""
 msgid "Networking not configured - exiting"
 msgstr "Verkkoa ei ole konfiguroitu - poistutaan"
 
+#: /etc/rc.d/init.d/avahi-daemon:83
+#, fuzzy
+msgid "Avahi daemon is running"
+msgstr "cardmgr (pid $pid) on käynnissä..."
+
 #: /etc/rc.d/init.d/acpid:26
 msgid "Starting acpi daemon: "
 msgstr "Käynnistetään acpi-palvelin: "
@@ -2984,15 +2998,15 @@ msgstr "Liitetään SMB-tiedostojärjestelmät: "
 msgid "Missing parameter 'IPv6-network' (arg 1)"
 msgstr "Puuttuva parametri \"IPv6-verkko\" (argumentti 1)"
 
-#: /etc/rc.d/init.d/ip6tables:253 /etc/rc.d/init.d/iptables:253
+#: /etc/rc.d/init.d/ip6tables:258 /etc/rc.d/init.d/iptables:258
 msgid "Firewall is stopped."
 msgstr "Palomuuri on pysäytetty."
 
-#: /etc/rc.d/rc.sysinit:70 /etc/rc.d/rc.sysinit:328 /etc/rc.d/rc.sysinit:353
+#: /etc/rc.d/rc.sysinit:67 /etc/rc.d/rc.sysinit:327 /etc/rc.d/rc.sysinit:352
 msgid "Automatic reboot in progress."
 msgstr "Automaattinen uudelleenkäynnistys käynnissä."
 
-#: /etc/rc.d/init.d/functions:415
+#: /etc/rc.d/init.d/functions:440
 msgid "$STRING"
 msgstr "$STRING"
 
@@ -3000,11 +3014,6 @@ msgstr "$STRING"
 #, fuzzy
 msgid "Starting $named: "
 msgstr "Käynnistetään dund: "
-
-#: /etc/rc.d/init.d/apt:23
-#, fuzzy
-msgid "Enabling nightly apt update: "
-msgstr "Otetaan käyttöön jokaöinen yum-päivitys: "
 
 #: /etc/rc.d/init.d/sendmail:94
 msgid "reloading sm-client: "
@@ -3029,7 +3038,7 @@ msgstr "/proc-tiedostojärjestelmä ei ole käytössä"
 msgid "Starting NFS mountd: "
 msgstr "Käynnistetään NFS:n mountd: "
 
-#: /etc/rc.d/init.d/functions:293
+#: /etc/rc.d/init.d/functions:317
 msgid "${base} (pid $pid) is running..."
 msgstr "${base} (pid $pid) on käynnissä..."
 
@@ -3051,12 +3060,12 @@ msgstr "Liitytään NIS-verkkoalueeseen: "
 msgid "Moodle cron job is enabled."
 msgstr "Prosessikirjanpito käytössä"
 
-#: /etc/rc.d/init.d/avahi-daemon:55
+#: /etc/rc.d/init.d/avahi-daemon:61
 #, fuzzy
 msgid "$base reload"
 msgstr "$prog uudelleenlataus"
 
-#: /etc/rc.d/init.d/amd:39 /etc/rc.d/init.d/anacron:24
+#: /etc/rc.d/init.d/amd:39 /etc/rc.d/init.d/anacron:26
 #: /etc/rc.d/init.d/arpwatch:35 /etc/rc.d/init.d/atd:39
 #: /etc/rc.d/init.d/auditd:70 /etc/rc.d/init.d/boa:46
 #: /etc/rc.d/init.d/bootparamd:38 /etc/rc.d/init.d/cfexecd:31
@@ -3074,21 +3083,59 @@ msgstr "$prog uudelleenlataus"
 #: /etc/rc.d/init.d/ldap:189 /etc/rc.d/init.d/lighttpd:42
 #: /etc/rc.d/init.d/lisa:48 /etc/rc.d/init.d/lm_sensors:80
 #: /etc/rc.d/init.d/mdmpd:57 /etc/rc.d/init.d/milter-greylist:39
-#: /etc/rc.d/init.d/mysqld:114 /etc/rc.d/init.d/mysqld:118
-#: /etc/rc.d/init.d/mysqld:121 /etc/rc.d/init.d/mysqld:125
+#: /etc/rc.d/init.d/mysqld:115 /etc/rc.d/init.d/mysqld:119
+#: /etc/rc.d/init.d/mysqld:122 /etc/rc.d/init.d/mysqld:126
 #: /etc/rc.d/init.d/nscd:57 /etc/rc.d/init.d/opensm:46
+#: /etc/rc.d/init.d/plague-builder:34 /etc/rc.d/init.d/plague-server:34
 #: /etc/rc.d/init.d/portmap:57 /etc/rc.d/init.d/pure-ftpd:40
 #: /etc/rc.d/init.d/radvd:45 /etc/rc.d/init.d/rarpd:32
 #: /etc/rc.d/init.d/rbldnsd:72 /etc/rc.d/init.d/rinetd:34
 #: /etc/rc.d/init.d/roundup:37 /etc/rc.d/init.d/rwalld:33
-#: /etc/rc.d/init.d/saslauthd:45 /etc/rc.d/init.d/snmpd:34
-#: /etc/rc.d/init.d/snmptrapd:32 /etc/rc.d/init.d/spamassassin:52
-#: /etc/rc.d/init.d/squid:83 /etc/rc.d/init.d/sshd:115
-#: /etc/rc.d/init.d/syslog-ng:43 /etc/rc.d/init.d/tclhttpd:151
-#: /etc/rc.d/init.d/thttpd:42 /etc/rc.d/init.d/tinyerp-server:58
-#: /etc/rc.d/init.d/ups:67 /etc/rc.d/init.d/xinetd:68
+#: /etc/rc.d/init.d/salinfod:42 /etc/rc.d/init.d/saslauthd:45
+#: /etc/rc.d/init.d/snmpd:34 /etc/rc.d/init.d/snmptrapd:32
+#: /etc/rc.d/init.d/spamassassin:52 /etc/rc.d/init.d/squid:83
+#: /etc/rc.d/init.d/sshd:115 /etc/rc.d/init.d/syslog-ng:43
+#: /etc/rc.d/init.d/thttpd:42 /etc/rc.d/init.d/tinyerp-server:44
+#: /etc/rc.d/init.d/ups:67 /etc/rc.d/init.d/ushare:36
+#: /etc/rc.d/init.d/wpa_supplicant:43 /etc/rc.d/init.d/xinetd:68
 msgid "Stopping $prog: "
 msgstr "Suljetaan $prog: "
+
+#, fuzzy
+#~ msgid "$base dead but pid file exists"
+#~ msgstr "${base} on kuollut, mutta pid-tiedosto on olemassa"
+
+#, fuzzy
+#~ msgid "Starting pmud daemon: "
+#~ msgstr "Käynnistetään acpi-palvelin: "
+
+#, fuzzy
+#~ msgid "$base is stopped"
+#~ msgstr "${base} on pysäytetty"
+
+#, fuzzy
+#~ msgid "$base (pid $pid) is running..."
+#~ msgstr "${base} (pid $pid) on käynnissä..."
+
+#, fuzzy
+#~ msgid "$base dead but subsys locked"
+#~ msgstr "${base} kuollut, mutta alijärjestelmä lukittu"
+
+#, fuzzy
+#~ msgid "Nightly apt update is disabled."
+#~ msgstr "Jokaöinen yum-päivitys on pois käytöstä."
+
+#, fuzzy
+#~ msgid "Nightly apt update is enabled."
+#~ msgstr "Öinen yum-päivitys on käytössä"
+
+#, fuzzy
+#~ msgid "Disabling nightly apt update: "
+#~ msgstr "Poistetaan jokaöinen yum-päivitys käytöstä: "
+
+#, fuzzy
+#~ msgid "Enabling nightly apt update: "
+#~ msgstr "Otetaan käyttöön jokaöinen yum-päivitys: "
 
 #, fuzzy
 #~ msgid "Shutting down display manager: "

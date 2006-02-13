@@ -48,10 +48,9 @@ msgstr ""
 "எச்சரிக்கை: MTU '$IPV6TO4_MTU' க்கான 6லிருந்து4 '$tunnelmtu' குறைந்த பட்ச எல்லை "
 "கடந்து அமைக்கப்பட்டது, தவிர்க்கப்பட்டது."
 
-#: /etc/rc.d/init.d/tclhttpd:51
-#, fuzzy
-msgid "$base dead but pid file exists"
-msgstr "${base} இறந்தது ஆனால் pid கோப்பு உள்ளது"
+#: /etc/rc.d/init.d/ypxfrd:31
+msgid "Stopping YP map server: "
+msgstr "YP சேவகனை நிறுத்துகிறது:"
 
 #: /etc/sysconfig/network-scripts/ifup:84
 msgid "Could not set 802.1Q VLAN parameters."
@@ -64,8 +63,8 @@ msgid ""
 msgstr "$alias device ${DEVICE} காணவில்லை, துவக்க தாமதம்"
 
 #: /etc/rc.d/init.d/amd:92 /etc/rc.d/init.d/autofs:618
-#: /etc/rc.d/init.d/bgpd:59 /etc/rc.d/init.d/btseed:67
-#: /etc/rc.d/init.d/bttrack:67 /etc/rc.d/init.d/gkrellmd:54
+#: /etc/rc.d/init.d/bgpd:59 /etc/rc.d/init.d/btseed:68
+#: /etc/rc.d/init.d/bttrack:71 /etc/rc.d/init.d/gkrellmd:54
 #: /etc/rc.d/init.d/irda:72 /etc/rc.d/init.d/ospfd:60 /etc/rc.d/init.d/ripd:59
 #: /etc/rc.d/init.d/ripngd:59 /etc/rc.d/init.d/sshd:168
 #: /etc/rc.d/init.d/zebra:60
@@ -132,7 +131,7 @@ msgstr "'IPv6-gateway' (arg 2) க்கான அளவுரு காணவ�
 msgid "Unmounting CIFS filesystems: "
 msgstr "CIFS கோப்பு அமைப்பு வெளியேற்றம்: "
 
-#: /etc/rc.d/init.d/functions:235
+#: /etc/rc.d/init.d/functions:264
 msgid "Usage: pidfileofproc {program}"
 msgstr "பயன்பாடு: pidfileofproc {நிரல்}"
 
@@ -145,12 +144,12 @@ msgstr "vncசேவகன் துவக்கம்"
 msgid "$prog is not started..."
 msgstr "$prog $site"
 
-#: /etc/rc.d/init.d/rpcsvcgssd:44
+#: /etc/rc.d/init.d/rpcsvcgssd:45
 #, fuzzy
 msgid "Starting RPC svcgssd: "
 msgstr "NFS4 svcgssd துவக்குகிறது: "
 
-#: /etc/rc.d/init.d/amd:30 /etc/rc.d/init.d/anacron:15
+#: /etc/rc.d/init.d/amd:30 /etc/rc.d/init.d/anacron:16
 #: /etc/rc.d/init.d/arpwatch:28 /etc/rc.d/init.d/atd:29
 #: /etc/rc.d/init.d/auditd:42 /etc/rc.d/init.d/autofs:531
 #: /etc/rc.d/init.d/bgpd:29 /etc/rc.d/init.d/boa:36
@@ -178,23 +177,25 @@ msgstr "NFS4 svcgssd துவக்குகிறது: "
 #: /etc/rc.d/init.d/lisa:35 /etc/rc.d/init.d/lm_sensors:57
 #: /etc/rc.d/init.d/mailman:77 /etc/rc.d/init.d/mdmonitor:37
 #: /etc/rc.d/init.d/mdmpd:38 /etc/rc.d/init.d/milter-greylist:25
-#: /etc/rc.d/init.d/mysqld:88 /etc/rc.d/init.d/mysqld:90
-#: /etc/rc.d/init.d/mysqld:93 /etc/rc.d/init.d/nscd:48
+#: /etc/rc.d/init.d/mysqld:89 /etc/rc.d/init.d/mysqld:91
+#: /etc/rc.d/init.d/mysqld:94 /etc/rc.d/init.d/nscd:48
 #: /etc/rc.d/init.d/ntpd:97 /etc/rc.d/init.d/opensm:29
 #: /etc/rc.d/init.d/ospf6d:29 /etc/rc.d/init.d/ospfd:30
+#: /etc/rc.d/init.d/plague-builder:24 /etc/rc.d/init.d/plague-server:24
 #: /etc/rc.d/init.d/portmap:47 /etc/rc.d/init.d/proftpd:34
 #: /etc/rc.d/init.d/pure-ftpd:32 /etc/rc.d/init.d/radvd:38
 #: /etc/rc.d/init.d/rarpd:22 /etc/rc.d/init.d/rbldnsd:60
 #: /etc/rc.d/init.d/rinetd:25 /etc/rc.d/init.d/ripd:29
 #: /etc/rc.d/init.d/ripngd:29 /etc/rc.d/init.d/roundup:27
-#: /etc/rc.d/init.d/rwalld:24 /etc/rc.d/init.d/saslauthd:36
-#: /etc/rc.d/init.d/sendmail:40 /etc/rc.d/init.d/smartd:44
-#: /etc/rc.d/init.d/snmpd:20 /etc/rc.d/init.d/snmptrapd:23
-#: /etc/rc.d/init.d/spamassassin:41 /etc/rc.d/init.d/squid:60
-#: /etc/rc.d/init.d/sshd:106 /etc/rc.d/init.d/syslog-ng:34
-#: /etc/rc.d/init.d/tclhttpd:143 /etc/rc.d/init.d/thttpd:32
-#: /etc/rc.d/init.d/tinyerp-server:39 /etc/rc.d/init.d/ups:43
-#: /etc/rc.d/init.d/vncserver:23 /etc/rc.d/init.d/xfs:63
+#: /etc/rc.d/init.d/rwalld:24 /etc/rc.d/init.d/salinfod:32
+#: /etc/rc.d/init.d/saslauthd:36 /etc/rc.d/init.d/sendmail:40
+#: /etc/rc.d/init.d/smartd:44 /etc/rc.d/init.d/snmpd:20
+#: /etc/rc.d/init.d/snmptrapd:23 /etc/rc.d/init.d/spamassassin:41
+#: /etc/rc.d/init.d/squid:60 /etc/rc.d/init.d/sshd:106
+#: /etc/rc.d/init.d/syslog-ng:34 /etc/rc.d/init.d/thttpd:32
+#: /etc/rc.d/init.d/tinyerp-server:34 /etc/rc.d/init.d/ups:43
+#: /etc/rc.d/init.d/ushare:28 /etc/rc.d/init.d/vncserver:23
+#: /etc/rc.d/init.d/wpa_supplicant:34 /etc/rc.d/init.d/xfs:57
 #: /etc/rc.d/init.d/xinetd:44 /etc/rc.d/init.d/zebra:27
 msgid "Starting $prog: "
 msgstr "$prog துவங்குகிறது: "
@@ -239,8 +240,8 @@ msgstr "கணக்கிடுதல் செயல்படுத்தப�
 msgid "Disabling nightly yum update: "
 msgstr "இரவு யம் மேம்படுத்தலை செயல்நீக்குகிறது: "
 
-#: /etc/rc.d/init.d/arptables_jf:171 /etc/rc.d/init.d/ip6tables:320
-#: /etc/rc.d/init.d/iptables:320
+#: /etc/rc.d/init.d/arptables_jf:171 /etc/rc.d/init.d/ip6tables:325
+#: /etc/rc.d/init.d/iptables:325
 msgid "Usage: $0 {start|stop|restart|condrestart|status|panic|save}"
 msgstr "பயன்பாடு: $0 {start|stop|restart|condrestart|status|panic|save}"
 
@@ -248,7 +249,7 @@ msgstr "பயன்பாடு: $0 {start|stop|restart|condrestart|status|pani
 msgid "Stopping UPS monitor: "
 msgstr "UPS கண்காணிப்பை நிறுத்துகிறது: "
 
-#: /etc/rc.d/init.d/firstboot:47
+#: /etc/rc.d/init.d/firstboot:50
 msgid "X is not configured.  Running system-config-display"
 msgstr "X அமைக்கப்படவில்லை. system-config-display இயங்குகிறது."
 
@@ -293,7 +294,7 @@ msgstr "நிலைபொருளை ஏற்றுவதில் தோல�
 msgid "Starting $prog daemon: "
 msgstr "acpi மாயாவியை துவக்குகிறது: "
 
-#: /etc/rc.d/rc.sysinit:90
+#: /etc/rc.d/rc.sysinit:81
 msgid "\t\tWelcome to "
 msgstr "\t\tநல்வரவு"
 
@@ -301,29 +302,19 @@ msgstr "\t\tநல்வரவு"
 msgid "Stopping rstat services: "
 msgstr "rstat சேவைகளை நிறுத்துகிறது"
 
-#: /etc/rc.d/init.d/pmud:25
-#, fuzzy
-msgid "Starting pmud daemon: "
-msgstr "acpi மாயாவியை துவக்குகிறது: "
-
 #: /etc/rc.d/init.d/syslog:50
 msgid "Shutting down system logger: "
 msgstr "கணினி துவக்கியை நிறுத்துகிறது: "
 
-#: /etc/rc.d/init.d/tclhttpd:60
-#, fuzzy
-msgid "$base is stopped"
-msgstr "${base} நிறுத்தப்பட்டது"
-
-#: /etc/rc.d/init.d/avahi-daemon:90 /etc/rc.d/init.d/avahi-dnsconfd:83
+#: /etc/rc.d/init.d/avahi-daemon:97 /etc/rc.d/init.d/avahi-dnsconfd:93
 #: /etc/rc.d/init.d/cups-config-daemon:67 /etc/rc.d/init.d/FreeWnn:77
-#: /etc/rc.d/init.d/haldaemon:71 /etc/rc.d/init.d/hplip:166
+#: /etc/rc.d/init.d/haldaemon:71 /etc/rc.d/init.d/hplip:165
 #: /etc/rc.d/init.d/imapproxy:72 /etc/rc.d/init.d/innd:112
 #: /etc/rc.d/init.d/kprop:67 /etc/rc.d/init.d/krb524:70
 #: /etc/rc.d/init.d/lm_sensors:133 /etc/rc.d/init.d/milter-greylist:81
 #: /etc/rc.d/init.d/NetworkManager:82
 #: /etc/rc.d/init.d/NetworkManagerDispatcher:77 /etc/rc.d/init.d/syslog:114
-#: /etc/rc.d/init.d/tinyerp-server:113 /etc/rc.d/init.d/ypbind:109
+#: /etc/rc.d/init.d/tinyerp-server:109 /etc/rc.d/init.d/ypbind:109
 #: /etc/rc.d/init.d/zope:73
 msgid "Usage: $0 {start|stop|status|restart|condrestart}"
 msgstr "பயன்பாடு: $0 {start|stop|status|restart|condrestart}"
@@ -353,12 +344,12 @@ msgstr "$NAME $DEVICE சாதனத்துடன் இணைக்கப்
 #: /etc/rc.d/init.d/proftpd:42 /etc/rc.d/init.d/ripd:36
 #: /etc/rc.d/init.d/ripngd:36 /etc/rc.d/init.d/sendmail:104
 #: /etc/rc.d/init.d/smartd:51 /etc/rc.d/init.d/vncserver:49
-#: /etc/rc.d/init.d/vsftpd:46 /etc/rc.d/init.d/xfs:82
+#: /etc/rc.d/init.d/vsftpd:46 /etc/rc.d/init.d/xfs:76
 #: /etc/rc.d/init.d/zebra:37
 msgid "Shutting down $prog: "
 msgstr "$prog ஐ பணி நிறுத்தம் செய்கிறது:"
 
-#: /etc/rc.d/init.d/halt:184
+#: /etc/rc.d/init.d/halt:189
 msgid "Unmounting file systems (retry): "
 msgstr "கோப்பு அமைப்பை வெளியேற்றுகிறது(மீண்டும் முயலவும்):"
 
@@ -379,6 +370,11 @@ msgstr "INFO     "
 msgid "Unmounting network block filesystems (retry): "
 msgstr "வலைப்பின்னல் பகுதி கோப்பு அமைப்பை வெளியேற்றுகிறது(மீண்டும் முயலவும்)"
 
+#: /etc/rc.d/init.d/amavisd:35
+#, fuzzy
+msgid "Starting ${prog_base}:"
+msgstr "$prog துவங்குகிறது: "
+
 #: /etc/rc.d/init.d/halt:59
 msgid "Sending all processes the TERM signal..."
 msgstr "TERM சங்கேதத்திற்கு வேலைகளை அனுப்புகிறது...."
@@ -396,7 +392,7 @@ msgstr ""
 msgid "cannot stop crond: crond is not running."
 msgstr ""
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:160
+#: /etc/sysconfig/network-scripts/ifup-aliases:173
 msgid "error in $FILE: didn't specify device or ipaddr"
 msgstr "$FILE பிழை: சாதனத்தை குறிப்பிடவில்லை அல்லது ipaddr"
 
@@ -416,11 +412,6 @@ msgstr "NFS மாயாவியை பணிநிறுத்தம் செ
 #: /etc/rc.d/init.d/netfs:159
 msgid "Unmounting NCP filesystems: "
 msgstr "NCP கோப்பு அமைப்பை வெளியேற்றுகிறது: "
-
-#: /etc/rc.d/init.d/tclhttpd:46
-#, fuzzy
-msgid "$base (pid $pid) is running..."
-msgstr "${base} (pid $pid) இயக்கதில் உள்ளது..."
 
 #: /etc/rc.d/init.d/postfix:48
 #, fuzzy
@@ -451,7 +442,7 @@ msgstr "பயன்பாடு: $0 {start|stop|restart|reload|status|condresta
 msgid "Given IPv4 address '$testipv4addr_valid' has no proper format"
 msgstr "கொடுக்கப்பட்ட IPv4 முகவரி '$ipv4addr' பொதுவான பயன்பாட்டிற்கு அல்ல"
 
-#: /etc/rc.d/init.d/halt:144 /etc/rc.d/init.d/netfs:106
+#: /etc/rc.d/init.d/halt:149 /etc/rc.d/init.d/netfs:106
 msgid "Detaching loopback device $dev: "
 msgstr "லூப் சாதனத்தை நீக்குகிறது $dev: "
 
@@ -459,11 +450,11 @@ msgstr "லூப் சாதனத்தை நீக்குகிறது 
 msgid "Unmounting network block filesystems: "
 msgstr "வலைப்பின்னல் பகுதி அமைப்புக்கோப்பை வெளியேற்றுகிறது: "
 
-#: /etc/rc.d/init.d/ip6tables:217
+#: /etc/rc.d/init.d/ip6tables:222
 msgid "Saving firewall rules to $IP6TABLES_DATA: "
 msgstr "$IP6TABLES_DATA நெருப்பு சுவர் அமைப்பை சேமிக்கிறது: "
 
-#: /etc/rc.d/init.d/dkms_autoinstaller:126 /etc/rc.d/init.d/kudzu:65
+#: /etc/rc.d/init.d/kudzu:65
 msgid "Usage: $0 {start|stop}"
 msgstr "பயன்பாடு: $0 {start|stop}"
 
@@ -479,7 +470,8 @@ msgstr "$prog துவங்குகிறது: "
 #: /etc/rc.d/init.d/nscd:102 /etc/rc.d/init.d/pure-ftpd:60
 #: /etc/rc.d/init.d/radvd:61 /etc/rc.d/init.d/rbldnsd:87
 #: /etc/rc.d/init.d/rinetd:49 /etc/rc.d/init.d/snmpd:48
-#: /etc/rc.d/init.d/sshd:128 /etc/rc.d/init.d/xfs:96
+#: /etc/rc.d/init.d/sshd:128 /etc/rc.d/init.d/ushare:44
+#: /etc/rc.d/init.d/xfs:90
 msgid "Reloading $prog: "
 msgstr "$prog ஐ மீளேற்றுகிறது:"
 
@@ -508,7 +500,12 @@ msgstr ""
 msgid "Usage: apmd {start|stop|status|restart|reload|condrestart}"
 msgstr "பயனர்: apmd {start|stop|status|restart|reload|condrestart}"
 
-#: /etc/rc.d/rc.sysinit:211
+#: /etc/rc.d/init.d/amavisd:41
+#, fuzzy
+msgid "Shutting down ${prog_base}:"
+msgstr "$prog ஐ பணி நிறுத்தம் செய்கிறது:"
+
+#: /etc/rc.d/rc.sysinit:205
 msgid "Loading default keymap ($KEYTABLE): "
 msgstr "இயல்பான விசைப்பலகை அமைப்பை ஏற்றுகிறது ($KEYTABLE): "
 
@@ -560,12 +557,12 @@ msgstr "APM மாயாவியை பணி நீக்கம் செய�
 #: /etc/rc.d/init.d/lirc:92 /etc/rc.d/init.d/moomps:70
 #: /etc/rc.d/init.d/openct:74 /etc/rc.d/init.d/pcscd:62
 #: /etc/rc.d/init.d/rinetd:81 /etc/rc.d/init.d/syslog-ng:86
-#: /etc/rc.d/init.d/wesnothd:93
+#: /etc/rc.d/init.d/wesnothd:93 /etc/rc.d/init.d/wpa_supplicant:83
 #, fuzzy
 msgid "Usage: $0 {start|stop|status|restart|try-restart|reload|force-reload}"
 msgstr "பயன்பாடு: $0 {start|stop|status|restart|reload|condrestart}"
 
-#: /etc/rc.d/init.d/avahi-daemon:29
+#: /etc/rc.d/init.d/avahi-daemon:31
 #, fuzzy
 msgid "Starting Avahi daemon... "
 msgstr "acpi மாயாவியை துவக்குகிறது: "
@@ -586,7 +583,7 @@ msgstr "NFS ஏற்றப்புள்ளியை அமைக்கிற�
 msgid "Shutting down hidd: "
 msgstr "hidd ஐ பணிநிறுத்தம் செய்கிறது: "
 
-#: /etc/rc.d/init.d/halt:166
+#: /etc/rc.d/init.d/halt:171
 msgid "Unmounting pipe file systems: "
 msgstr "பைப் கோப்பு அமைப்புகளை வெளியேற்றுகிறது: "
 
@@ -599,7 +596,7 @@ msgstr "விவரமான துவக்கத்தில் நுழை�
 msgid "Usage: $0 {start|stop|status|restart|condrestart|reload|rotate}"
 msgstr "பயன்பாடு: $0 {start|stop|status|restart|condrestart|reload|probe}"
 
-#: /etc/rc.d/init.d/xfs:149
+#: /etc/rc.d/init.d/xfs:143
 msgid "Usage: $prog {start|stop|status|restart|reload|condrestart}"
 msgstr "பயன்பாடு: $prog {start|stop|status|restart|reload|condrestart}"
 
@@ -620,7 +617,7 @@ msgstr "$0: $DEVICE எழுத்துரு சாதனம் இல்ல�
 msgid "Starting $ID: "
 msgstr "$MODEL துவங்குகிறது: "
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:306
+#: /etc/sysconfig/network-scripts/ifup-aliases:319
 msgid "error in $FILE: IPADDR_START and IPADDR_END don't agree"
 msgstr "$FILE இல் பிழை: IPADDR_START மற்றும் IPADDR_END ஏற்காதே"
 
@@ -657,12 +654,12 @@ msgstr ""
 "பொது IPv6 முன்னனுப்பல் இந்த அமைப்பில் செயல்படுத்தப்படவில்லை, ஆனால் கர்னலில் செயல்பாட்டில் "
 "உள்ளது."
 
-#: /etc/rc.d/init.d/iptables:217
+#: /etc/rc.d/init.d/iptables:222
 msgid "Saving firewall rules to $IPTABLES_DATA: "
 msgstr "$IPTABLES_DATA நெருப்பு சுவர் விதிகளை சேமிக்கிறது:"
 
-#: /etc/rc.d/init.d/rpcgssd:99 /etc/rc.d/init.d/rpcidmapd:85
-#: /etc/rc.d/init.d/rpcsvcgssd:98
+#: /etc/rc.d/init.d/rpcgssd:100 /etc/rc.d/init.d/rpcidmapd:86
+#: /etc/rc.d/init.d/rpcsvcgssd:99
 msgid "Usage: $0 {start|stop|restart|condstart|condrestart|status}"
 msgstr "பயன்பாடு: $0 {start|stop|restart|condrestart|status}"
 
@@ -682,7 +679,7 @@ msgstr "cron மாயாவி அமைப்பை மீளேற்று�
 msgid "mdmpd"
 msgstr "mdmpd"
 
-#: /etc/rc.d/init.d/network:261
+#: /etc/rc.d/init.d/network:262
 msgid "Shutting down loopback interface: "
 msgstr "லூப்பேக் இடை முகத்தை பணிநிறுத்தம் செய்கிறது: "
 
@@ -698,7 +695,7 @@ msgstr "கர்னல் பதிவு புத்தகத்தை து
 msgid "Stopping YP passwd service: "
 msgstr "YP passwd சேவையை நிறுத்துகிறது : "
 
-#: /etc/rc.d/rc.sysinit:385
+#: /etc/rc.d/rc.sysinit:384
 msgid "Checking local filesystem quotas: "
 msgstr "உள் கோப்பு அமைப்பு ஒதுக்கங்களை சோதிக்கிறது"
 
@@ -706,7 +703,7 @@ msgstr "உள் கோப்பு அமைப்பு ஒதுக்கங
 msgid "Telling INIT to go to single user mode."
 msgstr "INIT ஐ ஒரு பயனர் பாங்கிற்கு செல்ல சொல்கிறது"
 
-#: /etc/rc.d/init.d/halt:214
+#: /etc/rc.d/init.d/halt:223
 msgid "$message"
 msgstr "$செய்திகள்"
 
@@ -714,7 +711,7 @@ msgstr "$செய்திகள்"
 msgid " done."
 msgstr " முடிந்தது "
 
-#: /etc/rc.d/init.d/halt:138 /etc/rc.d/init.d/netfs:100
+#: /etc/rc.d/init.d/halt:143 /etc/rc.d/init.d/netfs:100
 msgid "Unmounting loopback filesystems (retry):"
 msgstr "லூப்பேக் கோப்பு அமைப்பை வெளியேற்றுகிறது (மீண்டும் முயலவும்):"
 
@@ -722,11 +719,6 @@ msgstr "லூப்பேக் கோப்பு அமைப்பை வெ
 #, fuzzy
 msgid "Stopping hpiod: "
 msgstr "$prog நிறுத்துகிறது:"
-
-#: /etc/rc.d/init.d/tclhttpd:57
-#, fuzzy
-msgid "$base dead but subsys locked"
-msgstr "${base} இறந்துவிட்டது subsys பூட்டப்பட்டது"
 
 #: /etc/rc.d/init.d/dhcdbd:101
 #, fuzzy
@@ -763,7 +755,7 @@ msgstr "RSA விசை உருவாக்கம்"
 msgid "Usage: pure-ftpd {start|stop|restart|reload|condrestart|status}"
 msgstr "பயன்பாடு: $prog {start|stop|restart|reload|condrestart|status}"
 
-#: /etc/rc.d/init.d/halt:126
+#: /etc/rc.d/init.d/halt:131
 msgid "Turning off quotas: "
 msgstr "ஒதுக்க கோப்புகளை நிறுத்துகிறது: "
 
@@ -771,7 +763,7 @@ msgstr "ஒதுக்க கோப்புகளை நிறுத்து�
 msgid "Pidfile '$pidfile' is empty, cannot send trigger to radvd"
 msgstr "Pidfile '$pidfile' காலியாக உள்ளது, radvd க்கு துவக்கத்தை அனுப்ப முடியவில்லை"
 
-#: /etc/rc.d/init.d/rpcsvcgssd:76
+#: /etc/rc.d/init.d/rpcsvcgssd:77
 #, fuzzy
 msgid "Shutting down RPC svcgssd: "
 msgstr "NFS4 svcgssd பணிநிறுத்தம் செய்கிறது: "
@@ -827,7 +819,7 @@ msgstr "பயன்பாடு: nfs {start|stop|status|restart|reload|condrest
 msgid "usage: ifup-aliases <net-device> [<parent-config>]\n"
 msgstr "பயன்பாடு: ifup-aliases <net-device> [<parent-config>]\n"
 
-#: /etc/rc.d/init.d/bttrack:32
+#: /etc/rc.d/init.d/bttrack:33
 #, fuzzy
 msgid "Starting BitTorrent tracker: "
 msgstr "UPS கண்காணிப்பை துவக்குகிறது (முதன்மை): "
@@ -836,7 +828,7 @@ msgstr "UPS கண்காணிப்பை துவக்குகிறத�
 msgid "ERROR: [ipv6_log] Cannot log to channel '$channel'"
 msgstr "ERROR: [ipv6_log] பாதையில் '$channel' உள் நுழைய முடியவில்லை"
 
-#: /etc/rc.d/init.d/network:66
+#: /etc/rc.d/init.d/network:67
 msgid "Bringing up loopback interface: "
 msgstr "லூப்பேக் இடை முகத்தை கொண்டுவருகிறது"
 
@@ -844,9 +836,10 @@ msgstr "லூப்பேக் இடை முகத்தை கொண்ட
 msgid "Reopening $prog log file: "
 msgstr "$prog பதிவு கோப்பை மீண்டும் திறக்கிறது: "
 
-#: /etc/rc.d/init.d/functions:301
-msgid "${base} dead but pid file exists"
-msgstr "${base} இறந்தது ஆனால் pid கோப்பு உள்ளது"
+#: /etc/rc.d/init.d/avahi-daemon:51 /etc/rc.d/init.d/avahi-dnsconfd:46
+#: /etc/rc.d/init.d/functions:230 /etc/rc.d/init.d/functions:246
+msgid "$base shutdown"
+msgstr "$base பணிநிறுத்தம்"
 
 #: /etc/rc.d/init.d/smb:77 /etc/rc.d/init.d/winbind:65
 msgid "Reloading smb.conf file: "
@@ -869,8 +862,9 @@ msgstr "${DEVICE} சாதனத்திற்கான IP தகவலை க
 msgid "Stopping ${NAME} service: "
 msgstr "${NAME} சேவையை நிறுத்துகிறது"
 
-#: /etc/rc.d/init.d/avahi-daemon:37 /etc/rc.d/init.d/avahi-dnsconfd:30
-#: /etc/rc.d/init.d/avahi-dnsconfd:47 /etc/rc.d/init.d/functions:152
+#: /etc/rc.d/init.d/avahi-daemon:39 /etc/rc.d/init.d/avahi-daemon:41
+#: /etc/rc.d/init.d/avahi-dnsconfd:34 /etc/rc.d/init.d/avahi-dnsconfd:36
+#: /etc/rc.d/init.d/avahi-dnsconfd:56 /etc/rc.d/init.d/functions:183
 msgid "$base startup"
 msgstr "$base துவக்கம்"
 
@@ -907,11 +901,11 @@ msgstr "ERROR    "
 msgid "Please run makehistory and/or makedbz before starting innd."
 msgstr "makehistory மற்றும்/அல்லது makedbz innd துவக்குவதற்கு முன் இயக்கு."
 
-#: /etc/rc.d/init.d/ip6tables:172
+#: /etc/rc.d/init.d/ip6tables:177
 msgid "Loading additional $IP6TABLES modules: "
 msgstr "$IP6TABLES பகுதியை கூடுதலாக ஏற்றுகிறது: "
 
-#: /etc/rc.d/rc.sysinit:420
+#: /etc/rc.d/rc.sysinit:419
 msgid "Enabling local filesystem quotas: "
 msgstr "உள் கோப்பு அமைப்பு பகுதியை செயல்படுத்துகிறது: "
 
@@ -928,7 +922,7 @@ msgstr "exim பணிநிறுத்தம் செய்கிறது: "
 msgid "Usage: $prog {start|stop|restart|condrestart}"
 msgstr "பயன்பாடு: $prog {start|stop|restart|status|condrestart}"
 
-#: /etc/rc.d/init.d/rpcgssd:77
+#: /etc/rc.d/init.d/rpcgssd:78
 #, fuzzy
 msgid "Shutting down RPC gssd: "
 msgstr "NFS4 gssd பணி நிறுத்தம் செய்கிறது: "
@@ -942,24 +936,24 @@ msgstr "$prog நிறுத்துகிறது:"
 msgid "Usage: $0 {start|stop|status|restart|reload}"
 msgstr "பயன்பாடு: $0 {start|stop|status|restart|condrestart|reload}"
 
-#: /etc/rc.d/init.d/functions:442
+#: /etc/rc.d/init.d/functions:467
 msgid "yY"
 msgstr "yY"
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:226
-#: /etc/sysconfig/network-scripts/ifup-aliases:236
+#: /etc/sysconfig/network-scripts/ifup-aliases:240
+#: /etc/sysconfig/network-scripts/ifup-aliases:251
 msgid "error in ifcfg-${parent_device}: files"
 msgstr "ifcfg-${parent_device} இல் பிழை: கோப்புகள்"
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:1007
-msgid "Missing parameter 'local IPv4 address' (arg 2)"
-msgstr "'உள் IPv4 முகவரி' (arg 2) அளவுருக்களை காணவில்லை"
+#: /etc/rc.d/init.d/avahi-daemon:83
+msgid "Avahi daemon is not running"
+msgstr ""
 
 #: /etc/rc.d/init.d/nfs:106
 msgid "Shutting down NFS quotas: "
 msgstr "NFS பங்கை பணிநீக்கம் செய்கிறது: "
 
-#: /etc/rc.d/init.d/functions:90 /etc/rc.d/init.d/functions:118
+#: /etc/rc.d/init.d/functions:119 /etc/rc.d/init.d/functions:155
 msgid "$0: Usage: daemon [+/-nicelevel] {program}"
 msgstr "$0: பயன்பாடு: மாயாவி [+/-nicelevel] {program}"
 
@@ -968,7 +962,7 @@ msgstr "$0: பயன்பாடு: மாயாவி [+/-nicelevel] {program
 msgid "Mounting CFS dir: "
 msgstr "CIFS கோப்பு அமைப்பை ஏற்றுகிறது: "
 
-#: /etc/rc.d/init.d/functions:307
+#: /etc/rc.d/init.d/functions:332
 msgid "${base} dead but subsys locked"
 msgstr "${base} இறந்துவிட்டது subsys பூட்டப்பட்டது"
 
@@ -993,7 +987,7 @@ msgstr "vncserver துவக்கம்"
 msgid "Usage: $0 {start|stop|reload|restart|showsysctl}"
 msgstr "பயன்பாடு: $0 {start|stop|reload|restart|showsysctl}"
 
-#: /etc/rc.d/init.d/ircd:74
+#: /etc/rc.d/init.d/ircd:74 /etc/rc.d/init.d/ushare:76
 #, fuzzy
 msgid "Usage: $prog {start|stop|restart|condrestart|reload|status"
 msgstr "பயன்பாடு: $prog {start|stop|restart|condrestart|reload|status}"
@@ -1006,11 +1000,11 @@ msgstr "கொடுக்கப்பட்ட IPv6 இயல்பான ந�
 msgid "Stopping HAL daemon: "
 msgstr "HAL மாயாவியை நிறுத்துகிறது: "
 
-#: /etc/rc.d/init.d/network:84
+#: /etc/rc.d/init.d/network:85
 msgid "No 802.1Q VLAN support available in kernel."
 msgstr "802.1Q VLAN ஆதரவு கர்னலில் இல்லை"
 
-#: /etc/rc.d/init.d/rpcgssd:46
+#: /etc/rc.d/init.d/rpcgssd:47
 #, fuzzy
 msgid "Starting RPC gssd: "
 msgstr "NFS4 gssd துவக்குகிறது:"
@@ -1019,7 +1013,7 @@ msgstr "NFS4 gssd துவக்குகிறது:"
 msgid "reload"
 msgstr "மீளேற்றுகிறது"
 
-#: /etc/rc.d/init.d/netfs:50 /etc/rc.d/rc.sysinit:268
+#: /etc/rc.d/init.d/netfs:50 /etc/rc.d/rc.sysinit:267
 msgid "Setting up Logical Volume Management:"
 msgstr "தற்கரீதியான தொகுதி மேலாண்மையை அமைக்கிறது:"
 
@@ -1048,7 +1042,7 @@ msgstr "INN செயலில் உள்ள சேவையை நிறு�
 msgid "Enabling Athlon powersaving mode..."
 msgstr ""
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:156
+#: /etc/sysconfig/network-scripts/ifup-aliases:168
 msgid "error in $FILE: already seen device $parent_device:$DEVNUM in $devseen"
 msgstr ""
 "$FILE கோப்பில் பிழை: $parent_device:$DEVNUM இல் $devseen ஏற்கெனவே பார்க்கப்பட்டது"
@@ -1061,7 +1055,7 @@ msgstr "கர்னல் பதிவேட்டை பணிநிறுத�
 msgid "Starting UPS monitor (master): "
 msgstr "UPS கண்காணிப்பை துவக்குகிறது (முதன்மை): "
 
-#: /etc/rc.d/init.d/btseed:43
+#: /etc/rc.d/init.d/btseed:44
 #, fuzzy
 msgid "Shutting down BitTorrent seed client: "
 msgstr "sm-client ஐ பணிநிறுத்தம் செய்கிறது: "
@@ -1074,6 +1068,11 @@ msgstr "$command நிறுத்து"
 msgid "Halting system..."
 msgstr "கணினியை நிறுத்துகிறது..."
 
+#: /etc/rc.d/init.d/avahi-daemon:58
+#, fuzzy
+msgid "Reloading Avahi daemon... "
+msgstr "acpi மாயாவியை துவக்குகிறது: "
+
 #: /etc/rc.d/init.d/lirc:26
 #, fuzzy
 msgid "Starting infrared remote control daemon ($prog): "
@@ -1084,13 +1083,9 @@ msgstr "வலைப்பின்னல் சொருகல் மாயா�
 msgid "$prog check"
 msgstr "$prog $site"
 
-#: /etc/rc.d/init.d/iptables:158
+#: /etc/rc.d/init.d/iptables:163
 msgid "Applying $IPTABLES firewall rules: "
 msgstr "$IPTABLES நெருப்பு சுவர் கட்டளையை செயல்படுத்துகிறது"
-
-#: /etc/rc.d/init.d/functions:285 /etc/rc.d/init.d/tclhttpd:37
-msgid "Usage: status {program}"
-msgstr "பயன்பாடு: நிலை {program}"
 
 #: /etc/rc.d/init.d/amd:89
 msgid "Reloading $prog:"
@@ -1104,6 +1099,10 @@ msgstr "Red Hat வலைப்பின்னல் மாயாவியை �
 #, fuzzy
 msgid "Stopping $prog daemon: "
 msgstr "acpi மாயாவியை நிறுத்துகிறது: "
+
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:1007
+msgid "Missing parameter 'local IPv4 address' (arg 2)"
+msgstr "'உள் IPv4 முகவரி' (arg 2) அளவுருக்களை காணவில்லை"
 
 #: /etc/sysconfig/network-scripts/ifup-ipv6:277
 msgid ""
@@ -1159,7 +1158,7 @@ msgstr "$0: ${1} க்கான அமைப்பை காணவில்ல�
 msgid "Stopping $PRIVOXY_PRG: "
 msgstr "$PRIVOXY_PRG நிறுத்தப்பட்டது:"
 
-#: /etc/rc.d/init.d/functions:340
+#: /etc/rc.d/init.d/functions:365
 msgid "PASSED"
 msgstr "PASSED"
 
@@ -1181,8 +1180,8 @@ msgstr ""
 msgid "Enabling nightly yum update: "
 msgstr "உங்கள் இரவு யம் புதுப்பித்தலை செயல்படுத்துகிறது"
 
-#: /etc/rc.d/init.d/apt:66 /etc/rc.d/init.d/denyhosts:89
-#: /etc/rc.d/init.d/moodle:64 /etc/rc.d/init.d/yum:65
+#: /etc/rc.d/init.d/denyhosts:89 /etc/rc.d/init.d/moodle:64
+#: /etc/rc.d/init.d/yum:65
 msgid "Usage: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
 msgstr "பயன்பாடு: $0 {start|stop|status|restart|reload|condrestart}"
 
@@ -1204,11 +1203,11 @@ msgstr "தரவுத்தளத்தை துவக்குகிறத�
 msgid "Starting network plug daemon: "
 msgstr "வலைப்பின்னல் சொருகல் மாயாவியை துவக்குகிறது: "
 
-#: /etc/rc.d/init.d/network:289
+#: /etc/rc.d/init.d/network:290
 msgid "Currently active devices:"
 msgstr "தற்போது செயலில் உள்ள சாதனங்கள்:"
 
-#: /etc/rc.d/init.d/network:240 /etc/rc.d/init.d/network:250
+#: /etc/rc.d/init.d/network:241 /etc/rc.d/init.d/network:251
 msgid "Shutting down interface $i: "
 msgstr "$i இடைமுகத்தை பணிநிறுத்தம் செய்கிறது: "
 
@@ -1241,6 +1240,11 @@ msgstr "இப்போது SMART சாதனங்களை சோதிக�
 msgid "Importing packets to monotone database: "
 msgstr ""
 
+#: /etc/rc.d/init.d/tinyerp-server:73
+#, fuzzy
+msgid "$prog is running..."
+msgstr "cardmgr (pid $pid) இயக்கதில் உள்ளது..."
+
 #: /etc/sysconfig/network-scripts/ifup-ippp:55
 #: /etc/sysconfig/network-scripts/ifup-isdn:55
 msgid "$*"
@@ -1258,7 +1262,7 @@ msgstr ""
 msgid "Listening for an NIS domain server."
 msgstr "NIS டொமைன் சேவகனை கண்காணிக்கிறது."
 
-#: /etc/rc.d/init.d/netfs:79 /etc/rc.d/rc.sysinit:345
+#: /etc/rc.d/init.d/netfs:79 /etc/rc.d/rc.sysinit:344
 msgid "(Repair filesystem)"
 msgstr "(கோப்பு அமைப்புகளை சரிபார்க்கிறது)"
 
@@ -1301,6 +1305,11 @@ msgstr "RSA விசை உருவாக்கம்"
 msgid "Enabling Moodle cron job: "
 msgstr ""
 
+#: /etc/rc.d/init.d/functions:193
+#, fuzzy
+msgid "Usage: killproc [-p pidfile] {program} [signal]"
+msgstr "பயன்பாடு: killproc {program} [signal]"
+
 #: /etc/rc.d/init.d/rebootmgr:11 /etc/rc.d/init.d/vprocunhide:10
 #: /etc/rc.d/init.d/vservers-legacy:8
 msgid ""
@@ -1312,7 +1321,7 @@ msgstr ""
 msgid "*** Please see /usr/share/doc/clamav-server-*/README how"
 msgstr ""
 
-#: /etc/rc.d/init.d/btseed:33
+#: /etc/rc.d/init.d/btseed:34
 #, fuzzy
 msgid "Starting BitTorrent seed client: "
 msgstr "sm-client துவங்குகிறது: "
@@ -1381,11 +1390,6 @@ msgstr "$prog ஐ பணி நிறுத்தம் செய்கிறத
 msgid "No reason given for sending trigger to radvd"
 msgstr "radvd யை தூண்டியதற்கான காரணம் புரியவில்லை"
 
-#: /etc/rc.d/init.d/apt:61
-#, fuzzy
-msgid "Nightly apt update is disabled."
-msgstr "இரவு யம் புதுப்பித்தல் செயல்நீக்கம் செய்யப்பட்டது"
-
 #: /etc/rc.d/init.d/openct:34
 #, fuzzy
 msgid "Stopping OpenCT smart card terminals: "
@@ -1416,7 +1420,7 @@ msgstr "rwho சேவைகளை துவக்குகிறது: "
 msgid "Stopping INND service: "
 msgstr "INND சேவைகளை நிறுத்துகிறது: "
 
-#: /etc/rc.d/init.d/halt:140 /etc/rc.d/init.d/netfs:102
+#: /etc/rc.d/init.d/halt:145 /etc/rc.d/init.d/netfs:102
 msgid "Unmounting loopback filesystems: "
 msgstr "லூப்பேக் கோப்பு அமைப்பை வெளியேற்றுகிறது: "
 
@@ -1496,8 +1500,8 @@ msgstr "தரவுத்தளத்தை துவக்குகிறத�
 msgid "Shutting down $KIND services: "
 msgstr "$KIND சேவையை பணிநிறுத்தம் செய்கிறது"
 
-#: /etc/rc.d/init.d/ip6tables:259 /etc/rc.d/init.d/ip6tables:263
-#: /etc/rc.d/init.d/iptables:259 /etc/rc.d/init.d/iptables:263
+#: /etc/rc.d/init.d/ip6tables:264 /etc/rc.d/init.d/ip6tables:268
+#: /etc/rc.d/init.d/iptables:264 /etc/rc.d/init.d/iptables:268
 msgid "Firewall is not configured. "
 msgstr "நெருப்பு சுவர் அமைக்கப்படவில்லை"
 
@@ -1509,7 +1513,7 @@ msgstr "IPv6 ஆதரவோடு கர்னல் உருவாக்க�
 msgid "Resetting built-in chains to the default ACCEPT policy:"
 msgstr "ACCEPT செயலுடன் உள்ளமைந்த சங்கிலியை மீட்டமைக்கிறது:"
 
-#: /etc/rc.d/init.d/functions:440
+#: /etc/rc.d/init.d/functions:465
 msgid "Start service $1 (Y)es/(N)o/(C)ontinue? [Y] "
 msgstr "சேவையை துவக்கு $1 (Y)ஆம்/(N)இல்லை/(C)தொடர்? [Y] "
 
@@ -1521,12 +1525,12 @@ msgstr ""
 msgid "Reloading RADIUS server: "
 msgstr "RADIUS சேவகனை மீளேற்றுகிறது: "
 
-#: /etc/rc.d/init.d/bttrack:43
+#: /etc/rc.d/init.d/bttrack:47
 #, fuzzy
 msgid "Shutting down BitTorrent tracker: "
 msgstr "$i இடைமுகத்தை பணிநிறுத்தம் செய்கிறது: "
 
-#: /etc/rc.d/rc.sysinit:309
+#: /etc/rc.d/rc.sysinit:308
 msgid "Checking filesystems"
 msgstr "கோப்பு அமைப்பை சோதிக்கிறது"
 
@@ -1543,13 +1547,18 @@ msgstr "${base} நிறுத்தப்பட்டது"
 msgid "Starting $MODEL: "
 msgstr "$MODEL துவங்குகிறது: "
 
-#: /etc/rc.d/init.d/netfs:76 /etc/rc.d/rc.sysinit:342
+#: /etc/rc.d/init.d/netfs:76 /etc/rc.d/rc.sysinit:341
 msgid "*** Dropping you to a shell; the system will reboot"
 msgstr "*** உங்களை செல்லுக்குள் செல்லும் போது கணினி மீண்டும் துவங்கும்"
 
-#: /etc/rc.d/init.d/ip6tables:158
+#: /etc/rc.d/init.d/ip6tables:163
 msgid "Applying $IP6TABLES firewall rules: "
 msgstr "$IP6TABLES நெருப்பு சுவர் விதிகளை செயல்படுத்துகிறது : "
+
+#: /etc/rc.d/init.d/tinyerp-server:75 /etc/rc.d/init.d/tinyerp-server:78
+#, fuzzy
+msgid "$prog is stopped"
+msgstr "${base} நிறுத்தப்பட்டது"
 
 #: /etc/rc.d/init.d/httpd:118
 msgid ""
@@ -1602,19 +1611,14 @@ msgstr "INND கணினியை துவக்குகிறது: "
 msgid "is stopped"
 msgstr "cardmgr நிறுத்தப்பட்டது"
 
-#: /etc/rc.d/init.d/arptables_jf:138 /etc/rc.d/init.d/ip6tables:275
-#: /etc/rc.d/init.d/iptables:275
+#: /etc/rc.d/init.d/arptables_jf:138 /etc/rc.d/init.d/ip6tables:280
+#: /etc/rc.d/init.d/iptables:280
 msgid "Table: $table"
 msgstr "அட்டவணை: $table"
 
 #: /etc/rc.d/init.d/netfs:169
 msgid "Configured SMB mountpoints: "
 msgstr "SMB ஏற்றப்புள்ளி அமைக்கப்பட்டது: "
-
-#: /etc/rc.d/init.d/apt:58
-#, fuzzy
-msgid "Nightly apt update is enabled."
-msgstr "இரவு யம் மேம்படுத்தல் துவக்கப்பட்டது"
 
 #: /etc/rc.d/init.d/cfenvd:35
 msgid "Stopping GNU cfengine environmental history daemon: "
@@ -1636,7 +1640,7 @@ msgstr "மீண்டும் துவக்கு"
 msgid "Starting exim: "
 msgstr "exim துவங்குகிறது: "
 
-#: /etc/sysconfig/network-scripts/ifup-eth:218
+#: /etc/sysconfig/network-scripts/ifup-eth:232
 msgid "Error, some other host already uses address ${IPADDR}."
 msgstr "பிழை வேறு புரவலன் இந்த முகவரியை பயன்படுத்துகிறது ${IPADDR}."
 
@@ -1662,7 +1666,7 @@ msgstr "NFS ஏற்றப்புள்ளிகள்: "
 msgid "Cannot delete IPv6 address '$address' on dev '$device'"
 msgstr ""
 
-#: /etc/rc.d/rc.sysinit:216
+#: /etc/rc.d/rc.sysinit:210
 msgid "Loading default keymap"
 msgstr "இயல்பான விசைஅமைப்பை ஏற்றுகிறது"
 
@@ -1672,18 +1676,22 @@ msgid ""
 "address ${HWADDR}. Ignoring."
 msgstr ""
 
-#: /etc/rc.d/init.d/functions:329
+#: /etc/rc.d/init.d/functions:354
 msgid "FAILED"
 msgstr "FAILED"
 
-#: /etc/rc.d/init.d/ipmi:440
+#: /etc/rc.d/init.d/avahi-daemon:48
 #, fuzzy
-msgid "Stopping all ${MODULE_NAME} drivers: "
-msgstr "${NAME} சேவையை நிறுத்துகிறது"
+msgid "Shutting down Avahi daemon: "
+msgstr "APM மாயாவியை பணி நீக்கம் செய்கிறது"
 
 #: /etc/rc.d/init.d/smb:42 /etc/rc.d/init.d/smb:47 /etc/rc.d/init.d/winbind:40
 msgid "Starting $KIND services: "
 msgstr "$KIND சேவையை துவக்குகிறது: "
+
+#: /etc/sysconfig/network-scripts/ifup-aliases:153
+msgid "error in $FILE: invalid alias number"
+msgstr ""
 
 #: /etc/rc.d/init.d/acpid:77 /etc/rc.d/init.d/messagebus:75
 #: /etc/rc.d/init.d/multipathd:87 /etc/rc.d/init.d/opensm:92
@@ -1715,7 +1723,7 @@ msgstr "$BASENAME துவக்குகிறது: "
 msgid "Nightly yum update is disabled."
 msgstr "இரவு யம் புதுப்பித்தல் செயல்நீக்கம் செய்யப்பட்டது"
 
-#: /etc/rc.d/init.d/network:271
+#: /etc/rc.d/init.d/network:272
 msgid "Disabling IPv4 automatic defragmentation: "
 msgstr "IPv4 தானாக டீஃப்ராக் செய்தல் செயல்நீக்கம் செய்யப்பட்டது: "
 
@@ -1740,7 +1748,7 @@ msgstr ""
 msgid "Moving old server passphrase file to new location: "
 msgstr ""
 
-#: /etc/rc.d/init.d/iptables:172
+#: /etc/rc.d/init.d/iptables:177
 msgid "Loading additional $IPTABLES modules: "
 msgstr "கூடுதல் $IPTABLES பகுதிகளை ஏற்றுகிறது: "
 
@@ -1766,15 +1774,15 @@ msgstr "$prog $site"
 msgid "Shutting down NFS mountd: "
 msgstr "NFS mountd ஐ பணிநிறுத்தம் செய்கிறது: "
 
-#: /etc/rc.d/init.d/halt:218
+#: /etc/rc.d/init.d/halt:227
 msgid "On the next boot fsck will be forced."
 msgstr "அடுத்தமுறை துவங்கும் போது fsck வலியுருத்தப்படும்."
 
-#: /etc/rc.d/init.d/functions:351
+#: /etc/rc.d/init.d/functions:376
 msgid "WARNING"
 msgstr "WARNING"
 
-#: /etc/rc.d/init.d/network:82
+#: /etc/rc.d/init.d/network:83
 msgid "Setting 802.1Q VLAN parameters: "
 msgstr "802.1Q VLAN அளவுருக்களை அமைக்கிறது:"
 
@@ -1786,7 +1794,7 @@ msgstr "பயன்பாடு: $0 {start|stop|status|restart|condrestart|relo
 msgid "Shutting down sm-client: "
 msgstr "sm-client ஐ பணிநிறுத்தம் செய்கிறது: "
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:310
+#: /etc/sysconfig/network-scripts/ifup-aliases:323
 msgid "error in $FILE: IPADDR_START greater than IPADDR_END"
 msgstr "$FILE பிழை:  IPADDR_START விட IPADDR_END பெரியதாக உள்ளது"
 
@@ -1794,7 +1802,7 @@ msgstr "$FILE பிழை:  IPADDR_START விட IPADDR_END பெரிய�
 msgid "Checking for changes to /etc/auto.master ...."
 msgstr "/etc/auto.master இன் மாற்றங்களை சோதிக்கிறது...."
 
-#: /etc/rc.d/rc.sysinit:379
+#: /etc/rc.d/rc.sysinit:378
 msgid "Converting old group quota files: "
 msgstr "பழைய கோப்புகளை மாற்றுகிறது: "
 
@@ -1802,11 +1810,11 @@ msgstr "பழைய கோப்புகளை மாற்றுகிறத�
 msgid "No Mountpoints Defined"
 msgstr "ஏற்றப்புள்ளிகள் எதுவும் குறிப்பிடப்படவில்லை"
 
-#: /etc/rc.d/init.d/functions:318
+#: /etc/rc.d/init.d/functions:343
 msgid "  OK  "
 msgstr ""
 
-#: /etc/rc.d/init.d/network:286
+#: /etc/rc.d/init.d/network:287
 msgid "Configured devices:"
 msgstr "சாதனங்களை அமைக்கிறது:"
 
@@ -1848,6 +1856,11 @@ msgstr "$prog நிறுத்துகிறது:"
 #: /etc/rc.d/init.d/carp:57
 msgid "no IPADDR found in interface file ifcfg-${BIND_INTERFACE}:"
 msgstr ""
+
+#: /etc/rc.d/init.d/functions:279
+#, fuzzy
+msgid "Usage: pidofproc [-p pidfile] {program}"
+msgstr "பயன்பாடு: pidofproc {program}"
 
 #: /etc/rc.d/init.d/rgmanager:73
 #, fuzzy
@@ -1924,7 +1937,7 @@ msgstr ""
 "'புரவலனுக்கான பாதை' இல்லை '$networkipv6' வழியாக நுழைவாயில் '$gatewayipv6' மூலம் "
 "'$device' சாதனதில் பாதை சேர்க்கப்பட்டது"
 
-#: /etc/rc.d/init.d/network:143 /etc/rc.d/init.d/network:154
+#: /etc/rc.d/init.d/network:144 /etc/rc.d/init.d/network:155
 msgid "Bringing up interface $i: "
 msgstr "இடைமுகத்தை கொணர்கிறது $i: "
 
@@ -1955,7 +1968,7 @@ msgstr "நெருப்பு சுவர் விதிகளை வெள
 msgid "Error in named configuration"
 msgstr "cron மாயாவி அமைப்பை மீளேற்றுகிறது:"
 
-#: /etc/rc.d/init.d/halt:164
+#: /etc/rc.d/init.d/halt:169
 msgid "Unmounting pipe file systems (retry): "
 msgstr "பைப் கோப்பு முறையை வெளியேற்றுகிறது (மீண்டும் முயலவும்): "
 
@@ -2020,7 +2033,7 @@ msgstr "$0: கர்னலுக்கு மைக்ரோ கோட் ச�
 msgid "/etc/sysconfig/network-scripts/chat-${DEVNAME} does not exist"
 msgstr "/etc/sysconfig/network-scripts/chat-${DEVNAME} காணவில்லை"
 
-#: /etc/rc.d/init.d/netfs:75 /etc/rc.d/rc.sysinit:341
+#: /etc/rc.d/init.d/netfs:75 /etc/rc.d/rc.sysinit:340
 msgid "*** An error occurred during the file system check."
 msgstr "***கோப்பு அமைப்பை சோதிக்கும் போது பிழை நேர்ந்தது."
 
@@ -2028,10 +2041,15 @@ msgstr "***கோப்பு அமைப்பை சோதிக்கும�
 msgid "Changing target policies to DROP: "
 msgstr "DROP ற்கான இலக்கு கொள்கைகளை மாற்றுகிறது"
 
-#: /etc/sysconfig/network-scripts/ifup-ippp:375
-#: /etc/sysconfig/network-scripts/ifup-isdn:375
-msgid "Warning: link doesn't support IPv6 using encapsulation 'rawip'"
-msgstr "எச்சரிக்கை:: இணைப்பை பயன்படுத்தும் என்காப்சுகேஷன் ஆதரவு இல்லை 'rawip'"
+#: /etc/rc.d/init.d/functions:305
+#, fuzzy
+msgid "Usage: status [-p pidfile] {program}"
+msgstr "பயன்பாடு: நிலை {program}"
+
+#: /etc/rc.d/init.d/amavisd:60
+#, fuzzy
+msgid "Reloading ${prog_base}:"
+msgstr "$prog மீளேற்றுகிறது:"
 
 #: /etc/sysconfig/network-scripts/ifup-ppp:86
 msgid "Setting up a new ${PEERCONF} config file"
@@ -2103,28 +2121,29 @@ msgstr "$prog மீளேற்றுகிறது:"
 msgid "Saving current rules to $ARPTABLES_CONFIG: "
 msgstr "$ARPTABLES_CONFIG தற்போதைய விதிகளை சேமிக்கிறது"
 
-#: /etc/rc.d/init.d/avahi-dnsconfd:27
+#: /etc/rc.d/init.d/avahi-dnsconfd:29
 #, fuzzy
 msgid "Starting Avahi DNS daemon... "
 msgstr "NFS மாயாவியை துவக்குகிறது: "
 
-#: /etc/rc.d/init.d/anacron:56 /etc/rc.d/init.d/atd:80
+#: /etc/rc.d/init.d/anacron:59 /etc/rc.d/init.d/atd:80
 #: /etc/rc.d/init.d/canna:64 /etc/rc.d/init.d/carp:139
 #: /etc/rc.d/init.d/cpuspeed:91 /etc/rc.d/init.d/dhcp6r:75
 #: /etc/rc.d/init.d/dhcp6s:79 /etc/rc.d/init.d/dhcrelay:78
 #: /etc/rc.d/init.d/dictd:74 /etc/rc.d/init.d/fnfxd:59 /etc/rc.d/init.d/gpm:94
 #: /etc/rc.d/init.d/icmpdnd:73 /etc/rc.d/init.d/ipsec:197
 #: /etc/rc.d/init.d/ipsec:202 /etc/rc.d/init.d/ntpd:139
-#: /etc/rc.d/init.d/roundup:78 /etc/rc.d/init.d/sendmail:149
-#: /etc/rc.d/init.d/spamass-milter:80 /etc/rc.d/init.d/trackpad:59
+#: /etc/rc.d/init.d/roundup:78 /etc/rc.d/init.d/salinfod:85
+#: /etc/rc.d/init.d/sendmail:149 /etc/rc.d/init.d/spamass-milter:80
 #: /etc/rc.d/init.d/ups:116 /etc/rc.d/init.d/vncserver:88
 #: /etc/rc.d/init.d/vsftpd:79
 msgid "Usage: $0 {start|stop|restart|condrestart|status}"
 msgstr "பயன்பாடு: $0 {start|stop|restart|condrestart|status}"
 
-#: /etc/rc.d/init.d/ypxfrd:31
-msgid "Stopping YP map server: "
-msgstr "YP சேவகனை நிறுத்துகிறது:"
+#: /etc/rc.d/init.d/ipmi:440
+#, fuzzy
+msgid "Stopping all ${MODULE_NAME} drivers: "
+msgstr "${NAME} சேவையை நிறுத்துகிறது"
 
 #: /etc/rc.d/init.d/autofs:387
 msgid ""
@@ -2151,7 +2170,7 @@ msgstr "$prog ஏற்கெனவே இயங்குகிறது"
 msgid "$prog: Synchronizing with time server: "
 msgstr "$prog: நேரத்தோடு ஒத்திசைகிறது: "
 
-#: /etc/rc.d/rc.sysinit:374
+#: /etc/rc.d/rc.sysinit:373
 msgid "Converting old user quota files: "
 msgstr "பழைய பயனர் கோப்புகளை மாற்றுகிறது:"
 
@@ -2168,16 +2187,16 @@ msgstr "acpi மாயாவியை துவக்குகிறது: "
 msgid "Usage: $0 {start|stop|restart|reload|condrestart}"
 msgstr "பயன்பாடு: $0 {start|stop|restart|reload|condrestart}"
 
-#: /etc/rc.d/init.d/functions:310 /etc/rc.d/init.d/kudzu:58
+#: /etc/rc.d/init.d/functions:335 /etc/rc.d/init.d/kudzu:58
 msgid "${base} is stopped"
 msgstr "${base} நிறுத்தப்பட்டது"
 
 #: /etc/sysconfig/network-scripts/ifup-aliases:110
-#: /etc/sysconfig/network-scripts/network-functions:45
+#: /etc/sysconfig/network-scripts/network-functions:51
 msgid "Missing config file $PARENTCONFIG."
 msgstr "$PARENTCONFIG அமைப்பு கோப்பை காணவில்லை"
 
-#: /etc/rc.d/init.d/rpcidmapd:38
+#: /etc/rc.d/init.d/rpcidmapd:39
 #, fuzzy
 msgid "Starting RPC idmapd: "
 msgstr "NFS4 idmapd துவங்குகிறது"
@@ -2204,7 +2223,7 @@ msgstr ""
 msgid "Disabling denyhosts: "
 msgstr "PLX சாதனத்தை செயல்நீக்கம் செய்கிறது... "
 
-#: /etc/rc.d/init.d/halt:216
+#: /etc/rc.d/init.d/halt:225
 msgid "On the next boot fsck will be skipped."
 msgstr "அடுத்த முறை துவங்கும் போது fsck தவிர்க்கப்படும்"
 
@@ -2233,7 +2252,7 @@ msgstr "'முன்னனுப்பல் கட்டுப்படுத�
 msgid "Starting Bluetooth services:"
 msgstr "ப்ளூடூத் சேவையை துவக்குகிறது:"
 
-#: /etc/rc.d/rc.sysinit:108
+#: /etc/rc.d/rc.sysinit:100
 msgid "\t\tPress 'I' to enter interactive startup."
 msgstr "\t\t விவரமான துவக்கத்திற்கு 'I' ஐ அழுத்தவும்"
 
@@ -2254,7 +2273,7 @@ msgstr "கொடுக்கப்பட்ட IPv6 இயல்பான ச�
 msgid "/usr/sbin/dip does not exist or is not executable"
 msgstr "/usr/sbin/dip இல்லை அல்லது இயக்க முடியாது"
 
-#: /etc/rc.d/rc.sysinit:483
+#: /etc/rc.d/rc.sysinit:482
 msgid "Resetting hostname ${HOSTNAME}: "
 msgstr "புரவலன் பெயரை மாற்றி அமைக்கிறது ${HOSTNAME}: "
 
@@ -2275,7 +2294,7 @@ msgstr "'IPv6 முகவரிக்கான' (arg 2) அளவுருவ�
 msgid "error in one or more of the carp configurations, see above:"
 msgstr ""
 
-#: /etc/rc.d/init.d/halt:186
+#: /etc/rc.d/init.d/halt:191
 msgid "Unmounting file systems: "
 msgstr "கோப்பு அமைப்பை வெளியேற்றுகிறது: "
 
@@ -2283,11 +2302,7 @@ msgstr "கோப்பு அமைப்பை வெளியேற்று�
 msgid "Services are stopped."
 msgstr ""
 
-#: /etc/rc.d/init.d/functions:160 /etc/rc.d/init.d/tclhttpd:69
-msgid "Usage: killproc {program} [signal]"
-msgstr "பயன்பாடு: killproc {program} [signal]"
-
-#: /etc/rc.d/rc.sysinit:223
+#: /etc/rc.d/rc.sysinit:217
 msgid "Setting hostname ${HOSTNAME}: "
 msgstr "புரவலன் பெயரை அமைக்கிறது ${HOSTNAME}: "
 
@@ -2342,7 +2357,7 @@ msgstr "'/sbin/service network restart' உடன் வலைப்பின்
 msgid "common address redundancy protocol daemon"
 msgstr ""
 
-#: /etc/rc.d/init.d/netfs:77 /etc/rc.d/rc.sysinit:343
+#: /etc/rc.d/init.d/netfs:77 /etc/rc.d/rc.sysinit:342
 msgid "*** when you leave the shell."
 msgstr "*** ஷெல்லிலிருந்து வெளியேறும் போது."
 
@@ -2377,10 +2392,6 @@ msgstr "CIFS கோப்பு அமைப்பை ஏற்றுகிற�
 msgid "Usage: $0 {start|stop|status|restart|reload|condrestart}"
 msgstr "பயன்பாடு: $0 {start|stop|status|restart|reload|condrestart}"
 
-#: /etc/rc.d/init.d/functions:259
-msgid "Usage: pidofproc {program}"
-msgstr "பயன்பாடு: pidofproc {program}"
-
 #: /etc/rc.d/init.d/rusersd:26
 msgid "Starting rusers services: "
 msgstr "rusers சேவையை துவக்குகிறது: "
@@ -2406,7 +2417,7 @@ msgstr "NFS மாயாவியை துவக்குகிறது: "
 msgid "Given address '$addr' is not a global IPv4 one (arg 1)"
 msgstr "கொடுக்கப்பட்ட IPv4 முகவரி '$ipv4addr' பொதுவாக பயன்படுத்தப்படுவதில்லை"
 
-#: /etc/rc.d/init.d/firstboot:54
+#: /etc/rc.d/init.d/firstboot:57
 msgid "Running system reconfiguration tool"
 msgstr "கணினி அமைப்பு கருவியை இயக்குகிறது"
 
@@ -2419,11 +2430,6 @@ msgid ""
 "IPv6to4 configuration needs an IPv4 address on related interface or "
 "otherwise specified"
 msgstr "IPv6to4 அமைப்பிற்கு தொடர்புடையை இடைமுகம் அல்லது குறிப்பிட்ட IPv4 முகவரி தேவை"
-
-#: /etc/rc.d/init.d/apt:30
-#, fuzzy
-msgid "Disabling nightly apt update: "
-msgstr "இரவு யம் மேம்படுத்தலை செயல்நீக்குகிறது: "
 
 #: /etc/rc.d/init.d/nfs:53
 msgid "Starting NFS services: "
@@ -2448,7 +2454,7 @@ msgstr "cups-config-daemon ஐ துவக்குகிறது: "
 msgid "/proc entries were fixed"
 msgstr ""
 
-#: /etc/rc.d/init.d/rpcidmapd:63
+#: /etc/rc.d/init.d/rpcidmapd:64
 #, fuzzy
 msgid "Shutting down RPC idmapd: "
 msgstr "NFS4 idmapd பணிநிறுத்தம் செய்கிறது: "
@@ -2466,7 +2472,7 @@ msgstr "சுரங்க சாதனம்  '$device' உருவாக்�
 msgid "Starting hpiod: "
 msgstr "hidd துவங்குகிறது: "
 
-#: /etc/rc.d/rc.sysinit:325 /etc/rc.d/rc.sysinit:350
+#: /etc/rc.d/rc.sysinit:324 /etc/rc.d/rc.sysinit:349
 msgid "Unmounting file systems"
 msgstr "கோப்பு அமைப்பை வெளியேற்றுகிறது"
 
@@ -2500,7 +2506,7 @@ msgid ""
 "See $SYSDOCDIR/postgresql-$PGVERSION/README.rpm-dist for more information."
 msgstr ""
 
-#: /etc/rc.d/rc.sysinit:149
+#: /etc/rc.d/rc.sysinit:141
 msgid "Setting clock $CLOCKDEF: `date`"
 msgstr "கடிகாரத்தை அமைக்கிறது $CLOCKDEF: `date`"
 
@@ -2546,6 +2552,11 @@ msgid "Given pidfile '$pidfile' doesn't exist, cannot send trigger to radvd"
 msgstr ""
 "கொடுக்கப்பட்ட pidfile '$pidfile' காணவில்லை, radvd க்கு செயலை அனுப்ப முடியவில்லை"
 
+#: /etc/sysconfig/network-scripts/ifup-ippp:375
+#: /etc/sysconfig/network-scripts/ifup-isdn:375
+msgid "Warning: link doesn't support IPv6 using encapsulation 'rawip'"
+msgstr "எச்சரிக்கை:: இணைப்பை பயன்படுத்தும் என்காப்சுகேஷன் ஆதரவு இல்லை 'rawip'"
+
 #: /etc/rc.d/init.d/halt:39
 msgid "Please stand by while rebooting the system..."
 msgstr "கணினி மீண்டும் துவக்கப்படும் போது அப்படியே நில்..."
@@ -2590,7 +2601,7 @@ msgstr "netdump செயல்நீக்கம் செய்கிறது
 msgid "Checking for hardware changes"
 msgstr "புதிய வன்பொருளுக்காக சோதிக்கிறது"
 
-#: /etc/rc.d/init.d/xfs:109
+#: /etc/rc.d/init.d/xfs:103
 msgid "Restarting $prog:"
 msgstr "$prog மீண்டும் துவக்குகிறது:"
 
@@ -2607,7 +2618,7 @@ msgstr "YP சேவகனை நிறுத்துகிறது:"
 msgid "Generating SSH1 RSA host key: "
 msgstr "SSH2 RSA புரவலன் விசையை உருவாக்குகிறது:"
 
-#: /etc/rc.d/init.d/iptables:195
+#: /etc/rc.d/init.d/iptables:200
 msgid "Unloading $IPTABLES modules: "
 msgstr "$IPTABLES பகுதி ஏற்றத்தை நீக்குகிறது: "
 
@@ -2624,7 +2635,7 @@ msgstr "கொடுக்கப்பட்ட முகவரிக்கா�
 msgid "stale lock files may be present in $directory"
 msgstr ""
 
-#: /etc/rc.d/init.d/halt:124
+#: /etc/rc.d/init.d/halt:129
 msgid "Turning off swap: "
 msgstr "swap ஐ நிறுத்துகிறது: "
 
@@ -2646,7 +2657,7 @@ msgstr "YP சேவகனை நிறுத்துகிறது:"
 msgid "Starting imapproxyd: "
 msgstr "NFS4 idmapd துவங்குகிறது"
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:152
+#: /etc/sysconfig/network-scripts/ifup-aliases:163
 msgid "error in $FILE: already seen ipaddr $IPADDR in $ipseen"
 msgstr "$FILE பிழை:  $IPADDR இல் $ipseen ஏற்கெனவே பார்க்கப்பட்டது"
 
@@ -2701,17 +2712,15 @@ msgstr "NFS statd துவங்குகிறது: "
 msgid "Given device '$device' is not supported (arg 1)"
 msgstr "கொடுக்கப்பட்ட சாதனத்திற்கு '$device' ஆதரவு இல்லை (arg 1)"
 
-#: /etc/rc.d/rc.sysinit:417
+#: /etc/rc.d/rc.sysinit:416
 msgid "Mounting local filesystems: "
 msgstr "உள் கோப்பு முறைமையை ஏற்றுகிறது: "
 
-#: /etc/rc.d/init.d/avahi-daemon:46 /etc/rc.d/init.d/functions:207
-#: /etc/rc.d/init.d/functions:218 /etc/rc.d/init.d/tclhttpd:116
-#: /etc/rc.d/init.d/tclhttpd:127
-msgid "$base shutdown"
-msgstr "$base பணிநிறுத்தம்"
+#: /etc/rc.d/init.d/functions:326
+msgid "${base} dead but pid file exists"
+msgstr "${base} இறந்தது ஆனால் pid கோப்பு உள்ளது"
 
-#: /etc/rc.d/init.d/mysqld:157
+#: /etc/rc.d/init.d/mysqld:158
 msgid "Usage: $0 {start|stop|status|condrestart|restart}"
 msgstr "பயன்பாடு: $0 {start|stop|status|condrestart|restart}"
 
@@ -2731,7 +2740,7 @@ msgstr "ifup-ppp  $DEVICE வெளியேறுகிறது"
 msgid "Usage: $prog {start|stop|restart|condrestart|reload|status}"
 msgstr "பயன்பாடு: $prog {start|stop|restart|condrestart|reload|status}"
 
-#: /etc/rc.d/rc.sysinit:213
+#: /etc/rc.d/rc.sysinit:207
 msgid "Loading default keymap: "
 msgstr "இயல்பான விசைப்பலகை அமைப்பை ஏற்றுகிறது"
 
@@ -2782,7 +2791,7 @@ msgstr ""
 msgid "WARNING: vconfig not able to disable REORDER_HDR on ${DEVICE}"
 msgstr "எச்சரிக்கை: vconfig ஐ REORDER_HDR இல் ${DEVICE} செயல் நீக்கம் செய்ய முடியவில்லை"
 
-#: /etc/rc.d/rc.sysinit:551
+#: /etc/rc.d/rc.sysinit:554
 msgid "Enabling swap space: "
 msgstr "ஸ்வாப் இடைவெளியை செயல்படுத்துகிறது: "
 
@@ -2830,7 +2839,7 @@ msgstr "கலவர டம்ப்பை துவக்குகிறது:
 msgid "ipchains and $IPTABLES can not be used together."
 msgstr "ipchains மற்றும் $IPTABLES ஒன்றாக பயன்படுத்த முடியாது"
 
-#: /etc/rc.d/init.d/network:266
+#: /etc/rc.d/init.d/network:267
 msgid "Disabling IPv4 packet forwarding: "
 msgstr "IPv4 பணிதொகுப்பு முன்னனுப்பல் செயல்பாட்டில் இல்லை: "
 
@@ -2859,7 +2868,7 @@ msgstr "APM மாயாவியை துவக்குகிறது: "
 msgid "Unloading ISDN modules"
 msgstr "ISDN பகுதியை மேலேற்றுகிறது"
 
-#: /etc/rc.d/init.d/functions:214 /etc/rc.d/init.d/tclhttpd:123
+#: /etc/rc.d/init.d/functions:237
 msgid "$base $killlevel"
 msgstr "$base $killlevel"
 
@@ -2889,11 +2898,11 @@ msgstr "netdump ஐ துவக்குகிறது"
 msgid "Stopping $prog:  "
 msgstr "$prog நிறுத்துகிறது:"
 
-#: /etc/rc.d/init.d/ip6tables:195
+#: /etc/rc.d/init.d/ip6tables:200
 msgid "Unloading $IP6TABLES modules: "
 msgstr "$IP6TABLES பகுதியை வெளியேற்றுகிறது: "
 
-#: /etc/rc.d/init.d/firstboot:49
+#: /etc/rc.d/init.d/firstboot:52
 msgid "X is now configured.  Starting Setup Agent"
 msgstr "X அமைக்கப்பட்டது. இடைத்தரகரை அமைக்க துவங்குகிறது"
 
@@ -2901,7 +2910,7 @@ msgstr "X அமைக்கப்பட்டது. இடைத்தரக�
 msgid "Device '$device' enabling didn't work"
 msgstr "சாதனம் '$device' செயல்படுத்தப்பட்டது ஆனால் வேலை செய்யவில்லை"
 
-#: /etc/rc.d/init.d/functions:448
+#: /etc/rc.d/init.d/functions:473
 msgid "nN"
 msgstr "nN"
 
@@ -2913,7 +2922,7 @@ msgstr ""
 msgid "You need to upgrade the data format before using PostgreSQL."
 msgstr ""
 
-#: /etc/rc.d/rc.sysinit:392
+#: /etc/rc.d/rc.sysinit:391
 msgid "Remounting root filesystem in read-write mode: "
 msgstr "முதன்மை கோப்பு அமைப்பை எழுது-படி பாங்கில் மீளேற்றுகிறது."
 
@@ -2939,7 +2948,7 @@ msgstr "வன்பொருள் கடிகாரத்தை கணின�
 msgid "Configuration file or keys are invalid"
 msgstr "அமைப்பு விசை அல்லது கோப்பு செல்லாது"
 
-#: /etc/rc.d/init.d/functions:444
+#: /etc/rc.d/init.d/functions:469
 msgid "cC"
 msgstr "cC"
 
@@ -2948,7 +2957,7 @@ msgid "DEBUG    "
 msgstr "DEBUG    "
 
 #: /etc/rc.d/init.d/gfs:94 /etc/rc.d/init.d/i8kbuttons:56
-#: /etc/rc.d/init.d/netfs:217 /etc/rc.d/init.d/network:298
+#: /etc/rc.d/init.d/netfs:217 /etc/rc.d/init.d/network:299
 #: /etc/rc.d/init.d/yum-updateonboot:81
 msgid "Usage: $0 {start|stop|restart|reload|status}"
 msgstr "பயன்பாடு: $0 {start|stop|restart|reload|status}"
@@ -2961,6 +2970,11 @@ msgstr ""
 #: /etc/rc.d/init.d/portmap:29
 msgid "Networking not configured - exiting"
 msgstr "வலைப்பின்னல் அமைக்கப்படவில்லை - வெளியேறுகிறது"
+
+#: /etc/rc.d/init.d/avahi-daemon:83
+#, fuzzy
+msgid "Avahi daemon is running"
+msgstr "cardmgr (pid $pid) இயக்கதில் உள்ளது..."
 
 #: /etc/rc.d/init.d/acpid:26
 msgid "Starting acpi daemon: "
@@ -2975,15 +2989,15 @@ msgstr "SMB கோப்பு அமைப்பை ஏற்றுகிறத
 msgid "Missing parameter 'IPv6-network' (arg 1)"
 msgstr "'IPv6-network' (arg 1) அளவுருக்களை காணவில்லை"
 
-#: /etc/rc.d/init.d/ip6tables:253 /etc/rc.d/init.d/iptables:253
+#: /etc/rc.d/init.d/ip6tables:258 /etc/rc.d/init.d/iptables:258
 msgid "Firewall is stopped."
 msgstr "நெருப்பு சுவர் நிறுத்தப்பட்டது"
 
-#: /etc/rc.d/rc.sysinit:70 /etc/rc.d/rc.sysinit:328 /etc/rc.d/rc.sysinit:353
+#: /etc/rc.d/rc.sysinit:67 /etc/rc.d/rc.sysinit:327 /etc/rc.d/rc.sysinit:352
 msgid "Automatic reboot in progress."
 msgstr "தானாக மீண்டும் துவக்குதல் நிகழ்துகொண்டிருக்கிறது"
 
-#: /etc/rc.d/init.d/functions:415
+#: /etc/rc.d/init.d/functions:440
 msgid "$STRING"
 msgstr "$STRING"
 
@@ -2991,11 +3005,6 @@ msgstr "$STRING"
 #, fuzzy
 msgid "Starting $named: "
 msgstr "dund ஐ துவக்குகிறது: "
-
-#: /etc/rc.d/init.d/apt:23
-#, fuzzy
-msgid "Enabling nightly apt update: "
-msgstr "உங்கள் இரவு யம் புதுப்பித்தலை செயல்படுத்துகிறது"
 
 #: /etc/rc.d/init.d/sendmail:94
 msgid "reloading sm-client: "
@@ -3018,7 +3027,7 @@ msgstr "/proc கோப்பு அமைப்பை காணவில்ல�
 msgid "Starting NFS mountd: "
 msgstr "NFS mountd துவங்குகிறது: "
 
-#: /etc/rc.d/init.d/functions:293
+#: /etc/rc.d/init.d/functions:317
 msgid "${base} (pid $pid) is running..."
 msgstr "${base} (pid $pid) இயக்கதில் உள்ளது..."
 
@@ -3040,12 +3049,12 @@ msgstr "NIS டொமைனை கொண்டுவருகிறது: "
 msgid "Moodle cron job is enabled."
 msgstr "கணக்கிடுதலை செயல்படுத்தப்பட்டுள்ளது."
 
-#: /etc/rc.d/init.d/avahi-daemon:55
+#: /etc/rc.d/init.d/avahi-daemon:61
 #, fuzzy
 msgid "$base reload"
 msgstr "$prog மீளேற்றப்பட்டது"
 
-#: /etc/rc.d/init.d/amd:39 /etc/rc.d/init.d/anacron:24
+#: /etc/rc.d/init.d/amd:39 /etc/rc.d/init.d/anacron:26
 #: /etc/rc.d/init.d/arpwatch:35 /etc/rc.d/init.d/atd:39
 #: /etc/rc.d/init.d/auditd:70 /etc/rc.d/init.d/boa:46
 #: /etc/rc.d/init.d/bootparamd:38 /etc/rc.d/init.d/cfexecd:31
@@ -3063,21 +3072,59 @@ msgstr "$prog மீளேற்றப்பட்டது"
 #: /etc/rc.d/init.d/ldap:189 /etc/rc.d/init.d/lighttpd:42
 #: /etc/rc.d/init.d/lisa:48 /etc/rc.d/init.d/lm_sensors:80
 #: /etc/rc.d/init.d/mdmpd:57 /etc/rc.d/init.d/milter-greylist:39
-#: /etc/rc.d/init.d/mysqld:114 /etc/rc.d/init.d/mysqld:118
-#: /etc/rc.d/init.d/mysqld:121 /etc/rc.d/init.d/mysqld:125
+#: /etc/rc.d/init.d/mysqld:115 /etc/rc.d/init.d/mysqld:119
+#: /etc/rc.d/init.d/mysqld:122 /etc/rc.d/init.d/mysqld:126
 #: /etc/rc.d/init.d/nscd:57 /etc/rc.d/init.d/opensm:46
+#: /etc/rc.d/init.d/plague-builder:34 /etc/rc.d/init.d/plague-server:34
 #: /etc/rc.d/init.d/portmap:57 /etc/rc.d/init.d/pure-ftpd:40
 #: /etc/rc.d/init.d/radvd:45 /etc/rc.d/init.d/rarpd:32
 #: /etc/rc.d/init.d/rbldnsd:72 /etc/rc.d/init.d/rinetd:34
 #: /etc/rc.d/init.d/roundup:37 /etc/rc.d/init.d/rwalld:33
-#: /etc/rc.d/init.d/saslauthd:45 /etc/rc.d/init.d/snmpd:34
-#: /etc/rc.d/init.d/snmptrapd:32 /etc/rc.d/init.d/spamassassin:52
-#: /etc/rc.d/init.d/squid:83 /etc/rc.d/init.d/sshd:115
-#: /etc/rc.d/init.d/syslog-ng:43 /etc/rc.d/init.d/tclhttpd:151
-#: /etc/rc.d/init.d/thttpd:42 /etc/rc.d/init.d/tinyerp-server:58
-#: /etc/rc.d/init.d/ups:67 /etc/rc.d/init.d/xinetd:68
+#: /etc/rc.d/init.d/salinfod:42 /etc/rc.d/init.d/saslauthd:45
+#: /etc/rc.d/init.d/snmpd:34 /etc/rc.d/init.d/snmptrapd:32
+#: /etc/rc.d/init.d/spamassassin:52 /etc/rc.d/init.d/squid:83
+#: /etc/rc.d/init.d/sshd:115 /etc/rc.d/init.d/syslog-ng:43
+#: /etc/rc.d/init.d/thttpd:42 /etc/rc.d/init.d/tinyerp-server:44
+#: /etc/rc.d/init.d/ups:67 /etc/rc.d/init.d/ushare:36
+#: /etc/rc.d/init.d/wpa_supplicant:43 /etc/rc.d/init.d/xinetd:68
 msgid "Stopping $prog: "
 msgstr "$prog நிறுத்துகிறது:"
+
+#, fuzzy
+#~ msgid "$base dead but pid file exists"
+#~ msgstr "${base} இறந்தது ஆனால் pid கோப்பு உள்ளது"
+
+#, fuzzy
+#~ msgid "Starting pmud daemon: "
+#~ msgstr "acpi மாயாவியை துவக்குகிறது: "
+
+#, fuzzy
+#~ msgid "$base is stopped"
+#~ msgstr "${base} நிறுத்தப்பட்டது"
+
+#, fuzzy
+#~ msgid "$base (pid $pid) is running..."
+#~ msgstr "${base} (pid $pid) இயக்கதில் உள்ளது..."
+
+#, fuzzy
+#~ msgid "$base dead but subsys locked"
+#~ msgstr "${base} இறந்துவிட்டது subsys பூட்டப்பட்டது"
+
+#, fuzzy
+#~ msgid "Nightly apt update is disabled."
+#~ msgstr "இரவு யம் புதுப்பித்தல் செயல்நீக்கம் செய்யப்பட்டது"
+
+#, fuzzy
+#~ msgid "Nightly apt update is enabled."
+#~ msgstr "இரவு யம் மேம்படுத்தல் துவக்கப்பட்டது"
+
+#, fuzzy
+#~ msgid "Disabling nightly apt update: "
+#~ msgstr "இரவு யம் மேம்படுத்தலை செயல்நீக்குகிறது: "
+
+#, fuzzy
+#~ msgid "Enabling nightly apt update: "
+#~ msgstr "உங்கள் இரவு யம் புதுப்பித்தலை செயல்படுத்துகிறது"
 
 #, fuzzy
 #~ msgid "Shutting down display manager: "
