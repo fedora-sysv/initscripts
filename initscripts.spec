@@ -208,6 +208,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Feb 13 2006 XXX 8.26-1
+- kill nash-hotplug before starting udev (<pjones@redhat.com>)
+- silence warnings on /dev/pts remount (<pjones@redhat.com>)
+
 * Mon Feb 13 2006 Bill Nottingham <notting@redhat.com> 8.27-1
 - translation updates
 - lang.sh: revert fix for #176832, it's broken
