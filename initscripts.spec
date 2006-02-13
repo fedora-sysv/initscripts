@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.26
+Version: 8.27
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -208,6 +208,11 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Feb 13 2006 Bill Nottingham <notting@redhat.com> 8.27-1
+- translation updates
+- lang.sh: revert fix for #176832, it's broken
+- ifup-aliases fixes (<pjones@redhat.com>,<mitr@redhat.com>)
+
 * Tue Feb  7 2006 Bill Nottingham <notting@redhat.com> 8.26-1
 - revert "rc.sysinit: don't mount usbfs, libusb no longer uses it" change
 - add some ugly hacks to make sure net hotplug doesn't run after unclean
