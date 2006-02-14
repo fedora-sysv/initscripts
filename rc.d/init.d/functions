@@ -493,7 +493,7 @@ resolve_dm_name() {
 (
     name="$1"
 
-    line=$(/sbin/dmraid -ay -t --ignorelocking | grep -v "No RAID disks" | awk -F ':' "{ if (\$1 ~ /^$name$/) { print \$2; }}")
+    line=$(/sbin/dmraid -ay -t --ignorelocking | egrep -iv "no block devices found|No RAID disks" | awk -F ':' "{ if (\$1 ~ /^$name$/) { print \$2; }}")
     newline=$line
     for x in $line ; do
         if [[ "$x" =~ "^/dev/" ]] ; then
@@ -501,6 +501,6 @@ resolve_dm_name() {
             newline=$(echo $newline | sed -e "s,$x\( \|$\),$majmin\1,g")
         fi
     done
-    /sbin/dmsetup table | grep -v "No devices found" | sed -n "s/\(^[^:]\+\): $newline\( \+$\|$\)/\1/p"
+    /sbin/dmsetup table | egrep -iv "no block devices found|No devices found" | sed -n "s/\(^[^:]\+\): $newline\( \+$\|$\)/\1/p"
 ) 2>/dev/null
 }

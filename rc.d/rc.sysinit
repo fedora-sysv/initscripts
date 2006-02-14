@@ -259,7 +259,7 @@ if [ -c /dev/mapper/control ]; then
 	
 	if [ -x /sbin/dmraid ]; then
 		modprobe dm-mirror >/dev/null 2>&1
-		for x in $(dmraid -ay -t --ignorelocking 2>/dev/null | grep -v "No RAID disks" | awk -F ':' '{ print $1 }') ; do
+		for x in $(/sbin/dmraid -ay -t --ignorelocking 2>/dev/null | egrep -iv "no block devices found|No RAID disks" | awk -F ':' '{ print $1 }') ; do
 			dmname=$(resolve_dm_name $x)
 			if [ -z "$dmname" ]; then
 				/sbin/dmraid -ay --ignorelocking "$x"
