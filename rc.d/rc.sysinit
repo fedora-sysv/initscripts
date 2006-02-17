@@ -30,17 +30,17 @@ fi
 
 # Check SELinux status
 selinuxfs=`LC_ALL=C awk '/ selinuxfs / { print $2 }' /proc/mounts`
-SELINUX=
+SELINUX_STATE=
 if [ -n "$selinuxfs" ] && [ "`cat /proc/self/attr/current`" != "kernel" ]; then
 	if [ -r $selinuxfs/enforce ] ; then
-		SELINUX=`cat $selinuxfs/enforce`
+		SELINUX_STATE=`cat $selinuxfs/enforce`
 	else
 		# assume enforcing if you can't read it
-		SELINUX=1
+		SELINUX_STATE=1
 	fi
 fi
 
-if [ -n "$SELINUX" -a -x /sbin/restorecon ] && LC_ALL=C fgrep -q " /dev " /proc/mounts ; then
+if [ -n "$SELINUX_STATE" -a -x /sbin/restorecon ] && LC_ALL=C fgrep -q " /dev " /proc/mounts ; then
 	/sbin/restorecon  -R /dev 2>/dev/null
 fi
 
@@ -71,7 +71,7 @@ relabel_selinux() {
 		echo $"Automatic reboot in progress."
 		reboot -f
     fi
-    echo $SELINUX > $selinuxfs/enforce
+    echo $SELINUX_STATE > $selinuxfs/enforce
     if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
 	chvt 8
     fi
@@ -246,7 +246,7 @@ if ! LC_ALL=C fgrep -q "device-mapper" /proc/devices 2>/dev/null ; then
 	modprobe dm-mod >/dev/null 2>&1
 fi
 echo "mkdmnod" | /sbin/nash --quiet >/dev/null 2>&1
-[ -n "$SELINUX" ] && restorecon /dev/mapper/control >/dev/null 2>&1
+[ -n "$SELINUX_STATE" ] && restorecon /dev/mapper/control >/dev/null 2>&1
     
 if [ -c /dev/mapper/control ]; then
         if [ -f /etc/multipath.conf -a -x /sbin/multipath.static ] ; then
@@ -348,7 +348,7 @@ if [ -z "$fastboot" -a "$READONLY" != "yes" ]; then
 
                 str=$"(Repair filesystem)"
 		PS1="$str \# # "; export PS1
-		[ "$SELINUX" = "1" ] && disable_selinux
+		[ "$SELINUX_STATE" = "1" ] && disable_selinux
 		sulogin
 
 		echo $"Unmounting file systems"
@@ -396,7 +396,7 @@ state=`LC_ALL=C awk '/ \/ / && ($3 !~ /rootfs/) { print $4 }' /proc/mounts`
   action $"Remounting root filesystem in read-write mode: " mount -n -o remount,rw /
 
 # Clean up SELinux labels
-if [ -n "$SELINUX" ]; then
+if [ -n "$SELINUX_STATE" ]; then
    for file in /etc/mtab /etc/ld.so.cache ; do
    	[ -r $file ] && restorecon $file  >/dev/null 2>&1
    done
@@ -425,7 +425,7 @@ if [ -x /sbin/quotaon ]; then
 fi
 
 # Check to see if a full relabel is needed
-if [ -n "$SELINUX" ]; then 
+if [ -n "$SELINUX_STATE" ]; then 
     if [ -f /.autorelabel ] || strstr "$cmdline" autorelabel ; then
 	relabel_selinux
     fi
@@ -538,7 +538,7 @@ if [ -n "$_NEED_XFILES" ]; then
 fi
 
 # Clean up various /tmp bits
-[ -n "$SELINUX" ] && restorecon /tmp
+[ -n "$SELINUX_STATE" ] && restorecon /tmp
 rm -f /tmp/.X*-lock /tmp/.lock.* /tmp/.gdm_socket /tmp/.s.PGSQL.*
 rm -rf /tmp/.X*-unix /tmp/.ICE-unix /tmp/.font-unix /tmp/hsperfdata_* \
        /tmp/kde-* /tmp/ksocket-* /tmp/mc-* /tmp/mcop-* /tmp/orbit-*  \
@@ -548,7 +548,7 @@ rm -rf /tmp/.X*-unix /tmp/.ICE-unix /tmp/.font-unix /tmp/hsperfdata_* \
 # Make ICE directory
 mkdir -m 1777 -p /tmp/.ICE-unix >/dev/null 2>&1
 chown root:root /tmp/.ICE-unix
-[ -n "$SELINUX" ] && restorecon /tmp/.ICE-unix >/dev/null 2>&1
+[ -n "$SELINUX_STATE" ] && restorecon /tmp/.ICE-unix >/dev/null 2>&1
 
 #if [ -x /etc/init.d/diskdump ]; then
 #	/etc/init.d/diskdump swapsavecore
