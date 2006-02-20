@@ -397,9 +397,7 @@ state=`LC_ALL=C awk '/ \/ / && ($3 !~ /rootfs/) { print $4 }' /proc/mounts`
 
 # Clean up SELinux labels
 if [ -n "$SELINUX_STATE" ]; then
-   for file in /etc/mtab /etc/ld.so.cache ; do
-   	[ -r $file ] && restorecon $file  >/dev/null 2>&1
-   done
+   restorecon /etc/mtab /etc/ld.so.cache /etc/blkid.tab /etc/resolv.conf >/dev/null 2>&1
 fi
 
 # Clear mtab
