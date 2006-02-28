@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.29
+Version: 8.30
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -208,6 +208,15 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Feb 28 2006 Bill Nottingham <notting@redhat.com> 8.30-1
+- hotplug: don't cause modules to be reloaded on ifdown/rmmod (#179809)
+- fix endless loops in ifup/ifdown (#177792, #182466)
+- fix enabling of enforcing SELinux mode after relabel (#181893)
+- remove debugging code from ifup-bnep
+- add /proc, /sys mounting back to rc.sysinit
+  Note: booting without an initrd is deprecated
+- translation updates
+
 * Tue Feb 14 2006 Peter Jones <pjones@redhat.com> 8.29-1
 - scrub another possible error message from dmraid output
 

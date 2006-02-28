@@ -1,3 +1,149 @@
+2006-02-28  Bill Nottingham  <notting@redhat.com>
+
+	* ChangeLog, initscripts.spec: 8.30-1
+
+	* sysconfig/network-scripts/ifup-eth, sysconfig/network-scripts/network-functions:
+	Fix potentials for endless loops when you have multiple devices
+	that claim to have the same hardware address. (#177792, #182466)
+	This happens most with hostap_cs and similar wireless drivers
+	that have ethX/wlanX *and* wifiX. Do this by ignoring ieee802.11
+	links. Also, use /sbin/ip, not nameif - it gets confused in these
+	cases as well.
+
+	* sysconfig/network-scripts/ifdown-eth, sysconfig/network-scripts/network-functions:
+	don't cause the module to get reloaded on ifdown if it's not loaded
+	(#179809)
+
+2006-02-28  Ani Peter  <apeter@redhat.com>
+
+	* po/ml.po: added file for malayalam
+
+2006-02-25  Ronny Buchmann  <ronny-vlug@vlugnet.org>
+
+	* po/de.po: german translation update
+
+2006-02-24  Leah Liu  <liuwei99@gmail.com>
+
+	* po/zh_CN.po: *** empty log message ***
+
+2006-02-23  Amanpreet Brar  <aalam@redhat.com>
+
+	* po/pa.po: update for Punjabi
+
+2006-02-23  leahliu  <leahliu@redhat.com>
+
+	* po/zh_CN.po: *** empty log message ***
+
+2006-02-22  Josep Puigdemont  <baldrick@terra.es>
+
+	* po/ca.po: Updated Catalan translation.
+
+2006-02-21  Richard Allen  <ra@hp.is>
+
+	* po/is.po: *** empty log message ***
+
+2006-02-21  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* po/nb.po: Update
+
+2006-02-21  Chung Cheng  <ccheng@redhat.com>
+
+	* po/zh_TW.po: *** empty log message ***
+
+2006-02-20  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit: optimize, and add some more files
+
+2006-02-20  Audrey Simons  <asimons@redhat.com>
+
+	* po/fr.po: updated
+
+2006-02-17  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit:
+	relabeling sources /etc/selinux/config, which uses $SELINUX. Pick
+	something else. (#181893)
+
+2006-02-17  Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>
+
+	* po/ms.po: Updated Malay translation
+
+2006-02-16  Nikola Štohanzl  <niko@srnet.cz>
+
+	* po/cs.po: Finished
+
+2006-02-15  Andrew Martynov <andrewm@inventa.ru>
+
+	* po/ru.po: Updated translation
+
+2006-02-15  Christian Rose  <menthos@menthos.com>
+
+	* po/sv.po: Updated Swedish translation.
+
+2006-02-15  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifup-bnep: nuke debugging
+
+2006-02-15  José Nuno Coelho Sanarra Pires  <jncp+fedora@netcabo.pt>
+
+	* po/pt.po: Finished all for today
+
+2006-02-14  Gábor Szentiványi  <szentivanyi.gabor@ulx.hu>
+
+	* po/hu.po: Translation updated for FC5.
+
+2006-02-14  Peter Jones  <pjones@redhat.com>
+
+	* initscripts.spec, rc.d/init.d/functions, rc.d/rc.sysinit:
+	- filter out another "no" message from dmraid.  We need to fix dmraid's
+	  exit status in these cases and use that in the future...
+	- add path to one dmraid call
+	- bump version, add changelog
+
+2006-02-14  Rajesh Ranjan  <rranjan@redhat.com>
+
+	* po/hi.po: hindi updted
+
+2006-02-14  Amanpreet Brar  <aalam@redhat.com>
+
+	* po/pa.po: update for Punjabi
+
+2006-02-14  Ankitkumar Rameshchandra Patel  <ankit@redhat.com>
+
+	* po/gu.po: Updated Gujarati Translations
+
+2006-02-14  Miloš Komarčević <kmilos@gmail.com>
+
+	* po/sr@Latn.po, po/sr.po: *** empty log message ***
+
+2006-02-13  Yong-Joon Bae  <ybae@redhat.com>
+
+	* po/ko.po: translation updated
+
+2006-02-13  Rodrigo Padula de Oliveira <rodrigopadula@gmail.com>
+
+	* po/pt_BR.po: Traducao
+
+2006-02-13  Peter van Egdom <p.van.egdom@chello.nl>
+
+	* po/nl.po: Some fixes for initscripts nl.po
+
+2006-02-13  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit: Add mounting of /proc and /sys back to rc.sysinit.
+
+	Note that booting of Fedora Core without the use of an initrd is deprecated,
+	and support for booting the system in this manner may be removed in
+	a later release.
+
+2006-02-13  Francesco Tombolini  <tombo@adamantio.net>
+
+	* po/it.po: updated strings
+
+2006-02-13  Piotr Drąg  <raven@pmail.pl>
+
+	* po/pl.po: Update
+
 2006-02-13  Bill Nottingham  <notting@redhat.com>
 
 	* ChangeLog, initscripts.spec: 8.28-1
