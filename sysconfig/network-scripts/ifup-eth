@@ -40,7 +40,7 @@ is_available ${REALDEVICE}
 if [ -n "${HWADDR}" ]; then
     FOUNDMACADDR=`get_hwaddr ${REALDEVICE}`
     if [ "${FOUNDMACADDR}" != "${HWADDR}" ]; then
-        curdev=`ip -o link | grep -v link/ieee802.11 | awk -F ': ' -vIGNORECASE=1 "/$HWADDR/ { print \\$2 }"`
+        curdev=`get_device_by_hwaddr ${HWADDR}`
         if [ -n "$curdev" ]; then
 	  rename_device "${REALDEVICE}" "${HWADDR}" "${curdev}" || {
 	    echo $"Device ${DEVICE} has different MAC address than expected, ignoring."
