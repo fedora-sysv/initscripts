@@ -158,25 +158,29 @@ do_netreport ()
 # rename_device() - Rename a network device to something else
 # $1 - desired name
 # $2 - hardware address to name
-# $3 - list of devices that are already in use
+# $3 - Array variable - list of devices that are already in use
 #      (for general calls, use the current device you're trying to
 #       change to $1)
 
 rename_device()
 {
-    /sbin/nameif "$1" "$2" 2>/dev/null || {
+    local devs=$3
+    
+    /sbin/ip link set "${devs[0]}" name "$1" 2>/dev/null || {
       local hw2=`get_hwaddr ${1}`
       local nconfig=`get_config_by_hwaddr ${hw2}`
       local dev=
       if [ -n "$nconfig"  ]; then
          dev=$(. $nconfig ; echo $DEVICE)
-         for device in $3 ; do
+         for device in "${devs[@]}" ; do
 	    [ "$dev" = "$device" ] && unset dev
          done
       fi 
       [ -z "$dev" ] && dev=dev$RANDOM
-      rename_device $dev $hw2 "$3 $1"
-      /sbin/nameif "$1" "$2" 2>/dev/null
+      
+      devs[${#devs[@]}]=$1
+      rename_device $dev $hw2 $devs
+      /sbin/ip link set "${devs[0]}" name $1 2>/dev/null
     }
 }
 
@@ -196,7 +200,7 @@ is_available ()
     # trying to rename it:
     configure_ccwgroup_device
     if [ -n "$HWADDR" ]; then
-       local curdev=`ip -o link | awk -F ':' -vIGNORECASE=1 "/$HWADDR/ { print \\$2 }"`
+       local curdev=`ip -o link | grep -v link/ieee802.11 | awk -F ': ' -vIGNORECASE=1 "/$HWADDR/ { print \\$2 }"`
        if [ -z "$curdev" ]; then
           return 1
        fi
