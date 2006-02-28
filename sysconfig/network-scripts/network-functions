@@ -12,7 +12,7 @@ get_hwaddr ()
       {
     	if [ -f /sys/class/net/${1}/address ]; then
 		cat /sys/class/net/${1}/address
-	else	
+	elif [ -d "/sys/class/net/${1}" ]; then
 	    LC_ALL= LANG= ip -o link show ${1} 2>/dev/null | \
       	    sed 's/.*link\/[^ ]* \([[:alnum:]:]*\).*/\1/'
         fi
@@ -241,7 +241,7 @@ check_device_down ()
 	  return 0
      fi
     else 
-     if LC_ALL=C ip -o link ls dev $1 2>/dev/null | grep -q ",UP" ; then
+     if LC_ALL=C ip -o link 2>/dev/null | grep -q "$1:.*,UP" ; then
 	return 1
      else
 	return 0

@@ -77,14 +77,16 @@ retcode=0
 # may have been changed in the config file since the device was
 # brought up.  Flush all addresses associated with this
 # instance instead.
-if [ "${REALDEVICE}" = "${DEVICE}" ]; then
-	ip addr flush dev ${REALDEVICE} 2>/dev/null
-else
-	ip addr flush dev ${REALDEVICE} label ${DEVICE} 2>/dev/null
-fi
+if [ -d "/sys/class/net/${REALDEVICE}" ]; then
+	if [ "${REALDEVICE}" = "${DEVICE}" ]; then
+		ip addr flush dev ${REALDEVICE} 2>/dev/null
+	else
+		ip addr flush dev ${REALDEVICE} label ${DEVICE} 2>/dev/null
+	fi
 
-if [ "${REALDEVICE}" = "${DEVICE}" ]; then
-  ip link set dev ${DEVICE} down 2>/dev/null
+	if [ "${REALDEVICE}" = "${DEVICE}" ]; then
+  		ip link set dev ${DEVICE} down 2>/dev/null
+	fi
 fi
 [ "$retcode" = "0" ] && retcode=$?
 
