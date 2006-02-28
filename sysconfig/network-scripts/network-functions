@@ -171,7 +171,7 @@ rename_device()
 {
     local target=${3##*/}
 
-    /sbin/ip link set "$target" name "$1" || {
+    /sbin/ip link set "$target" name "$1" 2>/dev/null || {
       local hw2=`get_hwaddr ${1}`
       local nconfig=`get_config_by_hwaddr ${hw2}`
       local curdev=`get_device_by_hwaddr ${hw2}`
@@ -188,7 +188,7 @@ rename_device()
       [ -z "$dev" ] && dev=dev$RANDOM
       
       rename_device $dev $hw2 "$3/$curdev"
-      /sbin/ip link set "$target" name $1
+      /sbin/ip link set "$target" name $1 2>/dev/null
     }
 }
 
