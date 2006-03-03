@@ -38,6 +38,7 @@ case "$0" in
    *reboot)
 	message=$"Please stand by while rebooting the system..."
 	command="/sbin/reboot"
+	kexec_command="/sbin/kexec"
 	;;
    *)
 	echo $"$0: call me as 'halt' or 'reboot' please!"
@@ -235,6 +236,9 @@ if [ "$command" = /sbin/halt -a -r /etc/ups/upsmon.conf -a -f /etc/killpower -a 
 		$MODEL $OPTIONS_HALT -k $DEVICE
 	fi
 fi
+
+# First, try kexec. If that fails, fall back to rebooting the old way.
+[ -n "$kexec_command" ] && $kexec_command -e >& /dev/null
 
 HALTARGS="-i -d"
 [ -f /poweroff -o ! -f /halt ] && HALTARGS="$HALTARGS -p"
