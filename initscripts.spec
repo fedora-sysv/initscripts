@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.30
+Version: 8.31
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -208,6 +208,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Sun Mar  5 2006 Bill Nottingham <notting@redhat.com> 8.31-1
+- fix kexec support (<jmoyer@redhat.com>)
+- translation updates
+
 * Tue Feb 28 2006 Bill Nottingham <notting@redhat.com> 8.30-1
 - hotplug: don't cause modules to be reloaded on ifdown/rmmod (#179809)
 - fix endless loops in ifup/ifdown (#177792, #182466)
