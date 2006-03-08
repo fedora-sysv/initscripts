@@ -92,7 +92,7 @@ static int pipeArray[2];
 // patch to respect the maxfail parameter to ppp
 // Scott Sharkey <ssharkey@linux-no-limits.com>
 static int dialCount = 0;
-static int theChild;
+static pid_t theChild;
 static void failureExit(int exitCode);
 
 static void
@@ -380,7 +380,7 @@ pppLogicalToPhysical(int *pppdPid, char *logicalName, char **physicalName) {
 	     logicalName);
     fd = open(mapFileName, O_RDONLY);
     if (fd != -1) {
-	n = read(fd, buffer, sizeof(buffer));
+	n = read(fd, buffer, sizeof(buffer) - 1);
 	close(fd);
 	if (n > 0) {
 	    buffer[n] = '\0';
