@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.31
+Version: 8.31.1
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -208,6 +208,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Mar 14 2006 Bill Nottingham <notting@redhat.com> 8.31.1-1
+- fix context of /dev/pts (#185436)
+- translation updates
+
 * Sun Mar  5 2006 Bill Nottingham <notting@redhat.com> 8.31-1
 - fix kexec support (<jmoyer@redhat.com>)
 - translation updates
