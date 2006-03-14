@@ -178,10 +178,14 @@ if [ -f /etc/rc.modules ]; then
 	/etc/rc.modules
 fi
 
+# Network goo.
+
+
 # Start the graphical boot, if necessary; /usr may not be mounted yet, so we
 # may have to do this again after mounting
 RHGB_STARTED=0
 mount -n /dev/pts >/dev/null 2>&1
+[ -n "$SELINUX_STATE" ] && restorecon /dev/pts >/dev/null 2>&1
 
 if strstr "$cmdline" rhgb && ! strstr "$cmdline" early-login && [ "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
    LC_MESSAGES= /usr/bin/rhgb
