@@ -189,7 +189,7 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/getkey
 %attr(2755,root,root) /sbin/netreport
 /sbin/initlog
-/sbin/rename_device
+/lib/udev/rename_device
 /sbin/service
 /sbin/ppp-watch
 %{_mandir}/man*/*

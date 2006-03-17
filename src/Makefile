@@ -14,7 +14,7 @@ clean:
 	rm -f $(PROGS) *.o
 
 install:
-	mkdir -p $(ROOT)/bin $(ROOT)/usr/sbin $(ROOT)$(mandir)/man{1,8} $(ROOT)/etc
+	mkdir -p $(ROOT)/bin $(ROOT)/usr/sbin $(ROOT)$(mandir)/man{1,8} $(ROOT)/etc $(ROOT)/lib/udev
 	install -m 755 doexec $(ROOT)/bin/doexec
 	install -m 755 usleep $(ROOT)/bin/usleep
 	install -m 4755 usernetctl $(ROOT)/usr/sbin/usernetctl
@@ -25,7 +25,7 @@ install:
 	install -m 755 getkey $(ROOT)/sbin/getkey
 	install -m 755 ppp-watch $(ROOT)/sbin/ppp-watch
 	install -m 755 consoletype $(ROOT)/sbin/consoletype
-	install -m 755 rename_device $(ROOT)/sbin/rename_device
+	install -m 755 rename_device $(ROOT)/lib/udev/rename_device
 	install -m 644 initlog.1 $(ROOT)$(mandir)/man1
 	install -m 644 genhostid.1 $(ROOT)$(mandir)/man1
 	install -m 644 doexec.1 $(ROOT)$(mandir)/man1
