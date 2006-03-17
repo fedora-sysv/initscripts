@@ -36,7 +36,6 @@ install:
 	install -m 644 ppp-watch.8 $(ROOT)$(mandir)/man8
 	install -m 644 ipcalc.1 $(ROOT)$(mandir)/man1
 	install -m 644 consoletype.1 $(ROOT)$(mandir)/man1
-	install -m 644 rename_device.1 $(ROOT)$(mandir)/man1
 	install -m 644 initlog.conf $(ROOT)/etc
 
 # this daemon and initscript are useful for testing the up/down/status stuff
