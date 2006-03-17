@@ -176,6 +176,7 @@ rename_device()
       local nconfig=`get_config_by_hwaddr ${hw2}`
       local curdev=`get_device_by_hwaddr ${hw2}`
       local dev=
+      [ -z "${hw2}" ] && return
       if [ -n "$nconfig"  ]; then
          dev=$(. $nconfig ; echo $DEVICE)
 	 oldifs=$IFS
