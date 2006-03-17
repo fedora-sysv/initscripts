@@ -1,7 +1,7 @@
 CFLAGS+=$(RPM_OPT_FLAGS) -Wall -D_GNU_SOURCE
 
 PROGS=usernetctl doexec netreport testd usleep ipcalc initlog \
-	getkey ppp-watch consoletype genhostid
+	getkey ppp-watch consoletype genhostid rename_device
 PPPWATCH_OBJS=ppp-watch.o shvar.o
 INITLOG_OBJS=initlog.o process.o
 USLEEP_OBJS=usleep.o
@@ -25,6 +25,7 @@ install:
 	install -m 755 getkey $(ROOT)/sbin/getkey
 	install -m 755 ppp-watch $(ROOT)/sbin/ppp-watch
 	install -m 755 consoletype $(ROOT)/sbin/consoletype
+	install -m 755 rename_device $(ROOT)/sbin/rename_device
 	install -m 644 initlog.1 $(ROOT)$(mandir)/man1
 	install -m 644 genhostid.1 $(ROOT)$(mandir)/man1
 	install -m 644 doexec.1 $(ROOT)$(mandir)/man1
@@ -35,6 +36,7 @@ install:
 	install -m 644 ppp-watch.8 $(ROOT)$(mandir)/man8
 	install -m 644 ipcalc.1 $(ROOT)$(mandir)/man1
 	install -m 644 consoletype.1 $(ROOT)$(mandir)/man1
+	install -m 644 rename_device.1 $(ROOT)$(mandir)/man1
 	install -m 644 initlog.conf $(ROOT)/etc
 
 # this daemon and initscript are useful for testing the up/down/status stuff
@@ -69,6 +71,9 @@ shvar.o: shvar.c
 
 ppp-watch.o: ppp-watch.c
 	$(CC) $(CFLAGS) `pkg-config glib-2.0 --cflags` -c ppp-watch.c -o ppp-watch.o
+
+rename_device: rename_device.c
+	$(CC) $(CFLAGS) `pkg-config glib-2.0 --cflags` -o $@ $< -Wl,-Bstatic `pkg-config glib-2.0 --libs` -Wl,-Bdynamic
 
 kmodule: kmodule.o
 	$(CC) $(LDFLAGS) -o $@ $< -Wl,-Bstatic -lpopt -Wl,-Bdynamic -lkudzu -lpci
