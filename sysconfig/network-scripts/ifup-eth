@@ -265,9 +265,9 @@ if [ "${TYPE}" =  "Bonding" ] || ethtool -i $DEVICE 2>/dev/null| grep -q "driver
     for device in `LANG=C grep -l "^[[:space:]]*MASTER=${DEVICE}" /etc/sysconfig/network-scripts/ifcfg-*` ; do
 	if [ "$BOOTPROTO" = "dhcp" ]; then
 		DEV=$DEVICE
-                eval $(LANG=C fgrep "DEVICE=" $device)
+		(. $device
 		ifenslave -d $DEV $DEVICE
-		DEVICE=$DEV
+		)
 	fi
 	/sbin/ifup ${device##*/}
     done
