@@ -319,14 +319,17 @@ status() {
 	fi
 
 	# Next try "/var/run/*.pid" files
-	[ -z "$pid_file" ] && pid_file=/var/run/${base}.pid
-	if [ -f "$pid_file" ] ; then
-	        read pid < "$pid_file"
-	        if [ -n "$pid" ]; then
+	__pids_var_run "$1" "$pid_file"
+	case "$?" in
+		0)
+			echo $"${base} (pid $pid) is running..."
+			return 0
+			;;
+		1)
 	                echo $"${base} dead but pid file exists"
 	                return 1
-	        fi
-	fi
+			;;
+	esac
 	# See if /var/lock/subsys/${base} exists
 	if [ -f /var/lock/subsys/${base} ]; then
 		echo $"${base} dead but subsys locked"
