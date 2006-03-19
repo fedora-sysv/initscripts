@@ -307,16 +307,20 @@ if [ -f /etc/sysconfig/readonly-root ]; then
         . /etc/rc.readonly
     fi
 fi
- 
+
+if ! [[ " $fsckoptions" =~ " -y" ]]; then
+    	fsckoptions="-a $fsckoptions"
+fi
+
 _RUN_QUOTACHECK=0
 if [ -z "$fastboot" -a "$READONLY" != "yes" ]; then
 
         STRING=$"Checking filesystems"
 	echo $STRING
 	if [ "${RHGB_STARTED}" != "0" -a -w /etc/rhgb/temp/rhgb-console ]; then
-		fsck -T -t noopts=_netdev -A -a $fsckoptions > /etc/rhgb/temp/rhgb-console
+		fsck -T -t noopts=_netdev -A $fsckoptions > /etc/rhgb/temp/rhgb-console
 	else
-		fsck -T -t noopts=_netdev -A -a $fsckoptions
+		fsck -T -t noopts=_netdev -A $fsckoptions
 	fi
 	rc=$?
 	
