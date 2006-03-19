@@ -17,7 +17,6 @@ else
   # don't start ppp-watch by xDSL
   if [ "${DEMAND}" != yes -a "$TYPE" != "xDSL" ] ; then
     # let ppp-watch do the right thing
-    shift
     exec /sbin/ppp-watch "${CONFIG##ifcfg-}" "$2"
   fi
 fi
