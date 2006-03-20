@@ -5,14 +5,22 @@ cd /etc/sysconfig/network-scripts
 
 [ -f ../network ] && . ../network
 
+unset REALDEVICE
+if [ "$1" = --realdevice ] ; then
+    REALDEVICE=$2
+    shift 2
+fi
+
 CONFIG=$1
 source_config
+
+[ -z "$REALDEVICE" ] && REALDEVICE=$DEVICE
 
 if [ "$ISALIAS" = no ] ; then
     /etc/sysconfig/network-scripts/ifup-aliases ${DEVICE} ${CONFIG}
 fi
 
-/etc/sysconfig/network-scripts/ifup-routes ${DEVICE} ${DEVNAME}
+/etc/sysconfig/network-scripts/ifup-routes ${REALDEVICE} ${DEVNAME}
 
 
 if [ "$PEERDNS" != "no" -o -n "$RESOLV_MODS" -a "$RESOLV_MODS" != "no" ]; then
