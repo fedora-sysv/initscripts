@@ -133,14 +133,16 @@ fi
 
 if [ ${DEMAND} = yes ] ; then
   opts="$opts demand ktune idle ${IDLETIMEOUT} holdoff ${RETRYTIMEOUT}"
+  exec=
 else
   opts="$opts nodetach"
+  exec=exec
 fi
 
 (logger -p daemon.info -t ifup-ppp \
   $"pppd started for ${DEVNAME} on ${MODEMPORT} at ${LINESPEED}" &)&
 
-pppd $opts ${MODEMPORT} ${LINESPEED} \
+$exec pppd $opts ${MODEMPORT} ${LINESPEED} \
     ipparam ${DEVNAME} linkname ${DEVNAME} call ${DEVNAME}\
     noauth \
     ${PPPOPTIONS} || exit
