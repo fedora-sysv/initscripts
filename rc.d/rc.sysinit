@@ -165,7 +165,9 @@ fi
 
 touch /dev/.in_sysinit >/dev/null 2>&1
 
-killall nash-hotplug >/dev/null 2>&1
+nashpid=$(pidof nash 2>/dev/null)
+[ -n "$nashpid" ] && kill $nashpid >/dev/null 2>&1
+unset nashpid
 /sbin/start_udev
 
 # Load other user-defined modules
