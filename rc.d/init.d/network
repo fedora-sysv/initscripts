@@ -94,12 +94,11 @@ case "$1" in
 
 	# bring up all other interfaces configured to come up at boot time
 	for i in $interfaces; do
-		unset DEVICE TYPE SLAVE BRIDGE
+		unset DEVICE TYPE SLAVE
 		eval $(LANG=C fgrep "DEVICE=" ifcfg-$i)
 		eval $(LANG=C fgrep "TYPE=" ifcfg-$i)
 		eval $(LANG=C fgrep "SLAVE=" ifcfg-$i)
-		eval $(LANG=C fgrep "BRIDGE=" ifcfg-$i)
-		
+
 		if [ -z "$DEVICE" ] ; then DEVICE="$i"; fi
 
 		if [ "${DEVICE##cipcb}" != "$DEVICE" ] ; then
@@ -110,9 +109,8 @@ case "$1" in
 		        xdslinterfaces="$xdslinterfaces $i"
 			continue
 		fi
-		
-		if [ -n "$BRIDGE" ]; then
-			is_available $i
+
+		if [ "$TYPE" = "Bridge" ]; then
 		        bridgeinterfaces="$bridgeinterfaces $i"
 			continue
 		fi
@@ -197,18 +195,17 @@ case "$1" in
 
 	# get list of bonding, cipe, and xdsl interfaces
 	for i in $interfaces; do
-		unset DEVICE TYPE BRIDGE
+		unset DEVICE TYPE
 		eval $(LANG=C fgrep "DEVICE=" ifcfg-$i)
 		eval $(LANG=C fgrep "TYPE=" ifcfg-$i)
-		eval $(LANG=C fgrep "BRIDGE=" ifcfg-$i)
-		
+
 		if [ -z "$DEVICE" ] ; then DEVICE="$i"; fi
 
 		if [ "${DEVICE##cipcb}" != "$DEVICE" ] ; then
 			cipeinterfaces="$cipeinterfaces $i"
 			continue
 		fi
-		if [ -n "$BRIDGE" ]; then
+		if [ "$TYPE" = "Bridge" ]; then
 		        bridgeinterfaces="$bridgeinterfaces $i"
 		        continue
 		fi
