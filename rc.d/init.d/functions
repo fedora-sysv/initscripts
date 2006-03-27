@@ -250,7 +250,7 @@ killproc() {
 
         # Remove pid file if any.
 	if [ -z "$killlevel" ]; then
-            rm -f /var/run/$base.pid
+            rm -f "${pid_file:-/var/run/$base.pid}"
 	fi
 	return $RC
 }
