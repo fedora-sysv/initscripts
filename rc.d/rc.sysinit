@@ -315,6 +315,9 @@ if ! [[ " $fsckoptions" =~ " -y" ]]; then
 fi
 
 _RUN_QUOTACHECK=0
+if [ -f /forcequotacheck ] || strstr "$cmdline" forcequotacheck ; then
+	_RUN_QUOTACHECK=1
+fi
 if [ -z "$fastboot" -a "$READONLY" != "yes" ]; then
 
         STRING=$"Checking filesystems"
@@ -500,7 +503,8 @@ if [ -f /.unconfigured ]; then
 fi
 
 # Clean out /.
-rm -f /fastboot /fsckoptions /forcefsck /.autofsck /halt /poweroff &> /dev/null
+rm -f /fastboot /fsckoptions /forcefsck /.autofsck /forcequotacheck /halt \
+	/poweroff &> /dev/null
 
 # Do we need (w|u)tmpx files? We don't set them up, but the sysadmin might...
 _NEED_XFILES=
