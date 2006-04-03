@@ -46,7 +46,7 @@ case "$1" in
         [ -n "$NETDEVFSTAB" ] &&
 	  {
 	    if [ -x /sbin/lvm.static ]; then
-		if /sbin/lvm.static vgscan > /dev/null 1>&1 ; then
+		if /sbin/lvm.static vgscan > /dev/null 2>&1 ; then
 		       action $"Setting up Logical Volume Management:" /sbin/lvm.static vgchange -a y
 		fi
 	    fi
