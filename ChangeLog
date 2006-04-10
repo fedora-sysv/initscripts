@@ -1,3 +1,135 @@
+2006-04-10  Bill Nottingham  <notting@redhat.com>
+
+	* ChangeLog, initscripts.spec: 8.32-1
+
+2006-04-10  Renato Pavicic  <repavici@globalnet.hr>
+
+	* po/hr.po: *** empty log message ***
+
+2006-04-06  Maxim Dziumanenko <mvd@mylinux.ua>
+
+	* po/uk.po: Updated Ukrainian translation.
+
+2006-04-03  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/netfs: fix redirect (#187505)
+
+2006-04-03  Chung Cheng  <ccheng@redhat.com>
+
+	* po/zh_TW.po: routine merge
+
+2006-03-28  Miloslav Trmac  <mitr@redhat.com>
+
+	* rc.d/rc.sysinit: Add "forcequotacheck" (#168118)
+
+2006-03-27  Miloslav Trmac  <mitr@redhat.com>
+
+	* rc.d/init.d/functions (failure, passed, warning, action):
+	Make variables local, fixes running
+	quotacheck after fsck has repaired something (#168118).
+
+	* rc.d/init.d/functions (killproc):
+	Respect -p when removing the pid file
+
+	* rc.d/init.d/network, sysconfig/network-scripts/ifdown-eth, sysconfig/network-scripts/ifup-eth:
+	Add support for DHCP on bridges (#125259, original patch by Anders Kaseorg
+	<anders@kaseorg.com>):
+	- rc.d/init.d/network: Initialize bridges after bridged interfaces,
+	  deinitialize them before bridged interfaces
+	- sysconfig/network-scripts/ifdown-eth: Destroy bridges lazily when the last
+	  bridged interface is stopped
+	- sysconfig/network-scripts/ifup-eth:
+	  * Handle bridges before checking for module presence or wireless devices
+	  * Add bridges lazily when the first bridged interface is started
+
+2006-03-24  Peter Jones  <pjones@redhat.com>
+
+	* rc.d/rc.sysinit:
+	- killall is in /usr , so we need to use pidof here. (bz 185429)
+
+2006-03-20  Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>
+
+	* po/ms.po: Updated Malay translation
+
+2006-03-20  Miloslav Trmac  <mitr@redhat.com>
+
+	* sysconfig/network-scripts/ifup-ppp:
+	Don't unnecessarily keep the ifup-ppp process (#163950, patch by Avi Kivity
+	<avi@argo.co.il>)
+
+	* ppp/ip-up, sysconfig/network-scripts/ifup-post:
+	Provide the underlying device name to ip-up (and thus ifup-routes) for PPP
+	devices (#92023)
+
+2006-03-19  Miloslav Trmac  <mitr@redhat.com>
+
+	* rc.d/init.d/functions (status):
+	Try the PID from the PID file if (pidof) fails (#182623)
+
+	* sysconfig/network-scripts/ifdown, sysconfig/network-scripts/ifup:
+	Undefine $WINDOW to avoid conflict with screen(1) (#174336)
+
+	* rc.d/init.d/network, sysconfig/network-scripts/ifup-eth:
+	Minor cleanups (#173574):
+	- Don't duplicate unset
+	- Remove two (eval `grep ...`) instances
+
+	* rc.d/rc.sysinit: Allow -y in $fsckoptions (#143351)
+
+	* sysconfig/network-scripts/ifup-ppp:
+	Fix boot handling of ppp (#129195)
+
+2006-03-17  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec, src/Makefile, src/rename_device.c, udev/rules.d/60-net.rules:
+	add a udev helper to do device renames on module load. Essentially,
+	it's network-functions rename_device ported to C, with locking added.
+
+	* sysconfig/network-scripts/network-functions:
+	don't hang if we try to rename a device that's already up
+
+2006-03-17  Runa Bhattacharjee  <runab@redhat.com>
+
+	* po/bn_IN.po: Updated Bengali India Translation
+
+2006-03-15  Keld Simonsen  <keld@rap.rap.dk>
+
+	* po/da.po: updates
+	initscripts/da.po
+
+2006-03-14  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit, initscripts.spec, po/da.po, po/es.po, po/it.po:
+	fix context of /dev/pts (#185436)
+	translation updates
+
+	* rc.d/rc.sysinit: oops
+
+	* rc.d/rc.sysinit: set context on /dev/pts (#185436)
+
+2006-03-13  keldsim  <keldsim@redhat.com>
+
+	* po/da.po: Updates
+	anaconda/da.po initscripts/da.po
+	system-config-securitylevel/da.po
+	system-config-date/timezones/da.po system-config-lvm/po/da.po
+
+2006-03-08  Miloslav Trmac  <mitr@redhat.com>
+
+	* src/ppp-watch.c: - Fix one-byte buffer overflow
+	- Make theChild a pid_t
+
+2006-03-08  Manuel Eduardo Ospina Sarmiento  <mospina@redhat.com>
+
+	* po/es.po: updated
+
+2006-03-07  Subhransu Behera  <sbehera@redhat.com>
+
+	* po/or.po: Added Oriya File
+
+2006-03-06  Francesco Tombolini  <tombo@adamantio.net>
+
+	* po/it.po: uniformed firewall strings
 
 2006-03-05  Bill Nottingham <notting@redhat.com>
 

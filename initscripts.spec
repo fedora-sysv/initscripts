@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.31.2
+Version: 8.32
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -209,6 +209,16 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Apr 10 2006 Bill Nottingham <notting@redhat.com> 8.32-1
+- netfs: fix redirect (#187505)
+- rc.sysinit add forcequotacheck (#168118, <mitr@redhat.com>)
+- functions/pidof: various fixes (#182623, others <mitr@redhat.com>)
+- add support for DHCP on bridges (#125259, <mitr@redhat.com>,
+  anders@kaseorg.com>)
+- rc.sysinit: use pidof, not killall (#185429, <pjones@redhat.com>)
+- ppp fixes (#129195, #163950, #92023, <mitr@redhat.com>, <avi@argo.co.il>)
+- ifup/ifdown: unset $WINDOW (#174336, <mitr@redhat.com>)
+
 * Fri Mar 17 2006 Bill Nottingham <notting@redhat.com> 8.31.2-1
 - add udev helper to rename network devices on device creation
 
