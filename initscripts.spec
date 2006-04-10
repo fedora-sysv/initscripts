@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.31
+Version: 8.31.2
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -189,6 +189,7 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/getkey
 %attr(2755,root,root) /sbin/netreport
 /sbin/initlog
+/lib/udev/rename_device
 /sbin/service
 /sbin/ppp-watch
 %{_mandir}/man*/*
@@ -208,6 +209,13 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Mar 17 2006 Bill Nottingham <notting@redhat.com> 8.31.2-1
+- add udev helper to rename network devices on device creation
+
+* Tue Mar 14 2006 Bill Nottingham <notting@redhat.com> 8.31.1-1
+- fix context of /dev/pts (#185436)
+- translation updates
+
 * Sun Mar  5 2006 Bill Nottingham <notting@redhat.com> 8.31-1
 - fix kexec support (<jmoyer@redhat.com>)
 - translation updates
