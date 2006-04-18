@@ -183,6 +183,11 @@ Files in /etc/sysconfig
 
   All the IPX stuff is optional, and should default to off.
 
+  NETWORKDELAY=<delay in seconds>
+    Delay in seconds after all network interfaces are initialized.  Useful if
+    network has spanning tree running and must wait for STP convergence.
+    Default: 0 (no delay)
+
   NETWORKING_IPV6=yes|no
     Enable or disable global IPv6 initialization
     Default: no
@@ -655,7 +660,13 @@ Files in /etc/sysconfig/network-scripts/
         ETHTOOL_OPTS="speed 100 duplex full autoneg off"
       Note that changing speed or duplex settings almost always
       requires disabling autonegotiation with 'autoneg off'.
-     
+    LINKDELAY=<time in seconds>
+      Time that the system should pause after the specific interface is
+      enabled.  This may be useful if one interface is connected to a
+      switch which has spanning tree enabled and must wait for STP to
+      converge before the interface should be considered usable.
+      Supported only with BOOTPROTO=none.
+
     No longer supported:
      PROMISC=yes|no (enable or disable promiscuous mode)
      ALLMULTI=yes|no (enable or disable all-multicast mode)

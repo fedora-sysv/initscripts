@@ -166,6 +166,8 @@ case "$1" in
 	sysctl -e -p /etc/sysctl.conf >/dev/null 2>&1
  
         touch /var/lock/subsys/network
+
+	[ -n "${NETWORKDELAY}" ] && /bin/sleep ${NETWORKDELAY}
         ;;
   stop)
   	# If this is a final shutdown/halt, check for network FS,

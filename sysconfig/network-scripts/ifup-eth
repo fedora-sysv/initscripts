@@ -88,6 +88,7 @@ if [ -n "${BRIDGE}" -a -x /usr/sbin/brctl ]; then
       fi
       /sbin/ip addr flush dev ${DEVICE} 2>/dev/null
       /sbin/ip link set dev ${DEVICE} up
+      [ -n "${LINKDELAY}" ] && /bin/sleep ${LINKDELAY}
       /usr/sbin/brctl addif ${BRIDGE} ${DEVICE}
       # Upon adding a device to a bridge, 
       # it's necessary to make radvd reload its config
@@ -116,6 +117,7 @@ fi
 if [ "${TYPE}" =  "Bonding" ] || ethtool -i $DEVICE 2>/dev/null| grep -q "driver: bonding" ; then
     /sbin/ip link set dev ${DEVICE} down
     /sbin/ip link set dev ${DEVICE} up
+    [ -n "${LINKDELAY}" ] && /bin/sleep ${LINKDELAY}
     for device in `LANG=C grep -l "^[[:space:]]*MASTER=${DEVICE}" /etc/sysconfig/network-scripts/ifcfg-*` ; do
         if [ "$BOOTPROTO" = "dhcp" ]; then
 		/sbin/ifup ${device##*/}
@@ -190,6 +192,7 @@ else
 	 if [ -n "$ETHTOOL_OPTS" ] ; then
 	 	/sbin/ethtool -s ${REALDEVICE} $ETHTOOL_OPTS
 	 fi
+	 [ -n "${LINKDELAY}" ] && /bin/sleep ${LINKDELAY}
 	 # Bonding initialization part II
 	 if [ "${TYPE}" =  "Bonding" ] || ethtool -i $DEVICE 2>/dev/null| grep -q "driver: bonding" ; then
     		for device in `LANG=C grep -l "^[[:space:]]*MASTER=${DEVICE}" /etc/sysconfig/network-scripts/ifcfg-*` ; do
@@ -217,6 +220,7 @@ else
         /sbin/ethtool -s ${REALDEVICE} $ETHTOOL_OPTS
     fi
 
+    [ -n "${LINKDELAY}" ] && /bin/sleep ${LINKDELAY}
 
     if [ "${DEVICE}" = "lo" ]; then
     	SCOPE="scope host"
