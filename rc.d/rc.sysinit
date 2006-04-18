@@ -373,12 +373,7 @@ if [ -z "$fastboot" -a "$READONLY" != "yes" ]; then
 		chvt 8
     	fi
 fi
-# Unmount the initrd, if necessary
-if LC_ALL=C fgrep -q /initrd /proc/mounts && ! LC_ALL=C fgrep -q /initrd/loopfs /proc/mounts ; then
-   umount /initrd
-   /sbin/blockdev --flushbufs /dev/ram0 >/dev/null 2>&1
-fi
-                                                                                
+
 # Update quotas if necessary
 if [ X"$_RUN_QUOTACHECK" = X1 -a -x /sbin/quotacheck ]; then
 	if [ -x /sbin/convertquota ]; then
