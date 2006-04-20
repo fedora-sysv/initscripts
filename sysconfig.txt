@@ -483,6 +483,11 @@ Files in /etc/sysconfig/network-scripts/
   be brought up on boot (ONBOOT=no, see below) can be ignored at
   that time.
 
+  Also, interfaces may be brought up via the hotplug scripts;
+  in this case, HOTPLUG=no needs to be set to no to avoid this.
+  This is useful e.g. to prevent bonding device activation by merely
+  loading the bonding kernel module.
+
 /etc/sysconfig/network-scripts/init.ipv6-global:
   Not really a public file.  Contains different basic settings that
   are set from /etc/[rc.d]/init.d/network at different stages of
@@ -526,6 +531,7 @@ Files in /etc/sysconfig/network-scripts/
     NETMASK=
     GATEWAY=
     ONBOOT=yes|no
+    HOTPLUG=yes|no
     USERCTL=yes|no
     BOOTPROTO=none|bootp|dhcp
     MTU=
