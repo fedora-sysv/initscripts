@@ -125,6 +125,8 @@ if [ -n "$LOGLEVEL" ]; then
 	/bin/dmesg -n $LOGLEVEL
 fi
 
+touch /dev/.in_sysinit >/dev/null 2>&1
+
 [ -x /sbin/start_udev ] && /sbin/start_udev
 
 # Only read this once.
@@ -863,7 +865,9 @@ fi
 rm -f /tmp/.X*-lock /tmp/.lock.* /tmp/.gdm_socket /tmp/.s.PGSQL.*
 rm -rf /tmp/.X*-unix /tmp/.ICE-unix /tmp/.font-unix /tmp/hsperfdata_* \
        /tmp/kde-* /tmp/ksocket-* /tmp/mc-* /tmp/mcop-* /tmp/orbit-*  \
-       /tmp/scrollkeeper-*  /tmp/ssh-*
+       /tmp/scrollkeeper-*  /tmp/ssh-* \
+       /dev/.in_sysinit
+
 # Make ICE directory
 mkdir -m 1777 -p /tmp/.ICE-unix >/dev/null 2>&1
 chown root:root /tmp/.ICE-unix
