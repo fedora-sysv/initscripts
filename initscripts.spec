@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.32
+Version: 8.33
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -212,6 +212,12 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Apr 20 2006 Bill Nottingham <notting@redhat.com> 8.33-1
+- support for readonly root
+- rc.sysinit: remove call to zfcpconf.sh - that should be udev rules
+- ifup*: add NETWORKDELAY and LINKDELAY (#176851, <mitr@redhat.com>)
+- rc.sysinit: remove obsolete initrd code (<pjones@redhat.com>)
+
 * Mon Apr 10 2006 Bill Nottingham <notting@redhat.com> 8.32-1
 - netfs: fix redirect (#187505)
 - rc.sysinit add forcequotacheck (#168118, <mitr@redhat.com>)
