@@ -485,7 +485,7 @@ if [ -n "$SELINUX_STATE" -a "$READONLY" != "yes" ]; then
 	relabel_selinux
     fi
 else
-    if [ -d /etc/selinux ]; then
+    if [ -d /etc/selinux -a "$READONLY" != "yes" ]; then
         [ -f /.autorelabel ] || touch /.autorelabel
     fi
 fi
