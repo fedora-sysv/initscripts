@@ -15,11 +15,13 @@ all:
 install:
 	mkdir -p $(ROOT)/etc/profile.d $(ROOT)/sbin $(ROOT)/usr/sbin
 	mkdir -p $(ROOT)$(mandir)/man8
+	mkdir -p $(ROOT)/etc/rwtab.d $(ROOT)/var/lib/stateless/writable
 
 	install -m644  inittab adjtime $(ROOT)/etc
 	if uname -m | grep -q s390 ; then \
 	  install -m644 inittab.s390 $(ROOT)/etc/inittab ; \
 	fi
+	install -m644  rwtab $(ROOT)/etc
 	install -m755  service setsysfont $(ROOT)/sbin
 	install -m755  lang.csh lang.sh $(ROOT)/etc/profile.d
 	install -m755  sys-unconfig $(ROOT)/usr/sbin

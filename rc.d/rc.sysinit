@@ -297,15 +297,71 @@ else
 	fsckoptions="-V $fsckoptions"
 fi
 
+READONLY=
 if [ -f /etc/sysconfig/readonly-root ]; then
-    . /etc/sysconfig/readonly-root
-
-    if [ "$READONLY" = "yes" ]; then
-        # Call rc.readonly to set up magic stuff needed for readonly root
-        . /etc/rc.readonly
-    fi
+	. /etc/sysconfig/readonly-root
+fi
+if strstr "$cmdline" readonlyroot ; then
+	READONLY=yes
+	[ -z "$RW_MOUNT" ] && RW_MOUNT=/var/lib/stateless/writable
+fi
+if [ "$READONLY" = "yes" -a -n "$SELINUX_STATE" ]; then
+	echo "SELinux is not compatible with read-only root at this time."
+	echo "Mounting read/write."
+	READONLY=no
 fi
 
+if [ "$READONLY" = "yes" ]; then
+
+	mount_empty() {
+		if [ -e "$1" ]; then
+			echo "$1" | cpio -p -vd "$RW_MOUNT" &>/dev/null
+			mount -n --bind "$RW_MOUNT$1" "$1"
+		fi
+	}
+
+	mount_dirs() {
+		if [ -e "$1" ]; then
+			mkdir -p "$RW_MOUNT$1"
+			# fixme: find is bad
+			find "$1" -type d -print0 | cpio -p -0vd "$RW_MOUNT" &>/dev/null
+			mount -n --bind "$RW_MOUNT$1" "$1"
+		fi
+	}
+
+	mount_files() {
+		if [ -e "$1" ]; then
+			cp -a --parents "$1" "$RW_MOUNT"
+			mount -n --bind "$RW_MOUNT$1" "$1"
+		fi
+	}
+
+	if [ -n "$SELINUX_STATE" ]; then
+		mount -t tmpfs -o fscontext=system_u:object_r:fs_t:s0 none "$RW_MOUNT"
+	else
+		mount -t tmpfs none "$RW_MOUNT"
+	fi
+
+	for file in /etc/rwtab /etc/rwtab.d/* ; do
+        	[ -f $file ] && cat $file | while read type path ; do
+			case "$type" in
+				empty)
+					mount_empty $path
+					;;
+				files)
+					mount_files $path
+					;;
+				dirs)
+					mount_dirs $path
+					;;
+				*)
+					;;
+			esac
+			[ -n "$SELINUX_STATE" ] && restorecon -R "$1"
+		done
+	done
+fi
+ 
 if ! [[ " $fsckoptions" =~ " -y" ]]; then
     	fsckoptions="-a $fsckoptions"
 fi
@@ -424,7 +480,7 @@ if [ -x /sbin/quotaon ]; then
 fi
 
 # Check to see if a full relabel is needed
-if [ -n "$SELINUX_STATE" ]; then 
+if [ -n "$SELINUX_STATE" -a "$READONLY" != "yes" ]; then 
     if [ -f /.autorelabel ] || strstr "$cmdline" autorelabel ; then
 	relabel_selinux
     fi
@@ -445,10 +501,12 @@ fi
 if [ -f "/var/lib/random-seed" ]; then
 	cat /var/lib/random-seed > /dev/urandom
 else
-	touch /var/lib/random-seed
+	[ "$READONLY" != "yes" ] && touch /var/lib/random-seed
 fi
-chmod 600 /var/lib/random-seed
-dd if=/dev/urandom of=/var/lib/random-seed count=1 bs=512 2>/dev/null
+if [ "$READONLY" != "yes" ]; then
+	chmod 600 /var/lib/random-seed
+	dd if=/dev/urandom of=/var/lib/random-seed count=1 bs=512 2>/dev/null
+fi
 
 # Use the hardware RNG to seed the entropy pool, if available
 #[ -x /sbin/rngd -a -c /dev/hw_random ] && rngd

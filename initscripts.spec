@@ -160,6 +160,8 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/sysconfig/network-scripts/ifup-ctc
 %config /etc/sysconfig/network-scripts/ifup-iucv
 %endif
+/etc/rwtab
+%dir /etc/rwtab.d
 /etc/udev/rules.d/*
 %config /etc/X11/prefdm
 %config(noreplace) /etc/inittab
@@ -204,6 +206,7 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/ppp/ipv6-down
 %config /etc/initlog.conf
 %doc sysconfig.txt sysvinitfiles ChangeLog static-routes-ipv6 ipv6-tunnel.howto ipv6-6to4.howto changes.ipv6
+%dir /var/lib/stateless
 %ghost %attr(0600,root,utmp) /var/log/btmp
 %ghost %attr(0664,root,utmp) /var/log/wtmp
 %ghost %attr(0664,root,utmp) /var/run/utmp
