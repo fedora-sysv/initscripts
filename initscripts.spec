@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.93.24.EL
+Version: 7.93.25.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -207,6 +207,11 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Apr 21 2006 Miloslav Trmac <mitr@redhat.com> - 7.93.25.EL-1
+- Document HOTPLUG (#189509)
+- Prevent activation of network interfaces by hotplug during bootup (#183706)
+- Add NETWORKDELAY and LINKDELAY (#176851)
+
 * Thu Jan 12 2006 Bill Nottingham <notting@redhat.com>
 - ignore sysfs but not /sys<otherstuff> (#177612, <bnocera@redhat.com>)
 
