@@ -8,6 +8,14 @@
 #               Modified for RHS Linux by Damien Neil
 #
 
+# make sure LDAPNOINIT is set -- this short-circuits SASL usage in nss_ldap.
+# Not doing so can cause shutdown hang if /usr is on separate filesystem,
+# since SASL libs live under /usr
+if [ -z "$LDAPNOINIT" ]; then
+        export LDAPNOINIT=yes
+        exec $0 "$@"
+fi
+
 NOLOCALE=1
 . /etc/init.d/functions
 
