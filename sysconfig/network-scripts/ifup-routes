@@ -33,11 +33,10 @@ for file in $FILES; do
 	   handle_file $file $1
        else
            # older format
-           while read line; do
-               if [ "$line" == "${line##[[:space:]]*\#}" ]; then
-                   /sbin/ip route add $line
-               fi
-           done < "$file"
+	   sed '/^[[:space:]]*\(#.*\)\?$/d' < "$file" | \
+	       while read line; do
+	           /sbin/ip route add $line
+	       done
        fi
    fi
 done
