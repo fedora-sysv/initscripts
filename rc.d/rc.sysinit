@@ -348,9 +348,18 @@ if [ -f /etc/lvmtab ]; then
     fi
 fi
 
+# Check if swap partition contains crash dump
+swapdiskdump=0
+if [ -x /etc/init.d/diskdump ]; then
+    /etc/init.d/diskdump checkswapdump
+    swapdiskdump=$?
+fi
+
 # Start up swapping.
-update_boot_stage RCswap
-action $"Activating swap partitions: " swapon -a -e
+if [ $swapdiskdump == 0 ]; then
+    update_boot_stage RCswap
+    action $"Activating swap partitions: " swapon -a -e
+fi
 
 # Clear mtab
 > /etc/mtab
@@ -698,6 +707,13 @@ chown root:root /tmp/.ICE-unix
 
 # Delete Postgres sockets
 rm -f /tmp/.s.PGSQL.*
+
+# If swap partition has crash dump, save the dump from the swap partition to
+# local filesystem and perform update_boot_stage here.
+if [ $swapdiskdump == 1 ]; then
+    /etc/init.d/diskdump swapsavecore
+    update_boot_stage RCswap
+fi
 
 # Now turn on swap in case we swap to files.
 swapon -a
