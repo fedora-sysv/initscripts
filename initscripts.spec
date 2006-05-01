@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.31.30.EL
+Version: 7.31.31.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -18,6 +18,7 @@ Requires: /sbin/ip, /sbin/arping, net-tools
 Requires: dev, ethtool >= 1.8-2
 Conflicts: kernel <= 2.4, timeconfig < 3.0, ppp < 2.3.9, wvdial < 1.40-3
 Conflicts: ypbind < 1.6-12, psacct < 6.3.2-12, kbd < 1.06-19, lokkit < 0.50-14
+Conflicts: diskdumputils < 1.3.0-1
 Obsoletes: rhsound sapinit
 Prereq: /sbin/chkconfig, /usr/sbin/groupadd, gawk, fileutils, sh-utils
 BuildPrereq: glib2-devel popt gettext pkgconfig
@@ -249,6 +250,14 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon May  1 2006 Miloslav Trmac <mitr@redhat.com> - 7.31.31.EL-1
+- Backport HOTPLUG documentation, add a note about bonding devices and hotplug
+  (#189505)
+- Fix comment and empty line handling in old-style route-* files (#114548)
+- Avoid SASL usage in nss_ldap during system halt (#174511,
+  <jlayton@redhat.com>)
+- Add support for diskdump to swap (#182272, <ktokunag@redhat.com>)
+
 * Thu Dec 15 2005 Bill Nottingham <notting@redhat.com> 7.31.30.EL-1
 - correct fix for #169403
 
