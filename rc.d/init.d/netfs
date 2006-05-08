@@ -89,71 +89,20 @@ case "$1" in
 	;;
   stop)
         # Unmount loopback stuff first
-	remaining=`LC_ALL=C awk '$1 ~ /^\/dev\/loop/ && $2 != "/" {print $2}' /proc/mounts`
-	devremaining=`LC_ALL=C awk '$1 ~ /^\/dev\/loop/ && $2 != "/" {print $1}' /proc/mounts`
-	[ -n "$remaining" ] && {
-	        sig=
-		retry=3
-		while [ -n "$remaining" -a "$retry" -gt 0 ]
-		do
-			if [ "$retry" -lt 3 ]; then
-				action $"Unmounting loopback filesystems (retry):" umount $remaining
-			else
-				action $"Unmounting loopback filesystems: " umount $remaining
-		        fi
-			for dev in $devremaining ; do
-				losetup $dev >/dev/null 2>&1 && \
-				action $"Detaching loopback device $dev: " losetup -d $dev
-			done	
-			remaining=`LC_ALL=C awk '$1 ~ /^\/dev\/loop/ && $2 != "/" {print $2}' /proc/mounts`
-			devremaining=`LC_ALL=C awk '$1 ~ /^\/dev\/loop/ && $2 != "/" {print $1}' /proc/mounts`
-			[ -z "$remaining" ] && break
-			/sbin/fuser -k -m $sig $remaining >/dev/null
-			sleep 5
-			retry=$(($retry -1))
-			sig=-9
-		done
-	}
-  	[ -n "$NETDEVMTAB" ] && {
-		sig=
-		retry=3
-		remaining=`LC_ALL=C awk '!/^#/ && $4 ~ /_netdev/ && $2 != "/" {print $2}' /etc/mtab`
-		while [ -n "$remaining" -a "$retry" -gt 0 ]
-		do
-			if [ "$retry" -lt 3 ]; then
-				action $"Unmounting network block filesystems (retry): " umount -a -O _netdev
-			else
-				action $"Unmounting network block filesystems: " umount -a -O _netdev
-			fi
-			sleep 2
-			remaining=`LC_ALL=C awk '!/^#/ && $4 ~ /_netdev/ && $2 != "/" {print $2}' /etc/mtab`
-			[ -z "$remaining" ] && break
-			/sbin/fuser -k -m $sig $remaining >/dev/null
-			sleep 5
-			retry=$(($retry - 1))
-			sig=-9
-		done
-	}
-  	[ -n "$NFSMTAB" ] && {
-		sig=
-		retry=3
-		remaining=`LC_ALL=C awk '$3 ~ /^nfs/ && $2 != "/" {print $2}' /proc/mounts`
-		while [ -n "$remaining" -a "$retry" -gt 0 ]
-		do
-			if [ "$retry" -lt 3 ]; then
-				action $"Unmounting NFS filesystems (retry): " umount -f -l $remaining
-			else
-				action $"Unmounting NFS filesystems: " umount -f -l $remaining
-			fi
-			sleep 2
-			remaining=`LC_ALL=C awk '$3 ~ /^nfs/ && $2 != "/" {print $2}' /proc/mounts`
-			[ -z "$remaining" ] && break
-			/sbin/fuser -k -m $sig $remaining >/dev/null
-			sleep 5
-			retry=$(($retry - 1))
-			sig=-9
-		done
-	}
+	__umount_loopback_loop
+  	if [ -n "$NETDEVMTAB" ]; then
+		__umount_loop '$4 ~ /_netdev/ && $2 != "/" {print $2}' \
+			/etc/mtab \
+			$"Unmounting network block filesystems: " \
+			$"Unmounting network block filesystems (retry): "
+	fi
+  	if [ -n "$NFSMTAB" ]; then
+		__umount_loop '$3 ~ /^nfs/ && $2 != "/" {print $2}' \
+			/proc/mounts \
+			$"Unmounting NFS filesystems: " \
+			$"Unmounting NFS filesystems (retry): " \
+			"-f -l"
+	fi
 	[ -n "$SMBMTAB" ] && action $"Unmounting SMB filesystems: " umount -a -t smbfs
 	[ -n "$CIFSMTAB" ] && action $"Unmounting CIFS filesystems: " umount -a -t cifs
 	[ -n "$NCPMTAB" ] && action $"Unmounting NCP filesystems: " umount -a -t ncpfs

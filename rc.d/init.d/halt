@@ -11,22 +11,15 @@
 NOLOCALE=1
 . /etc/init.d/functions
 
-runcmd() {
+action() {
    echo -n "$1 "
    shift
    if [ "$BOOTUP" = "color" ]; then
-      $* && echo_success || echo_failure
+      "$@" && echo_success || echo_failure
    else
-      $*
+      "$@"
    fi
    echo
-}
-
-halt_get_remaining() {
-	awk '$2 ~ /^\/$|^\/proc|^\/dev/{next}
-	     $3 == "tmpfs" || $3 == "proc" {print $2 ; next}
-	     /(^#|loopfs|autofs|sysfs|^none|^\/dev\/ram|^\/dev\/root)/ {next}
-	     {print $2}' /proc/mounts
 }
 
 # See how we were called.
@@ -57,9 +50,9 @@ esac
 # Kill all processes.
 [ "${BASH+bash}" = bash ] && enable kill
 
-runcmd $"Sending all processes the TERM signal..." /sbin/killall5 -15
+action $"Sending all processes the TERM signal..." /sbin/killall5 -15
 sleep 5
-runcmd $"Sending all processes the KILL signal..."  /sbin/killall5 -9
+action $"Sending all processes the KILL signal..."  /sbin/killall5 -9
 
 # Write to wtmp file before unmounting /var
 /sbin/halt -w
@@ -67,13 +60,13 @@ runcmd $"Sending all processes the KILL signal..."  /sbin/killall5 -9
 # Save mixer settings, here for lack of a better place.
 grep -q "\(alsa\)" /proc/devices
 if [ $? = 0 -a -x /usr/sbin/alsactl ]; then
-   runcmd $"Saving mixer settings" alsactl store
+   action $"Saving mixer settings" alsactl store
 fi
 
 # Save random seed
 touch /var/lib/random-seed
 chmod 600 /var/lib/random-seed
-runcmd $"Saving random seed: " dd if=/dev/urandom of=/var/lib/random-seed count=1 bs=512 2>/dev/null
+action $"Saving random seed: " dd if=/dev/urandom of=/var/lib/random-seed count=1 bs=512 2>/dev/null
 
 # Sync the system clock.
 ARC=0
@@ -118,87 +111,38 @@ case "$SRM" in
 	;;
 esac
 
-runcmd $"Syncing hardware clock to system time" /sbin/hwclock $CLOCKFLAGS
+action $"Syncing hardware clock to system time" /sbin/hwclock $CLOCKFLAGS
 
 # Try to unmount tmpfs filesystems to avoid swapping them in.  Ignore failures.
 tmpfs=$(awk '$2 ~ /^\/($|proc|dev)/ { next; }
 	     $3 == "tmpfs" { print $2; }' /proc/mounts | sort -r)
-[ -n "$tmpfs" ] && umount $tmpfs 2>/dev/null
+[ -n "$tmpfs" ] && fstab-decode umount $tmpfs 2>/dev/null
 
 # Turn off swap, then unmount file systems.
 [ -f /proc/swaps ] && SWAPS=`awk '! /^Filename/ { print $1 }' /proc/swaps`
-[ -n "$SWAPS" ] && runcmd $"Turning off swap: " swapoff $SWAPS
+[ -n "$SWAPS" ] && action $"Turning off swap: " swapoff $SWAPS
 
-[ -x /sbin/quotaoff ] && runcmd $"Turning off quotas: " /sbin/quotaoff -aug
+[ -x /sbin/quotaoff ] && action $"Turning off quotas: " /sbin/quotaoff -aug
 
 # Unmount file systems, killing processes if we have to.
 # Unmount loopback stuff first
-remaining=`awk '$1 ~ /^\/dev\/loop/ && $2 != "/" {print $2}' /proc/mounts`
-devremaining=`awk '$1 ~ /^\/dev\/loop/ && $2 != "/" {print $1}' /proc/mounts`
-[ -n "$remaining" ] && {
-	sig=
-	retry=3
-	while [ -n "$remaining" -a "$retry" -gt 0 ]
-	do
-		if [ "$retry" -lt 3 ]; then
-			runcmd $"Unmounting loopback filesystems (retry):" umount $remaining
-		else
-			runcmd $"Unmounting loopback filesystems: " umount $remaining
-		fi
-		for dev in $devremaining ; do
-			losetup $dev > /dev/null 2>&1 && \
-				runcmd $"Detaching loopback device $dev: " losetup -d $dev
-		done
-		remaining=`awk '$1 ~ /^\/dev\/loop/ && $2 != "/" {print $2}' /proc/mounts`
-		devremaining=`awk '$1 ~ /^\/dev\/loop/ && $2 != "/" {print $1}' /proc/mounts`
-		[ -z "$remaining" ] && break
-		/sbin/fuser -k -m $sig $remaining >/dev/null
-		sleep 5
-		retry=$(($retry -1))
-		sig=-9
-	done
-}
+__umount_loopback_loop
 
 # Unmount RPC pipe file systems
-sig=
-retry=3
-remaining=`awk '$3 ~ /^rpc_pipefs$/ || $3 ~ /^rpc_svc_gss_pipefs$/ {print $2}' /proc/mounts`
+__umount_loop '$3 ~ /^rpc_pipefs$/ || $3 ~ /^rpc_svc_gss_pipefs$/ {print $2}' \
+    /proc/mounts \
+    $"Unmounting pipe file systems: " \
+    $"Unmounting pipe file systems (retry): " \
+    -f
 
-while [ -n "$remaining" -a "$retry" -gt 0 ]
-do
-	if [ "$retry" -lt 3 ]; then
-		runcmd $"Unmounting pipe file systems (retry): "  umount -f $remaining
-	else
-		runcmd $"Unmounting pipe file systems: "  umount -f $remaining
-	fi
-	sleep 2
-	remaining=`awk '$3 ~ /^rpc_pipefs$/ || $3 ~ /^rpc_svc_gss_pipefs$/ {print $2}' /proc/mounts`
-	[ -z "$remaining" ] && break
-	/sbin/fuser -k -m $sig $remaining >/dev/null
-	sleep 5
-	retry=$(($retry-1))
-	sig=-9
-done
+LANG=C __umount_loop '$2 ~ /^\/$|^\/proc|^\/dev/{next}
+	$3 == "tmpfs" || $3 == "proc" {print $2 ; next}
+	/(loopfs|autofs|sysfs|^none|^\/dev\/ram|^\/dev\/root)/ {next}
+	{print $2}' /proc/mounts \
+	$"Unmounting file systems: " \
+	$"Unmounting file systems (retry): " \
+	-f
 
-sig=
-retry=3
-remaining=`halt_get_remaining | sort -r`
-
-while [ -n "$remaining" -a "$retry" -gt 0 ]
-do
-	if [ "$retry" -lt 3 ]; then
-		LANG=C runcmd $"Unmounting file systems (retry): "  umount -f $remaining
-	else
-		LANG=C runcmd $"Unmounting file systems: "  umount -f $remaining
-	fi
-	sleep 2
-	remaining=`halt_get_remaining | sort -r`
-	[ -z "$remaining" ] && break
-	/sbin/fuser -k -m $sig $remaining >/dev/null
-	sleep 5
-	retry=$(($retry-1))
-	sig=-9
-done
 [ -f /proc/bus/usb/devices ] && umount /proc/bus/usb
 
 # remove the crash indicator flag
@@ -207,7 +151,7 @@ rm -f /.autofsck
 # Try all file systems other than root and RAM disks, one last time.
 mount |  awk '!/( \/ |^\/dev\/root|^\/dev\/ram| \/proc )/ { print $3 }' | sort -r | \
   while read line; do
-    umount -f $line
+    fstab-decode umount -f $line
 done
 
 if [ -x /sbin/halt.local ]; then
@@ -217,7 +161,7 @@ fi
 # Remount read only anything that's left mounted.
 # echo $"Remounting remaining filesystems readonly"
 mount | awk '{ print $3 }' | while read line; do
-    mount -n -o ro,remount $line
+    fstab-decode mount -n -o ro,remount $line
 done
 
 # Now halt or reboot.

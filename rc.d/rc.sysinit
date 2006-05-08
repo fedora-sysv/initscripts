@@ -29,11 +29,11 @@ fi
 . /etc/init.d/functions
 
 # Check SELinux status
-selinuxfs=`LC_ALL=C awk '/ selinuxfs / { print $2 }' /proc/mounts`
+selinuxfs="$(fstab_decode_str `LC_ALL=C awk '/ selinuxfs / { print $2 }' /proc/mounts`)"
 SELINUX_STATE=
 if [ -n "$selinuxfs" ] && [ "`cat /proc/self/attr/current`" != "kernel" ]; then
-	if [ -r $selinuxfs/enforce ] ; then
-		SELINUX_STATE=`cat $selinuxfs/enforce`
+	if [ -r "$selinuxfs/enforce" ] ; then
+		SELINUX_STATE=`cat "$selinuxfs/enforce"`
 	else
 		# assume enforcing if you can't read it
 		SELINUX_STATE=1
@@ -48,7 +48,7 @@ disable_selinux() {
 	echo "*** Warning -- SELinux is active"
 	echo "*** Disabling security enforcement for system recovery."
 	echo "*** Run 'setenforce 1' to reenable."
-	echo "0" > $selinuxfs/enforce
+	echo "0" > "$selinuxfs/enforce"
 }
 
 relabel_selinux() {
@@ -64,14 +64,14 @@ relabel_selinux() {
          *** Relabelling could take a very long time, depending on file    ***
          *** system size and speed of hard drives.                         ***
 	 "
-    echo "0" > $selinuxfs/enforce
+    echo "0" > "$selinuxfs/enforce"
     /sbin/fixfiles restore > /dev/null 2>&1 
     rm -f  /.autorelabel 
     if [ ! -z "$REBOOTFLAG" ]; then 
 		echo $"Automatic reboot in progress."
 		reboot -f
     fi
-    echo $SELINUX_STATE > $selinuxfs/enforce
+    echo $SELINUX_STATE > "$selinuxfs/enforce"
     if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
 	chvt 8
     fi
@@ -431,15 +431,16 @@ if [ X"$_RUN_QUOTACHECK" = X1 -a -x /sbin/quotacheck ]; then
 	if [ -x /sbin/convertquota ]; then
 	    # try to convert old quotas
 	    for mountpt in `LC_ALL=C awk '$4 ~ /quota/{print $2}' /etc/mtab` ; do
+	        mountpt="$(fstab_decode_str "$mountpt")"
 		if [ -f "$mountpt/quota.user" ]; then
 		    action $"Converting old user quota files: " \
-		    /sbin/convertquota -u $mountpt && \
-			rm -f $mountpt/quota.user
+		    /sbin/convertquota -u "$mountpt" && \
+			rm -f "$mountpt/quota.user"
 		fi
 		if [ -f "$mountpt/quota.group" ]; then
 		    action $"Converting old group quota files: " \
-		    /sbin/convertquota -g $mountpt && \
-			rm -f $mountpt/quota.group
+		    /sbin/convertquota -g "$mountpt" && \
+			rm -f "$mountpt/quota.group"
 		fi
 	    done
 	fi
