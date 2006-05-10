@@ -105,9 +105,11 @@ fi
 if [ "${DEFROUTE}" != no ] ; then
   # pppd will no longer delete an existing default route
   # so we have to help it out a little here.
-  DEFRT=`ip route list | awk '/^default / { print $3 }'`
-  [ -n "${DEFRT}" ] && echo $DEFRT > /etc/default-route
-  route del default >/dev/null 2>&1
+  DEFRT=$(ip route list match 0/0)
+  [ -n "${DEFRT}" ] && echo "$DEFRT" > /etc/default-routes
+  echo "$DEFRT" | while read spec; do
+      ip route del $spec;
+  done
   opts="$opts defaultroute"
 fi
 if [ "${PEERDNS}" != no ] ; then

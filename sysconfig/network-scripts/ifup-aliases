@@ -300,7 +300,8 @@ function new_interface ()
 			       \( -z "${GATEWAYDEV}" -o "${GATEWAYDEV}" = "${DEVICE}" \) ]; then
                                # set up default gateway, if it isn't already there
 			       if ! is_default_gateway "$GATEWAY"; then
-				       route add default gw ${GATEWAY} ${DEVICE}
+				       route add default gw ${GATEWAY} \
+					   ${METRIC:+metric $METRIC} ${DEVICE}
 			       fi
                        fi
 

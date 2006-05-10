@@ -14,10 +14,10 @@ fi
 ifconfig ${DEVICE} ${IPADDR} pointopoint ${REMIP}
 route add -net ${NETWORK} netmask ${NETMASK} ${DEVICE}
 
-# this is broken! it's only here to keep compatibility with old RH sytstems
+# this is broken! it's only here to keep compatibility with old RH systems
 if [ "${GATEWAY}" != "" -a "${GATEWAY}" != "none" ]
 then
-	route add default gw ${GATEWAY} metric 1 ${DEVICE}
+	route add default gw ${GATEWAY} metric ${METRIC:-1} ${DEVICE}
 fi
 
 . /etc/sysconfig/network
@@ -25,7 +25,7 @@ fi
 if [ "${GATEWAY}" != "" ]; then
 	if [ "${GATEWAYDEV}" = "" -o "${GATEWAYDEV}" = "${DEVICE}" ]; then
 		# set up default gateway
-		route add default gw ${GATEWAY}
+		route add default gw ${GATEWAY} ${METRIC:+metric $METRIC}
 	fi
 fi
 

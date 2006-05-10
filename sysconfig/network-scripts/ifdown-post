@@ -25,9 +25,11 @@ if ! check_default_route ; then
     # ISDN device needs special handling dial on demand
     if [ "${DEVICETYPE}" = "ippp" -o "${DEVICETYPE}" = "isdn" ] && [ "$DIALMODE" = "auto" ] ; then
         if [ -z "$GATEWAY" ] ; then
-            /sbin/ip route add default ${WINDOW:+window $WINDOW} dev ${DEVICE}
+            /sbin/ip route add default ${METRIC:+metric} \
+		${WINDOW:+window $WINDOW} dev ${DEVICE}
         else
-            /sbin/ip route add default ${WINDOW:+window $WINDOW} via ${GATEWAY}
+            /sbin/ip route add default ${METRIC:+metric} \
+		${WINDOW:+window $WINDOW} via ${GATEWAY}
         fi
     else
         add_default_route ${DEVICE}

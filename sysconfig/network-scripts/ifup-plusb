@@ -34,7 +34,7 @@ fi
 if [ "${GATEWAY}" != "" ]; then
 	if [ "${GATEWAYDEV}" = "" -o "${GATEWAYDEV}" = "${DEVICE}" ]; then
 		# set up default gateway
-		route add default gw ${GATEWAY}
+		route add default gw ${GATEWAY} ${METRIC:+metric $METRIC}
 	fi
 fi
 

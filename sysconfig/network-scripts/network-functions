@@ -314,15 +314,19 @@ find_gateway_dev ()
 {
     . /etc/sysconfig/network
     if [ -n "${GATEWAY}" -a "${GATEWAY}" != "none" ] ; then
-	dev=`LC_ALL=C /sbin/ip route | \
-             grep ${GATEWAY} | \
-             sed -e 's/.* dev \([:alnum:]*\)/\1/'`
+	dev=$(LC_ALL=C /sbin/ip route get to "${GATEWAY}" 2>/dev/null | \
+	    sed -n 's/.* dev \([[:alnum:]]*\) .*/\1/p')
 	if [ -n "$dev" ]; then
 	    GATEWAYDEV="$dev"
         fi
     fi
 }
 
+# After the device $1 goes away, restore the standard default route; typically
+# used for ppp with DEFROUTE temporarily replacing the "standard" default
+# route.
+# FIXME: This function doesn't support some newer features (GATEWAY in ifcfg,
+# $WINDOW, $METRIC)
 add_default_route ()
 {
     . /etc/sysconfig/network
@@ -332,14 +336,16 @@ add_default_route ()
  		"${GATEWAY}" != "none" ]; then
         if ! check_device_down $1; then
             if [ "$GATEWAY" = "0.0.0.0" ]; then
-                /sbin/ip route add default ${WINDOW:+window $WINDOW} dev ${GATEWAYDEV}
+                /sbin/ip route add default dev ${GATEWAYDEV}
             else
-                /sbin/ip route add default ${WINDOW:+window $WINDOW} via ${GATEWAY}
+                /sbin/ip route add default via ${GATEWAY}
             fi
         fi
-    elif [ -f /etc/default-route ]; then
-	/sbin/ip route add default ${WINDOW:+window $WINDOW} via `cat /etc/default-route`
-	rm -f /etc/default-route
+    elif [ -f /etc/default-routes ]; then
+	while read spec; do
+	    /sbin/ip route add $spec
+	done < /etc/default-routes
+	rm -f /etc/default-routes
     fi
 }
 

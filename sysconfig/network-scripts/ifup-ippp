@@ -358,9 +358,11 @@ function addprovider()
         if  [ "$DEFROUTE" = "yes" ] ; then
             route del default >/dev/null 2>&1
             if [ "$GATEWAY" = "0.0.0.0" ]; then
-                route add default $DEVICE >/dev/null 2>&1
+                route add default ${METRIC:+metric $METRIC} $DEVICE \
+		    >/dev/null 2>&1
             else
-                route add default gw $GATEWAY >/dev/null 2>&1
+                route add default gw $GATEWAY ${METRIC:+metric $METRIC} \
+		    >/dev/null 2>&1
             fi
         fi
     fi
