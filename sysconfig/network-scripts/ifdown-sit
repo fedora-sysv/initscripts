@@ -4,10 +4,10 @@
 #
 #
 # Taken from:
-# (P) & (C) 2000-2002 by Peter Bieringer <pb@bieringer.de>
+# (P) & (C) 2000-2003 by Peter Bieringer <pb@bieringer.de>
 #
-#  You will find more information in the IPv6-HowTo for Linux at
-#   http://www.bieringer.de/linux/IPv6/
+#  You will find more information on the initscripts-ipv6 homepage at
+#   http://www.deepspace6.net/projects/initscripts-ipv6.html
 #
 # RHL integration assistance by Pekka Savola <pekkas@netcore.fi>
 #
@@ -21,10 +21,10 @@
 #
 
 
-. /etc/sysconfig/network 
+. /etc/sysconfig/network
 
 cd /etc/sysconfig/network-scripts
-. network-functions 
+. network-functions
 
 CONFIG=$1
 [ -f "$CONFIG" ] || CONFIG=ifcfg-$CONFIG
@@ -58,4 +58,4 @@ if [ $? != 0 -a $? != 11 ]; then
 fi
 
 # Cleanup and shut down IPv6-in-IPv4 tunnel device
-ipv6_del_tunnel_device $DEVICE 
+ipv6_del_tunnel_device $DEVICE

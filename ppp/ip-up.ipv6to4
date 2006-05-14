@@ -4,12 +4,12 @@
 #
 #
 # Taken from:
-# (P) & (C) 2000-2002 by Peter Bieringer <pb@bieringer.de>
-#  
-#  You will find more information in the IPv6-HowTo for Linux at
-#   http://www.bieringer.de/linux/IPv6/
+# (P) & (C) 2000-2005 by Peter Bieringer <pb@bieringer.de>
 #
-# Version 2002-11-14
+#  You will find more information on the initscripts-ipv6 homepage at
+#   http://www.deepspace6.net/projects/initscripts-ipv6.html
+#
+# Version 2005-09-22
 #
 # Calling parameters:
 #  $1: interface name
@@ -28,8 +28,8 @@
 #  IPV6TO4_IPV4ADDR=<IPv4 address>: special local address for 6to4 tunneling (only needed behind a NAT gateway)
 #  IPV6TO4_RELAY=<IPv4 address>: remote 6to4 relay router address (default: 192.88.99.1)
 #  IPV6TO4_MTU=<MTU for IPv6>: controls IPv6 MTU for the 6to4 link (optional, default is MTU of interface - 20)
-#  IPV6TO4_ROUTING="<device>-<suffix>/<prefix length> ...": information to setup local subnetting
-#    Example: IPV6TO4_ROUTING="eth0-:f101::0/64 eth1-:f102::0/64"
+#  IPV6TO4_ROUTING="<device>-<suffix>/<prefix length> ...": information to setup additional interfaces
+#    Example: IPV6TO4_ROUTING="eth0-:f101::1/64 eth1-:f102::1/64"
 #
 #  IPV6_CONTROL_RADVD=yes|no: controls radvd triggering
 #  IPV6_RADVD_PIDFILE=<file>: PID file of radvd for sending signals, default is "/var/run/radvd/radvd.pid"
@@ -63,9 +63,9 @@ REALDEVICE=`echo ${DEVICE} | sed 's/:.*//g'`
 # Test whether IPv6 should be configured, else stop
 [ "$NETWORKING_IPV6" = "yes" ] || exit 0
 
-if [ ! -f /etc/sysconfig/network-scripts/network-functions-ipv6 ]; then 
-        exit 1 
-fi 
+if [ ! -f /etc/sysconfig/network-scripts/network-functions-ipv6 ]; then
+        exit 1
+fi
 
 . /etc/sysconfig/network-scripts/network-functions-ipv6
 
@@ -106,12 +106,12 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 	if [ $? -ne 0 ]; then
 		valid6to4config="no"
 	fi
- 
+
 	if [ "$valid6to4config" = "yes" ]; then
 		# Delete routes to local networks
        		for devsuf in $IPV6TO4_ROUTING; do
 			dev="`echo $devsuf | awk -F- '{ print $1 }'`"
-			ipv6_cleanup_routes $dev ::
+			ipv6_cleanup_6to4_device $dev
 		done
 
 		# Cleanup all old data (needed, if "ip-down.ipv6to4" wasn't executed), delete all configured 6to4 address
@@ -182,11 +182,11 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 				# Generate 6to4 address
 				ipv6to4prefix="`ipv6_create_6to4_prefix $ipv4addr`"
 				if [ -n "$ipv6to4prefix" ]; then
-					# Add route to local networks
+					# Add IPv6 address to interface (required interface route will be set automatically)
 					for devsuf in $IPV6TO4_ROUTING; do
 						dev="`echo $devsuf | awk -F- '{ print $1 }'`"
 						suf="`echo $devsuf | awk -F- '{ print $2 }'`"
-						ipv6_add_route ${ipv6to4prefix}$suf :: $dev
+						ipv6_add_addr_on_device ${dev} ${ipv6to4prefix}${suf}
 					done
 				else
 					echo $"Error occured while calculating the IPv6to4 prefix"

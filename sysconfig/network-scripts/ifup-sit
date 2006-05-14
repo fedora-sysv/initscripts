@@ -4,11 +4,14 @@
 #
 #
 # Taken from:
-# (P) & (C) 2000-2002 by Peter Bieringer <pb@bieringer.de>
+# (P) & (C) 2000-2003 by Peter Bieringer <pb@bieringer.de>
+#
+#  You will find more information on the initscripts-ipv6 homepage at
+#   http://www.deepspace6.net/projects/initscripts-ipv6.html
 #
 # RHL integration assistance by Pekka Savola <pekkas@netcore.fi>
 #
-# Version 2002-12-04
+# Version 2003-09-08
 #
 # Uses following information from /etc/sysconfig/network:
 #  NETWORKING_IPV6=yes|no: controls IPv6 initialization (global setting)
@@ -19,8 +22,8 @@
 #  DEVICE=<device>
 #  IPV6INIT=yes|no: controls IPv6 configuration for this interface
 #  IPV6_MTU=<MTU for IPv6>: controls IPv6 MTU for this link (optional)
-# 
-#  For static tunnels 
+#
+#  For static tunnels
 #  IPV6TUNNELIPV4=<IPv4 address>: IPv4 address of remote tunnel endpoint
 #  IPV6TUNNELIPV4LOCAL=<IPv4 address>: (optional) local IPv4 address of tunnel
 #  IPV6ADDR=<IPv6 address>[/<prefix length>]: (optional) local IPv6 address of a numbered tunnel
@@ -28,10 +31,10 @@
 #
 
 
-. /etc/sysconfig/network 
+. /etc/sysconfig/network
 
 cd /etc/sysconfig/network-scripts
-. network-functions 
+. network-functions
 
 CONFIG=$1
 [ -f "$CONFIG" ] || CONFIG=ifcfg-$CONFIG

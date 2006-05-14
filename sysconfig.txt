@@ -590,6 +590,9 @@ Files in /etc/sysconfig/network-scripts/
       Note: Must be greater or equal to 1280.
       Example:
         IPV6_MTU="1280"
+    IPV6_PRIVACY=rfc3041
+      Enables RFC 3041 IPv6 privacy support if set.
+      Default: RFC 3041 support disabled
 
   Special configuration options for multi-homed hosts etc.
 	IPV6_ROUTER=yes|no: Controls IPv6 autoconfiguration
@@ -615,10 +618,10 @@ Files in /etc/sysconfig/network-scripts/
         IPV6TO4_MTU="1280"
       Default: MTU of master device - 20
     IPV6TO4_ROUTING="<device>-<suffix>/<prefix length> ..." (optional)
-      A list of routing tokens to setup proper IPv6 routes on the LAN
+      A list of routing tokens to setup proper IPv6 interfaces on the LAN
       Example:
-         IPV6TO4_ROUTING="eth0-:0004::0/64 eth1-:0005::0/64"
-         Will create one route per eth0 and eth1, taking given SLA
+         IPV6TO4_ROUTING="eth0-:0004::1/64 eth1-:0005::1/64"
+         Will create one address per eth0 and eth1, taking given SLA
 
   Optional settings for a 6to4 tunnel or a ppp link
     IPV6_CONTROL_RADVD=yes|no (optional)
