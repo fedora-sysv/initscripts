@@ -27,7 +27,7 @@ Conflicts: xorg-x11
 Obsoletes: rhsound sapinit
 Obsoletes: hotplug
 Prereq: /sbin/chkconfig, /usr/sbin/groupadd, /bin/sed, mktemp, fileutils, sh-utils
-BuildPrereq: glib2-devel popt gettext pkgconfig
+BuildRequires: glib2-devel popt gettext pkgconfig
 
 %description
 The initscripts package contains the basic system scripts used to boot
