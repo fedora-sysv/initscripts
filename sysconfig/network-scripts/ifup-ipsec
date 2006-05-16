@@ -53,11 +53,15 @@ handle_keys() {
 	if [ -z "$KEY_ESP_OUT" -a -n "$KEY_ESP" ]; then
   		KEY_ESP_OUT=$KEY_ESP
 	fi
-	
-	[ "$KEY_AH_IN" = "${KEY_AH_IN##0x}" ] && KEY_AH_IN=\"$KEY_AH_IN\"
-	[ "$KEY_AH_OUT" = "${KEY_AH_OUT##0x}" ] && KEY_AH_OUT=\"$KEY_AH_OUT\"
-	[ "$KEY_ESP_IN" = "${KEY_ESP_IN##0x}" ] && KEY_ESP_IN=\"$KEY_ESP_IN\"
-	[ "$KEY_ESP_OUT" = "${KEY_ESP_OUT##0x}" ] && KEY_ESP_OUT=\"$KEY_ESP_OUT\"
+
+	[ -n "$KEY_AH_IN" -a "$KEY_AH_IN" = "${KEY_AH_IN##0x}" ] \
+		&& KEY_AH_IN=\"$KEY_AH_IN\"
+	[ -n "$KEY_AH_OUT" -a "$KEY_AH_OUT" = "${KEY_AH_OUT##0x}" ] \
+		&& KEY_AH_OUT=\"$KEY_AH_OUT\"
+	[ -n "$KEY_ESP_IN" -a "$KEY_ESP_IN" = "${KEY_ESP_IN##0x}" ] \
+		&& KEY_ESP_IN=\"$KEY_ESP_IN\"
+	[ -n "$KEY_ESP_OUT" -a "$KEY_ESP_OUT" = "${KEY_ESP_OUT##0x}" ] \
+		&& KEY_ESP_OUT=\"$KEY_ESP_OUT\"
 }
 
 . /etc/init.d/functions
@@ -151,10 +155,10 @@ EOF
       ip route add to $DSTNET via $SRCGW src $SRCGW
 
       /sbin/setkey -c >/dev/null 2>&1 << EOF
-delete $SRC $DST ah $SPI_AH_OUT;
-delete $DST $SRC ah $SPI_AH_IN;
-delete $SRC $DST esp $SPI_ESP_OUT;
-delete $DST $SRC esp $SPI_ESP_IN;
+${SPI_AH_OUT:+delete $SRC $DST ah $SPI_AH_OUT;}
+${SPI_AH_IN:+delete $DST $SRC ah $SPI_AH_IN;}
+${SPI_ESP_OUT:+delete $SRC $DST esp $SPI_ESP_OUT;}
+${SPI_ESP_IN:+delete $DST $SRC esp $SPI_ESP_IN;}
 spddelete $SRCNET $DSTNET any -P out;
 spddelete $DSTNET $SRCNET any -P in;
 

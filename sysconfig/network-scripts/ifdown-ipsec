@@ -46,10 +46,10 @@ fi
 
 if [ "$KEYING" = "manual" ]; then
     setkey -c << EOF
-delete $SRC $DST ah $SPI_AH_OUT;
-delete $DST $SRC ah $SPI_AH_IN;
-delete $SRC $DST esp $SPI_ESP_OUT;
-delete $DST $SRC esp $SPI_ESP_IN;
+${SPI_AH_OUT:+delete $SRC $DST ah $SPI_AH_OUT;}
+${SPI_AH_IN:+delete $DST $SRC ah $SPI_AH_IN;}
+${SPI_ESP_OUT:+delete $SRC $DST esp $SPI_ESP_OUT;}
+${SPI_ESP_IN:+delete $DST $SRC esp $SPI_ESP_IN;}
 EOF
 fi
 
