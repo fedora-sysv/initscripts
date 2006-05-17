@@ -2,7 +2,7 @@
  * ppp-watch.c
  *
  * Bring up a PPP connection and Do The Right Thing[tm] to make bringing
- * the connection up or down with ifup and ifdown syncronous.  Takes
+ * the connection up or down with ifup and ifdown synchronous.  Takes
  * one argument: the logical name of the device to bring up.  Does not
  * detach until the interface is up or has permanently failed to come up.
  *
