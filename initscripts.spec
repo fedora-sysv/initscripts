@@ -150,7 +150,6 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/sysconfig/network-scripts/ifup-sit
 %config /etc/sysconfig/network-scripts/ifdown-sit
 %config /etc/sysconfig/network-scripts/ifup-aliases
-%config /etc/sysconfig/network-scripts/ifdown-aliases
 %config /etc/sysconfig/network-scripts/ifup-ippp
 %config /etc/sysconfig/network-scripts/ifdown-ippp
 %config /etc/sysconfig/network-scripts/ifup-wireless
