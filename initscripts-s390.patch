@@ -4,7 +4,7 @@
       ;;
  esac
  
--runcmd $"Syncing hardware clock to system time" /sbin/hwclock $CLOCKFLAGS
+-action $"Syncing hardware clock to system time" /sbin/hwclock $CLOCKFLAGS
  
  # Turn off swap, then unmount file systems.
  SWAPS=`awk '! /^Filename/ { print $1 }' /proc/swaps`
