@@ -140,7 +140,7 @@ case "$SRM" in
 		CLOCKDEF="$CLOCKDEF (srm)" ;;
 esac
 
-/sbin/hwclock $CLOCKFLAGS
+[ -x /sbin/hwclock ] && /sbin/hwclock $CLOCKFLAGS
 
 action $"Setting clock $CLOCKDEF: `date`" /bin/true
 

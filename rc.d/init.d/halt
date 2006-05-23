@@ -111,7 +111,7 @@ case "$SRM" in
 	;;
 esac
 
-action $"Syncing hardware clock to system time" /sbin/hwclock $CLOCKFLAGS
+[ -x /sbin/hwclock ] && action $"Syncing hardware clock to system time" /sbin/hwclock $CLOCKFLAGS
 
 # Try to unmount tmpfs filesystems to avoid swapping them in.  Ignore failures.
 tmpfs=$(awk '$2 ~ /^\/($|proc|dev)/ { next; }
