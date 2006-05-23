@@ -1,3 +1,110 @@
+2006-05-23  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec, ChangeLog: 8.34-1
+
+	* rc.d/rc.sysinit: handle cups (#189168)
+
+	* initscripts.spec, src/Makefile:
+	link glib2 dynamically again now that it's in /lib
+
+2006-05-22  Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>
+
+	* po/ms.po: Updated Malay translation
+
+2006-05-22  Amanpreet Brar  <aalam@redhat.com>
+
+	* po/kn.po, po/te.po: adding new files for language Telugu/Kannada
+
+2006-05-17  Miloslav Trmac  <mitr@redhat.com>
+
+	* initscripts.spec, sysconfig/network-scripts/ifdown-aliases, sysconfig/network-scripts/ifup-aliases:
+	Remove unused ifdown-aliases.
+
+	* src/ppp-watch.c: Fix typo.
+
+2006-05-17  Bill Nottingham  <notting@redhat.com>
+
+	* rwtab: add some more bits from jorton
+
+2006-05-16  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec: BuildPreReq -> BuildRequires
+
+2006-05-16  Miloslav Trmac  <mitr@redhat.com>
+
+	* sysconfig/network-scripts/ifdown-ipsec, sysconfig/network-scripts/ifup-ipsec:
+	* ifup-ipsec:
+	  - Fix key handling when AH or ESP is not used (#166257, patch by
+	    Tarhon-Onu Victor <mituc@iasi.rdsnet.ro>)
+	  - Allow manual tunnel mode without using AH or ESP
+	* ifdown-ipsec:
+	  - Fix syntax errors in manual mode when AH or ESP is not used
+
+	* sysconfig/network-scripts/network-functions-ipv6:
+	Fix IPv6 address validity check not to consider every non-empty string valid.
+
+2006-05-14  Miloslav Trmac  <mitr@redhat.com>
+
+	* ppp/ip-down.ipv6to4, ppp/ip-up.ipv6to4, sysconfig/network-scripts/ifdown-ipv6, sysconfig/network-scripts/ifdown-sit, sysconfig/network-scripts/ifup-ipv6, sysconfig/network-scripts/ifup-sit, sysconfig/network-scripts/network-functions-ipv6, sysconfig.txt:
+	Modify IPV6TO4_ROUTING to also add addresses on the interfaces
+	Add RFC 3041 (IPv6 privacy) support
+	(patch for both by Peter Bieringer <pb@bieringer.de>)
+
+2006-05-10  Miloslav Trmac  <mitr@redhat.com>
+
+	* sysconfig.txt, sysconfig/network-scripts/ifdown-post, sysconfig/network-scripts/ifup-aliases, sysconfig/network-scripts/ifup-ctc, sysconfig/network-scripts/ifup-eth, sysconfig/network-scripts/ifup-ippp, sysconfig/network-scripts/ifup-iucv, sysconfig/network-scripts/ifup-plip, sysconfig/network-scripts/ifup-plusb, sysconfig/network-scripts/ifup-ppp, sysconfig/network-scripts/network-functions:
+	Add METRIC= support for default routes (#124045)
+
+	* ifup-ppp, network-functions: Save all default routes, lose no data.
+	* network-functions:
+	  - (find_gateway_dev): Fix - it should find the device while $GATEWAY is not
+	    the default route
+	  - (add_default_route): Don't use configuration for the device that is being
+	    brought down; document function purpose and bugs.
+
+2006-05-08  Miloslav Trmac  <mitr@redhat.com>
+
+	* initscripts.spec, rc.d/init.d/functions, rc.d/init.d/halt, rc.d/init.d/netfs, rc.d/rc.sysinit, src/Makefile, src/fstab-decode.8, src/fstab-decode.c:
+	Fix handling of mount points with white space (#186713):
+	- src/fstab-decode.c, src/fstab-decode.8: New files.
+	- src/Makefile: Build and install fstab-decode.
+	- initscripts.spec: Add fstab-decode to %files
+	- rc.d/init.d/functions (fstab_decode_str): New function.
+	  (__umount_loop, __umount_loopback_loop): Factor out from copy&pasted copies.
+	  (action): Fix command quoting.
+	- rc.d/rc.sysinit: Correctly quote and decode mount points.
+	- rc.d/init.d/halt: Use __umount_* and fstab-decode.
+	  (action): Rename from runcmd.  Fix command quoting.
+	- rc.d/init.d/netfs: Use __umount_*.
+
+2006-05-08  Renato Pavicic  <repavici@globalnet.hr>
+
+	* po/hr.po: *** empty log message ***
+
+2006-05-06  Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>
+
+	* po/ms.po: Updated Malay translation
+
+2006-05-06  Renato Pavicic  <repavici@globalnet.hr>
+
+	* po/hr.po: *** empty log message ***
+
+2006-05-04  Bill Nottingham  <notting@redhat.com>
+
+	* rwtab: update
+
+2006-04-25  Felix Iyadurai  <ifelix@redhat.com>
+
+	* po/ta.po: Tamil Translation updated
+
+2006-04-24  Manuel Eduardo Ospina Sarmiento  <mospina@redhat.com>
+
+	* po/es.po: automerge done
+
+2006-04-21  Felix Iyadurai  <ifelix@redhat.com>
+
+	* po/ta.po: Tamil translation of Fedora updated
+
 2006-04-20  Bill Nottingham  <notting@redhat.com>
 
 	* ChangeLog, initscripts.spec: 8.33-1

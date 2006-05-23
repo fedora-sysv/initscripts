@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.33
+Version: 8.34
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -213,6 +213,17 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue May 23 2006 Bill Nottingham <notting@redhat.com> 8.34-1
+- link glib2 dynamically now that it's in /lib, conflict with older
+  versions
+- handle cups specially when cleaning /var (#189168)
+- remove ifdown-aliases (<mitr@redhat.com>)
+- ifup-ipsec: fix key handling when only one of AH or ESP is used
+  (#166257, <mituc@iasi.rdsnet.ro>)
+- IPv6 updates, including RFC 3041 support (<pb@bieringer.de>)
+- routing fixes, add METRIC support for default routes (#124045, <mitr@redhat.com>)
+- fix handling of mount points with white space (#186713, <mitr@redhat.com>)
+
 * Thu Apr 20 2006 Bill Nottingham <notting@redhat.com> 8.33-1
 - support for readonly root
 - rc.sysinit: remove call to zfcpconf.sh - that should be udev rules
