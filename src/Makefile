@@ -59,7 +59,7 @@ usleep: $(USLEEP_OBJS)
 	$(CC) $(LDFLAGS) -o $@ $(USLEEP_OBJS) -Wl,-Bstatic -lpopt -Wl,-Bdynamic
 
 ppp-watch: $(PPPWATCH_OBJS)
-	$(CC) $(LDFLAGS) -o $@ $(PPPWATCH_OBJS) -Wl,-Bstatic `pkg-config glib-2.0 --libs` -Wl,-Bdynamic
+	$(CC) $(LDFLAGS) -o $@ $(PPPWATCH_OBJS) $(pkg-config glib-2.0 --libs)
 
 usernetctl.o: usernetctl.c
 	$(CC) $(CFLAGS) -fPIE -c usernetctl.c -o usernetctl.o
@@ -74,7 +74,7 @@ ppp-watch.o: ppp-watch.c
 	$(CC) $(CFLAGS) `pkg-config glib-2.0 --cflags` -c ppp-watch.c -o ppp-watch.o
 
 rename_device: rename_device.c
-	$(CC) $(CFLAGS) `pkg-config glib-2.0 --cflags` -o $@ $< -Wl,-Bstatic `pkg-config glib-2.0 --libs` -Wl,-Bdynamic
+	$(CC) $(CFLAGS) `pkg-config glib-2.0 --cflags` -o $@ $< $(pkg-config glib-2.0 --libs)
 
 kmodule: kmodule.o
 	$(CC) $(LDFLAGS) -o $@ $< -Wl,-Bstatic -lpopt -Wl,-Bdynamic -lkudzu -lpci
