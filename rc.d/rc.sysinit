@@ -45,9 +45,9 @@ if [ -n "$SELINUX_STATE" -a -x /sbin/restorecon ] && LC_ALL=C fgrep -q " /dev " 
 fi
 
 disable_selinux() {
-	echo "*** Warning -- SELinux is active"
-	echo "*** Disabling security enforcement for system recovery."
-	echo "*** Run 'setenforce 1' to reenable."
+	echo $"*** Warning -- SELinux is active"
+	echo $"*** Disabling security enforcement for system recovery."
+	echo $"*** Run 'setenforce 1' to reenable."
 	echo "0" > "$selinuxfs/enforce"
 }
 
@@ -58,22 +58,41 @@ relabel_selinux() {
     # if /sbin/init is not labeled correctly this process is running in the 
     # wrong context, so a reboot will be reuired after relabel
     REBOOTFLAG=`restorecon -v /sbin/init`
+    AUTORELABEL=
     . /etc/selinux/config
-    echo "
-         *** Warning -- SELinux ${SELINUXTYPE} policy relabel is required. ***
-         *** Relabelling could take a very long time, depending on file    ***
-         *** system size and speed of hard drives.                         ***
-	 "
-    echo "0" > "$selinuxfs/enforce"
-    /sbin/fixfiles restore > /dev/null 2>&1 
-    rm -f  /.autorelabel 
-    if [ ! -z "$REBOOTFLAG" ]; then 
-		echo $"Automatic reboot in progress."
-		reboot -f
-    fi
-    echo $SELINUX_STATE > "$selinuxfs/enforce"
-    if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
-	chvt 8
+    if [ "$AUTORELABEL" = "0" ]; then
+ 	rm -f  /.autorelabel 
+
+ 	echo
+	echo $"*** Warning -- SELinux ${SELINUXTYPE} policy relabel is required. "
+ 	echo $"*** /etc/selinux/config indicates you want to manually fix labeling"
+ 	echo $"*** problems. Dropping you to a shell; the system will reboot"
+ 	echo $"*** when you leave the shell."
+ 	echo "0" > $selinuxfs/enforce
+ 	sulogin
+ 
+ 	echo $"Unmounting file systems"
+ 	umount -a
+ 	mount -n -o remount,ro /
+ 	echo $"Automatic reboot in progress."
+ 	reboot -f
+    else
+ 	echo
+ 	echo $"*** Warning -- SELinux ${SELINUXTYPE} policy relabel is required."
+ 	echo $"*** Relabelling could take a very long time, depending on file"
+ 	echo $"*** system size and speed of hard drives."
+ 
+ 	echo "0" > $selinuxfs/enforce
+ 	/sbin/fixfiles restore > /dev/null 2>&1 
+ 	rm -f  /.autorelabel 
+ 	if [ ! -z "$REBOOTFLAG" ]; then 
+ 	    echo $"Automatic reboot in progress."
+ 	    reboot -f
+ 	fi
+ 	echo $SELINUX_STATE > $selinuxfs/enforce
+ 	if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
+ 	    chvt 8
+ 	fi
     fi
 }
 
@@ -306,8 +325,8 @@ if strstr "$cmdline" readonlyroot ; then
 	[ -z "$RW_MOUNT" ] && RW_MOUNT=/var/lib/stateless/writable
 fi
 if [ "$READONLY" = "yes" -a -n "$SELINUX_STATE" ]; then
-	echo "SELinux is not compatible with read-only root at this time."
-	echo "Mounting read/write."
+	echo $"SELinux is not compatible with read-only root at this time."
+	echo $"Mounting read/write."
 	READONLY=no
 fi
 
