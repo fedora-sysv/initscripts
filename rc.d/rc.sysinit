@@ -96,6 +96,117 @@ relabel_selinux() {
     fi
 }
 
+key_is_random() {
+    [ "$1" = "/dev/urandom" -o "$1" = "/dev/hw_random" \
+	-o "$1" = "/dev/random" ]
+}
+
+# Because of a chicken/egg problem, init_crypto must be run twice.  /var may be
+# encrypted but /var/lib/random-seed is needed to initialize swap.
+init_crypto() {
+    local have_random dst src key opt mode owner params makeswap skip arg opt
+    local param value ret
+
+    ret=0
+    have_random=$1
+    while read dst src key opt; do
+	[ -z "$dst" -o "${dst#\#}" != "$dst" ] && continue
+        [ -b "/dev/mapper/$dst" ] && continue;
+	if [ "$have_random" = 0 ] && key_is_random "$key"; then
+	    continue
+	fi
+	if [ -n "$key" -a "x$key" != "xnone" ]; then
+	    if test -e "$key" ; then
+		mode=$(ls -l "$key" | cut -c 5-10)
+		owner=$(ls -l $key | awk '{ print $3 }')
+		if [ "$mode" != "------" ] && ! key_is_random "$key"; then
+		    echo $"INSECURE MODE FOR $key"
+		fi
+		if [ "$owner" != root ]; then
+		    echo $"INSECURE OWNER FOR $key"
+		fi
+	    else
+		echo $"Key file for $dst not found, skipping"
+		ret=1
+		continue
+	    fi
+	else
+	    key=""
+	fi
+	params=""
+	makeswap=""
+	skip=""
+	# Parse the options field, convert to cryptsetup parameters
+	# and contruct the command line
+	while [ -n "$opt" ]; do
+	    arg=${opt%%,*}
+	    opt=${opt##$arg}
+	    opt=${opt##,}
+	    param=${arg%%=*}
+	    value=${arg##$param=}
+
+	    case "$param" in
+	    cipher)
+		params="$params -c $value"
+		if [ -z "$value" ]; then
+		    echo $"$dst: no value for cipher option, skipping"
+		    skip="yes"
+		fi
+	    ;;
+	    size)
+		params="$params -s $value"
+		if [ -z "$value" ]; then
+		    echo $"$dst: no value for size option, skipping"
+		    skip="yes"
+		fi
+	    ;;
+	    hash)
+		params="$params -h $value"
+		if [ -z "$value" ]; then
+		    echo $"$dst: no value for hash option, skipping"
+		    skip="yes"
+		fi
+	    ;;
+	    verify)
+	        params="$params -y"
+	    ;;
+	    swap)
+		makeswap=yes
+	    esac
+	done
+	if [ "$skip" = "yes" ]; then
+	    ret=1
+	    continue
+	fi
+	if [ "$makeswap" = "yes" ]; then
+	    # init.d/halt should format $src as swap before shutdown
+	    if [ "$(/sbin/blkid -o value -s TYPE "$src")" != "swap" ]; then
+		echo $"$src is not a swap partition"
+		makeswap=no
+	    fi
+	fi
+	# FIXME: if [ -z key ], should we allow retries or handle rhgb?
+	if cryptsetup isLuks "$src" 2>/dev/null; then
+	    if key_is_random "$key"; then
+		echo $"$dst: LUKS requires non-random key, skipping"
+		ret=1
+		continue
+	    fi
+	    /sbin/cryptsetup $params ${key:+-d $key} luksOpen "$src" "$dst" <&1
+	else
+	    /sbin/cryptsetup $params ${key:+-d $key} create "$dst" "$src" <&1
+	fi
+	if [ $? -ne 0 ]; then
+	    ret=1
+	    continue
+	fi
+	if [ "$makeswap" = "yes" -a -b "/dev/mapper/$dst" ]; then
+	    mkswap "/dev/mapper/$dst" 2>/dev/null >/dev/null
+	fi
+    done < /etc/crypttab
+    return $ret
+}
+
 if [ "$CONSOLETYPE" = "vt" -a -x /sbin/setsysfont ]; then
    /sbin/setsysfont
 fi
@@ -257,6 +368,13 @@ update_boot_stage RCraid
 echo "raidautorun /dev/md0" | nash --quiet
 if [ -f /etc/mdadm.conf ]; then
     /sbin/mdadm -A -s
+fi
+
+if [ -f /etc/crypttab ]; then
+    s=$"Starting disk encryption:"
+    echo "$s"
+    init_crypto 0 && success "$s" || failure "$s"
+    echo
 fi
 
 # Device mapper & related initialization
@@ -530,6 +648,13 @@ fi
 
 # Use the hardware RNG to seed the entropy pool, if available
 #[ -x /sbin/rngd -a -c /dev/hw_random ] && rngd
+
+if [ -f /etc/crypttab ]; then
+    s=$"Starting disk encryption using the RNG:"
+    echo "$s"
+    init_crypto 1 && success "$s" || failure "$s"
+    echo
+fi
 
 # Configure machine if necessary.
 if [ -f /.unconfigured ]; then

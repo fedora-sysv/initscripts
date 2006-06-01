@@ -22,6 +22,21 @@ action() {
    echo
 }
 
+halt_crypto() {
+    fnval=0
+    while read dst src key; do
+	[ -z "$dst" -o "${dst#\#}" != "$dst" ] && continue
+        if [ -b "/dev/mapper/$dst" ]; then
+            if /sbin/dmsetup info "$dst" | grep -q '^Open count: *0$'; then
+                /sbin/cryptsetup remove "$dst"
+            else
+                fnval=1
+            fi
+        fi
+    done < /etc/crypttab
+    return $fnval
+}
+
 # See how we were called.
 case "$0" in
    *halt)
@@ -120,7 +135,19 @@ tmpfs=$(awk '$2 ~ /^\/($|proc|dev)/ { next; }
 
 # Turn off swap, then unmount file systems.
 [ -f /proc/swaps ] && SWAPS=`awk '! /^Filename/ { print $1 }' /proc/swaps`
-[ -n "$SWAPS" ] && action $"Turning off swap: " swapoff $SWAPS
+if [ -n "$SWAPS" ]; then
+    action $"Turning off swap: " swapoff $SWAPS
+    for dst in $SWAPS; do
+	if [[ "$dst" =~ "^/dev/mapper" ]] \
+	    && [ "$(dmsetup status "$dst" | cut -d ' ' -f 3)" = crypt ]; then
+	    backdev=$(/sbin/cryptsetup status "$dst" \
+		| awk '$1 == "device:" { print $2 }')
+	    /sbin/cryptsetup remove "$dst"
+	    # Leave partition with a blank plain-text swap
+	    mkswap "$backdev" > /dev/null
+	fi
+    done
+fi
 
 [ -x /sbin/quotaoff ] && action $"Turning off quotas: " /sbin/quotaoff -aug
 
@@ -144,6 +171,9 @@ LANG=C __umount_loop '$2 ~ /^\/$|^\/proc|^\/dev/{next}
 	-f
 
 [ -f /proc/bus/usb/devices ] && umount /proc/bus/usb
+
+[ -f /etc/crypttab ] && \
+    LANG=C action $"Stopping disk encryption: " halt_crypto
 
 # remove the crash indicator flag
 rm -f /.autofsck
