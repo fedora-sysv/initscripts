@@ -14,7 +14,7 @@ all:
 
 install:
 	mkdir -p $(ROOT)/etc/profile.d $(ROOT)/sbin $(ROOT)/usr/sbin
-	mkdir -p $(ROOT)$(mandir)/man8
+	mkdir -p $(ROOT)$(mandir)/man{5,8}
 	mkdir -p $(ROOT)/etc/rwtab.d $(ROOT)/var/lib/stateless/writable
 
 	install -m644  inittab adjtime $(ROOT)/etc
@@ -25,6 +25,7 @@ install:
 	install -m755  service setsysfont $(ROOT)/sbin
 	install -m755  lang.csh lang.sh $(ROOT)/etc/profile.d
 	install -m755  sys-unconfig $(ROOT)/usr/sbin
+	install -m644  crypttab.5 $(ROOT)$(mandir)/man5
 	install -m644  service.8 sys-unconfig.8 $(ROOT)$(mandir)/man8
 	install -m644 sysctl.conf $(ROOT)/etc/sysctl.conf
 	if uname -m | grep -q sparc ; then \

@@ -1,0 +1,108 @@
+.\" A man page for /etc/crypttab.
+.\"
+.\" Copyright (C) 2006 Red Hat, Inc. All rights reserved.
+.\"
+.\" This copyrighted material is made available to anyone wishing to use,
+.\" modify, copy, or redistribute it subject to the terms and conditions of the
+.\" GNU General Public License v.2.
+.\"
+.\" This program is distributed in the hope that it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for 
+.\" more details.
+.\"
+.\" You should have received a copy of the GNU General Public License along
+.\" with this program; if not, write to the Free Software Foundation, Inc.,
+.\" 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+.\"
+.\" Author: Miloslav Trmac <mitr@redhat.com>
+.TH crypttab 5 "Jul 2006"
+
+.SH NAME
+/etc/crypttab - encrypted block device table
+
+.SH DESCRIPTION
+The
+.B /etc/crypptab
+file describes encrypted block devices that are set up during system boot.
+
+Empty lines and lines starting with the
+.B #
+character are ignored.
+Each of the remaining lines describes one encrypted block device,
+fields on the line are delimited by white space.
+The first two fields are mandatory, the remaining two are optional.
+
+The first field contains the
+.I name
+of the resulting encrypted block device;
+the device is set up at
+\fB/dev/mapper/\fIname\fR.
+
+The second field contains a path to the underlying block device.
+If the block device contains a LUKS signature,
+it is opened as a LUKS encrypted partition;
+otherwise it is assumed to be a raw dm-crypt partition.
+
+The third field specifies the encryption password.
+If the field is not present or the password is set to \fBnone\fR,
+the password has to be manually entered during system boot.
+Otherwise the field is interpreted as a path to a file
+containing the encryption password.
+For swap encryption
+.B /dev/urandom
+can be used as the password file;
+using
+.B /dev/random
+may prevent boot completion
+if the system does not have enough entropy
+to generate a truly random encryption key.
+
+The fourth field, if present, is a comma-delimited list of options.
+The following options are recognized:
+.TP
+\fBcipher=\fIcipher\fR
+Specifies the cipher to use; see
+.BR cryptsetup (8)
+for possible values and the default value of this option.
+A cipher with unpredictable IV values, such as
+\fBaes-cbc-essiv:sha256\fR, is recommended.
+
+.TP
+\fBsize=\fIsize\fR
+Specifies the key size in bits; see
+.BR cryptsetup (8)
+for possible values and the default value of this option.
+
+.TP
+\fBhash=\fIhash\fR
+Specifies the hash to use for password hashing; see
+.BR cryptsetup (8)
+for possible values and the default value of this option.
+
+.TP
+\fBverify\fR
+If the the encryption password is read from console,
+it has to be entered twice (to prevent typos).
+
+.TP
+\fBswap\fR
+The encrypted block device will be used as a swap partition,
+and will be formatted as a swap partition
+after setting up the encrypted block device.
+The underlying block device must be already formatted
+as an (unencrypted) swap partition,
+and will be formatted again as an unencrypted swap partition
+after destroying the encrypted block device.
+(This allows sharing a single swap partition between operating
+system installations,
+with some of them encrypting the swap partitions and some of them not.)
+
+.SH COMPATIBILITY
+The
+.B /etc/crypptab
+file format is based on the Debian cryptsetup package,
+and is intended to be compatible.
+
+.SH SEE ALSO
+.BR cryptsetup (8)
