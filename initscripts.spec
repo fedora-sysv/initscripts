@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.34
+Version: 8.35
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -209,6 +209,13 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Jun 12 2006 Bill Nottingham <notting@redhat.com> 8.35-1
+- readonly root enhancments (modified from <law@redhat.com>, #193164)
+- encrypted swap, non-root filesystem support (#127378, <mitr@redhat.com, <redhat@flyn.org>)
+- clarify killproc usage (#193711, <mitr@redhat.com>)
+- document BRIDGE= (#192576, <mitr@redhat.com>)
+- rc.sysinit: allow for sulogin instead of automatic relabeling (<dwalsh@rehdat.com>)
+
 * Tue May 23 2006 Bill Nottingham <notting@redhat.com> 8.34-1
 - link glib2 dynamically now that it's in /lib, conflict with older
   versions
