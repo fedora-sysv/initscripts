@@ -473,10 +473,25 @@ if [ "$READONLY" = "yes" ]; then
 		fi
 	}
 
+	# Common mount options for scratch space regardless of 
+	# type of backing store
 	if [ -n "$SELINUX_STATE" ]; then
-		mount -t tmpfs -o fscontext=system_u:object_r:fs_t:s0 none "$RW_MOUNT"
+		mountopts="-o fscontext=system_u:object_r:fs_t:s0"
+	fi
+
+	# Scan partitions for local scratch storage
+	rw_mount_dev=$(blkid -t LABEL="$RW_LABEL" -o device | awk '{ print ; exit }')
+
+	# First try to mount scratch storage from /etc/fstab, then any
+	# partition with the proper label.  If either succeeds, be sure
+	# to wipe the scratch storage clean.  If both fail, then mount
+	# scratch storage via tmpfs.
+	if mount $mountopts "$RW_MOUNT" > /dev/null 2>&1 ; then
+		rm -rf "$RW_MOUNT" > /dev/null 2>&1
+	elif [ x$rw_mount_dev != x ] && mount $rw_mount_dev $mountopts "$RW_MOUNT" > /dev/null 2>&1; then
+		rm -rf "$RW_MOUNT"  > /dev/null 2>&1
 	else
-		mount -t tmpfs none "$RW_MOUNT"
+		mount -t tmpfs $mountopts none "$RW_MOUNT"
 	fi
 
 	for file in /etc/rwtab /etc/rwtab.d/* ; do
@@ -497,6 +512,68 @@ if [ "$READONLY" = "yes" ]; then
 			[ -n "$SELINUX_STATE" ] && restorecon -R "$1"
 		done
 	done
+
+	# Clients with read-only root filesystems may be provided with a
+	# place where they can place minimal amounts of persistent
+	# state.  SSH keys or puppet certificates for example.
+	#
+	# Ideally we'll use puppet to manage the state directory and to
+	# create the bind mounts.  However, until that's all ready this
+	# is sufficient to build a working system.
+
+	# First try to mount persistent data from /etc/fstab, then any
+	# partition with the proper label, then fallback to NFS
+	state_mount_dev=$(blkid -t LABEL="$STATE_LABEL" -o device | awk '{ print ; exit }')
+	if mount $mountopts "$STATE_MOUNT" > /dev/null 2>&1 ; then
+		/bin/true
+	elif [ x$state_mount_dev != x ] && mount $state_mount_dev $mountopts "$STATE_MOUNT" > /dev/null 2>&1;  then
+		/bin/true
+	else
+		# No local storage was found.  Make a final attempt to find 
+		# state on an NFS server.  This code is greatly simplified by
+		# a couple simple policies.
+		#
+		# First, the DHCP server will provide a hostname to the client
+		#
+		# Second, the hostname of the client is the key used to find
+		# its state directory on the NFS server
+
+		# In theory there should be only one network interface active
+		# this early in the boot process -- the one we're booting from.
+		# Get its name.
+		ipaddr=
+		if [ "$HOSTNAME" = "localhost" ]; then
+			ipaddr=$(ip addr show to 0/0 scope global | awk '/[[:space:]]inet / { print gensub("/.*","","g",$2) }')
+			if [ -n "$ipaddr" ]; then
+				eval $(ipcalc -h $ipaddr 2>/dev/null)
+				hostname ${HOSTNAME}
+			fi
+		fi
+	
+		mount -t nfs $CLIENTSTATE/$HOSTNAME $STATE_MOUNT -o rw,nolock
+		if [ -d $STATE_MOUNT/etc ]; then
+			touch $STATE_MOUNT/files
+			mount -t nfs $CLIENTSTATE/files $STATE_MOUNT/files -o rw,nolock
+		fi
+
+	fi
+
+	if [ -d $STATE_MOUNT/etc ]; then
+		# In the future this will be handled by puppet
+		for i in $(grep -v "^#" $STATE_MOUNT/files); do
+			if [ -e $i ]; then
+			 	mount -n -o bind $STATE_MOUNT/${i} ${i}
+			fi
+ 		done
+
+		if [ -e $STATE_MOUNT/files.custom ]; then
+			for i in $(grep -v "^#" $STATE_MOUNT/files.custom); do
+				if [ -e $i ]; then
+					mount -n -o bind $STATE_MOUNT/${i} ${i}
+				fi
+			done
+		fi
+	fi
 fi
  
 if ! [[ " $fsckoptions" =~ " -y" ]]; then
@@ -760,7 +837,11 @@ chown root:root /tmp/.ICE-unix
 
 # Start up swapping.
 update_boot_stage RCswap
-action $"Enabling swap space: " swapon -a -e
+swappartitions=`blkid -t TYPE=swap -o device`
+if [ x"$swappartitions" != x ]; then
+	action $"Enabling local swap partitions: " swapon $swappartitions
+fi
+action $"Enabling /etc/fstab swaps: " swapon -a -e
 
 # Set up binfmt_misc
 /bin/mount -t binfmt_misc none /proc/sys/fs/binfmt_misc > /dev/null 2>&1
