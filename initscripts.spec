@@ -112,10 +112,10 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) /etc/sysconfig/init
 %config(noreplace) /etc/sysconfig/readonly-root
 /etc/sysconfig/network-scripts/ifdown
-%config /sbin/ifdown
+/sbin/ifdown
 %config /etc/sysconfig/network-scripts/ifdown-post
 /etc/sysconfig/network-scripts/ifup
-%config /sbin/ifup
+/sbin/ifup
 %dir /etc/sysconfig/console
 %dir /etc/sysconfig/modules
 %dir /etc/sysconfig/networking
