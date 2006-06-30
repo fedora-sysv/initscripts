@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.31.2
+Version: 8.31.3
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -209,6 +209,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Jun 30 2006 Bill Nottingham <notting@redhat.com> 8.31.3-1
+- backport bridge fixes (#187100)
+
 * Fri Mar 17 2006 Bill Nottingham <notting@redhat.com> 8.31.2-1
 - add udev helper to rename network devices on device creation
 

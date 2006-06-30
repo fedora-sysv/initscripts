@@ -50,6 +50,25 @@ if [ -n "${HWADDR}" ]; then
     fi
 fi
 
+if [ "${TYPE}" = "Bridge" ]; then
+      if [ ! -x /usr/sbin/brctl ]; then
+	  echo $"Bridge support not available: brctl not found"
+	  exit 1
+      fi
+      if ! LC_ALL=C /usr/sbin/brctl show | LC_ALL=C grep -q "^${DEVICE}	"; then
+	  /usr/sbin/brctl addbr ${DEVICE} 2>/dev/null
+      fi
+      # brctl doesn't report success/failure (BZ #104408)
+      # Test for ourselves whether it worked.
+      if ! /usr/sbin/brctl show | LANG=C grep -q "^${DEVICE}	" ; then
+	    echo $"Bridge support not available in this kernel"
+	    exit 1
+      fi
+      [ -n "${DELAY}" ] && /usr/sbin/brctl setfd ${DEVICE} ${DELAY}
+      [ -n "${GCINT}" ] && /usr/sbin/brctl setgcint ${DEVICE} ${GCINT}
+      [ -n "${STP}" ] && /usr/sbin/brctl stp ${DEVICE} ${STP}
+fi
+
 # now check the real state
 is_available ${REALDEVICE} || {
       if [ -n "$alias" ]; then
@@ -63,26 +82,10 @@ is_available ${REALDEVICE} || {
 # is the device wireless? If so, configure wireless device specifics
 is_wireless_device ${DEVICE} && . ./ifup-wireless
 
-if [ "${TYPE}" = "Bridge" ]; then
-      if [ ! -x /usr/sbin/brctl ]; then
-	  echo $"Bridge support not available: brctl not found"
-	  exit 1
-      fi
-      /sbin/ip link set dev ${DEVICE} down 2>/dev/null
-      /usr/sbin/brctl delbr ${DEVICE} 2>/dev/null
-      /usr/sbin/brctl addbr ${DEVICE} 2>/dev/null
-      # brctl doesn't report success/failure (BZ #104408)
-      # Test for ourselves whether it worked.
-      if ! /usr/sbin/brctl show | LANG=C grep -q "^${DEVICE}	" ; then
-	    echo $"Bridge support not available in this kernel"
-	    exit 1
-      fi
-      [ -n "${DELAY}" ] && /usr/sbin/brctl setfd ${DEVICE} ${DELAY}
-      [ -n "${GCINT}" ] && /usr/sbin/brctl setgcint ${DEVICE} ${GCINT}
-      [ -n "${STP}" ] && /usr/sbin/brctl stp ${DEVICE} ${STP}
-fi
-
 if [ -n "${BRIDGE}" -a -x /usr/sbin/brctl ]; then
+      if ! LC_ALL=C /usr/sbin/brctl show | LC_ALL=C grep -q "^${BRIDGE}	"; then
+	  /usr/sbin/brctl addbr ${BRIDGE} 2>/dev/null
+      fi
       /sbin/ip addr flush dev ${DEVICE} 2>/dev/null
       /sbin/ip link set dev ${DEVICE} up
       /usr/sbin/brctl addif ${BRIDGE} ${DEVICE}

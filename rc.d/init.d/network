@@ -94,43 +94,36 @@ case "$1" in
 
 	# bring up all other interfaces configured to come up at boot time
 	for i in $interfaces; do
+		unset DEVICE TYPE SLAVE
 		eval $(LANG=C fgrep "DEVICE=" ifcfg-$i)
 		eval $(LANG=C fgrep "TYPE=" ifcfg-$i)
 		eval $(LANG=C fgrep "SLAVE=" ifcfg-$i)
-		eval $(LANG=C fgrep "BRIDGE=" ifcfg-$i)
-		
+
 		if [ -z "$DEVICE" ] ; then DEVICE="$i"; fi
 
 		if [ "${DEVICE##cipcb}" != "$DEVICE" ] ; then
 			cipeinterfaces="$cipeinterfaces $i"
-			unset DEVICE TYPE SLAVE BRIDGE
 			continue
 		fi
 		if [ "$TYPE" = "xDSL" ]; then
 		        xdslinterfaces="$xdslinterfaces $i"
-			unset DEVICE TYPE SLAVE BRIDGE
 			continue
 		fi
-		
-		if [ -n "$BRIDGE" ]; then
-			is_available $i
+
+		if [ "$TYPE" = "Bridge" ]; then
 		        bridgeinterfaces="$bridgeinterfaces $i"
-			unset DEVICE TYPE SLAVE BRIDGE
 			continue
 		fi
 
 		if [ "${DEVICE%%.*}" != "$DEVICE" ] ; then
 			vlaninterfaces="$vlaninterfaces $i"
-			unset DEVICE TYPE SLAVE BRIDGE
 			continue
 		fi
 		
 		if [ "$SLAVE" = "yes" ]; then
-			unset DEVICE TYPE SLAVE BRIDGE
 			continue
 		fi
-		unset DEVICE TYPE SLAVE BRIDGE
-	
+
 		if LANG=C egrep -L "^ONBOOT=['\"]?[Nn][Oo]['\"]?" ifcfg-$i > /dev/null ; then
 		        # this loads the module, to preserve ordering
 			is_available $i
@@ -202,55 +195,42 @@ case "$1" in
 
 	# get list of bonding, cipe, and xdsl interfaces
 	for i in $interfaces; do
+		unset DEVICE TYPE
 		eval $(LANG=C fgrep "DEVICE=" ifcfg-$i)
 		eval $(LANG=C fgrep "TYPE=" ifcfg-$i)
-		eval $(LANG=C fgrep "BRIDGE=" ifcfg-$i)
-		
+
 		if [ -z "$DEVICE" ] ; then DEVICE="$i"; fi
 
 		if [ "${DEVICE##cipcb}" != "$DEVICE" ] ; then
 			cipeinterfaces="$cipeinterfaces $i"
-			unset DEVICE TYPE BRIDGE
 			continue
 		fi
-		if [ -n "$BRIDGE" ]; then
+		if [ "$TYPE" = "Bridge" ]; then
 		        bridgeinterfaces="$bridgeinterfaces $i"
-			unset DEVICE TYPE BRIDGE
 		        continue
 		fi
 		if [ "$TYPE" = "xDSL" ]; then
 		        xdslinterfaces="$xdslinterfaces $i"
-			unset DEVICE TYPE BRIDGE
 			continue
 		fi
 
 		if [ "${DEVICE%%.*}" != "$DEVICE" ] ; then
 			vlaninterfaces="$vlaninterfaces $i"
-			unset DEVICE TYPE SLAVE BRIDGE
 			continue
 		fi
 		remaining="$remaining $i"
-		unset DEVICE TYPE BRIDGE
 	done
 	
-	for i in $cipeinterfaces $xdslinterfaces $bridgeinterfaces $vlaninterfaces; do
-		eval $(fgrep "DEVICE=" ifcfg-$i)
+	for i in $cipeinterfaces $xdslinterfaces $bridgeinterfaces $vlaninterfaces $remaining; do
+		(. ifcfg-$i
 		if [ -z "$DEVICE" ] ; then DEVICE="$i"; fi
 
 		if ! check_device_down $DEVICE; then
 		   action $"Shutting down interface $i: " ./ifdown $i boot
 		fi
+		)
 	done
-	
-	# shut down all interfaces (other than loopback)
-	for i in $remaining ; do
-		eval $(fgrep "DEVICE=" ifcfg-$i)
-		if [ -z "$DEVICE" ] ; then DEVICE="$i"; fi
 
-		if ! check_device_down $DEVICE; then
-		   action $"Shutting down interface $i: " ./ifdown $i boot
-		fi
-	done
 	case "$IPX" in
 	  yes|true)
 	    if [ "$IPXINTERNALNETNUM" != "0" ]; then

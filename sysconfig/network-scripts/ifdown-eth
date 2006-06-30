@@ -26,8 +26,11 @@ if [ -n "${BRIDGE}" -a -x /usr/sbin/brctl ]; then
       # Upon removing a device from a bridge,
       # it's necessary to make radvd reload its config
       [ -r /var/run/radvd/radvd.pid ] && kill -HUP `cat /var/run/radvd/radvd.pid`
+      if LC_ALL=C /usr/sbin/brctl show | LC_ALL=C grep -q "^${BRIDGE}	.*can't get port info"; then
+	  /usr/sbin/brctl delbr ${BRIDGE}
+      fi
       exit 0
-fi 
+fi
 
 . /etc/sysconfig/network
 
@@ -106,10 +109,6 @@ if [ "$retcode" = 0 ] ; then
     /etc/sysconfig/network-scripts/ifdown-post $CONFIG
     # do NOT use $? because ifdown should return whether or not
     # the interface went down.
-fi
-
-if [ "$TYPE" = "Bridge" -a -x /usr/sbin/brctl ]; then
-    /usr/sbin/brctl delbr ${DEVICE}
 fi
 
 if [ -n "$VLAN" -a -x /sbin/vconfig ]; then
