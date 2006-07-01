@@ -142,6 +142,9 @@ struct netdev *get_configs() {
 		for (i = 0; lines[i]; i++) {
 			if (g_str_has_prefix(lines[i],"DEVICE=")) {
 				devname = lines[i] + 7;
+				/* ignore alias devices */
+				if (strchr(devname,':'))
+					devname = NULL;
 			}
 			if (g_str_has_prefix(lines[i],"HWADDR=")) {
 				hwaddr = lines[i] + 7;
@@ -230,8 +233,12 @@ void rename_device(char *src, char *target, struct netdev *current) {
 		struct netdev *i, *tmpdev;
 		
 		hw = get_hwaddr(target);
-		if (!hw)
-			return;
+		if (!hw) {
+			devs = get_devs();
+			hw = get_hwaddr(target);
+			if (!hw)
+				return;
+		}
 		
 		nconfig = get_config_by_hwaddr(hw);
 		curdev = get_device_by_hwaddr(hw);
