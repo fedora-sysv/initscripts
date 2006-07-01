@@ -211,6 +211,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Fri Jun 30 2006 Bill Nottingham <notting@redhat.com> 8.31.3-1
 - backport bridge fixes (#187100)
+- ignore alias devices in rename_device (#186355)
 
 * Fri Mar 17 2006 Bill Nottingham <notting@redhat.com> 8.31.2-1
 - add udev helper to rename network devices on device creation
