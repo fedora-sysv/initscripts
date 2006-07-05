@@ -32,6 +32,7 @@ if [ -n "$RSA_KEY" ]; then
   IKE_METHOD=RSA
 fi
 
+[ -n "$IKE_METHOD" ] && KEYING=automatic
 [ -z "$KEYING" ] && KEYING=manual
 
 if [ -n "$SRCNET" -o -n "$DSTNET" ]; then
