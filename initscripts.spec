@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.31.4
+Version: 8.31.5
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -209,6 +209,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Jul  7 2006 Bill Nottingham <notting@redhat.com> 8.31.5-1
+- backport cups startup fix (#189168)
+
 * Fri Jun 30 2006 Bill Nottingham <notting@redhat.com> 8.31.4-1
 - backport bridge fixes (#187100)
 - ignore alias devices in rename_device (#186355)
