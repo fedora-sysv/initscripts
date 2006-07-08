@@ -832,15 +832,16 @@ Files in /etc/sysconfig/network-scripts/
 
    Manual keying:
 
-     AH_PROTO{_IN,_OUT}=protocol to use for AH (defaults to HMAC-SHA1)
-     ESP_PROTO{_IN,_OUT}=protocol to use for ESP (defaults to 3DES)
-     KEY_AH{_IN,_OUT}=AH key
-     KEY_ESP{_IN,_OUT}=ESP key
-     SPI_{ESP,AH_{IN,OUT}}=SPIs to use
+     AH_PROTO{,_IN,_OUT}=protocol to use for AH (defaults to hmac-sha1)
+     ESP_PROTO{,_IN,_OUT}=protocol to use for ESP (defaults to 3des-cbc)
+     KEY_AH{,_IN,_OUT}=AH key
+     KEY_ESP{,_IN,_OUT}=ESP key
+     SPI_{ESP,AH}_{IN,OUT}=SPIs to use
 
-   _IN and _OUT specifiers are for using different keys or protocols for incoming
-   and outgoing packets. If neither _IN or _OUT variants are set for protocols or
-   keys, the same will be used for both.
+   _IN and _OUT specifiers are for using different keys or protocols for
+   incoming and outgoing packets.  If neither _IN or _OUT variants are set for
+   protocols or keys, the same will be used for both.  Hexadecimal keys need to
+   be prefixed with "0x".
 
    Automatic keying:
 
@@ -849,10 +850,12 @@ Files in /etc/sysconfig/network-scripts/
          X509=X.509 certificates
          GSSAPI=GSSAPI authentication
      IKE_PSK=preshared key for this connection
-     IKE_CERTFILE=our certificate file name for X509 IKE 
+     IKE_CERTFILE=our certificate file name for X509 IKE
        IKE_PEER_CERTFILE=peer public cert filename for X509 IKE
        IKE_DNSSEC=retrieve peer public certs from DNS
      (otherwise uses certificate information sent over IKE)
+
+   Usage of AH or ESP may be disabled by setting {AH,ESP}_PROTO to "none".
 
   Bonding-specific items
   

@@ -3,39 +3,6 @@
 # ifup-ipsec
 #
 # Brings up ipsec interfaces
-#
-# Configuration parameters
-#
-#     SRC = source address. Not required.
-#     DST = destination address
-#     TYPE = IPSEC
-#     SRCNET = source net (for tunneling)
-#     DSTNET = destination network (for tunneling)
-#
-#   Manual keying:
-#
-#     AH_PROTO{_IN,_OUT} = protocol to use for AH (defaults to HMAC-SHA1)
-#     ESP_PROTO{_IN,_OUT} = protocol to use for ESP (defaults to 3DES)
-#     KEY_AH{_IN,_OUT} = AH key
-#     KEY_ESP{_IN,_OUT} = ESP key
-#     SPI_{ESP,AH_{IN,OUT}} = SPIs to use
-#
-#   _IN and _OUT specifiers are for using different keys or protocols for inccoming
-#   and outgoing packets. If neither _IN or _OUT variants are set for protocols or
-#   keys, the same will be used for both. Hexadecimal keys need to be prefixed with
-#   "0x".
-#
-#   Automatic keying:
-#
-#     IKE_METHOD=PSK|X509|GSSAPI
-#         PSK = preshared keys (shared secret)
-#         X509 = X.509 certificates
-#         GSSAPI = GSSAPI authentication
-#     IKE_PSK = preshared key for this connection
-#     IKE_CERTFILE = our certificate file name for X509 IKE 
-#       IKE_PEER_CERTFILE = peer public cert filename for X509 IKE
-#       IKE_DNSSEC = retrieve peer public certs from DNS
-#     (otherwise uses certificate information sent over IKE)
 
 handle_keys() {
 	if [ -z "$KEY_AH_IN" -a -n "$KEY_AH" ]; then
@@ -146,6 +113,15 @@ else
     SPD_AH_OUT=yes
     SPD_ESP_IN=yes
     SPD_ESP_OUT=yes
+fi
+
+if [ "$AH_PROTO" = "none" ]; then
+    unset SPI_AH_IN SPI_AH_OUT KEY_AH_IN KEY_AH_OUT SPD_AH_IN SPD_AH_OUT
+    AH_PROTO=sha1 # To silence racoon
+fi
+if [ "$ESP_PROTO" = "none" ]; then
+    unset SPI_ESP_IN SPI_ESP_OUT KEY_ESP_IN KEY_ESP_OUT SPD_ESP_IN SPD_ESP_OUT
+    ESP_PROTO=3des # To silence racoon
 fi
 
 /sbin/setkey -c >/dev/null 2>&1 << EOF
