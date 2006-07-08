@@ -101,6 +101,14 @@ fi
 
 if [ -n "$SRCNET" -o -n "$DSTNET" ]; then
   MODE=tunnel
+  [ -z "$SRCNET" ] && SRCNET="$SRC/32"
+  [ -z "$DSTNET" ] && DSTNET="$DST/32"
+  # If SRCNET is a subnet of DSTNET, exclude SRCNET<->SRCNET communication
+  if [ "${SRCNET##*/}" -gt "${DSTNET##*/}" ] \
+      && [ "$(ipcalc -n "${SRCNET%%/*}/${DSTNET##*/}")" \
+           = "NETWORK=${DSTNET%%/*}" ]; then
+    EXCLUDE_SRCNET=yes
+  fi
 else
   MODE=host
 fi
@@ -148,9 +156,6 @@ spdadd $DST $SRC any -P in ipsec
 	    ;
 EOF
     else
-      [ -z "$SRCNET" ] && SRCNET="$SRC/32"
-      [ -z "$DSTNET" ] && DSTNET="$DST/32"
-      
       [ -z "$SRCGW" ] && SRCGW=`ip -o route get to $SRCNET | sed "s|.*src \([^ ]*\).*|\1|"`
       ip route add to $DSTNET via $SRCGW src $SRCGW
 
@@ -161,6 +166,8 @@ ${SPI_ESP_OUT:+delete $SRC $DST esp $SPI_ESP_OUT;}
 ${SPI_ESP_IN:+delete $DST $SRC esp $SPI_ESP_IN;}
 spddelete $SRCNET $DSTNET any -P out;
 spddelete $DSTNET $SRCNET any -P in;
+${EXCLUDE_SRCNET:+spddelete $SRCNET $SRCNET any -P out;}
+${EXCLUDE_SRCNET:+spddelete $SRCNET $SRCNET any -P in;}
 
 # ESP
 ${KEY_ESP_IN:+add $DST $SRC esp $SPI_ESP_IN -m tunnel -E ${ESP_PROTO_IN:-$ESP_PROTO} $KEY_ESP_IN;}
@@ -169,6 +176,9 @@ ${KEY_ESP_OUT:+add $SRC $DST esp $SPI_ESP_OUT -m tunnel -E ${ESP_PROTO_OUT:-$ESP
 # AH
 ${KEY_AH_IN:+add $DST $SRC ah $SPI_AH_IN -m tunnel -A ${AH_PROTO_IN:-$AH_PROTO} $KEY_AH_IN;}
 ${KEY_AH_OUT:+add $SRC $DST ah $SPI_AH_OUT -m tunnel -A ${AH_PROTO_OUT:-$AH_PROTO} $KEY_AH_OUT;}
+
+${EXCLUDE_SRCNET:+spdadd $SRCNET $SRCNET any -P out none;}
+${EXCLUDE_SRCNET:+spdadd $SRCNET $SRCNET any -P in none;}
 
 spdadd $SRCNET $DSTNET any -P out ipsec
             ${KEY_ESP_OUT:+esp/tunnel/$SRC-$DST/require}
@@ -203,15 +213,17 @@ spdadd $DST $SRC any -P in ipsec
 	    ;
 EOF
     else
-      [ -z "$SRCNET" ] && SRCNET="$SRC/32"
-      [ -z "$DSTNET" ] && DSTNET="$DST/32"
-      
       [ -z "$SRCGW" ] && SRCGW=`ip -o route get to $SRCNET | sed "s|.*src \([^ ]*\).*|\1|"`
       ip route add to $DSTNET via $SRCGW src $SRCGW
-      
+
       /sbin/setkey -c >/dev/null 2>&1 << EOF
 spddelete $SRCNET $DSTNET any -P out;
 spddelete $DSTNET $SRCNET any -P in;
+${EXCLUDE_SRCNET:+spddelete $SRCNET $SRCNET any -P out;}
+${EXCLUDE_SRCNET:+spddelete $SRCNET $SRCNET any -P in;}
+
+${EXCLUDE_SRCNET:+spdadd $SRCNET $SRCNET any -P out none;}
+${EXCLUDE_SRCNET:+spdadd $SRCNET $SRCNET any -P in none;}
 
 spdadd $SRCNET $DSTNET any -P out ipsec
 	    esp/tunnel/$SRC-$DST/require

@@ -37,6 +37,14 @@ fi
 
 if [ -n "$SRCNET" -o -n "$DSTNET" ]; then
   MODE=tunnel
+  [ -z "$SRCNET" ] && SRCNET="$SRC/32"
+  [ -z "$DSTNET" ] && DSTNET="$DST/32"
+  # If SRCNET is a subnet of DSTNET, exclude SRCNET<->SRCNET communication
+  if [ "${SRCNET##*/}" -gt "${DSTNET##*/}" ] \
+      && [ "$(ipcalc -n "${SRCNET%%/*}/${DSTNET##*/}")" \
+           = "NETWORK=${DSTNET%%/*}" ]; then
+    EXCLUDE_SRCNET=yes
+  fi
 else
   MODE=host
 fi
@@ -60,15 +68,14 @@ if [ "$MODE" = "host" ]; then
 	spddelete $DST $SRC any -P in;
 EOF
 else
-      [ -z "$SRCNET" ] && SRCNET="$SRC/32"
-      [ -z "$DSTNET" ] && DSTNET="$DST/32"
-      
       [ -z "$SRCGW" ] && SRCGW=`ip -o route get to $SRCNET | sed "s|.*src \([^ ]*\).*|\1|"`
       ip route del to $DSTNET via $SRCGW src $SRCGW
 
       /sbin/setkey -c >/dev/null 2>&1 << EOF
 	spddelete $SRCNET $DSTNET any -P out;
 	spddelete $DSTNET $SRCNET any -P in;
+	${EXCLUDE_SRCNET:+spddelete $SRCNET $SRCNET any -P out;}
+	${EXCLUDE_SRCNET:+spddelete $SRCNET $SRCNET any -P in;}
 EOF
 fi
 
