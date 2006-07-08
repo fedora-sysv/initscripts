@@ -99,142 +99,88 @@ if [ -n "$IKE_DNSSEC" ]; then
   IKE_METHOD=X509
 fi
 
+[ -n "$IKE_METHOD" ] && KEYING=automatic
+[ -z "$KEYING" ] && KEYING=manual
+
 if [ -z "$SRC" ]; then
     SRC=`ip -o route get to $DST | sed "s|.*src \([^ ]*\).*|\1|"`
 fi
 
 if [ -n "$SRCNET" -o -n "$DSTNET" ]; then
+  TUNNEL_MODE=yes
   MODE=tunnel
   [ -z "$SRCNET" ] && SRCNET="$SRC/32"
   [ -z "$DSTNET" ] && DSTNET="$DST/32"
+  SPD_SRC=$SRCNET
+  SPD_DST=$DSTNET
   # If SRCNET is a subnet of DSTNET, exclude SRCNET<->SRCNET communication
   if [ "${SRCNET##*/}" -gt "${DSTNET##*/}" ] \
       && [ "$(ipcalc -n "${SRCNET%%/*}/${DSTNET##*/}")" \
            = "NETWORK=${DSTNET%%/*}" ]; then
     EXCLUDE_SRCNET=yes
   fi
+  [ -z "$SRCGW" ] && SRCGW=`ip -o route get to $SRCNET | sed "s|.*src \([^ ]*\).*|\1|"`
+  ip route add to $DSTNET via $SRCGW src $SRCGW
 else
-  MODE=host
+  unset TUNNEL_MODE
+  MODE=transport
+  SPD_SRC=$SRC
+  SPD_DST=$DST
+  unset EXCLUDE_SRCNET
 fi
 
-[ -n "$IKE_METHOD" ] && KEYING=automatic
-[ -z "$KEYING" ] && KEYING=manual
-
-
+unset SPD_AH_IN SPD_AH_OUT SPD_ESP_IN SPD_ESP_OUT
 if [ "$KEYING" = "manual" ]; then
-    
     [ -z "$AH_PROTO" ] && AH_PROTO=hmac-sha1
     [ -z "$ESP_PROTO" ] && ESP_PROTO=3des-cbc
-    
-    if [ "$MODE" = "host" ]; then
-    
-        /sbin/setkey -c  >/dev/null 2>&1<< EOF
-${SPI_AH_OUT:+delete $SRC $DST ah $SPI_AH_OUT;}
-${SPI_AH_IN:+delete $DST $SRC ah $SPI_AH_IN;}
-${SPI_ESP_OUT:+delete $SRC $DST esp $SPI_ESP_OUT;}
-${SPI_ESP_IN:+delete $DST $SRC esp $SPI_ESP_IN;}
-spddelete $SRC $DST any -P out;
-spddelete $DST $SRC any -P in;
 
-# ESP
-${KEY_ESP_IN:+add $DST $SRC esp $SPI_ESP_IN -E ${ESP_PROTO_IN:-$ESP_PROTO} $KEY_ESP_IN;}
-${KEY_ESP_OUT:+add $SRC $DST esp $SPI_ESP_OUT -E ${ESP_PROTO_OUT:-$ESP_PROTO} $KEY_ESP_OUT;}
-
-# AH
-${KEY_AH_IN:+add $DST $SRC ah $SPI_AH_IN -A ${AH_PROTO_IN:-$AH_PROTO} $KEY_AH_IN;}
-${KEY_AH_OUT:+add $SRC $DST ah $SPI_AH_OUT -A ${AH_PROTO_OUT:-$AH_PROTO} $KEY_AH_OUT;}
-
-spdadd $SRC $DST any -P out ipsec
-            ${KEY_ESP_OUT:+esp/transport//require}
-            ${KEY_AH_OUT:+ah/transport//require}
-	    ;
-		      
-spdadd $DST $SRC any -P in ipsec
-	    ${KEY_ESP_IN:+esp/transport//require}
-	    ${KEY_AH_IN:+ah/transport//require}
-	    ;
-EOF
-    else
-      [ -z "$SRCGW" ] && SRCGW=`ip -o route get to $SRCNET | sed "s|.*src \([^ ]*\).*|\1|"`
-      ip route add to $DSTNET via $SRCGW src $SRCGW
-
-      /sbin/setkey -c >/dev/null 2>&1 << EOF
-${SPI_AH_OUT:+delete $SRC $DST ah $SPI_AH_OUT;}
-${SPI_AH_IN:+delete $DST $SRC ah $SPI_AH_IN;}
-${SPI_ESP_OUT:+delete $SRC $DST esp $SPI_ESP_OUT;}
-${SPI_ESP_IN:+delete $DST $SRC esp $SPI_ESP_IN;}
-spddelete $SRCNET $DSTNET any -P out;
-spddelete $DSTNET $SRCNET any -P in;
-${EXCLUDE_SRCNET:+spddelete $SRCNET $SRCNET any -P out;}
-${EXCLUDE_SRCNET:+spddelete $SRCNET $SRCNET any -P in;}
-
-# ESP
-${KEY_ESP_IN:+add $DST $SRC esp $SPI_ESP_IN -m tunnel -E ${ESP_PROTO_IN:-$ESP_PROTO} $KEY_ESP_IN;}
-${KEY_ESP_OUT:+add $SRC $DST esp $SPI_ESP_OUT -m tunnel -E ${ESP_PROTO_OUT:-$ESP_PROTO} $KEY_ESP_OUT;}
-
-# AH
-${KEY_AH_IN:+add $DST $SRC ah $SPI_AH_IN -m tunnel -A ${AH_PROTO_IN:-$AH_PROTO} $KEY_AH_IN;}
-${KEY_AH_OUT:+add $SRC $DST ah $SPI_AH_OUT -m tunnel -A ${AH_PROTO_OUT:-$AH_PROTO} $KEY_AH_OUT;}
-
-${EXCLUDE_SRCNET:+spdadd $SRCNET $SRCNET any -P out none;}
-${EXCLUDE_SRCNET:+spdadd $SRCNET $SRCNET any -P in none;}
-
-spdadd $SRCNET $DSTNET any -P out ipsec
-            ${KEY_ESP_OUT:+esp/tunnel/$SRC-$DST/require}
-            ${KEY_AH_OUT:+ah/tunnel/$SRC-$DST/require}
-	    ;
-		      
-spdadd $DSTNET $SRCNET any -P in ipsec
-	    ${KEY_ESP_IN:+esp/tunnel/$DST-$SRC/require}
-	    ${KEY_AH_IN:+ah/tunnel/$DST-$SRC/require}
-	    ;
-EOF
-    fi
-fi
-
-if [ "$KEYING" = "automatic" ]; then
+    [ -n "$KEY_AH_IN" ] && SPD_AH_IN=yes
+    [ -n "$KEY_AH_OUT" ] && SPD_AH_OUT=yes
+    [ -n "$KEY_ESP_IN" ] && SPD_ESP_IN=yes
+    [ -n "$KEY_ESP_OUT" ] && SPD_ESP_OUT=yes
+else
     [ -z "$AH_PROTO" ] && AH_PROTO=sha1
     [ -z "$ESP_PROTO" ] && ESP_PROTO=3des
-    
-    if [ "$MODE" = "host" ]; then
-      /sbin/setkey -c > /dev/null 2>&1 << EOF
-spddelete $SRC $DST any -P out;
-spddelete $DST $SRC any -P in;
 
-spdadd $SRC $DST any -P out ipsec
-	    esp/transport//require
-	    ah/transport//require
+    SPD_AH_IN=yes
+    SPD_AH_OUT=yes
+    SPD_ESP_IN=yes
+    SPD_ESP_OUT=yes
+fi
+
+/sbin/setkey -c >/dev/null 2>&1 << EOF
+${SPI_AH_OUT:+delete $SRC $DST ah $SPI_AH_OUT;}
+${SPI_AH_IN:+delete $DST $SRC ah $SPI_AH_IN;}
+${SPI_ESP_OUT:+delete $SRC $DST esp $SPI_ESP_OUT;}
+${SPI_ESP_IN:+delete $DST $SRC esp $SPI_ESP_IN;}
+spddelete $SPD_SRC $SPD_DST any -P out;
+spddelete $SPD_DST $SPD_SRC any -P in;
+${EXCLUDE_SRCNET:+spddelete $SPD_SRC $SPD_SRC any -P out;}
+${EXCLUDE_SRCNET:+spddelete $SPD_SRC $SPD_SRC any -P in;}
+
+# ESP
+${KEY_ESP_IN:+add $DST $SRC esp $SPI_ESP_IN ${TUNNEL_MODE:+-m tunnel} -E ${ESP_PROTO_IN:-$ESP_PROTO} $KEY_ESP_IN;}
+${KEY_ESP_OUT:+add $SRC $DST esp $SPI_ESP_OUT ${TUNNEL_MODE:+-m tunnel} -E ${ESP_PROTO_OUT:-$ESP_PROTO} $KEY_ESP_OUT;}
+
+# AH
+${KEY_AH_IN:+add $DST $SRC ah $SPI_AH_IN ${TUNNEL_MODE:+-m tunnel} -A ${AH_PROTO_IN:-$AH_PROTO} $KEY_AH_IN;}
+${KEY_AH_OUT:+add $SRC $DST ah $SPI_AH_OUT ${TUNNEL_MODE:+-m tunnel} -A ${AH_PROTO_OUT:-$AH_PROTO} $KEY_AH_OUT;}
+
+${EXCLUDE_SRCNET:+spdadd $SPD_SRC $SPD_SRC any -P out none;}
+${EXCLUDE_SRCNET:+spdadd $SPD_SRC $SPD_SRC any -P in none;}
+
+spdadd $SPD_SRC $SPD_DST any -P out ipsec
+            ${SPD_ESP_OUT:+esp/$MODE/${TUNNEL_MODE:+$SRC-$DST}/require}
+            ${SPD_AH_OUT:+ah/$MODE/${TUNNEL_MODE:+$SRC-$DST}/require}
 	    ;
-		      
-spdadd $DST $SRC any -P in ipsec
-	    esp/transport//require
-	    ah/transport//require
+
+spdadd $SPD_DST $SPD_SRC any -P in ipsec
+	    ${SPD_ESP_IN:+esp/$MODE/${TUNNEL_MODE:+$DST-$SRC}/require}
+	    ${SPD_AH_IN:+ah/$MODE/${TUNNEL_MODE:+$DST-$SRC}/require}
 	    ;
 EOF
-    else
-      [ -z "$SRCGW" ] && SRCGW=`ip -o route get to $SRCNET | sed "s|.*src \([^ ]*\).*|\1|"`
-      ip route add to $DSTNET via $SRCGW src $SRCGW
 
-      /sbin/setkey -c >/dev/null 2>&1 << EOF
-spddelete $SRCNET $DSTNET any -P out;
-spddelete $DSTNET $SRCNET any -P in;
-${EXCLUDE_SRCNET:+spddelete $SRCNET $SRCNET any -P out;}
-${EXCLUDE_SRCNET:+spddelete $SRCNET $SRCNET any -P in;}
-
-${EXCLUDE_SRCNET:+spdadd $SRCNET $SRCNET any -P out none;}
-${EXCLUDE_SRCNET:+spdadd $SRCNET $SRCNET any -P in none;}
-
-spdadd $SRCNET $DSTNET any -P out ipsec
-	    esp/tunnel/$SRC-$DST/require
-	    ah/tunnel/$SRC-$DST/require
-	    ;
-		      
-spdadd $DSTNET $SRCNET any -P in ipsec
-	    esp/tunnel/$DST-$SRC/require
-	    ah/tunnel/$DST-$SRC/require
-	    ;
-EOF
-    fi
+if [ "$KEYING" = "automatic" ]; then
     if [ "$IKE_METHOD" = "PSK" ]; then
        tmpfile=`mktemp /etc/racoon/psk.XXXXXX`
        grep -v "^$DST" /etc/racoon/psk.txt > $tmpfile
