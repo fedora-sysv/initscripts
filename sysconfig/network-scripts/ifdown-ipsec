@@ -35,6 +35,10 @@ fi
 [ -n "$IKE_METHOD" ] && KEYING=automatic
 [ -z "$KEYING" ] && KEYING=manual
 
+if [ -z "$SRC" ]; then
+    SRC=`ip -o route get to $DST | sed "s|.*src \([^ ]*\).*|\1|"`
+fi
+
 if [ -n "$SRCNET" -o -n "$DSTNET" ]; then
   MODE=tunnel
   [ -z "$SRCNET" ] && SRCNET="$SRC/32"
@@ -47,10 +51,6 @@ if [ -n "$SRCNET" -o -n "$DSTNET" ]; then
   fi
 else
   MODE=host
-fi
-
-if [ -z "$SRC" ]; then
-    SRC=`ip -o route get to $DST | sed "s|.*src \([^ ]*\).*|\1|"`
 fi
 
 if [ "$KEYING" = "manual" ]; then
