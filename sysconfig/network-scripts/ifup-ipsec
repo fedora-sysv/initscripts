@@ -192,7 +192,7 @@ EOF
 	          echo "        peers_certfile dnssec;" >> /etc/racoon/$DST.conf
 	      fi
 	      if [ -n "$IKE_PEER_CERTFILE" ]; then
-	          echo "        peers_certfile \"$IKE_PEER_CERTFILE.public\";" >> /etc/racoon/$DST.conf
+	          echo "        peers_certfile x509 \"$IKE_PEER_CERTFILE.public\";" >> /etc/racoon/$DST.conf
 	      fi
 	      cat >> /etc/racoon/$DST.conf << EOF
         proposal {
