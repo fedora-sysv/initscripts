@@ -192,7 +192,11 @@ init_crypto() {
 		ret=1
 		continue
 	    fi
-	    /sbin/cryptsetup $params ${key:+-d $key} luksOpen "$src" "$dst" <&1
+	    if [ -n "$params" ]; then
+		echo "$dst: options are invalid for LUKS partitions," \
+		    "ignoring them"
+	    fi
+	    /sbin/cryptsetup ${key:+-d $key} luksOpen "$src" "$dst" <&1
 	else
 	    /sbin/cryptsetup $params ${key:+-d $key} create "$dst" "$src" <&1
 	fi
