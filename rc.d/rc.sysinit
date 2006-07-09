@@ -105,7 +105,7 @@ key_is_random() {
 # encrypted but /var/lib/random-seed is needed to initialize swap.
 init_crypto() {
     local have_random dst src key opt mode owner params makeswap skip arg opt
-    local param value ret
+    local param value rc ret
 
     ret=0
     have_random=$1
@@ -185,7 +185,10 @@ init_crypto() {
 		makeswap=no
 	    fi
 	fi
-	# FIXME: if [ -z key ], should we allow retries or handle rhgb?
+	if [ -z "$key" -a -x /usr/bin/rhgb-client ] \
+	    && /usr/bin/rhgb-client --ping ; then
+	    chvt 1
+	fi
 	if cryptsetup isLuks "$src" 2>/dev/null; then
 	    if key_is_random "$key"; then
 		echo $"$dst: LUKS requires non-random key, skipping"
@@ -200,7 +203,12 @@ init_crypto() {
 	else
 	    /sbin/cryptsetup $params ${key:+-d $key} create "$dst" "$src" <&1
 	fi
-	if [ $? -ne 0 ]; then
+	rc=$?
+	if [ -z "$key" -a -x /usr/bin/rhgb-client ] \
+	    && /usr/bin/rhgb-client --ping ; then
+	    chvt 8
+	fi
+	if [ $rc -ne 0 ]; then
 	    ret=1
 	    continue
 	fi
