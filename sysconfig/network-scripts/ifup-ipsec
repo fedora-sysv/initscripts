@@ -5,30 +5,25 @@
 # Brings up ipsec interfaces
 
 handle_keys() {
-	if [ -z "$KEY_AH_IN" -a -n "$KEY_AH" ]; then
-  		KEY_AH_IN=$KEY_AH
-	fi
+    [ -z "$KEY_AH_IN" -a -n "$KEY_AH" ] && KEY_AH_IN=$KEY_AH
+    [ -z "$KEY_AH_OUT" -a -n "$KEY_AH" ] && KEY_AH_OUT=$KEY_AH
+    [ -z "$KEY_ESP_IN" -a -n "$KEY_ESP" ] && KEY_ESP_IN=$KEY_ESP
+    [ -z "$KEY_ESP_OUT" -a -n "$KEY_ESP" ] && KEY_ESP_OUT=$KEY_ESP
+    [ -z "$KEY_AESP_IN" -a -n "$KEY_AESP" ] && KEY_AESP_IN=$KEY_AESP
+    [ -z "$KEY_AESP_OUT" -a -n "$KEY_AESP" ] && KEY_AESP_OUT=$KEY_AESP
 
-	if [ -z "$KEY_AH_OUT" -a -n "$KEY_AH" ]; then
-  		KEY_AH_OUT=$KEY_AH
-	fi
-
-	if [ -z "$KEY_ESP_IN" -a -n "$KEY_ESP" ]; then
-  		KEY_ESP_IN=$KEY_ESP
-	fi
-
-	if [ -z "$KEY_ESP_OUT" -a -n "$KEY_ESP" ]; then
-  		KEY_ESP_OUT=$KEY_ESP
-	fi
-
-	[ -n "$KEY_AH_IN" -a "$KEY_AH_IN" = "${KEY_AH_IN##0x}" ] \
-		&& KEY_AH_IN=\"$KEY_AH_IN\"
-	[ -n "$KEY_AH_OUT" -a "$KEY_AH_OUT" = "${KEY_AH_OUT##0x}" ] \
-		&& KEY_AH_OUT=\"$KEY_AH_OUT\"
-	[ -n "$KEY_ESP_IN" -a "$KEY_ESP_IN" = "${KEY_ESP_IN##0x}" ] \
-		&& KEY_ESP_IN=\"$KEY_ESP_IN\"
-	[ -n "$KEY_ESP_OUT" -a "$KEY_ESP_OUT" = "${KEY_ESP_OUT##0x}" ] \
-		&& KEY_ESP_OUT=\"$KEY_ESP_OUT\"
+    [ -n "$KEY_AH_IN" -a "$KEY_AH_IN" = "${KEY_AH_IN##0x}" ] \
+	&& KEY_AH_IN=\"$KEY_AH_IN\"
+    [ -n "$KEY_AH_OUT" -a "$KEY_AH_OUT" = "${KEY_AH_OUT##0x}" ] \
+	&& KEY_AH_OUT=\"$KEY_AH_OUT\"
+    [ -n "$KEY_ESP_IN" -a "$KEY_ESP_IN" = "${KEY_ESP_IN##0x}" ] \
+	&& KEY_ESP_IN=\"$KEY_ESP_IN\"
+    [ -n "$KEY_ESP_OUT" -a "$KEY_ESP_OUT" = "${KEY_ESP_OUT##0x}" ] \
+	&& KEY_ESP_OUT=\"$KEY_ESP_OUT\"
+    [ -n "$KEY_AESP_IN" -a "$KEY_AESP_IN" = "${KEY_AESP_IN##0x}" ] \
+	&& KEY_AESP_IN=\"$KEY_AESP_IN\"
+    [ -n "$KEY_AESP_OUT" -a "$KEY_AESP_OUT" = "${KEY_AESP_OUT##0x}" ] \
+	&& KEY_AESP_OUT=\"$KEY_AESP_OUT\"
 }
 
 . /etc/init.d/functions
@@ -100,6 +95,7 @@ unset SPD_AH_IN SPD_AH_OUT SPD_ESP_IN SPD_ESP_OUT
 if [ "$KEYING" = "manual" ]; then
     [ -z "$AH_PROTO" ] && AH_PROTO=hmac-sha1
     [ -z "$ESP_PROTO" ] && ESP_PROTO=3des-cbc
+    [ -z "$AESP_PROTO" ] && AESP_PROTO=hmac-sha1
 
     [ -n "$KEY_AH_IN" ] && SPD_AH_IN=yes
     [ -n "$KEY_AH_OUT" ] && SPD_AH_OUT=yes
@@ -135,8 +131,14 @@ ${EXCLUDE_SRCNET:+spddelete $SPD_SRC $SPD_SRC any -P out;}
 ${EXCLUDE_SRCNET:+spddelete $SPD_SRC $SPD_SRC any -P in;}
 
 # ESP
-${KEY_ESP_IN:+add $DST $SRC esp $SPI_ESP_IN ${TUNNEL_MODE:+-m tunnel} -E ${ESP_PROTO_IN:-$ESP_PROTO} $KEY_ESP_IN;}
-${KEY_ESP_OUT:+add $SRC $DST esp $SPI_ESP_OUT ${TUNNEL_MODE:+-m tunnel} -E ${ESP_PROTO_OUT:-$ESP_PROTO} $KEY_ESP_OUT;}
+${KEY_ESP_IN:+add $DST $SRC esp $SPI_ESP_IN ${TUNNEL_MODE:+-m tunnel} \
+-E ${ESP_PROTO_IN:-$ESP_PROTO} $KEY_ESP_IN \
+${KEY_AESP_IN:+-A ${AESP_PROTO_IN:-$AESP_PROTO} $KEY_AESP_IN}
+;}
+${KEY_ESP_OUT:+add $SRC $DST esp $SPI_ESP_OUT ${TUNNEL_MODE:+-m tunnel} \
+-E ${ESP_PROTO_OUT:-$ESP_PROTO} $KEY_ESP_OUT \
+${KEY_AESP_OUT:+-A ${AESP_PROTO_OUT:-$AESP_PROTO} $KEY_AESP_OUT}
+;}
 
 # AH
 ${KEY_AH_IN:+add $DST $SRC ah $SPI_AH_IN ${TUNNEL_MODE:+-m tunnel} -A ${AH_PROTO_IN:-$AH_PROTO} $KEY_AH_IN;}
