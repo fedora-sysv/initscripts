@@ -12,6 +12,7 @@ REALDEVICE=$1
 
 [ -x /etc/ppp/ip-down.local ] && /etc/ppp/ip-down.local "$@"
 
-/etc/sysconfig/network-scripts/ifdown-post ifcfg-${LOGDEVICE}
+/etc/sysconfig/network-scripts/ifdown-post --realdevice ${REALDEVICE} \
+    ifcfg-${LOGDEVICE}
 
 exit 0

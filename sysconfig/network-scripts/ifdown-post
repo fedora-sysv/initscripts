@@ -5,8 +5,18 @@
 cd /etc/sysconfig/network-scripts
 . network-functions
 
+unset REALDEVICE
+if [ "$1" = --realdevice ] ; then
+    REALDEVICE=$2
+    shift 2
+fi
+
 CONFIG=$1
 source_config
+
+[ -z "$REALDEVICE" ] && REALDEVICE=$DEVICE
+
+/etc/sysconfig/network-scripts/ifdown-routes ${REALDEVICE} ${DEVNAME}
 
 if [ "$PEERDNS" != "no" -o -n "$RESOLV_MODS" -a "$RESOLV_MODS" != "no" ]; then
     if [ -f /etc/resolv.conf.save ]; then

@@ -133,6 +133,7 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/sysconfig/network-scripts/ifup-ppp
 %config /etc/sysconfig/network-scripts/ifup-sl
 %config /etc/sysconfig/network-scripts/ifup-routes
+%config /etc/sysconfig/network-scripts/ifdown-routes
 %config /etc/sysconfig/network-scripts/ifup-plip
 %config /etc/sysconfig/network-scripts/ifup-plusb
 %config /etc/sysconfig/network-scripts/ifup-bnep

@@ -1,0 +1,26 @@
+#! /bin/bash
+#
+# Drops static routes which go through device $1
+if [ -z "$1" ]; then
+    echo $"usage: ifup-routes <net-device> [<nickname>]"
+    exit 1
+fi
+
+# The routes are actually dropped just by setting the link down, so nothing
+# needs to be done
+
+# Routing rules
+FILES="/etc/sysconfig/network-scripts/rule-$1"
+if [ -n "$2" -a "$2" != "$1" ]; then
+    FILES="$FILES /etc/sysconfig/network-scripts/rule-$2"
+fi
+
+for file in $FILES; do
+   if [ -f "$file" ]; then
+       { cat "$file" ; echo ; } | while read line; do
+	   if [[ ! "$line" =~ '^[[:space:]]*(\#.*)?$' ]]; then
+	       /sbin/ip rule del $line
+	   fi
+       done
+   fi
+done
