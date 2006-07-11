@@ -214,7 +214,7 @@ fi
 # First, try kexec. If that fails, fall back to rebooting the old way.
 [ -n "$kexec_command" ] && $kexec_command -e >& /dev/null
 
-HALTARGS="-i -d"
+HALTARGS="-d"
 [ -f /poweroff -o ! -f /halt ] && HALTARGS="$HALTARGS -p"
 
 exec $command $HALTARGS
