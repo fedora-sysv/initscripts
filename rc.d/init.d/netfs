@@ -30,7 +30,7 @@ NFSMTAB=`LC_ALL=C awk '$3 ~ /^nfs/ && $3 != "nfsd" && $2 != "/" { print $2 }' /p
 SMBMTAB=`LC_ALL=C awk '$3 == "smbfs" { print $2 }' /proc/mounts`
 CIFSMTAB=`LC_ALL=C awk '$3 == "cifs" { print $2 }' /proc/mounts`
 NCPMTAB=`LC_ALL=C awk '$3 == "ncpfs" { print $2 }' /proc/mounts`
-NETDEVMTAB=`LC_ALL=C awk '!/^#/ && $4 ~ /_netdev/ && $2 != "/" { print $2 }' /etc/mtab`
+NETDEVMTAB=`LC_ALL=C awk '$4 ~ /_netdev/ && $2 != "/" { print $2 }' /etc/mtab`
 
 # See how we were called.
 case "$1" in
