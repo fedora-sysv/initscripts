@@ -170,9 +170,17 @@ case "$1" in
 	[ -n "${NETWORKDELAY}" ] && /bin/sleep ${NETWORKDELAY}
         ;;
   stop)
+  	# Don't shut the network down if root is on NFS or a network
+	# block device.
+        rootfs=$(awk '{ if ($1 !~ /^[ \t]*#/ && $2 == "/") { print $3; }}' /etc/mtab)
+        rootopts=$(awk '{ if ($1 !~ /^[ \t]*#/ && $2 == "/") { print $4; }}' /etc/mtab)
+	
+	if [[ "$rootfs" =~ "^nfs" ]] || [[ "$rootopts" =~ "_netdev" ]] ; then
+		exit 1
+	fi
+  
   	# If this is a final shutdown/halt, check for network FS,
 	# and unmount them even if the user didn't turn on netfs
-	
 	if [ "$RUNLEVEL" = "6" -o "$RUNLEVEL" = "0" -o "$RUNLEVEL" = "1" ]; then
 		NFSMTAB=`LC_ALL=C awk '$3  ~ /^nfs/ { print $2 }' /proc/mounts`
 		SMBMTAB=`LC_ALL=C awk '$3 == "smbfs" { print $2 }' /proc/mounts`
