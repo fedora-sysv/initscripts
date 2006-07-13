@@ -454,9 +454,7 @@ if strstr "$cmdline" readonlyroot ; then
 	READONLY=yes
 	[ -z "$RW_MOUNT" ] && RW_MOUNT=/var/lib/stateless/writable
 fi
-if [ "$READONLY" = "yes" -a -n "$SELINUX_STATE" ]; then
-	echo $"SELinux is not compatible with read-only root at this time."
-	echo $"Mounting read/write."
+if strstr "$cmdline" noreadonlyroot ; then
 	READONLY=no
 fi
 
@@ -487,9 +485,7 @@ if [ "$READONLY" = "yes" ]; then
 
 	# Common mount options for scratch space regardless of 
 	# type of backing store
-	if [ -n "$SELINUX_STATE" ]; then
-		mountopts="-o fscontext=system_u:object_r:fs_t:s0"
-	fi
+	mountopts=
 
 	# Scan partitions for local scratch storage
 	rw_mount_dev=$(blkid -t LABEL="$RW_LABEL" -o device | awk '{ print ; exit }')
@@ -521,7 +517,7 @@ if [ "$READONLY" = "yes" ]; then
 				*)
 					;;
 			esac
-			[ -n "$SELINUX_STATE" ] && restorecon -R "$1"
+			[ -n "$SELINUX_STATE" -a -e "$path" ] && restorecon -R "$path"
 		done
 	done
 
