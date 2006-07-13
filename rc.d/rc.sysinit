@@ -521,6 +521,19 @@ if [ "$READONLY" = "yes" ]; then
 		done
 	done
 
+	# In theory there should be no more than one network interface active
+	# this early in the boot process -- the one we're booting from.
+	# Use the network address to set the hostname of the client.  This
+	# must be done even if we have local storage.
+	ipaddr=
+	if [ "$HOSTNAME" = "localhost" ]; then
+		ipaddr=$(ip addr show to 0/0 scope global | awk '/[[:space:]]inet / { print gensub("/.*","","g",$2) }')
+		if [ -n "$ipaddr" ]; then
+			eval $(ipcalc -h $ipaddr 2>/dev/null)
+			hostname ${HOSTNAME}
+		fi
+	fi
+	
 	# Clients with read-only root filesystems may be provided with a
 	# place where they can place minimal amounts of persistent
 	# state.  SSH keys or puppet certificates for example.
@@ -538,26 +551,8 @@ if [ "$READONLY" = "yes" ]; then
 		/bin/true
 	else
 		# No local storage was found.  Make a final attempt to find 
-		# state on an NFS server.  This code is greatly simplified by
-		# a couple simple policies.
-		#
-		# First, the DHCP server will provide a hostname to the client
-		#
-		# Second, the hostname of the client is the key used to find
-		# its state directory on the NFS server
+		# state on an NFS server.
 
-		# In theory there should be only one network interface active
-		# this early in the boot process -- the one we're booting from.
-		# Get its name.
-		ipaddr=
-		if [ "$HOSTNAME" = "localhost" ]; then
-			ipaddr=$(ip addr show to 0/0 scope global | awk '/[[:space:]]inet / { print gensub("/.*","","g",$2) }')
-			if [ -n "$ipaddr" ]; then
-				eval $(ipcalc -h $ipaddr 2>/dev/null)
-				hostname ${HOSTNAME}
-			fi
-		fi
-	
 		mount -t nfs $CLIENTSTATE/$HOSTNAME $STATE_MOUNT -o rw,nolock
 		if [ -d $STATE_MOUNT/etc ]; then
 			touch $STATE_MOUNT/files
@@ -573,14 +568,6 @@ if [ "$READONLY" = "yes" ]; then
 			 	mount -n -o bind $STATE_MOUNT/${i} ${i}
 			fi
  		done
-
-		if [ -e $STATE_MOUNT/files.custom ]; then
-			for i in $(grep -v "^#" $STATE_MOUNT/files.custom); do
-				if [ -e $i ]; then
-					mount -n -o bind $STATE_MOUNT/${i} ${i}
-				fi
-			done
-		fi
 	fi
 fi
  
