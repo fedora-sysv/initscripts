@@ -177,15 +177,21 @@ char *get_hwaddr(char *device) {
 	return NULL;
 }
 		
-char *get_config_by_hwaddr(char *hwaddr) {
+char *get_config_by_hwaddr(char *hwaddr, char *current) {
 	struct netdev *config;
+	char *first = NULL;
 	
 	if (!hwaddr) return NULL;
 	
-	for (config = configs; config; config = config->next)
-		if (!strcasecmp(config->hwaddr, hwaddr))
+	for (config = configs; config; config = config->next) {
+		if (strcasecmp(config->hwaddr, hwaddr) != 0)
+			continue;
+		if (!current || !strcasecmp(config->dev, current))
 			return config->dev;
-	return NULL;
+		if (!first)
+			first = config->dev;
+	}
+	return first;
 }
 
 char *get_device_by_hwaddr(char *hwaddr) {
@@ -212,6 +218,7 @@ int do_rename(char *src, char *target) {
 	g_strlcpy(ifr.ifr_name, src, IFNAMSIZ);
 	g_strlcpy(ifr.ifr_newname, target, IFNAMSIZ);
 	ret = ioctl(sock, SIOCSIFNAME, &ifr);
+	close(sock);
 	return ret;
 }
 	
@@ -240,7 +247,7 @@ void rename_device(char *src, char *target, struct netdev *current) {
 				return;
 		}
 		
-		nconfig = get_config_by_hwaddr(hw);
+		nconfig = get_config_by_hwaddr(hw, NULL);
 		curdev = get_device_by_hwaddr(hw);
 
 		if (nconfig) {
@@ -320,7 +327,7 @@ int main(int argc, char **argv) {
 	hw = get_hwaddr(src);
 	if (!hw)
 		goto out_unlock;
-	target = get_config_by_hwaddr(hw);
+	target = get_config_by_hwaddr(hw, src);
 	if (!target || !strcmp(src,target))
 		goto out_unlock;
 	
