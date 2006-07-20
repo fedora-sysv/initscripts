@@ -244,18 +244,23 @@ daemon() {
 
 # A function to stop a program.
 killproc() {
-	local RC killlevel= base pid pid_file=
+	local RC killlevel= base pid pid_file= delay
 
-	RC=0
+	RC=0; delay=3
 	# Test syntax.
 	if [ "$#" -eq 0 ]; then
-		echo $"Usage: killproc [-p pidfile] {program} [-signal]"
+		echo $"Usage: killproc [-p pidfile] [ -d delay] {program} [-signal]"
 		return 1
 	fi
 	if [ "$1" = "-p" ]; then
 		pid_file=$2
 		shift 2
 	fi
+	if [ "$1" = "-d" ]; then
+		delay=$2
+		shift 2
+	fi
+        
 
 	# check for second arg to be kill level
 	[ -n "${2:-}" ] && killlevel=$2
@@ -278,7 +283,7 @@ killproc() {
 			   kill -TERM $pid >/dev/null 2>&1
 			   usleep 100000
 			   if checkpid $pid && sleep 1 &&
-			      checkpid $pid && sleep 3 &&
+			      checkpid $pid && sleep $delay &&
 			      checkpid $pid ; then
                                 kill -KILL $pid >/dev/null 2>&1
 				usleep 100000
