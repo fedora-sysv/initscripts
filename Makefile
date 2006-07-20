@@ -91,7 +91,7 @@ install:
 	ln -s ../init.d/halt $(ROOT)/etc/rc.d/rc0.d/S01halt
 	ln -s ../init.d/halt $(ROOT)/etc/rc.d/rc6.d/S01reboot
 
-	ln -s ../init.d/single $(ROOT)/etc/rc.d/rc1.d/S00single
+	ln -s ../init.d/single $(ROOT)/etc/rc.d/rc1.d/S99single
 
 	ln -s ../rc.local $(ROOT)/etc/rc.d/rc2.d/S99local
 	ln -s ../rc.local $(ROOT)/etc/rc.d/rc3.d/S99local
