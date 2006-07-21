@@ -832,11 +832,17 @@ chown root:root /tmp/.ICE-unix
 
 # Start up swapping.
 update_boot_stage RCswap
-swappartitions=`blkid -t TYPE=swap -o device`
-if [ x"$swappartitions" != x ]; then
-	action $"Enabling local swap partitions: " swapon $swappartitions
-fi
 action $"Enabling /etc/fstab swaps: " swapon -a -e
+if [ "$AUTOSWAP" = "yes" ]; then
+	curswap=$(awk '/^\/dev/ { print $1 }' /proc/swaps | while read x; do get_numeric_dev dec $x ; echo -n " "; done)
+	swappartitions=`blkid -t TYPE=swap -o device`
+	if [ x"$swappartitions" != x ]; then
+		for partition in $swappartitions ; do
+			majmin=$(get_numeric_dev dec $partition)
+			echo $curswap | grep -qw "$majmin" || action $"Enabling local swap partitions: " swapon $partition
+		done
+	fi
+fi
 
 # Set up binfmt_misc
 /bin/mount -t binfmt_misc none /proc/sys/fs/binfmt_misc > /dev/null 2>&1
