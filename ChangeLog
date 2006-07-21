@@ -1,3 +1,198 @@
+2006-07-21  Bill Nottingham  <notting@redhat.com>
+
+	* ChangeLog, initscripts.spec: 8.36-1
+
+	* rc.d/rc.sysinit: hack; make sure device to swap on exists
+
+	* rc.d/rc.sysinit, sysconfig/init, sysconfig.txt:
+	Fix swapping stuff; make swapon of arbitrary swap devices optional
+	(and off by default) (#198695, #196179, #196208)
+
+	* rc.d/init.d/functions: deref symlinks in get_numeric_dev
+
+2006-07-20  Bill Nottingham  <notting@redhat.com>
+
+	* Makefile, rc.d/init.d/single:
+	quick quiz - which makes more sense, when entering single user mode:
+
+	- have 'single' start first, kill
+	  /etc/rc, and have it shut down all the services by itself
+	- have /etc/rc kill services normally, and just run 'single' last?
+
+	Yeah, I thought so.
+
+	* rc.d/init.d/functions:
+	Add a configurable delay for killproc() (#198429, <jorton@redhat.com>)
+
+2006-07-20  Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>
+
+	* po/ms.po: Updated Malay translation
+
+2006-07-19  Leandro <qbes@mixmail.com>
+
+	* po/gl.po: initscripts gl.po actualization
+
+2006-07-19  Bill Nottingham  <notting@redhat.com>
+
+	* rwtab: fix typo
+
+	* sysconfig/network-scripts/ifup-eth:
+	force-move the lease file (<markmc@redhat.com>)
+
+	* src/rename_device.c:
+	don't loop if there are multiple devices with the same hwaddr (#199242, <markmc@redhat.com>)
+
+2006-07-18  Ville-Pekka Vainio  <vpivaini@cs.helsinki.fi>
+
+	* po/fi.po: Updated Finnish translation
+
+2006-07-15  Ismail Asci  <ismail.asci@gmail.com>
+
+	* po/tr.po: *** empty log message ***
+
+2006-07-14  Diego Búrigo Zacarão  <diegobz@gmail.com>
+
+	* po/pt_BR.po: Review
+
+2006-07-13  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit: stateless updates (#197972, <law@redhat.com>)
+
+	* sysconfig/network-scripts/ifup-eth:
+	copy any lease obtained by the initrd (#198601, <markmc@redhat.com>)
+
+	* rc.d/rc.sysinit: SELinux works now.
+	- fix relabel call
+	- allow 'noreadonlyroot' boot option
+
+	* rwtab: add /var/lib/dhclient (part of #198601, <markmc@redhat.com>)
+
+	* src/getkey.1: fix manpage ref (#198756)
+
+2006-07-13  Tadashi Jokagi <fedora@elf.no-ip.org>
+
+	* po/ja.po:
+	* replace "yu-za" to "u-za-", "purinta" to "purinta-", "sa-ba" to "sa-ba-".
+
+2006-07-11  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/network:
+	don't bring down the network if root is on nfs / _netdev
+
+	* rc.d/init.d/netfs: /etc/mtab doesn't have comments
+
+	* rc.d/init.d/halt: don't shut down network interfaces (for iscsi)
+
+2006-07-11  Florian La Roche  <laroche@redhat.com>
+
+	* sysconfig.txt: - typo in docu
+
+2006-07-10  Miloslav Trmac  <mitr@redhat.com>
+
+	* initscripts.spec, ppp/ip-down, sysconfig.txt, sysconfig/network-scripts/ifdown-post, sysconfig/network-scripts/ifdown-routes, sysconfig/network-scripts/ifup-routes:
+	Add support for rule-$device (#132252)
+
+2006-07-09  Dimitris Michelinakis  <dimitris@michelinakis.gr>
+
+	* po/el.po: More changes for Greek translation
+
+2006-07-09  Miloslav Trmac  <mitr@redhat.com>
+
+	* rc.d/rc.sysinit:
+	Switch to VT 1 when asking for block device encryption key
+
+	* rc.d/init.d/functions:
+	Fix garbled output of rc.sysinit in rhgb (#192604, patch by Tony Nelson
+	<tonynelson@georgeanelson.com>)
+
+	* sysconfig.txt: Document SCOPE
+
+	* crypttab.5, rc.d/rc.sysinit:
+	Don't allow any crypttab options for LUKS partitions (#197656).
+
+	* sysconfig.txt, sysconfig/network-scripts/ifup-ipsec:
+	- Add ESP authentication support (last part of #168972, based on a patch by
+	  Aleksandar Milivojevic <alex@milivojevic.org>)
+	- Beautify up handle_keys() a bit.
+
+2006-07-08  Miloslav Trmac  <mitr@redhat.com>
+
+	* sysconfig/network-scripts/ifup-ipsec:
+	Don't use an obsolete peers_certfile syntax (part of #168972, patch by
+	Aleksandar Milivojevic <alex@milivojevic.org>)
+
+	* sysconfig.txt, sysconfig/network-scripts/ifup-ipsec:
+	- Allow disabling AH or ESP with authomatic keying (part of #168972, based on
+	  a patch by Aleksandar Milivojevic <alex@milivojevic.org>).
+	- Merge updated documentation in ifup-ipsec to sysconfig.txt, remove the
+	  non-canonical copy in ifup-ipsec.
+
+	* sysconfig/network-scripts/ifdown-ipsec, sysconfig/network-scripts/ifup-ipsec:
+	Eliminate as much duplicated code as possible (part of #168972, based on a
+	patch by Aleksandar Milivojevic <alex@milivojevic.org>)
+	Avoid unnecessary differences between ifup-ipsec and ifdown-ipsec
+
+	* sysconfig/network-scripts/ifdown-ipsec, sysconfig/network-scripts/ifup-ipsec:
+	Move $SRC initialization before first use
+
+	* sysconfig/network-scripts/ifdown-ipsec, sysconfig/network-scripts/ifup-ipsec:
+	Prevent IPsec tunelling of local traffic when tunnel subnets overlap (#150862)
+
+2006-07-05  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifdown-ipsec:
+	add check for IKE_METHOD (#197576, <john_smyth@mail.ru>)
+
+2006-07-04  Dimitris Michelinakis  <dimitris@michelinakis.gr>
+
+	* po/el.po: Small update for Greek initscripts
+
+2006-07-04  Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>
+
+	* po/ms.po: Updated Malay translation
+
+2006-07-03  Ani Peter  <apeter@redhat.com>
+
+	* po/ml.po: Updated ml.po
+
+2006-07-01  Bill Nottingham  <notting@redhat.com>
+
+	* src/rename_device.c: ignore alias devices (#186355)
+	refresh the device name on collision, as it may have initialized since
+	we initially scanned for devices
+
+2006-06-30  Ani Peter  <apeter@redhat.com>
+
+	* po/ml.po: Updated ml.po
+
+2006-06-29  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec: don't mark ifup/ifdown as %config (#61334)
+
+	* po/pl.po: fix pl typos (Marcin Garski (mgarski@post.pl))
+
+2006-06-19  Bill Nottingham  <notting@redhat.com>
+
+	* rwtab: add mtab
+
+2006-06-17  Miloslav Trmac  <mitr@redhat.com>
+
+	* rc.d/init.d/functions:
+	Fix daemon --pidfile=... (#195341, patch by Steven Augart
+	<saugart@mazunetworks.com>)
+
+2006-06-14  Subhransu Behera  <sbehera@redhat.com>
+
+	* po/or.po: Updated Oriya translation
+
+2006-06-13  Subhransu Behera  <sbehera@redhat.com>
+
+	* po/or.po: Updated Oriya translation
+
+2006-06-13  Rahul Bhalerao  <rbhalera@redhat.com>
+
+	* po/mr.po: done rough translations for mr_IN
+
 2006-06-12  Bill Nottingham  <notting@redhat.com>
 
 	* ChangeLog, initscripts.spec: 8.35-1
