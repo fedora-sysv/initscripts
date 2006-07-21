@@ -838,6 +838,7 @@ if [ "$AUTOSWAP" = "yes" ]; then
 	swappartitions=`blkid -t TYPE=swap -o device`
 	if [ x"$swappartitions" != x ]; then
 		for partition in $swappartitions ; do
+			[ ! -e $partition ] && continue
 			majmin=$(get_numeric_dev dec $partition)
 			echo $curswap | grep -qw "$majmin" || action $"Enabling local swap partitions: " swapon $partition
 		done
