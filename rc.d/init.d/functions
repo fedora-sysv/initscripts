@@ -552,7 +552,7 @@ get_numeric_dev() {
     if [ "$1" == "hex" ]; then
         fmt="%x:%x"
     fi
-    ls -l "$2" | awk '{ sub(/,/, "", $5); printf("'"$fmt"'", $5, $6); }'
+    ls -lH "$2" | awk '{ sub(/,/, "", $5); printf("'"$fmt"'", $5, $6); }'
 ) 2>/dev/null
 }
 
