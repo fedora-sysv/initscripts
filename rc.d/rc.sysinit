@@ -178,13 +178,6 @@ init_crypto() {
 	    ret=1
 	    continue
 	fi
-	if [ "$makeswap" = "yes" ]; then
-	    # init.d/halt should format $src as swap before shutdown
-	    if [ "$(/sbin/blkid -o value -s TYPE "$src")" != "swap" ]; then
-		echo $"$src is not a swap partition"
-		makeswap=no
-	    fi
-	fi
 	if [ -z "$key" -a -x /usr/bin/rhgb-client ] \
 	    && /usr/bin/rhgb-client --ping ; then
 	    chvt 1

@@ -90,13 +90,17 @@ it has to be entered twice (to prevent typos).
 The encrypted block device will be used as a swap partition,
 and will be formatted as a swap partition
 after setting up the encrypted block device.
-The underlying block device must be already formatted
-as an (unencrypted) swap partition,
-and will be formatted again as an unencrypted swap partition
+The underlying block device
+will be formatted again as an unencrypted swap partition
 after destroying the encrypted block device.
 (This allows sharing a single swap partition between operating
 system installations,
 with some of them encrypting the swap partitions and some of them not.)
+
+\fIWARNING\fR: Using the
+.B swap
+option will destroy the contents of the named partition during every boot, so
+make sure the underlying block device is specified correctly.
 
 .PP
 No options can be specified for LUKS encrypted partitions.
