@@ -868,11 +868,25 @@ Files in /etc/sysconfig/network-scripts/
    Usage of AH or ESP may be disabled by setting {AH,ESP}_PROTO to "none".
 
   Bonding-specific items
-  
-    SLAVE=yes   
+
+    SLAVE=yes
       Specifies device as a slave
     MASTER=bondXX
       Specifies master device to bind to
+
+  Tunnel-specific items:
+    TYPE=GRE|IPIP
+    MY_INNER_IPADDR=local IP address of the tunnel interface
+    PEER_OUTER_IPADDR=IP address of the remote tunnel endpoint
+    MY_OUTER_IPADDR=IP address of the local tunnel endpoint
+      If unspecified, an IP address is selected automatically for outgoing
+      tunnel packets, and incoming tunnel packets are accepted on all local
+      IP addresses.
+    PEER_INNER_IPADDR=IP address of the remote end of the tunnel interface
+      If this is specified, a route to PEER_INNER_IPADDR through the tunnel
+      is added automatically.
+    TTL=TTL value for tunnel packets
+      Default is to use the TTL of the packet transported through the tunnel
 
 /etc/sysconfig/network-scripts/chat-<interface-name>:
 

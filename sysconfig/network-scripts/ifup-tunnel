@@ -1,0 +1,73 @@
+#!/bin/bash
+# Copyright (C) 1996-2006 Red Hat, Inc. all rights reserved.
+#
+# This software may be freely redistributed under the terms of the GNU
+# public license.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+# Thanks to:
+#  - Razvan Corneliu C.R. Vilt <razvan.vilt@linux360.ro>
+#  - Aaron Hope <aaron.hope@unh.edu>
+#  - Sean Millichamp <sean@enertronllc.com>
+# for providing the scripts this one is based on
+
+. /etc/init.d/functions
+
+cd /etc/sysconfig/network-scripts
+. network-functions
+
+CONFIG=$1
+need_config "$CONFIG"
+source_config
+
+if [ "$PEER_OUTER_IPADDR" = "$PEER_INNER_IPADDR" ]; then
+    # Specifying PEER_INNER_IPADDR would automatically add a route to the peer
+    # through the tunnel, redirecting tunnel packets back to the tunnel and
+    # creating a dead loop.
+    unset PEER_INNER_IPADDR
+fi
+
+case "$TYPE" in
+    GRE)
+	MODE=gre
+	/sbin/modprobe ip_gre
+	;;
+    IPIP)
+	MODE=ipip
+	/sbin/modprobe ipip
+	;;
+    *)
+	echo $"Invalid tunnel type $TYPE"
+	exit 1
+	;;
+esac
+
+# Generic tunnel devices are not supported here
+if [ "$DEVICE" = gre0 -o "$DEVICE" = tunl0 ]; then
+    echo $"Device '$DEVICE' isn't supported as a valid GRE device name."
+    exit 1
+fi
+
+# Create the tunnel
+# The outer addresses are those of the underlying (public) network.
+/sbin/ip tunnel add "$DEVICE" mode "$MODE" \
+    ${MY_OUTER_IPADDR:+local "$MY_OUTER_IPADDR"} \
+    remote "$PEER_OUTER_IPADDR" ${TTL:+ttl "$TTL"}
+
+if [ -n "$MTU" ]; then
+    /sbin/ip link set "$DEVICE" mtu "$MTU"
+fi
+
+# The inner address are used mainly for communication between a gateway
+# and a private network.  When the peer is configured with an inner address
+# contained in the peer's private network or identical to it's public address,
+# it need not be specified.
+/sbin/ip addr add "$MY_INNER_IPADDR" dev "$DEVICE" \
+    ${PEER_INNER_IPADDR:+peer "$PEER_INNER_IPADDR"}
+
+/sbin/ip link set dev "$DEVICE" up
+
+exec /etc/sysconfig/network-scripts/ifup-post "$CONFIG" "$2"

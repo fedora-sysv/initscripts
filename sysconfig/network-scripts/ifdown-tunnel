@@ -1,0 +1,39 @@
+#!/bin/bash
+# Copyright (C) 1996-2006 Red Hat, Inc. all rights reserved.
+#
+# This software may be freely redistributed under the terms of the GNU
+# public license.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+# Thanks to:
+#  - Razvan Corneliu C.R. Vilt <razvan.vilt@linux360.ro>
+#  - Aaron Hope <aaron.hope@unh.edu>
+#  - Sean Millichamp <sean@enertronllc.com>
+# for providing the scripts this one is based on
+
+. /etc/init.d/functions
+
+cd /etc/sysconfig/network-scripts
+. network-functions
+
+[ -f ../network ] && . ../network
+
+CONFIG=$1
+need_config "$CONFIG"
+source_config
+
+# Generic tunnel devices are not supported here
+if [ "$DEVICE" = gre0 -o "$DEVICE" = tunl0 ]; then
+    echo $"Device '$DEVICE' isn't supported as a valid GRE device name."
+    exit 1
+fi
+
+check_device_down "$DEVICE" && exit 0
+
+/sbin/ip link set dev "$DEVICE" down
+/sbin/ip tunnel del "$DEVICE"
+
+exec /etc/sysconfig/network-scripts/ifdown-post "$CONFIG"

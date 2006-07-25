@@ -92,7 +92,9 @@ source_config ()
 	IUCV)
 		DEVICETYPE="iucv"
 		;;
-
+	GRE | IPIP)
+		DEVICETYPE="tunnel"
+		;;
     esac
     [ -z "$DEVICETYPE" ] && DEVICETYPE=`echo ${DEVICE} | sed "s/[0-9]*$//"`
     [ -z "$REALDEVICE" -a -n "$PARENTDEVICE" ] && REALDEVICE=$PARENTDEVICE
@@ -254,7 +256,7 @@ check_device_down ()
 	  return 0
      fi
     else 
-     if LC_ALL=C ip -o link 2>/dev/null | grep -q "$1:.*,UP" ; then
+     if LC_ALL=C ip -o link 2>/dev/null | grep -q "$1[:@].*,UP" ; then
 	return 1
      else
 	return 0
