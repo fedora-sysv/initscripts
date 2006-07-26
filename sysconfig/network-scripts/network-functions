@@ -200,11 +200,18 @@ is_available ()
     LC_ALL= LANG= ip -o link | grep -q $1
     [ "$?" = "1" ] || return 0
 
-    alias=`modprobe -c | awk "/^(alias|install)[[:space:]]+$1[[:space:]]/ { print \\$3 }"`
-    if [ -z "$alias" -o "$alias" = "off" -o "$alias" = "/bin/true" \
-	 -o "$alias" = ":" ]; then
-        return 2
-    fi
+    modprobe -c | awk \
+'BEGIN { alias = ""; }
+$1 == "alias" && $2 == "'"$1"'" { alias = $3; }
+$1 == "install" { install[$2] = $3; }
+END {
+    cmd = install[alias];
+    if (alias == "" || alias == "off" || cmd == "/bin/true" || cmd == ":")
+        exit 1;
+    exit 0;
+}'
+    [ $? -eq 0 ] || return 2
+
     modprobe $1 > /dev/null 2>&1 || {
       return 1
     }
