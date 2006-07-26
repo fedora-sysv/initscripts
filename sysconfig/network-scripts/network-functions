@@ -195,21 +195,23 @@ rename_device()
     }
 }
 
+# Sets $alias to the device module if $? != 0
 is_available ()
 {
     LC_ALL= LANG= ip -o link | grep -q $1
     [ "$?" = "1" ] || return 0
 
-    modprobe -c | awk \
+    alias=$(modprobe -c | awk \
 'BEGIN { alias = ""; }
 $1 == "alias" && $2 == "'"$1"'" { alias = $3; }
 $1 == "install" { install[$2] = $3; }
 END {
     cmd = install[alias];
+    print alias;
     if (alias == "" || alias == "off" || cmd == "/bin/true" || cmd == ":")
         exit 1;
     exit 0;
-}'
+}')
     [ $? -eq 0 ] || return 2
 
     modprobe $1 > /dev/null 2>&1 || {
