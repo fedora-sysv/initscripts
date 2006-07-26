@@ -20,7 +20,7 @@ get_hwaddr ()
 
 get_config_by_hwaddr ()
 {
-    LANG=C grep -il "^[[:space:]]*HWADDR=${1}\([[:space:]]\+\|#\+\|$\)" /etc/sysconfig/network-scripts/ifcfg-*
+    LANG=C grep -il "^[[:space:]]*HWADDR=${1}\([[:space:]#]\|$\)" /etc/sysconfig/network-scripts/ifcfg-*
 }
 
 get_device_by_hwaddr ()
