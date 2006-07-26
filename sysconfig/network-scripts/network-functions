@@ -9,16 +9,14 @@ export PATH
 
 get_hwaddr ()
 {
-      {
-    	if [ -f /sys/class/net/${1}/address ]; then
-		cat /sys/class/net/${1}/address
-	elif [ -d "/sys/class/net/${1}" ]; then
-	    LC_ALL= LANG= ip -o link show ${1} 2>/dev/null | \
-      	    sed 's/.*link\/[^ ]* \([[:alnum:]:]*\).*/\1/'
-        fi
-      } | \
-      awk '{ print toupper($0) }'
-}    
+    if [ -f /sys/class/net/${1}/address ]; then
+	awk '{ print toupper($0) }' < /sys/class/net/${1}/address
+    elif [ -d "/sys/class/net/${1}" ]; then
+	LC_ALL= LANG= ip -o link show ${1} 2>/dev/null | \
+      	    awk '{ print toupper(gensub(/.*link\/[^ ]* ([[:alnum:]:]*).*/,
+					"\\1", 1)); }'
+    fi
+}
 
 get_config_by_hwaddr ()
 {
