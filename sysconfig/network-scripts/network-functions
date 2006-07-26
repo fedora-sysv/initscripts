@@ -30,17 +30,25 @@ get_device_by_hwaddr ()
 
 need_config ()
 {
+    local nconfig
+
     CONFIG="ifcfg-${1}"
     [ -f "${CONFIG}" ] && return
     CONFIG="${1}"
     [ -f "${CONFIG}" ] && return
     local addr=`get_hwaddr ${1}`
     if [ -n "$addr" ]; then
-      local nconfig=`get_config_by_hwaddr ${addr}`
+      nconfig=`get_config_by_hwaddr ${addr}`
       if [ -n "$nconfig" ] ; then
-        CONFIG=$nconfig
+        CONFIG=${nconfig##*/}
 	[ -f "${CONFIG}" ] && return
       fi
+    fi
+    nconfig=$(LANG=C grep -l "^[[:space:]]*DEVICE=${1}\([[:space:]#]\|$\)" \
+	/etc/sysconfig/network-scripts/ifcfg-*)
+    if [ -n "$nconfig" -a -f "$nconfig" ]; then
+      CONFIG=${nconfig##*/}
+      return
     fi
 }
 
