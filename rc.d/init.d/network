@@ -43,13 +43,12 @@ cd /etc/sysconfig/network-scripts
 
 # find all the interfaces besides loopback.
 # ignore aliases, alternative configurations, and editor backup files
-interfaces=`ls ifcfg* | \
-	    LANG=C sed -e '/\(ifcfg-lo\|:\|ifcfg-.*-range\)/d' \
-		       -e '/\(rpmsave\|rpmorig\|rpmnew\)/d' \
-		       -e '/\(~\|\.bak\)$/d' \
+interfaces=$(ls ifcfg* | \
+	    LANG=C sed -e "$__sed_discard_ignored_files" \
+		       -e '/\(ifcfg-lo\|:\|ifcfg-.*-range\)/d' \
 		       -e '/ifcfg-[A-Za-z0-9\._-]\+$/ { s/^ifcfg-//g;s/[0-9]/ &/}' | \
 	    LANG=C sort -k 1,1 -k 2n | \
-	    LANG=C sed 's/ //'`
+	    LANG=C sed 's/ //')
 
 # See how we were called.
 case "$1" in

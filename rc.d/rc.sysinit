@@ -496,6 +496,7 @@ if [ "$READONLY" = "yes" ]; then
 	fi
 
 	for file in /etc/rwtab /etc/rwtab.d/* ; do
+		is_ignored_file "$file" && continue
         	[ -f $file ] && cat $file | while read type path ; do
 			case "$type" in
 				empty)

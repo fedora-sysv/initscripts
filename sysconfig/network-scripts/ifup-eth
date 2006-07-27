@@ -118,11 +118,12 @@ if [ "${TYPE}" =  "Bonding" ] || ethtool -i $DEVICE 2>/dev/null| grep -q "driver
     /sbin/ip link set dev ${DEVICE} down
     /sbin/ip link set dev ${DEVICE} up
     [ -n "${LINKDELAY}" ] && /bin/sleep ${LINKDELAY}
-    for device in `LANG=C grep -l "^[[:space:]]*MASTER=${DEVICE}" /etc/sysconfig/network-scripts/ifcfg-*` ; do
-        if [ "$BOOTPROTO" = "dhcp" ]; then
-		/sbin/ifup ${device##*/}
-    	fi
-    done
+    if [ "$BOOTPROTO" = "dhcp" ]; then
+	for device in `LANG=C grep -l "^[[:space:]]*MASTER=${DEVICE}" /etc/sysconfig/network-scripts/ifcfg-*` ; do
+	    is_ignored_file "$device" && continue
+	    /sbin/ifup ${device##*/}
+	done
+    fi
 fi
 
 # this isn't the same as the MAC in the configuration filename.  It is
@@ -200,6 +201,7 @@ else
 	 # Bonding initialization part II
 	 if [ "${TYPE}" =  "Bonding" ] || ethtool -i $DEVICE 2>/dev/null| grep -q "driver: bonding" ; then
     		for device in `LANG=C grep -l "^[[:space:]]*MASTER=${DEVICE}" /etc/sysconfig/network-scripts/ifcfg-*` ; do
+			is_ignored_file "$device" && continue
 			/sbin/ifup ${device##*/}
     		done
 	 fi
@@ -276,6 +278,7 @@ fi
 # DHCP, remove any routes for the slaves.
 if [ "${TYPE}" =  "Bonding" ] || ethtool -i $DEVICE 2>/dev/null| grep -q "driver: bonding" ; then
     for device in `LANG=C grep -l "^[[:space:]]*MASTER=${DEVICE}" /etc/sysconfig/network-scripts/ifcfg-*` ; do
+	is_ignored_file "$device" && continue
 	if [ "$BOOTPROTO" = "dhcp" ]; then
 		DEV=$DEVICE
 		(. $device

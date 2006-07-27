@@ -1,8 +1,6 @@
 #!/bin/sh
 
-# Set up a default search path.
-PATH="/sbin:/usr/sbin:/bin:/usr/bin"
-export PATH
+. /etc/init.d/functions
 
 VERSION="`basename $0` ver. 0.91"
 USAGE="Usage: `basename $0` < option > | --status-all | \
@@ -32,11 +30,11 @@ while [ $# -gt 0 ]; do
           cd ${SERVICEDIR}
           for SERVICE in * ; do
             case "${SERVICE}" in
-              functions | halt | killall | single| linuxconf| kudzu | \
-                  *rpmorig | *rpmnew | *rpmsave | *~ | *.orig)
+              functions | halt | killall | single| linuxconf| kudzu)
                   ;;
               *)
-                if [ -x "${SERVICEDIR}/${SERVICE}" ]; then
+                if ! is_ignored_file "${SERVICE}" \
+		    && [ -x "${SERVICEDIR}/${SERVICE}" ]; then
                   env -i LANG="$LANG" PATH="$PATH" TERM="$TERM" "${SERVICEDIR}/${SERVICE}" status
                 fi
                 ;;
