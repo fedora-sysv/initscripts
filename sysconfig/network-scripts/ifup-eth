@@ -114,7 +114,9 @@ fi
 
 # Bonding initialization. For DHCP, we need to enslave the devices early,
 # so it can actually get an IP.
-if [ "${TYPE}" =  "Bonding" ] || ethtool -i $DEVICE 2>/dev/null| grep -q "driver: bonding" ; then
+if [ "$ISALIAS" = no ] && \
+    { [ "${TYPE}" =  "Bonding" ] \
+      || ethtool -i $DEVICE 2>/dev/null | grep -q "driver: bonding"; } then
     /sbin/ip link set dev ${DEVICE} down
     /sbin/ip link set dev ${DEVICE} up
     [ -n "${LINKDELAY}" ] && /bin/sleep ${LINKDELAY}
