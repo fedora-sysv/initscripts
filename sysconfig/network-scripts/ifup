@@ -62,23 +62,19 @@ fi
 # Ethernet 802.1Q VLAN support
 if [ -x /sbin/vconfig -a "${VLAN}" = "yes" -a "$ISALIAS" = "no" ]; then
     VID=""
-    if echo ${DEVICE} | LANG=C egrep -q '(eth|bond)[0-9][0-9]*\.[0-9][0-9]?[0-9]?[0-9]?'; then
-	VID="`echo ${DEVICE} | \
-	    LANG=C egrep '(eth|bond)[0-9]+\.[0-9][0-9]?[0-9]?[0-9]?$' | \
-	    LANG=C sed 's/^[a-z0-9]*\.//g;s/^0*//'`"
-	PHYSDEV="`echo ${DEVICE} | \
-	    LANG=C egrep '(eth|bond)[0-9]+\.[0-9][0-9]?[0-9]?[0-9]?$' | \
-	    LANG=C sed 's/\.[a-z0-9]*$//g'`"
-     fi
-     if echo ${DEVICE} | LANG=C egrep -q 'vlan[0-9][0-9]?[0-9]?[0-9]?'; then
-	VID="`echo ${DEVICE} | LANG=C sed 's/^vlan//;s/^0*//'`"
+    if [[ "${DEVICE}" =~ '^(eth|bond)[0-9]+\.[0-9]{1,4}$' ]]; then
+	VID=$(echo "${DEVICE}" | LC_ALL=C sed 's/^[a-z0-9]*\.0*//')
+	PHYSDEV=${DEVICE%.*}
+    fi
+    if [[ "${DEVICE}" =~ '^vlan[0-9]{1,4}?' ]]; then
+	VID=$(echo "${DEVICE}" | LC_ALL=C sed 's/^vlan0*//')
 	# PHYSDEV should be set in ifcfg-vlan* file
 	if test -z "$PHYSDEV"; then
 		echo $"PHYSDEV should be set for device ${DEVICE}"
 		exit 1
 	fi
-     fi
-     if [ -n "$VID" ]; then
+    fi
+    if [ -n "$VID" ]; then
 	if [ ! -d /proc/net/vlan ]; then
             if modprobe 8021q >/dev/null 2>&1 ; then
 		test -z "$VLAN_NAME_TYPE" && VLAN_NAME_TYPE=DEV_PLUS_VID_NO_PAD
