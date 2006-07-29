@@ -25,7 +25,7 @@ Conflicts: xorg-x11, glib2 < 2.11.1-2
 #Conflicts: diskdumputils < 1.1.0
 Obsoletes: rhsound sapinit
 Obsoletes: hotplug
-Prereq: /sbin/chkconfig, /usr/sbin/groupadd, /bin/sed, mktemp, fileutils, sh-utils
+Prereq: /sbin/chkconfig, /usr/sbin/groupadd, /bin/sed, coreutils
 BuildRequires: glib2-devel popt gettext pkgconfig
 
 %description
@@ -42,15 +42,9 @@ make
 
 %install
 rm -rf $RPM_BUILD_ROOT
-make ROOT=$RPM_BUILD_ROOT SUPERUSER=`id -un` SUPERGROUP=`id -gn` mandir=%{_mandir} install 
+make ROOT=$RPM_BUILD_ROOT SUPERUSER=`id -un` SUPERGROUP=`id -gn` mandir=%{_mandir} install
 
-# build file list of locale stuff in with lang tags
-pushd %{buildroot}/%{_datadir}/locale
-for foo in * ; do
-	echo  "%lang($foo) %{_datadir}/locale/$foo/*/*" >> \
-	$RPM_BUILD_DIR/%{name}-%{version}/trans.list
-done
-popd
+%find_lang %{name}
 
 %ifnarch s390 s390x
 rm -f \
@@ -66,9 +60,7 @@ rm -f \
 /usr/sbin/groupadd -g 22 -r -f utmp
 
 %post
-touch /var/log/wtmp
-touch /var/run/utmp
-touch /var/log/btmp
+touch /var/log/wtmp /var/run/utmp /var/log/btmp
 chown root:utmp /var/log/wtmp /var/run/utmp /var/log/btmp
 chmod 664 /var/log/wtmp /var/run/utmp
 chmod 600 /var/log/btmp
@@ -77,12 +69,8 @@ chmod 600 /var/log/btmp
 /sbin/chkconfig --add network 
 
 # handle serial installs semi gracefully
-if [ $1 = 0 ]; then
-  if [ "$TERM" = "vt100" ]; then
-      tmpfile=`mktemp /etc/sysconfig/tmp.XXXXXX`
-      sed -e '/BOOTUP=color/BOOTUP=serial/' /etc/sysconfig/init > $tmpfile
-      mv -f $tmpfile /etc/sysconfig/init
-  fi
+if [ $1 = 0 -a "$TERM" = "vt100" ]; then
+    sed -i 's/BOOTUP=color/BOOTUP=serial/' /etc/sysconfig/init
 fi
 
 # Handle converting prefdm to run-once
@@ -105,7 +93,7 @@ exit 0
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%files -f trans.list
+%files -f %{name}.lang
 %defattr(-,root,root)
 %dir /etc/sysconfig/network-scripts
 %config(noreplace) %verify(not md5 mtime size) /etc/adjtime
