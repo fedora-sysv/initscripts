@@ -1,4 +1,11 @@
 #!/bin/sh
 
+. /etc/init.d/functions
+
+if [ $# -ne 0 ]; then
+    echo $"Usage: sys-unconfig" >&2
+    exit 1
+fi
+
 touch /.unconfigured
 halt
