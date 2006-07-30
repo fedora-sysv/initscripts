@@ -178,8 +178,10 @@ LANG=C __umount_loop '$2 ~ /^\/$|^\/proc|^\/dev/{next}
 # remove the crash indicator flag
 rm -f /.autofsck
 
-# Try all file systems other than root and RAM disks, one last time.
-mount |  awk '!/( \/ |^\/dev\/root|^\/dev\/ram| \/proc )/ { print $3 }' | sort -r | \
+# Try all file systems other than root, essential filesystems and RAM disks,
+# one last time.
+awk '$2 !~ /\/(|dev|proc|selinux)$/ && $1 !~ /^\/dev\/ram/ { print $2 }' \
+    /proc/mounts | sort -r | \
   while read line; do
     fstab-decode umount -f $line
 done
