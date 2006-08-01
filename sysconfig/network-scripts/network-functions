@@ -308,7 +308,9 @@ check_link_down ()
 	   ip link set dev $1 up >/dev/null 2>&1
 	fi
 	timeout=0
-	while [ $timeout -le 10 ]; do
+	delay=10
+	[ -n "$LINKDELAY" ] && delay=$(($LINKDELAY * 2))
+	while [ $timeout -le $delay ]; do
 	    check_mii_tool $1
 	    m=$?
 	    check_ethtool $1
