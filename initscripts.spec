@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.37
+Version: 8.38
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -22,7 +22,6 @@ Conflicts: ypbind < 1.6-12, psacct < 6.3.2-12, kbd < 1.06-19, lokkit < 0.50-14
 Conflicts: dhclient < 3.0.3-7
 Conflicts: tcsh < 6.13-5
 Conflicts: xorg-x11, glib2 < 2.11.1-2
-#Conflicts: diskdumputils < 1.1.0
 Obsoletes: rhsound sapinit
 Obsoletes: hotplug
 Prereq: /sbin/chkconfig, /usr/sbin/groupadd, /bin/sed, coreutils
@@ -200,6 +199,21 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Aug  1 2006 Bill Nottingham <notting@redhat.com> 8.38-1
+- translation updates
+- bring down bonding slaves on ifdown (#199706)
+- support LINKDELAY for dhcp (#191137)
+- netfs: run multipath on netdev devices (#180977)
+- halt: use /proc/mounts instead of /etc/mtab (#198426, <mitr@redhat.com>)
+- rc.sysinit: fix getkey race (#191453, <mitr@redhat.com>)
+- spec cleanups (#188614, <kloczek@rudy.mif.pg.gda.pl>)
+- support aliases on vlan (#193133, <mitr@redhat.com>)
+- clean up ifcfg file handling (<mitr@redhat.com>, <michal@harddata.com>)
+- GRE and IPIP tunnel support (#168990, <mitr@redhat.com>,
+  <razvan.vilt@linux360.ro>, <aaron.hope@unh.edu>, <sean@enertronllc.com>)
+- rc.sysinit: don't format encrypted swap always (#127378)
+- don't try to add routes to alias devices (#199825, #195656)
+
 * Fri Jul 21 2006 Bill Nottingham <notting@redhat.com> 8.37-1
 - update translations
 

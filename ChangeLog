@@ -1,3 +1,154 @@
+2006-08-01  Bill Nottingham  <notting@redhat.com>
+
+	* ChangeLog, initscripts.spec: 8.38-1
+
+	* po/zh_TW.po, po/ta.po, po/te.po, po/tr.po, po/uk.po, po/ur.po, po/vi.po, po/wa.po, po/zh_CN.po, po/nn.po, po/no.po, po/or.po, po/pa.po, po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po, po/ru.po, po/si.po, po/sk.po, po/sl.po, po/sq.po, po/sr.po, po/sr@Latn.po, po/sv.po, po/he.po, po/hi.po, po/hr.po, po/hu.po, po/hy.po, po/id.po, po/initscripts.pot, po/is.po, po/it.po, po/ja.po, po/ka.po, po/kn.po, po/ko.po, po/ku.po, po/lo.po, po/lt.po, po/mk.po, po/ml.po, po/mr.po, po/ms.po, po/my.po, po/nb.po, po/nl.po, po/ar.po, po/bg.po, po/bn.po, po/bn_IN.po, po/ca.po, po/cs.po, po/cy.po, po/da.po, po/de.po, po/el.po, po/en_GB.po, po/es.po, po/et.po, po/eu_ES.po, po/fi.po, po/fr.po, po/gl.po, po/gu.po:
+	add strings from /sbin/service, /etc/ppp/ip*
+
+	* service: those aren't really translatable. don't clutter the po files
+
+	* sysconfig/network-scripts/ifdown-eth:
+	bring down bonding slaves on ifdown (#199706)
+
+	* sysconfig/network-scripts/ifup-eth, sysconfig/network-scripts/network-functions:
+	make test for bonding device a function
+
+	* rwtab: add /etc/lvm/.cache
+
+	* sysconfig.txt, sysconfig/network-scripts/network-functions:
+	support LINKDELAY for dhcp (#191137)
+
+	* rc.d/init.d/netfs: run multipath on netdev devices (#180977)
+
+2006-07-30  Miloslav Trmac  <mitr@redhat.com>
+
+	* rc.d/init.d/halt:
+	Use /proc/mounts instead of /etc/mtab (via mount), to handle mount --rbind
+	(#198426)
+
+	* rc.d/rc.sysinit:
+	Fix a possible attempt to kill getkey before it is started (#191453)
+
+2006-07-29  Miloslav Trmac  <mitr@redhat.com>
+
+	* po/Makefile, sys-unconfig:
+	- sys-unconfig: Avoid mishaps with e.g. (sys-unconfig --help) (#189501)
+	- po/Makefile (POTFILES): Extract msgids from more files.
+
+	* initscripts.spec:
+	Miscellaneous initscripts cleanups (#188614, <kloczek@rudy.mif.pg.gda.pl>):
+	- s/fileutils, sh-utils/coreutils/
+	- Use %find_lang
+	- Combine three touch(1) commands
+	- Use (sed -i) instead of manually using mktemp
+
+2006-07-28  Peter van Egdom <p.van.egdom@chello.nl>
+
+	* po/nl.po: Some fixes for initscripts nl.po
+
+2006-07-28  José Nuno Coelho Sanarra Pires  <jncp+fedora@netcabo.pt>
+
+	* po/pt.po: Finished translations on Initscripts
+
+2006-07-28  Miloslav Trmac  <mitr@redhat.com>
+
+	* sysconfig/network-scripts/ifup:
+	Simplify $DEVICE parsing to get VLAN info
+
+	* sysconfig/network-scripts/ifup, sysconfig/network-scripts/ifup-eth:
+	Support (ifup vlan1:0) (#193133)
+
+2006-07-27  Renato Pavicic  <repavaci@globalnet.hr>
+
+	* po/hr.po: *** empty log message ***
+
+2006-07-27  Andrew Martynov <andrewm@inventa.ru>
+
+	* po/ru.po: Updated translation
+
+2006-07-27  Ani Peter  <apeter@redhat.com>
+
+	* po/ml.po: Updated ml.po
+
+2006-07-27  Miloslav Trmac  <mitr@redhat.com>
+
+	* rc.d/init.d/functions, rc.d/init.d/network, sysconfig/network-scripts/ifup-aliases, sysconfig/network-scripts/ifup-eth, sysconfig/network-scripts/network-functions, rc.d/rc, rc.d/rc.sysinit, service:
+	Consistently exclude backup files when globbing
+
+2006-07-26  Peter van Egdom <p.van.egdom@chello.nl>
+
+	* po/nl.po: Some fixes for initscripts nl.po
+
+2006-07-26  Miloslav Trmac  <mitr@redhat.com>
+
+	* sysconfig/network-scripts/network-functions:
+	Simplify the regexp a little
+
+	* sysconfig/network-scripts/network-functions:
+	Handle ifcfg files not named ifcfg-$DEVICE (based on a patch by
+	Michal Jaegermann <michal@harddata.com>)
+	Return only the basename of the ifcfg file, even if looked up by HWADDR.
+
+	* sysconfig/network-scripts/network-functions:
+	Avoid an unnecessary cat / sed.
+
+	* sysconfig/network-scripts/network-functions:
+	Oops, set $alias like the previous version did.  Document this part of the
+	interface.
+
+	* sysconfig/network-scripts/network-functions:
+	Use the alias value to lookup an install line.
+	Use string comparisons instead of regexp matches in the awk conditions,
+	speeding up the awk program several times.
+
+	* sysconfig/network-scripts/network-functions:
+	Allow (:) as a "do-nothing" module install command (patch by Michal Jaegermann
+	<michal@harddata.com>)
+
+2006-07-25  Miloslav Trmac  <mitr@redhat.com>
+
+	* initscripts.spec, sysconfig.txt, sysconfig/network-scripts/ifdown-tunnel, sysconfig/network-scripts/ifup-tunnel, sysconfig/network-scripts/network-functions:
+	GRE and IPIP tunnel support (#168990, based on patches by
+	Razvan Corneliu C.R. Vilt <razvan.vilt@linux360.ro>,
+	Aaron Hope <aaron.hope@unh.edu> and Sean Millichamp <sean@enertronllc.com>)
+
+	check_device_down: Handle tunnel_device@NONE: <...>
+
+2006-07-24  Miloslav Trmac  <mitr@redhat.com>
+
+	* crypttab.5, rc.d/rc.sysinit:
+	Don't require encrypted swap partitions to be swap formated before setting
+	them up (#127378)
+
+2006-07-24  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifup-routes:
+	don't add routes directly to alias devices (#199825, #195656)
+
+2006-07-24  Ankitkumar Rameshchandra Patel  <ankit@redhat.com>
+
+	* po/gu.po: Updated Gujarati Translations
+
+2006-07-24  Piotr Drąg  <raven@pmail.pl>
+
+	* po/pl.po: Updated Polish translation
+
+2006-07-23  Domingo E. Becker  <beckerde@hotmail.com>
+
+	* po/es.po: listo
+
+2006-07-22  Francesco Tombolini  <tombo@adamantio.net>
+
+	* po/it.po: updated
+
+2006-07-22  Nikola Štohanzl  <niko@srnet.cz>
+
+	* po/cs.po: Finished.
+
+2006-07-21  Domingo E. Becker  <beckerde@hotmail.com>
+
+	* po/es.po: *** empty log message ***
+
 2006-07-21  Bill Nottingham  <notting@redhat.com>
 
 	* ChangeLog, initscripts.spec: 8.37-1
