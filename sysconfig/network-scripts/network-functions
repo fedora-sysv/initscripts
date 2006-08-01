@@ -380,6 +380,13 @@ is_wireless_device ()
     return 1
 }
 
+is_bonding_device ()
+{
+   [ "${TYPE}" = "Bonding" ] && return 0
+   ethtool -i $1 2>/dev/null | grep -q "driver: bonding" && return 0
+   return 1
+}
+
 # Mainframe devices:
 configure_ccwgroup_device ()
 {
