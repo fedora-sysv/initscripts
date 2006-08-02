@@ -4,14 +4,14 @@
 #
 #
 # Taken from:
-# (P) & (C) 2000-2005 by Peter Bieringer <pb@bieringer.de>
+# (P) & (C) 2000-2006 by Peter Bieringer <pb@bieringer.de>
 #
 #  You will find more information on the initscripts-ipv6 homepage at
 #   http://www.deepspace6.net/projects/initscripts-ipv6.html
 #
 # RHL integration assistance by Pekka Savola <pekkas@netcore.fi>
 #
-# Version 2005-09-22
+# Version: 2006-07-20
 #
 # Note: if called (like normally) by /etc/sysconfig/network-scripts/ifup
 #        exit codes aren't handled by "ifup"
@@ -88,7 +88,7 @@ if [ $? != 0 -a $? != 11 ]; then
 fi
 
 # Setup IPv6 address on specified interface
-if ! [ -z "$IPV6ADDR" ]; then
+if [ -n "$IPV6ADDR" ]; then
 	ipv6_add_addr_on_device $DEVICE $IPV6ADDR || exit 1
 fi
 
@@ -159,7 +159,7 @@ fi
 
 # Setup additional static IPv6 routes on specified interface, if given
 if [ -f /etc/sysconfig/static-routes-ipv6 ]; then
-	LC_ALL=C grep -w "^$DEVICE" /etc/sysconfig/static-routes-ipv6 2>/dev/null | while read device args; do
+	LC_ALL=C grep -w "^$DEVICE" /etc/sysconfig/static-routes-ipv6 | while read device args; do
 		ipv6_add_route $args $DEVICE
 	done
 fi
@@ -212,7 +212,7 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 		if [ -z "$IPV6TO4_RELAY" ]; then
 			IPV6TO4_RELAY="192.88.99.1"
 		fi
-	
+
 		# Check/generate relay address
 		ipv6to4_relay="`ipv6_create_6to4_relay_address $IPV6TO4_RELAY`"
 		if [ $? -ne 0 ]; then
@@ -235,7 +235,7 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 		if [ -n "$IPV6TO4_MTU" ]; then
 			if [ $IPV6TO4_MTU -gt $tunnelmtu ]; then
 				echo $"Warning: configured MTU '$IPV6TO4_MTU' for 6to4 exceeds maximum limit of '$tunnelmtu', ignored"
-			else		
+			else
 				tunnelmtu=$IPV6TO4_MTU
 			fi
 		fi
@@ -255,7 +255,7 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 
 		# Add static routes
 		if [ -f /etc/sysconfig/static-routes-ipv6 ]; then
-			LC_ALL=C grep -w "^tun6to4" /etc/sysconfig/static-routes-ipv6 2>/dev/null | while read device network gateway; do
+			LC_ALL=C grep -w "^tun6to4" /etc/sysconfig/static-routes-ipv6 | while read device network gateway; do
 				if [ -z "$network" ]; then
 					continue
 				fi
@@ -264,7 +264,7 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 				fi
 				ipv6_add_route $network $gateway tun6to4
 			done
-		fi		
+		fi
 
 		# Setup additional static IPv6 routes (newer config style)
 		if [ -f "/etc/sysconfig/network-scripts/route6-tun6to4" ]; then

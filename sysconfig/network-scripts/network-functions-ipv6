@@ -137,6 +137,11 @@ ipv6_log() {
 		fi
 		;;
 	    'syslog')
+		# note: logger resides in /usr/bin, but not used by default
+		if ! [ -x logger ]; then
+			echo $"ERROR: [ipv6_log] Syslog is chosen, but binary 'logger' doesn't exist or isn't executable" >/dev/stderr
+			return 3
+		fi
 		if [ -z "$txt_name" ]; then
 			logger -p $facility.$priority $message
 		else
@@ -185,6 +190,16 @@ ipv6_test() {
 		return 2
 	fi
 
+	if ! [ -x /sbin/ip ]; then
+		ipv6_log $"Utility 'ip' (package: iproute) doesn't exist or isn't executable - stop" crit $fn
+		return 2													
+	fi
+
+	if ! [ -x /sbin/sysctl ]; then
+		ipv6_log $"Utility 'sysctl' (package: procps) doesn't exist or isn't executable - stop" crit $fn
+		return 2													
+	fi
+
 	return 0
 }
 
@@ -194,6 +209,7 @@ ipv6_test() {
 getversion_ipv6_functions() {
 	local version_ipv6_functions="`cat /etc/sysconfig/network-scripts/network-functions-ipv6 | LC_ALL=C grep "^# Version:" | awk '{ print $3 }' | sed 's/-//g' | sed 's/[A-Za-z]*$//g'`"
 	echo $version_ipv6_functions
+	return 0
 }
 
 
@@ -202,6 +218,8 @@ getversion_ipv6_functions() {
 # $*: <arguments...>
 # return code: result of execution
 ipv6_exec_ifconfig() {
+	local fn="ipv6_exec_ifconfig"
+
 	local options=$*
 
 	LC_ALL=C /sbin/ifconfig $options
@@ -614,7 +632,7 @@ ipv6_cleanup_6to4_device() {
         	ipv6_del_addr_on_device ${dev} ${addr}
 	done
 
-	# Get all IPv6 routes through given interface via a given gateway and remove them
+	# Get all IPv6 routes through given interface related to 6to4 and remove them
 	ipv6_exec_ip -6 route show dev $device | LC_ALL=C grep "^2002:" | while read ipv6net dummy; do
 		ipv6_del_route $ipv6net :: $device
 	done
@@ -698,7 +716,7 @@ ipv6_test_ipv6_addr_valid() {
 	local address_implicit="`echo $testipv6addr_valid | awk -F/ '{ print $1 }'`"
 
 		# Test for a valid format
-		if ! echo "$address_implicit" | LC_ALL=C egrep -q '^[[:xdigit:]:.]*$'; then
+		if ! echo "$address_implicit" | LC_ALL=C egrep -q '^[[:xdigit:]]|[:\.]*$'; then
 			if [ "$modequiet" != "quiet" ]; then
 				ipv6_log $"Given IPv6 address '$testipv6addr_valid' is not valid" err $fn
 			fi

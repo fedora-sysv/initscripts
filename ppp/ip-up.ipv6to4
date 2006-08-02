@@ -9,7 +9,7 @@
 #  You will find more information on the initscripts-ipv6 homepage at
 #   http://www.deepspace6.net/projects/initscripts-ipv6.html
 #
-# Version 2005-09-22
+# Version: 2005-09-22
 #
 # Calling parameters:
 #  $1: interface name
@@ -169,7 +169,7 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 				ipv6_exec_ip -6 route add $line
 			done
                 fi
-		
+
 		# Cleanup autmatically generated autotunnel (not needed for 6to4)
 		ipv6_del_route "::/96" "::" tun6to4
 		ipv6_del_addr_on_device tun6to4 "::$ipv4addr/128"

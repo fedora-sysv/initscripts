@@ -11,7 +11,7 @@
 #
 # RHL integration assistance by Pekka Savola <pekkas@netcore.fi>
 #
-# Version 2003-09-08
+# Version: 2003-09-08
 #
 # Uses following information from /etc/sysconfig/network:
 #  NETWORKING_IPV6=yes|no: controls IPv6 initialization (global setting)
@@ -100,10 +100,10 @@ fi
 if [ -n "$IPV6_DEFAULTDEV" -o -n "$IPV6_DEFAULTGW" ]; then
 	ipv6_set_default_route "$IPV6_DEFAULTGW" "$IPV6_DEFAULTDEV" "$DEVICE"
 fi
-	
-# Setup additional static IPv6 routes on specified interface, if given		
+
+# Setup additional static IPv6 routes on specified interface, if given
 if [ -f /etc/sysconfig/static-routes-ipv6 ]; then
-	LC_ALL=C grep -w "^$DEVICE" /etc/sysconfig/static-routes-ipv6 2>/dev/null | while read device ipv6route args; do
+	LC_ALL=C grep -w "^$DEVICE" /etc/sysconfig/static-routes-ipv6 | while read device ipv6route args; do
 		ipv6_add_route $ipv6route :: $DEVICE
 	done
 fi
@@ -111,6 +111,6 @@ fi
 # Setup additional static IPv6 routes (newer config style)
 if [ -f "/etc/sysconfig/network-scripts/route6-$REALDEVICE" ]; then
 	cat "/etc/sysconfig/network-scripts/route6-$REALDEVICE" | sed 's/#.*//g' | grep -v '^[[:space:]]*$' | while read line; do
-		ipv6_exec_ip -6 route add $line	
+		ipv6_exec_ip -6 route add $line
 	done
 fi
