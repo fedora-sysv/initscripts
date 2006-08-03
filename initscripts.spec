@@ -64,13 +64,8 @@ chown root:utmp /var/log/wtmp /var/run/utmp /var/log/btmp
 chmod 664 /var/log/wtmp /var/run/utmp
 chmod 600 /var/log/btmp
 
-/sbin/chkconfig --add netfs 
-/sbin/chkconfig --add network 
-
-# handle serial installs semi gracefully
-if [ $1 = 0 -a "$TERM" = "vt100" ]; then
-    sed -i 's/BOOTUP=color/BOOTUP=serial/' /etc/sysconfig/init
-fi
+/sbin/chkconfig --add netfs
+/sbin/chkconfig --add network
 
 # Handle converting prefdm to run-once
 if fgrep -q "x:5:respawn:/etc/X11/prefdm -nodaemon" /etc/inittab ; then
