@@ -716,7 +716,7 @@ ipv6_test_ipv6_addr_valid() {
 	local address_implicit="`echo $testipv6addr_valid | awk -F/ '{ print $1 }'`"
 
 		# Test for a valid format
-		if ! echo "$address_implicit" | LC_ALL=C egrep -q '^[[:xdigit:]]|[:\.]*$'; then
+		if ! echo "$address_implicit" | LC_ALL=C egrep -q '^[[:xdigit:]:.]*$'; then
 			if [ "$modequiet" != "quiet" ]; then
 				ipv6_log $"Given IPv6 address '$testipv6addr_valid' is not valid" err $fn
 			fi
