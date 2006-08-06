@@ -102,6 +102,16 @@ with some of them encrypting the swap partitions and some of them not.)
 option will destroy the contents of the named partition during every boot, so
 make sure the underlying block device is specified correctly.
 
+.TP
+\fBtmp\fR
+The encrypted block device will be prepared for using it as tmp partition:
+it will be formatted using
+.B mke2fs
+and its root directory will be set to mode 01777.
+The warning about the
+.B swap
+option applies here as well.
+
 .PP
 No options can be specified for LUKS encrypted partitions.
 
