@@ -260,11 +260,6 @@ else
     ( sleep 2;
       arping -q -U -c 1 -I ${REALDEVICE} ${IPADDR} ) > /dev/null 2>&1 < /dev/null &
 
-    # Add Zeroconf route.
-    if [ -z "${NOZEROCONF}" -a "${ISALIAS}" = "no" ]; then
-        ip route replace 169.254.0.0/16 dev ${REALDEVICE} 
-    fi
-
     # Set a default route.
     if [ -z "${GATEWAYDEV}" -o "${GATEWAYDEV}" = "${REALDEVICE}" ]; then
 	# set up default gateway. replace if one already exists
@@ -295,7 +290,7 @@ if is_bonding_device ${DEVICE} ; then
 fi
 
 # Add Zeroconf route.
-if [ -z "${NOZEROCONF}" -a "${ISALIAS}" = "no" ]; then
+if [ -z "${NOZEROCONF}" -a "${ISALIAS}" = "no" -a "${REALDEVICE}" != "lo" ]; then
     ip route replace 169.254.0.0/16 dev ${REALDEVICE} 
 fi
 
