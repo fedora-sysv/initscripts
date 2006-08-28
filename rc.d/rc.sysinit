@@ -333,7 +333,6 @@ fi
 # may have to do this again after mounting
 RHGB_STARTED=0
 mount -n /dev/pts >/dev/null 2>&1
-[ -n "$SELINUX_STATE" ] && restorecon /dev/pts >/dev/null 2>&1
 
 if strstr "$cmdline" rhgb && ! strstr "$cmdline" early-login && [ "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
    LC_MESSAGES= /usr/bin/rhgb
