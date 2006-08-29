@@ -389,6 +389,16 @@ if [ -f /etc/mdadm.conf ]; then
     /sbin/mdadm -A -s
 fi
 
+# Device mapper & related initialization
+if ! LC_ALL=C fgrep -q "device-mapper" /proc/devices 2>/dev/null ; then
+	modprobe dm-mod >/dev/null 2>&1
+fi
+mkdir -p /dev/mapper >/dev/null 2>&1
+mknod /dev/mapper/control c \
+	$(awk '/ misc$/ { print $1 }' /proc/devices) \
+	$(awk '/ device-mapper$/ { print $1 }' /proc/misc) >/dev/null 2>&1
+[ -n "$SELINUX_STATE" ] && restorecon /dev/mapper /dev/mapper/control >/dev/null 2>&1
+
 if [ -f /etc/crypttab ]; then
     s=$"Starting disk encryption:"
     echo "$s"
@@ -396,13 +406,6 @@ if [ -f /etc/crypttab ]; then
     echo
 fi
 
-# Device mapper & related initialization
-if ! LC_ALL=C fgrep -q "device-mapper" /proc/devices 2>/dev/null ; then
-	modprobe dm-mod >/dev/null 2>&1
-fi
-echo "mkdmnod" | /sbin/nash --quiet >/dev/null 2>&1
-[ -n "$SELINUX_STATE" ] && restorecon /dev/mapper/control >/dev/null 2>&1
-    
 if [ -c /dev/mapper/control ]; then
         if [ -f /etc/multipath.conf -a -x /sbin/multipath.static ] ; then
 		modprobe dm-multipath > /dev/null 2>&1
