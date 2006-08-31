@@ -568,12 +568,11 @@ resolve_dm_name() {
     for x in $line ; do
         if [[ "$x" =~ "^/dev/" ]] ; then
             majmin=$(get_numeric_dev dec $x)
-            line=$(sed -e "s,$x\( \|$\),$majmin\1,g" <<< "$line")
+            line=$(echo "$line" | sed -e "s,$x\( \|$\),$majmin\1,g")
         fi
     done
-    line=$(sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' \
-               -e 's/ core [12] [[:digit:]]\+ / core [12] [[:digit:]]\\+ /' \
-               <<< "$line")
+    line=$(echo "$line" | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' \
+               -e 's/ core [12] [[:digit:]]\+ / core [12] [[:digit:]]\\+ /')
     /sbin/dmsetup table | \
         sed -n -e "s/.*\(no block devices found\|No devices found\).*//" \
                -e "s/\(^[^:]\+\): $line\( \+$\|$\)/\1/p"
