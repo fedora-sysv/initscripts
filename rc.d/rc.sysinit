@@ -411,17 +411,19 @@ if [ -c /dev/mapper/control ]; then
 		modprobe dm-multipath > /dev/null 2>&1
 		/sbin/multipath.static -v 0
 		if [ -x /sbin/kpartx ]; then
-			/sbin/dmsetup ls --target multipath --exec "/sbin/kpartx -a"
+			/sbin/dmsetup ls --target multipath --exec "/sbin/kpartx -a -p p"
 		fi
 	fi
 	
 	if [ -x /sbin/dmraid ]; then
 		modprobe dm-mirror >/dev/null 2>&1
-		for x in $(/sbin/dmraid -ay -t --ignorelocking 2>/dev/null | egrep -iv "^[nN]o " | awk -F ':' '{ print $1 }') ; do
+		for x in $(/sbin/dmraid -ay -i -p -t 2>/dev/null | \
+				egrep -iv "^no " | \
+				awk -F ':' '{ print $1 }') ; do
 			dmname=$(resolve_dm_name $x)
-			if [ -z "$dmname" ]; then
-				/sbin/dmraid -ay --ignorelocking "$x"
-			fi
+			[ -n "$dmname" ] && continue
+			/sbin/dmraid -ay -i -p "$dmname" >/dev/null 2>&1
+			/sbin/kpartx -a -p p "/dev/mapper/$dmname"
 		done
 	fi
 	
