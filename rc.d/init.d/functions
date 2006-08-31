@@ -562,15 +562,21 @@ resolve_dm_name() {
 (
     name="$1"
 
-    line=$(/sbin/dmraid -ay -t --ignorelocking | egrep -iv "^[nN]o " | awk -F ':' "{ if (\$1 ~ /^$name$/) { print \$2; }}")
-    newline=$line
+    line=$(/sbin/dmraid -ay -t --ignorelocking | \
+        egrep -iv "no block devices found|No RAID disks" | \
+        awk -F ':' "{ if (\$1 ~ /^$name$/) { print \$2; }}")
     for x in $line ; do
         if [[ "$x" =~ "^/dev/" ]] ; then
             majmin=$(get_numeric_dev dec $x)
-            newline=$(echo $newline | sed -e "s,$x\( \|$\),$majmin\1,g")
+            line=$(sed -e "s,$x\( \|$\),$majmin\1,g" <<< "$line")
         fi
     done
-    /sbin/dmsetup table | egrep -iv "no block devices found|No devices found" | sed -n "s/\(^[^:]\+\): $newline\( \+$\|$\)/\1/p"
+    line=$(sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' \
+               -e 's/ core [12] [[:digit:]]\+ / core [12] [[:digit:]]\\+ /' \
+               <<< "$line")
+    /sbin/dmsetup table | \
+        sed -n -e "s/.*\(no block devices found\|No devices found\).*//" \
+               -e "s/\(^[^:]\+\): $line\( \+$\|$\)/\1/p"
 ) 2>/dev/null
 }
 
