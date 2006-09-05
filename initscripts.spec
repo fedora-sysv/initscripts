@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.38
+Version: 8.39
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -15,7 +15,7 @@ Requires: util-linux >= 2.10s-11, mount >= 2.11l
 Requires: bash >= 3.0, SysVinit >= 2.85-38
 Requires: /sbin/ip, /sbin/arping, net-tools
 Requires: /etc/redhat-release, dev
-Requires: ethtool >= 1.8-2, /sbin/nash, /sbin/runuser
+Requires: ethtool >= 1.8-2, /sbin/runuser
 Requires: udev >= 078-1
 Conflicts: mkinitrd < 4.0, kernel < 2.6.12
 Conflicts: ypbind < 1.6-12, psacct < 6.3.2-12, kbd < 1.06-19, lokkit < 0.50-14
@@ -194,6 +194,19 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Sep  5 2006 Bill Nottingham <notting@redhat.com> 8.39-1
+- translation updates
+- Handle partitions on multipath/dmraid better (<pjones@redhat.com>)
+- make /dev/mapper/control ourselves (<pjones@redhat.com>)
+- init.d/network: simplify 'status' call
+- fix actual 169.254 networks (#203591)
+- rc.sysinit: don't run vgscan (#191879)
+- init.d/halt: don't umount /dev/root<foo> (<oblin@mandriva.com>)
+- rc.sysinit: catch more dmraid errors (#200683)
+- support 'tmp' option in /etc/crypttab (#201382, <mitr@redhat.com>,
+  <lv@lekv.de>)
+- IPv6 updates (<pb@bieringer.de>, includes a fix for #143452)
+
 * Tue Aug  1 2006 Bill Nottingham <notting@redhat.com> 8.38-1
 - translation updates
 - bring down bonding slaves on ifdown (#199706)

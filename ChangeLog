@@ -1,11 +1,237 @@
+2006-09-04  Diego Búrigo Zacarão  <diegobz@gmail.com>
+
+	* po/pt_BR.po: Review
+
+2006-09-04  Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>
+
+	* po/ms.po: Updated Malay translation
+
+2006-09-04  Noriko Mizumoto  <noriko@redhat.com>
+
+	* po/ja.po: translating...
+
+2006-09-03  Dimitris Glezos  <dimitris@glezos.com>
+
+	* po/el.po: Quality assurance:
+	- Replaced most of "programma" with more proper word: "efarmogi"
+	- Removal of ano teleia (·) accidentally placed instead of space characters
+
+2006-09-02  Dimitris Glezos  <dimitris@glezos.com>
+
+	* po/el.po: Quality assurance by mass editing:
+	 1. sthN omada, afthN th gnwmh, auton to gero
+	 2. Diorthwsi dialitikwn pou akolouthoun tonoumeno fwnien
+	 3. Correction of english letters accidentally put inside greek words
+	 4. wordsWith a capital letter inside probably mean a forgotten space
+	 5. After a full stop a space is needed
+
 2006-08-31  Peter Jones  <pjones@redhat.com>
 
 	* rc.d/rc.sysinit:
-	Handle partitions on multipath and dmraid better
+	- make multipath partitions be named with the form "${device}p${partnum}",
+	  like in nash and parted and anaconda and md partitions and...
+	- make dmraid partitions be named with "p" as well (and use kpartx)
 
 	* rc.d/init.d/functions:
-	Ignore core logger chunk size when comparing device maps in
-	resolve_dm_name()
+	- "<<<" doesn't work without a read-write filesystem.  No, I'm serious.
+
+	* rc.d/init.d/functions:
+	- make resolve_dm_name ignore core logger block size when comparing rules
+	- slightly more readable formatting
+	- make "line" and "newline" the same variable
+	- kill 2 exec() calls, add 1.
+	- shell quoting rill ROT YOUR BRANE.
+
+2006-08-30  Xavier Conde Rueda  <xavi.conde@gmail.com>
+
+	* po/ca.po: Updated by XC
+
+2006-08-29  Peter Jones  <pjones@redhat.com>
+
+	* rc.d/rc.sysinit:
+	- don't use nash to create /dev/mapper/control, it isn't hard to do.
+	- do the first init_crypto call *after* initializing dm.
+
+2006-08-29  Chung Cheng  <ccheng@redhat.com>
+
+	* po/zh_TW.po: routinely merge
+
+2006-08-28  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit: strike that
+
+	* rc.d/rc.sysinit: remove restorecon, no longer needed (#204330)
+
+2006-08-28  Magnus  <fedoratrans@gmail.com>
+
+	* po/sv.po: *** empty log message ***
+
+2006-08-25  Thomas Canniot  <mrtom@easynux.org>
+
+	* po/fr.po: fixing typo
+
+2006-08-25  Damien Durand  <splinux@fedoraproject.org>
+
+	* po/fr.po: Added french translaton
+
+2006-08-25  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/network:
+	simpify (based on a prodding from <oblin@mandriva.com>)
+
+2006-08-23  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifup-eth:
+	if they have explicitly defined an address in 169.254, things go really
+	strange if you don't set this route before the default route (#203591)
+
+2006-08-23  Richard Allen  <ra@hp.is>
+
+	* po/is.po: *** empty log message ***
+
+2006-08-22  Magnus  <fedoratrans@gmail.com>
+
+	* po/sv.po: Finished the translation.
+
+2006-08-22  Dimitris Michelinakis  <dimitris@michelinakis.gr>
+
+	* po/el.po:
+	More Greek translation updates, most boot/reboot messages translated
+
+2006-08-20  Yang Zhang  <zyangmath@gmail.com>
+
+	* po/zh_CN.po: *** empty log message ***
+
+2006-08-19  Yang Zhang  <zyangmath@gmail.com>
+
+	* po/zh_CN.po: *** empty log message ***
+
+2006-08-19  Chung Cheng  <ccheng@redhat.com>
+
+	* po/zh_TW.po: Routine merge
+
+2006-08-18  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit: don't do vgscan (#191879)
+
+2006-08-17  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/halt: don't umount /dev/root<foo> (<oblin@mandriva.com>)
+
+2006-08-15  Maxim Dziumanenko <dziumanenko@gmail.com>
+
+	* po/uk.po: Update Ukrainian translation.
+
+2006-08-14  Alan Cox  <alan@redhat.com>
+
+	* po/cy.po: Defuzz
+
+2006-08-13  Andrew Martynov <andrewm@inventa.ru>
+
+	* po/ru.po: updated translation (cyrus-imapd and others)
+
+2006-08-13  Miloš Komarčević <kmilos@gmail.com>
+
+	* po/sr@Latn.po, po/sr.po: *** empty log message ***
+
+2006-08-13  Nikola Štohanzl  <niko@srnet.cz>
+
+	* po/cs.po: Finished.
+
+2006-08-12  Amanpreet Singh Alam  <apbrar@gmail.com>
+
+	* po/pa.po: *** empty log message ***
+
+2006-08-12  Walter Cheuk  <wwycheuk@netvigator.com>
+
+	* po/zh_TW.po: update
+
+2006-08-08  Felix Iyadurai  <ifelix@redhat.com>
+
+	* po/ta.po: Tamil traslation updated
+
+2006-08-07  Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>
+
+	* po/ms.po: Updated Malay translation
+
+2006-08-07  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/functions, rc.d/rc.sysinit:
+	catch more errors from dmraid (#200683)
+
+	* sysconfig/network-scripts/network-functions-ipv6: whitespace cleanups
+
+2006-08-07  Felix Iyadurai  <ifelix@redhat.com>
+
+	* po/ta.po: Tamil traslation updated
+
+2006-08-07  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* po/nb.po: Update translation
+
+2006-08-07  Timp Trinks  <timo@trinks.net>
+
+	* po/de.po: total:718 fuzzy:0 untranslated:0
+
+2006-08-06  Miloslav Trmac  <mitr@redhat.com>
+
+	* crypttab.5, rc.d/rc.sysinit:
+	Support Debian-like "tmp" option in /etc/crypptab (#201382, based on a patch
+	by Lars Volker <lv@lekv.de>)
+
+2006-08-06  Ville-Pekka Vainio  <vpivaini@cs.helsinki.fi>
+
+	* po/fi.po: Updated Finnish translation
+
+2006-08-05  Francesco Tombolini  <tombo@adamantio.net>
+
+	* po/it.po: updated 3 msgstrings
+
+2006-08-04  Rajesh Ranjan  <rranjan@redhat.com>
+
+	* po/hi.po: hindi update
+
+2006-08-03  Domingo E. Becker  <beckerde@hotmail.com>
+
+	* po/es.po: *** empty log message ***
+
+2006-08-03  José Nuno Coelho Sanarra Pires  <jncp+fedora@netcabo.pt>
+
+	* po/pt.po: Corrected spelling errors and inconsistencies
+
+2006-08-03  Renato Pavicic  <repavaci@globalnet.hr>
+
+	* po/hr.po: *** empty log message ***
+
+2006-08-03  Miloslav Trmac  <mitr@redhat.com>
+
+	* initscripts.spec:
+	Drop serial install handling that could never be executed
+
+	* sysconfig/network-scripts/network-functions-ipv6:
+	Reapply fix from rev 1.34:
+	Fix IPv6 address validity check not to consider every string valid.
+
+2006-08-02  Bill Nottingham  <notting@redhat.com>
+
+	* ppp/ip-up.ipv6to4, ppp/ipv6-down, ppp/ipv6-up, sysconfig/network-scripts/ifup-ipv6, sysconfig/network-scripts/ifup-sit, sysconfig/network-scripts/init.ipv6-global, sysconfig/network-scripts/network-functions-ipv6:
+	IPv6 updates (<pb@bieringer.de>, #143452)
+
+2006-08-02  Peter van Egdom <p.van.egdom@chello.nl>
+
+	* po/nl.po: Some fixes for initscripts nl.po
+
+2006-08-02  José Nuno Coelho Sanarra Pires  <jncp+fedora@netcabo.pt>
+
+	* po/pt.po: Removed untranslated/fuzzy on initscripts
+
+2006-08-02  Ankitkumar Rameshchandra Patel  <ankit@redhat.com>
+
+	* po/gu.po: Updated Gujarati Translations
+
+2006-08-02  Piotr Drąg  <raven@pmail.pl>
+
+	* po/pl.po: Updated Polish translation
 
 2006-08-01  Bill Nottingham  <notting@redhat.com>
 
@@ -4915,18 +5141,6 @@
 	- determine device type from file first, and from device name as a
 	  fallback
 	- ditto for aliases
-
-2003-06-23  Bill Nottingham  <notting@redhat.com>
-
-	* ChangeLog, initscripts.spec:
-	7.25-1
-
-	* rc.d/rc.local: revert
-
-2003-06-19  Bill Nottingham  <notting@redhat.com>
-
-	* sysconfig/network-scripts/ifup-post:
-	fix DNS punching in the case of other rules for the DNS server (#97686, <martin@zepler.org>)
 
 2003-06-19  Bill Nottingham  <notting@redhat.com>
 
