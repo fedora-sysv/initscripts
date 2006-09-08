@@ -344,7 +344,7 @@ fi
 update_boot_stage RCkernelparam
 sysctl -e -p /etc/sysctl.conf >/dev/null 2>&1
 
-if [ "$CONSOLETYPE" = "vt" -a -x /bin/loadkeys ]; then
+if [ -x /bin/loadkeys ]; then
  KEYTABLE=
  KEYMAP=
  if [ -f /etc/sysconfig/console/default.kmap ]; then
@@ -446,6 +446,15 @@ elif [ -f /.autofsck ]; then
 	[ -f /etc/sysconfig/autofsck ] && . /etc/sysconfig/autofsck
 	if [ "$AUTOFSCK_DEF_CHECK" = "yes" ]; then
 		AUTOFSCK_OPT="$AUTOFSCK_OPT -f"
+	fi
+	if [ -n "$AUTOFSCK_SINGLEUSER" ]; then
+		echo
+		echo $"*** Warning -- the system did not shut down cleanly. "
+		echo $"*** Dropping you to a shell; the system will continue"
+		echo $"*** when you leave the shell."
+		[ -n "$SELINUX_STATE" ] && echo "0" > $selinuxfs/enforce
+		sulogin
+		[ -n "$SELINUX_STATE" ] && echo "1" > $selinuxfs/enforce
 	fi
 	fsckoptions="$AUTOFSCK_OPT $fsckoptions"
 fi
