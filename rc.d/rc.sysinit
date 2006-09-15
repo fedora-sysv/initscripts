@@ -314,6 +314,17 @@ fi
 
 touch /dev/.in_sysinit >/dev/null 2>&1
 
+# Set default affinity
+if [ -x /bin/taskset ]; then
+   if strstr "$cmdline" default_affinity= ; then
+     for arg in $cmdline ; do
+         if [ "${arg##default_affinity=}" != "${arg}" ]; then
+             /bin/taskset -p ${arg##default_affinity=} 1
+         fi
+     done
+   fi
+fi
+
 nashpid=$(pidof nash 2>/dev/null)
 [ -n "$nashpid" ] && kill $nashpid >/dev/null 2>&1
 unset nashpid
