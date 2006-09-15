@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.39
+Version: 8.40
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -194,6 +194,15 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Sep 15 2006 Bill Nottingham <notting@redhat.com> 8.40-1
+- translation updates
+- rename_device: use '__tmpXXXX' instead of 'devXXXX' as a temporary device
+  name to avoid any realistic namespace clashes
+- rc.sysinit: set default affinity if specified on commandline (#203359)
+- always pass path to '.' (#206035)
+- run setsysfont, loadkeys always when /dev/tty{0,1} exist (#150769)
+- allow going to a shell when system is shut down cleanly (from <dwalsh@redhat.com>)
+
 * Tue Sep  5 2006 Bill Nottingham <notting@redhat.com> 8.39-1
 - translation updates
 - Handle partitions on multipath/dmraid better (<pjones@redhat.com>)
