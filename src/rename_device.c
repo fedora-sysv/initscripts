@@ -258,7 +258,7 @@ void rename_device(char *src, char *target, struct netdev *current) {
 			}
 		}
 		if (!dev)
-			asprintf(&dev,"dev%d",rand());
+			asprintf(&dev,"__tmp%d",rand());
 		if (!dev)
 			return;
 		tmpdev = calloc(1,sizeof(struct netdev));
