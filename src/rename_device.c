@@ -333,6 +333,7 @@ int main(int argc, char **argv) {
 	
 	rename_device(src, target, NULL);
 	printf("INTERFACE=%s\n",target);
+	printf("DEVPATH=/class/net/%s\n", target);
 out_unlock:
 	unlink(LOCKFILE);
 	exit(0);
