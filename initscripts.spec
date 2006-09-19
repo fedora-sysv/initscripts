@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.40
+Version: 8.41
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -194,6 +194,12 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Sep 19 2006 Bill Nottingham <notting@redhat.com> 8.41-1
+- fix network ipv6 hang (#207137, others)
+- rc.sysinit: change blkid.tab path to /etc/blkid/blkid.tab
+- rename_device: reset DEVPATH also when renaming (#206884, <phil@fifi.org>)
+- sysconfig.txt: clarify onboot/onparent usage
+
 * Fri Sep 15 2006 Bill Nottingham <notting@redhat.com> 8.40-1
 - translation updates
 - rename_device: use '__tmpXXXX' instead of 'devXXXX' as a temporary device
