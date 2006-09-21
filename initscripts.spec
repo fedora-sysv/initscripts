@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.41
+Version: 8.42
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -194,6 +194,11 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Sep 21 2006 Bill Nottingham <notting@redhat.com> 8.42-1
+- run rc.sysinit, /etc/rc in monitor mode (part of #184340)
+- use a better check for 'native' services (#190989, #110761, adapted
+  from <matthias@rpmforge.net>)
+  
 * Tue Sep 19 2006 Bill Nottingham <notting@redhat.com> 8.41-1
 - fix network ipv6 hang (#207137, others)
 - rc.sysinit: change blkid.tab path to /etc/blkid/blkid.tab
