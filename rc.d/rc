@@ -80,7 +80,7 @@ for i in /etc/rc$runlevel.d/S* ; do
 		export LC_ALL=C
 		exec $i start
 	fi
-	if LC_ALL=C egrep -q "^..*init.d/functions" $i ; then
+	if LC_ALL=C egrep -q "^..*init.d/functions" $i \
 			|| [ "$subsys" = "single" -o "$subsys" = "local" ]; then
 		$i start
 	else
