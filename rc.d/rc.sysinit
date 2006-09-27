@@ -559,7 +559,7 @@ if [ "$READONLY" = "yes" ]; then
 	# Use the network address to set the hostname of the client.  This
 	# must be done even if we have local storage.
 	ipaddr=
-	if [ "$HOSTNAME" = "localhost" ]; then
+	if [ "$HOSTNAME" = "localhost" -o "$HOSTNAME" = "localhost.localdomain" ]; then
 		ipaddr=$(ip addr show to 0/0 scope global | awk '/[[:space:]]inet / { print gensub("/.*","","g",$2) }')
 		if [ -n "$ipaddr" ]; then
 			eval $(ipcalc -h $ipaddr 2>/dev/null)
