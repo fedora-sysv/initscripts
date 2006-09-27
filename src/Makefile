@@ -27,6 +27,7 @@ install:
 	install -m 755 ppp-watch $(ROOT)/sbin/ppp-watch
 	install -m 755 consoletype $(ROOT)/sbin/consoletype
 	install -m 755 rename_device $(ROOT)/lib/udev/rename_device
+	install -m 755 ccw_init $(ROOT)/lib/udev/ccw_init
 	install -m 644 initlog.1 $(ROOT)$(mandir)/man1
 	install -m 644 genhostid.1 $(ROOT)$(mandir)/man1
 	install -m 644 doexec.1 $(ROOT)$(mandir)/man1

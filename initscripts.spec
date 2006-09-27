@@ -48,7 +48,9 @@ make ROOT=$RPM_BUILD_ROOT SUPERUSER=`id -un` SUPERGROUP=`id -gn` mandir=%{_mandi
 %ifnarch s390 s390x
 rm -f \
  $RPM_BUILD_ROOT/etc/sysconfig/network-scripts/ifup-ctc \
- $RPM_BUILD_ROOT/etc/sysconfig/network-scripts/ifup-iucv
+ $RPM_BUILD_ROOT/etc/sysconfig/network-scripts/ifup-iucv \
+ $RPM_BUILD_ROOT/etc/udev/rules.d/55-ccw.rules \
+ $RPM_BUILD_ROOT/lib/udev/ccw_init
 %else
 rm -f \
  $RPM_BUILD_ROOT/etc/rc.d/rc.sysinit.s390init \
@@ -174,6 +176,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(2755,root,root) /sbin/netreport
 /sbin/initlog
 /lib/udev/rename_device
+%ifarch s390 s390x
+/lib/udev/ccw_init
+%endif
 /sbin/service
 /sbin/ppp-watch
 %{_mandir}/man*/*

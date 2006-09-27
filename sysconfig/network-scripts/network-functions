@@ -26,6 +26,12 @@ get_config_by_hwaddr ()
 	| LC_ALL=C sed -e "$__sed_discard_ignored_files"
 }
 
+get_config_by_subchannel ()
+{
+    LANG=C grep -il "^[[:space:]]*SUBCHANNELS=${1}\([[:space:]#]\|$\|,\)" /etc/sysconfig/network-scripts/ifcfg-* \
+	| LC_ALL=C sed -e "$__sed_discard_ignored_files"
+}
+
 get_device_by_hwaddr ()
 {
     LANG=C ip -o link | grep -v link/ieee802.11 | awk -F ': ' -vIGNORECASE=1 "/$1/ { print \$2 }"
@@ -227,9 +233,6 @@ END {
     modprobe $1 > /dev/null 2>&1 || {
       return 1
     }
-    # if it is a mainframe ccwgroup device, configure it before
-    # trying to rename it:
-    configure_ccwgroup_device
     if [ -n "$HWADDR" ]; then
        local curdev=`get_device_by_hwaddr "$HWADDR"`
        if [ -z "$curdev" ]; then
@@ -385,34 +388,6 @@ is_bonding_device ()
    [ "${TYPE}" = "Bonding" ] && return 0
    ethtool -i $1 2>/dev/null | grep -q "driver: bonding" && return 0
    return 1
-}
-
-# Mainframe devices:
-configure_ccwgroup_device ()
-{
-    local DIR SYSDIR
-    # SUBCHANNELS is only set on mainframe ccwgroup devices
-    [ -z "$SUBCHANNELS" -o -z "$NETTYPE" ] && return
-    DIR="/sys/bus/ccwgroup/drivers/$NETTYPE"
-    SYSDIR="$DIR/${SUBCHANNELS//,*/}"
-    [ ! -e $DIR/group ] && return
-    echo "$SUBCHANNELS" > $DIR/group
-    if [ -n "$PORTNAME" ]; then
-         if [ "$NETTYPE" = "lcs" ]; then
-		[ -e $SYSDIR/portno ] && echo "$PORTNAME" > $SYSDIR/portno
-	 else
-		[ -e $SYSDIR/portname ] && echo "$PORTNAME" > $SYSDIR/portname
-	 fi
-    fi
-    if [ "$NETTYPE" = "ctc" -a -n "$CTCPROT" ]; then
-         echo "$CTCPROT" > $SYSDIR/protocol
-    fi
-    if [ -n "$OPTIONS" ]; then
-         for i in $OPTIONS; do
-               echo "${i//*=/}" > "$SYSDIR/${i//=*/}"
-         done
-    fi
-    [ -e $SYSDIR/online ] && echo 1 > $SYSDIR/online
 }
 
 # Invoke this when /etc/resolv.conf has changed:

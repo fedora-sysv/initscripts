@@ -1,0 +1,42 @@
+#!/bin/bash
+
+[ -z "$DEVPATH" ] && exit 0
+[ "$SUBSYSTEM" != "ccw" ] && exit 0
+
+. /etc/init.d/functions
+
+. /etc/sysconfig/network-scripts/network-functions
+
+# First, determine our channel
+
+CHANNEL=${DEVPATH##*/}
+
+CONFIG=$(get_config_by_subchannel $CHANNEL)
+
+cd /etc/sysconfig/network-scripts
+
+source_config 
+
+# SUBCHANNELS is only set on mainframe ccwgroup devices
+[ -z "$SUBCHANNELS" -o -z "$NETTYPE" ] && return
+DIR="/sys/bus/ccwgroup/drivers/$NETTYPE"
+SYSDIR="$DIR/${SUBCHANNELS//,*/}"
+[ ! -e $DIR/group ] && return
+echo "$SUBCHANNELS" > $DIR/group
+if [ -n "$PORTNAME" ]; then
+	if [ "$NETTYPE" = "lcs" ]; then
+		[ -e $SYSDIR/portno ] && echo "$PORTNAME" > $SYSDIR/portno
+	else
+		[ -e $SYSDIR/portname ] && echo "$PORTNAME" > $SYSDIR/portname
+	fi
+fi
+if [ "$NETTYPE" = "ctc" -a -n "$CTCPROT" ]; then
+	echo "$CTCPROT" > $SYSDIR/protocol
+fi
+if [ -n "$OPTIONS" ]; then
+         
+	for i in $OPTIONS; do
+		echo "${i//*=/}" > "$SYSDIR/${i//=*/}"
+	done
+fi
+[ -e $SYSDIR/online ] && echo 1 > $SYSDIR/online
