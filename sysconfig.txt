@@ -427,19 +427,17 @@ Files in /etc/sysconfig
 
   The above variables are used in /etc/profile.d/lang.sh.
 
-  SYSFONT= any font that is legal when used as
-	/usr/bin/consolechars -f $SYSFONT ...
-    (See console-tools package for consolechars command)
+  SYSFONT= Console font. Fonts are found in /lib/kbd/consolefonts.
 
-  UNIMAP= any SFM (screen font map, formerly called Unicode mapping
-    table - see consolechars(8))
-	/usr/bin/consolechars -f $SYSFONT --sfm $UNIMAP
+  UNIMAP= Unicode font map. Most fonts have these built-in. Font maps
+  can be found in /lib/kbd/unimaps. These are applied via setfont's
+  -u option.
  
-  SYSFONTACM= any ACM (application charset map - see consolechars(8))
-        /usr/bin/consolechars -f $SYSFONT --acm $SYSFONTACM
+  SYSFONTACM= Console map. These are applied via setfont's -m option,
+  and are found in /lib/kbd/consoletrans.
  
-  The above is used by the /sbin/setsysfont command (which is run
-  by rc.sysinit at boot time.)
+  The above are used by the /sbin/setsysfont command (which is run
+  by rc.sysinit at boot time.) For more information, see setfont(8).
 
 Files in /etc/sysconfig/network-scripts/
 ========================================
