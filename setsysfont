@@ -12,6 +12,11 @@ case "$LANG" in
       	    exec unicode_start $SYSFONT $SYSFONTACM
 	 fi
 	 ;;
+    *)
+	if /sbin/consoletype fg ; then
+		exec unicode_stop
+	fi
+	;;
 esac
 
 if [ -x /bin/setfont ]; then
