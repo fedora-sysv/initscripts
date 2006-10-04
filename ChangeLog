@@ -14,6 +14,14 @@
 
 	* rc.d/rc.sysinit: redirect stderr (#209204)
 
+	* rc.d/rc.sysinit: Fix mismerged patch from 8.43-1:
+	
+	Also check for localhost.localdomain when resetting
+	the hostname for stateless clients.
+	Remove explicit mount of $STATE_MOUNT/.files.
+	Copy the puppet CA's certificate from the r/o image into $STATE_MOUNT.
+	(#206331, <law@redhat.com>)
+
 2006-10-03  Bill Nottingham  <notting@redhat.com>
 
 	* rwtab: fix iscsi take 2 (#208864)
@@ -69,11 +77,6 @@
 
 	* sysconfig.txt: clarify font options (#206106)
 
-	* rc.d/rc.sysinit: Also check for localhost.localdomain when resetting
-	the hostname for stateless clients.
-	Remove explicit mount of $STATE_MOUNT/.files.
-	Copy the puppet CA's certificate from the r/o image into $STATE_MOUNT.
-	(#206331, <law@redhat.com>)
 
 2006-09-26  Dimitris Glezos  <dimitris@glezos.com>
 

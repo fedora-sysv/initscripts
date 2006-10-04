@@ -208,6 +208,7 @@ rm -rf $RPM_BUILD_ROOT
 - rc.sysinit: redirect stderr from setsysfont (#209204, indirectly)
 - rwtab: fix iscsi file location (#208864)
 - translation updates: el, da, as, or
+- fix stateless updates (#206331, <law@redhat.com>)
 
 * Wed Sep 27 2006 Bill Nottingham <notting@redhat.com> 8.43-1
 - move ccwgroup initialization to a udev rule (should fix #199139,

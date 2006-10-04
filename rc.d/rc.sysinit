@@ -591,14 +591,15 @@ if [ "$READONLY" = "yes" -o "$TEMPORARY_STATE" = "yes" ]; then
 		# state on an NFS server.
 
 		mount -t nfs $CLIENTSTATE/$HOSTNAME $STATE_MOUNT -o rw,nolock
-		if [ -d $STATE_MOUNT/etc ]; then
-			touch $STATE_MOUNT/files
-			mount -t nfs $CLIENTSTATE/files $STATE_MOUNT/files -o rw,nolock
-		fi
-
 	fi
 
 	if [ -d $STATE_MOUNT/etc ]; then
+		# Copy the puppet CA's cert from the r/o image into the
+		# state directory so that we can create a bind mount on
+		# the ssl directory for storing the client cert.  I'd really
+		# rather have a unionfs to deal with this stuff
+		cp --parents -f -p /var/lib/puppet/ssl/certs/ca.pem $STATE_MOUNT 2>/dev/null
+
 		# In the future this will be handled by puppet
 		for i in $(grep -v "^#" $STATE_MOUNT/files); do
 			if [ -e $i ]; then
