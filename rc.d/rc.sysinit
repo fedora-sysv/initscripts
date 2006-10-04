@@ -376,7 +376,11 @@ if [ -x /bin/loadkeys ]; then
   else
     echo -n $"Loading default keymap: "
   fi
-  loadkeys -u $KEYMAP < /dev/tty0 > /dev/tty0 2>/dev/null && \
+  LOADKEYS=loadkeys
+  if [ "${LANG}" != "${LANG%%.UTF-8}" -o "${LANG}" != "${LANG%%.utf8}" ]; then
+  	LOADKEYS="loadkeys -u"
+  fi
+  $LOADKEYS $KEYMAP < /dev/tty0 > /dev/tty0 2>/dev/null && \
      success $"Loading default keymap" || failure $"Loading default keymap"
   echo
  fi
@@ -490,7 +494,7 @@ if strstr "$cmdline" noreadonlyroot ; then
 	READONLY=no
 fi
 
-if [ "$READONLY" = "yes" ]; then
+if [ "$READONLY" = "yes" -o "$TEMPORARY_STATE" = "yes" ]; then
 
 	mount_empty() {
 		if [ -e "$1" ]; then
@@ -582,7 +586,7 @@ if [ "$READONLY" = "yes" ]; then
 		/bin/true
 	elif [ x$state_mount_dev != x ] && mount $state_mount_dev $mountopts "$STATE_MOUNT" > /dev/null 2>&1;  then
 		/bin/true
-	else
+	elif [ -n "$CLIENTSTATE" ]; then
 		# No local storage was found.  Make a final attempt to find 
 		# state on an NFS server.
 
