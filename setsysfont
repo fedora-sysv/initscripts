@@ -14,7 +14,8 @@ case "$LANG" in
 	 ;;
     *)
 	if /sbin/consoletype fg ; then
-		exec unicode_stop
+		# no exec, unicode_stop does not set a font
+	        unicode_stop
 	fi
 	;;
 esac
