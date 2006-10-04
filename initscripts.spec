@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.43
+Version: 8.44
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -199,6 +199,16 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Oct  4 2006 Bill Nottingham <notting@redhat.com> 8.44-1
+- separate tmpfs-usage for state from readonly-root
+- set keymap correctly in non-utf8 locale (#167363)
+- setsysfont: run unicode_stop if in non-unicode locale
+- lang.csh/lang.sh: set iutf8 if appropriate (#186961)
+- lang.csh/lang.sh: handle non-utf8 locales correctly (#200100)
+- rc.sysinit: redirect stderr from setsysfont (#209204, indirectly)
+- rwtab: fix iscsi file location (#208864)
+- translation updates: el, da, as, or
+
 * Wed Sep 27 2006 Bill Nottingham <notting@redhat.com> 8.43-1
 - move ccwgroup initialization to a udev rule (should fix #199139,
   #199655, #169161)
