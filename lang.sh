@@ -63,9 +63,6 @@ if [ "$sourced" = 1 ]; then
     if [ -n "$LANG" ]; then
       case $LANG in
     	*.utf8*|*.UTF-8*)
-	if [ "$consoletype" = "vt" -o "$consoletype" = "pty" ]; then
-	    stty iutf8
-	fi
     	if [ "$TERM" = "linux" ]; then
     	    if [ "$consoletype" = "vt" ]; then
 		[ -x /bin/unicode_start ] && /sbin/consoletype fg && /bin/unicode_start $SYSFONT $SYSFONTACM
@@ -73,9 +70,6 @@ if [ "$sourced" = 1 ]; then
         fi
 	;;
 	*)
-	if [ "$consoletype" = "vt" -o "$consoletype" = "pty" ]; then
-	    stty -iutf8
-	fi
 	if [ "$TERM" = "linux" ]; then
 	    if [ "$consoletype" = "vt" ]; then
 	    	[ -x /bin/unicode_stop ] && /sbin/consoletype fg && /bin/unicode_stop

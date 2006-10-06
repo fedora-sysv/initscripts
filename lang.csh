@@ -68,9 +68,6 @@ if ($sourced == 1) then
         switch ($LANG)
 	    case *.utf8*:
 	    case *.UTF-8*:
-	        if ( "$consoletype" == "vt" || "$consoletype" == "pty" ) then
-	            stty iutf8
-		endif
 		if ( $?TERM ) then
 		    if ( "$TERM" == "linux" ) then
 			if ( "$consoletype" == "vt" ) then
@@ -90,9 +87,6 @@ if ($sourced == 1) then
 		endif
 		breaksw
 	    case *:
-	        if ( "$consoletype" == "vt" || "$consoletype" == "pty" ) then
-	            stty -iutf8
-		endif
 		if ( $?TERM ) then
 		    if ( "$TERM" == "linux" ) then
 			if ( "$consoletype" == "vt" ) then
