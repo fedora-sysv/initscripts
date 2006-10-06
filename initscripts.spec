@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.44
+Version: 8.45
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -199,6 +199,11 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Oct  6 2006 Bill Nottingham <notting@redhat.com> 8.45-1
+- lang.csh/lang.sh - do *not* stty iutf8; too much chaos with SIGTTOU
+  (reverts: #186961; fixes #209469)
+- translation updates: ms
+
 * Wed Oct  4 2006 Bill Nottingham <notting@redhat.com> 8.44-1
 - separate tmpfs-usage for state from readonly-root
 - set keymap correctly in non-utf8 locale (#167363)
