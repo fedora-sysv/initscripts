@@ -169,6 +169,7 @@ if [ -n "${DYNCONFIG}" -a -x /sbin/dhclient ]; then
     # copy any lease obtained by the initrd
     if [ -f /dev/.dhclient-${DEVICE}.leases ] ; then
     	mv -f /dev/.dhclient-${DEVICE}.leases /var/lib/dhclient/dhclient-${DEVICE}.leases
+	[ -x /sbin/restorecon ] && restorecon /var/lib/dhclient/dhclient-${DEVICE}.leases > /dev/null 2>&1
     fi
     DHCLIENTARGS="${DHCLIENTARGS} ${ONESHOT} -q ${DHCLIENTCONF} -lf /var/lib/dhclient/dhclient-${DEVICE}.leases -pf /var/run/dhclient-${DEVICE}.pid"
     echo
