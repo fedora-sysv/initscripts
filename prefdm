@@ -27,40 +27,12 @@ fi
 
 shopt -s execfail
 
-# If we're in early-login mode and something is running, bail out
-if grep -q early-login /proc/cmdline 2> /dev/null ; then
-	if [ -n "$preferred" ]; then
-		pidof $preferred >/dev/null 2>&1 && exit 0
-	fi
-	pidof gdm-binary >/dev/null 2>&1 && exit 0
-	pidof kdm >/dev/null 2>&1 && exit 0
-	pidof xdm >/dev/null 2>&1 && exit 0
-fi
-
-if [ -n "$preferred" ]; then
-	$preferred "$@" >/dev/null 2>&1
-	if [ $? -ne 127 ]; then
-		exec $0 "$@"
-		exit $?
-	fi
-fi
+[ -n "$preferred" ] && exec $preferred "$@" >/dev/null 2>&1
 
 # Fallbacks, in order
-gdm "$@" >/dev/null 2>&1
-if [ $? -ne 127 ]; then
-	exec $0 "$@"
-	exit $?
-fi
-kdm "$@" >/dev/null 2>&1
-if [ $? -ne 127 ]; then
-	exec $0 "$@"
-	exit $?
-fi
-xdm "$@" >/dev/null 2>&1
-if [ $? -ne 127 ]; then
-	exec $0 "$@"
-	exit $?
-fi
+exec gdm "$@" >/dev/null 2>&1
+exec kdm "$@" >/dev/null 2>&1
+exec xdm "$@" >/dev/null 2>&1
 
 # catch all exit error
 exit 1
