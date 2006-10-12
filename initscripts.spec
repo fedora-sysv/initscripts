@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.45.2
+Version: 8.45.3
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -201,7 +201,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Wed Oct 11 2006 Bill Nottingham <notting@redhat.com> 8.45.2-1
 - Handle "nodmraid" and "nompath" command line options (#209377, <pjones@redhat.com>)
-- translation updates: da, fi, zh_CN
+- translation updates: da, fi, zh_CN, ja
 
 * Mon Oct  9 2006 Bill Nottingham <notting@redhat.com> 8.45.1-1
 - restorecon on moved dhclient lease file (#209853)
