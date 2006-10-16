@@ -30,7 +30,7 @@ install:
 	install -m644  crypttab.5 $(ROOT)$(mandir)/man5
 	install -m644  service.8 sys-unconfig.8 $(ROOT)$(mandir)/man8
 	install -m644 sysctl.conf $(ROOT)/etc/sysctl.conf
-	if [ -f sysctl.conf.$(ARCH) ]; then
+	if [ -f sysctl.conf.$(ARCH) ]; then \
 	  install -m644 sysctl.conf.$(ARCH) $(ROOT)/etc/sysctl.conf ; fi
 
 	mkdir -p $(ROOT)/etc/X11
