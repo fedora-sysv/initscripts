@@ -6,6 +6,8 @@ VERSION=$(shell awk '/Version:/ { print $$2 }' initscripts.spec)
 CVSTAG = r$(subst .,-,$(VERSION))
 CVSROOT = $(shell cat CVS/Root)
 
+ARCH = $(shell uname -m)
+
 mandir=/usr/share/man
 
 all:
@@ -28,10 +30,8 @@ install:
 	install -m644  crypttab.5 $(ROOT)$(mandir)/man5
 	install -m644  service.8 sys-unconfig.8 $(ROOT)$(mandir)/man8
 	install -m644 sysctl.conf $(ROOT)/etc/sysctl.conf
-	if uname -m | grep -q sparc ; then \
-	  install -m644 sysctl.conf.sparc $(ROOT)/etc/sysctl.conf ; fi
-	if uname -m | grep -q s390 ; then \
-	  install -m644 sysctl.conf.s390 $(ROOT)/etc/sysctl.conf ; fi
+	if [ -f sysctl.conf.$(ARCH) ]; then
+	  install -m644 sysctl.conf.$(ARCH) $(ROOT)/etc/sysctl.conf ; fi
 
 	mkdir -p $(ROOT)/etc/X11
 	install -m755 prefdm $(ROOT)/etc/X11/prefdm
