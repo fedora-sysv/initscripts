@@ -69,6 +69,11 @@ chmod 600 /var/log/btmp
 /sbin/chkconfig --add netfs
 /sbin/chkconfig --add network
 
+# Handle converting prefdm back to respawn
+if fgrep -q "x:5:once:/etc/X11/prefdm -nodaemon" /etc/inittab ; then
+    sed --in-place=.rpmsave 's|^x:5:once:/etc/X11/prefdm -nodaemon|x:5:respawn:/etc/X11/prefdm -nodaemon|g' /etc/inittab
+fi
+
 %preun
 if [ $1 = 0 ]; then
   /sbin/chkconfig --del netfs
