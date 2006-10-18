@@ -96,7 +96,7 @@ if [ -d "/sys/class/net/${REALDEVICE}" ]; then
 	fi
 	
 	if [ "${SLAVE}" = "yes" -a -n "${MASTER}" ]; then
-		/sbin/ifenslave -d ${MASTER} ${DEVICE} 2>/dev/null
+		echo "-${DEVICE}" > /sys/class/net/${MASTER}/bonding/slaves 2>/dev/null
 	fi
 
 	if [ "${REALDEVICE}" = "${DEVICE}" ]; then

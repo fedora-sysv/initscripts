@@ -97,13 +97,9 @@ if [ -n "${BRIDGE}" -a -x /usr/sbin/brctl ]; then
 fi 
 
 # slave device?
-if [ "${SLAVE}" = yes -a "${ISALIAS}" = no -a "${MASTER}" != "" -a \
-     -x /sbin/ifenslave ]; then
-    RFLAG="" ; [ "${RECEIVEONLY}" = yes ] && RFLAG="-r"
-
+if [ "${SLAVE}" = yes -a "${ISALIAS}" = no -a "${MASTER}" != "" ]; then
     /sbin/ip link set dev ${DEVICE} down
-    echo $"Enslaving ${DEVICE} to ${MASTER}"
-    ifenslave ${RFLAG} "${MASTER}" "${DEVICE}" >/dev/null 2>&1
+    echo "+${DEVICE}" > /sys/class/net/${MASTER}/bonding/slaves 2>/dev/null
 
     if [ -n "$ETHTOOL_OPTS" ] ; then
         /sbin/ethtool -s ${REALDEVICE} $ETHTOOL_OPTS
@@ -115,7 +111,16 @@ fi
 # Bonding initialization. For DHCP, we need to enslave the devices early,
 # so it can actually get an IP.
 if [ "$ISALIAS" = no ] && is_bonding_device ${DEVICE} ; then
+
     /sbin/ip link set dev ${DEVICE} down
+
+    # add the bits to setup driver parameters here
+    for arg in $BONDING_OPTS ; do   
+        key=${arg%%=*};
+        value=${arg##*=};
+        echo $value > /sys/class/net/${DEVICE}/bonding/$key
+    done
+
     /sbin/ip link set dev ${DEVICE} up
     [ -n "${LINKDELAY}" ] && /bin/sleep ${LINKDELAY}
     if [ "$BOOTPROTO" = "dhcp" ]; then
@@ -283,7 +288,7 @@ if is_bonding_device ${DEVICE} ; then
 	if [ "$BOOTPROTO" = "dhcp" ]; then
 		DEV=$DEVICE
 		(. $device
-		ifenslave -d $DEV $DEVICE
+		echo "-${DEVICE}" > /sys/class/net/${DEV}/bonding/slaves 2>/dev/null
 		)
 	fi
 	/sbin/ifup ${device##*/}
