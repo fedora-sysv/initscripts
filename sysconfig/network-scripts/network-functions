@@ -240,6 +240,11 @@ END {
        fi
        rename_device "$1" "$HWADDR" "$curdev"
     fi
+
+    if [ ${alias} == "bonding" ]; then
+	install_bonding_driver $1
+    fi
+
     LC_ALL= LANG= ip -o link | grep -q $1
     return $?
 }
@@ -381,6 +386,14 @@ is_wireless_device ()
     [ -x /sbin/iwconfig ] || return 1
     LC_ALL=C iwconfig $1 2>&1 | grep -q "no wireless extensions" || return 0
     return 1
+}
+
+install_bonding_driver ()
+{
+   ethtool -i $1 2>/dev/null | grep -q "driver: bonding" && return 0
+   [ ! -f /sys/class/net/bonding_masters ] && modprobe bonding || return 1
+   echo "+$1" > /sys/class/net/bonding_masters
+   return 0
 }
 
 is_bonding_device ()
