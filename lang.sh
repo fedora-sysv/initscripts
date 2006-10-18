@@ -65,6 +65,13 @@ if [ "$sourced" = 1 ]; then
     	*.utf8*|*.UTF-8*)
     	if [ "$TERM" = "linux" ]; then
     	    if [ "$consoletype" = "vt" ]; then
+    	    	case $LANG in 
+    	    		ja*) LANG=en_US.UTF-8 ;;
+    	    		ko*) LANG=en_US.UTF-8 ;;
+    	    		zh*) LANG=en_US.UTF-8 ;;
+    	    		en_IN*) ;;
+    	    		*_IN*) LANG=en_US.UTF-8 ;;
+    	    	esac
 		[ -x /bin/unicode_start ] && /sbin/consoletype fg && /bin/unicode_start $SYSFONT $SYSFONTACM
             fi
         fi
@@ -72,6 +79,13 @@ if [ "$sourced" = 1 ]; then
 	*)
 	if [ "$TERM" = "linux" ]; then
 	    if [ "$consoletype" = "vt" ]; then
+    	    	case $LANG in 
+    	    		ja*) LANG=en_US ;;
+    	    		ko*) LANG=en_US ;;
+    	    		zh*) LANG=en_US ;;
+    	    		en_IN*) ;;
+    	    		*_IN*) LANG=en_US ;;
+    	    	esac
 	    	[ -x /bin/unicode_stop ] && /sbin/consoletype fg && /bin/unicode_stop
 	    fi
 	fi

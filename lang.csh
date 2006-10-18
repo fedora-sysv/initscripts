@@ -71,6 +71,16 @@ if ($sourced == 1) then
 		if ( $?TERM ) then
 		    if ( "$TERM" == "linux" ) then
 			if ( "$consoletype" == "vt" ) then
+			    switch ($LANG)
+			    	case en_IN*:
+			    		breaksw
+			    	case ja*:
+			    	case ko*:
+			    	case zh*:
+			    	case *_IN*:
+			    		setenv LANG en_US.UTF-8
+			    		breaksw
+			    endsw
 			    if ( -x /bin/unicode_start ) then
 			      if { /sbin/consoletype fg } then
 			        if ( $?SYSFONT ) then
@@ -90,6 +100,16 @@ if ($sourced == 1) then
 		if ( $?TERM ) then
 		    if ( "$TERM" == "linux" ) then
 			if ( "$consoletype" == "vt" ) then
+			    switch ($LANG)
+			    	case en_IN*:
+			    		breaksw
+			    	case ja*:
+			    	case ko*:
+			    	case zh*:
+			    	case *_IN*:
+			    		setenv LANG en_US
+			    		breaksw
+			    endsw
 			    if ( -x /bin/unicode_stop ) then
 			      if { /sbin/consoletype fg } then
 				/bin/unicode_stop
