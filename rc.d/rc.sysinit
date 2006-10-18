@@ -433,14 +433,14 @@ if [ -c /dev/mapper/control ]; then
 		fi
 	fi
 	
-	if ! strstr "$cmdline" nodmraid && [ -x /sbin/dmraid ]; then
+	if ! strstr "$cmdline" nodmraid && [ -x /sbin/dmraid.static ]; then
 		modprobe dm-mirror >/dev/null 2>&1
-		for x in $(/sbin/dmraid -ay -i -p -t 2>/dev/null | \
+		for x in $(/sbin/dmraid.static -ay -i -p -t 2>/dev/null | \
 				egrep -iv "^no " | \
 				awk -F ':' '{ print $1 }') ; do
 			dmname=$(resolve_dm_name $x)
 			[ -n "$dmname" ] && continue
-			/sbin/dmraid -ay -i -p "$dmname" >/dev/null 2>&1
+			/sbin/dmraid.static -ay -i -p "$dmname" >/dev/null 2>&1
 			/sbin/kpartx -a -p p "/dev/mapper/$dmname"
 		done
 	fi
