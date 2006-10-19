@@ -123,12 +123,10 @@ if [ "$ISALIAS" = no ] && is_bonding_device ${DEVICE} ; then
 
     /sbin/ip link set dev ${DEVICE} up
     [ -n "${LINKDELAY}" ] && /bin/sleep ${LINKDELAY}
-    if [ "$BOOTPROTO" = "dhcp" ]; then
-	for device in `LANG=C grep -l "^[[:space:]]*MASTER=${DEVICE}" /etc/sysconfig/network-scripts/ifcfg-*` ; do
+    for device in `LANG=C grep -l "^[[:space:]]*MASTER=${DEVICE}" /etc/sysconfig/network-scripts/ifcfg-*` ; do
 	    is_ignored_file "$device" && continue
 	    /sbin/ifup ${device##*/}
-	done
-    fi
+    done
 fi
 
 # this isn't the same as the MAC in the configuration filename.  It is
@@ -204,13 +202,6 @@ else
 	 	/sbin/ethtool -s ${REALDEVICE} $ETHTOOL_OPTS
 	 fi
 	 [ -n "${LINKDELAY}" ] && /bin/sleep ${LINKDELAY}
-	 # Bonding initialization part II
-	 if is_bonding_device ${DEVICE} ; then
-    		for device in `LANG=C grep -l "^[[:space:]]*MASTER=${DEVICE}" /etc/sysconfig/network-scripts/ifcfg-*` ; do
-			is_ignored_file "$device" && continue
-			/sbin/ifup ${device##*/}
-    		done
-	 fi
 
 	 if [ "${NETWORKING_IPV6}" = "yes" ]; then
 	    /etc/sysconfig/network-scripts/ifup-ipv6 ${CONFIG}
@@ -278,21 +269,6 @@ else
 		${SRC} ${WINDOW:+window $WINDOW} dev ${REALDEVICE}
 	fi
     fi
-fi
-
-# Bonding initialization part II - for static, enslave the devices. For
-# DHCP, remove any routes for the slaves.
-if is_bonding_device ${DEVICE} ; then
-    for device in `LANG=C grep -l "^[[:space:]]*MASTER=${DEVICE}" /etc/sysconfig/network-scripts/ifcfg-*` ; do
-	is_ignored_file "$device" && continue
-	if [ "$BOOTPROTO" = "dhcp" ]; then
-		DEV=$DEVICE
-		(. $device
-		echo "-${DEVICE}" > /sys/class/net/${DEV}/bonding/slaves 2>/dev/null
-		)
-	fi
-	/sbin/ifup ${device##*/}
-    done
 fi
 
 # Add Zeroconf route.
