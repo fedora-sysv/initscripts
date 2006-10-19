@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.45.3.EL
+Version: 8.45.4.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -193,6 +193,11 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Oct 19 2006 Bill Nottingham <notting@redhat.com> 8.45.4.EL-1
+- don't set CJKI as the language on virtual consoles (#209579)
+- use dmraid.static in rc.sysinit (#211297)
+- use sysfs interface for bonding, so multiple bonds work again (#202443, <agospoda@redhat.com>)
+
 * Mon Oct 16 2006 Bill Nottingham <notting@redhat.com> 8.45.3.EL-1
 - remove early-login code
 - Handle "nodmraid" and "nompath" command line options (#209377, <pjones@redhat.com>)
