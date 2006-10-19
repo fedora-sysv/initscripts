@@ -12,20 +12,15 @@ case "$LANG" in
       	    exec unicode_start $SYSFONT $SYSFONTACM
 	 fi
 	 ;;
+    *)
+	if /sbin/consoletype fg ; then
+		# no exec, unicode_stop does not set a font
+	        unicode_stop
+	fi
+	;;
 esac
 
-if [ -x /bin/consolechars -o -x /usr/bin/consolechars ]; then
-  if [ -n "$SYSFONT" ]; then
-    ARGS=$SYSFONT
-    if [ -n "$UNIMAP" ]; then
-       ARGS="$ARGS --sfm $UNIMAP"
-    fi
-    if [ -n "$SYSFONTACM" ]; then
-       ARGS="$ARGS --acm $SYSFONTACM"
-    fi
-    consolechars -f $ARGS
-  fi
-elif [ -x /bin/setfont ]; then
+if [ -x /bin/setfont ]; then
   if [ -n "$UNIMAP" ]; then
     ARGS="-u $UNIMAP"
   fi

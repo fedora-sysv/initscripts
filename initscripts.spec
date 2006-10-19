@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.31.5
+Version: 8.31.6
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -209,6 +209,12 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Oct 19 2006 Bill Nottingham <notting@redhat.com> 8.31.6-1
+- Backport locale fixes from HEAD:
+  - handle non-UTF-8 locales correctly (#209423, #167363, #200100)
+  - runsetsysfont, loadkeys always when /dev/tty{0,1} exist (#150769)
+- rc.sysinit: catch more dmraid errors (#200683)
+
 * Fri Jul  7 2006 Bill Nottingham <notting@redhat.com> 8.31.5-1
 - backport cups startup fix (#189168)
 

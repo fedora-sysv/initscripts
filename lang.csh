@@ -25,6 +25,8 @@ if ($sourced == 1) then
             unsetenv LC_ALL
         endif
     endif
+    
+    set consoletype=`/sbin/consoletype`
 
     if ($?CHARSET) then
         switch ($CHARSET)
@@ -36,7 +38,7 @@ if ($sourced == 1) then
             case latin2*:
                 if ( $?TERM ) then
                     if ( "$TERM" == "linux" ) then
-                        if ( `/sbin/consoletype` == "vt" ) then
+                        if ( "$consoletype" == "vt" ) then
                             /bin/echo -n -e '\033(K' >/dev/tty
                         endif
                     endif
@@ -54,7 +56,7 @@ if ($sourced == 1) then
 	    case latin2-ucw*:
 	        if ( $?TERM ) then
 		    if ( "$TERM" == "linux" ) then
-		        if ( `/sbin/consoletype` == "vt" ) then
+		        if ( "$consoletype" == "vt" ) then
 			    /bin/echo -n -e '\033(K' > /dev/tty
 		        endif
 		    endif
@@ -68,7 +70,7 @@ if ($sourced == 1) then
 	    case *.UTF-8*:
 		if ( $?TERM ) then
 		    if ( "$TERM" == "linux" ) then
-			if ( `/sbin/consoletype` == "vt" ) then
+			if ( "$consoletype" == "vt" ) then
 			    if ( -x /bin/unicode_start ) then
 			      if { /sbin/consoletype fg } then
 			        if ( $?SYSFONT ) then
@@ -78,6 +80,19 @@ if ($sourced == 1) then
 			            unicode_start $SYSFONT
 			          endif
 			        endif
+			      endif
+			    endif
+			endif
+		    endif
+		endif
+		breaksw
+	    case *:
+		if ( $?TERM ) then
+		    if ( "$TERM" == "linux" ) then
+			if ( "$consoletype" == "vt" ) then
+			    if ( -x /bin/unicode_stop ) then
+			      if { /sbin/consoletype fg } then
+				/bin/unicode_stop
 			      endif
 			    endif
 			endif

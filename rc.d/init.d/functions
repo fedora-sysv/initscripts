@@ -493,7 +493,7 @@ resolve_dm_name() {
 (
     name="$1"
 
-    line=$(/sbin/dmraid -ay -t --ignorelocking | egrep -iv "no block devices found|No RAID disks" | awk -F ':' "{ if (\$1 ~ /^$name$/) { print \$2; }}")
+    line=$(/sbin/dmraid -ay -t --ignorelocking | egrep -iv "^[nN]o " | awk -F ':' "{ if (\$1 ~ /^$name$/) { print \$2; }}")
     newline=$line
     for x in $line ; do
         if [[ "$x" =~ "^/dev/" ]] ; then

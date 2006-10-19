@@ -77,8 +77,8 @@ relabel_selinux() {
     fi
 }
 
-if [ "$CONSOLETYPE" = "vt" -a -x /sbin/setsysfont ]; then
-   /sbin/setsysfont
+if [ -x /sbin/setsysfont -a -c /dev/tty1 ]; then
+   /sbin/setsysfont < /dev/tty1 > /dev/tty1 2>/dev/null
 fi
 
 # Print a text banner.
@@ -193,7 +193,7 @@ fi
 update_boot_stage RCkernelparam
 sysctl -e -p /etc/sysctl.conf >/dev/null 2>&1
 
-if [ "$CONSOLETYPE" = "vt" -a -x /bin/loadkeys ]; then
+if [ -x /bin/loadkeys ]; then
  KEYTABLE=
  KEYMAP=
  if [ -f /etc/sysconfig/console/default.kmap ]; then
@@ -212,7 +212,11 @@ if [ "$CONSOLETYPE" = "vt" -a -x /bin/loadkeys ]; then
   else
     echo -n $"Loading default keymap: "
   fi
-  loadkeys -u $KEYMAP < /dev/tty0 > /dev/tty0 2>/dev/null && \
+  LOADKEYS=loadkeys
+  if [ "${LANG}" != "${LANG%%.UTF-8}" -o "${LANG}" != "${LANG%%.utf8}" ]; then
+  	LOADKEYS="loadkeys -u"
+  fi
+  $LOADKEYS $KEYMAP < /dev/tty0 > /dev/tty0 2>/dev/null && \
      success $"Loading default keymap" || failure $"Loading default keymap"
   echo
  fi
@@ -260,7 +264,7 @@ if [ -c /dev/mapper/control ]; then
 	
 	if [ -x /sbin/dmraid ]; then
 		modprobe dm-mirror >/dev/null 2>&1
-		for x in $(/sbin/dmraid -ay -t --ignorelocking 2>/dev/null | egrep -iv "no block devices found|No RAID disks" | awk -F ':' '{ print $1 }') ; do
+		for x in $(/sbin/dmraid -ay -t --ignorelocking 2>/dev/null | egrep -iv "^[nN]o " | awk -F ':' '{ print $1 }') ; do
 			dmname=$(resolve_dm_name $x)
 			if [ -z "$dmname" ]; then
 				/sbin/dmraid -ay --ignorelocking "$x"
