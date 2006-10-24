@@ -594,19 +594,35 @@ if [ "$READONLY" = "yes" -o "$TEMPORARY_STATE" = "yes" ]; then
 		mount -t nfs $CLIENTSTATE/$HOSTNAME $STATE_MOUNT -o rw,nolock
 	fi
 
-	if [ -d $STATE_MOUNT/etc ]; then
-		# Copy the puppet CA's cert from the r/o image into the
-		# state directory so that we can create a bind mount on
-		# the ssl directory for storing the client cert.  I'd really
-		# rather have a unionfs to deal with this stuff
-		cp --parents -f -p /var/lib/puppet/ssl/certs/ca.pem $STATE_MOUNT 2>/dev/null
+	if [ -w "$STATE_MOUNT" ]; then
 
-		# In the future this will be handled by puppet
-		for i in $(grep -v "^#" $STATE_MOUNT/files); do
-			if [ -e $i ]; then
-			 	mount -n -o bind $STATE_MOUNT/${i} ${i}
+		mount_state() {
+			if [ -e "$1" ]; then
+				[ ! -e "$STATE_MOUNT$1" ] && cp -a --parents "$1" "$STATE_MOUNT"
+				mount -n --bind "$STATE_MOUNT$1" "$1"
 			fi
- 		done
+		}
+
+		for file in /etc/statetab /etc/statetab.d/* ; do
+			is_ignored_file "$file" && continue
+			[ ! -f "$file" ] && continue
+
+			if [ -f "$STATE_MOUNT/$file" ] ; then
+				mount -n --bind "$STATE_MOUNT/$file" "$file"
+			fi
+
+			for path in $(grep -v "^#" "$file" 2>/dev/null); do
+				mount_state "$path"
+				[ -n "$SELINUX_STATE" -a -e "$path" ] && restorecon -R "$path"
+			done
+		done
+
+		if [ -f "$STATE_MOUNT/files" ] ; then
+			for path in $(grep -v "^#" "$STATE_MOUNT/files" 2>/dev/null); do
+				mount_state "$path"
+				[ -n "$SELINUX_STATE" -a -e "$path" ] && restorecon -R "$path"
+			done
+		fi
 	fi
 fi
  
