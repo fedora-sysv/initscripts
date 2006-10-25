@@ -144,6 +144,8 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 /etc/rwtab
 %dir /etc/rwtab.d
+/etc/statetab
+%dir /etc/statetab.d
 /etc/udev/rules.d/*
 %config /etc/X11/prefdm
 %config(noreplace) /etc/inittab
