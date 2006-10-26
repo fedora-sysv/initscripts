@@ -19,21 +19,7 @@ export PATH
 [ -z "${CONSOLETYPE:-}" ] && CONSOLETYPE="`/sbin/consoletype`"
 
 if [ -f /etc/sysconfig/i18n -a -z "${NOLOCALE:-}" ] ; then
-  . /etc/sysconfig/i18n
-  if [ "$CONSOLETYPE" != "pty" ]; then
-	case "${LANG:-}" in
-		ja_JP*|ko_KR*|zh_CN*|zh_TW*|bn_*|bd_*|pa_*|hi_*|ta_*|gu_*)
-			export LC_MESSAGES=en_US
-			export LANG
-			;;
-		*)
-			export LANG
-			;;
-	esac
-  else
-  	[ -n "${LC_MESSAGES:-}" ] && export LC_MESSAGES
-	export LANG
-  fi
+  . /etc/profile.d/lang.sh
 fi
 
 # Read in our configuration
