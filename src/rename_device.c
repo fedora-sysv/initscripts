@@ -80,9 +80,20 @@ struct netdev *get_devs() {
 		}
 		g_free(contents);
 		contents = NULL;
+#if defined(__s390__) || defined(__s390x__)
+		if (asprintf(&path,"/sys/class/net/%s/device",entry->d_name) == -1)
+			continue;
+		char *tmp = canonicalize_file_name(path);
+		if (!tmp)
+			continue;
+		contents = strdup(basename(tmp));
+		printf("found device %s\n",contents);
+		free(tmp);
+#else
 		if (asprintf(&path,"/sys/class/net/%s/address",entry->d_name) == -1)
 			continue;
 		g_file_get_contents(path, &contents, NULL, NULL);
+#endif /* mainframe */
 		if (!contents) continue;
 		contents = g_strstrip(contents);
 		tmpdev = calloc(1, sizeof(struct netdev));
@@ -146,9 +157,19 @@ struct netdev *get_configs() {
 				if (strchr(devname,':'))
 					devname = NULL;
 			}
+#if defined(__s390__) || defined(__s390x__)
+			if (g_str_has_prefix(lines[i],"SUBCHANNELS=")) {
+				char *tmp = lines[i] + 12;
+				hwaddr = tmp;
+				while (*tmp && *tmp != ',') tmp++;
+				*tmp = '\0';
+				printf("got hwaddr %s\n",hwaddr);
+			}
+#else
 			if (g_str_has_prefix(lines[i],"HWADDR=")) {
 				hwaddr = lines[i] + 7;
 			}
+#endif
 		}
 		if (!devname || !hwaddr) {
 			g_free(contents);
