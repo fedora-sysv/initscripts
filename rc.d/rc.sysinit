@@ -490,6 +490,7 @@ fi
 if strstr "$cmdline" readonlyroot ; then
 	READONLY=yes
 	[ -z "$RW_MOUNT" ] && RW_MOUNT=/var/lib/stateless/writable
+	[ -z "$STATE_MOUNT" ] && STATE_MOUNT=/var/lib/stateless/state
 fi
 if strstr "$cmdline" noreadonlyroot ; then
 	READONLY=no

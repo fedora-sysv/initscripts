@@ -17,6 +17,7 @@ install:
 	mkdir -p $(ROOT)$(mandir)/man{5,8}
 	mkdir -p $(ROOT)/etc/rwtab.d $(ROOT)/etc/statetab.d
 	mkdir -p $(ROOT)/var/lib/stateless/writable
+	mkdir -p $(ROOT)/var/lib/stateless/state
 
 	install -m644  inittab adjtime $(ROOT)/etc
 	if uname -m | grep -q s390 ; then \
