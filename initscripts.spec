@@ -193,6 +193,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Oct 27 2006 Bill Nottingham <notting@redhat.com> 8.45.5.EL-1
+- fix handling of undisplayable locales on the console some more (#209579, #212438)
+- use SUBCHANNEL as the primary identifier for s390 networking (#204803)
+
 * Thu Oct 19 2006 Bill Nottingham <notting@redhat.com> 8.45.4.EL-1
 - don't set CJKI as the language on virtual consoles (#209579)
 - use dmraid.static in rc.sysinit (#211297)
