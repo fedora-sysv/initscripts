@@ -33,6 +33,7 @@ if ($sourced == 1) then
             case 8859-1:
             case 8859-2:
             case 8859-5:
+	    case 8859-8:
             case 8859-15:
             case koi*:
             case latin2*:
@@ -51,6 +52,7 @@ if ($sourced == 1) then
 	    case iso01*:
 	    case iso02*:
 	    case iso05*:
+	    case iso08*:
 	    case iso15*:
 	    case koi*:
 	    case latin2-ucw*:
