@@ -45,7 +45,7 @@ if [ "$sourced" = 1 ]; then
 
     if [ -n "$CHARSET" ]; then
 	case $CHARSET in
-	    8859-1|8859-2|8859-5|8859-15|koi*)
+	    8859-1|8859-2|8859-5|8859-8|8859-15|koi*)
                 if [ "$TERM" = "linux" -a "$consoletype" = "vt" ]; then
                        echo -n -e '\033(K' 2>/dev/null > /proc/$$/fd/0
                 fi
@@ -53,7 +53,7 @@ if [ "$sourced" = 1 ]; then
         esac
     elif [ -n "$SYSFONTACM" ]; then
 	case $SYSFONTACM in
-	    iso01*|iso02*|iso05*|iso15*|koi*|latin2-ucw*)
+	    iso01*|iso02*|iso05*|iso08*|iso15*|koi*|latin2-ucw*)
 		if [ "$TERM" = "linux" -a "$consoletype" = "vt" ]; then
 			echo -n -e '\033(K' 2>/dev/null > /proc/$$/fd/0
 		fi
