@@ -53,6 +53,52 @@ struct netdev {
 struct netdev *configs = NULL;
 struct netdev *devs = NULL;
 
+#if defined(__s390__) || defined(__s390x__)
+static int is_cdev(const struct dirent *dent) {
+        char *end = NULL;
+        
+        if (strncmp(dent->d_name,"cdev",4))
+                return 0;
+        strtoul(dent->d_name+4,&end, 10);
+        if (*end)
+                return 0;
+        return 1;
+}
+
+static inline char *getdev(char *path, char *ent) {
+        char *a, *b, *ret;
+        
+        asprintf(&a,"%s/%s",path,ent);
+        b = canonicalize_file_name(a);
+        ret = strdup(basename(b));
+        free(b);
+        free(a);
+        return ret;
+}
+
+char *read_subchannels(char *device) {
+	char *tmp, *path, *ret;
+	int n, x;
+	struct dirent **cdevs;
+		
+	if (asprintf(&path,"/sys/class/net/%s/device",device) == -1)
+		return NULL;
+	if ((n = scandir(path, &cdevs, is_cdev, alphasort)) <= 0)
+		return NULL;
+		
+	ret = getdev(path,cdevs[0]->d_name);
+	for (x = 1 ; x < n ; x++ ) { 
+		if (asprintf(&tmp, "%s,%s", ret, getdev(path, cdevs[x]->d_name)) == -1) 
+			return NULL;
+		free(ret);
+		ret = tmp;
+	}
+	free(path);
+	return ret;
+}
+
+#endif
+
 struct netdev *get_devs() {
 	DIR *dir;
 	struct dirent *entry;
@@ -81,14 +127,7 @@ struct netdev *get_devs() {
 		g_free(contents);
 		contents = NULL;
 #if defined(__s390__) || defined(__s390x__)
-		if (asprintf(&path,"/sys/class/net/%s/device",entry->d_name) == -1)
-			continue;
-		char *tmp = canonicalize_file_name(path);
-		if (!tmp)
-			continue;
-		contents = strdup(basename(tmp));
-		printf("found device %s\n",contents);
-		free(tmp);
+		contents = read_subchannels(entry->d_name);
 #else
 		if (asprintf(&path,"/sys/class/net/%s/address",entry->d_name) == -1)
 			continue;
@@ -159,11 +198,7 @@ struct netdev *get_configs() {
 			}
 #if defined(__s390__) || defined(__s390x__)
 			if (g_str_has_prefix(lines[i],"SUBCHANNELS=")) {
-				char *tmp = lines[i] + 12;
-				hwaddr = tmp;
-				while (*tmp && *tmp != ',') tmp++;
-				*tmp = '\0';
-				printf("got hwaddr %s\n",hwaddr);
+				hwaddr = lines[i] + 12;
 			}
 #else
 			if (g_str_has_prefix(lines[i],"HWADDR=")) {
