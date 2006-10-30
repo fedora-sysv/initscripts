@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.45.5.EL
+Version: 8.45.6.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -193,6 +193,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Oct 30 2006 Bill Nottingham <notting@redhat.com> 8.45.6.EL-1
+- further refinement of the SUBCHANNELS support (#204803)
+
 * Fri Oct 27 2006 Bill Nottingham <notting@redhat.com> 8.45.5.EL-1
 - fix handling of undisplayable locales on the console some more (#209579, #212438)
 - use SUBCHANNEL as the primary identifier for s390 networking (#204803)
