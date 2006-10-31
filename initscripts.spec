@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.45.3
+Version: 8.45.4
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -199,7 +199,14 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
-* Wed Oct 11 2006 Bill Nottingham <notting@redhat.com> 8.45.2-1
+* Mon Oct 30 2006 Bill Nottingham <notting@redhat.com> 8.45.4-1
+- support iso8859-8 correctly (#212738)
+- blacklist CJKI on the virtual console (#120819)
+- rc.sysinit: use dmraid.static (#211297)
+- fix or_IN and similar locales (#212219)
+- mount tmpfs with -n (#213132)
+
+* Wed Oct 11 2006 Bill Nottingham <notting@redhat.com> 8.45.3-1
 - Handle "nodmraid" and "nompath" command line options (#209377, <pjones@redhat.com>)
 - translation updates: da, fi, zh_CN, ja
 
