@@ -8,7 +8,7 @@ if [ -x /usr/bin/rhgb-client ]; then
 fi
 
 # We need to source this so that the login screens get translated
-[ -f /etc/profile.d/lang.sh ] && . /etc/profile.d/lang.sh
+[ -f /etc/sysconfig/i18n ] && . /etc/sysconfig/i18n
 
 # Run preferred X display manager
 preferred=
@@ -38,7 +38,7 @@ if grep -q early-login /proc/cmdline 2> /dev/null ; then
 fi
 
 if [ -n "$preferred" ]; then
-	$preferred "$@" >/dev/null 2>&1
+	$preferred "$@" >/dev/null 2>&1 </dev/null
 	if [ $? -ne 127 ]; then
 		exec $0 "$@"
 		exit $?
@@ -46,17 +46,17 @@ if [ -n "$preferred" ]; then
 fi
 
 # Fallbacks, in order
-gdm "$@" >/dev/null 2>&1
+gdm "$@" >/dev/null 2>&1 </dev/null
 if [ $? -ne 127 ]; then
 	exec $0 "$@"
 	exit $?
 fi
-kdm "$@" >/dev/null 2>&1
+kdm "$@" >/dev/null 2>&1 </dev/null
 if [ $? -ne 127 ]; then
 	exec $0 "$@"
 	exit $?
 fi
-xdm "$@" >/dev/null 2>&1
+xdm "$@" >/dev/null 2>&1 </dev/null
 if [ $? -ne 127 ]; then
 	exec $0 "$@"
 	exit $?
