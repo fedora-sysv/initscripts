@@ -193,6 +193,8 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+- mount tmpfs with -n (#213132)
+
 * Mon Oct 30 2006 Bill Nottingham <notting@redhat.com> 8.45.6.EL-1
 - further refinement of the SUBCHANNELS support (#204803)
 
