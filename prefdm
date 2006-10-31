@@ -8,7 +8,7 @@ if [ -x /usr/bin/rhgb-client ]; then
 fi
 
 # We need to source this so that the login screens get translated
-[ -f /etc/profile.d/lang.sh ] && . /etc/profile.d/lang.sh
+[ -f /etc/sysconfig/i18n ] && . /etc/sysconfig/i18n
 
 # Run preferred X display manager
 preferred=
@@ -27,12 +27,12 @@ fi
 
 shopt -s execfail
 
-[ -n "$preferred" ] && exec $preferred "$@" >/dev/null 2>&1
+[ -n "$preferred" ] && exec $preferred "$@" >/dev/null 2>&1 </dev/null
 
 # Fallbacks, in order
-exec gdm "$@" >/dev/null 2>&1
-exec kdm "$@" >/dev/null 2>&1
-exec xdm "$@" >/dev/null 2>&1
+exec gdm "$@" >/dev/null 2>&1 </dev/null
+exec kdm "$@" >/dev/null 2>&1 </dev/null
+exec xdm "$@" >/dev/null 2>&1 </dev/null
 
 # catch all exit error
 exit 1
