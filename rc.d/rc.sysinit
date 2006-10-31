@@ -536,7 +536,7 @@ if [ "$READONLY" = "yes" -o "$TEMPORARY_STATE" = "yes" ]; then
 	elif [ x$rw_mount_dev != x ] && mount $rw_mount_dev $mountopts "$RW_MOUNT" > /dev/null 2>&1; then
 		rm -rf "$RW_MOUNT"  > /dev/null 2>&1
 	else
-		mount -t tmpfs $mountopts none "$RW_MOUNT"
+		mount -n -t tmpfs $mountopts none "$RW_MOUNT"
 	fi
 
 	for file in /etc/rwtab /etc/rwtab.d/* ; do
