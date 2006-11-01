@@ -157,7 +157,7 @@ int isCfg(const struct dirent *dent) {
 		return 0;
 	if (dent->d_name[len-1] == '~')
 		return 0;
-	if (!strncmp(dent->d_name+len-5,".bak",4))
+	if (!strncmp(dent->d_name+len-4,".bak",4))
 		return 0;
 	return 1;
 }
