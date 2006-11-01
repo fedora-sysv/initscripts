@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.45.6.EL
+Version: 8.45.7.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -193,6 +193,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Nov  1 2006 Bill Nottingham <notting@redhat.com> 8.45.7.EL-1
+- fix gdm in CJKI (#209579, #213196)
+- rename_device: correctly ignore backup interface files
 - mount tmpfs with -n (#213132)
 
 * Mon Oct 30 2006 Bill Nottingham <notting@redhat.com> 8.45.6.EL-1
