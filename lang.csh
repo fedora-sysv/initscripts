@@ -78,6 +78,7 @@ if ($sourced == 1) then
 			    		breaksw
 			    	case ja*:
 			    	case ko*:
+			    	case si*:
 			    	case zh*:
 			    	case *_IN*:
 			    		setenv LANG en_US.UTF-8
@@ -107,6 +108,7 @@ if ($sourced == 1) then
 			    		breaksw
 			    	case ja*:
 			    	case ko*:
+			    	case si*:
 			    	case zh*:
 			    	case *_IN*:
 			    		setenv LANG en_US
