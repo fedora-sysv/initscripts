@@ -193,6 +193,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Nov  3 2006 Bill Nottingham <notting@redhat.com> 8.45.8.EL-1
+- fix ppc limits (#184820)
+
 * Wed Nov  1 2006 Bill Nottingham <notting@redhat.com> 8.45.7.EL-1
 - fix gdm in CJKI (#209579, #213196)
 - rename_device: correctly ignore backup interface files
