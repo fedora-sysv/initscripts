@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.45.8.EL
+Version: 8.45.9.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -193,8 +193,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
-* Fri Nov  3 2006 Bill Nottingham <notting@redhat.com> 8.45.8.EL-1
+* Fri Nov  3 2006 Bill Nottingham <notting@redhat.com> 8.45.9.EL-1
 - fix ppc limits (#184820)
+- handle sinhalese as well (#212438)
 
 * Wed Nov  1 2006 Bill Nottingham <notting@redhat.com> 8.45.7.EL-1
 - fix gdm in CJKI (#209579, #213196)
