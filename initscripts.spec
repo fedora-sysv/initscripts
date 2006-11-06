@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.46
+Version: 8.47
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -200,6 +200,14 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Nov  6 2006 Bill Nottingham <notting@redhat.com> 8.47-1
+- lang.{sh,csh}: handle sinhalese as well in CJKI clauses (#212438)
+- rc.sysinit: add '--auto=yes' to mdadm invocation (#213671)
+- rename_device: fix incorrect handling of .bak files
+- mount tmpfs with -n (#213132)
+- various SUBCHANNELS related s390 fixage (#204803)
+- lang.{sh,csh}: support iso-8859-8 (#212738, <matan@svgalib.org>)
+
 * Fri Oct 27 2006 Bill Nottingham <notting@redhat.com> 8.46-1
 - ifup-eth: restorecon on moved lease file
 - rc.sysinit: handle "nodmraid" and "nompath" command line options (#209377, <pjones@redhat.com>)
