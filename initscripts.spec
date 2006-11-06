@@ -193,6 +193,8 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+- don't automatically reload modules on module reomvals
+
 * Fri Nov  3 2006 Bill Nottingham <notting@redhat.com> 8.45.9.EL-1
 - fix ppc limits (#184820)
 - handle sinhalese as well (#212438)
