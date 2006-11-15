@@ -158,7 +158,7 @@ spdadd $SPD_DST $SPD_SRC any -P in ipsec
 	    ;
 EOF
 
-if [ "$KEYING" = "automatic" ]; then
+if [ "$KEYING" = "automatic" -a -n "$IKE_METHOD" ]; then
     if [ "$IKE_METHOD" = "PSK" ]; then
        tmpfile=`mktemp /etc/racoon/psk.XXXXXX`
        grep -v "^$DST" /etc/racoon/psk.txt > $tmpfile
@@ -223,9 +223,11 @@ EOF
     grep -v "^include \"/etc/racoon/$DST.conf\";" /etc/racoon/racoon.conf >> $racoontmp
     echo "include \"/etc/racoon/$DST.conf\";" >> $racoontmp
     mv -f $racoontmp /etc/racoon/racoon.conf
-    if pidof -x /usr/sbin/racoon > /dev/null 2>&1 ; then
-        killall -HUP /usr/sbin/racoon
-    else
+fi
+if [ "$KEYING" = "automatic" ]; then
+    if ! pidof -x /usr/sbin/racoon > /dev/null 2>&1 ; then
        /usr/sbin/racoon
+    elif [ -n "$IKE_METHOD" ]; then
+	killall -HUP /usr/sbin/racoon
     fi
 fi

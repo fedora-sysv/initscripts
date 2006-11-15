@@ -76,7 +76,7 @@ ${EXCLUDE_SRCNET:+spddelete $SPD_SRC $SPD_SRC any -P out;}
 ${EXCLUDE_SRCNET:+spddelete $SPD_SRC $SPD_SRC any -P in;}
 EOF
 
-if [ "$KEYING" = "automatic" ]; then
+if [ "$KEYING" = "automatic" -a -n "$IKE_METHOD" ]; then
    racoontmp=`mktemp /etc/racoon/racoon.XXXXXX`
    grep -v "^include \"/etc/racoon/$DST.conf\";" /etc/racoon/racoon.conf >> $racoontmp
    mv -f $racoontmp /etc/racoon/racoon.conf
