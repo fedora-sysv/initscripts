@@ -209,6 +209,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 - setsysfont, rc.sysinit: fix KEYTABLE, setsysfont when serial console is
   present (#150769)
+- netfs: call multipath, kpartx if necessary (#180977)
 
 * Fri Apr 21 2006 Miloslav Trmac <mitr@redhat.com> - 7.93.25.EL-1
 - Document HOTPLUG (#189509)

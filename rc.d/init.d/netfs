@@ -45,8 +45,15 @@ case "$1" in
         [ -n "$NCPFSTAB" ] && action $"Mounting NCP filesystems: " mount -a -t ncpfs
         [ -n "$NETDEVFSTAB" ] &&
 	  {
+	    if [ -f /etc/multipath.conf -a -x /sbin/multipath.static ]; then
+	    	modprobe dm-multipath >/dev/null 2>&1
+		/sbin/multipath.static -v 0
+		if [ -x /sbin/kpartx ]; then
+		       /sbin/dmsetup ls --target multipath --exec "/sbin/kpartx -a"
+		fi
+	    fi
 	    if [ -x /sbin/lvm.static ]; then
-		if /sbin/lvm.static vgscan > /dev/null 1>&1 ; then
+		if /sbin/lvm.static vgscan > /dev/null 2>&1 ; then
 		       action $"Setting up Logical Volume Management:" /sbin/lvm.static vgchange -a y
 		fi
 	    fi
