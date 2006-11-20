@@ -213,6 +213,7 @@ rm -rf $RPM_BUILD_ROOT
 - rc.sysinit: run zfcpconf.sh earlier, so devices are available for LVM usage (#189494)
 - init.d/functions: add configurable delay for killproc (#198468, <jorton@redhat.com>)
 - ifup: support aliases-on-vlan (#193133, <mitr@redhat.com>)
+- rc.sysinit: don't use vgscan, only use vgchange (#191879)
 
 * Fri Apr 21 2006 Miloslav Trmac <mitr@redhat.com> - 7.93.25.EL-1
 - Document HOTPLUG (#189509)

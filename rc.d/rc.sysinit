@@ -512,9 +512,7 @@ if [ -c /dev/mapper/control ]; then
     fi
     
     if [ -x /sbin/lvm.static ]; then
-	if /sbin/lvm.static vgscan --mknodes --ignorelockingfailure > /dev/null 2>&1 ; then
 	    action $"Setting up Logical Volume Management:" /sbin/lvm.static vgchange -a y --ignorelockingfailure
-	fi
     fi
 fi
 
@@ -573,9 +571,7 @@ if [ -f /etc/mdadm.conf ]; then
     		fi
     
 		if [ -x /sbin/lvm.static ]; then
-			if /sbin/lvm.static vgscan > /dev/null 2>&1 ; then 
-				action $"Setting up Logical Volume Management:" /sbin/lvm.static vgscan --mknodes --ignorelockingfailure && /sbin/lvm.static vgchange -a y --ignorelockingfailure
-			fi
+			action $"Setting up Logical Volume Management:" /sbin/lvm.static vgchange -a y --ignorelockingfailure
 		fi
 	fi
 fi
@@ -676,9 +672,7 @@ if [ -f /etc/raidtab ]; then
     		fi
     
 		if [ -x /sbin/lvm.static ]; then
-			if /sbin/lvm.static vgscan > /dev/null 2>&1 ; then 
-				action $"Setting up Logical Volume Management:" /sbin/lvm.static vgscan --mknodes --ignorelockingfailure && /sbin/lvm.static vgchange -a y --ignorelockingfailure
-			fi
+			action $"Setting up Logical Volume Management:" /sbin/lvm.static vgchange -a y --ignorelockingfailure
 		fi
 	fi
     fi
