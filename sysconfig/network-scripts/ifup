@@ -445,7 +445,7 @@ if [ "${TYPE}" =  "Bonding" ] || ethtool -i $DEVICE 2>/dev/null| grep -q "driver
 fi
 
 # Add Zeroconf route.
-if [ -z "${NOZEROCONF}" -a "${ISALIAS}" = "no" ]; then
+if [ -z "${NOZEROCONF}" -a "${ISALIAS}" = "no" -a "${REALDEVICE}" != "lo" ]; then
     ip route replace 169.254.0.0/16 dev ${REALDEVICE} 
 fi
 

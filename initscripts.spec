@@ -217,6 +217,7 @@ rm -rf $RPM_BUILD_ROOT
 - ifdown: run ifenslave -d on bonding devices (#199706)
 - init.d/halt: don't try to unmount network mounts (#200915)
 - ifdown, ifup-aliases: fix static routes for aliases (#202948)
+- ifup: fix actual 169.254 networks (#203591)
 
 * Fri Apr 21 2006 Miloslav Trmac <mitr@redhat.com> - 7.93.25.EL-1
 - Document HOTPLUG (#189509)
