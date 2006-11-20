@@ -211,6 +211,7 @@ rm -rf $RPM_BUILD_ROOT
   present (#150769)
 - netfs: call multipath, kpartx if necessary (#180977)
 - rc.sysinit: run zfcpconf.sh earlier, so devices are available for LVM usage (#189494)
+- init.d/functions: add configurable delay for killproc (#198468, <jorton@redhat.com>)
 
 * Fri Apr 21 2006 Miloslav Trmac <mitr@redhat.com> - 7.93.25.EL-1
 - Document HOTPLUG (#189509)
