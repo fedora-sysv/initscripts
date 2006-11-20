@@ -164,7 +164,7 @@ __umount_loop '$3 ~ /^rpc_pipefs$/ || $3 ~ /^rpc_svc_gss_pipefs$/ {print $2}' \
 
 LANG=C __umount_loop '$2 ~ /^\/$|^\/proc|^\/dev/{next}
 	$3 == "tmpfs" || $3 == "proc" {print $2 ; next}
-	/(loopfs|autofs|sysfs|^none|^\/dev\/ram|^\/dev\/root$)/ {next}
+	/(loopfs|autofs|nfs|cifs|smbfs|ncpfs|sysfs|^none|^\/dev\/ram|^\/dev\/root$)/ {next}
 	{print $2}' /proc/mounts \
 	$"Unmounting file systems: " \
 	$"Unmounting file systems (retry): " \
