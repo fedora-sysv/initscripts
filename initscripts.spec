@@ -215,6 +215,7 @@ rm -rf $RPM_BUILD_ROOT
 - ifup: support aliases-on-vlan (#193133, <mitr@redhat.com>)
 - rc.sysinit: don't use vgscan, only use vgchange (#191879)
 - ifdown: run ifenslave -d on bonding devices (#199706)
+- init.d/halt: don't try to unmount network mounts (#200915)
 
 * Fri Apr 21 2006 Miloslav Trmac <mitr@redhat.com> - 7.93.25.EL-1
 - Document HOTPLUG (#189509)

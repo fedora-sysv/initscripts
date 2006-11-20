@@ -25,7 +25,7 @@ runcmd() {
 halt_get_remaining() {
 	awk '$2 ~ /^\/$|^\/proc|^\/dev/{next}
 	     $3 == "tmpfs" || $3 == "proc" {print $2 ; next}
-	     /(^#|loopfs|autofs|sysfs|devfs|^none|^\/dev\/ram|^\/dev\/root)/ {next}
+	     /(^#|loopfs|autofs|nfs|cifs|smbfs|sysfs|devfs|^none|^\/dev\/ram|^\/dev\/root)/ {next}
 	     {print $2}' /proc/mounts
 }
 
