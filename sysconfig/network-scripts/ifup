@@ -58,9 +58,9 @@ then
 fi
 
 # Ethernet 802.1Q VLAN support
-if [ -x /sbin/vconfig -a "${VLAN}" = "yes" ]; then
+if [ -x /sbin/vconfig -a "${VLAN}" = "yes" -a "$ISALIAS" = "no" ]; then
     VID=""
-    if echo ${DEVICE} | LANG=C egrep -v '(:)' | LANG=C egrep -q '(eth|bond)[0-9][0-9]*\.[0-9][0-9]?[0-9]?[0-9]?'; then
+    if echo ${DEVICE} | LANG=C egrep -q '(eth|bond)[0-9][0-9]*\.[0-9][0-9]?[0-9]?[0-9]?'; then
 	VID="`echo ${DEVICE} | \
 	    LANG=C egrep '(eth|bond)[0-9]+\.[0-9][0-9]?[0-9]?[0-9]?$' | \
 	    LANG=C sed 's/^[a-z0-9]*\.//g;s/^0*//'`"
@@ -228,7 +228,9 @@ fi
 
 # Bonding initialization. For DHCP, we need to enslave the devices early,
 # so it can actually get an IP.
-if [ "${TYPE}" =  "Bonding" ] || ethtool -i $DEVICE 2>/dev/null| grep -q "driver: bonding" ; then
+if [ "$ISALIAS" = no ] && \
+    { [ "${TYPE}" =  "Bonding" ] \
+      || ethtool -i $DEVICE 2>/dev/null | grep -q "driver: bonding"; } then
     /sbin/ip link set dev ${DEVICE} down
     /sbin/ip link set dev ${DEVICE} up
     [ -n "${LINKDELAY}" ] && /bin/sleep ${LINKDELAY}
