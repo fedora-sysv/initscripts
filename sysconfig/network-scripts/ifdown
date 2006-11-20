@@ -71,6 +71,12 @@ if [ -n "${HWADDR}" -a -z "${MACADDR}" ]; then
     fi
 fi
 
+if [ "${TYPE}" =  "Bonding" ] || ethtool -i $DEVICE 2>/dev/null| grep -q "driver: bonding" ; then
+    for device in `LANG=C grep -l "^[[:space:]]*MASTER=${DEVICE}" /etc/sysconfig/network-scripts/ifcfg-*` ; do
+	/sbin/ifdown ${device##*/}
+    done
+fi
+
 if [ "${NETWORKING_IPV6}" = "yes" ]; then
     /etc/sysconfig/network-scripts/ifdown-ipv6 ${CONFIG}
     if [[ "${DHCPV6C}" = [Yy1]* ]] && [ -f /var/run/dhcp6c_${DEVICE}.pid ]; then
@@ -108,6 +114,10 @@ if ! [ "$BOOTPROTO" = bootp -o "$BOOTPROTO" = dhcp ]; then
 		ip addr flush dev ${REALDEVICE} 2>/dev/null
 	else
 		ip addr flush dev ${REALDEVICE} label ${DEVICE} 2>/dev/null
+	fi
+	
+	if [ "${SLAVE}" = "yes" -a -n "${MASTER}" ]; then
+		/sbin/ifenslave -d ${MASTER} ${DEVICE} 2>/dev/null
 	fi
 fi
 

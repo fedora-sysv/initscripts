@@ -214,6 +214,7 @@ rm -rf $RPM_BUILD_ROOT
 - init.d/functions: add configurable delay for killproc (#198468, <jorton@redhat.com>)
 - ifup: support aliases-on-vlan (#193133, <mitr@redhat.com>)
 - rc.sysinit: don't use vgscan, only use vgchange (#191879)
+- ifdown: run ifenslave -d on bonding devices (#199706)
 
 * Fri Apr 21 2006 Miloslav Trmac <mitr@redhat.com> - 7.93.25.EL-1
 - Document HOTPLUG (#189509)
