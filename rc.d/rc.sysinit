@@ -86,9 +86,9 @@ if [ "$HOSTTYPE" != "s390" -a "$HOSTTYPE" != "s390x" ]; then
   fi
 fi
 
-if [ "$CONSOLETYPE" = "vt" -a -x /sbin/setsysfont ]; then
+if [ -x /sbin/setsysfont -a -c /dev/tty1 ]; then
    echo -n "Setting default font ($SYSFONT): "
-   /sbin/setsysfont
+   /sbin/setsysfont < /dev/tty1 > /dev/tty1 2>/dev/null
    if [ $? -eq 0 ]; then
       success
    else
@@ -274,7 +274,7 @@ esac
 
 action $"Setting clock $CLOCKDEF: `date`" date
 
-if [ "$CONSOLETYPE" = "vt" -a -x /bin/loadkeys ]; then
+if [ -x /bin/loadkeys ]; then
  KEYTABLE=
  KEYMAP=
  if [ -f /etc/sysconfig/console/default.kmap ]; then
@@ -294,7 +294,11 @@ if [ "$CONSOLETYPE" = "vt" -a -x /bin/loadkeys ]; then
   else
     echo -n $"Loading default keymap: "
   fi
-  loadkeys $KEYMAP < /dev/tty0 > /dev/tty0 2>/dev/null && \
+  LOADKEYS=loadkeys
+  if [ "${LANG}" != "${LANG%%.UTF-8}" -o "${LANG}" != "${LANG%%.utf8}" ]; then
+    LOADKEYS="loadkeys -u"
+  fi
+  $LOADKEYS $KEYMAP < /dev/tty0 > /dev/tty0 2>/dev/null && \
      success $"Loading default keymap" || failure $"Loading default keymap"
   echo
  fi
