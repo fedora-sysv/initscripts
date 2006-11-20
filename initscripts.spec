@@ -193,6 +193,8 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+- rc.sysinit: fix reversed dmraid test (#216490)
+- translation updates: pa
 - don't automatically reload modules on module reomvals
 
 * Fri Nov  3 2006 Bill Nottingham <notting@redhat.com> 8.45.9.EL-1
