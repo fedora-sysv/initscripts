@@ -439,7 +439,7 @@ if [ -c /dev/mapper/control ]; then
 				egrep -iv "^no " | \
 				awk -F ':' '{ print $1 }') ; do
 			dmname=$(resolve_dm_name $x)
-			[ -n "$dmname" ] && continue
+			[ -z "$dmname" ] && continue
 			/sbin/dmraid.static -ay -i -p "$dmname" >/dev/null 2>&1
 			/sbin/kpartx -a -p p "/dev/mapper/$dmname"
 		done
