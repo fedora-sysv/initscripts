@@ -207,6 +207,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+- setsysfont, rc.sysinit: fix KEYTABLE, setsysfont when serial console is
+  present (#150769)
+
 * Fri Apr 21 2006 Miloslav Trmac <mitr@redhat.com> - 7.93.25.EL-1
 - Document HOTPLUG (#189509)
 - Prevent activation of network interfaces by hotplug during bootup (#183706)
