@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.45.5
+Version: 8.45.6
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -199,6 +199,13 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+- network-functions-ipv6: more fixes for network module unload (#211474)
+
+* Mon Nov 20 2006 Bill Nottingham <notting@redhat.com> 8.45.6-1
+- lang.{sh,csh}: handle sinhalese as well in CJKI clauses (#212438)
+- network-functions: fix is_bonding_device to not reload network modules on ifdown
+- rc.sysinit: fix dmraid test (#216334)
+
 * Wed Nov  1 2006 Bill Nottingham <notting@redhat.com> 8.45.5-1
 - fix gdm in CJKI (#209579, #213196)
 - rename_device: correctly ignore backup interface files

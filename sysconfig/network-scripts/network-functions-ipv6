@@ -840,7 +840,7 @@ ipv6_test_device_status() {
 	fi
 
 	# Test if device exists
-	if ! ipv6_exec_ip link show dev $device >/dev/null 2>&1; then
+	if [ ! -d "/sys/class/net/${device}" ]; then
 		# not exists
 		return 10
 	fi
