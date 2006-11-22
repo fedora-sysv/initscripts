@@ -195,7 +195,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 - rc.sysinit: fix reversed dmraid test (#216490)
 - translation updates: pa
-- don't automatically reload modules on module reomvals
+- don't automatically reload modules on module reomvals (#211474)
 
 * Fri Nov  3 2006 Bill Nottingham <notting@redhat.com> 8.45.9.EL-1
 - fix ppc limits (#184820)
