@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.45.6
+Version: 8.45.7
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -199,6 +199,8 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Nov 28 2006 Bill Nottingham <notting@redhat.com> 8.45.7-1
+- add a step to rename any temporarily renamed devices (#208740, #214817)
 - network-functions-ipv6: more fixes for network module unload (#211474)
 
 * Mon Nov 20 2006 Bill Nottingham <notting@redhat.com> 8.45.6-1
