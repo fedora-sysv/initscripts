@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.45.9.EL
+Version: 8.45.10.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -193,8 +193,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Nov 28 2006 Bill Nottingham <notting@redhat.com> 8.45.10.EL-1
+- add a step to rename any temporarily renamed devices (#208740, #204803, #214817)
 - rc.sysinit: fix reversed dmraid test (#216490)
-- translation updates: pa
+- translation updates (#216097)
 - don't automatically reload modules on module reomvals (#211474)
 
 * Fri Nov  3 2006 Bill Nottingham <notting@redhat.com> 8.45.9.EL-1
