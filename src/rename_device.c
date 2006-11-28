@@ -29,6 +29,7 @@
 #include <unistd.h>
 
 #include <sys/ioctl.h>
+#include <sys/time.h>
 #include <sys/types.h>
 
 #include <linux/sockios.h>
@@ -50,8 +51,15 @@ struct netdev {
 	struct netdev *next;
 };
 
+struct tmp {
+	char *src;
+	char *target;
+	struct tmp *next;
+};
+
 struct netdev *configs = NULL;
 struct netdev *devs = NULL;
+struct tmp *tmplist = NULL;
 
 #if defined(__s390__) || defined(__s390x__)
 static int is_cdev(const struct dirent *dent) {
@@ -294,6 +302,7 @@ void rename_device(char *src, char *target, struct netdev *current) {
 		char *curdev;
 		char *dev = NULL;
 		struct netdev *i, *tmpdev;
+		char *fallback = NULL;
 		
 		hw = get_hwaddr(target);
 		if (!hw) {
@@ -309,14 +318,25 @@ void rename_device(char *src, char *target, struct netdev *current) {
 		if (nconfig) {
 			dev = nconfig;
 			for (i = current; i; i = i->next) {
-				if (!strcmp(i->dev,dev))
+				if (!strcmp(i->dev,dev)) {
+					fallback = dev;
 					dev = NULL;
+				}
 			}
 		}
 		if (!dev)
 			asprintf(&dev,"__tmp%d",rand());
 		if (!dev)
 			return;
+		if (fallback) {
+			struct tmp *ntmp = calloc(1, sizeof(struct tmp));
+			
+			ntmp->src = strdup(dev);
+			ntmp->target = strdup(fallback);
+			if (tmplist)
+				ntmp->next = tmplist;
+			tmplist = ntmp;
+		}
 		tmpdev = calloc(1,sizeof(struct netdev));
 		tmpdev->dev = curdev;
 		if (current)
@@ -364,7 +384,11 @@ void take_lock() {
 
 int main(int argc, char **argv) {
 	char *src, *target, *hw;
-		
+	struct tmp *tmpdev;
+	struct timeval tv;
+
+	gettimeofday(&tv, NULL);
+	srand(tv.tv_usec);	
 	take_lock();
 	
 	signal(SIGSEGV,sighandler);
@@ -388,6 +412,9 @@ int main(int argc, char **argv) {
 		goto out_unlock;
 	
 	rename_device(src, target, NULL);
+	for (tmpdev = tmplist; tmpdev ; tmpdev = tmpdev->next) {
+		rename_device(tmpdev->src, tmpdev->target, NULL);
+	}
 	printf("INTERFACE=%s\n",target);
 	printf("DEVPATH=/class/net/%s\n", target);
 out_unlock:
