@@ -6,6 +6,7 @@ VERSION=$(shell awk '/Version:/ { print $$2 }' initscripts.spec)
 CVSTAG = r$(subst .,-,$(VERSION))
 CVSROOT = $(shell cat CVS/Root)
 
+
 mandir=/usr/share/man
 
 all:
@@ -119,7 +120,7 @@ check:
 	done
 
 changelog:
-	@rcs2log -h redhat.com -r -b -r "-d>$(head -1 ChangeLog | awk '{ print $1 }')" > changenew
+	rcs2log -h redhat.com -r -b -r "-d>`awk '{ print $$1 ; exit }' ChangeLog `" > changenew
 	 mv ChangeLog ChangeLog.old
 	 cat changenew ChangeLog.old > ChangeLog
 	 rm -f changenew
