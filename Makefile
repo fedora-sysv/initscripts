@@ -119,8 +119,7 @@ check:
 	done
 
 changelog:
-	@rcs2log | sed "s|@.*redhat\.com|@redhat.com|" | sed "s|@.*redhat\.de|@redhat.com|" | sed "s|@redhat\.de|@redhat.com|" | sed "s|@@|@|" | \
-	 sed "s|/usr/local/CVS/initscripts/||g" | sed "s|/cvs/rhl/initscripts/||g" > changenew
+	@rcs2log -h redhat.com -r -b -r "-d>$(head -1 ChangeLog | awk '{ print $1 }')" > changenew
 	 mv ChangeLog ChangeLog.old
 	 cat changenew ChangeLog.old > ChangeLog
 	 rm -f changenew
