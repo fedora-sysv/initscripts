@@ -198,6 +198,7 @@ rm -rf $RPM_BUILD_ROOT
 - rc.sysinit: fix reversed dmraid test (#216490)
 - translation updates (#216097)
 - don't automatically reload modules on module reomvals (#211474)
+- don't unmount network file systems (#217625)
 
 * Fri Nov  3 2006 Bill Nottingham <notting@redhat.com> 8.45.9.EL-1
 - fix ppc limits (#184820)
