@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.45.10.EL
+Version: 8.45.11.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -193,6 +193,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Dec  1 2006 Bill Nottingham <notting@redhat.com> 8.45.11.EL-1
+- translation updates: bn, fr, hi, ko, ml, te, zh_CN, zh_TW (#216097)
+
 * Tue Nov 28 2006 Bill Nottingham <notting@redhat.com> 8.45.10.EL-1
 - add a step to rename any temporarily renamed devices (#208740, #204803, #214817)
 - rc.sysinit: fix reversed dmraid test (#216490)
