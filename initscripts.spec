@@ -199,6 +199,8 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+- set MACADDR, MTU before initializing slave devices (#218792)
+
 * Tue Nov 28 2006 Bill Nottingham <notting@redhat.com> 8.45.7-1
 - add a step to rename any temporarily renamed devices (#208740, #214817)
 - network-functions-ipv6: more fixes for network module unload (#211474)
