@@ -96,16 +96,6 @@ if [ -n "${BRIDGE}" -a -x /usr/sbin/brctl ]; then
       exit 0
 fi 
 
-# this isn't the same as the MAC in the configuration filename.  It is
-# available as a configuration option in the config file, forcing the kernel
-# to think an ethernet card has a different MAC address than it really has.
-if [ -n "${MACADDR}" ]; then
-   ip link set dev ${DEVICE} address ${MACADDR}
-fi
-if [ -n "${MTU}" ]; then
-   ip link set dev ${DEVICE} mtu ${MTU}
-fi
-
 # slave device?
 if [ "${SLAVE}" = yes -a "${ISALIAS}" = no -a "${MASTER}" != "" ]; then
     /sbin/ip link set dev ${DEVICE} down
@@ -137,6 +127,16 @@ if [ "$ISALIAS" = no ] && is_bonding_device ${DEVICE} ; then
 	    is_ignored_file "$device" && continue
 	    /sbin/ifup ${device##*/}
     done
+fi
+
+# this isn't the same as the MAC in the configuration filename.  It is
+# available as a configuration option in the config file, forcing the kernel
+# to think an ethernet card has a different MAC address than it really has.
+if [ -n "${MACADDR}" ]; then
+   ip link set dev ${DEVICE} address ${MACADDR}
+fi
+if [ -n "${MTU}" ]; then
+   ip link set dev ${DEVICE} mtu ${MTU}
 fi
 
 		     
