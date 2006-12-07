@@ -193,6 +193,8 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+- set MACADDR, MTU before initializing slave devices (#218792)
+
 * Fri Dec  1 2006 Bill Nottingham <notting@redhat.com> 8.45.11.EL-1
 - translation updates: bn, fr, hi, ko, ml, te, zh_CN, zh_TW (#216097)
 
