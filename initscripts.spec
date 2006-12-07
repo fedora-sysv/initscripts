@@ -207,6 +207,7 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+- network-functions: source config before calling configure_ccwgroup_device (#199139)
 - setsysfont, rc.sysinit: fix KEYTABLE, setsysfont when serial console is
   present (#150769)
 - netfs: call multipath, kpartx if necessary (#180977)

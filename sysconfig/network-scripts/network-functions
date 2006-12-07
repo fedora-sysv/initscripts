@@ -193,6 +193,8 @@ is_available ()
     echo "$HOTPLUG"  > /proc/sys/kernel/hotplug
     # if it is a mainframe ccwgroup device, configure it before
     # trying to rename it:
+    need_config ${1}
+    source_config
     configure_ccwgroup_device
     if [ -n "$HWADDR" ]; then
        local curdev=`ip -o link | awk -F ':' -vIGNORECASE=1 "/$HWADDR/ { print \\$2 }"`
