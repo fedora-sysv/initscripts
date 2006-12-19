@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.48
+Version: 8.49
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -200,6 +200,11 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Dec 19 2006 Bill Nottingham <notting@redhat.com> 8.49-1
+- rc.sysinit: remove raidautorn (#219226)
+- ifup-eth: set MACADDR, MTU before initializing bonding slaves, etc (#218792)
+- translation updates: mr, ms, hi, te, ml
+
 * Tue Nov 28 2006 Bill Nottingham <notting@redhat.com> 8.48-1
 - add a step to rename any temporarily renamed devices (#208740, #214817)
 - make sure network modules don't get accidentally reloaded (#211474)
