@@ -401,7 +401,6 @@ fi
 
 # RAID setup
 update_boot_stage RCraid
-[ -x /sbin/nash ] && echo "raidautorun /dev/md0" | nash --quiet
 if [ -f /etc/mdadm.conf ]; then
     /sbin/mdadm -A -s --auto=yes
 fi
