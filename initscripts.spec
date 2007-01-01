@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.93.25.EL
+Version: 7.93.26.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -207,18 +207,30 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
-- network-functions: source config before calling configure_ccwgroup_device (#199139)
+* Tue Jan  2 2007 Miloslav Trmac <mitr@redhat.com> - 7.93.26.EL-1
+- network-functions: source config before calling configure_ccwgroup_device
+  Resolves: #199139
 - setsysfont, rc.sysinit: fix KEYTABLE, setsysfont when serial console is
-  present (#150769)
-- netfs: call multipath, kpartx if necessary (#180977)
-- rc.sysinit: run zfcpconf.sh earlier, so devices are available for LVM usage (#189494)
-- init.d/functions: add configurable delay for killproc (#198468, <jorton@redhat.com>)
-- ifup: support aliases-on-vlan (#193133, <mitr@redhat.com>)
-- rc.sysinit: don't use vgscan, only use vgchange (#191879)
-- ifdown: run ifenslave -d on bonding devices (#199706)
-- init.d/halt: don't try to unmount network mounts (#200915)
-- ifdown, ifup-aliases: fix static routes for aliases (#202948)
-- ifup: fix actual 169.254 networks (#203591)
+  present
+  Resolves: #150769
+- netfs: call multipath, kpartx if necessary
+  Resolves: #180977
+- rc.sysinit: run zfcpconf.sh earlier, so devices are available for LVM usage
+  Resolves: #189494
+- init.d/functions: add configurable delay for killproc (<jorton@redhat.com>)
+  Resolves: #198468
+- ifup: support aliases-on-vlan
+  Resolves: #193133
+- rc.sysinit: don't use vgscan, only use vgchange
+  Resolves: #191879
+- ifdown: run ifenslave -d on bonding devices
+  Resolves: #199706
+- init.d/halt: don't try to unmount network mounts
+  Resolves: #200915
+- ifdown, ifup-aliases: fix static routes for aliases
+  Resolves: #202948
+- ifup: fix actual 169.254 networks
+  Resolves: #203591
 
 * Fri Apr 21 2006 Miloslav Trmac <mitr@redhat.com> - 7.93.25.EL-1
 - Document HOTPLUG (#189509)
