@@ -37,6 +37,7 @@ fi
 # Check to make sure the device is actually up
 check_device_down ${DEVICE} && [ "$BOOTPROTO" != "dhcp" -a "$BOOTPROTO" != "bootp" ] && [ -n "$VLAN" -a "$VLAN" != "yes" ] && exit 0
 
+if [ "${SLAVE}" != "yes" -o -z "${MASTER}" ]; then
 if [ -n "${HWADDR}" -a -z "${MACADDR}" ]; then
     FOUNDMACADDR=`get_hwaddr ${REALDEVICE}`
     if [ -n "${FOUNDMACADDR}" -a "${FOUNDMACADDR}" != "${HWADDR}" ]; then
@@ -48,6 +49,7 @@ if [ -n "${HWADDR}" -a -z "${MACADDR}" ]; then
 	   exit 1
 	fi
     fi
+fi
 fi
 
 if is_bonding_device ${DEVICE} ; then

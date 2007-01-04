@@ -201,6 +201,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 - add bridging docs (#221412, <markmc@redhat.com>)
+- release bonding slaves properly (#220525)
 
 * Tue Dec 19 2006 Bill Nottingham <notting@redhat.com> 8.49-1
 - rc.sysinit: remove raidautorn (#219226)
