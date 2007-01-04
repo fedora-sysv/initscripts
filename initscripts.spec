@@ -200,6 +200,8 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+- add bridging docs (#221412, <markmc@redhat.com>)
+
 * Tue Dec 19 2006 Bill Nottingham <notting@redhat.com> 8.49-1
 - rc.sysinit: remove raidautorn (#219226)
 - ifup-eth: set MACADDR, MTU before initializing bonding slaves, etc (#218792)
