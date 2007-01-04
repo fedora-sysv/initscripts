@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.45.12.EL
+Version: 8.45.13.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -193,6 +193,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Jan  4 2007 Bill Nottingham <notting@redhat.com> 8.45.13.EL-1
+- release bonding slaves properly (#220525)
+
 * Thu Dec 14 2006 Bill Nottingham <notting@redhat.com> 8.45.12.EL-1
 - translation updates: ml, mr, zh_CN, zh_TW (#216097)
 
