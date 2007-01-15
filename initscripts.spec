@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.45.13.EL
+Version: 8.45.14.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -193,6 +193,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Jan 15 2007 Bill Nottingham <notting@redhat.com> 8.45.14.EL-1
+- set MACADDR, if specfied, before bringing up bonding master/slaves (#218792)
+
 * Thu Jan  4 2007 Bill Nottingham <notting@redhat.com> 8.45.13.EL-1
 - release bonding slaves properly (#220525)
 
