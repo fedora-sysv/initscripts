@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.93.26.EL
+Version: 7.93.27.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -207,6 +207,11 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Jan 15 2007 Miloslav Trmac <mitr@redhat.com> - 7.93.27.EL-1
+- Do unmount network mounts, not doing so can prevent other unmounting other
+  filesystems
+  Reverts: #200915
+
 * Tue Jan  2 2007 Miloslav Trmac <mitr@redhat.com> - 7.93.26.EL-1
 - network-functions: source config before calling configure_ccwgroup_device
   Resolves: #199139
