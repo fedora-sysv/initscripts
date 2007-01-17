@@ -16,6 +16,7 @@ install:
 	mkdir -p $(ROOT)/etc/profile.d $(ROOT)/sbin $(ROOT)/usr/sbin
 	mkdir -p $(ROOT)$(mandir)/man{5,8}
 	mkdir -p $(ROOT)/etc/rwtab.d $(ROOT)/var/lib/stateless/writable
+	mkdir -p $(ROOT)/etc/modprobe.d
 
 	install -m644  inittab adjtime $(ROOT)/etc
 	if uname -m | grep -q s390 ; then \
@@ -35,6 +36,8 @@ install:
 
 	mkdir -p $(ROOT)/etc/X11
 	install -m755 prefdm $(ROOT)/etc/X11/prefdm
+	
+	install -m644 ipv6.mod $(ROOT)/etc/modprobe.d/ipv6
 
 	cp -af rc.d sysconfig ppp udev $(ROOT)/etc
 	mkdir -p $(ROOT)/etc/ppp/peers
