@@ -201,9 +201,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 - fix ifup-post when lookup fails (#220318, <hiroshi.fujishima+redhat@gmail.com>)
-
 - add bridging docs (#221412, <markmc@redhat.com>)
 - release bonding slaves properly (#220525)
+- remove NETWORKING_IPV6; to disable, use a modprobe rule
 
 * Tue Dec 19 2006 Bill Nottingham <notting@redhat.com> 8.49-1
 - rc.sysinit: remove raidautorn (#219226)

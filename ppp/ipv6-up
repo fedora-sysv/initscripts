@@ -23,7 +23,6 @@
 # Version: 2006-08-02
 #
 # Uses following information from "/etc/sysconfig/network":
-#  NETWORKING_IPV6=yes|no: controls IPv6 initialization (global setting)
 #  IPV6_DEFAULTDEV=<device>: controls default route (optional)
 #
 # Uses following information from "/etc/sysconfig/network-scripts/ifcfg-$1":
@@ -53,9 +52,6 @@ source_config
 
 # Test whether IPv6 configuration is enabled for this interface, else stop
 [ "$IPV6INIT" = "yes" ] || exit 0
-
-# Test whether IPv6 should be configured, else stop
-[ "${NETWORKING_IPV6}" = "yes" ] || exit 0
 
 [ -f /etc/sysconfig/network-scripts/network-functions-ipv6 ] || exit 1
 . /etc/sysconfig/network-scripts/network-functions-ipv6

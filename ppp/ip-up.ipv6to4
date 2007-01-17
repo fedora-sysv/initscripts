@@ -20,9 +20,6 @@
 # Note: this script will *kill* older still existing 6to4 tunnels regardless
 #        whether they were set before by another device
 #
-# Uses following information from /etc/sysconfig/network:
-#  NETWORKING_IPV6=yes|no: controls IPv6 initialization (global setting)
-#
 # Uses following information from /etc/sysconfig/network-scripts/ifcfg-$1:
 #  IPV6TO4INIT=yes|no: controls configuration
 #  IPV6TO4_IPV4ADDR=<IPv4 address>: special local address for 6to4 tunneling (only needed behind a NAT gateway)
@@ -59,9 +56,6 @@ source_config
 # IPv6 don't need aliases anymore, config is skipped
 REALDEVICE=`echo ${DEVICE} | sed 's/:.*//g'`
 [ "$DEVICE" != "$REALDEVICE" ] && exit 0
-
-# Test whether IPv6 should be configured, else stop
-[ "$NETWORKING_IPV6" = "yes" ] || exit 0
 
 if [ ! -f /etc/sysconfig/network-scripts/network-functions-ipv6 ]; then
         exit 1

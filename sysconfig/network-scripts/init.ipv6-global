@@ -20,7 +20,6 @@
 # Called by hooks from /etc/[rc.d/]init.d/network
 #
 # Uses following information from /etc/sysconfig/network:
-#  NETWORKING_IPV6=yes|no: controls global IPv6 initialization (default: no)
 #  IPV6FORWARDING=yes|no: controls global IPv6 forwarding (default: no)
 #  IPV6_AUTOCONF=yes|no: controls global automatic IPv6 configuration
 #   (default: yes if IPV6FORWARDING=no, no if IPV6FORWARDING=yes)
@@ -39,9 +38,6 @@ cd /etc/sysconfig/network-scripts
 # Get action and hook position
 ACTION="$1"
 POSITION="$2"
-
-# Test whether IPv6 should be configured, else stop
-[ "${NETWORKING_IPV6}" = "yes" ] || exit 0
 
 [ -f /etc/sysconfig/network-scripts/network-functions-ipv6 ] || exit 1
 . /etc/sysconfig/network-scripts/network-functions-ipv6

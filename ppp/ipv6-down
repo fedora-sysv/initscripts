@@ -22,9 +22,6 @@
 #
 # Version 2006-08-02
 #
-# Uses following information from /etc/sysconfig/network:
-#  NETWORKING_IPV6=yes|no: controls IPv6 initialization (global setting)
-#
 # Uses following information from /etc/sysconfig/network-scripts/ifcfg-$1:
 #  IPV6INIT=yes|no: controls IPv6 configuration for this interface
 #
@@ -45,9 +42,6 @@ cd /etc/sysconfig/network-scripts
 CONFIG=$LOGDEVICE
 [ -f "$CONFIG" ] || CONFIG=ifcfg-$CONFIG
 source_config
-
-# Test whether IPv6 should be configured, else stop
-[ "${NETWORKING_IPV6}" = "yes" ] || exit 0
 
 [ -f /etc/sysconfig/network-scripts/network-functions-ipv6 ] || exit 1
 . /etc/sysconfig/network-scripts/network-functions-ipv6

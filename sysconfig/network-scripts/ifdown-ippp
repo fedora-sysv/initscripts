@@ -16,9 +16,7 @@ if [ -f /var/lock/subsys/ibod ] ; then
 fi
 
 # Shut down IPv6
-if [ "${NETWORKING_IPV6}" = "yes" ]; then
-    /etc/sysconfig/network-scripts/ifdown-ipv6 $CONFIG
-fi
+/etc/sysconfig/network-scripts/ifdown-ipv6 $CONFIG
 
 # shutdown isdn device
 isdnctrl hangup $DEVICE >/dev/null 2>&1

@@ -54,10 +54,8 @@ interfaces=$(ls ifcfg* | \
 case "$1" in
   start)
 	# IPv6 hook (pre IPv4 start)
-	if [ "$NETWORKING_IPV6" = "yes" ]; then
-		if [ -x /etc/sysconfig/network-scripts/init.ipv6-global ]; then
-			/etc/sysconfig/network-scripts/init.ipv6-global start pre
-		fi
+	if [ -x /etc/sysconfig/network-scripts/init.ipv6-global ]; then
+		/etc/sysconfig/network-scripts/init.ipv6-global start pre
 	fi
   
 	sysctl -e -p /etc/sysctl.conf >/dev/null 2>&1
@@ -156,10 +154,8 @@ case "$1" in
 	fi    
 
  	# IPv6 hook (post IPv4 start)
- 	if [ "$NETWORKING_IPV6" = "yes" ]; then
- 		if [ -x /etc/sysconfig/network-scripts/init.ipv6-global ]; then
- 			/etc/sysconfig/network-scripts/init.ipv6-global start post
- 		fi
+ 	if [ -x /etc/sysconfig/network-scripts/init.ipv6-global ]; then
+ 		/etc/sysconfig/network-scripts/init.ipv6-global start post
  	fi
 	# Run this again to catch any interface-specific actions
 	sysctl -e -p /etc/sysctl.conf >/dev/null 2>&1
@@ -190,10 +186,8 @@ case "$1" in
 	fi
 	
  	# IPv6 hook (pre IPv4 stop)
- 	if [ "$NETWORKING_IPV6" = "yes" ]; then
- 		if [ -x /etc/sysconfig/network-scripts/init.ipv6-global ]; then
- 			/etc/sysconfig/network-scripts/init.ipv6-global stop pre
- 		fi
+ 	if [ -x /etc/sysconfig/network-scripts/init.ipv6-global ]; then
+ 		/etc/sysconfig/network-scripts/init.ipv6-global stop pre
  	fi
  
 	vlaninterfaces=""
@@ -264,10 +258,8 @@ case "$1" in
 	fi
 
 	# IPv6 hook (post IPv4 stop)
-	if [ "$NETWORKING_IPV6" = "yes" ]; then
-		if [ -x /etc/sysconfig/network-scripts/init.ipv6-global ]; then
-			/etc/sysconfig/network-scripts/init.ipv6-global stop post
-		fi
+	if [ -x /etc/sysconfig/network-scripts/init.ipv6-global ]; then
+		/etc/sysconfig/network-scripts/init.ipv6-global stop post
 	fi
 	
         rm -f /var/lock/subsys/network

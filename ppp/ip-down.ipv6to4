@@ -21,9 +21,6 @@
 #        was set before by using "ip-up.ipv6to4" comparing IPv4 address
 #        of device with the generated 6to4 prefix
 #
-# Uses following information from /etc/sysconfig/network:
-#  NETWORKING_IPV6=yes|no: controls IPv6 initialization (global setting)
-#
 # Uses following information from /etc/sysconfig/network-scripts/ifcfg-$1:
 #  IPV6TO4INIT=yes|no: controls configuration
 #  IPV6TO4_ROUTING="<device>-<suffix>/<prefix length> ...": information to setup additional interfaces
@@ -53,9 +50,6 @@ source_config
 # IPv6 don't need aliases anymore, config is skipped
 REALDEVICE=`echo ${DEVICE} | sed 's/:.*//g'`
 [ "$DEVICE" != "$REALDEVICE" ] && exit 0
-
-# Test whether IPv6 should be configured, else stop
-[ "$NETWORKING_IPV6" = "yes" ] || exit 0
 
 if [ ! -f /etc/sysconfig/network-scripts/network-functions-ipv6 ]; then
 	exit 1

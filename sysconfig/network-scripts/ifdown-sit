@@ -13,9 +13,6 @@
 #
 # Version 2002-11-01
 #
-# Uses following information from /etc/sysconfig/network:
-#  NETWORKING_IPV6=yes|no: controls IPv6 initialization (global setting)
-#
 # Uses following information from /etc/sysconfig/network-scripts/ifcfg-$1:
 #  DEVICE=<device>
 #
@@ -33,9 +30,6 @@ source_config
 # IPv6 don't need aliases anymore, config is skipped
 REALDEVICE=`echo ${DEVICE} | sed 's/:.*//g'`
 [ "$DEVICE" != "$REALDEVICE" ] && exit 0
-
-# Test whether IPv6 should be configured, else stop
-[ "$NETWORKING_IPV6" = "yes" ] || exit 0
 
 [ -f /etc/sysconfig/network-scripts/network-functions-ipv6 ] || exit 1
 . /etc/sysconfig/network-scripts/network-functions-ipv6

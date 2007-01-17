@@ -192,9 +192,6 @@ Files in /etc/sysconfig
     network has spanning tree running and must wait for STP convergence.
     Default: 0 (no delay)
 
-  NETWORKING_IPV6=yes|no
-    Enable or disable global IPv6 initialization
-    Default: no
   IPV6FORWARDING=yes|no
     Enable or disable global forwarding of incoming IPv6 packets 
     on all interfaces.
@@ -274,6 +271,10 @@ Files in /etc/sysconfig
       a bad idea otherwise. This setting was moved into
       net.ipv4.ip_always_defrag setting in /etc/sysctl.conf. It
       is no longer valid for 2.4 kernels.
+    NETWORKING_IPV6=yes|no
+      Enable or disable global IPv6 initialization
+      
+      To do this properly, add a rule in /etc/modprobe.conf.
 
 /etc/sysconfig/static-routes-ipv6:
   Contains lines of the form:
