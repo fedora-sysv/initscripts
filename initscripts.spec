@@ -1,4 +1,4 @@
-Summary: The inittab file and the /etc/init.d scripts.
+ISummary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
 Version: 8.49
 License: GPL
@@ -200,6 +200,8 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+- fix ifup-post when lookup fails (#220318, <hiroshi.fujishima+redhat@gmail.com>)
+
 - add bridging docs (#221412, <markmc@redhat.com>)
 - release bonding slaves properly (#220525)
 
