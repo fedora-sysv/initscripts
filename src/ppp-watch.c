@@ -664,6 +664,7 @@ main(int argc, char **argv) {
 		     * we have one.  Any errors after this we just swallow. */
 		    relay_exitcode(0);
 		    connectedOnce = TRUE;
+		    alarm(0);
 		}
 		free(physicalDevice);
 	    }

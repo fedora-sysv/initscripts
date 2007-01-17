@@ -200,6 +200,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 - set MACADDR, MTU before initializing slave devices (#218792)
+- reset alarm so ppp-watch works with ONBOOT=yes (#216749)
+
 
 * Tue Nov 28 2006 Bill Nottingham <notting@redhat.com> 8.45.7-1
 - add a step to rename any temporarily renamed devices (#208740, #214817)
