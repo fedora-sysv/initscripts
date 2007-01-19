@@ -701,14 +701,9 @@ state=`LC_ALL=C awk '/ \/ / && ($3 !~ /rootfs/) { print $4 }' /proc/mounts`
 [ "$state" != "rw" -a "$READONLY" != "yes" ] && \
   action $"Remounting root filesystem in read-write mode: " mount -n -o remount,rw /
 
-for lease in /dev/.dhclient* ; do
-  leasebase=$(basename $lease)
-  mv $lease /var/lib/dhclient/${leasebase##.}
-done
-
 # Clean up SELinux labels
 if [ -n "$SELINUX_STATE" ]; then
-   restorecon /etc/mtab /etc/ld.so.cache /etc/blkid/blkid.tab /etc/resolv.conf /var/lib/dhclient/ /var/lib/dhclient/* >/dev/null 2>&1
+   restorecon /etc/mtab /etc/ld.so.cache /etc/blkid/blkid.tab /etc/resolv.conf >/dev/null 2>&1
 fi
 
 # Clear mtab
