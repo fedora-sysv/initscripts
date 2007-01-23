@@ -398,10 +398,7 @@ install_bonding_driver ()
 
 is_bonding_device ()
 {
-   [ ! -d "/sys/class/net/$1" ] && return 1
-   [ "${TYPE}" = "Bonding" ] && return 0
-   ethtool -i $1 2>/dev/null | grep -q "driver: bonding" && return 0
-   return 1
+   [ -f "/sys/class/net/$1/bonding/slaves" ]
 }
 
 # Invoke this when /etc/resolv.conf has changed:
