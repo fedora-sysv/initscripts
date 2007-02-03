@@ -85,10 +85,9 @@ if [ "$2" = "boot" -a \
      "${DEVICETYPE}" != "ppp" -a \
      "${DEVICETYPE}" != "slip" ]; then
     if need_hostname; then
-	IPADDR=`LANG= LC_ALL= ifconfig ${DEVICE} | grep 'inet addr' | 
-		awk -F: '{ print $2 } ' | awk '{ print $1 }'`
-	eval `/bin/ipcalc --silent --hostname ${IPADDR}`
-	if [ "$?" = "0" ]; then
+	IPADDR=$(LANG=C ip -o -4 addr ls dev ${DEVICE} | awk '{ print $4 }')
+	eval $(/bin/ipcalc --silent --hostname ${IPADDR} ; echo "status=$?")
+	if [ "$status" = "0" ]; then
 	    set_hostname $HOSTNAME
 	fi
     fi
