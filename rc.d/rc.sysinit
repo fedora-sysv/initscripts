@@ -298,11 +298,7 @@ if [ -x /bin/loadkeys ]; then
   else
     echo -n $"Loading default keymap: "
   fi
-  LOADKEYS=loadkeys
-  if [ "${LANG}" != "${LANG%%.UTF-8}" -o "${LANG}" != "${LANG%%.utf8}" ]; then
-    LOADKEYS="loadkeys -u"
-  fi
-  $LOADKEYS $KEYMAP < /dev/tty0 > /dev/tty0 2>/dev/null && \
+  loadkeys $KEYMAP < /dev/tty0 > /dev/tty0 2>/dev/null && \
      success $"Loading default keymap" || failure $"Loading default keymap"
   echo
  fi

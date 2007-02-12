@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.93.28.EL
+Version: 7.93.29.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -207,6 +207,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Feb 12 2007 Miloslav Trmac <mitr@redhat.com> - 7.93.29.EL-1
+- Revert a backport of UTF-8 support for console keymaps
+  Related: #150769
+
 * Tue Jan 30 2007 Miloslav Trmac <mitr@redhat.com> - 7.93.28.EL-1
 - Fix MACADDR on bonding slaves
   Resolves: #222711
