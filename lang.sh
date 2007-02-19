@@ -1,9 +1,14 @@
 # /etc/profile.d/lang.sh - set i18n stuff
 
 sourced=0
-for langfile in /etc/sysconfig/i18n $HOME/.i18n ; do
-    [ -f $langfile ] && . $langfile && sourced=1
-done    
+
+if [ -n "$LANG" ]; then
+    sourced=1
+else
+    for langfile in /etc/sysconfig/i18n $HOME/.i18n ; do
+    	[ -f $langfile ] && . $langfile && sourced=1
+    done    
+fi
 
 if [ -n "$GDM_LANG" ]; then
     sourced=1
