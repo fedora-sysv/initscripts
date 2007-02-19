@@ -1,12 +1,16 @@
 # /etc/profile.d/lang.csh - set i18n stuff
 
 set sourced=0
-foreach file (/etc/sysconfig/i18n $HOME/.i18n)
+if ($?LANG) then
+    set sourced=1
+else
+    foreach file (/etc/sysconfig/i18n $HOME/.i18n)
 	if ( -f $file ) then
 	    eval `grep -v '^[:blank:]*#' $file | sed 's|\([^=]*\)=\([^=]*\)|setenv \1 \2|g' | sed 's|$|;|'`
 	endif
 	set sourced=1
-end
+    end
+endif
 
 if ($?GDM_LANG) then
     set sourced=1
