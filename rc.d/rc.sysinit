@@ -58,7 +58,7 @@ relabel_selinux() {
 	chvt 1
     fi
     # if /sbin/init is not labeled correctly this process is running in the 
-    # wrong context, so a reboot will be reuired after relabel
+    # wrong context, so a reboot will be required after relabel
     REBOOTFLAG=`restorecon -v /sbin/init`
     AUTORELABEL=
     . /etc/selinux/config
