@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.50
+Version: 8.51
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -200,6 +200,12 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Feb 23 2007 Bill Nottingham <notting@redhat.com> 8.51-1
+- fix 'Fedora Fedora' in rc.sysinit
+- halt: use kexec -x to not shut down network (#223932, <mchristi@redhat.com>)
+- network_functions: fix is_bonding_device logic (#229643)
+- translation updates: nb
+
 * Mon Feb 19 2007 Bill Nottingham <notting@redhat.com> 8.50-1
 - lang.csh, lang.sh: if $LANG is set, don't override it (#229102)
 - initlog.1: fix man page formatting (<esr@thyrsus.com>)
