@@ -245,7 +245,7 @@ elif [[ "$redhat_release" =~ "Fedora" ]]; then
  [ "$BOOTUP" = "color" ] && echo -en "\\033[0;34m"
  echo -en "Fedora"
  [ "$BOOTUP" = "color" ] && echo -en "\\033[0;39m"
- PRODUCT=`sed "s/Fedora \(.*\) release.*/\1/" /etc/redhat-release`
+ PRODUCT=`sed "s/Fedora \(.*\) \?release.*/\1/" /etc/redhat-release`
  echo " $PRODUCT"
 else
  PRODUCT=`sed "s/ release.*//g" /etc/redhat-release`
