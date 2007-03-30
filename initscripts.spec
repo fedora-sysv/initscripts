@@ -5,7 +5,6 @@ License: GPL
 Group: System Environment/Base
 Release: 1
 Source: initscripts-%{version}.tar.bz2
-URL: http://fedora.redhat.com/projects/additional-projects/initscripts/
 BuildRoot: /%{_tmppath}/%{name}-%{version}-%{release}-root
 Requires: mingetty, /bin/awk, /bin/sed, mktemp, e2fsprogs >= 1.15
 Requires: /sbin/sysctl, syslog
