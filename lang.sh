@@ -78,7 +78,12 @@ if [ "$sourced" = 1 ]; then
     	    		en_IN*) ;;
     	    		*_IN*) LANG=en_US.UTF-8 ;;
     	    	esac
-		[ -x /bin/unicode_start ] && /sbin/consoletype fg && /bin/unicode_start $SYSFONT $SYSFONTACM
+		if [ -x /bin/unicode_start ] && /sbin/consoletype fg ; then
+			for langfile in /etc/sysconfig/i18n $HOME/.i18n ; do
+		    		[ -f $langfile ] && . $langfile
+			done
+			/bin/unicode_start $SYSFONT $SYSFONTACM
+		fi
             fi
         fi
 	;;
