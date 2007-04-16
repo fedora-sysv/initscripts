@@ -434,6 +434,7 @@ change_resolv_conf ()
     (echo "$s" > /etc/resolv.conf;) >/dev/null 2>&1;
     r=$?
     if [ $r -eq 0 ]; then
+	[ -x /sbin/restorecon ] && /sbin/restorecon /etc/resolv.conf >/dev/null 2>&1 # reset the correct context
 	logger -p local7.notice -t "NET" -i "$0 : updated /etc/resolv.conf";
 	[ -e /var/lock/subsys/nscd ] && /usr/sbin/nscd -i hosts; # invalidate cache
     fi;
