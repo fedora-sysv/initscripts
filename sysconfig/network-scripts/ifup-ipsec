@@ -160,8 +160,16 @@ EOF
 
 if [ "$KEYING" = "automatic" -a -n "$IKE_METHOD" ]; then
     if [ "$IKE_METHOD" = "PSK" ]; then
+       MYID=address
+       if [ -n "$MYID_TYPE" ]; then
+          case "$MYID_TYPE" in
+             *fqdn*)
+                 MYID="$MYID_TYPE \"$MYID_VALUE\""
+             ;;
+          esac
+       fi
        tmpfile=`mktemp /etc/racoon/psk.XXXXXX`
-       grep -v "^$DST" /etc/racoon/psk.txt > $tmpfile
+       grep -v "^$DST " /etc/racoon/psk.txt > $tmpfile
        echo "$DST  $IKE_PSK" >> $tmpfile
        mv -f $tmpfile /etc/racoon/psk.txt
     fi
@@ -174,7 +182,7 @@ EOF
         case "$IKE_METHOD" in
            PSK)
 	      cat >> /etc/racoon/$DST.conf << EOF
-	my_identifier address;
+	my_identifier $MYID;
 	proposal {
 	        encryption_algorithm $ESP_PROTO;
 		hash_algorithm $AH_PROTO;
