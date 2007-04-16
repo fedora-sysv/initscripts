@@ -23,7 +23,7 @@ fi
 /etc/sysconfig/network-scripts/ifup-routes ${REALDEVICE} ${DEVNAME}
 
 
-if [ "$PEERDNS" != "no" -o -n "$RESOLV_MODS" -a "$RESOLV_MODS" != "no" ]; then
+if [ "$PEERDNS" != "no" ] ||[ -n "$RESOLV_MODS" -a "$RESOLV_MODS" != "no" ]; then
   [ -n "$MS_DNS1" ] && DNS1=$MS_DNS1
   [ -n "$MS_DNS2" ] && DNS2=$MS_DNS2
   if [ -n "$DNS1" ] && ! grep -q "^nameserver $DNS1" /etc/resolv.conf &&
@@ -85,7 +85,7 @@ if [ "$2" = "boot" -a \
      "${DEVICETYPE}" != "ppp" -a \
      "${DEVICETYPE}" != "slip" ]; then
     if need_hostname; then
-	IPADDR=$(LANG=C ip -o -4 addr ls dev ${DEVICE} | awk '{ print $4 }')
+	IPADDR=$(LANG=C ip -o -4 addr ls dev ${DEVICE} | awk '{ print $4 ; exit }')
 	eval $(/bin/ipcalc --silent --hostname ${IPADDR} ; echo "status=$?")
 	if [ "$status" = "0" ]; then
 	    set_hostname $HOSTNAME
