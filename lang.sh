@@ -70,6 +70,12 @@ if [ "$sourced" = 1 ]; then
     	*.utf8*|*.UTF-8*)
     	if [ "$TERM" = "linux" ]; then
     	    if [ "$consoletype" = "vt" ]; then
+		if [ -x /bin/unicode_start ] && /sbin/consoletype fg ; then
+			for langfile in /etc/sysconfig/i18n $HOME/.i18n ; do
+		    		[ -f $langfile ] && . $langfile
+			done
+			/bin/unicode_start $SYSFONT $SYSFONTACM
+		fi
     	    	case $LANG in 
     	    		ja*) LANG=en_US.UTF-8 ;;
     	    		ko*) LANG=en_US.UTF-8 ;;
@@ -78,12 +84,6 @@ if [ "$sourced" = 1 ]; then
     	    		en_IN*) ;;
     	    		*_IN*) LANG=en_US.UTF-8 ;;
     	    	esac
-		if [ -x /bin/unicode_start ] && /sbin/consoletype fg ; then
-			for langfile in /etc/sysconfig/i18n $HOME/.i18n ; do
-		    		[ -f $langfile ] && . $langfile
-			done
-			/bin/unicode_start $SYSFONT $SYSFONTACM
-		fi
             fi
         fi
 	;;
