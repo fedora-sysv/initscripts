@@ -177,7 +177,7 @@ if [ -n "${DYNCONFIG}" -a -x /sbin/dhclient ]; then
     DHCLIENTARGS="${DHCLIENTARGS} ${ONESHOT} -q ${DHCLIENTCONF} -lf /var/lib/dhclient/dhclient-${DEVICE}.leases -pf /var/run/dhclient-${DEVICE}.pid"
     echo
     echo -n $"Determining IP information for ${DEVICE}..."
-    if check_link_down ${DEVICE}; then
+    if [[ "${PERSISTENT_DHCLIENT}" !=  [yY1]* ]] && check_link_down ${DEVICE}; then
 	echo $" failed; no link present.  Check cable?"
 	ip link set dev ${DEVICE} down >/dev/null 2>&1
 	exit 1
