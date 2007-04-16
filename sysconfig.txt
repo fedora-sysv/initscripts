@@ -274,7 +274,9 @@ Files in /etc/sysconfig
     NETWORKING_IPV6=yes|no
       Enable or disable global IPv6 initialization
       
-      To do this properly, add a rule in /etc/modprobe.conf.
+      To do this properly, add a rule in /etc/modprobe.conf that
+      disables loading of the ipv6 module. Example:
+         install ipv6 /bin/true
 
 /etc/sysconfig/static-routes-ipv6:
   Contains lines of the form:
