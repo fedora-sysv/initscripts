@@ -536,7 +536,7 @@ if [ "$READONLY" = "yes" -o "$TEMPORARY_STATE" = "yes" ]; then
 	elif [ x$rw_mount_dev != x ] && mount $rw_mount_dev $mountopts "$RW_MOUNT" > /dev/null 2>&1; then
 		rm -rf "$RW_MOUNT"  > /dev/null 2>&1
 	else
-		mount -n -t tmpfs $mountopts none "$RW_MOUNT"
+		mount -n -t tmpfs $RW_OPTIONS $mountopts none "$RW_MOUNT"
 	fi
 
 	for file in /etc/rwtab /etc/rwtab.d/* ; do
@@ -583,7 +583,7 @@ if [ "$READONLY" = "yes" -o "$TEMPORARY_STATE" = "yes" ]; then
 	# First try to mount persistent data from /etc/fstab, then any
 	# partition with the proper label, then fallback to NFS
 	state_mount_dev=$(blkid -t LABEL="$STATE_LABEL" -o device | awk '{ print ; exit }')
-	if mount $mountopts "$STATE_MOUNT" > /dev/null 2>&1 ; then
+	if mount $mountopts $STATE_OPTIONS "$STATE_MOUNT" > /dev/null 2>&1 ; then
 		/bin/true
 	elif [ x$state_mount_dev != x ] && mount $state_mount_dev $mountopts "$STATE_MOUNT" > /dev/null 2>&1;  then
 		/bin/true
