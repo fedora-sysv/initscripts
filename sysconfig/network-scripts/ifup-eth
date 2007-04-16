@@ -88,6 +88,9 @@ if [ -n "${BRIDGE}" -a -x /usr/sbin/brctl ]; then
       fi
       /sbin/ip addr flush dev ${DEVICE} 2>/dev/null
       /sbin/ip link set dev ${DEVICE} up
+      if [ -n "$ETHTOOL_OPTS" ] ; then
+        /sbin/ethtool -s ${REALDEVICE} $ETHTOOL_OPTS
+      fi
       [ -n "${LINKDELAY}" ] && /bin/sleep ${LINKDELAY}
       /usr/sbin/brctl addif ${BRIDGE} ${DEVICE}
       # Upon adding a device to a bridge, 
