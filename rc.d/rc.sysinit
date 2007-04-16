@@ -722,6 +722,13 @@ if [ -n "$SELINUX_STATE" ]; then
    restorecon /etc/mtab /etc/ld.so.cache /etc/blkid/blkid.tab /etc/resolv.conf >/dev/null 2>&1
 fi
 
+# If relabeling, relabel mount points.
+if [ -n "$SELINUX_STATE" -a "$READONLY" != "yes" ]; then 
+    if [ -f /.autorelabel ] || strstr "$cmdline" autorelabel ; then
+	retstorecon $(awk '!/^#/ && $4 !~ /noauto/ { print $2 }' /etc/fstab) >/dev/null 2>&1
+    fi
+fi
+
 # Clear mtab
 (> /etc/mtab) &> /dev/null
 
