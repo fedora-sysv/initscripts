@@ -203,6 +203,8 @@ rm -rf $RPM_BUILD_ROOT
 - set MACADDR, MTU before initializing slave devices (#218792)
 - reset alarm so ppp-watch works with ONBOOT=yes (#216749)
 - add modprobe rule for ipv6 that reads NETWORKING_IPV6 (#198045)
+- add options for mounting state (#234916)
+- set link up before tweaking wireless parameters (#228253)
 
 * Tue Nov 28 2006 Bill Nottingham <notting@redhat.com> 8.45.7-1
 - add a step to rename any temporarily renamed devices (#208740, #214817)
