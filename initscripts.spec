@@ -68,11 +68,13 @@ chmod 600 /var/log/btmp
 
 /sbin/chkconfig --add netfs
 /sbin/chkconfig --add network
+/sbin/chkconfig --add netconsole
 
 %preun
 if [ $1 = 0 ]; then
   /sbin/chkconfig --del netfs
   /sbin/chkconfig --del network
+  /sbin/chkconfig --del netconsole
 fi
 
 %triggerun -- initscripts < 7.62
