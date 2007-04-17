@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.51
+Version: 8.52
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -201,6 +201,24 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Apr 16 2007 Bill Nottingham <notting@redhat.com> 8.52-1
+- lang.sh: fix locales where SYSFONT is not the default (#229996)
+- ifup-wireless: properly quote arguments (#234756)
+- readonly-root: add options for mounting state (#234916)
+- rwtab: updates (#219339, <law@redhat.com>)
+- add netconsole init script (#235952)
+- disable link checking when PERSISTENT_DHCLIENT is set (#234075)
+- restore file context on /etc/resolv.conf (#230776, <dwalsh@redhat.com>)
+- ifup-post: only use the first address (#230157, <michal@harddata.com>)
+- ifup-ipsec: allow overriding of my_identifier (#229343, <cmadams@hiwaay.net>)
+- ifup-wireless: set link up before itweaking wireless parameters (#228253)
+- rc.sysinit: restorecon on mount points when relabeling (#220322)
+- init.ipv6-global: cleanup & optimize sysctl usage (#217595)
+- ifup-eth: support ETHTOOL_OPTS on bridge devices (#208043, <bbaetz@acm.org>)
+- network-functions-ipv6: as we don't use NETWORKING_IPV6, silence errors (#195845)
+- fix description (#229919)
+- translation updates
+
 * Fri Feb 23 2007 Bill Nottingham <notting@redhat.com> 8.51-1
 - fix 'Fedora Fedora' in rc.sysinit
 - halt: use kexec -x to not shut down network (#223932, <mchristi@redhat.com>)
