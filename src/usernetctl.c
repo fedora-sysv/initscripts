@@ -230,6 +230,8 @@ main(int argc, char ** argv) {
     /* pppd wants the real uid to be the same as the effective (god only
        knows why when it works fine setuid out of the box) */
     setuid(geteuid());
+    /* Drop user gid (for temp files, SELinux) */
+    setgid(0);
 
     execle(cmd, cmd, ifaceConfig, NULL, safeEnviron);
     fprintf(stderr, "exec of %s failed: %s\n", cmd, strerror(errno));
