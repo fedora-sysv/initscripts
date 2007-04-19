@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.52
+Version: 8.53
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -203,6 +203,12 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Apr 19 2007 Bill Nottingham <notting@redhat.com> 8.53-1
+- init.d/halt: use sound saving wrapper from alsa-utils, conflict with
+  older versions (#236916)
+- usernetctl: drop user gid (#229372)
+- translation updates: ta, pt_BR, nb, as, hi, de
+
 * Mon Apr 16 2007 Bill Nottingham <notting@redhat.com> 8.52-1
 - lang.sh: fix locales where SYSFONT is not the default (#229996)
 - ifup-wireless: properly quote arguments (#234756)
