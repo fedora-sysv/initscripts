@@ -74,8 +74,8 @@ action $"Sending all processes the KILL signal..."  /sbin/killall5 -9
 
 # Save mixer settings, here for lack of a better place.
 grep -q "\(alsa\)" /proc/devices
-if [ $? = 0 -a -x /usr/sbin/alsactl ]; then
-   action $"Saving mixer settings" alsactl store
+if [ $? = 0 -a -x /sbin/salsa ]; then
+   action $"Saving mixer settings" /sbin/salsa -s
 fi
 
 # Save random seed

@@ -21,6 +21,7 @@ Conflicts: ypbind < 1.6-12, psacct < 6.3.2-12, kbd < 1.06-19, lokkit < 0.50-14
 Conflicts: dhclient < 3.0.3-7
 Conflicts: tcsh < 6.13-5
 Conflicts: xorg-x11, glib2 < 2.11.1-2
+Conflicts: alsa-utils < 1.0.14-0.5.rc2.fc7
 Obsoletes: rhsound sapinit
 Obsoletes: hotplug
 Prereq: /sbin/chkconfig, /usr/sbin/groupadd, /bin/sed, coreutils
