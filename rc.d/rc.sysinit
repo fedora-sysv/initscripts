@@ -200,7 +200,7 @@ init_crypto() {
 	    fi
 	    /sbin/cryptsetup ${key:+-d $key} luksOpen "$src" "$dst" <&1
 	else
-	    /sbin/cryptsetup $params ${key:+-d $key} create "$dst" "$src" <&1
+	    /sbin/cryptsetup $params ${key:+-d $key} create "$dst" "$src" <&1 2>/dev/null
 	fi
 	rc=$?
 	if [ -z "$key" -a -x /usr/bin/rhgb-client ] \
