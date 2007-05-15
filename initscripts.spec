@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.53
+Version: 8.54
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -203,6 +203,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue May 15 2007 Bill Nottingham <notting@redhat.com> 8.54-1
+- translation updates: as, bg, cs, ja, ms
+- redirect bogus errors from cryptsetup to /dev/null <karsten@redhat.com>
+
 * Thu Apr 19 2007 Bill Nottingham <notting@redhat.com> 8.53-1
 - init.d/halt: use sound saving wrapper from alsa-utils, conflict with
   older versions (#236916)
