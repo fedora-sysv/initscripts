@@ -201,6 +201,7 @@ rm -rf $RPM_BUILD_ROOT
 - network-functions: fix logic error in install_bonding_driver (#229643)
 - add init script for netconsole (#223742)
 - ifup-eth: set 'primary' later for bonding devices (#236897, <agospoda@redhat.com>)
+- init.d/halt: don't shut down the network in kexec (#223932, <mchristi@redhat.com>)
 
 * Mon Jan 15 2007 Bill Nottingham <notting@redhat.com> 8.45.14.EL-1
 - set MACADDR, if specified, before bringing up bonding master/slaves (#218792)
