@@ -90,6 +90,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/sysconfig/network-scripts
 %config(noreplace) %verify(not md5 mtime size) /etc/adjtime
 %config(noreplace) /etc/sysconfig/init
+%config(noreplace) /etc/sysconfig/netconsole
 %config(noreplace) /etc/sysconfig/readonly-root
 /etc/sysconfig/network-scripts/ifdown
 /sbin/ifdown
@@ -198,6 +199,7 @@ rm -rf $RPM_BUILD_ROOT
 * Fri Jun 22 2007 Bill Nottingham <notting@redhat.com> 8.45.16.EL-1
 - add support for VLAN_PLUS_VID_NO_PAD vlans (#229285)
 - fix logic error in install_bonding_driver (#229643)
+- add init script for netconsole (#223742)
 
 * Mon Jan 15 2007 Bill Nottingham <notting@redhat.com> 8.45.14.EL-1
 - set MACADDR, if specified, before bringing up bonding master/slaves (#218792)
