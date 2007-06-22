@@ -134,6 +134,15 @@ if [ "$ISALIAS" = no ] && is_bonding_device ${DEVICE} ; then
 	    is_ignored_file "$device" && continue
 	    /sbin/ifup ${device##*/}
     done
+
+    # add the bits to setup the needed post enslavement parameters
+    for arg in $BONDING_OPTS ; do   
+        key=${arg%%=*};
+        value=${arg##*=};
+	if [ "${key}" = "primary" ]; then 
+            echo $value > /sys/class/net/${DEVICE}/bonding/$key
+	fi
+    done
 fi
 
 if [ -n "${MTU}" ]; then

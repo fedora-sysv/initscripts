@@ -197,9 +197,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Fri Jun 22 2007 Bill Nottingham <notting@redhat.com> 8.45.16.EL-1
-- add support for VLAN_PLUS_VID_NO_PAD vlans (#229285)
-- fix logic error in install_bonding_driver (#229643)
+- init.d/network: add support for VLAN_PLUS_VID_NO_PAD vlans (#229285)
+- network-functions: fix logic error in install_bonding_driver (#229643)
 - add init script for netconsole (#223742)
+- ifup-eth: set 'primary' later for bonding devices (#236897, <agospoda@redhat.com>)
 
 * Mon Jan 15 2007 Bill Nottingham <notting@redhat.com> 8.45.14.EL-1
 - set MACADDR, if specified, before bringing up bonding master/slaves (#218792)
