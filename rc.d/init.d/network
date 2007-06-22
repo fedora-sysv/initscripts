@@ -85,10 +85,6 @@ case "$1" in
 	    ;;
 	esac
 
-	oldhotplug=`sysctl kernel.hotplug  2>/dev/null | \
-	    awk '{ print $3 }' 2>/dev/null`
-	sysctl -w kernel.hotplug="/etc/hotplug/firmware.agent" > /dev/null 2>&1
-
 	vlaninterfaces=""
 	cipeinterfaces=""
 	xdslinterfaces=""
@@ -158,8 +154,6 @@ case "$1" in
 	    fi
         done
 
-	sysctl -w kernel.hotplug=$oldhotplug > /dev/null 2>&1
-	
 	# Add non interface-specific static-routes.
 	if [ -f /etc/sysconfig/static-routes ]; then
 	   grep "^any" /etc/sysconfig/static-routes | while read ignore args ; do
