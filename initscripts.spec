@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.45.15.EL
+Version: 8.45.16.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -195,10 +195,8 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
-* Thu Jan 18 2007 Peter Jones <pjones@redhat.com> 8.45.15.EL-1
-- copy dhclient lease files from the initrd into /var/lib/dhclient so
-  the network doesn't get reset during startup with iscsi /
-  Resolves: #218791
+* Fri Jun 22 2007 Bill Nottingham <notting@redhat.com> 8.45.16.EL-1
+- add support for VLAN_PLUS_VID_NO_PAD vlans (#229285)
 
 * Mon Jan 15 2007 Bill Nottingham <notting@redhat.com> 8.45.14.EL-1
 - set MACADDR, if specified, before bringing up bonding master/slaves (#218792)

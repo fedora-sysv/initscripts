@@ -114,7 +114,7 @@ case "$1" in
 			continue
 		fi
 
-		if [ "${DEVICE%%.*}" != "$DEVICE" ] ; then
+		if [ "${DEVICE%%.*}" != "$DEVICE"  -o  "${DEVICE##vlan}" != "$DEVICE" ] ; then
 			vlaninterfaces="$vlaninterfaces $i"
 			continue
 		fi
@@ -223,7 +223,7 @@ case "$1" in
 			continue
 		fi
 
-		if [ "${DEVICE%%.*}" != "$DEVICE" ] ; then
+		if [ "${DEVICE%%.*}" != "$DEVICE"  -o  "${DEVICE##vlan}" != "$DEVICE" ] ; then
 			vlaninterfaces="$vlaninterfaces $i"
 			continue
 		fi
