@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.93.29.EL
+Version: 7.93.30.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -207,6 +207,7 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Jun 22 2007 Bill Nottingham <notting@redhat.com> - 7.93.30.EL-1
 - init.d/network, network-functions: don't fiddle with hotplug settings (#185569, #209307)
 - init.d/network: add support for VLAN_PLUS_VID_NO_PAD vlans (#222975)
 
