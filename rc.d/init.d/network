@@ -121,7 +121,7 @@ case "$1" in
 			continue
 		fi
 
-		if [ "${DEVICE%%.*}" != "$DEVICE" ] ; then
+		if [ "${DEVICE%%.*}" != "$DEVICE"  -o  "${DEVICE##vlan}" != "$DEVICE" ] ; then
 			vlaninterfaces="$vlaninterfaces $i"
 			unset DEVICE TYPE SLAVE BRIDGE
 			continue
@@ -230,7 +230,7 @@ case "$1" in
 			continue
 		fi
 
-		if [ "${DEVICE%%.*}" != "$DEVICE" ] ; then
+		if [ "${DEVICE%%.*}" != "$DEVICE"  -o  "${DEVICE##vlan}" != "$DEVICE" ] ; then
 			vlaninterfaces="$vlaninterfaces $i"
 			unset DEVICE TYPE SLAVE BRIDGE
 			continue

@@ -207,6 +207,8 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+- init.d/network: add support for VLAN_PLUS_VID_NO_PAD vlans (#222975)
+
 * Mon Feb 12 2007 Miloslav Trmac <mitr@redhat.com> - 7.93.29.EL-1
 - Revert a backport of UTF-8 support for console keymaps
   Related: #150769
