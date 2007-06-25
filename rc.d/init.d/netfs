@@ -37,7 +37,7 @@ case "$1" in
   start)
         [ -n "$NFSFSTAB" ] && 
 	  {
-	    [ ! -f /var/lock/subsys/portmap ] && service portmap start
+	    [ ! -f /var/lock/subsys/rpcbind ] && service rpcbind start
 	    action $"Mounting NFS filesystems: " mount -a -t nfs,nfs4
 	  }
         [ -n "$SMBFSTAB" ] && action $"Mounting SMB filesystems: " mount -a -t smbfs
