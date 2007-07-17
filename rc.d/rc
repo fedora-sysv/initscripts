@@ -42,6 +42,13 @@ fi
 # Is there an rc directory for this new runlevel?
 [ -d /etc/rc$runlevel.d ] || exit 0
 
+# Set language, vc settings once to avoid doing it for every init script
+# through functions
+if [ -f /etc/sysconfig/i18n -a -z "${NOLOCALE:-}" ] ; then
+  . /etc/profile.d/lang.sh
+  export LANGSH_SOURCED=1
+fi
+
 # First, run the KILL scripts.
 for i in /etc/rc$runlevel.d/K* ; do
 	check_runlevel "$i" || continue

@@ -203,6 +203,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Jul 17 2007 Nils Philippsen <nphilipp@redhat.com>
+- avoid calling unicode_start unnecessarily often during startup/shutdown which
+  causes certain monitor/video card combos to flicker heavily (#237839)
+
 * Tue May 15 2007 Bill Nottingham <notting@redhat.com> 8.54-1
 - translation updates: as, bg, cs, ja, ms
 - redirect bogus errors from cryptsetup to /dev/null <karsten@redhat.com>
