@@ -688,26 +688,6 @@ if [ -z "$fastboot" -a "$READONLY" != "yes" ]; then
     	fi
 fi
 
-# Update quotas if necessary
-if [ X"$_RUN_QUOTACHECK" = X1 -a -x /sbin/quotacheck ]; then
-	if [ -x /sbin/convertquota ]; then
-	    # try to convert old quotas
-	    for mountpt in `LC_ALL=C awk '$4 ~ /quota/{print $2}' /etc/mtab` ; do
-	        mountpt="$(fstab_decode_str "$mountpt")"
-		if [ -f "$mountpt/quota.user" ]; then
-		    action $"Converting old user quota files: " \
-		    /sbin/convertquota -u "$mountpt" && \
-			rm -f "$mountpt/quota.user"
-		fi
-		if [ -f "$mountpt/quota.group" ]; then
-		    action $"Converting old group quota files: " \
-		    /sbin/convertquota -g "$mountpt" && \
-			rm -f "$mountpt/quota.group"
-		fi
-	    done
-	fi
-	action $"Checking local filesystem quotas: " /sbin/quotacheck -aRnug
-fi
 
 remount_needed() {
   local state oldifs
@@ -758,6 +738,11 @@ if [ "$READONLY" != "yes" ] ; then
 	action $"Mounting local filesystems: " mount -a -t nonfs,nfs4,smbfs,ncpfs,cifs,gfs,gfs2 -O no_netdev
 else
 	action $"Mounting local filesystems: " mount -a -n -t nfs4,smbfs,ncpfs,cifs,gfs,gfs2 -O no_netdev
+fi
+
+# Update quotas if necessary
+if [ X"$_RUN_QUOTACHECK" = X1 -a -x /sbin/quotacheck ]; then
+	action $"Checking local filesystem quotas: " /sbin/quotacheck -anug
 fi
 
 if [ -x /sbin/quotaon ]; then
