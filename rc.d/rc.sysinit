@@ -756,9 +756,9 @@ fi
 # mounted). Contrary to standard usage,
 # filesystems are NOT unmounted in single user mode.
 if [ "$READONLY" != "yes" ] ; then
-	action $"Mounting local filesystems: " mount -a -t nonfs,nfs4,smbfs,ncpfs,cifs,gfs -O no_netdev
+	action $"Mounting local filesystems: " mount -a -t nonfs,nfs4,smbfs,ncpfs,cifs,gfs,gfs2 -O no_netdev
 else
-	action $"Mounting local filesystems: " mount -a -n -t nfs4,smbfs,ncpfs,cifs,gfs -O no_netdev
+	action $"Mounting local filesystems: " mount -a -n -t nfs4,smbfs,ncpfs,cifs,gfs,gfs2 -O no_netdev
 fi
 
 if [ -x /sbin/quotaon ]; then
