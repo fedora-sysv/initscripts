@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.54
+Version: 8.55
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -204,6 +204,14 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Jul 27 2007 Bill Nottingham <notting@redhat.com>
+- add /etc/networks (#239602)
+- rc.sysinit: fix quotacheck, remove obsolete convertquota (#249003, <tometzky@batory.org.pl>)
+- rc.sysinit: add gfs2 to the 'don't mount here' list (#248985)
+- netfs: check for rpcbind, not portmap (#245595)
+- ifup-eth: set 'primary' later for bonding devices (#236897, <agospoda@redhat.com>)
+- translation updates: cy, en_GB, mk, ml, ms, pl, sk, ta, zh_CN
+
 * Tue Jul 17 2007 Nils Philippsen <nphilipp@redhat.com>
 - avoid calling unicode_start unnecessarily often during startup/shutdown which
   causes certain monitor/video card combos to flicker heavily (#237839)
