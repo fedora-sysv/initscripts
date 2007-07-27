@@ -24,7 +24,7 @@ install:
 	if uname -m | grep -q s390 ; then \
 	  install -m644 inittab.s390 $(ROOT)/etc/inittab ; \
 	fi
-	install -m644  rwtab statetab $(ROOT)/etc
+	install -m644  rwtab statetab networks $(ROOT)/etc
 	install -m755  service setsysfont $(ROOT)/sbin
 	install -m755  lang.csh lang.sh $(ROOT)/etc/profile.d
 	install -m755  sys-unconfig $(ROOT)/usr/sbin
