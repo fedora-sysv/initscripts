@@ -1,7 +1,8 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
 Version: 8.55
-License: GPL
+# ppp-watch is GPLv2+, everything else is GPLv2
+License: GPLv2 and GPLv2+
 Group: System Environment/Base
 Release: 1
 Source: initscripts-%{version}.tar.bz2
@@ -197,7 +198,7 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/ppp/ipv6-up
 %config /etc/ppp/ipv6-down
 %config /etc/initlog.conf
-%doc sysconfig.txt sysvinitfiles ChangeLog static-routes-ipv6 ipv6-tunnel.howto ipv6-6to4.howto changes.ipv6
+%doc sysconfig.txt sysvinitfiles ChangeLog static-routes-ipv6 ipv6-tunnel.howto ipv6-6to4.howto changes.ipv6 COPYING
 /var/lib/stateless
 %ghost %attr(0600,root,utmp) /var/log/btmp
 %ghost %attr(0664,root,utmp) /var/log/wtmp
