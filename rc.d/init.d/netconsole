@@ -17,10 +17,6 @@ SERVER_ADDRESS_RESOLUTION=
 
 # Check that networking is up.
 . /etc/sysconfig/network
-if [ ${NETWORKING} = "no" ]
-then
-    exit 0
-fi
 
 # Source function library.
 . /etc/rc.d/init.d/functions
@@ -34,11 +30,6 @@ SYSLOGPORT=514
 SYSLOGMACADDR=
 
 kernel=`uname -r | cut -d. -f1-2`
-
-[ -f /etc/sysconfig/netconsole ] || exit 0
-. /etc/sysconfig/netconsole
-
-[ -z "$SYSLOGADDR" ] && exit 0
 
 usage ()
 {
@@ -78,10 +69,15 @@ netconsole_failure ()
 
 start ()
 {
+	[ -f /etc/sysconfig/netconsole ] || exit 0
+	. /etc/sysconfig/netconsole
+
 	SYSLOGOPTS=
 	# syslogd server, if any
+	if [ -n "$SYSLOGADDR" ]; then
 	if ! [[ "$SYSLOGADDR" =~ "^([0-9]{1,3}\.){3}[0-9]{1,3}$" ]]; then
 		SYSLOGADDR=$(LANG=C host $SYSLOGADDR 2>/dev/null | awk '/has address / { print $NF }')
+	fi
 	fi
 	if [ -z "$SYSLOGADDR" ] ; then
 		echo $"Server address not specified in /etc/sysconfig/netconsole" 1>&2
@@ -118,8 +114,10 @@ status ()
 {
 	if /sbin/lsmod | grep netconsole >/dev/null 2>&1 ; then
 		echo $"netconsole module loaded"
+		RETVAL=0
 	else
 		echo $"netconsole module not loaded"
+		RETVAL=3
 	fi
 }
 
