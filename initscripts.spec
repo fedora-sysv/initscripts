@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.45.16.EL
+Version: 8.45.17.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -196,6 +196,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Aug  7 2007 Bill Nottingham <notting@redhat.com> 8.45.17.EL-1
+- fix netconsole service status (#223742)
+
 * Fri Jun 22 2007 Bill Nottingham <notting@redhat.com> 8.45.16.EL-1
 - init.d/network: add support for VLAN_PLUS_VID_NO_PAD vlans (#229285)
 - network-functions: fix logic error in install_bonding_driver (#229643)
