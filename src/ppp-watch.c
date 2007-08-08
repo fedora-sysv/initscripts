@@ -143,19 +143,96 @@ detach(char *device) {
 	    }
         }
         switch (exitCode) {
-            case 0:
-	        break;
-	    case 33:
-	        fprintf(stderr, "%s already up, initiating redial\n", device);
-	        break;
-	    case 34:
-	        fprintf(stderr, "Failed to activate %s, retrying in the background\n", device);
-	        break;
-	    default:
-	        fprintf(stderr, "Failed to activate %s with error %d\n", device, exitCode);
-	        break;
-         }
-         exit(exitCode);
+	case 0:
+	    break;
+	    
+	case 1:
+	    fprintf(stderr, "Device %s: An immediately fatal error of some kind  occurred,  such  as  an "
+		    "essential system call failing, or running out of virtual memory.\n", device);
+	    break;
+	  
+	case 2:
+	    fprintf(stderr, "Device %s: An error was detected in processing the options given, such as "
+		    "two mutually exclusive options being used.\n", device);
+	    break;
+	  
+	case 3:
+	    fprintf(stderr, "Device %s: Pppd is not setuid-root and the invoking user is not root.\n", device);
+	    break;
+	  
+	case 4:
+	    fprintf(stderr, "Device %s: The  kernel  does  not  support PPP, for example, the PPP kernel "
+		    "driver is not included or cannot be loaded.\n", device);
+	    break;
+	  
+	case 5:
+	    fprintf(stderr, "Device %s: Pppd terminated because it was sent a SIGINT, SIGTERM or SIGHUP signal.\n", device);
+	    break;
+	  
+	case 6:
+	    fprintf(stderr, "Device %s: The serial port could not be locked.\n", device);
+	    break;
+	  
+	case 7:
+	    fprintf(stderr, "Device %s: The serial port could not be opened.\n", device);
+	    break;
+	  
+	case 8:
+	    fprintf(stderr, "Device %s: The connect script failed (maybe wrong password or wrong phone number).\n", device);
+	    break;
+	  
+	case 9:
+	    fprintf(stderr, "Device %s: The command specified as the argument to the pty option could not be run.\n", device);
+	    break;
+	  
+	case 10:
+	    fprintf(stderr, "Device %s: The PPP negotiation failed, that is, it didn't reach the point "
+		    "where at least one network protocol (e.g. IP) was running.\n", device);
+	    break;
+	  
+	case 11:
+	    fprintf(stderr, "Device %s: The peer system failed (or refused) to authenticate itself.\n", device);
+	    break;
+	  
+	case 12:
+	    fprintf(stderr, "Device %s: The link was established successfully and terminated because it was idle.\n", device);
+	    break;
+	  
+	case 13:
+	    fprintf(stderr, "Device %s: The link was established successfully and terminated because the connect time limit was reached.\n", device);
+	    break;
+
+	case 14:
+	    fprintf(stderr, "Device %s: Callback was negotiated and an incoming  call should arrive shortly.\n", device);
+	    break;
+
+	case 15:
+	    fprintf(stderr, "Device %s: The link was terminated because the peer is not responding to echo requests.\n", device);
+	    break;
+
+	case 16:
+	    fprintf(stderr, "Device %s: The link was terminated by the modem hanging up.\n", device);
+	    break;
+
+	case 18:
+	    fprintf(stderr, "Device %s: The init script failed (returned a non-zero exit status).\n", device);
+	    break;
+
+	case 19:
+	    fprintf(stderr, "Device %s: We failed to authenticate ourselves to the peer.\n", device);
+	    break;
+
+	case 33:
+	    fprintf(stderr, "%s already up, initiating redial\n", device);
+	    break;
+	case 34:
+	    fprintf(stderr, "Failed to activate %s, retrying in the background\n", device);
+	    break;
+	default:
+	    fprintf(stderr, "Failed to activate %s with error %d\n", device, exitCode);
+	    break;
+	}
+	exit(exitCode);
     }
 
     /* We're in the child process, which only writes the exit status
