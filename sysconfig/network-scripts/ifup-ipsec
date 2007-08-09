@@ -102,6 +102,7 @@ if [ "$KEYING" = "manual" ]; then
     [ -n "$KEY_ESP_IN" ] && SPD_ESP_IN=yes
     [ -n "$KEY_ESP_OUT" ] && SPD_ESP_OUT=yes
 else
+    [ -z "$IKE_DHGROUP" ] && IKE_DH=2
     [ -z "$AH_PROTO" ] && AH_PROTO=sha1
     [ -z "$ESP_PROTO" ] && ESP_PROTO=3des
 
@@ -187,7 +188,7 @@ EOF
 	        encryption_algorithm $ESP_PROTO;
 		hash_algorithm $AH_PROTO;
 		authentication_method pre_shared_key;
-		dh_group 2 ;
+		dh_group $IKE_DHGROUP;
 	}
 }
 EOF
@@ -209,7 +210,7 @@ EOF
 		encryption_algorithm $ESP_PROTO;
 		hash_algorithm $AH_PROTO;
 		authentication_method rsasig;
-		dh_group 2;
+		dh_group $IKE_DHGROUP;
 	}
 }
 EOF
@@ -221,7 +222,7 @@ EOF
 	        encryption_algorithm $ESP_PROTO;
 		hash_algorithm $AH_PROTO;
 		authentication_method gssapi_krb;
-		dh_group 2 ;
+		dh_group $IKE_DHGROUP;
 	}
 }
 EOF
