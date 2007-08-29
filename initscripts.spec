@@ -208,6 +208,7 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Aug 29 2007 Bill Nottingham <notting@redhat.com> - 8.56-1 
 - rc.sysinit: optimize out some excess greps (<harald@redhat.com>)
 - halt: support newer nut syntax, conflict with old versions (#252973, <tsmetana@redhat.com>)
 - fix buildreq from popt -> popt-devel
