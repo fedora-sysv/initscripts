@@ -204,12 +204,14 @@ elif [ -f /forcefsck ]; then
  echo $"On the next boot fsck will be forced."
 fi
 
-if [ "$command" = /sbin/halt -a -r /etc/ups/upsmon.conf -a -f /etc/killpower -a -f /etc/sysconfig/ups ] ; then
+# Shutdown UPS drivers
+if [ "$command" = /sbin/halt -a -f /etc/sysconfig/ups ]; then
 	. /etc/sysconfig/ups
-	if [ "$SERVER" = "yes" -a "$MODEL" = "upsdrvctl" ] ; then
+	if [ -z $POWERDOWNFLAG ]; then
+		POWERDOWNFLAG=/etc/killpower
+	fi
+	if [ "$SERVER" = "yes" -a -f $POWERDOWNFLAG ]; then
 		/sbin/upsdrvctl shutdown
-	elif [ "$SERVER" = "yes" -a "$MODEL" != "NONE" -a -n "$MODEL" -a -n "$DEVICE" ] ; then
-		$MODEL $OPTIONS_HALT -k $DEVICE
 	fi
 fi
 
