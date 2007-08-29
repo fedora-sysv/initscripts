@@ -208,6 +208,8 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+- support newer nut syntax, conflict with old versions (#252973, <tsmetana@redhat.com>)
+
 * Fri Jul 27 2007 Bill Nottingham <notting@redhat.com>
 - add /etc/networks (#239602)
 - rc.sysinit: fix quotacheck, remove obsolete convertquota (#249003, <tometzky@batory.org.pl>)
