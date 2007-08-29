@@ -214,7 +214,7 @@ if [ "$command" = /sbin/halt -a -r /etc/ups/upsmon.conf -a -f /etc/killpower -a 
 fi
 
 # First, try kexec. If that fails, fall back to rebooting the old way.
-[ -n "$kexec_command" ] && $kexec_command -e >& /dev/null
+[ -n "$kexec_command" ] && $kexec_command -e -x >& /dev/null
 
 HALTARGS="-d"
 [ -f /poweroff -o ! -f /halt ] && HALTARGS="$HALTARGS -p"
