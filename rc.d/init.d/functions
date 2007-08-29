@@ -75,6 +75,18 @@ __readlink() {
     ls -bl "$@" 2>/dev/null| awk '{ print $NF }'
 }
 
+__fgrep() {
+    s=$1
+    f=$2
+    while read line; do
+	if strstr "$line" "$s"; then
+	    echo $line
+	    return 0
+	fi
+    done < $f
+    return 1
+}
+
 # __umount_loop awk_program fstab_file first_msg retry_msg umount_args
 # awk_program should process fstab_file and return a list of fstab-encoded
 # paths; it doesn't have to handle comments in fstab_file.

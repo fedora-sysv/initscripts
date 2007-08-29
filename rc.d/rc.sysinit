@@ -42,7 +42,7 @@ if [ -n "$selinuxfs" ] && [ "`cat /proc/self/attr/current`" != "kernel" ]; then
 	fi
 fi
 
-if [ -n "$SELINUX_STATE" -a -x /sbin/restorecon ] && LC_ALL=C fgrep -q " /dev " /proc/mounts ; then
+if [ -n "$SELINUX_STATE" -a -x /sbin/restorecon ] && __fgrep " /dev " /proc/mounts >/dev/null 2>&1 ; then
 	/sbin/restorecon  -R /dev 2>/dev/null
 fi
 
@@ -414,7 +414,7 @@ if [ -f /etc/mdadm.conf ]; then
 fi
 
 # Device mapper & related initialization
-if ! LC_ALL=C fgrep -q "device-mapper" /proc/devices 2>/dev/null ; then
+if ! __fgrep "device-mapper" /proc/devices >/dev/null 2>&1 ; then
 	modprobe dm-mod >/dev/null 2>&1
 fi
 mkdir -p /dev/mapper >/dev/null 2>&1
@@ -444,7 +444,7 @@ if [ -c /dev/mapper/control ]; then
 		modprobe dm-mirror >/dev/null 2>&1
 		for x in $(/sbin/dmraid.static -ay -i -p -t 2>/dev/null | \
 				egrep -iv "^no " | \
-				awk -F ':' '{ print $1 }') ; do
+				(IFS=":";while read a rest;do echo $a;done)) ; do
 			dmname=$(resolve_dm_name $x)
 			[ -z "$dmname" ] && continue
 			/sbin/dmraid.static -ay -i -p "$dmname" >/dev/null 2>&1
