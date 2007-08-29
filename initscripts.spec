@@ -17,6 +17,7 @@ Requires: /sbin/ip, /sbin/arping, net-tools
 Requires: /etc/redhat-release, dev
 Requires: ethtool >= 1.8-2, /sbin/runuser
 Requires: udev >= 078-1
+Requires: popt >= 1.12-2
 Conflicts: mkinitrd < 4.0, kernel < 2.6.12
 Conflicts: ypbind < 1.6-12, psacct < 6.3.2-12, kbd < 1.06-19, lokkit < 0.50-14
 Conflicts: dhclient < 3.0.3-7

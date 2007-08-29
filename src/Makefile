@@ -48,16 +48,16 @@ install-test:
 	install -m 755 testdinit $(ROOT)/etc/init.d/testd
 
 getkey: getkey.o
-	$(CC) $(LDFLAGS) -o $@ $< -Wl,-Bstatic -lpopt -Wl,-Bdynamic
+	$(CC) $(LDFLAGS) -o $@ $< -lpopt
 
 ipcalc: ipcalc.o
-	$(CC) $(LDFLAGS) -o $@ $< -Wl,-Bstatic -lpopt -Wl,-Bdynamic
+	$(CC) $(LDFLAGS) -o $@ $< -lpopt
 
 initlog: $(INITLOG_OBJS)
-	$(CC) $(LDFLAGS) -o $@ $(INITLOG_OBJS) -Wl,-Bstatic -lpopt -Wl,-Bdynamic
+	$(CC) $(LDFLAGS) -o $@ $(INITLOG_OBJS) -lpopt
 
 usleep: $(USLEEP_OBJS)
-	$(CC) $(LDFLAGS) -o $@ $(USLEEP_OBJS) -Wl,-Bstatic -lpopt -Wl,-Bdynamic
+	$(CC) $(LDFLAGS) -o $@ $(USLEEP_OBJS) -lpopt
 
 ppp-watch: $(PPPWATCH_OBJS)
 	$(CC) $(LDFLAGS) -o $@ $(PPPWATCH_OBJS) `pkg-config glib-2.0 --libs`
@@ -78,4 +78,4 @@ rename_device: rename_device.c
 	$(CC) $(CFLAGS) `pkg-config glib-2.0 --cflags` -o $@ $< `pkg-config glib-2.0 --libs`
 
 kmodule: kmodule.o
-	$(CC) $(LDFLAGS) -o $@ $< -Wl,-Bstatic -lpopt -Wl,-Bdynamic -lkudzu -lpci
+	$(CC) $(LDFLAGS) -o $@ $< -lpopt -lkudzu -lpci
