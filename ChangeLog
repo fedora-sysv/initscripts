@@ -1,23 +1,44 @@
+2007-08-29  Bill Nottingham  <notting@redhat.com>
+
+	* ChangeLog, initscripts.spec: 8.56-1
+
+	* rc.d/init.d/functions, rc.d/rc.sysinit:
+	optimize out some excess greps (<harald@redhat.com>)
+
+	* rc.d/init.d/functions:
+	make __readlink as simple as possible. Seems to match the /usr/bin
+	implementation (which does not normalize for full paths)
+
+	* initscripts.spec, rc.d/init.d/halt:
+	adapt to new nut usage, conflict with older packages (#252973, <tsmetana@redhat.com>)
+
+	* initscripts.spec, src/Makefile:
+	require popt in /lib*, link it dynamically
+
+	* initscripts.spec: fix buildreq
+
+2007-08-21  Alexandru Szasz  <alexxed@gmail.com>
+
+	* po/ro.po: updated existing strings, translated some more
+
+2007-08-16  Alain Portal  <aportal@univ-montp2.fr>
+
+	* po/fr.po: Fix a typo
+
+2007-08-14  Marek Mahut  <mmahut@redhat.com>
+
+	* po/sk.po: New slovak translation, more to come in next days.
+
 2007-08-14  Harald Hoyer  <harald@redhat.com>
 
 	* init.d/functions, rc.sysinit:
 	- added support for cryptsetup-uuids (bug #242078)
 
-2007-08-10  notting  <notting@redhat.com>
-
-	* init.d/netfs: - netfs: sort nfs mounts for unmounting (#251657)
-
-2007-08-07  notting  <notting@redhat.com>
+2007-08-07  Bill Nottingham  <notting@redhat.com>
 
 	* init.d/netconsole: assorted cleanups
 
 	* init.d/netconsole: fix netconsole status()
-
-	* init.d/netconsole: fix netconsole init script status
-
-2007-08-02  Harald Hoyer  <harald@redhat.com>
-
-	* rc.sysinit: - set the hwclock before start_udev is executed
 
 2007-07-27  Bill Nottingham  <notting@redhat.com>
 

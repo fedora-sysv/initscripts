@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.55
+Version: 8.56
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -208,7 +208,13 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
-- support newer nut syntax, conflict with old versions (#252973, <tsmetana@redhat.com>)
+- rc.sysinit: optimize out some excess greps (<harald@redhat.com>)
+- halt: support newer nut syntax, conflict with old versions (#252973, <tsmetana@redhat.com>)
+- fix buildreq from popt -> popt-devel
+ - newer popt is in /lib|/lib64 - require it, and link dynamically
+- rc.sysinit: added support for cryptsetup-uuids (bug #242078, <harald@redhat.com>)
+- netconsole: fix status(), assorted other cleanups
+- translation updates: fr, ro, sk
 
 * Fri Jul 27 2007 Bill Nottingham <notting@redhat.com>
 - add /etc/networks (#239602)
