@@ -26,7 +26,7 @@ Conflicts: alsa-utils < 1.0.14-0.5.rc2.fc7
 Obsoletes: rhsound sapinit
 Obsoletes: hotplug
 Prereq: /sbin/chkconfig, /usr/sbin/groupadd, /bin/sed, coreutils
-BuildRequires: glib2-devel popt gettext pkgconfig
+BuildRequires: glib2-devel popt-devel gettext pkgconfig
 
 %description
 The initscripts package contains the basic system scripts used to boot
