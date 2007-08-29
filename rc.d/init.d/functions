@@ -71,25 +71,8 @@ checkpid() {
 	return 1
 }
 
-__basename() {
-    echo ${@##*/}
-}
-__dirname() {
-    f=$@
-    b=$(__basename "$f")
-    if [ "$b" = "$f" ]; then 
-        echo "."
-	return
-    fi
-    d=${f//\/$b/}
-    echo $d
-}
-
 __readlink() {
-    f=$@
-    l=$(ls -bl "$f"|(read a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 link rest; echo $link))
-    d=$(__dirname "$f")/./$(__dirname $l )
-    (cd "$d" ;echo $(pwd -P)/$(__basename $l )); 
+    ls -bl "$@" 2>/dev/null| awk '{ print $NF }')
 }
 
 # __umount_loop awk_program fstab_file first_msg retry_msg umount_args
