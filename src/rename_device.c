@@ -352,7 +352,7 @@ void take_lock() {
 	int lockfd;
 	
 	while (1) {
-		lockfd = open(LOCKFILE, O_RDWR|O_CREAT|O_EXCL);
+		lockfd = open(LOCKFILE, O_RDWR|O_CREAT|O_EXCL, 0644);
 		if (lockfd != -1) {
 			write(lockfd,"%d\n",getpid());
 			close(lockfd);
