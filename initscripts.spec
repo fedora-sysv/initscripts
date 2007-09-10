@@ -207,6 +207,7 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+- kmodule: use better algorithm for finding available modules (#270741)
 - netfs: sort nfs mounts for unmounting (#251657)
 
 * Thu Aug 02 2007 Harald Hoyer <harald@redhat.com> - 7.93.31.EL-1
