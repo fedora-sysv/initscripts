@@ -10,7 +10,7 @@
  */
 
 #include <ctype.h>
-#include <ftw.h>
+#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -19,35 +19,39 @@
 
 #include <popt.h>
 
+#include <sys/mman.h>
 #include <sys/utsname.h>
 
 #include <kudzu/kudzu.h>
 
 
-/* HACK. This is so not thread-safe. */
-static char mod_name[100], cmod_name[100]; 
-
-static int isModule(const char *filename, const struct stat *sb, int flag) {
-	char *fname = basename(filename);
-	if ((!strcmp(fname,mod_name) || !strcmp(fname,cmod_name))) {
-		return 1;
-	}
-	return 0;
-}
-
-
 int isAvailable(char *modulename)
 {
 	struct utsname utsbuf;
-	char path[512];
+	struct stat sbuf;
+	char path[512], mod_name[100];
+	char *buf;
+	int fd;
 	
 	uname(&utsbuf);
-	snprintf(mod_name,100,"%s.ko",modulename);
-	snprintf(cmod_name,100,"%s.ko.gz",modulename);
-	snprintf(path,512,"/lib/modules/%s/kernel",utsbuf.release);
-	/* Do not set the third argument of this function to < 6. Blarg. */
-	if (ftw(path,isModule,15) == 1) {
-		return 1;
+	snprintf(path,512,"/lib/modules/%s/modules.dep",utsbuf.release);
+	if (!stat(path,&sbuf)) {
+		fd = open(path, O_RDONLY);
+		buf = mmap(0, sbuf.st_size, PROT_READ, MAP_SHARED, fd, 0);
+		if (!buf || buf == MAP_FAILED)
+			return 0;
+		close(fd);
+		snprintf(mod_name,100,"/%s.ko:", modulename);
+		if (strstr(buf, mod_name)) {
+			munmap(buf, sbuf.st_size);
+			return 1;
+		}
+		snprintf(mod_name,100,"/%s.ko.gz:", modulename);
+		if (strstr(buf, mod_name)) {
+			munmap(buf, sbuf.st_size);
+			return 1;
+		}
+		munmap(buf,sbuf.st_size);
 	}
 	return 0;
 }
