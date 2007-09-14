@@ -398,15 +398,6 @@ fi
 update_boot_stage RChostname
 action $"Setting hostname ${HOSTNAME}: " hostname ${HOSTNAME}
 
-# Initialize ACPI bits
-if [ -d /proc/acpi ]; then
-    for module in /lib/modules/$unamer/kernel/drivers/acpi/* ; do
-        module=${module##*/}
-        module=${module%.ko}
-        modprobe $module >/dev/null 2>&1
-    done
-fi
-
 # RAID setup
 update_boot_stage RCraid
 if [ -f /etc/mdadm.conf ]; then
