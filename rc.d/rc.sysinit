@@ -894,12 +894,6 @@ fi
 # Set up binfmt_misc
 /bin/mount -t binfmt_misc none /proc/sys/fs/binfmt_misc > /dev/null 2>&1
 
-# If they asked for ide-scsi, load it
-if strstr "$cmdline" ide-scsi ; then
-	modprobe ide-cd >/dev/null 2>&1
-	modprobe ide-scsi >/dev/null 2>&1
-fi
-
 # Boot time profiles. Yes, this should be somewhere else.
 if [ -x /usr/sbin/system-config-network-cmd ]; then
   if strstr "$cmdline" netprofile= ; then
