@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.56
+Version: 8.57
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -208,6 +208,16 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Sep 25 2007 Bill Nottingham <notting@redhat.com> - 8.57-1
+- work around upstream bash changes (#220887, modified from <nvigier@mandriva.com>)
+- init.d/network: add Should-Start for firewall services
+- ifup-eth: handle arp_ip_target separately (#288151, <agospoda@redhat.com>)
+- rc.sysinit: remove rc.serial support - should be udev rules
+- rc.sysinit: remove acpi module loading - now supported by the kernel automatically
+- fix en_GB translation (#271201)
+- translation updates: as, bn_IN, bg, ca, cs, de, el, es, fi, gu, hi, it, ja, ko, kn, ml,
+  mr, nb, nl, pa, pl, pt, pt_BR, ro, sl, sr, sr@Latn, sv, ta, te, zh_CN
+
 * Wed Aug 29 2007 Bill Nottingham <notting@redhat.com> - 8.56-1 
 - rename_device: fix open() call
 - rc.sysinit: optimize out some excess greps (<harald@redhat.com>)
