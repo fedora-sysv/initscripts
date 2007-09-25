@@ -67,7 +67,8 @@ start ()
 	SYSLOGOPTS=
 	# syslogd server, if any
 	if [ -n "$SYSLOGADDR" ]; then
-		if ! [[ "$SYSLOGADDR" =~ "^([0-9]{1,3}\.){3}[0-9]{1,3}$" ]]; then
+		MATCH="^([0-9]{1,3}\.){3}[0-9]{1,3}$"
+		if ! [[ "$SYSLOGADDR" =~ $MATCH ]]; then
 			SYSLOGADDR=$(LANG=C host $SYSLOGADDR 2>/dev/null | awk '/has address / { print $NF }')
 		fi
 	fi

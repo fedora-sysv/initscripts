@@ -167,7 +167,8 @@ function new_interface ()
        IPGLOP="${ipa%%.*}_${ipb%%.*}_${ipc%%.*}_${ipc#*.}";
        DEVNUM=${DEVICE#*:}
 
-       if (LC_ALL=C; [[ ! "$DEVNUM" =~ '^[0-9A-Za-z_]*$' ]]); then
+       MATCH='^[0-9A-Za-z_]*$'
+       if (LC_ALL=C; [[ ! "$DEVNUM" =~ $MATCH ]]); then
 	      echo $"error in $FILE: invalid alias number" >&2
 	      return 1
        fi

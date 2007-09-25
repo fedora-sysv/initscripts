@@ -26,6 +26,8 @@ if [ -n "$2" -a "$2" != "$1" ]; then
     FILES="$FILES /etc/sysconfig/network-scripts/route-$2"
 fi
 
+MATCH='^[[:space:]]*(\#.*)?$'
+
 for file in $FILES; do
    if [ -f "$file" ]; then
        if egrep -q '^[[:space:]]*ADDRESS[0-9]+=' $file ; then
@@ -34,7 +36,7 @@ for file in $FILES; do
        else
            # older format
            { cat "$file" ; echo ; } | while read line; do
-               if [[ ! "$line" =~ '^[[:space:]]*(\#.*)?$' ]]; then
+               if [[ ! "$line" =~ $MATCH ]]; then
                    /sbin/ip route add $line
                fi
            done
@@ -58,7 +60,7 @@ fi
 for file in $FILES; do
    if [ -f "$file" ]; then
        { cat "$file" ; echo ; } | while read line; do
-	   if [[ ! "$line" =~ '^[[:space:]]*(\#.*)?$' ]]; then
+           if [[ ! "$line" =~ $MATCH ]]; then
 	       /sbin/ip rule add $line
 	   fi
        done

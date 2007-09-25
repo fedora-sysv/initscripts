@@ -9,6 +9,8 @@ fi
 # The routes are actually dropped just by setting the link down, so nothing
 # needs to be done
 
+MATCH='^[[:space:]]*(\#.*)?$'
+
 # Routing rules
 FILES="/etc/sysconfig/network-scripts/rule-$1"
 if [ -n "$2" -a "$2" != "$1" ]; then
@@ -18,7 +20,7 @@ fi
 for file in $FILES; do
    if [ -f "$file" ]; then
        { cat "$file" ; echo ; } | while read line; do
-	   if [[ ! "$line" =~ '^[[:space:]]*(\#.*)?$' ]]; then
+	   if [[ ! "$line" =~ $MATCH ]]; then
 	       /sbin/ip rule del $line
 	   fi
        done
