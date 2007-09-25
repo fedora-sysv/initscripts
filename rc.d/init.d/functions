@@ -569,7 +569,7 @@ resolve_dm_name() {
         egrep -iv "no block devices found|No RAID disks" | \
         awk -F ':' "{ if (\$1 ~ /^$name$/) { print \$2; }}")
     for x in $line ; do
-        if [[ "$x" =~ "^/dev/" ]] ; then
+        if [[ "$x" =~ ^/dev/ ]] ; then
             majmin=$(get_numeric_dev dec $x)
             line=$(echo "$line" | sed -e "s,$x\( \|$\),$majmin\1,g")
         fi

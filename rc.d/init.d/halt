@@ -138,7 +138,7 @@ tmpfs=$(awk '$2 ~ /^\/($|proc|dev)/ { next; }
 if [ -n "$SWAPS" ]; then
     action $"Turning off swap: " swapoff $SWAPS
     for dst in $SWAPS; do
-	if [[ "$dst" =~ "^/dev/mapper" ]] \
+	if [[ "$dst" =~ ^/dev/mapper ]] \
 	    && [ "$(dmsetup status "$dst" | cut -d ' ' -f 3)" = crypt ]; then
 	    backdev=$(/sbin/cryptsetup status "$dst" \
 		| awk '$1 == "device:" { print $2 }')
