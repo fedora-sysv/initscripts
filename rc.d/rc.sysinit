@@ -352,7 +352,7 @@ fi
 
 # Start the graphical boot, if necessary; /usr may not be mounted yet, so we
 # may have to do this again after mounting
-RHGB_STARTED=0
+RHGB_STARTED=
 mount -n /dev/pts >/dev/null 2>&1
 [ -n "$SELINUX_STATE" ] && restorecon /dev/pts >/dev/null 2>&1
 
@@ -637,7 +637,7 @@ if [ -z "$fastboot" -a "$READONLY" != "yes" ]; then
 
         STRING=$"Checking filesystems"
 	echo $STRING
-	if [ "${RHGB_STARTED}" != "0" -a -w /etc/rhgb/temp/rhgb-console ]; then
+	if [ -n "${RHGB_STARTED}" -a -w /etc/rhgb/temp/rhgb-console ]; then
 		fsck -T -t noopts=_netdev -A $fsckoptions > /etc/rhgb/temp/rhgb-console
 	else
 		fsck -T -t noopts=_netdev -A $fsckoptions
@@ -748,7 +748,7 @@ fi
 
 
 # Start the graphical boot, if necessary and not done yet.
-if strstr "$cmdline" rhgb && ! strstr "$cmdline" early-login && [ "$RHGB_STARTED" -eq 0 -a "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
+if strstr "$cmdline" rhgb && ! strstr "$cmdline" early-login && [ -n "$RHGB_STARTED" -a "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
    ( . /etc/sysconfig/i18n 2>/dev/null ; /usr/bin/rhgb )
    RHGB_STARTED=1
 fi
