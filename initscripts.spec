@@ -18,7 +18,7 @@ Requires: /etc/redhat-release, dev
 Requires: ethtool >= 1.8-2, /sbin/runuser
 Requires: udev >= 078-1
 Requires: popt >= 1.12-2
-Conflicts: mkinitrd < 4.0, kernel < 2.6.23
+Conflicts: mkinitrd < 4.0, kernel < 2.6.12
 Conflicts: ypbind < 1.6-12, psacct < 6.3.2-12, kbd < 1.06-19, lokkit < 0.50-14
 Conflicts: dhclient < 3.0.3-7
 Conflicts: tcsh < 6.13-5
@@ -208,6 +208,8 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+- revert kernel conflict so that xen can still work
+
 * Tue Sep 25 2007 Bill Nottingham <notting@redhat.com> - 8.57-1
 - work around upstream bash changes (#220887, modified from <nvigier@mandriva.com>)
 - init.d/network: add Should-Start for firewall services
