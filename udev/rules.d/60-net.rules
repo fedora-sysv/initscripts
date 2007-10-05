@@ -1,2 +1,2 @@
-ACTION=="add", SUBSYSTEM=="net", IMPORT{program}="/lib/udev/rename_device"
+ACTION=="add", SUBSYSTEM=="net", PROGRAM="/lib/udev/rename_device", RESULT=="?*", ENV{INTERFACE_NAME}="$result"
 SUBSYSTEM=="net", RUN+="/etc/sysconfig/network-scripts/net.hotplug"

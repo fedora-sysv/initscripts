@@ -269,84 +269,6 @@ char *get_device_by_hwaddr(char *hwaddr) {
 	return NULL;
 }
 
-int do_rename(char *src, char *target) {
-	int sock;
-	struct ifreq ifr;
-	int ret;
-	
-	sock = socket(PF_INET, SOCK_DGRAM, 0);
-	if (sock == -1)
-		return 1;
-	
-	memset(&ifr,'\0', sizeof(struct ifreq));
-	g_strlcpy(ifr.ifr_name, src, IFNAMSIZ);
-	g_strlcpy(ifr.ifr_newname, target, IFNAMSIZ);
-	ret = ioctl(sock, SIOCSIFNAME, &ifr);
-	close(sock);
-	return ret;
-}
-	
-
-void rename_device(char *src, char *target, struct netdev *current) {
-	int rc;
-	
-	if (!current) {
-		current = calloc(1, sizeof(struct netdev));
-		current->dev = src;
-	}
-	
-	rc = do_rename(src, target);
-	if (rc && errno != ENODEV) {
-		char *hw;
-		char *nconfig;
-		char *curdev;
-		char *dev = NULL;
-		struct netdev *i, *tmpdev;
-		char *fallback = NULL;
-		
-		hw = get_hwaddr(target);
-		if (!hw) {
-			devs = get_devs();
-			hw = get_hwaddr(target);
-			if (!hw)
-				return;
-		}
-		
-		nconfig = get_config_by_hwaddr(hw, NULL);
-		curdev = get_device_by_hwaddr(hw);
-
-		if (nconfig) {
-			dev = nconfig;
-			for (i = current; i; i = i->next) {
-				if (!strcmp(i->dev,dev)) {
-					fallback = dev;
-					dev = NULL;
-				}
-			}
-		}
-		if (!dev)
-			asprintf(&dev,"__tmp%d",rand());
-		if (!dev)
-			return;
-		if (fallback) {
-			struct tmp *ntmp = calloc(1, sizeof(struct tmp));
-			
-			ntmp->src = strdup(dev);
-			ntmp->target = strdup(fallback);
-			if (tmplist)
-				ntmp->next = tmplist;
-			tmplist = ntmp;
-		}
-		tmpdev = calloc(1,sizeof(struct netdev));
-		tmpdev->dev = curdev;
-		if (current)
-			tmpdev->next = current;
-		current = tmpdev;
-		rename_device(curdev, dev, current);
-		do_rename(src,target);
-	}
-}
-
 void take_lock() {
 	int count = 0;
 	int lockfd;
@@ -384,7 +306,6 @@ void take_lock() {
 
 int main(int argc, char **argv) {
 	char *src, *target, *hw;
-	struct tmp *tmpdev;
 	struct timeval tv;
 
 	gettimeofday(&tv, NULL);
@@ -408,15 +329,11 @@ int main(int argc, char **argv) {
 	if (!hw)
 		goto out_unlock;
 	target = get_config_by_hwaddr(hw, src);
-	if (!target || !strcmp(src,target))
+	if (!target)
 		goto out_unlock;
+
+	printf("%s", target);
 	
-	rename_device(src, target, NULL);
-	for (tmpdev = tmplist; tmpdev ; tmpdev = tmpdev->next) {
-		rename_device(tmpdev->src, tmpdev->target, NULL);
-	}
-	printf("INTERFACE=%s\n",target);
-	printf("DEVPATH=/class/net/%s\n", target);
 out_unlock:
 	unlink(LOCKFILE);
 	exit(0);
