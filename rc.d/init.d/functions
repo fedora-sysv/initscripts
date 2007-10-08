@@ -92,7 +92,7 @@ __fgrep() {
 # paths; it doesn't have to handle comments in fstab_file.
 __umount_loop() {
 	local remaining sig=
-	local retry=3
+	local retry=3 count
 
 	remaining=$(LC_ALL=C awk "/^#/ {next} $1" "$2" | sort -r)
 	while [ -n "$remaining" -a "$retry" -gt 0 ]; do
@@ -101,11 +101,17 @@ __umount_loop() {
 		else
 			action "$4" fstab-decode umount $5 $remaining
 		fi
-		sleep 2
+		count=4
 		remaining=$(LC_ALL=C awk "/^#/ {next} $1" "$2" | sort -r)
+		while [ "$count" -gt 0 ]; do
+			[ -z "$remaining" ] && break
+			count=$(($count-1))
+			usleep 500000
+			remaining=$(LC_ALL=C awk "/^#/ {next} $1" "$2" | sort -r)
+		done
 		[ -z "$remaining" ] && break
 		fstab-decode /sbin/fuser -k -m $sig $remaining >/dev/null
-		sleep 5
+		sleep 3
 		retry=$(($retry -1))
 		sig=-9
 	done
@@ -135,7 +141,7 @@ __umount_loopback_loop() {
 		devremaining=$(awk '$1 ~ /^\/dev\/loop/ && $2 != "/" {print $1}' /proc/mounts)
 		[ -z "$remaining" ] && break
 		fstab-decode /sbin/fuser -k -m $sig $remaining >/dev/null
-		sleep 5
+		sleep 3
 		retry=$(($retry -1))
 		sig=-9
 	done
