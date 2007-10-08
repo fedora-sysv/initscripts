@@ -18,6 +18,8 @@ if [ -f /etc/sysconfig/desktop ]; then
 		preferred=/usr/sbin/gdm
 	elif [ "$DISPLAYMANAGER" = KDE ]; then
 		preferred=/usr/bin/kdm
+	elif [ "$DISPLAYMANAGER" = WDM ]; then
+		preferred=/usr/bin/wdm
 	elif [ "$DISPLAYMANAGER" = XDM ]; then
 	        preferred=/usr/bin/xdm
         elif [ -n "$DISPLAYMANAGER" ]; then
@@ -32,7 +34,7 @@ shopt -s execfail
 # Fallbacks, in order
 exec gdm "$@" >/dev/null 2>&1 </dev/null
 exec kdm "$@" >/dev/null 2>&1 </dev/null
+exec wdm "$@" >/dev/null 2>&1 </dev/null
 exec xdm "$@" >/dev/null 2>&1 </dev/null
-
 # catch all exit error
 exit 1
