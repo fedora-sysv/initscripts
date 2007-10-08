@@ -36,13 +36,14 @@
 
 # Only meant to be called from ifup.
 
-# Set link up (some cards require this.)
-/sbin/ip link set dev ${DEVICE} up
-
 # Mode need to be first : some settings apply only in a specific mode !
 if [ -n "$MODE" ] ; then
     iwconfig $DEVICE mode $MODE
 fi
+
+# Set link up (some cards require this.)
+/sbin/ip link set dev ${DEVICE} up
+
 # This is a bit hackish, but should do the job right...
 if [ -n "$ESSID" -o -n "$MODE" ] ; then
     NICKNAME=`/bin/hostname`
