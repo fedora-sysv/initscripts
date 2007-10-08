@@ -748,7 +748,7 @@ fi
 
 
 # Start the graphical boot, if necessary and not done yet.
-if strstr "$cmdline" rhgb && ! strstr "$cmdline" early-login && [ -n "$RHGB_STARTED" -a "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
+if strstr "$cmdline" rhgb && ! strstr "$cmdline" early-login && [ -z "$RHGB_STARTED" -a "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
    ( . /etc/sysconfig/i18n 2>/dev/null ; /usr/bin/rhgb )
    RHGB_STARTED=1
 fi
