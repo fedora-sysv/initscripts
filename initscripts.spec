@@ -214,11 +214,11 @@ rm -rf $RPM_BUILD_ROOT
 - require newer udev for persistent net rules (part of #264901)
 - don't hang if someone puts a dangling pipe in /etc/rhgb/temp (#251219)
 - genhostid: fix for 64-bit systems (#306811)
-- more bash matching fixes (#220887)
+- more bash matching fixes (#220087)
 - translation updates: is, nb
 
 * Tue Sep 25 2007 Bill Nottingham <notting@redhat.com> - 8.57-1
-- work around upstream bash changes (#220887, modified from <nvigier@mandriva.com>)
+- work around upstream bash changes (#220087, modified from <nvigier@mandriva.com>)
 - init.d/network: add Should-Start for firewall services
 - ifup-eth: handle arp_ip_target separately (#288151, <agospoda@redhat.com>)
 - rc.sysinit: remove rc.serial support - should be udev rules
