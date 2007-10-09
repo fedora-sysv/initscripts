@@ -55,7 +55,7 @@ disable_selinux() {
 
 relabel_selinux() {
     if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
-	chvt 1
+	/usr/bin/rhgb-client --quit
     fi
     # if /sbin/init is not labeled correctly this process is running in the 
     # wrong context, so a reboot will be required after relabel
@@ -92,9 +92,6 @@ relabel_selinux() {
  	    reboot -f
  	fi
  	echo $SELINUX_STATE > $selinuxfs/enforce
- 	if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
- 	    chvt 8
- 	fi
     fi
 }
 
@@ -194,7 +191,7 @@ init_crypto() {
 	fi
 	if [ -z "$key" -a -x /usr/bin/rhgb-client ] \
 	    && /usr/bin/rhgb-client --ping ; then
-	    chvt 1
+	    /usr/bin/rhgb-client --quit
 	fi
 	if cryptsetup isLuks "$src" 2>/dev/null; then
 	    if key_is_random "$key"; then
@@ -211,10 +208,6 @@ init_crypto() {
 	    /sbin/cryptsetup $params ${key:+-d $key} create "$dst" "$src" <&1 2>/dev/null
 	fi
 	rc=$?
-	if [ -z "$key" -a -x /usr/bin/rhgb-client ] \
-	    && /usr/bin/rhgb-client --ping ; then
-	    chvt 8
-	fi
 	if [ $rc -ne 0 ]; then
 	    ret=1
 	    continue
@@ -661,7 +654,7 @@ if [ -z "$fastboot" -a "$READONLY" != "yes" ]; then
         # A return of 4 or higher means there were serious problems.
 	if [ $rc -gt 1 ]; then
 	        if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
-		    chvt 1
+		    /usr/bin/rhgb-client --quit
 		fi
 
 		failure "$STRING"
@@ -684,9 +677,6 @@ if [ -z "$fastboot" -a "$READONLY" != "yes" ]; then
 	elif [ "$rc" -eq "1" ]; then
 		_RUN_QUOTACHECK=1
 	fi
-	if [ -f /.autofsck -a -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
-		chvt 8
-    	fi
 fi
 
 
@@ -777,7 +767,7 @@ fi
 # Configure machine if necessary.
 if [ -f /.unconfigured ]; then
     if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
-	chvt 1
+	/usr/bin/rhgb-client --quit
     fi
 
     if [ -x /usr/bin/system-config-keyboard ]; then
@@ -808,10 +798,6 @@ if [ -f /.unconfigured ]; then
     fi
 
     rm -f /.unconfigured
-
-    if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
-	chvt 8
-    fi
 fi
 
 # Clean out /.
