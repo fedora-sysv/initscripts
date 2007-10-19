@@ -193,7 +193,7 @@ init_crypto() {
 	    && /usr/bin/rhgb-client --ping ; then
 	    /usr/bin/rhgb-client --quit
 	fi
-	if cryptsetup isLuks "$src" 2>/dev/null; then
+	if [ -z "$makeswap" -a cryptsetup isLuks "$src" 2>/dev/null ]; then
 	    if key_is_random "$key"; then
 		echo $"$dst: LUKS requires non-random key, skipping"
 		ret=1
