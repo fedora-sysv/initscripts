@@ -39,7 +39,12 @@ install:
 	mkdir -p $(ROOT)/etc/X11
 	install -m755 prefdm $(ROOT)/etc/X11/prefdm
 
-	cp -af rc.d sysconfig ppp udev $(ROOT)/etc
+	install -m755 -d $(ROOT)/etc/rc.d $(ROOT)/etc/sysconfig
+	install -m755 rc.d/rc rc.d/rc.local rc.d/rc.sysinit $(ROOT)/etc/rc.d/
+	cp -af rc.d/init.d $(ROOT)/etc/rc.d/
+	install -m755 sysconfig/init sysconfig/netconsole sysconfig/readonly-root $(ROOT)/etc/sysconfig/
+	cp -af sysconfig/network-scripts $(ROOT)/etc/sysconfig/
+	cp -af ppp udev $(ROOT)/etc
 	mkdir -p $(ROOT)/etc/ppp/peers
 	chmod 755 $(ROOT)/etc/rc.d/* $(ROOT)/etc/rc.d/init.d/*
 	chmod 755 $(ROOT)/etc/ppp/peers
@@ -60,8 +65,6 @@ install:
 	mkdir -p $(ROOT)/etc/sysconfig/console
 	if uname -m | grep -q s390 ; then \
 	  install -m644 sysconfig/init.s390 $(ROOT)/etc/sysconfig/init ; \
-	else \
-	  rm -f $(ROOT)/etc/sysconfig/init.s390 ; \
 	fi
 
 	mv $(ROOT)/etc/sysconfig/network-scripts/ifup $(ROOT)/sbin
