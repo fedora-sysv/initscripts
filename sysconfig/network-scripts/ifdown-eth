@@ -48,7 +48,7 @@ if [ -n "${HWADDR}" -a -z "${MACADDR}" ]; then
     FOUNDMACADDR=`get_hwaddr ${REALDEVICE}`
     if [ -n "${FOUNDMACADDR}" -a "${FOUNDMACADDR}" != "${HWADDR}" ]; then
         NEWCONFIG=`get_config_by_hwaddr ${FOUNDMACADDR}`
-`	eval $(LANG=C fgrep "DEVICE=" $NEWCONFIG)
+	eval $(LANG=C fgrep "DEVICE=" $NEWCONFIG)
 	if [ -n "${NEWCONFIG}" -a "${NEWCONFIG##*/}" != "${CONFIG##*/}" -a "${DEVICE}" = "${REALDEVICE}" ]; then
 	   exec /sbin/ifdown ${NEWCONFIG}
 	else
