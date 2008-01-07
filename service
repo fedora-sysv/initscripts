@@ -58,7 +58,7 @@ while [ $# -gt 0 ]; do
    esac
 done
 
-if [ -x "${SERVICEDIR}/${SERVICE}" ]; then
+if [ -f "${SERVICEDIR}/${SERVICE}" ]; then
    env -i LANG="$LANG" PATH="$PATH" TERM="$TERM" "${SERVICEDIR}/${SERVICE}" ${OPTIONS}
 else
    echo $"${SERVICE}: unrecognized service" >&2
