@@ -170,6 +170,19 @@ int isCfg(const struct dirent *dent) {
 	return 1;
 }
 
+static inline char *dequote(char *start, char *end) {
+	if (end==NULL) {
+		end=start;
+		while(*end) end++;
+	}
+	if (end > start) end--;
+	if ((*start == '\'' || *start == '\"') && ( *start == *end ) ) {
+		*end='\0';
+		if (start<end) start++;
+	}
+	return start;
+}
+
 struct netdev *get_configs() {
 	int ncfgs = 0;
 	struct netdev *ret, *tmpdev;
@@ -206,11 +219,11 @@ struct netdev *get_configs() {
 			}
 #if defined(__s390__) || defined(__s390x__)
 			if (g_str_has_prefix(lines[i],"SUBCHANNELS=")) {
-				hwaddr = lines[i] + 12;
+				hwaddr = dequote(lines[i] + 12, NULL);
 			}
 #else
 			if (g_str_has_prefix(lines[i],"HWADDR=")) {
-				hwaddr = lines[i] + 7;
+				hwaddr = dequote(lines[i] + 7, NULL);
 			}
 #endif
 		}
