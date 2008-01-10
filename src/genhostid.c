@@ -28,5 +28,5 @@ main (void)
       srand48 ((long int) time (NULL) ^ (long int) getpid ());
       n = lrand48 ();
     }
-  return sethostid (n);
+  return sethostid ((int32_t)n);
 }
