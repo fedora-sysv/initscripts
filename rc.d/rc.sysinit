@@ -679,12 +679,27 @@ if [ -z "$fastboot" -a "$READONLY" != "yes" ]; then
 	fi
 fi
 
+remount_needed() {
+  local state oldifs
+  [ "$READONLY" = "yes" ] && return 1
+  state=`LC_ALL=C awk '/ \/ / && ($3 !~ /rootfs/) { print $4 }' /proc/mounts`
+  oldifs=$IFS
+  IFS=","
+  for opt in $state ; do
+  	if [ "$opt" = "rw" ]; then
+		IFS=$oldifs
+		return 1
+	fi
+  done
+  IFS=$oldifs
+  return 0
+}
 
 # Remount the root filesystem read-write.
 update_boot_stage RCmountfs
-state=`LC_ALL=C awk '/ \/ / && ($3 !~ /rootfs/) { print $4 }' /proc/mounts`
-[ "$state" != "rw" -a "$READONLY" != "yes" ] && \
+if remount_needed ; then
   action $"Remounting root filesystem in read-write mode: " mount -n -o remount,rw /
+fi
 
 # Clean up SELinux labels
 if [ -n "$SELINUX_STATE" ]; then
