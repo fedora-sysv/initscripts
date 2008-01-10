@@ -119,10 +119,12 @@ init_crypto() {
 	fi
 	if [ -n "$key" -a "x$key" != "xnone" ]; then
 	    if test -e "$key" ; then
+		owner=$(ls -l $key | (read a b owner rest; echo $owner))
+		if ! key_is_random "$key"; then
 		mode=$(ls -l "$key" | cut -c 5-10)
-		owner=$(ls -l $key | awk '{ print $3 }')
-		if [ "$mode" != "------" ] && ! key_is_random "$key"; then
-		    echo $"INSECURE MODE FOR $key"
+		    if [ "$mode" != "------" ]; then
+		       echo $"INSECURE MODE FOR $key"
+		    fi
 		fi
 		if [ "$owner" != root ]; then
 		    echo $"INSECURE OWNER FOR $key"
@@ -139,6 +141,12 @@ init_crypto() {
 	makeswap=""
 	mke2fs=""
 	skip=""
+	# Parse the src field for UUID= and convert to real device names
+	if [ "${src%%=*}" == "UUID" ]; then
+		src=`/sbin/blkid -t "$src" -o device|(read oneline;echo $oneline)`
+	elif [ "${src/^\/dev\/disk\/by-uuid\/}" != "$src" ]; then
+		src=$(__readlink $src)
+	fi
 	# Parse the options field, convert to cryptsetup parameters
 	# and contruct the command line
 	while [ -n "$opt" ]; do
