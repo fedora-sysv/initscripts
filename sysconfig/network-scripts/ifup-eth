@@ -125,7 +125,16 @@ if [ "$ISALIAS" = no ] && is_bonding_device ${DEVICE} ; then
     for arg in $BONDING_OPTS ; do   
         key=${arg%%=*};
         value=${arg##*=};
-        echo $value > /sys/class/net/${DEVICE}/bonding/$key
+        if [ "${key}" = "arp_ip_target" ]; then
+            OLDIFS=$IFS;
+            IFS=',';
+            for arp_ip in $value; do
+                echo +$arp_ip > /sys/class/net/${DEVICE}/bonding/$key
+            done
+            IFS=$OLDIFS;
+        else
+            echo $value > /sys/class/net/${DEVICE}/bonding/$key
+        fi
     done
 
     /sbin/ip link set dev ${DEVICE} up
