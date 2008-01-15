@@ -45,7 +45,7 @@ is_available ${REALDEVICE}
 # bail out, if the MAC does not fit
 if [ -n "${HWADDR}" ]; then
     FOUNDMACADDR=`get_hwaddr ${REALDEVICE}`
-    if [ "${FOUNDMACADDR}" != "${HWADDR}" ]; then
+    if [ "${FOUNDMACADDR}" != "${HWADDR}" -a "${FOUNDMACADDR}" != "${MACADDR}" ]; then
         curdev=`get_device_by_hwaddr ${HWADDR}`
         if [ -n "$curdev" ]; then
 	  rename_device "${REALDEVICE}" "${HWADDR}" "${curdev}" || {
