@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.60
+Version: 8.61
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -224,6 +224,7 @@ rm -rf $RPM_BUILD_ROOT
 - minor stateless fixes
 - Makefile cleanups (from OLPC, <cscott@cscott.net>)
 - translation updates: fr, ru, nb
+- don't endelessly loop on ifdown (#390271)
 - rc.sysinit: - fix encrypted swap partitions with random key
   (<harald@redhat.com>)
 
