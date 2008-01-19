@@ -209,6 +209,24 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Jan 18 2008 Bill Nottingham <notting@redhat.com> - 8.61-1
+- use lvm, not lvm.static (#429222)
+- ifup-eth: don't do something odd if we find a mac address that
+  matches the user-set MACADDR (#251415)
+- rc.sysinit: fix root fs check to catch 'rw,ordered,noatime,etc.' properly
+  (#334171)
+- rc.sysinit: Use proper invocations for authconfig, system-config-network
+  (#426372, #428202)
+- service: handle unreadable scripts (#427767)
+- initscripts.spec: add requirements for stateless
+- fix perms on /etc/profile.d (#407531, <ville.skytta@iki.fi>)
+- rename_device: handle quoted HWADDR, etc. in ifcfg scripts (#351291)
+- minor stateless fixes
+- Makefile cleanups (from OLPC, <cscott@cscott.net>)
+- translation updates: fr, ru, nb
+- rc.sysinit: - fix encrypted swap partitions with random key
+  (<harald@redhat.com>)
+
 * Tue Oct  9 2007 Bill Nottingham <notting@redhat.com> - 8.60-1
 - don't chvt with rhgb - just kill it when needed
 
