@@ -52,9 +52,9 @@ case "$1" in
 		       /sbin/dmsetup ls --target multipath --exec "/sbin/kpartx -a"
 		fi
 	    fi
-	    if [ -x /sbin/lvm.static ]; then
-		if /sbin/lvm.static vgscan > /dev/null 2>&1 ; then
-		       action $"Setting up Logical Volume Management:" /sbin/lvm.static vgchange -a y
+	    if [ -x /sbin/lvm ]; then
+		if /sbin/lvm vgscan > /dev/null 2>&1 ; then
+		       action $"Setting up Logical Volume Management:" /sbin/lvm vgchange -a y
 		fi
 	    fi
 	    STRING=$"Checking network-attached filesystems"
