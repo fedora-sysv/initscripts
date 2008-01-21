@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.61
+Version: 8.62
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -209,6 +209,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Jan 21 2008 Bill Nottingham <notting@redhat.com> - 8.62-1
+- rc.d/rc.sysinit: fix syntax error (#429556)
+- migrate sr@Latn -> sr@latin (<kmilos@gmail.com>)
+
 * Fri Jan 18 2008 Bill Nottingham <notting@redhat.com> - 8.61-1
 - use lvm, not lvm.static (#429222)
 - ifup-eth: don't do something odd if we find a mac address that
