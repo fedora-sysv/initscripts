@@ -215,6 +215,7 @@ rm -rf $RPM_BUILD_ROOT
 * Fri Feb  1 2008 Bill Nottingham <notting@redhat.com> - 8.63-1
 - don't start RAID arrays in rc.sysinit, that's done by udev (corollary of #429604)
 - add a NetworkManager-dispatcher script that does netreport on interface changes
+- use udev rules to set the clock, avoiding issues with modular rtcs (#290731)
 
 * Mon Jan 21 2008 Bill Nottingham <notting@redhat.com> - 8.62-1
 - rc.d/rc.sysinit: fix syntax error (#429556)

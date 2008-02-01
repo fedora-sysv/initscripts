@@ -1,3 +1,23 @@
+2008-02-01  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec, ChangeLog: 8.63-1
+
+	* rc.d/rc.sysinit, udev/rules.d/88-clock.rules:
+	use udev rules to set the clock, avoiding issues with modular rtcs (#290731)
+
+	* initscripts.spec, rc.d/rc.sysinit:
+	Use udev to intialize configured RAID arrays; conflict with prior mdadm
+	versions to ensure the correct version with the rules gets pulled in
+
+	* rc.d/rc.sysinit: keep one old copy of dmesg around (#426538)
+
+	* Makefile, NetworkManager/dispatcher.d/00-netreport, initscripts.spec:
+	add NetworkManager-dispatcher script to notify netreport apps (<linville@redhat.com>)
+
+2008-01-27  Magnus  <fedoratrans@gmail.com>
+
+	* po/sv.po: *** empty log message ***
+
 2008-01-21  Bill Nottingham  <notting@redhat.com>
 
 	* ChangeLog, initscripts.spec: 8.62-1
