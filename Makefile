@@ -44,7 +44,7 @@ install:
 	cp -af rc.d/init.d $(ROOT)/etc/rc.d/
 	install -m755 sysconfig/init sysconfig/netconsole sysconfig/readonly-root $(ROOT)/etc/sysconfig/
 	cp -af sysconfig/network-scripts $(ROOT)/etc/sysconfig/
-	cp -af ppp udev Networkmanager $(ROOT)/etc
+	cp -af ppp udev NetworkManager $(ROOT)/etc
 	mkdir -p $(ROOT)/etc/ppp/peers
 	chmod 755 $(ROOT)/etc/rc.d/* $(ROOT)/etc/rc.d/init.d/*
 	chmod 755 $(ROOT)/etc/ppp/peers
