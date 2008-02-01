@@ -202,6 +202,9 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/ppp/ipv6-up
 %config /etc/ppp/ipv6-down
 %config /etc/initlog.conf
+%dir /etc/NetworkManager
+%dir /etc/NetworkManager/dispatcher.d
+/etc/NetworkManager/dispatcher.d/00-netreport
 %doc sysconfig.txt sysvinitfiles ChangeLog static-routes-ipv6 ipv6-tunnel.howto ipv6-6to4.howto changes.ipv6 COPYING
 /var/lib/stateless
 %ghost %attr(0600,root,utmp) /var/log/btmp

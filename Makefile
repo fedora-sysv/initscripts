@@ -44,7 +44,7 @@ install:
 	cp -af rc.d/init.d $(ROOT)/etc/rc.d/
 	install -m755 sysconfig/init sysconfig/netconsole sysconfig/readonly-root $(ROOT)/etc/sysconfig/
 	cp -af sysconfig/network-scripts $(ROOT)/etc/sysconfig/
-	cp -af ppp udev $(ROOT)/etc
+	cp -af ppp udev Networkmanager $(ROOT)/etc
 	mkdir -p $(ROOT)/etc/ppp/peers
 	chmod 755 $(ROOT)/etc/rc.d/* $(ROOT)/etc/rc.d/init.d/*
 	chmod 755 $(ROOT)/etc/ppp/peers
@@ -53,6 +53,7 @@ install:
 	chmod 755 $(ROOT)/etc/sysconfig/network-scripts/ifdown-*
 	chmod 755 $(ROOT)/etc/sysconfig/network-scripts/init*
 	chmod 755 $(ROOT)/etc/sysconfig/network-scripts/net.hotplug
+	chmod 755 $(ROOT)/etc/NetworkManager/dispatcher.d/00-netreport
 	mkdir -p $(ROOT)/etc/sysconfig/modules
 	mkdir -p $(ROOT)/etc/sysconfig/networking/devices
 	mkdir -p $(ROOT)/etc/sysconfig/networking/profiles/default
