@@ -257,50 +257,10 @@ if [ "$PROMPT" != "no" ]; then
  echo
 fi
 
-# Set the system clock.
-update_boot_stage RCclock
-ARC=0
-SRM=0
-UTC=0
-
-if [ -f /etc/sysconfig/clock ]; then
-   . /etc/sysconfig/clock
-
-   # convert old style clock config to new values
-   if [ "${CLOCKMODE}" = "GMT" ]; then
-      UTC=true
-   elif [ "${CLOCKMODE}" = "ARC" ]; then
-      ARC=true
-   fi
-fi
-
-CLOCKDEF=""
-CLOCKFLAGS="$CLOCKFLAGS --hctosys"
-
-case "$UTC" in
-    yes|true)	CLOCKFLAGS="$CLOCKFLAGS --utc"
-		CLOCKDEF="$CLOCKDEF (utc)" ;;
-    no|false)	CLOCKFLAGS="$CLOCKFLAGS --localtime"
-		CLOCKDEF="$CLOCKDEF (localtime)" ;;
-esac
-case "$ARC" in
-    yes|true)	CLOCKFLAGS="$CLOCKFLAGS --arc"
-		CLOCKDEF="$CLOCKDEF (arc)" ;;
-esac
-case "$SRM" in
-    yes|true)	CLOCKFLAGS="$CLOCKFLAGS --srm"
-		CLOCKDEF="$CLOCKDEF (srm)" ;;
-esac
-
-[ -x /sbin/hwclock ] && /sbin/hwclock $CLOCKFLAGS
-
-action $"Setting clock $CLOCKDEF: `date`" /bin/true
-
 # Fix console loglevel
 if [ -n "$LOGLEVEL" ]; then
 	/bin/dmesg -n $LOGLEVEL
 fi
-
 
 # Only read this once.
 cmdline=$(cat /proc/cmdline)
