@@ -391,12 +391,6 @@ fi
 update_boot_stage RChostname
 action $"Setting hostname ${HOSTNAME}: " hostname ${HOSTNAME}
 
-# RAID setup
-update_boot_stage RCraid
-if [ -f /etc/mdadm.conf ]; then
-    /sbin/mdadm -A -s --auto=yes
-fi
-
 # Device mapper & related initialization
 if ! __fgrep "device-mapper" /proc/devices >/dev/null 2>&1 ; then
 	modprobe dm-mod >/dev/null 2>&1
