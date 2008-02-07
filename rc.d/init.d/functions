@@ -69,6 +69,10 @@ checkpid() {
 	return 1
 }
 
+__readlink() {
+    ls -bl "$@" 2>/dev/null| awk '{ print $NF }'
+}
+
 # __umount_loop awk_program fstab_file first_msg retry_msg umount_args
 # awk_program should process fstab_file and return a list of fstab-encoded
 # paths; it doesn't have to handle comments in fstab_file.
