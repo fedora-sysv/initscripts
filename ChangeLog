@@ -1,3 +1,1480 @@
+2008-02-07  Harald Hoyer  <harald@redhat.com>
+
+	* initscripts.spec: version 8.45.18.EL
+
+	* Makefile:
+	added -r '-rrhel5-branch' to rcs2log, to produce a branch specific ChangeLog
+	-r '-rrhel5-branch -S' would be more correct, but elvis' cvs server is too old.
+
+	* rc.d/init.d/functions: added needed __readlink function
+
+2008-01-20  kmilos  <kmilos@redhat.com>
+
+	* po/sr@latin.po: Added sr@latin to replace sr@Latn
+
+2008-01-10  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit:
+	fix root fs check to catch 'rw,ordered,noatime,etc.' properly (#334171)
+
+	* rc.d/rc.sysinit:
+	add LUKS uuid support (#360071, <karsten@redhat.com>)
+
+	* rc.d/rc.sysinit:
+	Use proper invocations for authconfig, system-config-network (#426372, #428202)
+
+	* sysconfig/network-scripts/ifup-ipsec:
+	add support for overriding IKE dh group (#251506, <stijn.tintel@x-tend.be>)
+
+	* sysconfig/network-scripts/ifup-eth:
+	Handle 'arp_ip_target' bonding option correctly (#288151, modified from <agospoda@redhat.com>)
+
+	* src/genhostid.c: fix genhostid on x86_64 (#306811)
+
+2008-01-09  Bill Nottingham  <notting@redhat.com>
+
+	* src/rename_device.c:
+	Ignore any quotes around SUBCHANNELS and HWADDR, for admins that have accidentally added them (#351291)
+
+2007-09-07  Bill Nottingham  <notting@redhat.com>
+
+	* po/bs.po: fix typo (#281941)
+
+2007-09-05  Bill Nottingham  <notting@redhat.com>
+
+	* po/bs.po: update-po & refresh-po
+
+2007-08-07  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec: - fix netconsole service status (#223742)
+
+	* rc.d/init.d/netconsole: fix netconsole init script status
+
+2007-08-03  Bill Nottingham  <notting@redhat.com>
+
+	* COPYING: license cleanup
+
+2007-07-27  Bill Nottingham  <notting@redhat.com>
+
+	* networks: add /etc/networks (#239602)
+
+2007-06-22  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec, rc.d/init.d/halt:
+	- init.d/halt: don't shut down the network in kexec (#223932, <mchristi@redhat.com>)
+
+	* initscripts.spec, sysconfig/network-scripts/ifup-eth:
+	- ifup-eth: set 'primary' later for bonding devices (#236897, <agospoda@redhat.com>)
+
+	* initscripts.spec: - add init script for netconsole (#223742)
+
+	* initscripts.spec, sysconfig/network-scripts/network-functions:
+	- fix logic error in install_bonding_driver (#229643)
+
+	* initscripts.spec, rc.d/init.d/network:
+	- add support for VLAN_PLUS_VID_NO_PAD vlans (#229285)
+
+2007-04-16  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec, rc.d/init.d/netconsole, sysconfig/netconsole:
+	add netconsole init script (#223742)
+
+2007-03-16  Bill Nottingham  <notting@redhat.com>
+
+	* po/bs.po: update-po
+
+2007-01-23  absinthe  <absinthe@redhat.com>
+
+	* po/bs.po: tranlated initscripts to bosnina
+
+2007-01-19  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit: revert for now - something else odd is going on here
+
+2007-01-18  Peter Jones  <pjones@redhat.com>
+
+	* initscripts.spec, rc.d/rc.sysinit:
+	- copy dhclient lease files from the initrd into /var/lib/dhclient so
+	  the network doesn't get reset during startup with iscsi /
+	  Resolves: #218791
+
+2007-01-17  Bill Nottingham  <notting@redhat.com>
+
+	* ipv6.mod: New file.
+
+	* ipv6.mod: add ipv6 modprobe rule that reads NETWORKING_IPV6 (#198045)
+
+2007-01-15  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec: typo
+
+	* initscripts.spec, sysconfig/network-scripts/ifup-eth:
+	- set MACADDR, if specified, before bringing up bonding master/slaves (#218792)
+
+2007-01-04  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec: 8.45.13.EL-1
+
+	* sysconfig/network-scripts/ifdown-eth:
+	release bonding slaves properly (#220525)
+
+2006-12-14  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec:
+	- translation updates: ml, mr, zh_CN, zh_TW (#216097)
+
+2006-12-13  Rahul Bhalerao  <rbhalera@redhat.com>
+
+	* po/mr.po: Updated Marathi translation
+
+2006-12-12  Bill Nottingham  <notting@redhat.com>
+
+	* po/mr.po: update from HEAD
+
+2006-12-07  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec, sysconfig/network-scripts/ifup-eth:
+	back out... save for 5.1
+
+	* sysconfig/network-scripts/ifup-eth, initscripts.spec:
+	- set MACADDR, MTU before initializing slave devices (#218792)
+
+2006-12-07  ltenn  <ltenn@redhat.com>
+
+	* po/zh_TW.po, po/zh_CN.po: Routine merge by l10n
+
+2006-12-04  Ani Peter  <apeter@redhat.com>
+
+	* po/ml.po: Updated Malayalam file
+
+2006-12-01  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec:
+	- translation updates: bn, fr, hi, ko, ml, te, zh_CN, zh_TW (#216097)
+
+2006-12-01  Runa Bhattacharjee  <runab@redhat.com>
+
+	* po/bn_IN.po: Updated Bengali India Translation:1/12
+
+2006-12-01  Fabien Decroux  <fdecroux@redhat.com>
+
+	* po/fr.po: Updated
+
+2006-12-01  Chung Cheng  <ccheng@redhat.com>
+
+	* po/zh_TW.po: Translation done
+
+2006-12-01  Xi Huang  <xhuang@redhat.com>
+
+	* po/zh_CN.po: update
+
+2006-11-30  ltenn  <ltenn@redhat.com>
+
+	* po/ml.po: Routine merge by l10n
+
+2006-11-30  sganesh  <sganesh@redhat.com>
+
+	* po/te.po: Telugu translation commited
+
+2006-11-30  Eun Ju Kim  <eukim@redhat.com>
+
+	* po/ko.po: Updated
+
+2006-11-29  sganesh  <sganesh@redhat.com>
+
+	* po/te.po: telugu translation commited
+
+2006-11-29  Ani Peter  <apeter@redhat.com>
+
+	* po/ml.po: Updated Malaylam file
+
+2006-11-29  Rajesh Ranjan  <rranjan@redhat.com>
+
+	* po/hi.po: hindi proof
+
+2006-11-29  sganesh  <sganesh@redhat.com>
+
+	* po/te.po: Telugu translation commited
+
+2006-11-29  Eun Ju Kim  <eukim@redhat.com>
+
+	* po/ko.po: Updated
+
+2006-11-29  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec, rc.d/init.d/halt:
+	- don't unmount network file systems (#217625)
+
+2006-11-28  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec, src/rename_device.c:
+	- add a step to rename any temporarily renamed devices (#208740,#204803, #214817)
+
+2006-11-28  sganesh  <sganesh@redhat.com>
+
+	* po/te.po: Telugu transalation commited
+
+	* po/te.po: Telugu transaltion commited
+
+2006-11-28  yulia  <yulia@redhat.com>
+
+	* po/ru.po: rhel5 urgent fix
+
+2006-11-27  Ani Peter  <apeter@redhat.com>
+
+	* po/ml.po: Updated Malayalam file
+
+2006-11-27  sganesh  <sganesh@redhat.com>
+
+	* po/te.po: Telugu translation commited
+
+2006-11-27  Francesco Valente  <fvalen@redhat.com>
+
+	* po/it.po: Updated
+
+2006-11-25  Ani Peter  <apeter@redhat.com>
+
+	* po/ml.po: Updated Malaylam file
+
+2006-11-24  ankitp  <ankitp@redhat.com>
+
+	* po/gu.po: Updated Gujarati Translations
+
+2006-11-24  Ani Peter  <apeter@redhat.com>
+
+	* po/ml.po: Updated malayalam file
+
+2006-11-24  Rajesh Ranjan  <rranjan@redhat.com>
+
+	* po/hi.po: hindi proof
+
+2006-11-24  Ani Peter  <apeter@redhat.com>
+
+	* po/ml.po: Updated malayalam file
+
+2006-11-24  Rajesh Ranjan  <rranjan@redhat.com>
+
+	* po/hi.po: hindi update
+
+2006-11-24  Noriko Mizumoto  <noriko@redhat.com>
+
+	* po/ja.po: update translated
+
+2006-11-23  Manuel Eduardo Ospina Sarmiento  <mospina@redhat.com>
+
+	* po/es.po: done
+
+2006-11-23  vferreir  <vferreir@redhat.com>
+
+	* po/pt_BR.po: *** empty log message ***
+
+2006-11-23  Subhransu Behera  <sbehera@redhat.com>
+
+	* po/or.po: Updated Oriya Translation
+
+2006-11-23  Jaswinder Singh  <jsingh@redhat.com>
+
+	* po/pa.po: Updated is uploaded
+
+2006-11-23  vferreir  <vferreir@redhat.com>
+
+	* po/pt_BR.po: *** empty log message ***
+
+2006-11-23  Felix Iyadurai  <ifelix@redhat.com>
+
+	* po/ta.po: RHEL5 branch software translation for ta completed
+
+2006-11-23  trinks  <trinks@redhat.com>
+
+	* po/de.po: total:761 fuzzy:0 untranslated:0
+
+2006-11-22  Bill Nottingham  <notting@redhat.com>
+
+	* po/vi.po, po/wa.po, po/zh_CN.po, po/zh_TW.po, po/sr@Latn.po, po/sv.po, po/ta.po, po/te.po, po/tr.po, po/uk.po, po/ur.po, po/pt_BR.po, po/ro.po, po/ru.po, po/si.po, po/sk.po, po/sl.po, po/sq.po, po/sr.po, po/mr.po, po/ms.po, po/my.po, po/nb.po, po/nl.po, po/nn.po, po/no.po, po/or.po, po/pa.po, po/pl.po, po/pt.po, po/it.po, po/ja.po, po/ka.po, po/kn.po, po/ko.po, po/ku.po, po/lo.po, po/lt.po, po/mk.po, po/ml.po, po/gl.po, po/gu.po, po/he.po, po/hi.po, po/hr.po, po/hu.po, po/hy.po, po/id.po, po/initscripts.pot, po/is.po, po/es.po, po/et.po, po/eu_ES.po, po/fi.po, po/fr.po, po/as.po, po/bg.po, po/bn.po, po/bn_IN.po, po/ca.po, po/cs.po, po/cy.po, po/da.po, po/de.po, po/el.po, po/en_GB.po, po/ar.po:
+	update-po and refresh-po
+
+	* initscripts.spec: add ref
+
+	* sysconfig/network-scripts/network-functions-ipv6:
+	more fixes so modules don't get reloaded (#211474)
+
+2006-11-22  Felix Iyadurai  <ifelix@redhat.com>
+
+	* po/ta.po: Fedora rhel5 branch ta translation updated
+
+2006-11-21  Ani Peter  <apeter@redhat.com>
+
+	* po/ml.po: Updated Malayalam file
+
+2006-11-20  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec: add some more changelog bits
+
+	* rc.d/rc.sysinit: fix dmraid test (#216490)
+
+2006-11-06  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec, sysconfig/network-scripts/network-functions:
+	backport
+
+2006-11-03  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec: add changelog
+
+	* lang.csh, lang.sh: handle sinhalese as well (#212438)
+
+	* initscripts.spec: bump
+
+	* sysctl.conf.ppc64: actually, ship this on both
+
+	* initscripts.spec, sysctl.conf.ppc, sysctl.conf.ppc64:
+	fix ppc limits (#184820)
+
+2006-11-02  Jaswinder Singh  <jsingh@redhat.com>
+
+	* po/pa.po: Completed
+
+2006-11-01  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec: add changelog
+
+	* src/rename_device.c: I can't count
+
+2006-10-31  Bill Nottingham  <notting@redhat.com>
+
+	* prefdm: fix gdm in CJKI (#209579)
+
+	* initscripts.spec: add changelog
+
+	* rc.d/rc.sysinit: mount tmpfs with -n (#213132)
+
+2006-10-30  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec, src/rename_device.c:
+	more SUBCHANNELS related fixage (#204803)
+
+	* lang.csh, lang.sh: support iso-8859-8 (#212738, <matan@svgalib.org>)
+
+2006-10-27  Bill Nottingham  <notting@redhat.com>
+
+	* statetab: add file. duh.
+
+	* initscripts.spec: bump
+
+	* initscripts.spec:
+	* Fri Oct 27 2006 Bill Nottingham <notting@redhat.com> 8.45.5.EL-1
+	- fix handling of undisplayable locales on the console some more (#209579, #212438)
+	- use SUBCHANNEL as the primary identifier for s390 networking (#204803)
+
+	Resolves: bug #204803, bug #212438, bug #209579
+
+2006-10-26  Bill Nottingham  <notting@redhat.com>
+
+	* src/rename_device.c:
+	use SUBCHANNELS as the primary key for s390 network devices (#204803)
+
+	* rc.d/init.d/functions, rc.d/rc.sysinit:
+	fix or_IN and similar locales (#212438)
+
+2006-10-19  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec: add changelog
+
+	* sysconfig/network-scripts/ifup-eth:
+	just enslave once, seems to work now
+
+2006-10-18  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifdown-eth, sysconfig/network-scripts/ifup-eth, sysconfig/network-scripts/network-functions:
+	use sysfs interface for bonding (#202443, <agospoda@redhat.com>)
+
+	* lang.csh, lang.sh: blacklist CJKI on the virtual console (#209579)
+
+	* rc.d/rc.sysinit: use dmraid.static (#211297)
+
+2006-10-16  Bill Nottingham  <notting@redhat.com>
+
+	* Makefile: fix build
+
+	* initscripts.spec: bump
+
+	* Makefile, sysctl.conf, sysctl.conf.ia64, sysctl.conf.ppc64, sysctl.conf.s390, sysctl.conf.s390x, sysctl.conf.sparc, sysctl.conf.x86_64:
+	add sysctl.conf for bigger memory settings for various arches (#184820)
+
+	* po/ml.po, po/ms.po: sync w/head
+
+2006-10-12  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec, inittab, inittab.s390, prefdm, rc.d/rc.sysinit, sysconfig/network-scripts/ifup-eth:
+	revert early-login support (#210386)
+
+	* po/ja.po: sync with head
+
+	* rc.d/rc.sysinit:
+	- Handle "nodmraid" and "nompath" command line options (#209377, <pjones@redhat.com>)
+
+	* po/da.po, po/fi.po, po/zh_CN.po: sync from head
+
+2006-05-23  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts-s390.patch:
+	integrate s390 patch - just check for hwclock before running it
+
+	* initscripts-s390.patch: fix patch
+
+2006-05-17  Miloslav Trmac  <mitr@redhat.com>
+
+	* sysconfig/network-scripts/ifdown-aliases:
+	Remove unused ifdown-aliases.
+
+2006-03-17  Bill Nottingham  <notting@redhat.com>
+
+	* src/rename_device.1:
+	and if it's in /lib/udev, a man page is probably overkill
+
+	* src/rename_device.1: New file.
+
+	* src/rename_device.1:
+	add a udev helper to do device renames on module load. Essentially,
+	it's network-functions rename_device ported to C, with locking added.
+
+2006-02-10  Miloslav Trmac  <mitr@redhat.com>
+
+	* sysconfig/network-scripts/ifdown-aliases: ifup-aliases:
+	- Revert the previous commit
+	- Reformat the eval of doom, add comments
+	- Add support for non-numeric IP aliases
+	ifdown-aliases:
+	- Copy the updated eval of doom
+
+2006-01-12  Bill Nottingham  <notting@redhat.com>
+
+	* src/redhat-support-check.c: oops
+
+	* src/redhat-support-check.c: add changelog
+
+2005-11-30  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifup-ib: New file.
+
+	* sysconfig/network-scripts/ifup-ib:
+	add ifup-ib for Infiniband (#108227, <dledford@redhat.com>)
+
+2005-09-21  Bill Nottingham  <notting@redhat.com>
+
+	* src/redhat-support-check.c:
+	- backport ia64 multi-core support to redhat-support-check (#164305)
+
+2005-07-26  Bill Nottingham  <notting@redhat.com>
+
+	* src/redhat-support-check.c: handle multi-core itanium (#163783)
+
+2005-06-21  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifdown-aliases:
+	cd to the proper dir first (#161170)
+
+	* sysconfig/network-scripts/ifdown-aliases:
+	add 'cd' to the proper dir (#161170)
+
+2005-06-09  Bill Nottingham  <notting@redhat.com>
+
+	* src/redhat-support-check.c:
+	add patch for dual-core to this CVS (#155331)
+
+	* src/redhat-support-check.c:
+	add redhat-support-check AMD64 number-of-siblings fix to CVS
+
+2005-06-01  Bill Nottingham  <notting@redhat.com>
+
+	* src/mkkerneldoth: fix for newer sed (#159159, <trevin@xmission.com>)
+
+2005-05-31  Bill Nottingham  <notting@redhat.com>
+
+	* src/mkkerneldoth: revert fix for now
+
+	* src/mkkerneldoth: fix mkkerneldoth for athlon-smp (#159159)
+
+2005-04-20  Bill Nottingham  <notting@redhat.com>
+
+	* src/redhat-support-check.c: tweak
+
+	* src/redhat-support-check.c:
+	check for number of siblings on AMD processors as well (#155331)
+
+2005-03-07  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts-s390.patch: make it apply
+
+2004-10-18  Bill Nottingham  <notting@redhat.com>
+
+	* src/redhat-support-check.c: re-add redhat-support-check (#135145)
+
+	* rc.d/init.d/rawdevices, sysconfig/rawdevices:
+	add rawdevices stuff back
+
+2004-10-14  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/rawdevices, sysconfig/rawdevices: remove rawdevices again
+
+2004-10-12  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/rawdevices, sysconfig/rawdevices:
+	return of rawdevices stuff
+
+2004-10-08  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/rawdevices: remove rawdevices
+
+2004-09-01  Karsten Hopp  <karsten@redhat.com>
+
+	* sysconfig/network-scripts/ifup-escon:
+	- esconX interfaces are gone, they are now called ctcX and configured the same as ctc interfaces
+
+2004-08-18  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/rawdevices: remove rawdevices (#130048)
+
+	* src/mkkerneldoth: remove mkkerneldoth
+
+2004-07-07  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/random:
+	move random stuff to rc.sysinit/halt; move all swap to after this.
+	prereq of bug #123278
+
+2004-05-03  Bill Nottingham  <notting@redhat.com>
+
+	* src/redhat-support-check.c: fix up asm
+
+2004-04-26  Bill Nottingham  <notting@redhat.com>
+
+	* src/redhat-support-check.c: handle EM64T
+
+2004-04-21  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifup-escon: modprobe.conf tweakage
+
+2004-03-17  Bill Nottingham  <notting@redhat.com>
+
+	* src/redhat-support-check.c: oops
+
+	* src/redhat-support-check.c:
+	fix some of the MACADDR/HWADDR conflicts (#110427)
+
+2003-12-15  Bill Nottingham  <notting@redhat.com>
+
+	* src/mkkerneldoth: fix summit (#112116)
+
+2003-11-14  Bill Nottingham  <notting@redhat.com>
+
+	* src/mkkerneldoth: add summit kernel
+
+2003-10-10  Bill Nottingham  <notting@redhat.com>
+
+	* src/redhat-support-check.c: add fudge factor (#106787)
+
+2003-09-16  Bill Nottingham  <notting@redhat.com>
+
+	* src/redhat-support-check.c: add copyright header
+
+	* src/redhat-support-check.c: reset rc before main code
+
+2003-08-08  Bill Nottingham  <notting@redhat.com>
+
+	* src/mkkerneldoth: support kernel-hugemem
+
+2003-07-09  Bill Nottingham  <notting@redhat.com>
+
+	* src/redhat-support-check.c: New file.
+
+	* src/redhat-support-check.c:
+	add C version of redhat-support-check here
+
+2003-07-08  Bill Nottingham  <notting@redhat.com>
+
+	* redhat-support-check.py: remove this from this branch
+
+2003-07-07  ccb  <ccb@redhat.com>
+
+	* redhat-support-check.py: Bring in ia64 and x86_64
+
+2003-06-02  ccb  <ccb@redhat.com>
+
+	* redhat-support-check.py:
+	Add support level checking.
+
+	* redhat-support-check.py: New file.
+
+2003-04-21  Florian La Roche  <laroche@redhat.com>
+
+	* initscripts-s390.patch:
+	- further eliminate consoletype calls with CONSOLETYPE
+
+	* initscripts-s390.patch: - mainframe cleanup
+
+2003-01-07  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/rawdevices: speedups (<drepper@redhat.com>)
+	- use LC_ALL=C
+	- don't use both grep&awk on the same file, just use awk
+
+2002-12-30  Florian La Roche  <laroche@redhat.com>
+
+	* initscripts-s390.patch: - adjust mainframe patches
+
+2002-08-22  llch  <llch@redhat.com>
+
+	* po/zh.po: no longer used
+
+2002-08-21  Bill Nottingham  <notting@redhat.com>
+
+	* po/zh.po:
+	update from current tree. should do this more often, actually.
+
+2002-07-15  Bill Nottingham  <notting@redhat.com>
+
+	* po/zh.po: update-po
+
+2002-06-28  sarahs  <sarahs@redhat.com>
+
+	* po/zh_CN.GB2312.po: changed to zh_CN locale
+
+2002-06-28  hpwu  <hpwu@redhat.com>
+
+	* po/zh_TW.Big5.po: Remove zh_TW.Big5.po
+
+2002-06-26  Florian La Roche  <laroche@redhat.com>
+
+	* sysconfig/network-scripts/ifup-escon:
+	- set PATH also in /etc/sysconfig/network-scripts/network-functions
+
+	* sysconfig/network-scripts/ifup-escon: - useless space changes
+
+	* rc.d/init.d/rawdevices: - further eliminate PATH settings
+
+	* rc.d/init.d/random, rc.d/init.d/rawdevices: - further cleanups
+
+2002-05-30  sarahs  <sarahs@redhat.com>
+
+	* po/zh_CN.GB2312.po: fixed a few translation errors.
+
+2002-05-06  Florian La Roche  <laroche@redhat.com>
+
+	* initscripts-s390.patch: - fix the s390 patch
+
+2002-03-27  Bill Nottingham  <notting@redhat.com>
+
+	* src/mkkerneldoth: handle bigmem too
+
+2002-03-27  sarahs  <sarahs@redhat.com>
+
+	* po/zh_CN.GB2312.po: modified headers and added more translation.
+
+2002-03-25  sarahs  <sarahs@redhat.com>
+
+	* po/zh_CN.GB2312.po: updated against the lastest master copies
+
+2002-03-22  hpwu  <hpwu@redhat.com>
+
+	* po/zh_TW.Big5.po: updated translation
+
+2002-03-15  Bill Nottingham  <notting@redhat.com>
+
+	* po/zh.po, po/zh_CN.GB2312.po: update translations
+
+2002-03-15  sarahs  <sarahs@redhat.com>
+
+	* po/zh_CN.GB2312.po: first modification
+
+2002-02-07  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifup-escon:
+	- fix bug in setting netmask on s390/s390x (bug #55421)
+	  nmbd daemon works now ;-)
+	- missing parameter (S/390)
+
+2001-11-07  Than Ngo  <than@redhat.com>
+
+	* sysconfig/network-scripts/ifup-escon:
+	- fix bug in setting netmask on s390/s390x (bug #55421)
+	  nmbd daemon works now ;-)
+
+2001-10-23  Karsten Hopp  <karsten@redhat.com>
+
+	* sysconfig/network-scripts/ifup-escon: missing parameter (S/390)
+
+2001-09-14  Karsten Hopp  <karsten@redhat.com>
+
+	* initscripts-s390.patch: patch didn't apply anymore, fix OCO path
+
+2001-09-06  Than Ngo  <than@redhat.com>
+
+	* initscripts-s390.patch:
+	* update initscripts-s390.patch for s390/s390x
+
+2001-08-29  Bill Nottingham  <notting@redhat.com>
+
+	* po/zh.po, po/zh_CN.GB2312.po: update translations
+
+2001-08-28  Bill Nottingham  <notting@redhat.com>
+
+	* po/zh.po, po/zh_CN.GB2312.po:
+	update translations for Michael's tweaks
+
+	* po/zh.po, po/zh_CN.GB2312.po:
+	translation update. hopefully the last one
+
+2001-08-20  Karsten Hopp  <karsten@redhat.com>
+
+	* sysconfig/network-scripts/ifup-escon:
+	added ifup file for S/390 ESCON interfaces. No need to rebuild on non-S390 right now
+
+2001-08-15  Bill Nottingham  <notting@redhat.com>
+
+	* po/zh.po, po/zh_CN.GB2312.po: update translation info
+
+2001-08-15  bero  <bero@redhat.com>
+
+	* initscripts-s390.patch: S390 fixes
+
+2001-08-15  Bill Nottingham  <notting@redhat.com>
+
+	* po/zh.po, po/zh_CN.GB2312.po: type english me not can
+
+2001-08-11  Florian La Roche  <laroche@redhat.com>
+
+	* initscripts-s390.patch:
+	Forgot to do "cvs commit", so I have again incremented the version
+	number. 6.16 is still ok to build into the buildsystem, though.
+
+2001-07-31  Karsten Hopp  <karsten@redhat.com>
+
+	* initscripts-s390.patch: fix typo
+
+2001-07-30  Bill Nottingham  <notting@redhat.com>
+
+	* po/zh.po, po/zh_CN.GB2312.po: refresh from public beta
+
+2001-07-05  Karsten Hopp  <karsten@redhat.com>
+
+	* initscripts-s390.patch: S390-only changes
+
+2001-04-22  Bill Nottingham  <notting@redhat.com>
+
+	* src/mkkerneldoth: fix it for some cases (#36480)
+
+2001-04-07  pbrown  <pbrown@redhat.com>
+
+	* src/mkkerneldoth:
+	broke out kernel.h symlink code from rc.sysinit into /sbin/mkkerneldoth
+
+2001-04-06  Bill Nottingham  <notting@redhat.com>
+
+	* po/zh.po, po/zh_CN.GB2312.po: update-po (ssh)
+
+2001-04-02  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifdown-aliases:
+	fix more ifconfig greps (patch from Conectiva)
+
+	* rc.d/init.d/random:
+	use /var/lib/for random seed; /var/run is cleared at bootup (#31521)
+
+2001-03-13  teg  <teg@redhat.com>
+
+	* po/zh.po, po/zh_CN.GB2312.po: loopback, not loobpack
+
+2001-03-13  Bill Nottingham  <notting@redhat.com>
+
+	* po/zh_CN.GB2312.po, po/zh.po:
+	update initscripts.pot with current tree, run make refresh-po
+
+2001-03-12  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/random:
+	use /var/lib/for random seed; /var/run is cleared at bootup (#31521)
+
+2001-03-05  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/static-routes-ipv6: move static-routes-ipv6 here
+
+2001-02-07  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/static-routes-ipv6: updated ipv6 stuff from Peter Bieringer
+
+2001-02-06  Bill Nottingham  <notting@redhat.com>
+
+	* po/zh.po, po/zh_CN.GB2312.po: i18n updates
+
+2001-02-01  Bill Nottingham  <notting@redhat.com>
+
+	* po/zh.po, po/zh_CN.GB2312.po: merge in new stuff
+
+2001-01-30  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/random, rc.d/init.d/rawdevices:
+	tweak usage messages (#24085)
+
+2001-01-29  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/static-routes-ipv6: clean up
+
+	* sysconfig/static-routes-ipv6: add ipv6 support (#23576)
+
+2001-01-24  Bill Nottingham  <notting@redhat.com>
+
+	* po/zh.po, po/zh_CN.GB2312.po: big refresh-po stuff
+
+2001-01-23  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/random: tag action, runcmd, etc. lines as well
+
+	* rc.d/init.d/random, rc.d/init.d/rawdevices, sysconfig/network-scripts/ifdown-aliases:
+	change i18n stuff around; don't call gettext explicitly, just do echo $"some string"
+
+2001-01-22  Bill Nottingham  <notting@redhat.com>
+
+	* po/zh.po, po/zh_CN.GB2312.po: fix kudzu .po here
+
+2001-01-19  Bill Nottingham  <notting@redhat.com>
+
+	* po/zh.po, po/zh_CN.GB2312.po: mars.pot
+
+	* po/zh.po, po/zh_CN.GB2312.po: cron pot file
+
+2001-01-18  Bill Nottingham  <notting@redhat.com>
+
+	* po/zh.po, po/zh_CN.GB2312.po: samba pot file
+
+2001-01-17  Bill Nottingham  <notting@redhat.com>
+
+	* po/zh.po, po/zh_CN.GB2312.po: postgresql pot
+
+	* po/zh.po, po/zh_CN.GB2312.po: pvmd, xinetd; refresh-po
+
+	* po/zh.po, po/zh_CN.GB2312.po: add ipchains pot
+
+	* po/zh.po, po/zh_CN.GB2312.po: potfile for gpm
+
+2001-01-16  Bill Nottingham  <notting@redhat.com>
+
+	* po/zh.po, po/zh_CN.GB2312.po: more pot files
+
+2001-01-15  Bill Nottingham  <notting@redhat.com>
+
+	* po/zh.po, po/zh_CN.GB2312.po: make refresh-po stuff
+
+2001-01-14  i18n  <i18n@redhat.com>
+
+	* po/zh.po, po/zh_CN.GB2312.po: New file
+
+2001-01-02  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/random, rc.d/init.d/rawdevices:
+	Big i18n commit. From Conectiva, originally.
+
+2000-12-12  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifdown-aliases:
+	fix more ifconfig greps (patch from Conectiva)
+
+2000-08-02  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/random:
+	colons. Lots of colons. More colons than most gastrointestinal clinics.
+
+2000-07-25  Bill Nottingham  <notting@redhat.com>
+
+	* rawdevices, sysconfig/rawdevices: that really needs to move
+
+	* rawdevices, rc.d/init.d/rawdevices:
+	add raw device support from karsten
+
+2000-07-24  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/random: revert
+
+2000-07-20  teg  <teg@redhat.com>
+
+	* rc.d/init.d/random: Use /etc/rc.d/init.d
+
+2000-06-15  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/random: /etc/rc.d/init.d -> /etc/init.d. Wheeeeee.
+
+2000-02-25  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifup-hdlc: never mind
+
+	* sysconfig/network-scripts/ifup-hdlc:
+	add hdlc script from hugh@toad.com
+
+2000-02-05  Nalin Dahyabhai  <nalin@redhat.com>
+
+	* rc.d/init.d/random: fix bug 9102
+
+1999-11-19  johnsonm  <johnsonm@redhat.com>
+
+	* src/usernetctl.1: usernetctl is a system command
+
+	* src/usernetctl.1: usernetctl is an internal wrapper program
+
+1999-10-02  Bill Nottingham  <notting@redhat.com>
+
+	* src/loglevel.c: duh. can we say, duplicated functionality?
+
+1999-07-26  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifdown-aliases:
+	speedup fixes for ifup-aliases from David Harris (dharris@drh.net)
+
+1999-07-08  Bill Nottingham  <notting@redhat.com>
+
+	* inputrc: remove file
+
+1999-04-19  Bill Nottingham  <notting@redhat.com>
+
+	* inputrc: commit inputrc changes
+
+1999-03-26  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/nfsfs: nfsfs -> netfs.
+
+1999-03-10  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/nfsfs: add a mount -a after nfs mounts
+
+1999-03-10  ewt  <ewt@redhat.com>
+
+	* sysconfig/network-scripts/ifdhcpc-done: outdated by pump
+
+1999-02-10  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifdhcpc-done:
+	fix kernel-2.2 double net routes, remove '-x' from ifdhcpc-done
+
+1999-02-04  Bill Nottingham  <notting@redhat.com>
+
+	* src/loglevel.c: fix syscall to something lots more portable
+
+	* src/loglevel.c: add loglevel.c, document LOGLEVEL setting
+
+	* rc.d/init.d/random, rc.d/init.d/nfsfs: fixes
+
+	* rc.d/init.d/nfsfs, rc.d/init.d/random: bugfixes...
+
+1999-02-03  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/init.d/nfsfs, rc.d/init.d/random:
+	more initlog changes; wait a little longer for kill -TERM
+
+1998-09-25  gafton  <gafton@redhat.com>
+
+	* inputrc: New file
+
+1998-07-07  jbj  <jbj@redhat.com>
+
+	* rc.d/init.d/nfsfs: Permit /usr to be NFS mounted.
+
+1998-04-30  djb  <djb@redhat.com>
+
+	* rc.d/init.d/random: various cleanups
+
+	* rc.d/init.d/nfsfs: added sourcing of functions
+
+1998-04-20  johnsonm  <johnsonm@redhat.com>
+
+	* rc.d/init.d/random: works better
+
+	* rc.d/init.d/random: reasonable status, restart, reload
+
+	* rc.d/init.d/nfsfs: Added reload function.
+	Made status do something other than "command not found".
+
+1998-03-10  ewt  <ewt@redhat.com>
+
+	* sysconfig/network-scripts/ifdhcpc-done:
+	removed senseless dhcp log in /tmp
+
+1997-10-28  djb  <djb@redhat.com>
+
+	* rc.d/init.d/skeleton:
+	removed the skeleton initscript (basically useless)
+
+1997-10-23  djb  <djb@redhat.com>
+
+	* rc.d/init.d/nfsfs, rc.d/init.d/random:
+	added status|restart to all scripts
+
+1997-10-23  johnsonm  <johnsonm@redhat.com>
+
+	* rc.d/init.d/random: touch random seed file before chmoding it.
+
+1997-10-15  johnsonm  <johnsonm@redhat.com>
+
+	* rc.d/init.d/random: Make random seed file mode 600.
+
+1997-10-13  ewt  <ewt@redhat.com>
+
+	* rc.d/init.d/nfsfs, rc.d/init.d/random: 1) updated .spec file
+	2) removed trailing spaces
+
+	* rc.d/init.d/nfsfs, rc.d/init.d/random: 1) version 3.18
+	2) switched to new chkconfig which doesn't use database file
+
+1997-09-30  johnsonm  <johnsonm@redhat.com>
+
+	* src/usernetctl.1: Added report option for usernet.
+
+1997-09-29  johnsonm  <johnsonm@redhat.com>
+
+	* initscripts-3.13.spec:
+	Don't want name changing every time; renamed to initscripts.spec
+
+1997-09-23  djb  <djb@redhat.com>
+
+	* initscripts-3.13.spec: added Requires mktemp and changelog
+
+1997-09-18  johnsonm  <johnsonm@redhat.com>
+
+	* src/usernetctl.1: Support alternative device configurations.
+
+1997-09-18  djb  <djb@redhat.com>
+
+	* initscripts-3.13.spec, initscripts-3.12.spec: updated spec file
+
+1997-09-16  djb  <djb@redhat.com>
+
+	* initscripts-3.12.spec:
+	changed status() to be more intelligent wrt programs that change argv[0]
+
+	* initscripts-3.12.spec: Added spec file to CVS archive.
+
+1997-09-16  ewt  <ewt@redhat.com>
+
+	* src/usernetctl.1, sysconfig/network-scripts/ifdhcpc-done:
+	Initial import of initscripts sources into CVS
+
+	* src/usernetctl.1, sysconfig/network-scripts/ifdhcpc-done: New file.
+
+	* rc.d/init.d/nfsfs, rc.d/init.d/random, rc.d/init.d/skeleton:
+	Initial import of initscripts sources into CVS
+
+	* rc.d/init.d/nfsfs, rc.d/init.d/random, rc.d/init.d/skeleton:
+	New file.
+
+2008-02-07  Harald Hoyer  <harald@redhat.com>
+
+	* rc.d/init.d/functions: added needed __readlink function
+
+2008-01-20  kmilos  <kmilos@redhat.com>
+
+	* po/sr@latin.po: Added sr@latin to replace sr@Latn
+
+2008-01-10  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit:
+	fix root fs check to catch 'rw,ordered,noatime,etc.' properly (#334171)
+
+	* rc.d/rc.sysinit:
+	add LUKS uuid support (#360071, <karsten@redhat.com>)
+
+	* rc.d/rc.sysinit:
+	Use proper invocations for authconfig, system-config-network (#426372, #428202)
+
+	* sysconfig/network-scripts/ifup-ipsec:
+	add support for overriding IKE dh group (#251506, <stijn.tintel@x-tend.be>)
+
+	* sysconfig/network-scripts/ifup-eth:
+	Handle 'arp_ip_target' bonding option correctly (#288151, modified from <agospoda@redhat.com>)
+
+	* src/genhostid.c: fix genhostid on x86_64 (#306811)
+
+2008-01-09  Bill Nottingham  <notting@redhat.com>
+
+	* src/rename_device.c:
+	Ignore any quotes around SUBCHANNELS and HWADDR, for admins that have accidentally added them (#351291)
+
+2007-09-07  Bill Nottingham  <notting@redhat.com>
+
+	* po/bs.po: fix typo (#281941)
+
+2007-09-05  Bill Nottingham  <notting@redhat.com>
+
+	* po/bs.po: update-po & refresh-po
+
+2007-08-07  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec: - fix netconsole service status (#223742)
+
+	* rc.d/init.d/netconsole: fix netconsole init script status
+
+2007-08-03  Bill Nottingham  <notting@redhat.com>
+
+	* COPYING: license cleanup
+
+2007-07-27  Bill Nottingham  <notting@redhat.com>
+
+	* networks: add /etc/networks (#239602)
+
+2007-06-22  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec, rc.d/init.d/halt:
+	- init.d/halt: don't shut down the network in kexec (#223932, <mchristi@redhat.com>)
+
+	* initscripts.spec, sysconfig/network-scripts/ifup-eth:
+	- ifup-eth: set 'primary' later for bonding devices (#236897, <agospoda@redhat.com>)
+
+	* initscripts.spec: - add init script for netconsole (#223742)
+
+	* initscripts.spec, sysconfig/network-scripts/network-functions:
+	- fix logic error in install_bonding_driver (#229643)
+
+	* initscripts.spec, rc.d/init.d/network:
+	- add support for VLAN_PLUS_VID_NO_PAD vlans (#229285)
+
+2007-04-16  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec, rc.d/init.d/netconsole, sysconfig/netconsole:
+	add netconsole init script (#223742)
+
+2007-03-16  Bill Nottingham  <notting@redhat.com>
+
+	* po/bs.po: update-po
+
+2007-01-23  absinthe  <absinthe@redhat.com>
+
+	* po/bs.po: tranlated initscripts to bosnina
+
+2007-01-19  Bill Nottingham  <notting@redhat.com>
+
+	* rc.d/rc.sysinit: revert for now - something else odd is going on here
+
+2007-01-18  Peter Jones  <pjones@redhat.com>
+
+	* initscripts.spec, rc.d/rc.sysinit:
+	- copy dhclient lease files from the initrd into /var/lib/dhclient so
+	  the network doesn't get reset during startup with iscsi /
+	  Resolves: #218791
+
+2007-01-17  Bill Nottingham  <notting@redhat.com>
+
+	* ipv6.mod: New file.
+
+	* ipv6.mod: add ipv6 modprobe rule that reads NETWORKING_IPV6 (#198045)
+
+2007-01-15  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec: typo
+
+	* initscripts.spec, sysconfig/network-scripts/ifup-eth:
+	- set MACADDR, if specified, before bringing up bonding master/slaves (#218792)
+
+2007-01-04  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec: 8.45.13.EL-1
+
+	* sysconfig/network-scripts/ifdown-eth:
+	release bonding slaves properly (#220525)
+
+2006-12-14  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec:
+	- translation updates: ml, mr, zh_CN, zh_TW (#216097)
+
+2006-12-13  Rahul Bhalerao  <rbhalera@redhat.com>
+
+	* po/mr.po: Updated Marathi translation
+
+2006-12-12  Bill Nottingham  <notting@redhat.com>
+
+	* po/mr.po: update from HEAD
+
+2006-12-07  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec, sysconfig/network-scripts/ifup-eth:
+	back out... save for 5.1
+
+	* sysconfig/network-scripts/ifup-eth, initscripts.spec:
+	- set MACADDR, MTU before initializing slave devices (#218792)
+
+2006-12-07  ltenn  <ltenn@redhat.com>
+
+	* po/zh_TW.po, po/zh_CN.po: Routine merge by l10n
+
+2006-12-04  Ani Peter  <apeter@redhat.com>
+
+	* po/ml.po: Updated Malayalam file
+
+2006-12-01  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec:
+	- translation updates: bn, fr, hi, ko, ml, te, zh_CN, zh_TW (#216097)
+
+2006-12-01  Runa Bhattacharjee  <runab@redhat.com>
+
+	* po/bn_IN.po: Updated Bengali India Translation:1/12
+
+2006-12-01  Fabien Decroux  <fdecroux@redhat.com>
+
+	* po/fr.po: Updated
+
+2006-12-01  Chung Cheng  <ccheng@redhat.com>
+
+	* po/zh_TW.po: Translation done
+
+2006-12-01  Xi Huang  <xhuang@redhat.com>
+
+	* po/zh_CN.po: update
+
+2006-11-30  ltenn  <ltenn@redhat.com>
+
+	* po/ml.po: Routine merge by l10n
+
+2006-11-30  sganesh  <sganesh@redhat.com>
+
+	* po/te.po: Telugu translation commited
+
+2006-11-30  Eun Ju Kim  <eukim@redhat.com>
+
+	* po/ko.po: Updated
+
+2006-11-29  sganesh  <sganesh@redhat.com>
+
+	* po/te.po: telugu translation commited
+
+2006-11-29  Ani Peter  <apeter@redhat.com>
+
+	* po/ml.po: Updated Malaylam file
+
+2006-11-29  Rajesh Ranjan  <rranjan@redhat.com>
+
+	* po/hi.po: hindi proof
+
+2006-11-29  sganesh  <sganesh@redhat.com>
+
+	* po/te.po: Telugu translation commited
+
+2006-11-29  Eun Ju Kim  <eukim@redhat.com>
+
+	* po/ko.po: Updated
+
+2006-11-29  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec, rc.d/init.d/halt:
+	- don't unmount network file systems (#217625)
+
+2006-11-28  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec, src/rename_device.c:
+	- add a step to rename any temporarily renamed devices (#208740,#204803, #214817)
+
+2006-11-28  sganesh  <sganesh@redhat.com>
+
+	* po/te.po: Telugu transalation commited
+
+	* po/te.po: Telugu transaltion commited
+
+2006-11-28  yulia  <yulia@redhat.com>
+
+	* po/ru.po: rhel5 urgent fix
+
+2006-11-27  Ani Peter  <apeter@redhat.com>
+
+	* po/ml.po: Updated Malayalam file
+
+2006-11-27  sganesh  <sganesh@redhat.com>
+
+	* po/te.po: Telugu translation commited
+
+2006-11-27  Francesco Valente  <fvalen@redhat.com>
+
+	* po/it.po: Updated
+
+2006-11-25  Ani Peter  <apeter@redhat.com>
+
+	* po/ml.po: Updated Malaylam file
+
+2006-11-24  ankitp  <ankitp@redhat.com>
+
+	* po/gu.po: Updated Gujarati Translations
+
+2006-11-24  Ani Peter  <apeter@redhat.com>
+
+	* po/ml.po: Updated malayalam file
+
+2006-11-24  Rajesh Ranjan  <rranjan@redhat.com>
+
+	* po/hi.po: hindi proof
+
+2006-11-24  Ani Peter  <apeter@redhat.com>
+
+	* po/ml.po: Updated malayalam file
+
+2006-11-24  Rajesh Ranjan  <rranjan@redhat.com>
+
+	* po/hi.po: hindi update
+
+2006-11-24  Noriko Mizumoto  <noriko@redhat.com>
+
+	* po/ja.po: update translated
+
+2006-11-23  Manuel Eduardo Ospina Sarmiento  <mospina@redhat.com>
+
+	* po/es.po: done
+
+2006-11-23  vferreir  <vferreir@redhat.com>
+
+	* po/pt_BR.po: *** empty log message ***
+
+2006-11-23  Subhransu Behera  <sbehera@redhat.com>
+
+	* po/or.po: Updated Oriya Translation
+
+2006-11-23  Jaswinder Singh  <jsingh@redhat.com>
+
+	* po/pa.po: Updated is uploaded
+
+2006-11-23  vferreir  <vferreir@redhat.com>
+
+	* po/pt_BR.po: *** empty log message ***
+
+2006-11-23  Felix Iyadurai  <ifelix@redhat.com>
+
+	* po/ta.po: RHEL5 branch software translation for ta completed
+
+2006-11-23  trinks  <trinks@redhat.com>
+
+	* po/de.po: total:761 fuzzy:0 untranslated:0
+
+2006-11-22  Bill Nottingham  <notting@redhat.com>
+
+	* po/vi.po, po/wa.po, po/zh_CN.po, po/zh_TW.po, po/sr@Latn.po, po/sv.po, po/ta.po, po/te.po, po/tr.po, po/uk.po, po/ur.po, po/pt_BR.po, po/ro.po, po/ru.po, po/si.po, po/sk.po, po/sl.po, po/sq.po, po/sr.po, po/mr.po, po/ms.po, po/my.po, po/nb.po, po/nl.po, po/nn.po, po/no.po, po/or.po, po/pa.po, po/pl.po, po/pt.po, po/it.po, po/ja.po, po/ka.po, po/kn.po, po/ko.po, po/ku.po, po/lo.po, po/lt.po, po/mk.po, po/ml.po, po/gl.po, po/gu.po, po/he.po, po/hi.po, po/hr.po, po/hu.po, po/hy.po, po/id.po, po/initscripts.pot, po/is.po, po/es.po, po/et.po, po/eu_ES.po, po/fi.po, po/fr.po, po/as.po, po/bg.po, po/bn.po, po/bn_IN.po, po/ca.po, po/cs.po, po/cy.po, po/da.po, po/de.po, po/el.po, po/en_GB.po, po/ar.po:
+	update-po and refresh-po
+
+	* initscripts.spec: add ref
+
+	* sysconfig/network-scripts/network-functions-ipv6:
+	more fixes so modules don't get reloaded (#211474)
+
+2006-11-22  Felix Iyadurai  <ifelix@redhat.com>
+
+	* po/ta.po: Fedora rhel5 branch ta translation updated
+
+2006-11-21  Ani Peter  <apeter@redhat.com>
+
+	* po/ml.po: Updated Malayalam file
+
+2006-11-20  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec: add some more changelog bits
+
+	* rc.d/rc.sysinit: fix dmraid test (#216490)
+
+2006-11-06  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec, sysconfig/network-scripts/network-functions:
+	backport
+
+2006-11-03  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec: add changelog
+
+	* lang.csh, lang.sh: handle sinhalese as well (#212438)
+
+	* initscripts.spec: bump
+
+	* sysctl.conf.ppc64: actually, ship this on both
+
+	* initscripts.spec, sysctl.conf.ppc, sysctl.conf.ppc64:
+	fix ppc limits (#184820)
+
+2006-11-02  Jaswinder Singh  <jsingh@redhat.com>
+
+	* po/pa.po: Completed
+
+2006-11-01  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec: add changelog
+
+	* src/rename_device.c: I can't count
+
+2006-10-31  Bill Nottingham  <notting@redhat.com>
+
+	* prefdm: fix gdm in CJKI (#209579)
+
+	* initscripts.spec: add changelog
+
+	* rc.d/rc.sysinit: mount tmpfs with -n (#213132)
+
+2006-10-30  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec, src/rename_device.c:
+	more SUBCHANNELS related fixage (#204803)
+
+	* lang.csh, lang.sh: support iso-8859-8 (#212738, <matan@svgalib.org>)
+
+2006-10-27  Bill Nottingham  <notting@redhat.com>
+
+	* statetab: add file. duh.
+
+	* initscripts.spec: bump
+
+	* initscripts.spec:
+	* Fri Oct 27 2006 Bill Nottingham <notting@redhat.com> 8.45.5.EL-1
+	- fix handling of undisplayable locales on the console some more (#209579, #212438)
+	- use SUBCHANNEL as the primary identifier for s390 networking (#204803)
+
+	Resolves: bug #204803, bug #212438, bug #209579
+
+2006-10-26  Bill Nottingham  <notting@redhat.com>
+
+	* src/rename_device.c:
+	use SUBCHANNELS as the primary key for s390 network devices (#204803)
+
+	* rc.d/init.d/functions, rc.d/rc.sysinit:
+	fix or_IN and similar locales (#212438)
+
+2006-10-19  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec: add changelog
+
+	* sysconfig/network-scripts/ifup-eth:
+	just enslave once, seems to work now
+
+2006-10-18  Bill Nottingham  <notting@redhat.com>
+
+	* sysconfig/network-scripts/ifdown-eth, sysconfig/network-scripts/ifup-eth, sysconfig/network-scripts/network-functions:
+	use sysfs interface for bonding (#202443, <agospoda@redhat.com>)
+
+	* lang.csh, lang.sh: blacklist CJKI on the virtual console (#209579)
+
+	* rc.d/rc.sysinit: use dmraid.static (#211297)
+
+2006-10-16  Bill Nottingham  <notting@redhat.com>
+
+	* Makefile: fix build
+
+	* initscripts.spec: bump
+
+	* Makefile, sysctl.conf, sysctl.conf.ia64, sysctl.conf.ppc64, sysctl.conf.s390, sysctl.conf.s390x, sysctl.conf.sparc, sysctl.conf.x86_64:
+	add sysctl.conf for bigger memory settings for various arches (#184820)
+
+	* po/ml.po, po/ms.po: sync w/head
+
+2006-10-12  Bill Nottingham  <notting@redhat.com>
+
+	* initscripts.spec, inittab, inittab.s390, prefdm, rc.d/rc.sysinit, sysconfig/network-scripts/ifup-eth:
+	revert early-login support (#210386)
+
+	* po/ja.po: sync with head
+
+	* rc.d/rc.sysinit:
+	- Handle "nodmraid" and "nompath" command line options (#209377, <pjones@redhat.com>)
+
+	* po/da.po, po/fi.po, po/zh_CN.po: sync from head
+
 2006-10-06  Bill Nottingham  <notting@redhat.com>
 
 	* ChangeLog, initscripts.spec: 8.45-1
