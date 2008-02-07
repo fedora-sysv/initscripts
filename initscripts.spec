@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.45.17.EL
+Version: 8.45.18.EL
 License: GPL
 Group: System Environment/Base
 Release: 1
@@ -196,6 +196,20 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Feb 07 2008 Bill Nottingham <notting@redhat.com>, Harald Hoyer <harald@redhat.com> 8.45.18.EL-1
+- IKE_DHGROUP is now an option for IPsec configuration files, which allows
+to set the dh group used during PHASE 1 of IPsec SA (#251506)
+- arp_ip_target can now be used with a comma seperated IP list in BONDING_OPTS (#288151)
+- genhostid now generates only 32 bit hostids on 64 bit systems (#306811)
+- the check for the need of remounting the root file system read-writable
+is now refined (#334171)
+- quoted SUBCHANNELS and HWADDR options in network configuration files are
+now handled properly (#351291)
+- support for resuming from an encrypted swap has been added (#360071)
+- rc.sysinit now executes the proper configuration tools, if /.unconfigured
+is present (#426372)
+- Resolves: rhbz#251506 rhbz#288151 rhbz#306811 rhbz#334171 rhbz#351291 rhbz#360071 rhbz#426372
+
 * Tue Aug  7 2007 Bill Nottingham <notting@redhat.com> 8.45.17.EL-1
 - fix netconsole service status (#223742)
 
