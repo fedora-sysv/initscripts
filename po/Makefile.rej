@@ -1,0 +1,17 @@
+***************
+*** 16,22 ****
+  
+  all: $(NLSPACKAGE).pot $(FMTCATALOGS)
+  
+- $(NLSPACKAGE).pot:
+  	@echo "Please don't run 'make initscripts.pot unless you have a *FULL*, current install."
+  
+  new-pot-file-i-really-mean-it: $(POTFILES)
+--- 16,22 ----
+  
+  all: $(NLSPACKAGE).pot $(FMTCATALOGS)
+  
++ $(NLSPACKAGE).pot: $(POTFILES)
+  	@echo "Please don't run 'make initscripts.pot unless you have a *FULL*, current install."
+  
+  new-pot-file-i-really-mean-it: $(POTFILES)

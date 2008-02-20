@@ -16,7 +16,7 @@ POTFILES = /etc/ppp/ip* /etc/rc.d/init.d/* /etc/rc.d/rc /etc/rc.d/rc.* \
 
 all: $(NLSPACKAGE).pot $(FMTCATALOGS)
 
-$(NLSPACKAGE).pot: $(POTFILES)
+$(NLSPACKAGE).pot:
 	@echo "Please don't run 'make initscripts.pot unless you have a *FULL*, current install."
 
 new-pot-file-i-really-mean-it: $(POTFILES)
