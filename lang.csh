@@ -32,44 +32,6 @@ if ($sourced == 1) then
     
     set consoletype=`/sbin/consoletype`
 
-    if ($?CHARSET) then
-        switch ($CHARSET)
-            case 8859-1:
-            case 8859-2:
-            case 8859-5:
-	    case 8859-8:
-            case 8859-15:
-            case koi*:
-            case latin2*:
-                if ( $?TERM ) then
-                    if ( "$TERM" == "linux" ) then
-                        if ( "$consoletype" == "vt" ) then
-                            /bin/echo -n -e '\033(K' >/dev/tty
-                        endif
-                    endif
-                endif
-                breaksw
-	endsw
-    endif
-    if ($?SYSFONTACM) then
-        switch ($SYSFONTACM)
-	    case iso01*:
-	    case iso02*:
-	    case iso05*:
-	    case iso08*:
-	    case iso15*:
-	    case koi*:
-	    case latin2-ucw*:
-	        if ( $?TERM ) then
-		    if ( "$TERM" == "linux" ) then
-		        if ( "$consoletype" == "vt" ) then
-			    /bin/echo -n -e '\033(K' > /dev/tty
-		        endif
-		    endif
-		endif
-		breaksw
-	endsw
-    endif
     if ($?LANG) then
         switch ($LANG)
 	    case *.utf8*:
@@ -88,17 +50,6 @@ if ($sourced == 1) then
 			    		setenv LANG en_US.UTF-8
 			    		breaksw
 			    endsw
-			    if ( -x /bin/unicode_start ) then
-			      if { /sbin/consoletype fg } then
-			        if ( $?SYSFONT ) then
-			          if ( $?SYSFONTACM ) then
-			            unicode_start $SYSFONT $SYSFONTACM
-			          else
-			            unicode_start $SYSFONT
-			          endif
-			        endif
-			      endif
-			    endif
 			endif
 		    endif
 		endif
@@ -118,11 +69,6 @@ if ($sourced == 1) then
 			    		setenv LANG en_US
 			    		breaksw
 			    endsw
-			    if ( -x /bin/unicode_stop ) then
-			      if { /sbin/consoletype fg } then
-				/bin/unicode_stop
-			      endif
-			    endif
 			endif
 		    endif
 		endif

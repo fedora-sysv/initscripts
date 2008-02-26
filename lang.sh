@@ -48,34 +48,11 @@ if [ "$sourced" = 1 ]; then
     
     consoletype=$(/sbin/consoletype)
 
-    if [ -n "$CHARSET" ]; then
-	case $CHARSET in
-	    8859-1|8859-2|8859-5|8859-8|8859-15|koi*)
-                if [ "$TERM" = "linux" -a "$consoletype" = "vt" ]; then
-                       echo -n -e '\033(K' 2>/dev/null > /proc/$$/fd/0
-                fi
-                ;;
-        esac
-    elif [ -n "$SYSFONTACM" ]; then
-	case $SYSFONTACM in
-	    iso01*|iso02*|iso05*|iso08*|iso15*|koi*|latin2-ucw*)
-		if [ "$TERM" = "linux" -a "$consoletype" = "vt" ]; then
-			echo -n -e '\033(K' 2>/dev/null > /proc/$$/fd/0
-		fi
-		;;
-	esac
-    fi
     if [ -n "$LANG" ]; then
       case $LANG in
     	*.utf8*|*.UTF-8*)
     	if [ "$TERM" = "linux" ]; then
     	    if [ "$consoletype" = "vt" ]; then
-		if [ -x /bin/unicode_start ] && /sbin/consoletype fg ; then
-			for langfile in /etc/sysconfig/i18n $HOME/.i18n ; do
-		    		[ -f $langfile ] && . $langfile
-			done
-			/bin/unicode_start $SYSFONT $SYSFONTACM
-		fi
     	    	case $LANG in 
     	    		ja*) LANG=en_US.UTF-8 ;;
     	    		ko*) LANG=en_US.UTF-8 ;;
@@ -98,7 +75,6 @@ if [ "$sourced" = 1 ]; then
     	    		en_IN*) ;;
     	    		*_IN*) LANG=en_US ;;
     	    	esac
-	    	[ -x /bin/unicode_stop ] && /sbin/consoletype fg && /bin/unicode_stop
 	    fi
 	fi
 	;;

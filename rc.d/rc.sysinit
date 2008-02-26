@@ -229,10 +229,6 @@ init_crypto() {
     return $ret
 }
 
-if [ -x /sbin/setsysfont -a -c /dev/tty1 ]; then
-   /sbin/setsysfont < /dev/tty1 > /dev/tty1 2>/dev/null
-fi
-
 # Print a text banner.
 echo -en $"\t\tWelcome to "
 read -r redhat_release < /etc/redhat-release
@@ -317,35 +313,6 @@ fi
 # Configure kernel parameters
 update_boot_stage RCkernelparam
 sysctl -e -p /etc/sysctl.conf >/dev/null 2>&1
-
-if [ -x /bin/loadkeys ]; then
- KEYTABLE=
- KEYMAP=
- if [ -f /etc/sysconfig/console/default.kmap ]; then
-  KEYMAP=/etc/sysconfig/console/default.kmap
- else
-  if [ -f /etc/sysconfig/keyboard ]; then
-    . /etc/sysconfig/keyboard
-  fi
-  if [ -n "$KEYTABLE" -a -d "/lib/kbd/keymaps" ]; then
-     KEYMAP="$KEYTABLE.map"
-  fi
- fi
- if [ -n "$KEYMAP" ]; then 
-  if [ -n "$KEYTABLE" ]; then
-    echo -n $"Loading default keymap ($KEYTABLE): "
-  else
-    echo -n $"Loading default keymap: "
-  fi
-  LOADKEYS=loadkeys
-  if [ "${LANG}" != "${LANG%%.UTF-8}" -o "${LANG}" != "${LANG%%.utf8}" ]; then
-  	LOADKEYS="loadkeys -u"
-  fi
-  $LOADKEYS $KEYMAP < /dev/tty0 > /dev/tty0 2>/dev/null && \
-     success $"Loading default keymap" || failure $"Loading default keymap"
-  echo
- fi
-fi
 
 # Set the hostname.
 update_boot_stage RChostname
