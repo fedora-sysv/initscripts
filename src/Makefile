@@ -1,8 +1,10 @@
 CFLAGS+=$(RPM_OPT_FLAGS) -Wall -D_GNU_SOURCE
 
 PROGS=usernetctl doexec netreport testd usleep ipcalc initlog \
-	fstab-decode getkey ppp-watch consoletype genhostid rename_device
+	fstab-decode getkey ppp-watch consoletype genhostid rename_device \
+	console_init
 PPPWATCH_OBJS=ppp-watch.o shvar.o
+CONSOLE_INIT_OBJS=console_init.o shvar.o
 INITLOG_OBJS=initlog.o process.o
 USLEEP_OBJS=usleep.o
 
@@ -27,6 +29,7 @@ install:
 	install -m 755 ppp-watch $(ROOT)/sbin/ppp-watch
 	install -m 755 consoletype $(ROOT)/sbin/consoletype
 	install -m 755 rename_device $(ROOT)/lib/udev/rename_device
+	install -m 755 console_init $(ROOT)/lib/udev/console_init
 	install -m 755 ccw_init $(ROOT)/lib/udev/ccw_init
 	install -m 644 initlog.1 $(ROOT)$(mandir)/man1
 	install -m 644 genhostid.1 $(ROOT)$(mandir)/man1
@@ -79,3 +82,9 @@ rename_device: rename_device.c
 
 kmodule: kmodule.o
 	$(CC) $(LDFLAGS) -o $@ $< -lpopt -lkudzu -lpci
+
+console_init.o: console_init.c
+	$(CC) $(CFLAGS) `pkg-config glib-2.0 --cflags` -c console_init.c -o console_init.o
+
+console_init: $(CONSOLE_INIT_OBJS)
+	$(CC) $(LDFLAGS) -o $@ $(CONSOLE_INIT_OBJS) `pkg-config glib-2.0 --libs`

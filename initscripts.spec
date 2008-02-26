@@ -187,6 +187,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(2755,root,root) /sbin/netreport
 /sbin/initlog
 /lib/udev/rename_device
+/lib/udev/console_init
 %ifarch s390 s390x
 /lib/udev/ccw_init
 %endif
