@@ -46,7 +46,10 @@ if [ "$sourced" = 1 ]; then
     [ -n "$LINGUAS" ] && export LINGUAS || unset LINGUAS
     [ -n "$_XKB_CHARSET" ] && export _XKB_CHARSET || unset _XKB_CHARSET
     
-    consoletype=$(/sbin/consoletype)
+    consoletype=$CONSOLETYPE
+    if [ -z "$consoletype" ]; then
+      consoletype=$(/sbin/consoletype)
+    fi
 
     if [ -n "$LANG" ]; then
       case $LANG in

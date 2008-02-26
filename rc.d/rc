@@ -27,9 +27,20 @@ export runlevel previous
 
 . /etc/init.d/functions
 
+export CONSOLETYPE
+cmdline=$(cat /proc/cmdline)
+if ! strstr "$cmdline" rhgb; then
+	GRAPHICAL="no"
+	export GRAPHICAL
+fi
+do_confirm="no"
+if [ -f /var/run/confirm ]; then
+	do_confirm="yes"
+fi
+
 # See if we want to be in user confirmation mode
 if [ "$previous" = "N" ]; then
-	if [ -f /var/run/confirm ]; then
+	if [ "$do_confirm" = "yes" ]; then
 		echo $"Entering interactive startup"
 	else
 		echo $"Entering non-interactive startup"
@@ -51,34 +62,37 @@ fi
 
 # First, run the KILL scripts.
 for i in /etc/rc$runlevel.d/K* ; do
-	check_runlevel "$i" || continue
 
 	# Check if the subsystem is already up.
 	subsys=${i#/etc/rc$runlevel.d/K??}
-	[ -f /var/lock/subsys/$subsys -o -f /var/lock/subsys/$subsys.init ] \
-		|| continue
+	[ -f /var/lock/subsys/$subsys ] || continue
+	[ -f /var/lock/subsys/$subsys.init ] || continue
+	check_runlevel "$i" || continue
 
 	# Bring the subsystem down.
-	if LC_ALL=C egrep -q "^..*init.d/functions" $i ; then
-		$i stop
-	else
-		action $"Stopping $subsys: " $i stop
-	fi
+	$i stop
 done
 
 # Now run the START scripts.
 for i in /etc/rc$runlevel.d/S* ; do
-	check_runlevel "$i" || continue
 
 	# Check if the subsystem is already up.
 	subsys=${i#/etc/rc$runlevel.d/S??}
-	[ -f /var/lock/subsys/$subsys -o -f /var/lock/subsys/$subsys.init ] \
-		&& continue
+	[ -f /var/lock/subsys/$subsys ] && continue
+	[ -f /var/lock/subsys/$subsys.init ] && continue
+	check_runlevel "$i" || continue
 		    
 	# If we're in confirmation mode, get user confirmation
-	if [ -f /var/run/confirm ]; then
+	if [ "$do_confirm" = "yes" ]; then
+		set -x
 		confirm $subsys
-		test $? = 1 && continue
+		rc=$?
+		if [ "$rc" = "1" ]; then
+			continue
+		elif [ "$rc" = "2" ]; then
+			do_confirm="no"
+		fi
+		set +x
 	fi
 
 	update_boot_stage "$subsys"
@@ -87,14 +101,11 @@ for i in /etc/rc$runlevel.d/S* ; do
 		export LC_ALL=C
 		exec $i start
 	fi
-	if LC_ALL=C egrep -q "^..*init.d/functions" $i \
-			|| [ "$subsys" = "single" -o "$subsys" = "local" ]; then
-		$i start
-	else
-		action $"Starting $subsys: " $i start
-	fi
+	$i start
 done
-rm -f /var/run/confirm
-if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
-  /usr/bin/rhgb-client --quit
+[ "$do_confirm" = "yes" ] && rm -f /var/run/confirm
+if [ "$GRAPHICAL" = "yes" ]; then
+	if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
+		/usr/bin/rhgb-client --quit
+	fi
 fi
