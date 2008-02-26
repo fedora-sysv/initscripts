@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.63
+Version: 8.64
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -214,6 +214,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Feb 26 2008 Bill Nottingham <notting@redhat.com> - 8.64-1
+- Add a console_init udev helper to do console initialization
+- add /sbin/pidof requirement (#434863)
+
 * Fri Feb  1 2008 Bill Nottingham <notting@redhat.com> - 8.63-1
 - don't start RAID arrays in rc.sysinit, that's done by udev (corollary of #429604)
 - add a NetworkManager-dispatcher script that does netreport on interface changes
