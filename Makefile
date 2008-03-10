@@ -117,7 +117,7 @@ check:
 
 changelog:
 	@rm -f ChangeLog
-	git-log --stat > ChangeLog
+	git-log --stat --no-merges -B > ChangeLog
 
 clean:
 	make clean -C src
