@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.64
+Version: 8.65
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -156,6 +156,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/rwtab.d
 /etc/statetab
 %dir /etc/statetab.d
+%config(noreplace) /etc/event.d/*
 /etc/udev/rules.d/*
 %config /etc/X11/prefdm
 %config(noreplace) /etc/inittab
@@ -188,6 +189,7 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/initlog
 /lib/udev/rename_device
 /lib/udev/console_init
+/lib/udev/console_check
 %ifarch s390 s390x
 /lib/udev/ccw_init
 %endif
@@ -214,6 +216,14 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Mar 10 2008 Bill Nottingham <notting@redhat.com> - 8.65-1
+- Add a serial console udev/upstart handler (#434764, indirectly)
+- Add some upstart notification for sysv scripts (modified from <cjdahlin@ncsu.edu>, #431231)
+- Handle _rnetdev correctly (#435358, <pjones@redhat.com>)
+- various minor speedups (<arjan@infradead.org>)
+- translation updates: el, fr
+- disable network by default, in favor of NetworkManager
+
 * Tue Feb 26 2008 Bill Nottingham <notting@redhat.com> - 8.64-1
 - Add a console_init udev helper to do console initialization
 - add /sbin/pidof requirement (#434863)

@@ -2,7 +2,7 @@ CFLAGS+=$(RPM_OPT_FLAGS) -Wall -D_GNU_SOURCE
 
 PROGS=usernetctl doexec netreport testd usleep ipcalc initlog \
 	fstab-decode getkey ppp-watch consoletype genhostid rename_device \
-	console_init
+	console_init console_check
 PPPWATCH_OBJS=ppp-watch.o shvar.o
 CONSOLE_INIT_OBJS=console_init.o shvar.o
 INITLOG_OBJS=initlog.o process.o
@@ -30,6 +30,7 @@ install:
 	install -m 755 consoletype $(ROOT)/sbin/consoletype
 	install -m 755 rename_device $(ROOT)/lib/udev/rename_device
 	install -m 755 console_init $(ROOT)/lib/udev/console_init
+	install -m 755 console_check $(ROOT)/lib/udev/console_check
 	install -m 755 ccw_init $(ROOT)/lib/udev/ccw_init
 	install -m 644 initlog.1 $(ROOT)$(mandir)/man1
 	install -m 644 genhostid.1 $(ROOT)$(mandir)/man1

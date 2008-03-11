@@ -1,0 +1,11 @@
+
+start on fedora.serial-console-available *
+stop on runlevel [016]
+
+instance
+exec /sbin/agetty /dev/$1 $2 vt100-nav
+post-stop script
+	if [ "$UPSTART_EVENT" != "${UPSTART_EVENT##fedora.serial-console-available}" ]; then
+		initctl emit --no-wait fedora.serial-console-available $1 $2
+	fi
+end script

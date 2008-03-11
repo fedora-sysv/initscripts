@@ -37,7 +37,8 @@ do_confirm="no"
 if [ -f /var/run/confirm ]; then
 	do_confirm="yes"
 fi
-
+UPSTART=
+[ -x /sbin/initctl ] && UPSTART=yes
 # See if we want to be in user confirmation mode
 if [ "$previous" = "N" ]; then
 	if [ "$do_confirm" = "yes" ]; then
@@ -70,7 +71,9 @@ for i in /etc/rc$runlevel.d/K* ; do
 	check_runlevel "$i" || continue
 
 	# Bring the subsystem down.
+	[ -n "$UPSTART" ] && initctl emit --quiet "stopping $subsys"
 	$i stop
+	[ -n "$UPSTART" ] && initctl emit --quiet "stopped $subsys"
 done
 
 # Now run the START scripts.
@@ -97,11 +100,13 @@ for i in /etc/rc$runlevel.d/S* ; do
 
 	update_boot_stage "$subsys"
 	# Bring the subsystem up.
+	[ -n "$UPSTART" ] && initctl emit --quiet "starting $subsys"
 	if [ "$subsys" = "halt" -o "$subsys" = "reboot" ]; then
 		export LC_ALL=C
 		exec $i start
 	fi
 	$i start
+	[ -n "$UPSTART" ] && initctl emit --quiet "started $subsys"
 done
 [ "$do_confirm" = "yes" ] && rm -f /var/run/confirm
 if [ "$GRAPHICAL" = "yes" ]; then
