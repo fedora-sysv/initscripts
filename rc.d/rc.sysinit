@@ -305,8 +305,8 @@ RHGB_STARTED=
 mount -n /dev/pts >/dev/null 2>&1
 [ -n "$SELINUX_STATE" ] && restorecon /dev/pts >/dev/null 2>&1
 
-if strstr "$cmdline" rhgb && ! strstr "$cmdline" early-login && [ "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" ]; then
-   /sbin/start rhgb
+if strstr "$cmdline" rhgb && ! strstr "$cmdline" early-login && [ "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
+   ( . /etc/sysconfig/i18n 2>/dev/null ; /usr/bin/rhgb )
    RHGB_STARTED=1
 fi
 
@@ -674,8 +674,8 @@ fi
 
 
 # Start the graphical boot, if necessary and not done yet.
-if strstr "$cmdline" rhgb && ! strstr "$cmdline" early-login && [ -z "$RHGB_STARTED" -a "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" ]; then
-   /sbin/start rhgb
+if strstr "$cmdline" rhgb && ! strstr "$cmdline" early-login && [ -z "$RHGB_STARTED" -a "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
+   ( . /etc/sysconfig/i18n 2>/dev/null ; /usr/bin/rhgb )
    RHGB_STARTED=1
 fi
 

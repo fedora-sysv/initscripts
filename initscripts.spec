@@ -28,7 +28,6 @@ Conflicts: xorg-x11, glib2 < 2.11.1-2
 Conflicts: alsa-utils < 1.0.14-0.5.rc2.fc7
 # http://bugzilla.redhat.com/show_bug.cgi?id=252973
 Conflicts: nut < 2.2.0
-Conflicts: rhgb < 0.17.7-7
 Obsoletes: rhsound sapinit
 Obsoletes: hotplug
 Prereq: /sbin/chkconfig, /usr/sbin/groupadd, /bin/sed, coreutils
