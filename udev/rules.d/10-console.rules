@@ -1,1 +1,9 @@
+# Console initialization - keyboard, font, etc.
 KERNEL=="tty0",		RUN+="/lib/udev/console_init %k"
+
+# Check and set up serial and serial-like consoles if necessary
+KERNEL=="console",	RUN+="/lib/udev/console_check %k"
+KERNEL=="ttySG*",	RUN+="/lib/udev/console_check %k"
+KERNEL=="xvc*",		RUN+="/lib/udev/console_check %k"
+KERNEL=="hvsi*",	RUN+="/lib/udev/console_check %k"
+KERNEL=="hvc*",		RUN+="/lib/udev/console_check %k"
