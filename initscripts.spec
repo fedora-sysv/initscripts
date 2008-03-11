@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.65
+Version: 8.66
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -217,6 +217,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Mar 11 2008 Bill Nottingham <notting@redhat.com> - 8.66-1
+- use upstart to start rhgb (#433156, <cdahlin@ncsu.edu>)
+
 * Mon Mar 10 2008 Bill Nottingham <notting@redhat.com> - 8.65-1
 - Add a serial console udev/upstart handler (#434764, indirectly)
 - Add some upstart notification for sysv scripts (modified from <cjdahlin@ncsu.edu>, #431231)
