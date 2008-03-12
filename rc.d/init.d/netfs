@@ -112,7 +112,7 @@ case "$1" in
 	fi
 	[ -n "$SMBMTAB" ] && action $"Unmounting SMB filesystems: " umount -a -t smbfs
 	[ -n "$CIFSMTAB" ] && action $"Unmounting CIFS filesystems: " umount -a -t cifs
-	[ -n "$NCPMTAB" ] && action $"Unmounting NCP filesystems: " umount -a -t ncpfs
+	[ -n "$NCPMTAB" ] && action $"Unmounting NCP filesystems: " umount -a -t ncp,ncpfs
 	rm -f /var/lock/subsys/netfs
 	;;
   status)
