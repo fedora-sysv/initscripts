@@ -3,7 +3,7 @@
 [ -z "$DEVPATH" ] && exit 0
 [ "$SUBSYSTEM" != "ccw" ] && exit 0
 
-. /etc/init.d/functions
+NOLOCALE="yes"
 
 . /etc/sysconfig/network-scripts/network-functions
 
@@ -13,15 +13,16 @@ CHANNEL=${DEVPATH##*/}
 
 CONFIG=$(get_config_by_subchannel $CHANNEL)
 
-cd /etc/sysconfig/network-scripts
-
-source_config 
+if [ -n "$CONFIG" ]; then
+	cd /etc/sysconfig/network-scripts
+	source_config 
+fi
 
 # SUBCHANNELS is only set on mainframe ccwgroup devices
-[ -z "$SUBCHANNELS" -o -z "$NETTYPE" ] && return
+[ -z "$SUBCHANNELS" -o -z "$NETTYPE" ] && exit 0
 DIR="/sys/bus/ccwgroup/drivers/$NETTYPE"
 SYSDIR="$DIR/${SUBCHANNELS//,*/}"
-[ ! -e $DIR/group ] && return
+[ ! -e $DIR/group ] && exit 0
 echo "$SUBCHANNELS" > $DIR/group
 if [ -n "$PORTNAME" ]; then
 	if [ "$NETTYPE" = "lcs" ]; then
