@@ -84,7 +84,7 @@ if [ "$sourced" = 1 ]; then
       esac
     fi
 
-    unset SYSFONTACM SYSFONT
+    unset SYSFONTACM SYSFONT consoletype
 fi
 unset sourced
 unset langfile

@@ -77,4 +77,5 @@ if ($sourced == 1) then
     endif    
     unsetenv SYSFONTACM
     unsetenv SYSFONT
+    unsetenv consoletype
 endif
