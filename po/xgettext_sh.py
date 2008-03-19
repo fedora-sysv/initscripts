@@ -42,7 +42,19 @@ def xgettext(arq):
 		else:
 			for match in pattern.finditer(l):
 				pos = match.start()
-				text = split(l[pos:], '"')[1]
+				p1 = l.find('"',pos) + 1
+				p2 = p1+1
+				while 1:
+                                    p2 = l.find('"',p2)
+                                    if p2 == -1:
+                                        p2 = p1
+                                        break
+                                    if l[p2-1] == '\\':
+                                        p2 = p2 + 1
+                                    else:
+                                        break
+                                text = l[p1:p2]
+				#text = split(l[pos:], '"')[1]
 				if s.has_key(text):
 				    s[text].append((arq, line))
 				else:
