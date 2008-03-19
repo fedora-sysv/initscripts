@@ -79,7 +79,7 @@ int compare_termios_to_console(char *dev, int *speed) {
 	tcgetattr(cfd, &cmode);
 	close(cfd);
 
-	fd = open(dev, O_RDONLY);
+	fd = open(dev, O_RDONLY|O_NONBLOCK);
 	tcgetattr(fd, &mode);
 
 	if (!termcmp(&cmode, &mode)) {
@@ -96,6 +96,9 @@ char *check_serial_console(int *speed) {
 	char *ret = NULL, *device;
 	char twelve = 12;
 	struct serial_struct si, si2;
+
+	memset(&si, 0, sizeof(si));
+	memset(&si2, 0, sizeof(si));
 
 	fd = open("/dev/console", O_RDWR);
 	if (ioctl (fd, TIOCLINUX, &twelve) >= 0)
