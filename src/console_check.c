@@ -9,6 +9,7 @@
 #include <sys/ioctl.h>
 
 #include <linux/serial.h>
+#include <linux/serial_core.h>
 
 struct speeds
 {
@@ -91,11 +92,29 @@ int compare_termios_to_console(char *dev, int *speed) {
 	return 0;
 }
 
+char *serial_tty_name(int type) {
+	switch (type) {
+		case PORT_8250...PORT_MAX_8250:
+			return "ttyS";
+		case PORT_PMAC_ZILOG:
+			return "ttyPZ";
+		case PORT_MPSC:
+			return "ttyMM";
+		case PORT_CPM:
+			return "ttyCPM";
+		case PORT_MPC52xx:
+			return "ttyPSC";
+		default:
+			return NULL;
+	}
+}
+
 char *check_serial_console(int *speed) {
 	int fd;
 	char *ret = NULL, *device;
 	char twelve = 12;
 	struct serial_struct si, si2;
+	char *tty_name;
 
 	memset(&si, 0, sizeof(si));
 	memset(&si2, 0, sizeof(si));
@@ -108,7 +127,11 @@ char *check_serial_console(int *speed) {
 		goto out;
 	close(fd);
 
-	asprintf(&device, "ttyS%d", si.line);
+	tty_name = serial_tty_name(si.type);
+	if (!tty_name)
+		goto out;
+
+	asprintf(&device, "%s%d", tty_name, si.line);
 	fd = open(device, O_RDWR|O_NONBLOCK);
 	if (fd == -1)
 		goto out;
