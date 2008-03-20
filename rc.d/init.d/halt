@@ -99,34 +99,7 @@ if [ -f /etc/sysconfig/clock ]; then
    fi
 fi
 
-CLOCKDEF=""
-CLOCKFLAGS="$CLOCKFLAGS --systohc"
-
-case "$UTC" in
-   yes|true)
-	CLOCKFLAGS="$CLOCKFLAGS -u";
-	CLOCKDEF="$CLOCKDEF (utc)";
-	;;
-   no|false)
-	CLOCKFLAGS="$CLOCKFLAGS --localtime";
-	CLOCKDEF="$CLOCKDEF (localtime)";
-	;;
-esac
-
-case "$ARC" in
-   yes|true)
-	CLOCKFLAGS="$CLOCKFLAGS -A";
-	CLOCKDEF="$CLOCKDEF (arc)";
-	;;
-esac
-case "$SRM" in
-   yes|true)
-	CLOCKFLAGS="$CLOCKFLAGS -S";
-	CLOCKDEF="$CLOCKDEF (srm)";
-	;;
-esac
-
-[ -x /sbin/hwclock ] && action $"Syncing hardware clock to system time" /sbin/hwclock $CLOCKFLAGS
+[ -x /sbin/hwclock ] && action $"Syncing hardware clock to system time" /sbin/hwclock --systohc
 
 # Try to unmount tmpfs filesystems to avoid swapping them in.  Ignore failures.
 tmpfs=$(awk '$2 ~ /^\/($|proc|dev)/ { next; }
