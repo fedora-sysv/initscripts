@@ -52,7 +52,7 @@ struct speeds speed_map[] =
 int termcmp(struct termios *a, struct termios *b) {
 	if (a->c_iflag != b->c_iflag || a->c_oflag != b->c_oflag ||
 	    a->c_cflag != b->c_cflag || a->c_lflag != b->c_lflag ||
-	    a->c_ispeed != b->c_ispeed || a->c_ospeed != b->c_ospeed)
+	    cfgetispeed(a) != cfgetispeed(b) || cfgetospeed(a) != cfgetospeed(b))
 		return 1;
 	return memcmp(a->c_cc, b->c_cc, sizeof(a->c_cc));
 }       
