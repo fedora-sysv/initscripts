@@ -105,9 +105,10 @@ fi
 
 # slave device?
 if [ "${SLAVE}" = yes -a "${ISALIAS}" = no -a "${MASTER}" != "" ]; then
-    /sbin/ip link set dev ${DEVICE} down
-    echo "+${DEVICE}" > /sys/class/net/${MASTER}/bonding/slaves 2>/dev/null
-
+    grep -wq "${DEVICE}" /sys/class/net/${MASTER}/bonding/slaves || {
+	/sbin/ip link set dev ${DEVICE} down
+	echo "+${DEVICE}" > /sys/class/net/${MASTER}/bonding/slaves 2>/dev/null
+    }
     if [ -n "$ETHTOOL_OPTS" ] ; then
         /sbin/ethtool -s ${REALDEVICE} $ETHTOOL_OPTS
     fi
