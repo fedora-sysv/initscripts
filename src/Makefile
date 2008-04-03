@@ -2,7 +2,7 @@ CFLAGS+=$(RPM_OPT_FLAGS) -Wall -D_GNU_SOURCE
 
 PROGS=usernetctl doexec netreport testd usleep ipcalc initlog \
 	fstab-decode getkey ppp-watch consoletype genhostid rename_device \
-	console_init console_check
+	console_init console_check securetty
 PPPWATCH_OBJS=ppp-watch.o shvar.o
 CONSOLE_INIT_OBJS=console_init.o shvar.o
 INITLOG_OBJS=initlog.o process.o
@@ -28,6 +28,7 @@ install:
 	install -m 755 getkey $(ROOT)/sbin/getkey
 	install -m 755 ppp-watch $(ROOT)/sbin/ppp-watch
 	install -m 755 consoletype $(ROOT)/sbin/consoletype
+	install -m 755 securetty $(ROOT)/sbin/securetty
 	install -m 755 rename_device $(ROOT)/lib/udev/rename_device
 	install -m 755 console_init $(ROOT)/lib/udev/console_init
 	install -m 755 console_check $(ROOT)/lib/udev/console_check
@@ -71,6 +72,9 @@ usernetctl.o: usernetctl.c
 
 usernetctl: usernetctl.c usernetctl.o
 	$(CC) $(LDFLAGS) -pie -o $@ $@.o
+
+securetty: securetty.o
+	$(CC) $(LDFLAGS) -o $@ $<
 
 shvar.o: shvar.c
 	$(CC) $(CFLAGS) `pkg-config glib-2.0 --cflags` -c shvar.c -o shvar.o

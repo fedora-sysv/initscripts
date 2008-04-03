@@ -185,6 +185,7 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/fstab-decode
 /sbin/genhostid
 /sbin/getkey
+/sbin/securetty
 %attr(2755,root,root) /sbin/netreport
 /sbin/initlog
 /lib/udev/rename_device
