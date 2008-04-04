@@ -3,6 +3,20 @@ start on fedora.serial-console-available *
 stop on runlevel [016]
 
 instance
+pre-start script
+	while /bin/true ; do 
+		runlevel=$(/sbin/runlevel | /bin/awk '{ print $2 }')
+		case "$runlevel" in 
+			2|3|4|5)
+				LANG=C /sbin/initctl status rc$runlevel | grep -wq "rc$runlevel (stop) waiting" && break
+				;;
+			*)
+				;;
+		esac
+		sleep 1
+	done
+	/sbin/securetty $1
+end script
 exec /sbin/agetty /dev/$1 $2 vt100-nav
 post-stop script
 	if [ "$UPSTART_EVENT" != "${UPSTART_EVENT##fedora.serial-console-available}" ]; then
