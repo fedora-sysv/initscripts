@@ -1,3 +1,5 @@
+%define with_upstart 1%{nil} 
+
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
 Version: 8.67
@@ -13,7 +15,12 @@ Requires: /sbin/fuser, /bin/grep
 Requires: /sbin/pidof
 Requires: module-init-tools
 Requires: util-linux >= 2.10s-11, mount >= 2.11l
-Requires: bash >= 3.0, SysVinit >= 2.85-38
+Requires: bash >= 3.0
+%if with_upstart
+Requires: upstart
+%else
+Requires: SysVinit >= 2.85-38
+%endif
 Requires: /sbin/ip, /sbin/arping, net-tools
 Requires: /etc/redhat-release, dev
 Requires: ethtool >= 1.8-2, /sbin/runuser
@@ -50,6 +57,13 @@ rm -rf $RPM_BUILD_ROOT
 make ROOT=$RPM_BUILD_ROOT SUPERUSER=`id -un` SUPERGROUP=`id -gn` mandir=%{_mandir} install
 
 %find_lang %{name}
+
+%if with_upstart
+ mv -f $RPM_BUILD_ROOT/etc/inittab.upstart $RPM_BUILD_ROOT/etc/inittab
+%else
+ mv -f $RPM_BUILD_ROOT/etc/inittab.sysv $RPM_BUILD_ROOT/etc/inittab
+%endif
+rm -f $RPM_BUILD_ROOT/etc/inittab.*
 
 %ifnarch s390 s390x
 rm -f \
@@ -210,6 +224,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/NetworkManager
 %dir /etc/NetworkManager/dispatcher.d
 /etc/NetworkManager/dispatcher.d/00-netreport
+/etc/NetworkManager/dispatcher.d/05-netfs
 %doc sysconfig.txt sysvinitfiles ChangeLog static-routes-ipv6 ipv6-tunnel.howto ipv6-6to4.howto changes.ipv6 COPYING
 /var/lib/stateless
 %ghost %attr(0600,root,utmp) /var/log/btmp
