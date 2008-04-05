@@ -19,10 +19,12 @@ install:
 	mkdir -p $(ROOT)/var/lib/stateless/writable
 	mkdir -p $(ROOT)/var/lib/stateless/state
 
-	install -m644  inittab adjtime $(ROOT)/etc
+	install -m644  adjtime $(ROOT)/etc
+	install -m644 inittab $(ROOT)/etc/inittab.sysv 
 	if uname -m | grep -q s390 ; then \
-	  install -m644 inittab.s390 $(ROOT)/etc/inittab ; \
+	  install -m644 inittab.s390 $(ROOT)/etc/inittab.sysv ; \
 	fi
+	install -m644 inittab.upstart $(ROOT)/etc/inittab.upstart
 	install -m644  rwtab statetab networks $(ROOT)/etc
 	install -m755  service setsysfont $(ROOT)/sbin
 	install -m644  lang.csh lang.sh $(ROOT)/etc/profile.d
