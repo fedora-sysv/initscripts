@@ -66,8 +66,7 @@ for i in /etc/rc$runlevel.d/K* ; do
 
 	# Check if the subsystem is already up.
 	subsys=${i#/etc/rc$runlevel.d/K??}
-	[ -f /var/lock/subsys/$subsys ] || continue
-	[ -f /var/lock/subsys/$subsys.init ] || continue
+	[ -f /var/lock/subsys/$subsys -o -f /var/lock/subsys/$subsys.init ] || continue
 	check_runlevel "$i" || continue
 
 	# Bring the subsystem down.

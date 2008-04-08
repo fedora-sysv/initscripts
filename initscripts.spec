@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.68
+Version: 8.69
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -232,6 +232,11 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Apr  8 2008 Bill Nottingham <notting@redhat.com> - 8.69-1
+- Bring up lo whenever it shows up, not just in network/NM
+- fix shutdown-related oddities (#438444)
+- translation updates: el, sr, sr@latin, sv
+
 * Fri Apr  4 2008 Bill Nottingham <notting@redhat.com> - 8.68-1
 - netfs: umount 'ncp' filesystems as well (#437117)
 - improve performance of s390 ccw rules (#437110, <mernst@de.ibm.com>)
