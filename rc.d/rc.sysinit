@@ -362,6 +362,13 @@ if [ -c /dev/mapper/control ]; then
 	fi
 fi
 
+if [ -f /etc/crypttab ]; then
+    s=$"Starting disk encryption:"
+    echo "$s"
+    init_crypto 0 && success "$s" || failure "$s"
+    echo
+fi
+
 if [ -f /fastboot ] || strstr "$cmdline" fastboot ; then
 	fastboot=yes
 fi
