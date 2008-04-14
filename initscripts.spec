@@ -17,7 +17,7 @@ Requires: module-init-tools
 Requires: util-linux >= 2.10s-11, mount >= 2.11l
 Requires: bash >= 3.0
 %if with_upstart
-Requires: upstart
+Requires: upstart, event-compat-sysv
 %else
 Requires: SysVinit >= 2.85-38
 %endif
