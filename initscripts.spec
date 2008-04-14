@@ -1,9 +1,9 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.93.31.EL
+Version: 7.93.32
 License: GPL
 Group: System Environment/Base
-Release: 1
+Release: 1%{?dist}
 Source: initscripts-%{version}.tar.bz2
 URL: http://fedora.redhat.com/projects/additional-projects/initscripts/
 Patch0: initscripts-s390.patch
@@ -207,8 +207,15 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
-- kmodule: use better algorithm for finding available modules (#270741)
-- netfs: sort nfs mounts for unmounting (#251657)
+* Mon Apr 14 2008 Harald Hoyer <harald@redhat.com> 7.93.32-1
+- don't do something odd if we find a mac address that matches the user-set MACADDR (#251415) (notting)
+- backport getkey race fixes from RHEL 5 (#313611) (mpoole)
+- Fix genhostid for x86_64 (#311611) (notting)
+- netfs: sort nfs mounts for unmounting (#251657) (notting)
+- Resolves: rhbz#251657, rhbz#311611, rhbz#251415, rhbz#313611
+
+* Mon Sep 10 2007 Bill Nottingham <notting@redhat.com> - 7.93.31.EL-2
+- kmodule: use a better algorithm for finding modules (#270741)
 
 * Thu Aug 02 2007 Harald Hoyer <harald@redhat.com> - 7.93.31.EL-1
 - set the hwclock before udev starts (#230997)
