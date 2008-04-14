@@ -2,9 +2,20 @@ ROOT=/
 SUPERUSER=root
 SUPERGROUP=root
 
-VERSION=$(shell awk '/Version:/ { print $$2 }' initscripts.spec)
-CVSTAG = r$(subst .,-,$(VERSION))
-CVSROOT = $(shell cat CVS/Root)
+DIST_DEFINES := --define "dist .el4"
+SOURCEHACK := $(shell pwd)
+SPECFILE := initscripts.spec
+
+ifndef VERSION
+VERSION := $(shell rpm $(RPM_DEFINES) $(DIST_DEFINES) --define "_sourcedir $(SOURCEHACK)" -q --qf "%{VERSION}\n" --specfile $(SPECFILE)| head -1)
+endif
+# the release of the package
+ifndef RELEASE
+RELEASE := $(shell rpm $(RPM_DEFINES) $(DIST_DEFINES) --define "_sourcedir $(SOURCEHACK)" -q --qf "%{RELEASE}\n" --specfile $(SPECFILE)| head -1)
+endif
+
+TAG=initscripts-$(VERSION)-$(RELEASE)
+ARCH = $(shell uname -m)
 
 mandir=/usr/share/man
 
@@ -111,28 +122,36 @@ check:
 	done
 
 changelog:
-	@rcs2log | sed "s|@.*redhat\.com|@redhat.com|" | sed "s|@.*redhat\.de|@redhat.com|" | sed "s|@redhat\.de|@redhat.com|" | sed "s|@@|@|" | \
-	 sed "s|/usr/local/CVS/initscripts/||g" | sed "s|/cvs/rhl/initscripts/||g" > changenew
-	 mv ChangeLog ChangeLog.old
-	 cat changenew ChangeLog.old > ChangeLog
-	 rm -f changenew
+	@rm -f ChangeLog
+	git-log --stat > ChangeLog
 
 clean:
 	make clean -C src
 	make clean -C po
 	@rm -fv *~ changenew ChangeLog.old *gz
-tag-archive:
-	@cvs -Q tag -F $(CVSTAG)
 
-create-archive: tag-archive
-	@rm -rf /tmp/initscripts
-	@cd /tmp; cvs -Q -d $(CVSROOT) export -r$(CVSTAG) initscripts || echo GRRRrrrrr -- ignore [export aborted]
-	@mv /tmp/initscripts /tmp/initscripts-$(VERSION)
-	@cd /tmp; tar --bzip2 -cSpf initscripts-$(VERSION).tar.bz2 initscripts-$(VERSION)
-	@rm -rf /tmp/initscripts-$(VERSION)
-	@cp /tmp/initscripts-$(VERSION).tar.bz2 .
-	@rm -f /tmp/initscripts-$(VERSION).tar.bz2 
-	@echo " "
-	@echo "The final archive is ./initscripts-$(VERSION).tar.bz2."
+tag:
+	@git tag -a -m "Tag as $(TAG)" -f $(TAG)
+	@echo "Tagged as $(TAG)"
 
-archive: clean check tag-archive create-archive
+archive: clean check tag changelog
+	@git-archive --format=tar --prefix=initscripts-$(VERSION)/ HEAD > initscripts-$(VERSION).tar
+	@mkdir -p initscripts-$(VERSION)/
+	@cp ChangeLog initscripts-$(VERSION)/
+	@tar --append -f initscripts-$(VERSION).tar initscripts-$(VERSION)
+	@bzip2 -f initscripts-$(VERSION).tar
+	@rm -rf initscripts-$(VERSION)
+	@echo "The archive is at initscripts-$(VERSION).tar.bz2"
+
+rpmlog:
+	@git-log --pretty="format:- %s (%ae)" $(TAG).. |sed -e 's/@.*)/)/'
+	@echo
+
+pull:
+	git fetch
+	git rebase origin/rhel4-branch
+
+push:
+	git push ssh://git.fedorahosted.org/git/initscripts.git HEAD:rhel4-branch
+	git push ssh://git.fedorahosted.org/git/initscripts.git $(TAG)
+
