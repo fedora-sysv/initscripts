@@ -21,7 +21,7 @@ Requires: upstart, event-compat-sysv
 %else
 Requires: SysVinit >= 2.85-38
 %endif
-Requires: /sbin/ip, /sbin/arping, net-tools
+Requires: /sbin/ip, /sbin/arping, net-tools, /bin/find
 Requires: /etc/redhat-release, dev
 Requires: ethtool >= 1.8-2, /sbin/runuser
 Requires: udev >= 115-1

@@ -427,7 +427,6 @@ if [ "$READONLY" = "yes" -o "$TEMPORARY_STATE" = "yes" ]; then
 	mount_dirs() {
 		if [ -e "$1" ]; then
 			mkdir -p "$RW_MOUNT$1"
-			# fixme: find is bad
 			find "$1" -type d -print0 | cpio -p -0vd "$RW_MOUNT" &>/dev/null
 			mount -n --bind "$RW_MOUNT$1" "$1"
 		fi
@@ -751,24 +750,9 @@ rm -f /fastboot /fsckoptions /forcefsck /.autofsck /forcequotacheck /halt \
 _NEED_XFILES=
 [ -f /var/run/utmpx -o -f /var/log/wtmpx ] && _NEED_XFILES=1
 
-# Clean up /var.  I'd use find, but /usr may not be mounted.
-for afile in /var/lock/* /var/run/* ; do
-	if [ -d "$afile" ]; then
-	   case "$afile" in
-		*/news|*/mon)	;;
-		*/sudo)		rm -f $afile/*/* ;;
-		*/vmware)	rm -rf $afile/*/* ;;
-		*/samba)	rm -rf $afile/*/* ;;
-		*/screen)	rm -rf $afile/* ;;
-		*/cvs)		rm -rf $afile/* ;;
-		*/dovecot)	rm -f $afile/*/* ;;
-		*/cups)		rm -f $afile/*/* ;;
-		*)		rm -f $afile/* ;;
-	   esac
-	else
-	   rm -f $afile
-	fi
-done
+# Clean up /var.
+rm -rf /var/lock/cvs/* /var/run/screen/*
+find /var/lock /var/run -type f -exec rm -f {} \;
 rm -f /var/lib/rpm/__db* &> /dev/null
 rm -f /var/gdm/.gdmfifo &> /dev/null
 
