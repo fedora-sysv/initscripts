@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.70
+Version: 8.71
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -232,6 +232,11 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Apr 23 2008 Bill Nottingham <notting@redhat.com> - 8.71-1
+- adjust to gdm using LANG instead of GDM_LANG (#372151, <rstrode@redhat.com>)
+- rework netfs' check for networking availability to properly handle both network
+  and NetworkManager
+
 * Tue Apr 15 2008 Bill Nottingham <notting@redhat.com> - 8.70-1
 - find is now in /bin. Use it. (#192991, #239914, #244941, #442178)
 - require event-compat-sysv for now (#442291)
