@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.71
+Version: 8.72
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -17,7 +17,7 @@ Requires: module-init-tools
 Requires: util-linux >= 2.10s-11, mount >= 2.11l
 Requires: bash >= 3.0
 %if with_upstart
-Requires: upstart, event-compat-sysv
+Requires: upstart, event-compat-sysv >= 0.3.9-14
 %else
 Requires: SysVinit >= 2.85-38
 %endif
@@ -60,6 +60,7 @@ make ROOT=$RPM_BUILD_ROOT SUPERUSER=`id -un` SUPERGROUP=`id -gn` mandir=%{_mandi
 
 %if with_upstart
  mv -f $RPM_BUILD_ROOT/etc/inittab.upstart $RPM_BUILD_ROOT/etc/inittab
+ rm -f $RPM_BUILD_ROOT/etc/rc.d/rc1.d/S99single
 %else
  mv -f $RPM_BUILD_ROOT/etc/inittab.sysv $RPM_BUILD_ROOT/etc/inittab
 %endif
@@ -232,6 +233,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Apr 24 2008 Bill Nottingham <notting@redhat.com> - 8.72-1
+- don't have a S99single when using upstart (#444001, indirectly)
+
 * Wed Apr 23 2008 Bill Nottingham <notting@redhat.com> - 8.71-1
 - adjust to gdm using LANG instead of GDM_LANG (#372151, <rstrode@redhat.com>)
 - rework netfs' check for networking availability to properly handle both network
