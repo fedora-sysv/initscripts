@@ -1,0 +1,19 @@
+# rc1 - runlevel 1 compatibility
+#
+# This task runs the old sysv-rc runlevel 1 ("single-user") scripts. 
+
+start on runlevel 1
+
+stop on runlevel
+
+console output
+script
+	set $(runlevel --set 1 || true)
+	if [ "$1" != "unknown" ]; then
+	    PREVLEVEL=$1
+	    RUNLEVEL=$2
+	    export PREVLEVEL RUNLEVEL
+	fi
+
+	exec /etc/rc.d/rc 1
+end script

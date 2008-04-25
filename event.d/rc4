@@ -1,0 +1,20 @@
+# rc4 - runlevel 4 compatibility
+#
+# This task runs the old sysv-rc runlevel 4 (user defined) scripts.  It
+# is usually started by the telinit compatibility wrapper.
+
+start on runlevel 4
+
+stop on runlevel
+
+console output
+script
+	set $(runlevel --set 4 || true)
+	if [ "$1" != "unknown" ]; then
+	    PREVLEVEL=$1
+	    RUNLEVEL=$2
+	    export PREVLEVEL RUNLEVEL
+	fi
+
+	exec /etc/rc.d/rc 4
+end script

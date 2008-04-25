@@ -1,0 +1,23 @@
+# rc6 - runlevel 6 compatibility
+#
+# This task runs the old sysv-rc runlevel 6 ("reboot") scripts.
+
+start on runlevel 6
+
+stop on runlevel
+
+console output
+script
+	set $(runlevel || true)
+	if [ "$2" != "0" ] && [ "$2" != "6" ]; then
+	    set $(runlevel --set 6 || true)
+        fi
+
+	if [ "$1" != "unknown" ]; then
+	    PREVLEVEL=$1
+	    RUNLEVEL=$2
+	    export PREVLEVEL RUNLEVEL
+	fi
+
+	exec /etc/rc.d/rc 6
+end script

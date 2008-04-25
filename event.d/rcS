@@ -1,0 +1,25 @@
+# rcS - runlevel compatibility
+#
+# This task runs the old sysv-rc startup scripts.
+
+start on startup
+
+stop on runlevel
+
+# Note: there can be no previous runlevel here, if we have one it's bad
+# information (we enter rc1 not rcS for maintenance).  Run /etc/rc.d/rc
+# without information so that it defaults to previous=N runlevel=S.
+console output
+script
+	runlevel --set S >/dev/null || true
+
+	#set $(runlevel --set S || true)
+	#if [ "$1" != "unknown" ]; then
+	#    PREVLEVEL=$1
+	#    RUNLEVEL=$2
+	#    export PREVLEVEL RUNLEVEL
+	#fi
+
+	exec /etc/rc.d/rc.sysinit 
+	exec /etc/rc.d/rc S
+end script

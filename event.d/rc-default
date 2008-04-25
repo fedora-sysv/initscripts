@@ -1,0 +1,22 @@
+# rc - runlevel compatibility
+#
+# This task guesses what the "default runlevel" should be and starts the
+# appropriate script.
+
+start on stopped rcS
+
+script
+	runlevel --reboot || true
+
+	RL="2"
+	if [ -r /etc/inittab ]; then
+	    RL="$(sed -n -e "/^id:[0-9]*:initdefault:/{s/^id://;s/:.*//;p}" /etc/inittab || true)"
+	fi
+	for t in $(cat /proc/cmdline); do
+		case $t in
+			-s|single|S) RL="S" ;;
+			[1-9])       RL="$t" ;;
+		esac
+	done
+	telinit $RL
+end script

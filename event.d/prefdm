@@ -1,0 +1,12 @@
+# prefdm - preferred display manager
+#
+# Starts gdm/xdm/etc by preference
+
+start on stopped rc5
+
+stop on runlevel [!5]
+
+console output
+script
+	exec /etc/X11/prefdm -nodaemon
+end script
