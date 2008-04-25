@@ -12,7 +12,7 @@ script
 	runlevel --set S >/dev/null || true
 	/bin/bash
 
-	runlevel=$(/bin/awk -F ':' '/^id:/ { print $2 }' /etc/inittab)
+	runlevel=$(/bin/awk -F ':' '$3 == "initdefault" { print $2 }' /etc/inittab)
 	[ -z "$runlevel" ] && runlevel="3"
 	telinit $runlevel
 end script
