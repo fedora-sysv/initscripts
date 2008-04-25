@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.72
+Version: 8.73
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -238,6 +238,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Apr 25 2008 Bill Nottingham <notting@redhat.com> - 8.73-1
+- move event-compat-sysv events here, obsolete it
+
 * Thu Apr 24 2008 Bill Nottingham <notting@redhat.com> - 8.72-1
 - don't have a S99single when using upstart (#444001, indirectly)
 
