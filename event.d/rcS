@@ -15,15 +15,14 @@ script
 
 	/etc/rc.d/rc.sysinit 
 	runlevel --reboot || true
-	. /etc/sysconfig/init
 
-	RL="3"
-	[ "$GRAPHICAL" = "yes" ] && RL="5"
+	runlevel=$(/bin/awk -F ':' '/^id:/ { print $2 }' /etc/inittab)
+	[ -z "$runlevel" ] && runlevel="3"
 	for t in $(cat /proc/cmdline); do
 		case $t in
-			-s|single|S) RL="S" ;;
-			[1-9])       RL="$t" ;;
+			-s|single|S) runlevel="S" ;;
+			[1-9])       runlevel="$t" ;;
 		esac
 	done
-	telinit $RL
+	telinit $runlevel
 end script

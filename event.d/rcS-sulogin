@@ -12,14 +12,7 @@ script
 	runlevel --set S >/dev/null || true
 	/bin/bash
 
-	if [ -r /etc/inittab ]; then
-	    RL="$(sed -n -e "/^id:[0-9]*:initdefault:/{s/^id://;s/:.*//;p}" /etc/inittab || true)"
-	    if [ -n "$RL" ]; then
-		telinit $RL
-	    else
-		telinit 2
-	    fi
-	else
-	    telinit 2
-	fi
+	runlevel=$(/bin/awk -F ':' '/^id:/ { print $2 }' /etc/inittab)
+	[ -z "$runlevel" ] && runlevel="3"
+	telinit $runlevel
 end script

@@ -7,6 +7,6 @@ start on stopped rc5
 stop on runlevel [!5]
 
 console output
-script
-	exec /etc/X11/prefdm -nodaemon
-end script
+respawn
+respawn limit 10 120
+exec /etc/X11/prefdm -nodaemon
