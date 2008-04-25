@@ -17,7 +17,8 @@ Requires: module-init-tools
 Requires: util-linux >= 2.10s-11, mount >= 2.11l
 Requires: bash >= 3.0
 %if with_upstart
-Requires: upstart, event-compat-sysv >= 0.3.9-14
+Requires: upstart
+Obsoletes: event-compat-sysv
 %else
 Requires: SysVinit >= 2.85-38
 %endif
@@ -64,6 +65,7 @@ make ROOT=$RPM_BUILD_ROOT SUPERUSER=`id -un` SUPERGROUP=`id -gn` mandir=%{_mandi
  rm -f $RPM_BUILD_ROOT/etc/rc.d/init.d/single
 %else
  mv -f $RPM_BUILD_ROOT/etc/inittab.sysv $RPM_BUILD_ROOT/etc/inittab
+ rm -rf $RPM_BUILD_ROOT/etc/event.d
 %endif
 rm -f $RPM_BUILD_ROOT/etc/inittab.*
 
@@ -172,7 +174,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/rwtab.d
 /etc/statetab
 %dir /etc/statetab.d
+%if with_upstart
 %config(noreplace) /etc/event.d/*
+%endif
 /etc/udev/rules.d/*
 %config /etc/X11/prefdm
 %config(noreplace) /etc/inittab
