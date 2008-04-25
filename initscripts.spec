@@ -240,6 +240,8 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Fri Apr 25 2008 Bill Nottingham <notting@redhat.com> - 8.73-1
 - move event-compat-sysv events here, obsolete it
+- fix ctrl-alt-del during rc.sysinit (#444050)
+- fix 'telinit X' from single-user mode (#444001)
 
 * Thu Apr 24 2008 Bill Nottingham <notting@redhat.com> - 8.72-1
 - don't have a S99single when using upstart (#444001, indirectly)
