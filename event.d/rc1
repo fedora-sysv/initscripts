@@ -22,6 +22,8 @@ script
 end script
 post-stop script
 	clear
-	echo "Telling INIT to go to single user mode."
+	TEXTDOMAIN=initscripts
+	. /etc/profile.d/lang.sh
+	echo $"Telling INIT to go to single user mode."
 	exec telinit S
 end script
