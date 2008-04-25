@@ -1,18 +1,19 @@
 # rcS-sulogin - "single-user" runlevel compatibility
 #
-# This task runs the sulogin binary during "single-user" mode.
+# This task runs /bin/bash during "single-user" mode,
+# then continues to the default runlevel.
 
 start on runlevel S
 
 stop on runlevel
 
 console owner
-
 script
 	runlevel --set S >/dev/null || true
-	/bin/bash
-
+	/bin/bash || true
+end script
+post-stop script
 	runlevel=$(/bin/awk -F ':' '$3 == "initdefault" { print $2 }' /etc/inittab)
 	[ -z "$runlevel" ] && runlevel="3"
-	telinit $runlevel
+	exec telinit $runlevel
 end script

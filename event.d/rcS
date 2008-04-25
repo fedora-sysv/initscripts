@@ -15,14 +15,15 @@ script
 
 	/etc/rc.d/rc.sysinit 
 	runlevel --reboot || true
-
+end script
+post-stop script
 	runlevel=$(/bin/awk -F ':' '$3 == "initdefault" { print $2 }' /etc/inittab)
 	[ -z "$runlevel" ] && runlevel="3"
 	for t in $(cat /proc/cmdline); do
 		case $t in
-			-s|single|S) runlevel="S" ;;
+			-s|single|S|s) runlevel="S" ;;
 			[1-9])       runlevel="$t" ;;
 		esac
 	done
-	telinit $runlevel
+	exec telinit $runlevel
 end script
