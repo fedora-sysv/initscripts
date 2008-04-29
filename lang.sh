@@ -2,15 +2,16 @@
 
 sourced=0
 
-saved_lang="$LANG"
-for langfile in /etc/sysconfig/i18n $HOME/.i18n ; do
-    [ -f $langfile ] && . $langfile && sourced=1
-done
-
-if [ -n "$saved_lang" ]; then
+if [ -n "$LANG" ]; then
+    saved_lang="$LANG"
+    [ -f $HOME/.i18n ] && . $HOME/.i18n && sourced=1
     LANG="$saved_lang"
+    unset saved_lang
+else
+    for langfile in /etc/sysconfig/i18n $HOME/.i18n ; do
+        [ -f $langfile ] && . $langfile && sourced=1
+    done
 fi
-unset saved_lang
 
 if [ "$sourced" = 1 ]; then
     [ -n "$LANG" ] && export LANG || unset LANG
