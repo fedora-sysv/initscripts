@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.73
+Version: 8.74
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -238,6 +238,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Apr 29 2008 Bill Nottingham <notting@redhat.com> - 8.74-1
+- use full path to /sbin/ip in NetworkManagerDispatcher script (#444378)
+- lang.{sh,csh}: read only user customization if LANG is already set (#372151)
+
 * Fri Apr 25 2008 Bill Nottingham <notting@redhat.com> - 8.73-1
 - move event-compat-sysv events here, obsolete it
 - fix ctrl-alt-del during rc.sysinit (#444050)
