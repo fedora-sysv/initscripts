@@ -9,9 +9,8 @@ if [ "$2" = "down" ]; then
 fi
 
 if [ "$2" = "up" ]; then
-	defdev=$(/sbin/ip route ls | awk '/^default/ { print $NF }')
-	if [ "$defdev" = "$1" ]; then
+	/sbin/ip -o route show dev "$1" | grep -q '^default' && {
 		/sbin/chkconfig netfs && /etc/rc.d/init.d/netfs start
-	fi
+	}
 fi
 
