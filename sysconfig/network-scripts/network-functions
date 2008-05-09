@@ -111,6 +111,9 @@ source_config ()
 	GRE | IPIP)
 		DEVICETYPE="tunnel"
 		;;
+	SIT | sit)
+		DEVICETYPE="sit"
+		;;
     esac
     [ -z "$DEVICETYPE" ] && DEVICETYPE=`echo ${DEVICE} | sed "s/[0-9]*$//"`
     [ -z "$REALDEVICE" -a -n "$PARENTDEVICE" ] && REALDEVICE=$PARENTDEVICE

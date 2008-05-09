@@ -3,20 +3,14 @@
 sourced=0
 
 if [ -n "$LANG" ]; then
-    sourced=1
+    saved_lang="$LANG"
+    [ -f $HOME/.i18n ] && . $HOME/.i18n && sourced=1
+    LANG="$saved_lang"
+    unset saved_lang
 else
     for langfile in /etc/sysconfig/i18n $HOME/.i18n ; do
-    	[ -f $langfile ] && . $langfile && sourced=1
-    done    
-fi
-
-if [ -n "$GDM_LANG" ]; then
-    sourced=1
-    LANG="$GDM_LANG"
-    unset LANGUAGE
-    if [ "$GDM_LANG" = "zh_CN.GB18030" ]; then
-      export LANGUAGE="zh_CN.GB18030:zh_CN.GB2312:zh_CN"
-    fi
+        [ -f $langfile ] && . $langfile && sourced=1
+    done
 fi
 
 if [ "$sourced" = 1 ]; then

@@ -4,6 +4,10 @@ stop on runlevel [016]
 
 instance
 pre-start script
+	while /bin/true ; do
+		LANG=C /sbin/initctl status rcS | grep -wq "rcS (stop) waiting" && break
+		sleep 1
+	done
 	while /bin/true ; do 
 		runlevel=$(/sbin/runlevel | /bin/awk '{ print $2 }')
 		case "$runlevel" in 

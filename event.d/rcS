@@ -1,0 +1,31 @@
+# rcS - runlevel compatibility
+#
+# This task runs the old sysv-rc startup scripts.
+
+start on startup
+
+stop on runlevel
+
+# Note: there can be no previous runlevel here, if we have one it's bad
+# information (we enter rc1 not rcS for maintenance).  Run /etc/rc.d/rc
+# without information so that it defaults to previous=N runlevel=S.
+console output
+script
+	runlevel --set S >/dev/null || true
+
+	/etc/rc.d/rc.sysinit 
+	runlevel --reboot || true
+end script
+post-stop script
+	if [ "$UPSTART_EVENT" == "startup" ]; then
+		runlevel=$(/bin/awk -F ':' '$3 == "initdefault" { print $2 }' /etc/inittab)
+		[ -z "$runlevel" ] && runlevel="3"
+		for t in $(cat /proc/cmdline); do
+			case $t in
+				-s|single|S|s) runlevel="S" ;;
+				[1-9])       runlevel="$t" ;;
+			esac
+		done
+		exec telinit $runlevel
+	fi
+end script

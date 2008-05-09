@@ -17,9 +17,6 @@
 . /etc/init.d/functions
 . /etc/sysconfig/network
 
-# Check that networking is up.
-[ "${NETWORKING}" = "no" ] && exit 0
-
 NFSFSTAB=`LC_ALL=C awk '!/^#/ && $3 ~ /^nfs/ && $3 != "nfsd" && $4 !~ /noauto/ { print $2 }' /etc/fstab`
 SMBFSTAB=`LC_ALL=C awk '!/^#/ && $3 == "smbfs" && $4 !~ /noauto/ { print $2 }' /etc/fstab`
 CIFSFSTAB=`LC_ALL=C awk '!/^#/ && $3 == "cifs" && $4 !~ /noauto/ { print $2 }' /etc/fstab`
@@ -35,6 +32,7 @@ NETDEVMTAB=`LC_ALL=C awk '$4 ~ /_netdev/ && $2 != "/" { print $2 }' /etc/mtab`
 # See how we were called.
 case "$1" in
   start)
+        [ ! -f /var/lock/subsys/network -a ! -f /var/lock/subsys/NetworkManager ] && exit 0
         [ -n "$NFSFSTAB" ] && 
 	  {
 	    [ ! -f /var/lock/subsys/rpcbind ] && service rpcbind start

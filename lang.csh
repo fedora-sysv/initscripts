@@ -1,26 +1,22 @@
 # /etc/profile.d/lang.csh - set i18n stuff
 
 set sourced=0
+
 if ($?LANG) then
-    set sourced=1
+    set saved_lang=$LANG
+    if ( -f $HOME/.i18n ) then
+	eval `grep -v '^[:blank:]*#' $HOME/.i18n | sed 's|\([^=]*\)=\([^=]*\)|setenv \1 \2|g' | sed 's|$|;|'`
+	set sourced=1
+    endif
+    setenv LANG $saved_lang
+    unset saved_lang
 else
     foreach file (/etc/sysconfig/i18n $HOME/.i18n)
-	if ( -f $file ) then
+        if ( -f $file ) then
 	    eval `grep -v '^[:blank:]*#' $file | sed 's|\([^=]*\)=\([^=]*\)|setenv \1 \2|g' | sed 's|$|;|'`
-	endif
-	set sourced=1
+	    set sourced=1
+        endif
     end
-endif
-
-if ($?GDM_LANG) then
-    set sourced=1
-    setenv LANG $GDM_LANG
-    if ($?LANGUAGE) then
-      unsetenv LANGUAGE
-    endif
-    if ("$GDM_LANG" == "zh_CN.GB18030") then
-      setenv LANGUAGE "zh_CN.GB18030:zh_CN.GB2312:zh_CN"
-    endif
 endif
 
 if ($sourced == 1) then

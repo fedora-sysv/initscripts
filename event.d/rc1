@@ -1,0 +1,29 @@
+# rc1 - runlevel 1 compatibility
+#
+# This task runs the old sysv-rc runlevel 1 ("single-user") scripts. 
+# /etc/rc.d/rc 1 will run the /etc/rc.d/rc1.d scripts.
+# telinit S will run whichever task has "start on runlevel S",
+# normally /etc/event.d/rcS-sulogin
+
+start on runlevel 1
+
+stop on runlevel
+
+console output
+script
+	set $(runlevel --set 1 || true)
+	if [ "$1" != "unknown" ]; then
+	    PREVLEVEL=$1
+	    RUNLEVEL=$2
+	    export PREVLEVEL RUNLEVEL
+	fi
+
+	exec /etc/rc.d/rc 1
+end script
+post-stop script
+	clear
+	TEXTDOMAIN=initscripts
+	. /etc/profile.d/lang.sh
+	echo $"Telling INIT to go to single user mode."
+	exec telinit S
+end script

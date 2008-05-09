@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.69
+Version: 8.76
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -18,10 +18,11 @@ Requires: util-linux >= 2.10s-11, mount >= 2.11l
 Requires: bash >= 3.0
 %if with_upstart
 Requires: upstart
+Obsoletes: event-compat-sysv
 %else
 Requires: SysVinit >= 2.85-38
 %endif
-Requires: /sbin/ip, /sbin/arping, net-tools
+Requires: /sbin/ip, /sbin/arping, net-tools, /bin/find
 Requires: /etc/redhat-release, dev
 Requires: ethtool >= 1.8-2, /sbin/runuser
 Requires: udev >= 115-1
@@ -60,8 +61,11 @@ make ROOT=$RPM_BUILD_ROOT SUPERUSER=`id -un` SUPERGROUP=`id -gn` mandir=%{_mandi
 
 %if with_upstart
  mv -f $RPM_BUILD_ROOT/etc/inittab.upstart $RPM_BUILD_ROOT/etc/inittab
+ rm -f $RPM_BUILD_ROOT/etc/rc.d/rc1.d/S99single
+ rm -f $RPM_BUILD_ROOT/etc/rc.d/init.d/single
 %else
  mv -f $RPM_BUILD_ROOT/etc/inittab.sysv $RPM_BUILD_ROOT/etc/inittab
+ rm -rf $RPM_BUILD_ROOT/etc/event.d
 %endif
 rm -f $RPM_BUILD_ROOT/etc/inittab.*
 
@@ -170,7 +174,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/rwtab.d
 /etc/statetab
 %dir /etc/statetab.d
+%if with_upstart
 %config(noreplace) /etc/event.d/*
+%endif
 /etc/udev/rules.d/*
 %config /etc/X11/prefdm
 %config(noreplace) /etc/inittab
@@ -225,13 +231,42 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/NetworkManager/dispatcher.d
 /etc/NetworkManager/dispatcher.d/00-netreport
 /etc/NetworkManager/dispatcher.d/05-netfs
-%doc sysconfig.txt sysvinitfiles ChangeLog static-routes-ipv6 ipv6-tunnel.howto ipv6-6to4.howto changes.ipv6 COPYING
+%doc sysconfig.txt sysvinitfiles ChangeLog static-routes-ipv6 ipv6-tunnel.howto ipv6-6to4.howto changes.ipv6 COPYING README-event.d
 /var/lib/stateless
 %ghost %attr(0600,root,utmp) /var/log/btmp
 %ghost %attr(0664,root,utmp) /var/log/wtmp
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri May  2 2008 Bill Nottingham <notting@redhat.com> - 8.76-1
+- fix tcsh syntax error (#444998)
+- remove debugging cruft from rcS-sulogin
+
+* Tue Apr 29 2008 Bill Nottingham <notting@redhat.com> - 8.74-1
+- use full path to /sbin/ip in NetworkManagerDispatcher script (#444378)
+- lang.{sh,csh}: read only user customization if LANG is already set (#372151)
+
+* Fri Apr 25 2008 Bill Nottingham <notting@redhat.com> - 8.73-1
+- move event-compat-sysv events here, obsolete it
+- fix ctrl-alt-del during rc.sysinit (#444050)
+- fix 'telinit X' from single-user mode (#444001)
+
+* Thu Apr 24 2008 Bill Nottingham <notting@redhat.com> - 8.72-1
+- don't have a S99single when using upstart (#444001, indirectly)
+
+* Wed Apr 23 2008 Bill Nottingham <notting@redhat.com> - 8.71-1
+- adjust to gdm using LANG instead of GDM_LANG (#372151, <rstrode@redhat.com>)
+- rework netfs' check for networking availability to properly handle both network
+  and NetworkManager
+
+* Tue Apr 15 2008 Bill Nottingham <notting@redhat.com> - 8.70-1
+- find is now in /bin. Use it. (#192991, #239914, #244941, #442178)
+- require event-compat-sysv for now (#442291)
+- fix serial event to wait properly
+- handle encrypted LVs properly (#441728)
+- add a sit tunnel type (#441635)
+- translation updates: ru
+
 * Tue Apr  8 2008 Bill Nottingham <notting@redhat.com> - 8.69-1
 - Bring up lo whenever it shows up, not just in network/NM
 - fix shutdown-related oddities (#438444)
