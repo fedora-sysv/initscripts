@@ -584,6 +584,13 @@ resolve_dm_name() {
     done
     line=$(echo "$line" | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' \
                -e 's/ core [12] [[:digit:]]\+ / core [12] [[:digit:]]\\+ /')
+    # XXX PJFIX -- this method of handling extra parameters is really just
+    #              asking for failure -- the better way would be to make
+    #              dmsetup or dmraid be able to do resolve_dm_name for us.
+    if [ "$(echo $line | awk '{ print $3 }')" == "mirror" ]; then
+        line=$(echo "$line" | sed \
+                -e 's/ 1 [[:alpha:]][[:alnum:]_]\+$/\\($\\|&$\\)/')
+    fi
     /sbin/dmsetup table | \
         sed -n -e "s/.*\(no block devices found\|No devices found\).*//" \
                -e "s/\(^[^:]\+\): $line\( \+$\|$\)/\1/p"
