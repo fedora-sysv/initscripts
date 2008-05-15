@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.76.1
+Version: 8.76.2
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -238,6 +238,12 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu May 15 2008 Bill Nottingham <notting@redhat.com> - 8.76.2-
+- Don't unmount sysfs in halt. (#446292)
+
+* Wed May 14 2008 Peter Jones <pjones@redhat.com>
+- init.d/functions: fix resolve_dm_raid() for older dmraid configs
+
 * Wed May  7 2008 Bill Nottingham <notting@redhat.com> - 8.76.1-1
 - NMDispatcher/05-netfs: fix check for default route (#445509)
 
