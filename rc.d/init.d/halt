@@ -153,7 +153,7 @@ rm -f /.autofsck
 
 # Try all file systems other than root, essential filesystems and RAM disks,
 # one last time.
-awk '$2 !~ /\/(|dev|proc|selinux)$/ && $1 !~ /^\/dev\/ram/ { print $2 }' \
+awk '$2 !~ /\/(|dev|proc|selinux|sys)$/ && $1 !~ /^\/dev\/ram/ { print $2 }' \
     /proc/mounts | sort -r | \
   while read line; do
     fstab-decode umount -f $line
