@@ -181,39 +181,6 @@ do_netreport ()
   )
 }
 
-# rename_device() - Rename a network device to something else
-# $1 - desired name
-# $2 - hardware address to name (no longer used)
-# $3 - '/' separated list of devices that are already in use
-#      (for general calls, use the current device you're trying to
-#       change to $1)
-
-rename_device()
-{
-    local target=${3##*/}
-
-    /sbin/ip link set "$target" name "$1" 2>/dev/null || {
-      local hw2=`get_hwaddr ${1}`
-      local nconfig=`get_config_by_hwaddr ${hw2}`
-      local curdev=`get_device_by_hwaddr ${hw2}`
-      local dev=
-      [ -z "${hw2}" ] && return
-      if [ -n "$nconfig"  ]; then
-         dev=$(. $nconfig ; echo $DEVICE)
-	 oldifs=$IFS
-	 IFS=/
-         for device in $3 ; do
-	    [ "$dev" = "$device" ] && unset dev
-         done
-	 IFS=$oldifs
-      fi 
-      [ -z "$dev" ] && dev=dev$RANDOM
-      
-      rename_device $dev $hw2 "$3/$curdev"
-      /sbin/ip link set "$target" name $1 2>/dev/null
-    }
-}
-
 # Sets $alias to the device module if $? != 0
 is_available ()
 {
