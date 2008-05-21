@@ -196,9 +196,9 @@ init_crypto() {
 		echo "$dst: options are invalid for LUKS partitions," \
 		    "ignoring them"
 	    fi
-	    /sbin/cryptsetup ${key:+-d $key} luksOpen "$src" "$dst" <&1
+	    /sbin/cryptsetup ${key:+-d $key} luksOpen "$src" "$dst" <&1 && success || failure
 	else
-	    /sbin/cryptsetup $params ${key:+-d $key} create "$dst" "$src" <&1 2>/dev/null
+	    /sbin/cryptsetup $params ${key:+-d $key} create "$dst" "$src" <&1 2>/dev/null && success || failure
 	fi
 	rc=$?
 	if [ $rc -ne 0 ]; then
@@ -314,10 +314,7 @@ mknod /dev/mapper/control c \
 [ -n "$SELINUX_STATE" ] && restorecon /dev/mapper /dev/mapper/control >/dev/null 2>&1
 
 if [ -f /etc/crypttab ]; then
-    s=$"Starting disk encryption:"
-    echo "$s"
-    init_crypto 0 && success "$s" || failure "$s"
-    echo
+    init_crypto 0
 fi
 
 if [ -c /dev/mapper/control ]; then
@@ -348,10 +345,7 @@ if [ -c /dev/mapper/control ]; then
 fi
 
 if [ -f /etc/crypttab ]; then
-    s=$"Starting disk encryption:"
-    echo "$s"
-    init_crypto 0 && success "$s" || failure "$s"
-    echo
+    init_crypto 0
 fi
 
 if [ -f /fastboot ] || strstr "$cmdline" fastboot ; then
@@ -669,10 +663,7 @@ fi
 #[ -x /sbin/rngd -a -c /dev/hw_random ] && rngd
 
 if [ -f /etc/crypttab ]; then
-    s=$"Starting disk encryption using the RNG:"
-    echo "$s"
-    init_crypto 1 && success "$s" || failure "$s"
-    echo
+    init_crypto 1
 fi
 
 # Configure machine if necessary.
