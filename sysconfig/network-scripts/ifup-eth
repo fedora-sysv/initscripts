@@ -48,10 +48,8 @@ if [ -n "${HWADDR}" ]; then
     if [ "${FOUNDMACADDR}" != "${HWADDR}" -a "${FOUNDMACADDR}" != "${MACADDR}" ]; then
         curdev=`get_device_by_hwaddr ${HWADDR}`
         if [ -n "$curdev" ]; then
-	  rename_device "${REALDEVICE}" "${HWADDR}" "${curdev}" || {
 	    echo $"Device ${DEVICE} has different MAC address than expected, ignoring."
 	    exit 1
-	  }
 	fi
     fi
 fi
