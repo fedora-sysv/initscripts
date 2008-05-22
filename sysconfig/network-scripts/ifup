@@ -111,7 +111,7 @@ if [ -x /sbin/vconfig -a "${VLAN}" = "yes" -a "$ISALIAS" = "no" ]; then
 
 	if [ ! -f /proc/net/vlan/${DEVICE} ]; then
 	    /sbin/vconfig add ${PHYSDEV} ${VID} || {
-		(logger -p daemon.info -t ifup \
+		(/usr/bin/logger -p daemon.info -t ifup \
 		    $"ERROR: could not add vlan ${VID} as ${DEVICE} on dev ${PHYSDEV}" &)&
 		echo $"ERROR: could not add vlan ${VID} as ${DEVICE} on dev ${PHYSDEV}"
 		exit 1
@@ -122,13 +122,13 @@ if [ -x /sbin/vconfig -a "${VLAN}" = "yes" -a "$ISALIAS" = "no" ]; then
 	    case "$REORDER_HDR" in
 		yes|1)
 		    /sbin/vconfig set_flag ${DEVICE} 1 1 || {
-			(logger -p daemon.info -t ifup \
+			(/usr/bin/logger -p daemon.info -t ifup \
 			    "WARNING: vconfig not able to enable REORDER_HDR on ${DEVICE}" &)&
 		    }
 		    ;;
 		no|0)
 		    /sbin/vconfig set_flag ${DEVICE} 1 0 || {
-			(logger -p daemon.info -t ifup \
+			(/usr/bin/logger -p daemon.info -t ifup \
 			    $"WARNING: vconfig not able to disable REORDER_HDR on ${DEVICE}" &)&
 		    }
 		    ;;

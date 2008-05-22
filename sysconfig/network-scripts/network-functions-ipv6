@@ -137,15 +137,15 @@ ipv6_log() {
 		fi
 		;;
 	    'syslog')
-		# note: logger resides in /usr/bin, but not used by default
-		if ! [ -x logger ]; then
-			echo $"ERROR: [ipv6_log] Syslog is chosen, but binary 'logger' doesn't exist or isn't executable" >/dev/stderr
+		# note: /usr/bin/logger resides in /usr/bin, but not used by default
+		if ! [ -x /usr/bin/logger ]; then
+			echo $"ERROR: [ipv6_log] Syslog is chosen, but binary '/usr/bin/logger' doesn't exist or isn't executable" >/dev/stderr
 			return 3
 		fi
 		if [ -z "$txt_name" ]; then
-			logger -p $facility.$priority $message
+			/usr/bin/logger -p $facility.$priority $message
 		else
-			logger -p $facility.$priority -t "$txt_name" "$message"
+			/usr/bin/logger -p $facility.$priority -t "$txt_name" "$message"
 		fi
 		;;
 	    *)

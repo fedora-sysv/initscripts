@@ -30,20 +30,20 @@ fi
 # check that ipppd is available for syncppp 
 if [ "$ENCAP" = "syncppp" ]; then
     if [ ! -x /usr/sbin/ipppd -a ! -x /sbin/ipppd ] ; then
-        logger -p daemon.info -t ifup-ippp "ipppd does not exist or is not executable"
+        /usr/bin/logger -p daemon.info -t ifup-ippp "ipppd does not exist or is not executable"
         exit 1
     fi
 fi
 
 # check that isdnctrl is available
 if [ ! -x /usr/sbin/isdnctrl -a ! -x /sbin/isdnctrl ] ; then
-    logger -p daemon.info -t ifup-ippp "isdnctrl does not exist or is not executable"
+    /usr/bin/logger -p daemon.info -t ifup-ippp "isdnctrl does not exist or is not executable"
     exit 1
 fi
 
 # check all ISDN devices
 if ! isdnctrl list all >/dev/null 2>&1 ; then
-    logger -p daemon.info -t ifup-ippp "cannot list ISDN devices"
+    /usr/bin/logger -p daemon.info -t ifup-ippp "cannot list ISDN devices"
     exit 1
 fi
 		
@@ -52,12 +52,12 @@ isdnctrl list $DEVICE >/dev/null 2>&1 && exit 0
 
 function log_echo()
 {
-    logger -p daemon.info -t ifup-ippp $"$*"
+    /usr/bin/logger -p daemon.info -t ifup-ippp $"$*"
 }
 
 function log_isdnctrl()
 {
-    logger -p daemon.info -t ifup-ippp isdnctrl $*
+    /usr/bin/logger -p daemon.info -t ifup-ippp isdnctrl $*
     isdnctrl $* >/dev/null 2>&1 || exit 1
 }
 
@@ -338,12 +338,12 @@ function addprovider()
     [ -n "$NETMASK" ] && netmask="netmask $NETMASK"
 
     # activate ISDN device
-    logger -p daemon.info -t ifup-ippp "ifconfig $DEVICE $IPADDR pointopoint $GATEWAY $netmask up"
+    /usr/bin/logger -p daemon.info -t ifup-ippp "ifconfig $DEVICE $IPADDR pointopoint $GATEWAY $netmask up"
     ifconfig $DEVICE $IPADDR pointopoint $GATEWAY $netmask up >/dev/null 2>&1
 
     if [ "$ENCAP" = "syncppp" ]; then
         # start ipppd daemon
-        logger -p daemon.info -t ifup-ippp "ipppd $options $netmask"
+        /usr/bin/logger -p daemon.info -t ifup-ippp "ipppd $options $netmask"
         ipppd $options $netmask >/dev/null 2>&1
 
         # start ibod daemon
