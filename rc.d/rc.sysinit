@@ -147,6 +147,8 @@ init_crypto() {
 	elif [ "${src/^\/dev\/disk\/by-uuid\/}" != "$src" ]; then
 		src=$(__readlink $src)
 	fi
+	[ -z "$src" ] && continue
+	[ -b "$src" ] || continue
 	# Parse the options field, convert to cryptsetup parameters
 	# and contruct the command line
 	while [ -n "$opt" ]; do
