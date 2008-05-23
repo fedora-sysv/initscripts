@@ -341,7 +341,7 @@ if [ -c /dev/mapper/control ]; then
 		modprobe dm-multipath > /dev/null 2>&1
 		/sbin/multipath.static -v 0
 		if [ -x /sbin/kpartx ]; then
-			/sbin/dmsetup ls --target multipath --exec "/sbin/kpartx -a -p p"
+			/sbin/dmsetup ls --target multipath --exec "/sbin/kpartx -a -p p" >/dev/null
 		fi
 	fi
 	
