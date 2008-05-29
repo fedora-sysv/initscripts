@@ -608,7 +608,7 @@ fi
 # If relabeling, relabel mount points.
 if [ -n "$SELINUX_STATE" -a "$READONLY" != "yes" ]; then 
     if [ -f /.autorelabel ] || strstr "$cmdline" autorelabel ; then
-	retstorecon $(awk '!/^#/ && $4 !~ /noauto/ { print $2 }' /etc/fstab) >/dev/null 2>&1
+	restorecon $(awk '!/^#/ && $4 !~ /noauto/ && $2 ~ /^\// { print $2 }' /etc/fstab) >/dev/null 2>&1
     fi
 fi
 
