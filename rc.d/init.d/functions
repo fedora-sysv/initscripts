@@ -459,6 +459,11 @@ echo_warning() {
 
 # Inform the graphical boot of our current state
 update_boot_stage() {
+  if [ "$GRAPHICAL" = "yes" ]; then
+    if [ -x /usr/bin/rhgb-client ]; then
+      /usr/bin/rhgb-client --update="$1"
+    fi
+  fi
   return 0
 }
 
@@ -478,6 +483,7 @@ failure() {
   #   initlog $INITLOG_ARGS -n $0 -s "$1" -e 2
   #fi
   [ "$BOOTUP" != "verbose" -a -z "${LSB:-}" ] && echo_failure
+  [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --details=yes
   return $rc
 }
 
@@ -507,10 +513,22 @@ action() {
 
   STRING=$1
   echo -n "$STRING "
+  if [ "${RHGB_STARTED:-}" != "" -a -w /etc/rhgb/temp/rhgb-console ]; then
+      echo -n "$STRING " > /etc/rhgb/temp/rhgb-console
+  fi
   shift
   "$@" && success $"$STRING" || failure $"$STRING"
   rc=$?
   echo
+  if [ "${RHGB_STARTED:-}" != "" -a -w /etc/rhgb/temp/rhgb-console ]; then
+      if [ "$rc" = "0" ]; then
+      	echo_success > /etc/rhgb/temp/rhgb-console
+      else
+        echo_failure > /etc/rhgb/temp/rhgb-console
+	[ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --details=yes
+      fi
+      echo > /etc/rhgb/temp/rhgb-console
+  fi
   return $rc
 }
 
@@ -522,6 +540,7 @@ strstr() {
 
 # Confirm whether we really want to run this service
 confirm() {
+  [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --details=yes
   while : ; do 
       echo -n $"Start service $1 (Y)es/(N)o/(C)ontinue? [Y] "
       read answer
@@ -529,6 +548,7 @@ confirm() {
          return 0
       elif strstr $"cC" "$answer" ; then
 	 rm -f /var/run/confirm
+	 [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --details=no
          return 2
       elif strstr $"nN" "$answer" ; then
          return 1

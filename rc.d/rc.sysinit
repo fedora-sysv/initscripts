@@ -54,6 +54,9 @@ disable_selinux() {
 }
 
 relabel_selinux() {
+    if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
+	/usr/bin/rhgb-client --quit
+    fi
     # if /sbin/init is not labeled correctly this process is running in the 
     # wrong context, so a reboot will be required after relabel
     REBOOTFLAG=`restorecon -v /sbin/init`
@@ -188,6 +191,10 @@ init_crypto() {
 	    ret=1
 	    continue
 	fi
+	if [ -z "$key" -a -x /usr/bin/rhgb-client ] \
+	    && /usr/bin/rhgb-client --ping ; then
+	    /usr/bin/rhgb-client --quit
+	fi
 	if [ -z "$makeswap" ] && cryptsetup isLuks "$src" 2>/dev/null ; then
 	    if key_is_random "$key"; then
 		echo $"$dst: LUKS requires non-random key, skipping"
@@ -296,13 +303,21 @@ fi
 
 # Start the graphical boot, if necessary; /usr may not be mounted yet, so we
 # may have to do this again after mounting
+RHGB_STARTED=
 mount -n /dev/pts >/dev/null 2>&1
 [ -n "$SELINUX_STATE" ] && restorecon /dev/pts >/dev/null 2>&1
 
+if strstr "$cmdline" rhgb && ! strstr "$cmdline" early-login && [ "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
+   ( . /etc/sysconfig/i18n 2>/dev/null ; /usr/bin/rhgb )
+   RHGB_STARTED=1
+fi
+
 # Configure kernel parameters
+update_boot_stage RCkernelparam
 sysctl -e -p /etc/sysctl.conf >/dev/null 2>&1
 
 # Set the hostname.
+update_boot_stage RChostname
 action $"Setting hostname ${HOSTNAME}: " hostname ${HOSTNAME}
 
 # Device mapper & related initialization
@@ -538,7 +553,11 @@ if [ -z "$fastboot" -a "$READONLY" != "yes" ]; then
 
         STRING=$"Checking filesystems"
 	echo $STRING
-	fsck -T -t noopts=_netdev -A $fsckoptions
+	if [ -n "${RHGB_STARTED}" -a -w /etc/rhgb/temp/rhgb-console ]; then
+		fsck -T -t noopts=_netdev -A $fsckoptions > /etc/rhgb/temp/rhgb-console
+	else
+		fsck -T -t noopts=_netdev -A $fsckoptions
+	fi
 	rc=$?
 	
 	if [ "$rc" -eq "0" ]; then
@@ -557,6 +576,10 @@ if [ -z "$fastboot" -a "$READONLY" != "yes" ]; then
 	
         # A return of 4 or higher means there were serious problems.
 	if [ $rc -gt 1 ]; then
+	        if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
+		    /usr/bin/rhgb-client --quit
+		fi
+
 		failure "$STRING"
 		echo
 		echo
@@ -596,6 +619,7 @@ remount_needed() {
 }
 
 # Remount the root filesystem read-write.
+update_boot_stage RCmountfs
 if remount_needed ; then
   action $"Remounting root filesystem in read-write mode: " mount -n -o remount,rw /
 fi
@@ -650,6 +674,13 @@ else
     fi
 fi
 
+
+# Start the graphical boot, if necessary and not done yet.
+if strstr "$cmdline" rhgb && ! strstr "$cmdline" early-login && [ -z "$RHGB_STARTED" -a "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
+   ( . /etc/sysconfig/i18n 2>/dev/null ; /usr/bin/rhgb )
+   RHGB_STARTED=1
+fi
+
 # Initialize pseudo-random number generator
 if [ -f "/var/lib/random-seed" ]; then
 	cat /var/lib/random-seed > /dev/urandom
@@ -670,6 +701,10 @@ fi
 
 # Configure machine if necessary.
 if [ -f /.unconfigured ]; then
+    if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
+	/usr/bin/rhgb-client --quit
+    fi
+
     if [ -x /usr/bin/system-config-keyboard ]; then
 	/usr/bin/system-config-keyboard
     fi
@@ -744,6 +779,7 @@ chown root:root /tmp/.ICE-unix
 [ -n "$SELINUX_STATE" ] && restorecon /tmp/.ICE-unix >/dev/null 2>&1
 
 # Start up swapping.
+update_boot_stage RCswap
 action $"Enabling /etc/fstab swaps: " swapon -a -e
 if [ "$AUTOSWAP" = "yes" ]; then
 	curswap=$(awk '/^\/dev/ { print $1 }' /proc/swaps | while read x; do get_numeric_dev dec $x ; echo -n " "; done)
@@ -798,9 +834,8 @@ fi
 wait
 [ "$PROMPT" != no ] && rm -f /var/run/getkey_done
 
-if [ -f /etc/sysconfig/mcheck ]; then
-    . /etc/sysconfig/mcheck
-    if [ -n "$MALLOC_CHECK_" ]; then
-        export MALLOC_PERTURB_=$(($RANDOM % 255 + 1))
-    fi
+# Let rhgb know that we're leaving rc.sysinit
+if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
+    /usr/bin/rhgb-client --sysinit
 fi
+
