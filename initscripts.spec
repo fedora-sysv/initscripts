@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.76
+Version: 8.77
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -238,6 +238,21 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Jun 19 2008 Bill Nottingham <notting@redhat.com> - 8.77-1
+- NMDispatcher/05-netfs: fix check for default route (#445509)
+- service: don't set $LANG, rely on it to inherit from system locales (#422141)
+- init.d/functions: fix resolve_dm_raid() for older dmraid configs
+- Don't unmount sysfs in halt. (#446292)
+- rc.sysinit: don't try to startup crypto if we can't find the device
+- rc.sysinit: don't echo crypto stuff unless we're actually *doing* something
+- ifup: don't try to rename devices - udev rules are the way to go
+- rc.sysinit: fix typo, and don't restorecon on swap, etc. partitions (#448886)
+- set MALLOC_CHECK_ & MALLOC_PERTURB_ if configured (<pjones@redhat.com>)
+- console_init: support SYSFONTACM correctly, and support UNIMAP (#448704,
+  <vvv+fedora@colocall.net>)
+- don't export GRAPHICAL - plymouth is for all modes. also, don't start rhgb
+- translation updates: ko, or, pl
+
 * Fri May  2 2008 Bill Nottingham <notting@redhat.com> - 8.76-1
 - fix tcsh syntax error (#444998)
 - remove debugging cruft from rcS-sulogin
