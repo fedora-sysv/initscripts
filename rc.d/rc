@@ -28,11 +28,6 @@ export runlevel previous
 . /etc/init.d/functions
 
 export CONSOLETYPE
-cmdline=$(cat /proc/cmdline)
-if ! strstr "$cmdline" rhgb; then
-	GRAPHICAL="no"
-	export GRAPHICAL
-fi
 do_confirm="no"
 if [ -f /var/run/confirm ]; then
 	do_confirm="yes"
@@ -108,8 +103,6 @@ for i in /etc/rc$runlevel.d/S* ; do
 	[ -n "$UPSTART" ] && initctl emit --quiet "started $subsys"
 done
 [ "$do_confirm" = "yes" ] && rm -f /var/run/confirm
-if [ "$GRAPHICAL" = "yes" ]; then
-	if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
-		/usr/bin/rhgb-client --quit
-	fi
+if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
+	/usr/bin/rhgb-client --quit
 fi

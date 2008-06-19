@@ -301,17 +301,6 @@ if [ -f /etc/rc.modules ]; then
 	/etc/rc.modules
 fi
 
-# Start the graphical boot, if necessary; /usr may not be mounted yet, so we
-# may have to do this again after mounting
-RHGB_STARTED=
-mount -n /dev/pts >/dev/null 2>&1
-[ -n "$SELINUX_STATE" ] && restorecon /dev/pts >/dev/null 2>&1
-
-if strstr "$cmdline" rhgb && ! strstr "$cmdline" early-login && [ "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
-   ( . /etc/sysconfig/i18n 2>/dev/null ; /usr/bin/rhgb )
-   RHGB_STARTED=1
-fi
-
 # Configure kernel parameters
 update_boot_stage RCkernelparam
 sysctl -e -p /etc/sysctl.conf >/dev/null 2>&1
@@ -672,13 +661,6 @@ else
     if [ -d /etc/selinux -a "$READONLY" != "yes" ]; then
         [ -f /.autorelabel ] || touch /.autorelabel
     fi
-fi
-
-
-# Start the graphical boot, if necessary and not done yet.
-if strstr "$cmdline" rhgb && ! strstr "$cmdline" early-login && [ -z "$RHGB_STARTED" -a "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
-   ( . /etc/sysconfig/i18n 2>/dev/null ; /usr/bin/rhgb )
-   RHGB_STARTED=1
 fi
 
 # Initialize pseudo-random number generator
