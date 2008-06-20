@@ -677,9 +677,6 @@ if [ "$READONLY" != "yes" ]; then
 	dd if=/dev/urandom of=/var/lib/random-seed count=1 bs=512 2>/dev/null
 fi
 
-# Use the hardware RNG to seed the entropy pool, if available
-#[ -x /sbin/rngd -a -c /dev/hw_random ] && rngd
-
 if [ -f /etc/crypttab ]; then
     init_crypto 1
 fi
