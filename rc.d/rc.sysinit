@@ -301,6 +301,9 @@ if [ -f /etc/rc.modules ]; then
 	/etc/rc.modules
 fi
 
+mount -n /dev/pts >/dev/null 2>&1
+[ -n "$SELINUX_STATE" ] && restorecon /dev/pts >/dev/null 2>&1
+
 # Configure kernel parameters
 update_boot_stage RCkernelparam
 sysctl -e -p /etc/sysctl.conf >/dev/null 2>&1
