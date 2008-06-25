@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.93.32
+Version: 7.93.33
 License: GPL
 Group: System Environment/Base
 Release: 1%{?dist}
@@ -207,6 +207,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Jun 25 2008 Bill Nottingham <notting@redhat.com> - 7.93.33-1
+- the MAC addr patch does not work - pull it
+- Reverts: rhbz#251415
+
 * Mon Apr 14 2008 Harald Hoyer <harald@redhat.com> 7.93.32-1
 - don't do something odd if we find a mac address that matches the user-set MACADDR (#251415) (notting)
 - backport getkey race fixes from RHEL 5 (#313611) (mpoole)
