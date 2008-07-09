@@ -86,7 +86,6 @@ for i in /etc/rc$runlevel.d/S* ; do
 		    
 	# If we're in confirmation mode, get user confirmation
 	if [ "$do_confirm" = "yes" ]; then
-		set -x
 		confirm $subsys
 		rc=$?
 		if [ "$rc" = "1" ]; then
@@ -94,7 +93,6 @@ for i in /etc/rc$runlevel.d/S* ; do
 		elif [ "$rc" = "2" ]; then
 			do_confirm="no"
 		fi
-		set +x
 	fi
 
 	update_boot_stage "$subsys"
