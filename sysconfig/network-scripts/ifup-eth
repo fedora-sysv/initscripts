@@ -255,6 +255,7 @@ else
        SRC=
     fi
     
+    if [ "${REALDEVICE}" != "lo" ]; then
     if ! LC_ALL=C ip addr ls ${REALDEVICE} | LC_ALL=C grep -q "${IPADDR}/${PREFIX}" ; then
 	 if ! arping -q -c 2 -w 3 -D -I ${REALDEVICE} ${IPADDR} ; then
 	    echo $"Error, some other host already uses address ${IPADDR}."
@@ -264,6 +265,7 @@ else
 	    brd ${BROADCAST:-+} dev ${REALDEVICE} ${SCOPE} label ${DEVICE}; then
 	    echo $"Error adding address ${IPADDR} for ${DEVICE}."
 	 fi
+    fi
     fi
     
     if [ -n "$SRCADDR" ]; then
