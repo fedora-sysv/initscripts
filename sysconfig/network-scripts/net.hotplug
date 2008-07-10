@@ -17,7 +17,7 @@ add|register)
     fi
     
     case $INTERFACE in
-	# interfaces that are registered after being "up" (?)
+	# interfaces that are brought up as a part of configuration
 	ppp*|ippp*|isdn*|plip*|lo*|irda*|dummy*|ipsec*|tun*|tap*)
 	    exit 0
 	    ;;
@@ -38,12 +38,11 @@ add|register)
 
 remove|unregister)
     case $INTERFACE in
-	# interfaces that are unregistered after being "down" (?)
+	# interfaces that are brought down as part of deconfiguration
 	ppp*|ippp*|isdn*|plip*|lo*|irda*|dummy*|ipsec*|tun*|tap*)
 	    exit 0
 	    ;;
 	*)
-	    # RedHat and similar
 	    export IN_HOTPLUG=1
 	    if [ -x /sbin/ifdown ]; then
 		exec /sbin/ifdown $INTERFACE
