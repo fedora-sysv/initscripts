@@ -59,14 +59,8 @@ if [ "${TYPE}" = "Bridge" ]; then
 	  echo $"Bridge support not available: brctl not found"
 	  exit 1
       fi
-      if ! LC_ALL=C /usr/sbin/brctl show | LC_ALL=C grep -q "^${DEVICE}	"; then
-	  /usr/sbin/brctl addbr ${DEVICE} 2>/dev/null
-      fi
-      # brctl doesn't report success/failure (BZ #104408)
-      # Test for ourselves whether it worked.
-      if ! /usr/sbin/brctl show | LANG=C grep -q "^${DEVICE}	" ; then
-	    echo $"Bridge support not available in this kernel"
-	    exit 1
+      if [ ! -d /sys/class/net/${DEVICE}/bridge ]; then
+		/usr/sbin/brctl addbr ${DEVICE} || exit 1
       fi
       [ -n "${DELAY}" ] && /usr/sbin/brctl setfd ${DEVICE} ${DELAY}
       [ -n "${GCINT}" ] && /usr/sbin/brctl setgcint ${DEVICE} ${GCINT}
@@ -87,7 +81,7 @@ is_available ${REALDEVICE} || {
 is_wireless_device ${DEVICE} && . ./ifup-wireless
 
 if [ -n "${BRIDGE}" -a -x /usr/sbin/brctl ]; then
-      if ! LC_ALL=C /usr/sbin/brctl show | LC_ALL=C grep -q "^${BRIDGE}	"; then
+      if [ ! -d /sys/class/net/${BRIDGE}/bridge ]; then
 	  /usr/sbin/brctl addbr ${BRIDGE} 2>/dev/null
       fi
       /sbin/ip addr flush dev ${DEVICE} 2>/dev/null
