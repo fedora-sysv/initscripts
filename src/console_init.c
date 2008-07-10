@@ -105,7 +105,6 @@ static void set_font(char *device) {
 		execv("/bin/setfont", args);
 		exit(1);
 	}
-	waitpid(pid, &status, 0);
 }
 
 static void set_keyboard(int fd, int utf8) {
@@ -137,7 +136,6 @@ static void set_keymap(int fd, int utf8) {
 		execv("/bin/loadkeys", args);
 		exit(1);
 	}
-	waitpid(pid, &status, 0);
 }
 
 int main(int argc, char **argv) {
