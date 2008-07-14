@@ -28,6 +28,7 @@ install:
 	install -m644  rwtab statetab networks $(ROOT)/etc
 	install -m755  service setsysfont $(ROOT)/sbin
 	install -m644  lang.csh lang.sh $(ROOT)/etc/profile.d
+	install -m644  mcheck.csh mcheck.sh $(ROOT)/etc/profile.d
 	install -m755  sys-unconfig $(ROOT)/usr/sbin
 	install -m644  crypttab.5 $(ROOT)$(mandir)/man5
 	install -m644  service.8 sys-unconfig.8 $(ROOT)$(mandir)/man8
@@ -43,7 +44,7 @@ install:
 	install -m755 -d $(ROOT)/etc/rc.d $(ROOT)/etc/sysconfig
 	install -m755 rc.d/rc rc.d/rc.local rc.d/rc.sysinit $(ROOT)/etc/rc.d/
 	cp -af rc.d/init.d $(ROOT)/etc/rc.d/
-	install -m755 sysconfig/init sysconfig/netconsole sysconfig/readonly-root $(ROOT)/etc/sysconfig/
+	install -m755 sysconfig/mcheck sysconfig/init sysconfig/netconsole sysconfig/readonly-root $(ROOT)/etc/sysconfig/
 	cp -af sysconfig/network-scripts $(ROOT)/etc/sysconfig/
 	cp -af ppp udev NetworkManager event.d $(ROOT)/etc
 	mkdir -p $(ROOT)/etc/ppp/peers
