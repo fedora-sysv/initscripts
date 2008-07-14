@@ -119,6 +119,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/sysconfig/network-scripts
 %config(noreplace) %verify(not md5 mtime size) /etc/adjtime
 %config(noreplace) /etc/sysconfig/init
+%config(noreplace) /etc/sysconfig/mcheck
 %config(noreplace) /etc/sysconfig/netconsole
 %config(noreplace) /etc/sysconfig/readonly-root
 /etc/sysconfig/network-scripts/ifdown
@@ -193,8 +194,7 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) /etc/rc.d/rc.local
 %config /etc/rc.d/rc.sysinit
 %config(noreplace) /etc/sysctl.conf
-%config /etc/profile.d/lang.sh
-%config /etc/profile.d/lang.csh
+%config /etc/profile.d/*
 /usr/sbin/sys-unconfig
 /sbin/setsysfont
 /bin/doexec
