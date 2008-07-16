@@ -8,7 +8,7 @@ if [ "$1" = "" ]; then
 	exit 1
 fi
 
-# cannot configure IPX with non-existant utilities
+# cannot configure IPX with non-existent utilities
 [ -x /sbin/ipx_interface ] || exit 0
 
 . /etc/sysconfig/network
@@ -39,4 +39,3 @@ for frametype in 802.2 802.3 ETHERII SNAP ; do
 done
 
 exit 0
-
