@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.79
+Version: 8.80
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -253,6 +253,12 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/profile.d/debug*
 
 %changelog
+* Tue Jul 29 2008 Bill Nottingham <notting@redhat.com> - 8.80-1
+- Fix translation typo (#455804, <ruslanpisarev@gmail.com>)
+- Turn off syncookies
+- Cleanups for proper plymouth support
+- Move the mcheck code to a debugmode package, make it more generic
+
 * Mon Jul 14 2008 Bill Nottingham <notting@redhat.com> - 8.79-1
 - fix mcheck stuff to be installed correctly
 - don't do an arping check for loopback interfaces
