@@ -266,7 +266,6 @@ else
 	    echo $"Error adding address ${IPADDR} for ${DEVICE}."
 	 fi
     fi
-    fi
     
     if [ -n "$SRCADDR" ]; then
            sysctl -w "net.ipv4.conf.${REALDEVICE}.arp_filter=1" >/dev/null 2>&1
@@ -276,6 +275,7 @@ else
     arping -q -A -c 1 -I ${REALDEVICE} ${IPADDR}
     ( sleep 2;
       arping -q -U -c 1 -I ${REALDEVICE} ${IPADDR} ) > /dev/null 2>&1 < /dev/null &
+    fi
 
     # Set a default route.
     if [ -z "${GATEWAYDEV}" -o "${GATEWAYDEV}" = "${REALDEVICE}" ]; then
