@@ -47,6 +47,17 @@ your Red Hat or Fedora system, change runlevels, and shut the system down
 cleanly.  Initscripts also contains the scripts that activate and
 deactivate most network interfaces.
 
+%package -n debugmode
+Summary: Scripts for running in debugging mode
+Requires: initscripts
+Group: System Environment/Base
+
+%description -n debugmode
+The debugmode package contains some basic scripts that are used to run
+the system in a debugging mode.
+
+Currently, this consists of various memory checking code.
+
 %prep
 %setup -q
 
@@ -119,7 +130,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/sysconfig/network-scripts
 %config(noreplace) %verify(not md5 mtime size) /etc/adjtime
 %config(noreplace) /etc/sysconfig/init
-%config(noreplace) /etc/sysconfig/debug
 %config(noreplace) /etc/sysconfig/netconsole
 %config(noreplace) /etc/sysconfig/readonly-root
 /etc/sysconfig/network-scripts/ifdown
@@ -194,6 +204,7 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) /etc/rc.d/rc.local
 %config /etc/rc.d/rc.sysinit
 %config(noreplace) /etc/sysctl.conf
+%exclude /etc/profile.d/debug*
 %config /etc/profile.d/*
 /usr/sbin/sys-unconfig
 /sbin/setsysfont
@@ -236,6 +247,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0600,root,utmp) /var/log/btmp
 %ghost %attr(0664,root,utmp) /var/log/wtmp
 %ghost %attr(0664,root,utmp) /var/run/utmp
+
+%files -n debugmode
+%config(noreplace) /etc/sysconfig/debug
+%config /etc/profile.d/debug*
 
 %changelog
 * Mon Jul 14 2008 Bill Nottingham <notting@redhat.com> - 8.79-1
