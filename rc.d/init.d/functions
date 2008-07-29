@@ -511,22 +511,10 @@ action() {
 
   STRING=$1
   echo -n "$STRING "
-  if [ "${RHGB_STARTED:-}" != "" -a -w /etc/rhgb/temp/rhgb-console ]; then
-      echo -n "$STRING " > /etc/rhgb/temp/rhgb-console
-  fi
   shift
   "$@" && success $"$STRING" || failure $"$STRING"
   rc=$?
   echo
-  if [ "${RHGB_STARTED:-}" != "" -a -w /etc/rhgb/temp/rhgb-console ]; then
-      if [ "$rc" = "0" ]; then
-      	echo_success > /etc/rhgb/temp/rhgb-console
-      else
-        echo_failure > /etc/rhgb/temp/rhgb-console
-	[ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --details=yes
-      fi
-      echo > /etc/rhgb/temp/rhgb-console
-  fi
   return $rc
 }
 

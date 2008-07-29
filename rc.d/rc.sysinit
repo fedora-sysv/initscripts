@@ -30,6 +30,9 @@ fi
  
 . /etc/init.d/functions
 
+PLYMOUTH=
+[ -x /usr/bin/plymouth ] && PLYMOUTH=yes
+
 # Check SELinux status
 selinuxfs="$(fstab_decode_str `LC_ALL=C awk '/ selinuxfs / { print $2 }' /proc/mounts`)"
 SELINUX_STATE=
@@ -65,6 +68,7 @@ relabel_selinux() {
     if [ "$AUTORELABEL" = "0" ]; then
  	rm -f  /.autorelabel 
 
+	[ -n "$PLYMOUTH" ] && plymouth --hide-splash 
  	echo
 	echo $"*** Warning -- SELinux ${SELINUXTYPE} policy relabel is required. "
  	echo $"*** /etc/selinux/config indicates you want to manually fix labeling"
@@ -79,6 +83,7 @@ relabel_selinux() {
  	echo $"Automatic reboot in progress."
  	reboot -f
     else
+	[ -n "$PLYMOUTH" ] && plymouth --hide-splash 
  	echo
  	echo $"*** Warning -- SELinux ${SELINUXTYPE} policy relabel is required."
  	echo $"*** Relabeling could take a very long time, depending on file"
@@ -92,6 +97,7 @@ relabel_selinux() {
  	    reboot -f
  	fi
  	echo $SELINUX_STATE > $selinuxfs/enforce
+	[ -n "$PLYMOUTH" ] && plymouth --show-splash 
     fi
 }
 
@@ -373,6 +379,7 @@ elif [ -f /.autofsck ]; then
 		AUTOFSCK_OPT="$AUTOFSCK_OPT -f"
 	fi
 	if [ -n "$AUTOFSCK_SINGLEUSER" ]; then
+		[ -n "$PLYMOUTH" ] && plymouth --hide-splash 
 		echo
 		echo $"*** Warning -- the system did not shut down cleanly. "
 		echo $"*** Dropping you to a shell; the system will continue"
@@ -380,6 +387,7 @@ elif [ -f /.autofsck ]; then
 		[ -n "$SELINUX_STATE" ] && echo "0" > $selinuxfs/enforce
 		sulogin
 		[ -n "$SELINUX_STATE" ] && echo "1" > $selinuxfs/enforce
+		[ -n "$PLYMOUTH" ] && plymouth --show-splash 
 	fi
 	fsckoptions="$AUTOFSCK_OPT $fsckoptions"
 fi
@@ -545,11 +553,7 @@ if [ -z "$fastboot" -a "$READONLY" != "yes" ]; then
 
         STRING=$"Checking filesystems"
 	echo $STRING
-	if [ -n "${RHGB_STARTED}" -a -w /etc/rhgb/temp/rhgb-console ]; then
-		fsck -T -t noopts=_netdev -A $fsckoptions > /etc/rhgb/temp/rhgb-console
-	else
-		fsck -T -t noopts=_netdev -A $fsckoptions
-	fi
+	fsck -T -t noopts=_netdev -A $fsckoptions
 	rc=$?
 	
 	if [ "$rc" -eq "0" ]; then
@@ -568,9 +572,7 @@ if [ -z "$fastboot" -a "$READONLY" != "yes" ]; then
 	
         # A return of 4 or higher means there were serious problems.
 	if [ $rc -gt 1 ]; then
-	        if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
-		    /usr/bin/rhgb-client --quit
-		fi
+		[ -n "$PLYMOUTH" ] && plymouth --hide-splash 
 
 		failure "$STRING"
 		echo
