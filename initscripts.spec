@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.76.2
+Version: 8.76.3
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -238,7 +238,12 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
-* Thu May 15 2008 Bill Nottingham <notting@redhat.com> - 8.76.2-
+* Fri Aug 29 2008 Bill Nottingham <notting@redhat.com> - 8.76.3-1
+- rc.sysinit: Don't use -L in find (#458652, #458504, CVE-2008-3524)
+- fix clock rules to properly handle old-style RTC devices (#447019)
+- rc.sysinit: ix typo, and don't restorecon on swap, etc. partitions (#448886)
+
+* Thu May 15 2008 Bill Nottingham <notting@redhat.com> - 8.76.2-1
 - Don't unmount sysfs in halt. (#446292)
 
 * Wed May 14 2008 Peter Jones <pjones@redhat.com>
