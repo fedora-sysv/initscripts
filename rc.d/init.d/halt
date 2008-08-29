@@ -31,7 +31,7 @@ halt_crypto() {
 	[ -z "$dst" -o "${dst#\#}" != "$dst" ] && continue
         if [ -b "/dev/mapper/$dst" ]; then
             if /sbin/dmsetup info "$dst" | grep -q '^Open count: *0$'; then
-                /sbin/cryptsetup remove "$dst"
+                action $"Stopping disk encryption for $dst" /sbin/cryptsetup remove "$dst"
             else
                 fnval=1
             fi
@@ -173,8 +173,7 @@ LANG=C __umount_loop '$2 ~ /^\/$|^\/proc|^\/dev/{next}
 
 [ -f /proc/bus/usb/devices ] && $UMOUNT /proc/bus/usb
 
-[ -f /etc/crypttab ] && \
-    LANG=C action $"Stopping disk encryption: " halt_crypto
+[ -f /etc/crypttab ] && halt_crypto
 
 # remove the crash indicator flag
 rm -f /.autofsck
