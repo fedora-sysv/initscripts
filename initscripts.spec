@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.80
+Version: 8.81
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -253,6 +253,10 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/profile.d/debug*
 
 %changelog
+* Fri Aug 29 2008 Bill Nottingham <notting@redhat.com> - 8.81-1
+- rc.sysinit: Don't use -L in find (#458652, #458504, CVE-2008-3524)
+- ifup: kill more code from loopback bringup
+
 * Tue Jul 29 2008 Bill Nottingham <notting@redhat.com> - 8.80-1
 - Fix translation typo (#455804, <ruslanpisarev@gmail.com>)
 - Turn off syncookies
