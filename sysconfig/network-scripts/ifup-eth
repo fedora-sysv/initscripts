@@ -257,7 +257,7 @@ else
     
     if [ "${REALDEVICE}" != "lo" ]; then
     if ! LC_ALL=C ip addr ls ${REALDEVICE} | LC_ALL=C grep -q "${IPADDR}/${PREFIX}" ; then
-	 if ! arping -q -c 2 -w 3 -D -I ${REALDEVICE} ${IPADDR} ; then
+	 if ! /sbin/arping -q -c 2 -w 3 -D -I ${REALDEVICE} ${IPADDR} ; then
 	    echo $"Error, some other host already uses address ${IPADDR}."
 	    exit 1
 	 fi
@@ -272,9 +272,9 @@ else
     fi
 
     # update ARP cache of neighboring computers
-    arping -q -A -c 1 -I ${REALDEVICE} ${IPADDR}
+    /sbin/arping -q -A -c 1 -I ${REALDEVICE} ${IPADDR}
     ( sleep 2;
-      arping -q -U -c 1 -I ${REALDEVICE} ${IPADDR} ) > /dev/null 2>&1 < /dev/null &
+      /sbin/arping -q -U -c 1 -I ${REALDEVICE} ${IPADDR} ) > /dev/null 2>&1 < /dev/null &
     fi
 
     # Set a default route.
