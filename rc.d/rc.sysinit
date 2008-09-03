@@ -480,7 +480,7 @@ if [ "$READONLY" = "yes" -o "$TEMPORARY_STATE" = "yes" ]; then
 	# must be done even if we have local storage.
 	ipaddr=
 	if [ "$HOSTNAME" = "localhost" -o "$HOSTNAME" = "localhost.localdomain" ]; then
-		ipaddr=$(ip addr show to 0/0 scope global | awk '/[[:space:]]inet / { print gensub("/.*","","g",$2) }')
+		ipaddr=$(ip addr show to 0.0.0.0/0 scope global | awk '/[[:space:]]inet / { print gensub("/.*","","g",$2) }')
 		if [ -n "$ipaddr" ]; then
 			eval $(ipcalc -h $ipaddr 2>/dev/null)
 			hostname ${HOSTNAME}
