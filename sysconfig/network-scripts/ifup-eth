@@ -293,7 +293,7 @@ fi
 
 # Add Zeroconf route.
 if [ -z "${NOZEROCONF}" -a "${ISALIAS}" = "no" -a "${REALDEVICE}" != "lo" ]; then
-    ip route replace 169.254.0.0/16 dev ${REALDEVICE} 
+    ip route add 169.254.0.0/16 dev ${REALDEVICE} metric $((1000 + $(cat /sys/class/net/${REALDEVICE}/ifindex)) scope link
 fi
 
 # IPv6 initialisation?
