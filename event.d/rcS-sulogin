@@ -10,6 +10,7 @@ stop on runlevel
 console owner
 script
 	runlevel --set S >/dev/null || true
+	plymouth --hide-splash || true
 	exec /bin/bash
 end script
 post-stop script
