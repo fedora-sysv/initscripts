@@ -57,9 +57,6 @@ disable_selinux() {
 }
 
 relabel_selinux() {
-    if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
-	/usr/bin/rhgb-client --quit
-    fi
     # if /sbin/init is not labeled correctly this process is running in the 
     # wrong context, so a reboot will be required after relabel
     REBOOTFLAG=`restorecon -v /sbin/init`
@@ -106,11 +103,22 @@ key_is_random() {
 	-o "$1" = "/dev/random" ]
 }
 
+find_crypto_mount_point() {
+    local fs_spec fs_file fs_vfstype remaining_fields
+    local fs
+    while read fs_spec fs_file remaining_fields; do
+	if [ "$fs_spec" = "/dev/mapper/$1" ]; then
+	    echo $fs_file
+	    break;
+	fi
+    done < /etc/fstab
+}
+
 # Because of a chicken/egg problem, init_crypto must be run twice.  /var may be
 # encrypted but /var/lib/random-seed is needed to initialize swap.
 init_crypto() {
     local have_random dst src key opt mode owner params makeswap skip arg opt
-    local param value rc ret mke2fs mdir
+    local param value rc ret mke2fs mdir prompt mount_point
 
     ret=0
     have_random=$1
@@ -197,10 +205,6 @@ init_crypto() {
 	    ret=1
 	    continue
 	fi
-	if [ -z "$key" -a -x /usr/bin/rhgb-client ] \
-	    && /usr/bin/rhgb-client --ping ; then
-	    /usr/bin/rhgb-client --quit
-	fi
 	if [ -z "$makeswap" ] && cryptsetup isLuks "$src" 2>/dev/null ; then
 	    if key_is_random "$key"; then
 		echo $"$dst: LUKS requires non-random key, skipping"
@@ -211,8 +215,16 @@ init_crypto() {
 		echo "$dst: options are invalid for LUKS partitions," \
 		    "ignoring them"
 	    fi
-	    /sbin/cryptsetup ${key:+-d $key} luksOpen "$src" "$dst" <&1 && success || failure
+	    if [ -n "$key" ]; then
+		/sbin/cryptsetup -d $key luksOpen "$src" "$dst" <&1 2>/dev/null && success || failure
+	    else
+		mount_point="$(find_crypto_mount_point $dst)"
+		[ -n "$mount_point" ] || mount_point=${src##*/}
+		prompt=$(printf $"%s is password protected" "$mount_point")
+		plymouth ask-for-password --prompt "$prompt" --command="/sbin/cryptsetup luksOpen -T1 $src $dst" <&1
+	    fi
 	else
+	    plymouth --hide-splash
 	    /sbin/cryptsetup $params ${key:+-d $key} create "$dst" "$src" <&1 2>/dev/null && success || failure
 	fi
 	rc=$?
