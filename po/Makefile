@@ -12,7 +12,7 @@ FMTCATALOGS = $(patsubst %.po,%.mo,$(CATALOGS))
 
 POTFILES = /etc/ppp/ip* /etc/rc.d/init.d/* /etc/rc.d/rc /etc/rc.d/rc.* \
 	$(shell ls /etc/sysconfig/network-scripts/* | grep -v ifcfg-) \
-	/sbin/service /usr/sbin/sys-unconfig
+	/sbin/service /usr/sbin/sys-unconfig /etc/event.d/*
 
 all: $(NLSPACKAGE).pot $(FMTCATALOGS)
 
