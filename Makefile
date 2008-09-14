@@ -44,7 +44,7 @@ install:
 	install -m755 -d $(ROOT)/etc/rc.d $(ROOT)/etc/sysconfig
 	install -m755 rc.d/rc rc.d/rc.local rc.d/rc.sysinit $(ROOT)/etc/rc.d/
 	cp -af rc.d/init.d $(ROOT)/etc/rc.d/
-	install -m755 sysconfig/debug sysconfig/init sysconfig/netconsole sysconfig/readonly-root $(ROOT)/etc/sysconfig/
+	install -m644 sysconfig/debug sysconfig/init sysconfig/netconsole sysconfig/readonly-root $(ROOT)/etc/sysconfig/
 	cp -af sysconfig/network-scripts $(ROOT)/etc/sysconfig/
 	cp -af ppp udev NetworkManager event.d $(ROOT)/etc
 	mkdir -p $(ROOT)/etc/ppp/peers
