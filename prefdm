@@ -2,20 +2,17 @@
 
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 
-# shut down any graphical boot that might exist
-if [ -x /usr/bin/rhgb-client ]; then
-    /usr/bin/rhgb-client --quit
-fi
-
 # We need to source this so that the login screens get translated
 [ -f /etc/sysconfig/i18n ] && . /etc/sysconfig/i18n
 
 # Run preferred X display manager
+quit_arg=
 preferred=
 if [ -f /etc/sysconfig/desktop ]; then
 	. /etc/sysconfig/desktop
 	if [ "$DISPLAYMANAGER" = GNOME ]; then
 		preferred=/usr/sbin/gdm
+		quit_arg="--retain-splash"
 	elif [ "$DISPLAYMANAGER" = KDE ]; then
 		preferred=/usr/bin/kdm
 	elif [ "$DISPLAYMANAGER" = WDM ]; then
@@ -25,7 +22,12 @@ if [ -f /etc/sysconfig/desktop ]; then
         elif [ -n "$DISPLAYMANAGER" ]; then
 		preferred=$DISPLAYMANAGER
 	fi
+else
+	quit_arg="--retain-splash"
 fi
+
+# shut down boot splash
+/usr/bin/plymouth quit $quit_arg
 
 shopt -s execfail
 
