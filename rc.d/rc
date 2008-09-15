@@ -101,6 +101,3 @@ for i in /etc/rc$runlevel.d/S* ; do
 	[ -n "$UPSTART" ] && initctl emit --quiet "started $subsys"
 done
 [ "$do_confirm" = "yes" ] && rm -f /var/run/confirm
-if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
-	/usr/bin/rhgb-client --quit
-fi
