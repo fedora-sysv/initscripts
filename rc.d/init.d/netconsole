@@ -85,7 +85,7 @@ start ()
 
 	SYSLOGOPTS="netconsole=$LOCALPORT@$LOCALADDR/$DEV,$SYSLOGPORT@$SYSLOGADDR/$SYSLOGMACADDR "
 
-	logger -p daemon.info -t netconsole: inserting netconsole module with arguments \
+	/usr/bin/logger -p daemon.info -t netconsole: inserting netconsole module with arguments \
 	$SYSLOGOPTS
 	if [ -n "$SYSLOGOPTS" ]; then
 		action $"Initializing netconsole" modprobe netconsole \
