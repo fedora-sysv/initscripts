@@ -11,6 +11,9 @@
 NOLOCALE=1
 . /etc/init.d/functions
 
+UMOUNT="umount"
+[ ! -w /etc ] && UMOUNT="umount -n"
+
 action() {
    echo -n "$1 "
    shift
@@ -131,7 +134,7 @@ esac
 # Try to unmount tmpfs filesystems to avoid swapping them in.  Ignore failures.
 tmpfs=$(awk '$2 ~ /^\/($|proc|dev)/ { next; }
 	     $3 == "tmpfs" { print $2; }' /proc/mounts | sort -r)
-[ -n "$tmpfs" ] && fstab-decode umount $tmpfs 2>/dev/null
+[ -n "$tmpfs" ] && fstab-decode $UMOUNT $tmpfs 2>/dev/null
 
 # Turn off swap, then unmount file systems.
 [ -f /proc/swaps ] && SWAPS=`awk '! /^Filename/ { print $1 }' /proc/swaps`
@@ -170,7 +173,7 @@ LANG=C __umount_loop '$2 ~ /^\/$|^\/proc|^\/dev/{next}
 	$"Unmounting file systems (retry): " \
 	-f
 
-[ -f /proc/bus/usb/devices ] && umount /proc/bus/usb
+[ -f /proc/bus/usb/devices ] && $UMOUNT /proc/bus/usb
 
 [ -f /etc/crypttab ] && \
     LANG=C action $"Stopping disk encryption: " halt_crypto
@@ -183,7 +186,7 @@ rm -f /.autofsck
 awk '$2 !~ /\/(|dev|proc|selinux)$/ && $1 !~ /^\/dev\/ram/ { print $2 }' \
     /proc/mounts | sort -r | \
   while read line; do
-    fstab-decode umount -f $line
+    fstab-decode $UMOUNT -f $line
 done
 
 if [ -x /sbin/halt.local ]; then

@@ -595,7 +595,7 @@ if [ "$READONLY" = "yes" -o "$TEMPORARY_STATE" = "yes" ]; then
 		/bin/true
 	elif [ x$state_mount_dev != x ] && mount $state_mount_dev $mountopts "$STATE_MOUNT" > /dev/null 2>&1;  then
 		/bin/true
-	elif [ -n "$CLIENTSTATE" ]; then
+	elif [ ! -z "$CLIENTSTATE" ]; then
 		# No local storage was found.  Make a final attempt to find 
 		# state on an NFS server.
 
@@ -730,23 +730,29 @@ if [ -n "$SELINUX_STATE" ]; then
    restorecon /etc/mtab /etc/ld.so.cache /etc/blkid/blkid.tab /etc/resolv.conf >/dev/null 2>&1
 fi
 
-# Clear mtab
-(> /etc/mtab) &> /dev/null
+if [ "$READONLY" != "yes" ] ; then
+	# Clear mtab
+	(> /etc/mtab) &> /dev/null
 
-# Remove stale backups
-rm -f /etc/mtab~ /etc/mtab~~
+	# Remove stale backups
+	rm -f /etc/mtab~ /etc/mtab~~
 
-# Enter mounted filesystems into /etc/mtab
-mount -f /
-mount -f /proc >/dev/null 2>&1
-mount -f /sys >/dev/null 2>&1
-mount -f /dev/pts >/dev/null 2>&1
-mount -f /proc/bus/usb >/dev/null 2>&1
+	# Enter mounted filesystems into /etc/mtab
+	mount -f /
+	mount -f /proc >/dev/null 2>&1
+	mount -f /sys >/dev/null 2>&1
+	mount -f /dev/pts >/dev/null 2>&1
+	mount -f /proc/bus/usb >/dev/null 2>&1
+fi
 
 # Mount all other filesystems (except for NFS and /proc, which is already
 # mounted). Contrary to standard usage,
 # filesystems are NOT unmounted in single user mode.
-action $"Mounting local filesystems: " mount -a -t nonfs,nfs4,smbfs,ncpfs,cifs,gfs -O no_netdev
+if [ "$READONLY" != "yes" ] ; then
+	action $"Mounting local filesystems: " mount -a -t nonfs,nfs4,smbfs,ncpfs,cifs,gfs -O no_netdev
+else
+	action $"Mounting local filesystems: " mount -a -n -t nfs4,smbfs,ncpfs,cifs,gfs -O no_netdev
+fi
 
 if [ -x /sbin/quotaon ]; then
     action $"Enabling local filesystem quotas: " /sbin/quotaon -aug
