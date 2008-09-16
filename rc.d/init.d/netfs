@@ -35,6 +35,8 @@ NETDEVMTAB=`LC_ALL=C awk '$4 ~ /_netdev/ && $2 != "/" { print $2 }' /etc/mtab`
 # See how we were called.
 case "$1" in
   start)
+	# Let udev handle any backlog before trying to mount file systems
+	/sbin/udevsettle --timeout=30
         [ -n "$NFSFSTAB" ] && 
 	  {
 	    [ ! -f /var/lock/subsys/portmap ] && service portmap start
