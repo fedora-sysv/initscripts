@@ -44,7 +44,7 @@ fi
 [ -x /sbin/pppd -o -x /usr/sbin/pppd ] || {
   echo $"pppd does not exist or is not executable"
   echo $"ifup-ppp for ${DEVICE} exiting"
-  logger -p daemon.info -t ifup-ppp \
+  /usr/bin/logger -p daemon.info -t ifup-ppp \
     $"pppd does not exist or is not executable for ${DEVICE}"
   exit 1
 }
@@ -55,7 +55,7 @@ if [ "$TYPE" = "xDSL" ] ; then
         adsl-start /etc/sysconfig/network-scripts/$CONFIG
         exit $?
     else
-        logger -p daemon.info -t ifup-ppp \
+        /usr/bin/logger -p daemon.info -t ifup-ppp \
             $"adsl-start does not exist or is not executable for ${DEVICE}"
         exit 1
     fi
@@ -76,12 +76,12 @@ if [ ! -f ${PEERCONF} ]; then
     [ -f ${CHATSCRIPT} ] || {
      echo $"/etc/sysconfig/network-scripts/chat-${DEVNAME} does not exist"
      echo $"ifup-ppp for ${DEVNAME} exiting"
-     logger -p daemon.info -t ifup-ppp \
+     /usr/bin/logger -p daemon.info -t ifup-ppp \
        $"/etc/sysconfig/network-scripts/chat-${DEVNAME} does not exist for ${DEVICE}"
      exit 1
     }
   fi
-  logger -s -p daemon.notice -t ifup-ppp \
+  /usr/bin/logger -s -p daemon.notice -t ifup-ppp \
     $"Setting up a new ${PEERCONF} config file"
   if [ -f /etc/ppp/peers/${DEVICE} ]; then
     cp -f /etc/ppp/peers/${DEVICE} ${PEERCONF}
@@ -141,7 +141,7 @@ else
   exec=exec
 fi
 
-(logger -p daemon.info -t ifup-ppp \
+(/usr/bin/logger -p daemon.info -t ifup-ppp \
   $"pppd started for ${DEVNAME} on ${MODEMPORT} at ${LINESPEED}" &)&
 
 $exec pppd $opts ${MODEMPORT} ${LINESPEED} \

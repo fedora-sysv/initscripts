@@ -35,7 +35,7 @@ fi
 
 kill -KILL $PID > /dev/null 2>&1
 if [ -d /proc/$PID ]; then
-  logger -p daemon.info -t ifdown-ppp "ifdown-ppp unable to kill pppd-$DEVICE" &
+  /usr/bin/logger -p daemon.info -t ifdown-ppp "ifdown-ppp unable to kill pppd-$DEVICE" &
 else
   /etc/sysconfig/network-scripts/ifdown-post $1
 fi

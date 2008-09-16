@@ -31,7 +31,7 @@ fi
 [ -x /usr/sbin/dip ] || {
   echo $"/usr/sbin/dip does not exist or is not executable"
   echo $"ifup-sl for $DEVICE exiting"
-  logger -p daemon.info -t ifup-sl \
+  /usr/bin/logger -p daemon.info -t ifup-sl \
     $"/usr/sbin/dip does not exist or is not executable for $DEVICE"
   exit 1
 }
@@ -43,14 +43,14 @@ DIPSCRIPT=/etc/sysconfig/network-scripts/dip-$DEVNAME
 [ -f $DIPSCRIPT ] || {
   echo $"/etc/sysconfig/network-scripts/dip-$DEVICE does not exist"
   echo $"ifup-sl for $DEVICE exiting"
-  logger -p daemon.info -t ifup-sl \
+  /usr/bin/logger -p daemon.info -t ifup-sl \
     $"/etc/sysconfig/network-scripts/dip-$DEVICE does not exist for $DEVICE"
   exit 1
 }
 
 while : ; do
   echo > /var/run/sl-$DEVICE.dev
-  (logger -p daemon.info -t ifup-sl \
+  (/usr/bin/logger -p daemon.info -t ifup-sl \
     $"dip started for $DEVICE on $MODEMPORT at $LINESPEED" &)&
   doexec /usr/sbin/dip dip-$DEVICE $DIPSCRIPT
   if [ "$PERSIST" != "yes" -o ! -f /var/run/sl-$DEVICE.dev ] ; then
