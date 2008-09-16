@@ -3,7 +3,7 @@ SUPERUSER=root
 SUPERGROUP=root
 
 VERSION := $(shell awk '/Version:/ { print $$2 }' initscripts.spec)
-RELEASE := $(shell awk '/Release:/ { print $$2 }' initscripts.spec)
+RELEASE := $(subst %{?dist},,$(shell awk '/Release:/ { print $$2 }' initscripts.spec))
 TAG=initscripts-$(VERSION)-$(RELEASE)
 ARCH = $(shell uname -m)
 
