@@ -168,7 +168,7 @@ case "$1" in
   stop)
   	# Don't shut the network down if root is on NFS or a network
 	# block device.
-        rootfs=$(awk '{ if ($1 !~ /^[ \t]*#/ && $2 == "/") { print $3; }}' /etc/mtab)
+        rootfs=$(awk '{ if ($1 !~ /^[ \t]*#/ && $2 == "/" && $3 != "rootfs") { print $3; }}' /proc/mounts)
         rootopts=$(awk '{ if ($1 !~ /^[ \t]*#/ && $2 == "/") { print $4; }}' /etc/mtab)
 	
 	if [[ "$rootfs" =~ ^nfs ]] || [[ "$rootopts" =~ "_netdev|_rnetdev" ]] ; then
