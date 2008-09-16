@@ -1,11 +1,13 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.45.19.EL
-License: GPL
+Version: 8.45.20
+# ppp-watch is GPLv2+, everything else is GPLv2
+License: GPLv2 and GPLv2+
 Group: System Environment/Base
-Release: 1
+Release: 1%{?dist}
 Source: initscripts-%{version}.tar.bz2
-URL: http://fedora.redhat.com/projects/additional-projects/initscripts/
+# git source repository
+URL: http://git.fedorahosted.org/git/initscripts.git
 BuildRoot: /%{_tmppath}/%{name}-%{version}-%{release}-root
 Requires: mingetty, /bin/awk, /bin/sed, mktemp, e2fsprogs >= 1.15
 Requires: /sbin/sysctl, syslog
@@ -196,6 +198,13 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Sep 16 2008 Harald Hoyer <harald@redhat.com> 8.45.20-1
+- changes to init scripts to better support stateless (#433702, <ahecox@redhat.com>)
+- call logger with full path (#447928, Mihai Vintila)
+- add a udevsettle before mounting _netdev devices (#452866, <bmr@redhat.com>)
+- reduce device initialization overhead for ccw devices (#437110, Glen Johnson)
+- Resolves: rhbz#433702 rhbz#452866 rhbz#447928 rhbz#437110
+
 * Mon Mar  3 2008 Bill Nottingham <notting@redhat.com> 8.45.19.EL-1
 - also skip network shutdown if there is a '_rnetdev' root device (part of #435358, <pjones@redhat.com>)
 
