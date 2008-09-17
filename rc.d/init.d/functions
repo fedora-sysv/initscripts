@@ -50,12 +50,6 @@ if [ -z "${BOOTUP:-}" ]; then
   fi
 fi
 
-if [ "${BOOTUP:-}" != "verbose" ]; then
-   INITLOG_ARGS="-q"
-else
-   INITLOG_ARGS=
-fi
-
 # Interpret escape sequences in an fstab entry
 fstab_decode_str() {
 	fstab-decode echo "$1"
@@ -467,9 +461,6 @@ update_boot_stage() {
 
 # Log that something succeeded
 success() {
-  #if [ -z "${IN_INITLOG:-}" ]; then
-  #   initlog $INITLOG_ARGS -n $0 -s "$1" -e 1
-  #fi
   [ "$BOOTUP" != "verbose" -a -z "${LSB:-}" ] && echo_success
   return 0
 }
@@ -477,9 +468,6 @@ success() {
 # Log that something failed
 failure() {
   local rc=$?
-  #if [ -z "${IN_INITLOG:-}" ]; then
-  #   initlog $INITLOG_ARGS -n $0 -s "$1" -e 2
-  #fi
   [ "$BOOTUP" != "verbose" -a -z "${LSB:-}" ] && echo_failure
   [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --details=yes
   return $rc
@@ -488,9 +476,6 @@ failure() {
 # Log that something passed, but may have had errors. Useful for fsck
 passed() {
   local rc=$?
-  #if [ -z "${IN_INITLOG:-}" ]; then
-  #   initlog $INITLOG_ARGS -n $0 -s "$1" -e 1
-  #fi
   [ "$BOOTUP" != "verbose" -a -z "${LSB:-}" ] && echo_passed
   return $rc
 }  
@@ -498,9 +483,6 @@ passed() {
 # Log a warning
 warning() {
   local rc=$?
-  #if [ -z "${IN_INITLOG:-}" ]; then
-  #   initlog $INITLOG_ARGS -n $0 -s "$1" -e 1
-  #fi
   [ "$BOOTUP" != "verbose" -a -z "${LSB:-}" ] && echo_warning
   return $rc
 }  
