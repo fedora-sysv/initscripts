@@ -330,21 +330,10 @@ sysctl -e -p /etc/sysctl.conf >/dev/null 2>&1
 update_boot_stage RChostname
 action $"Setting hostname ${HOSTNAME}: " hostname ${HOSTNAME}
 
-# Device mapper & related initialization
-if ! __fgrep "device-mapper" /proc/devices >/dev/null 2>&1 ; then
-	modprobe dm-mod >/dev/null 2>&1
-fi
-mkdir -p /dev/mapper >/dev/null 2>&1
-mknod /dev/mapper/control c \
-	$(awk '/ misc$/ { print $1 }' /proc/devices) \
-	$(awk '/ device-mapper$/ { print $1 }' /proc/misc) >/dev/null 2>&1
-[ -n "$SELINUX_STATE" ] && restorecon /dev/mapper /dev/mapper/control >/dev/null 2>&1
-
 if [ -f /etc/crypttab ]; then
     init_crypto 0
 fi
 
-if [ -c /dev/mapper/control ]; then
         if ! strstr "$cmdline" nompath && [ -f /etc/multipath.conf -a \
 			-x /sbin/multipath ]; then
 		modprobe dm-multipath > /dev/null 2>&1
@@ -369,7 +358,6 @@ if [ -c /dev/mapper/control ]; then
 	if [ -x /sbin/lvm ]; then
 		action $"Setting up Logical Volume Management:" /sbin/lvm vgchange -a y --ignorelockingfailure
 	fi
-fi
 
 if [ -f /etc/crypttab ]; then
     init_crypto 0
