@@ -70,11 +70,11 @@ case "$1" in
 	    fi
 	    
 	    if [ "$rc" -gt 1 ]; then
-	    	if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
-			/usr/bin/rhgb-client --details=yes >/dev/null 2>&1
+		if [ -x /usr/bin/plymouth ] && /usr/bin/plymouth --ping ; then
+			/usr/bin/plymouth --hide-splash
 		fi
-`	`	failure "$STRING"
-`	`	tty >/dev/null 2>&1 || exit 1
+		failure "$STRING"
+		tty >/dev/null 2>&1 || exit 1
 		echo
 		echo
 		echo $"*** An error occurred during the file system check."
