@@ -73,8 +73,8 @@ case "$1" in
 	    	if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
 			/usr/bin/rhgb-client --details=yes >/dev/null 2>&1
 		fi
-	        
-                failure "$STRING"
+`	`	failure "$STRING"
+`	`	tty >/dev/null 2>&1 || exit 1
 		echo
 		echo
 		echo $"*** An error occurred during the file system check."
