@@ -366,15 +366,17 @@ status() {
 	base=${1##*/}
 
 	# First try "pidof"
-	pid="$(__pids_pidof "$1")"
+	__pids_var_run "$1" "$pid_file"
+	RC=$?
+	if [ -z "$pid_file" -a -z "$pid" ]; then
+		pid="$(__pids_pidof "$1")"
+	fi
 	if [ -n "$pid" ]; then
 	        echo $"${base} (pid $pid) is running..."
 	        return 0
 	fi
 
-	# Next try "/var/run/*.pid" files
-	__pids_var_run "$1" "$pid_file"
-	case "$?" in
+	case "$RC" in
 		0)
 			echo $"${base} (pid $pid) is running..."
 			return 0
