@@ -307,7 +307,9 @@ mount -n /dev/pts >/dev/null 2>&1
 
 if strstr "$cmdline" rhgb && ! strstr "$cmdline" early-login && [ "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
    ( . /etc/sysconfig/i18n 2>/dev/null ; /usr/bin/rhgb )
-   RHGB_STARTED=1
+   if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
+	RHGB_STARTED=1
+   fi
 fi
 
 # Configure kernel parameters
@@ -682,7 +684,9 @@ fi
 # Start the graphical boot, if necessary and not done yet.
 if strstr "$cmdline" rhgb && ! strstr "$cmdline" early-login && [ -z "$RHGB_STARTED" -a "$BOOTUP" = "color" -a "$GRAPHICAL" = "yes" -a -x /usr/bin/rhgb ]; then
    ( . /etc/sysconfig/i18n 2>/dev/null ; /usr/bin/rhgb )
-   RHGB_STARTED=1
+   if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
+	RHGB_STARTED=1
+   fi
 fi
 
 # Initialize pseudo-random number generator
