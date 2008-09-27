@@ -164,21 +164,36 @@ struct in_addr calc_network(struct in_addr addr, int prefix)
 }
 
 /*!
-  \fn const char *get_hostname(struct in_addr addr)
+  \fn const char *get_hostname(int family, void *addr)
   \brief returns the hostname associated with the specified IP address
 
-  \param addr an IP address to find a hostname for, in network byte order
+  \param family the address family, either AF_INET or AF_INET6.
+  \param addr an IP address to find a hostname for, in network byte order,
+  should either be a pointer to a struct in_addr or a struct in6_addr.
 
   \return a hostname, or NULL if one cannot be determined.  Hostname is stored
   in a static buffer that may disappear at any time, the caller should copy the
   data if it needs permanent storage.
 */
-const char *get_hostname(struct in_addr addr)
+char *get_hostname(int family, void *addr)
 {
-    struct hostent * hostinfo;
+    struct hostent * hostinfo = NULL;
     int x;
+    struct in_addr addr4;
+    struct in6_addr addr6;
 
-    hostinfo = gethostbyaddr((char *) &addr, sizeof(addr), AF_INET);
+    if (family == AF_INET) {
+        memset(&addr4, 0, sizeof(addr4));
+        memcpy(&addr4, addr, sizeof(addr4));
+        hostinfo = gethostbyaddr((const void *) &addr4,
+                                 sizeof(addr4), family);
+    } else if (family == AF_INET6) {
+        memset(&addr6, 0, sizeof(addr6));
+        memcpy(&addr6, addr, sizeof(addr6));
+        hostinfo = gethostbyaddr((const void *) &addr6,
+                                 sizeof(addr6), family);
+    }
+
     if (!hostinfo)
         return NULL;
 
@@ -204,7 +219,8 @@ int main(int argc, const char **argv) {
     int doCheck = 0, familyIPv4 = 0, familyIPv6 = 0;
     int rc;
     poptContext optCon;
-    char *ipStr, *prefixStr, *netmaskStr, *hostName, *chptr;
+    char *ipStr, *prefixStr, *netmaskStr, *chptr;
+    char *hostName = NULL;
     char namebuf[INET6_ADDRSTRLEN+1];
     struct in_addr ip, netmask, network, broadcast;
     struct in6_addr ip6;
@@ -424,7 +440,13 @@ int main(int argc, const char **argv) {
     }
 
     if (showHostname) {
-        if ((hostName = (char *) get_hostname(ip)) == NULL) {
+        if (familyIPv4) {
+            hostName = get_hostname(AF_INET, &ip);
+        } else if (familyIPv6) {
+            hostName = get_hostname(AF_INET6, &ip6);
+        }
+
+        if (hostName == NULL) {
             if (!beSilent) {
                 sprintf(errBuf, "ipcalc: cannot find hostname for %s", ipStr);
                 herror(errBuf);
