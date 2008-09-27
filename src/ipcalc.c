@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997-2003 Red Hat, Inc. All rights reserved.
+ * Copyright (c) 1997-2008 Red Hat, Inc. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 2,
@@ -17,6 +17,7 @@
  * Authors:
  *   Erik Troan <ewt@redhat.com>
  *   Preston Brown <pbrown@redhat.com>
+ *   David Cantrell <dcantrell@redhat.com>
  */
 
 
