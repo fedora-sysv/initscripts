@@ -56,7 +56,7 @@ getkey: getkey.o
 	$(CC) $(LDFLAGS) -o $@ $< -lpopt
 
 ipcalc: ipcalc.o
-	$(CC) $(LDFLAGS) -o $@ $< -lpopt
+	$(CC) -D_GNU_SOURCE $(LDFLAGS) -o $@ $< -lpopt
 
 initlog: $(INITLOG_OBJS)
 	$(CC) $(LDFLAGS) -o $@ $(INITLOG_OBJS) -lpopt
