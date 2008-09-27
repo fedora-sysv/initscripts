@@ -300,11 +300,14 @@ int main(int argc, const char **argv) {
             else
                 tmp++;
         }
+
         tmp = NULL;
         for (; i>0; i--) {
-           tmp = malloc(strlen(ipStr) + 3);
-           sprintf(tmp,"%s.0",ipStr);
-           ipStr = tmp;
+            if (asprintf(&tmp, "%s.0", ipStr) == -1) {
+                fprintf(stderr, "Memory allocation failure line %d\n", __LINE__);
+                abort();
+            }
+            ipStr = tmp;
         }
     }
 
