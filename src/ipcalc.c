@@ -26,18 +26,6 @@
 #include <netdb.h>
 
 /*!
-  \def IPBITS
-  \brief the number of bits in an IP address.
-*/
-#define IPBITS (sizeof(u_int32_t) * 8)
-/*!
-  \def IPBYTES
-  \brief the number of bytes in an IP address.
-*/
-#define IPBYTES (sizeof(u_int32_t))
-
-
-/*!
   \file ipcalc.c
   \brief provides utilities for manipulating IP addresses.
 
@@ -55,7 +43,7 @@
 */
 
 /*!
-  \fn u_int32_t prefix2mask(int bits)
+  \fn struct in_addr prefix2mask(int bits)
   \brief creates a netmask from a specified number of bits
 
   This function converts a prefix length to a netmask.  As CIDR (classless
@@ -68,26 +56,31 @@
   \param prefix is the number of bits to create a mask for.
   \return a network mask, in network byte order.
 */
-u_int32_t prefix2mask(int prefix) {
-    return htonl(~((1 << (32 - prefix)) - 1));
+struct in_addr prefix2mask(int prefix) {
+    struct in_addr mask;
+    memset(&mask, 0, sizeof(mask));
+    mask.s_addr = htonl(~((1 << (32 - prefix)) - 1));
+    return mask;
 }
 
 /*!
-  \fn int mask2prefix(u_int32_t mask)
+  \fn int mask2prefix(struct in_addr mask)
   \brief calculates the number of bits masked off by a netmask.
 
   This function calculates the significant bits in an IP address as specified by
   a netmask.  See also \ref prefix2mask.
 
-  \param mask is the netmask, specified as an u_int32_teger in network byte order.
+  \param mask is the netmask, specified as an struct in_addr in network byte order.
   \return the number of significant bits.  */
-int mask2prefix(u_int32_t mask)
+int mask2prefix(struct in_addr mask)
 {
     int i;
-    int count = IPBITS;
+    int ipbits = sizeof(struct in_addr) * 8;
+    int count = ipbits;
+    uint32_t saddr = mask.s_addr;
 
-    for (i = 0; i < IPBITS; i++) {
-        if (!(ntohl(mask) & ((2 << i) - 1)))
+    for (i = 0; i < ipbits; i++) {
+        if (!(ntohl(saddr) & ((2 << i) - 1)))
             count--;
     }
 
@@ -95,7 +88,7 @@ int mask2prefix(u_int32_t mask)
 }
 
 /*!
-  \fn u_int32_t default_netmask(u_int32_t addr)
+  \fn struct in_addr default_netmask(struct in_addr addr)
 
   \brief returns the default (canonical) netmask associated with specified IP
   address.
@@ -107,18 +100,25 @@ int mask2prefix(u_int32_t mask)
 
   \param addr an IP address in network byte order.
   \return a netmask in network byte order.  */
-u_int32_t default_netmask(u_int32_t addr)
+struct in_addr default_netmask(struct in_addr addr)
 {
-    if (((ntohl(addr) & 0xFF000000) >> 24) <= 127)
-        return htonl(0xFF000000);
-    else if (((ntohl(addr) & 0xFF000000) >> 24) <= 191)
-        return htonl(0xFFFF0000);
+    uint32_t saddr = addr.s_addr;
+    struct in_addr mask;
+
+    memset(&mask, 0, sizeof(mask));
+
+    if (((ntohl(saddr) & 0xFF000000) >> 24) <= 127)
+        mask.s_addr = htonl(0xFF000000);
+    else if (((ntohl(saddr) & 0xFF000000) >> 24) <= 191)
+        mask.s_addr = htonl(0xFFFF0000);
     else
-        return htonl(0xFFFFFF00);
+        mask.s_addr = htonl(0xFFFFFF00);
+
+    return mask;
 }
 
 /*!
-  \fn u_int32_t calc_broadcast(u_int32_t addr, int prefix)
+  \fn struct in_addr calc_broadcast(struct in_addr addr, int prefix)
 
   \brief calculate broadcast address given an IP address and a prefix length.
 
@@ -128,13 +128,18 @@ u_int32_t default_netmask(u_int32_t addr)
   \return the calculated broadcast address for the network, in network byte
   order.
 */
-u_int32_t calc_broadcast(u_int32_t addr, int prefix)
+struct in_addr calc_broadcast(struct in_addr addr, int prefix)
 {
-    return (addr & prefix2mask(prefix)) | ~prefix2mask(prefix);
+    struct in_addr mask = prefix2mask(prefix);
+    struct in_addr broadcast;
+
+    memset(&broadcast, 0, sizeof(broadcast));
+    broadcast.s_addr = (addr.s_addr & mask.s_addr) | ~mask.s_addr;
+    return broadcast;
 }
 
 /*!
-  \fn u_int32_t calc_network(u_int32_t addr, int prefix)
+  \fn struct in_addr calc_network(struct in_addr addr, int prefix)
   \brief calculates the network address for a specified address and prefix.
 
   \param addr an IP address, in network byte order
@@ -142,13 +147,18 @@ u_int32_t calc_broadcast(u_int32_t addr, int prefix)
   \return the base address of the network that addr is associated with, in
   network byte order.
 */
-u_int32_t calc_network(u_int32_t addr, int prefix)
+struct in_addr calc_network(struct in_addr addr, int prefix)
 {
-    return (addr & prefix2mask(prefix));
+    struct in_addr mask = prefix2mask(prefix);
+    struct in_addr network;
+
+    memset(&network, 0, sizeof(network));
+    network.s_addr = addr.s_addr & mask.s_addr;
+    return network;
 }
 
 /*!
-  \fn const char *get_hostname(u_int32_t addr)
+  \fn const char *get_hostname(struct in_addr addr)
   \brief returns the hostname associated with the specified IP address
 
   \param addr an IP address to find a hostname for, in network byte order
@@ -157,7 +167,7 @@ u_int32_t calc_network(u_int32_t addr, int prefix)
   in a static buffer that may disappear at any time, the caller should copy the
   data if it needs permanent storage.
 */
-const char *get_hostname(u_int32_t addr)
+const char *get_hostname(struct in_addr addr)
 {
     struct hostent * hostinfo;
     int x;
@@ -265,7 +275,7 @@ int main(int argc, const char **argv) {
                     fprintf(stderr, "ipcalc: bad netmask: %s\n", netmaskStr);
                 return 1;
             }
-            prefix = mask2prefix(netmask.s_addr);
+            prefix = mask2prefix(netmask);
         }
     }
 
@@ -315,10 +325,10 @@ int main(int argc, const char **argv) {
 
     if (showNetmask) {
         if (prefix) {
-            netmask.s_addr = prefix2mask(prefix);
+            netmask = prefix2mask(prefix);
         } else {
-            netmask.s_addr = default_netmask(ip.s_addr);
-            prefix = mask2prefix(netmask.s_addr);
+            netmask = default_netmask(ip);
+            prefix = mask2prefix(netmask);
         }
 
         printf("NETMASK=%s\n", inet_ntoa(netmask));
@@ -326,22 +336,22 @@ int main(int argc, const char **argv) {
 
     if (showPrefix) {
         if (!prefix)
-            prefix = mask2prefix(ip.s_addr);
+            prefix = mask2prefix(ip);
         printf("PREFIX=%d\n", prefix);
     }
 
     if (showBroadcast) {
-        broadcast.s_addr = calc_broadcast(ip.s_addr, prefix);
+        broadcast = calc_broadcast(ip, prefix);
         printf("BROADCAST=%s\n", inet_ntoa(broadcast));
     }
 
     if (showNetwork) {
-        network.s_addr = calc_network(ip.s_addr, prefix);
+        network = calc_network(ip, prefix);
         printf("NETWORK=%s\n", inet_ntoa(network));
     }
 
     if (showHostname) {	
-        if ((hostName = (char *) get_hostname(ip.s_addr)) == NULL) {
+        if ((hostName = (char *) get_hostname(ip)) == NULL) {
             if (!beSilent) {
                 sprintf(errBuf, "ipcalc: cannot find hostname for %s", ipStr);
                 herror(errBuf);
