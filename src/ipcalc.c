@@ -423,7 +423,7 @@ int main(int argc, const char **argv) {
         printf("NETWORK=%s\n", namebuf);
     }
 
-    if (showHostname) {	
+    if (showHostname) {
         if ((hostName = (char *) get_hostname(ip)) == NULL) {
             if (!beSilent) {
                 sprintf(errBuf, "ipcalc: cannot find hostname for %s", ipStr);
