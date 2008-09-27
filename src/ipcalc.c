@@ -204,6 +204,7 @@ int main(int argc, const char **argv) {
     int rc;
     poptContext optCon;
     char *ipStr, *prefixStr, *netmaskStr, *hostName, *chptr;
+    char namebuf[INET6_ADDRSTRLEN+1];
     struct in_addr ip, netmask, network, broadcast;
     int prefix = 0;
     char errBuf[250];
@@ -276,7 +277,7 @@ int main(int argc, const char **argv) {
             }
             return 1;
         } else if (netmaskStr) {
-            if (!inet_aton(netmaskStr, &netmask)) {
+            if (inet_pton(AF_INET, netmaskStr, &netmask) <= 0) {
                 if (!beSilent)
                     fprintf(stderr, "ipcalc: bad netmask: %s\n", netmaskStr);
                 return 1;
@@ -313,7 +314,7 @@ int main(int argc, const char **argv) {
         }
     }
 
-    if (!inet_aton(ipStr, (struct in_addr *) &ip)) {
+    if (inet_pton(AF_INET, ipStr, &ip) <= 0) {
         if (!beSilent)
             fprintf(stderr, "ipcalc: bad ip address: %s\n", ipStr);
         return 1;
@@ -337,7 +338,14 @@ int main(int argc, const char **argv) {
             prefix = mask2prefix(netmask);
         }
 
-        printf("NETMASK=%s\n", inet_ntoa(netmask));
+        memset(&namebuf, '\0', sizeof(namebuf));
+
+        if (inet_ntop(AF_INET, &netmask, namebuf, INET_ADDRSTRLEN) == NULL) {
+            fprintf(stderr, "Memory allocation failure line %d\n", __LINE__);
+            abort();
+        }
+
+        printf("NETMASK=%s\n", namebuf);
     }
 
     if (showPrefix) {
@@ -348,12 +356,26 @@ int main(int argc, const char **argv) {
 
     if (showBroadcast) {
         broadcast = calc_broadcast(ip, prefix);
-        printf("BROADCAST=%s\n", inet_ntoa(broadcast));
+        memset(&namebuf, '\0', sizeof(namebuf));
+
+        if (inet_ntop(AF_INET, &broadcast, namebuf, INET_ADDRSTRLEN) == NULL) {
+            fprintf(stderr, "Memory allocation failure line %d\n", __LINE__);
+            abort();
+        }
+
+        printf("BROADCAST=%s\n", namebuf);
     }
 
     if (showNetwork) {
         network = calc_network(ip, prefix);
-        printf("NETWORK=%s\n", inet_ntoa(network));
+        memset(&namebuf, '\0', sizeof(namebuf));
+
+        if (inet_ntop(AF_INET, &network, namebuf, INET_ADDRSTRLEN) == NULL) {
+            fprintf(stderr, "Memory allocation failure line %d\n", __LINE__);
+            abort();
+        }
+
+        printf("NETWORK=%s\n", namebuf);
     }
 
     if (showHostname) {	
