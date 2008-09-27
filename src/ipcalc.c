@@ -201,6 +201,7 @@ int main(int argc, const char **argv) {
     int showBroadcast = 0, showPrefix = 0, showNetwork = 0;
     int showHostname = 0, showNetmask = 0;
     int beSilent = 0;
+    int doCheck = 0, familyIPv4 = 1, familyIPv6 = 0;
     int rc;
     poptContext optCon;
     char *ipStr, *prefixStr, *netmaskStr, *hostName, *chptr;
@@ -209,6 +210,12 @@ int main(int argc, const char **argv) {
     int prefix = 0;
     char errBuf[250];
     struct poptOption optionsTable[] = {
+        { "check", 'c', 0, &doCheck, 0,
+          "Validate IP address for specified address family", },
+        { "ipv4", '4', 0, &familyIPv4, 0,
+          "IPv4 address family", },
+        { "ipv6", '6', 0, &familyIPv6, 0,
+          "IPv6 address family", },
         { "broadcast", 'b', 0, &showBroadcast, 0,
           "Display calculated broadcast address", },
         { "hostname", 'h', 0, &showHostname, 0,
@@ -228,6 +235,21 @@ int main(int argc, const char **argv) {
     optCon = poptGetContext("ipcalc", argc, argv, optionsTable, 0);
     poptReadDefaultConfig(optCon, 1);
 
+    if (familyIPv4 && familyIPv6) {
+        if (!beSilent) {
+            fprintf(stderr, "ipcalc: cannot specify both address families\n");
+        }
+        return 1;
+    }
+
+    if (familyIPv6 &&
+        (showBroadcast || showNetmask || showNetwork || showPrefix)) {
+        if (!beSilent) {
+            fprintf(stderr, "ipcalc: unable to show setting for IPv6\n");
+        }
+        return 1;
+    }
+
     if ((rc = poptGetNextOpt(optCon)) < -1) {
         if (!beSilent) {
             fprintf(stderr, "ipcalc: bad argument %s: %s\n",
@@ -244,6 +266,26 @@ int main(int argc, const char **argv) {
             poptPrintHelp(optCon, stderr, 0);
         }
         return 1;
+    }
+
+    if (doCheck) {
+        if (familyIPv4) {
+            struct in_addr tmpaddr;
+            memset(&tmpaddr, 0, sizeof(tmpaddr));
+
+            if (inet_pton(AF_INET, ipStr, &tmpaddr) >= 1)
+                return 0;
+            else
+                return 1;
+        } else if (familyIPv6) {
+            struct in6_addr tmpaddr;
+            memset(&tmpaddr, 0, sizeof(tmpaddr));
+
+            if (inet_pton(AF_INET6, ipStr, &tmpaddr) >= 1)
+                return 0;
+            else
+                return 1;
+        }
     }
 
     if (strchr(ipStr,'/') != NULL) {
