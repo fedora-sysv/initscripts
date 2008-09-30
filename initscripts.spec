@@ -18,7 +18,6 @@ Requires: util-linux >= 2.10s-11, mount >= 2.11l
 Requires: bash >= 3.0
 %if with_upstart
 Requires: upstart
-Obsoletes: event-compat-sysv
 %else
 Requires: SysVinit >= 2.85-38
 %endif
@@ -36,7 +35,6 @@ Conflicts: xorg-x11, glib2 < 2.11.1-2
 Conflicts: alsa-utils < 1.0.14-0.5.rc2.fc7
 # http://bugzilla.redhat.com/show_bug.cgi?id=252973
 Conflicts: nut < 2.2.0
-Obsoletes: rhsound sapinit
 Obsoletes: hotplug
 Prereq: /sbin/chkconfig, /usr/sbin/groupadd, /bin/sed, coreutils
 BuildRequires: glib2-devel popt-devel gettext pkgconfig
