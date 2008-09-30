@@ -233,7 +233,7 @@ rm -rf $RPM_BUILD_ROOT
 /etc/ppp/ip-down.ipv6to4
 /etc/ppp/ipv6-up
 /etc/ppp/ipv6-down
-/etc/initlog.conf
+%config(noreplace) /etc/initlog.conf
 %dir /etc/NetworkManager
 %dir /etc/NetworkManager/dispatcher.d
 /etc/NetworkManager/dispatcher.d/00-netreport
