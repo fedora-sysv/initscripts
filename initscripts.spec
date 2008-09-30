@@ -8,7 +8,7 @@ License: GPLv2 and GPLv2+
 Group: System Environment/Base
 Release: 1
 Source: initscripts-%{version}.tar.bz2
-BuildRoot: /%{_tmppath}/%{name}-%{version}-%{release}-root
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 Requires: mingetty, /bin/awk, /bin/sed, mktemp, e2fsprogs >= 1.15
 Requires: /sbin/sysctl, syslog
 Requires: /sbin/fuser, /bin/grep
