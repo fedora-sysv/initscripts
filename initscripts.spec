@@ -36,7 +36,9 @@ Conflicts: alsa-utils < 1.0.14-0.5.rc2.fc7
 # http://bugzilla.redhat.com/show_bug.cgi?id=252973
 Conflicts: nut < 2.2.0
 Obsoletes: hotplug
-Prereq: /sbin/chkconfig, /usr/sbin/groupadd, /bin/sed, coreutils
+Requires(pre): /usr/sbin/groupadd
+Requires(post): /sbin/chkconfig, coreutils
+Requires(preun): /sbin/chkconfig
 BuildRequires: glib2-devel popt-devel gettext pkgconfig
 
 %description
@@ -102,11 +104,6 @@ chmod 600 /var/log/btmp
 /sbin/chkconfig --add netfs
 /sbin/chkconfig --add network
 /sbin/chkconfig --add netconsole
-
-# Handle converting prefdm back to respawn
-if fgrep -q "x:5:once:/etc/X11/prefdm -nodaemon" /etc/inittab ; then
-    sed --in-place=.rpmsave 's|^x:5:once:/etc/X11/prefdm -nodaemon|x:5:respawn:/etc/X11/prefdm -nodaemon|g' /etc/inittab
-fi
 
 %preun
 if [ $1 = 0 ]; then
