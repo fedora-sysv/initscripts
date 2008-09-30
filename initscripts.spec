@@ -130,7 +130,7 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) /etc/sysconfig/readonly-root
 /etc/sysconfig/network-scripts/ifdown
 /sbin/ifdown
-%config /etc/sysconfig/network-scripts/ifdown-post
+/etc/sysconfig/network-scripts/ifdown-post
 /etc/sysconfig/network-scripts/ifup
 /sbin/ifup
 %dir /etc/sysconfig/console
@@ -139,42 +139,42 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/sysconfig/networking/devices
 %dir /etc/sysconfig/networking/profiles
 %dir /etc/sysconfig/networking/profiles/default
-%config /etc/sysconfig/network-scripts/network-functions
-%config /etc/sysconfig/network-scripts/network-functions-ipv6
-%config /etc/sysconfig/network-scripts/init.ipv6-global
-%config /etc/sysconfig/network-scripts/ifcfg-lo
-%config /etc/sysconfig/network-scripts/ifup-ipx
-%config /etc/sysconfig/network-scripts/ifup-post
-%config /etc/sysconfig/network-scripts/ifdown-ppp
-%config /etc/sysconfig/network-scripts/ifdown-sl
-%config /etc/sysconfig/network-scripts/ifup-ppp
-%config /etc/sysconfig/network-scripts/ifup-sl
-%config /etc/sysconfig/network-scripts/ifup-routes
-%config /etc/sysconfig/network-scripts/ifdown-routes
-%config /etc/sysconfig/network-scripts/ifup-plip
-%config /etc/sysconfig/network-scripts/ifup-plusb
-%config /etc/sysconfig/network-scripts/ifup-bnep
-%config /etc/sysconfig/network-scripts/ifdown-bnep
-%config /etc/sysconfig/network-scripts/ifup-eth
-%config /etc/sysconfig/network-scripts/ifdown-eth
-%config /etc/sysconfig/network-scripts/ifup-ipv6
-%config /etc/sysconfig/network-scripts/ifdown-ipv6
-%config /etc/sysconfig/network-scripts/ifup-ipsec
-%config /etc/sysconfig/network-scripts/ifdown-ipsec
-%config /etc/sysconfig/network-scripts/ifup-sit
-%config /etc/sysconfig/network-scripts/ifdown-sit
-%config /etc/sysconfig/network-scripts/ifup-tunnel
-%config /etc/sysconfig/network-scripts/ifdown-tunnel
-%config /etc/sysconfig/network-scripts/ifup-aliases
-%config /etc/sysconfig/network-scripts/ifup-ippp
-%config /etc/sysconfig/network-scripts/ifdown-ippp
-%config /etc/sysconfig/network-scripts/ifup-wireless
+/etc/sysconfig/network-scripts/network-functions
+/etc/sysconfig/network-scripts/network-functions-ipv6
+/etc/sysconfig/network-scripts/init.ipv6-global
+/etc/sysconfig/network-scripts/ifcfg-lo
+/etc/sysconfig/network-scripts/ifup-ipx
+/etc/sysconfig/network-scripts/ifup-post
+/etc/sysconfig/network-scripts/ifdown-ppp
+/etc/sysconfig/network-scripts/ifdown-sl
+/etc/sysconfig/network-scripts/ifup-ppp
+/etc/sysconfig/network-scripts/ifup-sl
+/etc/sysconfig/network-scripts/ifup-routes
+/etc/sysconfig/network-scripts/ifdown-routes
+/etc/sysconfig/network-scripts/ifup-plip
+/etc/sysconfig/network-scripts/ifup-plusb
+/etc/sysconfig/network-scripts/ifup-bnep
+/etc/sysconfig/network-scripts/ifdown-bnep
+/etc/sysconfig/network-scripts/ifup-eth
+/etc/sysconfig/network-scripts/ifdown-eth
+/etc/sysconfig/network-scripts/ifup-ipv6
+/etc/sysconfig/network-scripts/ifdown-ipv6
+/etc/sysconfig/network-scripts/ifup-ipsec
+/etc/sysconfig/network-scripts/ifdown-ipsec
+/etc/sysconfig/network-scripts/ifup-sit
+/etc/sysconfig/network-scripts/ifdown-sit
+/etc/sysconfig/network-scripts/ifup-tunnel
+/etc/sysconfig/network-scripts/ifdown-tunnel
+/etc/sysconfig/network-scripts/ifup-aliases
+/etc/sysconfig/network-scripts/ifup-ippp
+/etc/sysconfig/network-scripts/ifdown-ippp
+/etc/sysconfig/network-scripts/ifup-wireless
 /etc/sysconfig/network-scripts/ifup-isdn
 /etc/sysconfig/network-scripts/ifdown-isdn
 /etc/sysconfig/network-scripts/net.hotplug
 %ifarch s390 s390x
-%config /etc/sysconfig/network-scripts/ifup-ctc
-%config /etc/sysconfig/network-scripts/ifup-iucv
+/etc/sysconfig/network-scripts/ifup-ctc
+/etc/sysconfig/network-scripts/ifup-iucv
 %endif
 %config(noreplace) /etc/networks
 /etc/rwtab
@@ -195,10 +195,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/rc.d/init.d
 /etc/rc.local
 /etc/rc.sysinit
-%config /etc/rc.d/init.d/*
-%config /etc/rc.d/rc
+/etc/rc.d/init.d/*
+/etc/rc.d/rc
 %config(noreplace) /etc/rc.d/rc.local
-%config /etc/rc.d/rc.sysinit
+/etc/rc.d/rc.sysinit
 %config(noreplace) /etc/sysctl.conf
 %exclude /etc/profile.d/debug*
 %config /etc/profile.d/*
@@ -227,13 +227,13 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr(775,root,root) /var/run/netreport
 %dir /etc/ppp
 %dir /etc/ppp/peers
-%config /etc/ppp/ip-up
-%config /etc/ppp/ip-down
-%config /etc/ppp/ip-up.ipv6to4
-%config /etc/ppp/ip-down.ipv6to4
-%config /etc/ppp/ipv6-up
-%config /etc/ppp/ipv6-down
-%config /etc/initlog.conf
+/etc/ppp/ip-up
+/etc/ppp/ip-down
+/etc/ppp/ip-up.ipv6to4
+/etc/ppp/ip-down.ipv6to4
+/etc/ppp/ipv6-up
+/etc/ppp/ipv6-down
+/etc/initlog.conf
 %dir /etc/NetworkManager
 %dir /etc/NetworkManager/dispatcher.d
 /etc/NetworkManager/dispatcher.d/00-netreport
