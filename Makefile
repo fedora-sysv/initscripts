@@ -138,7 +138,7 @@ clean:
 	@rm -fv *~ changenew ChangeLog.old *gz
 
 tag:
-	@git tag -a -m "Tag as $(TAG)" $(TAG)
+	@git tag -a -f -m "Tag as $(TAG)" $(TAG)
 	@echo "Tagged as $(TAG)"
 
 archive: clean check tag changelog

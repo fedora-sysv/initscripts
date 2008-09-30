@@ -85,7 +85,7 @@ rm -f $RPM_BUILD_ROOT/etc/inittab.*
 rm -f \
  $RPM_BUILD_ROOT/etc/sysconfig/network-scripts/ifup-ctc \
  $RPM_BUILD_ROOT/etc/sysconfig/network-scripts/ifup-iucv \
- $RPM_BUILD_ROOT/etc/udev/rules.d/55-ccw.rules \
+ $RPM_BUILD_ROOT/lib/udev/rules.d/55-ccw.rules \
  $RPM_BUILD_ROOT/lib/udev/ccw_init
 %else
 rm -f \
@@ -184,7 +184,6 @@ rm -rf $RPM_BUILD_ROOT
 %if with_upstart
 %config(noreplace) /etc/event.d/*
 %endif
-/etc/udev/rules.d/*
 %config /etc/X11/prefdm
 %config(noreplace) /etc/inittab
 %dir /etc/rc.d
@@ -215,6 +214,7 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/securetty
 %attr(2755,root,root) /sbin/netreport
 /sbin/initlog
+/lib/udev/rules.d/*
 /lib/udev/rename_device
 /lib/udev/console_init
 /lib/udev/console_check
