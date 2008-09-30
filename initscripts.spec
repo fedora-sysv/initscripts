@@ -252,7 +252,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Tue Sep 30 2008 Bill Nottingham <notting@redhat.com> - 8.83-1
 - various merge review fixes (#225900)
-  Notably: init scripts/network scripts are no longer %config
+  Notably: init scripts/network scripts are no longer %%config
 - remove some extraneous device-mapper initialization
 - use pidfile in status before calling pidof (#463205)
 - use plymouth directly, not the rhgb-client wrapper
