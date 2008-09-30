@@ -51,7 +51,7 @@ install:
 	mkdir -p $(ROOT)/lib
 	cp -af udev $(ROOT)/lib
 	chmod 755 $(ROOT)/etc/rc.d/* $(ROOT)/etc/rc.d/init.d/*
-	chmdo 644 $(ROOT)/etc/rc.d/init.d/functions
+	chmod 644 $(ROOT)/etc/rc.d/init.d/functions
 	chmod 755 $(ROOT)/etc/ppp/peers
 	chmod 755 $(ROOT)/etc/ppp/ip*
 	chmod 755 $(ROOT)/etc/sysconfig/network-scripts/ifup-*
@@ -139,7 +139,7 @@ clean:
 	@rm -fv *~ changenew ChangeLog.old *gz
 
 tag:
-	@git tag -a -f -m "Tag as $(TAG)" $(TAG)
+	@git tag -a -m "Tag as $(TAG)" $(TAG)
 	@echo "Tagged as $(TAG)"
 
 archive: clean check tag changelog
