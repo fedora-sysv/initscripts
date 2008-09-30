@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.82
+Version: 8.83
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -250,6 +250,23 @@ rm -rf $RPM_BUILD_ROOT
 %config /etc/profile.d/debug*
 
 %changelog
+* Tue Sep 30 2008 Bill Nottingham <notting@redhat.com> - 8.83-1
+- various merge review fixes (#225900)
+  Notably: init scripts/network scripts are no longer %config
+- remove some extraneous device-mapper initialization
+- use pidfile in status before calling pidof (#463205)
+- use plymouth directly, not the rhgb-client wrapper
+- move bridging after bonding (#449950, <djuran@redhat.com>)
+- use alsactl to save sound settings. (#462677, <jkysela@redhat.com>)
+- quit plymouth differently (<rstrode@redhat.com>)
+- make sure we don't try and spawn a repair shell when there's no
+  tty (#463161)
+- move udev rules to /lib
+- stateless updates (#433702, <harald@redhat.com>)
+- call logger with a full path (#447928, <harald@redhat.com>)
+- translation updates: as, bn_IN, ca, cz, de, es, fi, fr, gu, it, ja,
+  lv, mr, nl, or, pa, pl, pt_BR, ru, te, zh_TW
+
 * Wed Sep 10 2008 Bill Nottingham <notting@redhat.com> - 8.82-1
 - refresh translation strings
 - plymouth updates. (#460702, <rstrode@redhat.com>)
