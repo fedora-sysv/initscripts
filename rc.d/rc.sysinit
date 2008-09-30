@@ -205,6 +205,7 @@ init_crypto() {
 	    ret=1
 	    continue
 	fi
+	modprobe dm-crypt >/dev/null 2>&1
 	if [ -z "$makeswap" ] && cryptsetup isLuks "$src" 2>/dev/null ; then
 	    if key_is_random "$key"; then
 		echo $"$dst: LUKS requires non-random key, skipping"
