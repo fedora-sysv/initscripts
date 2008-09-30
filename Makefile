@@ -49,7 +49,7 @@ install:
 	cp -af ppp NetworkManager event.d $(ROOT)/etc
 	mkdir -p $(ROOT)/etc/ppp/peers
 	mkdir -p $(ROOT)/lib
-	cp -af udev $(ROOT)/etc
+	cp -af udev $(ROOT)/lib
 	chmod 755 $(ROOT)/etc/rc.d/* $(ROOT)/etc/rc.d/init.d/*
 	chmod 755 $(ROOT)/etc/ppp/peers
 	chmod 755 $(ROOT)/etc/ppp/ip*
