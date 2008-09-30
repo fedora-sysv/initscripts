@@ -200,7 +200,7 @@ rm -rf $RPM_BUILD_ROOT
 /etc/rc.d/rc.sysinit
 %config(noreplace) /etc/sysctl.conf
 %exclude /etc/profile.d/debug*
-%config /etc/profile.d/*
+/etc/profile.d/*
 /usr/sbin/sys-unconfig
 /sbin/setsysfont
 /bin/doexec
@@ -247,7 +247,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -n debugmode
 %defattr(-,root,root)
 %config(noreplace) /etc/sysconfig/debug
-%config /etc/profile.d/debug*
+/etc/profile.d/debug*
 
 %changelog
 * Tue Sep 30 2008 Bill Nottingham <notting@redhat.com> - 8.83-1
