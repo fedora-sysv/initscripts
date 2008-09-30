@@ -615,7 +615,7 @@ rm -rf $RPM_BUILD_ROOT
 - ipsec: various fixes & new features (#150682, #168972, <mitr@redhat.com>, <alex@milivojevic.org>)
 - ipsec: add check for IKE_METHOD (#197576, <john_smyth@mail.ru>)
 - rename_device: ignore alias devices, fix race (#186355)
-- ifup/ifdown: don't mark as %config
+- ifup/ifdown: don't mark as %%config
 - rwtab: some additions/cleanup
 
 * Mon Jun 12 2006 Bill Nottingham <notting@redhat.com> 8.35-1
@@ -844,7 +844,7 @@ rm -rf $RPM_BUILD_ROOT
 - rc.sysinit: fix restorecon invocation (#153100)
 - initlog: free some of the more egregious memory leaks (#85935)
 - initlog: fix potential memory overread (#153685, <in-redhat@baka.org>)
-- remove some conflicts, %post scripts, etc. that were only relelvant
+- remove some conflicts, %%post scripts, etc. that were only relelvant
   for upgrades from pre-7.0
 - other minor fixes, see ChangeLog
 
@@ -2109,22 +2109,22 @@ rm -rf $RPM_BUILD_ROOT
 
 * Thu Jul 13 2000 Bill Nottingham <notting@redhat.com>
 - fix == tests in rc.sysinit
-- more %pretrans tweaks
+- more %%pretrans tweaks
 
 * Thu Jul 13 2000 Jeff Johnson <jbj@redhat.com>
 - test if /etc/rc.d is a symlink already in pre-transaction syscalls.
 
 * Tue Jul 11 2000 Bill Nottingham <notting@redhat.com>
-- implement the %pre with RPM Magic(tm)
+- implement the %%pre with RPM Magic(tm)
 
 * Sat Jul  8 2000 Bill Nottingham <notting@redhat.com>
 - fix it to not follow /etc/rc.d
 
 * Fri Jul  7 2000 Bill Nottingham <notting@redhat.com>
-- fix %pre, again
+- fix %%pre, again
 
 * Thu Jul  6 2000 Bill Nottingham <notting@redhat.com>
-- tweak %pre back to a mv (rpm is fun!)
+- tweak %%pre back to a mv (rpm is fun!)
 - do USB initialization before fsck, so keyboard works if it fails
 
 * Mon Jul  3 2000 Bill Nottingham <notting@redhat.com>
@@ -2372,7 +2372,7 @@ rm -rf $RPM_BUILD_ROOT
 - fix swapoff silliness
 
 * Fri Sep 10 1999 Bill Nottingham <notting@redhat.com>
-- chkconfig --del in %preun, not %postun
+- chkconfig --del in %%preun, not %%postun
 - use killall5 in halt
 - swapoff non-/etc/fstab swap
 
@@ -2714,7 +2714,7 @@ rm -rf $RPM_BUILD_ROOT
 - Added network-functions to spec file.
 - Added report functionality to usernetctl.
 - Fixed bugs I introduced into usernetctl while adding clone device support.
-- Clean up entire RPM_BUILD_ROOT directory in %clean.
+- Clean up entire RPM_BUILD_ROOT directory in %%clean.
 
 * Mon Sep 29 1997 Michael K. Johnson <johnsonm@redhat.com>
 - Clone device support in network scripts, rc scripts, and usernetctl.
