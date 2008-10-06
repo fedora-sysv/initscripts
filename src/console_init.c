@@ -90,18 +90,23 @@ static void set_font(char *device) {
 	int pid, status;
 	
 	if ( (pid = fork()) == 0) {
-		char *args[] = { "setfont", "latarcyrheb-sun16", "-m", "none",
-				 "-u", "none", "-C", NULL, NULL };
+		char *args[] = { "setfont", "latarcyrheb-sun16", "-C", NULL,
+				 NULL, NULL, NULL, NULL, NULL };
 
 		if (font)
 			args[1] = font;
+		args[3] = device;
 		if (acm) {
-			args[3] = acm;
-		}
-		if (unimap) {
+			args[4] = "-m";	
+			args[5] = acm;
+			if (unimap) {
+				args[6] = "-u";
+				args[7] = unimap;
+			}
+		} else 	if (unimap) {
+			args[4] = "-u";
 			args[5] = unimap;
 		}
-		args[7] = device;
 		execv("/bin/setfont", args);
 		exit(1);
 	}
