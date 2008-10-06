@@ -33,6 +33,7 @@
 static char *lang = NULL;
 static char *font = NULL;
 static char *acm = NULL;
+static char *unimap = NULL;
 static char *keymap = NULL;
 
 static int linux_console(int fd) {
@@ -52,6 +53,7 @@ static int configured_as_utf8() {
         lang = svGetValue(i18nfile, "LANG");
         font = svGetValue(i18nfile, "SYSFONT");
         acm = svGetValue(i18nfile, "SYSFONTACM");
+        unimap = svGetValue(i18nfile, "UNIMAP");
         svCloseFile(i18nfile);
         if (!lang)
                 return 1;
@@ -84,22 +86,30 @@ static int read_keymap() {
 	return 0;
 }
 
-static void set_font(int fd) {
+static void set_font(char *device) {
 	int pid, status;
 	
 	if ( (pid = fork()) == 0) {
-		char *args[] = { "setfont", "latarcyrheb-sun16", NULL, NULL, NULL };
+		char *args[] = { "setfont", "latarcyrheb-sun16", "-C", NULL,
+				 NULL, NULL, NULL, NULL, NULL };
 
 		if (font)
 			args[1] = font;
+		args[3] = device;
 		if (acm) {
-			args[2] = "-u";
-			args[3] = acm;
+			args[4] = "-m";	
+			args[5] = acm;
+			if (unimap) {
+				args[6] = "-u";
+				args[7] = unimap;
+			}
+		} else 	if (unimap) {
+			args[4] = "-u";
+			args[5] = unimap;
 		}
 		execv("/bin/setfont", args);
 		exit(1);
 	}
-	waitpid(pid, &status, 0);
 }
 
 static void set_keyboard(int fd, int utf8) {
@@ -131,7 +141,6 @@ static void set_keymap(int fd, int utf8) {
 		execv("/bin/loadkeys", args);
 		exit(1);
 	}
-	waitpid(pid, &status, 0);
 }
 
 int main(int argc, char **argv) {
@@ -150,7 +159,7 @@ int main(int argc, char **argv) {
 
 		set_keyboard(dev, utf8);
 		set_terminal(dev, utf8);
-		set_font(dev);
+		set_font(device);
 		read_keymap();
 		if (keymap)
 			set_keymap(dev,utf8);
