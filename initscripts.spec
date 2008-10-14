@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.83
+Version: 8.84
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -250,6 +250,12 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Tue Oct 14 2008 Bill Nottingham <notting@redhat.com> - 8.84-1
+- override Arabic, Persian, and Hebrew on the console (<alsadi@ojuba.org>)
+- explicitly run mdadm on boot to catch degraded arrays. (<dledford@redhat.com>)
+- fix setting of console font/map (#458362, <ak@sensi.org>)
+- translations updates: hi, kn, nb, sk, sv, ta
+
 * Tue Sep 30 2008 Bill Nottingham <notting@redhat.com> - 8.83-1
 - various merge review fixes (#225900)
   Notably: init scripts/network scripts are no longer %%config
