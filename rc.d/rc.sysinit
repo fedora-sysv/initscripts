@@ -330,6 +330,9 @@ sysctl -e -p /etc/sysctl.conf >/dev/null 2>&1
 update_boot_stage RChostname
 action $"Setting hostname ${HOSTNAME}: " hostname ${HOSTNAME}
 
+# Start any MD RAID arrays that haven't been started yet
+[ -f /etc/mdadm.conf -a -x /sbin/mdadm ] && /sbin/mdadm -As --auto=yes --run
+
 # Device mapper & related initialization
 if ! __fgrep "device-mapper" /proc/devices >/dev/null 2>&1 ; then
        modprobe dm-mod >/dev/null 2>&1
