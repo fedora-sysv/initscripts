@@ -55,6 +55,9 @@ if [ "$sourced" = 1 ]; then
     	    		ko*) LANG=en_US.UTF-8 ;;
 			si*) LANG=en_US.UTF-8 ;;
     	    		zh*) LANG=en_US.UTF-8 ;;
+    	    		ar*) LANG=en_US.UTF-8 ;;
+    	    		fa*) LANG=en_US.UTF-8 ;;
+    	    		he*) LANG=en_US.UTF-8 ;;
     	    		en_IN*) ;;
     	    		*_IN*) LANG=en_US.UTF-8 ;;
     	    	esac
@@ -69,6 +72,9 @@ if [ "$sourced" = 1 ]; then
     	    		ko*) LANG=en_US ;;
 			si*) LANG=en_US ;;
     	    		zh*) LANG=en_US ;;
+    	    		ar*) LANG=en_US ;;
+    	    		fa*) LANG=en_US ;;
+    	    		he*) LANG=en_US ;;
     	    		en_IN*) ;;
     	    		*_IN*) LANG=en_US ;;
     	    	esac
