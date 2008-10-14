@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.45.20
+Version: 8.45.21
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -198,6 +198,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Oct 14 2008 Harald Hoyer <harald@redhat.com> 8.45.21-1
+- mount encrypted logical volumes during boot (#466115, Bill Nottingham)
+- Resolves: #466115
+
 * Tue Sep 16 2008 Harald Hoyer <harald@redhat.com> 8.45.20-1
 - changes to init scripts to better support stateless (#433702, <ahecox@redhat.com>)
 - call logger with full path (#447928, Mihai Vintila)
