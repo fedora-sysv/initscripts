@@ -158,8 +158,12 @@ init_crypto() {
 	elif [ "${src/^\/dev\/disk\/by-uuid\/}" != "$src" ]; then
 		src=$(__readlink $src)
 	fi
+	# Does it exist?
 	[ -z "$src" ] && continue
+	# Is it a block device?
 	[ -b "$src" ] || continue
+	# Is it already a device mapper slave? (this is gross)
+	[[ " $(ls /sys/block/dm-*/slaves) " =~ " ${src##/dev/} " ]] && continue
 	# Parse the options field, convert to cryptsetup parameters
 	# and contruct the command line
 	while [ -n "$opt" ]; do
