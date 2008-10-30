@@ -33,7 +33,7 @@ Conflicts: ypbind < 1.6-12, psacct < 6.3.2-12, kbd < 1.06-19, lokkit < 0.50-14
 Conflicts: dhclient < 3.0.3-7
 Conflicts: tcsh < 6.13-5
 Conflicts: xorg-x11, glib2 < 2.11.1-2
-Conflicts: alsa-utils < 1.0.14-0.5.rc2.fc7
+Conflicts: alsa-utils < 1.0.18
 # http://bugzilla.redhat.com/show_bug.cgi?id=252973
 Conflicts: nut < 2.2.0
 Obsoletes: hotplug
