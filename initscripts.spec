@@ -25,7 +25,7 @@ Requires: SysVinit >= 2.85-38
 Requires: /sbin/ip, /sbin/arping, net-tools, /bin/find
 Requires: /etc/redhat-release, dev
 Requires: ethtool >= 1.8-2, /sbin/runuser
-Requires: udev >= 115-1
+Requires: udev >= 125-1
 Requires: popt >= 1.12-2
 Requires: cpio
 Conflicts: mkinitrd < 4.0, kernel < 2.6.12, mdadm < 2.6.4-3
