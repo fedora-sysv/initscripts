@@ -161,9 +161,13 @@ init_crypto() {
 	# Is it a block device?
 	[ -b "$src" ] || continue
 	# Is it already a device mapper slave? (this is gross)
-	[[ " $(ls /sys/block/dm-*/slaves) " =~ " ${src##/dev/} " ]] && continue
-	# Parse the options field, convert to cryptsetup parameters
-	# and contruct the command line
+	devesc=${src##/dev/}
+	devesc=${devesc//\//!}
+	for d in /sys/block/dm-*/slaves ; do
+	    [ -e $d/$devesc ] && continue 2
+	done
+	# Parse the options field, convert to cryptsetup parameters and
+	# contruct the command line
 	while [ -n "$opt" ]; do
 	    arg=${opt%%,*}
 	    opt=${opt##$arg}
