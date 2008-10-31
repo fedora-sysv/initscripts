@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.84
+Version: 8.85
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -250,6 +250,17 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Fri Oct 31 2008 Bill Nottingham <notting@redhat.com> - 8.85-1
+- add some error handling/hiding to netfs NM dispatcher script (#469197)
+- halt: fix code that causes a syntax error on multiple sound cards (#469156)
+- require a new enough udev version to handle where we put the rules
+- exit 0 in /etc/rc.d/rc (#469050)
+- don't set up encrypted devices that have already been set up under different
+  names (#462371, <wwoods@redhat.com>)
+- accept either the '+<addr>', or comma-separated addresses for arp_ip_target. (#467954,
+  <darcy.sherwood@gmail.com>)
+- translation updates: hu, kn, ko, ml, sr, sr@latin
+
 * Tue Oct 14 2008 Bill Nottingham <notting@redhat.com> - 8.84-1
 - override Arabic, Persian, and Hebrew on the console (<alsadi@ojuba.org>)
 - explicitly run mdadm on boot to catch degraded arrays. (<dledford@redhat.com>)
