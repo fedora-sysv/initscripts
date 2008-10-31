@@ -4,13 +4,13 @@ export LC_ALL=C
 
 if [ "$2" = "down" ]; then
 	/sbin/ip route ls | grep -q ^default || {
-		[ -f /var/lock/subsys/netfs ] && /etc/rc.d/init.d/netfs stop
-	}
+		[ -f /var/lock/subsys/netfs ] && /etc/rc.d/init.d/netfs stop || :
+	} && { :; }
 fi
 
 if [ "$2" = "up" ]; then
 	/sbin/ip -o route show dev "$1" | grep -q '^default' && {
-		/sbin/chkconfig netfs && /etc/rc.d/init.d/netfs start
-	}
+		/sbin/chkconfig netfs && /etc/rc.d/init.d/netfs start || :
+	} || { :; }
 fi
 
