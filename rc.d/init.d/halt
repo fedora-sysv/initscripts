@@ -146,8 +146,6 @@ if [ -n "$SWAPS" ]; then
 	    backdev=$(/sbin/cryptsetup status "$dst" \
 		| awk '$1 == "device:" { print $2 }')
 	    /sbin/cryptsetup remove "$dst"
-	    # Leave partition with a blank plain-text swap
-	    mkswap "$backdev" > /dev/null
 	fi
     done
 fi
