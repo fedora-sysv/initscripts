@@ -143,7 +143,7 @@ init_crypto() {
 	skip=""
 	# Parse the src field for UUID= and convert to real device names
 	if [ "${src%%=*}" == "UUID" ]; then
-		src=`/sbin/blkid -t "$src" -o device|(read oneline;echo $oneline)`
+		src=$(/sbin/blkid -t "$src" -l -o device)
 	elif [ "${src/^\/dev\/disk\/by-uuid\/}" != "$src" ]; then
 		src=$(__readlink $src)
 	fi
@@ -540,7 +540,7 @@ if [ "$READONLY" = "yes" -o "$TEMPORARY_STATE" = "yes" ]; then
 	mountopts=
 
 	# Scan partitions for local scratch storage
-	rw_mount_dev=$(blkid -t LABEL="$RW_LABEL" -o device | awk '{ print ; exit }')
+	rw_mount_dev=$(blkid -t LABEL="$RW_LABEL" -l -o device)
 
 	# First try to mount scratch storage from /etc/fstab, then any
 	# partition with the proper label.  If either succeeds, be sure
@@ -597,8 +597,8 @@ if [ "$READONLY" = "yes" -o "$TEMPORARY_STATE" = "yes" ]; then
 
 	# First try to mount persistent data from /etc/fstab, then any
 	# partition with the proper label, then fallback to NFS
-	state_mount_dev=$(blkid -t LABEL="$STATE_LABEL" -o device | awk '{ print ; exit }')
-	if mount $mountopts "$STATE_MOUNT" > /dev/null 2>&1 ; then
+	state_mount_dev=$(blkid -t LABEL="$STATE_LABEL" -l -o device)
+	if mount $mountopts $STATE_OPTIONS "$STATE_MOUNT" > /dev/null 2>&1 ; then
 		/bin/true
 	elif [ x$state_mount_dev != x ] && mount $state_mount_dev $mountopts "$STATE_MOUNT" > /dev/null 2>&1;  then
 		/bin/true
@@ -911,7 +911,7 @@ update_boot_stage RCswap
 action $"Enabling /etc/fstab swaps: " swapon -a -e
 if [ "$AUTOSWAP" = "yes" ]; then
 	curswap=$(awk '/^\/dev/ { print $1 }' /proc/swaps | while read x; do get_numeric_dev dec $x ; echo -n " "; done)
-	swappartitions=`blkid -t TYPE=swap -o device`
+	swappartitions=$(blkid -t TYPE=swap -o device)
 	if [ x"$swappartitions" != x ]; then
 		for partition in $swappartitions ; do
 			[ ! -e $partition ] && continue
