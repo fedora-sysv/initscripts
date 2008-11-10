@@ -126,7 +126,7 @@ if [ "$ISALIAS" = no ] && is_bonding_device ${DEVICE} ; then
     for arg in $BONDING_OPTS ; do   
         key=${arg%%=*};
         value=${arg##*=};
-        if [ "${key}" = "arp_ip_target" ]; then
+        if [ "${key}" = "arp_ip_target" -a "${value:0:1}" != "+" ]; then
             OLDIFS=$IFS;
             IFS=',';
             for arp_ip in $value; do
