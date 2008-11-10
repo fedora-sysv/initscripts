@@ -1,3 +1,67 @@
+commit 984d5ee9bdf3aec7e32c65eb4c4fe1f9f7c0c651
+Author: Harald Hoyer <harald@redhat.com>
+Date:   Mon Nov 10 18:51:01 2008 +0100
+
+    fixed bug #459044
+    
+    refined the grep statement
+
+ sysconfig/network-scripts/network-functions |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 762f16f06347a69f4e73dfdbfa826ebad4697797
+Author: Bill Nottingham <notting@redhat.com>
+Date:   Wed Nov 5 11:05:55 2008 -0500
+
+    blkid has a -l option to pick a single device. Use it. (#470027)
+    
+    Notably, it prioritizes RAID/DM/LVM, etc. over the underlying block
+    devices. Given that initial RAID0 members share a UUID with the RAID
+    device itself, we need that.
+
+ rc.d/rc.sysinit |   10 +++++-----
+ 1 files changed, 5 insertions(+), 5 deletions(-)
+
+commit d0902a73f28e14af2bbeada0aec0892ca8056f93
+Author: Bill Nottingham <notting@redhat.com>
+Date:   Tue Nov 4 11:18:12 2008 -0500
+
+    Don't mkswap on halt (#469823)
+    
+    Doing so blows away any label or UUID on the partition, which makes
+    specifying encrypted swap by label or UUID fail miserably.
+
+ rc.d/init.d/halt |    2 --
+ 1 files changed, 0 insertions(+), 2 deletions(-)
+
+commit e8689d146af107562b5d1f5f228fe77272db358b
+Author: Harald Hoyer <harald@redhat.com>
+Date:   Mon Nov 10 15:38:59 2008 +0100
+
+    fixed bonding arp_ip_target handling (#467954) (Darcy Sherwood (darcy.sherwood@gmail.com))
+
+ sysconfig/network-scripts/ifup-eth |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 90ec27ca2896a10d5090a61ce5ef43ccafa0505c
+Author: Harald Hoyer <harald@redhat.com>
+Date:   Tue Oct 14 17:25:53 2008 +0200
+
+    Mount encrypted logical volumes during boot (#466115, Bill Nottingham)
+
+ initscripts.spec |    6 +++++-
+ rc.d/rc.sysinit  |    7 +++++++
+ 2 files changed, 12 insertions(+), 1 deletions(-)
+
+commit c37cf05feb44fcf1668beb3b5a9b41051d09e88e
+Author: Harald Hoyer <harald@redhat.com>
+Date:   Tue Sep 16 11:47:27 2008 +0200
+
+    release initscripts-8.45.20
+
+ ChangeLog |53727 ++++++++++++++++++++++++++++++++++++++++++++-----------------
+ 1 files changed, 39052 insertions(+), 14675 deletions(-)
+
 commit 6a6e9b2d8f9dfd1f8acee86b8c835d008d5e6007
 Author: Harald Hoyer <harald@redhat.com>
 Date:   Tue Sep 16 11:42:48 2008 +0200

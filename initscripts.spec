@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.45.21
+Version: 8.45.22
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -198,6 +198,13 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Nov 10 2008 Harald Hoyer <harald@redhat.com> 8.45.22-1
+- refined SUBCHANNEL grep statement (bug #459044)
+- blkid has a -l option to pick a single device. Use it. (#470027)
+- don't mkswap on halt (#469823)
+- fixed bonding arp_ip_target handling (#467954) (Darcy Sherwood)
+- Resolves: rhbz#459044, rhbz#470027, rhbz#469823, rhbz#467954
+
 * Tue Oct 14 2008 Harald Hoyer <harald@redhat.com> 8.45.21-1
 - mount encrypted logical volumes during boot (#466115, Bill Nottingham)
 - Resolves: #466115
