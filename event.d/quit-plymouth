@@ -9,4 +9,6 @@ start on stopping rc2
 start on stopping rc3
 start on stopping rc4
 
-exec /usr/bin/plymouth quit
+script
+	 /usr/bin/plymouth quit || :
+end script
