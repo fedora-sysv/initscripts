@@ -1,10 +1,12 @@
 # quit-plymouth - script to stop boot splash
 #
 # This service triggers plymouth to quit when we reach the
-# end of the boot cycle. prefdm handles quit differently, though.
+# end of the boot cycle. We start on 'stopping rcX' to make sure
+# this completes before the getty starts.
+# prefdm handles quit differently, though.
 
-start on stopped rc2
-start on stopped rc3
-start on stopped rc4
+start on stopping rc2
+start on stopping rc3
+start on stopping rc4
 
 exec /usr/bin/plymouth quit
