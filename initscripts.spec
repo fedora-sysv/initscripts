@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.85
+Version: 8.86
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -250,6 +250,12 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Tue Nov 11 2008 Bill Nottingham <notting@redhat.com> - 8.86-1
+- stop plymouth before stopping the runlevel (#467207)
+- fix get_config_by_subchannel (#459044, <harald@redhat.com>)
+- use blkid -l to pick a single most appropriate device (#470027)
+- don't mkswap on halt, as it breaks swap-by-label/UUID (#469823)
+
 * Fri Oct 31 2008 Bill Nottingham <notting@redhat.com> - 8.85-1
 - add some error handling/hiding to netfs NM dispatcher script (#469197)
 - halt: fix code that causes a syntax error on multiple sound cards (#469156)
