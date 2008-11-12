@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.45.23
+Version: 8.45.24
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -198,8 +198,13 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Nov 12 2008 Harald Hoyer <harald@redhat.com> 8.45.24-1
+- fixed SUBCHANNEL grep statement (bug #459044)
+- Resolves: rhbz#459044
+
 * Wed Nov 12 2008 Harald Hoyer <harald@redhat.com> 8.45.23-1
 - fixed SUBCHANNEL grep statement (bug #459044)
+- Resolves: rhbz#459044
 
 * Mon Nov 10 2008 Harald Hoyer <harald@redhat.com> 8.45.22-1
 - refined SUBCHANNEL grep statement (bug #459044)
