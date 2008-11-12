@@ -42,7 +42,7 @@ if [ "$sourced" = 1 ]; then
     
     consoletype=$CONSOLETYPE
     if [ -z "$consoletype" ]; then
-      consoletype=$(/sbin/consoletype)
+      consoletype=$(/sbin/consoletype || :)
     fi
 
     if [ -n "$LANG" ]; then
