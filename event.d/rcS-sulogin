@@ -15,7 +15,7 @@ script
 end script
 post-stop script
 	if [ "$1" = "S" ]; then
-		runlevel=$(/bin/awk -F ':' '$3 == "initdefault" { print $2 }' /etc/inittab)
+		runlevel=$(/bin/awk -F ':' '$3 == "initdefault" && $1 !~ "^#" { print $2 }' /etc/inittab)
 		[ -z "$runlevel" ] && runlevel="3"
 		exec telinit $runlevel
 	fi
