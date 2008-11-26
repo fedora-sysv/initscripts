@@ -63,7 +63,6 @@ if [ "${TYPE}" = "Bridge" ]; then
 		/usr/sbin/brctl addbr ${DEVICE} || exit 1
       fi
       [ -n "${DELAY}" ] && /usr/sbin/brctl setfd ${DEVICE} ${DELAY}
-      [ -n "${GCINT}" ] && /usr/sbin/brctl setgcint ${DEVICE} ${GCINT}
       [ -n "${STP}" ] && /usr/sbin/brctl stp ${DEVICE} ${STP}
 fi
 
