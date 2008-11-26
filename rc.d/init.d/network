@@ -17,7 +17,7 @@
 . /etc/init.d/functions
 
 if [ ! -f /etc/sysconfig/network ]; then
-    exit 0
+    exit 6
 fi
 
 . /etc/sysconfig/network
@@ -28,7 +28,7 @@ fi
 
 
 # Check that networking is up.
-[ "${NETWORKING}" = "no" ] && exit 0
+[ "${NETWORKING}" = "no" ] && exit 6
 
 # if the ip configuration utility isn't around we can't function.
 [ -x /sbin/ip ] || exit 1
