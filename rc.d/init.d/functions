@@ -152,10 +152,15 @@ __pids_var_run() {
 	pid=
 	if [ -f "$pid_file" ] ; then
 	        local line p
-		read line < "$pid_file"
-		for p in $line ; do
-			[ -z "${p//[0-9]/}" -a -d "/proc/$p" ] && pid="$pid $p"
-		done
+
+		while : ; do
+			read line
+			[ -z "$line" ] && break
+			for p in $line ; do
+				[ -z "${p//[0-9]/}" -a -d "/proc/$p" ] && pid="$pid $p"
+			done
+		done < "$pid_file"
+
 	        if [ -n "$pid" ]; then
 	                return 0
 	        fi
