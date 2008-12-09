@@ -217,6 +217,6 @@ fi
 [ -n "$kexec_command" ] && $kexec_command -e -x >& /dev/null
 
 HALTARGS="-d"
-[ -f /poweroff -o ! -f /halt ] && HALTARGS="$HALTARGS -p"
+[ "$INIT_HALT" != "HALT"] && HALTARGS="$HALTARGS -p"
 
 exec $command $HALTARGS
