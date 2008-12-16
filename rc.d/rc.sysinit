@@ -230,8 +230,9 @@ init_crypto() {
 		plymouth ask-for-password --prompt "$prompt" --command="/sbin/cryptsetup luksOpen -T1 $src $dst" <&1
 	    fi
 	else
-	    plymouth --hide-splash
+	    [ -z "$key" ] && plymouth --hide-splash
 	    /sbin/cryptsetup $params ${key:+-d $key} create "$dst" "$src" <&1 2>/dev/null && success || failure
+	    [ -z "$key" ] && plymouth --show-splash
 	fi
 	rc=$?
 	if [ $rc -ne 0 ]; then
@@ -741,7 +742,7 @@ fi
 
 # Clean out /.
 rm -f /fastboot /fsckoptions /forcefsck /.autofsck /forcequotacheck /halt \
-	/poweroff &> /dev/null
+	/poweroff /.suspended &> /dev/null
 
 # Do we need (w|u)tmpx files? We don't set them up, but the sysadmin might...
 _NEED_XFILES=
