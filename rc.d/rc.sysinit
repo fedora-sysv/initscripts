@@ -85,7 +85,7 @@ relabel_selinux() {
  	echo $"*** system size and speed of hard drives."
  
  	echo "0" > $selinuxfs/enforce
- 	/sbin/fixfiles restore > /dev/null 2>&1 
+	/sbin/fixfiles -F restore > /dev/null 2>&1
  	rm -f  /.autorelabel 
  	if [ ! -z "$REBOOTFLAG" ]; then 
  	    echo $"Automatic reboot in progress."
