@@ -58,7 +58,6 @@ struct tmp {
 };
 
 struct netdev *configs = NULL;
-struct netdev *devs = NULL;
 struct tmp *tmplist = NULL;
 
 #if defined(__s390__) || defined(__s390x__)
@@ -84,13 +83,11 @@ static inline char *getdev(char *path, char *ent) {
         return ret;
 }
 
-char *read_subchannels(char *device) {
-	char *tmp, *path, *ret;
+char *read_subchannels(char *path) {
+	char *tmp, *ret;
 	int n, x;
 	struct dirent **cdevs;
 		
-	if (asprintf(&path,"/sys/class/net/%s/device",device) == -1)
-		return NULL;
 	if ((n = scandir(path, &cdevs, is_cdev, alphasort)) <= 0)
 		return NULL;
 		
@@ -101,58 +98,10 @@ char *read_subchannels(char *device) {
 		free(ret);
 		ret = tmp;
 	}
-	free(path);
 	return ret;
 }
 
 #endif
-
-struct netdev *get_devs() {
-	DIR *dir;
-	struct dirent *entry;
-	struct netdev *ret = NULL, *tmpdev;
-	
-	dir = opendir("/sys/class/net");
-	if (!dir)
-		return NULL;
-	while ((entry = readdir(dir))) {
-		char *path;
-		gchar *contents;
-		
-		contents = NULL;
-		
-		if (!strcmp(entry->d_name,".") || !strcmp(entry->d_name,"..")) {
-			continue;
-		}
-		if (asprintf(&path,"/sys/class/net/%s/type",entry->d_name) == -1)
-			continue;
-		g_file_get_contents(path, &contents, NULL, NULL);
-		if (!contents) continue;
-		if (atoi(contents) >= 256) {
-			g_free(contents);
-			continue;
-		}
-		g_free(contents);
-		contents = NULL;
-#if defined(__s390__) || defined(__s390x__)
-		contents = read_subchannels(entry->d_name);
-#else
-		if (asprintf(&path,"/sys/class/net/%s/address",entry->d_name) == -1)
-			continue;
-		g_file_get_contents(path, &contents, NULL, NULL);
-#endif /* mainframe */
-		if (!contents) continue;
-		contents = g_strstrip(contents);
-		tmpdev = calloc(1, sizeof(struct netdev));
-		tmpdev->dev = g_strstrip(g_strdup(entry->d_name));
-		tmpdev->hwaddr = g_strstrip(g_strdup(contents));
-		if (ret)
-			tmpdev->next = ret;
-		ret = tmpdev;
-		g_free(contents);
-	}
-	return ret;
-}
 
 int isCfg(const struct dirent *dent) {
 	int len = strlen(dent->d_name);
@@ -246,12 +195,20 @@ struct netdev *get_configs() {
 }
 		
 char *get_hwaddr(char *device) {
-	struct netdev *dev;
-	
-	for (dev = devs; dev; dev = dev->next)
-		if (!strcmp(dev->dev, device))
-			return dev->hwaddr;
-	return NULL;
+	char *path = NULL;
+	char *contents = NULL;
+
+	if (asprintf(&path, "/sys/class/net/%s/address", device) == -1)
+		return NULL;
+
+#if defined(__s390__) || defined(__s390x__)
+	contents = read_subchannels(path);
+#else
+	g_file_get_contents(path, &contents, NULL, NULL);
+#endif
+	free(path);
+
+	return g_strstrip(contents);
 }
 		
 char *get_config_by_hwaddr(char *hwaddr, char *current) {
@@ -269,17 +226,6 @@ char *get_config_by_hwaddr(char *hwaddr, char *current) {
 			first = config->dev;
 	}
 	return first;
-}
-
-char *get_device_by_hwaddr(char *hwaddr) {
-	struct netdev *dev;
-	
-	if (!hwaddr) return NULL;
-	
-	for (dev = devs; dev; dev = dev->next)
-		if (!strcasecmp(dev->hwaddr, hwaddr))
-			return dev->dev;
-	return NULL;
 }
 
 void take_lock() {
@@ -332,12 +278,12 @@ int main(int argc, char **argv) {
 	signal(SIGALRM,sighandler);
 	alarm(10);
 	
-	configs = get_configs();
-	devs = get_devs();
-	
 	src = getenv("INTERFACE");
 	if (!src)
 		goto out_unlock;
+
+	configs = get_configs();
+
 	hw = get_hwaddr(src);
 	if (!hw)
 		goto out_unlock;
