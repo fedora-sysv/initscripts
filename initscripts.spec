@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.86
+Version: 8.87
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -250,6 +250,21 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Mon Jan 19 2009 Bill Nottingham <notting@redhat.com> - 8.87-1
+- rename_device: be much faster in the presence of many devices (#480687, <danms@us.ibm.com>)
+- fix switching from targeted to MLS policy (#479054, <dwalsh@redhat.com>)
+- rc.sysinit: don't set $(uname -r) or $(uname -m); they're not used
+- network-functions-ipv6: set MTU correctly for 6to4. (#477976, <ackistler@yahoo.com>)
+- add more entries to rwtab (#476799, <harald@redhat.com>)
+- net.hotplug: Bail out sooner if the network service isn't running
+- init.d/halt: determine reboot/halt via existing INIT_HALT environment variable. (#475227)
+- event.d/serial: add some docs
+- init.d/functions: __pids_var_run: Handle multi-line pid files correctly (#473287)
+- remove support for no longer existing 'brctl setgcint' command. (#360471)
+- add %config back for ifcfg-lo (#472761)
+- rcS/rcS-sulogin: don't match commented lines when finding runlevel (#472717)
+- updated translations: de, sk
+
 * Tue Nov 11 2008 Bill Nottingham <notting@redhat.com> - 8.86-1
 - stop plymouth before stopping the runlevel (#467207)
 - fix get_config_by_subchannel (#459044, <harald@redhat.com>)
