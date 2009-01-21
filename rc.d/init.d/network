@@ -52,10 +52,12 @@ interfaces=$(ls ifcfg* | \
 		       -e '/ifcfg-[A-Za-z0-9\._-]\+$/ { s/^ifcfg-//g;s/[0-9]/ &/}' | \
 	    LANG=C sort -k 1,1 -k 2n | \
 	    LANG=C sed 's/ //')
+rc=0
 
 # See how we were called.
 case "$1" in
   start)
+	rc=0
 	# IPv6 hook (pre IPv4 start)
 	if [ -x /etc/sysconfig/network-scripts/init.ipv6-global ]; then
 		/etc/sysconfig/network-scripts/init.ipv6-global start pre
@@ -135,6 +137,7 @@ case "$1" in
 			test $? = 1 && continue
 		fi
 		action $"Bringing up interface $i: " ./ifup $i boot
+		rc=$((rc+$?))
 	done
 	
 	# Bring up xDSL and CIPE interfaces
@@ -146,6 +149,7 @@ case "$1" in
 			test $? = 1 && continue
 		fi
 		action $"Bringing up interface $i: " ./ifup $i boot
+		rc=$((rc+$?))
 	    fi
         done
 
@@ -198,6 +202,7 @@ case "$1" in
 	xdslinterfaces=""
 	bridgeinterfaces=""
 	remaining=""
+	rc=0
 
 	# get list of bonding, cipe, and xdsl interfaces
 	for i in $interfaces; do
@@ -233,6 +238,7 @@ case "$1" in
 
 		if ! check_device_down $DEVICE; then
 		   action $"Shutting down interface $i: " ./ifdown $i boot
+		   rc=$((rc+$?))
 		fi
 		)
 	done
@@ -284,4 +290,4 @@ case "$1" in
         exit 1
 esac
 
-exit 0
+exit $rc
