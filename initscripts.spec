@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.87
+Version: 8.88
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -250,6 +250,10 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Tue Jan 20 2009 Bill Nottingham <notting@redhat.com> - 8.88-1
+- init.d/network: return success/failure correctly (#480677)
+- init.d/halt: fix typo (#480799)
+
 * Mon Jan 19 2009 Bill Nottingham <notting@redhat.com> - 8.87-1
 - rename_device: be much faster in the presence of many devices (#480687, <danms@us.ibm.com>)
 - fix switching from targeted to MLS policy (#479054, <dwalsh@redhat.com>)
