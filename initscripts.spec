@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.93.33
+Version: 7.93.34
 License: GPL
 Group: System Environment/Base
 Release: 1%{?dist}
@@ -207,6 +207,14 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Fri Jan 23 2009 Harald Hoyer <harald@redhat.com> - 7.93.34-1
+- add LINKDELAY to check_link_down() (bug #458323) (harald)
+- s/J/Y -  Dutch translation mistake for integrity check (bug #237118) (harald) 
+- link against newer kudzu-devel (bug #478881, #468680) (harald)
+- Backport fix for releasing bonding slaves properly and not looping. (#448837, #220525) (notting)
+- add udevsettle to rc.sysinit (bug #198704)
+Resolves: rhbz#478881, rhbz#458323, rhbz#448837, rhbz#237118
+
 * Wed Jun 25 2008 Bill Nottingham <notting@redhat.com> - 7.93.33-1
 - the MAC addr patch does not work - pull it
 - Reverts: rhbz#251415
