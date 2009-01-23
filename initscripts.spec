@@ -25,7 +25,7 @@ Conflicts: tcsh < 6.13-5, diskdumputils < 1.1.0
 Obsoletes: rhsound sapinit
 Prereq: /sbin/chkconfig, /usr/sbin/groupadd, gawk, fileutils, sh-utils
 BuildPrereq: glib2-devel popt gettext pkgconfig
-BuildPrereq: kudzu-devel >= 1.1.80
+BuildPrereq: kudzu-devel >= 1.1.95.24-1
 
 %description
 The initscripts package contains the basic system scripts used to boot
