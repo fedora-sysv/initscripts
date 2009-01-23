@@ -372,6 +372,9 @@ if [ -f /etc/sysconfig/readonly-root ]; then
         . /etc/rc.readonly
     fi
 fi
+
+# after loading so many modules manually, wait until udev has settled down
+/sbin/udevsettle
  
 _RUN_QUOTACHECK=0
 ROOTFSTYPE=`awk '/ \/ / && ($3 !~ /rootfs/) { print $3 }' /proc/mounts`
@@ -488,6 +491,7 @@ state=`awk '/ \/ / && ($3 !~ /rootfs/) { print $4 }' /proc/mounts`
 if [ -x /sbin/lvm.static -o -x /sbin/multipath.static -o -x /sbin/dmraid ]; then
     if ! LC_ALL=C fgrep -q "device-mapper" /proc/devices 2>/dev/null ; then
 	modprobe dm-mod >/dev/null 2>&1
+	/sbin/udevsettle
     fi
     echo "mkdmnod" | /sbin/nash --quiet >/dev/null 2>&1
     [ -n "$SELINUX" ] && restorecon /dev/mapper/control >/dev/null 2>&1
@@ -496,6 +500,7 @@ fi
 if [ -c /dev/mapper/control ]; then
     if [ -f /etc/multipath.conf -a -x /sbin/multipath.static ]; then
 	modprobe dm-multipath >/dev/null 2>&1
+	/sbin/udevsettle
 	/sbin/multipath.static -v 0
 	if [ -x /sbin/kpartx ]; then
 		/sbin/dmsetup ls --target multipath --exec "/sbin/kpartx -a"
@@ -504,10 +509,12 @@ if [ -c /dev/mapper/control ]; then
 
     if [ -x /sbin/dmraid ]; then
         modprobe dm-mirror > /dev/null 2>&1
+	/sbin/udevsettle
 	/sbin/dmraid -i -a y
     fi
     
     if [ -x /sbin/lvm.static ]; then
+	    /sbin/udevsettle
 	    action $"Setting up Logical Volume Management:" /sbin/lvm.static vgchange -a y --ignorelockingfailure
     fi
 fi
@@ -555,6 +562,7 @@ if [ -f /etc/mdadm.conf ]; then
 	if [ -c /dev/mapper/control ]; then
     		if [ -x /sbin/multipath.static ]; then
 			modprobe dm-multipath >/dev/null 2>&1
+			/sbin/udevsettle
 			/sbin/multipath.static -v 0
 			if [ -x /sbin/kpartx ]; then
 				/sbin/dmsetup ls --target multipath --exec "/sbin/kpartx -a"
@@ -563,10 +571,12 @@ if [ -f /etc/mdadm.conf ]; then
 
     		if [ -x /sbin/dmraid ]; then
         		modprobe dm-mirror > /dev/null 2>&1
+			/sbin/udevsettle
 			/sbin/dmraid -i -a y
     		fi
     
 		if [ -x /sbin/lvm.static ]; then
+			/sbin/udevsettle
 			action $"Setting up Logical Volume Management:" /sbin/lvm.static vgchange -a y --ignorelockingfailure
 		fi
 	fi
@@ -656,6 +666,7 @@ if [ -f /etc/raidtab ]; then
 	if [ -c /dev/mapper/control ]; then
     		if [ -x /sbin/multipath.static ]; then
 			modprobe dm-multipath >/dev/null 2>&1
+			/sbin/udevsettle
 			/sbin/multipath.static -v 0
 			if [ -x /sbin/kpartx ]; then
 				/sbin/dmsetup ls --target multipath --exec "/sbin/kpartx -a"
@@ -664,10 +675,12 @@ if [ -f /etc/raidtab ]; then
 
     		if [ -x /sbin/dmraid ]; then
         		modprobe dm-mirror > /dev/null 2>&1
+			/sbin/udevsettle
 			/sbin/dmraid -i -a y
     		fi
     
 		if [ -x /sbin/lvm.static ]; then
+			/sbin/udevsettle
 			action $"Setting up Logical Volume Management:" /sbin/lvm.static vgchange -a y --ignorelockingfailure
 		fi
 	fi
