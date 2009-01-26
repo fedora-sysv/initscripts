@@ -35,7 +35,6 @@ if [ -n "${BRIDGE}" -a -x /usr/sbin/brctl ]; then
       if LC_ALL=C /usr/sbin/brctl show | LC_ALL=C grep -q "^${BRIDGE}	.*can't get port info"; then
 	  /usr/sbin/brctl delbr ${BRIDGE}
       fi
-      exit 0
 fi
 
 . /etc/sysconfig/network
