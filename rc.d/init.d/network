@@ -89,7 +89,7 @@ case "$1" in
 	esac
 
 	vlaninterfaces=""
-	cipeinterfaces=""
+	vpninterfaces=""
 	xdslinterfaces=""
 	bridgeinterfaces=""
 
@@ -103,7 +103,7 @@ case "$1" in
 		if [ -z "$DEVICE" ] ; then DEVICE="$i"; fi
 
 		if [ "${DEVICE##cipcb}" != "$DEVICE" ] ; then
-			cipeinterfaces="$cipeinterfaces $i"
+			vpninterfaces="$vpninterfaces $i"
 			continue
 		fi
 		if [ "$TYPE" = "xDSL" ]; then
@@ -113,6 +113,10 @@ case "$1" in
 
 		if [ "$TYPE" = "Bridge" ]; then
 		        bridgeinterfaces="$bridgeinterfaces $i"
+			continue
+		fi
+		if [ "$TYPE" = "IPSEC" ]; then
+			vpninterfaces="$vpninterfaces $i"
 			continue
 		fi
 
@@ -139,8 +143,8 @@ case "$1" in
 		rc=$((rc+$?))
 	done
 	
-	# Bring up xDSL and CIPE interfaces
-	for i in $vlaninterfaces $bridgeinterfaces $xdslinterfaces $cipeinterfaces ; do 
+	# Bring up xDSL and VPN interfaces
+	for i in $vlaninterfaces $bridgeinterfaces $xdslinterfaces $vpninterfaces ; do
             if ! LANG=C egrep -L "^ONBOOT=['\"]?[Nn][Oo]['\"]?" ifcfg-$i >/dev/null 2>&1 ; then
 		# If we're in confirmation mode, get user confirmation.
 		if [ -f /var/run/confirm ]; then
@@ -201,13 +205,13 @@ case "$1" in
  	fi
  
 	vlaninterfaces=""
-	cipeinterfaces=""
+	vpninterfaces=""
 	xdslinterfaces=""
 	bridgeinterfaces=""
 	remaining=""
 	rc=0
 
-	# get list of bonding, cipe, and xdsl interfaces
+	# get list of bonding, vpn, and xdsl interfaces
 	for i in $interfaces; do
 		unset DEVICE TYPE
 		eval $(LANG=C fgrep "DEVICE=" ifcfg-$i)
@@ -216,7 +220,11 @@ case "$1" in
 		if [ -z "$DEVICE" ] ; then DEVICE="$i"; fi
 
 		if [ "${DEVICE##cipcb}" != "$DEVICE" ] ; then
-			cipeinterfaces="$cipeinterfaces $i"
+			vpninterfaces="$vpninterfaces $i"
+			continue
+		fi
+		if [ "$TYPE" = "IPSEC" ]; then
+			vpninterfaces="$vpninterfaces $i"
 			continue
 		fi
 		if [ "$TYPE" = "Bridge" ]; then
@@ -235,7 +243,7 @@ case "$1" in
 		remaining="$remaining $i"
 	done
 	
-	for i in $cipeinterfaces $xdslinterfaces $bridgeinterfaces $vlaninterfaces $remaining; do
+	for i in $vpninterfaces $xdslinterfaces $bridgeinterfaces $vlaninterfaces $remaining; do
 		(. ifcfg-$i
 		if [ -z "$DEVICE" ] ; then DEVICE="$i"; fi
 
