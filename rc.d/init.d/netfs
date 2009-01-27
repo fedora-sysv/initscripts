@@ -106,7 +106,7 @@ case "$1" in
 			$"Unmounting network block filesystems (retry): "
 	fi
   	if [ -n "$NFSMTAB" ]; then
-		__umount_loop '$3 ~ /^nfs/ && $2 != "/" {print $2}' \
+		__umount_loop '$3 ~ /^nfs/ && $3 != "nfsd" && $2 != "/" {print $2}' \
 			/proc/mounts \
 			$"Unmounting NFS filesystems: " \
 			$"Unmounting NFS filesystems (retry): " \
