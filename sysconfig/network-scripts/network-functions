@@ -74,11 +74,11 @@ source_config ()
 	    echo $"Missing config file $PARENTCONFIG." >&2
 	    exit 1
 	}
-	. $PARENTCONFIG
-	[ -r "keys-$PARENTDEVNAME" ] && . keys-$PARENTDEVNAME
+	. ./$PARENTCONFIG
+	[ -r "keys-$PARENTDEVNAME" ] && . ./keys-$PARENTDEVNAME
     fi
-    . $CONFIG
-    [ -r "keys-$DEVNAME" ] && . keys-$DEVNAME
+    . ./$CONFIG
+    [ -r "keys-$DEVNAME" ] && . ./keys-$DEVNAME
     case "$TYPE" in
     	Ethernet)
 		DEVICETYPE="eth"

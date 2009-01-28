@@ -129,7 +129,7 @@ eval ` (
        exit 1
 }
 eval ` (
-       . $PARENTCONFIG;
+       . ./$PARENTCONFIG;
        echo default_NETMASK=$NETMASK\;;
        echo default_BROADCAST=$BROADCAST\;;
        echo default_GATEWAY=$GATEWAY\;;
@@ -321,7 +321,7 @@ if [ "$BASH_VERSINFO" ]; then shopt -s nullglob; else allow_null_glob_expansion=
 for FILE in ifcfg-${parent_device}:* ; do
        is_ignored_file "$FILE" && continue
        ini_env;
-       . $FILE;
+       . ./$FILE;
        [ -z "$DEVICE" ] && DEVICE=${FILE##ifcfg-}
        [ "$ONPARENT" != "no" -a "$ONPARENT" != "NO" ] && new_interface;
        unset DEVICE
@@ -330,7 +330,7 @@ done
 for FILE in ifcfg-${parent_device}-range* ; do
        is_ignored_file "$FILE" && continue
        ini_env;
-       . $FILE;
+       . ./$FILE;
 
        ipaddr_prefix=${IPADDR_START%.*}
        ipaddr_startnum=${IPADDR_START##*.}

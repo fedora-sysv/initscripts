@@ -241,7 +241,7 @@ case "$1" in
 	done
 	
 	for i in $vpninterfaces $xdslinterfaces $bridgeinterfaces $vlaninterfaces $remaining; do
-		(. ifcfg-$i
+		(. ./ifcfg-$i
 		if [ -z "$DEVICE" ] ; then DEVICE="$i"; fi
 
 		if ! check_device_down $DEVICE; then
