@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.88
+Version: 8.89
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -250,6 +250,12 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Wed Jan 28 2009 Bill Nottingham <notting@redhat.com> - 8.89-1
+- use a leading path when sourcing files (#482826)
+- netfs: don't unmount nfsd filesystem by accident (#481794, <sprabhu@redhat.com>)
+- bring up ipsec interfaces last (#481733)
+- ifdown-eth: fix bridge + vlan (#481557, <danken@redhat.com>)
+
 * Tue Jan 20 2009 Bill Nottingham <notting@redhat.com> - 8.88-1
 - init.d/network: return success/failure correctly (#480677)
 - init.d/halt: fix typo (#480799)
