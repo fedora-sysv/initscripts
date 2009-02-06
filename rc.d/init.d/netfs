@@ -49,7 +49,7 @@ case "$1" in
 	    	modprobe dm-multipath >/dev/null 2>&1
 		/sbin/multipath -v 0
 		if [ -x /sbin/kpartx ]; then
-		       /sbin/dmsetup ls --target multipath --exec "/sbin/kpartx -a"
+		       /sbin/dmsetup ls --target multipath --exec "/sbin/kpartx -a -p p"
 		fi
 	    fi
 	    if [ -x /sbin/lvm ]; then
