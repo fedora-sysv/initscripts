@@ -22,7 +22,7 @@ fi
 [ -z "$SUBCHANNELS" -o -z "$NETTYPE" ] && exit 0
 DIR="/sys/bus/ccwgroup/drivers/$NETTYPE"
 SYSDIR="$DIR/${SUBCHANNELS//,*/}"
-[ ! -e $DIR/group ] && exit 0
+[ -e $SYSDIR ] && exit 0
 echo "$SUBCHANNELS" > $DIR/group
 if [ -n "$PORTNAME" ]; then
 	if [ "$NETTYPE" = "lcs" ]; then
