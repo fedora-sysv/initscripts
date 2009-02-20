@@ -61,7 +61,8 @@ fi
 # The outer addresses are those of the underlying (public) network.
 /sbin/ip tunnel add "$DEVICE" mode "$MODE" \
     ${MY_OUTER_IPADDR:+local "$MY_OUTER_IPADDR"} \
-    remote "$PEER_OUTER_IPADDR" ${TTL:+ttl "$TTL"}
+    ${PEER_OUTER_IPADDR:+remote "$PEER_OUTER_IPADDR"} \
+    ${KEY:+key "$KEY"} ${TTL:+ttl "$TTL"}
 
 if [ -n "$MTU" ]; then
     /sbin/ip link set "$DEVICE" mtu "$MTU"
