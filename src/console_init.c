@@ -87,7 +87,7 @@ static int read_keymap() {
 }
 
 static void set_font(char *device) {
-	int pid, status;
+	int pid;
 	
 	if ( (pid = fork()) == 0) {
 		char *args[] = { "setfont", "latarcyrheb-sun16", "-C", NULL,
@@ -125,18 +125,18 @@ static void set_terminal(int fd, int utf8) {
 }
 
 static void set_keymap(int fd, int utf8) {
-	int pid, status;
+	int pid;
 	
 	if ((pid = fork()) == 0) {
-		char *args[] = { "loadkeys", NULL, NULL, NULL };
+		char *args[] = { "loadkeys", "-q", NULL, NULL, NULL };
 		dup2(fd, 0);
 		dup2(fd, 1);
 		
 		if (utf8) {
-			args[1] = "-u";
-			args[2] = keymap;
+			args[2] = "-u";
+			args[3] = keymap;
 		} else {
-			args[1] = keymap;
+			args[2] = keymap;
 		}
 		execv("/bin/loadkeys", args);
 		exit(1);
