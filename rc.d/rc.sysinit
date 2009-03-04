@@ -358,14 +358,7 @@ fi
 	
 	if ! strstr "$cmdline" nodmraid && [ -x /sbin/dmraid ]; then
 		modprobe dm-mirror >/dev/null 2>&1
-		for x in $(/sbin/dmraid -ay -i -p -t 2>/dev/null | \
-				egrep -iv "^no " | \
-				(IFS=":";while read a rest;do echo $a;done)) ; do
-			dmname=$(resolve_dm_name $x)
-			[ -z "$dmname" ] && continue
-			/sbin/dmraid -ay -i -p "$dmname" >/dev/null 2>&1
-			/sbin/kpartx -a -p p "/dev/mapper/$dmname"
-		done
+		/sbin/dmraid -ay -i --rm_partitions >/dev/null 2>&1
 	fi
 	
 	if [ -x /sbin/lvm ]; then

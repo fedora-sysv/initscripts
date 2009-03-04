@@ -542,36 +542,6 @@ get_numeric_dev() {
 ) 2>/dev/null
 }
 
-# find the working name for a running dm device with the same table as one
-# that dmraid would create
-resolve_dm_name() {
-(
-    name="$1"
-
-    line=$(/sbin/dmraid -ay -t --ignorelocking | \
-        egrep -iv "no block devices found|No RAID disks" | \
-        awk -F ':' "{ if (\$1 ~ /^$name$/) { print \$2; }}")
-    for x in $line ; do
-        if [[ "$x" =~ ^/dev/ ]] ; then
-            majmin=$(get_numeric_dev dec $x)
-            line=$(echo "$line" | sed -e "s,$x\( \|$\),$majmin\1,g")
-        fi
-    done
-    line=$(echo "$line" | sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' \
-               -e 's/ core [12] [[:digit:]]\+ / core [12] [[:digit:]]\\+ /')
-    # XXX PJFIX -- this method of handling extra parameters is really just
-    #              asking for failure -- the better way would be to make
-    #              dmsetup or dmraid be able to do resolve_dm_name for us.
-    if [ "$(echo $line | awk '{ print $3 }')" == "mirror" ]; then
-        line=$(echo "$line" | sed \
-                -e 's/ 1 [[:alpha:]][[:alnum:]_]\+$/\\($\\|&$\\)/')
-    fi
-    /sbin/dmsetup table | \
-        sed -n -e "s/.*\(no block devices found\|No devices found\).*//" \
-               -e "s/\(^[^:]\+\): $line\( \+$\|$\)/\1/p"
-) 2>/dev/null
-}
-
 # Check whether file $1 is a backup or rpm-generated file and should be ignored
 is_ignored_file() {
     case "$1" in
