@@ -41,16 +41,12 @@ fi
 # /sbin/modprobe ${REALDEVICE}
 is_available ${REALDEVICE}
 
-# remap, if the device is bound with a MAC address and not the right device num
 # bail out, if the MAC does not fit
 if [ -n "${HWADDR}" ]; then
     FOUNDMACADDR=`get_hwaddr ${REALDEVICE}`
     if [ "${FOUNDMACADDR}" != "${HWADDR}" -a "${FOUNDMACADDR}" != "${MACADDR}" ]; then
-        curdev=`get_device_by_hwaddr ${HWADDR}`
-        if [ -n "$curdev" ]; then
 	    echo $"Device ${DEVICE} has different MAC address than expected, ignoring."
 	    exit 1
-	fi
     fi
 fi
 
