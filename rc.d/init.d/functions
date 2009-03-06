@@ -181,6 +181,7 @@ daemon() {
 	# Test syntax.
 	local gotbase= force= nicelevel corelimit
 	local pid base= user= nice= bg= pid_file=
+	local cgroup=
 	nicelevel=0
 	while [ "$1" != "${1##[-+]}" ]; do
 	  case $1 in
@@ -239,15 +240,29 @@ daemon() {
 	# if they set NICELEVEL in /etc/sysconfig/foo, honor it
 	[ -n "${NICELEVEL:-}" ] && nice="nice -n $NICELEVEL"
 	
+	# if they set CGROUP_DAEMON in /etc/sysconfig/foo, honor it
+	if [ -n "${CGROUP_DAEMON}" ]; then
+		if [ ! -x /usr/bin/cgexec ]; then
+			echo -n "Cgroups not installed"; warning
+			echo
+		else
+			cgroup="/usr/bin/cgexec";
+			for i in $CGROUP_DAEMON; do
+				cgroup="$cgroup -g $i";
+			done
+		fi
+	fi
+
 	# Echo daemon
         [ "${BOOTUP:-}" = "verbose" -a -z "${LSB:-}" ] && echo -n " $base"
 
 	# And start it up.
 	if [ -z "$user" ]; then
-	   $nice /bin/bash -c "$corelimit >/dev/null 2>&1 ; $*"
+	   $cgroup $nice /bin/bash -c "$corelimit >/dev/null 2>&1 ; $*"
 	else
-	   $nice runuser -s /bin/bash - $user -c "$corelimit >/dev/null 2>&1 ; $*"
+	   $cgroup $nice runuser -s /bin/bash - $user -c "$corelimit >/dev/null 2>&1 ; $*"
 	fi
+
 	[ "$?" -eq 0 ] && success $"$base startup" || failure $"$base startup"
 }
 
