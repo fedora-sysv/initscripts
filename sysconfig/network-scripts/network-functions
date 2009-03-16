@@ -67,16 +67,6 @@ need_config ()
 source_config ()
 {
     DEVNAME=`basename $CONFIG | sed 's/^ifcfg-//g'`
-    if echo ${CONFIG##*/} | grep -q '[^g]-' ; then
-	PARENTCONFIG=`echo $CONFIG | sed 's/-[^-]*$//g'`
-	PARENTDEVNAME=${PARENTCONFIG##*/ifcfg-}
-	[ -f $PARENTCONFIG ] || {
-	    echo $"Missing config file $PARENTCONFIG." >&2
-	    exit 1
-	}
-	. ./$PARENTCONFIG
-	[ -r "keys-$PARENTDEVNAME" ] && . ./keys-$PARENTDEVNAME
-    fi
     . ./$CONFIG
     [ -r "keys-$DEVNAME" ] && . ./keys-$DEVNAME
     case "$TYPE" in

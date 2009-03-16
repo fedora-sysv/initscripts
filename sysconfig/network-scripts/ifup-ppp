@@ -71,9 +71,6 @@ if [ ! -f ${PEERCONF} ]; then
   if [ -z "${WVDIALSECT}" ] ; then
     CHATSCRIPT=/etc/sysconfig/network-scripts/chat-${DEVNAME}
     [ -f ${CHATSCRIPT} ] || {
-      CHATSCRIPT=/etc/sysconfig/network-scripts/chat-${PARENTDEVNAME}
-    }
-    [ -f ${CHATSCRIPT} ] || {
      echo $"/etc/sysconfig/network-scripts/chat-${DEVNAME} does not exist"
      echo $"ifup-ppp for ${DEVNAME} exiting"
      /usr/bin/logger -p daemon.info -t ifup-ppp \
