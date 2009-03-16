@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.90
+Version: 8.91
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -250,6 +250,14 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Mon Mar 16 2009 Bill Nottingham <notting@redhat.com> - 8.91-1
+- fix DHCP reading of options from ifcfg-XXX (#483257)
+- ifdown-eth: clean up bridges on ifdown (#463325, <sean@bruenor.org>)
+- support MD on iSCSI (#480627)
+- remove support for 'ifcfg-foo-bar' configurations that inherit from 'ifcfg-foo'
+- remove slip support
+- translation updates: es, pl, ca, sr, de, sv, pa, pt_BR
+
 * Mon Mar  9 2009 Bill Nottingham <notting@redhat.com> - 8.90-1
 - init.d/functions: cgroup support (<jsafrane@redhat.com>)
 - fix various issues with dmraid handling (#485895, <hdegoede@redhat.com>)
