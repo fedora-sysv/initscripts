@@ -45,7 +45,7 @@ need_config ()
 
     CONFIG="ifcfg-${1}"
     [ -f "${CONFIG}" ] && return
-    CONFIG="${1}"
+    CONFIG="${1##*/}"
     [ -f "${CONFIG}" ] && return
     local addr=`get_hwaddr ${1}`
     if [ -n "$addr" ]; then
@@ -66,7 +66,8 @@ need_config ()
 
 source_config ()
 {
-    DEVNAME=`basename $CONFIG | sed 's/^ifcfg-//g'`
+    CONFIG=${CONFIG##*/}
+    DEVNAME=${CONFIG##ifcfg-}
     . ./$CONFIG
     [ -r "keys-$DEVNAME" ] && . ./keys-$DEVNAME
     case "$TYPE" in
