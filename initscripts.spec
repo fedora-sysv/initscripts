@@ -146,9 +146,7 @@ rm -rf $RPM_BUILD_ROOT
 /etc/sysconfig/network-scripts/ifup-ipx
 /etc/sysconfig/network-scripts/ifup-post
 /etc/sysconfig/network-scripts/ifdown-ppp
-/etc/sysconfig/network-scripts/ifdown-sl
 /etc/sysconfig/network-scripts/ifup-ppp
-/etc/sysconfig/network-scripts/ifup-sl
 /etc/sysconfig/network-scripts/ifup-routes
 /etc/sysconfig/network-scripts/ifdown-routes
 /etc/sysconfig/network-scripts/ifup-plip
