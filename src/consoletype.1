@@ -3,7 +3,7 @@
 \fBconsoletype
 \- print type of the console connected to standard input
 .SH SYNOPSIS
-\fBconsoletype [\fIfg\fR]
+\fBconsoletype [\fIstdout\fR] [\fIfg\fR]
 .SH DESCRIPTION
 \fBconsoletype
 prints the type of console connected to standard input, and checks
@@ -28,6 +28,11 @@ if on serial console
 .TP
 \fI2
 if on a pseudo terminal.
+.TP
+When passed the \fIstdout\fR argument, \fBconsoletype\fR returns
+.TP
+\fI0
+in all cases, and prints the console type to stdout.
 .TP
 When passed the \fIfg\fR argument, \fBconsoletype\fR returns
 .TP

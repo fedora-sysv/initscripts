@@ -61,6 +61,6 @@ int main(int argc, char **argv)
 	    return 0;
     } else {
 	    printf("%s\n",type);
-	    return ret;
+	    return (argc > 1 && !strcmp(argv[1],"stdout")) ? 0 : ret;
     }
 } 
