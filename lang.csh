@@ -26,7 +26,7 @@ if ($sourced == 1) then
         endif
     endif
     
-    set consoletype=`/sbin/consoletype`
+    set consoletype=`/sbin/consoletype stdout`
 
     if ($?LANG) then
         switch ($LANG)
