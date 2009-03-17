@@ -57,7 +57,9 @@ if is_bonding_device ${DEVICE} ; then
 	is_ignored_file "$device" && continue
 	/sbin/ifdown ${device##*/}
     done
-
+    for target in $(cat /sys/class/net/${DEVICE}/bonding/arp_ip_target) ; do
+	echo "-${target}" > /sys/class/net/${DEVICE}/bonding/arp_ip_target
+    done
 fi
 
 /etc/sysconfig/network-scripts/ifdown-ipv6 ${CONFIG}
