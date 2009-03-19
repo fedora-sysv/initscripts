@@ -50,6 +50,7 @@ if [ -n "${HWADDR}" ]; then
     fi
 fi
 
+# If the device is a bridge, create it with brctl, if available.
 if [ "${TYPE}" = "Bridge" ]; then
       if [ ! -x /usr/sbin/brctl ]; then
 	  echo $"Bridge support not available: brctl not found"
@@ -60,6 +61,16 @@ if [ "${TYPE}" = "Bridge" ]; then
       fi
       [ -n "${DELAY}" ] && /usr/sbin/brctl setfd ${DEVICE} ${DELAY}
       [ -n "${STP}" ] && /usr/sbin/brctl stp ${DEVICE} ${STP}
+fi
+
+# If the device is a tap device, create it with tunctl, if available.
+if [ "${TYPE}" = "Tap" ]; then
+      if [ ! -x /usr/sbin/tunctl ]; then
+          echo $"Tap support not available: tunctl not found"
+          exit 1
+      fi
+      [ -n "${OWNER}" ] && OWNER="-u ${OWNER}"
+      /usr/sbin/tunctl ${OWNER} -t ${DEVICE} > /dev/null
 fi
 
 # now check the real state
@@ -137,6 +148,7 @@ if [ "$ISALIAS" = no ] && is_bonding_device ${DEVICE} ; then
     done
 fi
 
+# If the device is part of a bridge, add the device to the bridge
 if [ -n "${BRIDGE}" -a -x /usr/sbin/brctl ]; then
       if [ ! -d /sys/class/net/${BRIDGE}/bridge ]; then
 	  /usr/sbin/brctl addbr ${BRIDGE} 2>/dev/null
