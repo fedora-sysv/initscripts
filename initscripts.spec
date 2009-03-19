@@ -34,6 +34,7 @@ Conflicts: dhclient < 3.0.3-7
 Conflicts: tcsh < 6.13-5
 Conflicts: xorg-x11, glib2 < 2.11.1-2
 Conflicts: alsa-utils < 1.0.18
+Conflicts: plymouth < 0.7.0-0.2009.02.26
 # http://bugzilla.redhat.com/show_bug.cgi?id=252973
 Conflicts: nut < 2.2.0
 Obsoletes: hotplug
