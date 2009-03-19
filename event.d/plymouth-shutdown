@@ -1,0 +1,24 @@
+# plymouth-shutdown - put up shutdown splash
+#
+# This service triggers plymouth to put up a splash
+# when leaving runlevel 5.
+
+start on stopped prefdm 
+
+console output
+script
+        set $(runlevel || true)
+        if [ "$2" != "0" ] && [ "$2" != "6" ]; then
+		exit 0
+        fi
+
+        /sbin/plymouthd --mode=shutdown || exit 1
+        /bin/plymouth --sysinit
+        /bin/plymouth --show-splash
+        if [ "$2" = "0" ]; then
+                /bin/plymouth message --text="Shutting down..."
+        elif [ "$2" = "6" ]; then
+                /bin/plymouth message --text="Restarting..."
+        fi
+end script
+
