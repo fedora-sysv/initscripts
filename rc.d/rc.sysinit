@@ -221,18 +221,20 @@ init_crypto() {
 	    fi
 	    if [ -n "$key" ]; then
 		/sbin/cryptsetup -d $key luksOpen "$src" "$dst" <&1 2>/dev/null && success || failure
+		rc=$?
 	    else
 		mount_point="$(find_crypto_mount_point $dst)"
 		[ -n "$mount_point" ] || mount_point=${src##*/}
 		prompt=$(printf $"%s is password protected" "$mount_point")
 		plymouth ask-for-password --prompt "$prompt" --command="/sbin/cryptsetup luksOpen -T1 $src $dst" <&1
+		rc=$?
 	    fi
 	else
 	    [ -z "$key" ] && plymouth --hide-splash
 	    /sbin/cryptsetup $params ${key:+-d $key} create "$dst" "$src" <&1 2>/dev/null && success || failure
+	    rc=$?
 	    [ -z "$key" ] && plymouth --show-splash
 	fi
-	rc=$?
 	if [ $rc -ne 0 ]; then
 	    ret=1
 	    continue
