@@ -220,10 +220,7 @@ else
 	 	/sbin/ethtool -s ${REALDEVICE} $ETHTOOL_OPTS
 	 fi
 	 [ -n "${LINKDELAY}" ] && /bin/sleep ${LINKDELAY}
-
-	 /etc/sysconfig/network-scripts/ifup-ipv6 ${CONFIG}
-	 exec /etc/sysconfig/network-scripts/ifup-post ${CONFIG} ${2}
-    fi
+    else
   
     expand_config
     
@@ -286,6 +283,7 @@ else
 	    ip route replace default ${METRIC:+metric $METRIC} \
 		${SRC} ${WINDOW:+window $WINDOW} dev ${REALDEVICE}
 	fi
+    fi
     fi
 fi
 
