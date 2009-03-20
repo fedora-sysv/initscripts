@@ -21,6 +21,8 @@ if [ -f /etc/sysconfig/desktop ]; then
 	        preferred=/usr/bin/xdm
         elif [ -n "$DISPLAYMANAGER" ]; then
 		preferred=$DISPLAYMANAGER
+	else
+		quit_arg="--retain-splash"
 	fi
 else
 	quit_arg="--retain-splash"
