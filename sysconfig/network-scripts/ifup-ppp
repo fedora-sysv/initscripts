@@ -138,8 +138,8 @@ else
   exec=exec
 fi
 
-(/usr/bin/logger -p daemon.info -t ifup-ppp \
-  $"pppd started for ${DEVNAME} on ${MODEMPORT} at ${LINESPEED}" &)&
+/usr/bin/logger -p daemon.info -t ifup-ppp \
+  $"pppd started for ${DEVNAME} on ${MODEMPORT} at ${LINESPEED}"
 
 $exec pppd $opts ${MODEMPORT} ${LINESPEED} \
     ipparam ${DEVNAME} linkname ${DEVNAME} call ${DEVNAME}\
