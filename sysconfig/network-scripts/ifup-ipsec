@@ -105,6 +105,10 @@ else
     [ -z "$IKE_DHGROUP" ] && IKE_DHGROUP=2
     [ -z "$AH_PROTO" ] && AH_PROTO=sha1
     [ -z "$ESP_PROTO" ] && ESP_PROTO=3des
+    [ -z "$IKE_AUTH" ] && IKE_AUTH=$AH_PROTO
+    [ -z "$IKE_ENC" ] && IKE_ENC=$ESP_PROTO
+    [ "$IKE_AUTH" = "none" ] && IKE_AUTH=sha1
+    [ "$IKE_ENC" = "none" ] && IKE_ENC=3des
 
     SPD_AH_IN=yes
     SPD_AH_OUT=yes
@@ -114,11 +118,9 @@ fi
 
 if [ "$AH_PROTO" = "none" ]; then
     unset SPI_AH_IN SPI_AH_OUT KEY_AH_IN KEY_AH_OUT SPD_AH_IN SPD_AH_OUT
-    AH_PROTO=sha1 # To silence racoon
 fi
 if [ "$ESP_PROTO" = "none" ]; then
     unset SPI_ESP_IN SPI_ESP_OUT KEY_ESP_IN KEY_ESP_OUT SPD_ESP_IN SPD_ESP_OUT
-    ESP_PROTO=3des # To silence racoon
 fi
 
 /sbin/setkey -c >/dev/null 2>&1 << EOF
@@ -130,24 +132,38 @@ spddelete $SPD_SRC $SPD_DST any -P out;
 spddelete $SPD_DST $SPD_SRC any -P in;
 ${EXCLUDE_SRCNET:+spddelete $SPD_SRC $SPD_SRC any -P out;}
 ${EXCLUDE_SRCNET:+spddelete $SPD_SRC $SPD_SRC any -P in;}
+EOF
 
 # ESP
-${KEY_ESP_IN:+add $DST $SRC esp $SPI_ESP_IN ${TUNNEL_MODE:+-m tunnel} \
--E ${ESP_PROTO_IN:-$ESP_PROTO} $KEY_ESP_IN \
-${KEY_AESP_IN:+-A ${AESP_PROTO_IN:-$AESP_PROTO} $KEY_AESP_IN}
-;}
-${KEY_ESP_OUT:+add $SRC $DST esp $SPI_ESP_OUT ${TUNNEL_MODE:+-m tunnel} \
--E ${ESP_PROTO_OUT:-$ESP_PROTO} $KEY_ESP_OUT \
-${KEY_AESP_OUT:+-A ${AESP_PROTO_OUT:-$AESP_PROTO} $KEY_AESP_OUT}
-;}
+if [ "$ESP_PROTO" != "none" ]; then
+    /sbin/setkey -c >/dev/null 2>&1 << EOF
+    ${KEY_ESP_IN:+add $DST $SRC esp $SPI_ESP_IN ${TUNNEL_MODE:+-m tunnel} \
+    -E ${ESP_PROTO_IN:-$ESP_PROTO} $KEY_ESP_IN \
+    ${KEY_AESP_IN:+-A ${AESP_PROTO_IN:-$AESP_PROTO} $KEY_AESP_IN}
+    ;}
+    ${KEY_ESP_OUT:+add $SRC $DST esp $SPI_ESP_OUT ${TUNNEL_MODE:+-m tunnel} \
+    -E ${ESP_PROTO_OUT:-$ESP_PROTO} $KEY_ESP_OUT \
+    ${KEY_AESP_OUT:+-A ${AESP_PROTO_OUT:-$AESP_PROTO} $KEY_AESP_OUT}
+    ;}
+EOF
+fi
 
 # AH
-${KEY_AH_IN:+add $DST $SRC ah $SPI_AH_IN ${TUNNEL_MODE:+-m tunnel} -A ${AH_PROTO_IN:-$AH_PROTO} $KEY_AH_IN;}
-${KEY_AH_OUT:+add $SRC $DST ah $SPI_AH_OUT ${TUNNEL_MODE:+-m tunnel} -A ${AH_PROTO_OUT:-$AH_PROTO} $KEY_AH_OUT;}
+if [ "$AH_PROTO" != "none" ]; then
+    /sbin/setkey -c >/dev/null 2>&1 << EOF
+    ${KEY_AH_IN:+add $DST $SRC ah $SPI_AH_IN ${TUNNEL_MODE:+-m tunnel} -A ${AH_PROTO_IN:-$AH_PROTO} $KEY_AH_IN;}
+    ${KEY_AH_OUT:+add $SRC $DST ah $SPI_AH_OUT ${TUNNEL_MODE:+-m tunnel} -A ${AH_PROTO_OUT:-$AH_PROTO} $KEY_AH_OUT;}
+EOF
+fi
 
+/sbin/setkey -c >/dev/null 2>&1 << EOF
 ${EXCLUDE_SRCNET:+spdadd $SPD_SRC $SPD_SRC any -P out none;}
 ${EXCLUDE_SRCNET:+spdadd $SPD_SRC $SPD_SRC any -P in none;}
+EOF
 
+# This looks weird but if you use both ESP and AH you need to configure them together, not seperately.
+if [ "$ESP_PROTO" != "none" ] && [ "$AH_PROTO" != "none" ]; then
+/sbin/setkey -c >/dev/null 2>&1 << EOF
 spdadd $SPD_SRC $SPD_DST any -P out ipsec
             ${SPD_ESP_OUT:+esp/$MODE/${TUNNEL_MODE:+$SRC-$DST}/require}
             ${SPD_AH_OUT:+ah/$MODE/${TUNNEL_MODE:+$SRC-$DST}/require}
@@ -158,6 +174,27 @@ spdadd $SPD_DST $SPD_SRC any -P in ipsec
 	    ${SPD_AH_IN:+ah/$MODE/${TUNNEL_MODE:+$DST-$SRC}/require}
 	    ;
 EOF
+elif [ "$AH_PROTO" = "none" ]; then
+/sbin/setkey -c >/dev/null 2>&1 << EOF
+spdadd $SPD_SRC $SPD_DST any -P out ipsec
+            ${SPD_ESP_OUT:+esp/$MODE/${TUNNEL_MODE:+$SRC-$DST}/require}
+	    ;
+
+spdadd $SPD_DST $SPD_SRC any -P in ipsec
+	    ${SPD_ESP_IN:+esp/$MODE/${TUNNEL_MODE:+$DST-$SRC}/require}
+	    ;
+EOF
+elif [ "$ESP_PROTO" = "none" ]; then
+/sbin/setkey -c >/dev/null 2>&1 << EOF
+spdadd $SPD_SRC $SPD_DST any -P out ipsec
+            ${SPD_AH_OUT:+ah/$MODE/${TUNNEL_MODE:+$SRC-$DST}/require}
+	    ;
+
+spdadd $SPD_DST $SPD_SRC any -P in ipsec
+	    ${SPD_AH_IN:+ah/$MODE/${TUNNEL_MODE:+$DST-$SRC}/require}
+	    ;
+EOF
+fi
 
 if [ "$KEYING" = "automatic" ]; then
     if [ "$IKE_METHOD" = "PSK" ]; then
@@ -177,8 +214,8 @@ EOF
 	      cat >> /etc/racoon/$DST.conf << EOF
 	my_identifier address;
 	proposal {
-	        encryption_algorithm $ESP_PROTO;
-		hash_algorithm $AH_PROTO;
+	        encryption_algorithm $IKE_ENC;
+		hash_algorithm $IKE_AUTH;
 		authentication_method pre_shared_key;
 		dh_group $IKE_DHGROUP;
 	}
@@ -199,8 +236,8 @@ EOF
 	      fi
 	      cat >> /etc/racoon/$DST.conf << EOF
         proposal {
-		encryption_algorithm $ESP_PROTO;
-		hash_algorithm $AH_PROTO;
+	        encryption_algorithm $IKE_ENC;
+		hash_algorithm $IKE_AUTH;
 		authentication_method rsasig;
 		dh_group $IKE_DHGROUP;
 	}
@@ -211,8 +248,8 @@ EOF
 	      cat >> /etc/racoon/$DST.conf << EOF
 	my_identifier address;
 	proposal {
-	        encryption_algorithm $ESP_PROTO;
-		hash_algorithm $AH_PROTO;
+	        encryption_algorithm $IKE_ENC;
+		hash_algorithm $IKE_AUTH;
 		authentication_method gssapi_krb;
 		dh_group $IKE_DHGROUP;
 	}
