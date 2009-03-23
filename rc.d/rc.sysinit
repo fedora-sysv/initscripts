@@ -489,9 +489,10 @@ if [ "$READONLY" = "yes" -o "$TEMPORARY_STATE" = "yes" ]; then
 	ipaddr=
 	if [ "$HOSTNAME" = "localhost" -o "$HOSTNAME" = "localhost.localdomain" ]; then
 		ipaddr=$(ip addr show to 0.0.0.0/0 scope global | awk '/[[:space:]]inet / { print gensub("/.*","","g",$2) }')
-		if [ -n "$ipaddr" ]; then
+		for ip in $ipaddr ; do
+			HOSTNAME=
 			eval $(ipcalc -h $ipaddr 2>/dev/null)
-			hostname ${HOSTNAME}
+			[ -n "$HOSTNAME" ] && { hostname ${HOSTNAME} ; break; }
 		fi
 	fi
 	
