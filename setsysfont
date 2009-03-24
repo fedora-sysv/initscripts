@@ -6,7 +6,7 @@ if [ -f /etc/sysconfig/i18n ]; then
   . /etc/sysconfig/i18n
 fi
 
-case "$LANG" in
+case ${LC_ALL:-${LC_CTYPE-$LANG}} in
     *.utf8|*.UTF-8)
          if [ -x /bin/unicode_start ] && /sbin/consoletype fg ; then
       	    exec unicode_start $SYSFONT $SYSFONTACM
