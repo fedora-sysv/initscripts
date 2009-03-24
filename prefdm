@@ -44,5 +44,11 @@ for pkg in $(rpm -q --qf "%{NAME}\n" --whatprovides "service(graphical-login)") 
 	fi
 done
 
+# Fallbacks, in order
+exec gdm "$@" >/dev/null 2>&1 </dev/null
+exec kdm "$@" >/dev/null 2>&1 </dev/null
+exec wdm "$@" >/dev/null 2>&1 </dev/null
+exec xdm "$@" >/dev/null 2>&1 </dev/null
+
 # catch all exit error
 exit 1
