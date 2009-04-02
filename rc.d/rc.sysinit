@@ -337,6 +337,9 @@ sysctl -e -p /etc/sysctl.conf >/dev/null 2>&1
 update_boot_stage RChostname
 action $"Setting hostname ${HOSTNAME}: " hostname ${HOSTNAME}
 
+# Sync waiting for storage.
+rmmod scsi_wait_scan ; modprobe scsi_wait_scan ; rmmod scsi_wait_scan
+
 # Start any MD RAID arrays that haven't been started yet
 [ -f /etc/mdadm.conf -a -x /sbin/mdadm ] && /sbin/mdadm -As --auto=yes --run
 
