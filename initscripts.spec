@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.91
+Version: 8.92
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -249,6 +249,27 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Thu Apr  2 2009 Bill Nottingham <notting@redhat.com> - 8.92-1
+- rc.sysinit: add a disk synchronization point with scsi_wait_scan post-udev (#481470)
+- netfs: drop smbfs support, we don't even ship the module or tools any more
+- setsysfont: honor LC_CTYPE (#487133, <skasal@redhat.com>)
+- prefdm: do fallbackes based on provides of 'service(graphical-login)' (#485751)
+- rc.sysinit: handle multiple IP addresses without choking in the stateless code (#443945)
+- rc.sysinit: catch the right error code from checking for passphrases (#483269, <vladis.kletnieks@vt.edu>)
+- prefdm: handle empty /etc/sysconfig/desktop correctly (#480113)
+- ifup-ipsec: allow use of either ESP only or AH only (#251494, <stijn.tintel@x-tend.be>)
+- ifup-eth: allow passing of arguments to dhcp6c (#437949, <pekkas@netcore.fi>)
+- ifup-eth: fix dhcpv6 when there is no IPv4 configuration (#486507)
+- ifup-ppp: avoid spurious SIGCHLD to pppd (#448881)
+- ifup-eth: add support for creating TUN/TAP devices on the fly (#453973, <scott@zahna.com>)
+- stop plymouth when starting single-user mode. (#491062)
+- add plymouth shutdown script (#473237, <jmccann@redhat.com>)
+- fix lang.sh/lang.sh/consoletype for execution with '-e'
+- ifdown-eth: remove arp_ip_target on ifdown for bonding devices. (#483711)
+- add vlan support for s390 HSI interfaces. (#490584)
+- ipcalc: support IPv6 (#464268, <dcantrell@redhat.com>)
+- translation updates: all
+
 * Mon Mar 16 2009 Bill Nottingham <notting@redhat.com> - 8.91-1
 - fix DHCP reading of options from ifcfg-XXX (#483257)
 - ifdown-eth: clean up bridges on ifdown (#463325, <sean@bruenor.org>)
