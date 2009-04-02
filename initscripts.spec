@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.86
+Version: 8.86.1
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -250,6 +250,27 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Thu Apr  2 2009 Bill Nottingham <notting@redhat.com> - 8.86.1-1
+- rc.sysinit: add a disk synchronization point with scsi_wait_scan post-udev (#481470)
+- setsysfont: honor LC_CTYPE (#487133, <skasal@redhat.com>)
+- prefdm: do fallbacks based on provides of 'service(graphical-login)' (#485751)
+- rc.sysinit: catch the right error code from checking for passphrases (#483269, <vladis.kletnieks@vt.edu>)
+- prefdm: handle empty /etc/sysconfig/desktop correctly (#480113)
+- ifup-eth: fix dhcpv6 when there is no IPv4 configuration (#486507)
+- bring up ipsec interfaces last (#481733)
+- ifdown-eth: fix bridge + vlan (#481557, <danken@redhat.com>)
+- init.d/halt: determine reboot/halt via existing INIT_HALT environment variable. (#475227)
+- rc.sysinit: fix typo. (#487926)
+- fix switching from targeted to MLS policy (#479054, <dwalsh@redhat.com>)
+- network-functions-ipv6: set MTU correctly for 6to4. (#477976, <ackistler@yahoo.com>)
+- add more entries to rwtab (#476799, <harald@redhat.com>)
+- rc.sysinit: remove /.suspended as well on boot (#270861)
+- add %config back for ifcfg-lo (#472761)
+- remove support for no longer existing 'brctl setgcint' command. (#360471)
+- rcS/rcS-sulogin: don't match commented lines when finding runlevel (#472717)
+- sysconfig.txt: add some docs on BONDING_OPTS
+- lang.sh: ignore return code from consoletype (#471123)
+
 * Tue Nov 11 2008 Bill Nottingham <notting@redhat.com> - 8.86-1
 - stop plymouth before stopping the runlevel (#467207)
 - fix get_config_by_subchannel (#459044, <harald@redhat.com>)
