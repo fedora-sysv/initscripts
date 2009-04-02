@@ -496,7 +496,7 @@ if [ "$READONLY" = "yes" -o "$TEMPORARY_STATE" = "yes" ]; then
 			HOSTNAME=
 			eval $(ipcalc -h $ipaddr 2>/dev/null)
 			[ -n "$HOSTNAME" ] && { hostname ${HOSTNAME} ; break; }
-		fi
+		done
 	fi
 	
 	# Clients with read-only root filesystems may be provided with a
