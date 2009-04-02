@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.86.1
+Version: 8.86.2
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -250,7 +250,7 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
-* Thu Apr  2 2009 Bill Nottingham <notting@redhat.com> - 8.86.1-1
+* Thu Apr  2 2009 Bill Nottingham <notting@redhat.com> - 8.86.2-1
 - rc.sysinit: add a disk synchronization point with scsi_wait_scan post-udev (#481470)
 - setsysfont: honor LC_CTYPE (#487133, <skasal@redhat.com>)
 - prefdm: do fallbacks based on provides of 'service(graphical-login)' (#485751)
