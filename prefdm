@@ -41,7 +41,7 @@ exec kdm "$@" >/dev/null 2>&1 </dev/null
 exec wdm "$@" >/dev/null 2>&1 </dev/null
 exec xdm "$@" >/dev/null 2>&1 </dev/null
 
-for pkg in $(LC_ALL=C rpm -q --qf "%{NAME}\n" --whatprovides "service(graphical-login)"| sort -u) ; do
+for pkg in $(rpm -q --qf "%{NAME}\n" --whatprovides "service(graphical-login)"| LC_ALL=C sort -u) ; do
 	dm=$(rpm -q --provides $pkg | awk '/^service\(graphical-login\)/ { print $3 ; exit }')
 	if [ -n "$dm" ]; then
 		exec $dm "$@" >/dev/null 2>&1 </dev/null
