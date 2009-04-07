@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.93
+Version: 8.94
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -249,6 +249,10 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Tue Apr  7 2009 Bill Nottingham <notting@redhat.com> - 8.94-1
+- prefdm: add simple fallbacks, sort rpmdb query for consistency (#494461)
+- translation updates; bn, de, pt, ru, te
+
 * Thu Apr  2 2009 Bill Nottingham <notting@redhat.com> - 8.93-1
 - rc.sysinit: add a disk synchronization point with scsi_wait_scan post-udev (#481470)
 - netfs: drop smbfs support, we don't even ship the module or tools any more
