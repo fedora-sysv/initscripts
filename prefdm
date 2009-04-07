@@ -35,6 +35,12 @@ shopt -s execfail
 
 [ -n "$preferred" ] && exec $preferred "$@" >/dev/null 2>&1 </dev/null
 
+# Fallbacks, in order
+exec gdm "$@" >/dev/null 2>&1 </dev/null
+exec kdm "$@" >/dev/null 2>&1 </dev/null
+exec wdm "$@" >/dev/null 2>&1 </dev/null
+exec xdm "$@" >/dev/null 2>&1 </dev/null
+
 for pkg in $(rpm -q --qf "%{NAME}\n" --whatprovides "service(graphical-login)") ; do
 	dm=$(rpm -q --provides $pkg | awk '/^service\(graphical-login\)/ { print $3 ; exit }')
 	if [ -n "$dm" ]; then
@@ -43,12 +49,6 @@ for pkg in $(rpm -q --qf "%{NAME}\n" --whatprovides "service(graphical-login)") 
 		exec $pkg "$@" >/dev/null 2>&1 </dev/null
 	fi
 done
-
-# Fallbacks, in order
-exec gdm "$@" >/dev/null 2>&1 </dev/null
-exec kdm "$@" >/dev/null 2>&1 </dev/null
-exec wdm "$@" >/dev/null 2>&1 </dev/null
-exec xdm "$@" >/dev/null 2>&1 </dev/null
 
 # catch all exit error
 exit 1
