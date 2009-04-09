@@ -84,16 +84,16 @@ if [ -x /sbin/vconfig -a "${VLAN}" = "yes" -a "$ISALIAS" = "no" ]; then
     fi
     if [ -n "$VID" ]; then
 	if [ ! -d /proc/net/vlan ]; then
-            if modprobe 8021q >/dev/null 2>&1 ; then
-		test -z "$VLAN_NAME_TYPE" && VLAN_NAME_TYPE=DEV_PLUS_VID_NO_PAD
-		/sbin/vconfig set_name_type "$VLAN_NAME_TYPE" >/dev/null 2>&1 || {
-		    echo $"Could not set 802.1Q VLAN parameters."
-		}
-	    else
+            if ! modprobe 8021q >/dev/null 2>&1 ; then
 		echo $"No 802.1Q VLAN support available in kernel for device ${DEVICE}"
 		exit 1
 	    fi
 	fi
+
+	test -z "$VLAN_NAME_TYPE" && VLAN_NAME_TYPE=DEV_PLUS_VID_NO_PAD
+	/sbin/vconfig set_name_type "$VLAN_NAME_TYPE" >/dev/null 2>&1 || {
+		echo $"Could not set 802.1Q VLAN parameters."
+	}
 
 	is_available ${PHYSDEV} || {
 	    if [ "$?" = "1" ] ; then
