@@ -242,11 +242,11 @@ daemon() {
 	
 	# if they set CGROUP_DAEMON in /etc/sysconfig/foo, honor it
 	if [ -n "${CGROUP_DAEMON}" ]; then
-		if [ ! -x /usr/bin/cgexec ]; then
+		if [ ! -x /bin/cgexec ]; then
 			echo -n "Cgroups not installed"; warning
 			echo
 		else
-			cgroup="/usr/bin/cgexec";
+			cgroup="/bin/cgexec";
 			for i in $CGROUP_DAEMON; do
 				cgroup="$cgroup -g $i";
 			done
