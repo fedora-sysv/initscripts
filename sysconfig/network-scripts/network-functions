@@ -68,8 +68,8 @@ source_config ()
 {
     CONFIG=${CONFIG##*/}
     DEVNAME=${CONFIG##ifcfg-}
-    . ./$CONFIG
-    [ -r "keys-$DEVNAME" ] && . ./keys-$DEVNAME
+    . /etc/sysconfig/network-scripts/$CONFIG
+    [ -r "keys-$DEVNAME" ] && . /etc/sysconfig/network-scripts/keys-$DEVNAME
     case "$TYPE" in
     	Ethernet)
 		DEVICETYPE="eth"
