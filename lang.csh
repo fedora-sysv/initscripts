@@ -4,14 +4,14 @@ set sourced=0
 
 if ($?LANG) then
     set saved_lang=$LANG
-    if ( -f $HOME/.i18n ) then
-	eval `grep -v '^[:blank:]*#' $HOME/.i18n | sed 's|\([^=]*\)=\([^=]*\)|setenv \1 \2|g' | sed 's|$|;|'`
+    if ( -f "$HOME/.i18n" ) then
+	eval `grep -v '^[:blank:]*#' "$HOME/.i18n" | sed 's|\([^=]*\)=\([^=]*\)|setenv \1 \2|g' | sed 's|$|;|'`
 	set sourced=1
     endif
     setenv LANG $saved_lang
     unset saved_lang
 else
-    foreach file (/etc/sysconfig/i18n $HOME/.i18n)
+    foreach file (/etc/sysconfig/i18n "$HOME/.i18n")
         if ( -f $file ) then
 	    eval `grep -v '^[:blank:]*#' $file | sed 's|\([^=]*\)=\([^=]*\)|setenv \1 \2|g' | sed 's|$|;|'`
 	    set sourced=1
