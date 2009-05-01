@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.94
+Version: 8.95
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -249,6 +249,15 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Fri May  1 2009 Bill Nottingham <notting@redhat.com> - 8.95-1
+- don't kill runlevel events on subsequent entering of the same runlevel (#498514)
+- lang.*sh: handle spaces in $HOME (#498482)
+- network-functions: explicitly source from the proper directory. (#496233)
+- remove persistent names on sys-unconfig. (#448322)
+- init.d/functions: cgexec has moved to /bin (#495715)
+- allow changing of VLAN type even if the module is already loaded. (#495053, <pietro@bertera.it>)
+- translation updates: fr, ml, pt
+
 * Tue Apr  7 2009 Bill Nottingham <notting@redhat.com> - 8.94-1
 - prefdm: add simple fallbacks, sort rpmdb query for consistency (#494461)
 - translation updates; bn, de, pt, ru, te
