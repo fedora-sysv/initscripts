@@ -82,20 +82,6 @@ is_available ${REALDEVICE} || {
 # is the device wireless? If so, configure wireless device specifics
 is_wireless_device ${DEVICE} && . ./ifup-wireless
 
-if [ -n "${BRIDGE}" -a -x /usr/sbin/brctl ]; then
-      if ! LC_ALL=C /usr/sbin/brctl show | LC_ALL=C grep -q "^${BRIDGE}	"; then
-	  /usr/sbin/brctl addbr ${BRIDGE} 2>/dev/null
-      fi
-      /sbin/ip addr flush dev ${DEVICE} 2>/dev/null
-      /sbin/ip link set dev ${DEVICE} up
-      [ -n "${LINKDELAY}" ] && /bin/sleep ${LINKDELAY}
-      /usr/sbin/brctl addif ${BRIDGE} ${DEVICE}
-      # Upon adding a device to a bridge, 
-      # it's necessary to make radvd reload its config
-      [ -r /var/run/radvd/radvd.pid ] && kill -HUP `cat /var/run/radvd/radvd.pid`
-      exit 0
-fi 
-
 # this isn't the same as the MAC in the configuration filename.  It is
 # available as a configuration option in the config file, forcing the kernel
 # to think an ethernet card has a different MAC address than it really has.
@@ -159,6 +145,19 @@ if [ -n "${MTU}" ]; then
    ip link set dev ${DEVICE} mtu ${MTU}
 fi
 
+if [ -n "${BRIDGE}" -a -x /usr/sbin/brctl ]; then
+      if ! LC_ALL=C /usr/sbin/brctl show | LC_ALL=C grep -q "^${BRIDGE}	"; then
+	  /usr/sbin/brctl addbr ${BRIDGE} 2>/dev/null
+      fi
+      /sbin/ip addr flush dev ${DEVICE} 2>/dev/null
+      /sbin/ip link set dev ${DEVICE} up
+      [ -n "${LINKDELAY}" ] && /bin/sleep ${LINKDELAY}
+      /usr/sbin/brctl addif ${BRIDGE} ${DEVICE}
+      # Upon adding a device to a bridge, 
+      # it's necessary to make radvd reload its config
+      [ -r /var/run/radvd/radvd.pid ] && kill -HUP `cat /var/run/radvd/radvd.pid`
+      exit 0
+fi 
 		     
 if [ -n "${DYNCONFIG}" -a -x /sbin/dhclient ]; then
     # Remove any temporary references which were previously added to dhclient config
