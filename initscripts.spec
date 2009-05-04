@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.45.24
+Version: 8.45.25
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -198,6 +198,39 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon May 04 2009 Harald Hoyer <harald@redhat.com> 8.45.25-1
+- add md activation before lvm/device-mapper in netfs (#480627)
+- fixed SUBCHANNEL grep for s390
+- Move the bridge member handling later in the ifdown sequence (#463325, Sean E. Millichamp <sean@bruenor.org>)
+- Allow changing of VLAN type even if the module is already loaded. (#495053, <pietro@bertera.it>)
+- add gfs2 to rc.sysinit mount (#494963)
+- support ETHTOOL_OPTS on bridge devices (#493255, <bbaetz@acm.org>)
+- Add vlan support for s390 HSI interfaces. (#490584)
+- Don't re-init an existing device, it causes errors. (#484411, <jpayne@redhat.com>)
+- Remove arp_ip_target on ifdown for bonding devices. (#483711)
+- Don't unmount the nfsd filesystem when unmounting nfs client mounts. (#481794, <sprabhu@redhat.com>)
+- Bring up ipsec interfaces last. (#481733)
+- Break deadlock by explicitly handling alias for CTC and IUCV (#475721)
+- Determine reboot/halt via existing INIT_HALT environment variable. (#475006)
+- Add some docs on BONDING_OPTS. (#472480)
+- Don't say that we're shutting off crypto if we aren't actually doing it. (#471944)
+- remove empty bridges (#463325)
+- Add a address check capability for IPv4 and IPv6 addresses. (#464268)
+- fail if HWADDR specified in ifcfg is not present in the system (#487718)
+- fix ifdown of vlan iface which is a bridge member (#481557)
+- add proper return codes for /etc/init.d/network (#481002)
+- fixed brigde setup (bug #463014)
+- Add an option for consoletype to always return 0. (#453798, <notting@redhat.com>)
+- Use the pidfile before running pidof in status(). (#440658)
+- Allow passing of arguments to dhcp6c (#437949, <pekkas@netcore.fi>)
+- Remove /.suspended as well on boot (#270861)
+- Allow use of either ESP only or AH only (#251494, <stijn.tintel@x-tend.be>)
+- Resolves: rhbz#251494,rhbz#270861,rhbz#437949,rhbz#440658,rhbz#453798,
+            rhbz#463014,rhbz#463325,rhbz#464268,rhbz#471944,rhbz#472480,
+            rhbz#475006,rhbz#475721,rhbz#475770,rhbz#480627,rhbz#481002,
+            rhbz#481557,rhbz#481733,rhbz#481794,rhbz#483711,rhbz#484411,
+            rhbz#487718,rhbz#490584,rhbz#493255,rhbz#494963,rhbz#495053
+
 * Wed Nov 12 2008 Harald Hoyer <harald@redhat.com> 8.45.24-1
 - fixed SUBCHANNEL grep statement (bug #459044)
 - Resolves: rhbz#459044

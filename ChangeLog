@@ -1,14 +1,409 @@
-commit 74ab77a064771156656d8b6c3819b6b2a2767132
+commit 9b6ed6e57d2f9d8854d745159d59d37a743b4669
+Author: Harald Hoyer <harald@redhat.com>
+Date:   Mon May 4 15:45:54 2009 +0200
+
+    add md activation before lvm/device-mapper in netfs (#480627)
+    
+    add md activation before lvm/device-mapper in netfs, as is currently done in
+    rc.sysinit
+
+ rc.d/init.d/netfs |    3 +++
+ 1 files changed, 3 insertions(+), 0 deletions(-)
+
+commit 2d65a0bf5e526992eee7aa56b9793fa515b867c0
+Author: Harald Hoyer <harald@redhat.com>
+Date:   Mon May 4 15:23:17 2009 +0200
+
+    fixed git commands
+
+ Makefile |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+commit 64eccd52208a59c9f6cc89a64d4e202e2931e6f0
+Author: Harald Hoyer <harald@redhat.com>
+Date:   Mon May 4 15:17:06 2009 +0200
+
+    fixed SUBCHANNEL grep for s390
+
+ sysconfig/network-scripts/network-functions |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 576ff7b49265b2786f29be2eac634e1a402d0e58
+Author: Harald Hoyer <harald@redhat.com>
+Date:   Mon May 4 15:02:34 2009 +0200
+
+    Move the bridge member handling later in the ifdown sequence (#463325, Sean E. Millichamp <sean@bruenor.org>)
+
+ sysconfig/network-scripts/ifdown-eth |   22 +++++++++++-----------
+ 1 files changed, 11 insertions(+), 11 deletions(-)
+
+commit ae621c6afd6b082565a5652070a317fe25cb1fda
+Author: Bill Nottingham <notting@redhat.com>
+Date:   Thu Apr 9 10:29:27 2009 -0400
+
+    Allow changing of VLAN type even if the module is already loaded. (#495053, <pietro@bertera.it>)
+
+ sysconfig/network-scripts/ifup |   12 ++++++------
+ 1 files changed, 6 insertions(+), 6 deletions(-)
+
+commit ffbc24a68af7d19ea74d3ad7eec5d9b4230157d4
+Author: Bill Nottingham <notting@redhat.com>
+Date:   Fri Jul 20 20:33:14 2007 +0000
+
+    add gfs2 to rc.sysinit mount (#494963)
+
+ rc.d/rc.sysinit |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+commit 738ab650f208c27c56022f3b42b030e5ed781b60
+Author: Bill Nottingham <notting@redhat.com>
+Date:   Mon Apr 16 23:47:27 2007 +0000
+
+    support ETHTOOL_OPTS on bridge devices (#493255, <bbaetz@acm.org>)
+
+ sysconfig/network-scripts/ifup-eth |    3 +++
+ 1 files changed, 3 insertions(+), 0 deletions(-)
+
+commit d6071ecde4150fc4967fc0836ac812fcca153adb
+Author: Bill Nottingham <notting@redhat.com>
+Date:   Tue Mar 17 10:16:30 2009 -0400
+
+    Add vlan support for s390 HSI interfaces. (#490584)
+
+ sysconfig/network-scripts/ifup |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
+
+commit ad9081a4225ba854db2699908e09626e15ed9195
+Author: Bill Nottingham <notting@redhat.com>
+Date:   Fri Feb 6 15:37:46 2009 -0500
+
+    Don't re-init an existing device, it causes errors. (#484411, <jpayne@redhat.com>)
+
+ src/ccw_init |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit ccec6e62c0d331855c52ce30c5d2aec46c217b4e
+Author: Bill Nottingham <notting@redhat.com>
+Date:   Tue Mar 17 12:49:42 2009 -0400
+
+    Remove arp_ip_target on ifdown for bonding devices. (#483711)
+
+ sysconfig/network-scripts/ifdown-eth |    4 +++-
+ 1 files changed, 3 insertions(+), 1 deletions(-)
+
+commit 4b70bcdf188f08f50951e390ae5869db1ee8a224
+Author: Bill Nottingham <notting@redhat.com>
+Date:   Tue Jan 27 12:14:50 2009 -0500
+
+    Don't unmount the nfsd filesystem when unmounting nfs client mounts. (#481794, <sprabhu@redhat.com>)
+
+ rc.d/init.d/netfs |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 1a1643d1e5fc8e28203e1ca5f96ddcd65f4b512b
+Author: Bill Nottingham <notting@redhat.com>
+Date:   Tue Jan 27 12:06:18 2009 -0500
+
+    Bring up ipsec interfaces last. (#481733)
+
+ rc.d/init.d/network |   24 ++++++++++++++++--------
+ 1 files changed, 16 insertions(+), 8 deletions(-)
+
+commit a8c10b87aea64e0f8af59f9f47d87dd0f4b2b878
+Author: Harald Hoyer <harald@redhat.com>
+Date:   Mon May 4 14:08:48 2009 +0200
+
+    Break deadlock by explicitly handling alias for CTC and IUCV (#475721)
+    
+    in /etc/modprobe.conf as is done in ifup-eth.
+
+ sysconfig/network-scripts/ifup-ctc  |    2 ++
+ sysconfig/network-scripts/ifup-iucv |    2 ++
+ 2 files changed, 4 insertions(+), 0 deletions(-)
+
+commit ecc6a42d4732386faf99941ed4b0911ba8a8cc5e
+Author: Bill Nottingham <notting@redhat.com>
+Date:   Tue Dec 9 10:26:15 2008 -0500
+
+    Determine reboot/halt via existing INIT_HALT environment variable. (#475006)
+    
+    No more magic files needed. In fact, I'm not sure they ever were. Whoops.
+
+ rc.d/init.d/halt |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit e96a933a863e706eeafbfcb9e45e3658dac76654
+Author: Bill Nottingham <notting@redhat.com>
+Date:   Fri Nov 21 10:03:54 2008 -0500
+
+    Add some docs on BONDING_OPTS. (#472480)
+
+ sysconfig.txt |    5 +++++
+ 1 files changed, 5 insertions(+), 0 deletions(-)
+
+commit 9a1e978631fd39dc2b4dd44716dc08bd623aac47
+Author: Bill Nottingham <notting@redhat.com>
+Date:   Fri Aug 29 17:45:42 2008 -0400
+
+    Don't say that we're shutting off crypto if we aren't actually doing it. (#471944)
+
+ rc.d/init.d/halt |    5 ++---
+ 1 files changed, 2 insertions(+), 3 deletions(-)
+
+commit 770a079af244b2a47a5e2a91ce151ed532a8ce71
+Author: Harald Hoyer <harald@redhat.com>
+Date:   Mon May 4 13:56:30 2009 +0200
+
+    remove empty bridges (#463325)
+
+ sysconfig/network-scripts/ifdown-eth |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 8920b035dd9b777fff378ff19e82ae22b911d3ce
+Author: David Cantrell <dcantrell@redhat.com>
+Date:   Fri Sep 26 16:11:27 2008 -1000
+
+    Man page updates for ipcalc(1)
+    
+    Make sure the ipcalc man page explains the -c, -4, and -6 options.
+    Update some other things.  Shamelessly add my name.
+
+ src/ipcalc.1 |   27 +++++++++++++++++++++------
+ src/ipcalc.c |    3 ++-
+ 2 files changed, 23 insertions(+), 7 deletions(-)
+
+commit 568dd0af6074ca160cf9333e9c817526adb5d67b
+Author: David Cantrell <dcantrell@redhat.com>
+Date:   Fri Sep 26 16:03:53 2008 -1000
+
+    Add a address check capability for IPv4 and IPv6 addresses. (#464268)
+    
+    Add the -c, --check argument which enables address validation.  The
+    ipcalc program will exit with 0 if the address is valid or 1 if it
+    is invalid, for the specified family.
+    
+    Add the -4, --ipv4 argument to specify the IPv4 address family.
+    
+    Add the -6, --ipv6 argument to specify the IPv6 address family.
+    
+    Ensure that the IPv6 family argument is invalid with the IPv4-only
+    show arguments (broadcast, network, netmask, prefix).
+
+ src/ipcalc.c |   42 ++++++++++++++++++++++++++++++++++++++++++
+ 1 files changed, 42 insertions(+), 0 deletions(-)
+
+commit d3cd5b02f325ba6086c2efd99aa9f7df4889474e
+Author: David Cantrell <dcantrell@redhat.com>
+Date:   Fri Sep 26 15:41:39 2008 -1000
+
+    Use asprintf() rather than malloc() and sprintf().
+    
+    Use asprintf() for conversion and abort on memory allocation
+    failures.
+
+ src/ipcalc.c |    9 ++++++---
+ 1 files changed, 6 insertions(+), 3 deletions(-)
+
+commit c7024f82e5f2c64a83e15413627efc1f6dc5042e
+Author: David Cantrell <dcantrell@redhat.com>
+Date:   Fri Sep 26 15:35:57 2008 -1000
+
+    Use inet_ntop() and inet_pton()
+    
+    The inet_ntoa() and inet_aton() functions are deprecated and limited
+    to AF_INET only.
+
+ src/ipcalc.c |   32 +++++++++++++++++++++++++++-----
+ 1 files changed, 27 insertions(+), 5 deletions(-)
+
+commit 5535dcc963c63b59f47c0448acd78882b6ef20b0
+Author: David Cantrell <dcantrell@redhat.com>
+Date:   Fri Sep 26 15:24:29 2008 -1000
+
+    Use 'struct in_addr' for IPv4 addresses.
+    
+    Change from using uint32_t to struct in_addr for IPv4 addresses.
+    Get rid of the IPBITS and IPBYTES macros.
+
+ src/ipcalc.c |   98 ++++++++++++++++++++++++++++++++--------------------------
+ 1 files changed, 54 insertions(+), 44 deletions(-)
+
+commit 10f5781282a7db02ccacbd459b4f8b6aafd92c83
+Author: David Cantrell <dcantrell@redhat.com>
+Date:   Fri Sep 26 15:04:45 2008 -1000
+
+    Whitespace cleanups for src/ipcalc.c
+    
+    Consistently use 4 spaces for indentation throughout ipcalc.c
+
+ src/ipcalc.c |  265 ++++++++++++++++++++++++++++-----------------------------
+ 1 files changed, 130 insertions(+), 135 deletions(-)
+
+commit f08de1aefc7ff894618f2eb5f9c1a4f5b73cdd46
+Author: Alan Pevec <apevec@redhat.com>
+Date:   Mon May 4 12:03:46 2009 +0200
+
+    fail if HWADDR specified in ifcfg is not present in the system (#487718)
+
+ sysconfig/network-scripts/ifup-eth |    3 +++
+ 1 files changed, 3 insertions(+), 0 deletions(-)
+
+commit 3cea29fb078807c878295182e3011b4f15758a13
+Author: Alan Pevec <apevec@redhat.com>
+Date:   Mon May 4 12:02:05 2009 +0200
+
+    fix ifdown of vlan iface which is a bridge member (#481557)
+
+ sysconfig/network-scripts/ifdown-eth |    1 -
+ 1 files changed, 0 insertions(+), 1 deletions(-)
+
+commit 7c684e606fbc6ca82f5c514d69e21a96dd574e19
+Author: Bill Nottingham <notting@redhat.com>
+Date:   Mon May 4 12:00:55 2009 +0200
+
+    add proper return codes for /etc/init.d/network (#481002)
+
+ rc.d/init.d/network |    8 +++++++-
+ 1 files changed, 7 insertions(+), 1 deletions(-)
+
+commit d658403796323024e46224c4d4c162f65835adbd
+Author: Harald Hoyer <harald@redhat.com>
+Date:   Mon May 4 11:59:32 2009 +0200
+
+    fixed brigde setup (bug #463014)
+
+ sysconfig/network-scripts/ifup-eth |   27 +++++++++++++--------------
+ 1 files changed, 13 insertions(+), 14 deletions(-)
+
+commit 7715436fcd7b0b552be19ff6b315cd797df76848
+Author: Bill Nottingham <notting@redhat.com>
+Date:   Tue Mar 17 15:14:26 2009 -0400
+
+    Add an option for consoletype to always return 0. (#453798, <notting@redhat.com>)
+    
+    This allows tcsh -e to work, with lang.sh. It's a hack, but there really
+    isn't a better way to solve it.
+
+ lang.csh          |    2 +-
+ lang.sh           |    5 ++++-
+ src/consoletype.1 |    9 +++++++--
+ src/consoletype.c |    2 +-
+ 4 files changed, 13 insertions(+), 5 deletions(-)
+
+commit 621dbec1922aaa30f4a6c765602c4eca8c52b9e9
+Author: Bill Nottingham <notting@redhat.com>
+Date:   Wed Sep 24 10:07:34 2008 -0400
+
+    Use the pidfile before running pidof in status(). (#440658)
+    
+    This matches the behavior of killproc.
+
+ rc.d/init.d/functions |   10 ++++++----
+ 1 files changed, 6 insertions(+), 4 deletions(-)
+
+commit f29c90d905a2f5d684541756b387f06156eb3bba
+Author: Bill Nottingham <notting@redhat.com>
+Date:   Fri Mar 20 12:48:32 2009 -0400
+
+    Allow passing of arguments to dhcp6c (#437949, <pekkas@netcore.fi>)
+
+ sysconfig.txt                      |    4 ++++
+ sysconfig/network-scripts/ifup-eth |    7 ++++---
+ 2 files changed, 8 insertions(+), 3 deletions(-)
+
+commit 865c59d70c501ad2554c9a3e5a6d3e3e7f9bf4bb
+Author: Harald Hoyer <harald@redhat.com>
+Date:   Mon May 4 11:37:13 2009 +0200
+
+    Remove /.suspended as well on boot (#270861)
+
+ rc.d/rc.sysinit |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit e39816a586d85e2f309fd0f1a8f487d871fa998e
+Author: Bill Nottingham <notting@redhat.com>
+Date:   Fri Mar 20 13:12:44 2009 -0400
+
+    Allow use of either ESP only or AH only (#251494, <stijn.tintel@x-tend.be>)
+
+ sysconfig.txt                        |    2 +
+ sysconfig/network-scripts/ifup-ipsec |   73 +++++++++++++++++++++++++--------
+ 2 files changed, 57 insertions(+), 18 deletions(-)
+
+commit 4f41d85ce815353b65db55f66d970d46759388f2
+Author: nippur <nippur@fedoraproject.org>
+Date:   Wed Apr 8 14:54:59 2009 +0000
+
+    Sending translation for Dutch
+
+ po/nl.po |  119 ++++++++++++++++++++++++-------------------------------------
+ 1 files changed, 47 insertions(+), 72 deletions(-)
+
+commit 346c4f8f35eccf9373a85e1a4a364ae9426aff6d
+Author: Harald Hoyer <harald@redhat.com>
+Date:   Wed Nov 12 13:38:33 2008 +0100
+
+    fixed SUBCHANNEL grep for s390
+
+ sysconfig/network-scripts/network-functions |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 826b67e541f7e47a475016aa8d5c0c84f28ed566
+Author: Harald Hoyer <harald@redhat.com>
+Date:   Wed Nov 12 13:19:01 2008 +0100
+
+    version 8.45.24
+
+ initscripts.spec |    7 ++++++-
+ 1 files changed, 6 insertions(+), 1 deletions(-)
+
+commit d6e093e31d8b9662bba0c67b9952a5ff6287b755
+Author: Harald Hoyer <harald@redhat.com>
+Date:   Wed Nov 12 12:57:47 2008 +0100
+
+    fixed SUBCHANNEL grep for s390
+
+ sysconfig/network-scripts/network-functions |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 77da3d013925ebb21aa6aa700f33d97b4f5b73b9
+Author: Harald Hoyer <harald@redhat.com>
+Date:   Wed Nov 12 11:30:49 2008 +0100
+
+    version 8.45.23
+
+ initscripts.spec |    5 ++++-
+ 1 files changed, 4 insertions(+), 1 deletions(-)
+
+commit e5367ee63ac04bb7bfd807c6183376c346530b7a
+Author: Harald Hoyer <harald@redhat.com>
+Date:   Wed Nov 12 11:28:18 2008 +0100
+
+    fixed SUBCHANNEL grep for s390
+
+ sysconfig/network-scripts/network-functions |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit f12f577f9e9e0f35b655478f26c2daf27a5d1c37
+Author: Harald Hoyer <harald@redhat.com>
+Date:   Mon Nov 10 19:04:59 2008 +0100
+
+    changelog update
+
+ ChangeLog |   10 ++++++++++
+ 1 files changed, 10 insertions(+), 0 deletions(-)
+
+commit 6197bec18894b24a8beb745c9f6f184d5c953468
 Author: Harald Hoyer <harald@redhat.com>
 Date:   Mon Nov 10 18:56:42 2008 +0100
 
     initscripts-8.45.22
 
  ChangeLog        |   64 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
- initscripts.spec |    8 ++++++-
- 2 files changed, 71 insertions(+), 1 deletions(-)
+ initscripts.spec |    9 ++++++-
+ 2 files changed, 72 insertions(+), 1 deletions(-)
 
-commit 984d5ee9bdf3aec7e32c65eb4c4fe1f9f7c0c651
+commit 5f7c466e4f10afa3e5f1168f5eda502df4647876
 Author: Harald Hoyer <harald@redhat.com>
 Date:   Mon Nov 10 18:51:01 2008 +0100
 
@@ -19,7 +414,7 @@ Date:   Mon Nov 10 18:51:01 2008 +0100
  sysconfig/network-scripts/network-functions |    2 +-
  1 files changed, 1 insertions(+), 1 deletions(-)
 
-commit 762f16f06347a69f4e73dfdbfa826ebad4697797
+commit c053515b6e410df6ea6c7181cfb9884c54e8c355
 Author: Bill Nottingham <notting@redhat.com>
 Date:   Wed Nov 5 11:05:55 2008 -0500
 
@@ -32,7 +427,7 @@ Date:   Wed Nov 5 11:05:55 2008 -0500
  rc.d/rc.sysinit |   10 +++++-----
  1 files changed, 5 insertions(+), 5 deletions(-)
 
-commit d0902a73f28e14af2bbeada0aec0892ca8056f93
+commit dcdabd7fb5f3c14b618195ae6ae4bf90819f5512
 Author: Bill Nottingham <notting@redhat.com>
 Date:   Tue Nov 4 11:18:12 2008 -0500
 
@@ -44,7 +439,7 @@ Date:   Tue Nov 4 11:18:12 2008 -0500
  rc.d/init.d/halt |    2 --
  1 files changed, 0 insertions(+), 2 deletions(-)
 
-commit e8689d146af107562b5d1f5f228fe77272db358b
+commit a12d2efb0a2f8082f97d3a9b0a7c38a737aa8bec
 Author: Harald Hoyer <harald@redhat.com>
 Date:   Mon Nov 10 15:38:59 2008 +0100
 
@@ -53,7 +448,7 @@ Date:   Mon Nov 10 15:38:59 2008 +0100
  sysconfig/network-scripts/ifup-eth |    2 +-
  1 files changed, 1 insertions(+), 1 deletions(-)
 
-commit 90ec27ca2896a10d5090a61ce5ef43ccafa0505c
+commit 4a93d7a26c5bc2c80447be7b57cd85217838e3a8
 Author: Harald Hoyer <harald@redhat.com>
 Date:   Tue Oct 14 17:25:53 2008 +0200
 
@@ -62,6 +457,28 @@ Date:   Tue Oct 14 17:25:53 2008 +0200
  initscripts.spec |    6 +++++-
  rc.d/rc.sysinit  |    7 +++++++
  2 files changed, 12 insertions(+), 1 deletions(-)
+
+commit 265055a21f0a93fac03e7c383057a31122283650
+Author: Piotr Drąg <piotrdrag@gmail.com>
+Date:   Thu Oct 30 22:23:17 2008 +0000
+
+    Updated Polish translation
+    
+    Transmitted-via: Transifex (translate.fedoraproject.org)
+
+ po/pl.po |  128 +++++++++++++++++++++++++------------------------------------
+ 1 files changed, 53 insertions(+), 75 deletions(-)
+
+commit d6fcc23816ab23a12c83eaa6a70287b622b53578
+Author: Bill Nottingham <notting@redhat.com>
+Date:   Fri Oct 3 08:57:23 2008 -0400
+
+    Remove .cvsignore.
+    
+    ... as it doesn't serve much purpose in git.
+
+ .cvsignore |    1 -
+ 1 files changed, 0 insertions(+), 1 deletions(-)
 
 commit c37cf05feb44fcf1668beb3b5a9b41051d09e88e
 Author: Harald Hoyer <harald@redhat.com>
