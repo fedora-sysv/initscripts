@@ -20,17 +20,6 @@ CONFIG=${1}
 
 source_config
 
-if [ -n "${BRIDGE}" -a -x /usr/sbin/brctl ]; then
-      /sbin/ip link set dev ${DEVICE} down
-      /usr/sbin/brctl delif ${BRIDGE} ${DEVICE}
-      # Upon removing a device from a bridge,
-      # it's necessary to make radvd reload its config
-      [ -r /var/run/radvd/radvd.pid ] && kill -HUP `cat /var/run/radvd/radvd.pid`
-      if [ -d /sys/class/net/${BRIDGE}/brif ] && [ `ls -1 /sys/class/net/${BRIDGE}/brif | wc -l` -eq 0 ]; then
-	  /usr/sbin/brctl delbr ${BRIDGE}
-      fi
-fi
-
 . /etc/sysconfig/network
 
 # Check to make sure the device is actually up
@@ -107,6 +96,17 @@ if [ -d "/sys/class/net/${REALDEVICE}" ]; then
 	fi
 fi
 [ "$retcode" = "0" ] && retcode=$?
+
+if [ -n "${BRIDGE}" -a -x /usr/sbin/brctl ]; then
+      /sbin/ip link set dev ${DEVICE} down
+      /usr/sbin/brctl delif ${BRIDGE} ${DEVICE}
+      # Upon removing a device from a bridge,
+      # it's necessary to make radvd reload its config
+      [ -r /var/run/radvd/radvd.pid ] && kill -HUP `cat /var/run/radvd/radvd.pid`
+      if [ -d /sys/class/net/${BRIDGE}/brif ] && [ `ls -1 /sys/class/net/${BRIDGE}/brif | wc -l` -eq 0 ]; then
+	  /usr/sbin/brctl delbr ${BRIDGE}
+      fi
+fi
 
 # wait up to 5 seconds for device to actually come down...
 waited=0
