@@ -117,7 +117,7 @@ check:
 
 changelog:
 	@rm -f ChangeLog
-	git-log --stat --no-merges -B > ChangeLog
+	git log --stat --no-merges -B > ChangeLog
 
 clean:
 	make clean -C src
@@ -129,7 +129,7 @@ tag:
 	@echo "Tagged as $(TAG)"
 
 archive: clean check tag changelog
-	@git-archive --format=tar --prefix=initscripts-$(VERSION)/ HEAD > initscripts-$(VERSION).tar
+	@git archive --format=tar --prefix=initscripts-$(VERSION)/ HEAD > initscripts-$(VERSION).tar
 	@mkdir -p initscripts-$(VERSION)/
 	@cp ChangeLog initscripts-$(VERSION)/
 	@tar --append -f initscripts-$(VERSION).tar initscripts-$(VERSION)
