@@ -109,7 +109,7 @@ install:
 
 
 check:
-	for afile in `find . -type f -perm +111|grep -v \.csh | grep -v po/ ` ; do \
+	for afile in `find . -type f -perm +111|grep -v \.csh | grep -v po/ |grep -v .git/` ; do \
 		if ! file $$afile | grep -s ELF  >/dev/null; then \
 		    bash -n $$afile || { echo $$afile ; exit 1 ; } ; \
 		fi  ;\
