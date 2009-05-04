@@ -26,7 +26,7 @@ if [ -n "${BRIDGE}" -a -x /usr/sbin/brctl ]; then
       # Upon removing a device from a bridge,
       # it's necessary to make radvd reload its config
       [ -r /var/run/radvd/radvd.pid ] && kill -HUP `cat /var/run/radvd/radvd.pid`
-      if LC_ALL=C /usr/sbin/brctl show | LC_ALL=C grep -q "^${BRIDGE}	.*can't get port info"; then
+      if [ -d /sys/class/net/${BRIDGE}/brif ] && [ `ls -1 /sys/class/net/${BRIDGE}/brif | wc -l` -eq 0 ]; then
 	  /usr/sbin/brctl delbr ${BRIDGE}
       fi
 fi
