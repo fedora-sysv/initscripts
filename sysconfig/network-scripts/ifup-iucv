@@ -25,6 +25,8 @@ then
 fi
 [ -n "${MTU}" ] && opts="${opts} mtu ${MTU}"
 
+is_available ${REALDEVICE}
+
 echo "$PEERID" > /sys/bus/iucv/drivers/netiucv/connection 2>/dev/null
 
 ifconfig ${DEVICE} ${IPADDR} ${opts} pointopoint ${GATEWAY} netmask ${NETMASK}

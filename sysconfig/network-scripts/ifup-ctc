@@ -25,6 +25,8 @@ then
 fi
 [ -n "${MTU}" ] && opts="${opts} mtu ${MTU}"
 
+is_available ${REALDEVICE}
+
 ifconfig ${DEVICE} ${IPADDR} ${opts} pointopoint ${GATEWAY} netmask ${NETMASK}
 
 # Wait for the device to come up - the chandev'ified ctc driver can take
