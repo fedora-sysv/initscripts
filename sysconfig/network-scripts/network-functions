@@ -28,7 +28,7 @@ get_config_by_hwaddr ()
 
 get_config_by_subchannel ()
 {
-    LANG=C egrep -i -l  "^[[:space:]]*SUBCHANNELS=([0-9]\.[0-9]\.[a-f0-9]+,){0,2}${t}(,[0-9]\.[0-9]\.[a-f0-9]+){0,2}([[:space:]]+#|[[:space:]]*$)" /etc/sysconfig/network-scripts/ifcfg-* \
+    LANG=C egrep -i -l  "^[[:space:]]*SUBCHANNELS=([0-9]\.[0-9]\.[a-f0-9]+,){0,2}${1}(,[0-9]\.[0-9]\.[a-f0-9]+){0,2}([[:space:]]+#|[[:space:]]*$)" /etc/sysconfig/network-scripts/ifcfg-* \
 	| LC_ALL=C sed -e "$__sed_discard_ignored_files"
 }
 
