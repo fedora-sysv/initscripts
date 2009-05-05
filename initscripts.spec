@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.45.25
+Version: 8.45.26
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -198,7 +198,7 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
-* Mon May 04 2009 Harald Hoyer <harald@redhat.com> 8.45.25-1
+* Mon May 04 2009 Harald Hoyer <harald@redhat.com> 8.45.26-1
 - add md activation before lvm/device-mapper in netfs (#480627)
 - fixed SUBCHANNEL grep for s390
 - Move the bridge member handling later in the ifdown sequence (#463325, Sean E. Millichamp <sean@bruenor.org>)
@@ -230,6 +230,10 @@ rm -rf $RPM_BUILD_ROOT
             rhbz#475006,rhbz#475721,rhbz#475770,rhbz#480627,rhbz#481002,
             rhbz#481557,rhbz#481733,rhbz#481794,rhbz#483711,rhbz#484411,
             rhbz#487718,rhbz#490584,rhbz#493255,rhbz#494963,rhbz#495053
+
+* Wed Nov 12 2008 Harald Hoyer <harald@redhat.com> 8.45.25-1
+- fixed SUBCHANNEL grep statement (bug #459044)
+- Resolves: rhbz#459044
 
 * Wed Nov 12 2008 Harald Hoyer <harald@redhat.com> 8.45.24-1
 - fixed SUBCHANNEL grep statement (bug #459044)
