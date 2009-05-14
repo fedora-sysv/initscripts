@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.45.27
+Version: 8.45.28
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -201,10 +201,14 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
-* Thu May 14 2009 Harald Hoyer <harald@redhat.com> 8.45.27-1
+
+* Thu May 14 2009 Harald Hoyer <harald@redhat.com> 8.45.28-1
 - fixed "Determine reboot/halt via existing INIT_HALT environment variable. (#475006)
+- Resolves: rhbz#475006
+
+* Wed May 06 2009 Harald Hoyer <harald@redhat.com> 8.45.27-1
 - undeprecate rawdevices (#472891)
-- Resolves: rhbz#472891, rhbz#475006
+- Resolves: rhbz#472891
 
 * Mon May 04 2009 Harald Hoyer <harald@redhat.com> 8.45.26-1
 - add md activation before lvm/device-mapper in netfs (#480627)
