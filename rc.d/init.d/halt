@@ -14,17 +14,6 @@ NOLOCALE=1
 UMOUNT="umount"
 [ ! -w /etc ] && UMOUNT="umount -n"
 
-action() {
-   echo -n "$1 "
-   shift
-   if [ "$BOOTUP" = "color" ]; then
-      "$@" && echo_success || echo_failure
-   else
-      "$@"
-   fi
-   echo
-}
-
 halt_crypto() {
     fnval=0
     while read dst src key; do
