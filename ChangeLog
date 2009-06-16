@@ -1,3 +1,30 @@
+commit e2cd6a6b94e6993f4b5ce982c329fecd41efe0fb
+Author: Harald Hoyer <harald@redhat.com>
+Date:   Tue Jun 16 12:59:27 2009 +0200
+
+    cleanup /var/run/libvirt
+    
+    https://bugzilla.redhat.com/show_bug.cgi?id=505600
+    
+    libvirt-0.6.3-8.el5 now includes /var/run/libvirt/network and
+    /var/run/libvirt/qemu so the /var cleanup script rc.sysinit needs to be
+    extended to accommodate the additional directory depth, otherwise the
+    user gets messages on boot about not being able to remove the files because
+    they are directories.
+
+ rc.d/rc.sysinit |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+
+commit 37f574511902944a19a75aa9f30e6263f7702d56
+Author: Harald Hoyer <harald@redhat.com>
+Date:   Thu May 14 19:57:05 2009 +0200
+
+    version 8.45.28
+
+ ChangeLog        |   24 ++++++++++++++++++++++--
+ initscripts.spec |   10 +++++++---
+ 2 files changed, 29 insertions(+), 5 deletions(-)
+
 commit 960cd8a40e0c73257bd5b302b4718eccc849f004
 Author: Harald Hoyer <harald@redhat.com>
 Date:   Wed May 6 11:25:39 2009 +0200
