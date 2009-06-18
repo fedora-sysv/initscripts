@@ -19,7 +19,7 @@ export PATH
 [ -z "${CONSOLETYPE:-}" ] && CONSOLETYPE="`/sbin/consoletype`"
 
 if [ -f /etc/sysconfig/i18n -a -z "${NOLOCALE:-}" -a -z "${LANGSH_SOURCED:-}" ] ; then
-  . /etc/profile.d/lang.sh
+  . /etc/profile.d/lang.sh 2>/dev/null
   # avoid propagating LANGSH_SOURCED any further
   unset LANGSH_SOURCED
 fi

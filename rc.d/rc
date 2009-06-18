@@ -52,7 +52,7 @@ fi
 # Set language, vc settings once to avoid doing it for every init script
 # through functions
 if [ -f /etc/sysconfig/i18n -a -z "${NOLOCALE:-}" ] ; then
-  . /etc/profile.d/lang.sh
+  . /etc/profile.d/lang.sh 2>/dev/null
   export LANGSH_SOURCED=1
 fi
 
