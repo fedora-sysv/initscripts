@@ -17,7 +17,7 @@ script
 	runlevel --reboot || true
 end script
 post-stop script
-	if [ "$UPSTART_EVENT" == "startup" ]; then
+	if [ "$UPSTART_EVENT" = "startup" ]; then
 		runlevel=$(/bin/awk -F ':' '$3 == "initdefault" && $1 !~ "^#" { print $2 }' /etc/inittab)
 		[ -z "$runlevel" ] && runlevel="3"
 		for t in $(cat /proc/cmdline); do
