@@ -44,7 +44,7 @@ ipv6_log() {
 	case $t in
 	    'stdout'|'stderr'|'syslog')
 		local channel="$t"
-		local fn=$[ $fn + 1 ]
+		local fn=$(($fn + 1))
 		;;
 	    *)
 		local channel="stdout"
@@ -58,7 +58,7 @@ ipv6_log() {
 		case $t in
 		    'local0'|'local1'|'local2'|'local3'|'local4'|'local5'|'local6'|'local7'|'daemon')
 			local facility="$t"
-			local fn=$[ $fn + 1 ]
+			local fn=$(($fn + 1))
 			;;
 		    *)
 			local facility="user"
@@ -80,7 +80,7 @@ ipv6_log() {
 	case $t in
 	    'info'|'debug'|'notice'|'warn'|'err'|'crit')
 			local priority="$t"
-			local fn=$[ $fn + 1 ]
+			local fn=$(($fn + 1))
 			;;
 		    *)
 			local priority="notice"

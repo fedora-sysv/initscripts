@@ -225,7 +225,7 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 		ipv4mtu="$(ipv6_exec_ip link show dev $DEVICE | grep -w "mtu" | awk '{ print $5 }')"
 		if [ -n "$ipv4mtu" ]; then
 			# IPv6 tunnel MTU is IPv4 MTU minus 20 for IPv4 header
-			tunnelmtu=$[ $ipv4mtu - 20 ]
+			tunnelmtu=$(($ipv4mtu-20))
 		fi
 
 		if [ -n "$IPV6TO4_MTU" ]; then

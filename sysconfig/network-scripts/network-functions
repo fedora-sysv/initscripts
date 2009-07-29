@@ -361,12 +361,12 @@ change_resolv_conf ()
        s="$s"$'\n';
     fi;
     if [ $# -gt 1 ]; then
-       let n_args=$#;
+       n_args=$#;
        while [ $n_args -gt 0 ]; 
 	 do 
 	    if [[ "$s" = *$1* ]]; then
 	       shift;
-	       let n_args=n_args-1;
+	       n_args=$(($n_args-1));
                continue;
             fi;
 	    s="$s$1";
@@ -374,7 +374,7 @@ change_resolv_conf ()
 	    if [ $# -gt 0 ]; then
 		s="$s"$'\n';
 	    fi;
-	    let n_args=n_args-1; 
+	    n_args=$(($n_args-1));
          done;       
     elif [ $# -eq 1 ]; then
        if [ "x$s" != "x" ]; then
