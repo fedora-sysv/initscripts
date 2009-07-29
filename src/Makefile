@@ -12,6 +12,9 @@ mandir=/usr/share/man
 
 all:	$(PROGS)
 
+check:	all
+	./ipcalc-tests
+
 clean:
 	rm -f $(PROGS) *.o
 

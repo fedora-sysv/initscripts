@@ -128,6 +128,7 @@ check:
 		    bash -n $$afile || { echo $$afile ; exit 1 ; } ; \
 		fi  ;\
 	done
+	make check -C src
 
 changelog:
 	@rm -f ChangeLog
