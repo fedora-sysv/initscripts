@@ -65,7 +65,11 @@
 struct in_addr prefix2mask(int prefix) {
     struct in_addr mask;
     memset(&mask, 0, sizeof(mask));
-    mask.s_addr = htonl(~((1 << (32 - prefix)) - 1));
+    if (prefix) {
+        mask.s_addr = htonl(~((1 << (32 - prefix)) - 1));
+    } else {
+        mask.s_addr = htonl(0);
+    }
     return mask;
 }
 
@@ -80,14 +84,11 @@ struct in_addr prefix2mask(int prefix) {
   \return the number of significant bits.  */
 int mask2prefix(struct in_addr mask)
 {
-    int i;
-    int ipbits = sizeof(struct in_addr) * 8;
-    int count = ipbits;
-    uint32_t saddr = mask.s_addr;
+    int count;
+    uint32_t saddr = ntohl(mask.s_addr);
 
-    for (i = 0; i < ipbits; i++) {
-        if (!(ntohl(saddr) & ((2 << i) - 1)))
-            count--;
+    for (count=0; saddr > 0; count++) {
+        saddr=saddr << 1;
     }
 
     return count;
@@ -224,7 +225,7 @@ int main(int argc, const char **argv) {
     char namebuf[INET6_ADDRSTRLEN+1];
     struct in_addr ip, netmask, network, broadcast;
     struct in6_addr ip6;
-    int prefix = 0;
+    int prefix = -1;
     char errBuf[250];
     struct poptOption optionsTable[] = {
         { "check", 'c', 0, &doCheck, 0,
@@ -270,17 +271,23 @@ int main(int argc, const char **argv) {
         return 1;
     }
 
+    /* if there is a : in the address, it is an IPv6 address */
+    if (strchr(ipStr,':') != NULL) {
+        familyIPv6=1;
+    }
+
     if (strchr(ipStr,'/') != NULL) {
         prefixStr = strchr(ipStr, '/') + 1;
         prefixStr--;
         *prefixStr = '\0';  /* fix up ipStr */
         prefixStr++;
-    } else
+    } else {
         prefixStr = NULL;
+    }
 
     if (prefixStr != NULL) {
         prefix = atoi(prefixStr);
-        if (prefix == 0) {
+        if (prefix < 0 || ((familyIPv6 && prefix > 128) || (!familyIPv6 && prefix > 32))) {
             if (!beSilent)
                 fprintf(stderr, "ipcalc: bad prefix: %s\n", prefixStr);
             return 1;
@@ -288,13 +295,13 @@ int main(int argc, const char **argv) {
     }
 
     if (showBroadcast || showNetwork || showPrefix) {
-        if (!(netmaskStr = (char *) poptGetArg(optCon)) && (prefix == 0)) {
+        if (!(netmaskStr = (char *) poptGetArg(optCon)) && (prefix < 0)) {
             if (!beSilent) {
                 fprintf(stderr, "ipcalc: netmask or prefix expected\n");
                 poptPrintHelp(optCon, stderr, 0);
             }
             return 1;
-        } else if (netmaskStr && prefix != 0) {
+        } else if (netmaskStr && prefix >= 0) {
             if (!beSilent) {
                 fprintf(stderr, "ipcalc: both netmask and prefix specified\n");
                 poptPrintHelp(optCon, stderr, 0);
@@ -318,8 +325,18 @@ int main(int argc, const char **argv) {
         return 1;
     }
 
+    if (!familyIPv4 && !familyIPv6)
+        familyIPv4 = 1;
+
+    if (familyIPv4 && familyIPv6) {
+        if (!beSilent) {
+            fprintf(stderr, "ipcalc: cannot specify both address families\n");
+        }
+        return 1;
+    }
+
     /* Handle CIDR entries such as 172/8 */
-    if (prefix) {
+    if (prefix >= 0) {
         char *tmp = ipStr;
         int i;
 
@@ -341,20 +358,14 @@ int main(int argc, const char **argv) {
         }
     }
 
-    if (!familyIPv4 && !familyIPv6)
-        familyIPv4 = 1;
-
-    if (familyIPv4 && familyIPv6) {
-        if (!beSilent) {
-            fprintf(stderr, "ipcalc: cannot specify both address families\n");
-        }
-        return 1;
-    }
-
     if (familyIPv4) {
         if (inet_pton(AF_INET, ipStr, &ip) <= 0) {
             if (!beSilent)
                 fprintf(stderr, "ipcalc: bad IPv4 address: %s\n", ipStr);
+            return 1;
+        } else if (prefix > 32) {
+            if (!beSilent)
+                fprintf(stderr, "ipcalc: bad IPv4 prefix %d\n", prefix);
             return 1;
         } else {
             if (doCheck)
@@ -366,6 +377,10 @@ int main(int argc, const char **argv) {
         if (inet_pton(AF_INET6, ipStr, &ip6) <= 0) {
             if (!beSilent)
                 fprintf(stderr, "ipcalc: bad IPv6 address: %s\n", ipStr);
+            return 1;
+        } else if (prefix > 128) {
+            if (!beSilent)
+                fprintf(stderr, "ipcalc: bad IPv6 prefix %d\n", prefix);
             return 1;
         } else {
             if (doCheck)
@@ -392,7 +407,7 @@ int main(int argc, const char **argv) {
     /* we know what we want to display now, so display it. */
 
     if (showNetmask) {
-        if (prefix) {
+        if (prefix >= 0) {
             netmask = prefix2mask(prefix);
         } else {
             netmask = default_netmask(ip);
@@ -410,7 +425,7 @@ int main(int argc, const char **argv) {
     }
 
     if (showPrefix) {
-        if (!prefix)
+        if (prefix == -1)
             prefix = mask2prefix(ip);
         printf("PREFIX=%d\n", prefix);
     }
