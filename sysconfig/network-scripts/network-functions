@@ -47,9 +47,9 @@ need_config ()
     [ -f "${CONFIG}" ] && return
     CONFIG="${1##*/}"
     [ -f "${CONFIG}" ] && return
-    local addr=`get_hwaddr ${1}`
+    local addr=$(get_hwaddr ${1})
     if [ -n "$addr" ]; then
-      nconfig=`get_config_by_hwaddr ${addr}`
+      nconfig=$(get_config_by_hwaddr ${addr})
       if [ -n "$nconfig" ] ; then
         CONFIG=${nconfig##*/}
 	[ -f "${CONFIG}" ] && return
@@ -108,7 +108,7 @@ source_config ()
 		DEVICETYPE="sit"
 		;;
     esac
-    [ -z "$DEVICETYPE" ] && DEVICETYPE=`echo ${DEVICE} | sed "s/[0-9]*$//"`
+    [ -z "$DEVICETYPE" ] && DEVICETYPE=$(echo ${DEVICE} | sed "s/[0-9]*$//")
     [ -z "$REALDEVICE" -a -n "$PARENTDEVICE" ] && REALDEVICE=$PARENTDEVICE
     [ -z "$REALDEVICE" ] && REALDEVICE=${DEVICE%%:*}
     if [ "${DEVICE}" != "${REALDEVICE}" ]; then
@@ -117,10 +117,10 @@ source_config ()
 	ISALIAS=no
     fi
     if [ -n "$HWADDR" ]; then
-        HWADDR=`echo $HWADDR | awk '{ print toupper($0) }'`
+        HWADDR=$(echo $HWADDR | awk '{ print toupper($0) }')
     fi
     if [ -n "$MACADDR" ]; then
-        MACADDR=`echo $MACADDR | awk '{ print toupper($0) }'`
+        MACADDR=$(echo $MACADDR | awk '{ print toupper($0) }')
     fi
 }
 
@@ -129,19 +129,19 @@ source_config ()
 expand_config ()
 {
     if [ -z "${NETMASK}" ]; then
-	eval `/bin/ipcalc --netmask ${IPADDR}`
+	eval $(/bin/ipcalc --netmask ${IPADDR})
     fi
 
     if [ -z "${PREFIX}" ]; then
-	eval `/bin/ipcalc --prefix ${IPADDR} ${NETMASK}`
+	eval $(/bin/ipcalc --prefix ${IPADDR} ${NETMASK})
     fi
 
     if [ -z "${BROADCAST}" ]; then
-	eval `/bin/ipcalc --broadcast ${IPADDR} ${NETMASK}`
+	eval $(/bin/ipcalc --broadcast ${IPADDR} ${NETMASK})
     fi
 
     if [ -z "${NETWORK}" ]; then
-	eval `/bin/ipcalc --network ${IPADDR} ${NETMASK}`
+	eval $(/bin/ipcalc --network ${IPADDR} ${NETMASK})
     fi
 }
 
@@ -162,9 +162,9 @@ do_netreport ()
   ( cd /var/run/netreport || exit
     for i in * ; do
       if [ -f $i ]; then
-        OWNER=`ls -l $i | awk '{ print $3 }'`
+        OWNER=$(ls -l $i | awk '{ print $3 }')
 	
-        if [ "`id -u`" = "0" ]; then
+        if [ "$(id -u)" = "0" ]; then
 	  su -s /bin/bash $OWNER -c "kill -SIGIO $i >/dev/null 2>&1 || rm -f $i >/dev/null 2>&1" > /dev/null 2>&1
 	else
 	  kill -SIGIO $i >/dev/null 2>&1 || rm -f $i >/dev/null 2>&1
@@ -197,7 +197,7 @@ END {
       return 1
     }
     if [ -n "$HWADDR" ]; then
-       local curdev=`get_device_by_hwaddr "$HWADDR"`
+       local curdev=$(get_device_by_hwaddr "$HWADDR")
        if [ -z "$curdev" ]; then
           return 1
        fi
@@ -213,7 +213,7 @@ END {
 
 need_hostname ()
 {
-    CHECK_HOSTNAME=`hostname`
+    CHECK_HOSTNAME=$(hostname)
     if [ "$CHECK_HOSTNAME" = "(none)" -o "$CHECK_HOSTNAME" = "localhost" -o \
 	"$CHECK_HOSTNAME" = "localhost.localdomain" ]; then
 	return 0
@@ -226,9 +226,9 @@ set_hostname ()
 {
     hostname $1
     if ! grep search /etc/resolv.conf >/dev/null 2>&1; then
-	domain=`echo $1 | sed 's/^[^\.]*\.//'`
+	domain=$(echo $1 | sed 's/^[^\.]*\.//')
 	if [ -n "$domain" ]; then
-		rsctmp=`mktemp /tmp/XXXXXX`;
+		rsctmp=$(mktemp /tmp/XXXXXX);
 		cat /etc/resolv.conf > $rsctmp
 		echo "search $domain" >> $rsctmp
 		change_resolv_conf $rsctmp
@@ -257,7 +257,7 @@ check_device_down ()
 check_ethtool ()
 {
    [ -x /sbin/ethtool ] || return 2
-   output=`LC_ALL=C ethtool $1 2>&1`
+   output=$(LC_ALL=C ethtool $1 2>&1)
    echo $output | LC_ALL=C grep -q "Link detected: yes" && return 1
    echo $output | LC_ALL=C grep -q "Link detected: no" && return 0 || return 2
 }
@@ -356,7 +356,7 @@ is_bonding_device ()
 # Invoke this when /etc/resolv.conf has changed:
 change_resolv_conf ()
 {
-    s=`/bin/grep '^[\ \	]*option' /etc/resolv.conf 2>/dev/null`;
+    s=$(/bin/grep '^[\ \	]*option' /etc/resolv.conf 2>/dev/null);
     if [ "x$s" != "x" ]; then
        s="$s"$'\n';
     fi;
@@ -378,9 +378,9 @@ change_resolv_conf ()
          done;       
     elif [ $# -eq 1 ]; then
        if [ "x$s" != "x" ]; then
-	  s="$s"`/bin/grep -vF "$s" $1`;
+	  s="$s"$(/bin/grep -vF "$s" $1);
        else
-	  s=`cat $1`;
+	  s=$(cat $1);
        fi;
     fi;
     (echo "$s" > /etc/resolv.conf;) >/dev/null 2>&1;

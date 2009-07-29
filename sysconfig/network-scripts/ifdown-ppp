@@ -14,7 +14,7 @@ fi
 CONFIG=${CONFIG##ifcfg-}
 
 if [ "${DEMAND}" = "yes" -a -f /var/run/ppp-${CONFIG}.pid ] ; then
-    PID=`head -1 /var/run/ppp-${CONFIG}.pid`
+    PID=$(head -1 /var/run/ppp-${CONFIG}.pid)
     kill -TERM ${PID}
     sleep 2
     [ ! -d /proc/${PID} ] && exit 0
@@ -32,7 +32,7 @@ if [ ! -f $file ]; then
     exit 0
 fi
 
-PID=`cat $file`
+PID=$(cat $file)
 [ -n "${PID}" ] || exit 1
 
 kill -TERM ${PID} > /dev/null 2>&1

@@ -194,11 +194,11 @@ function new_interface ()
        fi
 
        if [ -z "$NETMASK" ]; then
-               eval `/bin/ipcalc --netmask ${IPADDR}`
+               eval $(/bin/ipcalc --netmask ${IPADDR})
        fi
 
        if [ -z "$BROADCAST" -o "$BROADCAST" = "$default_BROADCAST" ]; then
-               eval `/bin/ipcalc --broadcast ${IPADDR} ${NETMASK}`
+               eval $(/bin/ipcalc --broadcast ${IPADDR} ${NETMASK})
                nma=$NETMASK; nmb=${nma#*.}; nmc=${nmb#*.};
                NMGLOP="${nma%%.*}_${nmb%%.*}_${nmc%%.*}_${nmc#*.}";
                if [ ${nma%%.*} -eq 0 ]; then ipnm_a=0; else ipnm_a=${ipa%%.*}; fi
@@ -208,7 +208,7 @@ function new_interface ()
                CACHENAME="${NMGLOP}_${ipnm_a}_${ipnm_b}_${ipnm_c}_${ipnm_d}"
                eval "
                        if [ -z \"\$bcastcache_${CACHENAME}\" ]; then
-                               eval `/bin/ipcalc --broadcast \$IPADDR \$NETMASK`
+                               eval $(/bin/ipcalc --broadcast \$IPADDR \$NETMASK)
                                bcastcache_${CACHENAME}=\$BROADCAST
                        else
                                BROADCAST=\$bcastcache_${CACHENAME}

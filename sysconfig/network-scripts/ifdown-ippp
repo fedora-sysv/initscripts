@@ -28,7 +28,7 @@ isdnctrl delif $DEVICE >/dev/null 2>&1
 
 # kill ipppd daemon
 if [ -f /var/run/ipppd.$DEVICE.pid ] ; then
-    pppdpid=`cat /var/run/ipppd.$DEVICE.pid`
+    pppdpid=$(cat /var/run/ipppd.$DEVICE.pid)
     kill -9 $pppdpid > /dev/null 2>&1
     rm -f /var/run/ipppd.$DEVICE.pid > /dev/null 2>&1
 fi

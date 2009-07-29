@@ -20,7 +20,7 @@ check_runlevel ()
 
 # Now find out what the current and what the previous runlevel are.
 argv1="$1"
-set `/sbin/runlevel`
+set $(/sbin/runlevel)
 runlevel=$2
 previous=$1
 export runlevel previous

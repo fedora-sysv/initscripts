@@ -16,7 +16,7 @@ export PATH
 # Get a sane screen width
 [ -z "${COLUMNS:-}" ] && COLUMNS=80
 
-[ -z "${CONSOLETYPE:-}" ] && CONSOLETYPE="`/sbin/consoletype`"
+[ -z "${CONSOLETYPE:-}" ] && CONSOLETYPE="$(/sbin/consoletype)"
 
 if [ -f /etc/sysconfig/i18n -a -z "${NOLOCALE:-}" -a -z "${LANGSH_SOURCED:-}" ] ; then
   . /etc/profile.d/lang.sh 2>/dev/null

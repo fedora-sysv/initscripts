@@ -46,7 +46,7 @@ fi
 
 # This is a bit hackish, but should do the job right...
 if [ -n "$ESSID" -o -n "$MODE" ] ; then
-    NICKNAME=`/bin/hostname`
+    NICKNAME=$(/bin/hostname)
     iwconfig $DEVICE nick "$NICKNAME" >/dev/null 2>&1
 fi
 # Regular stuff...

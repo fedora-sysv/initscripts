@@ -41,7 +41,7 @@ fi
 [ -z "$KEYING" ] && KEYING=manual
 
 if [ -z "$SRC" ]; then
-    SRC=`ip -o route get to $DST | sed "s|.*src \([^ ]*\).*|\1|"`
+    SRC=$(ip -o route get to $DST | sed "s|.*src \([^ ]*\).*|\1|")
 fi
 
 if [ -n "$SRCNET" -o -n "$DSTNET" ]; then
@@ -56,7 +56,7 @@ if [ -n "$SRCNET" -o -n "$DSTNET" ]; then
            = "NETWORK=${DSTNET%%/*}" ]; then
     EXCLUDE_SRCNET=yes
   fi
-  [ -z "$SRCGW" ] && SRCGW=`ip -o route get to $SRCNET | sed "s|.*src \([^ ]*\).*|\1|"`
+  [ -z "$SRCGW" ] && SRCGW=$(ip -o route get to $SRCNET | sed "s|.*src \([^ ]*\).*|\1|")
   ip route del to $DSTNET via $SRCGW src $SRCGW
 else
   MODE=transport
@@ -77,7 +77,7 @@ ${EXCLUDE_SRCNET:+spddelete $SPD_SRC $SPD_SRC any -P in;}
 EOF
 
 if [ "$KEYING" = "automatic" -a -n "$IKE_METHOD" ]; then
-   racoontmp=`mktemp /etc/racoon/racoon.XXXXXX`
+   racoontmp=$(mktemp /etc/racoon/racoon.XXXXXX)
    grep -v "^include \"/etc/racoon/$DST.conf\";" /etc/racoon/racoon.conf >> $racoontmp
    mv -f $racoontmp /etc/racoon/racoon.conf
    pidof -x /usr/sbin/racoon > /dev/null 2>&1 && killall -HUP /usr/sbin/racoon

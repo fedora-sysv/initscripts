@@ -93,7 +93,7 @@ tmpfs=$(awk '$2 ~ /^\/($|proc|dev)/ { next; }
 [ -n "$tmpfs" ] && fstab-decode $UMOUNT $tmpfs 2>/dev/null
 
 # Turn off swap, then unmount file systems.
-[ -f /proc/swaps ] && SWAPS=`awk '! /^Filename/ { print $1 }' /proc/swaps`
+[ -f /proc/swaps ] && SWAPS=$(awk '! /^Filename/ { print $1 }' /proc/swaps)
 if [ -n "$SWAPS" ]; then
     action $"Turning off swap: " swapoff $SWAPS
     for dst in $SWAPS; do

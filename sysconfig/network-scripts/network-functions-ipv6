@@ -38,7 +38,7 @@ ipv6_log() {
 	# Map loglevel now
 	local fn=1
 	local fnawk="print \$$fn"
-	local t="`echo $level | awk -F. "{ $fnawk }"`"
+	local t="$(echo $level | awk -F. "{ $fnawk }")"
 
 	# Check channel, if given
 	case $t in
@@ -54,7 +54,7 @@ ipv6_log() {
 	# Check syslog facilty, if given
 	if [ "$channel" = "syslog" ]; then
 		local fnawk="print \$$fn"
-		local t="`echo $level | awk -F. "{ $fnawk }"`"
+		local t="$(echo $level | awk -F. "{ $fnawk }")"
 		case $t in
 		    'local0'|'local1'|'local2'|'local3'|'local4'|'local5'|'local6'|'local7'|'daemon')
 			local facility="$t"
@@ -67,7 +67,7 @@ ipv6_log() {
 	fi
 
 	local fnawk="print \$$fn"
-	local t="`echo $level | awk -F. "{ $fnawk }"`"
+	local t="$(echo $level | awk -F. "{ $fnawk }")"
 
 	# Map priority
 	[ "$t" = "inf"      ] && local t="info"
@@ -88,7 +88,7 @@ ipv6_log() {
 	esac
 
 	local fnawk="print \$$fn"
-	local t="`echo $level | awk -F. "{ $fnawk }"`"
+	local t="$(echo $level | awk -F. "{ $fnawk }")"
 	if [ -n "$t" ]; then
 		echo $"ERROR: [ipv6_log] Loglevel isn't valid '$level' (arg 2)" >/dev/stderr
 		return 1
@@ -205,7 +205,7 @@ ipv6_test() {
 ##### Get version of this function library
 # stdout: <version number YYYYMMDD>
 getversion_ipv6_functions() {
-	local version_ipv6_functions="`cat /etc/sysconfig/network-scripts/network-functions-ipv6 | LC_ALL=C grep "^# Version:" | awk '{ print $3 }' | sed 's/-//g' | sed 's/[A-Za-z]*$//g'`"
+	local version_ipv6_functions="$(cat /etc/sysconfig/network-scripts/network-functions-ipv6 | LC_ALL=C grep "^# Version:" | awk '{ print $3 }' | sed 's/-//g' | sed 's/[A-Za-z]*$//g')"
 	echo $version_ipv6_functions
 	return 0
 }
@@ -336,12 +336,12 @@ ipv6_add_route() {
 	ipv6_test_ipv6_addr_valid $gatewayipv6 || return 2
 
 	if [ -z "$device" ]; then
-		local returntxt="`ipv6_exec_ip -6 route add $networkipv6 via $gatewayipv6 metric 1 2>&1`"
+		local returntxt="$(ipv6_exec_ip -6 route add $networkipv6 via $gatewayipv6 metric 1 2>&1)"
 	else
 		if [ "$gatewayipv6" = "::" ]; then
-			local returntxt="`ipv6_exec_ip -6 route add $networkipv6 dev $device metric 1 2>&1`"
+			local returntxt="$(ipv6_exec_ip -6 route add $networkipv6 dev $device metric 1 2>&1)"
 		else
-			local returntxt="`ipv6_exec_ip -6 route add $networkipv6 via $gatewayipv6 dev $device metric 1 2>&1`"
+			local returntxt="$(ipv6_exec_ip -6 route add $networkipv6 via $gatewayipv6 dev $device metric 1 2>&1)"
 		fi
 	fi
 
@@ -558,8 +558,8 @@ ipv6_add_addr_on_device() {
 	fi
 
 	# Extract address parts
-	local prefixlength_implicit="`echo $address | awk -F/ '{ print $2 }'`"
-	local address_implicit="`echo $address | awk -F/ '{ print $1 }'`"
+	local prefixlength_implicit="$(echo $address | awk -F/ '{ print $2 }')"
+	local address_implicit="$(echo $address | awk -F/ '{ print $1 }')"
 
 	# Check prefix length and using '64' as default
 	if [ -z "$prefixlength_implicit" ]; then
@@ -664,8 +664,8 @@ ipv6_del_addr_on_device() {
 	ipv6_test_ipv6_addr_valid $address || return 1
 
 	# Extract address parts
-	local prefixlength_implicit="`echo $address | awk -F/ '{ print $2 }'`"
-	local address_implicit="`echo $address | awk -F/ '{ print $1 }'`"
+	local prefixlength_implicit="$(echo $address | awk -F/ '{ print $2 }')"
+	local address_implicit="$(echo $address | awk -F/ '{ print $1 }')"
 
 	# Check prefix length and using '64' as default
 	if [ -z "$prefixlength_implicit" ]; then
@@ -781,24 +781,24 @@ ipv6_create_6to4_prefix() {
 		ipv6_log $"Missing parameter 'IPv4 address' (arg 1)" stderr.err $fn
 	fi
 
-	local major1="`echo $ipv4addr | awk -F. '{ print $1 }'`"
-	local minor1="`echo $ipv4addr | awk -F. '{ print $2 }'`"
-	local major2="`echo $ipv4addr | awk -F. '{ print $3 }'`"
-	local minor2="`echo $ipv4addr | awk -F. '{ print $4 }'`"
+	local major1="$(echo $ipv4addr | awk -F. '{ print $1 }')"
+	local minor1="$(echo $ipv4addr | awk -F. '{ print $2 }')"
+	local major2="$(echo $ipv4addr | awk -F. '{ print $3 }')"
+	local minor2="$(echo $ipv4addr | awk -F. '{ print $4 }')"
 
 	if [ -z "$major1" -o -z "$minor1" -o -z "$major2" -o -z "$minor2" ]; then
 		return 1
 	fi
 
 	if [ $major1 -eq 0 ]; then
-		local block1="`printf "%x" $minor1`"
+		local block1="$(printf "%x" $minor1)"
 	else
-		local block1="`printf "%x%02x" $major1 $minor1`"
+		local block1="$(printf "%x%02x" $major1 $minor1)"
 	fi
 	if [ $major2 -eq 0 ]; then
-		local block2="`printf "%x" $minor2`"
+		local block2="$(printf "%x" $minor2)"
 	else
-		local block2="`printf "%x%02x" $major2 $minor2`"
+		local block2="$(printf "%x%02x" $major2 $minor2)"
 	fi
 
 	local prefix6to4="2002:$block1:$block2"
@@ -885,7 +885,7 @@ ipv6_add_6to4_tunnel() {
 	ipv6_test || return 2
 
 	# Generate 6to4 address
-	local prefix6to4="`ipv6_create_6to4_prefix $globalipv4`"
+	local prefix6to4="$(ipv6_create_6to4_prefix $globalipv4)"
 	if [ $? -ne 0 -o -z "$prefix6to4" ]; then
 		return 3
 	fi
@@ -1016,7 +1016,7 @@ ipv6_add_tunnel_device() {
 	ipv6_test || return 2
 
 	if ! ipv6_test_device_status $device; then
-		local ttldefault="`ipv6_exec_sysctl net.ipv4.ip_default_ttl | awk '{ print $3 }'`"
+		local ttldefault="$(ipv6_exec_sysctl net.ipv4.ip_default_ttl | awk '{ print $3 }')"
 		if [ -z "$ttldefault" ]; then
 			local ttldefault=64
 		fi
@@ -1160,9 +1160,9 @@ ipv6_get_ipv4addr_of_tunnel() {
 
 	# Device exists, retrieve address
 	if [ "$selection" = "local" ]; then
-		local tunnel_local_ipv4addr="`ipv6_exec_ip tunnel show $device | awk '{ print $6 }'`"
+		local tunnel_local_ipv4addr="$(ipv6_exec_ip tunnel show $device | awk '{ print $6 }')"
 	elif [ "$selection" = "remote" ]; then
-		local tunnel_local_ipv4addr="`ipv6_exec_ip tunnel show $device | awk '{ print $4 }'`"
+		local tunnel_local_ipv4addr="$(ipv6_exec_ip tunnel show $device | awk '{ print $4 }')"
 	fi
 
 	if [ $? != 0 ]; then
@@ -1201,7 +1201,7 @@ ipv6_get_ipv4addr_of_device() {
 	fi
 
 	# Device exists, retrieve the first address only
-	local ipv4addr="`ipv6_exec_ip -o -4 addr show dev $device | awk '{ print $4 }' | awk -F/ '{ print $1; exit }'`"
+	local ipv4addr="$(ipv6_exec_ip -o -4 addr show dev $device | awk '{ print $4 }' | awk -F/ '{ print $1; exit }')"
 
 	if [ $? != 0 ]; then
 		return 3
@@ -1272,8 +1272,8 @@ ipv6_set_default_route() {
 	fi
 
 	if [ -n "$address" ]; then
-		local addressgw=`echo $address | awk -F% '{ print $1 }'`
-		local device_scope=`echo $address | awk -F% '{ print $2 }'`
+		local addressgw=$(echo $address | awk -F% '{ print $1 }')
+		local device_scope=$(echo $address | awk -F% '{ print $2 }')
 
 		if [ -z "$addressgw" ]; then
 			ipv6_log $"Given IPv6 default gateway '$address' is not in proper format" err $fn
@@ -1446,7 +1446,7 @@ ipv6_trigger_radvd() {
 		fi
 
 		# Get PID
-		local pid="`cat $pidfile`"
+		local pid="$(cat $pidfile)"
 		if [ -z "$pid" ]; then
 			# pidfile empty - strange
 			ipv6_log $"Pidfile '$pidfile' is empty, cannot send trigger to radvd" err $fn

@@ -27,7 +27,7 @@ if [ "$PEERDNS" != "no" ] ||[ -n "$RESOLV_MODS" -a "$RESOLV_MODS" != "no" ]; the
   [ -n "$MS_DNS1" ] && DNS1=$MS_DNS1
   [ -n "$MS_DNS2" ] && DNS2=$MS_DNS2
   if [ -n "$DNS1" ] && ! grep -q "^nameserver $DNS1" /etc/resolv.conf &&
-   tr=`mktemp /tmp/XXXXXX` ; then
+   tr=$(mktemp /tmp/XXXXXX) ; then
     current_replacement="$DNS1"
     next_replacement="$DNS2"
     search=
@@ -71,7 +71,7 @@ if [ "$PEERDNS" != "no" ] ||[ -n "$RESOLV_MODS" -a "$RESOLV_MODS" != "no" ]; the
 
     # maintain permissions
     # but set umask in case it doesn't exist!
-    oldumask=`umask`
+    oldumask=$(umask)
     umask 022
     change_resolv_conf $tr 
     rm -f $tr

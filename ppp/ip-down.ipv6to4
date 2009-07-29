@@ -48,7 +48,7 @@ CONFIG=$1
 source_config
 
 # IPv6 don't need aliases anymore, config is skipped
-REALDEVICE=`echo ${DEVICE} | sed 's/:.*//g'`
+REALDEVICE=$(echo ${DEVICE} | sed 's/:.*//g')
 [ "$DEVICE" != "$REALDEVICE" ] && exit 0
 
 if [ ! -f /etc/sysconfig/network-scripts/network-functions-ipv6 ]; then
@@ -75,14 +75,14 @@ if [ $? = 0 -o $? = 11 ]; then
 	valid6to4config="yes"
 
 	# Get IPv4 address from interface
-	ipv4addr="`ipv6_get_ipv4addr_of_device $DEVICE`"
+	ipv4addr="$(ipv6_get_ipv4addr_of_device $DEVICE)"
 	if [ -z "$ipv4addr" ]; then
 		# Has no IPv4 address
 		valid6to4config="no"
 	fi
 
 	# Get local IPv4 address of dedicated tunnel
-	ipv4addr6to4local="`ipv6_get_ipv4addr_of_tunnel tun6to4 local`"
+	ipv4addr6to4local="$(ipv6_get_ipv4addr_of_tunnel tun6to4 local)"
 
 	# IPv6to4 not enabled on this interface?
 	if [ $IPV6TO4INIT != "yes" ]; then
@@ -104,7 +104,7 @@ if [ "$valid6to4config" = "yes" ]; then
 	if [ -n "$IPV6TO4_ROUTING" ]; then
 		# Delete routes to local networks
 		for devsuf in $IPV6TO4_ROUTING; do
-			dev="`echo $devsuf | awk -F- '{ print $1 }'`"
+			dev="$(echo $devsuf | awk -F- '{ print $1 }')"
 			ipv6_cleanup_6to4_device $dev
 		done
 	fi

@@ -65,7 +65,7 @@ fi
 [ -z "$KEYING" ] && KEYING=manual
 
 if [ -z "$SRC" ]; then
-    SRC=`ip -o route get to $DST | sed "s|.*src \([^ ]*\).*|\1|"`
+    SRC=$(ip -o route get to $DST | sed "s|.*src \([^ ]*\).*|\1|")
 fi
 
 if [ -n "$SRCNET" -o -n "$DSTNET" ]; then
@@ -81,7 +81,7 @@ if [ -n "$SRCNET" -o -n "$DSTNET" ]; then
            = "NETWORK=${DSTNET%%/*}" ]; then
     EXCLUDE_SRCNET=yes
   fi
-  [ -z "$SRCGW" ] && SRCGW=`ip -o route get to $SRCNET | sed "s|.*src \([^ ]*\).*|\1|"`
+  [ -z "$SRCGW" ] && SRCGW=$(ip -o route get to $SRCNET | sed "s|.*src \([^ ]*\).*|\1|")
   ip route add to $DSTNET via $SRCGW src $SRCGW
 else
   unset TUNNEL_MODE
@@ -206,7 +206,7 @@ if [ "$KEYING" = "automatic" -a -n "$IKE_METHOD" ]; then
              ;;
           esac
        fi
-       tmpfile=`mktemp /etc/racoon/psk.XXXXXX`
+       tmpfile=$(mktemp /etc/racoon/psk.XXXXXX)
        grep -v "^$DST " /etc/racoon/psk.txt > $tmpfile
        echo "$DST  $IKE_PSK" >> $tmpfile
        mv -f $tmpfile /etc/racoon/psk.txt
@@ -265,7 +265,7 @@ EOF
 EOF
          esac
     fi
-    racoontmp=`mktemp /etc/racoon/racoon.XXXXXX`
+    racoontmp=$(mktemp /etc/racoon/racoon.XXXXXX)
     grep -v "^include \"/etc/racoon/$DST.conf\";" /etc/racoon/racoon.conf >> $racoontmp
     echo "include \"/etc/racoon/$DST.conf\";" >> $racoontmp
     mv -f $racoontmp /etc/racoon/racoon.conf

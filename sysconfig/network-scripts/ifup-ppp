@@ -150,7 +150,7 @@ if [ "${DEMAND}" = "yes" ] ; then
   # pppd is a tad slow to write the pid-file.
   sleep 2
   if [ -f /var/run/ppp-${DEVNAME}.pid ] ; then
-    REALDEVICE=`tail -1 /var/run/ppp-${DEVNAME}.pid`
+    REALDEVICE=$(tail -1 /var/run/ppp-${DEVNAME}.pid)
     /etc/sysconfig/network-scripts/ifup-routes ${REALDEVICE} ${DEVNAME}
   fi
 fi

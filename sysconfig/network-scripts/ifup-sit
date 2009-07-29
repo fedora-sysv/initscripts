@@ -40,7 +40,7 @@ CONFIG=$1
 source_config
 
 # IPv6 don't need aliases anymore, config is skipped
-REALDEVICE=`echo ${DEVICE} | sed 's/:.*//g'`
+REALDEVICE=$(echo ${DEVICE} | sed 's/:.*//g')
 [ "$DEVICE" != "$REALDEVICE" ] && exit 0
 
 # Test whether IPv6 configuration is enabled for this interface, else stop

@@ -26,7 +26,7 @@ if [ -x /bin/setfont ]; then
   fi
   if [ -n "$SYSFONTACM" ]; then
     if [ ! -f /lib/kbd/consoletrans/${SYSFONTACM}_to_uni.trans ]; then
-        SYSFONTACM=`echo $SYSFONTACM | sed "s|iso0|8859-|g;s|iso|8859-|g"`
+        SYSFONTACM=$(echo $SYSFONTACM | sed "s|iso0|8859-|g;s|iso|8859-|g")
     fi
     ARGS="$ARGS -m $SYSFONTACM"
   fi

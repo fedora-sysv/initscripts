@@ -43,7 +43,7 @@ is_available ${REALDEVICE}
 
 # bail out, if the MAC does not fit
 if [ -n "${HWADDR}" ]; then
-    FOUNDMACADDR=`get_hwaddr ${REALDEVICE}`
+    FOUNDMACADDR=$(get_hwaddr ${REALDEVICE})
     if [ "${FOUNDMACADDR}" != "${HWADDR}" -a "${FOUNDMACADDR}" != "${MACADDR}" ]; then
 	    echo $"Device ${DEVICE} has different MAC address than expected, ignoring."
 	    exit 1
@@ -133,7 +133,7 @@ if [ "$ISALIAS" = no ] && is_bonding_device ${DEVICE} ; then
 
     /sbin/ip link set dev ${DEVICE} up
     [ -n "${LINKDELAY}" ] && /bin/sleep ${LINKDELAY}
-    for device in `LANG=C grep -l "^[[:space:]]*MASTER=${DEVICE}" /etc/sysconfig/network-scripts/ifcfg-*` ; do
+    for device in $(LANG=C grep -l "^[[:space:]]*MASTER=${DEVICE}" /etc/sysconfig/network-scripts/ifcfg-*) ; do
 	    is_ignored_file "$device" && continue
 	    /sbin/ifup ${device##*/}
     done
@@ -162,7 +162,7 @@ if [ -n "${BRIDGE}" -a -x /usr/sbin/brctl ]; then
       /usr/sbin/brctl addif ${BRIDGE} ${DEVICE}
       # Upon adding a device to a bridge,
       # it's necessary to make radvd reload its config
-      [ -r /var/run/radvd/radvd.pid ] && kill -HUP `cat /var/run/radvd/radvd.pid`
+      [ -r /var/run/radvd/radvd.pid ] && kill -HUP $(cat /var/run/radvd/radvd.pid)
       exit 0
 fi
 		     
@@ -283,7 +283,7 @@ else
     # Set a default route.
     if [ -z "${GATEWAYDEV}" -o "${GATEWAYDEV}" = "${REALDEVICE}" ]; then
 	# set up default gateway. replace if one already exists
-	if [ -n "${GATEWAY}" -a "`ipcalc --network ${GATEWAY} ${NETMASK} 2>/dev/null`" = "NETWORK=${NETWORK}" ]; then
+	if [ -n "${GATEWAY}" -a "$(ipcalc --network ${GATEWAY} ${NETMASK} 2>/dev/null)" = "NETWORK=${NETWORK}" ]; then
 	    ip route replace default ${METRIC:+metric $METRIC} \
 		via ${GATEWAY} ${WINDOW:+window $WINDOW} ${SRC} \
 		${GATEWAYDEV:+dev $GATEWAYDEV}
@@ -304,7 +304,7 @@ fi
 /etc/sysconfig/network-scripts/ifup-ipv6 ${CONFIG}
 if [[ "${DHCPV6C}"  = [Yy1]* ]] && [ -x /sbin/dhcp6c ]; then
     /sbin/dhcp6c ${DHCPV6C_OPTIONS} ${DEVICE}
-    dhcp6_pid=(`/bin/ps -eo 'pid,args' | /bin/grep "dhcp6c ${DHCPV6C_OPTIONS} ${DEVICE}" | egrep -v grep`)
+    dhcp6_pid=($(/bin/ps -eo 'pid,args' | /bin/grep "dhcp6c ${DHCPV6C_OPTIONS} ${DEVICE}" | egrep -v grep))
     [ -n  "$dhcp6_pid" ] && echo ${dhcp6_pid[0]} > /var/run/dhcp6c_${DEVICE}.pid
 fi
 

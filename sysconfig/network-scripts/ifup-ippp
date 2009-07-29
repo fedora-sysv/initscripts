@@ -76,7 +76,7 @@ function start_ibod()
     device=$1
     if [ -f /etc/isdn/ibod.cf -a -x /usr/sbin/ibod ] ; then
         ibod $device &
-        pid=`pidof ibod`
+        pid=$(pidof ibod)
         [ -n "$pid" ] && touch /var/lock/subsys/ibod
     fi
 }
@@ -109,7 +109,7 @@ function addprovider()
     [ "$DEFROUTE" = "yes" ] && options="$options defaultroute deldefaultroute"
 
     # set authentication
-    _auth=`echo "$AUTH" | sed 's/[a-z -]*//g'`
+    _auth=$(echo "$AUTH" | sed 's/[a-z -]*//g')
     if [ -n "$_auth" ]; then
         if [ -z "$USER" -a "$DIALIN" != "on" ]; then
             log_echo " Error: $1 (syncppp) user is not set"
@@ -128,7 +128,7 @@ function addprovider()
         # authentication options:
         # +pap and/or +chap does not work correct by dialout - remove
         # them if it's configured as dialout
-        [ "$DIALIN" = "on" ] || AUTH=`echo "$AUTH" | sed 's/+[a-z]*//g'`
+        [ "$DIALIN" = "on" ] || AUTH=$(echo "$AUTH" | sed 's/+[a-z]*//g')
     fi
 
     # add ISDN device 

@@ -5,7 +5,7 @@
 # Taken in part from Miquel van Smoorenburg's bcheckrc.
 #
 
-HOSTNAME=`/bin/hostname`
+HOSTNAME=$(/bin/hostname)
 
 set -m
 
@@ -32,11 +32,11 @@ PLYMOUTH=
 [ -x /usr/bin/plymouth ] && PLYMOUTH=yes
 
 # Check SELinux status
-selinuxfs="$(fstab_decode_str `LC_ALL=C awk '/ selinuxfs / { print $2 }' /proc/mounts`)"
+selinuxfs="$(fstab_decode_str $(LC_ALL=C awk '/ selinuxfs / { print $2 }' /proc/mounts))"
 SELINUX_STATE=
-if [ -n "$selinuxfs" ] && [ "`cat /proc/self/attr/current`" != "kernel" ]; then
+if [ -n "$selinuxfs" ] && [ "$(cat /proc/self/attr/current)" != "kernel" ]; then
 	if [ -r "$selinuxfs/enforce" ] ; then
-		SELINUX_STATE=`cat "$selinuxfs/enforce"`
+		SELINUX_STATE=$(cat "$selinuxfs/enforce")
 	else
 		# assume enforcing if you can't read it
 		SELINUX_STATE=1
@@ -57,7 +57,7 @@ disable_selinux() {
 relabel_selinux() {
     # if /sbin/init is not labeled correctly this process is running in the 
     # wrong context, so a reboot will be required after relabel
-    REBOOTFLAG=`restorecon -v /sbin/init`
+    REBOOTFLAG=$(restorecon -v /sbin/init)
     AUTORELABEL=
     . /etc/selinux/config
     if [ "$AUTORELABEL" = "0" ]; then
@@ -263,16 +263,16 @@ if [[ "$redhat_release" =~ "Red Hat" ]]; then
  [ "$BOOTUP" = "color" ] && echo -en "\\033[0;31m"
  echo -en "Red Hat"
  [ "$BOOTUP" = "color" ] && echo -en "\\033[0;39m"
- PRODUCT=`sed "s/Red Hat \(.*\) release.*/\1/" /etc/redhat-release`
+ PRODUCT=$(sed "s/Red Hat \(.*\) release.*/\1/" /etc/redhat-release)
  echo " $PRODUCT"
 elif [[ "$redhat_release" =~ "Fedora" ]]; then
  [ "$BOOTUP" = "color" ] && echo -en "\\033[0;34m"
  echo -en "Fedora"
  [ "$BOOTUP" = "color" ] && echo -en "\\033[0;39m"
- PRODUCT=`sed "s/Fedora \(.*\) \?release.*/\1/" /etc/redhat-release`
+ PRODUCT=$(sed "s/Fedora \(.*\) \?release.*/\1/" /etc/redhat-release)
  echo " $PRODUCT"
 else
- PRODUCT=`sed "s/ release.*//g" /etc/redhat-release`
+ PRODUCT=$(sed "s/ release.*//g" /etc/redhat-release)
  echo "$PRODUCT"
 fi
 if [ "$PROMPT" != "no" ]; then
@@ -384,7 +384,7 @@ if [ -f /fastboot ] || strstr "$cmdline" fastboot ; then
 fi
 
 if [ -f /fsckoptions ]; then
-	fsckoptions=`cat /fsckoptions`
+	fsckoptions=$(cat /fsckoptions)
 fi
 
 if [ -f /forcefsck ] || strstr "$cmdline" forcefsck ; then
@@ -616,7 +616,7 @@ fi
 remount_needed() {
   local state oldifs
   [ "$READONLY" = "yes" ] && return 1
-  state=`LC_ALL=C awk '/ \/ / && ($3 !~ /rootfs/) { print $4 }' /proc/mounts`
+  state=$(LC_ALL=C awk '/ \/ / && ($3 !~ /rootfs/) { print $4 }' /proc/mounts)
   oldifs=$IFS
   IFS=","
   for opt in $state ; do
