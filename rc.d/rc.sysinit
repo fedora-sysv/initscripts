@@ -490,6 +490,9 @@ if [ "$READONLY" = "yes" -o "$TEMPORARY_STATE" = "yes" ]; then
 		done
 	done
 
+	# Use resolv.conf passed by initramfs netboot
+	[ -f /dev/.initramfs/resolv.conf ] && cp /dev/.initramfs/resolv.conf /etc/
+
 	# In theory there should be no more than one network interface active
 	# this early in the boot process -- the one we're booting from.
 	# Use the network address to set the hostname of the client.  This
