@@ -191,21 +191,6 @@ ipv6_test() {
 	return 0
 }
 
-##### Wrapper for used binaries
-## ifconfig
-# $*: <arguments...>
-# return code: result of execution
-ipv6_exec_ifconfig() {
-	local fn="ipv6_exec_ifconfig"
-
-	local options=$*
-
-	LC_ALL=C /sbin/ifconfig $options
-
-	return $?
-}
-
-
 ## route
 #  $*: <arguments...>
 # return code: result of execution
