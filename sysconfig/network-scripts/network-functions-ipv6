@@ -191,17 +191,6 @@ ipv6_test() {
 	return 0
 }
 
-## ip
-#  $*: <arguments...>
-# return code: result of execution
-ipv6_exec_ip() {
-	local options=$*
-
-	LC_ALL=C /sbin/ip $options
-
-	return $?
-}
-
 ##### Control IPv6 forwarding
 
 # Control IPv6 forwarding
@@ -276,12 +265,12 @@ ipv6_add_route() {
 	ipv6_test_ipv6_addr_valid $gatewayipv6 || return 2
 
 	if [ -z "$device" ]; then
-		local returntxt="$(ipv6_exec_ip -6 route add $networkipv6 via $gatewayipv6 metric 1 2>&1)"
+		local returntxt="$(/sbin/ip -6 route add $networkipv6 via $gatewayipv6 metric 1 2>&1)"
 	else
 		if [ "$gatewayipv6" = "::" ]; then
-			local returntxt="$(ipv6_exec_ip -6 route add $networkipv6 dev $device metric 1 2>&1)"
+			local returntxt="$(/sbin/ip -6 route add $networkipv6 dev $device metric 1 2>&1)"
 		else
-			local returntxt="$(ipv6_exec_ip -6 route add $networkipv6 via $gatewayipv6 dev $device metric 1 2>&1)"
+			local returntxt="$(/sbin/ip -6 route add $networkipv6 via $gatewayipv6 dev $device metric 1 2>&1)"
 		fi
 	fi
 
@@ -332,14 +321,14 @@ ipv6_del_route() {
 	ipv6_test_ipv6_addr_valid $gatewayipv6 || return 1
 
 	if [ -z "$device" ]; then
-		ipv6_exec_ip -6 route del $networkipv6 via $gatewayipv6
+		/sbin/ip -6 route del $networkipv6 via $gatewayipv6
 		local result=$?
 	else
 		if [ "$gatewayipv6" = "::" ]; then
-			ipv6_exec_ip -6 route del $networkipv6 dev $device
+			/sbin/ip -6 route del $networkipv6 dev $device
 			local result=$?
 		else
-			ipv6_exec_ip -6 route del $networkipv6 via $gatewayipv6 dev $device
+			/sbin/ip -6 route del $networkipv6 via $gatewayipv6 dev $device
 			local result=$?
 		fi
 	fi
@@ -374,12 +363,12 @@ ipv6_cleanup_routes() {
 
 	if [ -n "$gatewaymatch" ]; then
 		# Get all IPv6 routes (except default link-local and multicast) through given interface via a given gateway and remove them
-		ipv6_exec_ip -6 route show dev $device via $gatewaymatch | LC_ALL=C grep -v -w expires | LC_ALL=C egrep -v "^fe80::/64|^ff00::/8" | while read ipv6net dummy; do
+		/sbin/ip -6 route show dev $device via $gatewaymatch | LC_ALL=C grep -v -w expires | LC_ALL=C egrep -v "^fe80::/64|^ff00::/8" | while read ipv6net dummy; do
 			ipv6_del_route $ipv6net $gatewaymatch $device
 		done
 	else
 		# Get all IPv6 routes (except default link-local and multicast) through given interface and remove them
-		ipv6_exec_ip -6 route show dev $device | LC_ALL=C grep -v -w expires | LC_ALL=C egrep -v "^fe80::/64|^ff00::/8" | while read ipv6net dummy; do
+		/sbin/ip -6 route show dev $device | LC_ALL=C grep -v -w expires | LC_ALL=C egrep -v "^fe80::/64|^ff00::/8" | while read ipv6net dummy; do
 			ipv6_del_route $ipv6net :: $device
 		done
 	fi
@@ -402,7 +391,7 @@ ipv6_enable_autotunnel() {
 		true
 	else
 		# bring up basic tunnel device
-		ipv6_exec_ip link set sit0 up
+		/sbin/ip link set sit0 up
 
 			if ! ipv6_test_device_status sit0; then
 				ipv6_log $"Tunnel device 'sit0' enabling didn't work" err $fn
@@ -429,10 +418,10 @@ ipv6_disable_autotunnel() {
 	if ipv6_test_device_status sit0; then
 
 		# disable IPv6-over-IPv4 tunnels (if a tunnel is no longer up)
-		if ipv6_exec_ip -6 route show dev sit0 | LC_ALL=C grep -w via | awk '{ print $3 }' | LC_ALL=C grep -v -q "^::$"; then
+		if /sbin/ip -6 route show dev sit0 | LC_ALL=C grep -w via | awk '{ print $3 }' | LC_ALL=C grep -v -q "^::$"; then
 			# still existing routes, skip shutdown of sit0
 			true
-		elif ipv6_exec_ip -6 -o addr show dev sit0 | awk '{ print $4 }' | LC_ALL=C grep -v -q '^::'; then
+		elif /sbin/ip -6 -o addr show dev sit0 | awk '{ print $4 }' | LC_ALL=C grep -v -q '^::'; then
 			# still existing IPv6 addresses, skip shutdown of sit0
 			true
 		else
@@ -441,7 +430,7 @@ ipv6_disable_autotunnel() {
 			/sbin/sysctl -e -w net.ipv6.conf.sit0.accept_ra=0 >/dev/null 2>&1
 			/sbin/sysctl -e -w net.ipv6.conf.sit0.accept_redirects=0 >/dev/null 2>&1
 
-			ipv6_exec_ip link set sit0 down
+			/sbin/ip link set sit0 down
 
 				if ipv6_test_device_status sit0; then
 					ipv6_log $"Tunnel device 'sit0' is still up" err $fn
@@ -489,7 +478,7 @@ ipv6_add_addr_on_device() {
 		ipv6_log $"Device '$device' doesn't exist" err $fn
 		return 3
 	else
-		ipv6_exec_ip link set $device up
+		/sbin/ip link set $device up
 
 			if ! ipv6_test_device_status $device; then
 				ipv6_log $"Device '$device' enabling didn't work" err $fn
@@ -507,7 +496,7 @@ ipv6_add_addr_on_device() {
 		local address="$address_implicit/$prefixlength_implicit"
 	fi
 
-	ipv6_exec_ip -6 addr add $address dev $device
+	/sbin/ip -6 addr add $address dev $device
 	local result=$?
 
 	if [ $result -eq 2 ]; then
@@ -538,13 +527,13 @@ ipv6_cleanup_device() {
 
 	# Remove all IPv6 routes through this device (but not "lo")
 	if [ "$device" != "lo" ]; then
-		ipv6_exec_ip -6 route flush dev $device scope global >/dev/null 2>&1
-		ipv6_exec_ip -6 route flush dev $device scope site   >/dev/null 2>&1
+		/sbin/ip -6 route flush dev $device scope global >/dev/null 2>&1
+		/sbin/ip -6 route flush dev $device scope site   >/dev/null 2>&1
 	fi
 
 	# Remove all IPv6 addresses on this interface
-	ipv6_exec_ip -6 addr flush dev $device scope global >/dev/null 2>&1
-	ipv6_exec_ip -6 addr flush dev $device scope site   >/dev/null 2>&1
+	/sbin/ip -6 addr flush dev $device scope global >/dev/null 2>&1
+	/sbin/ip -6 addr flush dev $device scope site   >/dev/null 2>&1
 
 	return 0
 }
@@ -566,12 +555,12 @@ ipv6_cleanup_6to4_device() {
 	ipv6_test testonly || return 2
 
 	# Cleanup 6to4 addresses on this device
-	ipv6_exec_ip -6 addr show dev $dev scope global permanent | LC_ALL=C grep -w inet6 | awk '{ print $2}' | LC_ALL=C grep "^2002:" | while read addr; do
+	/sbin/ip -6 addr show dev $dev scope global permanent | LC_ALL=C grep -w inet6 | awk '{ print $2}' | LC_ALL=C grep "^2002:" | while read addr; do
         	ipv6_del_addr_on_device ${dev} ${addr}
 	done
 
 	# Get all IPv6 routes through given interface related to 6to4 and remove them
-	ipv6_exec_ip -6 route show dev $device | LC_ALL=C grep "^2002:" | while read ipv6net dummy; do
+	/sbin/ip -6 route show dev $device | LC_ALL=C grep "^2002:" | while read ipv6net dummy; do
 		ipv6_del_route $ipv6net :: $device
 	done
 
@@ -613,7 +602,7 @@ ipv6_del_addr_on_device() {
 		local address="$address_implicit/$prefixlength_implicit"
 	fi
 
-	ipv6_exec_ip -6 addr del $address dev $device
+	/sbin/ip -6 addr del $address dev $device
 	local result=$?
 
 	if [ $result -eq 2 ]; then
@@ -698,7 +687,7 @@ ipv6_test_device_status() {
 	fi
 
 	# Test if device is up
-	if ipv6_exec_ip link show dev $device 2>/dev/null | LC_ALL=C grep -q "UP"; then
+	if /sbin/ip link show dev $device 2>/dev/null | LC_ALL=C grep -q "UP"; then
 		# up
 		return 0
 	else
@@ -844,7 +833,7 @@ ipv6_add_6to4_tunnel() {
 		fi
 
 		# Add unspecific unreachable route for local 6to4 address space
-		ipv6_exec_ip route add unreach ${prefix6to4}::/48
+		/sbin/ip route add unreach ${prefix6to4}::/48
 
 	# Set MTU, if given
 	if [ -n "$mtu" ]; then
@@ -879,8 +868,8 @@ ipv6_cleanup_6to4_tunnels() {
 		ipv6_del_tunnel_device tun6to4
 
 		# Remove all unspecific unreachable routes for local 6to4 address space
-		ipv6_exec_ip -6 route | LC_ALL=C grep "^unreachable 2002:" | LC_ALL=C grep "/48 dev lo" | while read token net rest; do
-			ipv6_exec_ip route del unreach $net
+		/sbin/ip -6 route | LC_ALL=C grep "^unreachable 2002:" | LC_ALL=C grep "/48 dev lo" | while read token net rest; do
+			/sbin/ip route del unreach $net
 		done
 
 	return 0
@@ -919,7 +908,7 @@ ipv6_del_6to4_tunnel() {
 		local retval=$?
 
 		# Remove unspecific unreachable route for local 6to4 address space
-		ipv6_exec_ip route del unreach ${prefix6to4}::/48
+		/sbin/ip route del unreach ${prefix6to4}::/48
 
 	return $retval
 }
@@ -963,7 +952,7 @@ ipv6_add_tunnel_device() {
 
 		# Test whether remote IPv4 address was already applied to another tunnel
 		if [ "$addressipv4tunnel" != "0.0.0.0" -a "$addressipv4tunnel" != "any" ]; then
-			ipv6_exec_ip tunnel show remote $addressipv4tunnel 2>/dev/null | LC_ALL=C grep -w "ipv6/ip" | while IFS=":" read devnew rest; do
+			/sbin/ip tunnel show remote $addressipv4tunnel 2>/dev/null | LC_ALL=C grep -w "ipv6/ip" | while IFS=":" read devnew rest; do
 				if [ "$devnew" != "$device" ]; then
 					ipv6_log $"Given remote address '$addressipv4tunnel' on tunnel device '$device' is already configured on device '$devnew'" err $fn
 					return 3
@@ -971,18 +960,18 @@ ipv6_add_tunnel_device() {
 			done
 		fi
 
-		ipv6_exec_ip tunnel add $device mode sit ttl $ttldefault remote $addressipv4tunnel local $addressipv4tunnellocal
+		/sbin/ip tunnel add $device mode sit ttl $ttldefault remote $addressipv4tunnel local $addressipv4tunnellocal
 		if [ $? -ne 0 ]; then
 			return 3
 		fi
 
 		# Test, whether "ip tunnel show" reports valid content
-		if ! ipv6_exec_ip tunnel show $device 2>/dev/null | LC_ALL=C grep -q -w "remote"; then
+		if ! /sbin/ip tunnel show $device 2>/dev/null | LC_ALL=C grep -q -w "remote"; then
 			ipv6_log $"Tunnel device '$device' creation didn't work" err $fn
 			return 3
 		fi
 
-		ipv6_exec_ip link set $device up
+		/sbin/ip link set $device up
 
 		if ! ipv6_test_device_status $device; then
 			ipv6_log $"Tunnel device '$device' bringing up didn't work" err $fn
@@ -1033,8 +1022,8 @@ ipv6_del_tunnel_device() {
 	fi
 
 	if [ "$device" != "sit0" ]; then
-		if ipv6_exec_ip tunnel show $device 2>/dev/null | LC_ALL=C grep -q -w "ipv6/ip"; then
-			ipv6_exec_ip tunnel del $device
+		if /sbin/ip tunnel show $device 2>/dev/null | LC_ALL=C grep -q -w "ipv6/ip"; then
+			/sbin/ip tunnel del $device
 
 				if ipv6_test_device_status $device; then
 					return 3
@@ -1056,7 +1045,7 @@ ipv6_cleanup_tunnel_devices() {
 
 	# Find still existing tunnel devices and shutdown and delete them
 
-	ipv6_exec_ip tunnel show | LC_ALL=C grep -w "ipv6/ip" | awk -F: '{ print $1 }' | while read device; do
+	/sbin/ip tunnel show | LC_ALL=C grep -w "ipv6/ip" | awk -F: '{ print $1 }' | while read device; do
 		ipv6_del_tunnel_device $device
 	done
 
@@ -1100,9 +1089,9 @@ ipv6_get_ipv4addr_of_tunnel() {
 
 	# Device exists, retrieve address
 	if [ "$selection" = "local" ]; then
-		local tunnel_local_ipv4addr="$(ipv6_exec_ip tunnel show $device | awk '{ print $6 }')"
+		local tunnel_local_ipv4addr="$(/sbin/ip tunnel show $device | awk '{ print $6 }')"
 	elif [ "$selection" = "remote" ]; then
-		local tunnel_local_ipv4addr="$(ipv6_exec_ip tunnel show $device | awk '{ print $4 }')"
+		local tunnel_local_ipv4addr="$(/sbin/ip tunnel show $device | awk '{ print $4 }')"
 	fi
 
 	if [ $? != 0 ]; then
@@ -1141,7 +1130,7 @@ ipv6_get_ipv4addr_of_device() {
 	fi
 
 	# Device exists, retrieve the first address only
-	local ipv4addr="$(ipv6_exec_ip -o -4 addr show dev $device | awk '{ print $4 }' | awk -F/ '{ print $1; exit }')"
+	local ipv4addr="$(/sbin/ip -o -4 addr show dev $device | awk '{ print $4 }' | awk -F/ '{ print $1; exit }')"
 
 	if [ $? != 0 ]; then
 		return 3
@@ -1186,7 +1175,7 @@ ipv6_set_mtu() {
 	ipv6_test testonly || return 2
 
 	# Set value
-	ipv6_exec_ip link set dev $device mtu $ipv6_mtu
+	/sbin/ip link set dev $device mtu $ipv6_mtu
 
 	return 0
 }
@@ -1312,7 +1301,7 @@ ipv6_test_route_requires_next_hop() {
 		return 10
 	fi
 
-	if ipv6_exec_ip -o link show $device 2>/dev/null |  LC_ALL=C grep -q "POINTOPOINT"; then
+	if /sbin/ip -o link show $device 2>/dev/null |  LC_ALL=C grep -q "POINTOPOINT"; then
 		return 10
 	fi
 

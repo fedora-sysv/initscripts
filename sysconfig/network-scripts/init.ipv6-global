@@ -87,21 +87,21 @@ case $ACTION in
 
 		## Add some routes which should never appear on the wire
 		# Unreachable IPv4-only addresses, normally blocked by source address selection
-		ipv6_exec_ip route add unreach  ::ffff:0.0.0.0/96
+		/sbin/ip route add unreach  ::ffff:0.0.0.0/96
 		# Unreachable IPv4-mapped addresses
-		ipv6_exec_ip route add unreach  ::0.0.0.0/96
+		/sbin/ip route add unreach  ::0.0.0.0/96
 		# Unreachable 6to4: IPv4 multicast, reserved, limited broadcast
-		ipv6_exec_ip route add unreach  2002:e000::/19
+		/sbin/ip route add unreach  2002:e000::/19
 		# Unreachable 6to4: IPv4 loopback
-		ipv6_exec_ip route add unreach  2002:7f00::/24
+		/sbin/ip route add unreach  2002:7f00::/24
 		# Unreachable 6to4: IPv4 private (RFC 1918)
-		ipv6_exec_ip route add unreach  2002:0a00::/24
-		ipv6_exec_ip route add unreach  2002:ac10::/28
-		ipv6_exec_ip route add unreach  2002:c0a8::/32
+		/sbin/ip route add unreach  2002:0a00::/24
+		/sbin/ip route add unreach  2002:ac10::/28
+		/sbin/ip route add unreach  2002:c0a8::/32
 		# Unreachable 6to4: IPv4 private (APIPA / DHCP link-local)
-		ipv6_exec_ip route add unreach  2002:a9fe::/32
+		/sbin/ip route add unreach  2002:a9fe::/32
 		# Unreachable IPv6: 6bone test addresses
-		ipv6_exec_ip route add unreach  3ffe:ffff::/32
+		/sbin/ip route add unreach  3ffe:ffff::/32
 
 		# Set default route for autotunnel, if specified
 		if [ "$IPV6_DEFAULTDEV" = "sit0" -a "$IPV6_AUTOTUNNEL" = "yes" ]; then
@@ -148,7 +148,7 @@ case $ACTION in
 		ipv6_cleanup_tunnel_devices
 
 		# Shut down generic tunnel interface now
-		ipv6_exec_ip link set sit0 down
+		/sbin/ip link set sit0 down
 		;;
 
 	    *)

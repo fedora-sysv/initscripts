@@ -163,7 +163,7 @@ fi
 # Setup additional static IPv6 routes (newer config style)
 if [ -f "/etc/sysconfig/network-scripts/route6-$DEVICE" ]; then
 	cat "/etc/sysconfig/network-scripts/route6-$DEVICE" | sed 's/#.*//g' | grep -v '^[[:space:]]*$' | while read line; do
-		ipv6_exec_ip -6 route add $line
+		/sbin/ip -6 route add $line
 	done
 fi
 
@@ -222,7 +222,7 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 	# Setup 6to4 tunnel (hardwired name is "tun6to4"), if config is valid
         if [ "$valid6to4config" = "yes" ]; then
 		# Get MTU of master device
-		ipv4mtu="$(ipv6_exec_ip link show dev $DEVICE | grep -w "mtu" | awk '{ print $5 }')"
+		ipv4mtu="$(/sbin/ip link show dev $DEVICE | grep -w "mtu" | awk '{ print $5 }')"
 		if [ -n "$ipv4mtu" ]; then
 			# IPv6 tunnel MTU is IPv4 MTU minus 20 for IPv4 header
 			tunnelmtu=$(($ipv4mtu-20))
@@ -269,7 +269,7 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 					# Add gateway if missing
 					line="$line via $ipv6to4_relay"
 				fi
-				ipv6_exec_ip -6 route add $line
+				/sbin/ip -6 route add $line
 			done
 		fi
 

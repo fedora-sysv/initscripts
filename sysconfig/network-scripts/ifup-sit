@@ -107,6 +107,6 @@ fi
 # Setup additional static IPv6 routes (newer config style)
 if [ -f "/etc/sysconfig/network-scripts/route6-$REALDEVICE" ]; then
 	cat "/etc/sysconfig/network-scripts/route6-$REALDEVICE" | sed 's/#.*//g' | grep -v '^[[:space:]]*$' | while read line; do
-		ipv6_exec_ip -6 route add $line
+		/sbin/ip -6 route add $line
 	done
 fi
