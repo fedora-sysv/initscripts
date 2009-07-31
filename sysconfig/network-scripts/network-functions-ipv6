@@ -191,50 +191,6 @@ ipv6_test() {
 	return 0
 }
 
-##### Control IPv6 forwarding
-
-# Control IPv6 forwarding
-#  $1: yes|no|on|off : control value
-#  $2: [<interface>] : (optional), if not given, global IPv6 forwarding is set [OBSOLETE]
-# return code: 0=ok 1=argument error 2=IPv6 test fails
-ipv6_control_forwarding() {
-	local fn="ipv6_control_forwarding"
-
-	local fw_control=$1
-	local fw_device=$2		# maybe empty
-
-	if [ -z "$fw_control" ]; then
-		ipv6_log $"Missing parameter 'forwarding control' (arg 1)" err $fn
-		return 1
-	fi
-
-	if ! [ "$fw_control" = "yes" -o "$fw_control" = "no" -o "$fw_control" = "on" -o "$fw_control" = "off" ]; then
-		ipv6_log $"Forwarding control parameter isn't valid '$fw_control' (arg 1)" err $fn
-		return 1
-	fi
-
-	ipv6_test || return 2
-
-	if [ "$fw_control" = "yes" -o "$fw_control" = "on" ]; then
-		local status=1
-	else
-		local status=0
-	fi
-
-	# Global control? (if no device is given)
-	if [ -z "$fw_device" ]; then
-		/sbin/sysctl -e -w net.ipv6.conf.all.forwarding=$status >/dev/null 2>&1
-	fi
-
-	# Per device control (not implemented in kernel)
-	if [ -n "$fw_device" ]; then
-		ipv6_log $"IPv6 forwarding per device cannot be controlled via sysctl - use netfilter6 instead" warn $fn
-	fi
-
-	return 0
-}
-
-
 ##### Static IPv6 route configuration
 
 # Set static IPv6 route
@@ -343,40 +299,6 @@ ipv6_del_route() {
 	return 0
 }
 
-
-# Delete all static IPv6 routes through a given interface
-#  $1: <Interface>
-#  $2: [<Gateway>] : to match (optional)
-# return code: 0=ok 1=argument error 2=IPv6 test fails
-ipv6_cleanup_routes() {
-	local fn="ipv6_cleanup_routes"
-
-	local device=$1
-	local gatewaymatch=$2
-
-	if [ -z "$device" ]; then
-		ipv6_log $"Missing parameter 'device' (arg 1)" err $fn
-		return 1
-	fi
-
-	ipv6_test testonly || return 2
-
-	if [ -n "$gatewaymatch" ]; then
-		# Get all IPv6 routes (except default link-local and multicast) through given interface via a given gateway and remove them
-		/sbin/ip -6 route show dev $device via $gatewaymatch | LC_ALL=C grep -v -w expires | LC_ALL=C egrep -v "^fe80::/64|^ff00::/8" | while read ipv6net dummy; do
-			ipv6_del_route $ipv6net $gatewaymatch $device
-		done
-	else
-		# Get all IPv6 routes (except default link-local and multicast) through given interface and remove them
-		/sbin/ip -6 route show dev $device | LC_ALL=C grep -v -w expires | LC_ALL=C egrep -v "^fe80::/64|^ff00::/8" | while read ipv6net dummy; do
-			ipv6_del_route $ipv6net :: $device
-		done
-	fi
-
-	return 0
-}
-
-
 ##### automatic tunneling configuration
 
 ## Configure automatic tunneling up
@@ -406,42 +328,6 @@ ipv6_enable_autotunnel() {
 
 	return 0
 }
-
-
-## Configure automatic tunneling down
-# return code: 0=ok 2=IPv6 test fails 3=major problem
-ipv6_disable_autotunnel() {
-	local fn="ipv6_disable_autotunnel"
-
-	ipv6_test testonly || return 2
-
-	if ipv6_test_device_status sit0; then
-
-		# disable IPv6-over-IPv4 tunnels (if a tunnel is no longer up)
-		if /sbin/ip -6 route show dev sit0 | LC_ALL=C grep -w via | awk '{ print $3 }' | LC_ALL=C grep -v -q "^::$"; then
-			# still existing routes, skip shutdown of sit0
-			true
-		elif /sbin/ip -6 -o addr show dev sit0 | awk '{ print $4 }' | LC_ALL=C grep -v -q '^::'; then
-			# still existing IPv6 addresses, skip shutdown of sit0
-			true
-		else
-			# take down basic tunnel device
-			/sbin/sysctl -e -w net.ipv6.conf.sit0.forwarding=0 >/dev/null 2>&1
-			/sbin/sysctl -e -w net.ipv6.conf.sit0.accept_ra=0 >/dev/null 2>&1
-			/sbin/sysctl -e -w net.ipv6.conf.sit0.accept_redirects=0 >/dev/null 2>&1
-
-			/sbin/ip link set sit0 down
-
-				if ipv6_test_device_status sit0; then
-					ipv6_log $"Tunnel device 'sit0' is still up" err $fn
-					return 3
-				fi
-		fi
-	fi
-
-	return 0
-}
-
 
 ##### Interface configuration
 
