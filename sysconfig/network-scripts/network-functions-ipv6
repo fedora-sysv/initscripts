@@ -229,19 +229,6 @@ ipv6_exec_ip() {
 	return $?
 }
 
-
-## sysctl
-#  $*: <arguments...>
-# return code: result of execution
-ipv6_exec_sysctl() {
-	local options=$*
-
-	LC_ALL=C /sbin/sysctl -e $options
-
-	return $?
-}
-
-
 ##### Control IPv6 forwarding
 
 # Control IPv6 forwarding
@@ -274,7 +261,7 @@ ipv6_control_forwarding() {
 
 	# Global control? (if no device is given)
 	if [ -z "$fw_device" ]; then
-		ipv6_exec_sysctl -w net.ipv6.conf.all.forwarding=$status >/dev/null 2>&1
+		/sbin/sysctl -e -w net.ipv6.conf.all.forwarding=$status >/dev/null 2>&1
 	fi
 
 	# Per device control (not implemented in kernel)
@@ -450,9 +437,9 @@ ipv6_enable_autotunnel() {
 			fi
 
 		# Set sysctls proper (regardless "default")
-		ipv6_exec_sysctl -w net.ipv6.conf.sit0.forwarding=1 >/dev/null 2>&1
-		ipv6_exec_sysctl -w net.ipv6.conf.sit0.accept_ra=0 >/dev/null 2>&1
-		ipv6_exec_sysctl -w net.ipv6.conf.sit0.accept_redirects=0 >/dev/null 2>&1
+		/sbin/sysctl -e -w net.ipv6.conf.sit0.forwarding=1 >/dev/null 2>&1
+		/sbin/sysctl -e -w net.ipv6.conf.sit0.accept_ra=0 >/dev/null 2>&1
+		/sbin/sysctl -e -w net.ipv6.conf.sit0.accept_redirects=0 >/dev/null 2>&1
 	fi
 
 	return 0
@@ -477,9 +464,9 @@ ipv6_disable_autotunnel() {
 			true
 		else
 			# take down basic tunnel device
-			ipv6_exec_sysctl -w net.ipv6.conf.sit0.forwarding=0 >/dev/null 2>&1
-			ipv6_exec_sysctl -w net.ipv6.conf.sit0.accept_ra=0 >/dev/null 2>&1
-			ipv6_exec_sysctl -w net.ipv6.conf.sit0.accept_redirects=0 >/dev/null 2>&1
+			/sbin/sysctl -e -w net.ipv6.conf.sit0.forwarding=0 >/dev/null 2>&1
+			/sbin/sysctl -e -w net.ipv6.conf.sit0.accept_ra=0 >/dev/null 2>&1
+			/sbin/sysctl -e -w net.ipv6.conf.sit0.accept_redirects=0 >/dev/null 2>&1
 
 			ipv6_exec_ip link set sit0 down
 
@@ -996,7 +983,7 @@ ipv6_add_tunnel_device() {
 	ipv6_test || return 2
 
 	if ! ipv6_test_device_status $device; then
-		local ttldefault="$(ipv6_exec_sysctl net.ipv4.ip_default_ttl | awk '{ print $3 }')"
+		local ttldefault="$(/sbin/sysctl -e net.ipv4.ip_default_ttl | awk '{ print $3 }')"
 		if [ -z "$ttldefault" ]; then
 			local ttldefault=64
 		fi
@@ -1030,9 +1017,9 @@ ipv6_add_tunnel_device() {
 		fi
 
 		# Set sysctls proper (regardless "default")
-		ipv6_exec_sysctl -w net.ipv6.conf.$device.forwarding=1 >/dev/null 2>&1
-		ipv6_exec_sysctl -w net.ipv6.conf.$device.accept_ra=0 >/dev/null 2>&1
-		ipv6_exec_sysctl -w net.ipv6.conf.$device.accept_redirects=0 >/dev/null 2>&1
+		/sbin/sysctl -e -w net.ipv6.conf.$device.forwarding=1 >/dev/null 2>&1
+		/sbin/sysctl -e -w net.ipv6.conf.$device.accept_ra=0 >/dev/null 2>&1
+		/sbin/sysctl -e -w net.ipv6.conf.$device.accept_redirects=0 >/dev/null 2>&1
 
 		if [ -n "$addressipv6local" ]; then
 			# Setup P-t-P address
