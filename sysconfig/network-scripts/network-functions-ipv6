@@ -201,16 +201,6 @@ ipv6_test() {
 	return 0
 }
 
-
-##### Get version of this function library
-# stdout: <version number YYYYMMDD>
-getversion_ipv6_functions() {
-	local version_ipv6_functions="$(cat /etc/sysconfig/network-scripts/network-functions-ipv6 | LC_ALL=C grep "^# Version:" | awk '{ print $3 }' | sed 's/-//g' | sed 's/[A-Za-z]*$//g')"
-	echo $version_ipv6_functions
-	return 0
-}
-
-
 ##### Wrapper for used binaries
 ## ifconfig
 # $*: <arguments...>
