@@ -188,16 +188,6 @@ ipv6_test() {
 		return 2
 	fi
 
-	if ! [ -x /sbin/ip ]; then
-		ipv6_log $"Utility 'ip' (package: iproute) doesn't exist or isn't executable - stop" crit $fn
-		return 2
-	fi
-
-	if ! [ -x /sbin/sysctl ]; then
-		ipv6_log $"Utility 'sysctl' (package: procps) doesn't exist or isn't executable - stop" crit $fn
-		return 2
-	fi
-
 	return 0
 }
 
