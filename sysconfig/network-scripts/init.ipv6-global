@@ -67,11 +67,11 @@ case $ACTION in
 		for i in /proc/sys/net/ipv6/conf/* ; do
 			interface=${i##*/}
 			# Host/Router behaviour for the interface
-			ipv6_exec_sysctl -w net.ipv6.conf.$interface.forwarding=$ipv6_global_forwarding >/dev/null 2>&1
+			/sbin/sysctl -e -w net.ipv6.conf.$interface.forwarding=$ipv6_global_forwarding >/dev/null 2>&1
 
 			# Autoconfiguration and redirect handling for Hosts
-			ipv6_exec_sysctl -w net.ipv6.conf.$interface.accept_ra=$ipv6_global_auto >/dev/null 2>&1
-			ipv6_exec_sysctl -w net.ipv6.conf.$interface.accept_redirects=$ipv6_global_auto >/dev/null 2>&1
+			/sbin/sysctl -e -w net.ipv6.conf.$interface.accept_ra=$ipv6_global_auto >/dev/null 2>&1
+			/sbin/sysctl -e -w net.ipv6.conf.$interface.accept_redirects=$ipv6_global_auto >/dev/null 2>&1
 		done
 		;;
 
@@ -137,11 +137,11 @@ case $ACTION in
 		for i in /proc/sys/net/ipv6/conf/* ; do
 			interface=${i##*/}
 			# Assume Host behaviour
-			ipv6_exec_sysctl -w net.ipv6.conf.$interface.forwarding=0 >/dev/null 2>&1
+			/sbin/sysctl -e -w net.ipv6.conf.$interface.forwarding=0 >/dev/null 2>&1
 
 			# Disable autoconfiguration and redirects
-			ipv6_exec_sysctl -w net.ipv6.conf.$interface.accept_ra=0 >/dev/null 2>&1
-			ipv6_exec_sysctl -w net.ipv6.conf.$interface.accept_redirects=0 >/dev/null 2>&1
+			/sbin/sysctl -e -w net.ipv6.conf.$interface.accept_ra=0 >/dev/null 2>&1
+			/sbin/sysctl -e -w net.ipv6.conf.$interface.accept_redirects=0 >/dev/null 2>&1
 		done
 
 		# Cleanup still existing tunnel devices

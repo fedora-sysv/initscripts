@@ -89,7 +89,7 @@ if [ -n "$IPV6ADDR" ]; then
 fi
 
 # Get current global IPv6 forwarding
-ipv6_global_forwarding_current="$(ipv6_exec_sysctl -n net.ipv6.conf.all.forwarding)"
+ipv6_global_forwarding_current="$(/sbin/sysctl -e -n net.ipv6.conf.all.forwarding)"
 
 # Set some proc switches depending on defines
 if [ "$IPV6FORWARDING" = "yes" ]; then
@@ -124,9 +124,9 @@ else
 		ipv6_local_auto=0
 	fi
 fi
-ipv6_exec_sysctl -w net.ipv6.conf.$DEVICE.forwarding=$ipv6_local_forwarding >/dev/null 2>&1
-ipv6_exec_sysctl -w net.ipv6.conf.$DEVICE.accept_ra=$ipv6_local_auto >/dev/null 2>&1
-ipv6_exec_sysctl -w net.ipv6.conf.$DEVICE.accept_redirects=$ipv6_local_auto >/dev/null 2>&1
+/sbin/sysctl -e -w net.ipv6.conf.$DEVICE.forwarding=$ipv6_local_forwarding >/dev/null 2>&1
+/sbin/sysctl -e -w net.ipv6.conf.$DEVICE.accept_ra=$ipv6_local_auto >/dev/null 2>&1
+/sbin/sysctl -e -w net.ipv6.conf.$DEVICE.accept_redirects=$ipv6_local_auto >/dev/null 2>&1
 
 # Set IPv6 MTU, if given
 if [ -n "$IPV6_MTU" ]; then
@@ -142,7 +142,7 @@ fi
 
 # Enable IPv6 RFC3041 privacy extensions if desired
 if [ "$IPV6_PRIVACY" = "rfc3041" ]; then
-	ipv6_exec_sysctl -w net.ipv6.conf.$DEVICE.use_tempaddr=2 >/dev/null 2>&1
+	/sbin/sysctl -e -w net.ipv6.conf.$DEVICE.use_tempaddr=2 >/dev/null 2>&1
 	if [ $? -ne 0 ]; then
 		echo $"Cannot enable IPv6 privacy method '$IPV6_PRIVACY', not supported by kernel"
 	fi
