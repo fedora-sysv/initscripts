@@ -87,11 +87,13 @@ rm -f \
  $RPM_BUILD_ROOT/etc/sysconfig/network-scripts/ifup-ctc \
  $RPM_BUILD_ROOT/etc/sysconfig/network-scripts/ifup-iucv \
  $RPM_BUILD_ROOT/lib/udev/rules.d/55-ccw.rules \
- $RPM_BUILD_ROOT/lib/udev/ccw_init
+ $RPM_BUILD_ROOT/lib/udev/ccw_init \
+ $RPM_BUILD_ROOT/etc/event.d/console
 %else
 rm -f \
  $RPM_BUILD_ROOT/etc/rc.d/rc.sysinit.s390init \
- $RPM_BUILD_ROOT/etc/sysconfig/init.s390
+ $RPM_BUILD_ROOT/etc/sysconfig/init.s390 \
+ $RPM_BUILD_ROOT/etc/event.d/tty[1-6]
 %endif
 
 %pre
