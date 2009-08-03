@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.95
+Version: 8.96
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -251,6 +251,20 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Mon Aug  3 2009 Bill Nottingham <notting@redhat.com> - 8.96-1
+- fix up upstart rules for s390(x). (#515222)
+- leave ChangeLog in the tarball only. (#515012)
+- disable netfilter on bridged interfaces. (#512206)
+- assorted shell-related cleanups to ipv6 and other code (<victor.lowther@gmail.com>)
+- use resolv.conf from dracut netboot before setting hostname. (#514801, <wtogami@redhat.com>)
+- ipcalc updates (<victor.lowther@gmail.com>)
+- only use ethtool for link checking; no more mii-tool
+- require /sbin/blkid directly, as it moves between packages (#508413)
+- redirect bash errors on 'unset' to /dev/null. (#482888)
+- fix dmraid partition naming (#501476, <hdegoede@redhat.com>)
+- don't quote upstart signals. (#501155)
+- translation updates: bn_IN, da, es, sk
+
 * Fri May  1 2009 Bill Nottingham <notting@redhat.com> - 8.95-1
 - don't kill runlevel events on subsequent entering of the same runlevel (#498514)
 - lang.*sh: handle spaces in $HOME (#498482)
