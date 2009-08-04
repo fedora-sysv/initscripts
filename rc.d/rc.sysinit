@@ -759,9 +759,6 @@ find /var/lock /var/run ! -type d -exec rm -f {} \;
 rm -f /var/lib/rpm/__db* &> /dev/null
 rm -f /var/gdm/.gdmfifo &> /dev/null
 
-# Reset pam_console permissions
-[ -x /sbin/pam_console_apply ] && /sbin/pam_console_apply -r
-
 {
 # Clean up utmp/wtmp
 > /var/run/utmp
