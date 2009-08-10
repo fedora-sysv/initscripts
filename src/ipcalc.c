@@ -336,7 +336,7 @@ int main(int argc, const char **argv) {
     }
 
     /* Handle CIDR entries such as 172/8 */
-    if (prefix >= 0) {
+    if (prefix >= 0 && familyIPv4) {
         char *tmp = ipStr;
         int i;
 
