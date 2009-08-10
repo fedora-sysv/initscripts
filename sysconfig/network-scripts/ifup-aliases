@@ -208,7 +208,7 @@ function new_interface ()
                CACHENAME="${NMGLOP}_${ipnm_a}_${ipnm_b}_${ipnm_c}_${ipnm_d}"
                eval "
                        if [ -z \"\$bcastcache_${CACHENAME}\" ]; then
-                               eval $(/bin/ipcalc --broadcast \$IPADDR \$NETMASK)
+                               eval $(/bin/ipcalc --broadcast $IPADDR $NETMASK)
                                bcastcache_${CACHENAME}=\$BROADCAST
                        else
                                BROADCAST=\$bcastcache_${CACHENAME}
