@@ -196,10 +196,12 @@ if [ -n "${DYNCONFIG}" -a -x /sbin/dhclient ]; then
        DHCLIENTCONF='';
     fi;
     # copy any lease obtained by the initrd
-    if [ -f /dev/.dhclient-${DEVICE}.leases ] ; then
-    	mv -f /dev/.dhclient-${DEVICE}.leases /var/lib/dhclient/dhclient-${DEVICE}.leases
-	[ -x /sbin/restorecon ] && restorecon /var/lib/dhclient/dhclient-${DEVICE}.leases > /dev/null 2>&1
-    fi
+    for file in /dev/.dhclient-${DEVICE}.leases /dev/.initramfs/net.${DEVICE}.lease ; do
+        if [ -f "${file}" ]; then
+            mv -f $file /var/lib/dhclient/dhclient-${DEVICE}.leases
+            [ -x /sbin/restorecon ] && restorecon /var/lib/dhclient/dhclient-${DEVICE}.leases > /dev/null 2>&1
+        fi
+    done
     DHCLIENTARGS="${DHCLIENTARGS} ${ONESHOT} -q ${DHCLIENTCONF} -lf /var/lib/dhclient/dhclient-${DEVICE}.leases -pf /var/run/dhclient-${DEVICE}.pid"
     echo
     echo -n $"Determining IP information for ${DEVICE}..."
