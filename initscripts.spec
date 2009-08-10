@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.96
+Version: 8.97
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -251,6 +251,12 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Mon Aug 10 2009 Bill Nottingham <notting@redhat.com> - 8.97-1
+- ipcalc: fix IPv6 address checking (#516319)
+- ifup-aliases: fix syntax error from earlier cleanups. (#515612, <jik@kamens.brookline.ma.us>)
+- translation updates: nb
+- rc.sysinit: remove useless call to pam_console_apply
+
 * Mon Aug  3 2009 Bill Nottingham <notting@redhat.com> - 8.96-1
 - fix up upstart rules for s390(x). (#515222)
 - leave ChangeLog in the tarball only. (#515012)
