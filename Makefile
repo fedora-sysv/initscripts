@@ -122,13 +122,16 @@ install:
 
 
 
-check:
+syntax-check:
 	for afile in `find . -type f -perm +111|grep -v \.csh | grep -v .git | grep -v po/ ` ; do \
 		if ! file $$afile | grep -s ELF  >/dev/null; then \
 		    bash -n $$afile || { echo $$afile ; exit 1 ; } ; \
 		fi  ;\
 	done
+
+check: syntax-check
 	make check -C src
+	make clean -C src
 
 changelog:
 	@rm -f ChangeLog
@@ -143,7 +146,7 @@ tag:
 	@git tag -a -m "Tag as $(TAG)" $(TAG)
 	@echo "Tagged as $(TAG)"
 
-archive: clean check tag changelog
+archive: clean sytnax-check tag changelog
 	@git archive --format=tar --prefix=initscripts-$(VERSION)/ HEAD > initscripts-$(VERSION).tar
 	@mkdir -p initscripts-$(VERSION)/
 	@cp ChangeLog initscripts-$(VERSION)/
