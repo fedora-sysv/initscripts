@@ -158,24 +158,6 @@ case $ACTION in
 	esac
 	;;
 
-    restart|reload)
-	# do nothing, will be handled by main script
-	;;
-
-    showsysctl)
-	# Run only basic tests, no module is loaded, if not ok, skip IPv6 initialization
-	ipv6_test testonly || exit 0
-
-	# Show sysctl switches
-	sysctl net.ipv6.conf.default |awk -F '.' '{ print gensub(" =.*","","G",$5) }' | while read switch; do
-	        for i in /proc/sys/net/ipv6/conf/* ; do 
-			interface=${i##*/}
-			sysctl net.ipv6.conf.$interface.$switch
-		done
-		echo
-	done
-	;;
-
     *)
 	echo $"Usage: $0 {start|stop|reload|restart|showsysctl}"
 	exit 1
