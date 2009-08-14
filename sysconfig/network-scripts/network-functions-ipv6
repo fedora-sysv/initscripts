@@ -390,61 +390,13 @@ ipv6_cleanup_6to4_device() {
 
 	# Cleanup 6to4 addresses on this device
 	/sbin/ip -6 addr show dev $dev scope global permanent | LC_ALL=C grep -w inet6 | awk '{ print $2}' | LC_ALL=C grep "^2002:" | while read addr; do
-        	ipv6_del_addr_on_device ${dev} ${addr}
+		/sbin/ip -6 addr del ${addr} dev ${dev}
 	done
 
 	# Get all IPv6 routes through given interface related to 6to4 and remove them
 	/sbin/ip -6 route show dev $device | LC_ALL=C grep "^2002:" | while read ipv6net dummy; do
 		/sbin/ip -6 route del $ipv6net dev $device
 	done
-
-	return 0
-}
-
-
-## Remove an IPv6 address on given interface
-#  $1: <Interface>
-#  $2: <IPv6 address>
-# return code: 0=ok 1=argument error 2=IPv6 test fails 3=major problem
-ipv6_del_addr_on_device() {
-	local fn="ipv6_del_addr_on_device"
-
-	local device=$1
-	local address=$2
-
-	if [ -z "$device" ]; then
-		ipv6_log $"Missing parameter 'device' (arg 1)" err $fn
-		return 1
-	fi
-
-	if [ -z "$address" ]; then
-		ipv6_log $"Missing parameter 'IPv6 address' (arg 2)" err $fn
-		return 1
-	fi
-
-	ipv6_test testonly || return 2
-
-	ipv6_test_ipv6_addr_valid $address || return 1
-
-	# Extract address parts
-	local prefixlength_implicit="$(echo $address | awk -F/ '{ print $2 }')"
-	local address_implicit="$(echo $address | awk -F/ '{ print $1 }')"
-
-	# Check prefix length and using '64' as default
-	if [ -z "$prefixlength_implicit" ]; then
-		local prefixlength_implicit="64"
-		local address="$address_implicit/$prefixlength_implicit"
-	fi
-
-	/sbin/ip -6 addr del $address dev $device
-	local result=$?
-
-	if [ $result -eq 2 ]; then
-		return 0
-	elif [ $result -ne 0 ]; then
-		ipv6_log $"Cannot delete IPv6 address '$address' on dev '$device'" err $fn
-		return 3
-	fi
 
 	return 0
 }
