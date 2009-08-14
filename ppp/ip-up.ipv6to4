@@ -165,7 +165,7 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
                 fi
 
 		# Cleanup autmatically generated autotunnel (not needed for 6to4)
-		ipv6_del_route "::/96" "::" tun6to4
+		/sbin/ip -6 route del ::/96 dev tun6to4
 		ipv6_del_addr_on_device tun6to4 "::$ipv4addr/128"
 
 	        if [ "$IPV6_CONTROL_RADVD" = "yes" ]; then

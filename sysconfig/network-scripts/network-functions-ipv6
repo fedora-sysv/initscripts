@@ -247,58 +247,6 @@ ipv6_add_route() {
 	return 0
 }
 
-
-# Delete a static IPv6 route
-#  $1: <IPv6 network> : to route
-#  $2: <IPv6 gateway> : over which $1 should be routed (if "::", gw will be skipped)
-#  $3: [<Interface>] : (optional)
-# return code: 0=ok 1=argument error 2=IPv6 test fails 3=major problem adding route
-ipv6_del_route() {
-	local fn="ipv6_del_route"
-
-	local networkipv6=$1
-	local gatewayipv6=$2
-	local device=$3		# maybe empty
-
-	if [ -z "$networkipv6" ]; then
-		ipv6_log $"Missing parameter 'IPv6-network' (arg 1)" err $fn
-		return 1
-	fi
-
-	if [ -z "$gatewayipv6" ]; then
-		ipv6_log $"Missing parameter 'IPv6-gateway' (arg 2)" err $fn
-		return 1
-	fi
-
-	ipv6_test testonly || return 2
-
-	# Test, whether given IPv6 address is valid
-	ipv6_test_ipv6_addr_valid $networkipv6 || return 1
-	ipv6_test_ipv6_addr_valid $gatewayipv6 || return 1
-
-	if [ -z "$device" ]; then
-		/sbin/ip -6 route del $networkipv6 via $gatewayipv6
-		local result=$?
-	else
-		if [ "$gatewayipv6" = "::" ]; then
-			/sbin/ip -6 route del $networkipv6 dev $device
-			local result=$?
-		else
-			/sbin/ip -6 route del $networkipv6 via $gatewayipv6 dev $device
-			local result=$?
-		fi
-	fi
-
-	if [ $result -eq 2 ]; then
-		# Netlink: "No such process"
-		true
-	elif [ $result -ne 0 ]; then
-		return 3
-	fi
-
-	return 0
-}
-
 ##### automatic tunneling configuration
 
 ## Configure automatic tunneling up
@@ -447,7 +395,7 @@ ipv6_cleanup_6to4_device() {
 
 	# Get all IPv6 routes through given interface related to 6to4 and remove them
 	/sbin/ip -6 route show dev $device | LC_ALL=C grep "^2002:" | while read ipv6net dummy; do
-		ipv6_del_route $ipv6net :: $device
+		/sbin/ip -6 route del $ipv6net dev $device
 	done
 
 	return 0
