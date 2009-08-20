@@ -16,7 +16,7 @@ if [ -z "$HOSTNAME" -o "$HOSTNAME" = "(none)" ]; then
     HOSTNAME=localhost
 fi
 
-if [ ! -e /proc/mounts ]; then 
+if [ ! -e /proc/mounts ]; then
 	mount -n -t proc /proc /proc
 	mount -n -t sysfs /sys /sys >/dev/null 2>&1
 fi
@@ -25,7 +25,7 @@ if [ ! -d /proc/bus/usb ]; then
 else
 	mount -n -t usbfs /proc/bus/usb /proc/bus/usb
 fi
- 
+
 . /etc/init.d/functions
 
 PLYMOUTH=
@@ -54,44 +54,44 @@ disable_selinux() {
 }
 
 relabel_selinux() {
-    # if /sbin/init is not labeled correctly this process is running in the 
+    # if /sbin/init is not labeled correctly this process is running in the
     # wrong context, so a reboot will be required after relabel
     REBOOTFLAG=$(restorecon -v /sbin/init)
     AUTORELABEL=
     . /etc/selinux/config
     if [ "$AUTORELABEL" = "0" ]; then
- 	rm -f  /.autorelabel 
+	rm -f  /.autorelabel
 
-	[ -n "$PLYMOUTH" ] && plymouth --hide-splash 
- 	echo
+	[ -n "$PLYMOUTH" ] && plymouth --hide-splash
+	echo
 	echo $"*** Warning -- SELinux ${SELINUXTYPE} policy relabel is required. "
- 	echo $"*** /etc/selinux/config indicates you want to manually fix labeling"
- 	echo $"*** problems. Dropping you to a shell; the system will reboot"
- 	echo $"*** when you leave the shell."
- 	echo "0" > /selinux/enforce
- 	sulogin
- 
- 	echo $"Unmounting file systems"
- 	umount -a
- 	mount -n -o remount,ro /
- 	echo $"Automatic reboot in progress."
- 	reboot -f
+	echo $"*** /etc/selinux/config indicates you want to manually fix labeling"
+	echo $"*** problems. Dropping you to a shell; the system will reboot"
+	echo $"*** when you leave the shell."
+	echo "0" > /selinux/enforce
+	sulogin
+
+	echo $"Unmounting file systems"
+	umount -a
+	mount -n -o remount,ro /
+	echo $"Automatic reboot in progress."
+	reboot -f
     else
-	[ -n "$PLYMOUTH" ] && plymouth --hide-splash 
- 	echo
- 	echo $"*** Warning -- SELinux ${SELINUXTYPE} policy relabel is required."
- 	echo $"*** Relabeling could take a very long time, depending on file"
- 	echo $"*** system size and speed of hard drives."
- 
- 	echo "0" > /selinux/enforce
+	[ -n "$PLYMOUTH" ] && plymouth --hide-splash
+	echo
+	echo $"*** Warning -- SELinux ${SELINUXTYPE} policy relabel is required."
+	echo $"*** Relabeling could take a very long time, depending on file"
+	echo $"*** system size and speed of hard drives."
+
+	echo "0" > /selinux/enforce
 	/sbin/fixfiles -F restore > /dev/null 2>&1
- 	rm -f  /.autorelabel 
- 	if [ ! -z "$REBOOTFLAG" ]; then 
- 	    echo $"Automatic reboot in progress."
- 	    reboot -f
- 	fi
- 	echo $SELINUX_STATE > /selinux/enforce
-	[ -n "$PLYMOUTH" ] && plymouth --show-splash 
+	rm -f  /.autorelabel
+	if [ ! -z "$REBOOTFLAG" ]; then
+	    echo $"Automatic reboot in progress."
+	    reboot -f
+	fi
+	echo $SELINUX_STATE > /selinux/enforce
+	[ -n "$PLYMOUTH" ] && plymouth --show-splash
     fi
 }
 
@@ -394,7 +394,7 @@ elif [ -f /.autofsck ]; then
 		AUTOFSCK_OPT="$AUTOFSCK_OPT -f"
 	fi
 	if [ -n "$AUTOFSCK_SINGLEUSER" ]; then
-		[ -n "$PLYMOUTH" ] && plymouth --hide-splash 
+		[ -n "$PLYMOUTH" ] && plymouth --hide-splash
 		echo
 		echo $"*** Warning -- the system did not shut down cleanly. "
 		echo $"*** Dropping you to a shell; the system will continue"
@@ -402,7 +402,7 @@ elif [ -f /.autofsck ]; then
 		[ -n "$SELINUX_STATE" ] && echo "0" > /selinux/enforce
 		sulogin
 		[ -n "$SELINUX_STATE" ] && echo "1" > /selinux/enforce
-		[ -n "$PLYMOUTH" ] && plymouth --show-splash 
+		[ -n "$PLYMOUTH" ] && plymouth --show-splash
 	fi
 	fsckoptions="$AUTOFSCK_OPT $fsckoptions"
 fi
@@ -450,7 +450,7 @@ if [ "$READONLY" = "yes" -o "$TEMPORARY_STATE" = "yes" ]; then
 		fi
 	}
 
-	# Common mount options for scratch space regardless of 
+	# Common mount options for scratch space regardless of
 	# type of backing store
 	mountopts=
 
@@ -471,7 +471,7 @@ if [ "$READONLY" = "yes" -o "$TEMPORARY_STATE" = "yes" ]; then
 
 	for file in /etc/rwtab /etc/rwtab.d/* ; do
 		is_ignored_file "$file" && continue
-        	[ -f $file ] && cat $file | while read type path ; do
+	[ -f $file ] && cat $file | while read type path ; do
 			case "$type" in
 				empty)
 					mount_empty $path
@@ -522,7 +522,7 @@ if [ "$READONLY" = "yes" -o "$TEMPORARY_STATE" = "yes" ]; then
 	elif [ x$state_mount_dev != x ] && mount $state_mount_dev $mountopts "$STATE_MOUNT" > /dev/null 2>&1;  then
 		/bin/true
 	elif [ ! -z "$CLIENTSTATE" ]; then
-		# No local storage was found.  Make a final attempt to find 
+		# No local storage was found.  Make a final attempt to find
 		# state on an NFS server.
 
 		mount -t nfs $CLIENTSTATE/$HOSTNAME $STATE_MOUNT -o rw,nolock
@@ -559,9 +559,9 @@ if [ "$READONLY" = "yes" -o "$TEMPORARY_STATE" = "yes" ]; then
 		fi
 	fi
 fi
- 
+
 if ! [[ " $fsckoptions" =~ " -y" ]]; then
-    	fsckoptions="-a $fsckoptions"
+	fsckoptions="-a $fsckoptions"
 fi
 
 _RUN_QUOTACHECK=0
@@ -581,7 +581,7 @@ if [ -z "$fastboot" -a "$READONLY" != "yes" ]; then
 	elif [ "$rc" -eq "1" ]; then
 	        passed "$STRING"
 		echo
-	elif [ "$rc" -eq "2" -o "$rc" -eq "3" ]; then 
+	elif [ "$rc" -eq "2" -o "$rc" -eq "3" ]; then
 		echo $"Unmounting file systems"
 		umount -a
 		mount -n -o remount,ro /
@@ -591,7 +591,7 @@ if [ -z "$fastboot" -a "$READONLY" != "yes" ]; then
 	
         # A return of 4 or higher means there were serious problems.
 	if [ $rc -gt 1 ]; then
-		[ -n "$PLYMOUTH" ] && plymouth --hide-splash 
+		[ -n "$PLYMOUTH" ] && plymouth --hide-splash
 
 		failure "$STRING"
 		echo
@@ -622,7 +622,7 @@ remount_needed() {
   oldifs=$IFS
   IFS=","
   for opt in $state ; do
-  	if [ "$opt" = "rw" ]; then
+	if [ "$opt" = "rw" ]; then
 		IFS=$oldifs
 		return 1
 	fi
@@ -643,7 +643,7 @@ if [ -n "$SELINUX_STATE" ]; then
 fi
 
 # If relabeling, relabel mount points.
-if [ -n "$SELINUX_STATE" -a "$READONLY" != "yes" ]; then 
+if [ -n "$SELINUX_STATE" -a "$READONLY" != "yes" ]; then
     if [ -f /.autorelabel ] || strstr "$cmdline" autorelabel ; then
 	restorecon $(awk '!/^#/ && $4 !~ /noauto/ && $2 ~ /^\// { print $2 }' /etc/fstab) >/dev/null 2>&1
     fi
@@ -683,7 +683,7 @@ if [ -x /sbin/quotaon ]; then
 fi
 
 # Check to see if a full relabel is needed
-if [ -n "$SELINUX_STATE" -a "$READONLY" != "yes" ]; then 
+if [ -n "$SELINUX_STATE" -a "$READONLY" != "yes" ]; then
     if [ -f /.autorelabel ] || strstr "$cmdline" autorelabel ; then
 	relabel_selinux
     fi
@@ -717,7 +717,7 @@ if [ -f /.unconfigured ]; then
     if [ -x /usr/bin/system-config-keyboard ]; then
 	/usr/bin/system-config-keyboard
     fi
-    if [ -x /usr/bin/passwd ]; then 
+    if [ -x /usr/bin/passwd ]; then
         /usr/bin/passwd root
     fi
     if [ -x /usr/sbin/system-config-network-tui ]; then
