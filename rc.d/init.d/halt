@@ -76,7 +76,7 @@ action $"Sending all processes the KILL signal..."  /sbin/killall5 -9
 /sbin/halt -w
 
 # Save mixer settings, here for lack of a better place.
-if [ -s /etc/alsa/alsactl.conf -a -x /sbin/alsactl ]; then
+if [ -s /etc/alsa/alsactl.conf -a -x /sbin/alsactl -a -w /etc/asound.state ]; then
   action $"Saving mixer settings" /sbin/alsactl -E ALSA_CONFIG_PATH=/etc/alsa/alsactl.conf --ignore store
 fi
 
