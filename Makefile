@@ -146,7 +146,7 @@ tag:
 	@git tag -a -m "Tag as $(TAG)" $(TAG)
 	@echo "Tagged as $(TAG)"
 
-archive: clean sytnax-check tag changelog
+archive: clean syntax-check tag changelog
 	@git archive --format=tar --prefix=initscripts-$(VERSION)/ HEAD > initscripts-$(VERSION).tar
 	@mkdir -p initscripts-$(VERSION)/
 	@cp ChangeLog initscripts-$(VERSION)/
