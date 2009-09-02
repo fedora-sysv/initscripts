@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.97
+Version: 8.98
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -251,6 +251,18 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Wed Sep  2 2009 Bill Nottingham <notting@redhat.com> - 8.98-1
+- sysconfig.txt: doucment DHCP_HOSTNAME (#498052)
+- 88-clock.rules: Use --systz instead of --hctosys. (#517886, #489494)
+- Support rwtab and state passed from dracut initrd (#515771, <wtogami@redhat.com>)
+- restore context of *tmp files (#519748)
+- halt: don't try and save mixer settings if it's not writable. (#515771)
+- rwtab: add /var/spool, /var/lib/dbus, others (#494973, #515771)
+- sysconfig.txt: clarify docs (#518614)
+- rc.sysinit: don't pretend /selinux is configurable (#518164)
+- assorted ipv6 redundant code deletion
+- translation updates: bn, ca, d, es, fi, fr, gu, hi, it, ja, ko, ml, nb, nl, pl, pt, pt_BR, ru, sr, ta, zh_CN, zh_TW
+
 * Mon Aug 10 2009 Bill Nottingham <notting@redhat.com> - 8.97-1
 - ipcalc: fix IPv6 address checking (#516319)
 - ifup-aliases: fix syntax error from earlier cleanups. (#515612, <jik@kamens.brookline.ma.us>)
