@@ -28,7 +28,7 @@ Requires: ethtool >= 1.8-2, /sbin/runuser
 Requires: udev >= 125-1
 Requires: popt >= 1.12-2
 Requires: cpio
-Conflicts: mkinitrd < 4.0, kernel < 2.6.31, mdadm < 2.6.4-3
+Conflicts: mkinitrd < 4.0, kernel < 2.6.18, mdadm < 2.6.4-3
 Conflicts: ypbind < 1.6-12, psacct < 6.3.2-12, kbd < 1.06-19, lokkit < 0.50-14
 Conflicts: dhclient < 3.0.3-7
 Conflicts: tcsh < 6.13-5
