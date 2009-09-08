@@ -386,7 +386,7 @@ pidofproc() {
 }
 
 status() {
-	local base pid pid_file=
+	local base pid lock_file= pid_file=
 
 	# Test syntax.
 	if [ "$#" = 0 ] ; then
@@ -395,6 +395,10 @@ status() {
 	fi
 	if [ "$1" = "-p" ]; then
 		pid_file=$2
+		shift 2
+	fi
+	if [ "$1" = "-l" ]; then
+		lock_file=$2
 		shift 2
 	fi
 	base=${1##*/}
@@ -420,8 +424,11 @@ status() {
 	                return 1
 			;;
 	esac
-	# See if /var/lock/subsys/${base} exists
-	if [ -f /var/lock/subsys/${base} ]; then
+	if [ -z "${lock_file}" ]; then
+		lock_file=${base}
+	fi
+	# See if /var/lock/subsys/${lock_file} exists
+	if [ -f /var/lock/subsys/${lock_file} ]; then
 		echo $"${base} dead but subsys locked"
 		return 2
 	fi
