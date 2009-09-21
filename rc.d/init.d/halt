@@ -67,8 +67,11 @@ for i in /dev/.mdadm/*.pid; do
 done
 
 action $"Sending all processes the TERM signal..." /sbin/killall5 -15 $OMITARGS
-sleep 2
-action $"Sending all processes the KILL signal..."  /sbin/killall5 -9 $OMITARGS
+# No need to sleep and kill -9 if no processes to kill were found
+if [ "$?" == 0 ]; then
+    sleep 2
+    action $"Sending all processes the KILL signal..."  /sbin/killall5 -9 $OMITARGS
+fi
 
 # Write to wtmp file before unmounting /var
 /sbin/halt -w
