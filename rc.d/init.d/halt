@@ -57,9 +57,18 @@ esac
 # Kill all processes.
 [ "${BASH+bash}" = bash ] && enable kill
 
-action $"Sending all processes the TERM signal..." /sbin/killall5 -15
+# Find mdmon pid's and omit killing them
+OMITARGS=
+for i in /dev/.mdadm/*.pid; do
+    if [ "$i" = "mdadm.pid" -o ! -r "$i" ]; then
+        continue
+    fi
+    OMITARGS="$OMITARGS -o $(cat $i)"
+done
+
+action $"Sending all processes the TERM signal..." /sbin/killall5 -15 $OMITARGS
 sleep 2
-action $"Sending all processes the KILL signal..."  /sbin/killall5 -9
+action $"Sending all processes the KILL signal..."  /sbin/killall5 -9 $OMITARGS
 
 # Write to wtmp file before unmounting /var
 /sbin/halt -w
@@ -140,6 +149,11 @@ fi
 mount | awk '{ print $3 }' | while read line; do
     fstab-decode mount -n -o ro,remount $line
 done
+
+# If we left mdmon's running wait for the raidsets to become clean
+if [ -n "$OMITARGS" ]; then
+    mdadm --wait-clean --scan
+fi
 
 # Now halt or reboot.
 echo $"$message"
