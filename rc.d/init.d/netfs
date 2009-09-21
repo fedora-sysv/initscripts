@@ -33,6 +33,7 @@ NETDEVMTAB=$(LC_ALL=C awk '$4 ~ /_netdev/ && $2 != "/" { print $2 }' /etc/mtab)
 case "$1" in
   start)
         [ ! -f /var/lock/subsys/network -a ! -f /var/lock/subsys/NetworkManager ] && exit 0
+        [ "$EUID" != "0" ] && exit 4
         [ -n "$NFSFSTAB" ] && 
 	  {
 	    [ ! -f /var/lock/subsys/rpcbind ] && service rpcbind start
@@ -96,6 +97,7 @@ case "$1" in
 	;;
   stop)
         # Unmount loopback stuff first
+        [ "$EUID" != "0" ] && exit 4
 	__umount_loopback_loop
   	if [ -n "$NETDEVMTAB" ]; then
 		__umount_loop '$4 ~ /_netdev/ && $2 != "/" {print $2}' \
@@ -151,7 +153,7 @@ case "$1" in
 	else
 		echo $"/proc filesystem unavailable"
 	fi
-	[ -r /var/lock/subsys/netfs ] || exit 2
+	[ -r /var/lock/subsys/netfs ] || exit 3
 	;;
   restart)
 	$0 stop
@@ -162,7 +164,7 @@ case "$1" in
 	;;
   *)
 	echo $"Usage: $0 {start|stop|restart|reload|status}"
-	exit 1
+	exit 3
 esac
 
 exit 0
