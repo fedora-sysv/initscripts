@@ -17,6 +17,7 @@ Requires: /sbin/pidof, /sbin/blkid
 Requires: module-init-tools
 Requires: util-linux-ng >= 2.16, mount >= 2.11l
 Requires: bash >= 3.0
+Requires: sysvinit-tools >= 2.87
 %if with_upstart
 Requires: upstart
 %else
