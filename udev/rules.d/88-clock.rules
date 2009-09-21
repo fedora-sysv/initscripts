@@ -1,2 +1,4 @@
-ACTION=="add", SUBSYSTEM=="rtc", RUN+="/sbin/hwclock --systz --rtc=/dev/%k"
-ACTION=="add", ENV{MAJOR}=="10", ENV{MINOR}=="135", RUN+="/sbin/hwclock --systz --rtc=/dev/%k"
+ACTION=="add", SUBSYSTEM=="rtc", SYSFS{hctosys}=="1", RUN+="/sbin/hwclock --systz --rtc=/dev/%k"
+ACTION=="add", ENV{MAJOR}=="10", SYSFS{hctosys}=="1", ENV{MINOR}=="135", RUN+="/sbin/hwclock --systz --rtc=/dev/%k"
+ACTION=="add", SUBSYSTEM=="rtc", SYSFS{hctosys}=="0", RUN+="/sbin/hwclock --hctosys --rtc=/dev/%k"
+ACTION=="add", ENV{MAJOR}=="10", SYSFS{hctosys}=="0", ENV{MINOR}=="135", RUN+="/sbin/hwclock --hctosys --rtc=/dev/%k"
