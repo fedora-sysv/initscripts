@@ -57,6 +57,7 @@ rc=0
 # See how we were called.
 case "$1" in
   start)
+	[ "$EUID" != "0" ] && exit 4
 	rc=0
 	# IPv6 hook (pre IPv4 start)
 	if [ -x /etc/sysconfig/network-scripts/init.ipv6-global ]; then
@@ -176,6 +177,7 @@ case "$1" in
 	[ -n "${NETWORKDELAY}" ] && /bin/sleep ${NETWORKDELAY}
         ;;
   stop)
+	[ "$EUID" != "0" ] && exit 4
   	# Don't shut the network down if root is on NFS or a network
 	# block device.
         rootfs=$(awk '{ if ($1 !~ /^[ \t]*#/ && $2 == "/" && $3 != "rootfs") { print $3; }}' /proc/mounts)
@@ -283,14 +285,14 @@ case "$1" in
 	echo $"Currently active devices:"
 	echo $(/sbin/ip -o link show up | awk -F ": " '{ print $2 }')
 	;;
-  restart|reload)
+  restart|reload|force-reload)
         cd "$CWD"
 	$0 stop
 	$0 start
 	;;
   *)
-        echo $"Usage: $0 {start|stop|restart|reload|status}"
-        exit 1
+        echo $"Usage: $0 {start|stop|status|restart|reload|force-reload}"
+        exit 3
 esac
 
 exit $rc
