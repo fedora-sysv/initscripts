@@ -289,10 +289,11 @@ case "$1" in
         cd "$CWD"
 	$0 stop
 	$0 start
+	rc=$?
 	;;
   *)
         echo $"Usage: $0 {start|stop|status|restart|reload|force-reload}"
-        exit 3
+        exit 2
 esac
 
 exit $rc
