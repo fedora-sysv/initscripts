@@ -30,12 +30,21 @@ halt_crypto() {
 }
 
 kill_all() {
+    local STRING rc
+
+    STRING=$1
+    echo -n "$STRING "
+    shift
     /sbin/killall5 "$@"
     rc=$?
+    # Retval: 0: success 1: error 2: no processes found to kill
     if [ "$rc" == 1 ]; then
-	return 1
+        failure $"$STRING"
+    else
+        success $"$STRING"
     fi
-    return 0
+    echo
+    return $rc
 }
 
 # See how we were called.
@@ -75,11 +84,11 @@ for i in /dev/.mdadm/*.pid; do
     OMITARGS="$OMITARGS -o $(cat $i)"
 done
 
-action $"Sending all processes the TERM signal..." kill_all -15 $OMITARGS
+kill_all $"Sending all processes the TERM signal..." -15 $OMITARGS
 # No need to sleep and kill -9 if no processes to kill were found
 if [ "$?" == 0 ]; then
     sleep 2
-    action $"Sending all processes the KILL signal..."  kill_all -9 $OMITARGS
+    kill_all $"Sending all processes the KILL signal..." -9 $OMITARGS
 fi
 
 # Write to wtmp file before unmounting /var
