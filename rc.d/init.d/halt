@@ -29,6 +29,15 @@ halt_crypto() {
     return $fnval
 }
 
+kill_all() {
+    /sbin/killall5 "$@"
+    rc=$?
+    if [ "$rc" == 1 ]; then
+	return 1
+    fi
+    return 0
+}
+
 # See how we were called.
 case "$0" in
    *halt)
@@ -66,11 +75,11 @@ for i in /dev/.mdadm/*.pid; do
     OMITARGS="$OMITARGS -o $(cat $i)"
 done
 
-action $"Sending all processes the TERM signal..." /sbin/killall5 -15 $OMITARGS
+action $"Sending all processes the TERM signal..." kill_all -15 $OMITARGS
 # No need to sleep and kill -9 if no processes to kill were found
 if [ "$?" == 0 ]; then
     sleep 2
-    action $"Sending all processes the KILL signal..."  /sbin/killall5 -9 $OMITARGS
+    action $"Sending all processes the KILL signal..."  kill_all -9 $OMITARGS
 fi
 
 # Write to wtmp file before unmounting /var
