@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.99
+Version: 9.00
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -252,6 +252,15 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Fri Oct  2 2009 Bill Nottingham <notting@redhat.com> - 9.00-1
+- halt: wrap /sbin/killall5 to catch some return codes (#526539)
+- netfs, netconsle, network: fix return codes to match LSB spec (#524489, #524480, #524486)
+- handle kernels compiled both with and without CONFIG_RTC_HCTOSYS
+- halt: use killall5's return code to avoid unncesssary sleeping (#524359, <hdegoede@redhat.com>)
+- halt: don't kill mdmon on shutdown. (#524357, <hdegoede@redhat.com>)
+- rc.sysinit: do not try and activate ISW raidsets, unless noiswmd is passed. (#524355, <hdegoede@redhat.com>)
+- translation updates: ca, cs, da, mai, po, sv, uk
+
 * Mon Sep 14 2009 Bill Nottingham <notting@redhat.com> - 8.99-1
 - init.d/functions: add a '-l' option to status to pass lock file name (#521772)
 - tweak kernel conflict
