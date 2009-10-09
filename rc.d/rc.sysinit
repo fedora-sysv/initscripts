@@ -362,14 +362,17 @@ fi
 	
 	if ! strstr "$cmdline" nodmraid && [ -x /sbin/dmraid ]; then
 		modprobe dm-mirror >/dev/null 2>&1
-		for dmname in $(/sbin/dmraid -s -c -i); do
-			if [[ "$dmname" =~ '^isw_.*' ]] && \
-			   ! strstr "$cmdline" noiswmd; then
-				continue
-			fi
-			/sbin/dmraid -ay -i --rm_partitions -p "$dmname" >/dev/null 2>&1
-			/sbin/kpartx -a -p p "/dev/mapper/$dmname"
-		done
+		dmraidsets=$(LC_ALL=C /sbin/dmraid -s -c -i)
+		if [ "$dmraidsets" != "no raid disks" ]; then
+			for dmname in $dmraidsets; do
+				if [[ "$dmname" =~ '^isw_.*' ]] && \
+				   ! strstr "$cmdline" noiswmd; then
+					continue
+				fi
+				/sbin/dmraid -ay -i --rm_partitions -p "$dmname" >/dev/null 2>&1
+				/sbin/kpartx -a -p p "/dev/mapper/$dmname"
+			done
+		fi
 	fi
 	
 	if [ -x /sbin/lvm ]; then
