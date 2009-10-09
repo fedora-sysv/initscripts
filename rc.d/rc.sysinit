@@ -443,14 +443,13 @@ if [ -c /dev/mapper/control ]; then
 	
 	if ! strstr "$cmdline" nodmraid && [ -x /sbin/dmraid.static ]; then
 		modprobe dm-mirror >/dev/null 2>&1
-		for x in $(/sbin/dmraid.static -ay -i -p -t 2>/dev/null | \
-				egrep -iv "^no " | \
-				awk -F ':' '{ print $1 }') ; do
-			dmname=$(resolve_dm_name $x)
-			[ -z "$dmname" ] && continue
-			/sbin/dmraid.static -ay -i -p "$dmname" >/dev/null 2>&1
-			/sbin/kpartx -a -p p "/dev/mapper/$dmname"
-		done
+		dmraidsets=$(LC_ALL=C /sbin/dmraid -s -c -i)
+		if [ "$dmraidsets" != "no raid disks" ]; then
+			for dmname in $dmraidsets; do
+				/sbin/dmraid.static -ay -i -p "$dmname" >/dev/null 2>&1
+				/sbin/kpartx -a -p p "/dev/mapper/$dmname"
+			done
+		fi
 	fi
 	
 	if [ -x /sbin/lvm.static ]; then
