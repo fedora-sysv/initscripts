@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.00
+Version: 9.01
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -252,6 +252,11 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Fri Oct  9 2009 Bill Nottingham <notting@redhat.com> - 9.01-1
+- rc.sysinit: fix handling of dmraid output to avoid error messages (#527726, <mschmidt@redhat.com>)
+- rwtab: add /var/lib/xend (#526046)
+- translation updates: fi, nb, pl
+
 * Fri Oct  2 2009 Bill Nottingham <notting@redhat.com> - 9.00-1
 - halt: wrap /sbin/killall5 to catch some return codes (#526539)
 - netfs, netconsle, network: fix return codes to match LSB spec (#524489, #524480, #524486)
