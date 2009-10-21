@@ -283,7 +283,7 @@ else
     fi
 
     # Set a default route.
-    if [ -z "${GATEWAYDEV}" -o "${GATEWAYDEV}" = "${REALDEVICE}" ]; then
+    if [ "${DEFROUTE}" != "no" ] && [ -z "${GATEWAYDEV}" -o "${GATEWAYDEV}" = "${REALDEVICE}" ]; then
 	# set up default gateway. replace if one already exists
 	if [ -n "${GATEWAY}" -a "$(ipcalc --network ${GATEWAY} ${NETMASK} 2>/dev/null)" = "NETWORK=${NETWORK}" ]; then
 	    ip route replace default ${METRIC:+metric $METRIC} \
