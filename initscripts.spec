@@ -215,7 +215,6 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/getkey
 /sbin/securetty
 %attr(2755,root,root) /sbin/netreport
-/sbin/initlog
 /lib/udev/rules.d/*
 /lib/udev/rename_device
 /lib/udev/console_init
@@ -235,7 +234,6 @@ rm -rf $RPM_BUILD_ROOT
 /etc/ppp/ip-down.ipv6to4
 /etc/ppp/ipv6-up
 /etc/ppp/ipv6-down
-%config(noreplace) /etc/initlog.conf
 %dir /etc/NetworkManager
 %dir /etc/NetworkManager/dispatcher.d
 /etc/NetworkManager/dispatcher.d/00-netreport

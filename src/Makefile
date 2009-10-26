@@ -1,6 +1,6 @@
 CFLAGS+=$(RPM_OPT_FLAGS) -Wall -D_GNU_SOURCE
 
-PROGS=usernetctl doexec netreport testd usleep ipcalc initlog \
+PROGS=usernetctl doexec netreport testd usleep ipcalc \
 	fstab-decode getkey ppp-watch consoletype genhostid rename_device \
 	console_init console_check securetty
 PPPWATCH_OBJS=ppp-watch.o shvar.o
@@ -27,7 +27,6 @@ install:
 	install -m 755 ipcalc $(ROOT)/bin/ipcalc
 	install -m 755 fstab-decode $(ROOT)/sbin/fstab-decode
 	install -m 755 genhostid $(ROOT)/sbin/genhostid
-	install -m 755 initlog $(ROOT)/sbin/initlog
 	install -m 755 getkey $(ROOT)/sbin/getkey
 	install -m 755 ppp-watch $(ROOT)/sbin/ppp-watch
 	install -m 755 consoletype $(ROOT)/sbin/consoletype
@@ -36,7 +35,6 @@ install:
 	install -m 755 console_init $(ROOT)/lib/udev/console_init
 	install -m 755 console_check $(ROOT)/lib/udev/console_check
 	install -m 755 ccw_init $(ROOT)/lib/udev/ccw_init
-	install -m 644 initlog.1 $(ROOT)$(mandir)/man1
 	install -m 644 genhostid.1 $(ROOT)$(mandir)/man1
 	install -m 644 doexec.1 $(ROOT)$(mandir)/man1
 	install -m 644 getkey.1 $(ROOT)$(mandir)/man1
@@ -47,7 +45,6 @@ install:
 	install -m 644 ppp-watch.8 $(ROOT)$(mandir)/man8
 	install -m 644 ipcalc.1 $(ROOT)$(mandir)/man1
 	install -m 644 consoletype.1 $(ROOT)$(mandir)/man1
-	install -m 644 initlog.conf $(ROOT)/etc
 
 # this daemon and initscript are useful for testing the up/down/status stuff
 # not installed by default, only comes from sources.
