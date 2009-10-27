@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.01
+Version: 9.02
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -248,6 +248,14 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Tue Oct 27 2009 Bill Nottingham <notting@redhat.com> - 9.02-1
+- remove long-since deprecated initlog
+- remove IUCV support (#507217)
+- halt: put a wrapper around killall5 to account for retval 2 not being an error (#526539, <hdegoede@redhat.com>)
+- ifup-eth: honor DEFROUTE=yes|no for 'all' connection types. (#528822)
+- network-functions: load bonding driver if BONDING_OPTS is defined. (#516569)
+- rc.sysinit: put /dev/shm in mtab too, as dracut now mounts it. (#528667)
+
 * Fri Oct  9 2009 Bill Nottingham <notting@redhat.com> - 9.01-1
 - rc.sysinit: fix handling of dmraid output to avoid error messages (#527726, <mschmidt@redhat.com>)
 - rwtab: add /var/lib/xend (#526046)
