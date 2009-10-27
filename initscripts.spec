@@ -86,7 +86,6 @@ rm -f $RPM_BUILD_ROOT/etc/inittab.*
 %ifnarch s390 s390x
 rm -f \
  $RPM_BUILD_ROOT/etc/sysconfig/network-scripts/ifup-ctc \
- $RPM_BUILD_ROOT/etc/sysconfig/network-scripts/ifup-iucv \
  $RPM_BUILD_ROOT/lib/udev/rules.d/55-ccw.rules \
  $RPM_BUILD_ROOT/lib/udev/ccw_init \
  $RPM_BUILD_ROOT/etc/event.d/console
@@ -176,7 +175,6 @@ rm -rf $RPM_BUILD_ROOT
 /etc/sysconfig/network-scripts/net.hotplug
 %ifarch s390 s390x
 /etc/sysconfig/network-scripts/ifup-ctc
-/etc/sysconfig/network-scripts/ifup-iucv
 %endif
 %config(noreplace) /etc/networks
 /etc/rwtab
