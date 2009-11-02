@@ -1,0 +1,36 @@
+.\" Copyright 2009 Petr Lautrbach (plautrba@redhat.com) 
+.TH ifup 8  2009-10-27 "" "System Administration tools and Daemons"
+.SH NAME
+ifup - bring a network interface up
+
+ifdown - take a network interface down
+.SH SYNOPSIS
+.B ifup IFACE [boot]
+ 
+.B ifdown IFACE
+
+.SH DESCRIPTION
+The
+.B ifup 
+and
+.B ifdown
+commands may be used to configure (or, respec-
+tively, deconfigure) network interfaces based on interface definitions
+in the files /etc/sysconfig/network and /etc/sysconfig/network-scripts/ifcfg-<configuration>
+
+These scripts take one argument normally: the name of the configuration
+(e.g. eth0). They are called with a second argument of "boot"
+during the boot sequence so that devices that are not meant to
+be brought up on boot (ONBOOT=no, see below) can be ignored at
+that time.
+
+.SH FILES
+.TP
+\fB/etc/sysconfig/network\fR
+
+.TP
+\fB/etc/sysconfig/network-scripts/ifcfg-<configuration>\fR 
+The file defining an interface.
+
+.SH "SEE ALSO"
+/usr/share/doc/initscripts-*/sysconfig.txt

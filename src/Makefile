@@ -45,6 +45,8 @@ install:
 	install -m 644 ppp-watch.8 $(ROOT)$(mandir)/man8
 	install -m 644 ipcalc.1 $(ROOT)$(mandir)/man1
 	install -m 644 consoletype.1 $(ROOT)$(mandir)/man1
+	install -m 644 ifup.8 $(ROOT)$(mandir)/man8
+	ln -s ifup.8 $(ROOT)$(mandir)/man8/ifdown.8
 
 # this daemon and initscript are useful for testing the up/down/status stuff
 # not installed by default, only comes from sources.
