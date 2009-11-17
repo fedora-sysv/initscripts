@@ -142,7 +142,7 @@ case "$1" in
 			test $? = 1 && continue
 		fi
 		action $"Bringing up interface $i: " ./ifup $i boot
-		rc=$((rc+$?))
+		[ $? -ne 0 ] && rc=1
 	done
 	
 	# Bring up xDSL and VPN interfaces
@@ -154,7 +154,7 @@ case "$1" in
 			test $? = 1 && continue
 		fi
 		action $"Bringing up interface $i: " ./ifup $i boot
-		rc=$((rc+$?))
+		[ $? -ne 0 ] && rc=1
 	    fi
         done
 
@@ -243,7 +243,7 @@ case "$1" in
 
 		if ! check_device_down $DEVICE; then
 		   action $"Shutting down interface $i: " ./ifdown $i boot
-		   rc=$((rc+$?))
+		   [ $? -ne 0 ] && rc=1
 		fi
 		)
 	done
