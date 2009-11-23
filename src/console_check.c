@@ -152,9 +152,10 @@ out:
 int emit_console_event(char *dev, int speed) {
 	char *args[] = { "initctl", "emit", "--no-wait", "fedora.serial-console-available", NULL, NULL, NULL };
 	
-	args[4] = dev;
+	if (dev)
+		asprintf(&args[4],"DEV=%s",dev);
 	if (speed)
-		asprintf(&args[5],"%d",speed);
+		asprintf(&args[5],"SPEED=%d",speed);
 	execv("/sbin/initctl", args);
 	return 1;	
 }
