@@ -444,7 +444,7 @@ if [ -c /dev/mapper/control ]; then
 	if ! strstr "$cmdline" nodmraid && [ -x /sbin/dmraid.static ]; then
 		modprobe dm-mirror >/dev/null 2>&1
 		dmraidsets=$(LC_ALL=C /sbin/dmraid -s -c -i)
-		if [ "$dmraidsets" != "no raid disks" ]; then
+		if [ "$dmraidsets" != "no raid disks" -a "$dmraidsets" != "no block devices found" ]; then
 			for dmname in $dmraidsets; do
 				/sbin/dmraid.static -ay -i -p "$dmname" >/dev/null 2>&1
 				/sbin/kpartx -a -p p "/dev/mapper/$dmname"
