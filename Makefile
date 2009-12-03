@@ -46,7 +46,7 @@ install:
 	cp -af rc.d/init.d $(ROOT)/etc/rc.d/
 	install -m644 sysconfig/debug sysconfig/init sysconfig/netconsole sysconfig/readonly-root $(ROOT)/etc/sysconfig/
 	cp -af sysconfig/network-scripts $(ROOT)/etc/sysconfig/
-	cp -af ppp NetworkManager event.d $(ROOT)/etc
+	cp -af ppp NetworkManager init $(ROOT)/etc
 	mkdir -p $(ROOT)/etc/ppp/peers
 	mkdir -p $(ROOT)/lib
 	cp -af udev $(ROOT)/lib
@@ -59,7 +59,7 @@ install:
 	chmod 755 $(ROOT)/etc/sysconfig/network-scripts/init*
 	chmod 755 $(ROOT)/etc/sysconfig/network-scripts/net.hotplug
 	chmod 755 $(ROOT)/etc/NetworkManager/dispatcher.d/00-netreport
-	chmod 644 $(ROOT)/etc/event.d/*
+	chmod 644 $(ROOT)/etc/init/*
 	mkdir -p $(ROOT)/etc/sysconfig/modules
 	mkdir -p $(ROOT)/etc/sysconfig/networking/devices
 	mkdir -p $(ROOT)/etc/sysconfig/networking/profiles/default
