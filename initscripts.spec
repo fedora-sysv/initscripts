@@ -178,7 +178,7 @@ rm -rf $RPM_BUILD_ROOT
 /etc/statetab
 %dir /etc/statetab.d
 %if with_upstart
-%config(noreplace) /etc/init/*
+/etc/init/*
 %endif
 %config /etc/X11/prefdm
 %config(noreplace) /etc/inittab
