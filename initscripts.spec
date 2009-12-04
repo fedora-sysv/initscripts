@@ -75,8 +75,6 @@ make ROOT=$RPM_BUILD_ROOT SUPERUSER=`id -un` SUPERGROUP=`id -gn` mandir=%{_mandi
 
 %if with_upstart
  mv -f $RPM_BUILD_ROOT/etc/inittab.upstart $RPM_BUILD_ROOT/etc/inittab
- rm -f $RPM_BUILD_ROOT/etc/rc.d/rc1.d/S99single
- rm -f $RPM_BUILD_ROOT/etc/rc.d/init.d/single
 %else
  mv -f $RPM_BUILD_ROOT/etc/inittab.sysv $RPM_BUILD_ROOT/etc/inittab
  rm -rf $RPM_BUILD_ROOT/etc/init
