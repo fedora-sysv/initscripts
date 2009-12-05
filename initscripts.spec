@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 8.95
+Version: 8.95.1
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -249,6 +249,14 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Fri Dec  4 2009 Bill Nottingham <notting@redhat.com> - 8.95.1-1
+- halt: don't try and save mixer settings if it's not writable. (#515771)
+- rc.sysinit: restore context of recreated files. (#519748)
+- remove never-used 'sulogin' upstart event
+- rc, functions/rc1: redirect bash errors on 'unset' to /dev/null. (#482888)
+- rc.sysinit: fix dmraid partition naming (#501476, <hdegoede@redhat.com>)
+- rc: don't quote upstart signals. (#501155)
+
 * Fri May  1 2009 Bill Nottingham <notting@redhat.com> - 8.95-1
 - don't kill runlevel events on subsequent entering of the same runlevel (#498514)
 - lang.*sh: handle spaces in $HOME (#498482)
