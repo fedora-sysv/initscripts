@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.02
+Version: 9.02.1
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -248,6 +248,12 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Fri Dec 04 2009 Bill Nottingham <notting@redhat.com> - 9.02.1-1
+- rc.sysinit: handle yet another random return string from dmraid
+- remove never-used 'sulogin' upstart event
+- fix time-setting udev rules for old-style RTC devices (#537595)
+- translation updates: el
+
 * Tue Oct 27 2009 Bill Nottingham <notting@redhat.com> - 9.02-1
 - remove long-since deprecated initlog
 - remove IUCV support (#507217)
