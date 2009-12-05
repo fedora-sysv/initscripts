@@ -1,6 +1,6 @@
 CFLAGS+=$(RPM_OPT_FLAGS) -Wall -D_GNU_SOURCE
 
-PROGS=usernetctl doexec netreport testd usleep ipcalc \
+PROGS=usernetctl netreport testd usleep ipcalc \
 	fstab-decode getkey ppp-watch consoletype genhostid rename_device \
 	console_init console_check securetty
 PPPWATCH_OBJS=ppp-watch.o shvar.o
@@ -20,7 +20,6 @@ clean:
 
 install:
 	mkdir -p $(ROOT)/bin $(ROOT)/usr/sbin $(ROOT)$(mandir)/man{1,8} $(ROOT)/etc $(ROOT)/lib/udev
-	install -m 755 doexec $(ROOT)/bin/doexec
 	install -m 755 usleep $(ROOT)/bin/usleep
 	install -m 4755 usernetctl $(ROOT)/usr/sbin/usernetctl
 	install -m 2755 netreport $(ROOT)/sbin/netreport
@@ -36,7 +35,6 @@ install:
 	install -m 755 console_check $(ROOT)/lib/udev/console_check
 	install -m 755 ccw_init $(ROOT)/lib/udev/ccw_init
 	install -m 644 genhostid.1 $(ROOT)$(mandir)/man1
-	install -m 644 doexec.1 $(ROOT)$(mandir)/man1
 	install -m 644 getkey.1 $(ROOT)$(mandir)/man1
 	install -m 644 netreport.1 $(ROOT)$(mandir)/man1
 	install -m 644 usleep.1 $(ROOT)$(mandir)/man1

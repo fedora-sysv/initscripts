@@ -203,7 +203,6 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/*
 /usr/sbin/sys-unconfig
 /sbin/setsysfont
-/bin/doexec
 /bin/ipcalc
 /bin/usleep
 %attr(4755,root,root) /usr/sbin/usernetctl
