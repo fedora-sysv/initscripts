@@ -5,7 +5,6 @@ PROGS=usernetctl netreport testd usleep ipcalc \
 	console_init console_check securetty
 PPPWATCH_OBJS=ppp-watch.o shvar.o
 CONSOLE_INIT_OBJS=console_init.o shvar.o
-INITLOG_OBJS=initlog.o process.o
 USLEEP_OBJS=usleep.o
 
 mandir=/usr/share/man
@@ -57,9 +56,6 @@ getkey: getkey.o
 
 ipcalc: ipcalc.o
 	$(CC) -D_GNU_SOURCE $(LDFLAGS) -o $@ $< -lpopt
-
-initlog: $(INITLOG_OBJS)
-	$(CC) $(LDFLAGS) -o $@ $(INITLOG_OBJS) -lpopt
 
 usleep: $(USLEEP_OBJS)
 	$(CC) $(LDFLAGS) -o $@ $(USLEEP_OBJS) -lpopt
