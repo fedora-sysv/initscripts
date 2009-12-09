@@ -19,7 +19,7 @@ Requires: util-linux-ng >= 2.16, mount >= 2.11l
 Requires: bash >= 3.0
 Requires: sysvinit-tools >= 2.87
 %if with_upstart
-Requires: upstart
+Requires: upstart >= 0.6.0
 %else
 Requires: SysVinit >= 2.85-38
 %endif
@@ -75,11 +75,9 @@ make ROOT=$RPM_BUILD_ROOT SUPERUSER=`id -un` SUPERGROUP=`id -gn` mandir=%{_mandi
 
 %if with_upstart
  mv -f $RPM_BUILD_ROOT/etc/inittab.upstart $RPM_BUILD_ROOT/etc/inittab
- rm -f $RPM_BUILD_ROOT/etc/rc.d/rc1.d/S99single
- rm -f $RPM_BUILD_ROOT/etc/rc.d/init.d/single
 %else
  mv -f $RPM_BUILD_ROOT/etc/inittab.sysv $RPM_BUILD_ROOT/etc/inittab
- rm -rf $RPM_BUILD_ROOT/etc/event.d
+ rm -rf $RPM_BUILD_ROOT/etc/init
 %endif
 rm -f $RPM_BUILD_ROOT/etc/inittab.*
 
@@ -87,13 +85,11 @@ rm -f $RPM_BUILD_ROOT/etc/inittab.*
 rm -f \
  $RPM_BUILD_ROOT/etc/sysconfig/network-scripts/ifup-ctc \
  $RPM_BUILD_ROOT/lib/udev/rules.d/55-ccw.rules \
- $RPM_BUILD_ROOT/lib/udev/ccw_init \
- $RPM_BUILD_ROOT/etc/event.d/console
+ $RPM_BUILD_ROOT/lib/udev/ccw_init
 %else
 rm -f \
  $RPM_BUILD_ROOT/etc/rc.d/rc.sysinit.s390init \
- $RPM_BUILD_ROOT/etc/sysconfig/init.s390 \
- $RPM_BUILD_ROOT/etc/event.d/tty[1-6]
+ $RPM_BUILD_ROOT/etc/sysconfig/init.s390
 %endif
 
 %pre
@@ -182,7 +178,7 @@ rm -rf $RPM_BUILD_ROOT
 /etc/statetab
 %dir /etc/statetab.d
 %if with_upstart
-%config(noreplace) /etc/event.d/*
+/etc/init/*
 %endif
 %config /etc/X11/prefdm
 %config(noreplace) /etc/inittab
@@ -235,7 +231,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/NetworkManager/dispatcher.d
 /etc/NetworkManager/dispatcher.d/00-netreport
 /etc/NetworkManager/dispatcher.d/05-netfs
-%doc sysconfig.txt sysvinitfiles static-routes-ipv6 ipv6-tunnel.howto ipv6-6to4.howto changes.ipv6 COPYING README-event.d
+%doc sysconfig.txt sysvinitfiles static-routes-ipv6 ipv6-tunnel.howto ipv6-6to4.howto changes.ipv6 COPYING README-init
 /var/lib/stateless
 %ghost %attr(0600,root,utmp) /var/log/btmp
 %ghost %attr(0664,root,utmp) /var/log/wtmp

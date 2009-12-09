@@ -165,6 +165,9 @@ if [ -x /sbin/halt.local ]; then
    /sbin/halt.local
 fi
 
+# Tell init to re-exec itself.
+kill -TERM 1
+
 # Remount read only anything that's left mounted.
 # echo $"Remounting remaining filesystems readonly"
 mount | awk '{ print $3 }' | while read line; do
