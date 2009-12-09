@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.02
+Version: 9.03
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -243,6 +243,18 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Wed Dec  9 2009 Bill Nottingham <notting@redhat.com> - 9.03-1
+- migrate to upstart 0.6.x (<notting@redhat.com>, <plautrba@redhat.com>)
+-- jobs move to /etc/init
+-- collapse rcX and ttyX jobs into single job definitions
+-- jobs are no longer %%config
+- remove obsolete doexec command
+- rc.sysinit: handle yet another random return string from dmraid
+- remove never-used 'sulogin' upstart event
+- fix time-setting udev rules for old-style RTC devices (#537595)
+- init.d/network: keep error codes limited to '1'. (#537841)
+- add initial ifup/ifdown man pages. (#529328, <plautrba@redhat.com>)
+
 * Tue Oct 27 2009 Bill Nottingham <notting@redhat.com> - 9.02-1
 - remove long-since deprecated initlog
 - remove IUCV support (#507217)
