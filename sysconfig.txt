@@ -190,15 +190,8 @@ Generic options:
   GATEWAYDEV=<gateway device to use, when multiple devices have GATEWAY=> (e.g. eth0)
   NISDOMAIN=<nis domain name>
   VLAN=yes|no
-  IPX=yes|no
-  IPXAUTOPRIMARY=on|off (note, that MUST be on|off, not yes|no)
-  IPXAUTOFRAME=on|off (again, not yes|no)
-  IPXINTERNALNETNUM=<netnum>
-  IPXINTERNALNODENUM=<nodenum>
   NOZEROCONF=
     Set this to not set a route for dynamic link-local addresses.
-
-  All the IPX stuff is optional, and should default to off.
 
   NETWORKDELAY=<delay in seconds>
     Delay in seconds after all network interfaces are initialized.  Useful if
@@ -686,9 +679,6 @@ Files in /etc/sysconfig/network-scripts/
       only, not IPv6 addresses.
 
   Ethernet-only items:
-    {IPXNETNUM,IPXPRIMARY,IPXACTIVE}_{802_2,802_3,ETHERII,SNAP}
-    configuration matrix for IPX.  Only used if IPX is active.
-    Managed from /etc/sysconfig/network-scripts/ifup-ipx
     ARP=yes|no (adds 'arp' flag to ifconfig, for use with the
       ethertap device)
     LINKDELAY=<time in seconds>

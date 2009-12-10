@@ -310,9 +310,5 @@ if [[ "${DHCPV6C}"  = [Yy1]* ]] && [ -x /sbin/dhcp6c ]; then
     [ -n  "$dhcp6_pid" ] && echo ${dhcp6_pid[0]} > /var/run/dhcp6c_${DEVICE}.pid
 fi
 
-if [ "${IPX}" = yes ]; then
-       /etc/sysconfig/network-scripts/ifup-ipx ${DEVICE}
-fi
-
 exec /etc/sysconfig/network-scripts/ifup-post ${CONFIG} ${2}
 
