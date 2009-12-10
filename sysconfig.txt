@@ -856,55 +856,6 @@ Files in /etc/sysconfig/network-scripts/
     SPYIPS=<list of IP addresses to monitor for link quality>
     IWPRIV=<iwpriv(8) commands>
 
-  IPSEC specific items
-     SRC=source address. Not required.
-     DST=destination address
-     TYPE=IPSEC
-     SRCNET=source net (for tunneling)
-     DSTNET=destination network (for tunneling)
-
-   Manual keying:
-
-     AH_PROTO{,_IN,_OUT}=protocol to use for AH (defaults to hmac-sha1)
-     ESP_PROTO{,_IN,_OUT}=protocol to use for ESP (defaults to 3des-cbc)
-     AESP_PROTO{,_IN,_OUT}=protocol to use for ESP authentication (defaults to
-	hmac-sha1)
-     KEY_AH{,_IN,_OUT}=AH key
-     KEY_ESP{,_IN,_OUT}=ESP encryption key
-     KEY_AESP{,_IN,_OUT}=ESP authentication key (optional)
-     SPI_{ESP,AH}_{IN,OUT}=SPIs to use
-
-   _IN and _OUT specifiers are for using different keys or protocols for
-   incoming and outgoing packets.  If neither _IN or _OUT variants are set for
-   protocols or keys, the same will be used for both.  Hexadecimal keys need to
-   be prefixed with "0x".
-
-   Automatic keying:
-
-     IKE_DHGROUP=<number> (defaults to 2)
-     IKE_METHOD=PSK|X509|GSSAPI
-         PSK=preshared keys (shared secret)
-         X509=X.509 certificates
-         GSSPI=GSSAPI authentication
-     IKE_AUTH=protocol to use for Phase 1 of SA (defaults to sha1)
-     IKE_ENC=protocol to use for Phase 1 of SA (defaults to 3des)
-     IKE_PSK=preshared key for this connection
-     IKE_CERTFILE=our certificate file name for X509 IKE
-       IKE_PEER_CERTFILE=peer public cert filename for X509 IKE
-       IKE_DNSSEC=retrieve peer public certs from DNS
-     (otherwise uses certificate information sent over IKE)
-
-     To manage the racoon configuration manually (e.g. when there is more than
-     one IPSEC configuration with the same DST), set KEYING=automatic and leave
-     all IKE_* parameters unspecified.
-
-     To override the identifier to use with a preshared key:
-
-       MYID_TYPE=address|fqdn|user_fqdn
-       MYID_VALUE=fqdn or user_fqdn string for this connection
-
-   Usage of AH or ESP may be disabled by setting {AH,ESP}_PROTO to "none".
-
   Bonding-specific items
 
     SLAVE=yes
