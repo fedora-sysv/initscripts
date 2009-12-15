@@ -142,7 +142,6 @@ rm -rf $RPM_BUILD_ROOT
 /etc/sysconfig/network-scripts/network-functions-ipv6
 /etc/sysconfig/network-scripts/init.ipv6-global
 %config(noreplace) /etc/sysconfig/network-scripts/ifcfg-lo
-/etc/sysconfig/network-scripts/ifup-ipx
 /etc/sysconfig/network-scripts/ifup-post
 /etc/sysconfig/network-scripts/ifdown-ppp
 /etc/sysconfig/network-scripts/ifup-ppp
@@ -156,8 +155,6 @@ rm -rf $RPM_BUILD_ROOT
 /etc/sysconfig/network-scripts/ifdown-eth
 /etc/sysconfig/network-scripts/ifup-ipv6
 /etc/sysconfig/network-scripts/ifdown-ipv6
-/etc/sysconfig/network-scripts/ifup-ipsec
-/etc/sysconfig/network-scripts/ifdown-ipsec
 /etc/sysconfig/network-scripts/ifup-sit
 /etc/sysconfig/network-scripts/ifdown-sit
 /etc/sysconfig/network-scripts/ifup-tunnel
