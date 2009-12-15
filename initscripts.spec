@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03
+Version: 9.03.1
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -243,6 +243,13 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Tue Dec 15 2009 Bill Nottingham <notting@redhat.com> - 9.03.1-1
+- re-enable network service (#545255)
+- ifdown: honor HOTPLUG (#547737)
+- silence any erros from bonding adds (#516569)
+- remove assorted configurations we don't support the tools for
+  (ipsec-tools ipsec, cipe, IPX)
+
 * Wed Dec  9 2009 Bill Nottingham <notting@redhat.com> - 9.03-1
 - migrate to upstart 0.6.x (<notting@redhat.com>, <plautrba@redhat.com>)
 -- jobs move to /etc/init
