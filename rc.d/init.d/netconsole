@@ -47,7 +47,7 @@ print_address_info ()
 	[ -z "$DEV" ] && DEV=$(echo $route | sed "s|.* dev \([^ ]*\).*|\1|")
 	echo "DEV=$DEV"
 	echo "LOCALADDR=$(echo $route | sed "s|.* src \([^ ]*\).*|\1|")"
-	if echo $route | grep -q " via " ; then
+	if [[ $route == *" via "* ]] ; then
 		via=$(echo $route | sed "s|.* via \([^ ]*\).*|\1|")
 		target=$via
 	else
