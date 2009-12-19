@@ -98,9 +98,9 @@ case "$1" in
 	# bring up all other interfaces configured to come up at boot time
 	for i in $interfaces; do
 		unset DEVICE TYPE SLAVE
-		eval $(LANG=C fgrep "DEVICE=" ifcfg-$i)
-		eval $(LANG=C fgrep "TYPE=" ifcfg-$i)
-		eval $(LANG=C fgrep "SLAVE=" ifcfg-$i)
+		eval $(LANG=C grep -F "DEVICE=" ifcfg-$i)
+		eval $(LANG=C grep -F "TYPE=" ifcfg-$i)
+		eval $(LANG=C grep -F "SLAVE=" ifcfg-$i)
 
 		if [ -z "$DEVICE" ] ; then DEVICE="$i"; fi
 
@@ -131,7 +131,7 @@ case "$1" in
 			continue
 		fi
 
-		if LANG=C egrep -L "^ONBOOT=['\"]?[Nn][Oo]['\"]?" ifcfg-$i > /dev/null ; then
+		if LANG=C grep -EL "^ONBOOT=['\"]?[Nn][Oo]['\"]?" ifcfg-$i > /dev/null ; then
 		        # this loads the module, to preserve ordering
 			is_available $i
 			continue
@@ -147,7 +147,7 @@ case "$1" in
 	
 	# Bring up xDSL and VPN interfaces
 	for i in $vlaninterfaces $bridgeinterfaces $xdslinterfaces $vpninterfaces ; do
-            if ! LANG=C egrep -L "^ONBOOT=['\"]?[Nn][Oo]['\"]?" ifcfg-$i >/dev/null 2>&1 ; then
+            if ! LANG=C grep -EL "^ONBOOT=['\"]?[Nn][Oo]['\"]?" ifcfg-$i >/dev/null 2>&1 ; then
 		# If we're in confirmation mode, get user confirmation.
 		if [ -f /var/run/confirm ]; then
 			confirm $i
@@ -208,8 +208,8 @@ case "$1" in
 	# get list of bonding, vpn, and xdsl interfaces
 	for i in $interfaces; do
 		unset DEVICE TYPE
-		eval $(LANG=C fgrep "DEVICE=" ifcfg-$i)
-		eval $(LANG=C fgrep "TYPE=" ifcfg-$i)
+		eval $(LANG=C grep -F "DEVICE=" ifcfg-$i)
+		eval $(LANG=C grep -F "TYPE=" ifcfg-$i)
 
 		if [ -z "$DEVICE" ] ; then DEVICE="$i"; fi
 

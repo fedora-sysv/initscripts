@@ -30,7 +30,7 @@ MATCH='^[[:space:]]*(\#.*)?$'
 
 for file in $FILES; do
    if [ -f "$file" ]; then
-       if egrep -q '^[[:space:]]*ADDRESS[0-9]+=' $file ; then
+       if grep -Eq '^[[:space:]]*ADDRESS[0-9]+=' $file ; then
            # new format
 	   handle_file $file ${1%:*}
        else

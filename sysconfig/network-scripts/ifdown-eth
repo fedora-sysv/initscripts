@@ -37,7 +37,7 @@ if [ -n "${HWADDR}" -a -z "${MACADDR}" ]; then
     if [ -n "${FOUNDMACADDR}" -a "${FOUNDMACADDR}" != "${HWADDR}" ]; then
         NEWCONFIG=$(get_config_by_hwaddr ${FOUNDMACADDR})
 	if [ -n "${NEWCONFIG}" ]; then
-	   eval $(LANG=C fgrep "DEVICE=" $NEWCONFIG)
+	   eval $(LANG=C grep -F "DEVICE=" $NEWCONFIG)
 	else
 	   echo $"Device ${DEVICE} has MAC address ${FOUNDMACADDR}, instead of configured address ${HWADDR}. Ignoring."
 	   exit 1
@@ -140,8 +140,8 @@ fi
 
 if [ -n "$VLAN" -a -x /sbin/vconfig ]; then
     # 802.1q VLAN
-    if echo ${DEVICE} | LANG=C egrep -v '(:)' | LANG=C egrep -q '(eth|bond)[0-9][0-9]*\.[0-9][0-9]?[0-9]?[0-9]?' \
-	|| echo ${DEVICE} | LANG=C egrep -q 'vlan[0-9][0-9]?[0-9]?[0-9]?' ; then
+    if echo ${DEVICE} | LANG=C grep -Ev '(:)' | LANG=C grep -Eq '(eth|bond)[0-9][0-9]*\.[0-9][0-9]?[0-9]?[0-9]?' \
+	|| echo ${DEVICE} | LANG=C grep -Eq 'vlan[0-9][0-9]?[0-9]?[0-9]?' ; then
 	[ -f /proc/net/vlan/${DEVICE} ] && {
 	    /sbin/vconfig rem ${DEVICE}
 	}
