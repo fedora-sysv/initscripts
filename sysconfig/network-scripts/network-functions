@@ -202,7 +202,7 @@ END {
        fi
     fi
 
-    if [ ${alias} == "bonding" ]; then
+    if [ ${alias} = "bonding" ]; then
 	install_bonding_driver $1
     fi
 
@@ -361,11 +361,11 @@ change_resolv_conf ()
        n_args=$#;
        while [ $n_args -gt 0 ]; 
 	 do 
-	    if [[ "$s" = *$1* ]]; then
+	    case "$s" in *$1*)
 	       shift;
 	       n_args=$(($n_args-1));
-               continue;
-            fi;
+               continue;;
+            esac;
 	    s="$s$1";
             shift; 
 	    if [ $# -gt 0 ]; then
