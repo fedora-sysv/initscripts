@@ -105,7 +105,7 @@ if [ -d "/sys/class/net/${REALDEVICE}" ]; then
 fi
 [ "$retcode" = "0" ] && retcode=$?
 
-if [ -n "${BRIDGE}" -a -x /usr/sbin/brctl ]; then
+if [ -n "${BRIDGE}" ] && [ -x /usr/sbin/brctl ]; then
       /sbin/ip link set dev ${DEVICE} down
       /usr/sbin/brctl delif ${BRIDGE} ${DEVICE}
       # Upon removing a device from a bridge,
@@ -128,7 +128,7 @@ while ! check_device_down ${DEVICE} && [ "$waited" -lt 50 ] ; do
 done
 
 # don't leave an outdated key sitting around
-if [ -n "${WIRELESS_ENC_KEY}" -a -x /sbin/iwconfig ]; then
+if [ -n "${WIRELESS_ENC_KEY}" ] && [ -x /sbin/iwconfig ]; then
     /sbin/iwconfig ${DEVICE} enc 0 >/dev/null 2>&1
 fi
 
@@ -138,7 +138,7 @@ if [ "$retcode" = 0 ] ; then
     # the interface went down.
 fi
 
-if [ -n "$VLAN" -a -x /sbin/vconfig ]; then
+if [ -n "$VLAN" ] && [ -x /sbin/vconfig ]; then
     # 802.1q VLAN
     if echo ${DEVICE} | LANG=C grep -Ev '(:)' | LANG=C grep -Eq '(eth|bond)[0-9][0-9]*\.[0-9][0-9]?[0-9]?[0-9]?' \
 	|| echo ${DEVICE} | LANG=C grep -Eq 'vlan[0-9][0-9]?[0-9]?[0-9]?' ; then

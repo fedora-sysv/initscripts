@@ -18,7 +18,7 @@ export PATH
 
 [ -z "${CONSOLETYPE:-}" ] && CONSOLETYPE="$(/sbin/consoletype)"
 
-if [ -f /etc/sysconfig/i18n -a -z "${NOLOCALE:-}" -a -z "${LANGSH_SOURCED:-}" ] ; then
+if [ -z "${NOLOCALE:-}" ] && [ -z "${LANGSH_SOURCED:-}" ] && [ -f /etc/sysconfig/i18n ] ; then
   . /etc/profile.d/lang.sh 2>/dev/null
   # avoid propagating LANGSH_SOURCED any further
   unset LANGSH_SOURCED
@@ -157,7 +157,7 @@ __pids_var_run() {
 			read line
 			[ -z "$line" ] && break
 			for p in $line ; do
-				[ -z "${p//[0-9]/}" -a -d "/proc/$p" ] && pid="$pid $p"
+				[ -z "${p//[0-9]/}" ] && [ -d "/proc/$p" ] && pid="$pid $p"
 			done
 		done < "$pid_file"
 

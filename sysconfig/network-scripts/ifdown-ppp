@@ -13,7 +13,7 @@ fi
 
 CONFIG=${CONFIG##ifcfg-}
 
-if [ "${DEMAND}" = "yes" -a -f /var/run/ppp-${CONFIG}.pid ] ; then
+if [ "${DEMAND}" = "yes" ] && [ -f /var/run/ppp-${CONFIG}.pid ] ; then
     PID=$(head -1 /var/run/ppp-${CONFIG}.pid)
     kill -TERM ${PID}
     sleep 2

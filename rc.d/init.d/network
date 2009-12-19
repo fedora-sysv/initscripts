@@ -34,7 +34,7 @@ fi
 [ -x /sbin/ip ] || exit 1
 
 # Even if IPX is configured, without the utilities we can't do much
-[ ! -x /sbin/ipx_internal_net -o ! -x /sbin/ipx_configure ] && IPX=
+[ ! -x /sbin/ipx_internal_net ] || [ ! -x /sbin/ipx_configure ] && IPX=
 
 # Even if VLAN is configured, without the utility we can't do much
 [ ! -x /sbin/vconfig ] && VLAN=

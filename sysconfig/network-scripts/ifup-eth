@@ -150,7 +150,7 @@ if [ "$ISALIAS" = no ] && is_bonding_device ${DEVICE} ; then
 fi
 
 # If the device is part of a bridge, add the device to the bridge
-if [ -n "${BRIDGE}" -a -x /usr/sbin/brctl ]; then
+if [ -n "${BRIDGE}" ] && [ -x /usr/sbin/brctl ]; then
       if [ ! -d /sys/class/net/${BRIDGE}/bridge ]; then
 	  /usr/sbin/brctl addbr ${BRIDGE} 2>/dev/null
       fi
@@ -167,7 +167,7 @@ if [ -n "${BRIDGE}" -a -x /usr/sbin/brctl ]; then
       exit 0
 fi
 		     
-if [ -n "${DYNCONFIG}" -a -x /sbin/dhclient ]; then
+if [ -n "${DYNCONFIG}" ] && [ -x /sbin/dhclient ]; then
     if [[ "${PERSISTENT_DHCLIENT}" =  [yY1]* ]]; then
        ONESHOT="";
     else
@@ -270,7 +270,7 @@ else
     # Set a default route.
     if [ "${DEFROUTE}" != "no" ] && [ -z "${GATEWAYDEV}" -o "${GATEWAYDEV}" = "${REALDEVICE}" ]; then
 	# set up default gateway. replace if one already exists
-	if [ -n "${GATEWAY}" -a "$(ipcalc --network ${GATEWAY} ${NETMASK} 2>/dev/null)" = "NETWORK=${NETWORK}" ]; then
+	if [ -n "${GATEWAY}" ] && [ "$(ipcalc --network ${GATEWAY} ${NETMASK} 2>/dev/null)" = "NETWORK=${NETWORK}" ]; then
 	    ip route replace default ${METRIC:+metric $METRIC} \
 		via ${GATEWAY} ${WINDOW:+window $WINDOW} ${SRC} \
 		${GATEWAYDEV:+dev $GATEWAYDEV}

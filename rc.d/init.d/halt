@@ -78,7 +78,7 @@ esac
 # Find mdmon pid's and omit killing them
 OMITARGS=
 for i in /dev/.mdadm/*.pid; do
-    if [ "$i" = "mdadm.pid" -o ! -r "$i" ]; then
+    if [ "$i" = "mdadm.pid" ] || [ ! -r "$i" ]; then
         continue
     fi
     OMITARGS="$OMITARGS -o $(cat $i)"
@@ -95,7 +95,7 @@ fi
 /sbin/halt -w
 
 # Save mixer settings, here for lack of a better place.
-if [ -s /etc/alsa/alsactl.conf -a -x /sbin/alsactl -a -w /etc/asound.state ]; then
+if [ -s /etc/alsa/alsactl.conf ] && [ -x /sbin/alsactl ] && [ -w /etc/asound.state ]; then
   action $"Saving mixer settings" /sbin/alsactl -E ALSA_CONFIG_PATH=/etc/alsa/alsactl.conf --ignore store
 fi
 
@@ -188,12 +188,12 @@ elif [ -f /forcefsck ]; then
 fi
 
 # Shutdown UPS drivers
-if [ "$command" = /sbin/halt -a -f /etc/sysconfig/ups ]; then
+if [ "$command" = /sbin/halt ] && [ -f /etc/sysconfig/ups ]; then
 	. /etc/sysconfig/ups
 	if [ -z $POWERDOWNFLAG ]; then
 		POWERDOWNFLAG=/etc/killpower
 	fi
-	if [ "$SERVER" = "yes" -a -f $POWERDOWNFLAG ]; then
+	if [ "$SERVER" = "yes" ] && [ -f $POWERDOWNFLAG ]; then
 		/sbin/upsdrvctl shutdown
 	fi
 fi

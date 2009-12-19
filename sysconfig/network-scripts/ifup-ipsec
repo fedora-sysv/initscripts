@@ -211,7 +211,7 @@ if [ "$KEYING" = "automatic" -a -n "$IKE_METHOD" ]; then
        echo "$DST  $IKE_PSK" >> $tmpfile
        mv -f $tmpfile /etc/racoon/psk.txt
     fi
-    if [ ! -f /etc/racoon/$DST.conf -o /etc/racoon/$DST.conf -ot $1 ] ; then
+    if [ ! -f /etc/racoon/$DST.conf ] || [ /etc/racoon/$DST.conf -ot $1 ] ; then
         cat > /etc/racoon/$DST.conf << EOF
 remote $DST
 {

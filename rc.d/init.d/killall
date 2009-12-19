@@ -24,10 +24,10 @@ for i in /var/lock/subsys/* ; do
 	[ $subsys = network ] && continue
 
 	# Bring the subsystem down.
-	if [ -f /etc/init.d/$subsys.init ]; then
-		/etc/init.d/$subsys.init stop
-	elif [ -f /etc/init.d/$subsys ]; then
+	if [ -f /etc/init.d/$subsys ]; then
 		/etc/init.d/$subsys stop
+	elif [ -f /etc/init.d/$subsys.init ]; then
+		/etc/init.d/$subsys.init stop
 	else
 		rm -f "$i"
 	fi

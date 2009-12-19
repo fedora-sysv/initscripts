@@ -32,7 +32,7 @@ NETDEVMTAB=$(LC_ALL=C awk '$4 ~ /_netdev/ && $2 != "/" { print $2 }' /etc/mtab)
 # See how we were called.
 case "$1" in
   start)
-        [ ! -f /var/lock/subsys/network -a ! -f /var/lock/subsys/NetworkManager ] && exit 0
+        [ ! -f /var/lock/subsys/network ] && [ ! -f /var/lock/subsys/NetworkManager ] && exit 0
         [ "$EUID" != "0" ] && exit 4
         [ -n "$NFSFSTAB" ] && 
 	  {
@@ -46,7 +46,7 @@ case "$1" in
 	    if [ -f /etc/mdadm.conf ]; then
 		mdadm -A -s
 	    fi
-	    if [ -f /etc/multipath.conf -a -x /sbin/multipath ]; then
+	    if [ -f /etc/multipath.conf ] && [ -x /sbin/multipath ]; then
 	    	modprobe dm-multipath >/dev/null 2>&1
 		/sbin/multipath -v 0
 		if [ -x /sbin/kpartx ]; then

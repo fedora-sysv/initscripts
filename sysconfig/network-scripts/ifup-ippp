@@ -23,20 +23,20 @@ if [ "${2}" = "boot" -a "${ONBOOT}" = "no" ]; then
   exit
 fi
 
-if [ ! -f /var/lock/subsys/isdn -a -x /etc/init.d/isdn ] ; then
+if [ ! -f /var/lock/subsys/isdn ] && [ -x /etc/init.d/isdn ] ; then
     /etc/init.d/isdn start
 fi
 
 # check that ipppd is available for syncppp 
 if [ "$ENCAP" = "syncppp" ]; then
-    if [ ! -x /usr/sbin/ipppd -a ! -x /sbin/ipppd ] ; then
+    if [ ! -x /sbin/ipppd ] && [ ! -x /usr/sbin/ipppd ] ; then
         /usr/bin/logger -p daemon.info -t ifup-ippp "ipppd does not exist or is not executable"
         exit 1
     fi
 fi
 
 # check that isdnctrl is available
-if [ ! -x /usr/sbin/isdnctrl -a ! -x /sbin/isdnctrl ] ; then
+if [ ! -x /sbin/isdnctrl ] && [ ! -x /usr/sbin/isdnctrl ] ; then
     /usr/bin/logger -p daemon.info -t ifup-ippp "isdnctrl does not exist or is not executable"
     exit 1
 fi
@@ -74,7 +74,7 @@ function start_ibod()
     [ -f /var/lock/subsys/ibod ] && return
 
     device=$1
-    if [ -f /etc/isdn/ibod.cf -a -x /usr/sbin/ibod ] ; then
+    if [ -f /etc/isdn/ibod.cf ] && [ -x /usr/sbin/ibod ] ; then
         ibod $device &
         pid=$(pidof ibod)
         [ -n "$pid" ] && touch /var/lock/subsys/ibod

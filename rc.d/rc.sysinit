@@ -42,7 +42,7 @@ if [ -e "/selinux/enforce" ] && [ "$(cat /proc/self/attr/current)" != "kernel" ]
 	fi
 fi
 
-if [ -n "$SELINUX_STATE" -a -x /sbin/restorecon ] && __fgrep " /dev " /proc/mounts >/dev/null 2>&1 ; then
+if [ -n "$SELINUX_STATE" ] && [ -x /sbin/restorecon ] && __fgrep " /dev " /proc/mounts >/dev/null 2>&1 ; then
 	/sbin/restorecon  -R /dev 2>/dev/null
 fi
 
@@ -348,8 +348,8 @@ if [ -f /etc/crypttab ]; then
     init_crypto 0
 fi
 
-if ! strstr "$cmdline" nompath && [ -f /etc/multipath.conf -a \
-		-x /sbin/multipath ]; then
+if ! strstr "$cmdline" nompath && [ -f /etc/multipath.conf ] && \
+		[ -x /sbin/multipath ]; then
 	modprobe dm-multipath > /dev/null 2>&1
 	/sbin/multipath -v 0
 	if [ -x /sbin/kpartx ]; then
@@ -373,7 +373,7 @@ if ! strstr "$cmdline" nodmraid && [ -x /sbin/dmraid ]; then
 fi
 
 # Start any MD RAID arrays that haven't been started yet
-[ -f /etc/mdadm.conf -a -x /sbin/mdadm ] && /sbin/mdadm -As --auto=yes --run
+[ -f /etc/mdadm.conf ] && [ -x /sbin/mdadm ] && /sbin/mdadm -As --auto=yes --run
 
 if [ -x /sbin/lvm ]; then
 	action $"Setting up Logical Volume Management:" /sbin/lvm vgchange -a y --ignorelockingfailure
@@ -490,7 +490,7 @@ if [ "$READONLY" = "yes" -o "$TEMPORARY_STATE" = "yes" ]; then
 				*)
 					;;
 			esac
-			[ -n "$SELINUX_STATE" -a -e "$path" ] && restorecon -R "$path"
+			[ -n "$SELINUX_STATE" ] && [ -e "$path" ] && restorecon -R "$path"
 		done
 	done
 
@@ -552,14 +552,14 @@ if [ "$READONLY" = "yes" -o "$TEMPORARY_STATE" = "yes" ]; then
 
 			for path in $(grep -v "^#" "$file" 2>/dev/null); do
 				mount_state "$path"
-				[ -n "$SELINUX_STATE" -a -e "$path" ] && restorecon -R "$path"
+				[ -n "$SELINUX_STATE" ] && [ -e "$path" ] && restorecon -R "$path"
 			done
 		done
 
 		if [ -f "$STATE_MOUNT/files" ] ; then
 			for path in $(grep -v "^#" "$STATE_MOUNT/files" 2>/dev/null); do
 				mount_state "$path"
-				[ -n "$SELINUX_STATE" -a -e "$path" ] && restorecon -R "$path"
+				[ -n "$SELINUX_STATE" ] && [ -e "$path" ] && restorecon -R "$path"
 			done
 		fi
 	fi
@@ -570,7 +570,7 @@ if [[ " $fsckoptions" != *" -y"* ]]; then
 fi
 
 _RUN_QUOTACHECK=0
-if [ -f /forcequotacheck ] || strstr "$cmdline" forcequotacheck ; then
+if strstr "$cmdline" forcequotacheck || [ -f /forcequotacheck ] ; then
 	_RUN_QUOTACHECK=1
 fi
 if [ -z "$fastboot" -a "$READONLY" != "yes" ]; then
@@ -649,7 +649,7 @@ fi
 
 # If relabeling, relabel mount points.
 if [ -n "$SELINUX_STATE" -a "$READONLY" != "yes" ]; then
-    if [ -f /.autorelabel ] || strstr "$cmdline" autorelabel ; then
+    if strstr "$cmdline" autorelabel || [ -f /.autorelabel ] ; then
 	restorecon $(awk '!/^#/ && $4 !~ /noauto/ && $2 ~ /^\// { print $2 }' /etc/fstab) >/dev/null 2>&1
     fi
 fi
@@ -680,7 +680,7 @@ else
 fi
 
 # Update quotas if necessary
-if [ X"$_RUN_QUOTACHECK" = X1 -a -x /sbin/quotacheck ]; then
+if [ X"$_RUN_QUOTACHECK" = X1 ] && [ -x /sbin/quotacheck ]; then
 	action $"Checking local filesystem quotas: " /sbin/quotacheck -anug
 fi
 
@@ -690,11 +690,11 @@ fi
 
 # Check to see if a full relabel is needed
 if [ -n "$SELINUX_STATE" -a "$READONLY" != "yes" ]; then
-    if [ -f /.autorelabel ] || strstr "$cmdline" autorelabel ; then
+    if strstr "$cmdline" autorelabel || [ -f /.autorelabel ] ; then
 	relabel_selinux
     fi
 else
-    if [ -d /etc/selinux -a "$READONLY" != "yes" ]; then
+    if [ "$READONLY" != "yes" ] && [ -d /etc/selinux ]; then
         [ -f /.autorelabel ] || touch /.autorelabel
     fi
 fi
@@ -756,7 +756,7 @@ rm -f /fastboot /fsckoptions /forcefsck /.autofsck /forcequotacheck /halt \
 
 # Do we need (w|u)tmpx files? We don't set them up, but the sysadmin might...
 _NEED_XFILES=
-[ -f /var/run/utmpx -o -f /var/log/wtmpx ] && _NEED_XFILES=1
+[ -f /var/run/utmpx ] || [ -f /var/log/wtmpx ] && _NEED_XFILES=1
 
 # Clean up /var.
 rm -rf /var/lock/cvs/* /var/run/screen/*
@@ -831,7 +831,7 @@ touch /.autofsck &> /dev/null
 if [ "$PROMPT" != no ]; then
     while :; do
 	pid=$(/sbin/pidof getkey)
-	[ -n "$pid" -o -e /var/run/getkey_done ] && break
+	[ -n "$pid" ] || [ -e /var/run/getkey_done ] && break
 	usleep 100000
     done
     [ -n "$pid" ] && kill -TERM "$pid" >/dev/null 2>&1
