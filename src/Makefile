@@ -81,9 +81,6 @@ ppp-watch.o: ppp-watch.c
 rename_device: rename_device.c
 	$(CC) $(CFLAGS) `pkg-config glib-2.0 --cflags` -o $@ $< `pkg-config glib-2.0 --libs`
 
-kmodule: kmodule.o
-	$(CC) $(LDFLAGS) -o $@ $< -lpopt -lkudzu -lpci
-
 console_init.o: console_init.c
 	$(CC) $(CFLAGS) `pkg-config glib-2.0 --cflags` -c console_init.c -o console_init.o
 
