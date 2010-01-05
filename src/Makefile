@@ -15,7 +15,7 @@ check:	all
 	./ipcalc-tests
 
 clean:
-	rm -f $(PROGS) *.o
+	rm -f $(PROGS) *.o *~
 
 install:
 	mkdir -p $(ROOT)/bin $(ROOT)/usr/sbin $(ROOT)$(mandir)/man{1,8} $(ROOT)/etc $(ROOT)/lib/udev
