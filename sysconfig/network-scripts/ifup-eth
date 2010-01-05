@@ -83,8 +83,6 @@ is_available ${REALDEVICE} || {
       exit 1
 }
 
-# is the device wireless? If so, configure wireless device specifics
-is_wireless_device ${DEVICE} && . ./ifup-wireless
 
 # this isn't the same as the MAC in the configuration filename.  It is
 # available as a configuration option in the config file, forcing the kernel
@@ -95,6 +93,9 @@ fi
 if [ -n "${MTU}" ]; then
    ip link set dev ${DEVICE} mtu ${MTU}
 fi
+
+# is the device wireless? If so, configure wireless device specifics
+is_wireless_device ${DEVICE} && . ./ifup-wireless
 
 # slave device?
 if [ "${SLAVE}" = yes -a "${ISALIAS}" = no -a "${MASTER}" != "" ]; then
