@@ -219,13 +219,7 @@ case "$1" in
 
 	action $"Shutting down loopback interface: " ./ifdown ifcfg-lo
 
-	if [ -d /proc/sys/net/ipv4 ]; then
-	  if [ -f /proc/sys/net/ipv4/ip_forward ]; then
-		if [ $(cat /proc/sys/net/ipv4/ip_forward) != 0 ]; then
-			action $"Disabling IPv4 packet forwarding: " sysctl -w net.ipv4.ip_forward=0
-		fi
-	  fi
-	fi
+	sysctl -w net.ipv4.ip_forward=0 > /dev/null 2>&1
 
 	# IPv6 hook (post IPv4 stop)
 	if [ -x /etc/sysconfig/network-scripts/init.ipv6-global ]; then
