@@ -43,6 +43,8 @@ install:
 	install -m 644 ipcalc.1 $(ROOT)$(mandir)/man1
 	install -m 644 consoletype.1 $(ROOT)$(mandir)/man1
 	install -m 644 ifup.8 $(ROOT)$(mandir)/man8
+	install -m 644 setsysfont.8 $(ROOT)$(mandir)/man8
+	install -m 644 securetty.8 $(ROOT)$(mandir)/man8
 	ln -s ifup.8 $(ROOT)$(mandir)/man8/ifdown.8
 
 # this daemon and initscript are useful for testing the up/down/status stuff
