@@ -305,10 +305,8 @@ fi
 
 # IPv6 initialisation?
 /etc/sysconfig/network-scripts/ifup-ipv6 ${CONFIG}
-if [[ "${DHCPV6C}"  = [Yy1]* ]] && [ -x /sbin/dhcp6c ]; then
-    /sbin/dhcp6c ${DHCPV6C_OPTIONS} ${DEVICE}
-    dhcp6_pid=($(/bin/ps -eo 'pid,args' | /bin/grep "dhcp6c ${DHCPV6C_OPTIONS} ${DEVICE}" | egrep -v grep))
-    [ -n  "$dhcp6_pid" ] && echo ${dhcp6_pid[0]} > /var/run/dhcp6c_${DEVICE}.pid
+if [[ "${DHCPV6C}"  = [Yy1]* ]] && [ -x /sbin/dhclient ]; then
+    /sbin/dhclient -6 ${DHCPV6C_OPTIONS} ${DEVICE}  -lf /var/lib/dhclient/dhclient6-${DEVICE}.leases -pf /var/run/dhclient6-${DEVICE}.pid
 fi
 
 if [ "${IPX}" = yes ]; then
