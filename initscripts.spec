@@ -31,7 +31,7 @@ Requires: popt >= 1.12-2
 Requires: cpio
 Conflicts: mkinitrd < 4.0, kernel < 2.6.18, mdadm < 2.6.4-3
 Conflicts: ypbind < 1.6-12, psacct < 6.3.2-12, kbd < 1.06-19, lokkit < 0.50-14
-Conflicts: dhclient < 3.0.3-7
+Conflicts: dhclient < 12:4.1.0-6
 Conflicts: tcsh < 6.13-5
 Conflicts: xorg-x11, glib2 < 2.11.1-2
 Conflicts: alsa-utils < 1.0.18
