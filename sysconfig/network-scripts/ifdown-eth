@@ -63,28 +63,26 @@ if is_bonding_device ${DEVICE} ; then
 fi
 
 /etc/sysconfig/network-scripts/ifdown-ipv6 ${CONFIG}
-if [[ "${DHCPV6C}" = [Yy1]* ]] && [ -f /var/run/dhcp6c_${DEVICE}.pid ]; then
-	kill $(cat /var/run/dhcp6c_${DEVICE}.pid);
-	rm -f /var/run/dhcp6c_${DEVICE}.pid;
-fi
 
 retcode=0
 [ -n "$(pidof -x dhclient)" ] && {
-	if [ -f "/var/run/dhclient-${DEVICE}.pid" ]; then
-		dhcpid=$(cat /var/run/dhclient-${DEVICE}.pid)
+   for VER in "" 6 ; do
+	if [ -f "/var/run/dhclient$VER-${DEVICE}.pid" ]; then
+		dhcpid=$(cat /var/run/dhclient$VER-${DEVICE}.pid)
 		if [[ "$DHCPRELEASE" = [yY1]* ]];  then
-			/sbin/dhclient -r -lf /var/lib/dhclient/dhclient-${DEVICE}.leases -pf /var/run/dhclient-${DEVICE}.pid ${DEVICE} >/dev/null 2>&1
+			/sbin/dhclient -r -lf /var/lib/dhclient/dhclient$VER-${DEVICE}.leases -pf /var/run/dhclient-${DEVICE}.pid ${DEVICE} >/dev/null 2>&1
 			retcode=$?
 		else
 			kill $dhcpid >/dev/null 2>&1
 			retcode=$?
-		   	reason=STOP interface=${DEVICE} /sbin/dhclient-script
+			reason=STOP$VER interface=${DEVICE} /sbin/dhclient-script
 		fi
-		if [ -f "/var/run/dhclient-${DEVICE}.pid" ]; then
-			rm -f /var/run/dhclient-${DEVICE}.pid
+		if [ -f "/var/run/dhclient$VER-${DEVICE}.pid" ]; then
+			rm -f /var/run/dhclient$VER-${DEVICE}.pid
 			kill $dhcpid >/dev/null 2>&1
 		fi	
 	fi
+    done
 }	
 # we can't just delete the configured address because that address
 # may have been changed in the config file since the device was
