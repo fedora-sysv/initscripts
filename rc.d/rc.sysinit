@@ -351,33 +351,33 @@ if [ -f /etc/crypttab ]; then
     init_crypto 0
 fi
 
-        if ! strstr "$cmdline" nompath && [ -f /etc/multipath.conf -a \
-			-x /sbin/multipath ]; then
-		modprobe dm-multipath > /dev/null 2>&1
-		/sbin/multipath -v 0
-		if [ -x /sbin/kpartx ]; then
-			/sbin/dmsetup ls --target multipath --exec "/sbin/kpartx -a -p p" >/dev/null
-		fi
+if ! strstr "$cmdline" nompath && [ -f /etc/multipath.conf -a \
+		-x /sbin/multipath ]; then
+	modprobe dm-multipath > /dev/null 2>&1
+	/sbin/multipath -v 0
+	if [ -x /sbin/kpartx ]; then
+		/sbin/dmsetup ls --target multipath --exec "/sbin/kpartx -a -p p" >/dev/null
 	fi
-	
-	if ! strstr "$cmdline" nodmraid && [ -x /sbin/dmraid ]; then
-		modprobe dm-mirror >/dev/null 2>&1
-		dmraidsets=$(LC_ALL=C /sbin/dmraid -s -c -i)
-		if [ "$dmraidsets" != "no raid disks" -a "$dmraidsets" != "no block devices found" ]; then
-			for dmname in $dmraidsets; do
-				if [[ "$dmname" == isw_* ]] && \
-				   ! strstr "$cmdline" noiswmd; then
-					continue
-				fi
-				/sbin/dmraid -ay -i --rm_partitions -p "$dmname" >/dev/null 2>&1
-				/sbin/kpartx -a -p p "/dev/mapper/$dmname"
-			done
-		fi
+fi
+
+if ! strstr "$cmdline" nodmraid && [ -x /sbin/dmraid ]; then
+	modprobe dm-mirror >/dev/null 2>&1
+	dmraidsets=$(LC_ALL=C /sbin/dmraid -s -c -i)
+	if [ "$dmraidsets" != "no raid disks" -a "$dmraidsets" != "no block devices found" ]; then
+		for dmname in $dmraidsets; do
+			if [[ "$dmname" == isw_* ]] && \
+			   ! strstr "$cmdline" noiswmd; then
+				continue
+			fi
+			/sbin/dmraid -ay -i --rm_partitions -p "$dmname" >/dev/null 2>&1
+			/sbin/kpartx -a -p p "/dev/mapper/$dmname"
+		done
 	fi
-	
-	if [ -x /sbin/lvm ]; then
-		action $"Setting up Logical Volume Management:" /sbin/lvm vgchange -a y --ignorelockingfailure
-	fi
+fi
+
+if [ -x /sbin/lvm ]; then
+	action $"Setting up Logical Volume Management:" /sbin/lvm vgchange -a y --ignorelockingfailure
+fi
 
 if [ -f /etc/crypttab ]; then
     init_crypto 0
