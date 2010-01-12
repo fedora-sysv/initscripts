@@ -41,7 +41,7 @@ if [ "${2}" = "boot" -a "${ONBOOT}" = "no" ]; then
   exit
 fi
 
-[ -x /sbin/pppd -o -x /usr/sbin/pppd ] || {
+[ -x /usr/sbin/pppd ] || {
   echo $"pppd does not exist or is not executable"
   echo $"ifup-ppp for ${DEVICE} exiting"
   /usr/bin/logger -p daemon.info -t ifup-ppp \
@@ -51,7 +51,7 @@ fi
 
 # check that xDSL connection
 if [ "$TYPE" = "xDSL" ] ; then
-    if [ -x /sbin/adsl-start -o -x /usr/sbin/adsl-start ] ; then
+    if [ -x /usr/sbin/adsl-start ] ; then
         adsl-start /etc/sysconfig/network-scripts/$CONFIG
         exit $?
     else
