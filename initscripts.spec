@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.1
+Version: 9.03.2
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -240,6 +240,18 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Fri Jan 15 2010 Bill Nottingham <notting@redhat.com> - 9.03.2-1
+- ifup-eth: use dhclient's -H option instead of munging dhclient config files
+- rc.sysinit: move mdadm after dmraid (#554423)
+- ifup-eth: use dhclient -6, not the no-longer-included dhcp6c (#553019, <dcantrell@redhat.com>)
+- add more man pages (#529328, <plautrba@redhat.com>)
+- remove useless echo (#552785)
+- move is_wireless after MACADDR/MTU setting (#552641)
+- serial.conf: respawn correctly. (#552611, <zing@fastmail.fm>)
+- network-functions: use sysfs for wireless check (#552381, <adel.gadllah@gmail.com>)
+- reload init on started messagebus (<plautrba@redhat.com>)
+- honor HOTPLUG in ifdown (#547737)
+
 * Tue Dec 15 2009 Bill Nottingham <notting@redhat.com> - 9.03.1-1
 - re-enable network service (#545255)
 - ifdown: honor HOTPLUG (#547737)
