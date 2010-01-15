@@ -3,7 +3,7 @@ SUPERUSER=root
 SUPERGROUP=root
 
 VERSION := $(shell awk '/Version:/ { print $$2 }' initscripts.spec)
-RELEASE := $(shell awk '/Release:/ { print $$2 }' initscripts.spec)
+RELEASE := $(shell awk '/Release:/ { print $$2 }' initscripts.spec | sed 's|%{?dist}||g')
 TAG=initscripts-$(VERSION)-$(RELEASE)
 
 mandir=/usr/share/man
