@@ -99,6 +99,13 @@ source_config ()
 		DEVICETYPE="sit"
 		;;
     esac
+    if [ -n "$HWADDR" ]; then
+        HWADDR=$(echo $HWADDR | awk '{ print toupper($0) }')
+    fi
+    if [ -n "$MACADDR" ]; then
+        MACADDR=$(echo $MACADDR | awk '{ print toupper($0) }')
+    fi
+    [ -z "$DEVICE" -a -n "$HWADDR" ] && DEVICE=$(get_device_by_hwaddr $HWADDR)
     [ -z "$DEVICETYPE" ] && DEVICETYPE=$(echo ${DEVICE} | sed "s/[0-9]*$//")
     [ -z "$REALDEVICE" -a -n "$PARENTDEVICE" ] && REALDEVICE=$PARENTDEVICE
     [ -z "$REALDEVICE" ] && REALDEVICE=${DEVICE%%:*}
@@ -106,12 +113,6 @@ source_config ()
         ISALIAS=yes
     else
 	ISALIAS=no
-    fi
-    if [ -n "$HWADDR" ]; then
-        HWADDR=$(echo $HWADDR | awk '{ print toupper($0) }')
-    fi
-    if [ -n "$MACADDR" ]; then
-        MACADDR=$(echo $MACADDR | awk '{ print toupper($0) }')
     fi
 }
 
