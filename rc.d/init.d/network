@@ -161,7 +161,7 @@ case "$1" in
         rootfs=$(awk '{ if ($1 !~ /^[ \t]*#/ && $2 == "/" && $3 != "rootfs") { print $3; }}' /proc/mounts)
         rootopts=$(awk '{ if ($1 !~ /^[ \t]*#/ && $2 == "/") { print $4; }}' /etc/mtab)
 	
-	if [[ "$rootfs" =~ ^nfs ]] || [[ "$rootopts" =~ "_netdev|_rnetdev" ]] ; then
+	if [[ "$rootfs" == nfs* || "$rootopts" =~ _r?netdev ]] ; then
 		exit 1
 	fi
   
