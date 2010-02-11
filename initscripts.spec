@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.2
+Version: 9.03.3
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -240,6 +240,14 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Thu Feb 11 2010 Bill Nottingham <notting@redhat.com> - 9.03.3-1
+- pass -m to runuser to not clear environment (#564105)
+- don't use deprecated udev syntax in clock rules (#560801)
+- don't quote regex argument to bash's =~ (#558575, <ville.skytta@iki.fi>)
+- if HWADDR is set and DEVICE is not, use HWADDR to determine DEVICE. (#557941)
+- don't HUP init when messagebus starts (#557821)
+- setsysfont: use UNIMAP rather than SYSFONTACM when calling /bin/unicode_start. (#557173)
+
 * Fri Jan 15 2010 Bill Nottingham <notting@redhat.com> - 9.03.2-1
 - ifup-eth: use dhclient's -H option instead of munging dhclient config files
 - rc.sysinit: move mdadm after dmraid (#554423)
