@@ -175,8 +175,7 @@ do_netreport ()
 # Sets $alias to the device module if $? != 0
 is_available ()
 {
-    LC_ALL= LANG= ip -o link | grep -q $1
-    [ "$?" = "1" ] || return 0
+    [ -d "/sys/class/net/$1" ] && return 0
 
     [ -n "$BONDING_OPTS" ] && install_bonding_driver $1
 
@@ -207,8 +206,7 @@ END {
 	install_bonding_driver $1
     fi
 
-    LC_ALL= LANG= ip -o link | grep -q $1
-    return $?
+    [ -d "/sys/class/net/$1" ] && return 0 || return 1
 }
 
 need_hostname ()
@@ -239,19 +237,11 @@ set_hostname ()
 
 check_device_down ()
 {
-    if echo $1 | grep -q ':' ; then
-     if LC_ALL=C ifconfig -a 2>/dev/null | grep -q $1 ; then
-	  return 1
-     else
-	  return 0
-     fi
-    else 
-     if LC_ALL=C ip -o link 2>/dev/null | grep -q "$1[:@].*,UP" ; then
+     if LC_ALL=C ip -o link show dev $1 2>/dev/null | grep -q ",UP" ; then
 	return 1
      else
 	return 0
      fi
-    fi
 }
 
 check_ethtool ()
@@ -266,7 +256,7 @@ check_ethtool ()
 check_link_down ()
 {
     if [ -x /sbin/ethtool ]; then
-        if ! LC_ALL=C ip link show dev $1 2>/dev/null| grep -q UP ; then
+        if ! LC_ALL=C ip link show dev $1 2>/dev/null| grep -q ",UP" ; then
 	   ip link set dev $1 up >/dev/null 2>&1
 	fi
 	timeout=0
