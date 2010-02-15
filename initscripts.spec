@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.3
+Version: 9.03.4
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -236,6 +236,10 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Mon Feb 15 2010 Bill Nottingham <notting@redhat.com> - 9.03.4-1
+- move ccw_init, ccw udev rules to s390utils (#539491)
+- network-functions: clean up device checks (#564505)
+
 * Thu Feb 11 2010 Bill Nottingham <notting@redhat.com> - 9.03.3-1
 - pass -m to runuser to not clear environment (#564105)
 - don't use deprecated udev syntax in clock rules (#560801)
