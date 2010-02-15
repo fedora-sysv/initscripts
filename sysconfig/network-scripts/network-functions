@@ -253,7 +253,7 @@ check_link_down ()
 	delay=10
 	[ -n "$LINKDELAY" ] && delay=$(($LINKDELAY * 2))
 	while [ $timeout -le $delay ]; do
-	    [ "$(cat /sys/class/net/$REALDEVICE/carrier 2>/dev/null)" = "1" ] && return 1
+	    [ "$(cat /sys/class/net/$REALDEVICE/carrier 2>/dev/null)" != "0" ] && return 1
 	    usleep 500000
 	    timeout=$((timeout+1))
 	done
