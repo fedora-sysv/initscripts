@@ -32,7 +32,6 @@ install:
 	install -m 755 rename_device $(ROOT)/lib/udev/rename_device
 	install -m 755 console_init $(ROOT)/lib/udev/console_init
 	install -m 755 console_check $(ROOT)/lib/udev/console_check
-	install -m 755 ccw_init $(ROOT)/lib/udev/ccw_init
 	install -m 644 genhostid.1 $(ROOT)$(mandir)/man1
 	install -m 644 getkey.1 $(ROOT)$(mandir)/man1
 	install -m 644 netreport.1 $(ROOT)$(mandir)/man1
