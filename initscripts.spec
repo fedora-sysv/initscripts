@@ -36,6 +36,7 @@ Conflicts: tcsh < 6.13-5
 Conflicts: xorg-x11, glib2 < 2.11.1-2
 Conflicts: alsa-utils < 1.0.18
 Conflicts: plymouth < 0.7.0-0.2009.02.26
+Conflicts: s390utils < 2:1.8.2-11
 # http://bugzilla.redhat.com/show_bug.cgi?id=252973
 Conflicts: nut < 2.2.0
 Obsoletes: hotplug
@@ -84,8 +85,6 @@ rm -f $RPM_BUILD_ROOT/etc/inittab.*
 %ifnarch s390 s390x
 rm -f \
  $RPM_BUILD_ROOT/etc/sysconfig/network-scripts/ifup-ctc \
- $RPM_BUILD_ROOT/lib/udev/rules.d/55-ccw.rules \
- $RPM_BUILD_ROOT/lib/udev/ccw_init
 %else
 rm -f \
  $RPM_BUILD_ROOT/etc/rc.d/rc.sysinit.s390init \
@@ -212,9 +211,6 @@ rm -rf $RPM_BUILD_ROOT
 /lib/udev/rename_device
 /lib/udev/console_init
 /lib/udev/console_check
-%ifarch s390 s390x
-/lib/udev/ccw_init
-%endif
 /sbin/service
 /sbin/ppp-watch
 %{_mandir}/man*/*
