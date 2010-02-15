@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.04
+Version: 9.05
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -243,6 +243,18 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Mon Feb 15 2010 Bill Nottingham <notting@redhat.com> - 9.05-1
+- network-functions: don't use ethtool for link state, assorted other cleanups
+- inittab: fix job paths in comments (<plautrba@redhat.com>)
+- init.d/functions: don't clear environment in runuser (#203010, #564093)
+- 88-clock.rules: use ATTR, not SYSFS (#560756)
+- init.d/network: don't quote regex argument to bash's =~ (<ville.skytta@iki.fi>)
+- network-functions: use HWADDR to determine DEVICE if DEVICE isn't set (#545597)
+- don't HUP init when messagebus starts (#557791)
+- setsysfont: use UNIMAP, not SYSFONTACM, when calling unicode_start (#557089)
+- ifup: don't leave the link down on link failure for DHCP (#462013, #491009)
+- translation updates: cs
+
 * Fri Jan 15 2010 Bill Nottingham <notting@redhat.com> - 9.04-1
 - various shell-related cleanups and optimizations <ville.skytta@iki.fi>
 - ifup-eth: use dhclient's -H option instead of munging dhclient config files
