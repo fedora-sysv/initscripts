@@ -41,6 +41,13 @@ get_config_by_subchannel ()
 	| LC_ALL=C sed -e "$__sed_discard_ignored_files"
 }
 
+get_config_by_name ()
+{
+    LANG=C grep -E -i -l \
+        "^[[:space:]]*NAME=\"(Auto |System )?${1}\"" \
+        /etc/sysconfig/network-scripts/ifcfg-* \
+	| LC_ALL=C sed -e "$__sed_discard_ignored_files"
+}
 
 get_device_by_hwaddr ()
 {
@@ -55,6 +62,11 @@ need_config ()
     [ -f "${CONFIG}" ] && return
     CONFIG="${1##*/}"
     [ -f "${CONFIG}" ] && return
+    nconfig=$(get_config_by_name ${1})
+    if [ -n "$nconfig" ] && [ -f "$nconfig" ]; then
+      CONFIG=${nconfig##*/}
+      return
+    fi
     local addr=$(get_hwaddr ${1})
     if [ -n "$addr" ]; then
       nconfig=$(get_config_by_hwaddr ${addr})
