@@ -134,7 +134,7 @@ source_config ()
     fi
     is_nm_running && USE_NM=true
     if [ -z "$NAME" -a "$USE_NM" = "true" ]; then
-	UUID=$(nmcli -t con list id "System ${DEVICE}" 2>/dev/null| awk '/uuid :/ { print $3 }')
+	UUID=$(nmcli -t con list id "System ${DEVICE}" 2>/dev/null| awk '/uuid :/ { print gensub("\"","","g",$3) }')
 	[ -n "$UUID" ] && NAME="System ${DEVICE}"
     fi
 }
