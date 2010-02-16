@@ -376,7 +376,9 @@ fi
 [ -f /etc/mdadm.conf ] && [ -x /sbin/mdadm ] && /sbin/mdadm -As --auto=yes --run
 
 if [ -x /sbin/lvm ]; then
+	export LVM_SUPPRESS_LOCKING_FAILURE_MESSAGES=1
 	action $"Setting up Logical Volume Management:" /sbin/lvm vgchange -a y --ignorelockingfailure
+	unset LVM_SUPPRESS_LOCKING_FAILURE_MESSAGES
 fi
 
 if [ -f /etc/crypttab ]; then
