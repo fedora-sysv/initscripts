@@ -65,6 +65,15 @@ then
     exit 0
 fi
 
+if [ "$USE_NM" = "true" -a -n "$NAME" -o -n "$UUID" ]; then
+    if [ -n "$UUID" ]; then
+	nmcli con up uuid "$UUID"
+    elif [ -n "$NAME" ]; then
+	nmcli con up id "$NAME"
+    fi
+    exit $?
+fi
+
 # Ethernet 802.1Q VLAN support
 if [ -x /sbin/vconfig -a "${VLAN}" = "yes" -a "$ISALIAS" = "no" ]; then
     VID=""
