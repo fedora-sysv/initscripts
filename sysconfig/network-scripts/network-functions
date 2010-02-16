@@ -20,6 +20,13 @@ get_hwaddr ()
     fi
 }
 
+get_config_by_device ()
+{
+    LANG=C grep -l "^[[:space:]]*DEVICE=${1}\([[:space:]#]\|$\)" \
+	/etc/sysconfig/network-scripts/ifcfg-* \
+	| LC_ALL=C sed -e "$__sed_discard_ignored_files"
+}
+
 get_config_by_hwaddr ()
 {
     LANG=C grep -il "^[[:space:]]*HWADDR=${1}\([[:space:]#]\|$\)" /etc/sysconfig/network-scripts/ifcfg-* \
@@ -33,6 +40,7 @@ get_config_by_subchannel ()
 	/etc/sysconfig/network-scripts/ifcfg-* \
 	| LC_ALL=C sed -e "$__sed_discard_ignored_files"
 }
+
 
 get_device_by_hwaddr ()
 {
@@ -55,9 +63,7 @@ need_config ()
 	[ -f "${CONFIG}" ] && return
       fi
     fi
-    nconfig=$(LANG=C grep -l "^[[:space:]]*DEVICE=${1}\([[:space:]#]\|$\)" \
-	/etc/sysconfig/network-scripts/ifcfg-* \
-	| LC_ALL=C sed -e "$__sed_discard_ignored_files")
+    nconfig=$(get_config_by_device ${1})
     if [ -n "$nconfig" ] && [ -f "$nconfig" ]; then
       CONFIG=${nconfig##*/}
       return
