@@ -132,6 +132,7 @@ source_config ()
     else
 	ISALIAS=no
     fi
+    is_nm_running && USE_NM=true
 }
 
 
@@ -182,6 +183,11 @@ do_netreport ()
       fi
     done
   )
+}
+
+is_nm_running ()
+{
+    LANG=C nmcli nm status | grep -Eq "NM running:[[:space:]]+running"
 }
 
 # Sets $alias to the device module if $? != 0
