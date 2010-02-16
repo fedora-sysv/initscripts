@@ -139,6 +139,10 @@ source_config ()
 	ISALIAS=no
     fi
     is_nm_running && USE_NM=true
+    if [ -z "$NAME" -a "$USE_NM" = "true" ]; then
+	UUID=$(nmcli -t con list id "System ${DEVICE}" 2>/dev/null| awk '/uuid :/ { print $3 }')
+	[ -n "$UUID" ] && NAME="System ${DEVICE}"
+    fi
 }
 
 
