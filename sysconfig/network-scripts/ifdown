@@ -41,12 +41,8 @@ then
     exit 0
 fi
 
-if [ "$USE_NM" = "true" -a -n "$NAME" -o -n "$UUID" ]; then
-    if [ -n "$UUID" ]; then
-	nmcli con down uuid "$UUID"
-    elif [ -n "$NAME" ]; then
-	nmcli con down id "$NAME"
-    fi
+if [ "$USE_NM" = "true" ]] && is_nm_active "$DEVICE" ; then
+    nmcli dev disconnect iface "$DEVICE"
     exit $?
 fi
 
