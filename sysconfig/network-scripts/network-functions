@@ -62,7 +62,7 @@ need_config ()
     [ -f "${CONFIG}" ] && return
     CONFIG="${1##*/}"
     [ -f "${CONFIG}" ] && return
-    nconfig=$(get_config_by_name ${1})
+    nconfig=$(get_config_by_name "${1}")
     if [ -n "$nconfig" ] && [ -f "$nconfig" ]; then
       CONFIG=${nconfig##*/}
       return
