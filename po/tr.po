@@ -16,11 +16,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms:  nplurals=1; plural=0;\n"
 
-#: /etc/rc.d/init.d/openais:30
-#, fuzzy
-msgid "Stopping OpenAIS ($prog): "
-msgstr "PC/SC smart card daemon durduruluyor ($prog): "
-
 #: /etc/rc.d/init.d/ez-ipupdate:76
 #, fuzzy
 msgid "Reloading $prog for $ez_name: "
@@ -31,30 +26,32 @@ msgstr "$prog yeniden yükleniyor: "
 msgid "Stopping incrond: "
 msgstr "hpiod durduruluyor: "
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:1157
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:1057
 msgid "No parameters given to setup a default route"
 msgstr "Öntanımlı rota hazırlamak için hiç bir parametre verilmedi."
 
-#: /etc/rc.d/init.d/dhcpd:138 /etc/rc.d/init.d/dhcrelay:116
-msgid "Usage: $0 {start|stop|restart|condrestart|configtest|status}"
-msgstr "Kullanılışı: $0 {start|stop|restart|condrestart|configtest|status}"
+#: /etc/rc.d/init.d/shorewall:36 /etc/rc.d/init.d/shorewall6:36
+#: /etc/rc.d/init.d/shorewall6-lite:36 /etc/rc.d/init.d/shorewall-lite:36
+#, fuzzy
+msgid "Starting Shorewall: "
+msgstr "pand başlatılıyor: "
 
-#: /etc/rc.d/init.d/ups:59
+#: /etc/rc.d/init.d/ups:60
 msgid "Starting UPS monitor (slave): "
 msgstr "UPS (yardımcı) izleyicisi başlatılıyor: "
-
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:119
-msgid "CRITICAL "
-msgstr "ÖNEMLİ   "
 
 #: /etc/rc.d/init.d/lirc:83
 msgid "Stopping infrared remote control mouse daemon ($prog2): "
 msgstr ""
 
-#: /etc/rc.d/init.d/cyrus-imapd:116
+#: /etc/rc.d/init.d/smolt:68
 #, fuzzy
-msgid "$BASENAME exporting databases"
-msgstr "Veritabanı ilklendiriliyor: "
+msgid "Monthly smolt check-in is disabled."
+msgstr "İşlem hesapları kapalı."
+
+#: /etc/rc.d/init.d/nginx:92
+msgid "Graceful shutdown of old $prog: "
+msgstr ""
 
 #: /etc/ppp/ip-up.ipv6to4:123 /etc/sysconfig/network-scripts/ifup-ipv6:233
 msgid ""
@@ -74,19 +71,17 @@ msgstr "802.1Q VLAN parametreleri ayarlanamıyor."
 
 #: /etc/sysconfig/network-scripts/ifup:100
 #: /etc/sysconfig/network-scripts/ifup-eth:79
-#: /etc/sysconfig/network-scripts/ifup-ib:52
 msgid ""
 "$alias device ${DEVICE} does not seem to be present, delaying initialization."
 msgstr ""
 "$alias aygıtı ${DEVICE} hazır görünmüyor, başlatılması sonraya bırakılıyor."
 
-#: /etc/rc.d/init.d/amd:97 /etc/rc.d/init.d/bgpd:64 /etc/rc.d/init.d/btseed:70
+#: /etc/rc.d/init.d/amd:97 /etc/rc.d/init.d/btseed:70
 #: /etc/rc.d/init.d/bttrack:71 /etc/rc.d/init.d/dropbear:122
 #: /etc/rc.d/init.d/irda:71 /etc/rc.d/init.d/mldonkey:71
 #: /etc/rc.d/init.d/mon:78 /etc/rc.d/init.d/monit:81
-#: /etc/rc.d/init.d/partimaged:88 /etc/rc.d/init.d/ripd:63
-#: /etc/rc.d/init.d/ripngd:63 /etc/rc.d/init.d/tcsd:136
-#: /etc/rc.d/init.d/vblade:91 /etc/rc.d/init.d/zebra:63
+#: /etc/rc.d/init.d/openxcap:74 /etc/rc.d/init.d/partimaged:88
+#: /etc/rc.d/init.d/vblade:91
 msgid "Usage: $0 {start|stop|restart|reload|condrestart|status}"
 msgstr "Kullanılışı: $0 {start|stop|restart|reload|condrestart|status}"
 
@@ -102,6 +97,11 @@ msgstr "Konsolda fare desteği başlatılıyor: "
 msgid "Shutting down router discovery services: "
 msgstr "\"router discovery\" hizmetleri durduruluyor: "
 
+#: /etc/rc.d/init.d/rhnsd:56
+#, fuzzy
+msgid "Starting Red Hat Network Daemon: "
+msgstr "Red Hat Ağ Hizmeti artalanda durduruluyor: "
+
 #: /etc/rc.d/init.d/crossfire:33 /etc/rc.d/init.d/liquidwar-server:34
 #: /etc/rc.d/init.d/wesnothd:45 /etc/rc.d/init.d/xpilot-ng-server:33
 msgid "$prog already running"
@@ -116,10 +116,20 @@ msgstr "$prog yeniden yükleniyor: "
 msgid "no dictionaries installed"
 msgstr "herhangi bir sözlük yüklü değil"
 
-#: /etc/rc.d/init.d/syslog-ng:115
+#: /etc/rc.d/init.d/syslog-ng:117
 #, fuzzy
 msgid "Usage: $0 {start|stop|restart|reload|condrestart|checkconfig}"
 msgstr "Kullanılışı: $0 {start|stop|restart|reload|condrestart}"
+
+#: /etc/rc.d/init.d/vmpsd:19
+#, fuzzy
+msgid "Starting vmpsd: "
+msgstr "pand başlatılıyor: "
+
+#: /etc/rc.d/init.d/cyrus-imapd:61
+#, fuzzy
+msgid "Importing $prog databases: "
+msgstr "$MODEL başlatılıyor: "
 
 #: /etc/sysconfig/network-scripts/ifup-ppp:74
 msgid "/etc/sysconfig/network-scripts/chat-${DEVNAME} does not exist"
@@ -144,11 +154,11 @@ msgstr "Güvenlik duvarı yapılandırılmamış."
 msgid "${IPTABLES}: Firewall is not configured. "
 msgstr "Güvenlik duvarı yapılandırılmamış."
 
-#: /etc/rc.d/init.d/util-vserver:60
+#: /etc/rc.d/init.d/util-vserver:75
 msgid "Setting path to vshelper"
 msgstr ""
 
-#: /etc/rc.d/init.d/netfs:113
+#: /etc/rc.d/init.d/netfs:115
 msgid "Unmounting CIFS filesystems: "
 msgstr "CIFS dosya sistemleri ayrılıyor: "
 
@@ -161,7 +171,7 @@ msgstr "Kullanılışı: pidfileofproc {program}"
 msgid "Stopping yum-updatesd: "
 msgstr "hpssd durduruluyor: "
 
-#: /etc/rc.d/init.d/vncserver:64
+#: /etc/rc.d/init.d/vncserver:66
 msgid "vncserver start"
 msgstr "vncserver başlat"
 
@@ -169,13 +179,15 @@ msgstr "vncserver başlat"
 msgid "Server address not specified in /etc/sysconfig/netconsole"
 msgstr ""
 
-#: /etc/rc.d/init.d/atop:74 /etc/rc.d/init.d/audio-entropyd:52
-#: /etc/rc.d/init.d/krb5kdc:86 /etc/rc.d/init.d/newscache:80
-#: /etc/rc.d/init.d/squidGuard:171
-msgid "Usage: $0 {start|stop|status|reload|restart|condrestart}"
-msgstr "Kullanılışı: $0 {start|stop|status|reload|restart|condrestart}"
+#: /etc/rc.d/init.d/functions:465
+msgid "PASSED"
+msgstr "BAŞARILI"
 
-#: /etc/rc.d/init.d/rpcsvcgssd:50
+#: /etc/rc.d/rc:40
+msgid "Entering interactive startup"
+msgstr "Etkileşimli açılış başlatılıyor"
+
+#: /etc/rc.d/init.d/rpcsvcgssd:49
 msgid "Starting RPC svcgssd: "
 msgstr "RPC svcgssd başlatılıyor: "
 
@@ -183,110 +195,117 @@ msgstr "RPC svcgssd başlatılıyor: "
 msgid "$s compilation failed "
 msgstr ""
 
-#: /etc/rc.d/init.d/ajaxterm:27 /etc/rc.d/init.d/amd:36
-#: /etc/rc.d/init.d/amtu:50 /etc/rc.d/init.d/aprsd:32
+#: /etc/rc.d/init.d/3proxy:28 /etc/rc.d/init.d/ajaxterm:27
+#: /etc/rc.d/init.d/amd:36 /etc/rc.d/init.d/amtu:50 /etc/rc.d/init.d/aprsd:32
 #: /etc/rc.d/init.d/arpwatch:38 /etc/rc.d/init.d/atd:36
-#: /etc/rc.d/init.d/athcool:19 /etc/rc.d/init.d/atop:19
-#: /etc/rc.d/init.d/auditd:53 /etc/rc.d/init.d/auth2:26
-#: /etc/rc.d/init.d/autofs:88 /etc/rc.d/init.d/autogroup:38
-#: /etc/rc.d/init.d/autohome:36 /etc/rc.d/init.d/beanstalkd:33
-#: /etc/rc.d/init.d/boa:36 /etc/rc.d/init.d/boinc-client:114
-#: /etc/rc.d/init.d/bootparamd:38 /etc/rc.d/init.d/bro:86
-#: /etc/rc.d/init.d/canna:37 /etc/rc.d/init.d/cfexecd:22
+#: /etc/rc.d/init.d/atop:19 /etc/rc.d/init.d/auditd:53
+#: /etc/rc.d/init.d/auth2:26 /etc/rc.d/init.d/autofs:88
+#: /etc/rc.d/init.d/autogroup:38 /etc/rc.d/init.d/autohome:36
+#: /etc/rc.d/init.d/beanstalkd:41 /etc/rc.d/init.d/boa:36
+#: /etc/rc.d/init.d/boinc-client:114 /etc/rc.d/init.d/bootparamd:38
+#: /etc/rc.d/init.d/bro:86 /etc/rc.d/init.d/canna:37
+#: /etc/rc.d/init.d/certmonger:37 /etc/rc.d/init.d/cfexecd:22
 #: /etc/rc.d/init.d/cfservd:26 /etc/rc.d/init.d/chronyd:84
 #: /etc/rc.d/init.d/chunkd:33 /etc/rc.d/init.d/clamav-milter:23
 #: /etc/rc.d/init.d/clamd-wrapper:43 /etc/rc.d/init.d/cld:34
 #: /etc/rc.d/init.d/coda-client:25 /etc/rc.d/init.d/codasrv:21
-#: /etc/rc.d/init.d/collectd:25 /etc/rc.d/init.d/collectl:32
+#: /etc/rc.d/init.d/collectd:25 /etc/rc.d/init.d/collectl:33
 #: /etc/rc.d/init.d/couchdb:37 /etc/rc.d/init.d/cpuspeed:91
 #: /etc/rc.d/init.d/crond:46 /etc/rc.d/init.d/ctrlproxy:41
-#: /etc/rc.d/init.d/cups:53 /etc/rc.d/init.d/cwdaemon:32
-#: /etc/rc.d/init.d/dbmail-imapd:36 /etc/rc.d/init.d/dbmail-lmtpd:37
-#: /etc/rc.d/init.d/dbmail-pop3d:37 /etc/rc.d/init.d/dbmail-timsieved:38
-#: /etc/rc.d/init.d/dc_client:33 /etc/rc.d/init.d/dc_server:29
-#: /etc/rc.d/init.d/ddclient:28 /etc/rc.d/init.d/dhcp-fwd:40
-#: /etc/rc.d/init.d/dhcp6r:44 /etc/rc.d/init.d/dhcp6s:56
-#: /etc/rc.d/init.d/dhcpd:81 /etc/rc.d/init.d/dhcrelay:54
-#: /etc/rc.d/init.d/dictd:34 /etc/rc.d/init.d/distccd:42
-#: /etc/rc.d/init.d/dovecot:46 /etc/rc.d/init.d/dropbear:69
-#: /etc/rc.d/init.d/fcron_watch_config:32 /etc/rc.d/init.d/flow-capture:42
-#: /etc/rc.d/init.d/fnfxd:26 /etc/rc.d/init.d/freenx-server:40
-#: /etc/rc.d/init.d/freenx-server:42 /etc/rc.d/init.d/fyre-cluster:31
+#: /etc/rc.d/init.d/cups:66 /etc/rc.d/init.d/cwdaemon:32
+#: /etc/rc.d/init.d/cyrus-imapd:73 /etc/rc.d/init.d/dbmail-imapd:36
+#: /etc/rc.d/init.d/dbmail-lmtpd:37 /etc/rc.d/init.d/dbmail-pop3d:37
+#: /etc/rc.d/init.d/dbmail-timsieved:38 /etc/rc.d/init.d/dc_client:33
+#: /etc/rc.d/init.d/dc_server:29 /etc/rc.d/init.d/ddclient:28
+#: /etc/rc.d/init.d/dhcpd:88 /etc/rc.d/init.d/dhcp-fwd:40
+#: /etc/rc.d/init.d/dhcrelay:60 /etc/rc.d/init.d/dictd:34
+#: /etc/rc.d/init.d/distccd:42 /etc/rc.d/init.d/dovecot:47
+#: /etc/rc.d/init.d/dropbear:69 /etc/rc.d/init.d/dspam:35
+#: /etc/rc.d/init.d/fcron_watch_config:32 /etc/rc.d/init.d/fence_virtd:42
+#: /etc/rc.d/init.d/flow-capture:42 /etc/rc.d/init.d/fnfxd:26
+#: /etc/rc.d/init.d/freenx-server:40 /etc/rc.d/init.d/freenx-server:42
 #: /etc/rc.d/init.d/gearmand:37 /etc/rc.d/init.d/globus-rls-server:28
 #: /etc/rc.d/init.d/glusterfsd:37 /etc/rc.d/init.d/gmediaserver:59
 #: /etc/rc.d/init.d/gpsd:44 /etc/rc.d/init.d/haproxy:40
 #: /etc/rc.d/init.d/honeyd:38 /etc/rc.d/init.d/httpd:54
-#: /etc/rc.d/init.d/i8k:39 /etc/rc.d/init.d/ibmasm:19
-#: /etc/rc.d/init.d/inadyn:42 /etc/rc.d/init.d/ip-sentinel:27
-#: /etc/rc.d/init.d/ircd:26 /etc/rc.d/init.d/irda:23
-#: /etc/rc.d/init.d/irqbalance:45 /etc/rc.d/init.d/iscsi:50
-#: /etc/rc.d/init.d/iscsid:37 /etc/rc.d/init.d/jetty:59
-#: /etc/rc.d/init.d/kadmin:55 /etc/rc.d/init.d/keepalived:36
-#: /etc/rc.d/init.d/kojid:32 /etc/rc.d/init.d/kojira:32
-#: /etc/rc.d/init.d/kprop:37 /etc/rc.d/init.d/krb5kdc:40
-#: /etc/rc.d/init.d/ldap:181 /etc/rc.d/init.d/lighttpd:40
-#: /etc/rc.d/init.d/mailgraph:39 /etc/rc.d/init.d/mailman:86
-#: /etc/rc.d/init.d/mcstrans:44 /etc/rc.d/init.d/mdmonitor:50
-#: /etc/rc.d/init.d/memcached:37 /etc/rc.d/init.d/milter-greylist:25
-#: /etc/rc.d/init.d/milter-regex:30 /etc/rc.d/init.d/miredo-client:46
+#: /etc/rc.d/init.d/ibmasm:19 /etc/rc.d/init.d/inadyn:42
+#: /etc/rc.d/init.d/ip-sentinel:27 /etc/rc.d/init.d/ircd:33
+#: /etc/rc.d/init.d/irda:23 /etc/rc.d/init.d/irqbalance:45
+#: /etc/rc.d/init.d/iscsi:50 /etc/rc.d/init.d/iscsid:37
+#: /etc/rc.d/init.d/jetty:72 /etc/rc.d/init.d/kadmin:56
+#: /etc/rc.d/init.d/keepalived:36 /etc/rc.d/init.d/kojid:32
+#: /etc/rc.d/init.d/kojira:32 /etc/rc.d/init.d/kprop:38
+#: /etc/rc.d/init.d/krb5kdc:41 /etc/rc.d/init.d/ksm:42
+#: /etc/rc.d/init.d/ksmtuned:38 /etc/rc.d/init.d/lighttpd:40
+#: /etc/rc.d/init.d/mailgraph:39 /etc/rc.d/init.d/mailman:85
+#: /etc/rc.d/init.d/mcstrans:45 /etc/rc.d/init.d/mdmonitor:46
+#: /etc/rc.d/init.d/mdmonitor:56 /etc/rc.d/init.d/memcached:37
+#: /etc/rc.d/init.d/milter-greylist:25 /etc/rc.d/init.d/milter-regex:30
+#: /etc/rc.d/init.d/mip6d:38 /etc/rc.d/init.d/miredo-client:46
 #: /etc/rc.d/init.d/miredo-server:48 /etc/rc.d/init.d/monit:29
-#: /etc/rc.d/init.d/mrepo:27 /etc/rc.d/init.d/mydns:24
-#: /etc/rc.d/init.d/mysql-proxy:35 /etc/rc.d/init.d/mysqld:87
-#: /etc/rc.d/init.d/mysqld:90 /etc/rc.d/init.d/mysqld:93
-#: /etc/rc.d/init.d/ndb_mgmd:58 /etc/rc.d/init.d/ndb_mgmd:60
-#: /etc/rc.d/init.d/ndbd:53 /etc/rc.d/init.d/ndbd:55
-#: /etc/rc.d/init.d/ndo2db:41 /etc/rc.d/init.d/nessusd:38
+#: /etc/rc.d/init.d/mpdscribble:19 /etc/rc.d/init.d/mrepo:27
+#: /etc/rc.d/init.d/mydns:24 /etc/rc.d/init.d/myproxy-server:43
+#: /etc/rc.d/init.d/mysqld:100 /etc/rc.d/init.d/mysqld:103
+#: /etc/rc.d/init.d/mysql-proxy:35 /etc/rc.d/init.d/ncidd:31
+#: /etc/rc.d/init.d/ncidsip:34 /etc/rc.d/init.d/ndo2db:41
+#: /etc/rc.d/init.d/nessusd:38 /etc/rc.d/init.d/netplugd:50
 #: /etc/rc.d/init.d/nginx:34 /etc/rc.d/init.d/ngircd:25
 #: /etc/rc.d/init.d/noip:35 /etc/rc.d/init.d/npcd:34 /etc/rc.d/init.d/nscd:41
-#: /etc/rc.d/init.d/nslcd:29 /etc/rc.d/init.d/ntop:33 /etc/rc.d/init.d/ntpd:44
+#: /etc/rc.d/init.d/nslcd:28 /etc/rc.d/init.d/ntop:33 /etc/rc.d/init.d/ntpd:42
 #: /etc/rc.d/init.d/nuauth:64 /etc/rc.d/init.d/nufw:62
 #: /etc/rc.d/init.d/nxtvepgd:34 /etc/rc.d/init.d/odccm:25
 #: /etc/rc.d/init.d/oddjobd:35 /etc/rc.d/init.d/oidentd:41
 #: /etc/rc.d/init.d/openhpid:101 /etc/rc.d/init.d/openhpid:106
 #: /etc/rc.d/init.d/openhpid:111 /etc/rc.d/init.d/openhpid:121
-#: /etc/rc.d/init.d/openser:22 /etc/rc.d/init.d/pads:35
+#: /etc/rc.d/init.d/openhpi-subagent:30 /etc/rc.d/init.d/openser:28
+#: /etc/rc.d/init.d/opensips:30 /etc/rc.d/init.d/pads:35
 #: /etc/rc.d/init.d/pads:39 /etc/rc.d/init.d/pathfinderd:38
 #: /etc/rc.d/init.d/plague-builder:32 /etc/rc.d/init.d/plague-server:33
 #: /etc/rc.d/init.d/poker-bot:34 /etc/rc.d/init.d/poker-server:34
 #: /etc/rc.d/init.d/portreserve:48 /etc/rc.d/init.d/postgrey:39
-#: /etc/rc.d/init.d/prelude-correlator:32
+#: /etc/rc.d/init.d/pppoe-server:26 /etc/rc.d/init.d/prelude-correlator:32
 #: /etc/rc.d/init.d/prelude-correlator:36 /etc/rc.d/init.d/prelude-manager:17
 #: /etc/rc.d/init.d/prelude-manager:21 /etc/rc.d/init.d/proftpd:52
 #: /etc/rc.d/init.d/psad:50 /etc/rc.d/init.d/pure-ftpd:32
-#: /etc/rc.d/init.d/racoon:21 /etc/rc.d/init.d/rarpd:42
-#: /etc/rc.d/init.d/ratbox-services:25 /etc/rc.d/init.d/rbldnsd:84
-#: /etc/rc.d/init.d/rinetd:25 /etc/rc.d/init.d/ris-linuxd:44
-#: /etc/rc.d/init.d/roundup:27 /etc/rc.d/init.d/rpcbind:45
-#: /etc/rc.d/init.d/rtpproxy:21 /etc/rc.d/init.d/rwalld:39
-#: /etc/rc.d/init.d/saslauthd:40 /etc/rc.d/init.d/scanbuttond:32
-#: /etc/rc.d/init.d/searchd:33 /etc/rc.d/init.d/sems:23
-#: /etc/rc.d/init.d/sendmail:60 /etc/rc.d/init.d/sensord:22
+#: /etc/rc.d/init.d/pyicq-t:22 /etc/rc.d/init.d/rabbit:58
+#: /etc/rc.d/init.d/racoon:21 /etc/rc.d/init.d/radiusd:36
+#: /etc/rc.d/init.d/rarpd:42 /etc/rc.d/init.d/ratbox-services:25
+#: /etc/rc.d/init.d/rbldnsd:84 /etc/rc.d/init.d/rinetd:25
+#: /etc/rc.d/init.d/ris-linuxd:44 /etc/rc.d/init.d/roundup:27
+#: /etc/rc.d/init.d/rpcbind:45 /etc/rc.d/init.d/rtpproxy:38
+#: /etc/rc.d/init.d/rwalld:39 /etc/rc.d/init.d/saslauthd:40
+#: /etc/rc.d/init.d/searchd:34 /etc/rc.d/init.d/sems:23
+#: /etc/rc.d/init.d/sendmail:63 /etc/rc.d/init.d/sensord:22
 #: /etc/rc.d/init.d/ser:36 /etc/rc.d/init.d/sge_execd:53
-#: /etc/rc.d/init.d/sigul_bridge:13 /etc/rc.d/init.d/sigul_server:14
-#: /etc/rc.d/init.d/sip-redirect:31 /etc/rc.d/init.d/smartd:52
-#: /etc/rc.d/init.d/smsd:21 /etc/rc.d/init.d/snmpd:40
-#: /etc/rc.d/init.d/snmptrapd:42 /etc/rc.d/init.d/spamassassin:41
-#: /etc/rc.d/init.d/spampd:39 /etc/rc.d/init.d/squid:65
-#: /etc/rc.d/init.d/squid:77 /etc/rc.d/init.d/squidGuard:71
-#: /etc/rc.d/init.d/ssbd:30 /etc/rc.d/init.d/sshd:127 /etc/rc.d/init.d/sssd:40
+#: /etc/rc.d/init.d/shmpps:21 /etc/rc.d/init.d/sigul_bridge:13
+#: /etc/rc.d/init.d/sigul_server:14 /etc/rc.d/init.d/sip2ncid:31
+#: /etc/rc.d/init.d/sip-redirect:31 /etc/rc.d/init.d/slapd:201
+#: /etc/rc.d/init.d/smartd:58 /etc/rc.d/init.d/smsd:21
+#: /etc/rc.d/init.d/snmpd:40 /etc/rc.d/init.d/snmptrapd:41
+#: /etc/rc.d/init.d/spamassassin:43 /etc/rc.d/init.d/spampd:39
+#: /etc/rc.d/init.d/squid:65 /etc/rc.d/init.d/squid:77
+#: /etc/rc.d/init.d/squidGuard:71 /etc/rc.d/init.d/ssbd:30
+#: /etc/rc.d/init.d/sshd:132 /etc/rc.d/init.d/sssd:41
 #: /etc/rc.d/init.d/systemtap:482 /etc/rc.d/init.d/tabled:34
-#: /etc/rc.d/init.d/tclhttpd:143 /etc/rc.d/init.d/tcsd:90
-#: /etc/rc.d/init.d/thebridge:28 /etc/rc.d/init.d/thttpd:36
-#: /etc/rc.d/init.d/tinyerp-server:47 /etc/rc.d/init.d/tinyproxy:36
-#: /etc/rc.d/init.d/tor:31 /etc/rc.d/init.d/trytond:48
-#: /etc/rc.d/init.d/tuned:34 /etc/rc.d/init.d/ulogd:34
+#: /etc/rc.d/init.d/tclhttpd:143 /etc/rc.d/init.d/tcsd:70
+#: /etc/rc.d/init.d/tgtd:32 /etc/rc.d/init.d/thebridge:28
+#: /etc/rc.d/init.d/thttpd:36 /etc/rc.d/init.d/tinyerp-server:47
+#: /etc/rc.d/init.d/tinyproxy:36 /etc/rc.d/init.d/tokyotyrant:36
+#: /etc/rc.d/init.d/tor:32 /etc/rc.d/init.d/trytond:48
+#: /etc/rc.d/init.d/tuned:38 /etc/rc.d/init.d/ulogd:34
 #: /etc/rc.d/init.d/update:28 /etc/rc.d/init.d/update:36
-#: /etc/rc.d/init.d/upnpd:35 /etc/rc.d/init.d/ups:45
+#: /etc/rc.d/init.d/upnpd:35 /etc/rc.d/init.d/ups:46
 #: /etc/rc.d/init.d/ushare:28 /etc/rc.d/init.d/vdradmind:27
-#: /etc/rc.d/init.d/vncserver:36 /etc/rc.d/init.d/vtund:36
+#: /etc/rc.d/init.d/vhostmd:48 /etc/rc.d/init.d/vncserver:38
+#: /etc/rc.d/init.d/vnstat:30 /etc/rc.d/init.d/vtund:36
 #: /etc/rc.d/init.d/watchdog:26 /etc/rc.d/init.d/xfs:57
-#: /etc/rc.d/init.d/xinetd:56 /etc/rc.d/init.d/xrdp:34
-#: /etc/rc.d/init.d/xrdp:58 /etc/rc.d/init.d/zfs-fuse:58
-#: /etc/rc.d/init.d/zoneminder:47
+#: /etc/rc.d/init.d/xinetd:59 /etc/rc.d/init.d/xrdp:34
+#: /etc/rc.d/init.d/xrdp:58 /etc/rc.d/init.d/yac2ncid:31
+#: /etc/rc.d/init.d/zfs-fuse:84 /etc/rc.d/init.d/zoneminder:47
 msgid "Starting $prog: "
 msgstr "$prog başlatılıyor: "
 
-#: /etc/rc.d/init.d/ypbind:56 /etc/rc.d/init.d/ypbind:61
+#: /etc/rc.d/init.d/ypbind:67 /etc/rc.d/init.d/ypbind:72
 #, fuzzy
 msgid "domain is '$NISDOMAIN' "
 msgstr "NIS alan ismi $NISDOMAIN olarak belirleniyor: "
@@ -296,18 +315,16 @@ msgstr "NIS alan ismi $NISDOMAIN olarak belirleniyor: "
 msgid "Starting CGroup Rules Engine Daemon..."
 msgstr "acpi başlatılıyor: "
 
-#: /etc/rc.d/init.d/shorewall:36 /etc/rc.d/init.d/shorewall-lite:36
-#: /etc/rc.d/init.d/shorewall6:36 /etc/rc.d/init.d/shorewall6-lite:36
+#: /etc/rc.d/init.d/xend:34
 #, fuzzy
-msgid "Starting Shorewall: "
-msgstr "pand başlatılıyor: "
+msgid "Starting xend daemon: "
+msgstr "NFS başlatılıyor: "
 
-#: /etc/rc.d/init.d/codeanalyst:175
-#, fuzzy
-msgid "Check Oprofile filesystem mounted ... "
-msgstr "Yerel dosya sistemi kotaları denetleniyor: "
+#: /etc/rc.d/init.d/kadmin:51
+msgid "Error. This appears to be a slave server, found kpropd.acl"
+msgstr ""
 
-#: /etc/rc.d/init.d/ebtables:87
+#: /etc/rc.d/init.d/ebtables:91
 #, fuzzy
 msgid "Saving $desc ($prog): "
 msgstr "$desc başlatılıyor ($prog): "
@@ -316,7 +333,7 @@ msgstr "$desc başlatılıyor ($prog): "
 msgid "Missing remote IPv4 address of tunnel, configuration is not valid"
 msgstr "Uzak IPV4 tünel adresi eksik, yapılandırma geçersiz"
 
-#: /etc/rc.d/init.d/systemtap:518
+#: /etc/rc.d/init.d/ksm:49 /etc/rc.d/init.d/systemtap:518
 msgid "$prog startup"
 msgstr "$prog başlat"
 
@@ -330,7 +347,15 @@ msgstr "$prog hizmeti başlatılıyor: "
 msgid "Disabling denyhosts cron service: "
 msgstr "PLX aygıtları kapatılıyor..."
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:1246
+#: /etc/rc.d/init.d/zarafa-spooler:102
+#, fuzzy
+msgid ""
+"Usage: $spooler {start|stop|status|reload|restart|condrestart|force-reload|"
+"try-restart}"
+msgstr ""
+"Kullanılışı: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
+
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:1146
 msgid "Unsupported mechanism '$mechanism' for sending trigger to radvd"
 msgstr ""
 "radvd 'ye tetikleme bilgisi göndermek için desteklenmeyen yordam '$mechanism'"
@@ -339,7 +364,7 @@ msgstr ""
 msgid "radvd control enabled, but config is not complete"
 msgstr "radvd denetimi etkinleştirildi, ama yapılandırma eksik"
 
-#: /etc/rc.d/init.d/named:238
+#: /etc/rc.d/init.d/named:227
 #, fuzzy
 msgid "Reloading "
 msgstr "$prog yeniden yükleniyor: "
@@ -358,7 +383,10 @@ msgstr ""
 msgid "Reloading nsca: "
 msgstr "$prog yeniden yükleniyor: "
 
-#: /etc/rc.d/init.d/radvd:43
+#: /etc/rc.d/init.d/bgpd:34 /etc/rc.d/init.d/ospf6d:33
+#: /etc/rc.d/init.d/ospfd:33 /etc/rc.d/init.d/radvd:43
+#: /etc/rc.d/init.d/ripd:33 /etc/rc.d/init.d/ripngd:33
+#: /etc/rc.d/init.d/zebra:30
 msgid "Insufficient privilege"
 msgstr ""
 
@@ -366,15 +394,18 @@ msgstr ""
 msgid "Disabling nightly yum update: "
 msgstr "Gecelik yum güncellemesi geçersizleştiriliyor: "
 
-#: /etc/rc.d/init.d/i8k:71
-msgid "Module $module is loaded."
-msgstr ""
+#: /etc/rc.d/init.d/rhnsd:108
+#, fuzzy
+msgid ""
+"Usage: $0 {start|stop|status|restart|force-reload|condrestart|try-restart|"
+"reload}"
+msgstr "Kullanılışı: $0 {start|stop|status|restart|condrestart|reload}"
 
 #: /etc/rc.d/init.d/arptables_jf:192
 msgid "Usage: $0 {start|stop|restart|condrestart|status|panic|save}"
 msgstr "Kullanılışı: $0 {start|stop|restart|condrestart|status|panic|save}"
 
-#: /etc/rc.d/init.d/ups:68
+#: /etc/rc.d/init.d/ups:69
 msgid "Stopping UPS monitor: "
 msgstr "UPS izleyici durduruluyor: "
 
@@ -398,7 +429,7 @@ msgstr ""
 msgid "Enabling monthly Smolt checkin: "
 msgstr "Gecelik yum güncellemesi etkinleştiriliyor: "
 
-#: /etc/rc.d/rc.sysinit:83
+#: /etc/rc.d/rc.sysinit:82
 msgid "*** Warning -- SELinux ${SELINUXTYPE} policy relabel is required."
 msgstr ""
 
@@ -406,7 +437,7 @@ msgstr ""
 msgid "Removing user defined chains:"
 msgstr "Kullanıcı tanımlı ayarlar kaldırılıyor:"
 
-#: /etc/rc.d/init.d/sec:34
+#: /etc/rc.d/init.d/sec:19
 #, fuzzy
 msgid "Starting $prog instance "
 msgstr "$prog başlatılıyor: "
@@ -415,22 +446,27 @@ msgstr "$prog başlatılıyor: "
 msgid "Nightly yum update is disabled."
 msgstr "Gecelik yum güncelleştirmesi etkin değil."
 
-#: /etc/rc.d/init.d/udev-post:26
+#: /etc/rc.d/init.d/udev-post:27
 msgid "Retrigger failed udev events"
 msgstr ""
+
+#: /etc/rc.d/init.d/zarafa-dagent:49
+#, fuzzy
+msgid "Starting $dagent: "
+msgstr "dund başlatılıyor: "
 
 #: /etc/rc.d/init.d/rwhod:52
 msgid "Stopping rwho services: "
 msgstr "rwho hizmetleri durduruluyor: "
 
-#: /etc/rc.d/init.d/ypbind:121
+#: /etc/rc.d/init.d/ypbind:134
 #, fuzzy
 msgid "Shutting down NIS service: "
 msgstr "NIS hizmetleri durduruluyor: "
 
-#: /etc/rc.d/init.d/vncserver:22
-msgid "VNC server"
-msgstr "VNC sunucusu"
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:110
+msgid "DEBUG    "
+msgstr "HATA AYIKLAMA    "
 
 #: /etc/rc.d/init.d/arptables_jf:65
 msgid "Flushing all current rules and user defined chains:"
@@ -438,25 +474,32 @@ msgstr ""
 "Çalışan tüm kurallar ve kullanıcının tanımladığı zincirler kaldırılıyor:"
 
 #: /etc/rc.d/init.d/bwbar:67 /etc/rc.d/init.d/fail2ban:87
-#: /etc/rc.d/init.d/netplugd:56
 msgid "Usage: $0 {start|stop|status|restart}"
 msgstr "Kullanılışı: $0 {start|stop|status|restart}"
 
-#: /etc/rc.d/init.d/tgtd:51
-msgid "Targets still in use. Cannot shutdown service."
-msgstr ""
+#: /etc/rc.d/init.d/wine:47
+msgid "Wine binary format handlers are registered."
+msgstr "Wine ikilik biçim işleyicileri kayıtlı."
 
-#: /etc/rc.d/init.d/icecast:45
+#: /etc/rc.d/init.d/smartd:126
+#, fuzzy
+msgid ""
+"Usage: $0 {start|stop|restart|status|condrestart|try-restart|reload|force-"
+"reload|report}"
+msgstr ""
+"Kullanılışı:$0 {start|stop|status|restart|try-restart|reload|force-reload}"
+
+#: /etc/rc.d/init.d/icecast:53
 #, fuzzy
 msgid "Reloading icecast: "
 msgstr "postfix yeniden yükleniyor: "
 
-#: /etc/rc.d/init.d/openvpn:179
+#: /etc/rc.d/init.d/openvpn:193
 #, fuzzy
 msgid "Shutting down openvpn: "
 msgstr "pand durduruluyor: "
 
-#: /etc/rc.d/init.d/puppetmaster:131
+#: /etc/rc.d/init.d/puppetmaster:133
 #, fuzzy
 msgid ""
 "Usage: $0 {start|stop|status|restart|reload|force-reload|condrestart|"
@@ -464,7 +507,15 @@ msgid ""
 msgstr ""
 "Kullanılışı: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
 
-#: /etc/rc.d/rc.sysinit:260
+#: /etc/rc.d/init.d/zarafa-monitor:102
+#, fuzzy
+msgid ""
+"Usage: $monitor {start|stop|status|reload|restart|condrestart|force-reload|"
+"try-restart}"
+msgstr ""
+"Kullanılışı: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
+
+#: /etc/rc.d/rc.sysinit:259
 msgid "\t\tWelcome to "
 msgstr "\t\tHoşgeldiniz "
 
@@ -474,16 +525,12 @@ msgstr "\t\tHoşgeldiniz "
 msgid "Shutting down $desc ($prog): "
 msgstr "$prog durduruluyor: "
 
-#: /etc/rc.d/init.d/pmud:25
-msgid "Starting pmud daemon: "
-msgstr "pmud başlatılıyor: "
-
-#: /etc/rc.d/init.d/syslog-ng:84
+#: /etc/rc.d/init.d/syslog-ng:86
 #, fuzzy
 msgid "Reloading syslog-ng: "
 msgstr "syslog-ng.conf dosyası yeniden yükleniyor: "
 
-#: /etc/rc.d/init.d/rsyslog:45 /etc/rc.d/init.d/sysklogd:54
+#: /etc/rc.d/init.d/rsyslog:50 /etc/rc.d/init.d/sysklogd:54
 msgid "Shutting down system logger: "
 msgstr "Sistem günlüğü durduruluyor: "
 
@@ -492,22 +539,21 @@ msgstr "Sistem günlüğü durduruluyor: "
 msgid "Starting all MaraDNS processes: "
 msgstr "NFS hizmetleri başlatılıyor: "
 
-#: /etc/sysconfig/network-scripts/ifup-eth:217
-#: /etc/sysconfig/network-scripts/ifup-ib:179
+#: /etc/sysconfig/network-scripts/ifup-eth:203
 msgid " done."
 msgstr " bitti."
 
-#: /etc/rc.d/init.d/NetworkManager:101 /etc/rc.d/init.d/amavisd-snmp:62
-#: /etc/rc.d/init.d/avahi-daemon:102 /etc/rc.d/init.d/avahi-dnsconfd:99
-#: /etc/rc.d/init.d/gadget:86 /etc/rc.d/init.d/haldaemon:71
-#: /etc/rc.d/init.d/ibmasm:95 /etc/rc.d/init.d/innd:135
-#: /etc/rc.d/init.d/ipa_kpasswd:79 /etc/rc.d/init.d/ipa_webgui:75
-#: /etc/rc.d/init.d/kprop:75 /etc/rc.d/init.d/milter-greylist:83
-#: /etc/rc.d/init.d/nasd:83 /etc/rc.d/init.d/ndo2db:96
-#: /etc/rc.d/init.d/netconsole:36 /etc/rc.d/init.d/ohmd:86
-#: /etc/rc.d/init.d/pkcsslotd:83 /etc/rc.d/init.d/sqlgrey:65
-#: /etc/rc.d/init.d/sysklogd:118 /etc/rc.d/init.d/tinyerp-server:122
-#: /etc/rc.d/init.d/xenner:163 /etc/rc.d/init.d/zvbid:62
+#: /etc/rc.d/init.d/amavisd-snmp:62 /etc/rc.d/init.d/avahi-daemon:102
+#: /etc/rc.d/init.d/avahi-dnsconfd:99 /etc/rc.d/init.d/gadget:86
+#: /etc/rc.d/init.d/haldaemon:71 /etc/rc.d/init.d/ibmasm:95
+#: /etc/rc.d/init.d/innd:135 /etc/rc.d/init.d/ipa_kpasswd:79
+#: /etc/rc.d/init.d/ipa_webgui:75 /etc/rc.d/init.d/kprop:83
+#: /etc/rc.d/init.d/milter-greylist:83 /etc/rc.d/init.d/nasd:83
+#: /etc/rc.d/init.d/ndo2db:96 /etc/rc.d/init.d/netconsole:36
+#: /etc/rc.d/init.d/NetworkManager:101 /etc/rc.d/init.d/ohmd:86
+#: /etc/rc.d/init.d/sqlgrey:65 /etc/rc.d/init.d/sysklogd:118
+#: /etc/rc.d/init.d/tinyerp-server:122 /etc/rc.d/init.d/xenner:163
+#: /etc/rc.d/init.d/zvbid:62
 msgid "Usage: $0 {start|stop|status|restart|condrestart}"
 msgstr "Kullanılışı: $0 {start|stop|status|restart|condrestart}"
 
@@ -516,17 +562,17 @@ msgstr "Kullanılışı: $0 {start|stop|status|restart|condrestart}"
 msgid "Stopping Open Hardware Manager: "
 msgstr "HAL servisi durduruluyor: "
 
-#: /etc/rc.d/init.d/ldap:144 /etc/rc.d/init.d/ldap:150
+#: /etc/rc.d/init.d/slapd:163 /etc/rc.d/init.d/slapd:169
 msgid "Checking configuration files for $prog: "
 msgstr ""
 "$prog için yapılandırma dosyaları kontrol ediliyor.Yapılandırma yeniden "
 "yükleniyor: "
 
-#: /etc/rc.d/init.d/halt:44
+#: /etc/rc.d/init.d/halt:62
 msgid "$0: call me as 'halt' or 'reboot' please!"
 msgstr "$0: bunu lütfen 'halt' ya da 'reboot' olarak çalıştırın!"
 
-#: /etc/rc.d/init.d/ypbind:54
+#: /etc/rc.d/init.d/ypbind:65
 #, fuzzy
 msgid "Setting NIS domain: "
 msgstr "NFS başlatılıyor: "
@@ -535,37 +581,27 @@ msgstr "NFS başlatılıyor: "
 msgid "$NAME is attached to $DEVICE"
 msgstr "$NAME $DEVICE'e eklendi"
 
-#: /etc/rc.d/init.d/ypbind:185
-#, fuzzy
-msgid ""
-"Usage: $0 {start|stop|restart|condrestart|try-restart|reload|force-reload|"
-"status}"
-msgstr ""
-"Kullanılışı: $0 {start|stop|status|restart|condrestart|condstop|reload|force-"
-"reload}"
-
-#: /etc/rc.d/init.d/corosync:20
-#, fuzzy
-msgid "Starting Corosync Cluster Engine ($prog): "
-msgstr "$desc başlatılıyor ($prog): "
-
 #: /etc/rc.d/init.d/clement:103
 msgid "Start freshclam"
 msgstr ""
 
 #: /etc/rc.d/init.d/aprsd:45 /etc/rc.d/init.d/cwdaemon:42
-#: /etc/rc.d/init.d/dhcp6r:53 /etc/rc.d/init.d/dhcp6s:65
-#: /etc/rc.d/init.d/dhcpd:96 /etc/rc.d/init.d/dhcrelay:69
-#: /etc/rc.d/init.d/dictd:55 /etc/rc.d/init.d/fnfxd:37
-#: /etc/rc.d/init.d/inadyn:51 /etc/rc.d/init.d/irda:34
-#: /etc/rc.d/init.d/mailman:101 /etc/rc.d/init.d/monit:38
-#: /etc/rc.d/init.d/ntpd:53 /etc/rc.d/init.d/odccm:33
+#: /etc/rc.d/init.d/cyrus-imapd:87 /etc/rc.d/init.d/dhcpd:102
+#: /etc/rc.d/init.d/dhcrelay:73 /etc/rc.d/init.d/dictd:55
+#: /etc/rc.d/init.d/fnfxd:37 /etc/rc.d/init.d/inadyn:51
+#: /etc/rc.d/init.d/irda:34 /etc/rc.d/init.d/mailman:104
+#: /etc/rc.d/init.d/monit:38 /etc/rc.d/init.d/ncidd:40
+#: /etc/rc.d/init.d/ncidsip:43 /etc/rc.d/init.d/netplugd:62
+#: /etc/rc.d/init.d/ntpd:52 /etc/rc.d/init.d/odccm:33
 #: /etc/rc.d/init.d/oddjobd:54 /etc/rc.d/init.d/proftpd:60
-#: /etc/rc.d/init.d/sendmail:111 /etc/rc.d/init.d/sigul_bridge:23
-#: /etc/rc.d/init.d/sigul_server:24 /etc/rc.d/init.d/smartd:62
-#: /etc/rc.d/init.d/ssbd:40 /etc/rc.d/init.d/thebridge:38
-#: /etc/rc.d/init.d/vblade:51 /etc/rc.d/init.d/vncserver:72
-#: /etc/rc.d/init.d/vsftpd:57 /etc/rc.d/init.d/xfs:76
+#: /etc/rc.d/init.d/pyicq-t:34 /etc/rc.d/init.d/sendmail:114
+#: /etc/rc.d/init.d/shmpps:30 /etc/rc.d/init.d/sigul_bridge:23
+#: /etc/rc.d/init.d/sigul_server:24 /etc/rc.d/init.d/sip2ncid:40
+#: /etc/rc.d/init.d/smartd:69 /etc/rc.d/init.d/ssbd:40
+#: /etc/rc.d/init.d/thebridge:38 /etc/rc.d/init.d/vblade:51
+#: /etc/rc.d/init.d/vncserver:81 /etc/rc.d/init.d/vnstat:45
+#: /etc/rc.d/init.d/vsftpd:65 /etc/rc.d/init.d/xfs:76
+#: /etc/rc.d/init.d/yac2ncid:39
 msgid "Shutting down $prog: "
 msgstr "$prog durduruluyor: "
 
@@ -573,10 +609,6 @@ msgstr "$prog durduruluyor: "
 #, fuzzy
 msgid "Reloading acpi daemon:"
 msgstr "Avahi servisi yeniden yükleniyor: "
-
-#: /etc/rc.d/init.d/cyrus-imapd:87
-msgid "$BASENAME importing databases"
-msgstr ""
 
 #: /etc/rc.d/init.d/greylistd:20
 #, fuzzy
@@ -589,8 +621,7 @@ msgstr "AğYöneticisi (NetworkManager) durduruluyor: "
 
 #: /etc/rc.d/init.d/capi:79 /etc/rc.d/init.d/fb-server:76
 #: /etc/rc.d/init.d/greylistd:69 /etc/rc.d/init.d/isdn:281
-#: /etc/rc.d/init.d/isnsd:74 /etc/rc.d/init.d/tgtd:86
-#: /etc/rc.d/init.d/watchdog:84
+#: /etc/rc.d/init.d/isnsd:74 /etc/rc.d/init.d/watchdog:84
 msgid "Usage: $0 {start|stop|restart|status|condrestart}"
 msgstr "Kullanılışı: $0 {start|stop|restart|status|condrestart}"
 
@@ -604,7 +635,7 @@ msgstr "openvpn başlatılıyor: "
 msgid "Stopping Mldonkey (mlnet): "
 msgstr "acpi durduruluyor: "
 
-#: /etc/rc.d/init.d/puppet:36
+#: /etc/rc.d/init.d/puppet:39
 #, fuzzy
 msgid "Starting puppet: "
 msgstr "dund başlatılıyor: "
@@ -614,7 +645,7 @@ msgstr "dund başlatılıyor: "
 msgid "PostgreSQL server is not running."
 msgstr "Avahi servisi çalışmıyor"
 
-#: /etc/rc.d/init.d/halt:60
+#: /etc/rc.d/init.d/halt:87
 msgid "Sending all processes the TERM signal..."
 msgstr "Tüm süreçlere TERM sinyali gönderiliyor..."
 
@@ -646,6 +677,10 @@ msgstr "$prog başlatılıyor: "
 msgid "Shutting down SQLgrey: "
 msgstr "dund durduruluyor: "
 
+#: /etc/rc.d/init.d/ups:53
+msgid "Starting UPS monitor (master): "
+msgstr "UPS (asıl) izleyici başlatılıyor: "
+
 #: /etc/rc.d/init.d/vprocunhide:53
 msgid "/proc entries are not fixed"
 msgstr "/proc girdileri düzeltilmedi"
@@ -654,44 +689,47 @@ msgstr "/proc girdileri düzeltilmedi"
 msgid "Starting ipmi_watchdog driver: "
 msgstr "ipmi_watchdog sürücüsü başlatılıyor"
 
-#: /etc/rc.d/init.d/ktune:106
+#: /etc/rc.d/init.d/ktune:105
 msgid "Applying ktune sysctl settings:"
 msgstr ""
 
-#: /etc/rc.d/init.d/libvirt-qpid:46 /etc/rc.d/init.d/libvirtd:69
+#: /etc/rc.d/init.d/libvirtd:70 /etc/rc.d/init.d/libvirt-qpid:46
 #: /etc/rc.d/init.d/matahari:30
 #, fuzzy
 msgid "Stopping $SERVICE daemon: "
 msgstr "$prog hizmeti durduruluyor: "
 
-#: /etc/rc.d/init.d/named:135
+#: /etc/rc.d/init.d/named:120
 #, fuzzy
 msgid "Starting named: "
 msgstr "dund başlatılıyor: "
 
-#: /etc/rc.d/init.d/nfs:134
+#: /etc/rc.d/init.d/nfs:133
 msgid "Shutting down NFS daemon: "
 msgstr "NFS durduruluyor: "
 
-#: /etc/rc.d/init.d/netfs:114
-msgid "Unmounting NCP filesystems: "
-msgstr "NCP dosya sistemleri ayrılıyor: "
-
-#: /etc/rc.d/init.d/codeanalyst:323
+#: /etc/rc.d/init.d/ctdb:280
 #, fuzzy
-msgid ""
-"Usage: $0 {start|stop|restart|status|condrestart|try-restart|reload|force-"
-"reload}"
-msgstr ""
-"Kullanılışı:$0 {start|stop|status|restart|try-restart|reload|force-reload}"
+msgid "ctdb is stopped"
+msgstr "cardmgr durduruldu"
+
+#: /etc/rc.d/init.d/condor:65
+#, fuzzy
+msgid "Reloading Condor daemons: "
+msgstr "Avahi servisi yeniden yükleniyor: "
 
 #: /etc/rc.d/init.d/tclhttpd:46
 msgid "$base (pid $pid) is running..."
 msgstr "$base ($pid numaralı süreç) çalışıyor..."
 
-#: /etc/rc.d/init.d/postfix:84
+#: /etc/rc.d/init.d/postfix:88
 msgid "Shutting down postfix: "
 msgstr "$postfix durduruluyor: "
+
+#: /etc/rc.d/init.d/mailman:115
+#, fuzzy
+msgid "$prog already stopped."
+msgstr "$prog: zaten çalışıyor."
 
 #: /etc/rc.d/init.d/innd:99
 msgid "Reloading INN Service: "
@@ -744,7 +782,7 @@ msgstr "$prog durduruluyor: "
 msgid "Detaching loopback device $dev: "
 msgstr "$dev loopback aygıtı ayrılıyor: "
 
-#: /etc/rc.d/init.d/spamass-milter:109
+#: /etc/rc.d/init.d/spamass-milter:109 /etc/rc.d/init.d/vsftpd:98
 #, fuzzy
 msgid "Usage: $0 {start|stop|restart|try-restart|force-reload|status}"
 msgstr ""
@@ -770,18 +808,18 @@ msgstr "HAL servisi durduruluyor: "
 msgid "Stopping Perlbal: "
 msgstr "acpi durduruluyor: "
 
-#: /etc/rc.d/init.d/bluetooth:40 /etc/rc.d/init.d/dkms_autoinstaller:206
-#: /etc/rc.d/init.d/firstboot:78 /etc/rc.d/init.d/xguest:57
+#: /etc/rc.d/init.d/dkms_autoinstaller:206 /etc/rc.d/init.d/firstboot:41
+#: /etc/rc.d/init.d/sandbox:57
 msgid "Usage: $0 {start|stop}"
 msgstr "Kullanılışı: $0 {start|stop}"
 
-#: /etc/rc.d/init.d/dansguardian:28 /etc/rc.d/init.d/ebtables:42
+#: /etc/rc.d/init.d/dansguardian:28 /etc/rc.d/init.d/ebtables:43
 #: /etc/rc.d/init.d/mon:26 /etc/rc.d/init.d/partimaged:36
 msgid "Starting $desc ($prog): "
 msgstr "$desc başlatılıyor ($prog): "
 
-#: /etc/rc.d/init.d/shorewall:50 /etc/rc.d/init.d/shorewall-lite:50
-#: /etc/rc.d/init.d/shorewall6:50 /etc/rc.d/init.d/shorewall6-lite:50
+#: /etc/rc.d/init.d/shorewall:50 /etc/rc.d/init.d/shorewall6:50
+#: /etc/rc.d/init.d/shorewall6-lite:50 /etc/rc.d/init.d/shorewall-lite:50
 #, fuzzy
 msgid "Stopping Shorewall: "
 msgstr "acpi durduruluyor: "
@@ -791,12 +829,12 @@ msgstr "acpi durduruluyor: "
 msgid "${IPTABLES}: Setting chains to policy $policy: "
 msgstr "$policy için zincir ayarlanıyor:"
 
-#: /etc/rc.d/init.d/fsniper:49 /etc/rc.d/init.d/radvd:69
+#: /etc/rc.d/init.d/fsniper:49 /etc/rc.d/init.d/radvd:75
 #, fuzzy
 msgid "Reloading $PROG: "
 msgstr "$prog yeniden yükleniyor: "
 
-#: /etc/rc.d/init.d/microcode_ctl:40
+#: /etc/rc.d/init.d/microcode_ctl:36
 msgid "$0: CPU microcode data file not present ($DATAFILE)"
 msgstr "$0: İşlemci microcode bilgi dosyası bulunamadı ($DATAFILE)"
 
@@ -813,12 +851,12 @@ msgstr "$prog çalışmıyor"
 msgid "\t-y \t\t: answer yes for all questions."
 msgstr ""
 
-#: /etc/rc.d/init.d/puppet:75
+#: /etc/rc.d/init.d/puppet:80
 #, fuzzy
 msgid "Generate configuration puppet: "
 msgstr "Yapılandırma yeniden yükleniyor: "
 
-#: /etc/rc.d/init.d/ctdb:231
+#: /etc/rc.d/init.d/ctdb:266
 #, fuzzy
 msgid "Checking for ctdbd service: "
 msgstr "Şu anda SMART aygıtlar kontrol ediliyor: "
@@ -828,11 +866,19 @@ msgstr "Şu anda SMART aygıtlar kontrol ediliyor: "
 msgid "restarting $prog..."
 msgstr "$prog yeniden başlatılıyor: "
 
-#: /etc/rc.d/init.d/psacct:22
+#: /etc/rc.d/init.d/psacct:26
 msgid "Starting process accounting: "
 msgstr "Süreç hesapları başlatılıyor: "
 
-#: /etc/rc.d/init.d/ypxfrd:22
+#: /etc/rc.d/init.d/zarafa-server:130
+#, fuzzy
+msgid ""
+"Usage: $server {start|stop|status|reload|restart|condrestart|force-reload|"
+"try-restart}"
+msgstr ""
+"Kullanılışı: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
+
+#: /etc/rc.d/init.d/ypxfrd:32
 msgid "Starting YP map server: "
 msgstr "YP map sunucusu başlatılıyor: "
 
@@ -873,7 +919,7 @@ msgstr ""
 msgid "(no mouse is configured)"
 msgstr "(fare yapılandırılmamış)"
 
-#: /etc/rc.d/rc.sysinit:84
+#: /etc/rc.d/rc.sysinit:83
 msgid "*** Relabeling could take a very long time, depending on file"
 msgstr ""
 
@@ -882,46 +928,47 @@ msgstr ""
 msgid "Starting $prog2: "
 msgstr "$prog başlatılıyor: "
 
-#: /etc/rc.d/init.d/pgpool:120
+#: /etc/rc.d/init.d/pgpool:134
 msgid "Sending switchover request to $NAME "
 msgstr ""
 
 #: /etc/rc.d/init.d/gkrellmd:70 /etc/rc.d/init.d/gpsd:85
-#: /etc/rc.d/init.d/hddtemp:79 /etc/rc.d/init.d/vdr:96
+#: /etc/rc.d/init.d/hddtemp:86 /etc/rc.d/init.d/vdr:96
 msgid "Service $prog does not support the reload action: "
 msgstr ""
 
-#: /etc/rc.d/init.d/ypbind:34
-msgid "Turning on allow_ypbind SELinux boolean"
-msgstr ""
+#: /etc/rc.d/init.d/rhnsd:96
+#, fuzzy
+msgid "Reloading Red Hat Network Daemon: "
+msgstr "Red Hat Ağ Hizmeti artalanda durduruluyor: "
 
 #: /etc/sysconfig/network-scripts/ifup-ppp:142
 msgid "pppd started for ${DEVNAME} on ${MODEMPORT} at ${LINESPEED}"
 msgstr "pppd ${DEVNAME} için ${MODEMPORT} 'unda ${LINESPEED} hızında başladı"
 
-#: /etc/rc.d/init.d/dcbd:246
+#: /etc/rc.d/init.d/dcbd:251 /etc/rc.d/init.d/dcbd:255
 #, fuzzy
 msgid "Usage: $0 {start|stop|status|try-restart|restart|force-reload|reload}"
 msgstr ""
 "Kullanılışı:$0 {start|stop|status|restart|try-restart|reload|force-reload}"
 
-#: /etc/rc.d/init.d/apmd:59
-msgid "Shutting down APM daemon: "
-msgstr "APM artalanda durduruluyor: "
+#: /etc/rc.d/init.d/sendmail:96
+msgid "reloading sm-client: "
+msgstr "sm-client yeniden yükleniyor: "
 
-#: /etc/rc.d/init.d/athcool:68 /etc/rc.d/init.d/crossfire:98
-#: /etc/rc.d/init.d/ctrlproxy:108 /etc/rc.d/init.d/ddclient:77
-#: /etc/rc.d/init.d/distccd:108 /etc/rc.d/init.d/flow-capture:109
-#: /etc/rc.d/init.d/gnokii-smsd:73 /etc/rc.d/init.d/haproxy:107
-#: /etc/rc.d/init.d/icecc-scheduler:110 /etc/rc.d/init.d/iceccd:126
+#: /etc/rc.d/init.d/crossfire:98 /etc/rc.d/init.d/ctrlproxy:108
+#: /etc/rc.d/init.d/ddclient:77 /etc/rc.d/init.d/distccd:108
+#: /etc/rc.d/init.d/flow-capture:109 /etc/rc.d/init.d/gnokii-smsd:73
+#: /etc/rc.d/init.d/haproxy:107 /etc/rc.d/init.d/hostapd:86
+#: /etc/rc.d/init.d/iceccd:126 /etc/rc.d/init.d/icecc-scheduler:110
 #: /etc/rc.d/init.d/liquidwar-server:93 /etc/rc.d/init.d/lirc:131
-#: /etc/rc.d/init.d/named:279 /etc/rc.d/init.d/nessusd:86
-#: /etc/rc.d/init.d/openct:85 /etc/rc.d/init.d/pathfinderd:105
+#: /etc/rc.d/init.d/named:264 /etc/rc.d/init.d/nessusd:86
+#: /etc/rc.d/init.d/openct:87 /etc/rc.d/init.d/pathfinderd:105
 #: /etc/rc.d/init.d/pcscd:82 /etc/rc.d/init.d/plague-builder:98
-#: /etc/rc.d/init.d/plague-server:99 /etc/rc.d/init.d/rinetd:81
-#: /etc/rc.d/init.d/sgemaster:386 /etc/rc.d/init.d/tetrinetx:100
-#: /etc/rc.d/init.d/wesnothd:104 /etc/rc.d/init.d/wpa_supplicant:87
-#: /etc/rc.d/init.d/xpilot-ng-server:100
+#: /etc/rc.d/init.d/plague-server:99 /etc/rc.d/init.d/radvd:88
+#: /etc/rc.d/init.d/rinetd:81 /etc/rc.d/init.d/sgemaster:386
+#: /etc/rc.d/init.d/tetrinetx:100 /etc/rc.d/init.d/wesnothd:104
+#: /etc/rc.d/init.d/wpa_supplicant:87 /etc/rc.d/init.d/xpilot-ng-server:100
 msgid "Usage: $0 {start|stop|status|restart|try-restart|reload|force-reload}"
 msgstr ""
 "Kullanılışı:$0 {start|stop|status|restart|try-restart|reload|force-reload}"
@@ -935,21 +982,22 @@ msgstr ""
 msgid "Starting Avahi daemon... "
 msgstr "NFS başlatılıyor: "
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:651
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:551
 msgid "Given address '$addr' is not a valid IPv4 one (arg 1)"
 msgstr ""
 "Verilen $addr adresi kurallara uygun bir IPv4 adresi değil. (argüman 1)"
-
-#: /etc/rc.d/init.d/cyrus-imapd:105
-msgid "Shutting down $BASENAME: "
-msgstr "$BASENAME durduruluyor: "
 
 #: /etc/rc.d/init.d/pound:29
 #, fuzzy
 msgid "Stopping Pound: "
 msgstr "hpiod durduruluyor: "
 
-#: /etc/rc.d/init.d/netfs:120
+#: /etc/rc.d/init.d/zarafa-ical:54
+#, fuzzy
+msgid "Stopping $ical: "
+msgstr "$prog durduruluyor: "
+
+#: /etc/rc.d/init.d/netfs:122
 msgid "Configured NFS mountpoints: "
 msgstr "Yapılandırılmış NFS bağlantı noktaları: "
 
@@ -958,21 +1006,17 @@ msgstr "Yapılandırılmış NFS bağlantı noktaları: "
 msgid "Starting Pound: "
 msgstr "dund başlatılıyor: "
 
-#: /etc/rc.d/init.d/halt:107
+#: /etc/rc.d/init.d/halt:137
 msgid "Unmounting pipe file systems: "
 msgstr "Pipe dosya sistemleri ayrılıyor: "
 
-#: /etc/rc.d/rc:40
-msgid "Entering interactive startup"
-msgstr "Etkileşimli açılış başlatılıyor"
+#: /etc/rc.d/init.d/ktune:202
+msgid "Current ktune sysctl settings:"
+msgstr ""
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:823
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:723
 msgid "Missing parameter 'IPv4-tunnel address' (arg 2)"
 msgstr "Eksik parametre IPv4-tunnel adresi' (arg 2)"
-
-#: /etc/rc.d/init.d/mcstrans:108
-msgid "Usage: $0 {start|stop|status|restart|condrestart|reload|rotate}"
-msgstr "Kullanılışı: $0 {start|stop|status|restart|condrestart|reload|rotate}"
 
 #: /etc/rc.d/init.d/xfs:143
 msgid "Usage: $prog {start|stop|status|restart|reload|condrestart}"
@@ -983,17 +1027,9 @@ msgstr "Kullanılışı: $prog {start|stop|status|restart|reload|condrestart}"
 msgid "Starting distributed compiler scheduler: "
 msgstr "\"router discovery\" başlatılıyor:"
 
-#: /etc/rc.d/init.d/ktune:200
-msgid "Current elevator settings:"
-msgstr ""
-
 #: /etc/rc.d/init.d/systemtap:160
 msgid "parse error"
 msgstr ""
-
-#: /etc/rc.d/init.d/microcode_ctl:58
-msgid "$0: $DEVICE not a character device?"
-msgstr "$0: $DEVICE bir karakter aygıtı değil mi?"
 
 #: /etc/rc.d/init.d/modclusterd:99 /etc/rc.d/init.d/ricci:179
 msgid "Starting $ID: "
@@ -1003,21 +1039,21 @@ msgstr "$ID başlatılıyor: "
 msgid "error in $FILE: IPADDR_START and IPADDR_END don't agree"
 msgstr "$FILE dosyasında hata: IPADDR_START ve IPADDR_END bağdaşmıyor"
 
-#: /etc/rc.d/init.d/nfs:207
+#: /etc/rc.d/init.d/nfs:206
 #, fuzzy
 msgid "Usage: nfs {start|stop|status|restart|reload|condrestart|condstop}"
 msgstr "Kullanılışı: nfs {start|stop|status|restart|reload|condrestart}"
 
-#: /etc/rc.d/init.d/restorecond:85
-msgid "Usage: $0 {start|stop|restart|reload|condrestart}"
-msgstr "Kullanılışı: $0 {start|stop|restart|reload|condrestart}"
+#: /usr/sbin/sys-unconfig:6
+msgid "Usage: sys-unconfig"
+msgstr ""
 
-#: /etc/rc.d/init.d/netfs:148
+#: /etc/rc.d/init.d/netfs:150
 #, fuzzy
 msgid "Active network block devices: "
 msgstr "Ağ blok dosya sistemleri ayrılıyor: "
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:1151
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:1051
 msgid "Given IPv6 default device '$device' doesn't exist or isn't up"
 msgstr "Verilen IPv6 öntanımlı aygıtı '$device' yok veya çalışmıyor"
 
@@ -1029,7 +1065,7 @@ msgstr "adsl-start yok, veya ${DEVICE} için çalıştırılabilir değil."
 msgid "Shutting down $prog"
 msgstr "$prog durduruluyor"
 
-#: /etc/rc.d/init.d/rsyslog:37 /etc/rc.d/init.d/sysklogd:40
+#: /etc/rc.d/init.d/rsyslog:42 /etc/rc.d/init.d/sysklogd:40
 msgid "Starting system logger: "
 msgstr "Sistem günlüğü başlatılıyor: "
 
@@ -1038,7 +1074,11 @@ msgstr "Sistem günlüğü başlatılıyor: "
 msgid "Usage: $progname {start|stop|restart|condrestart|status}"
 msgstr "Kullanılışı: $prog {start|stop|restart|condrestart|status|help}"
 
-#: /etc/rc.d/init.d/pkcsslotd:50
+#: /etc/rc.d/init.d/vblade:29
+msgid "$4 (e$2.$3@$1) [pid $pid]"
+msgstr ""
+
+#: /etc/rc.d/init.d/pkcsslotd:51
 #, fuzzy
 msgid "Shutting down pkcsslotd:"
 msgstr "$postfix durduruluyor: "
@@ -1066,18 +1106,30 @@ msgstr ""
 "Kullanılışı: $0 {start|stop|status|restart|condrestart|condstop|reload|force-"
 "reload}"
 
-#: /etc/rc.d/init.d/netconsole:100
+#: /etc/rc.d/init.d/netconsole:101
 #, fuzzy
 msgid "Disabling netconsole"
 msgstr "netconsole devre dışı bırakılıyor"
 
-#: /etc/rc.d/init.d/httpd:76
+#: /etc/rc.d/init.d/ctdb:169
+#, fuzzy
+msgid "Starting ctdbd service: "
+msgstr "NFS hizmetleri başlatılıyor: "
+
+#: /etc/rc.d/init.d/httpd:76 /etc/rc.d/init.d/pki-rad:963
+#: /etc/rc.d/init.d/pki-tpsd:987
 msgid "not reloading due to configuration syntax error"
 msgstr "sözdizim hatası sebebiyle yeniden başlatılamıyor"
 
-#: /etc/rc.d/init.d/vblade:29
-msgid "$4 (e$2.$3@$1) [pid $pid]"
-msgstr ""
+#: /etc/rc.d/init.d/ncidd:83 /etc/rc.d/init.d/ncid-hangup:88
+#: /etc/rc.d/init.d/ncid-kpopup:89 /etc/rc.d/init.d/ncid-mythtv:89
+#: /etc/rc.d/init.d/ncid-page:90 /etc/rc.d/init.d/ncid-samba:89
+#: /etc/rc.d/init.d/ncidsip:87 /etc/rc.d/init.d/ncid-speak:89
+#: /etc/rc.d/init.d/ncid-yac:75 /etc/rc.d/init.d/sip2ncid:84
+#: /etc/rc.d/init.d/yac2ncid:83
+#, fuzzy
+msgid "Usage: $prog {start|stop|reload|restart|condrestart|status}"
+msgstr "Kullanılışı: $prog {start|stop|restart|condrestart|status|help}"
 
 #: /etc/rc.d/init.d/auditd:120
 #, fuzzy
@@ -1089,11 +1141,11 @@ msgstr "$prog yeniden başlatılıyor: "
 msgid "Failed to stop \"$s\". "
 msgstr "${DEVICE} etkinleştirilemedi."
 
-#: /etc/rc.d/init.d/network:262
+#: /etc/rc.d/init.d/network:259
 msgid "Shutting down loopback interface: "
 msgstr "loopback arayüzü durduruluyor: "
 
-#: /etc/rc.d/init.d/icecast:22
+#: /etc/rc.d/init.d/icecast:30
 #, fuzzy
 msgid "Starting icecast streaming daemon: "
 msgstr "AğYöneticisi (NetworkManager) başlatılıyor: "
@@ -1113,23 +1165,29 @@ msgstr "$desc başlatılıyor ($prog): "
 msgid "Usage: $prog {start|stop|status|restart|try-restart}"
 msgstr "Kullanılışı: $0 {start|stop|status|restart|condrestart}"
 
-#: /etc/rc.d/rc.sysinit:85
-msgid "*** system size and speed of hard drives."
-msgstr ""
+#: /etc/rc.d/init.d/mpdscribble:57
+msgid "Usage: $0 {condrestart|start|stop|restart|reload|status}"
+msgstr "Kullanılışı: $0 {condrestart|start|stop|restart|reload|status}"
 
 #: /etc/rc.d/init.d/sysklogd:44
 msgid "Starting kernel logger: "
 msgstr "Çekirdek günlüğü başlatılıyor: "
 
-#: /etc/rc.d/init.d/util-vserver:77
-msgid "Killing all running contexts"
-msgstr ""
+#: /etc/rc.d/init.d/transmission-daemon:64
+#, fuzzy
+msgid "Shutting down ${NAME}: "
+msgstr "$BASENAME durduruluyor: "
 
-#: /etc/event.d/rc1:27 /etc/event.d/rc1.rpmnew:27
+#: /etc/rc.d/init.d/lvm2-monitor:115
+#, fuzzy
+msgid "Usage: $0 {start|stop|restart|status|force-stop}"
+msgstr "Kullanılışı: $0 {start|stop|restart|status|condrestart}"
+
+#: /etc/rc.d/init.d/single:23
 msgid "Telling INIT to go to single user mode."
 msgstr "INIT tek kullanıcı kipine alınıyor."
 
-#: /etc/rc.d/init.d/sagator:39
+#: /etc/rc.d/init.d/sagator:43
 #, fuzzy
 msgid "Starting $name: "
 msgstr "dund başlatılıyor: "
@@ -1143,11 +1201,11 @@ msgstr ""
 msgid "Usage: ifup <device name>"
 msgstr "Kullanılışı: ifup <aygıt ismi>"
 
-#: /etc/rc.d/init.d/bcfg2:118
-msgid "1"
+#: /etc/rc.d/init.d/util-vserver:83
+msgid "Mounting cgroup-hierarchy"
 msgstr ""
 
-#: /etc/rc.d/init.d/ebtables:141
+#: /etc/rc.d/init.d/ebtables:149
 #, fuzzy
 msgid "Usage $0 {start|stop|restart|condrestart|save|status}"
 msgstr "Kullanılışı: $0 {start|stop|restart|condrestart|status}"
@@ -1161,6 +1219,10 @@ msgstr "acpi başlatılıyor: "
 #, fuzzy
 msgid "Usage: ${IP6TABLES} {start|stop|restart|condrestart|status|panic|save}"
 msgstr "Kullanılışı: $0 {start|stop|restart|condrestart|status|panic|save}"
+
+#: /etc/rc.d/rc.sysinit:404
+msgid "*** Warning -- the system did not shut down cleanly. "
+msgstr ""
 
 #: /etc/rc.d/init.d/mongrel_cluster:73
 #, fuzzy
@@ -1191,21 +1253,21 @@ msgstr "kullanımı: ifdown <aygıt ismi>"
 msgid "Stopping smokeping: "
 msgstr "NFS kilitleme durduruluyor: "
 
-#: /etc/rc.d/init.d/ctdb:143
+#: /etc/rc.d/init.d/ctdb:172
 #, fuzzy
 msgid "CTDB is already running"
 msgstr "$prog: zaten çalışıyor"
 
-#: /etc/rc.d/init.d/i8k:26
+#: /etc/ppp/ip-up.ipv6to4:186
 #, fuzzy
-msgid "Loading $module kernel module: "
-msgstr "Öntanımlı klavye eşlemi yükleniyor: "
+msgid "Error occured while calculating the IPv6to4 prefix"
+msgstr "IPv6to4 öneki hesaplanırken hata oluştu"
 
-#: /etc/rc.d/init.d/openvpn:112
+#: /etc/rc.d/init.d/openvpn:125
 msgid "Starting openvpn: "
 msgstr "openvpn başlatılıyor: "
 
-#: /etc/rc.d/init.d/postfix:96
+#: /etc/rc.d/init.d/postfix:100
 msgid "$prog reload"
 msgstr "$prog yeniden yükle"
 
@@ -1214,17 +1276,20 @@ msgstr "$prog yeniden yükle"
 msgid "Stopping MogileFS tracker daemon: "
 msgstr "acpi durduruluyor: "
 
+#: /etc/rc.d/rc.sysinit:84
+msgid "*** system size and speed of hard drives."
+msgstr ""
+
 #: /etc/rc.d/init.d/unbound:66
 #, fuzzy
 msgid "Starting unbound: "
 msgstr "dund başlatılıyor: "
 
-#: /etc/sysconfig/network-scripts/ifup-eth:69
-#, fuzzy
-msgid "Tap support not available: tunctl not found"
-msgstr "Köprü desteği mevcut değil: brctl bulunmadı"
+#: /etc/rc.d/init.d/sec:64
+msgid "Dumping state of $prog in /tmp/sec.dump: "
+msgstr ""
 
-#: /etc/rc.d/init.d/ypbind:70
+#: /etc/rc.d/init.d/ypbind:81
 #, fuzzy
 msgid "Starting NIS service: "
 msgstr "NFS hizmetleri başlatılıyor: "
@@ -1234,38 +1299,42 @@ msgid "Failed to run \"$s\". ($ret)"
 msgstr ""
 
 #: /etc/rc.d/init.d/dropbear:36 /etc/rc.d/init.d/dropbear:39
-#: /etc/rc.d/init.d/sshd:77 /etc/rc.d/init.d/sshd:80
+#: /etc/rc.d/init.d/sshd:79 /etc/rc.d/init.d/sshd:82
 msgid "RSA key generation"
 msgstr "RSA anahtar üretimi"
+
+#: /etc/rc.d/init.d/zvbid:32
+#, fuzzy
+msgid "Stopping vbi proxy daemon: "
+msgstr "$prog hizmeti durduruluyor: "
 
 #: /etc/rc.d/init.d/pure-ftpd:81
 msgid "Usage: pure-ftpd {start|stop|restart|reload|condrestart|status}"
 msgstr "Kullanılışı: pure-ftpd {start|stop|restart|reload|condrestart|status}"
 
-#: /etc/rc.d/init.d/xenner:100
-#, fuzzy
-msgid "Stopping xenner daemons"
-msgstr "HAL servisi durduruluyor: "
+#: /etc/rc.d/init.d/util-vserver:97
+msgid "Killing all running contexts"
+msgstr ""
 
-#: /etc/rc.d/init.d/halt:98
+#: /etc/rc.d/init.d/halt:128
 msgid "Turning off quotas: "
 msgstr "Kotalar kapatılıyor: "
 
-#: /etc/rc.d/init.d/nginx:92
-msgid "Graceful shutdown of old $prog: "
-msgstr ""
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:1167
+msgid "Pidfile '$pidfile' is empty, cannot send trigger to radvd"
+msgstr "Pidfile '$pidfile' boş, radvd 'ye tetikleme bilgisi gönderilemiyor"
 
 #: /etc/rc.d/init.d/iptables:183
 #, fuzzy
 msgid "${IPTABLES}: Applying firewall rules: "
 msgstr "$IPTABLES güvenlik duvarı kuralları uygulanıyor: "
 
-#: /etc/rc.d/init.d/named:137
+#: /etc/rc.d/init.d/named:122
 #, fuzzy
 msgid "named: already running"
 msgstr "$prog: zaten çalışıyor."
 
-#: /etc/rc.d/init.d/netfs:39
+#: /etc/rc.d/init.d/netfs:40
 msgid "Mounting NFS filesystems: "
 msgstr "NFS dosya sistemleri bağlanıyor: "
 
@@ -1273,9 +1342,11 @@ msgstr "NFS dosya sistemleri bağlanıyor: "
 msgid "Starting NetworkManager daemon: "
 msgstr "AğYöneticisi (NetworkManager) başlatılıyor: "
 
-#: /etc/rc.d/rc.sysinit:68
-msgid "*** Warning -- SELinux ${SELINUXTYPE} policy relabel is required. "
-msgstr ""
+#: /etc/rc.d/init.d/ospf6d:67 /etc/rc.d/init.d/ospfd:67
+#, fuzzy
+msgid ""
+"Usage: $PROG {start|stop|restart|reload|force-reload|try-restart|status}"
+msgstr "Kullanılışı: $0 {start|stop|reload|report|restart|status}"
 
 #: /etc/rc.d/init.d/fb-server:42
 #, fuzzy
@@ -1289,7 +1360,12 @@ msgid ""
 "be expected); aborting..."
 msgstr ""
 
-#: /etc/rc.d/init.d/puppet:107
+#: /etc/rc.d/init.d/ctdb:277
+#, fuzzy
+msgid "ctdb dead but subsys locked"
+msgstr "${base} ölü durumda ama subsys kilitli"
+
+#: /etc/rc.d/init.d/puppet:112
 #, fuzzy
 msgid ""
 "Usage: $0 {start|stop|status|restart|reload|force-reload|condrestart|once|"
@@ -1305,16 +1381,16 @@ msgstr "IPv6to4 öneki hesaplanırken hata oluştu"
 msgid "Saving current rules to $ARPTABLES_CONFIG"
 msgstr "Mevcut kurallar $ARPTABLES_CONFIG altında kaydediliyor"
 
-#: /etc/rc.d/init.d/ktune:192
-msgid "Current ktune sysctl settings:"
+#: /etc/rc.d/init.d/firehol:5604 /etc/rc.d/init.d/firehol:5627
+msgid "FireHOL: Blocking all communications:"
 msgstr ""
 
-#: /etc/rc.d/init.d/tgtd:42
+#: /etc/rc.d/init.d/zarafa-monitor:69
 #, fuzzy
-msgid "Stopping SCSI target daemon: "
-msgstr "acpi durduruluyor: "
+msgid "Restarting $monitor: "
+msgstr "$prog yeniden başlatılıyor: "
 
-#: /etc/rc.d/init.d/named:245
+#: /etc/rc.d/init.d/named:234
 #, fuzzy
 msgid "$named reload"
 msgstr "$named reload"
@@ -1328,7 +1404,7 @@ msgstr "YP sunucu hizmetleri başlatılıyor: "
 msgid "Entering non-interactive startup"
 msgstr "Etkileşimsiz açılış başlıyor"
 
-#: /etc/rc.d/init.d/network:87
+#: /etc/rc.d/init.d/network:88
 msgid "No 802.1Q VLAN support available in kernel."
 msgstr "Çekirdekte 802.1Q VLAN desteği yok."
 
@@ -1354,12 +1430,17 @@ msgstr "BitTorrent izleyici başlatılıyor: "
 msgid "ERROR: [ipv6_log] Cannot log to channel '$channel'"
 msgstr "HATA: [ipv6_log] '$channel' kanalı günlüğe kaydedilemedi"
 
-#: /etc/rc.d/init.d/abrt:52
+#: /etc/rc.d/init.d/sgemaster:323
+#, fuzzy
+msgid "Stopping $master_prog: "
+msgstr "$prog durduruluyor: "
+
+#: /etc/rc.d/init.d/abrtd:53
 #, fuzzy
 msgid "Stopping abrt daemon: "
 msgstr "acpi durduruluyor: "
 
-#: /etc/rc.d/init.d/kadmin:69 /etc/rc.d/init.d/krb5kdc:54
+#: /etc/rc.d/init.d/kadmin:77 /etc/rc.d/init.d/krb5kdc:62
 msgid "Reopening $prog log file: "
 msgstr "$prog günlük dosyası yeniden açılıyor: "
 
@@ -1387,7 +1468,7 @@ msgstr "smb.conf dosyası yeniden yükleniyor: "
 msgid "Stopping capi4linux:"
 msgstr "acpi durduruluyor: "
 
-#: /etc/rc.d/init.d/ups:79
+#: /etc/rc.d/init.d/ups:80
 #, fuzzy
 msgid "Shutting down upsdrvctl: "
 msgstr "pand durduruluyor: "
@@ -1401,7 +1482,7 @@ msgstr ""
 msgid "Starting ZABBIX agent: "
 msgstr "HAL servisi başlatılıyor: "
 
-#: /etc/rc.d/init.d/halt:145
+#: /etc/rc.d/init.d/halt:183
 msgid "$message"
 msgstr "$message"
 
@@ -1410,32 +1491,42 @@ msgid "Stopping INNFeed service: "
 msgstr "INNFeed hizmeti durduruluyor: "
 
 #: /etc/sysconfig/network-scripts/ifup-eth:48
-#: /etc/sysconfig/network-scripts/ifup-ib:42
 msgid "Device ${DEVICE} has different MAC address than expected, ignoring."
 msgstr "${DEVICE} aygıtının MAC adresi beklenenden farklı, yoksayılıyor."
 
-#: /etc/rc.d/init.d/psacct:56
+#: /etc/rc.d/init.d/psacct:59
 msgid "Process accounting is enabled."
 msgstr "Süreç hesapları etkinleştirildi."
 
-#: /etc/sysconfig/network-scripts/ifup-eth:205
-#: /etc/sysconfig/network-scripts/ifup-ib:167
+#: /etc/rc.d/init.d/cups:140
+#, fuzzy
+msgid ""
+"Usage: $prog {start|stop|restart|condrestart|try-restart|reload|force-reload|"
+"status}"
+msgstr ""
+"Kullanılışı: $0 {start|stop|status|restart|condrestart|condstop|reload|force-"
+"reload}"
+
+#: /etc/sysconfig/network-scripts/ifup-eth:192
 msgid "Determining IP information for ${DEVICE}..."
 msgstr "${DEVICE} için IP bilgisi saptanıyor..."
 
-#: /etc/rc.d/init.d/pgbouncer:85 /etc/rc.d/init.d/pgpool:105
-#: /etc/rc.d/init.d/postgresql:197 /etc/rc.d/init.d/sepostgresql:99
+#: /etc/rc.d/init.d/pgbouncer:83 /etc/rc.d/init.d/pgpool:119
+#: /etc/rc.d/init.d/postgresql:200 /etc/rc.d/init.d/sepostgresql:98
 msgid "Stopping ${NAME} service: "
 msgstr "${NAME} hizmeti durduruluyor: "
+
+#: /etc/rc.d/init.d/xenner:100
+#, fuzzy
+msgid "Stopping xenner daemons"
+msgstr "HAL servisi durduruluyor: "
 
 #: /etc/rc.d/init.d/monotone:73
 msgid "Moving"
 msgstr ""
 
-#: /etc/rc.d/init.d/cyrus-imapd:89
-msgid ""
-"$BASENAME error importing databases, check ${CONFIGDIRECTORY}/rpm/db_import."
-"log"
+#: /etc/rc.d/init.d/systemtap:500 /etc/rc.d/init.d/systemtap:591
+msgid "Failed to make cache directory ($CACHE_PATH)"
 msgstr ""
 
 #: /etc/rc.d/init.d/xenconsoled:58
@@ -1450,7 +1541,7 @@ msgstr "NFS başlatılıyor: "
 msgid "$base startup"
 msgstr "$base başlat"
 
-#: /etc/rc.d/init.d/sshd:58 /etc/rc.d/init.d/sshd:61
+#: /etc/rc.d/init.d/sshd:59 /etc/rc.d/init.d/sshd:62
 msgid "RSA1 key generation"
 msgstr "RSA1 anahtar yaratımı"
 
@@ -1471,19 +1562,22 @@ msgstr "hpssd başlatılıyor: "
 msgid "$0: Link is down"
 msgstr "$0: Bağ etkin değil"
 
-#: /etc/rc.d/init.d/psacct:58
+#: /etc/rc.d/init.d/ktune:198
+msgid "ktune settings are not applied."
+msgstr ""
+
+#: /etc/rc.d/init.d/psacct:61
 msgid "Process accounting is disabled."
 msgstr "İşlem hesapları kapalı."
 
-#: /etc/rc.d/init.d/ratbox-services:79
+#: /etc/rc.d/init.d/ircd:88 /etc/rc.d/init.d/ratbox-services:79
 #, fuzzy
 msgid "Usage: $0 {start|stop|restart|condrestart|reload|rehash|status}"
 msgstr "Kullanılışı: $0 {start|stop|restart|condrestart|reload|status}"
 
-#: /etc/rc.d/init.d/xend:43
-#, fuzzy
-msgid "Stopping xend daemon: "
-msgstr "HAL servisi durduruluyor: "
+#: /etc/rc.d/init.d/firstboot:47
+msgid "ERROR: Only root can run firstboot"
+msgstr ""
 
 #: /etc/rc.d/init.d/ejabberd:31
 #, fuzzy
@@ -1494,13 +1588,16 @@ msgstr "dund başlatılıyor: "
 msgid "$0: configuration for ${1} not found."
 msgstr "$0: ${1} için yapılandırma bulunamadı."
 
+#: /etc/rc.d/rc.sysinit:193
+msgid "$dst: no value for hash option, skipping"
+msgstr ""
+
 #: /etc/rc.d/init.d/syslog-ng:54
 #, fuzzy
 msgid "Starting syslog-ng: "
 msgstr "Sistem günlüğü başlatılıyor: "
 
-#: /etc/rc.d/init.d/auditd:104 /etc/rc.d/init.d/mcstrans:72
-#: /etc/rc.d/init.d/sec:53 /etc/rc.d/init.d/xinetd:96
+#: /etc/rc.d/init.d/auditd:104 /etc/rc.d/init.d/xinetd:102
 msgid "Reloading configuration: "
 msgstr "Yapılandırma yeniden yükleniyor: "
 
@@ -1510,22 +1607,31 @@ msgstr ""
 
 #: /etc/rc.d/init.d/clement:68
 #, fuzzy
-msgid "Preparing $PROG certificate: "
+msgid "Preparing $PROG certificat: "
 msgstr "$PRIVOXY_PRG başlatılıyor: "
 
-#: /etc/rc.d/init.d/netfs:124
+#: /etc/rc.d/init.d/netfs:126
 msgid "Configured CIFS mountpoints: "
 msgstr "Yapılandırılmış CIFS bağlantı noktaları: "
+
+#: /etc/rc.d/init.d/dhcpd6:105
+#, fuzzy
+msgid "Shutting down $prog (DHCPv6): "
+msgstr "$prog durduruluyor: "
 
 #: /etc/rc.d/init.d/innd:40
 msgid "Please run makehistory and/or makedbz before starting innd."
 msgstr "innd başlatılmadan önce lütfen makehistory ve/veya makedbz çalıştırın."
 
-#: /etc/rc.d/rc.sysinit:683
+#: /etc/rc.d/init.d/privoxy:87
+msgid "Stopping $PRIVOXY_PRG: "
+msgstr "$PRIVOXY_PRG durduruluyor: "
+
+#: /etc/rc.d/rc.sysinit:688
 msgid "Enabling local filesystem quotas: "
 msgstr "Yerel dosya sistemi kotaları devreye sokuluyor: "
 
-#: /etc/rc.d/init.d/netfs:144
+#: /etc/rc.d/init.d/netfs:146
 msgid "Active NCP mountpoints: "
 msgstr "Etkin NCP bağlantı noktaları: "
 
@@ -1552,15 +1658,16 @@ msgstr "ISDN modülleri kaldırılıyor"
 msgid "Stopping pdns-recursor: "
 msgstr "hpssd durduruluyor: "
 
-#: /etc/rc.d/init.d/ypbind:64 /etc/rc.d/init.d/ypbind:65
-msgid "domain not found"
-msgstr ""
-
 #: /etc/rc.d/init.d/qpidd:74
 msgid "$0: reload not supported"
 msgstr ""
 
-#: /etc/rc.d/init.d/named:191
+#: /etc/rc.d/init.d/ksm:67
+#, fuzzy
+msgid "$prog is not running"
+msgstr "$prog çalışmıyor"
+
+#: /etc/rc.d/init.d/named:178
 #, fuzzy
 msgid "Stopping named: "
 msgstr "$prog durduruluyor: "
@@ -1569,8 +1676,7 @@ msgstr "$prog durduruluyor: "
 #: /etc/rc.d/init.d/crond:60 /etc/rc.d/init.d/dropbear:82
 #: /etc/rc.d/init.d/globus-rls-server:41 /etc/rc.d/init.d/iscsi:74
 #: /etc/rc.d/init.d/iscsi:79 /etc/rc.d/init.d/speech-dispatcherd:32
-#: /etc/rc.d/init.d/sshd:141 /etc/rc.d/init.d/tabled:48
-#: /etc/rc.d/init.d/tcsd:105
+#: /etc/rc.d/init.d/sshd:146 /etc/rc.d/init.d/tabled:48
 msgid "Stopping $prog"
 msgstr "$prog durduruluyor"
 
@@ -1579,11 +1685,11 @@ msgstr "$prog durduruluyor"
 msgid "Starting $prog for $ez_name: "
 msgstr "$prog $site için başlatılıyor: "
 
-#: /etc/rc.d/init.d/functions:537
+#: /etc/rc.d/init.d/functions:544
 msgid "yY"
 msgstr "eE"
 
-#: /etc/rc.d/init.d/puppet:53
+#: /etc/rc.d/init.d/puppet:56
 #, fuzzy
 msgid "Restarting puppet: "
 msgstr "$prog yeniden başlatılıyor: "
@@ -1596,7 +1702,13 @@ msgstr ""
 msgid "Avahi daemon is not running"
 msgstr "Avahi servisi çalışmıyor"
 
-#: /etc/rc.d/init.d/nfs:138
+#: /etc/rc.d/init.d/firehol:273 /etc/rc.d/init.d/firehol:277
+#: /etc/rc.d/init.d/firehol:279
+#, fuzzy
+msgid "FireHOL: Restoring old firewall:"
+msgstr "$prog yeniden başlatılıyor: "
+
+#: /etc/rc.d/init.d/nfs:137
 msgid "Shutting down NFS quotas: "
 msgstr "NFS kotaları durduruluyor: "
 
@@ -1604,7 +1716,7 @@ msgstr "NFS kotaları durduruluyor: "
 msgid "$0: Usage: daemon [+/-nicelevel] {program}"
 msgstr "$0: Kullanılışı: daemon [+/-öncelik_düzeyi] {program}"
 
-#: /etc/rc.d/init.d/functions:425
+#: /etc/rc.d/init.d/functions:432
 msgid "${base} dead but subsys locked"
 msgstr "${base} ölü durumda ama subsys kilitli"
 
@@ -1613,7 +1725,7 @@ msgstr "${base} ölü durumda ama subsys kilitli"
 msgid "Service ${0##*/} does not support the reload action: "
 msgstr ""
 
-#: /etc/rc.d/init.d/ibmasm:21 /etc/rc.d/init.d/mcstrans:46
+#: /etc/rc.d/init.d/ibmasm:21 /etc/rc.d/init.d/mcstrans:47
 #: /etc/rc.d/init.d/watchdog:28
 #, fuzzy
 msgid "$prog: already running"
@@ -1623,6 +1735,11 @@ msgstr "$prog: zaten çalışıyor"
 msgid "Starting rstat services: "
 msgstr "rstat hizmetleri başlatılıyor: "
 
+#: /etc/rc.d/init.d/tgtd:93
+#, fuzzy
+msgid "Force-stopping $prog: "
+msgstr "$prog durduruluyor: "
+
 #: /etc/rc.d/init.d/lcdproc:99
 #, fuzzy
 msgid "Reloading ${prog} config file: "
@@ -1630,31 +1747,38 @@ msgstr "$prog servisinin ayarları yeniden yükleniyor: "
 
 #: /etc/rc.d/init.d/atd:108 /etc/rc.d/init.d/auth2:92
 #: /etc/rc.d/init.d/autogroup:111 /etc/rc.d/init.d/autohome:109
-#: /etc/rc.d/init.d/beanstalkd:106 /etc/rc.d/init.d/boa:107
+#: /etc/rc.d/init.d/beanstalkd:131 /etc/rc.d/init.d/boa:107
 #: /etc/rc.d/init.d/boinc-client:188 /etc/rc.d/init.d/bro:184
-#: /etc/rc.d/init.d/chunkd:105 /etc/rc.d/init.d/clamav-milter:90
-#: /etc/rc.d/init.d/cld:106 /etc/rc.d/init.d/coda-client:86
-#: /etc/rc.d/init.d/codasrv:93 /etc/rc.d/init.d/collectl:98
-#: /etc/rc.d/init.d/couchdb:104 /etc/rc.d/init.d/crond:126
-#: /etc/rc.d/init.d/fcron_watch_config:99 /etc/rc.d/init.d/fsniper:94
+#: /etc/rc.d/init.d/certmonger:89 /etc/rc.d/init.d/chunkd:105
+#: /etc/rc.d/init.d/clamav-milter:90 /etc/rc.d/init.d/cld:106
+#: /etc/rc.d/init.d/coda-client:86 /etc/rc.d/init.d/codasrv:93
+#: /etc/rc.d/init.d/collectl:99 /etc/rc.d/init.d/couchdb:104
+#: /etc/rc.d/init.d/crond:126 /etc/rc.d/init.d/fcron_watch_config:99
+#: /etc/rc.d/init.d/fence_virtd:109 /etc/rc.d/init.d/fsniper:94
 #: /etc/rc.d/init.d/glusterfsd:103 /etc/rc.d/init.d/gmediaserver:121
 #: /etc/rc.d/init.d/imapproxy:101 /etc/rc.d/init.d/keepalived:106
 #: /etc/rc.d/init.d/kojid:81 /etc/rc.d/init.d/kojira:81
 #: /etc/rc.d/init.d/lighttpd:110 /etc/rc.d/init.d/miredo-client:115
 #: /etc/rc.d/init.d/miredo-server:117 /etc/rc.d/init.d/mrepo:94
-#: /etc/rc.d/init.d/noip:102 /etc/rc.d/init.d/npcd:100
+#: /etc/rc.d/init.d/netplugd:112 /etc/rc.d/init.d/noip:102
+#: /etc/rc.d/init.d/npcd:100 /etc/rc.d/init.d/nslcd:79
 #: /etc/rc.d/init.d/nuauth:133 /etc/rc.d/init.d/nufw:129
 #: /etc/rc.d/init.d/nxtvepgd:101 /etc/rc.d/init.d/oidentd:107
-#: /etc/rc.d/init.d/poker-bot:102 /etc/rc.d/init.d/poker-server:105
-#: /etc/rc.d/init.d/postgrey:109 /etc/rc.d/init.d/saslauthd:106
-#: /etc/rc.d/init.d/searchd:102 /etc/rc.d/init.d/sigul_bridge:67
-#: /etc/rc.d/init.d/sigul_server:68 /etc/rc.d/init.d/spampd:105
-#: /etc/rc.d/init.d/speech-dispatcherd:90 /etc/rc.d/init.d/sssd:116
-#: /etc/rc.d/init.d/tabled:106 /etc/rc.d/init.d/thttpd:103
-#: /etc/rc.d/init.d/tinyproxy:102 /etc/rc.d/init.d/trytond:113
-#: /etc/rc.d/init.d/tuned:98 /etc/rc.d/init.d/unbound:130
-#: /etc/rc.d/init.d/update:127 /etc/rc.d/init.d/vtund:107
-#: /etc/rc.d/init.d/xrdp:140 /etc/rc.d/init.d/zfs-fuse:197
+#: /etc/rc.d/init.d/openhpi-subagent:97 /etc/rc.d/init.d/poker-bot:102
+#: /etc/rc.d/init.d/poker-server:105 /etc/rc.d/init.d/popfile:148
+#: /etc/rc.d/init.d/postgrey:109 /etc/rc.d/init.d/radiusd:110
+#: /etc/rc.d/init.d/saslauthd:106 /etc/rc.d/init.d/searchd:103
+#: /etc/rc.d/init.d/sigul_bridge:67 /etc/rc.d/init.d/sigul_server:68
+#: /etc/rc.d/init.d/spampd:105 /etc/rc.d/init.d/speech-dispatcherd:90
+#: /etc/rc.d/init.d/sssd:117 /etc/rc.d/init.d/tabled:106
+#: /etc/rc.d/init.d/thttpd:103 /etc/rc.d/init.d/tinyproxy:102
+#: /etc/rc.d/init.d/tokyotyrant:99 /etc/rc.d/init.d/trytond:113
+#: /etc/rc.d/init.d/tuned:80 /etc/rc.d/init.d/unbound:130
+#: /etc/rc.d/init.d/update:127 /etc/rc.d/init.d/uuidd:104
+#: /etc/rc.d/init.d/vhostmd:115 /etc/rc.d/init.d/vtund:107
+#: /etc/rc.d/init.d/xrdp:140 /etc/rc.d/init.d/ypbind:176
+#: /etc/rc.d/init.d/yppasswdd:91 /etc/rc.d/init.d/ypserv:88
+#: /etc/rc.d/init.d/ypxfrd:78 /etc/rc.d/init.d/zfs-fuse:228
 #, fuzzy
 msgid ""
 "Usage: $0 {start|stop|status|restart|condrestart|try-restart|reload|force-"
@@ -1662,20 +1786,15 @@ msgid ""
 msgstr ""
 "Kullanılışı:$0 {start|stop|status|restart|try-restart|reload|force-reload}"
 
-#: /etc/rc.d/init.d/openais:20
-#, fuzzy
-msgid "Starting OpenAIS ($prog): "
-msgstr "$desc başlatılıyor ($prog): "
+#: /etc/rc.d/init.d/vncserver:63
+msgid "vncserver startup"
+msgstr "vncserver başlat"
 
 #: /etc/rc.d/init.d/unbound:49
 msgid "Generating unbound control key and certificate: "
 msgstr ""
 
-#: /etc/rc.d/init.d/vncserver:61
-msgid "vncserver startup"
-msgstr "vncserver başlat"
-
-#: /etc/sysconfig/network-scripts/init.ipv6-global:180
+#: /etc/sysconfig/network-scripts/init.ipv6-global:158
 msgid "Usage: $0 {start|stop|reload|restart|showsysctl}"
 msgstr "Kullanılışı: $0 {start|stop|reload|restart|showsysctl}"
 
@@ -1683,7 +1802,7 @@ msgstr "Kullanılışı: $0 {start|stop|reload|restart|showsysctl}"
 msgid "Missing config file $PARENTCONFIG."
 msgstr "$PARENTCONFIG yapılandırma dosyası bulunamadı."
 
-#: /etc/rc.d/init.d/ircd:74 /etc/rc.d/init.d/ushare:76
+#: /etc/rc.d/init.d/ushare:76
 msgid "Usage: $prog {start|stop|restart|condrestart|reload|status"
 msgstr "Kullanılışı: $prog {start|stop|restart|condrestart|reload|status"
 
@@ -1692,7 +1811,7 @@ msgstr "Kullanılışı: $prog {start|stop|restart|condrestart|reload|status"
 msgid "Stopping INND service (the hard way): "
 msgstr "INND hizmeti durduruluyor: "
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:1094
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:994
 msgid "Given IPv6 default gateway '$address' is not in proper format"
 msgstr ""
 "Verilen IPv6 öntanımlı geçit (gateway) '$address' düzgün bir biçimde değil"
@@ -1705,10 +1824,12 @@ msgstr "$base ölü durumda ama subsys kilitli"
 msgid "Device '$DEVICE' is already up, please shutdown first"
 msgstr "Aygıt '$DEVICE' zaten kullanımda, lütfen önce kapatın"
 
-#: /etc/rc.d/init.d/argus:38
-#, fuzzy
-msgid "Shutting down argus: "
-msgstr "$prog durduruluyor: "
+#: /etc/rc.d/init.d/dbmail-imapd:85 /etc/rc.d/init.d/dbmail-lmtpd:86
+#: /etc/rc.d/init.d/dbmail-pop3d:86 /etc/rc.d/init.d/dbmail-timsieved:87
+#: /etc/rc.d/init.d/mailgraph:91 /etc/rc.d/init.d/ntop:90
+#: /etc/rc.d/init.d/ris-linuxd:102 /etc/rc.d/init.d/sip-redirect:73
+msgid "Usage: $prog {start|stop|restart|condrestart|reload|status}"
+msgstr "Kullanılışı: $prog {start|stop|restart|condrestart|reload|status}"
 
 #: /etc/rc.d/init.d/cgred:87
 #, fuzzy
@@ -1719,12 +1840,21 @@ msgstr "HAL servisi durduruluyor: "
 msgid "Stopping HAL daemon: "
 msgstr "HAL servisi durduruluyor: "
 
-#: /etc/rc.d/init.d/asterisk:80
-#, fuzzy
-msgid "Starting asterisk: "
-msgstr "$prog başlatılıyor: "
+#: /etc/rc.d/init.d/firstboot:52
+msgid "ERROR: Program /usr/sbin/firstboot is not installed"
+msgstr ""
 
-#: /etc/rc.d/rc.sysinit:70
+#: /etc/rc.d/init.d/avahi-daemon:88
+#, fuzzy
+msgid "Avahi daemon is running"
+msgstr "cardmgr ($pid numaralı süreç) çalışıyor..."
+
+#: /etc/rc.d/init.d/vnstat:90
+#, fuzzy
+msgid "Usage: $0 {start|stop|reload|force-reload|restart|try-restart|status}"
+msgstr "Kullanılışı: $0 {start|stop|reload|report|restart|status}"
+
+#: /etc/rc.d/rc.sysinit:69
 #, fuzzy
 msgid "*** problems. Dropping you to a shell; the system will reboot"
 msgstr "*** Size bir kabuk sunuluyor; sistem yeniden başlatılacak"
@@ -1738,7 +1868,7 @@ msgstr "$prog başlatılıyor: "
 msgid "Starting RPC gssd: "
 msgstr "RPC gssd başlatılıyor: "
 
-#: /etc/rc.d/init.d/nfs:188
+#: /etc/rc.d/init.d/nfs:187
 msgid "reload"
 msgstr "yeniden yükle"
 
@@ -1747,11 +1877,11 @@ msgstr "yeniden yükle"
 msgid "Starting Mldonkey (mlnet): "
 msgstr "acpi başlatılıyor: "
 
-#: /etc/rc.d/init.d/netfs:57 /etc/rc.d/rc.sysinit:375
+#: /etc/rc.d/init.d/netfs:58 /etc/rc.d/rc.sysinit:379
 msgid "Setting up Logical Volume Management:"
 msgstr "Mantıksal Oylum Yönetimi (LVM) Ayarlanıyor:"
 
-#: /etc/rc.d/init.d/uuidd:41
+#: /etc/rc.d/init.d/uuidd:46
 #, fuzzy
 msgid "Stopping uuidd: "
 msgstr "hpiod durduruluyor: "
@@ -1765,6 +1895,22 @@ msgstr "dund başlatılıyor: "
 #: /etc/sysconfig/network-scripts/ifup:116
 msgid "ERROR: could not add vlan ${VID} as ${DEVICE} on dev ${PHYSDEV}"
 msgstr "HATA: vlan ${VID} ${DEVICE} olarak ${PHYSDEV} aygıtına eklenemedi"
+
+#: /etc/rc.d/init.d/zarafa-server:97
+#, fuzzy
+msgid "Restarting $server: "
+msgstr "$prog yeniden başlatılıyor: "
+
+#: /etc/rc.d/init.d/mailman:168
+#, fuzzy
+msgid ""
+"Usage: $prog {start|stop|restart|force-reload|condrestart|try-restart|status}"
+msgstr "Kullanılışı: $0 {start|stop|reload|report|restart|status}"
+
+#: /etc/rc.d/init.d/pki-rad:959 /etc/rc.d/init.d/pki-tpsd:983
+#, fuzzy
+msgid "Reloading ${prog}: "
+msgstr "$prog yeniden yükleniyor: "
 
 #: /etc/rc.d/init.d/rpcidmapd:53
 msgid "Starting RPC idmapd: "
@@ -1788,6 +1934,11 @@ msgstr "$PRIVOXY_PRG başlatılıyor: "
 msgid "Fixing /proc entries visibility"
 msgstr "/proc girdilerinin erişilebilirliği düzeltiliyor..."
 
+#: /etc/rc.d/init.d/tor:82
+#, fuzzy
+msgid "program is not running"
+msgstr "$prog çalışmıyor"
+
 #: /etc/rc.d/init.d/innd:89
 msgid "Stopping INN actived service: "
 msgstr "INN etkinlikli hizmet durduruluyor: "
@@ -1797,11 +1948,11 @@ msgstr "INN etkinlikli hizmet durduruluyor: "
 msgid "Stopping all ${MODULE_NAME} drivers: "
 msgstr "${NAME} hizmeti durduruluyor: "
 
-#: /etc/rc.d/init.d/ktune:110
+#: /etc/rc.d/init.d/ktune:109
 msgid "$file: "
 msgstr ""
 
-#: /etc/rc.d/init.d/tor:88
+#: /etc/rc.d/init.d/tor:103
 #, fuzzy
 msgid "Usage: $0 {start|stop|force-reload|reload|try-restart|status}"
 msgstr "Kullanılışı: $0 {start|stop|reload|report|restart|status}"
@@ -1821,18 +1972,24 @@ msgstr ""
 msgid "Shutting down kernel logger: "
 msgstr "Çekirdek günlüğü durduruluyor: "
 
-#: /etc/rc.d/init.d/tor:67
+#: /etc/rc.d/init.d/cyrus-imapd:98
 #, fuzzy
-msgid "program is not running"
-msgstr "$prog çalışmıyor"
+msgid "$prog exporting databases"
+msgstr "Veritabanı ilklendiriliyor: "
 
-#: /etc/rc.d/rc.sysinit:142
+#: /etc/rc.d/init.d/tog-pegasus:115
+#, fuzzy
+msgid "CIM server is not running, but lock file exists"
+msgstr "Avahi servisi çalışmıyor"
+
+#: /etc/rc.d/rc.sysinit:141
 msgid "Key file for $dst not found, skipping"
 msgstr ""
 
-#: /etc/rc.d/init.d/ups:52
-msgid "Starting UPS monitor (master): "
-msgstr "UPS (asıl) izleyici başlatılıyor: "
+#: /etc/rc.d/init.d/ups:40
+#, fuzzy
+msgid "Starting UPS driver controller: "
+msgstr "UPS (yardımcı) izleyicisi başlatılıyor: "
 
 #: /etc/rc.d/init.d/btseed:47
 msgid "Shutting down BitTorrent seed client: "
@@ -1843,7 +2000,7 @@ msgstr "BitTorrent besleme istemcisi kapatılıyor: "
 msgid "Reloading xend daemon: "
 msgstr "Avahi servisi yeniden yükleniyor: "
 
-#: /etc/rc.d/init.d/halt:35
+#: /etc/rc.d/init.d/halt:53
 msgid "Halting system..."
 msgstr "Sistem kapatılıyor..."
 
@@ -1872,30 +2029,28 @@ msgid "${IP6TABLES}: Firewall is not configured. "
 msgstr "Güvenlik duvarı yapılandırılmamış."
 
 #: /etc/rc.d/init.d/canna:89 /etc/rc.d/init.d/condor:224
-#: /etc/rc.d/init.d/dhcp6r:89 /etc/rc.d/init.d/dhcp6s:101
 #: /etc/rc.d/init.d/fnfxd:67 /etc/rc.d/init.d/odccm:63
-#: /etc/rc.d/init.d/rbldnsd:191 /etc/rc.d/init.d/ups:136
+#: /etc/rc.d/init.d/rbldnsd:191 /etc/rc.d/init.d/ups:137
 #, fuzzy
 msgid "Usage: $0 {start|stop|restart|try-restart|reload|force-reload|status}"
 msgstr ""
 "Kullanılışı: $0 {start|stop|status|restart|condrestart|condstop|reload|force-"
 "reload}"
 
-#: /etc/rc.d/init.d/smolt:68
+#: /etc/rc.d/init.d/rinputd:73
 #, fuzzy
-msgid "Monthly smolt check-in is disabled."
-msgstr "İşlem hesapları kapalı."
+msgid "Stopping $DESC: "
+msgstr "${NAME} hizmeti durduruluyor: "
 
 #: /etc/rc.d/init.d/systemtap:64
 msgid "\t-r kernelrelease: specify kernel release version"
 msgstr ""
 
-#: /etc/rc.d/init.d/postfix:116
+#: /etc/rc.d/init.d/postfix:120
 msgid "$prog check"
 msgstr "$prog kontrol"
 
-#: /etc/rc.d/init.d/corosync:56 /etc/rc.d/init.d/dictd:94
-#: /etc/rc.d/init.d/openais:57
+#: /etc/rc.d/init.d/dictd:94
 #, fuzzy
 msgid ""
 "Usage: $0 {start|stop|restart|try-restart|condrestart|reload|force-reload|"
@@ -1913,26 +2068,39 @@ msgstr "Kullanılışı: status {program}"
 msgid "Reloading $prog:"
 msgstr "$prog yeniden yükleniyor:"
 
-#: /etc/rc.d/init.d/ypbind:80
+#: /etc/rc.d/init.d/ypbind:91
 #, fuzzy
 msgid "Binding NIS service: "
 msgstr "NIS hizmetleri durduruluyor: "
 
-#: /etc/rc.d/init.d/pyicq-t:12
+#: /etc/sysconfig/network-scripts/ifup-eth:69
 #, fuzzy
-msgid "Starting ICQ transport: "
-msgstr "NFS statd başlatılıyor: "
+msgid "Tap support not available: tunctl not found"
+msgstr "Köprü desteği mevcut değil: brctl bulunmadı"
 
-#: /etc/rc.d/init.d/kdump:391
+#: /etc/rc.d/init.d/voms:215
+#, fuzzy
+msgid "Usage: killproc {pids} [signal]"
+msgstr "Kullanılışı: killproc {program} [sinyal]"
+
+#: /etc/rc.d/init.d/rhnsd:64
+msgid "Stopping Red Hat Network Daemon: "
+msgstr "Red Hat Ağ Hizmeti artalanda durduruluyor: "
+
+#: /etc/rc.d/init.d/kdump:402
 #, fuzzy
 msgid "Usage: $0 {start|stop|status|restart|propagate}"
 msgstr "Kullanılışı: $0 {start|stop|status|restart|reload}"
 
-#: /etc/rc.d/init.d/multipathd:78
+#: /etc/rc.d/init.d/multipathd:84
 msgid "Stopping $prog daemon: "
 msgstr "$prog hizmeti durduruluyor: "
 
-#: /etc/rc.d/init.d/ypbind:142
+#: /etc/rc.d/init.d/rpcsvcgssd:95
+msgid "Shutting down RPC svcgssd: "
+msgstr "RPC svcgssd kapatılıyor: "
+
+#: /etc/rc.d/init.d/ypbind:155
 #, fuzzy
 msgid "Reloading NIS service: "
 msgstr "INN hizmeti yeniden yükleniyor: "
@@ -1944,7 +2112,7 @@ msgstr ""
 "6to4 kullanılıyor ve RADVD IPv6 yönlendirmesi etkinleştirilmeliydi, ama "
 "yapılmadı!"
 
-#: /etc/rc.d/init.d/libvirt-qpid:38 /etc/rc.d/init.d/libvirtd:59
+#: /etc/rc.d/init.d/libvirtd:60 /etc/rc.d/init.d/libvirt-qpid:38
 #: /etc/rc.d/init.d/matahari:22
 #, fuzzy
 msgid "Starting $SERVICE daemon: "
@@ -1979,6 +2147,11 @@ msgstr "Moodle cron görevi pasifleştiriliyor: "
 msgid "Starting dund: "
 msgstr "dund başlatılıyor: "
 
+#: /etc/rc.d/init.d/orbited:32
+#, fuzzy
+msgid "Stopping Orbited: "
+msgstr "$prog durduruluyor: "
+
 #: /etc/rc.d/init.d/vtund:59
 #, fuzzy
 msgid "Reloading config for $prog: "
@@ -1987,6 +2160,11 @@ msgstr "$prog yeniden yükleniyor: "
 #: /etc/rc.d/init.d/messagebus:36
 msgid "Starting system message bus: "
 msgstr "Sistem mesajlaşma yolu başlatılıyor: "
+
+#: /etc/rc.d/init.d/zarafa-gateway:69
+#, fuzzy
+msgid "Restarting $gateway: "
+msgstr "$prog yeniden başlatılıyor: "
 
 #: /etc/rc.d/init.d/ladvd:57
 #, fuzzy
@@ -1998,11 +2176,12 @@ msgstr "pand durduruluyor: "
 msgid "Usage: drbdlinksclean {start|stop|status|restart|force-reload}"
 msgstr "Kullanılışı: $0 {start|stop|status|restart|reload}"
 
-#: /etc/rc.d/init.d/privoxy:87
-msgid "Stopping $PRIVOXY_PRG: "
-msgstr "$PRIVOXY_PRG durduruluyor: "
+#: /etc/rc.d/init.d/cyrus-imapd:66
+#, fuzzy
+msgid "$prog importing databases"
+msgstr "Veritabanı ilklendiriliyor: "
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:843
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:743
 msgid ""
 "Given remote address '$addressipv4tunnel' on tunnel device '$device' is "
 "already configured on device '$devnew'"
@@ -2030,11 +2209,6 @@ msgstr "$PRIVOXY_PRG durduruluyor: "
 msgid "Stopping supervisord: "
 msgstr "hpiod durduruluyor: "
 
-#: /etc/rc.d/init.d/squid:174
-#, fuzzy
-msgid "Usage: $0 {start|stop|status|reload|restart|condrestart|probe}"
-msgstr "Kullanılışı: $0 {start|stop|status|reload|restart|condrestart}"
-
 #: /etc/rc.d/init.d/zvbid:23
 #, fuzzy
 msgid "Starting vbi proxy daemon: "
@@ -2056,16 +2230,16 @@ msgstr "Gecelik yum güncellemesi etkinleştiriliyor: "
 #: /etc/rc.d/init.d/apt:75 /etc/rc.d/init.d/denyhosts:173
 #: /etc/rc.d/init.d/incrond:58 /etc/rc.d/init.d/memcached:83
 #: /etc/rc.d/init.d/mogilefsd:57 /etc/rc.d/init.d/mogstored:57
-#: /etc/rc.d/init.d/pdns-recursor:58 /etc/rc.d/init.d/perlbal:58
-#: /etc/rc.d/init.d/pound:58 /etc/rc.d/init.d/rwalld:90
-#: /etc/rc.d/init.d/rwhod:90 /etc/rc.d/init.d/smolt:73
-#: /etc/rc.d/init.d/supervisord:59 /etc/rc.d/init.d/uuidd:70
+#: /etc/rc.d/init.d/orbited:69 /etc/rc.d/init.d/pdns-recursor:58
+#: /etc/rc.d/init.d/perlbal:58 /etc/rc.d/init.d/pound:58
+#: /etc/rc.d/init.d/rwalld:90 /etc/rc.d/init.d/rwhod:90
+#: /etc/rc.d/init.d/smolt:73 /etc/rc.d/init.d/supervisord:59
 #: /etc/rc.d/init.d/yum-cron:65 /etc/rc.d/init.d/yum-updatesd:71
 msgid "Usage: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
 msgstr ""
 "Kullanılışı: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
 
-#: /etc/rc.d/init.d/postfix:94
+#: /etc/rc.d/init.d/postfix:98
 msgid "Reloading postfix: "
 msgstr "postfix yeniden yükleniyor: "
 
@@ -2074,7 +2248,7 @@ msgstr "postfix yeniden yükleniyor: "
 msgid "Reloading maps"
 msgstr "$prog yeniden yükleniyor: "
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:596
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:496
 msgid "Missing parameter 'IPv4 address' (arg 1)"
 msgstr "Eksik parametre 'IPv4 address' (arg 1)"
 
@@ -2083,31 +2257,27 @@ msgstr "Eksik parametre 'IPv4 address' (arg 1)"
 msgid "Shutting down ZABBIX agent: "
 msgstr "APM artalanda durduruluyor: "
 
-#: /etc/rc.d/init.d/openct:34
+#: /etc/rc.d/init.d/openct:36
 #, fuzzy
 msgid "Initializing OpenCT smart card terminals: "
 msgstr "Veritabanı ilklendiriliyor: "
 
-#: /etc/rc.d/init.d/hddtemp:36
+#: /etc/rc.d/init.d/hddtemp:43
 msgid "Unconfigured: $prog, see /etc/sysconfig/hddtemp: "
 msgstr ""
-
-#: /etc/rc.d/init.d/netplugd:30
-msgid "Starting network plug daemon: "
-msgstr "Ağ bağlanma hizmeti başlatılıyor: "
 
 #: /etc/rc.d/init.d/iptables:246
 #, fuzzy
 msgid "${IPTABLES}: Saving firewall rules to $IPTABLES_DATA: "
 msgstr "Güvenlik duvarı kuralları  $IPTABLES_DATA altına kaydediliyor: "
 
-#: /etc/rc.d/init.d/network:288
+#: /etc/rc.d/init.d/network:274
 msgid "Currently active devices:"
 msgstr "Halihazırda etkin aygıtlar:"
 
-#: /etc/rc.d/init.d/network:248
-msgid "Shutting down interface $i: "
-msgstr "$i arabirimi durduruluyor: "
+#: /etc/rc.d/init.d/NetworkManager:46
+msgid "Setting network parameters... "
+msgstr "Ağ parametreleri ayarlanıyor... "
 
 #: /etc/rc.d/init.d/iceccd:66
 #, fuzzy
@@ -2119,18 +2289,9 @@ msgstr "acpi durduruluyor: "
 msgid "Starting Condor daemons: "
 msgstr "NFS başlatılıyor: "
 
-#: /etc/rc.d/init.d/util-vserver:99
+#: /etc/rc.d/init.d/util-vserver:124
 msgid "Path to vshelper has been set"
 msgstr ""
-
-#: /etc/rc.d/init.d/oddjobd:102
-msgid "Usage: $0 {start|stop|restart|condrestart|reload|status}"
-msgstr "Kullanılışı: $0 {start|stop|restart|condrestart|reload|status}"
-
-#: /etc/rc.d/init.d/sec:85
-#, fuzzy
-msgid "Usage: $0 {start|stop|reload|restart|dump|status}"
-msgstr "Kullanılışı: $0 {start|stop|reload|report|restart|status}"
 
 #: /etc/rc.d/init.d/wesnothd:65
 #, fuzzy
@@ -2142,17 +2303,31 @@ msgstr "YP map sunucusu durduruluyor: "
 msgid "Stopping xenstored daemon: "
 msgstr "HAL servisi durduruluyor: "
 
-#: /etc/rc.d/init.d/rpcsvcgssd:96
-msgid "Shutting down RPC svcgssd: "
-msgstr "RPC svcgssd kapatılıyor: "
+#: /etc/rc.d/init.d/oddjobd:102 /etc/rc.d/init.d/pyicq-t:92
+#: /etc/rc.d/init.d/rsyslog:102
+#, fuzzy
+msgid ""
+"Usage: $0 {start|stop|restart|condrestart|try-restart|reload|force-reload|"
+"status}"
+msgstr ""
+"Kullanılışı: $0 {start|stop|status|restart|condrestart|condstop|reload|force-"
+"reload}"
 
-#: /etc/rc.d/init.d/smartd:81
+#: /etc/rc.d/init.d/smartd:88
 msgid "Checking SMART devices now: "
 msgstr "Şu anda SMART aygıtlar kontrol ediliyor: "
 
 #: /etc/rc.d/init.d/monotone:216
 msgid "Importing packets to monotone database: "
 msgstr "paketler monotone veritabanına dahil ediliyor: "
+
+#: /etc/rc.d/init.d/auditd:163
+#, fuzzy
+msgid ""
+"Usage: $0 {start|stop|status|restart|condrestart|try-restart|reload|force-"
+"reload|rotate|resume}"
+msgstr ""
+"Kullanılışı:$0 {start|stop|status|restart|try-restart|reload|force-reload}"
 
 #: /etc/rc.d/init.d/tinyerp-server:86
 #, fuzzy
@@ -2164,7 +2339,7 @@ msgstr "cardmgr ($pid numaralı süreç) çalışıyor..."
 msgid "$*"
 msgstr "$*"
 
-#: /etc/rc.d/init.d/puppetmaster:56
+#: /etc/rc.d/init.d/puppetmaster:57
 msgid "Manifest does not exist: $PUPPETMASTER_MANIFEST"
 msgstr ""
 
@@ -2172,36 +2347,36 @@ msgstr ""
 msgid "Mldonkey (mlnet) is stopped"
 msgstr ""
 
-#: /etc/rc.d/init.d/bgpd:34 /etc/rc.d/init.d/cachefilesd:43
-#: /etc/rc.d/init.d/fsniper:28 /etc/rc.d/init.d/ospf6d:33
-#: /etc/rc.d/init.d/ospfd:33 /etc/rc.d/init.d/radvd:46
-#: /etc/rc.d/init.d/remotetrx:26 /etc/rc.d/init.d/ripd:33
-#: /etc/rc.d/init.d/ripngd:33 /etc/rc.d/init.d/svxlink:26
-#: /etc/rc.d/init.d/xttpd:27 /etc/rc.d/init.d/zebra:30
+#: /etc/rc.d/init.d/bgpd:38 /etc/rc.d/init.d/cachefilesd:43
+#: /etc/rc.d/init.d/fsniper:28 /etc/rc.d/init.d/ospf6d:37
+#: /etc/rc.d/init.d/ospfd:37 /etc/rc.d/init.d/radvd:46
+#: /etc/rc.d/init.d/remotetrx:26 /etc/rc.d/init.d/ripd:37
+#: /etc/rc.d/init.d/ripngd:37 /etc/rc.d/init.d/svxlink:26
+#: /etc/rc.d/init.d/xttpd:27 /etc/rc.d/init.d/zebra:34
 #, fuzzy
 msgid "Starting $PROG: "
 msgstr "$PRIVOXY_PRG başlatılıyor: "
 
 #: /etc/rc.d/init.d/dc_client:74 /etc/rc.d/init.d/dc_server:70
-#: /etc/rc.d/init.d/openser:62 /etc/rc.d/init.d/rtpproxy:67
+#: /etc/rc.d/init.d/ksm:92 /etc/rc.d/init.d/rtpproxy:96
 #: /etc/rc.d/init.d/sems:67 /etc/rc.d/init.d/ser:93
 msgid "Usage: $prog {start|stop|restart|condrestart|status|help}"
 msgstr "Kullanılışı: $prog {start|stop|restart|condrestart|status|help}"
 
-#: /etc/rc.d/init.d/icecast:30
+#: /etc/rc.d/init.d/icecast:38
 #, fuzzy
 msgid "Shutting down icecast streaming daemon: "
 msgstr "APM artalanda durduruluyor: "
 
-#: /etc/rc.d/init.d/wine:47
-msgid "Wine binary format handlers are registered."
-msgstr "Wine ikilik biçim işleyicileri kayıtlı."
+#: /etc/rc.d/init.d/firehol:5530 /etc/rc.d/init.d/firehol:5546
+msgid "FireHOL: Clearing Firewall:"
+msgstr ""
 
 #: /etc/sysconfig/network-scripts/ifup-aliases:344
 msgid "error in $FILE: IPADDR_START greater than IPADDR_END"
 msgstr "$FILE dosyasında hata: IPADDR_START IPADDR_END'den büyük"
 
-#: /etc/rc.d/init.d/netfs:86 /etc/rc.d/rc.sysinit:604
+#: /etc/rc.d/init.d/netfs:87 /etc/rc.d/rc.sysinit:608
 msgid "(Repair filesystem)"
 msgstr "(Dosya sistemini onar)"
 
@@ -2218,7 +2393,7 @@ msgstr "$prog hizmeti durduruluyor: "
 msgid "Starting infrared remote control mouse daemon ($prog2): "
 msgstr "Kızılötesi uzaktan kontrol fare servisi başlatılıyor ($prog2):·"
 
-#: /etc/rc.d/init.d/ypserv:30
+#: /etc/rc.d/init.d/ypserv:37
 msgid "Setting NIS domain name $NISDOMAIN: "
 msgstr "NIS alan ismi $NISDOMAIN olarak belirleniyor: "
 
@@ -2237,26 +2412,26 @@ msgstr "acpi başlatılıyor: "
 msgid "Checking database format in"
 msgstr "Veritabanı ilklendiriliyor: "
 
-#: /etc/rc.d/init.d/cyrus-imapd:82
+#: /etc/rc.d/init.d/hostapd:37
 #, fuzzy
-msgid "Importing $BASENAME databases: "
-msgstr "$MODEL başlatılıyor: "
+msgid "Starting $prog: $conf"
+msgstr "$prog başlatılıyor: "
 
 #: /etc/rc.d/init.d/imapproxy:43
 #, fuzzy
 msgid "Shutting down up-imapproxy daemon: "
 msgstr "$prog durduruluyor: "
 
-#: /etc/rc.d/init.d/i8k:73
-msgid "Module $module isn't loaded."
-msgstr ""
-
-#: /etc/rc.d/init.d/tcsd:88
+#: /etc/rc.d/init.d/nginx:86
 #, fuzzy
-msgid "Loading drivers"
-msgstr "Bellenim (Firmware) yükleniyor"
+msgid "Staring new master $prog: "
+msgstr "$prog başlatılıyor: "
 
-#: /etc/rc.d/init.d/sshd:222
+#: /etc/rc.d/init.d/vncserver:22
+msgid "VNC server"
+msgstr "VNC sunucusu"
+
+#: /etc/rc.d/init.d/sshd:233 /etc/rc.d/init.d/tcsd:107
 #, fuzzy
 msgid ""
 "Usage: $0 {start|stop|restart|reload|force-reload|condrestart|try-restart|"
@@ -2285,7 +2460,7 @@ msgstr "hpssd başlatılıyor: "
 msgid "To lose old key remove file"
 msgstr ""
 
-#: /etc/rc.d/init.d/tor:65
+#: /etc/rc.d/init.d/tor:80
 #, fuzzy
 msgid "program is dead and /var/run pid file exists"
 msgstr "$base çalışmıyor, fakat pid dosyası var."
@@ -2294,13 +2469,19 @@ msgstr "$base çalışmıyor, fakat pid dosyası var."
 msgid "Not stopping $prog: iscsi sessions still active"
 msgstr ""
 
-#: /etc/rc.d/init.d/clamd-wrapper:9
-msgid "*** Please see /usr/share/doc/clamav-server-*/README how"
-msgstr "***·Lüften bakın·/usr/share/doc/clamav-server-*/README·nasıl"
-
-#: /etc/rc.d/init.d/systemtap:63
-msgid "\t-c configfile\t: specify config file"
+#: /etc/rc.d/rc.sysinit:67
+msgid "*** Warning -- SELinux ${SELINUXTYPE} policy relabel is required. "
 msgstr ""
+
+#: /etc/rc.d/init.d/cyrus-imapd:68
+msgid ""
+"$prog error importing databases, check ${CONFIGDIRECTORY}/rpm/db_import.log"
+msgstr ""
+
+#: /etc/rc.d/init.d/orbited:20
+#, fuzzy
+msgid "Starting Orbited: "
+msgstr "$prog hizmeti başlatılıyor: "
 
 #: /etc/rc.d/init.d/btseed:34
 #, fuzzy
@@ -2312,19 +2493,17 @@ msgstr "sm-istemcisi başlatılıyor: "
 msgid "Shutting down pand: "
 msgstr "dund durduruluyor: "
 
-#: /etc/rc.d/init.d/rsyslog:96
-#, fuzzy
-msgid "Usage: $0 {start|stop|restart|reload|force-reload|condrestart}"
-msgstr ""
-"Kullanılışı: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
-
 #: /etc/rc.d/init.d/ajaxterm:71 /etc/rc.d/init.d/qemu:98
 #, fuzzy
 msgid "Usage: $prog {start|stop|status|restart|condrestart}"
 msgstr "Kullanılışı: $0 {start|stop|status|restart|condrestart}"
 
-#: /etc/rc.d/init.d/i8k:98 /etc/rc.d/init.d/kannel:118
-#: /etc/rc.d/init.d/olpc-configure:330
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:536
+msgid "Missing parameter 'address' (arg 1)"
+msgstr "Eksik parametre 'address' (arg 1)"
+
+#: /etc/rc.d/init.d/cmirrord:102 /etc/rc.d/init.d/kannel:118
+#: /etc/rc.d/init.d/olpc-configure:389
 msgid "Usage: $0 {start|stop|restart|status}"
 msgstr "Kullanılışı: $0 {start|stop|restart|status}"
 
@@ -2338,7 +2517,7 @@ msgstr "INND hizmeti durduruluyor: "
 msgid "Stopping RPC idmapd: "
 msgstr "RPC idmapd başlatılıyor: "
 
-#: /etc/rc.d/init.d/ldap:128 /etc/rc.d/init.d/ldap:134
+#: /etc/rc.d/init.d/slapd:143 /etc/rc.d/init.d/slapd:153
 msgid "$file is not readable by \"$user\""
 msgstr "$file dosyası \"$user\" tarafından okunabilir değil "
 
@@ -2350,6 +2529,7 @@ msgstr "YP map sunucusu durduruluyor: "
 #: /etc/rc.d/init.d/avahi-daemon:55 /etc/rc.d/init.d/avahi-dnsconfd:52
 #: /etc/rc.d/init.d/functions:318 /etc/rc.d/init.d/functions:334
 #: /etc/rc.d/init.d/tclhttpd:116 /etc/rc.d/init.d/tclhttpd:127
+#: /etc/rc.d/init.d/voms:248 /etc/rc.d/init.d/voms:259
 msgid "$base shutdown"
 msgstr "$base durduruldu"
 
@@ -2358,7 +2538,7 @@ msgstr "$base durduruldu"
 msgid "Stopping $prog2: "
 msgstr "$prog durduruluyor: "
 
-#: /etc/rc.d/init.d/postgresql:163
+#: /etc/rc.d/init.d/postgresql:165
 msgid "An old version of the database format was found."
 msgstr "Veritabanı biçiminin eski bir sürümü bulundu."
 
@@ -2371,7 +2551,7 @@ msgstr ""
 msgid "Usage: $prog {start|stop|restart|reload|condrestart|status|help}"
 msgstr "Kullanılışı: $prog {start|stop|restart|reload|condrestart|status}"
 
-#: /etc/rc.d/init.d/netconsole:112
+#: /etc/rc.d/init.d/netconsole:114
 msgid "netconsole module not loaded"
 msgstr ""
 
@@ -2404,7 +2584,7 @@ msgstr "YP map sunucusu başlatılıyor: "
 msgid "Starting MogileFS tracker daemon: "
 msgstr "acpi başlatılıyor: "
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:1212
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:1112
 msgid "No reason given for sending trigger to radvd"
 msgstr "radvd 'ye tetikleme bilgisi göndermek için neden belirtilmedi."
 
@@ -2413,7 +2593,7 @@ msgstr "radvd 'ye tetikleme bilgisi göndermek için neden belirtilmedi."
 msgid "Nightly apt update is disabled."
 msgstr "Gecelik yum güncelleştirmesi etkin değil."
 
-#: /etc/rc.d/init.d/openct:44
+#: /etc/rc.d/init.d/openct:46
 #, fuzzy
 msgid "Stopping OpenCT smart card terminals: "
 msgstr "rstat hizmetleri durduruluyor: "
@@ -2427,24 +2607,40 @@ msgstr "NFS başlatılıyor: "
 msgid "Applying arptables firewall rules: "
 msgstr "arptables güvenlik duvarı kuralları uygulanıyor: "
 
-#: /etc/rc.d/init.d/freenx-server:82
+#: /etc/rc.d/init.d/clement:72
 #, fuzzy
-msgid "Usage: $prog {start|stop|restart}"
-msgstr "Kullanılışı: $0 {start|stop|restart}"
+msgid "certs generation"
+msgstr "RSA anahtar üretimi"
 
 #: /etc/sysconfig/network-scripts/ifdown-tunnel:36
 #: /etc/sysconfig/network-scripts/ifup-tunnel:56
 msgid "Device '$DEVICE' isn't supported as a valid GRE device name."
 msgstr ""
 
-#: /etc/rc.d/init.d/microcode_ctl:96
+#: /etc/rc.d/init.d/amtu:82 /etc/rc.d/init.d/microcode_ctl:77
 msgid "Usage: $0 {start|stop|restart}"
 msgstr "Kullanılışı: $0 {start|stop|restart}"
 
-#: /etc/rc.d/init.d/cyrus-imapd:111
+#: /etc/rc.d/init.d/dhcpd:112 /etc/rc.d/init.d/dhcpd6:115
+#: /etc/rc.d/init.d/dhcrelay:83
 #, fuzzy
-msgid "Exporting $BASENAME databases: "
-msgstr "$MODEL başlatılıyor: "
+msgid ""
+"Usage: $0 {start|stop|restart|force-reload|condrestart|try-restart|"
+"configtest|status}"
+msgstr "Kullanılışı: $0 {start|stop|reload|report|restart|status}"
+
+#: /etc/rc.d/init.d/util-vserver:102
+#, fuzzy
+msgid "Unmounting cgroup-hierarchy"
+msgstr "Yapılandırılmış NFS bağlantı noktaları: "
+
+#: /etc/rc.d/init.d/zarafa-dagent:107
+#, fuzzy
+msgid ""
+"Usage: $dagent {start|stop|status|reload|restart|condrestart|force-reload|"
+"try-restart}"
+msgstr ""
+"Kullanılışı: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
 
 #: /etc/rc.d/init.d/rwhod:39
 msgid "Starting rwho services: "
@@ -2467,7 +2663,7 @@ msgstr ""
 msgid "${IP6TABLES}: Flushing firewall rules: "
 msgstr "Güvenlik duvarı kuralları kaldırılıyor: "
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:1108
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:1008
 msgid ""
 "Given IPv6 default gateway '$address' is link-local, but no scope or gateway "
 "device is specified"
@@ -2475,7 +2671,7 @@ msgstr ""
 "Verilen öntanımlı IPv6 geçiti '$address' link-local, ama ne scope ne de "
 "geçit aygıtı belirtilmemiş"
 
-#: /etc/rc.d/init.d/util-vserver:64
+#: /etc/rc.d/init.d/util-vserver:79
 #, fuzzy
 msgid "Loading default device map"
 msgstr "Öntanımlı klavye eşlemi yükleniyor"
@@ -2493,8 +2689,8 @@ msgstr "$base durdurulmuş"
 msgid "Shutting down dund: "
 msgstr "dund durduruluyor: "
 
-#: /etc/rc.d/init.d/shorewall:66 /etc/rc.d/init.d/shorewall-lite:66
-#: /etc/rc.d/init.d/shorewall6:66 /etc/rc.d/init.d/shorewall6-lite:66
+#: /etc/rc.d/init.d/shorewall:66 /etc/rc.d/init.d/shorewall6:66
+#: /etc/rc.d/init.d/shorewall6-lite:66 /etc/rc.d/init.d/shorewall-lite:66
 #, fuzzy
 msgid "Restarting Shorewall: "
 msgstr "$prog yeniden başlatılıyor: "
@@ -2503,7 +2699,7 @@ msgstr "$prog yeniden başlatılıyor: "
 msgid "Shutting down console mouse services: "
 msgstr "Konsolda fare desteği durduruluyor: "
 
-#: /etc/rc.d/init.d/util-vserver:102
+#: /etc/rc.d/init.d/util-vserver:127
 msgid "Path to vshelper has not been set"
 msgstr ""
 
@@ -2512,7 +2708,15 @@ msgstr ""
 msgid "Reloading ser2net: "
 msgstr "$prog yeniden yükleniyor: "
 
-#: /etc/rc.d/init.d/tog-pegasus:80
+#: /etc/rc.d/init.d/tgtd:213
+#, fuzzy
+msgid ""
+"Usage: $0 {start|stop|status|restart|condrestart|try-restart|reload|force-"
+"stop|force-restart|force-reload}"
+msgstr ""
+"Kullanılışı:$0 {start|stop|status|restart|try-restart|reload|force-reload}"
+
+#: /etc/rc.d/init.d/tog-pegasus:90
 #, fuzzy
 msgid "Shutting down CIM server: "
 msgstr "NIS hizmetleri durduruluyor: "
@@ -2535,27 +2739,26 @@ msgstr "$MONOTONE_KEYID sunucusu için RSA anahtarı oluşturuluyor"
 msgid "Starting ${desc} (${prog}): "
 msgstr "$desc başlatılıyor ($prog): "
 
-#: /etc/rc.d/init.d/tog-pegasus:97
+#: /etc/rc.d/init.d/tog-pegasus:108
 #, fuzzy
 msgid "CIM server ($pid) is running"
 msgstr "cardmgr ($pid numaralı süreç) çalışıyor..."
 
-#: /etc/rc.d/init.d/cobblerd:66
+#: /etc/rc.d/init.d/cobblerd:73
 #, fuzzy
 msgid "Stopping cobbler daemon: "
 msgstr "HAL servisi durduruluyor: "
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:178
-msgid "Device 'tun6to4' (from '$DEVICE') is already up, shutdown first"
-msgstr "Aygıt 'tun6to4' ('$DEVICE'daki) zaten kullanımda, önce kapatın"
+#: /etc/rc.d/init.d/pdns-recursor:21
+#, fuzzy
+msgid "Starting pdns-recursor: "
+msgstr "$prog başlatılıyor: "
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:1100
-msgid ""
-"Given IPv6 default gateway '$address' has scope '$device_scope' defined, "
-"given default gateway device '$device' will be not used"
-msgstr ""
-"Verilen IPv6 öntanımlı geçiti için '$device_scope' scope 'u tanımlı, verilen "
-"öntanımlı geçit aygıtı '$device' kullanılmayacak"
+#: /etc/rc.d/init.d/bgpd:68 /etc/rc.d/init.d/ripd:67
+#: /etc/rc.d/init.d/ripngd:67 /etc/rc.d/init.d/zebra:67
+#, fuzzy
+msgid "Usage: $0 {start|stop|restart|reload|force-reload|try-restart|status}"
+msgstr "Kullanılışı: $0 {start|stop|reload|report|restart|status}"
 
 #: /etc/rc.d/init.d/crossfire:31
 #, fuzzy
@@ -2576,12 +2779,8 @@ msgstr ""
 msgid "Shutting down telescope daemon: "
 msgstr "APM artalanda durduruluyor: "
 
-#: /etc/rc.d/rc.sysinit:214
+#: /etc/rc.d/rc.sysinit:213
 msgid "$dst: LUKS requires non-random key, skipping"
-msgstr ""
-
-#: /usr/sbin/sys-unconfig:6
-msgid "Usage: sys-unconfig"
 msgstr ""
 
 #: /etc/rc.d/init.d/smolt:65
@@ -2597,7 +2796,12 @@ msgstr "Verilen IPV4 adresi '$ipv4addr' internet kullanımına uygun değil,"
 msgid "move passphrase file"
 msgstr ""
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:863
+#: /etc/rc.d/init.d/tgtd:126
+#, fuzzy
+msgid "Updating $prog configuration: "
+msgstr "$prog servisinin ayarları yeniden yükleniyor: "
+
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:763
 msgid "Tunnel device '$device' bringing up didn't work"
 msgstr "Tünel aygıtı '$device' 'ı çalışır duruma getiremedi"
 
@@ -2621,23 +2825,20 @@ msgstr "Veritabanı ilklendiriliyor: "
 msgid "Shutting down $KIND services: "
 msgstr "$KIND hizmetleri durduruluyor: "
 
-#: /etc/rc.d/init.d/ocspd:64
+#: /etc/rc.d/init.d/microcode_ctl:26
 #, fuzzy
-msgid "Shutting down ${prog}: "
-msgstr "$prog durduruluyor: "
+msgid "Loading AMD microcode update module"
+msgstr "Öntanımlı klavye eşlemi yükleniyor: "
 
-#: /etc/rc.d/init.d/rarpd:91
-#, fuzzy
-msgid "Usage: $0 {start|stop|restart|condrestart|reload|status|force-reload}"
+#: /etc/rc.d/init.d/firehol:6863
+msgid "FireHOL: Activating new firewall:"
 msgstr ""
-"Kullanılışı: $0 {start|stop|status|restart|condrestart|condstop|reload|force-"
-"reload}"
 
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:181
 msgid "Kernel is not compiled with IPv6 support"
 msgstr "Çekirdek IPv6 desteğiyle derlenmemiş."
 
-#: /etc/rc.d/init.d/fsniper:36 /etc/rc.d/init.d/radvd:53
+#: /etc/rc.d/init.d/fsniper:36 /etc/rc.d/init.d/radvd:59
 #: /etc/rc.d/init.d/xttpd:56
 #, fuzzy
 msgid "Stopping $PROG: "
@@ -2658,13 +2859,14 @@ msgstr "${base} durdurulmuş"
 msgid "Stopping Video Disk Recorder ($prog): "
 msgstr "$desc başlatılıyor ($prog): "
 
-#: /etc/rc.d/init.d/functions:535
+#: /etc/rc.d/init.d/functions:542
 msgid "Start service $1 (Y)es/(N)o/(C)ontinue? [Y] "
 msgstr "$1 servisi başlatılsın mı? (E)vet/(H)ayır/(D)evam? [E] "
 
-#: /etc/rc.d/init.d/radiusd:56
-msgid "Reloading RADIUS server: "
-msgstr "RADIUS sunucusu yeniden yükleniyor: "
+#: /etc/rc.d/init.d/rpcgssd:98
+#, fuzzy
+msgid "Stopping RPC gssd: "
+msgstr "RPC gssd başlatılıyor: "
 
 #: /etc/rc.d/init.d/ulogd:39
 #, fuzzy
@@ -2676,7 +2878,7 @@ msgstr "$prog: zaten çalışıyor"
 msgid "Shutting down BitTorrent tracker: "
 msgstr "$i arabirimi durduruluyor: "
 
-#: /etc/rc.d/rc.sysinit:574
+#: /etc/rc.d/rc.sysinit:578
 msgid "Checking filesystems"
 msgstr "Dosya sistemleri denetleniyor"
 
@@ -2700,19 +2902,25 @@ msgstr "dund başlatılıyor: "
 msgid "Shutting down ZABBIX proxy: "
 msgstr "$prog durduruluyor: "
 
-#: /etc/rc.d/init.d/multipathd:65
+#: /etc/rc.d/init.d/multipathd:69
 msgid "Starting $prog daemon: "
 msgstr "$prog hizmeti başlatılıyor: "
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:963
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:863
 msgid "Unsupported selection '$selection' specified (arg 2)"
 msgstr "Desteklenmeyen seçenek '$selection' seçildi (arg 2)"
 
-#: /etc/rc.d/init.d/radiusd:37
-msgid "Starting RADIUS server: "
-msgstr "RADIUS sunucusu başlatılıyor: "
+#: /etc/rc.d/init.d/tclhttpd:69
+#, fuzzy
+msgid "Usage: killproc {program} [signal]"
+msgstr "Kullanılışı: killproc {program} [sinyal]"
 
-#: /etc/rc.d/init.d/netfs:83 /etc/rc.d/rc.sysinit:601
+#: /etc/rc.d/init.d/orbited:61
+#, fuzzy
+msgid "Orbited is running."
+msgstr "cardmgr ($pid numaralı süreç) çalışıyor..."
+
+#: /etc/rc.d/init.d/netfs:84 /etc/rc.d/rc.sysinit:605
 msgid "*** Dropping you to a shell; the system will reboot"
 msgstr "*** Size bir kabuk sunuluyor; sistem yeniden başlatılacak"
 
@@ -2721,11 +2929,16 @@ msgstr "*** Size bir kabuk sunuluyor; sistem yeniden başlatılacak"
 msgid "Starting supervisord: "
 msgstr "hidd başlatılıyor: "
 
-#: /etc/rc.d/init.d/condor:211 /etc/rc.d/init.d/tinyerp-server:88
-#: /etc/rc.d/init.d/tinyerp-server:91
+#: /etc/rc.d/init.d/condor:211 /etc/rc.d/init.d/freenx-server:85
+#: /etc/rc.d/init.d/tinyerp-server:88 /etc/rc.d/init.d/tinyerp-server:91
 #, fuzzy
 msgid "$prog is stopped"
 msgstr "${base} durdurulmuş"
+
+#: /etc/rc.d/init.d/zarafa-spooler:69
+#, fuzzy
+msgid "Restarting $spooler: "
+msgstr "$prog yeniden başlatılıyor: "
 
 #: /etc/rc.d/init.d/httpd:115
 msgid ""
@@ -2735,8 +2948,13 @@ msgstr ""
 "Kullanılışı: $prog {start|stop|restart|condrestart|reload|status|fullstatus|"
 "graceful|help|configtest}"
 
-#: /etc/rc.d/init.d/pgbouncer:44 /etc/rc.d/init.d/pgpool:84
-#: /etc/rc.d/init.d/postgresql:127 /etc/rc.d/init.d/sepostgresql:46
+#: /etc/rc.d/init.d/cyrus-imapd:93
+#, fuzzy
+msgid "Exporting $prog databases: "
+msgstr "$MODEL başlatılıyor: "
+
+#: /etc/rc.d/init.d/pgbouncer:44 /etc/rc.d/init.d/pgpool:98
+#: /etc/rc.d/init.d/postgresql:129 /etc/rc.d/init.d/sepostgresql:45
 msgid "Starting ${NAME} service: "
 msgstr "${NAME} hizmeti başlatılıyor: "
 
@@ -2745,7 +2963,7 @@ msgstr "${NAME} hizmeti başlatılıyor: "
 msgid "Stopping MaraDNS: "
 msgstr "acpi durduruluyor: "
 
-#: /etc/rc.d/rc.sysinit:187
+#: /etc/rc.d/rc.sysinit:186
 msgid "$dst: no value for size option, skipping"
 msgstr ""
 
@@ -2755,15 +2973,20 @@ msgid ""
 "initialization"
 msgstr ""
 
+#: /etc/rc.d/init.d/zarafa-gateway:44
+#, fuzzy
+msgid "Starting $gateway: "
+msgstr "dund başlatılıyor: "
+
 #: /etc/rc.d/init.d/vdr:43
 msgid "Use \"scandvb -o vdr\" from the dvb-apps package to create one."
 msgstr ""
 
-#: /etc/rc.d/init.d/ktune:169
+#: /etc/rc.d/init.d/ktune:177
 msgid "Reverting to ${KERNEL_ELEVATOR} elevator: "
 msgstr ""
 
-#: /etc/rc.d/init.d/netfs:140
+#: /etc/rc.d/init.d/netfs:142
 msgid "Active CIFS mountpoints: "
 msgstr "Etkin CIFS bağlantı noktaları: "
 
@@ -2772,16 +2995,15 @@ msgstr "Etkin CIFS bağlantı noktaları: "
 msgid "DSS key generation"
 msgstr "DSA anahtar üretimi"
 
-#: /etc/rc.d/init.d/nscd:59 /etc/rc.d/init.d/nscd:61
+#: /etc/rc.d/init.d/ksm:58 /etc/rc.d/init.d/nscd:59 /etc/rc.d/init.d/nscd:61
 msgid "$prog shutdown"
 msgstr "$prog durduruldu"
 
-#: /etc/rc.d/init.d/sshd:70
+#: /etc/rc.d/init.d/sshd:71
 msgid "Generating SSH2 RSA host key: "
 msgstr "SSH2 RSA anahtarı üretiliyor: "
 
-#: /etc/sysconfig/network-scripts/ifup-eth:269
-#: /etc/sysconfig/network-scripts/ifup-ib:235
+#: /etc/sysconfig/network-scripts/ifup-eth:255
 msgid "Error adding address ${IPADDR} for ${DEVICE}."
 msgstr "${IPADDR} adresini ${DEVICE} için eklerken hata."
 
@@ -2790,25 +3012,26 @@ msgstr "${IPADDR} adresini ${DEVICE} için eklerken hata."
 msgid "Stopping ipmi_watchdog driver: "
 msgstr "INNWatch hizmeti durduruluyor: "
 
+#: /etc/rc.d/init.d/dhcpd6:92
+#, fuzzy
+msgid "Starting $prog (DHCPv6): "
+msgstr "$prog başlatılıyor: "
+
 #: /etc/rc.d/init.d/innd:43
 msgid "Starting INND system: "
 msgstr "INND sistemi başlatılıyor: "
 
-#: /etc/rc.d/init.d/rbldnsd:143
+#: /etc/rc.d/init.d/zarafa-monitor:44
 #, fuzzy
-msgid "is stopped"
-msgstr "cardmgr durduruldu"
-
-#: /etc/rc.d/rc.sysinit:51
-msgid "*** Warning -- SELinux is active"
-msgstr ""
+msgid "Starting $monitor: "
+msgstr "pand başlatılıyor: "
 
 #: /etc/rc.d/init.d/arptables_jf:159 /etc/rc.d/init.d/ip6tables:303
 #: /etc/rc.d/init.d/iptables:303
 msgid "Table: $table"
 msgstr "Tablo: $table"
 
-#: /etc/rc.d/init.d/util-vserver:57
+#: /etc/rc.d/init.d/util-vserver:72
 msgid "Creating required directories"
 msgstr ""
 
@@ -2817,10 +3040,10 @@ msgstr ""
 msgid "Reloading Avahi DNS daemon... "
 msgstr "Avahi servisi yeniden yükleniyor: "
 
-#: /etc/rc.d/init.d/ctdb:140
-#, fuzzy
-msgid "Starting ctdbd service: "
-msgstr "NFS hizmetleri başlatılıyor: "
+#: /etc/rc.d/init.d/firehol:6932 /etc/rc.d/init.d/firehol:6938
+#: /etc/rc.d/init.d/firehol:6943
+msgid "FireHOL: Saving firewall to ${FIREHOL_AUTOSAVE}:"
+msgstr ""
 
 #: /etc/rc.d/init.d/apt:67
 #, fuzzy
@@ -2831,19 +3054,27 @@ msgstr "Gecelik yum güncelleştirmesi etkinleştirildi."
 msgid "Stopping GNU cfengine environmental history daemon: "
 msgstr ""
 
-#: /etc/rc.d/init.d/postgresql:237 /etc/rc.d/init.d/sepostgresql:151
+#: /etc/rc.d/init.d/postgresql:240 /etc/rc.d/init.d/sepostgresql:150
 msgid "Initializing database: "
 msgstr "Veritabanı ilklendiriliyor: "
 
-#: /etc/rc.d/init.d/abrt:39
+#: /etc/rc.d/init.d/abrtd:40
 #, fuzzy
 msgid "Starting abrt daemon: "
 msgstr "acpi başlatılıyor: "
 
-#: /etc/rc.d/init.d/nginx:86
+#: /etc/rc.d/init.d/zarafa-dagent:74
 #, fuzzy
-msgid "Staring new master $prog: "
-msgstr "$prog başlatılıyor: "
+msgid "Restarting $dagent: "
+msgstr "$prog yeniden başlatılıyor: "
+
+#: /etc/rc.d/init.d/zarafa-gateway:102
+#, fuzzy
+msgid ""
+"Usage: $gateway {start|stop|status|reload|restart|condrestart|force-reload|"
+"try-restart}"
+msgstr ""
+"Kullanılışı: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
 
 #: /etc/rc.d/init.d/cyphesis:49
 #, fuzzy
@@ -2858,7 +3089,7 @@ msgid ""
 msgstr ""
 "Kullanılışı: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
 
-#: /etc/rc.d/init.d/nfs:185 /etc/rc.d/init.d/nfslock:125
+#: /etc/rc.d/init.d/nfs:184 /etc/rc.d/init.d/nfslock:125
 msgid "restart"
 msgstr "yeniden başlat"
 
@@ -2867,11 +3098,11 @@ msgstr "yeniden başlat"
 msgid "Starting exim: "
 msgstr "hidd başlatılıyor: "
 
-#: /etc/rc.d/init.d/network:85
+#: /etc/rc.d/init.d/network:86
 msgid "Setting 802.1Q VLAN parameters: "
 msgstr "802.1Q VLAN parametreleri ayarlanıyor: "
 
-#: /etc/rc.d/init.d/pgpool:186
+#: /etc/rc.d/init.d/pgpool:200
 #, fuzzy
 msgid ""
 "Usage: $0 {start|stop|switch|status|restart|condrestart|condstop|reload|"
@@ -2884,12 +3115,11 @@ msgstr ""
 msgid "$s is dead, but another script is running."
 msgstr ""
 
-#: /etc/sysconfig/network-scripts/ifup-eth:264
-#: /etc/sysconfig/network-scripts/ifup-ib:230
+#: /etc/sysconfig/network-scripts/ifup-eth:250
 msgid "Error, some other host already uses address ${IPADDR}."
 msgstr "Hata, başka bir makina zaten ${IPADDR} adresini kullanıyor."
 
-#: /etc/rc.d/init.d/nfs:154 /etc/rc.d/init.d/nfs:156
+#: /etc/rc.d/init.d/nfs:153 /etc/rc.d/init.d/nfs:155
 msgid "Shutting down NFS services: "
 msgstr "NFS hizmetleri durduruluyor: "
 
@@ -2898,20 +3128,18 @@ msgstr "NFS hizmetleri durduruluyor: "
 msgid "Stopping monotone server: "
 msgstr "YP map sunucusu durduruluyor: "
 
-#: /etc/rc.d/init.d/netfs:128
+#: /etc/rc.d/init.d/netfs:130
 msgid "Configured NCP mountpoints: "
 msgstr "Yapılandırılmış NCP bağlantı noktaları: "
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:497
-msgid "Cannot delete IPv6 address '$address' on dev '$device'"
-msgstr "'$device' aygıtı üzerindeki '$address' IPv6 adresi silinemiyor"
-
-#: /etc/rc.d/init.d/ups:39
+#: /etc/rc.d/init.d/ctdb:313
 #, fuzzy
-msgid "Starting UPS driver controller: "
-msgstr "UPS (yardımcı) izleyicisi başlatılıyor: "
+msgid ""
+"Usage: $0 {start|stop|restart|reload|force-reload|status|cron|condrestart|"
+"try-restart}"
+msgstr "Kullanılışı: $0 {start|stop|reload|report|restart|status}"
 
-#: /etc/rc.d/init.d/puppetmaster:88
+#: /etc/rc.d/init.d/puppetmaster:90
 #, fuzzy
 msgid "Generate configuration puppetmaster: "
 msgstr "hidd başlatılıyor: "
@@ -2923,11 +3151,11 @@ msgid ""
 "address ${HWADDR}. Ignoring."
 msgstr ""
 
-#: /etc/rc.d/init.d/functions:447
+#: /etc/rc.d/init.d/functions:454
 msgid "FAILED"
 msgstr "BAŞARISIZ"
 
-#: /etc/rc.d/rc.sysinit:180
+#: /etc/rc.d/rc.sysinit:179
 msgid "$dst: no value for cipher option, skipping"
 msgstr ""
 
@@ -2935,6 +3163,11 @@ msgstr ""
 #, fuzzy
 msgid "Shutting down Avahi daemon: "
 msgstr "APM artalanda durduruluyor: "
+
+#: /etc/rc.d/init.d/slapd:257 /etc/rc.d/init.d/slapd:261
+#, fuzzy
+msgid "Usage: $0 {start|stop|restart|status|condrestart|configtest|usage}"
+msgstr "Kullanılışı: $0 {start|stop|restart|status|condrestart}"
 
 #: /etc/rc.d/init.d/aiccu:65 /etc/rc.d/init.d/nmb:41 /etc/rc.d/init.d/smb:41
 #: /etc/rc.d/init.d/winbind:32
@@ -2945,13 +3178,8 @@ msgstr "$KIND hizmetleri başlatılıyor: "
 msgid "error in $FILE: invalid alias number"
 msgstr "$FILE içerisinde hata: geçersiz takma ad numarası"
 
-#: /etc/rc.d/init.d/cyrus-imapd:118
-msgid ""
-"$BASENAME error exporting databases, check ${CONFIGDIRECTORY}/rpm/db_export."
-"log"
-msgstr ""
-
-#: /etc/rc.d/init.d/tor:64
+#: /etc/rc.d/init.d/freenx-server:83 /etc/rc.d/init.d/ksm:70
+#: /etc/rc.d/init.d/tor:79
 #, fuzzy
 msgid "$prog is running"
 msgstr "cardmgr ($pid numaralı süreç) çalışıyor..."
@@ -2961,7 +3189,7 @@ msgstr "cardmgr ($pid numaralı süreç) çalışıyor..."
 msgid "Starting up $prog: "
 msgstr "$prog başlatılıyor: "
 
-#: /etc/rc.d/init.d/libvirt-qpid:63 /etc/rc.d/init.d/libvirtd:87
+#: /etc/rc.d/init.d/libvirtd:88 /etc/rc.d/init.d/libvirt-qpid:63
 #: /etc/rc.d/init.d/matahari:47
 #, fuzzy
 msgid "Reloading $SERVICE configuration: "
@@ -2972,15 +3200,13 @@ msgstr "Yapılandırma yeniden yükleniyor: "
 msgid "${IPTABLES}: Flushing firewall rules: "
 msgstr "Güvenlik duvarı kuralları kaldırılıyor: "
 
-#: /etc/rc.d/init.d/amtu:87 /etc/rc.d/init.d/certmaster:124
-#: /etc/rc.d/init.d/cgred:135 /etc/rc.d/init.d/cobblerd:109
-#: /etc/rc.d/init.d/funcd:127 /etc/rc.d/init.d/libvirt-qpid:87
-#: /etc/rc.d/init.d/libvirtd:111 /etc/rc.d/init.d/matahari:71
-#: /etc/rc.d/init.d/messagebus:89 /etc/rc.d/init.d/multipathd:121
-#: /etc/rc.d/init.d/mydns:71 /etc/rc.d/init.d/nslcd:69
+#: /etc/rc.d/init.d/certmaster:124 /etc/rc.d/init.d/cgred:135
+#: /etc/rc.d/init.d/cobblerd:134 /etc/rc.d/init.d/funcd:127
+#: /etc/rc.d/init.d/libvirtd:112 /etc/rc.d/init.d/libvirt-qpid:87
+#: /etc/rc.d/init.d/matahari:71 /etc/rc.d/init.d/messagebus:89
+#: /etc/rc.d/init.d/multipathd:127 /etc/rc.d/init.d/mydns:71
 #: /etc/rc.d/init.d/preload:108 /etc/rc.d/init.d/smsd:88
-#: /etc/rc.d/init.d/snmpd:111 /etc/rc.d/init.d/snmptrapd:100
-#: /etc/rc.d/init.d/xinetd:146
+#: /etc/rc.d/init.d/xinetd:152
 msgid "Usage: $0 {start|stop|status|restart|condrestart|reload}"
 msgstr "Kullanılışı: $0 {start|stop|status|restart|condrestart|reload}"
 
@@ -2988,18 +3214,16 @@ msgstr "Kullanılışı: $0 {start|stop|status|restart|condrestart|reload}"
 msgid "*** $0 can not be called in this way"
 msgstr ""
 
-#: /etc/rc.d/init.d/netconsole:109
-msgid "netconsole module loaded"
+#: /etc/rc.d/init.d/myproxy-server:88
+#, fuzzy
+msgid "Usage: $0 {start|stop|status|restart|reload|try-restart|force-reload}"
 msgstr ""
+"Kullanılışı:$0 {start|stop|status|restart|try-restart|reload|force-reload}"
 
 #: /etc/rc.d/init.d/denyhosts:93
 #, fuzzy
 msgid "Denyhosts already running."
 msgstr "$prog: zaten çalışıyor"
-
-#: /etc/rc.d/init.d/tor:69
-msgid "status $rc of $prog"
-msgstr ""
 
 #: /etc/rc.d/init.d/gadget:56
 #, fuzzy
@@ -3011,7 +3235,6 @@ msgid "Warning: interface 'tun6to4' does not support 'IPV6_DEFAULTGW', ignored"
 msgstr "Uyarı: 'tun6to4' arabirimi 'IPV6_DEFAULTGW' desteklemiyor, yoksayıldı"
 
 #: /etc/sysconfig/network-scripts/ifup-eth:81
-#: /etc/sysconfig/network-scripts/ifup-ib:54
 msgid "Device ${DEVICE} does not seem to be present, delaying initialization."
 msgstr "${DEVICE} aygıtı hazır görünmüyor, başlatılması sonraya bırakılıyor."
 
@@ -3019,29 +3242,20 @@ msgstr "${DEVICE} aygıtı hazır görünmüyor, başlatılması sonraya bırak�
 msgid "Enabling Moodle cron job: "
 msgstr "Moodle cron görevi aktifleştiriliyor: "
 
-#: /etc/rc.d/init.d/cyrus-imapd:94
-#, fuzzy
-msgid "Starting $BASENAME: "
-msgstr "$MODEL başlatılıyor: "
-
 #: /etc/rc.d/init.d/NetworkManager:57
 msgid "Waiting for network..."
 msgstr ""
-
-#: /etc/rc.d/init.d/network:272
-msgid "Disabling IPv4 automatic defragmentation: "
-msgstr "IPv4 otomatik bütünleştirmesi devre dışı bırakılıyor: "
 
 #: /etc/rc.d/init.d/xttpd:29
 msgid "$DAEMON is not set."
 msgstr ""
 
-#: /etc/rc.d/init.d/pkcsslotd:24
+#: /etc/rc.d/init.d/pkcsslotd:25
 #, fuzzy
 msgid "Starting pkcsslotd: "
 msgstr "pand başlatılıyor: "
 
-#: /etc/rc.d/init.d/network:69
+#: /etc/rc.d/init.d/network:70
 msgid "Bringing up loopback interface: "
 msgstr "loopback arayüzü etkinleştiriliyor: "
 
@@ -3049,7 +3263,7 @@ msgstr "loopback arayüzü etkinleştiriliyor: "
 msgid "Unknown error"
 msgstr "Bilinmeyen hata"
 
-#: /etc/rc.d/init.d/puppetmaster:41
+#: /etc/rc.d/init.d/puppetmaster:42
 #, fuzzy
 msgid "Starting puppetmaster: "
 msgstr "hidd başlatılıyor: "
@@ -3076,6 +3290,11 @@ msgstr ""
 msgid "Stopping fail2ban: "
 msgstr "acpi durduruluyor: "
 
+#: /etc/rc.d/init.d/zarafa-spooler:54
+#, fuzzy
+msgid "Stopping $spooler: "
+msgstr "$prog durduruluyor: "
+
 #: /etc/rc.d/init.d/ip6tables:220
 #, fuzzy
 msgid "${IP6TABLES}: Unloading modules: "
@@ -3086,25 +3305,34 @@ msgstr "$IP6TABLES modülleri kaldırılıyor: "
 msgid "dead but subsys locked"
 msgstr "${base} ölü durumda ama subsys kilitli"
 
-#: /etc/rc.d/init.d/postfix:104
+#: /etc/rc.d/init.d/postfix:108
 #, fuzzy
 msgid "$prog abort"
 msgstr "postfix'i durdur (abort)"
 
-#: /etc/rc.d/init.d/nfs:131
+#: /etc/rc.d/init.d/nfs:130
 msgid "Shutting down NFS mountd: "
 msgstr "NFS mountd durduruluyor: "
 
-#: /etc/rc.d/init.d/halt:149
+#: /etc/rc.d/init.d/halt:187
 msgid "On the next boot fsck will be forced."
 msgstr "Sonraki açılışta mutlaka fsck işlemi yapılacak."
+
+#: /etc/rc.d/init.d/mcstrans:98
+#, fuzzy
+msgid "Usage: $0 {start|stop|status|restart|force-reload|condrestart}"
+msgstr "Kullanılışı: $0 {start|stop|status|restart|reload|condrestart}"
+
+#: /etc/rc.d/init.d/firehol:6857 /etc/rc.d/init.d/firehol:6870
+msgid "FireHOL: Activating new firewall (${FIREHOL_COMMAND_COUNTER} rules):"
+msgstr ""
 
 #: /etc/rc.d/init.d/smolt:37
 #, fuzzy
 msgid "Disabling monthly Smolt update: "
 msgstr "Gecelik yum güncellemesi geçersizleştiriliyor: "
 
-#: /etc/rc.d/init.d/functions:469
+#: /etc/rc.d/init.d/functions:476
 msgid "WARNING"
 msgstr "UYARI"
 
@@ -3113,7 +3341,7 @@ msgstr "UYARI"
 msgid "denyhosts cron service is disabled."
 msgstr "Denyhost devre dışı."
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:1057
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:957
 msgid "Given IPv6 MTU '$ipv6_mtu' is out of range"
 msgstr "Verilen IPv6 MTU '$ipv6_mtu' sınır dışında (out of range)"
 
@@ -3121,7 +3349,7 @@ msgstr "Verilen IPv6 MTU '$ipv6_mtu' sınır dışında (out of range)"
 msgid "$1 not available"
 msgstr ""
 
-#: /etc/rc.d/init.d/sendmail:104
+#: /etc/rc.d/init.d/sendmail:107
 msgid "Shutting down sm-client: "
 msgstr "sm-istemcisi durduruluyor: "
 
@@ -3140,15 +3368,18 @@ msgstr "PC/SC smart card daemon durduruluyor ($prog): "
 msgid "Starting ${prog_base}:"
 msgstr "$prog başlatılıyor: "
 
-#: /etc/rc.d/init.d/openhpi-subagent:70
-#, fuzzy
-msgid "Starting up HPI SNMP sub-agent daemon: "
-msgstr "APM başlatılıyor: "
+#: /etc/sysconfig/network-scripts/ifup-ipv6:178
+msgid "Device 'tun6to4' (from '$DEVICE') is already up, shutdown first"
+msgstr "Aygıt 'tun6to4' ('$DEVICE'daki) zaten kullanımda, önce kapatın"
 
-#: /etc/rc.d/init.d/ctdb:272
+#: /etc/rc.d/init.d/freenx-server:89
 #, fuzzy
-msgid "Usage: $0 {start|stop|restart|status|cron|condrestart}"
-msgstr "Kullanılışı: $0 {start|stop|restart|status|condrestart}"
+msgid "Usage: $prog {start|stop|restart|status}"
+msgstr "Kullanılışı: $0 {start|stop|restart|status}"
+
+#: /etc/rc.d/init.d/tor:84
+msgid "status $rc of $prog"
+msgstr ""
 
 #: /etc/rc.d/init.d/wine:26
 msgid "Registering binary handler for Windows applications: "
@@ -3168,18 +3399,15 @@ msgstr "$desc başlatılıyor ($prog): "
 msgid "Starting Gadget daemon: "
 msgstr "acpi başlatılıyor: "
 
-#: /etc/rc.d/init.d/cyrus-imapd:178
-#, fuzzy
-msgid ""
-"Usage: $BASENAME {start|stop|restart|reload|condrestart|status|quickstart|"
-"quickstop}"
-msgstr "Kullanılışı: $BASENAME {start|stop|restart|reload|condrestart|status}"
-
-#: /etc/rc.d/init.d/functions:436
+#: /etc/rc.d/init.d/functions:443
 msgid "  OK  "
 msgstr "  TAMAM  "
 
-#: /etc/rc.d/init.d/network:285
+#: /etc/rc.d/init.d/clamd-wrapper:9
+msgid "*** Please see /usr/share/doc/clamav-server-*/README how"
+msgstr "***·Lüften bakın·/usr/share/doc/clamav-server-*/README·nasıl"
+
+#: /etc/rc.d/init.d/network:271
 msgid "Configured devices:"
 msgstr "Yapılandırılmış aygıtlar:"
 
@@ -3188,14 +3416,14 @@ msgstr "Yapılandırılmış aygıtlar:"
 msgid "Stopping INND service (PID not found, the hard way): "
 msgstr "INND hizmeti durduruluyor: "
 
-#: /etc/rc.d/init.d/radiusd:45
-msgid "Stopping RADIUS server: "
-msgstr "RADIUS hizmetleri durduruluyor: "
+#: /etc/rc.d/init.d/firehol:6670 /etc/rc.d/init.d/firehol:6674
+#: /etc/rc.d/init.d/firehol:6678
+msgid "FireHOL: Saving your old firewall to a temporary file:"
+msgstr ""
 
-#: /etc/rc.d/init.d/preload:67
-#, fuzzy
-msgid "Stopping preload daemon: "
-msgstr "$prog hizmeti durduruluyor: "
+#: /etc/rc.d/init.d/netfs:138
+msgid "Active NFS mountpoints: "
+msgstr "Etkin NFS bağlantı noktaları: "
 
 #: /etc/sysconfig/network-scripts/ifdown:33
 #: /etc/sysconfig/network-scripts/ifup:49
@@ -3206,11 +3434,11 @@ msgstr "Kullanıcılar bu aygıtı kontrol edemez."
 msgid "Starting router discovery: "
 msgstr "\"router discovery\" başlatılıyor:"
 
-#: /etc/rc.d/init.d/netfs:95
+#: /etc/rc.d/init.d/netfs:96
 msgid "Mounting other filesystems: "
 msgstr "Diğer dosya sistemleri bağlanıyor: "
 
-#: /etc/rc.d/init.d/microcode_ctl:37
+#: /etc/rc.d/init.d/microcode_ctl:24 /etc/rc.d/init.d/microcode_ctl:33
 #, fuzzy
 msgid "Applying Intel CPU microcode update: "
 msgstr "Intel Microcode güncellemesi uygulanıyor: "
@@ -3220,34 +3448,32 @@ msgstr "Intel Microcode güncellemesi uygulanıyor: "
 msgid "qemu binary format handlers are registered."
 msgstr "Wine ikilik biçim işleyicileri kayıtlı."
 
+#: /etc/rc.d/init.d/ucarp:31
+msgid "common address redundancy protocol daemon"
+msgstr ""
+
 #: /etc/rc.d/init.d/dansguardian:51 /etc/rc.d/init.d/mon:49
 #: /etc/rc.d/init.d/partimaged:59
 #, fuzzy
 msgid "Reloading $desc ($prog): "
 msgstr "$desc başlatılıyor ($prog): "
 
-#: /etc/rc.d/init.d/smartd:119
+#: /etc/rc.d/init.d/zarafa-server:40
 #, fuzzy
-msgid ""
-"Usage: $0 {start|stop|reload|force-reload|report|restart|try-restart|status}"
-msgstr "Kullanılışı: $0 {start|stop|reload|report|restart|status}"
+msgid "Starting $server: "
+msgstr "YP map sunucusu başlatılıyor: "
 
-#: /etc/rc.d/init.d/auditd:163
-#, fuzzy
-msgid "Usage: $0 {start|stop|status|restart|condrestart|reload|rotate|resume}"
-msgstr "Kullanılışı: $0 {start|stop|status|restart|condrestart|reload|rotate}"
+#: /etc/rc.d/init.d/systemtap:63
+msgid "\t-c configfile\t: specify config file"
+msgstr ""
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:192
-msgid "error in $FILE: didn't specify device or ipaddr"
-msgstr "$FILE dosyasında hata: aygıt ya da IP belirtilmemiş"
-
-#: /etc/rc.d/init.d/ktune:117
+#: /etc/rc.d/init.d/ktune:116
 msgid "Applying sysctl settings from $SYSCTL_POST: "
 msgstr ""
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:691
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:748
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:787
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:591
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:648
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:687
 msgid "Given device '$device' is not supported (arg 1)"
 msgstr "'$device' aygıtı desteklenmiyor (arg 1)"
 
@@ -3256,15 +3482,14 @@ msgstr "'$device' aygıtı desteklenmiyor (arg 1)"
 msgid "Usage: pidofproc [-p pidfile] {program}"
 msgstr "Kullanılışı: pidofproc {program}"
 
+#: /etc/rc.d/init.d/zarafa-server:74
+msgid "Timeout on stopping $server ... sending kill signal"
+msgstr ""
+
 #: /etc/rc.d/init.d/ntpdate:85
 #, fuzzy
 msgid "Usage: $0 {start|stop|status|restart|force-reload}"
 msgstr "Kullanılışı: $0 {start|stop|status|restart|reload}"
-
-#: /etc/rc.d/init.d/xend:34
-#, fuzzy
-msgid "Starting xend daemon: "
-msgstr "NFS başlatılıyor: "
 
 #: /etc/rc.d/init.d/irda:35
 #, fuzzy
@@ -3285,10 +3510,6 @@ msgstr "Güvenlik duvarı yapılandırılmamış."
 msgid "Restarting $prog: "
 msgstr "$prog yeniden başlatılıyor: "
 
-#: /etc/rc.d/init.d/rstatd:87 /etc/rc.d/init.d/rusersd:88
-msgid "Usage: $0 {start|stop|status|restart|reload|force-reload}"
-msgstr "Kullanılışı: $0 {start|stop|status|restart|reload|force-reload}"
-
 #: /etc/rc.d/init.d/wpa_supplicant:38
 msgid "Starting $prog: $conf, $INTERFACES, $DRIVERS"
 msgstr ""
@@ -3298,7 +3519,7 @@ msgstr ""
 msgid "Starting ZABBIX proxy: "
 msgstr "RPC idmapd başlatılıyor: "
 
-#: /etc/rc.d/init.d/hddtemp:49
+#: /etc/rc.d/init.d/hddtemp:56
 msgid "Stopping hard disk temperature monitor daemon ($prog): "
 msgstr "Sabit disk sıcaklık monitörü servisi durduruluyor ($prog):·"
 
@@ -3307,23 +3528,36 @@ msgstr "Sabit disk sıcaklık monitörü servisi durduruluyor ($prog):·"
 msgid "irattach startup"
 msgstr "$base başlat"
 
-#: /etc/rc.d/init.d/ocspd:40 /etc/rc.d/init.d/ucarp:41
+#: /etc/rc.d/init.d/ncidd:54 /etc/rc.d/init.d/ncid-hangup:58
+#: /etc/rc.d/init.d/ncid-kpopup:59 /etc/rc.d/init.d/ncid-mythtv:59
+#: /etc/rc.d/init.d/ncid-page:60 /etc/rc.d/init.d/ncid-samba:59
+#: /etc/rc.d/init.d/ncidsip:57 /etc/rc.d/init.d/ncid-speak:59
+#: /etc/rc.d/init.d/sip2ncid:54 /etc/rc.d/init.d/yac2ncid:53
+#, fuzzy
+msgid "Reloading $prog alias files: "
+msgstr "$prog servisinin ayarları yeniden yükleniyor: "
+
+#: /etc/rc.d/init.d/ocspd:40 /etc/rc.d/init.d/pki-rad:736
+#: /etc/rc.d/init.d/pki-rad:813 /etc/rc.d/init.d/pki-rad:822
+#: /etc/rc.d/init.d/pki-tpsd:748 /etc/rc.d/init.d/pki-tpsd:825
+#: /etc/rc.d/init.d/pki-tpsd:834 /etc/rc.d/init.d/ucarp:41
 #, fuzzy
 msgid "Starting ${prog}: "
 msgstr "$prog başlatılıyor: "
 
-#: /etc/rc.d/init.d/dcbd:160
+#: /etc/rc.d/init.d/dcbd:161
 #, fuzzy
 msgid "Starting $DCBD: "
 msgstr "$ID başlatılıyor: "
 
-#: /etc/rc.d/rc.sysinit:53
+#: /etc/rc.d/rc.sysinit:52
 msgid "*** Run 'setenforce 1' to reenable."
 msgstr ""
 
-#: /etc/rc.d/init.d/kadmin:50
-msgid "Error. This appears to be a slave server, found kpropd.acl"
-msgstr ""
+#: /etc/rc.d/init.d/preload:67
+#, fuzzy
+msgid "Stopping preload daemon: "
+msgstr "$prog hizmeti durduruluyor: "
 
 #: /etc/sysconfig/network-scripts/ifup-ipv6:306
 msgid "6to4 configuration is not valid"
@@ -3380,7 +3614,7 @@ msgstr ""
 msgid "Loading database with rules: "
 msgstr "Yeni virüs veritabanı yükleniyor: "
 
-#: /etc/rc.d/init.d/vncserver:80 /etc/rc.d/init.d/vncserver:81
+#: /etc/rc.d/init.d/vncserver:98 /etc/rc.d/init.d/vncserver:99
 msgid "vncserver shutdown"
 msgstr "vncserver durduruldu"
 
@@ -3389,12 +3623,12 @@ msgstr "vncserver durduruldu"
 msgid "Stopping xenconsoled daemon: "
 msgstr "HAL servisi durduruluyor: "
 
-#: /etc/rc.d/init.d/netfs:132
+#: /etc/rc.d/init.d/netfs:134
 #, fuzzy
 msgid "Configured network block devices: "
 msgstr "Yapılandırılmış aygıtlar:"
 
-#: /etc/rc.d/init.d/dovecot:97
+#: /etc/rc.d/init.d/dovecot:102
 #, fuzzy
 msgid ""
 "Usage: $0 {condrestart|try-restart|start|stop|restart|reload|force-reload|"
@@ -3417,7 +3651,7 @@ msgstr ""
 msgid "Starting denyhosts: "
 msgstr "Takas alanı etkinleştiriliyor: "
 
-#: /etc/rc.d/init.d/functions:539
+#: /etc/rc.d/init.d/functions:546
 msgid "cC"
 msgstr "dD"
 
@@ -3426,26 +3660,32 @@ msgstr "dD"
 msgid "$prog compiled "
 msgstr "${base} durdurulmuş"
 
-#: /etc/rc.d/init.d/vncserver:121
+#: /etc/rc.d/init.d/vncserver:142
 #, fuzzy
 msgid "Usage: $0 {start|stop|restart|try-restart|status|force-reload}"
 msgstr "Kullanılışı: $0 {start|stop|restart|status|condrestart}"
 
-#: /etc/rc.d/rc.sysinit:401
+#: /etc/rc.d/rc.sysinit:405
 #, fuzzy
 msgid "*** Dropping you to a shell; the system will continue"
 msgstr "*** Size bir kabuk sunuluyor; sistem yeniden başlatılacak"
 
-#: /etc/rc.d/init.d/sgemaster:323
+#: /etc/rc.d/init.d/restorecond:85
 #, fuzzy
-msgid "Stopping $master_prog: "
-msgstr "$prog durduruluyor: "
+msgid "Usage: $0 {start|stop|restart|force-reload|status|condrestart}"
+msgstr "Kullanılışı: $0 {start|stop|restart|reload|status|condrestart}"
 
-#: /etc/rc.d/init.d/halt:108
+#: /etc/rc.d/init.d/tgtd:72 /etc/rc.d/init.d/tgtd:101
+#: /etc/rc.d/init.d/tgtd:132 /etc/rc.d/init.d/tgtd:153
+#, fuzzy
+msgid "not running"
+msgstr "$prog çalışmıyor"
+
+#: /etc/rc.d/init.d/halt:138
 msgid "Unmounting pipe file systems (retry): "
 msgstr "Pipe dosya sistemleri (tekrar) ayrılıyor: "
 
-#: /etc/rc.d/init.d/cyrus-imapd:133
+#: /etc/rc.d/init.d/cyrus-imapd:115
 #, fuzzy
 msgid "Reloading cyrus.conf file: "
 msgstr "smb.conf dosyası yeniden yükleniyor: "
@@ -3460,9 +3700,9 @@ msgstr "hpiod durduruluyor: "
 msgid "Cleaning up systemtap scripts: "
 msgstr "$prog başlatılıyor: "
 
-#: /etc/rc.d/init.d/systemtap:500 /etc/rc.d/init.d/systemtap:591
-msgid "Failed to make cache directory ($CACHE_PATH)"
-msgstr ""
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:125
+msgid "NOTICE   "
+msgstr "UYARI    "
 
 #: /etc/rc.d/init.d/mongrel_cluster:118
 #, fuzzy
@@ -3472,6 +3712,11 @@ msgstr "$prog $site için başlatılıyor: "
 #: /etc/rc.d/init.d/autofs:127 /etc/rc.d/init.d/autofs:133
 msgid "$prog not running"
 msgstr "$prog çalışmıyor"
+
+#: /etc/rc.d/init.d/tgtd:148
+#, fuzzy
+msgid "Force-updating $prog configuration: "
+msgstr "$prog servisinin ayarları yeniden yükleniyor: "
 
 #: /etc/sysconfig/network-scripts/ifup-ppp:77
 msgid ""
@@ -3485,11 +3730,16 @@ msgstr ""
 "Çalışan tüm kurallar ve kullanıcı tarafından tanımlanmış zincirler "
 "temizleniyor:"
 
-#: /etc/rc.d/init.d/yppasswdd:49
+#: /etc/rc.d/init.d/yppasswdd:60
 msgid "Stopping YP passwd service: "
 msgstr "YP passwd hizmeti durduruluyor: "
 
-#: /etc/rc.d/init.d/postfix:156
+#: /etc/rc.d/init.d/orbited:64
+#, fuzzy
+msgid "Orbited is not running."
+msgstr "Avahi servisi çalışmıyor"
+
+#: /etc/rc.d/init.d/postfix:160
 #, fuzzy
 msgid ""
 "Usage: $0 {start|stop|restart|reload|abort|flush|check|status|condrestart}"
@@ -3497,12 +3747,11 @@ msgstr ""
 "Kullanılışı: postfix {start|stop|restart|reload|abort|flush|check|status|"
 "condrestart}"
 
-#: /etc/rc.d/init.d/udev-post:32
+#: /etc/rc.d/init.d/udev-post:33
 msgid "Adding udev persistent rules"
 msgstr ""
 
-#: /etc/sysconfig/network-scripts/ifup-eth:219
-#: /etc/sysconfig/network-scripts/ifup-ib:181
+#: /etc/sysconfig/network-scripts/ifup-eth:205
 msgid " failed."
 msgstr " başarısız."
 
@@ -3510,42 +3759,36 @@ msgstr " başarısız."
 msgid "database initialization"
 msgstr ""
 
-#: /etc/rc.d/init.d/sec:66
-msgid "Dumping state in /tmp/sec.dump: "
-msgstr ""
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:119
+msgid "CRITICAL "
+msgstr "ÖNEMLİ   "
 
-#: /etc/rc.d/init.d/nfs:87
+#: /etc/rc.d/init.d/nfs:86
 msgid "Starting NFS quotas: "
 msgstr "NFS kotaları başlatılıyor: "
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:685
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:585
 msgid "Missing parameter 'global IPv4 address' (arg 2)"
 msgstr "Eksik parametre g'lobal IPv4 address' (arg 2)"
 
-#: /etc/rc.d/init.d/microcode_ctl:67
-#, fuzzy
-msgid "$0: kernel does not have CPU microcode device support"
-msgstr "$0: çekirdek microcode desteğine sahip değil"
-
-#: /etc/rc.d/init.d/sepostgresql:138
+#: /etc/rc.d/init.d/sepostgresql:137
 #, fuzzy
 msgid "Reloading ${NAME} service: "
 msgstr "${NAME} hizmeti durduruluyor: "
 
-#: /etc/rc.d/init.d/netfs:82 /etc/rc.d/rc.sysinit:600
+#: /etc/rc.d/init.d/netfs:83 /etc/rc.d/rc.sysinit:604
 msgid "*** An error occurred during the file system check."
 msgstr "*** Dosya sistemi denetimi sırasında bir hata oluştu."
 
-#: /etc/rc.d/init.d/pdns-recursor:21
-#, fuzzy
-msgid "Starting pdns-recursor: "
-msgstr "$prog başlatılıyor: "
+#: /etc/rc.d/init.d/netfs:116
+msgid "Unmounting NCP filesystems: "
+msgstr "NCP dosya sistemleri ayrılıyor: "
 
 #: /etc/rc.d/init.d/arptables_jf:165
 msgid "Changing target policies to DROP: "
 msgstr "Hedef Kurallar DÜŞÜR (DROP) olarak değiştiriliyor: "
 
-#: /etc/rc.d/init.d/udev-post:56
+#: /etc/rc.d/init.d/udev-post:58
 msgid "Generating udev makedev cache file"
 msgstr ""
 
@@ -3563,23 +3806,18 @@ msgstr "Köprü desteği mevcut değil: brctl bulunmadı"
 msgid "Usage: status [-p pidfile] {program}"
 msgstr "Kullanılışı: status {program}"
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:636
-msgid "Missing parameter 'address' (arg 1)"
-msgstr "Eksik parametre 'address' (arg 1)"
+#: /etc/rc.d/init.d/zarafa-ical:102
+#, fuzzy
+msgid ""
+"Usage: $ical {start|stop|status|reload|restart|condrestart|force-reload|try-"
+"restart}"
+msgstr ""
+"Kullanılışı: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
 
 #: /etc/rc.d/init.d/amavisd:60
 #, fuzzy
 msgid "Reloading ${prog_base}:"
 msgstr "$prog yeniden yükleniyor:"
-
-#: /etc/rc.d/init.d/condor:65
-#, fuzzy
-msgid "Reloading Condor daemons: "
-msgstr "Avahi servisi yeniden yükleniyor: "
-
-#: /etc/rc.d/init.d/codeanalyst:179
-msgid "Check Oprofile filesystem group/permission... "
-msgstr ""
 
 #: /etc/rc.d/init.d/dropbear:48
 #, fuzzy
@@ -3590,6 +3828,11 @@ msgstr "SSH2 DSA konak anahtarı (host key) üretiliyor: "
 msgid "Setting up a new ${PEERCONF} config file"
 msgstr "Yeni bir ${PEERCONF} ayar dosyası oluşturuluyor"
 
+#: /etc/rc.d/init.d/zarafa-ical:44
+#, fuzzy
+msgid "Starting $ical: "
+msgstr "dund başlatılıyor: "
+
 #: /etc/rc.d/init.d/proftpd:90
 #, fuzzy
 msgid "Re-reading $prog configuration: "
@@ -3599,17 +3842,24 @@ msgstr "$prog servisinin ayarları yeniden yükleniyor: "
 msgid "Dependency loop detected on $s"
 msgstr ""
 
-#: /etc/rc.d/rc.sysinit:228
+#: /etc/rc.d/rc.sysinit:227
 #, c-format
 msgid "%s is password protected"
 msgstr ""
 
-#: /etc/rc.d/rc.sysinit:139
+#: /etc/rc.d/rc.sysinit:138
 msgid "INSECURE OWNER FOR $key"
 msgstr ""
 
-#: /etc/sysconfig/network-scripts/ifup-eth:207
-#: /etc/sysconfig/network-scripts/ifup-ib:169
+#: /etc/rc.d/init.d/firehol:5833 /etc/rc.d/init.d/firehol:5834
+msgid "FireHOL config ${FIREHOL_CONFIG} not found:"
+msgstr ""
+
+#: /etc/rc.d/init.d/ktune:210
+msgid "Current elevator settings:"
+msgstr ""
+
+#: /etc/sysconfig/network-scripts/ifup-eth:194
 msgid " failed; no link present.  Check cable?"
 msgstr " olmadı; bağlantı yok.  Kabloya baktınız mı?"
 
@@ -3622,12 +3872,17 @@ msgstr "Bellenim (Firmware) yükleniyor"
 msgid "Starting liquidwar game server: "
 msgstr "Wesnoth oyun sunucusu başlatılıyor: "
 
+#: /etc/rc.d/init.d/cyrus-imapd:100
+msgid ""
+"$prog error exporting databases, check ${CONFIGDIRECTORY}/rpm/db_export.log"
+msgstr ""
+
 #: /etc/rc.d/init.d/and:44
 #, fuzzy
 msgid "Shutting down auto nice daemon:"
 msgstr "APM artalanda durduruluyor: "
 
-#: /etc/rc.d/init.d/util-vserver:74
+#: /etc/rc.d/init.d/util-vserver:94
 msgid "Stopping all running guests"
 msgstr ""
 
@@ -3644,24 +3899,26 @@ msgstr ""
 "Yapılandırmada genel IPV6 yönlendirmesi iptal edilmiş, ama şu anda "
 "çekirdekte iptal edilmiş durumda değil"
 
-#: /etc/rc.d/init.d/crond:78 /etc/rc.d/init.d/sshd:161
+#: /etc/rc.d/init.d/crond:78 /etc/rc.d/init.d/sshd:166
 msgid "Reloading $prog"
 msgstr "$prog yeniden yükleniyor: "
 
-#: /etc/rc.d/rc.sysinit:400
-msgid "*** Warning -- the system did not shut down cleanly. "
-msgstr ""
+#: /etc/rc.d/init.d/opensips:70
+#, fuzzy
+msgid "Usage: $prog {start|stop|reload|restart|condrestart|status|help}"
+msgstr "Kullanılışı: $prog {start|stop|restart|condrestart|status|help}"
 
-#: /etc/rc.d/init.d/ebtables:61
+#: /etc/rc.d/init.d/ebtables:63
 #, fuzzy
 msgid "Stopping $desc ($prog): "
 msgstr "$desc başlatılıyor ($prog): "
 
-#: /etc/rc.d/init.d/halt:62
+#: /etc/rc.d/init.d/halt:91
 msgid "Sending all processes the KILL signal..."
 msgstr "Bütün süreçlere KILL sinyali gönderiliyor..."
 
 #: /etc/rc.d/init.d/functions:325 /etc/rc.d/init.d/tclhttpd:123
+#: /etc/rc.d/init.d/voms:255
 msgid "$base $killlevel"
 msgstr "$base $killlevel"
 
@@ -3689,21 +3946,19 @@ msgstr "NFS başlatılıyor: "
 #: /etc/rc.d/init.d/cwdaemon:75 /etc/rc.d/init.d/dansguardian:80
 #: /etc/rc.d/init.d/glacier2router:105 /etc/rc.d/init.d/globus-rls-server:76
 #: /etc/rc.d/init.d/icegridnode:106 /etc/rc.d/init.d/icegridregistry:106
-#: /etc/rc.d/init.d/iprdump:90 /etc/rc.d/init.d/iprinit:88
-#: /etc/rc.d/init.d/iprupdate:89 /etc/rc.d/init.d/ktune:240
-#: /etc/rc.d/init.d/mt-daapd:52 /etc/rc.d/init.d/netlabel:114
-#: /etc/rc.d/init.d/pads:84 /etc/rc.d/init.d/prelude-correlator:81
-#: /etc/rc.d/init.d/prelude-manager:66 /etc/rc.d/init.d/psad:120
-#: /etc/rc.d/init.d/qpidd:99 /etc/rc.d/init.d/remotetrx:72
-#: /etc/rc.d/init.d/roundup:78 /etc/rc.d/init.d/sendmail:157
-#: /etc/rc.d/init.d/ssbd:73 /etc/rc.d/init.d/svxlink:72
-#: /etc/rc.d/init.d/telescoped:70 /etc/rc.d/init.d/thebridge:71
-#: /etc/rc.d/init.d/trackpad:59 /etc/rc.d/init.d/ucarp:151
-#: /etc/rc.d/init.d/upnpd:89 /etc/rc.d/init.d/vsftpd:90
+#: /etc/rc.d/init.d/ktune:250 /etc/rc.d/init.d/mt-daapd:52
+#: /etc/rc.d/init.d/netlabel:114 /etc/rc.d/init.d/pads:84
+#: /etc/rc.d/init.d/prelude-correlator:81 /etc/rc.d/init.d/prelude-manager:66
+#: /etc/rc.d/init.d/psad:120 /etc/rc.d/init.d/qpidd:99
+#: /etc/rc.d/init.d/remotetrx:72 /etc/rc.d/init.d/roundup:78
+#: /etc/rc.d/init.d/sendmail:160 /etc/rc.d/init.d/ssbd:73
+#: /etc/rc.d/init.d/svxlink:72 /etc/rc.d/init.d/telescoped:70
+#: /etc/rc.d/init.d/thebridge:71 /etc/rc.d/init.d/ucarp:151
+#: /etc/rc.d/init.d/upnpd:89 /etc/rc.d/init.d/vmpsd:58
 msgid "Usage: $0 {start|stop|restart|condrestart|status}"
 msgstr "Kullanılışı: $0 {start|stop|restart|condrestart|status}"
 
-#: /etc/rc.d/init.d/ypxfrd:31
+#: /etc/rc.d/init.d/ypxfrd:43
 msgid "Stopping YP map server: "
 msgstr "YP map sunucusu durduruluyor: "
 
@@ -3712,24 +3967,32 @@ msgstr "YP map sunucusu durduruluyor: "
 msgid "Starting Bandwidthd network traffic monitor: "
 msgstr "Red Hat Ağı artalan yordamı başlatılıyor: "
 
-#: /etc/rc.d/init.d/portreserve:84
+#: /etc/rc.d/init.d/tog-pegasus:112
+#, fuzzy
+msgid "CIM server is not running, but pid file exists"
+msgstr "Avahi servisi çalışmıyor"
+
+#: /etc/rc.d/init.d/openser:84 /etc/rc.d/init.d/portreserve:84
+#: /etc/rc.d/init.d/rabbit:105
 #, fuzzy
 msgid "Usage: $prog {start|stop|restart|condrestart|status}"
 msgstr "Kullanılışı: $prog {start|stop|restart|condrestart|status|help}"
 
-#: /etc/rc.d/init.d/tor:68
+#: /etc/rc.d/init.d/tor:83
 msgid "program or service status is unknown"
 msgstr ""
 
-#: /etc/rc.d/init.d/ktune:188
-msgid "ktune stettings are not applied."
+#: /etc/rc.d/init.d/flumotion:69 /etc/rc.d/init.d/flumotion:105
+#: /etc/rc.d/init.d/flumotion:147 /etc/rc.d/init.d/flumotion:176
+#: /etc/rc.d/init.d/flumotion:211
+msgid "Please specify a $type name"
 msgstr ""
 
-#: /etc/rc.d/init.d/kadmin:45
+#: /etc/rc.d/init.d/kadmin:46
 msgid "Error. Default principal database does not exist."
 msgstr ""
 
-#: /etc/rc.d/init.d/ntpdate:47
+#: /etc/rc.d/init.d/ntpdate:46
 msgid "$prog: Synchronizing with time server: "
 msgstr "$prog: Zaman sunucu ile eşzamanlanıyor: "
 
@@ -3742,7 +4005,7 @@ msgstr "NFS başlatılıyor: "
 msgid "Stray lockfile present; removing it."
 msgstr ""
 
-#: /etc/rc.d/init.d/ldap:115
+#: /etc/rc.d/init.d/slapd:130
 msgid "$file is not owned by \"$user\""
 msgstr "\"$user\", $file dosyasının sahibi değil"
 
@@ -3750,12 +4013,12 @@ msgstr "\"$user\", $file dosyasının sahibi değil"
 msgid "Starting $prog for $site: "
 msgstr "$prog $site için başlatılıyor: "
 
-#: /etc/rc.d/init.d/flumotion:66
+#: /etc/rc.d/init.d/flumotion:73
 #, fuzzy
 msgid "Starting $type $name: "
 msgstr "$prog hizmeti başlatılıyor: "
 
-#: /etc/rc.d/init.d/pgpool:144
+#: /etc/rc.d/init.d/pgpool:158
 #, fuzzy
 msgid "Reloading ${NAME}"
 msgstr "$prog yeniden yükleniyor: "
@@ -3765,7 +4028,7 @@ msgstr "$prog yeniden yükleniyor: "
 msgid "Starting Video Disk Recorder ($prog): "
 msgstr "$desc başlatılıyor ($prog): "
 
-#: /etc/rc.d/init.d/functions:428
+#: /etc/rc.d/init.d/functions:435
 msgid "${base} is stopped"
 msgstr "${base} durdurulmuş"
 
@@ -3779,21 +4042,26 @@ msgstr "$prog $site"
 msgid "Starting $display_name: "
 msgstr "$prog başlatılıyor: "
 
-#: /etc/rc.d/init.d/puppetmaster:66
+#: /etc/rc.d/init.d/puppetmaster:67
 #, fuzzy
 msgid "Stopping puppetmaster: "
 msgstr "YP map sunucusu durduruluyor: "
+
+#: /etc/rc.d/init.d/irqbalance:89
+#, fuzzy
+msgid "Usage: $0 {start|stop|status|restart|reload|condrestart|force-reload}"
+msgstr "Kullanılışı: $0 {start|stop|status|restart|reload|force-reload}"
 
 #: /etc/rc.d/init.d/perlbal:21
 #, fuzzy
 msgid "Starting Perlbal: "
 msgstr "pand başlatılıyor: "
 
-#: /etc/rc.d/init.d/sshd:96 /etc/rc.d/init.d/sshd:99
+#: /etc/rc.d/init.d/sshd:99 /etc/rc.d/init.d/sshd:102
 msgid "DSA key generation"
 msgstr "DSA anahtar üretimi"
 
-#: /etc/rc.d/init.d/pgbouncer:161
+#: /etc/rc.d/init.d/pgbouncer:159
 #, fuzzy
 msgid ""
 "Usage: $0 {start|stop|status|restart|pause|continue|reload|force-reload|"
@@ -3810,12 +4078,12 @@ msgstr "NFS başlatılıyor: "
 msgid "Starting Wesnoth game server: "
 msgstr "Wesnoth oyun sunucusu başlatılıyor: "
 
-#: /etc/rc.d/init.d/postfix:85
+#: /etc/rc.d/init.d/postfix:89
 #, fuzzy
 msgid "$prog stop"
 msgstr "$prog $site"
 
-#: /etc/rc.d/init.d/ypserv:44
+#: /etc/rc.d/init.d/ypserv:53
 msgid "Stopping YP server services: "
 msgstr "YP sunucu hizmetleri durduruluyor: "
 
@@ -3832,7 +4100,7 @@ msgstr "Bluetooth hizmetleri başlatılıyor: "
 msgid "netconsole: can't resolve MAC address of $SYSLOGADDR"
 msgstr ""
 
-#: /etc/rc.d/init.d/halt:147
+#: /etc/rc.d/init.d/halt:185
 msgid "On the next boot fsck will be skipped."
 msgstr "Bir sonraki açılışta dosya sistemi denetimi (fsck) atlanacaktır."
 
@@ -3840,13 +4108,12 @@ msgstr "Bir sonraki açılışta dosya sistemi denetimi (fsck) atlanacaktır."
 msgid "\tscript(s)\t: specify systemtap scripts"
 msgstr ""
 
-#: /etc/rc.d/rc.sysinit:798
+#: /etc/rc.d/rc.sysinit:804
 #, fuzzy
 msgid "Enabling local swap partitions: "
 msgstr "Takas alanı etkinleştiriliyor: "
 
-#: /etc/sysconfig/network-scripts/ifup-eth:239
-#: /etc/sysconfig/network-scripts/ifup-ib:206
+#: /etc/sysconfig/network-scripts/ifup-eth:225
 msgid "Failed to bring up ${DEVICE}."
 msgstr "${DEVICE} etkinleştirilemedi."
 
@@ -3855,11 +4122,11 @@ msgstr "${DEVICE} etkinleştirilemedi."
 msgid "Starting xenner daemons"
 msgstr "NFS başlatılıyor: "
 
-#: /etc/rc.d/init.d/halt:69
+#: /etc/rc.d/init.d/halt:99
 msgid "Saving mixer settings"
 msgstr "Karıştırıcı (mixer) ayarları kaydediliyor"
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:319
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:267
 msgid "Tunnel device 'sit0' enabling didn't work"
 msgstr "Tünel aygıtı 'sit0' etkinleştirilemedi"
 
@@ -3868,7 +4135,7 @@ msgstr "Tünel aygıtı 'sit0' etkinleştirilemedi"
 msgid "Starting rfcomm: "
 msgstr "$prog başlatılıyor: "
 
-#: /etc/rc.d/init.d/udev-post:91
+#: /etc/rc.d/init.d/udev-post:93
 #, fuzzy
 msgid "Usage: $0 {start|stop|reload}"
 msgstr "Kullanılışı: $0 {start|stop|restart}"
@@ -3877,7 +4144,7 @@ msgstr "Kullanılışı: $0 {start|stop|restart}"
 msgid "Warning: $prog may not have exited, start/restart may fail"
 msgstr ""
 
-#: /etc/rc.d/rc.sysinit:279
+#: /etc/rc.d/rc.sysinit:278
 msgid "\t\tPress 'I' to enter interactive startup."
 msgstr "\t\tEtkileşimli (Interactive) açılış için  'I'  tuşuna basınız."
 
@@ -3885,7 +4152,7 @@ msgstr "\t\tEtkileşimli (Interactive) açılış için  'I'  tuşuna basınız.
 msgid "clement stop"
 msgstr ""
 
-#: /etc/rc.d/init.d/sshd:89
+#: /etc/rc.d/init.d/sshd:91
 msgid "Generating SSH2 DSA host key: "
 msgstr "SSH2 DSA konak anahtarı (host key) üretiliyor: "
 
@@ -3898,27 +4165,27 @@ msgstr "Çekirdekte ${DEVICE} cihazı için 802.1Q VLAN desteği bulunmamaktadı
 msgid "Stopping $display_name: "
 msgstr "$prog durduruluyor: "
 
-#: /etc/rc.d/init.d/codeanalyst:171
-msgid "Check Oprofile driver loaded ... "
-msgstr ""
+#: /etc/rc.d/init.d/monotone:177 /etc/rc.d/init.d/monotone:179
+#, fuzzy
+msgid "key generation"
+msgstr "RSA anahtar üretimi"
 
-#: /etc/rc.d/rc.sysinit:742
+#: /etc/rc.d/rc.sysinit:747
 msgid "Resetting hostname ${HOSTNAME}: "
 msgstr "Konak adı ayarlanıyor: ${HOSTNAME}: "
 
-#: /etc/rc.d/init.d/netfs:60
+#: /etc/rc.d/init.d/netfs:61
 #, fuzzy
 msgid "Checking network-attached filesystems"
 msgstr "Dosya sistemleri denetleniyor"
 
-#: /etc/rc.d/init.d/rpcgssd:98
+#: /etc/rc.d/init.d/ncid-hangup:44 /etc/rc.d/init.d/ncid-kpopup:45
+#: /etc/rc.d/init.d/ncid-mythtv:45 /etc/rc.d/init.d/ncid-page:46
+#: /etc/rc.d/init.d/ncid-samba:45 /etc/rc.d/init.d/ncid-speak:45
+#: /etc/rc.d/init.d/ncid-yac:44
 #, fuzzy
-msgid "Stopping RPC gssd: "
-msgstr "RPC gssd başlatılıyor: "
-
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:473
-msgid "Missing parameter 'IPv6 address' (arg 2)"
-msgstr "Eksik parametre 'IPv6 address' (arg 2)"
+msgid "Shutting down $prog with output module $module: "
+msgstr "$prog durduruluyor: "
 
 #: /etc/rc.d/init.d/xpilot-ng-server:31
 #, fuzzy
@@ -3930,27 +4197,27 @@ msgstr "Wesnoth oyun sunucusu başlatılıyor: "
 msgid "Starting argus: "
 msgstr "$prog başlatılıyor: "
 
-#: /etc/rc.d/init.d/mailman:154
+#: /etc/rc.d/init.d/ocspd:64
 #, fuzzy
-msgid "Usage: $prog {start|stop|restart|force-reload|condrestart|status}"
-msgstr "Kullanılışı: $prog {start|stop|restart|reload|condrestart|status}"
+msgid "Shutting down ${prog}: "
+msgstr "$prog durduruluyor: "
 
-#: /etc/rc.d/init.d/moodle:75
+#: /etc/rc.d/init.d/moodle:75 /etc/rc.d/init.d/tog-pegasus:148
 #, fuzzy
 msgid "Usage: $0 {start|stop|status|restart|reload|force-reload|try-restart}"
 msgstr ""
 "Kullanılışı: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
 
-#: /etc/rc.d/init.d/tclhttpd:69
+#: /etc/rc.d/init.d/rtpproxy:86
 #, fuzzy
-msgid "Usage: killproc {program} [signal]"
-msgstr "Kullanılışı: killproc {program} [sinyal]"
+msgid "Reloading $prog: not supported"
+msgstr "$prog yeniden yükleniyor: "
 
-#: /etc/rc.d/rc.sysinit:338
+#: /etc/rc.d/rc.sysinit:337
 msgid "Setting hostname ${HOSTNAME}: "
 msgstr "Sunucu ismi belirleniyor ${HOSTNAME}: "
 
-#: /etc/rc.d/init.d/yppasswdd:40
+#: /etc/rc.d/init.d/yppasswdd:49
 msgid "Starting YP passwd service: "
 msgstr "YP passwd hizmeti başlatılıyor: "
 
@@ -3958,6 +4225,14 @@ msgstr "YP passwd hizmeti başlatılıyor: "
 #, fuzzy
 msgid "Usage: $0 {start|stop|reload|restart|status}"
 msgstr "Kullanılışı: $0 {start|stop|reload|report|restart|status}"
+
+#: /etc/rc.d/init.d/ncid-hangup:35 /etc/rc.d/init.d/ncid-kpopup:36
+#: /etc/rc.d/init.d/ncid-mythtv:36 /etc/rc.d/init.d/ncid-page:37
+#: /etc/rc.d/init.d/ncid-samba:36 /etc/rc.d/init.d/ncid-speak:36
+#: /etc/rc.d/init.d/ncid-yac:35
+#, fuzzy
+msgid "Starting $prog with output module $module: "
+msgstr "$prog $site için başlatılıyor: "
 
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:30
 msgid "ERROR: [ipv6_log] Missing 'message' (arg 1)"
@@ -3967,17 +4242,17 @@ msgstr "Hata: [ipv6_log] 'ileti' eksik (arg 1)"
 msgid "freshclam daemon NOT up and running (please check this)"
 msgstr ""
 
-#: /etc/rc.d/init.d/cyrus-imapd:77
-#, fuzzy
-msgid "$BASENAME already running."
-msgstr "$prog: zaten çalışıyor."
+#: /etc/rc.d/init.d/network:284 /etc/rc.d/init.d/rstatd:87
+#: /etc/rc.d/init.d/rusersd:88
+msgid "Usage: $0 {start|stop|status|restart|reload|force-reload}"
+msgstr "Kullanılışı: $0 {start|stop|status|restart|reload|force-reload}"
 
-#: /etc/rc.d/init.d/condor:210
+#: /etc/rc.d/init.d/condor:210 /etc/rc.d/init.d/mailman:160
 #, fuzzy
 msgid "$prog dead but subsys locked"
 msgstr "${base} ölü durumda ama subsys kilitli"
 
-#: /etc/rc.d/init.d/halt:75
+#: /etc/rc.d/init.d/halt:105
 msgid "Saving random seed: "
 msgstr "Sayı üreteci çekirdeği (random seed) kaydediliyor: "
 
@@ -3985,35 +4260,29 @@ msgstr "Sayı üreteci çekirdeği (random seed) kaydediliyor: "
 msgid "Loading ISDN modules"
 msgstr "ISDN modülleri yükleniyor"
 
-#: /etc/rc.d/init.d/ldap:230
+#: /etc/rc.d/init.d/voms:416
 #, fuzzy
-msgid "Usage: $0 {start|stop|restart|status|condrestart|configtest}"
+msgid "Usage: $0 {start|stop|restart|status|condrestart} [VO]"
 msgstr "Kullanılışı: $0 {start|stop|restart|status|condrestart}"
 
-#: /etc/rc.d/init.d/microcode_ctl:55
-msgid "$0: microcode device $DEVICE doesn't exist?"
-msgstr "$0: microcode aygıtı $DEVICE bulunamadı."
-
-#: /etc/rc.d/init.d/ctdb:204
+#: /etc/rc.d/init.d/ctdb:239
 msgid "killing ctdbd "
 msgstr ""
 
-#: /etc/rc.d/init.d/uuidd:33
+#: /etc/rc.d/init.d/uuidd:36
 #, fuzzy
 msgid "Starting uuidd: "
 msgstr "hidd başlatılıyor: "
 
-#: /etc/rc.d/rc.sysinit:672 /etc/rc.d/rc.sysinit:674
+#: /etc/rc.d/rc.sysinit:677 /etc/rc.d/rc.sysinit:679
 msgid "Mounting local filesystems: "
 msgstr "Yerel dosya sistemleri bağlanıyor: "
 
-#: /etc/rc.d/init.d/monotone:177 /etc/rc.d/init.d/monotone:179
-#, fuzzy
-msgid "key generation"
-msgstr "RSA anahtar üretimi"
+#: /etc/rc.d/init.d/privoxy:66
+msgid "Can't find $PRIVOXY_CONF, exit."
+msgstr "$PRIVOXY_CONF bulunamadığından çıkılıyor."
 
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:214
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:269
 msgid "Missing parameter 'IPv6-gateway' (arg 2)"
 msgstr "Eksik parametre 'IPv6-geçiti' (gateway) (arg 2)"
 
@@ -4037,17 +4306,20 @@ msgstr "Kullanılışı: $prog {start|stop|restart|status|condrestart}"
 msgid "Creating PostgreSQL database: "
 msgstr "MySQL veritabanı ilklendiriliyor: "
 
-#: /etc/rc.d/init.d/ucarp:31
-msgid "common address redundancy protocol daemon"
-msgstr ""
-
-#: /etc/rc.d/init.d/clement:72
+#: /etc/rc.d/init.d/autofs:175
 #, fuzzy
-msgid "certs generation"
-msgstr "RSA anahtar üretimi"
+msgid ""
+"Usage: $0 {start|forcestart|stop|status|restart|forcerestart|reload|"
+"condrestart}"
+msgstr "Kullanılışı: $0 {start|stop|status|restart|reload|condrestart}"
 
-#: /etc/rc.d/init.d/netfs:84 /etc/rc.d/rc.sysinit:71 /etc/rc.d/rc.sysinit:402
-#: /etc/rc.d/rc.sysinit:602
+#: /etc/rc.d/init.d/mip6d:91
+#, fuzzy
+msgid "Usage: $prog {start|stop|restart}"
+msgstr "Kullanılışı: $0 {start|stop|restart}"
+
+#: /etc/rc.d/init.d/netfs:85 /etc/rc.d/rc.sysinit:70 /etc/rc.d/rc.sysinit:406
+#: /etc/rc.d/rc.sysinit:606
 msgid "*** when you leave the shell."
 msgstr "*** kabuktan çıktığınızda."
 
@@ -4059,7 +4331,7 @@ msgstr ""
 "Kullanılışı: $0 {start|stop|status|restart|condrestart|condstop|reload|force-"
 "reload}"
 
-#: /etc/rc.d/init.d/sendmail:69
+#: /etc/rc.d/init.d/sendmail:72
 msgid "Starting sm-client: "
 msgstr "sm-istemcisi başlatılıyor: "
 
@@ -4077,15 +4349,6 @@ msgstr ""
 msgid "${IPTABLES}: Loading additional modules: "
 msgstr "İlave $IPTABLES modülleri yükleniyor: "
 
-#: /etc/rc.d/init.d/openhpi-subagent:78
-#, fuzzy
-msgid "Shutting down HPI SNMP sub-agent daemon: "
-msgstr "APM artalanda durduruluyor: "
-
-#: /etc/rc.d/init.d/scanbuttond:84
-msgid "Usage: $prog {start|stop|restart|status|condrestart}"
-msgstr "Kullanılışı: $prog {start|stop|restart|status|condrestart}"
-
 #: /etc/rc.d/init.d/syslog-ng:48
 #, fuzzy
 msgid "Checking Configuration: "
@@ -4096,12 +4359,13 @@ msgstr "Yapılandırma yeniden yükleniyor: "
 msgid "Starting SQLgrey: "
 msgstr "$prog hizmeti başlatılıyor: "
 
-#: /etc/rc.d/init.d/oddjobd:85
+#: /etc/rc.d/init.d/dspam:62 /etc/rc.d/init.d/mip6d:57
+#: /etc/rc.d/init.d/oddjobd:85 /etc/rc.d/init.d/vnstat:55
 #, fuzzy
 msgid "Reloading $prog configuration: "
 msgstr "$prog servisinin ayarları yeniden yükleniyor: "
 
-#: /etc/rc.d/init.d/netfs:41
+#: /etc/rc.d/init.d/netfs:42
 msgid "Mounting CIFS filesystems: "
 msgstr "CIFS dosya sistemleri bağlanıyor: "
 
@@ -4113,13 +4377,10 @@ msgstr "SSH2 DSA konak anahtarı (host key) üretiliyor: "
 #: /etc/rc.d/init.d/bootparamd:78 /etc/rc.d/init.d/clamd-wrapper:88
 #: /etc/rc.d/init.d/collectd:60 /etc/rc.d/init.d/dhcp-fwd:73
 #: /etc/rc.d/init.d/dund:66 /etc/rc.d/init.d/ip-sentinel:77
-#: /etc/rc.d/init.d/irqbalance:89 /etc/rc.d/init.d/ladvd:87
-#: /etc/rc.d/init.d/maradns:115 /etc/rc.d/init.d/maradns-zoneserver:109
-#: /etc/rc.d/init.d/nscd:104 /etc/rc.d/init.d/pand:69
-#: /etc/rc.d/init.d/radiusd:76 /etc/rc.d/init.d/radvd:82
-#: /etc/rc.d/init.d/rfcomm:61 /etc/rc.d/init.d/rpcbind:88
-#: /etc/rc.d/init.d/snake-server:67 /etc/rc.d/init.d/yppasswdd:80
-#: /etc/rc.d/init.d/ypserv:75 /etc/rc.d/init.d/ypxfrd:62
+#: /etc/rc.d/init.d/ladvd:87 /etc/rc.d/init.d/maradns:115
+#: /etc/rc.d/init.d/maradns-zoneserver:109 /etc/rc.d/init.d/nscd:104
+#: /etc/rc.d/init.d/pand:69 /etc/rc.d/init.d/rfcomm:61
+#: /etc/rc.d/init.d/rpcbind:88 /etc/rc.d/init.d/snake-server:67
 msgid "Usage: $0 {start|stop|status|restart|reload|condrestart}"
 msgstr "Kullanılışı: $0 {start|stop|status|restart|reload|condrestart}"
 
@@ -4127,20 +4388,29 @@ msgstr "Kullanılışı: $0 {start|stop|status|restart|reload|condrestart}"
 msgid "Starting rusers services: "
 msgstr "rusers hizmetleri başlatılıyor: "
 
+#: /etc/rc.d/init.d/firehol:6751 /etc/rc.d/init.d/firehol:6822
+#: /etc/rc.d/init.d/firehol:6827
+msgid "FireHOL: Processing file ${FIREHOL_CONFIG}:"
+msgstr ""
+
 #: /etc/rc.d/init.d/systemtap:588
 #, fuzzy
 msgid "Compiling systemtap scripts: "
 msgstr "$prog durduruluyor: "
 
-#: /etc/rc.d/init.d/netfs:136
-msgid "Active NFS mountpoints: "
-msgstr "Etkin NFS bağlantı noktaları: "
+#: /etc/rc.d/init.d/netconsole:111
+msgid "netconsole module loaded"
+msgstr ""
 
-#: /etc/rc.d/init.d/nfs:95
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:951
+msgid "Missing parameter 'IPv6 MTU' (arg 2)"
+msgstr "Eksik parametre 'IPv6 MTU' (arg 2)"
+
+#: /etc/rc.d/init.d/nfs:94
 msgid "Starting NFS daemon: "
 msgstr "NFS başlatılıyor: "
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:647
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:547
 msgid "Given address '$addr' is not a global IPv4 one (arg 1)"
 msgstr "Verilen '$addr' adresi global IPv4 değil (arg 1)"
 
@@ -4148,6 +4418,11 @@ msgstr "Verilen '$addr' adresi global IPv4 değil (arg 1)"
 #, fuzzy
 msgid "Starting telescope daemon: "
 msgstr "acpi başlatılıyor: "
+
+#: /etc/rc.d/init.d/vmpsd:28
+#, fuzzy
+msgid "Shutting down vmpsd: "
+msgstr "dund durduruluyor: "
 
 #: /etc/rc.d/init.d/sge_execd:130
 #, fuzzy
@@ -4157,7 +4432,7 @@ msgid ""
 msgstr ""
 "Kullanılışı:$0 {start|stop|status|restart|try-restart|reload|force-reload}"
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:959
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:859
 msgid "Missing parameter 'selection' (arg 2)"
 msgstr "Eksik parametre 'selection' (arg 2)"
 
@@ -4174,12 +4449,11 @@ msgstr ""
 msgid "Disabling nightly apt update: "
 msgstr "Gecelik yum güncellemesi geçersizleştiriliyor: "
 
-#: /etc/rc.d/init.d/ospf6d:63 /etc/rc.d/init.d/ospfd:63
-#, fuzzy
-msgid "Usage: $PROG {start|stop|restart|reload|condrestart|status}"
-msgstr "Kullanılışı: $0 {start|stop|restart|reload|condrestart|status}"
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:209
+msgid "Missing parameter 'IPv6-network' (arg 1)"
+msgstr "Eksik parametre 'IPv6-network' (arg 1)"
 
-#: /etc/rc.d/init.d/nfs:84
+#: /etc/rc.d/init.d/nfs:83
 msgid "Starting NFS services: "
 msgstr "NFS hizmetleri başlatılıyor: "
 
@@ -4199,14 +4473,9 @@ msgstr "YP map sunucusu durduruluyor: "
 msgid "Starting HAL daemon: "
 msgstr "HAL servisi başlatılıyor: "
 
-#: /etc/rc.d/rc.sysinit:69
+#: /etc/rc.d/rc.sysinit:68
 msgid "*** /etc/selinux/config indicates you want to manually fix labeling"
 msgstr ""
-
-#: /etc/rc.d/init.d/tgtd:25
-#, fuzzy
-msgid "Starting SCSI target daemon: "
-msgstr "NFS başlatılıyor: "
 
 #: /etc/rc.d/init.d/systemtap:489
 msgid "No scripts exist."
@@ -4216,7 +4485,7 @@ msgstr ""
 msgid "/proc entries were fixed"
 msgstr "/proc girişleri düzeltildi"
 
-#: /etc/rc.d/init.d/postgresql:295 /etc/rc.d/init.d/sepostgresql:208
+#: /etc/rc.d/init.d/postgresql:309 /etc/rc.d/init.d/sepostgresql:207
 #, fuzzy
 msgid ""
 "Usage: $0 {start|stop|status|restart|condrestart|condstop|reload|force-"
@@ -4225,24 +4494,31 @@ msgstr ""
 "Kullanılışı: $0 {start|stop|status|restart|condrestart|condstop|reload|force-"
 "reload}"
 
-#: /etc/rc.d/init.d/halt:52 /etc/rc.d/init.d/killall:10
-#: /etc/rc.d/init.d/stinit:18
+#: /etc/rc.d/init.d/rarpd:91
+#, fuzzy
+msgid "Usage: $0 {start|stop|restart|condrestart|reload|status|force-reload}"
+msgstr ""
+"Kullanılışı: $0 {start|stop|status|restart|condrestart|condstop|reload|force-"
+"reload}"
+
+#: /etc/rc.d/init.d/halt:70 /etc/rc.d/init.d/killall:10
+#: /etc/rc.d/init.d/stinit:32
 msgid "Usage: $0 {start}"
 msgstr "Kullanılışı: $0 {start}"
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:856
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:756
 msgid "Tunnel device '$device' creation didn't work"
 msgstr "Tünel aygıtı '$device' yaratılamadı"
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:350
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:298
 msgid "Missing parameter 'IPv6-address' (arg 2)"
 msgstr "Eksik parametre 'IPv6-adresi' (arg 2)"
 
-#: /etc/rc.d/rc.sysinit:75 /etc/rc.d/rc.sysinit:586 /etc/rc.d/rc.sysinit:609
+#: /etc/rc.d/rc.sysinit:74 /etc/rc.d/rc.sysinit:590 /etc/rc.d/rc.sysinit:613
 msgid "Unmounting file systems"
 msgstr "Dosya sistemleri ayrılıyor"
 
-#: /etc/rc.d/init.d/ntpdate:43
+#: /etc/rc.d/init.d/ntpdate:42
 msgid "NTP server not specified in $ntpstep or $ntpconf"
 msgstr ""
 
@@ -4251,11 +4527,11 @@ msgstr ""
 msgid "(not starting, no services registered)"
 msgstr "rwho hizmetleri başlatılıyor: "
 
-#: /etc/rc.d/init.d/bgpd:41 /etc/rc.d/init.d/cachefilesd:60
-#: /etc/rc.d/init.d/ospf6d:40 /etc/rc.d/init.d/ospfd:40
-#: /etc/rc.d/init.d/remotetrx:38 /etc/rc.d/init.d/ripd:40
-#: /etc/rc.d/init.d/ripngd:40 /etc/rc.d/init.d/svxlink:38
-#: /etc/rc.d/init.d/zebra:40
+#: /etc/rc.d/init.d/bgpd:45 /etc/rc.d/init.d/cachefilesd:60
+#: /etc/rc.d/init.d/ospf6d:44 /etc/rc.d/init.d/ospfd:44
+#: /etc/rc.d/init.d/remotetrx:38 /etc/rc.d/init.d/ripd:44
+#: /etc/rc.d/init.d/ripngd:44 /etc/rc.d/init.d/svxlink:38
+#: /etc/rc.d/init.d/zebra:44
 #, fuzzy
 msgid "Shutting down $PROG: "
 msgstr "RPC gssd kapatılıyor: "
@@ -4269,16 +4545,22 @@ msgstr "Güvenlik duvarı durduruldu."
 msgid "${SERVICE}: unrecognized service"
 msgstr ""
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:364
+#: /etc/rc.d/init.d/squid:176
+#, fuzzy
+msgid ""
+"Usage: $0 {start|stop|status|reload|force-reload|restart|try-restart|probe}"
+msgstr "Kullanılışı: $0 {start|stop|reload|report|restart|status}"
+
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:312
 msgid "Device '$device' doesn't exist"
 msgstr "'$device' aygıtı yok"
 
-#: /etc/rc.d/init.d/flumotion:99
+#: /etc/rc.d/init.d/flumotion:112
 #, fuzzy
 msgid "Stopping $type $name: "
 msgstr "$prog hizmeti durduruluyor: "
 
-#: /etc/rc.d/init.d/postgresql:165
+#: /etc/rc.d/init.d/postgresql:167
 msgid ""
 "See $SYSDOCDIR/postgresql-$PGVERSION/README.rpm-dist for more information."
 msgstr ""
@@ -4290,16 +4572,16 @@ msgstr ""
 msgid "Starting $SERVICE: "
 msgstr "NFS başlatılıyor: "
 
-#: /etc/rc.d/init.d/zfs-fuse:88
+#: /etc/rc.d/init.d/zfs-fuse:119
 #, fuzzy
 msgid "Mounting zfs partitions: "
 msgstr "Takas alanı etkinleştiriliyor: "
 
-#: /etc/rc.d/init.d/network:143 /etc/rc.d/init.d/network:155
+#: /etc/rc.d/init.d/network:144 /etc/rc.d/init.d/network:156
 msgid "Bringing up interface $i: "
 msgstr "$i arayüzü etkinleştiriliyor: "
 
-#: /etc/rc.d/rc.sysinit:135
+#: /etc/rc.d/rc.sysinit:134
 msgid "INSECURE MODE FOR $key"
 msgstr ""
 
@@ -4317,70 +4599,68 @@ msgstr "hidd durduruluyor: "
 msgid "Stopping Crossfire game server: "
 msgstr "YP map sunucusu durduruluyor: "
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:391
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:339
 msgid "Cannot add IPv6 address '$address' on dev '$device'"
 msgstr "Bir IPv6 adresi olan '$address', '$device' üzerine eklenemiyor"
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:345
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:408
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:437
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:468
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:565
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:680
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:742
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:776
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:818
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:896
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:954
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:1007
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:1046
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:1174
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:293
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:356
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:385
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:465
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:580
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:642
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:676
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:718
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:796
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:854
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:907
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:946
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:1074
 msgid "Missing parameter 'device' (arg 1)"
 msgstr "Eksik parametre 'aygıt' (arg 1)"
 
-#: /etc/rc.d/init.d/psacct:36
+#: /etc/rc.d/init.d/psacct:40
 msgid "Shutting down process accounting: "
 msgstr "Süreç hesapları kapatılıyor"
 
-#: /etc/rc.d/init.d/honeyd:120 /etc/rc.d/init.d/icecast:54
-#: /etc/rc.d/init.d/psacct:69 /etc/rc.d/init.d/rdisc:87
+#: /etc/rc.d/init.d/honeyd:120 /etc/rc.d/init.d/icecast:62
+#: /etc/rc.d/init.d/psacct:72 /etc/rc.d/init.d/rdisc:87
 #: /etc/rc.d/init.d/ulogd:95
 msgid "Usage: $0 {start|stop|status|restart|reload}"
 msgstr "Kullanılışı: $0 {start|stop|status|restart|reload}"
 
-#: /etc/rc.d/init.d/privoxy:66
-msgid "Can't find $PRIVOXY_CONF, exit."
-msgstr "$PRIVOXY_CONF bulunamadığından çıkılıyor."
+#: /etc/sysconfig/network-scripts/ifup-ppp:75
+msgid "ifup-ppp for ${DEVNAME} exiting"
+msgstr "${DEVNAME} aygıtının ifup-ppp betiği bırakılıyor"
 
-#: /etc/rc.d/init.d/ajaxterm:42 /etc/rc.d/init.d/boa:60
-#: /etc/rc.d/init.d/clamd-wrapper:64 /etc/rc.d/init.d/crond:74
-#: /etc/rc.d/init.d/cups:102 /etc/rc.d/init.d/cups:108
-#: /etc/rc.d/init.d/dbmail-imapd:51 /etc/rc.d/init.d/dbmail-lmtpd:52
-#: /etc/rc.d/init.d/dbmail-pop3d:52 /etc/rc.d/init.d/dbmail-timsieved:53
-#: /etc/rc.d/init.d/dovecot:62 /etc/rc.d/init.d/haproxy:75
-#: /etc/rc.d/init.d/honeyd:91 /etc/rc.d/init.d/httpd:73
-#: /etc/rc.d/init.d/ircd:42 /etc/rc.d/init.d/keepalived:59
-#: /etc/rc.d/init.d/lighttpd:63 /etc/rc.d/init.d/mailgraph:57
-#: /etc/rc.d/init.d/monit:52 /etc/rc.d/init.d/nginx:59
-#: /etc/rc.d/init.d/ngircd:42 /etc/rc.d/init.d/nscd:95
-#: /etc/rc.d/init.d/ntop:57 /etc/rc.d/init.d/postgrey:62
-#: /etc/rc.d/init.d/pure-ftpd:60 /etc/rc.d/init.d/ratbox-services:47
+#: /etc/rc.d/init.d/3proxy:52 /etc/rc.d/init.d/ajaxterm:42
+#: /etc/rc.d/init.d/boa:60 /etc/rc.d/init.d/clamd-wrapper:64
+#: /etc/rc.d/init.d/crond:74 /etc/rc.d/init.d/cups:117
+#: /etc/rc.d/init.d/cups:123 /etc/rc.d/init.d/dbmail-imapd:51
+#: /etc/rc.d/init.d/dbmail-lmtpd:52 /etc/rc.d/init.d/dbmail-pop3d:52
+#: /etc/rc.d/init.d/dbmail-timsieved:53 /etc/rc.d/init.d/dovecot:65
+#: /etc/rc.d/init.d/haproxy:75 /etc/rc.d/init.d/honeyd:91
+#: /etc/rc.d/init.d/httpd:73 /etc/rc.d/init.d/ircd:53
+#: /etc/rc.d/init.d/keepalived:59 /etc/rc.d/init.d/lighttpd:63
+#: /etc/rc.d/init.d/mailgraph:57 /etc/rc.d/init.d/monit:52
+#: /etc/rc.d/init.d/nginx:59 /etc/rc.d/init.d/ngircd:42
+#: /etc/rc.d/init.d/nscd:95 /etc/rc.d/init.d/ntop:57
+#: /etc/rc.d/init.d/postgrey:62 /etc/rc.d/init.d/pure-ftpd:60
+#: /etc/rc.d/init.d/pyicq-t:49 /etc/rc.d/init.d/ratbox-services:47
 #: /etc/rc.d/init.d/rbldnsd:116 /etc/rc.d/init.d/rinetd:49
-#: /etc/rc.d/init.d/rtpproxy:38 /etc/rc.d/init.d/scanbuttond:58
-#: /etc/rc.d/init.d/sendmail:88 /etc/rc.d/init.d/ser:53
-#: /etc/rc.d/init.d/smsd:50 /etc/rc.d/init.d/snmpd:68
-#: /etc/rc.d/init.d/sshd:157 /etc/rc.d/init.d/sssd:58 /etc/rc.d/init.d/tor:56
+#: /etc/rc.d/init.d/sec:44 /etc/rc.d/init.d/sendmail:91
+#: /etc/rc.d/init.d/ser:53 /etc/rc.d/init.d/smsd:50 /etc/rc.d/init.d/snmpd:68
+#: /etc/rc.d/init.d/sshd:162 /etc/rc.d/init.d/sssd:59 /etc/rc.d/init.d/tor:71
 #: /etc/rc.d/init.d/ulogd:60 /etc/rc.d/init.d/ushare:44
 #: /etc/rc.d/init.d/xfs:90
 msgid "Reloading $prog: "
 msgstr "$prog yeniden yükleniyor: "
 
-#: /etc/rc.d/init.d/cobblerd:52
-#, fuzzy
-msgid "Starting cobbler daemon: "
-msgstr "NFS başlatılıyor: "
+#: /etc/rc.d/init.d/hddtemp:46
+msgid "Starting hard disk temperature monitor daemon ($prog): "
+msgstr ""
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:1258
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:1158
 msgid "Given pidfile '$pidfile' doesn't exist, cannot send trigger to radvd"
 msgstr ""
 "Verilen pidfile '$pidfile' yok, radvd 'ye tetikleme bilgisi gönderilemiyor"
@@ -4390,7 +4670,7 @@ msgstr ""
 msgid "Warning: link doesn't support IPv6 using encapsulation 'rawip'"
 msgstr "Uyarı: bağ, 'rawip' ardından kullanılan IPV6'yı desteklemiyor"
 
-#: /etc/rc.d/init.d/halt:39
+#: /etc/rc.d/init.d/halt:57
 msgid "Please stand by while rebooting the system..."
 msgstr "Sistem yeniden başlatılıyor, lütfen bekleyiniz..."
 
@@ -4409,17 +4689,11 @@ msgstr "NFS kilitleme durduruluyor: "
 msgid "Shutting down DAAP server: "
 msgstr "NIS hizmetleri durduruluyor: "
 
-#: /etc/rc.d/init.d/openct:66
+#: /etc/rc.d/init.d/openct:68
 msgid "Waiting for reader attach/detach events..."
 msgstr ""
 
-#: /etc/rc.d/init.d/apmd:100
-#, fuzzy
-msgid "Usage: apmd {start|stop|status|restart|reload|force-reload|condrestart}"
-msgstr ""
-"Kullanılışı: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
-
-#: /etc/rc.d/init.d/postfix:110
+#: /etc/rc.d/init.d/postfix:114
 #, fuzzy
 msgid "$prog flush"
 msgstr "postfix boşalt"
@@ -4434,7 +4708,14 @@ msgstr "$prog yeniden yükle"
 msgid "Shutting down amavisd-snmp-subagent: "
 msgstr "sm-istemcisi durduruluyor: "
 
-#: /etc/rc.d/init.d/tog-pegasus:67
+#: /etc/rc.d/init.d/zarafa-server:59 /etc/rc.d/init.d/zarafa-server:61
+#: /etc/rc.d/init.d/zarafa-server:64 /etc/rc.d/init.d/zarafa-server:78
+#: /etc/rc.d/init.d/zarafa-server:82
+#, fuzzy
+msgid "Stopping $server: "
+msgstr "$prog durduruluyor: "
+
+#: /etc/rc.d/init.d/tog-pegasus:71
 msgid "Starting up CIM server: "
 msgstr "CIM sunucusu başlatılıyor: "
 
@@ -4447,9 +4728,11 @@ msgstr "dund başlatılıyor: "
 msgid "Stopping rstat services: "
 msgstr "rstat hizmetleri durduruluyor: "
 
-#: /etc/rc.d/init.d/functions:458
-msgid "PASSED"
-msgstr "BAŞARILI"
+#: /etc/rc.d/init.d/atop:74 /etc/rc.d/init.d/audio-entropyd:52
+#: /etc/rc.d/init.d/dspam:91 /etc/rc.d/init.d/krb5kdc:94
+#: /etc/rc.d/init.d/newscache:80 /etc/rc.d/init.d/squidGuard:171
+msgid "Usage: $0 {start|stop|status|reload|restart|condrestart}"
+msgstr "Kullanılışı: $0 {start|stop|status|reload|restart|condrestart}"
 
 #: /etc/rc.d/init.d/cyphesis:31
 #, fuzzy
@@ -4503,16 +4786,17 @@ msgid "$rcfile "
 msgstr ""
 
 #: /etc/rc.d/init.d/arpwatch:80 /etc/rc.d/init.d/gkrellmd:74
-#: /etc/rc.d/init.d/gpsd:89 /etc/rc.d/init.d/hddtemp:83
-#: /etc/rc.d/init.d/ntpd:86 /etc/rc.d/init.d/vdr:106
-#: /etc/rc.d/init.d/vdradmind:66 /etc/rc.d/init.d/zabbix-agent:74
-#: /etc/rc.d/init.d/zabbix-proxy:80 /etc/rc.d/init.d/zabbix-server:79
+#: /etc/rc.d/init.d/gpsd:89 /etc/rc.d/init.d/hddtemp:90
+#: /etc/rc.d/init.d/ntpd:85 /etc/rc.d/init.d/shmpps:63
+#: /etc/rc.d/init.d/vdr:106 /etc/rc.d/init.d/vdradmind:66
+#: /etc/rc.d/init.d/zabbix-agent:74 /etc/rc.d/init.d/zabbix-proxy:80
+#: /etc/rc.d/init.d/zabbix-server:79
 #, fuzzy
 msgid "Usage: $0 {start|stop|status|restart|try-restart|force-reload}"
 msgstr ""
 "Kullanılışı:$0 {start|stop|status|restart|try-restart|reload|force-reload}"
 
-#: /etc/rc.d/init.d/ldap:156
+#: /etc/rc.d/init.d/slapd:175
 msgid "stale lock files may be present in $directory"
 msgstr ""
 
@@ -4521,18 +4805,28 @@ msgstr ""
 msgid "${IP6TABLES}: Loading additional modules: "
 msgstr "İlave $IPTABLES modülleri yükleniyor: "
 
-#: /etc/rc.d/init.d/halt:87
+#: /etc/rc.d/init.d/halt:117
 msgid "Turning off swap: "
 msgstr "Takas alanı kapatılıyor: "
+
+#: /etc/rc.d/init.d/zarafa-gateway:54
+#, fuzzy
+msgid "Stopping $gateway: "
+msgstr "$prog durduruluyor: "
 
 #: /etc/rc.d/init.d/privoxy:65
 msgid "Can't find $PRIVOXY_BIN, exit."
 msgstr "$PRIVOXY_BIN bulunamadığından çıkılıyor."
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:1217
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:1117
 msgid "Unsupported reason '$reason' for sending trigger to radvd"
 msgstr ""
 "radvd 'ye tetikleme bilgisi göndermek için desteklenmeyen neden '$reason'"
+
+#: /etc/rc.d/init.d/3proxy:80
+#, fuzzy
+msgid "Usage: $0 {start|stop|restart|condrestart|status|reload}"
+msgstr "Kullanılışı: $0 {start|stop|restart|condrestart|status}"
 
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:93
 msgid "ERROR: [ipv6_log] Loglevel isn't valid '$level' (arg 2)"
@@ -4555,48 +4849,67 @@ msgstr "$prog durduruluyor: "
 msgid "Stopping INNWatch service: "
 msgstr "INNWatch hizmeti durduruluyor: "
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:1284
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:1184
 msgid "radvd not (properly) installed, triggering failed"
 msgstr "radvd (düzgün olarak) yüklü değil, tetikleme başarısız"
 
-#: /etc/rc.d/init.d/asterisk:99
+#: /etc/rc.d/init.d/asterisk:101
 #, fuzzy
 msgid "Stopping asterisk: "
 msgstr "hpiod durduruluyor: "
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:1051
-msgid "Missing parameter 'IPv6 MTU' (arg 2)"
-msgstr "Eksik parametre 'IPv6 MTU' (arg 2)"
+#: /etc/rc.d/init.d/tgtd:77
+msgid "initiators still connected"
+msgstr ""
+
+#: /etc/rc.d/init.d/sec:98
+#, fuzzy
+msgid ""
+"Usage: $0 {start|stop|restart|condrestart|try-restart|reload|force-reload|"
+"status|dump}"
+msgstr ""
+"Kullanılışı: $0 {start|stop|status|restart|condrestart|condstop|reload|force-"
+"reload}"
 
 #: /etc/rc.d/init.d/blktapctrl:82 /etc/rc.d/init.d/xenstored:90
 #, fuzzy
 msgid "Usage: $0 {start|stop|status}"
 msgstr "Kullanılışı: $0 {start|stop|restart}"
 
-#: /etc/rc.d/init.d/ypserv:35
+#: /etc/rc.d/init.d/ypserv:42
 msgid "Starting YP server services: "
 msgstr "YP sunucu hizmetleri başlatılıyor: "
 
-#: /etc/rc.d/init.d/kadmin:101
+#: /etc/rc.d/init.d/kadmin:109
 msgid "Usage: $0 {start|stop|status|condrestart|reload|restart}"
 msgstr "Kullanılışı: $0 {start|stop|status|condrestart|reload|restart}"
+
+#: /etc/rc.d/init.d/cyrus-imapd:56
+#, fuzzy
+msgid "$prog already running."
+msgstr "$prog: zaten çalışıyor"
 
 #: /etc/rc.d/init.d/chronyd:72
 #, fuzzy
 msgid "Generating chrony command key: "
 msgstr "SSH2 DSA konak anahtarı (host key) üretiliyor: "
 
-#: /etc/rc.d/init.d/dcbd:241
+#: /etc/rc.d/init.d/dcbd:246
 msgid "Reloading $DCBD is not supported: "
 msgstr ""
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:1148
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:1048
 msgid "Given IPv6 default device '$device' requires an explicit nexthop"
 msgstr ""
 "IPv6 öntanımlı aygıtı '$device' belirtilmiş bir sonraki durağa (nexthop) "
 "gereksinim duyuyor"
 
-#: /etc/rc.d/rc.sysinit:679
+#: /etc/rc.d/init.d/zarafa-ical:69
+#, fuzzy
+msgid "Restarting $ical: "
+msgstr "$prog yeniden başlatılıyor: "
+
+#: /etc/rc.d/rc.sysinit:684
 msgid "Checking local filesystem quotas: "
 msgstr "Yerel dosya sistemi kotaları denetleniyor: "
 
@@ -4618,10 +4931,9 @@ msgstr ""
 msgid "innd shutdown"
 msgstr "$prog durduruldu"
 
-#: /etc/rc.d/init.d/corosync:29
-#, fuzzy
-msgid "Stopping Corosync Cluster Engine ($prog): "
-msgstr "$desc başlatılıyor ($prog): "
+#: /etc/rc.d/init.d/ypbind:75 /etc/rc.d/init.d/ypbind:76
+msgid "domain not found"
+msgstr ""
 
 #: /etc/sysconfig/network-scripts/ifup-ppp:48
 msgid "pppd does not exist or is not executable for ${DEVICE}"
@@ -4632,7 +4944,7 @@ msgstr "pppd yok, veya ${DEVICE} için çalıştırılabilir değil."
 msgid "denyhosts cron service is enabled."
 msgstr "Denyhosts·aktifleştirildi."
 
-#: /etc/rc.d/init.d/pgpool:139
+#: /etc/rc.d/init.d/pgpool:153
 #, fuzzy
 msgid "Reloading ${NAME}: "
 msgstr "$prog yeniden yükleniyor: "
@@ -4642,40 +4954,46 @@ msgstr "$prog yeniden yükleniyor: "
 msgid "Reloading exim:"
 msgstr "$prog yeniden yükleniyor: "
 
-#: /etc/rc.d/init.d/functions:419
+#: /etc/rc.d/init.d/functions:423
 msgid "${base} dead but pid file exists"
 msgstr "${base} çalışmıyor, fakat pid dosyası var."
 
-#: /etc/rc.d/init.d/sendmail:49
+#: /etc/rc.d/init.d/sendmail:52
 msgid "Package sendmail-cf is required to update configuration."
 msgstr ""
+
+#: /etc/rc.d/init.d/xend:43
+#, fuzzy
+msgid "Stopping xend daemon: "
+msgstr "HAL servisi durduruluyor: "
 
 #: /etc/rc.d/init.d/restorecond:52
 #, fuzzy
 msgid "Shutting down restorecond: "
 msgstr "dund durduruluyor: "
 
-#: /etc/rc.d/init.d/tor:66
+#: /etc/rc.d/init.d/tor:81
 #, fuzzy
 msgid "program is dead and /var/lock lock file exists"
 msgstr "$base çalışmıyor, fakat pid dosyası var."
 
-#: /etc/rc.d/init.d/mysqld:157 /etc/rc.d/init.d/ndb_mgmd:112
-#: /etc/rc.d/init.d/ndbd:107
+#: /etc/rc.d/init.d/mysqld:166
 msgid "Usage: $0 {start|stop|status|condrestart|restart}"
 msgstr "Kullanılışı: $0 {start|stop|status|condrestart|restart}"
+
+#: /etc/rc.d/init.d/ksmtuned:84
+#, fuzzy
+msgid "Usage: $prog {start|stop|restart|condrestart|status|retune|help}"
+msgstr "Kullanılışı: $prog {start|stop|restart|condrestart|status|help}"
 
 #: /etc/sysconfig/network-scripts/ifup-ppp:46
 msgid "ifup-ppp for ${DEVICE} exiting"
 msgstr "${DEVICE} aygıtının ifup-ppp betiği bırakılıyor"
 
-#: /etc/rc.d/init.d/cups:125 /etc/rc.d/init.d/dbmail-imapd:85
-#: /etc/rc.d/init.d/dbmail-lmtpd:86 /etc/rc.d/init.d/dbmail-pop3d:86
-#: /etc/rc.d/init.d/dbmail-timsieved:87 /etc/rc.d/init.d/mailgraph:91
-#: /etc/rc.d/init.d/ntop:90 /etc/rc.d/init.d/ris-linuxd:102
-#: /etc/rc.d/init.d/sip-redirect:73
-msgid "Usage: $prog {start|stop|restart|condrestart|reload|status}"
-msgstr "Kullanılışı: $prog {start|stop|restart|condrestart|reload|status}"
+#: /etc/rc.d/init.d/argus:38
+#, fuzzy
+msgid "Shutting down argus: "
+msgstr "$prog durduruluyor: "
 
 #: /etc/rc.d/init.d/ip6tables:246
 #, fuzzy
@@ -4687,7 +5005,7 @@ msgstr "Güvenlik duvarı kuralları $IP6TABLES_DATA içine kaydediliyor: "
 msgid "($pid) is running..."
 msgstr "cardmgr ($pid numaralı süreç) çalışıyor..."
 
-#: /etc/rc.d/init.d/smartd:72
+#: /etc/rc.d/init.d/smartd:79
 msgid "Reloading $prog daemon configuration: "
 msgstr "$prog servisinin ayarları yeniden yükleniyor: "
 
@@ -4706,31 +5024,38 @@ msgstr "APM başlatılıyor: "
 msgid "Starting $progname: "
 msgstr "$prog başlatılıyor: "
 
+#: /etc/rc.d/init.d/ypserv:67 /etc/rc.d/init.d/ypxfrd:57
+#, fuzzy
+msgid "Reloading securenets and ypserv.conf file:"
+msgstr "smb.conf dosyası yeniden yükleniyor: "
+
 #: /etc/rc.d/init.d/moodle:70
 #, fuzzy
 msgid "Moodle cron job is disabled."
 msgstr "Denyhost devre dışı."
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:209
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:264
-msgid "Missing parameter 'IPv6-network' (arg 1)"
-msgstr "Eksik parametre 'IPv6-network' (arg 1)"
+#: /etc/rc.d/init.d/vnstat:32
+#, fuzzy
+msgid "already running."
+msgstr "$prog: zaten çalışıyor"
 
-#: /etc/rc.d/init.d/wine:50
-msgid "Wine binary format handlers are not registered."
-msgstr "Wine ikilik biçim işleyicileri kayıtlı değil."
-
-#: /etc/rc.d/init.d/nfs:180 /etc/rc.d/init.d/nfslock:121
+#: /etc/rc.d/init.d/nfs:179 /etc/rc.d/init.d/nfslock:121
 msgid "start"
 msgstr "başlat"
 
-#: /etc/rc.d/init.d/NetworkManager:46
-msgid "Setting network parameters... "
-msgstr "Ağ parametreleri ayarlanıyor... "
+#: /etc/rc.d/init.d/network:245
+msgid "Shutting down interface $i: "
+msgstr "$i arabirimi durduruluyor: "
 
 #: /etc/rc.d/init.d/yum-updateonboot:68
 msgid "Updating RPMS in group $group: "
 msgstr "RPM'ler·grup içinde güncelleniyor $group:·"
+
+#: /etc/rc.d/init.d/pki-rad:965 /etc/rc.d/init.d/pki-rad:967
+#: /etc/rc.d/init.d/pki-tpsd:989 /etc/rc.d/init.d/pki-tpsd:991
+#, fuzzy
+msgid "not reloading ${httpd} due to configuration syntax error"
+msgstr "sözdizim hatası yüzünden $httpd yeniden yüklenemiyor"
 
 #: /etc/sysconfig/network-scripts/ifup:132
 msgid "WARNING: vconfig not able to disable REORDER_HDR on ${DEVICE}"
@@ -4742,19 +5067,25 @@ msgid ""
 "Cannot enable IPv6 privacy method '$IPV6_PRIVACY', not supported by kernel"
 msgstr ""
 
+#: /etc/rc.d/rc.sysinit:50
+msgid "*** Warning -- SELinux is active"
+msgstr ""
+
 #: /etc/rc.d/init.d/spamass-milter:69
 #, fuzzy
 msgid "Shutting down ${desc} (${prog}): "
 msgstr "$prog durduruluyor: "
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:781
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:681
 msgid "Missing parameter 'local IPv4 address' (arg 2)"
 msgstr "Eksik parametre 'local IPv4 address' (arg 2)"
 
-#: /etc/ppp/ip-up.ipv6to4:186
+#: /etc/rc.d/init.d/ipsec:166
 #, fuzzy
-msgid "Error occured while calculating the IPv6to4 prefix"
-msgstr "IPv6to4 öneki hesaplanırken hata oluştu"
+msgid ""
+"Usage: $prog {start|stop|restart|reload|force-reload|condrestart|try-restart|"
+"status|version}"
+msgstr "Kullanılışı: $0 {start|stop|reload|report|restart|status}"
 
 #: /etc/rc.d/init.d/iscsi:56 /etc/rc.d/init.d/iscsi:61
 #: /etc/rc.d/init.d/isdn:178 /etc/rc.d/init.d/isdn:181
@@ -4779,59 +5110,54 @@ msgstr "hpssd durduruluyor: "
 msgid "$0: error: insufficient privileges"
 msgstr ""
 
-#: /etc/rc.d/rc.sysinit:790
+#: /etc/rc.d/rc.sysinit:796
 #, fuzzy
 msgid "Enabling /etc/fstab swaps: "
 msgstr "Takas alanı etkinleştiriliyor: "
 
-#: /etc/rc.d/rc.sysinit:52
+#: /etc/rc.d/rc.sysinit:51
 msgid "*** Disabling security enforcement for system recovery."
 msgstr ""
-
-#: /etc/sysconfig/network-scripts/ifup-ppp:75
-msgid "ifup-ppp for ${DEVNAME} exiting"
-msgstr "${DEVNAME} aygıtının ifup-ppp betiği bırakılıyor"
-
-#: /etc/rc.d/init.d/network:267
-msgid "Disabling IPv4 packet forwarding: "
-msgstr "IPv4 paket yönlendirmesi durduruluyor: "
-
-#: /etc/rc.d/init.d/autofs:175
-#, fuzzy
-msgid ""
-"Usage: $0 {start|forcestart|stop|status|restart|orcerestart|reload|"
-"condrestart}"
-msgstr "Kullanılışı: $0 {start|stop|status|restart|reload|condrestart}"
 
 #: /etc/rc.d/init.d/tofmipd:56
 #, fuzzy
 msgid "Stopping $progname: "
 msgstr "$prog durduruluyor: "
 
-#: /etc/rc.d/init.d/netplugd:38
-msgid "Shutting down network plug daemon: "
-msgstr "Ağa bağlanma hizmeti durduruluyor: "
+#: /etc/rc.d/init.d/rbldnsd:143
+#, fuzzy
+msgid "is stopped"
+msgstr "cardmgr durduruldu"
 
-#: /etc/rc.d/init.d/postfix:71
+#: /etc/rc.d/init.d/postfix:74
 msgid "Starting postfix: "
 msgstr "postfix başlatılıyor: "
 
-#: /etc/rc.d/init.d/zvbid:32
-#, fuzzy
-msgid "Stopping vbi proxy daemon: "
-msgstr "$prog hizmeti durduruluyor: "
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:1000
+msgid ""
+"Given IPv6 default gateway '$address' has scope '$device_scope' defined, "
+"given default gateway device '$device' will be not used"
+msgstr ""
+"Verilen IPv6 öntanımlı geçiti için '$device_scope' scope 'u tanımlı, verilen "
+"öntanımlı geçit aygıtı '$device' kullanılmayacak"
 
-#: /etc/rc.d/init.d/apmd:49
-msgid "Starting up APM daemon: "
-msgstr "APM başlatılıyor: "
+#: /etc/rc.d/init.d/ksm:64
+#, fuzzy
+msgid "$prog not supported"
+msgstr "$prog başlatılmadı..."
 
 #: /etc/rc.d/init.d/isdn:138
 msgid "Unloading ISDN modules"
 msgstr "ISDN modülleri kaldırılıyor"
 
-#: /etc/rc.d/rc.sysinit:194
-msgid "$dst: no value for hash option, skipping"
-msgstr ""
+#: /etc/rc.d/init.d/zarafa-dagent:59
+#, fuzzy
+msgid "Stopping $dagent: "
+msgstr "$prog durduruluyor: "
+
+#: /etc/rc.d/init.d/wine:50
+msgid "Wine binary format handlers are not registered."
+msgstr "Wine ikilik biçim işleyicileri kayıtlı değil."
 
 #: /etc/sysconfig/network-scripts/ifup-ipv6:100
 msgid ""
@@ -4847,7 +5173,7 @@ msgid ""
 "isn't executable"
 msgstr ""
 
-#: /etc/rc.d/init.d/flumotion:166
+#: /etc/rc.d/init.d/flumotion:257
 #, fuzzy
 msgid "Usage: $service {start|stop|restart|list|status|clean}"
 msgstr "Kullanılışı: $0 {start|stop|restart|status}"
@@ -4857,9 +5183,11 @@ msgstr "Kullanılışı: $0 {start|stop|restart|status}"
 msgid "Starting up-imapproxy daemon: "
 msgstr "$prog hizmeti başlatılıyor: "
 
-#: /etc/rc.d/init.d/abrt:97 /etc/rc.d/init.d/acpid:111
+#: /etc/rc.d/init.d/abrtd:98 /etc/rc.d/init.d/acpid:111
 #: /etc/rc.d/init.d/cfenvd:74 /etc/rc.d/init.d/cfexecd:71
 #: /etc/rc.d/init.d/cfservd:74 /etc/rc.d/init.d/gpm:131
+#: /etc/rc.d/init.d/pkcsslotd:84 /etc/rc.d/init.d/pppoe-server:77
+#: /etc/rc.d/init.d/snmpd:111 /etc/rc.d/init.d/snmptrapd:99
 #: /etc/rc.d/init.d/xenconsoled:116 /etc/rc.d/init.d/xend:92
 #, fuzzy
 msgid "Usage: $0 {start|stop|status|restart|condrestart|reload|force-reload}"
@@ -4867,7 +5195,7 @@ msgstr ""
 "Kullanılışı: $0 {start|stop|status|restart|condrestart|condstop|reload|force-"
 "reload}"
 
-#: /etc/rc.d/init.d/sagator:58
+#: /etc/rc.d/init.d/sagator:63
 #, fuzzy
 msgid "Stopping $name: "
 msgstr "$prog durduruluyor: "
@@ -4877,7 +5205,7 @@ msgstr "$prog durduruluyor: "
 msgid "Starting ZABBIX server: "
 msgstr "RADIUS sunucusu başlatılıyor: "
 
-#: /etc/rc.d/init.d/ktune:139
+#: /etc/rc.d/init.d/ktune:145
 msgid "Applying ${ELEVATOR} elevator: "
 msgstr ""
 
@@ -4886,21 +5214,21 @@ msgstr ""
 msgid "Starting amavisd-snmp-subagent: "
 msgstr "sm-istemcisi başlatılıyor: "
 
-#: /etc/rc.d/init.d/tog-pegasus:100
+#: /etc/rc.d/init.d/tog-pegasus:118
 #, fuzzy
 msgid "CIM server is not running"
 msgstr "Avahi servisi çalışmıyor"
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:370
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:318
 msgid "Device '$device' enabling didn't work"
 msgstr "'$device' aygıt etkinleştirilemedi"
 
-#: /etc/rc.d/init.d/puppet:45
+#: /etc/rc.d/init.d/puppet:48
 #, fuzzy
 msgid "Stopping puppet: "
 msgstr "hpiod durduruluyor: "
 
-#: /etc/rc.d/init.d/functions:543
+#: /etc/rc.d/init.d/functions:550
 msgid "nN"
 msgstr "hH"
 
@@ -4914,7 +5242,7 @@ msgstr "··········başlat-powercontrol|durdur-powercontrol|durum-power
 msgid "Starting fail2ban: "
 msgstr "pand başlatılıyor: "
 
-#: /etc/rc.d/init.d/postgresql:164
+#: /etc/rc.d/init.d/postgresql:166
 msgid "You need to upgrade the data format before using PostgreSQL."
 msgstr ""
 "PostgreSQL'i kullanmaya başlamadan önce veri biçimini güncellemelisiniz."
@@ -4924,11 +5252,11 @@ msgstr ""
 msgid "Starting Audio Entropy daemon... "
 msgstr "NFS başlatılıyor: "
 
-#: /etc/rc.d/rc.sysinit:638
+#: /etc/rc.d/rc.sysinit:642
 msgid "Remounting root filesystem in read-write mode: "
 msgstr "Kök dosya sistemi oku-yaz kipinde yeniden bağlanıyor: "
 
-#: /etc/rc.d/init.d/postfix:74
+#: /etc/rc.d/init.d/postfix:77
 #, fuzzy
 msgid "$prog start"
 msgstr "$prog $site"
@@ -4942,11 +5270,21 @@ msgstr "Yapılandırılmış NFS bağlantı noktaları: "
 msgid "Nightly yum update is enabled."
 msgstr "Gecelik yum güncelleştirmesi etkinleştirildi."
 
-#: /etc/rc.d/init.d/halt:77 /etc/rc.d/init.d/ntpdate:55
+#: /etc/rc.d/init.d/halt:107 /etc/rc.d/init.d/ntpdate:54
 msgid "Syncing hardware clock to system time"
 msgstr "Donanım saati sistem saatiyle eşitleniyor"
 
-#: /etc/rc.d/init.d/sshd:111
+#: /etc/rc.d/init.d/zarafa-spooler:44
+#, fuzzy
+msgid "Starting $spooler: "
+msgstr "$prog başlatılıyor: "
+
+#: /etc/rc.d/init.d/zarafa-monitor:54
+#, fuzzy
+msgid "Stopping $monitor: "
+msgstr "UPS izleyici durduruluyor: "
+
+#: /etc/rc.d/init.d/sshd:114
 msgid "Configuration file or keys are invalid"
 msgstr "Yapılandırma dosyası ya da anahtarlar geçersiz"
 
@@ -4955,60 +5293,61 @@ msgstr "Yapılandırma dosyası ya da anahtarlar geçersiz"
 msgid "Checking for $prog daemon: "
 msgstr "$prog hizmeti durduruluyor: "
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:125
-msgid "NOTICE   "
-msgstr "UYARI    "
-
-#: /etc/rc.d/init.d/ktune:125
+#: /etc/rc.d/init.d/ktune:124
 msgid "Reverting to saved sysctl settings: "
 msgstr ""
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:110
-msgid "DEBUG    "
-msgstr "HATA AYIKLAMA    "
+#: /etc/rc.d/init.d/flumotion:215
+#, fuzzy
+msgid "Cleaning $type $name: "
+msgstr "$prog hizmeti başlatılıyor: "
 
 #: /etc/rc.d/init.d/bandwidthd:72 /etc/rc.d/init.d/clvmd:168
-#: /etc/rc.d/init.d/gfs:144 /etc/rc.d/init.d/gfs2:144
-#: /etc/rc.d/init.d/netbsd-iscsi:95 /etc/rc.d/init.d/netfs:164
-#: /etc/rc.d/init.d/network:297 /etc/rc.d/init.d/nighthttpd:86
+#: /etc/rc.d/init.d/gfs2:144 /etc/rc.d/init.d/netbsd-iscsi:95
+#: /etc/rc.d/init.d/netfs:168 /etc/rc.d/init.d/nighthttpd:86
 #: /etc/rc.d/init.d/yum-updateonboot:96
 msgid "Usage: $0 {start|stop|restart|reload|status}"
 msgstr "Kullanılışı: $0 {start|stop|restart|reload|status}"
+
+#: /etc/rc.d/init.d/ypbind:43
+msgid "Turning on allow_ypbind SELinux boolean"
+msgstr ""
 
 #: /etc/rc.d/init.d/monotone:101
 #, fuzzy
 msgid "Starting monotone server: "
 msgstr "YP map sunucusu başlatılıyor: "
 
-#: /etc/rc.d/init.d/avahi-daemon:88
+#: /etc/rc.d/init.d/asterisk:80
 #, fuzzy
-msgid "Avahi daemon is running"
-msgstr "cardmgr ($pid numaralı süreç) çalışıyor..."
+msgid "Starting asterisk: "
+msgstr "$prog başlatılıyor: "
 
 #: /etc/rc.d/init.d/acpid:47
 msgid "Starting acpi daemon: "
 msgstr "acpi başlatılıyor: "
 
-#: /etc/rc.d/init.d/hddtemp:39
-msgid "Starting hard disk temperature monitor daemon ($prog): "
-msgstr ""
+#: /etc/rc.d/init.d/cobblerd:51
+#, fuzzy
+msgid "Starting cobbler daemon: "
+msgstr "NFS başlatılıyor: "
 
 #: /etc/rc.d/init.d/ip6tables:131
 #, fuzzy
 msgid "${IP6TABLES}: Setting chains to policy $policy: "
 msgstr "$policy için zincir ayarlanıyor:"
 
-#: /etc/rc.d/init.d/dcbd:166
+#: /etc/rc.d/init.d/dcbd:168
 #, fuzzy
 msgid "Shutting down $DCBD: "
 msgstr "$MODEL durduruluyor: "
 
-#: /etc/rc.d/rc.sysinit:78 /etc/rc.d/rc.sysinit:91 /etc/rc.d/rc.sysinit:589
-#: /etc/rc.d/rc.sysinit:612
+#: /etc/rc.d/rc.sysinit:77 /etc/rc.d/rc.sysinit:90 /etc/rc.d/rc.sysinit:593
+#: /etc/rc.d/rc.sysinit:616
 msgid "Automatic reboot in progress."
 msgstr "Sistem otomatik olarak yeniden başlatılıyor."
 
-#: /etc/rc.d/init.d/ypbind:46
+#: /etc/rc.d/init.d/ypbind:55
 msgid "Turning off allow_ypbind SELinux boolean"
 msgstr ""
 
@@ -5016,9 +5355,20 @@ msgstr ""
 msgid "pppd does not exist or is not executable"
 msgstr "pppd yok, ya da çalıştırılamıyor"
 
-#: /etc/rc.d/init.d/functions:519
+#: /etc/rc.d/init.d/rinputd:54
+#, fuzzy
+msgid "Starting $DESC: "
+msgstr "$ID başlatılıyor: "
+
+#: /etc/rc.d/init.d/functions:526 /etc/rc.d/init.d/halt:42
+#: /etc/rc.d/init.d/halt:44
 msgid "$STRING"
 msgstr "$STRING"
+
+#: /etc/rc.d/init.d/transmission-daemon:42
+#, fuzzy
+msgid "Starting ${NAME}: "
+msgstr "$MODEL başlatılıyor: "
 
 #: /etc/rc.d/init.d/ip6tables:285
 msgid "${IP6TABLES}: Firewall modules are not loaded."
@@ -5034,7 +5384,7 @@ msgstr "$prog durduruluyor: "
 msgid "Enabling nightly apt update: "
 msgstr "Gecelik yum güncellemesi etkinleştiriliyor: "
 
-#: /etc/rc.d/init.d/ctdb:184
+#: /etc/rc.d/init.d/ctdb:219
 #, fuzzy
 msgid "Shutting down ctdbd service: "
 msgstr "nifd hizmetleri durduruluyor: "
@@ -5048,9 +5398,12 @@ msgstr ""
 msgid "Reloading rules configuration..."
 msgstr "Yapılandırma yeniden yükleniyor: "
 
-#: /etc/rc.d/init.d/sendmail:93
-msgid "reloading sm-client: "
-msgstr "sm-client yeniden yükleniyor: "
+#: /etc/rc.d/init.d/cyrus-imapd:154
+#, fuzzy
+msgid ""
+"Usage: $0 {start|stop|restart|reload|force-reload|condrestart|try-restart|"
+"status|quickstart|quickstop}"
+msgstr "Kullanılışı: $0 {start|stop|reload|report|restart|status}"
 
 #: /etc/rc.d/init.d/qemu:31
 msgid "Registering binary handler for qemu applications"
@@ -5061,11 +5414,11 @@ msgstr ""
 msgid "Stopping nsd: "
 msgstr "hpiod durduruluyor: "
 
-#: /etc/rc.d/init.d/netfs:152
+#: /etc/rc.d/init.d/netfs:154
 msgid "/proc filesystem unavailable"
 msgstr "/proc dosya sistemi bulunamadı"
 
-#: /etc/rc.d/init.d/nfs:119
+#: /etc/rc.d/init.d/nfs:118
 msgid "Starting NFS mountd: "
 msgstr "NFS mountd başlatılıyor: "
 
@@ -5073,9 +5426,14 @@ msgstr "NFS mountd başlatılıyor: "
 msgid "Error: no valid $cfg found."
 msgstr ""
 
-#: /etc/rc.d/init.d/functions:409 /etc/rc.d/init.d/functions:415
+#: /etc/rc.d/init.d/functions:413 /etc/rc.d/init.d/functions:419
 msgid "${base} (pid $pid) is running..."
 msgstr "${base} ($pid numaralı süreç) çalışıyor..."
+
+#: /etc/rc.d/init.d/rhnsd:101
+#, fuzzy
+msgid "Reloading rhnsd"
+msgstr "$prog yeniden yükleniyor: "
 
 #: /etc/rc.d/init.d/denyhosts:53
 #, fuzzy
@@ -5092,17 +5450,13 @@ msgstr "$PRIVOXY_PRG başlatılıyor: "
 msgid "Stopping func daemon: "
 msgstr "HAL servisi durduruluyor: "
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:1267
-msgid "Pidfile '$pidfile' is empty, cannot send trigger to radvd"
-msgstr "Pidfile '$pidfile' boş, radvd 'ye tetikleme bilgisi gönderilemiyor"
-
 #: /etc/rc.d/init.d/smokeping:51
 #, fuzzy
 msgid "Reloading smokeping: "
 msgstr "$prog yeniden yükleniyor: "
 
 #: /etc/rc.d/init.d/rpcgssd:126 /etc/rc.d/init.d/rpcidmapd:110
-#: /etc/rc.d/init.d/rpcsvcgssd:124
+#: /etc/rc.d/init.d/rpcsvcgssd:123
 #, fuzzy
 msgid "Usage: $0 {start|stop|restart|condstart|condrestart|status|condstop}"
 msgstr "Kullanılışı: $0 {start|stop|restart|condstart|condrestart|status}"
@@ -5111,6 +5465,10 @@ msgstr "Kullanılışı: $0 {start|stop|restart|condstart|condrestart|status}"
 #, fuzzy
 msgid "Moodle cron job is enabled."
 msgstr "Denyhosts·aktifleştirildi."
+
+#: /etc/sysconfig/network-scripts/ifup-aliases:192
+msgid "error in $FILE: didn't specify device or ipaddr"
+msgstr "$FILE dosyasında hata: aygıt ya da IP belirtilmemiş"
 
 #: /etc/rc.d/init.d/yum-updatesd:34
 #, fuzzy
@@ -5122,95 +5480,99 @@ msgstr "pand başlatılıyor: "
 msgid "${IP6TABLES}: Applying firewall rules: "
 msgstr "$IP6TABLES güvenlik duvarı kuralları uygulanıyor: "
 
-#: /etc/rc.d/init.d/netfs:42
+#: /etc/rc.d/init.d/netfs:43
 msgid "Mounting NCP filesystems: "
 msgstr "NCP dosya sistemleri bağlanıyor: "
 
-#: /etc/rc.d/init.d/ajaxterm:35 /etc/rc.d/init.d/amd:45
-#: /etc/rc.d/init.d/arpwatch:47 /etc/rc.d/init.d/atd:45
-#: /etc/rc.d/init.d/athcool:28 /etc/rc.d/init.d/atop:29
-#: /etc/rc.d/init.d/auditd:81 /etc/rc.d/init.d/auth2:35
-#: /etc/rc.d/init.d/autofs:102 /etc/rc.d/init.d/autogroup:54
-#: /etc/rc.d/init.d/autohome:52 /etc/rc.d/init.d/beanstalkd:47
-#: /etc/rc.d/init.d/boa:46 /etc/rc.d/init.d/boinc-client:147
-#: /etc/rc.d/init.d/bootparamd:47 /etc/rc.d/init.d/bro:127
+#: /etc/rc.d/init.d/3proxy:38 /etc/rc.d/init.d/ajaxterm:35
+#: /etc/rc.d/init.d/amd:45 /etc/rc.d/init.d/arpwatch:47
+#: /etc/rc.d/init.d/atd:45 /etc/rc.d/init.d/atop:29 /etc/rc.d/init.d/auditd:81
+#: /etc/rc.d/init.d/auth2:35 /etc/rc.d/init.d/autofs:102
+#: /etc/rc.d/init.d/autogroup:54 /etc/rc.d/init.d/autohome:52
+#: /etc/rc.d/init.d/beanstalkd:72 /etc/rc.d/init.d/boa:46
+#: /etc/rc.d/init.d/boinc-client:147 /etc/rc.d/init.d/bootparamd:47
+#: /etc/rc.d/init.d/bro:127 /etc/rc.d/init.d/certmonger:47
 #: /etc/rc.d/init.d/cfexecd:31 /etc/rc.d/init.d/cfservd:35
 #: /etc/rc.d/init.d/chronyd:93 /etc/rc.d/init.d/chunkd:42
 #: /etc/rc.d/init.d/clamav-milter:32 /etc/rc.d/init.d/clamd-wrapper:54
 #: /etc/rc.d/init.d/cld:43 /etc/rc.d/init.d/coda-client:42
 #: /etc/rc.d/init.d/codasrv:38 /etc/rc.d/init.d/collectd:35
-#: /etc/rc.d/init.d/collectl:41 /etc/rc.d/init.d/couchdb:46
+#: /etc/rc.d/init.d/collectl:42 /etc/rc.d/init.d/couchdb:46
 #: /etc/rc.d/init.d/cpuspeed:125 /etc/rc.d/init.d/crond:55
-#: /etc/rc.d/init.d/ctrlproxy:50 /etc/rc.d/init.d/cups:75
+#: /etc/rc.d/init.d/ctrlproxy:50 /etc/rc.d/init.d/cups:90
 #: /etc/rc.d/init.d/dbmail-imapd:44 /etc/rc.d/init.d/dbmail-lmtpd:45
 #: /etc/rc.d/init.d/dbmail-pop3d:45 /etc/rc.d/init.d/dbmail-timsieved:46
 #: /etc/rc.d/init.d/dc_client:41 /etc/rc.d/init.d/dc_server:37
 #: /etc/rc.d/init.d/ddclient:39 /etc/rc.d/init.d/dhcp-fwd:49
-#: /etc/rc.d/init.d/distccd:51 /etc/rc.d/init.d/dovecot:54
-#: /etc/rc.d/init.d/dropbear:78 /etc/rc.d/init.d/fcron_watch_config:41
+#: /etc/rc.d/init.d/distccd:51 /etc/rc.d/init.d/dovecot:56
+#: /etc/rc.d/init.d/dropbear:78 /etc/rc.d/init.d/dspam:53
+#: /etc/rc.d/init.d/fcron_watch_config:41 /etc/rc.d/init.d/fence_virtd:51
 #: /etc/rc.d/init.d/flow-capture:52 /etc/rc.d/init.d/freenx-server:57
-#: /etc/rc.d/init.d/freenx-server:59 /etc/rc.d/init.d/fyre-cluster:39
-#: /etc/rc.d/init.d/gearmand:46 /etc/rc.d/init.d/globus-rls-server:37
-#: /etc/rc.d/init.d/glusterfsd:46 /etc/rc.d/init.d/gmediaserver:69
-#: /etc/rc.d/init.d/gpsd:53 /etc/rc.d/init.d/haproxy:50
-#: /etc/rc.d/init.d/honeyd:61 /etc/rc.d/init.d/httpd:66
-#: /etc/rc.d/init.d/i8k:60 /etc/rc.d/init.d/ip-sentinel:51
-#: /etc/rc.d/init.d/ircd:34 /etc/rc.d/init.d/irqbalance:58
-#: /etc/rc.d/init.d/iscsi:68 /etc/rc.d/init.d/iscsid:71
-#: /etc/rc.d/init.d/jetty:90 /etc/rc.d/init.d/kadmin:62
-#: /etc/rc.d/init.d/keepalived:45 /etc/rc.d/init.d/kojid:50
-#: /etc/rc.d/init.d/kojira:50 /etc/rc.d/init.d/kprop:44
-#: /etc/rc.d/init.d/krb5kdc:47 /etc/rc.d/init.d/ldap:192
+#: /etc/rc.d/init.d/freenx-server:59 /etc/rc.d/init.d/gearmand:46
+#: /etc/rc.d/init.d/globus-rls-server:37 /etc/rc.d/init.d/glusterfsd:46
+#: /etc/rc.d/init.d/gmediaserver:69 /etc/rc.d/init.d/gpsd:53
+#: /etc/rc.d/init.d/haproxy:50 /etc/rc.d/init.d/honeyd:61
+#: /etc/rc.d/init.d/hostapd:46 /etc/rc.d/init.d/httpd:66
+#: /etc/rc.d/init.d/ip-sentinel:51 /etc/rc.d/init.d/ircd:44
+#: /etc/rc.d/init.d/irqbalance:58 /etc/rc.d/init.d/iscsi:68
+#: /etc/rc.d/init.d/iscsid:71 /etc/rc.d/init.d/jetty:92
+#: /etc/rc.d/init.d/kadmin:70 /etc/rc.d/init.d/keepalived:45
+#: /etc/rc.d/init.d/kojid:50 /etc/rc.d/init.d/kojira:50
+#: /etc/rc.d/init.d/kprop:52 /etc/rc.d/init.d/krb5kdc:55
+#: /etc/rc.d/init.d/ksm:55 /etc/rc.d/init.d/ksmtuned:46
 #: /etc/rc.d/init.d/lighttpd:49 /etc/rc.d/init.d/mailgraph:50
-#: /etc/rc.d/init.d/mcstrans:63 /etc/rc.d/init.d/memcached:49
+#: /etc/rc.d/init.d/mcstrans:64 /etc/rc.d/init.d/memcached:49
 #: /etc/rc.d/init.d/milter-greylist:40 /etc/rc.d/init.d/milter-regex:44
-#: /etc/rc.d/init.d/miredo-client:56 /etc/rc.d/init.d/miredo-server:58
+#: /etc/rc.d/init.d/mip6d:47 /etc/rc.d/init.d/miredo-client:56
+#: /etc/rc.d/init.d/miredo-server:58 /etc/rc.d/init.d/mpdscribble:27
 #: /etc/rc.d/init.d/mrepo:36 /etc/rc.d/init.d/mydns:33
-#: /etc/rc.d/init.d/mysql-proxy:45 /etc/rc.d/init.d/mysqld:114
-#: /etc/rc.d/init.d/mysqld:118 /etc/rc.d/init.d/mysqld:121
-#: /etc/rc.d/init.d/mysqld:125 /etc/rc.d/init.d/ndb_mgmd:74
-#: /etc/rc.d/init.d/ndb_mgmd:76 /etc/rc.d/init.d/ndb_mgmd:80
-#: /etc/rc.d/init.d/ndbd:69 /etc/rc.d/init.d/ndbd:71 /etc/rc.d/init.d/ndbd:75
+#: /etc/rc.d/init.d/myproxy-server:52 /etc/rc.d/init.d/mysqld:123
+#: /etc/rc.d/init.d/mysqld:127 /etc/rc.d/init.d/mysqld:130
+#: /etc/rc.d/init.d/mysqld:134 /etc/rc.d/init.d/mysql-proxy:45
 #: /etc/rc.d/init.d/ndo2db:56 /etc/rc.d/init.d/nessusd:47
 #: /etc/rc.d/init.d/nginx:43 /etc/rc.d/init.d/ngircd:34
 #: /etc/rc.d/init.d/noip:44 /etc/rc.d/init.d/npcd:43 /etc/rc.d/init.d/nscd:50
-#: /etc/rc.d/init.d/nslcd:38 /etc/rc.d/init.d/ntop:50
+#: /etc/rc.d/init.d/nslcd:37 /etc/rc.d/init.d/ntop:50
 #: /etc/rc.d/init.d/nuauth:74 /etc/rc.d/init.d/nufw:71
 #: /etc/rc.d/init.d/nxtvepgd:43 /etc/rc.d/init.d/oidentd:50
 #: /etc/rc.d/init.d/openhpid:138 /etc/rc.d/init.d/openhpid:150
-#: /etc/rc.d/init.d/openser:32 /etc/rc.d/init.d/pads:53
+#: /etc/rc.d/init.d/openhpi-subagent:39 /etc/rc.d/init.d/openser:46
+#: /etc/rc.d/init.d/opensips:40 /etc/rc.d/init.d/pads:53
 #: /etc/rc.d/init.d/pathfinderd:47 /etc/rc.d/init.d/plague-builder:41
 #: /etc/rc.d/init.d/plague-server:42 /etc/rc.d/init.d/poker-bot:45
 #: /etc/rc.d/init.d/poker-server:48 /etc/rc.d/init.d/portreserve:60
-#: /etc/rc.d/init.d/postgrey:48 /etc/rc.d/init.d/prelude-correlator:50
-#: /etc/rc.d/init.d/prelude-manager:32 /etc/rc.d/init.d/psad:81
-#: /etc/rc.d/init.d/pure-ftpd:40 /etc/rc.d/init.d/racoon:30
-#: /etc/rc.d/init.d/rarpd:52 /etc/rc.d/init.d/ratbox-services:38
-#: /etc/rc.d/init.d/rbldnsd:96 /etc/rc.d/init.d/rinetd:34
-#: /etc/rc.d/init.d/ris-linuxd:57 /etc/rc.d/init.d/roundup:37
-#: /etc/rc.d/init.d/rpcbind:55 /etc/rc.d/init.d/rtpproxy:30
-#: /etc/rc.d/init.d/rwalld:52 /etc/rc.d/init.d/saslauthd:49
-#: /etc/rc.d/init.d/scanbuttond:45 /etc/rc.d/init.d/searchd:43
-#: /etc/rc.d/init.d/sec:44 /etc/rc.d/init.d/sems:32
+#: /etc/rc.d/init.d/postgrey:48 /etc/rc.d/init.d/pppoe-server:36
+#: /etc/rc.d/init.d/prelude-correlator:50 /etc/rc.d/init.d/prelude-manager:32
+#: /etc/rc.d/init.d/psad:81 /etc/rc.d/init.d/pure-ftpd:40
+#: /etc/rc.d/init.d/rabbit:75 /etc/rc.d/init.d/racoon:30
+#: /etc/rc.d/init.d/radiusd:45 /etc/rc.d/init.d/rarpd:52
+#: /etc/rc.d/init.d/ratbox-services:38 /etc/rc.d/init.d/rbldnsd:96
+#: /etc/rc.d/init.d/rinetd:34 /etc/rc.d/init.d/ris-linuxd:57
+#: /etc/rc.d/init.d/roundup:37 /etc/rc.d/init.d/rpcbind:55
+#: /etc/rc.d/init.d/rtpproxy:54 /etc/rc.d/init.d/rwalld:52
+#: /etc/rc.d/init.d/saslauthd:49 /etc/rc.d/init.d/searchd:44
+#: /etc/rc.d/init.d/sec:30 /etc/rc.d/init.d/sems:32
 #: /etc/rc.d/init.d/sensord:44 /etc/rc.d/init.d/ser:45
 #: /etc/rc.d/init.d/sge_execd:62 /etc/rc.d/init.d/sgemaster:315
-#: /etc/rc.d/init.d/sip-redirect:40 /etc/rc.d/init.d/smsd:36
-#: /etc/rc.d/init.d/snmpd:54 /etc/rc.d/init.d/snmptrapd:51
-#: /etc/rc.d/init.d/spamassassin:51 /etc/rc.d/init.d/spampd:48
-#: /etc/rc.d/init.d/squid:100 /etc/rc.d/init.d/squidGuard:94
-#: /etc/rc.d/init.d/sshd:137 /etc/rc.d/init.d/sssd:49
-#: /etc/rc.d/init.d/systemtap:542 /etc/rc.d/init.d/tabled:43
-#: /etc/rc.d/init.d/tclhttpd:151 /etc/rc.d/init.d/tcsd:101
+#: /etc/rc.d/init.d/sip-redirect:40 /etc/rc.d/init.d/slapd:216
+#: /etc/rc.d/init.d/smsd:36 /etc/rc.d/init.d/snmpd:54
+#: /etc/rc.d/init.d/snmptrapd:50 /etc/rc.d/init.d/spamassassin:53
+#: /etc/rc.d/init.d/spampd:48 /etc/rc.d/init.d/squid:100
+#: /etc/rc.d/init.d/squidGuard:94 /etc/rc.d/init.d/sshd:142
+#: /etc/rc.d/init.d/sssd:50 /etc/rc.d/init.d/systemtap:542
+#: /etc/rc.d/init.d/tabled:43 /etc/rc.d/init.d/tclhttpd:151
+#: /etc/rc.d/init.d/tcsd:79 /etc/rc.d/init.d/tgtd:65
 #: /etc/rc.d/init.d/thttpd:45 /etc/rc.d/init.d/tinyerp-server:57
-#: /etc/rc.d/init.d/tinyproxy:45 /etc/rc.d/init.d/tor:45
-#: /etc/rc.d/init.d/trytond:57 /etc/rc.d/init.d/tuned:42
-#: /etc/rc.d/init.d/ucarp:110 /etc/rc.d/init.d/ulogd:48
-#: /etc/rc.d/init.d/update:50 /etc/rc.d/init.d/update:57
-#: /etc/rc.d/init.d/upnpd:46 /etc/rc.d/init.d/ups:74
-#: /etc/rc.d/init.d/ushare:36 /etc/rc.d/init.d/vdradmind:36
+#: /etc/rc.d/init.d/tinyproxy:45 /etc/rc.d/init.d/tokyotyrant:44
+#: /etc/rc.d/init.d/tor:46 /etc/rc.d/init.d/trytond:57
+#: /etc/rc.d/init.d/tuned:50 /etc/rc.d/init.d/ucarp:110
+#: /etc/rc.d/init.d/ulogd:48 /etc/rc.d/init.d/update:50
+#: /etc/rc.d/init.d/update:57 /etc/rc.d/init.d/upnpd:46
+#: /etc/rc.d/init.d/ups:75 /etc/rc.d/init.d/ushare:36
+#: /etc/rc.d/init.d/vdradmind:36 /etc/rc.d/init.d/vhostmd:57
 #: /etc/rc.d/init.d/vtund:45 /etc/rc.d/init.d/wpa_supplicant:47
-#: /etc/rc.d/init.d/xinetd:83 /etc/rc.d/init.d/xrdp:45
-#: /etc/rc.d/init.d/xrdp:69 /etc/rc.d/init.d/zfs-fuse:142
+#: /etc/rc.d/init.d/xinetd:89 /etc/rc.d/init.d/xrdp:45
+#: /etc/rc.d/init.d/xrdp:69 /etc/rc.d/init.d/zfs-fuse:173
 #: /etc/rc.d/init.d/zoneminder:58
 msgid "Stopping $prog: "
 msgstr "$prog durduruluyor: "
@@ -5219,6 +5581,169 @@ msgstr "$prog durduruluyor: "
 #, fuzzy
 msgid "Shutting down Audio Entropy daemon: "
 msgstr "APM artalanda durduruluyor: "
+
+#, fuzzy
+#~ msgid "Stopping OpenAIS ($prog): "
+#~ msgstr "PC/SC smart card daemon durduruluyor ($prog): "
+
+#~ msgid "Usage: $0 {start|stop|restart|condrestart|configtest|status}"
+#~ msgstr "Kullanılışı: $0 {start|stop|restart|condrestart|configtest|status}"
+
+#, fuzzy
+#~ msgid "Check Oprofile filesystem mounted ... "
+#~ msgstr "Yerel dosya sistemi kotaları denetleniyor: "
+
+#~ msgid "Starting pmud daemon: "
+#~ msgstr "pmud başlatılıyor: "
+
+#, fuzzy
+#~ msgid "Starting Corosync Cluster Engine ($prog): "
+#~ msgstr "$desc başlatılıyor ($prog): "
+
+#~ msgid "Shutting down APM daemon: "
+#~ msgstr "APM artalanda durduruluyor: "
+
+#~ msgid "Shutting down $BASENAME: "
+#~ msgstr "$BASENAME durduruluyor: "
+
+#~ msgid "Usage: $0 {start|stop|status|restart|condrestart|reload|rotate}"
+#~ msgstr ""
+#~ "Kullanılışı: $0 {start|stop|status|restart|condrestart|reload|rotate}"
+
+#~ msgid "$0: $DEVICE not a character device?"
+#~ msgstr "$0: $DEVICE bir karakter aygıtı değil mi?"
+
+#~ msgid "Usage: $0 {start|stop|restart|reload|condrestart}"
+#~ msgstr "Kullanılışı: $0 {start|stop|restart|reload|condrestart}"
+
+#, fuzzy
+#~ msgid "Stopping SCSI target daemon: "
+#~ msgstr "acpi durduruluyor: "
+
+#, fuzzy
+#~ msgid "Starting OpenAIS ($prog): "
+#~ msgstr "$desc başlatılıyor ($prog): "
+
+#, fuzzy
+#~ msgid "Starting ICQ transport: "
+#~ msgstr "NFS statd başlatılıyor: "
+
+#, fuzzy
+#~ msgid "Usage: $0 {start|stop|status|reload|restart|condrestart|probe}"
+#~ msgstr "Kullanılışı: $0 {start|stop|status|reload|restart|condrestart}"
+
+#~ msgid "Starting network plug daemon: "
+#~ msgstr "Ağ bağlanma hizmeti başlatılıyor: "
+
+#~ msgid "Usage: $0 {start|stop|restart|condrestart|reload|status}"
+#~ msgstr "Kullanılışı: $0 {start|stop|restart|condrestart|reload|status}"
+
+#, fuzzy
+#~ msgid "Usage: $0 {start|stop|reload|restart|dump|status}"
+#~ msgstr "Kullanılışı: $0 {start|stop|reload|report|restart|status}"
+
+#, fuzzy
+#~ msgid "Loading drivers"
+#~ msgstr "Bellenim (Firmware) yükleniyor"
+
+#, fuzzy
+#~ msgid "Usage: $0 {start|stop|restart|reload|force-reload|condrestart}"
+#~ msgstr ""
+#~ "Kullanılışı: $0 {start|stop|status|restart|reload|force-reload|"
+#~ "condrestart}"
+
+#~ msgid "Reloading RADIUS server: "
+#~ msgstr "RADIUS sunucusu yeniden yükleniyor: "
+
+#~ msgid "Starting RADIUS server: "
+#~ msgstr "RADIUS sunucusu başlatılıyor: "
+
+#~ msgid "Cannot delete IPv6 address '$address' on dev '$device'"
+#~ msgstr "'$device' aygıtı üzerindeki '$address' IPv6 adresi silinemiyor"
+
+#, fuzzy
+#~ msgid "Starting $BASENAME: "
+#~ msgstr "$MODEL başlatılıyor: "
+
+#~ msgid "Disabling IPv4 automatic defragmentation: "
+#~ msgstr "IPv4 otomatik bütünleştirmesi devre dışı bırakılıyor: "
+
+#, fuzzy
+#~ msgid "Starting up HPI SNMP sub-agent daemon: "
+#~ msgstr "APM başlatılıyor: "
+
+#, fuzzy
+#~ msgid "Usage: $0 {start|stop|restart|status|cron|condrestart}"
+#~ msgstr "Kullanılışı: $0 {start|stop|restart|status|condrestart}"
+
+#, fuzzy
+#~ msgid ""
+#~ "Usage: $BASENAME {start|stop|restart|reload|condrestart|status|quickstart|"
+#~ "quickstop}"
+#~ msgstr ""
+#~ "Kullanılışı: $BASENAME {start|stop|restart|reload|condrestart|status}"
+
+#~ msgid "Stopping RADIUS server: "
+#~ msgstr "RADIUS hizmetleri durduruluyor: "
+
+#, fuzzy
+#~ msgid ""
+#~ "Usage: $0 {start|stop|status|restart|condrestart|reload|rotate|resume}"
+#~ msgstr ""
+#~ "Kullanılışı: $0 {start|stop|status|restart|condrestart|reload|rotate}"
+
+#, fuzzy
+#~ msgid "$0: kernel does not have CPU microcode device support"
+#~ msgstr "$0: çekirdek microcode desteğine sahip değil"
+
+#~ msgid "Missing parameter 'IPv6 address' (arg 2)"
+#~ msgstr "Eksik parametre 'IPv6 address' (arg 2)"
+
+#, fuzzy
+#~ msgid "Usage: $prog {start|stop|restart|force-reload|condrestart|status}"
+#~ msgstr "Kullanılışı: $prog {start|stop|restart|reload|condrestart|status}"
+
+#, fuzzy
+#~ msgid "$BASENAME already running."
+#~ msgstr "$prog: zaten çalışıyor."
+
+#~ msgid "$0: microcode device $DEVICE doesn't exist?"
+#~ msgstr "$0: microcode aygıtı $DEVICE bulunamadı."
+
+#, fuzzy
+#~ msgid "Shutting down HPI SNMP sub-agent daemon: "
+#~ msgstr "APM artalanda durduruluyor: "
+
+#~ msgid "Usage: $prog {start|stop|restart|status|condrestart}"
+#~ msgstr "Kullanılışı: $prog {start|stop|restart|status|condrestart}"
+
+#, fuzzy
+#~ msgid "Usage: $PROG {start|stop|restart|reload|condrestart|status}"
+#~ msgstr "Kullanılışı: $0 {start|stop|restart|reload|condrestart|status}"
+
+#, fuzzy
+#~ msgid "Starting SCSI target daemon: "
+#~ msgstr "NFS başlatılıyor: "
+
+#, fuzzy
+#~ msgid ""
+#~ "Usage: apmd {start|stop|status|restart|reload|force-reload|condrestart}"
+#~ msgstr ""
+#~ "Kullanılışı: $0 {start|stop|status|restart|reload|force-reload|"
+#~ "condrestart}"
+
+#, fuzzy
+#~ msgid "Stopping Corosync Cluster Engine ($prog): "
+#~ msgstr "$desc başlatılıyor ($prog): "
+
+#~ msgid "Disabling IPv4 packet forwarding: "
+#~ msgstr "IPv4 paket yönlendirmesi durduruluyor: "
+
+#~ msgid "Shutting down network plug daemon: "
+#~ msgstr "Ağa bağlanma hizmeti durduruluyor: "
+
+#~ msgid "Starting up APM daemon: "
+#~ msgstr "APM başlatılıyor: "
 
 #~ msgid "Forwarding control parameter isn't valid '$fw_control' (arg 1)"
 #~ msgstr "Yönlendirme kontrol parametresi geçerli değil '$fw_control' (arg 1)"
@@ -5311,10 +5836,6 @@ msgstr "APM artalanda durduruluyor: "
 #~ msgid "Usage: boa {start|stop|status|reload|restart|condrestart}"
 #~ msgstr "Kullanılışı: $0 {start|stop|status|reload|restart|condrestart}"
 
-#, fuzzy
-#~ msgid "Starting moomps: "
-#~ msgstr "pand başlatılıyor: "
-
 #~ msgid ""
 #~ "On given address '$testipv6addr_valid' the prefix length is out of range "
 #~ "(valid: 0-128)"
@@ -5328,10 +5849,6 @@ msgstr "APM artalanda durduruluyor: "
 
 #~ msgid "Unmounting SMB filesystems: "
 #~ msgstr "SMB dosya sistemleri ayrılıyor: "
-
-#, fuzzy
-#~ msgid "$servicename is not running."
-#~ msgstr "Avahi servisi çalışmıyor"
 
 #, fuzzy
 #~ msgid ""
@@ -5386,10 +5903,6 @@ msgstr "APM artalanda durduruluyor: "
 #~ msgstr ""
 #~ "Kullanılışı: $0 {start|stop|status|restart|condrestart|condstop|reload|"
 #~ "force-reload}"
-
-#, fuzzy
-#~ msgid "Stopping $DESC $NAME :"
-#~ msgstr "${NAME} hizmeti durduruluyor: "
 
 #, fuzzy
 #~ msgid "Unmounting GFS filesystems (lazy): "
@@ -5483,13 +5996,6 @@ msgstr "APM artalanda durduruluyor: "
 #~ msgid "Stopping NetworkManagerDispatcher daemon: "
 #~ msgstr "NetworkManagerDispatcher·servisi durduruluyor:·"
 
-#~ msgid "Usage: $0 {condrestart|start|stop|restart|reload|status}"
-#~ msgstr "Kullanılışı: $0 {condrestart|start|stop|restart|reload|status}"
-
-#, fuzzy
-#~ msgid "Stopping $servicename: "
-#~ msgstr "$prog durduruluyor: "
-
 #, fuzzy
 #~ msgid "X is now configured.  Starting firstboot."
 #~ msgstr "X şimdi yapılandırıldı. Ayar Aracısı başlatılıyor"
@@ -5500,10 +6006,6 @@ msgstr "APM artalanda durduruluyor: "
 
 #~ msgid "Extracting kadm5 Service Keys: "
 #~ msgstr "kadm5 Hizmet Anahtarları çıkartılıyor: "
-
-#, fuzzy
-#~ msgid "Usage: $0 {start|stop|restart|status|force-reload}"
-#~ msgstr "Kullanılışı: $0 {start|stop|restart|status|condrestart}"
 
 #, fuzzy
 #~ msgid "X is not configured.  Running system-config-display."
@@ -5757,9 +6259,6 @@ msgstr "APM artalanda durduruluyor: "
 #~ msgid "Start $x"
 #~ msgstr "$x başlat"
 
-#~ msgid "$prog is not started..."
-#~ msgstr "$prog başlatılmadı..."
-
 #~ msgid "Unmounting file systems (retry): "
 #~ msgstr "Dosya sistemleri (tekrar) ayrılıyor: "
 
@@ -5790,9 +6289,6 @@ msgstr "APM artalanda durduruluyor: "
 
 #~ msgid "Stop $command"
 #~ msgstr "$command durdu"
-
-#~ msgid "Stopping Red Hat Network Daemon: "
-#~ msgstr "Red Hat Ağ Hizmeti artalanda durduruluyor: "
 
 #~ msgid "Reload map $command"
 #~ msgstr "$command eşleştirmesini yeniden başlat"
