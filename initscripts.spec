@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.05
+Version: 9.06
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -239,6 +239,12 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Fri Feb 19 2010 Bill Nottingham <notting@redhat.com> - 9.06-1
+- move ccw_init and ccw udev rules to s390utils (#539491)
+- rc.sysinit: suppress LVM2 warnings.  (#561938, <prajnoha@redhat.com>)
+- fix translated checks for user input (#566579)
+- refresh translations
+
 * Mon Feb 15 2010 Bill Nottingham <notting@redhat.com> - 9.05-1
 - network-functions: don't use ethtool for link state, assorted other cleanups
 - inittab: fix job paths in comments (<plautrba@redhat.com>)
