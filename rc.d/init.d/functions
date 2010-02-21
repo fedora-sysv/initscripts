@@ -671,7 +671,7 @@ find_crypto_mount_point() {
 # Because of a chicken/egg problem, init_crypto must be run twice.  /var may be
 # encrypted but /var/lib/random-seed is needed to initialize swap.
 init_crypto() {
-    local have_random dst src key opt mode owner params makeswap skip arg opt
+    local have_random dst src key opt lsl owner params makeswap skip arg opt
     local param value rc ret mke2fs mdir prompt mount_point
 
     ret=0
@@ -686,8 +686,8 @@ init_crypto() {
 	    if test -e "$key" ; then
 		owner=$(ls -l $key | (read a b owner rest; echo $owner))
 		if ! key_is_random "$key"; then
-		    mode=$(ls -l "$key" | cut -c 5-10)
-		    if [ "$mode" != "------" ]; then
+		    lsl=$(ls -l "$key")
+		    if [ "${lsl:4:6}" != "------" ]; then
 		       echo $"INSECURE MODE FOR $key"
 		    fi
 		fi

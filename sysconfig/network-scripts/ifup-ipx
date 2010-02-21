@@ -23,7 +23,7 @@ CONFIG=$1
 source_config
 
 for frametype in 802.2 802.3 ETHERII SNAP ; do
-    framename=$(echo $frametype | sed 's/\./_/')
+    framename=${frametype/./_}
     eval ACT=\$IPXACTIVE_$framename
     case $ACT in
 	yes|true)

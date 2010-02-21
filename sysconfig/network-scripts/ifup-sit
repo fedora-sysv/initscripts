@@ -40,7 +40,7 @@ CONFIG=$1
 source_config
 
 # IPv6 don't need aliases anymore, config is skipped
-REALDEVICE=$(echo ${DEVICE} | sed 's/:.*//g')
+REALDEVICE=${DEVICE%%:*}
 [ "$DEVICE" != "$REALDEVICE" ] && exit 0
 
 # Test whether IPv6 configuration is enabled for this interface, else stop
@@ -106,7 +106,7 @@ fi
 
 # Setup additional static IPv6 routes (newer config style)
 if [ -f "/etc/sysconfig/network-scripts/route6-$REALDEVICE" ]; then
-	cat "/etc/sysconfig/network-scripts/route6-$REALDEVICE" | sed 's/#.*//g' | grep -v '^[[:space:]]*$' | while read line; do
+	sed -ne 's/#.*//' -e '/[^[:space:]]/p' "/etc/sysconfig/network-scripts/route6-$REALDEVICE" | while read line; do
 		/sbin/ip -6 route add $line
 	done
 fi

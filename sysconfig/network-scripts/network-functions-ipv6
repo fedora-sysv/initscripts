@@ -322,7 +322,7 @@ ipv6_add_addr_on_device() {
 
 	# Extract address parts
 	local prefixlength_implicit="$(echo $address | awk -F/ '{ print $2 }')"
-	local address_implicit="$(echo $address | awk -F/ '{ print $1 }')"
+	local address_implicit="${address%%/*}"
 
 	# Check prefix length and using '64' as default
 	if [ -z "$prefixlength_implicit" ]; then
@@ -389,7 +389,7 @@ ipv6_cleanup_6to4_device() {
 	ipv6_test testonly || return 2
 
 	# Cleanup 6to4 addresses on this device
-	/sbin/ip -6 addr show dev $dev scope global permanent | LC_ALL=C grep -w inet6 | awk '{ print $2}' | LC_ALL=C grep "^2002:" | while read addr; do
+	/sbin/ip -6 addr show dev $dev scope global permanent | awk '/\<inet6\>/ && $2 ~ /^2002:/ { print $2 }' | while read addr; do
 		/sbin/ip -6 addr del ${addr} dev ${dev}
 	done
 
@@ -496,7 +496,7 @@ ipv6_create_6to4_prefix() {
 		ipv6_log $"Missing parameter 'IPv4 address' (arg 1)" stderr.err $fn
 	fi
 
-	local major1="$(echo $ipv4addr | awk -F. '{ print $1 }')"
+	local major1="${ipv4addr%%.*}"
 	local minor1="$(echo $ipv4addr | awk -F. '{ print $2 }')"
 	local major2="$(echo $ipv4addr | awk -F. '{ print $3 }')"
 	local minor2="$(echo $ipv4addr | awk -F. '{ print $4 }')"
@@ -654,7 +654,7 @@ ipv6_cleanup_6to4_tunnels() {
 		ipv6_del_tunnel_device tun6to4
 
 		# Remove all unspecific unreachable routes for local 6to4 address space
-		/sbin/ip -6 route | LC_ALL=C grep "^unreachable 2002:" | LC_ALL=C grep "/48 dev lo" | while read token net rest; do
+		/sbin/ip -6 route | LC_ALL=C grep "^unreachable 2002:.*/48 dev lo" | while read token net rest; do
 			/sbin/ip route del unreach $net
 		done
 
@@ -831,7 +831,7 @@ ipv6_cleanup_tunnel_devices() {
 
 	# Find still existing tunnel devices and shutdown and delete them
 
-	/sbin/ip tunnel show | LC_ALL=C grep -w "ipv6/ip" | awk -F: '{ print $1 }' | while read device; do
+	/sbin/ip tunnel show | awk -F: '/\<ipv6\/ip\>/ { print $1 }' | while read device; do
 		ipv6_del_tunnel_device $device
 	done
 
@@ -987,7 +987,7 @@ ipv6_set_default_route() {
 	fi
 
 	if [ -n "$address" ]; then
-		local addressgw=$(echo $address | awk -F% '{ print $1 }')
+		local addressgw=${address%%%*}
 		local device_scope=$(echo $address | awk -F% '{ print $2 }')
 
 		if [ -z "$addressgw" ]; then

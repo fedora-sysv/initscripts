@@ -63,7 +63,7 @@ CONFIG=$1
 source_config
 
 # IPv6 don't need aliases anymore, config is skipped
-REALDEVICE=$(echo ${DEVICE} | sed 's/:.*//g')
+REALDEVICE=${DEVICE%%:*}
 [ "$DEVICE" != "$REALDEVICE" ] && exit 0
 
 # Test whether IPv6 configuration is enabled for this interface, else stop
@@ -162,7 +162,7 @@ fi
 
 # Setup additional static IPv6 routes (newer config style)
 if [ -f "/etc/sysconfig/network-scripts/route6-$DEVICE" ]; then
-	cat "/etc/sysconfig/network-scripts/route6-$DEVICE" | sed 's/#.*//g' | grep -v '^[[:space:]]*$' | while read line; do
+	sed -ne 's/#.*//' -e '/[^[:space:]]/p' "/etc/sysconfig/network-scripts/route6-$DEVICE" | while read line; do
 		/sbin/ip -6 route add $line
 	done
 fi
@@ -222,7 +222,7 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 	# Setup 6to4 tunnel (hardwired name is "tun6to4"), if config is valid
         if [ "$valid6to4config" = "yes" ]; then
 		# Get MTU of master device
-		ipv4mtu="$(/sbin/ip link show dev $DEVICE | grep -w "mtu" | awk '{ print $5 }')"
+		ipv4mtu="$(/sbin/ip link show dev $DEVICE | awk '/\<mtu\>/ { print $5 }')"
 		if [ -n "$ipv4mtu" ]; then
 			# IPv6 tunnel MTU is IPv4 MTU minus 20 for IPv4 header
 			tunnelmtu=$(($ipv4mtu-20))
@@ -264,7 +264,7 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 
 		# Setup additional static IPv6 routes (newer config style)
 		if [ -f "/etc/sysconfig/network-scripts/route6-tun6to4" ]; then
-			cat "/etc/sysconfig/network-scripts/route6-tun6to4" | sed 's/#.*//g' | LC_ALL=C grep -v '^[[:space:]]*$' | while read line; do
+			sed -ne 's/#.*//' -e '/[^[:space:]]/p' /etc/sysconfig/network-scripts/route6-tun6to4 | while read line; do
 				if echo "$line" | LC_ALL=C grep -vq 'via'; then
 					# Add gateway if missing
 					line="$line via $ipv6to4_relay"
@@ -288,7 +288,7 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 				if [ -n "$ipv6to4prefix" ]; then
 					# Add route to local networks
 					for devsuf in $IPV6TO4_ROUTING; do
-						dev="$(echo $devsuf | awk -F- '{ print $1 }')"
+						dev="${devsuf%%-*}"
 						suf="$(echo $devsuf | awk -F- '{ print $2 }')"
 						ipv6_add_addr_on_device ${dev} ${ipv6to4prefix}${suf}
 					done

@@ -48,7 +48,7 @@ CONFIG=$1
 source_config
 
 # IPv6 don't need aliases anymore, config is skipped
-REALDEVICE=$(echo ${DEVICE} | sed 's/:.*//g')
+REALDEVICE=${DEVICE%%:*}
 [ "$DEVICE" != "$REALDEVICE" ] && exit 0
 
 if [ ! -f /etc/sysconfig/network-scripts/network-functions-ipv6 ]; then
@@ -104,7 +104,7 @@ if [ "$valid6to4config" = "yes" ]; then
 	if [ -n "$IPV6TO4_ROUTING" ]; then
 		# Delete routes to local networks
 		for devsuf in $IPV6TO4_ROUTING; do
-			dev="$(echo $devsuf | awk -F- '{ print $1 }')"
+			dev="${devsuf%%-*}"
 			ipv6_cleanup_6to4_device $dev
 		done
 	fi
