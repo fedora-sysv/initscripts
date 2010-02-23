@@ -39,7 +39,7 @@ Conflicts: plymouth < 0.7.0-0.2009.02.26
 Conflicts: s390utils < 2:1.8.2-11
 # http://bugzilla.redhat.com/show_bug.cgi?id=252973
 Conflicts: nut < 2.2.0
-Obsoletes: hotplug
+Obsoletes: hotplug <= 3:2004_09_23-10.1
 Requires(pre): /usr/sbin/groupadd
 Requires(post): /sbin/chkconfig, coreutils
 Requires(preun): /sbin/chkconfig
