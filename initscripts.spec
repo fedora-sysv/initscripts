@@ -412,7 +412,7 @@ rm -rf $RPM_BUILD_ROOT
 - event.d/serial: add some docs
 - init.d/functions: __pids_var_run: Handle multi-line pid files correctly (#473287)
 - remove support for no longer existing 'brctl setgcint' command. (#360471)
-- add %config back for ifcfg-lo (#472761)
+- add %%config back for ifcfg-lo (#472761)
 - rcS/rcS-sulogin: don't match commented lines when finding runlevel (#472717)
 - updated translations: de, sk
 
