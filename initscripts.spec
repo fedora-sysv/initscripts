@@ -40,6 +40,7 @@ Conflicts: s390utils < 2:1.8.2-11
 Conflicts: dmraid < 1.0.0.rc16-7
 # http://bugzilla.redhat.com/show_bug.cgi?id=252973
 Conflicts: nut < 2.2.0
+Conflicts: NetworkManager < 1:0.8.0
 Obsoletes: hotplug <= 3:2004_09_23-10.1
 Requires(pre): /usr/sbin/groupadd
 Requires(post): /sbin/chkconfig, coreutils
