@@ -65,12 +65,8 @@ then
     exit 0
 fi
 
-if [ "$USE_NM" = "true" -a -n "$NAME" -o -n "$UUID" ]; then
-    if [ -n "$UUID" ]; then
-	nmcli con up uuid "$UUID"
-    elif [ -n "$NAME" ]; then
-	nmcli con up id "$NAME"
-    fi
+if [ "$USE_NM" = "true" -a -n "$UUID" ]; then
+    nmcli con up uuid "$UUID"
     exit $?
 fi
 

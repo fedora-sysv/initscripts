@@ -54,6 +54,11 @@ get_device_by_hwaddr ()
     LANG=C ip -o link | grep -v link/ieee802.11 | awk -F ': ' -vIGNORECASE=1 "/$1/ { print \$2 }"
 }
 
+get_uuid_by_config ()
+{
+    dbus-send --system --print-reply --dest=com.redhat.ifcfgrh1 /com/redhat/ifcfgrh1 com.redhat.ifcfgrh1.GetIfcfgDetails string:"/etc/sysconfig/network-scripts/$1" | awk -F '"' '/string / { print $2 }'
+}
+
 need_config ()
 {
     local nconfig
@@ -133,9 +138,8 @@ source_config ()
 	ISALIAS=no
     fi
     is_nm_running && USE_NM=true
-    if [ -z "$NAME" -a "$USE_NM" = "true" ]; then
-	UUID=$(nmcli -t con list id "System ${DEVICE}" 2>/dev/null| awk '/uuid :/ { print gensub("\"","","g",$3) }')
-	[ -n "$UUID" ] && NAME="System ${DEVICE}"
+    if [ -z "$UUID" -a "$USE_NM" = "true" ]; then
+	UUID=$(get_uuid_by_config $CONFIG)
     fi
 }
 
