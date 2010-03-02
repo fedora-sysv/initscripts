@@ -10,12 +10,12 @@ Release: 1%{?dist}
 URL: http://fedorahosted.org/releases/i/n/initscripts/
 Source: http://fedorahosted.org/releases/i/n/initscripts/initscripts-%{version}.tar.bz2
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
-Requires: mingetty, /bin/awk, /bin/sed, mktemp, e2fsprogs >= 1.15
-Requires: /sbin/sysctl, syslog
+Requires: mingetty, /bin/awk, /bin/sed, mktemp
+Requires: /sbin/sysctl
 Requires: /sbin/fuser, /bin/grep
 Requires: /sbin/pidof, /sbin/blkid
 Requires: module-init-tools
-Requires: util-linux-ng >= 2.16, mount >= 2.11l
+Requires: util-linux-ng >= 2.16
 Requires: bash >= 3.0
 Requires: sysvinit-tools >= 2.87
 %if with_upstart
@@ -27,7 +27,6 @@ Requires: /sbin/ip, /sbin/arping, net-tools, /bin/find
 Requires: /etc/redhat-release, dev
 Requires: ethtool >= 1.8-2, /sbin/runuser
 Requires: udev >= 125-1
-Requires: popt >= 1.12-2
 Requires: cpio
 Conflicts: mkinitrd < 4.0, kernel < 2.6.18, mdadm < 2.6.4-3
 Conflicts: ypbind < 1.6-12, psacct < 6.3.2-12, kbd < 1.06-19, lokkit < 0.50-14
@@ -38,6 +37,7 @@ Conflicts: alsa-utils < 1.0.18
 Conflicts: plymouth < 0.7.0-0.2009.02.26
 Conflicts: s390utils < 2:1.8.2-11
 Conflicts: dmraid < 1.0.0.rc16-7
+Conflicts: e2fsprogs < 1.15
 # http://bugzilla.redhat.com/show_bug.cgi?id=252973
 Conflicts: nut < 2.2.0
 Obsoletes: hotplug <= 3:2004_09_23-10.1
