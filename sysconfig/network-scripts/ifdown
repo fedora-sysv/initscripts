@@ -16,7 +16,7 @@ CONFIG=$1
     exit 1
 }
 
-need_config $CONFIG
+need_config "${CONFIG}"
 
 [ -f "$CONFIG" ] || {
     echo $"usage: ifdown <device name>" >&2
@@ -39,6 +39,11 @@ source_config
 if [ -n "$IN_HOTPLUG" ] && [ "${HOTPLUG}" = "no" -o "${HOTPLUG}" = "NO" ]
 then
     exit 0
+fi
+
+if [ "$USE_NM" = "true" ]] && is_nm_active "$DEVICE" ; then
+    nmcli dev disconnect iface "$DEVICE"
+    exit $?
 fi
 
 if [ -x /sbin/ifdown-pre-local ]; then

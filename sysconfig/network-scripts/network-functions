@@ -20,6 +20,13 @@ get_hwaddr ()
     fi
 }
 
+get_config_by_device ()
+{
+    LANG=C grep -l "^[[:space:]]*DEVICE=${1}\([[:space:]#]\|$\)" \
+	/etc/sysconfig/network-scripts/ifcfg-* \
+	| LC_ALL=C sed -e "$__sed_discard_ignored_files"
+}
+
 get_config_by_hwaddr ()
 {
     LANG=C grep -il "^[[:space:]]*HWADDR=${1}\([[:space:]#]\|$\)" /etc/sysconfig/network-scripts/ifcfg-* \
@@ -34,9 +41,22 @@ get_config_by_subchannel ()
 	| LC_ALL=C sed -e "$__sed_discard_ignored_files"
 }
 
+get_config_by_name ()
+{
+    LANG=C grep -E -i -l \
+        "^[[:space:]]*NAME=\"(Auto |System )?${1}\"" \
+        /etc/sysconfig/network-scripts/ifcfg-* \
+	| LC_ALL=C sed -e "$__sed_discard_ignored_files"
+}
+
 get_device_by_hwaddr ()
 {
     LANG=C ip -o link | grep -v link/ieee802.11 | awk -F ': ' -vIGNORECASE=1 "/$1/ { print \$2 }"
+}
+
+get_uuid_by_config ()
+{
+    dbus-send --system --print-reply --dest=com.redhat.ifcfgrh1 /com/redhat/ifcfgrh1 com.redhat.ifcfgrh1.GetIfcfgDetails string:"/etc/sysconfig/network-scripts/$1" | awk -F '"' '/string / { print $2 }'
 }
 
 need_config ()
@@ -47,6 +67,11 @@ need_config ()
     [ -f "${CONFIG}" ] && return
     CONFIG="${1##*/}"
     [ -f "${CONFIG}" ] && return
+    nconfig=$(get_config_by_name "${1}")
+    if [ -n "$nconfig" ] && [ -f "$nconfig" ]; then
+      CONFIG=${nconfig##*/}
+      return
+    fi
     local addr=$(get_hwaddr ${1})
     if [ -n "$addr" ]; then
       nconfig=$(get_config_by_hwaddr ${addr})
@@ -55,9 +80,7 @@ need_config ()
 	[ -f "${CONFIG}" ] && return
       fi
     fi
-    nconfig=$(LANG=C grep -l "^[[:space:]]*DEVICE=${1}\([[:space:]#]\|$\)" \
-	/etc/sysconfig/network-scripts/ifcfg-* \
-	| LC_ALL=C sed -e "$__sed_discard_ignored_files")
+    nconfig=$(get_config_by_device ${1})
     if [ -n "$nconfig" ] && [ -f "$nconfig" ]; then
       CONFIG=${nconfig##*/}
       return
@@ -120,6 +143,10 @@ source_config ()
     else
 	ISALIAS=no
     fi
+    is_nm_running && USE_NM=true
+    if [ -z "$UUID" -a "$USE_NM" = "true" ]; then
+	UUID=$(get_uuid_by_config $CONFIG)
+    fi
 }
 
 
@@ -170,6 +197,16 @@ do_netreport ()
       fi
     done
   )
+}
+
+is_nm_running ()
+{
+    LANG=C nmcli nm status | grep -Eq "NM running:[[:space:]]+running"
+}
+
+is_nm_active ()
+{
+    LANG=C nmcli -t dev status | grep -Eq "^${1}[[:space:]]*.*[[:space:]]*connected"
 }
 
 # Sets $alias to the device module if $? != 0

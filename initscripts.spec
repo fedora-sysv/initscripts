@@ -40,6 +40,7 @@ Conflicts: dmraid < 1.0.0.rc16-7
 Conflicts: e2fsprogs < 1.15
 # http://bugzilla.redhat.com/show_bug.cgi?id=252973
 Conflicts: nut < 2.2.0
+Conflicts: NetworkManager < 1:0.8.0
 Obsoletes: hotplug <= 3:2004_09_23-10.1
 Requires(pre): /usr/sbin/groupadd
 Requires(post): /sbin/chkconfig, coreutils
