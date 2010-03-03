@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.06
+Version: 9.07
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -241,6 +241,12 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Wed Mar  3 2010 Bill Nottingham <notting@redhat.com> - 9.07-1
+- clean out some extraneous package requirements
+- fix dmraid error checking now that dmraid has return codes (#568790, others)
+- integrate with NetworkManager for ifup/ifdown (#523064)
+- translation updates: cs, da, de, en_GB, es, fi, nl, pl, pt_BR, ru, sr
+
 * Fri Feb 19 2010 Bill Nottingham <notting@redhat.com> - 9.06-1
 - move ccw_init and ccw udev rules to s390utils (#539491)
 - rc.sysinit: suppress LVM2 warnings.  (#561938, <prajnoha@redhat.com>)
