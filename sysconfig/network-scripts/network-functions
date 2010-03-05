@@ -195,12 +195,12 @@ do_netreport ()
 
 is_nm_running ()
 {
-    LANG=C nmcli nm status | grep -Eq "NM running:[[:space:]]+running"
+    LANG=C nmcli nm status 2>/dev/null| grep -Eq "NM running:[[:space:]]+running"
 }
 
 is_nm_active ()
 {
-    LANG=C nmcli -t dev status | grep -Eq "^${1}[[:space:]]*.*[[:space:]]*connected"
+    LANG=C nmcli -t dev status 2>/dev/null| grep -Eq "^${1}[[:space:]]*.*[[:space:]]*connected"
 }
 
 # Sets $alias to the device module if $? != 0
