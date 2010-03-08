@@ -245,6 +245,7 @@ rm -rf $RPM_BUILD_ROOT
 - network-functions: redirect error messages when nmcli isn't installed (#570828, <zing@fastmail.fm>)
 - ifdown: use nmcli to get the device, if not specified
 - ifdown: fix typo
+- translation updates: fr
 
 * Wed Mar  3 2010 Bill Nottingham <notting@redhat.com> - 9.07-1
 - clean out some extraneous package requirements
