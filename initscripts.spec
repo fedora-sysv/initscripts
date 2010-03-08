@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.07
+Version: 9.08
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -241,6 +241,11 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Mon Mar  8 2010 Bill Nottingham <notting@redhat.com> - 9.08-1
+- network-functions: redirect error messages when nmcli isn't installed (#570828, <zing@fastmail.fm>)
+- ifdown: use nmcli to get the device, if not specified
+- ifdown: fix typo
+
 * Wed Mar  3 2010 Bill Nottingham <notting@redhat.com> - 9.07-1
 - clean out some extraneous package requirements
 - fix dmraid error checking now that dmraid has return codes (#568790, others)
