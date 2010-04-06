@@ -77,8 +77,8 @@ esac
 
 # Find mdmon pid's and omit killing them
 OMITARGS=
-for i in /dev/.mdadm/*.pid; do
-    if [ "$i" = "mdadm.pid" ] || [ ! -r "$i" ]; then
+for i in /dev/md/*.pid; do
+    if [ ! -r "$i" ]; then
         continue
     fi
     OMITARGS="$OMITARGS -o $(cat $i)"
