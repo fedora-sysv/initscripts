@@ -260,7 +260,7 @@ daemon() {
 	if [ -z "$user" ]; then
 	   $cgroup $nice /bin/bash -c "$corelimit >/dev/null 2>&1 ; $*"
 	else
-	   $cgroup $nice runuser -m -s /bin/bash - $user -c "$corelimit >/dev/null 2>&1 ; $*"
+	   $cgroup $nice runuser -s /bin/bash $user -c "$corelimit >/dev/null 2>&1 ; $*"
 	fi
 
 	[ "$?" -eq 0 ] && success $"$base startup" || failure $"$base startup"
