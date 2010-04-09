@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.4
+Version: 9.03.5
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -238,6 +238,14 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Fri Apr  9 2010 Bill Nottingham <notting@redhat.com> - 9.03.5-1
+- network-scripts: integrate with NetworkManager (#550154)
+- clean up obsolete package requirements
+- RAID fixes (<dledford@redhat.com>)
+- network: only blacklist the original loopback interface. (#579829, <evgsyr@gmail.com>)
+- rc.sysinit: check dmraid's return code, to catch 'no raid sets' error. (#568869)
+- po/*: fix mistranslated checks for user input. (#566791)
+
 * Mon Feb 15 2010 Bill Nottingham <notting@redhat.com> - 9.03.4-1
 - move ccw_init, ccw udev rules to s390utils (#539491)
 - network-functions: clean up device checks (#564505)
