@@ -24,7 +24,7 @@ Requires: upstart >= 0.6.0
 Requires: SysVinit >= 2.85-38
 %endif
 Requires: /sbin/ip, /sbin/arping, net-tools, /bin/find
-Requires: /etc/redhat-release, dev
+Requires: /etc/redhat-release
 Requires: ethtool >= 1.8-2, /sbin/runuser
 Requires: udev >= 125-1
 Requires: cpio
