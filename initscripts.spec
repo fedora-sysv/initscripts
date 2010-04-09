@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.08
+Version: 9.09
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -241,6 +241,14 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Fri Apr  9 2010 Bill Nottingham <notting@redhat.com> - 9.09-1
+- rc.sysinit: change RAID handling (<dledford@redhat.com>)
+- fix german mistranslation (#575954, <pb@bierenger.de>)
+- init.d/functions: correct fix for environment with runuser. (#203010, #564093)
+- halt: fix mdmom pid handling for newer mdadm (#549726, <dledford@redhat.com>)
+- init.d/network: only blacklist the original loopback interface. (#579816, <evgsyr@gmail.com>
+- translation updates: de, ja, nb, pt, sv, uk
+
 * Mon Mar  8 2010 Bill Nottingham <notting@redhat.com> - 9.08-1
 - network-functions: redirect error messages when nmcli isn't installed (#570828, <zing@fastmail.fm>)
 - ifdown: use nmcli to get the device, if not specified
