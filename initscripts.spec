@@ -28,7 +28,7 @@ Requires: /etc/redhat-release
 Requires: /sbin/runuser
 Requires: udev >= 125-1
 Requires: cpio
-Conflicts: mkinitrd < 4.0, kernel < 2.6.18, mdadm < 2.6.4-3
+Conflicts: mkinitrd < 4.0, kernel < 2.6.18, mdadm < 3.1.2-9
 Conflicts: ypbind < 1.6-12, psacct < 6.3.2-12, kbd < 1.06-19, lokkit < 0.50-14
 Conflicts: dhclient < 12:4.1.0-6
 Conflicts: tcsh < 6.13-5

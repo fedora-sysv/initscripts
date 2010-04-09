@@ -373,7 +373,7 @@ if ! strstr "$cmdline" nodmraid && [ -x /sbin/dmraid ]; then
 fi
 
 # Start any MD RAID arrays that haven't been started yet
-[ -f /etc/mdadm.conf ] && [ -x /sbin/mdadm ] && /sbin/mdadm -As --auto=yes --run
+[ -r /proc/mdstat -a -r /dev/md/md-device-map ] && /sbin/mdadm -IRs
 
 if [ -x /sbin/lvm ]; then
 	export LVM_SUPPRESS_LOCKING_FAILURE_MESSAGES=1
