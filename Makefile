@@ -123,7 +123,7 @@ check:
 
 changelog:
 	@rm -f ChangeLog
-	git-log --stat > ChangeLog
+	git log --stat > ChangeLog
 
 clean:
 	make clean -C src
@@ -135,7 +135,7 @@ tag:
 	@echo "Tagged as $(TAG)"
 
 archive: clean check tag changelog
-	@git-archive --format=tar --prefix=initscripts-$(VERSION)/ HEAD > initscripts-$(VERSION).tar
+	@git archive --format=tar --prefix=initscripts-$(VERSION)/ HEAD > initscripts-$(VERSION).tar
 	@mkdir -p initscripts-$(VERSION)/
 	@cp ChangeLog initscripts-$(VERSION)/
 	@tar --append -f initscripts-$(VERSION).tar initscripts-$(VERSION)
@@ -144,7 +144,7 @@ archive: clean check tag changelog
 	@echo "The archive is at initscripts-$(VERSION).tar.bz2"
 
 rpmlog:
-	@git-log --pretty="format:- %s (%ae)" $(TAG).. |sed -e 's/@.*)/)/'
+	@git log --pretty="format:- %s (%ae)" $(TAG).. |sed -e 's/@.*)/)/'
 	@echo
 
 pull:
