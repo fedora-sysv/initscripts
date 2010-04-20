@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 7.93.34
+Version: 7.93.35
 License: GPL
 Group: System Environment/Base
 Release: 1%{?dist}
@@ -207,6 +207,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Apr 20 2010 Bill Nottingham <notting@redhat.com> - 7.93.35-1
+- rc.sysinit: call multipath with '-q' (#580287, <bmarzins@redhat.com>)
+
 * Fri Jan 23 2009 Harald Hoyer <harald@redhat.com> - 7.93.34-1
 - add LINKDELAY to check_link_down() (bug #458323) (harald)
 - s/J/Y -  Dutch translation mistake for integrity check (bug #237118) (harald) 
