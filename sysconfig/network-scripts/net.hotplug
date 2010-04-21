@@ -14,6 +14,8 @@ if [ "$INTERFACE" = "" ]; then
     exit 1
 fi
 
+[ "$(cat /sys/class/net/$INTERFACE/type)" != "1" ] && exit 0
+
 case $ACTION in
 add|register)
     
