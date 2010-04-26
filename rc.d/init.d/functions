@@ -153,6 +153,7 @@ __pids_var_run() {
 	if [ -f "$pid_file" ] ; then
 	        local line p
 
+		[ ! -r "$pid_file" ] && return 4 # "user had insufficient privilege"
 		while : ; do
 			read line
 			[ -z "$line" ] && break
@@ -294,8 +295,13 @@ killproc() {
 
         # Find pid.
 	__pids_var_run "$1" "$pid_file"
-	if [ -z "$pid_file" -a -z "$pid" ]; then
-		pid="$(__pids_pidof "$1")"
+	RC=$?
+	if [ -z "$pid" ]; then
+		if [ -z "$pid_file" ]; then
+			pid="$(__pids_pidof "$1")"
+		else
+			[ "$RC" = "4" ] && { failure $"$base shutdown" ; return $RC ;}
+		fi
 	fi
 
         # Kill it.
