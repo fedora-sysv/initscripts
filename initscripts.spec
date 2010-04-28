@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.09
+Version: 9.10
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -241,6 +241,14 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Wed Apr 28 2010 Bill Nottingham <notting@redhat.com> - 9.10-1
+- fstab-decode.8: fix formatting (#586476)
+- prefdm: add --retain-splash for KDM as well (#585250)
+- init.d/functions: handle being unable to read a specified pid file. (#584575)
+- init/quit-plymouth.conf: use 'task' for stopping plymouth. (<rstrode@redhat.com>)
+- ifup-eth: run dhclient -6 similar to dhclient -4. (#585047)
+- net.hotplug: don't run on odd interfaces. (#584530)
+
 * Fri Apr  9 2010 Bill Nottingham <notting@redhat.com> - 9.09-1
 - rc.sysinit: change RAID handling (<dledford@redhat.com>)
 - fix german mistranslation (#575954, <pb@bierenger.de>)
