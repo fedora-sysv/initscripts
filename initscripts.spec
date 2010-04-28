@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.02.1
+Version: 9.02.2
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -248,6 +248,14 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Wed Apr 28 2010 Bill Nottingham <notting@redhat.com> - 9.02.2-1
+- fstab-decode.8: fix formatting (#586476)
+- prefdm: add --retain-splash for KDM as well (#585250)
+- fix german translation (#575954, <pb@bieringer.de>)
+- init.d/network: only blacklist the original loopback interface. (#579816, <evgsyr@gmail.com>)
+- rc.sysinit: check dmraid's return code, to catch 'no raid sets' error. (#568790)
+- network-functions; use HWADDR to determine DEVICE, if necessary (#545597)
+
 * Fri Dec 04 2009 Bill Nottingham <notting@redhat.com> - 9.02.1-1
 - rc.sysinit: handle yet another random return string from dmraid
 - remove never-used 'sulogin' upstart event
