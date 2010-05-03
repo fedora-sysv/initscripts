@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.10
+Version: 9.11
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -241,6 +241,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Mon May  3 2010 Bill Nottingham <notting@redhat.com> - 9.11-1
+- init/plymouth-shutdown.conf: add 'task' here as well
+
 * Wed Apr 28 2010 Bill Nottingham <notting@redhat.com> - 9.10-1
 - fstab-decode.8: fix formatting (#586476)
 - prefdm: add --retain-splash for KDM as well (#585250)
