@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.5
+Version: 9.03.6
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -238,6 +238,12 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Tue May  4 2010 Bill Nottingham <notting@redhat.com> - 9.03.6-1
+- fix plymouth startup/shutdown (#586040)
+- fstab-decode.8: tweak manpage so it formats correctly (#586476)
+- init.d/functions: handle being unable to read a specified pid file. (#584575)
+- ifup-eth: run dhclient -6 similar to dhclient -4. (#585047)
+
 * Fri Apr  9 2010 Bill Nottingham <notting@redhat.com> - 9.03.5-1
 - network-scripts: integrate with NetworkManager (#550154)
 - clean up obsolete package requirements
