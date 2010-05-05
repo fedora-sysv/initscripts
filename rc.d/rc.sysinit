@@ -377,7 +377,7 @@ fi
 
 if [ -x /sbin/lvm ]; then
 	export LVM_SUPPRESS_LOCKING_FAILURE_MESSAGES=1
-	action $"Setting up Logical Volume Management:" /sbin/lvm vgchange -a y --ignorelockingfailure
+	action $"Setting up Logical Volume Management:" /sbin/lvm vgchange -a y --ignorelockingfailure --ignoremonitoring
 	unset LVM_SUPPRESS_LOCKING_FAILURE_MESSAGES
 fi
 
