@@ -43,7 +43,7 @@ fi
 
 if [ "$USE_NM" = "true" ]; then
     if [ -n "$UUID" -a -z "$DEVICE" ]; then
-	DEVICE=$(nmcli con status | awk "\$4 == \"$UUID\" { print \$3 }")
+	DEVICE=$(nmcli -t --fields uuid,devices con status | awk -F ':' "\$1 == \"$UUID\" { print \$2 }")
     fi
     if [ -n "$DEVICE" ] && is_nm_active "$DEVICE" ; then
 	nmcli dev disconnect iface "$DEVICE"
