@@ -193,6 +193,7 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) /etc/rc.d/rc.local
 /etc/rc.d/rc.sysinit
 %config(noreplace) /etc/sysctl.conf
+%dir /etc/sysctl.d
 %exclude /etc/profile.d/debug*
 /etc/profile.d/*
 /usr/sbin/sys-unconfig
