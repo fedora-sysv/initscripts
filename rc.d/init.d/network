@@ -65,7 +65,7 @@ case "$1" in
 		/etc/sysconfig/network-scripts/init.ipv6-global start pre
 	fi
   
-	sysctl -e -p /etc/sysctl.conf >/dev/null 2>&1
+	load_sysctl
 
 	# bring up loopback interface
 	action $"Bringing up loopback interface: " ./ifup ifcfg-lo
@@ -171,7 +171,7 @@ case "$1" in
  		/etc/sysconfig/network-scripts/init.ipv6-global start post
  	fi
 	# Run this again to catch any interface-specific actions
-	sysctl -e -p /etc/sysctl.conf >/dev/null 2>&1
+	load_sysctl
  
         touch /var/lock/subsys/network
 

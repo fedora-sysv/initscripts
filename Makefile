@@ -16,6 +16,7 @@ install:
 	mkdir -p $(ROOT)/etc/profile.d $(ROOT)/sbin $(ROOT)/usr/sbin
 	mkdir -p $(ROOT)$(mandir)/man{5,8}
 	mkdir -p $(ROOT)/etc/rwtab.d $(ROOT)/etc/statetab.d
+	mkdir -p $(ROOT)/etc/sysctl.d
 	mkdir -p $(ROOT)/var/lib/stateless/writable
 	mkdir -p $(ROOT)/var/lib/stateless/state
 

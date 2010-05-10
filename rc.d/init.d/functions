@@ -581,3 +581,10 @@ is_ignored_file() {
 }
 # A sed expression to filter out the files that is_ignored_file recognizes
 __sed_discard_ignored_files='/\(~\|\.bak\|\.orig\|\.rpmnew\|\.rpmorig\|\.rpmsave\)$/d'
+
+# Load all sysctl configurations from /etc/sysctl.conf and /etc/sysctl.d/*.conf
+load_sysctl() {
+    for file in /etc/sysctl.conf /etc/sysctl.d/*.conf ; do
+        [ -f $file ] && sysctl -e -p $file >/dev/null 2>&1
+    done
+}
