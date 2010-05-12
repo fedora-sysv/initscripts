@@ -71,7 +71,7 @@ if [ "$USE_NM" = "true" -a -n "$UUID" ]; then
 fi
 
 # Ethernet 802.1Q VLAN support
-if [ "${VLAN}" = "yes" ] && [ "$ISALIAS" = "no" ] && [ -x /sbin/vconfig ]; then
+if [ "${VLAN}" = "yes" ] && [ "$ISALIAS" = "no" ]; then
     VID=""
     MATCH='^(eth|hsi|bond)[0-9]+\.[0-9]{1,4}$'
     if [[ "${DEVICE}" =~ $MATCH ]]; then
@@ -96,9 +96,6 @@ if [ "${VLAN}" = "yes" ] && [ "$ISALIAS" = "no" ] && [ -x /sbin/vconfig ]; then
 	fi
 
 	test -z "$VLAN_NAME_TYPE" && VLAN_NAME_TYPE=DEV_PLUS_VID_NO_PAD
-	/sbin/vconfig set_name_type "$VLAN_NAME_TYPE" >/dev/null 2>&1 || {
-		echo $"Could not set 802.1Q VLAN parameters."
-	}
 
 	is_available ${PHYSDEV} || {
 	    if [ "$?" = "1" ] ; then
@@ -115,29 +112,16 @@ if [ "${VLAN}" = "yes" ] && [ "$ISALIAS" = "no" ] && [ -x /sbin/vconfig ]; then
 	}
 
 	if [ ! -f /proc/net/vlan/${DEVICE} ]; then
-	    /sbin/vconfig add ${PHYSDEV} ${VID} || {
+	    if [ "${REORDER_HDR}" = "no" -o "${REORDER_HDR}" = "0" ]; then
+		FLAG_REORDER_HDR="reorder_hdr off"
+	    fi
+
+	    ip link add dev ${DEVICE} link ${PHYSDEV} type vlan id ${VID} ${FLAG_REORDER_HDR} || {
 		(/usr/bin/logger -p daemon.info -t ifup \
 		    $"ERROR: could not add vlan ${VID} as ${DEVICE} on dev ${PHYSDEV}" &)&
 		echo $"ERROR: could not add vlan ${VID} as ${DEVICE} on dev ${PHYSDEV}"
 		exit 1
 	    }
-	fi
-
-	if [ -f /proc/net/vlan/${DEVICE} ]; then
-	    case "$REORDER_HDR" in
-		yes|1)
-		    /sbin/vconfig set_flag ${DEVICE} 1 1 || {
-			(/usr/bin/logger -p daemon.info -t ifup \
-			    "WARNING: vconfig not able to enable REORDER_HDR on ${DEVICE}" &)&
-		    }
-		    ;;
-		no|0)
-		    /sbin/vconfig set_flag ${DEVICE} 1 0 || {
-			(/usr/bin/logger -p daemon.info -t ifup \
-			    $"WARNING: vconfig not able to disable REORDER_HDR on ${DEVICE}" &)&
-		    }
-		    ;;
-	    esac
 	fi
     fi
 fi
