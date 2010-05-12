@@ -34,9 +34,6 @@ fi
 # if the ip configuration utility isn't around we can't function.
 [ -x /sbin/ip ] || exit 1
 
-# Even if VLAN is configured, without the utility we can't do much
-[ ! -x /sbin/vconfig ] && VLAN=
-
 CWD=$(pwd)
 cd /etc/sysconfig/network-scripts
 
@@ -69,10 +66,7 @@ case "$1" in
 
 	case "$VLAN" in
 	  yes)
-	    if [ -d /proc/net/vlan ] || modprobe 8021q >/dev/null 2>&1 ; then
-		test -z "$VLAN_NAME_TYPE" && VLAN_NAME_TYPE=DEV_PLUS_VID_NO_PAD
-		action $"Setting 802.1Q VLAN parameters: " /sbin/vconfig set_name_type "$VLAN_NAME_TYPE"
-	    else
+	    if [ ! -d /proc/net/vlan ] && ! modprobe 8021q >/dev/null 2>&1 ; then
 		echo $"No 802.1Q VLAN support available in kernel."
 	    fi
 	    ;;
