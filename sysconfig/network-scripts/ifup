@@ -95,8 +95,6 @@ if [ "${VLAN}" = "yes" ] && [ "$ISALIAS" = "no" ]; then
 	    fi
 	fi
 
-	test -z "$VLAN_NAME_TYPE" && VLAN_NAME_TYPE=DEV_PLUS_VID_NO_PAD
-
 	is_available ${PHYSDEV} || {
 	    if [ "$?" = "1" ] ; then
 		echo $"$alias device ${DEVICE} does not seem to be present, delaying initialization."
