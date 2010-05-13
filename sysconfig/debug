@@ -4,10 +4,10 @@
 # 0: silently ignore errors
 # 1: print diagnostics on stderr when an error is detected
 # 2: call abort when an error is detected
-MALLOC_CHECK_=1
+export MALLOC_CHECK_=1
 
 # MALLOC_PERTURB_: initialize cleared memory to the specified value
-MALLOC_PERTURB_=$(($RANDOM % 255 + 1))
+export MALLOC_PERTURB_=$(($RANDOM % 255 + 1))
 
 # Perform extra sanity checking in the gslice allocator
-G_SLICE=debug-blocks
+export G_SLICE=debug-blocks
