@@ -212,6 +212,8 @@ is_nm_active ()
 # Sets $alias to the device module if $? != 0
 is_available ()
 {
+    [ -z "$1" ] && return 1
+
     [ -d "/sys/class/net/$1" ] && return 0
 
     [ -n "$BONDING_OPTS" ] && install_bonding_driver $1
