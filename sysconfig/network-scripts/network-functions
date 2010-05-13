@@ -56,7 +56,7 @@ get_device_by_hwaddr ()
 
 get_uuid_by_config ()
 {
-    dbus-send --system --print-reply --dest=com.redhat.ifcfgrh1 /com/redhat/ifcfgrh1 com.redhat.ifcfgrh1.GetIfcfgDetails string:"/etc/sysconfig/network-scripts/$1" | awk -F '"' '/string / { print $2 }'
+    dbus-send --system --print-reply --dest=com.redhat.ifcfgrh1 /com/redhat/ifcfgrh1 com.redhat.ifcfgrh1.GetIfcfgDetails string:"/etc/sysconfig/network-scripts/$1" 2>/dev/null | awk -F '"' '/string / { print $2 }'
 }
 
 need_config ()
