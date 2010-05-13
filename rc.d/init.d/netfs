@@ -32,7 +32,7 @@ NETDEVMTAB=$(LC_ALL=C awk '$4 ~ /_netdev/ && $2 != "/" { print $2 }' /etc/mtab)
 # See how we were called.
 case "$1" in
   start)
-        [ ! -f /var/lock/subsys/network ] && [ ! -f /var/lock/subsys/NetworkManager ] && exit 0
+        [ ! -f /var/lock/subsys/network ] && ! nm-online -x >/dev/null 2>&1 && exit 0
         [ "$EUID" != "0" ] && exit 4
         [ -n "$NFSFSTAB" ] && 
 	  {
