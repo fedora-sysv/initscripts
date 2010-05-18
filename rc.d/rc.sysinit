@@ -376,9 +376,7 @@ fi
 [ -r /proc/mdstat -a -r /dev/md/md-device-map ] && /sbin/mdadm -IRs
 
 if [ -x /sbin/lvm ]; then
-	export LVM_SUPPRESS_LOCKING_FAILURE_MESSAGES=1
-	action $"Setting up Logical Volume Management:" /sbin/lvm vgchange -a y --ignorelockingfailure --ignoremonitoring
-	unset LVM_SUPPRESS_LOCKING_FAILURE_MESSAGES
+	action $"Setting up Logical Volume Management:" /sbin/lvm vgchange -a y --sysinit
 fi
 
 if [ -f /etc/crypttab ]; then
