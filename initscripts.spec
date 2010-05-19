@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.12
+Version: 9.13
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -241,6 +241,15 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Wed May 19 2010 Bill Nottingham <notting@redhat.com> - 9.13-1
+- clean up plymouth shtudown splash (#590099, <rstrode@redhat.com>)
+- rc.sysinit: use lvm2 --sysinit option (#588777)
+- network-functions: behave sanely in the absence of $DEVICE (#589521)
+- sysconfig/debug: export debug variables (#589378)
+- netfs: check for NM to be connected, not just running (#589710)
+- rcS*.conf: check if /etc/inittab exists (#590703, <plautrba@redhat.com>)
+- port vlan code to /sbin/ip (#566485, <plautrba@redhat.com>)
+
 * Wed May  5 2010 Bill Nottingham <notting@redhat.com> - 9.12-1
 - update for final nmcli syntax
 
