@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.13
+Version: 9.14
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -241,7 +241,7 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
-* Wed May 19 2010 Bill Nottingham <notting@redhat.com> - 9.13-1
+* Wed May 19 2010 Bill Nottingham <notting@redhat.com> - 9.14-1
 - clean up plymouth shtudown splash (#590099, <rstrode@redhat.com>)
 - rc.sysinit: use lvm2 --sysinit option (#588777)
 - network-functions: behave sanely in the absence of $DEVICE (#589521)
