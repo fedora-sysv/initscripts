@@ -429,6 +429,10 @@ status() {
 	                echo $"${base} dead but pid file exists"
 	                return 1
 			;;
+		4)
+			echo $"${base} status unknown due to insufficient privileges."
+			return 4
+			;;
 	esac
 	if [ -z "${lock_file}" ]; then
 		lock_file=${base}
