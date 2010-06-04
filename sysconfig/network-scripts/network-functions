@@ -137,7 +137,7 @@ source_config ()
     else
 	ISALIAS=no
     fi
-    is_nm_running && USE_NM=true
+    ! is_false $NM_CONTROLLED && is_nm_running && USE_NM=true
     if [ -z "$UUID" -a "$USE_NM" = "true" ]; then
 	UUID=$(get_uuid_by_config $CONFIG)
     fi
