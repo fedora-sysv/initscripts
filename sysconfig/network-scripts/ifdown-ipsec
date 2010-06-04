@@ -80,7 +80,7 @@ if [ "$KEYING" = "automatic" -a -n "$IKE_METHOD" ]; then
    racoontmp=$(mktemp /etc/racoon/racoon.XXXXXX)
    grep -v "^include \"/etc/racoon/$DST.conf\";" /etc/racoon/racoon.conf >> $racoontmp
    mv -f $racoontmp /etc/racoon/racoon.conf
-   pidof -x /usr/sbin/racoon > /dev/null 2>&1 && killall -HUP /usr/sbin/racoon
+   pidof -x /usr/sbin/racoon > /dev/null 2>&1 && killall -HUP racoon
 fi
 
 /etc/sysconfig/network-scripts/ifdown-post $CONFIG
