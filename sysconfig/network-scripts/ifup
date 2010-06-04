@@ -124,11 +124,6 @@ if [ "${VLAN}" = "yes" ] && [ "$ISALIAS" = "no" ]; then
     fi
 fi
 
-# Old BOOTP variable
-if [ "${BOOTP}" = "yes" ]; then
-    BOOTPROTO=bootp
-fi
-
 if [ "${BOOTPROTO}" = "bootp" -o "${BOOTPROTO}" = "dhcp" ]; then
     DYNCONFIG=true
 fi
