@@ -583,5 +583,26 @@ is_ignored_file() {
     esac
     return 1
 }
+
+# Evaluate shvar-style booleans
+is_true() {
+    case "$1" in
+	[tT] | [yY] | [yY][eE][sS] | [tT][rR][uU][eE])
+	return 0
+	;;
+    esac
+    return 1
+}
+
+# Evaluate shvar-style booleans
+is_false() {
+    case "$1" in
+	[fF] | [nN] | [nN][oO] | [fF][aA][lL][sS][eE])
+	return 0
+	;;
+    esac
+    return 1
+}
+
 # A sed expression to filter out the files that is_ignored_file recognizes
 __sed_discard_ignored_files='/\(~\|\.bak\|\.orig\|\.rpmnew\|\.rpmorig\|\.rpmsave\)$/d'
