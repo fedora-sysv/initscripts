@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.8
+Version: 9.03.9
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -238,6 +238,12 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Wed Jun  9 2010 Bill Nottingham <notting@redhat.com> - 9.03.9-1
+- check NM_CONTROLLED before deciding to use NM for a connection. (#600454)
+- always reboot on autorelabel. (#599879)
+- correct the fix for not clearing  environment with runuser. (#564105)
+- properly handle permission denied on pid file (#595597)
+
 * Wed May 19 2010 Bill Nottingham <notting@redhat.com> - 9.03.8-1
 - clean up plymouth shtudown splash (#590103, <rstrode@redhat.com>)
 - rc.sysinit: use lvm2 --sysinit option (#588777)
