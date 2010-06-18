@@ -247,21 +247,21 @@ init_crypto() {
 
 # Print a text banner.
 echo -en $"\t\tWelcome to "
-read -r redhat_release < /etc/redhat-release
-if [[ "$redhat_release" =~ "Red Hat" ]]; then
+read -r system_release < /etc/system-release
+if [[ "$system_release" =~ "Red Hat" ]]; then
  [ "$BOOTUP" = "color" ] && echo -en "\\033[0;31m"
  echo -en "Red Hat"
  [ "$BOOTUP" = "color" ] && echo -en "\\033[0;39m"
- PRODUCT=$(sed "s/Red Hat \(.*\) release.*/\1/" /etc/redhat-release)
+ PRODUCT=$(sed "s/Red Hat \(.*\) release.*/\1/" /etc/system-release)
  echo " $PRODUCT"
-elif [[ "$redhat_release" =~ "Fedora" ]]; then
+elif [[ "$system_release" =~ "Fedora" ]]; then
  [ "$BOOTUP" = "color" ] && echo -en "\\033[0;34m"
  echo -en "Fedora"
  [ "$BOOTUP" = "color" ] && echo -en "\\033[0;39m"
- PRODUCT=$(sed "s/Fedora \(.*\) \?release.*/\1/" /etc/redhat-release)
+ PRODUCT=$(sed "s/Fedora \(.*\) \?release.*/\1/" /etc/system-release)
  echo " $PRODUCT"
 else
- PRODUCT=$(sed "s/ release.*//g" /etc/redhat-release)
+ PRODUCT=$(sed "s/ release.*//g" /etc/system-release)
  echo "$PRODUCT"
 fi
 if [ "$PROMPT" != "no" ]; then
