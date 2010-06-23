@@ -58,6 +58,11 @@ case "$1" in
 		       action $"Setting up Logical Volume Management:" /sbin/lvm vgchange -a y
 		fi
 	    fi
+
+	    if [ -f /etc/crypttab ]; then
+	        init_crypto 1
+	    fi
+
 	    STRING=$"Checking network-attached filesystems"
 	    
 	    echo $STRING
