@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.14
+Version: 9.15
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -241,6 +241,17 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Thu Jun 24 2010 Bill Nottingham <notting@redhat.com> - 9.15-1
+- ifup-eth: check for dhclient configuration in /etc/dhcp as well (#607764, #607766)
+- network-functions: handle quoted SUBCHANNELS (#607481)
+- netfs: allow for encrypted network block devices (#605600)
+- ifdown-ipsec: don't use a full path when killing racoon, so it works in MLS policy (#567295)
+- network-functions: check NM_CONTROLLED before deciding to use NM for a connection. (#599707, probably others.)
+- rc.sysinit: always reboot on autorelabel. (#595823)
+- init.d/functions: handle permission denied on reading PID file. (#595597)
+- clean up some deprecated items
+- translation updates: el, nl, or, zh_CN
+
 * Wed May 19 2010 Bill Nottingham <notting@redhat.com> - 9.14-1
 - clean up plymouth shtudown splash (#590099, <rstrode@redhat.com>)
 - rc.sysinit: use lvm2 --sysinit option (#588777)
