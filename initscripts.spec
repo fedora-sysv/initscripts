@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.12
+Version: 9.12.1
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -241,6 +241,18 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Thu Jun 24 2010 Bill Nottingham <notting@redhat.com> - 9.12.1-1
+- ifup-eth: check for dhclient configuration in /etc/dhcp as well (#607764, #607766)
+- init.d/functions: handle permission denied on reading PID file. (#595597)
+- network-functions: check NM_CONTROLLED before deciding to use NM for a connection. (#599707, probably others.)
+- rc.sysinit: always reboot on autorelabel. (#595823)
+- network-functions: behave sanely if we're not passed a device at all. (#589521, #592108)
+- sysconfig/debug: export debug variables. (#589378)
+- netfs: check for NetworkManager to be connected, not just running. (#589710, #592095)
+- rcS*.conf - check if /etc/inittab exists (#590703, <plautrba@redhat.com>)
+- rc.sysinit - ignore monitoring on startup. (#589037)
+- translation updates: or
+
 * Wed May  5 2010 Bill Nottingham <notting@redhat.com> - 9.12-1
 - update for final nmcli syntax
 
