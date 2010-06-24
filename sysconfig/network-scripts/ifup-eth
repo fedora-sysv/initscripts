@@ -175,7 +175,9 @@ if [ -n "${DYNCONFIG}" -a -x /sbin/dhclient ]; then
     fi;
     # allow users to use generic '/etc/dhclient.conf' (as documented in manpage!) 
     # if per-device file doesn't exist or is empty
-    if [ -s /etc/dhclient-${DEVICE}.conf ]; then
+    if [ -s /etc/dhcp/dhclient-${DEVICE}.conf ]; then
+       DHCLIENTCONF="-cf /etc/dhcp/dhclient-${DEVICE}.conf";
+    elif [ -s /etc/dhclient-${DEVICE}.conf ]; then
        DHCLIENTCONF="-cf /etc/dhclient-${DEVICE}.conf";
     else
        DHCLIENTCONF='';
