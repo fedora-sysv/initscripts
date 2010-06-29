@@ -29,6 +29,7 @@ install:
 	install -m 755 ppp-watch $(ROOT)/sbin/ppp-watch
 	install -m 755 consoletype $(ROOT)/sbin/consoletype
 	install -m 755 securetty $(ROOT)/sbin/securetty
+	install -m 755 sushell $(ROOT)/sbin/sushell
 	install -m 755 rename_device $(ROOT)/lib/udev/rename_device
 	install -m 755 console_init $(ROOT)/lib/udev/console_init
 	install -m 755 console_check $(ROOT)/lib/udev/console_check
@@ -44,6 +45,7 @@ install:
 	install -m 644 ifup.8 $(ROOT)$(mandir)/man8
 	install -m 644 setsysfont.8 $(ROOT)$(mandir)/man8
 	install -m 644 securetty.8 $(ROOT)$(mandir)/man8
+	install -m 644 sushell.8 $(ROOT)$(mandir)/man8
 	ln -s ifup.8 $(ROOT)$(mandir)/man8/ifdown.8
 
 # this daemon and initscript are useful for testing the up/down/status stuff

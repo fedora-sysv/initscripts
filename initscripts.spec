@@ -205,6 +205,7 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/genhostid
 /sbin/getkey
 /sbin/securetty
+/sbin/sushell
 %attr(2755,root,root) /sbin/netreport
 /lib/udev/rules.d/*
 /lib/udev/rename_device
