@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.10
+Version: 9.03.11
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -238,6 +238,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Tue Jun 29 2010 Bill Nottingham <notting@redhat.com> - 9.03.11-1
+- init/rcS-sulogin.conf: don't directly execute bash, re: selinux (#540216, #585053)
+
 * Thu Jun 24 2010 Bill Nottingham <notting@redhat.com> - 9.03.10-1
 - ifup-eth: check for dhclient configuration in /etc/dhcp as well (#607766)
 - network-functions: handle quoted SUBCHANNELS (#607481)
