@@ -594,7 +594,8 @@ find /var/lock /var/run ! -type d -exec rm -f {} \;
 rm -f /var/lib/rpm/__db* &> /dev/null
 rm -f /var/gdm/.gdmfifo &> /dev/null
 
-{
+[ "$PROMPT" != no ] && plymouth watch-keystroke --command "touch /var/run/confirm" --keys=Ii &
+
 # Clean up utmp/wtmp
 > /var/run/utmp
 touch /var/log/wtmp
@@ -658,24 +659,10 @@ dmesg -s 131072 > /var/log/dmesg
 # create the crash indicator flag to warn on crashes, offer fsck with timeout
 touch /.autofsck &> /dev/null
 
-if [ "$PROMPT" != no ]; then
-    while :; do
-	pid=$(/sbin/pidof getkey)
-	[ -n "$pid" -o -e /var/run/getkey_done ] && break
-	usleep 100000
-    done
-    [ -n "$pid" ] && kill -TERM "$pid" >/dev/null 2>&1
-fi
-} &
+[ "$PROMPT" != no ] && plymouth --ignore-keystroke=Ii
 if strstr "$cmdline" confirm ; then
 	touch /var/run/confirm
 fi
-if [ "$PROMPT" != "no" ]; then
-	/sbin/getkey i && touch /var/run/confirm
-	touch /var/run/getkey_done
-fi
-wait
-[ "$PROMPT" != no ] && rm -f /var/run/getkey_done
 
 # Let rhgb know that we're leaving rc.sysinit
 if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
