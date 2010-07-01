@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.11
+Version: 9.03.12
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -34,7 +34,7 @@ Conflicts: dhclient < 12:4.1.0-6
 Conflicts: tcsh < 6.13-5
 Conflicts: xorg-x11, glib2 < 2.11.1-2
 Conflicts: alsa-utils < 1.0.18
-Conflicts: plymouth < 0.7.0-0.2009.02.26
+Conflicts: plymouth < 0.8.3-9
 Conflicts: s390utils < 2:1.8.2-11
 Conflicts: dmraid < 1.0.0.rc16-7, lvm2 < 2.02.65
 Conflicts: e2fsprogs < 1.15
@@ -239,6 +239,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Thu Jul  1 2010 Bill Nottingham <notting@redhat.com> - 9.03.12-1
+- fix interactive hotkey to work with plymouth (#605016)
+
 * Tue Jun 29 2010 Bill Nottingham <notting@redhat.com> - 9.03.11-1
 - init/rcS-sulogin.conf: don't directly execute bash, re: selinux (#540216, #585053)
 
