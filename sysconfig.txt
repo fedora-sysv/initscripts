@@ -205,6 +205,14 @@ Generic options:
     network has spanning tree running and must wait for STP convergence.
     Default: 0 (no delay)
 
+  NETWORKWAIT=yes|no
+    When using NetworkManager, wait for an active network interface to
+    be configured before continuing. This can be useful if you have legacy
+    daemons that do not react properly to changing network configuration.
+    If this is set but no active devices receive an address, it will timeout
+    and continue 30 seconds after link acquisition.
+    Default: no (do not wait)
+
   IPV6FORWARDING=yes|no
     Enable or disable global forwarding of incoming IPv6 packets 
     on all interfaces.
