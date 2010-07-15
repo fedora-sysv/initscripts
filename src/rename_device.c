@@ -161,7 +161,7 @@ struct netdev *get_configs() {
 		lines = g_strsplit(contents,"\n", 0);
 		for (i = 0; lines[i]; i++) {
 			if (g_str_has_prefix(lines[i],"DEVICE=")) {
-				devname = lines[i] + 7;
+				devname = dequote(lines[i] + 7, NULL);
 				/* ignore alias devices */
 				if (strchr(devname,':'))
 					devname = NULL;
