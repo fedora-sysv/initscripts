@@ -229,6 +229,89 @@ char *get_config_by_hwaddr(char *hwaddr, char *current) {
 	return first;
 }
 
+struct netdev *get_config_by_name(char *name) {
+	struct netdev *config;
+	
+	if (!name) return NULL;
+	
+	for (config = configs; config; config = config->next) {
+		if (strcasecmp(config->dev, name) == 0)
+			return config;
+	}
+	return NULL;
+}
+
+int check_persistent_by_name(char *name) {
+	FILE *fptr;
+	int ret = 1;
+	char *scanstr=NULL;
+
+	asprintf(&scanstr, "NAME=\"%s\"", name);
+	if (scanstr == NULL)
+		return 1;
+
+	fptr = fopen("/etc/udev/rules.d/70-persistent-net.rules", "r");
+	if (fptr == NULL)
+		return 1;
+	
+	while(!feof(fptr)) {
+		char line[4096];
+		line[0]=0;
+		if (fgets(line, sizeof(line), fptr) == NULL)
+			break;
+
+		/* ignore lines hinted from us */
+		if (strstr(line, "INTERFACE_NAME"))
+			continue;
+
+		if (strstr(line, scanstr)) {
+			ret = 0;
+			break;
+		}
+	}
+
+	fclose(fptr);
+	return ret;
+}
+
+char *get_persistent_by_hwaddr(char *hw) {
+	FILE *fptr;
+	char *scanstr=NULL;
+	char target[256];
+
+	target[0]=0;
+
+	asprintf(&scanstr, "ATTR{address}==\"%s\"", hw);
+	if (scanstr == NULL)
+		return NULL;
+
+	fptr = fopen("/etc/udev/rules.d/70-persistent-net.rules", "r");
+	if (fptr == NULL)
+		return NULL;
+	
+	while(!feof(fptr)) {
+		char line[4096];
+		line[0]=0;
+		if (fgets(line, sizeof(line), fptr) == NULL)
+			break;
+
+		if (strstr(line, scanstr)) {
+			char *cptr;
+#define NAME_STR "NAME=\""
+			cptr = strstr(line, NAME_STR);
+			if (cptr == NULL)
+				continue;
+			if(sscanf(cptr+sizeof(NAME_STR)-1, "%255[^\"]\"", target) == 1) {
+				fclose(fptr);
+				return strdup(target);			
+			}	
+		}
+	}
+
+	fclose(fptr);
+	return NULL;
+}
+
 void take_lock() {
 	int count = 0;
 	int lockfd;
@@ -264,9 +347,67 @@ void take_lock() {
 	return;
 }
 
+int check_and_set_claimed(char *src, char *name)
+{
+	int fd;
+	char *fname;
+	if (src == NULL || name == NULL)
+		return 1;
+
+	asprintf(&fname, "/dev/.udev/.%s.claimed", name);
+	fd = open(fname, O_CREAT|O_EXCL|O_WRONLY, 0600);
+	if (fd < 0 )
+		return 1;
+
+	write(fd, src, strlen(src));
+	close(fd);
+	return 0;
+}
+
+char *get_next_free(char *name)
+{
+	char *target=NULL;
+  	int num;
+	char inamebase[256];
+	char inamesuffix[256];
+	struct netdev *config;
+
+	inamebase[0]=0;
+	inamesuffix[0]=0;
+	if (sscanf(name, "%[^0-9]%d%s", inamebase, &num, inamesuffix) < 2)
+		return NULL;
+
+	num = -1;
+
+	/* we need to stop at some point */
+	while(num < 32000) {
+		num++;
+
+		if (target)
+			free(target);
+
+		asprintf(&target, "%s%d%s", inamebase, num, inamesuffix);
+
+		config = get_config_by_name(target);
+		if (config && config->hwaddr)
+			continue;
+
+		/* Parse /etc/udev/rules.d/70-persistent-net.rules. */
+		if (check_persistent_by_name(target) == 0)
+			continue;
+
+		if (check_and_set_claimed(name, target) != 0)
+			continue;	       
+
+		return target;
+	}	
+	return name;
+}
+
 int main(int argc, char **argv) {
 	char *src, *target, *hw;
 	struct timeval tv;
+	struct netdev *config;
 
 	gettimeofday(&tv, NULL);
 	srand(tv.tv_usec);	
@@ -289,10 +430,45 @@ int main(int argc, char **argv) {
 	if (!hw)
 		goto out_unlock;
 	target = get_config_by_hwaddr(hw, src);
-	if (!target)
-		goto out_unlock;
 
-	printf("%s", target);
+	if (target) {
+		printf("INTERFACE_NAME=%s", target);
+		goto out_unlock;
+	}
+
+#if !defined(__s390__) &&  !defined(__s390x__)
+
+	/* There is a hw, but no corresponding interface.
+	   Now, check if there is a ifcfg file, which claims
+	   the interface name
+	*/
+	config = get_config_by_name(src);
+	if ((config == NULL) || (config->hwaddr == NULL)) {
+		/* found no config or the config has no HWADDR */
+		if (check_and_set_claimed(src, src) == 0)
+			goto out_unlock;
+	}
+
+	/* Interface name is taken already, now try to find
+	   a free slot.
+	*/
+	/* Parse /etc/udev/rules.d/70-persistent-net.rules. */
+	target = get_persistent_by_hwaddr(hw);
+
+	if (target) {
+		/* Check if persistent-net.rules interface is taken in ifcfg. */
+		config = get_config_by_name(target);
+		if ((config == NULL) || (config->hwaddr == NULL)) {
+			if (check_and_set_claimed(src, target) == 0)
+				goto out_unlock;
+		}
+	}
+
+	/* Find a free name slot */
+	target = get_next_free(src);	
+	if (target)
+		printf("INTERFACE_NAME=%s", target);
+#endif
 	
 out_unlock:
 	unlink(LOCKFILE);

@@ -1,3 +1,10 @@
 ACTION=="add", SUBSYSTEM=="net", DEVPATH=="/devices/virtual/net/lo", RUN+="/sbin/ifup $env{INTERFACE}"
-ACTION=="add", SUBSYSTEM=="net", PROGRAM="/lib/udev/rename_device", RESULT=="?*", ENV{INTERFACE_NAME}="$result"
+
+KERNEL!="eth*|ath*|wlan*[0-9]|msh*|ra*|sta*|ctc*|lcs*|hsi*", GOTO="net_end"
+
+ACTION=="add", SUBSYSTEM=="net", IMPORT="/lib/udev/rename_device"
+ACTION=="remove", SUBSYSTEM=="net", RUN+="/bin/rm -f /dev/.udev/.$name.claimed"
+
 SUBSYSTEM=="net", RUN+="/etc/sysconfig/network-scripts/net.hotplug"
+
+LABEL="net_end"
