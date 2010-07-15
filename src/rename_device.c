@@ -198,12 +198,13 @@ char *get_hwaddr(char *device) {
 	char *path = NULL;
 	char *contents = NULL;
 
-	if (asprintf(&path, "/sys/class/net/%s/address", device) == -1)
-		return NULL;
-
 #if defined(__s390__) || defined(__s390x__)
+	if (asprintf(&path, "/sys/class/net/%s/device/.", device) == -1)
+		return NULL;
 	contents = read_subchannels(path);
 #else
+	if (asprintf(&path, "/sys/class/net/%s/address", device) == -1)
+		return NULL;
 	g_file_get_contents(path, &contents, NULL, NULL);
 #endif
 	free(path);
