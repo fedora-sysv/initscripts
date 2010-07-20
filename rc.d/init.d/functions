@@ -766,3 +766,15 @@ init_crypto() {
 
 # A sed expression to filter out the files that is_ignored_file recognizes
 __sed_discard_ignored_files='/\(~\|\.bak\|\.orig\|\.rpmnew\|\.rpmorig\|\.rpmsave\)$/d'
+
+# echo and log message to syslog with priority and tag
+# echo_log <priority> <tag> <message>
+echo_log () {
+	local priority tag
+
+	priority=$1
+	tag=$2
+	shift 2
+
+	echo $* && /usr/bin/logger -p $priority -t $tag $*
+}
