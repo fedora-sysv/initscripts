@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.12
+Version: 9.03.13
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -239,6 +239,10 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Mon Jul 26 2010 Bill Nottingham <notting@redhat.com> - 9.03.13-1
+- rename_device - handle quoted 'DEVICE' (#614943, <harald@redhat.com>)
+- rename_device - fix handling of s390 subchannels (#614739, <harald@redhat.com>)
+
 * Thu Jul  1 2010 Bill Nottingham <notting@redhat.com> - 9.03.12-1
 - fix interactive hotkey to work with plymouth (#605016)
 
