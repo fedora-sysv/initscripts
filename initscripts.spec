@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.15
+Version: 9.16
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -242,6 +242,15 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Tue Jul 27 2010 Bill Nottingham <notting@redhat.com> - 9.16-1
+- halt: don't umount cgroups (#612789)
+- rename_device: dequote DEVICE key, handle SUBCHANNELS (<harald@redhat.com>)
+- sysconfig.txt: document PREFIX/NETMASK (#617481, <jklimes@redhat.com>)
+- sysconfig.txt: document NETWORKWAIT (#595386)
+- remove support for hotkey interactive startup (#605016). Use 'confirm' on the commandline
+  (but even that doesn't fully make sense in an upstart/systemd world)
+- don't directly execute bash for single-user mode (#540216, #584443, #585053)
+
 * Thu Jun 24 2010 Bill Nottingham <notting@redhat.com> - 9.15-1
 - ifup-eth: check for dhclient configuration in /etc/dhcp as well (#607764, #607766)
 - network-functions: handle quoted SUBCHANNELS (#607481)
