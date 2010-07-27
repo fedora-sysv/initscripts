@@ -143,7 +143,7 @@ clean:
 	@rm -fv *~ changenew ChangeLog.old *gz
 
 tag:
-	@git tag -a -m "Tag as $(TAG)" $(TAG)
+	@git tag -a -f -m "Tag as $(TAG)" $(TAG)
 	@echo "Tagged as $(TAG)"
 
 archive: clean syntax-check tag changelog
@@ -154,3 +154,7 @@ archive: clean syntax-check tag changelog
 	@bzip2 -f initscripts-$(VERSION).tar
 	@rm -rf initscripts-$(VERSION)
 	@echo "The archive is at initscripts-$(VERSION).tar.bz2"
+	@sha1sum initscripts-$(VERSION).tar.bz2 > initscripts-$(VERSION).sha1sum
+	@scp initscripts-$(VERSION).tar.bz2 initscripts-$(VERSION).sha1sum fedorahosted.org:initscripts 2>/dev/null|| scp initscripts-$(VERSION).tar.bz2 initscripts-$(VERSION).sha1sum fedorahosted.org:/srv/web/releases/i/n/initscripts
+	@echo "Everything done, files uploaded to Fedorahosted.org"
+		
