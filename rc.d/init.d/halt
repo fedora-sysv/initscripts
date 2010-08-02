@@ -170,8 +170,8 @@ kill -TERM 1
 
 # Remount read only anything that's left mounted.
 # echo $"Remounting remaining filesystems readonly"
-mount | awk '{ print $3 }' | while read line; do
-    fstab-decode mount -n -o ro,remount $line
+mount | awk '{ print $1,$3 }' | while read dev dir; do
+    fstab-decode mount -n -o ro,remount $dev $dir
 done
 
 # If we left mdmon's running wait for the raidsets to become clean
