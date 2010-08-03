@@ -1,0 +1,17 @@
+[Unit]
+Description=System Initialization
+DefaultDependencies=no
+Conflicts=shutdown.target
+Before=shutdown.target emergency.service emergency.target
+After=rcS-mountall.service
+Conflicts=sysinit.service
+
+[Service]
+ExecStart=/etc/rc.d/rcS.d/240-configure.sh
+Type=forking
+TimeoutSec=0
+StandardInput=tty
+ValidNoProcess=yes
+
+[Install]
+WantedBy=sysinit.target

@@ -1,0 +1,17 @@
+[Unit]
+Description=System Initialization
+DefaultDependencies=no
+Conflicts=shutdown.target
+Before=shutdown.target emergency.service emergency.target
+After=rcS-random.service
+Conflicts=sysinit.service
+
+[Service]
+ExecStart=/etc/rc.d/rcS.d/230-initcrypto3.sh
+Type=finish
+TimeoutSec=0
+StandardInput=tty
+ValidNoProcess=yes
+
+[Install]
+WantedBy=sysinit.target
