@@ -1,0 +1,16 @@
+[Unit]
+Description=System Initialization
+DefaultDependencies=no
+Conflicts=shutdown.target
+Before=shutdown.target emergency.service emergency.target
+Before=rcS-dmraid.service
+Conflicts=sysinit.service
+
+[Service]
+ExecStart=/etc/rc.d/rcS.d/120-loaddmmod.sh
+Type=finish
+TimeoutSec=0
+ValidNoProcess=yes
+
+[Install]
+WantedBy=sysinit.target
