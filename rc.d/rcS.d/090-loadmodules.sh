@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# Load other user-defined modules
+for file in /etc/sysconfig/modules/*.modules ; do
+  [ -x $file ] && $file
+done
+
+# Load modules (for backward compatibility with VARs)
+if [ -f /etc/rc.modules ]; then
+	/etc/rc.modules
+fi
+:
