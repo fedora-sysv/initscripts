@@ -1,0 +1,18 @@
+[Unit]
+Description=System Initialization
+DefaultDependencies=no
+Conflicts=shutdown.target
+Before=shutdown.target emergency.service emergency.target
+After=rcS-mdraid.service
+Before=rcS-initcrypto2.service
+Conflicts=sysinit.service
+
+[Service]
+ExecStart=/etc/rc.d/rcS.d/170-lvm.sh
+Type=forking
+TimeoutSec=0
+StandardInput=tty
+ValidNoProcess=yes
+
+[Install]
+WantedBy=sysinit.target
