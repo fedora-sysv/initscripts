@@ -17,6 +17,7 @@ msgstr ""
 "PO-Revision-Date: 2009-09-08 18:28+0100\n"
 "Last-Translator: Nagy István Zoltán <nagyesta@gmail.com>\n"
 "Language-Team: Hungarian <fedora-trans-hu@redhat.com>\n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -31,9 +32,10 @@ msgstr "A(z) $prog újratöltése ($ez_name): "
 msgid "Stopping incrond: "
 msgstr "Az incrond leállítása: "
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:1057
-msgid "No parameters given to setup a default route"
-msgstr "Nincs megadva paraméter egy alapértelmezett útválasztás beállításához"
+#: /etc/rc.d/init.d/mldonkey:59
+#, fuzzy
+msgid "already stopped"
+msgstr "A(z) $prog már nem fut."
 
 #: /etc/rc.d/init.d/shorewall:36 /etc/rc.d/init.d/shorewall6:36
 #: /etc/rc.d/init.d/shorewall6-lite:36 /etc/rc.d/init.d/shorewall-lite:36
@@ -47,10 +49,6 @@ msgstr "Az UPS figyelő elindítása (slave): "
 #: /etc/rc.d/init.d/lirc:83
 msgid "Stopping infrared remote control mouse daemon ($prog2): "
 msgstr "Infravörös távirányítós egér szolgáltatás ($prog2) leállítása: "
-
-#: /etc/rc.d/init.d/smolt:68
-msgid "Monthly smolt check-in is disabled."
-msgstr "A havi Smolt jelentés tiltva van."
 
 #: /etc/rc.d/init.d/nginx:92
 msgid "Graceful shutdown of old $prog: "
@@ -68,29 +66,21 @@ msgstr ""
 msgid "$base dead but pid file exists"
 msgstr "A(z) $base nem fut, de létezik PID-fájl"
 
-#: /etc/sysconfig/network-scripts/ifup:95
-msgid "Could not set 802.1Q VLAN parameters."
-msgstr "Nem sikerült beállítani a 802.1Q VLAN paramétereit."
-
 #: /etc/sysconfig/network-scripts/ifup:100
-#: /etc/sysconfig/network-scripts/ifup-eth:79
+#: /etc/sysconfig/network-scripts/ifup-eth:74
+#: /etc/sysconfig/network-scripts/ifup-ib:52
 msgid ""
 "$alias device ${DEVICE} does not seem to be present, delaying initialization."
 msgstr ""
 "A(z) ${DEVICE} $alias eszköz nem érhető el, az inicializálás elhalasztása."
 
-#: /etc/rc.d/init.d/amd:97 /etc/rc.d/init.d/btseed:70
-#: /etc/rc.d/init.d/bttrack:71 /etc/rc.d/init.d/dropbear:122
-#: /etc/rc.d/init.d/irda:71 /etc/rc.d/init.d/mldonkey:71
+#: /etc/rc.d/init.d/btseed:70 /etc/rc.d/init.d/bttrack:71
+#: /etc/rc.d/init.d/dropbear:122 /etc/rc.d/init.d/irda:71
 #: /etc/rc.d/init.d/mon:78 /etc/rc.d/init.d/monit:81
 #: /etc/rc.d/init.d/openxcap:74 /etc/rc.d/init.d/partimaged:88
-#: /etc/rc.d/init.d/vblade:91
+#: /etc/rc.d/init.d/vblade:91 /etc/rc.d/init.d/watchquagga:61
 msgid "Usage: $0 {start|stop|restart|reload|condrestart|status}"
 msgstr "Használat: $0 {start|stop|restart|reload|condrestart|status}"
-
-#: /etc/rc.d/init.d/pcscd:55
-msgid "Stopping PC/SC smart card daemon ($prog): "
-msgstr "A PC/SC chipkártya-szolgáltatás leállítása ($prog): "
 
 #: /etc/rc.d/init.d/gpm:47
 msgid "Starting console mouse services: "
@@ -118,10 +108,6 @@ msgstr "A ser2net újratöltése"
 msgid "no dictionaries installed"
 msgstr "nincs telepítve szótár"
 
-#: /etc/rc.d/init.d/syslog-ng:117
-msgid "Usage: $0 {start|stop|restart|reload|condrestart|checkconfig}"
-msgstr "Használat: $0 {start|stop|restart|reload|condrestart|checkconfig}"
-
 #: /etc/rc.d/init.d/vmpsd:19
 #, fuzzy
 msgid "Starting vmpsd: "
@@ -140,43 +126,36 @@ msgstr "Az /etc/sysconfig/network-scripts/chat-${DEVNAME} nem létezik"
 msgid "to"
 msgstr "->"
 
-#: /etc/rc.d/init.d/maradns-zoneserver:80
-msgid "Stopping MaraDNS-Zoneserver: "
-msgstr "A MaraDNS-Zoneserver leállítása: "
-
-#: /etc/rc.d/init.d/iptables:277
+#: /etc/rc.d/init.d/iptables:281
 msgid "${IPTABLES}: Firewall is not running."
 msgstr "${IPTABLES}: A tűzfal nem fut."
 
-#: /etc/rc.d/init.d/iptables:291
+#: /etc/rc.d/init.d/iptables:295
 msgid "${IPTABLES}: Firewall is not configured. "
 msgstr "${IPTABLES}: Nincs beállítva tűzfal. "
 
-#: /etc/rc.d/init.d/util-vserver:75
+#: /etc/rc.d/init.d/util-vserver:85
 msgid "Setting path to vshelper"
 msgstr "A vshelper elérési útjának beállítása"
 
-#: /etc/rc.d/init.d/netfs:115
+#: /etc/rc.d/init.d/netfs:120
 msgid "Unmounting CIFS filesystems: "
 msgstr "A CIFS fájlrendszerek leválasztása: "
 
-#: /etc/rc.d/init.d/functions:352
+#: /etc/rc.d/init.d/functions:358
 msgid "Usage: pidfileofproc {program}"
 msgstr "Használat: pidfileofproc {program}"
 
-#: /etc/rc.d/init.d/yum-updatesd:42
-msgid "Stopping yum-updatesd: "
-msgstr "A yum-updatesd leállítása: "
-
-#: /etc/rc.d/init.d/vncserver:66
-msgid "vncserver start"
-msgstr "A VNC szerver elindítása"
+#: /etc/rc.d/init.d/spectrum:79
+#, fuzzy
+msgid "Stopping spectrum transport: "
+msgstr "A pdns-recursor leállítása: "
 
 #: /etc/rc.d/init.d/netconsole:76
 msgid "Server address not specified in /etc/sysconfig/netconsole"
 msgstr "A szerver címe nincs megadva a /etc/sysconfig/netconsole-ban"
 
-#: /etc/rc.d/init.d/functions:465
+#: /etc/rc.d/init.d/functions:475
 msgid "PASSED"
 msgstr "SIKERES"
 
@@ -193,118 +172,114 @@ msgid "$s compilation failed "
 msgstr "$s fordítása sikeertelen "
 
 #: /etc/rc.d/init.d/3proxy:28 /etc/rc.d/init.d/ajaxterm:27
-#: /etc/rc.d/init.d/amd:36 /etc/rc.d/init.d/amtu:50 /etc/rc.d/init.d/aprsd:32
-#: /etc/rc.d/init.d/arpwatch:38 /etc/rc.d/init.d/atd:36
+#: /etc/rc.d/init.d/amd:46 /etc/rc.d/init.d/amtu:50 /etc/rc.d/init.d/aprsd:32
+#: /etc/rc.d/init.d/arpwatch:39 /etc/rc.d/init.d/atd:36
 #: /etc/rc.d/init.d/atop:19 /etc/rc.d/init.d/auditd:53
 #: /etc/rc.d/init.d/auth2:26 /etc/rc.d/init.d/autofs:88
 #: /etc/rc.d/init.d/autogroup:38 /etc/rc.d/init.d/autohome:36
-#: /etc/rc.d/init.d/beanstalkd:41 /etc/rc.d/init.d/boa:36
+#: /etc/rc.d/init.d/beanstalkd:42 /etc/rc.d/init.d/boa:36
 #: /etc/rc.d/init.d/boinc-client:114 /etc/rc.d/init.d/bootparamd:38
 #: /etc/rc.d/init.d/bro:86 /etc/rc.d/init.d/canna:37
 #: /etc/rc.d/init.d/certmonger:37 /etc/rc.d/init.d/cfexecd:22
-#: /etc/rc.d/init.d/cfservd:26 /etc/rc.d/init.d/chronyd:84
+#: /etc/rc.d/init.d/cfservd:26 /etc/rc.d/init.d/chronyd:97
 #: /etc/rc.d/init.d/chunkd:33 /etc/rc.d/init.d/clamav-milter:23
 #: /etc/rc.d/init.d/clamd-wrapper:43 /etc/rc.d/init.d/cld:34
 #: /etc/rc.d/init.d/coda-client:25 /etc/rc.d/init.d/codasrv:21
 #: /etc/rc.d/init.d/collectd:25 /etc/rc.d/init.d/collectl:33
-#: /etc/rc.d/init.d/couchdb:37 /etc/rc.d/init.d/cpuspeed:91
-#: /etc/rc.d/init.d/crond:46 /etc/rc.d/init.d/ctrlproxy:41
-#: /etc/rc.d/init.d/cups:66 /etc/rc.d/init.d/cwdaemon:32
-#: /etc/rc.d/init.d/cyrus-imapd:73 /etc/rc.d/init.d/dbmail-imapd:36
-#: /etc/rc.d/init.d/dbmail-lmtpd:37 /etc/rc.d/init.d/dbmail-pop3d:37
-#: /etc/rc.d/init.d/dbmail-timsieved:38 /etc/rc.d/init.d/dc_client:33
-#: /etc/rc.d/init.d/dc_server:29 /etc/rc.d/init.d/ddclient:28
-#: /etc/rc.d/init.d/dhcpd:88 /etc/rc.d/init.d/dhcp-fwd:40
-#: /etc/rc.d/init.d/dhcrelay:60 /etc/rc.d/init.d/dictd:34
-#: /etc/rc.d/init.d/distccd:42 /etc/rc.d/init.d/dovecot:47
-#: /etc/rc.d/init.d/dropbear:69 /etc/rc.d/init.d/dspam:35
-#: /etc/rc.d/init.d/fcron_watch_config:32 /etc/rc.d/init.d/fence_virtd:42
-#: /etc/rc.d/init.d/flow-capture:42 /etc/rc.d/init.d/fnfxd:26
-#: /etc/rc.d/init.d/freenx-server:40 /etc/rc.d/init.d/freenx-server:42
-#: /etc/rc.d/init.d/gearmand:37 /etc/rc.d/init.d/globus-rls-server:28
-#: /etc/rc.d/init.d/glusterfsd:37 /etc/rc.d/init.d/gmediaserver:59
-#: /etc/rc.d/init.d/gpsd:44 /etc/rc.d/init.d/haproxy:40
-#: /etc/rc.d/init.d/honeyd:38 /etc/rc.d/init.d/httpd:54
-#: /etc/rc.d/init.d/ibmasm:19 /etc/rc.d/init.d/inadyn:42
-#: /etc/rc.d/init.d/ip-sentinel:27 /etc/rc.d/init.d/ircd:33
+#: /etc/rc.d/init.d/couchdb:43 /etc/rc.d/init.d/cpuspeed:91
+#: /etc/rc.d/init.d/crond:46 /etc/rc.d/init.d/cups:66
+#: /etc/rc.d/init.d/cwdaemon:32 /etc/rc.d/init.d/cyrus-imapd:73
+#: /etc/rc.d/init.d/dbmail-imapd:36 /etc/rc.d/init.d/dbmail-lmtpd:37
+#: /etc/rc.d/init.d/dbmail-pop3d:37 /etc/rc.d/init.d/dbmail-timsieved:38
+#: /etc/rc.d/init.d/dc_client:33 /etc/rc.d/init.d/dc_server:29
+#: /etc/rc.d/init.d/ddclient:41 /etc/rc.d/init.d/dhcpd:88
+#: /etc/rc.d/init.d/dhcp-fwd:40 /etc/rc.d/init.d/dhcrelay:60
+#: /etc/rc.d/init.d/dictd:34 /etc/rc.d/init.d/dmapd:21
+#: /etc/rc.d/init.d/dovecot:47 /etc/rc.d/init.d/dropbear:69
+#: /etc/rc.d/init.d/dspam:35 /etc/rc.d/init.d/fcron_watch_config:32
+#: /etc/rc.d/init.d/fence_virtd:42 /etc/rc.d/init.d/flow-capture:42
+#: /etc/rc.d/init.d/fnfxd:26 /etc/rc.d/init.d/gearmand:37
+#: /etc/rc.d/init.d/globus-rls-server:28 /etc/rc.d/init.d/gmediaserver:59
+#: /etc/rc.d/init.d/haproxy:40 /etc/rc.d/init.d/honeyd:38
+#: /etc/rc.d/init.d/httpd:54 /etc/rc.d/init.d/inadyn:42
+#: /etc/rc.d/init.d/ipmiutil_wdt:36 /etc/rc.d/init.d/ip-sentinel:27
 #: /etc/rc.d/init.d/irda:23 /etc/rc.d/init.d/irqbalance:45
 #: /etc/rc.d/init.d/iscsi:50 /etc/rc.d/init.d/iscsid:37
-#: /etc/rc.d/init.d/jetty:72 /etc/rc.d/init.d/kadmin:56
+#: /etc/rc.d/init.d/jetty:72 /etc/rc.d/init.d/kadmin:58
 #: /etc/rc.d/init.d/keepalived:36 /etc/rc.d/init.d/kojid:32
 #: /etc/rc.d/init.d/kojira:32 /etc/rc.d/init.d/kprop:38
-#: /etc/rc.d/init.d/krb5kdc:41 /etc/rc.d/init.d/ksm:42
+#: /etc/rc.d/init.d/krb5kdc:43 /etc/rc.d/init.d/ksm:42
 #: /etc/rc.d/init.d/ksmtuned:38 /etc/rc.d/init.d/lighttpd:40
 #: /etc/rc.d/init.d/mailgraph:39 /etc/rc.d/init.d/mailman:85
-#: /etc/rc.d/init.d/mcstrans:45 /etc/rc.d/init.d/mdmonitor:46
-#: /etc/rc.d/init.d/mdmonitor:56 /etc/rc.d/init.d/memcached:37
+#: /etc/rc.d/init.d/mcstrans:45 /etc/rc.d/init.d/mdmonitor:47
+#: /etc/rc.d/init.d/mdmonitor:59 /etc/rc.d/init.d/memcached:39
 #: /etc/rc.d/init.d/milter-greylist:25 /etc/rc.d/init.d/milter-regex:30
 #: /etc/rc.d/init.d/mip6d:38 /etc/rc.d/init.d/miredo-client:46
 #: /etc/rc.d/init.d/miredo-server:48 /etc/rc.d/init.d/monit:29
 #: /etc/rc.d/init.d/mpdscribble:19 /etc/rc.d/init.d/mrepo:27
-#: /etc/rc.d/init.d/mydns:24 /etc/rc.d/init.d/myproxy-server:43
-#: /etc/rc.d/init.d/mysqld:100 /etc/rc.d/init.d/mysqld:103
+#: /etc/rc.d/init.d/mydns:24 /etc/rc.d/init.d/myproxy-server:44
+#: /etc/rc.d/init.d/mysqld:60 /etc/rc.d/init.d/mysqld:65
+#: /etc/rc.d/init.d/mysqld:125 /etc/rc.d/init.d/mysqld:128
 #: /etc/rc.d/init.d/mysql-proxy:35 /etc/rc.d/init.d/ncidd:31
 #: /etc/rc.d/init.d/ncidsip:34 /etc/rc.d/init.d/ndo2db:41
 #: /etc/rc.d/init.d/nessusd:38 /etc/rc.d/init.d/netplugd:50
-#: /etc/rc.d/init.d/nginx:34 /etc/rc.d/init.d/ngircd:25
-#: /etc/rc.d/init.d/noip:35 /etc/rc.d/init.d/npcd:34 /etc/rc.d/init.d/nscd:41
-#: /etc/rc.d/init.d/nslcd:28 /etc/rc.d/init.d/ntop:33 /etc/rc.d/init.d/ntpd:42
+#: /etc/rc.d/init.d/netsniff-ng:43 /etc/rc.d/init.d/nginx:34
+#: /etc/rc.d/init.d/ngircd:25 /etc/rc.d/init.d/noip:35
+#: /etc/rc.d/init.d/npcd:34 /etc/rc.d/init.d/nscd:41 /etc/rc.d/init.d/nslcd:28
+#: /etc/rc.d/init.d/ntop:33 /etc/rc.d/init.d/ntpd:42
 #: /etc/rc.d/init.d/nuauth:64 /etc/rc.d/init.d/nufw:62
 #: /etc/rc.d/init.d/nxtvepgd:34 /etc/rc.d/init.d/odccm:25
 #: /etc/rc.d/init.d/oddjobd:35 /etc/rc.d/init.d/oidentd:41
-#: /etc/rc.d/init.d/openhpid:101 /etc/rc.d/init.d/openhpid:106
-#: /etc/rc.d/init.d/openhpid:111 /etc/rc.d/init.d/openhpid:121
-#: /etc/rc.d/init.d/openhpi-subagent:30 /etc/rc.d/init.d/openser:28
-#: /etc/rc.d/init.d/opensips:30 /etc/rc.d/init.d/pads:35
-#: /etc/rc.d/init.d/pads:39 /etc/rc.d/init.d/pathfinderd:38
-#: /etc/rc.d/init.d/plague-builder:32 /etc/rc.d/init.d/plague-server:33
-#: /etc/rc.d/init.d/poker-bot:34 /etc/rc.d/init.d/poker-server:34
+#: /etc/rc.d/init.d/olbd:38 /etc/rc.d/init.d/openhpid:41
+#: /etc/rc.d/init.d/openhpi-subagent:31 /etc/rc.d/init.d/openser:28
+#: /etc/rc.d/init.d/opensips:30 /etc/rc.d/init.d/oscap-scan:49
+#: /etc/rc.d/init.d/pads:35 /etc/rc.d/init.d/pads:39
+#: /etc/rc.d/init.d/pathfinderd:38 /etc/rc.d/init.d/plague-builder:32
+#: /etc/rc.d/init.d/plague-server:33 /etc/rc.d/init.d/poker-bot:34
+#: /etc/rc.d/init.d/poker-server:34 /etc/rc.d/init.d/polipo:60
 #: /etc/rc.d/init.d/portreserve:48 /etc/rc.d/init.d/postgrey:39
 #: /etc/rc.d/init.d/pppoe-server:26 /etc/rc.d/init.d/prelude-correlator:32
 #: /etc/rc.d/init.d/prelude-correlator:36 /etc/rc.d/init.d/prelude-manager:17
 #: /etc/rc.d/init.d/prelude-manager:21 /etc/rc.d/init.d/proftpd:52
-#: /etc/rc.d/init.d/psad:50 /etc/rc.d/init.d/pure-ftpd:32
-#: /etc/rc.d/init.d/pyicq-t:22 /etc/rc.d/init.d/rabbit:58
-#: /etc/rc.d/init.d/racoon:21 /etc/rc.d/init.d/radiusd:36
-#: /etc/rc.d/init.d/rarpd:42 /etc/rc.d/init.d/ratbox-services:25
+#: /etc/rc.d/init.d/proofd:35 /etc/rc.d/init.d/psad:50
+#: /etc/rc.d/init.d/pure-ftpd:32 /etc/rc.d/init.d/pyicq-t:22
+#: /etc/rc.d/init.d/rabbit:58 /etc/rc.d/init.d/racoon:32
+#: /etc/rc.d/init.d/radiusd:36 /etc/rc.d/init.d/rarpd:42
 #: /etc/rc.d/init.d/rbldnsd:84 /etc/rc.d/init.d/rinetd:25
-#: /etc/rc.d/init.d/ris-linuxd:44 /etc/rc.d/init.d/roundup:27
-#: /etc/rc.d/init.d/rpcbind:45 /etc/rc.d/init.d/rtpproxy:38
-#: /etc/rc.d/init.d/rwalld:39 /etc/rc.d/init.d/saslauthd:40
-#: /etc/rc.d/init.d/searchd:34 /etc/rc.d/init.d/sems:23
-#: /etc/rc.d/init.d/sendmail:63 /etc/rc.d/init.d/sensord:22
-#: /etc/rc.d/init.d/ser:36 /etc/rc.d/init.d/sge_execd:53
-#: /etc/rc.d/init.d/shmpps:21 /etc/rc.d/init.d/sigul_bridge:13
-#: /etc/rc.d/init.d/sigul_server:14 /etc/rc.d/init.d/sip2ncid:31
-#: /etc/rc.d/init.d/sip-redirect:31 /etc/rc.d/init.d/slapd:201
-#: /etc/rc.d/init.d/smartd:58 /etc/rc.d/init.d/smsd:21
-#: /etc/rc.d/init.d/snmpd:40 /etc/rc.d/init.d/snmptrapd:41
-#: /etc/rc.d/init.d/spamassassin:43 /etc/rc.d/init.d/spampd:39
-#: /etc/rc.d/init.d/squid:65 /etc/rc.d/init.d/squid:77
-#: /etc/rc.d/init.d/squidGuard:71 /etc/rc.d/init.d/ssbd:30
-#: /etc/rc.d/init.d/sshd:132 /etc/rc.d/init.d/sssd:41
-#: /etc/rc.d/init.d/systemtap:482 /etc/rc.d/init.d/tabled:34
-#: /etc/rc.d/init.d/tclhttpd:143 /etc/rc.d/init.d/tcsd:70
-#: /etc/rc.d/init.d/tgtd:32 /etc/rc.d/init.d/thebridge:28
-#: /etc/rc.d/init.d/thttpd:36 /etc/rc.d/init.d/tinyerp-server:47
-#: /etc/rc.d/init.d/tinyproxy:36 /etc/rc.d/init.d/tokyotyrant:36
-#: /etc/rc.d/init.d/tor:32 /etc/rc.d/init.d/trytond:48
-#: /etc/rc.d/init.d/tuned:38 /etc/rc.d/init.d/ulogd:34
-#: /etc/rc.d/init.d/update:28 /etc/rc.d/init.d/update:36
-#: /etc/rc.d/init.d/upnpd:35 /etc/rc.d/init.d/ups:46
-#: /etc/rc.d/init.d/ushare:28 /etc/rc.d/init.d/vdradmind:27
-#: /etc/rc.d/init.d/vhostmd:48 /etc/rc.d/init.d/vncserver:38
-#: /etc/rc.d/init.d/vnstat:30 /etc/rc.d/init.d/vtund:36
-#: /etc/rc.d/init.d/watchdog:26 /etc/rc.d/init.d/xfs:57
+#: /etc/rc.d/init.d/ris-linuxd:44 /etc/rc.d/init.d/rootd:36
+#: /etc/rc.d/init.d/roundup:27 /etc/rc.d/init.d/rpcbind:50
+#: /etc/rc.d/init.d/rwalld:39 /etc/rc.d/init.d/saslauthd:41
+#: /etc/rc.d/init.d/searchd:34 /etc/rc.d/init.d/sendmail:63
+#: /etc/rc.d/init.d/sensord:22 /etc/rc.d/init.d/ser:36
+#: /etc/rc.d/init.d/sge_execd:53 /etc/rc.d/init.d/shmpps:21
+#: /etc/rc.d/init.d/sigul_bridge:13 /etc/rc.d/init.d/sigul_server:14
+#: /etc/rc.d/init.d/sip2ncid:31 /etc/rc.d/init.d/sip-redirect:31
+#: /etc/rc.d/init.d/slapd:209 /etc/rc.d/init.d/smartd:58
+#: /etc/rc.d/init.d/smsd:21 /etc/rc.d/init.d/snmpd:40
+#: /etc/rc.d/init.d/snmptrapd:41 /etc/rc.d/init.d/spamassassin:43
+#: /etc/rc.d/init.d/spampd:39 /etc/rc.d/init.d/squid:65
+#: /etc/rc.d/init.d/squid:77 /etc/rc.d/init.d/squidGuard:71
+#: /etc/rc.d/init.d/ssbd:30 /etc/rc.d/init.d/sshd:132 /etc/rc.d/init.d/sssd:41
+#: /etc/rc.d/init.d/suricata:52 /etc/rc.d/init.d/systemtap:482
+#: /etc/rc.d/init.d/tabled:34 /etc/rc.d/init.d/tclhttpd:143
+#: /etc/rc.d/init.d/tcsd:65 /etc/rc.d/init.d/tgtd:32
+#: /etc/rc.d/init.d/thebridge:28 /etc/rc.d/init.d/thttpd:36
+#: /etc/rc.d/init.d/tinyerp-server:47 /etc/rc.d/init.d/tinyproxy:36
+#: /etc/rc.d/init.d/tokyotyrant:36 /etc/rc.d/init.d/tor:32
+#: /etc/rc.d/init.d/trytond:48 /etc/rc.d/init.d/tuned:38
+#: /etc/rc.d/init.d/ulogd:34 /etc/rc.d/init.d/update:28
+#: /etc/rc.d/init.d/update:36 /etc/rc.d/init.d/upnpd:35
+#: /etc/rc.d/init.d/ups:46 /etc/rc.d/init.d/ushare:28
+#: /etc/rc.d/init.d/uuidd:47 /etc/rc.d/init.d/vdradmind:27
+#: /etc/rc.d/init.d/vncserver:38 /etc/rc.d/init.d/vnstat:30
+#: /etc/rc.d/init.d/vtund:36 /etc/rc.d/init.d/watchdog:26
+#: /etc/rc.d/init.d/watchquagga:31 /etc/rc.d/init.d/xfs:57
 #: /etc/rc.d/init.d/xinetd:59 /etc/rc.d/init.d/xrdp:34
-#: /etc/rc.d/init.d/xrdp:58 /etc/rc.d/init.d/yac2ncid:31
-#: /etc/rc.d/init.d/zfs-fuse:84 /etc/rc.d/init.d/zoneminder:47
+#: /etc/rc.d/init.d/xrdp:58 /etc/rc.d/init.d/xrootd:39
+#: /etc/rc.d/init.d/yac2ncid:31 /etc/rc.d/init.d/zfs-fuse:84
+#: /etc/rc.d/init.d/zoneminder:47
 msgid "Starting $prog: "
 msgstr "A(z) $prog indítása: "
-
-#: /etc/rc.d/init.d/ypbind:67 /etc/rc.d/init.d/ypbind:72
-msgid "domain is '$NISDOMAIN' "
-msgstr "A domain '$NISDOMAIN' "
 
 #: /etc/rc.d/init.d/cgred:73
 msgid "Starting CGroup Rules Engine Daemon..."
@@ -314,7 +289,7 @@ msgstr "CGroup Rules Engine Daemon indítása: "
 msgid "Starting xend daemon: "
 msgstr "A xend indítása: "
 
-#: /etc/rc.d/init.d/kadmin:51
+#: /etc/rc.d/init.d/kadmin:53
 msgid "Error. This appears to be a slave server, found kpropd.acl"
 msgstr "Hiba. Úgy tűnik, ez egy másodlagos kiszolgáló - kpropd.acl létezik."
 
@@ -326,7 +301,8 @@ msgstr "A(z) $desc ($prog) mentése: "
 msgid "Missing remote IPv4 address of tunnel, configuration is not valid"
 msgstr "Hiányzik az alagút távoli IPv4 címe, a beállítás érvénytelen"
 
-#: /etc/rc.d/init.d/ksm:49 /etc/rc.d/init.d/systemtap:518
+#: /etc/rc.d/init.d/ksm:47 /etc/rc.d/init.d/oscap-scan:62
+#: /etc/rc.d/init.d/systemtap:518
 msgid "$prog startup"
 msgstr "A(z) $prog indítása"
 
@@ -338,7 +314,7 @@ msgstr "A preload indítása: "
 msgid "Disabling denyhosts cron service: "
 msgstr "A denyhosts ütemezett szolgáltatás letiltása: "
 
-#: /etc/rc.d/init.d/zarafa-spooler:102
+#: /etc/rc.d/init.d/zarafa-spooler:110
 #, fuzzy
 msgid ""
 "Usage: $spooler {start|stop|status|reload|restart|condrestart|force-reload|"
@@ -362,19 +338,19 @@ msgstr "Újratöltés "
 msgid "Stopping system message bus: "
 msgstr "A rendszer üzenetbusz leállítása: "
 
-#: /etc/rc.d/init.d/privoxy:134
-msgid "Usage: $PRIVOXY_PRG {start|stop|reload|restart|condrestart|status|top}"
+#: /etc/rc.d/init.d/exim:124
+#, fuzzy
+msgid ""
+"Usage: $0 {start|stop|restart|reload|force-reload|status|condrestart|try-"
+"restart}"
 msgstr ""
-"Használat: $PRIVOXY_PRG {start|stop|reload|restart|condrestart|status|top}"
+"Használat: $0 {start|stop|restart|reload|force-reload|condrestart|try-"
+"restart|status}"
 
-#: /etc/rc.d/init.d/nsca:55
-msgid "Reloading nsca: "
-msgstr "nsca újratöltése: "
-
-#: /etc/rc.d/init.d/bgpd:34 /etc/rc.d/init.d/ospf6d:33
-#: /etc/rc.d/init.d/ospfd:33 /etc/rc.d/init.d/radvd:43
-#: /etc/rc.d/init.d/ripd:33 /etc/rc.d/init.d/ripngd:33
-#: /etc/rc.d/init.d/zebra:30
+#: /etc/rc.d/init.d/bgpd:35 /etc/rc.d/init.d/ospf6d:34
+#: /etc/rc.d/init.d/ospfd:34 /etc/rc.d/init.d/radvd:44
+#: /etc/rc.d/init.d/ripd:34 /etc/rc.d/init.d/ripngd:34
+#: /etc/rc.d/init.d/zebra:31
 msgid "Insufficient privilege"
 msgstr "Nem elegendő jogosultság"
 
@@ -391,9 +367,9 @@ msgstr ""
 "Használat: $0 {start|stop|status|restart|force-reload|reload|condrestart|try-"
 "restart}"
 
-#: /etc/rc.d/init.d/arptables_jf:192
-msgid "Usage: $0 {start|stop|restart|condrestart|status|panic|save}"
-msgstr "Használat: $0 {start|stop|restart|condrestart|status|panic|save}"
+#: /etc/rc.d/init.d/firstboot:52
+msgid "ERROR: Program /usr/sbin/firstboot is not installed"
+msgstr ""
 
 #: /etc/rc.d/init.d/ups:69
 msgid "Stopping UPS monitor: "
@@ -418,12 +394,6 @@ msgstr ""
 msgid "Enabling monthly Smolt checkin: "
 msgstr "A havi Smolt jelentés engedélyezése: "
 
-#: /etc/rc.d/rc.sysinit:82
-msgid "*** Warning -- SELinux ${SELINUXTYPE} policy relabel is required."
-msgstr ""
-"*** Figyelmeztetés: SELinux ${SELINUXTYPE} szabályzat újracímkézése "
-"szükséges."
-
 #: /etc/rc.d/init.d/arptables_jf:117
 msgid "Removing user defined chains:"
 msgstr "Felhasználói láncok eltávolítása:"
@@ -436,11 +406,11 @@ msgstr "A(z) $prog egy példányának indítása "
 msgid "Nightly yum update is disabled."
 msgstr "Az éjszakánkénti yum frissítés kikapcsolva."
 
-#: /etc/rc.d/init.d/udev-post:27
+#: /etc/rc.d/init.d/udev-post:26
 msgid "Retrigger failed udev events"
 msgstr ""
 
-#: /etc/rc.d/init.d/zarafa-dagent:49
+#: /etc/rc.d/init.d/zarafa-dagent:54
 #, fuzzy
 msgid "Starting $dagent: "
 msgstr "A(z) $name indítása: "
@@ -462,6 +432,7 @@ msgid "Flushing all current rules and user defined chains:"
 msgstr "Az összes jelenlegi szabály és felhasználói lánc kiürítése:"
 
 #: /etc/rc.d/init.d/bwbar:67 /etc/rc.d/init.d/fail2ban:87
+#: /etc/rc.d/init.d/sandbox:86
 msgid "Usage: $0 {start|stop|status|restart}"
 msgstr "Használat: $0 {start|stop|status|restart}"
 
@@ -494,7 +465,7 @@ msgstr ""
 "Használat: $0 {start|stop|status|restart|reload|force-reload|condrestart|"
 "genconfig}"
 
-#: /etc/rc.d/init.d/zarafa-monitor:102
+#: /etc/rc.d/init.d/zarafa-monitor:110
 #, fuzzy
 msgid ""
 "Usage: $monitor {start|stop|status|reload|restart|condrestart|force-reload|"
@@ -502,7 +473,7 @@ msgid ""
 msgstr ""
 "Használat: $0 {start|stop|status|restart|reload|force-reload|try-restart}"
 
-#: /etc/rc.d/rc.sysinit:259
+#: /etc/rc.d/rc.sysinit:89
 msgid "\t\tWelcome to "
 msgstr "\t\tÜdvözöljük "
 
@@ -511,51 +482,51 @@ msgstr "\t\tÜdvözöljük "
 msgid "Shutting down $desc ($prog): "
 msgstr "A(z) $desc ($prog) leállítása: "
 
-#: /etc/rc.d/init.d/syslog-ng:86
-msgid "Reloading syslog-ng: "
-msgstr "A syslog-ngl újratöltése: "
+#: /etc/rc.d/init.d/zarafa-dagent:115
+#, fuzzy
+msgid ""
+"Usage: $dagent {start|stop|status|reload|restart|condrestart|force-reload|"
+"try-restart}"
+msgstr ""
+"Használat: $0 {start|stop|status|restart|reload|force-reload|try-restart}"
 
 #: /etc/rc.d/init.d/rsyslog:50 /etc/rc.d/init.d/sysklogd:54
 msgid "Shutting down system logger: "
 msgstr "A rendszernaplózó leállítása: "
 
-#: /etc/rc.d/init.d/maradns:75
-msgid "Starting all MaraDNS processes: "
-msgstr "Az összes MaraDNS folyamat indítása: "
+#: /etc/rc.d/init.d/tclhttpd:60
+msgid "$base is stopped"
+msgstr "A(z) $base le van állítva"
 
-#: /etc/sysconfig/network-scripts/ifup-eth:203
+#: /etc/sysconfig/network-scripts/ifup-eth:200
+#: /etc/sysconfig/network-scripts/ifup-ib:189
 msgid " done."
 msgstr " kész."
 
-#: /etc/rc.d/init.d/amavisd-snmp:62 /etc/rc.d/init.d/avahi-daemon:102
-#: /etc/rc.d/init.d/avahi-dnsconfd:99 /etc/rc.d/init.d/gadget:86
-#: /etc/rc.d/init.d/haldaemon:71 /etc/rc.d/init.d/ibmasm:95
-#: /etc/rc.d/init.d/innd:135 /etc/rc.d/init.d/ipa_kpasswd:79
-#: /etc/rc.d/init.d/ipa_webgui:75 /etc/rc.d/init.d/kprop:83
+#: /etc/rc.d/init.d/amavisd-snmp:62 /etc/rc.d/init.d/avahi-daemon:111
+#: /etc/rc.d/init.d/avahi-dnsconfd:108 /etc/rc.d/init.d/gadget:86
+#: /etc/rc.d/init.d/haldaemon:71 /etc/rc.d/init.d/innd:135
+#: /etc/rc.d/init.d/ipa_kpasswd:79 /etc/rc.d/init.d/ipa_webgui:75
 #: /etc/rc.d/init.d/milter-greylist:83 /etc/rc.d/init.d/nasd:83
 #: /etc/rc.d/init.d/ndo2db:96 /etc/rc.d/init.d/netconsole:36
-#: /etc/rc.d/init.d/NetworkManager:101 /etc/rc.d/init.d/ohmd:86
-#: /etc/rc.d/init.d/sqlgrey:65 /etc/rc.d/init.d/sysklogd:118
+#: /etc/rc.d/init.d/NetworkManager:101 /etc/rc.d/init.d/sysklogd:118
 #: /etc/rc.d/init.d/tinyerp-server:122 /etc/rc.d/init.d/xenner:163
 #: /etc/rc.d/init.d/zvbid:62
 msgid "Usage: $0 {start|stop|status|restart|condrestart}"
 msgstr "Használat: $0 {start|stop|status|restart|condrestart}"
 
-#: /etc/rc.d/init.d/ohmd:48
-msgid "Stopping Open Hardware Manager: "
-msgstr "Az Open Hardware Manager leállítása: "
-
-#: /etc/rc.d/init.d/slapd:163 /etc/rc.d/init.d/slapd:169
+#: /etc/rc.d/init.d/slapd:171 /etc/rc.d/init.d/slapd:177
 msgid "Checking configuration files for $prog: "
 msgstr "A(z) $prog beállítási fájljainak ellenőrzése: "
 
-#: /etc/rc.d/init.d/halt:62
+#: /etc/rc.d/init.d/halt:62 /etc/rc.d/init.d/reboot:62
 msgid "$0: call me as 'halt' or 'reboot' please!"
 msgstr "$0: használja a 'halt'-ot vagy a 'reboot'-ot!"
 
-#: /etc/rc.d/init.d/ypbind:65
-msgid "Setting NIS domain: "
-msgstr "NIS domain beállítása: "
+#: /etc/rc.d/init.d/fcoe:68
+#, fuzzy
+msgid "Starting FCoE initiator service: "
+msgstr "A rstat szolgáltatások indítása: "
 
 #: /etc/rc.d/init.d/isdn:252
 msgid "$NAME is attached to $DEVICE"
@@ -580,12 +551,12 @@ msgstr ""
 #: /etc/rc.d/init.d/smartd:69 /etc/rc.d/init.d/ssbd:40
 #: /etc/rc.d/init.d/thebridge:38 /etc/rc.d/init.d/vblade:51
 #: /etc/rc.d/init.d/vncserver:81 /etc/rc.d/init.d/vnstat:45
-#: /etc/rc.d/init.d/vsftpd:65 /etc/rc.d/init.d/xfs:76
+#: /etc/rc.d/init.d/vsftpd:69 /etc/rc.d/init.d/xfs:76
 #: /etc/rc.d/init.d/yac2ncid:39
 msgid "Shutting down $prog: "
 msgstr "A(z) $prog leállítása: "
 
-#: /etc/rc.d/init.d/acpid:79
+#: /etc/rc.d/init.d/acpid:76
 msgid "Reloading acpi daemon:"
 msgstr "Az ACPI szolgáltatás újratöltése: "
 
@@ -597,17 +568,27 @@ msgstr "A greylistd indítása: "
 msgid "Stopping NetworkManager daemon: "
 msgstr "A NetworkManager szolgáltatás leállítása: "
 
-#: /etc/rc.d/init.d/capi:79 /etc/rc.d/init.d/fb-server:76
-#: /etc/rc.d/init.d/greylistd:69 /etc/rc.d/init.d/isdn:281
-#: /etc/rc.d/init.d/isnsd:74 /etc/rc.d/init.d/watchdog:84
+#: /etc/rc.d/init.d/bdii:323 /etc/rc.d/init.d/capi:79
+#: /etc/rc.d/init.d/fb-server:76 /etc/rc.d/init.d/greylistd:69
+#: /etc/rc.d/init.d/isdn:281 /etc/rc.d/init.d/isnsd:74
+#: /etc/rc.d/init.d/watchdog:84
 msgid "Usage: $0 {start|stop|restart|status|condrestart}"
 msgstr "Használat: $0 {start|stop|restart|status|condrestart}"
+
+#: /etc/rc.d/init.d/httpd:119
+#, fuzzy
+msgid ""
+"Usage: $prog {start|stop|restart|condrestart|try-restart|force-reload|reload|"
+"status|fullstatus|graceful|help|configtest}"
+msgstr ""
+"Használat: $prog {start|stop|restart|condrestart|reload|status|fullstatus|"
+"graceful|help|configtest}"
 
 #: /etc/rc.d/init.d/smokeping:33
 msgid "Starting smokeping: "
 msgstr "A smokeping indítása: "
 
-#: /etc/rc.d/init.d/mldonkey:40
+#: /etc/rc.d/init.d/mldonkey:57
 msgid "Stopping Mldonkey (mlnet): "
 msgstr "A Mldonkey (mlnet) leállítása: "
 
@@ -615,11 +596,11 @@ msgstr "A Mldonkey (mlnet) leállítása: "
 msgid "Starting puppet: "
 msgstr "A puppet indítása: "
 
-#: /etc/rc.d/init.d/cyphesis:37
-msgid "PostgreSQL server is not running."
-msgstr "A PostgreSQL kiszolgáló nem fut."
+#: /etc/rc.d/init.d/amavisd:35
+msgid "Starting ${prog_base}:"
+msgstr "A(z) ${prog_base} indítása:"
 
-#: /etc/rc.d/init.d/halt:87
+#: /etc/rc.d/init.d/halt:87 /etc/rc.d/init.d/reboot:87
 msgid "Sending all processes the TERM signal..."
 msgstr "TERM szignál küldése az összes folyamatnak..."
 
@@ -643,15 +624,15 @@ msgstr "xenstored szolgáltatás indítása: "
 msgid "Starting ${ifprog}: "
 msgstr "A(z) ${ifprog} indítása: "
 
-#: /etc/rc.d/init.d/sqlgrey:25
-msgid "Shutting down SQLgrey: "
-msgstr "A SQLgrey leállítása: "
+#: /etc/sysconfig/network-scripts/ifup-aliases:192
+msgid "error in $FILE: didn't specify device or ipaddr"
+msgstr "Hiba a(z) $FILE fájlban: nincs megadva eszköz vagy IP-cím"
 
 #: /etc/rc.d/init.d/ups:53
 msgid "Starting UPS monitor (master): "
 msgstr "Az UPS figyelő indítása (master): "
 
-#: /etc/rc.d/init.d/vprocunhide:53
+#: /etc/rc.d/init.d/vprocunhide:63
 msgid "/proc entries are not fixed"
 msgstr "/proc bejegyzések nincsenek kész"
 
@@ -675,6 +656,15 @@ msgstr "A named indítása: "
 #: /etc/rc.d/init.d/nfs:133
 msgid "Shutting down NFS daemon: "
 msgstr "Az NFS szolgáltatás leállítása: "
+
+#: /etc/rc.d/init.d/cups:140
+#, fuzzy
+msgid ""
+"Usage: $prog {start|stop|restart|restartlog|condrestart|try-restart|reload|"
+"force-reload|status}"
+msgstr ""
+"Használat: $0 {start|stop|restart|condrestart|try-restart|reload|force-"
+"reload|status}"
 
 #: /etc/rc.d/init.d/ctdb:280
 #, fuzzy
@@ -710,11 +700,11 @@ msgstr "A Condor leállítása: "
 msgid "Flushing all chains:"
 msgstr "Minden lánc kiürítése:"
 
-#: /etc/rc.d/init.d/mysqld:58
+#: /etc/rc.d/init.d/mysqld:83
 msgid "Initializing MySQL database: "
 msgstr "A MySQL adatbázis inicializálása: "
 
-#: /etc/rc.d/init.d/ip6tables:179
+#: /etc/rc.d/init.d/ip6tables:183
 msgid "${IP6TABLES}: ${_IPV} is disabled."
 msgstr "${IP6TABLES}: ${_IPV} letiltva."
 
@@ -726,13 +716,12 @@ msgstr "Az incrond indítása: "
 msgid "Starting capi4linux:"
 msgstr "A capi4linux indítása:"
 
-#: /etc/rc.d/init.d/aiccu:117 /etc/rc.d/init.d/exim:124
 #: /etc/rc.d/init.d/nmb:110 /etc/rc.d/init.d/smb:110
 #: /etc/rc.d/init.d/winbind:98
 msgid "Usage: $0 {start|stop|restart|reload|status|condrestart}"
 msgstr "Használat: $0 {start|stop|restart|reload|status|condrestart}"
 
-#: /etc/rc.d/init.d/halt:23
+#: /etc/rc.d/init.d/halt:23 /etc/rc.d/init.d/reboot:23
 msgid "Stopping disk encryption for $dst"
 msgstr "Lemeztitkosítás leállítása ($dst)"
 
@@ -744,13 +733,9 @@ msgstr "A(z) rfcomm leállítása: "
 msgid "Detaching loopback device $dev: "
 msgstr "A(z) $dev visszacsatolási eszköz leválasztása: "
 
-#: /etc/rc.d/init.d/spamass-milter:109 /etc/rc.d/init.d/vsftpd:98
+#: /etc/rc.d/init.d/spamass-milter:113 /etc/rc.d/init.d/vsftpd:102
 msgid "Usage: $0 {start|stop|restart|try-restart|force-reload|status}"
 msgstr "Használat: $0 {start|stop|restart|try-restart|force-reload|status}"
-
-#: /etc/sysconfig/network-scripts/ifup-ipx:7
-msgid "usage: $0 <net-device>"
-msgstr "használat: $0 <hálózati eszköz>"
 
 #: /etc/rc.d/init.d/greylistd:35
 msgid "Shutting down greylistd: "
@@ -760,12 +745,11 @@ msgstr "A greylistd leállítása: "
 msgid "Stopping OpenSCADA daemon: "
 msgstr "Az OpenSCADA szolgáltatás leállítása: "
 
-#: /etc/rc.d/init.d/perlbal:29
+#: /etc/rc.d/init.d/perlbal:28
 msgid "Stopping Perlbal: "
 msgstr "A Perlbal leállítása: "
 
-#: /etc/rc.d/init.d/dkms_autoinstaller:206 /etc/rc.d/init.d/firstboot:41
-#: /etc/rc.d/init.d/sandbox:57
+#: /etc/rc.d/init.d/firstboot:41
 msgid "Usage: $0 {start|stop}"
 msgstr "Használat: $0 {start|stop}"
 
@@ -779,19 +763,19 @@ msgstr "A(z) $desc ($prog) indítása: "
 msgid "Stopping Shorewall: "
 msgstr "A Shorewall leállítása: "
 
-#: /etc/rc.d/init.d/iptables:131
+#: /etc/rc.d/init.d/iptables:135
 msgid "${IPTABLES}: Setting chains to policy $policy: "
 msgstr "${IPTABLES}: Láncok beállítása a(z) $policy házirendre: "
 
-#: /etc/rc.d/init.d/fsniper:49 /etc/rc.d/init.d/radvd:75
+#: /etc/rc.d/init.d/fsniper:49 /etc/rc.d/init.d/radvd:76
 msgid "Reloading $PROG: "
 msgstr "$PROG újratöltése: "
 
-#: /etc/rc.d/init.d/microcode_ctl:36
-msgid "$0: CPU microcode data file not present ($DATAFILE)"
-msgstr "$0: a mikrokód-adatfájl nem található ($DATAFILE)"
+#: /etc/rc.d/init.d/yum-updatesd:42
+msgid "Stopping yum-updatesd: "
+msgstr "A yum-updatesd leállítása: "
 
-#: /etc/sysconfig/network-scripts/ifup:81
+#: /etc/sysconfig/network-scripts/ifup:86
 msgid "PHYSDEV should be set for device ${DEVICE}"
 msgstr "PHYSDEV beállítandó ehhez az eszközhöz: ${DEVICE}"
 
@@ -815,11 +799,11 @@ msgstr "A ctdbd szolgáltatás ellenőrzése: "
 msgid "restarting $prog..."
 msgstr "A(z) $prog újraindítása..."
 
-#: /etc/rc.d/init.d/psacct:26
+#: /etc/rc.d/init.d/psacct:31
 msgid "Starting process accounting: "
 msgstr "A process accounting elindítása: "
 
-#: /etc/rc.d/init.d/zarafa-server:130
+#: /etc/rc.d/init.d/zarafa-server:144
 #, fuzzy
 msgid ""
 "Usage: $server {start|stop|status|reload|restart|condrestart|force-reload|"
@@ -845,9 +829,9 @@ msgstr "adatbázis ellenőrzés"
 msgid "Restarting Video Disk Recorder ($prog): "
 msgstr "A videólemez-felvevő ($prog) újraindítása: "
 
-#: /etc/rc.d/init.d/cfenvd:27
-msgid "Starting GNU cfengine environmental history daemon: "
-msgstr "A GNU Cfengine környezeti előzmény-szolgáltatás indítása: "
+#: /etc/rc.d/init.d/ip6tables:250
+msgid "${IP6TABLES}: Saving firewall rules to $IP6TABLES_DATA: "
+msgstr "${IP6TABLES}: Tűzfalszabályok mentése ide: $IP6TABLES_DATA: "
 
 #: /etc/rc.d/init.d/glacier2router:71 /etc/rc.d/init.d/icegridnode:72
 #: /etc/rc.d/init.d/icegridregistry:72
@@ -867,7 +851,7 @@ msgstr ""
 msgid "(no mouse is configured)"
 msgstr "(nincs egér beállítva)"
 
-#: /etc/rc.d/rc.sysinit:83
+#: /etc/rc.d/rc.sysinit:75
 msgid "*** Relabeling could take a very long time, depending on file"
 msgstr "*** Az újracímkézés sok időt vehet igénybe - a fájltól függően"
 
@@ -875,12 +859,17 @@ msgstr "*** Az újracímkézés sok időt vehet igénybe - a fájltól függően
 msgid "Starting $prog2: "
 msgstr "A(z) $prog2 indítása: "
 
+#: /etc/rc.d/init.d/ktune:116
+#, fuzzy
+msgid "Applying sysctl settings from $SYSCTL_POST"
+msgstr "A sysctl beállítások alkalmazása innen $SYSCTL_POST: "
+
 #: /etc/rc.d/init.d/pgpool:134
 msgid "Sending switchover request to $NAME "
 msgstr "Átváltás kérés küldése ennek: $NAME "
 
-#: /etc/rc.d/init.d/gkrellmd:70 /etc/rc.d/init.d/gpsd:85
-#: /etc/rc.d/init.d/hddtemp:86 /etc/rc.d/init.d/vdr:96
+#: /etc/rc.d/init.d/gkrellmd:70 /etc/rc.d/init.d/hddtemp:86
+#: /etc/rc.d/init.d/vdr:96
 msgid "Service $prog does not support the reload action: "
 msgstr "A(z) $prog szolgáltatás nem támogatja az újratöltést: "
 
@@ -889,12 +878,12 @@ msgstr "A(z) $prog szolgáltatás nem támogatja az újratöltést: "
 msgid "Reloading Red Hat Network Daemon: "
 msgstr "A xend újratöltése: "
 
-#: /etc/sysconfig/network-scripts/ifup-ppp:142
-msgid "pppd started for ${DEVNAME} on ${MODEMPORT} at ${LINESPEED}"
-msgstr ""
-"A pppd elindult (${DEVNAME}, port: ${MODEMPORT}, sebesség: ${LINESPEED})"
+#: /etc/rc.d/init.d/mldonkey:40
+#, fuzzy
+msgid "already started"
+msgstr "A(z) $prog már nem fut."
 
-#: /etc/rc.d/init.d/dcbd:251 /etc/rc.d/init.d/dcbd:255
+#: /etc/rc.d/init.d/lldpad:242 /etc/rc.d/init.d/lldpad:246
 msgid "Usage: $0 {start|stop|status|try-restart|restart|force-reload|reload}"
 msgstr ""
 "Használat: $0  {start|stop|status|try-restart|restart|force-reload|reload}"
@@ -903,19 +892,18 @@ msgstr ""
 msgid "reloading sm-client: "
 msgstr "A sm-client újraindítása: "
 
-#: /etc/rc.d/init.d/crossfire:98 /etc/rc.d/init.d/ctrlproxy:108
-#: /etc/rc.d/init.d/ddclient:77 /etc/rc.d/init.d/distccd:108
-#: /etc/rc.d/init.d/flow-capture:109 /etc/rc.d/init.d/gnokii-smsd:73
-#: /etc/rc.d/init.d/haproxy:107 /etc/rc.d/init.d/hostapd:86
-#: /etc/rc.d/init.d/iceccd:126 /etc/rc.d/init.d/icecc-scheduler:110
-#: /etc/rc.d/init.d/liquidwar-server:93 /etc/rc.d/init.d/lirc:131
-#: /etc/rc.d/init.d/named:264 /etc/rc.d/init.d/nessusd:86
-#: /etc/rc.d/init.d/openct:87 /etc/rc.d/init.d/pathfinderd:105
+#: /etc/rc.d/init.d/crossfire:98 /etc/rc.d/init.d/flow-capture:109
+#: /etc/rc.d/init.d/gnokii-smsd:73 /etc/rc.d/init.d/haproxy:107
+#: /etc/rc.d/init.d/hostapd:86 /etc/rc.d/init.d/iceccd:126
+#: /etc/rc.d/init.d/icecc-scheduler:110 /etc/rc.d/init.d/liquidwar-server:93
+#: /etc/rc.d/init.d/lirc:131 /etc/rc.d/init.d/named:264
+#: /etc/rc.d/init.d/nessusd:86 /etc/rc.d/init.d/pathfinderd:105
 #: /etc/rc.d/init.d/pcscd:82 /etc/rc.d/init.d/plague-builder:98
-#: /etc/rc.d/init.d/plague-server:99 /etc/rc.d/init.d/radvd:88
+#: /etc/rc.d/init.d/plague-server:99 /etc/rc.d/init.d/radvd:89
 #: /etc/rc.d/init.d/rinetd:81 /etc/rc.d/init.d/sgemaster:386
-#: /etc/rc.d/init.d/tetrinetx:100 /etc/rc.d/init.d/wesnothd:104
-#: /etc/rc.d/init.d/wpa_supplicant:87 /etc/rc.d/init.d/xpilot-ng-server:100
+#: /etc/rc.d/init.d/spectrum:124 /etc/rc.d/init.d/tetrinetx:100
+#: /etc/rc.d/init.d/wesnothd:104 /etc/rc.d/init.d/wpa_supplicant:87
+#: /etc/rc.d/init.d/xpilot-ng-server:100
 msgid "Usage: $0 {start|stop|status|restart|try-restart|reload|force-reload}"
 msgstr ""
 "Használat: $0 {start|stop|status|restart|try-restart|reload|force-reload}"
@@ -924,7 +912,7 @@ msgstr ""
 msgid "\t-R \t\t: recursively dependency checking"
 msgstr "\t-R \t\t: rekurzív függőségvizsgálat"
 
-#: /etc/rc.d/init.d/avahi-daemon:35
+#: /etc/rc.d/init.d/avahi-daemon:52
 msgid "Starting Avahi daemon... "
 msgstr "Az Avahi szolgáltatás indítása... "
 
@@ -936,12 +924,12 @@ msgstr "A megadott '$addr' cím nem egy érvényes IPv4-cím (arg 1)"
 msgid "Stopping Pound: "
 msgstr "A Pound leállítása: "
 
-#: /etc/rc.d/init.d/zarafa-ical:54
+#: /etc/rc.d/init.d/zarafa-ical:62
 #, fuzzy
 msgid "Stopping $ical: "
 msgstr "A(z) $name leállítása: "
 
-#: /etc/rc.d/init.d/netfs:122
+#: /etc/rc.d/init.d/netfs:127
 msgid "Configured NFS mountpoints: "
 msgstr "Beállított NFS csatlakozási pontok: "
 
@@ -949,7 +937,7 @@ msgstr "Beállított NFS csatlakozási pontok: "
 msgid "Starting Pound: "
 msgstr "A Pound indítása: "
 
-#: /etc/rc.d/init.d/halt:137
+#: /etc/rc.d/init.d/halt:137 /etc/rc.d/init.d/reboot:137
 msgid "Unmounting pipe file systems: "
 msgstr "A cső-alapú fájlrendszerek leválasztása: "
 
@@ -977,6 +965,14 @@ msgstr "feldolgozási hiba"
 msgid "Starting $ID: "
 msgstr "A(z) $ID indítása: "
 
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:1057
+msgid "No parameters given to setup a default route"
+msgstr "Nincs megadva paraméter egy alapértelmezett útválasztás beállításához"
+
+#: /etc/rc.d/init.d/vncserver:66
+msgid "vncserver start"
+msgstr "A VNC szerver elindítása"
+
 #: /etc/sysconfig/network-scripts/ifup-aliases:340
 msgid "error in $FILE: IPADDR_START and IPADDR_END don't agree"
 msgstr "hiba: $FILE: az IPADDR_START és az IPADDR_END nem illik össze"
@@ -989,15 +985,9 @@ msgstr "Használat: nfs {start|stop|status|restart|reload|condrestart|condstop}"
 msgid "Usage: sys-unconfig"
 msgstr "Használat: sys-unconfig"
 
-#: /etc/rc.d/init.d/netfs:150
+#: /etc/rc.d/init.d/netfs:155
 msgid "Active network block devices: "
 msgstr "Aktív hálózati blokkeszközök: "
-
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:1051
-msgid "Given IPv6 default device '$device' doesn't exist or isn't up"
-msgstr ""
-"A megadott IPv6-os alapértelmezett eszköz ('$device') nem létezik vagy nem "
-"aktív"
 
 #: /etc/sysconfig/network-scripts/ifup-ppp:59
 msgid "adsl-start does not exist or is not executable for ${DEVICE}"
@@ -1011,32 +1001,23 @@ msgstr "A(z) $prog leállítása"
 msgid "Starting system logger: "
 msgstr "A rendszernaplózó indítása: "
 
-#: /etc/rc.d/init.d/tofmipd:88
-msgid "Usage: $progname {start|stop|restart|condrestart|status}"
-msgstr "Használat: $progname {start|stop|restart|condrestart|status}"
-
 #: /etc/rc.d/init.d/vblade:29
 msgid "$4 (e$2.$3@$1) [pid $pid]"
 msgstr "$4 (e$2.$3@$1) [pid $pid]"
 
-#: /etc/rc.d/init.d/pkcsslotd:51
+#: /etc/rc.d/init.d/pkcsslotd:39
 msgid "Shutting down pkcsslotd:"
 msgstr "A pkcsslotd leállítása: "
 
-#: /etc/rc.d/init.d/cachefilesd:82
+#: /etc/rc.d/init.d/cachefilesd:88
 msgid "Usage: $0 {start|stop|restart|condstart|condrestart|status}"
 msgstr "Használat: $0 {start|stop|restart|condstart|condrestart|status}"
-
-#: /etc/sysconfig/network-scripts/ifup-aliases:259
-#: /etc/sysconfig/network-scripts/ifup-aliases:270
-msgid "error in ifcfg-${parent_device}: files"
-msgstr "hiba itt: ifcfg-${parent_device} (fájlok)"
 
 #: /etc/rc.d/init.d/honeyd:94
 msgid "Reloading $prog2: "
 msgstr "A(z) $prog2 újratöltése: "
 
-#: /etc/rc.d/init.d/chronyd:158
+#: /etc/rc.d/init.d/chronyd:172
 msgid ""
 "Usage: $0 {start|stop|status|restart|condrestart|try-restart|reload|force-"
 "reload|cyclelogs|online|offline|command}"
@@ -1058,7 +1039,7 @@ msgid "not reloading due to configuration syntax error"
 msgstr "a beállítás szintaktikai hibája miatt nem végezhető el az újratöltés"
 
 #: /etc/rc.d/init.d/ncidd:83 /etc/rc.d/init.d/ncid-hangup:88
-#: /etc/rc.d/init.d/ncid-kpopup:89 /etc/rc.d/init.d/ncid-mythtv:89
+#: /etc/rc.d/init.d/ncid-initmodem:88 /etc/rc.d/init.d/ncid-mythtv:89
 #: /etc/rc.d/init.d/ncid-page:90 /etc/rc.d/init.d/ncid-samba:89
 #: /etc/rc.d/init.d/ncidsip:87 /etc/rc.d/init.d/ncid-speak:89
 #: /etc/rc.d/init.d/ncid-yac:75 /etc/rc.d/init.d/sip2ncid:84
@@ -1075,17 +1056,18 @@ msgstr "Naplózás folytatása: "
 msgid "Failed to stop \"$s\". "
 msgstr "A(z) \"$s\" leállítása sikertelen."
 
-#: /etc/rc.d/init.d/network:259
+#: /etc/rc.d/init.d/libvirt-guests:244
+#, fuzzy
+msgid "no running guests."
+msgstr "Minden futó vendég leállítása"
+
+#: /etc/rc.d/init.d/network:253
 msgid "Shutting down loopback interface: "
 msgstr "A visszacsatolási eszköz leállítása: "
 
 #: /etc/rc.d/init.d/icecast:30
 msgid "Starting icecast streaming daemon: "
 msgstr "Az Icecast műsorszórás (streaming) indítása: "
-
-#: /etc/rc.d/init.d/certmaster:91
-msgid "Stopping certmaster daemon: "
-msgstr "A certmaster leállítása: "
 
 #: /etc/rc.d/init.d/gkrellmd:41
 msgid "Stopping GNU Krell Monitors server ($prog): "
@@ -1104,7 +1086,7 @@ msgstr "Használat: $0 {start|stop|restart|reload|status}"
 msgid "Starting kernel logger: "
 msgstr "A kernelnaplózó indítása: "
 
-#: /etc/rc.d/init.d/transmission-daemon:64
+#: /etc/rc.d/init.d/transmission-daemon:65
 #, fuzzy
 msgid "Shutting down ${NAME}: "
 msgstr "A(z) $NAME leállítása: "
@@ -1118,7 +1100,8 @@ msgstr "Használat: $0 {start|stop|restart|status|condrestart}"
 msgid "Telling INIT to go to single user mode."
 msgstr "Továbbítás az INIT-nek: váltás egyfelhasználós módba."
 
-#: /etc/rc.d/init.d/sagator:43
+#: /etc/rc.d/init.d/ipmi_port:50 /etc/rc.d/init.d/ipmiutil_asy:41
+#: /etc/rc.d/init.d/ipmiutil_evt:45 /etc/rc.d/init.d/sagator:43
 msgid "Starting $name: "
 msgstr "A(z) $name indítása: "
 
@@ -1131,9 +1114,13 @@ msgstr "A függőségek feloldása nem sikerült"
 msgid "Usage: ifup <device name>"
 msgstr "Használat: ifup <eszköznév>"
 
-#: /etc/rc.d/init.d/util-vserver:83
+#: /etc/rc.d/init.d/util-vserver:93
 msgid "Mounting cgroup-hierarchy"
 msgstr ""
+
+#: /etc/sysconfig/network-scripts/ifup-aliases:128
+msgid "Missing config file $PARENTCONFIG."
+msgstr "Hiányzó konfigurációs fájl: $PARENTCONFIG."
 
 #: /etc/rc.d/init.d/ebtables:149
 msgid "Usage $0 {start|stop|restart|condrestart|save|status}"
@@ -1143,12 +1130,12 @@ msgstr "Használat: $0 {start|stop|restart|condrestart|save|status}"
 msgid "Starting PC/SC smart card daemon ($prog): "
 msgstr "A PC/SC chipkártya-szolgáltatás ($prog) indítása: "
 
-#: /etc/rc.d/init.d/ip6tables:351
+#: /etc/rc.d/init.d/ip6tables:355
 msgid "Usage: ${IP6TABLES} {start|stop|restart|condrestart|status|panic|save}"
 msgstr ""
 "Használat: ${IP6TABLES} {start|stop|restart|condrestart|status|panic|save}"
 
-#: /etc/rc.d/rc.sysinit:404
+#: /etc/rc.d/rc.sysinit:230
 msgid "*** Warning -- the system did not shut down cleanly. "
 msgstr "*** Figyelmeztetés: a rendszer nem megfelelő módon állt le. "
 
@@ -1160,7 +1147,7 @@ msgstr "A(z) $prog megállítása ehhez: $file: "
 msgid "Shutting down $NAME: "
 msgstr "A(z) $NAME leállítása: "
 
-#: /etc/rc.d/init.d/radvd:39
+#: /etc/rc.d/init.d/radvd:40
 msgid "Configuration file /etc/radvd.conf missing"
 msgstr "A /etc/radvd.conf konfigurációs fájl hiányzik"
 
@@ -1173,9 +1160,16 @@ msgstr "A hurok (loop) fájlrendszerek leválasztása (új próbálkozás):"
 msgid "usage: ifdown <device name>"
 msgstr "használat: ifdown <eszköznév>"
 
-#: /etc/rc.d/init.d/smokeping:40
-msgid "Stopping smokeping: "
-msgstr "A smokeping leállítása: "
+#: /etc/rc.d/init.d/sblim-sfcb:77
+#, fuzzy
+msgid "sfcb is not running"
+msgstr "A(z) $prog nem fut"
+
+#: /etc/rc.d/init.d/arptables_jf:192
+#, fuzzy
+msgid ""
+"Usage: $0 {start|stop|restart|try-restart|force-reload|status|panic|save}"
+msgstr "Használat: $0 {start|stop|restart|try-restart|force-reload|status}"
 
 #: /etc/rc.d/init.d/ctdb:172
 msgid "CTDB is already running"
@@ -1185,9 +1179,9 @@ msgstr "A CTDB már fut"
 msgid "Error occured while calculating the IPv6to4 prefix"
 msgstr "Hiba lépett fel az IPv6to4-előtag kiszámításakor"
 
-#: /etc/rc.d/init.d/openvpn:125
-msgid "Starting openvpn: "
-msgstr "Az openvpn indítása: "
+#: /etc/rc.d/init.d/fetch-crl-boot:57
+msgid "fetch-crl-boot lockfile present"
+msgstr ""
 
 #: /etc/rc.d/init.d/postfix:100
 msgid "$prog reload"
@@ -1197,7 +1191,7 @@ msgstr "A(z) $prog újratöltése"
 msgid "Stopping MogileFS tracker daemon: "
 msgstr "A MogileFS követő leállítása: "
 
-#: /etc/rc.d/rc.sysinit:84
+#: /etc/rc.d/rc.sysinit:76
 msgid "*** system size and speed of hard drives."
 msgstr "*** méretétől és a merevlemezek sebességétől."
 
@@ -1223,33 +1217,39 @@ msgstr "\"$s\" futtatása nem sikerült. ($ret)"
 msgid "RSA key generation"
 msgstr "RSA kulcs létrehozása"
 
-#: /etc/rc.d/init.d/zvbid:32
-msgid "Stopping vbi proxy daemon: "
-msgstr "A VBI proxy szolgáltatás leállítása: "
+#: /etc/rc.d/init.d/xttpd:36
+msgid "PORT environment is not set."
+msgstr "A PORT környezet nincs beállítva."
 
 #: /etc/rc.d/init.d/pure-ftpd:81
 msgid "Usage: pure-ftpd {start|stop|restart|reload|condrestart|status}"
 msgstr "Használat: pure-ftpd {start|stop|restart|reload|condrestart|status}"
 
-#: /etc/rc.d/init.d/util-vserver:97
+#: /etc/rc.d/init.d/util-vserver:107
 msgid "Killing all running contexts"
 msgstr "Minden futó környezet leállítása"
 
-#: /etc/rc.d/init.d/halt:128
+#: /etc/rc.d/init.d/halt:128 /etc/rc.d/init.d/reboot:128
 msgid "Turning off quotas: "
 msgstr "Kvóták kikapcsolása: "
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:1167
-msgid "Pidfile '$pidfile' is empty, cannot send trigger to radvd"
-msgstr "A(z) '$pidfile' PID-fájl üres, nem lehet értesíteni a radvd-t"
-
-#: /etc/rc.d/init.d/iptables:183
+#: /etc/rc.d/init.d/iptables:187
 msgid "${IPTABLES}: Applying firewall rules: "
 msgstr "${IPTABLES}: A tűzfalszabályok alkalmazása: "
 
-#: /etc/rc.d/init.d/named:122
-msgid "named: already running"
-msgstr "named: már fut."
+#: /etc/rc.d/init.d/lldpad:163
+#, fuzzy
+msgid "Shutting down $LLDPAD: "
+msgstr "A(z) $DCBD leállítása: "
+
+#: /etc/rc.d/init.d/ksmtuned:84
+#, fuzzy
+msgid ""
+"Usage: $prog {start|stop|restart|force-reload|condrestart|try-restart|status|"
+"retune|help}"
+msgstr ""
+"Használat: $0 {start|stop|restart|reload|force-reload|condrestart|try-"
+"restart|status}"
 
 #: /etc/rc.d/init.d/netfs:40
 msgid "Mounting NFS filesystems: "
@@ -1259,7 +1259,7 @@ msgstr "Az NFS -fájlrendszerek csatolása: "
 msgid "Starting NetworkManager daemon: "
 msgstr "A NetworkManager szolgáltatás indítása: "
 
-#: /etc/rc.d/init.d/ospf6d:67 /etc/rc.d/init.d/ospfd:67
+#: /etc/rc.d/init.d/ospf6d:68 /etc/rc.d/init.d/ospfd:68
 #, fuzzy
 msgid ""
 "Usage: $PROG {start|stop|restart|reload|force-reload|try-restart|status}"
@@ -1271,8 +1271,8 @@ msgstr ""
 msgid "Stopping Frozen Bubble server(s): "
 msgstr "A Frozen Bubble kiszolgáló(k) leállítása: "
 
-#: /etc/rc.d/init.d/rebootmgr:11 /etc/rc.d/init.d/util-vserver:10
-#: /etc/rc.d/init.d/vprocunhide:10 /etc/rc.d/init.d/vservers-legacy:8
+#: /etc/rc.d/init.d/rebootmgr:11 /etc/rc.d/init.d/util-vserver:20
+#: /etc/rc.d/init.d/vprocunhide:20 /etc/rc.d/init.d/vservers-legacy:8
 msgid ""
 "Can not find util-vserver installation (the file '$UTIL_VSERVER_VARS' would "
 "be expected); aborting..."
@@ -1301,11 +1301,19 @@ msgstr "Hiba lépett fel az IPv6to4 előtag kiszámításakor"
 msgid "Saving current rules to $ARPTABLES_CONFIG"
 msgstr "A jelenlegi szabályok mentése ide: $ARPTABLES_CONFIG"
 
+#: /etc/rc.d/init.d/gpm:131 /etc/rc.d/init.d/libvirtd:112
+#, fuzzy
+msgid ""
+"Usage: $0 {start|stop|status|restart|condrestart|reload|force-reload|try-"
+"restart}"
+msgstr ""
+"Használat: $0 {start|stop|status|restart|reload|force-reload|try-restart}"
+
 #: /etc/rc.d/init.d/firehol:5604 /etc/rc.d/init.d/firehol:5627
 msgid "FireHOL: Blocking all communications:"
 msgstr ""
 
-#: /etc/rc.d/init.d/zarafa-monitor:69
+#: /etc/rc.d/init.d/zarafa-monitor:77
 #, fuzzy
 msgid "Restarting $monitor: "
 msgstr "A(z) $prog újraindítása: "
@@ -1314,21 +1322,21 @@ msgstr "A(z) $prog újraindítása: "
 msgid "$named reload"
 msgstr "A(z) $named újratöltése"
 
-#: /etc/rc.d/init.d/maradns-zoneserver:69
-msgid "Starting all MaraDNS-Zoneserver processes: "
-msgstr "Az összes MaraDNS-Zoneserver folyamat indítása: "
+#: /etc/rc.d/init.d/monotone:192 /etc/rc.d/init.d/monotone:193
+msgid "move passphrase file"
+msgstr "jelszófájl áthelyezése"
 
 #: /etc/rc.d/rc:42
 msgid "Entering non-interactive startup"
 msgstr "Nem-interaktív indítás megkezdése"
 
-#: /etc/rc.d/init.d/network:88
-msgid "No 802.1Q VLAN support available in kernel."
-msgstr "Nincs 802.1Q VLAN támogatás a kernelben."
+#: /etc/rc.d/init.d/vdr:42
+msgid "Error: no valid $cfg found."
+msgstr "Hiba: nem található érvényes $cfg."
 
-#: /etc/rc.d/init.d/snake-server:32
-msgid "Starting snake-server:"
-msgstr "A snake kiszolgáló indítása: "
+#: /etc/rc.d/rc.sysinit:50
+msgid "*** Warning -- SELinux is active"
+msgstr "*** Figyelmeztetés -- a SELinux aktív"
 
 #: /etc/sysconfig/network-scripts/ifup-aliases:67
 msgid "usage: ifup-aliases <net-device> [<parent-config>]\n"
@@ -1337,6 +1345,11 @@ msgstr "Használat: ifup-aliases <hálózati eszköz> [<szülőbeállítás>]\n"
 #: /etc/rc.d/init.d/xenconsoled:83
 msgid "Reloading xenconsoled daemon: "
 msgstr "A xenconsoled újratöltése: "
+
+#: /etc/rc.d/init.d/functions:433
+#, fuzzy
+msgid "${base} status unknown due to insufficient privileges."
+msgstr "$0: hiba: nem elegendő jogosultság"
 
 #: /etc/rc.d/init.d/bttrack:33
 msgid "Starting BitTorrent tracker: "
@@ -1350,15 +1363,15 @@ msgstr "HIBA: [ipv6_log] Nem lehet bejelentkezni a(z) '$channel' csatornára"
 msgid "Stopping $master_prog: "
 msgstr "A(z) $master_prog leállítása: "
 
-#: /etc/rc.d/init.d/abrtd:53
+#: /etc/rc.d/init.d/abrtd:61
 msgid "Stopping abrt daemon: "
 msgstr "Az abrt szolgáltatás leállítása: "
 
-#: /etc/rc.d/init.d/kadmin:77 /etc/rc.d/init.d/krb5kdc:62
+#: /etc/rc.d/init.d/kadmin:79 /etc/rc.d/init.d/krb5kdc:64
 msgid "Reopening $prog log file: "
 msgstr "A(z) $prog naplófájljának újranyitása: "
 
-#: /etc/rc.d/init.d/iptables:351
+#: /etc/rc.d/init.d/iptables:355
 msgid "Usage: ${IPTABLES} {start|stop|restart|condrestart|status|panic|save}"
 msgstr ""
 "Használat: ${IPTABLES} {start|stop|restart|condrestart|status|panic|save}"
@@ -1387,11 +1400,7 @@ msgstr "Az upsdrvctl leállítása: "
 msgid "Invalid tunnel type $TYPE"
 msgstr "Érvénytelen alagúttípus: $TYPE"
 
-#: /etc/rc.d/init.d/zabbix-agent:30
-msgid "Starting ZABBIX agent: "
-msgstr "A ZABBIX ügynök indítása: "
-
-#: /etc/rc.d/init.d/halt:183
+#: /etc/rc.d/init.d/halt:183 /etc/rc.d/init.d/reboot:183
 msgid "$message"
 msgstr "$message"
 
@@ -1399,31 +1408,24 @@ msgstr "$message"
 msgid "Stopping INNFeed service: "
 msgstr "Az INNFeed szolgáltatás leállítása: "
 
-#: /etc/sysconfig/network-scripts/ifup-eth:48
+#: /etc/sysconfig/network-scripts/ifup-eth:43
+#: /etc/sysconfig/network-scripts/ifup-ib:42
 msgid "Device ${DEVICE} has different MAC address than expected, ignoring."
 msgstr ""
 "A(z) ${DEVICE} eszköznek a várttól eltérő a MAC-címe, ezért az figyelmen "
 "kívül lesz hagyva."
 
-#: /etc/rc.d/init.d/psacct:59
+#: /etc/rc.d/init.d/psacct:64
 msgid "Process accounting is enabled."
 msgstr "A process accounting engedélyezve."
 
-#: /etc/rc.d/init.d/cups:140
-#, fuzzy
-msgid ""
-"Usage: $prog {start|stop|restart|condrestart|try-restart|reload|force-reload|"
-"status}"
-msgstr ""
-"Használat: $0 {start|stop|restart|condrestart|try-restart|reload|force-"
-"reload|status}"
-
-#: /etc/sysconfig/network-scripts/ifup-eth:192
+#: /etc/sysconfig/network-scripts/ifup-eth:189
+#: /etc/sysconfig/network-scripts/ifup-ib:177
 msgid "Determining IP information for ${DEVICE}..."
 msgstr "Az IP-információk meghatározása ${DEVICE} számára..."
 
-#: /etc/rc.d/init.d/pgbouncer:83 /etc/rc.d/init.d/pgpool:119
-#: /etc/rc.d/init.d/postgresql:200 /etc/rc.d/init.d/sepostgresql:98
+#: /etc/rc.d/init.d/pgbouncer:86 /etc/rc.d/init.d/pgpool:119
+#: /etc/rc.d/init.d/postgresql:132 /etc/rc.d/init.d/sepostgresql:94
 msgid "Stopping ${NAME} service: "
 msgstr "A(z) ${NAME} szolgáltatás leállítása: "
 
@@ -1435,18 +1437,15 @@ msgstr "A xenner szolgáltatás leállítása: "
 msgid "Moving"
 msgstr "Mozgatás"
 
-#: /etc/rc.d/init.d/systemtap:500 /etc/rc.d/init.d/systemtap:591
-msgid "Failed to make cache directory ($CACHE_PATH)"
-msgstr "A gyorsítótár könyvtárának létrehozása nem sikerült ($CACHE_PATH)"
+#: /etc/rc.d/init.d/libvirt-guests:148
+msgid "Resuming guests on $uri URI..."
+msgstr ""
 
 #: /etc/rc.d/init.d/xenconsoled:58
 msgid "Starting xenconsoled daemon: "
 msgstr "A xenconsoled szolgáltatás indítása: "
 
-#: /etc/rc.d/init.d/avahi-daemon:43 /etc/rc.d/init.d/avahi-daemon:45
-#: /etc/rc.d/init.d/avahi-dnsconfd:40 /etc/rc.d/init.d/avahi-dnsconfd:42
-#: /etc/rc.d/init.d/avahi-dnsconfd:62 /etc/rc.d/init.d/functions:266
-#: /etc/rc.d/init.d/greylistd:28
+#: /etc/rc.d/init.d/functions:267 /etc/rc.d/init.d/greylistd:28
 msgid "$base startup"
 msgstr "A(z) $base indítása"
 
@@ -1454,7 +1453,7 @@ msgstr "A(z) $base indítása"
 msgid "RSA1 key generation"
 msgstr "RSA1 kulcs létrehozása"
 
-#: /etc/rc.d/init.d/iptables:179
+#: /etc/rc.d/init.d/iptables:183
 msgid "${IPTABLES}: ${_IPV} is disabled."
 msgstr "${IPTABLES}: ${_IPV} tiltva."
 
@@ -1462,9 +1461,10 @@ msgstr "${IPTABLES}: ${_IPV} tiltva."
 msgid "failed to clean cache $s.ko"
 msgstr "a gyorsítótár kiürítése nem sikerült $s.ko"
 
-#: /etc/rc.d/init.d/cyphesis:90
-msgid "Starting cyphesis: "
-msgstr "A cyphesis indítása: "
+#: /etc/rc.d/init.d/zarafa-ical:49
+#, fuzzy
+msgid "Starting $ical: "
+msgstr "A(z) $name indítása: "
 
 #: /etc/rc.d/init.d/isdn:246
 msgid "$0: Link is down"
@@ -1475,19 +1475,15 @@ msgstr "$0: Nincs kapcsolat"
 msgid "ktune settings are not applied."
 msgstr "a ktune beállítások nincsenek alkalmazva"
 
-#: /etc/rc.d/init.d/psacct:61
+#: /etc/rc.d/init.d/psacct:66
 msgid "Process accounting is disabled."
 msgstr "A process accounting letiltva."
-
-#: /etc/rc.d/init.d/ircd:88 /etc/rc.d/init.d/ratbox-services:79
-msgid "Usage: $0 {start|stop|restart|condrestart|reload|rehash|status}"
-msgstr "Használat: $0 {start|stop|restart|condrestart|reload|rehash|status}"
 
 #: /etc/rc.d/init.d/firstboot:47
 msgid "ERROR: Only root can run firstboot"
 msgstr ""
 
-#: /etc/rc.d/init.d/ejabberd:31
+#: /etc/rc.d/init.d/ejabberd:34
 msgid "Starting ejabberd: "
 msgstr "Az ejabberd indítása: "
 
@@ -1495,15 +1491,8 @@ msgstr "Az ejabberd indítása: "
 msgid "$0: configuration for ${1} not found."
 msgstr "$0: a(z) ${1} konfigurációja nem található."
 
-#: /etc/rc.d/rc.sysinit:193
-msgid "$dst: no value for hash option, skipping"
-msgstr "$dst: nincs érték a hash opcióhoz - kihagyás"
-
-#: /etc/rc.d/init.d/syslog-ng:54
-msgid "Starting syslog-ng: "
-msgstr "A syslog-ng indítása: "
-
-#: /etc/rc.d/init.d/auditd:104 /etc/rc.d/init.d/xinetd:102
+#: /etc/rc.d/init.d/auditd:104 /etc/rc.d/init.d/suricata:76
+#: /etc/rc.d/init.d/xinetd:102
 msgid "Reloading configuration: "
 msgstr "Konfiguráció újratöltése: "
 
@@ -1516,7 +1505,7 @@ msgstr "CRASH fájlt találtam, a szolgáltatás nem indult el"
 msgid "Preparing $PROG certificat: "
 msgstr "A(z) $PROG kulcs előkészítése: "
 
-#: /etc/rc.d/init.d/netfs:126
+#: /etc/rc.d/init.d/netfs:131
 msgid "Configured CIFS mountpoints: "
 msgstr "Beállított CIFS csatlakozási pontok: "
 
@@ -1529,17 +1518,17 @@ msgstr "A(z) $prog leállítása: "
 msgid "Please run makehistory and/or makedbz before starting innd."
 msgstr "Indítsa el a makehistory-t és/vagy a makedbz-t az innd indítása előtt."
 
-#: /etc/rc.d/init.d/privoxy:87
-msgid "Stopping $PRIVOXY_PRG: "
-msgstr "A(z) $PRIVOXY_PRG leállítása: "
-
-#: /etc/rc.d/rc.sysinit:688
+#: /etc/rc.d/rc.sysinit:514
 msgid "Enabling local filesystem quotas: "
 msgstr "Helyi fájlrendszerkvóták engedélyezése: "
 
-#: /etc/rc.d/init.d/netfs:146
+#: /etc/rc.d/init.d/netfs:151
 msgid "Active NCP mountpoints: "
 msgstr "Aktív NCP csatolási pontok: "
+
+#: /etc/rc.d/init.d/fetch-crl-cron:27
+msgid "Disabling periodic fetch-crl: "
+msgstr ""
 
 #: /etc/rc.d/init.d/openscadad:90
 msgid "Usage: $0 {start|stop|restart|condstop|condrestart|status}"
@@ -1553,7 +1542,7 @@ msgstr "Az exim leállítása: "
 msgid "$0: error: program not installed"
 msgstr "$0: hiba: a program nincs telepítve"
 
-#: /etc/rc.d/init.d/iptables:220
+#: /etc/rc.d/init.d/iptables:224
 msgid "${IPTABLES}: Unloading modules: "
 msgstr "${IPTABLES}: Modulok eltávolítása: "
 
@@ -1561,21 +1550,30 @@ msgstr "${IPTABLES}: Modulok eltávolítása: "
 msgid "Stopping pdns-recursor: "
 msgstr "A pdns-recursor leállítása: "
 
-#: /etc/rc.d/init.d/qpidd:74
+#: /etc/rc.d/init.d/ypbind:75 /etc/rc.d/init.d/ypbind:76
+msgid "domain not found"
+msgstr "A domain nem található"
+
+#: /etc/rc.d/init.d/qpidd:89
 msgid "$0: reload not supported"
 msgstr "$0: Az újratöltés nem támogatott"
 
-#: /etc/rc.d/init.d/ksm:67
+#: /etc/rc.d/init.d/ksm:64
 #, fuzzy
 msgid "$prog is not running"
 msgstr "A(z) $prog nem fut"
+
+#: /etc/rc.d/init.d/sblim-sfcb:67
+#, fuzzy
+msgid "sfcb ($pid) is running"
+msgstr "($pid) fut..."
 
 #: /etc/rc.d/init.d/named:178
 msgid "Stopping named: "
 msgstr "A named leállítása: "
 
 #: /etc/rc.d/init.d/atd:50 /etc/rc.d/init.d/chunkd:47 /etc/rc.d/init.d/cld:48
-#: /etc/rc.d/init.d/crond:60 /etc/rc.d/init.d/dropbear:82
+#: /etc/rc.d/init.d/crond:64 /etc/rc.d/init.d/dropbear:82
 #: /etc/rc.d/init.d/globus-rls-server:41 /etc/rc.d/init.d/iscsi:74
 #: /etc/rc.d/init.d/iscsi:79 /etc/rc.d/init.d/speech-dispatcherd:32
 #: /etc/rc.d/init.d/sshd:146 /etc/rc.d/init.d/tabled:48
@@ -1586,7 +1584,7 @@ msgstr "A(z) $prog leállítása"
 msgid "Starting $prog for $ez_name: "
 msgstr "A(z) $prog indítása ($ez_name): "
 
-#: /etc/rc.d/init.d/functions:544
+#: /etc/rc.d/init.d/functions:554
 msgid "yY"
 msgstr "iI"
 
@@ -1598,9 +1596,9 @@ msgstr "A puppet újraindítása: "
 msgid "Unregistering binary handler for qemu applications"
 msgstr "A bejegyzett Qemu-alkalmazások kezelőjének eltávolítása"
 
-#: /etc/rc.d/init.d/avahi-daemon:88
-msgid "Avahi daemon is not running"
-msgstr "Az Avahi szolgáltatás nem fut"
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:681
+msgid "Missing parameter 'local IPv4 address' (arg 2)"
+msgstr "Hiányzó paraméter: 'helyi IPv4-cím' (arg 2)"
 
 #: /etc/rc.d/init.d/firehol:273 /etc/rc.d/init.d/firehol:277
 #: /etc/rc.d/init.d/firehol:279
@@ -1612,27 +1610,34 @@ msgstr "A Shorewall újraindítása: "
 msgid "Shutting down NFS quotas: "
 msgstr "Az NFS-kvóták leállítása: "
 
-#: /etc/rc.d/init.d/functions:188 /etc/rc.d/init.d/functions:224
+#: /etc/rc.d/init.d/functions:189 /etc/rc.d/init.d/functions:225
 msgid "$0: Usage: daemon [+/-nicelevel] {program}"
 msgstr "$0: Használat: daemon [+/-nicelevel] {program}"
 
-#: /etc/rc.d/init.d/functions:432
+#: /etc/rc.d/init.d/functions:442
 msgid "${base} dead but subsys locked"
 msgstr "A(z) ${base} nem fut, de az alrendszer zárolva"
 
-#: /etc/rc.d/init.d/zabbix-agent:70 /etc/rc.d/init.d/zabbix-proxy:76
-#: /etc/rc.d/init.d/zabbix-server:75
-msgid "Service ${0##*/} does not support the reload action: "
-msgstr "A(z) ${0##*/} szolgáltatás nem támogatja az újratöltést: "
+#: /etc/rc.d/init.d/ipmi:546
+#, fuzzy
+msgid "          restart|condrestart|try-restart|reload|force-reload"
+msgstr ""
+"Használat: $0 {start|stop|status|restart|condrestart|try-restart|reload|"
+"force-reload}"
 
-#: /etc/rc.d/init.d/ibmasm:21 /etc/rc.d/init.d/mcstrans:47
-#: /etc/rc.d/init.d/watchdog:28
+#: /etc/rc.d/init.d/mcstrans:47 /etc/rc.d/init.d/watchdog:28
 msgid "$prog: already running"
 msgstr "$prog: már fut"
 
-#: /etc/rc.d/init.d/rstatd:37
-msgid "Starting rstat services: "
-msgstr "A rstat szolgáltatások indítása: "
+#: /etc/rc.d/init.d/libvirt-guests:151
+#, fuzzy
+msgid "Resuming guest $name: "
+msgstr "Naplózás folytatása: "
+
+#: /etc/rc.d/init.d/sblim-sfcb:71
+#, fuzzy
+msgid "sfcb is not running, but pid file exists"
+msgstr "A CIM kiszolgáló nem fut"
 
 #: /etc/rc.d/init.d/tgtd:93
 #, fuzzy
@@ -1643,46 +1648,54 @@ msgstr "A(z) $prog leállítása: "
 msgid "Reloading ${prog} config file: "
 msgstr "A(z) ${prog} beállításainak újratöltése: "
 
-#: /etc/rc.d/init.d/atd:108 /etc/rc.d/init.d/auth2:92
+#: /etc/rc.d/init.d/amd:129 /etc/rc.d/init.d/atd:108 /etc/rc.d/init.d/auth2:92
 #: /etc/rc.d/init.d/autogroup:111 /etc/rc.d/init.d/autohome:109
-#: /etc/rc.d/init.d/beanstalkd:131 /etc/rc.d/init.d/boa:107
+#: /etc/rc.d/init.d/beanstalkd:132 /etc/rc.d/init.d/boa:107
 #: /etc/rc.d/init.d/boinc-client:188 /etc/rc.d/init.d/bro:184
 #: /etc/rc.d/init.d/certmonger:89 /etc/rc.d/init.d/chunkd:105
 #: /etc/rc.d/init.d/clamav-milter:90 /etc/rc.d/init.d/cld:106
-#: /etc/rc.d/init.d/coda-client:86 /etc/rc.d/init.d/codasrv:93
-#: /etc/rc.d/init.d/collectl:99 /etc/rc.d/init.d/couchdb:104
-#: /etc/rc.d/init.d/crond:126 /etc/rc.d/init.d/fcron_watch_config:99
+#: /etc/rc.d/init.d/clvmd:208 /etc/rc.d/init.d/coda-client:86
+#: /etc/rc.d/init.d/codasrv:93 /etc/rc.d/init.d/collectl:99
+#: /etc/rc.d/init.d/couchdb:112 /etc/rc.d/init.d/crond:130
+#: /etc/rc.d/init.d/dmapd:88 /etc/rc.d/init.d/fcron_watch_config:99
 #: /etc/rc.d/init.d/fence_virtd:109 /etc/rc.d/init.d/fsniper:94
-#: /etc/rc.d/init.d/glusterfsd:103 /etc/rc.d/init.d/gmediaserver:121
-#: /etc/rc.d/init.d/imapproxy:101 /etc/rc.d/init.d/keepalived:106
+#: /etc/rc.d/init.d/gmediaserver:121 /etc/rc.d/init.d/imapproxy:101
+#: /etc/rc.d/init.d/ipmi_port:177 /etc/rc.d/init.d/ipmiutil_asy:148
+#: /etc/rc.d/init.d/ipmiutil_evt:152 /etc/rc.d/init.d/keepalived:106
 #: /etc/rc.d/init.d/kojid:81 /etc/rc.d/init.d/kojira:81
 #: /etc/rc.d/init.d/lighttpd:110 /etc/rc.d/init.d/miredo-client:115
 #: /etc/rc.d/init.d/miredo-server:117 /etc/rc.d/init.d/mrepo:94
-#: /etc/rc.d/init.d/netplugd:112 /etc/rc.d/init.d/noip:102
+#: /etc/rc.d/init.d/mysqld:205 /etc/rc.d/init.d/netplugd:112
+#: /etc/rc.d/init.d/netsniff-ng:108 /etc/rc.d/init.d/noip:102
 #: /etc/rc.d/init.d/npcd:100 /etc/rc.d/init.d/nslcd:79
 #: /etc/rc.d/init.d/nuauth:133 /etc/rc.d/init.d/nufw:129
 #: /etc/rc.d/init.d/nxtvepgd:101 /etc/rc.d/init.d/oidentd:107
-#: /etc/rc.d/init.d/openhpi-subagent:97 /etc/rc.d/init.d/poker-bot:102
-#: /etc/rc.d/init.d/poker-server:105 /etc/rc.d/init.d/popfile:148
-#: /etc/rc.d/init.d/postgrey:109 /etc/rc.d/init.d/radiusd:110
-#: /etc/rc.d/init.d/saslauthd:106 /etc/rc.d/init.d/searchd:103
-#: /etc/rc.d/init.d/sigul_bridge:67 /etc/rc.d/init.d/sigul_server:68
-#: /etc/rc.d/init.d/spampd:105 /etc/rc.d/init.d/speech-dispatcherd:90
-#: /etc/rc.d/init.d/sssd:117 /etc/rc.d/init.d/tabled:106
-#: /etc/rc.d/init.d/thttpd:103 /etc/rc.d/init.d/tinyproxy:102
-#: /etc/rc.d/init.d/tokyotyrant:99 /etc/rc.d/init.d/trytond:113
-#: /etc/rc.d/init.d/tuned:80 /etc/rc.d/init.d/unbound:130
-#: /etc/rc.d/init.d/update:127 /etc/rc.d/init.d/uuidd:104
-#: /etc/rc.d/init.d/vhostmd:115 /etc/rc.d/init.d/vtund:107
+#: /etc/rc.d/init.d/openhpid:109 /etc/rc.d/init.d/openhpi-subagent:99
+#: /etc/rc.d/init.d/poker-bot:102 /etc/rc.d/init.d/poker-server:105
+#: /etc/rc.d/init.d/popfile:148 /etc/rc.d/init.d/postgrey:109
+#: /etc/rc.d/init.d/radiusd:110 /etc/rc.d/init.d/saslauthd:107
+#: /etc/rc.d/init.d/searchd:103 /etc/rc.d/init.d/sigul_bridge:67
+#: /etc/rc.d/init.d/sigul_server:68 /etc/rc.d/init.d/spampd:105
+#: /etc/rc.d/init.d/speech-dispatcherd:90 /etc/rc.d/init.d/sssd:117
+#: /etc/rc.d/init.d/suricata:113 /etc/rc.d/init.d/tabled:106
+#: /etc/rc.d/init.d/tcsd:130 /etc/rc.d/init.d/thttpd:103
+#: /etc/rc.d/init.d/tinyproxy:103 /etc/rc.d/init.d/tokyotyrant:99
+#: /etc/rc.d/init.d/trytond:113 /etc/rc.d/init.d/tuned:80
+#: /etc/rc.d/init.d/unbound:130 /etc/rc.d/init.d/update:127
+#: /etc/rc.d/init.d/uuidd:114 /etc/rc.d/init.d/vtund:107
 #: /etc/rc.d/init.d/xrdp:140 /etc/rc.d/init.d/ypbind:176
 #: /etc/rc.d/init.d/yppasswdd:91 /etc/rc.d/init.d/ypserv:88
-#: /etc/rc.d/init.d/ypxfrd:78 /etc/rc.d/init.d/zfs-fuse:228
+#: /etc/rc.d/init.d/ypxfrd:78 /etc/rc.d/init.d/zfs-fuse:230
 msgid ""
 "Usage: $0 {start|stop|status|restart|condrestart|try-restart|reload|force-"
 "reload}"
 msgstr ""
 "Használat: $0 {start|stop|status|restart|condrestart|try-restart|reload|"
 "force-reload}"
+
+#: /etc/rc.d/init.d/smokeping:40
+msgid "Stopping smokeping: "
+msgstr "A smokeping leállítása: "
 
 #: /etc/rc.d/init.d/vncserver:63
 msgid "vncserver startup"
@@ -1692,13 +1705,24 @@ msgstr "A VNC szerver indítása"
 msgid "Generating unbound control key and certificate: "
 msgstr "Kötetlen vezérlőkulcs és tanusítvány készítése: "
 
+#: /etc/sysconfig/network-scripts/ifup-ppp:77
+msgid ""
+"/etc/sysconfig/network-scripts/chat-${DEVNAME} does not exist for ${DEVICE}"
+msgstr ""
+"Az /etc/sysconfig/network-scripts/chat-${DEVNAME} nem létezik ennél: "
+"${DEVICE}"
+
 #: /etc/sysconfig/network-scripts/init.ipv6-global:158
 msgid "Usage: $0 {start|stop|reload|restart|showsysctl}"
 msgstr "Használat: $0 {start|stop|reload|restart|showsysctl}"
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:128
-msgid "Missing config file $PARENTCONFIG."
-msgstr "Hiányzó konfigurációs fájl: $PARENTCONFIG."
+#: /etc/rc.d/init.d/zarafa-indexer:108
+#, fuzzy
+msgid ""
+"Usage: $indexer {start|stop|status|reload|restart|condrestart|force-reload|"
+"try-restart}"
+msgstr ""
+"Használat: $0 {start|stop|status|restart|reload|force-reload|try-restart}"
 
 #: /etc/rc.d/init.d/ushare:76
 msgid "Usage: $prog {start|stop|restart|condrestart|reload|status"
@@ -1719,16 +1743,9 @@ msgstr ""
 msgid "$base dead but subsys locked"
 msgstr "A(z) $base nem fut, de az alrendszer zárolva"
 
-#: /etc/sysconfig/network-scripts/ifup-sit:71
-msgid "Device '$DEVICE' is already up, please shutdown first"
-msgstr "A(z) $DEVICE eszköz már aktív, kapcsolja le először"
-
-#: /etc/rc.d/init.d/dbmail-imapd:85 /etc/rc.d/init.d/dbmail-lmtpd:86
-#: /etc/rc.d/init.d/dbmail-pop3d:86 /etc/rc.d/init.d/dbmail-timsieved:87
-#: /etc/rc.d/init.d/mailgraph:91 /etc/rc.d/init.d/ntop:90
-#: /etc/rc.d/init.d/ris-linuxd:102 /etc/rc.d/init.d/sip-redirect:73
-msgid "Usage: $prog {start|stop|restart|condrestart|reload|status}"
-msgstr "Használat: $prog {start|stop|restart|condrestart|reload|status}"
+#: /etc/rc.d/init.d/argus:38
+msgid "Shutting down argus: "
+msgstr "Az argus leállítása: "
 
 #: /etc/rc.d/init.d/cgred:87
 msgid "Stopping CGroup Rules Engine Daemon..."
@@ -1738,13 +1755,9 @@ msgstr "A CGroup Rules Engine leállítása: "
 msgid "Stopping HAL daemon: "
 msgstr "A HAL szolgáltatás leállítása: "
 
-#: /etc/rc.d/init.d/firstboot:52
-msgid "ERROR: Program /usr/sbin/firstboot is not installed"
-msgstr ""
-
-#: /etc/rc.d/init.d/avahi-daemon:88
-msgid "Avahi daemon is running"
-msgstr "Az Avahi szolgáltatás jelenleg fut"
+#: /etc/rc.d/init.d/asterisk:80
+msgid "Starting asterisk: "
+msgstr "Az asterisk indítása: "
 
 #: /etc/rc.d/init.d/vnstat:90
 #, fuzzy
@@ -1753,7 +1766,7 @@ msgstr ""
 "Használat: $0 {start|stop|reload|force-reload|report|restart|try-restart|"
 "status}"
 
-#: /etc/rc.d/rc.sysinit:69
+#: /etc/rc.d/rc.sysinit:68
 msgid "*** problems. Dropping you to a shell; the system will reboot"
 msgstr "*** problémákat. Ön egy parancsértelmezőbe kerül. A rendszer újraindul"
 
@@ -1769,33 +1782,32 @@ msgstr "A RPC gssd indítása: "
 msgid "reload"
 msgstr "újratöltés"
 
-#: /etc/rc.d/init.d/mldonkey:32
+#: /etc/rc.d/init.d/fetch-crl-boot:60
+msgid "fetch-crl-boot lockfile not-present"
+msgstr ""
+
+#: /etc/rc.d/init.d/mldonkey:38
 msgid "Starting Mldonkey (mlnet): "
 msgstr "A Mldonkey (mlnet) indítása: "
 
-#: /etc/rc.d/init.d/netfs:58 /etc/rc.d/rc.sysinit:379
+#: /etc/rc.d/init.d/netfs:58 /etc/rc.d/rc.sysinit:205
 msgid "Setting up Logical Volume Management:"
 msgstr "A Logical Volume Management (logikai kötetkezelés) beállítása: "
-
-#: /etc/rc.d/init.d/uuidd:46
-msgid "Stopping uuidd: "
-msgstr "Az uuidd leállítása: "
 
 #: /etc/rc.d/init.d/ladvd:47
 msgid "Starting ladvd: "
 msgstr "A ladvd indítása: "
 
-#: /etc/sysconfig/network-scripts/ifup:115
-#: /etc/sysconfig/network-scripts/ifup:116
+#: /etc/sysconfig/network-scripts/ifup:119
+#: /etc/sysconfig/network-scripts/ifup:120
 msgid "ERROR: could not add vlan ${VID} as ${DEVICE} on dev ${PHYSDEV}"
 msgstr ""
 "HIBA: nem sikerült a(z) ${VID} vlan-t hozzáadni, mint ${DEVICE}-t a(z) "
 "${PHYSDEV} eszközhöz"
 
-#: /etc/rc.d/init.d/zarafa-server:97
-#, fuzzy
-msgid "Restarting $server: "
-msgstr "A(z) $prog újraindítása: "
+#: /etc/rc.d/init.d/openvpn:125
+msgid "Starting openvpn: "
+msgstr "Az openvpn indítása: "
 
 #: /etc/rc.d/init.d/mailman:168
 #, fuzzy
@@ -1822,17 +1834,17 @@ msgstr "Már van regisztrált bináris-kezelő a Windows alkalmazásokhoz"
 msgid "$s$pid is running..."
 msgstr "$s$pid fut..."
 
-#: /etc/rc.d/init.d/privoxy:72
-msgid "Starting $PRIVOXY_PRG: "
-msgstr "A(z) $PRIVOXY_PRG indítása: "
-
-#: /etc/rc.d/init.d/vprocunhide:23
+#: /etc/rc.d/init.d/vprocunhide:33
 msgid "Fixing /proc entries visibility"
 msgstr "/proc bejegyzések láthatóságának beállítása"
 
 #: /etc/rc.d/init.d/tor:82
 msgid "program is not running"
 msgstr "A program nem fut"
+
+#: /etc/sysconfig/network-scripts/ifup-eth:51
+msgid "Bridge support not available: brctl not found"
+msgstr "Nincs bridge-támogatás: a brctl nem található"
 
 #: /etc/rc.d/init.d/innd:89
 msgid "Stopping INN actived service: "
@@ -1842,9 +1854,9 @@ msgstr "Az INN aktivált szolgáltatás leállítása: "
 msgid "Stopping all ${MODULE_NAME} drivers: "
 msgstr "Minden ${MODULE_NAME} meghajtó leállítása: "
 
-#: /etc/rc.d/init.d/ktune:109
-msgid "$file: "
-msgstr "$file: "
+#: /etc/rc.d/init.d/ktune:209
+msgid "None"
+msgstr ""
 
 #: /etc/rc.d/init.d/tor:103
 msgid "Usage: $0 {start|stop|force-reload|reload|try-restart|status}"
@@ -1860,6 +1872,11 @@ msgstr ""
 "hiba a(z) $FILE fájlban: már létezik a(z) $parent_device:$DEVNUM eszköz "
 "ebben: $devseen"
 
+#: /etc/init/splash-manager.conf:14
+#, fuzzy
+msgid "Restarting..."
+msgstr "A(z) $prog újraindítása..."
+
 #: /etc/rc.d/init.d/sysklogd:51
 msgid "Shutting down kernel logger: "
 msgstr "A kernelnaplózó leállítása: "
@@ -1874,9 +1891,9 @@ msgstr "$BASENAME - az adatbázisok exportálása"
 msgid "CIM server is not running, but lock file exists"
 msgstr "A CIM kiszolgáló nem fut"
 
-#: /etc/rc.d/rc.sysinit:141
-msgid "Key file for $dst not found, skipping"
-msgstr "Nem található kulcsfájl ehhez: $dst - kihagyás"
+#: /etc/rc.d/init.d/qpidd:66
+msgid "Starting Qpid AMQP daemon: "
+msgstr "A Qpid AMQP szolgáltatás indítása: "
 
 #: /etc/rc.d/init.d/ups:40
 msgid "Starting UPS driver controller: "
@@ -1890,15 +1907,15 @@ msgstr "A BitTorrent seed kliens leállítása: "
 msgid "Reloading xend daemon: "
 msgstr "A xend újratöltése: "
 
-#: /etc/rc.d/init.d/halt:53
+#: /etc/rc.d/init.d/halt:53 /etc/rc.d/init.d/reboot:53
 msgid "Halting system..."
 msgstr "A rendszer leállítása..."
 
-#: /etc/rc.d/init.d/avahi-daemon:62
+#: /etc/rc.d/init.d/avahi-daemon:73
 msgid "Reloading Avahi daemon... "
 msgstr "Az Avahi szolgáltatás újratöltése... "
 
-#: /etc/rc.d/init.d/iptables:31
+#: /etc/rc.d/init.d/iptables:33
 msgid "${IPTABLES}: /sbin/$IPTABLES does not exist."
 msgstr "${IPTABLES}: A /sbin/$IPTABLES nem létezik."
 
@@ -1910,25 +1927,24 @@ msgstr "Az infravörös távirányító-szolgáltatás ($prog) indítása: "
 msgid "$prog status is unknown"
 msgstr "A(z) $prog állapota ismeretlen"
 
-#: /etc/rc.d/init.d/ip6tables:291
+#: /etc/rc.d/init.d/ypxfrd:43
+msgid "Stopping YP map server: "
+msgstr "Az YP hozzárendelési szolgáltatás leállítása: "
+
+#: /etc/rc.d/init.d/ip6tables:295
 msgid "${IP6TABLES}: Firewall is not configured. "
 msgstr "${IP6TABLES}: A tűzfal nincs beállítva. "
 
 #: /etc/rc.d/init.d/canna:89 /etc/rc.d/init.d/condor:224
 #: /etc/rc.d/init.d/fnfxd:67 /etc/rc.d/init.d/odccm:63
-#: /etc/rc.d/init.d/rbldnsd:191 /etc/rc.d/init.d/ups:137
+#: /etc/rc.d/init.d/rbldnsd:191 /etc/rc.d/init.d/ups:143
 msgid "Usage: $0 {start|stop|restart|try-restart|reload|force-reload|status}"
 msgstr ""
 "Használat: $0 {start|stop|restart|try-restart|reload|force-reload|status}"
 
-#: /etc/rc.d/init.d/rinputd:73
-#, fuzzy
-msgid "Stopping $DESC: "
-msgstr "A(z) $SERVICE leállítása: "
-
-#: /etc/rc.d/init.d/systemtap:64
-msgid "\t-r kernelrelease: specify kernel release version"
-msgstr "\t-r kernelrelease: Add meg a kernel verzióját"
+#: /etc/rc.d/init.d/smolt:68
+msgid "Monthly smolt check-in is disabled."
+msgstr "A havi Smolt jelentés tiltva van."
 
 #: /etc/rc.d/init.d/postfix:120
 msgid "$prog check"
@@ -1946,19 +1962,15 @@ msgstr ""
 msgid "Usage: status {program}"
 msgstr "Használat: status {program}"
 
-#: /etc/rc.d/init.d/amd:94
-msgid "Reloading $prog:"
-msgstr "A(z) $prog újratöltése:"
-
 #: /etc/rc.d/init.d/ypbind:91
 msgid "Binding NIS service: "
 msgstr "A NIS szolgáltatás kapcsolása: "
 
-#: /etc/sysconfig/network-scripts/ifup-eth:69
+#: /etc/sysconfig/network-scripts/ifup-eth:64
 msgid "Tap support not available: tunctl not found"
 msgstr "Nincs tap-támogatás: a tunctl nem található"
 
-#: /etc/rc.d/init.d/voms:215
+#: /etc/rc.d/init.d/voms:226
 #, fuzzy
 msgid "Usage: killproc {pids} [signal]"
 msgstr "Használat: killproc {program} [szignál]"
@@ -1968,7 +1980,7 @@ msgstr "Használat: killproc {program} [szignál]"
 msgid "Stopping Red Hat Network Daemon: "
 msgstr "A NetworkManager szolgáltatás leállítása: "
 
-#: /etc/rc.d/init.d/kdump:402
+#: /etc/rc.d/init.d/kdump:376
 msgid "Usage: $0 {start|stop|status|restart|propagate}"
 msgstr "Használat: $0 {start|stop|status|restart|propagate}"
 
@@ -1996,15 +2008,11 @@ msgstr ""
 msgid "Starting $SERVICE daemon: "
 msgstr "A(z) $SERVICE szolgáltatás indítása: "
 
-#: /etc/rc.d/init.d/amd:65
-msgid "amd shutdown"
-msgstr "Az amd leállítása"
-
 #: /etc/rc.d/init.d/blktapctrl:48
 msgid "Stoping xen blktapctrl daemon: "
 msgstr "A xen blktapctrl szolgáltatás leállítása: "
 
-#: /etc/rc.d/init.d/rusersd:53
+#: /etc/rc.d/init.d/rusersd:57
 msgid "Stopping rusers services: "
 msgstr "A rusers szolgáltatások leállítása: "
 
@@ -2035,7 +2043,7 @@ msgstr "A(z) $prog beállításainak újratöltése: "
 msgid "Starting system message bus: "
 msgstr "Rendszer üzenetbusz indítása: "
 
-#: /etc/rc.d/init.d/zarafa-gateway:69
+#: /etc/rc.d/init.d/zarafa-gateway:77
 #, fuzzy
 msgid "Restarting $gateway: "
 msgstr "A(z) $prog újraindítása: "
@@ -2069,6 +2077,12 @@ msgstr "Az elosztott fordítás szolgáltatás indítása: "
 msgid "Starting OpenSCADA daemon: "
 msgstr "Az OpenSCADA szolgáltatás indítása: "
 
+#: /etc/rc.d/init.d/libvirt-guests:157 /etc/rc.d/init.d/libvirt-guests:188
+#: /etc/rc.d/init.d/libvirt-guests:213
+#, fuzzy
+msgid "done"
+msgstr " kész."
+
 #: /etc/rc.d/init.d/clement:183
 msgid "Stopping $PROG:"
 msgstr "$PROG leállítása: "
@@ -2076,6 +2090,11 @@ msgstr "$PROG leállítása: "
 #: /etc/rc.d/init.d/supervisord:30
 msgid "Stopping supervisord: "
 msgstr "A supervisord leállítása: "
+
+#: /etc/rc.d/init.d/libvirt-guests:173
+#, fuzzy
+msgid "Suspending $name: "
+msgstr "A(z) $name leállítása: "
 
 #: /etc/rc.d/init.d/zvbid:23
 msgid "Starting vbi proxy daemon: "
@@ -2095,13 +2114,14 @@ msgid "Enabling nightly yum update: "
 msgstr "Az éjszakánkénti yum frissítés bekapcsolása: "
 
 #: /etc/rc.d/init.d/apt:75 /etc/rc.d/init.d/denyhosts:173
-#: /etc/rc.d/init.d/incrond:58 /etc/rc.d/init.d/memcached:83
-#: /etc/rc.d/init.d/mogilefsd:57 /etc/rc.d/init.d/mogstored:57
-#: /etc/rc.d/init.d/orbited:69 /etc/rc.d/init.d/pdns-recursor:58
-#: /etc/rc.d/init.d/perlbal:58 /etc/rc.d/init.d/pound:58
-#: /etc/rc.d/init.d/rwalld:90 /etc/rc.d/init.d/rwhod:90
-#: /etc/rc.d/init.d/smolt:73 /etc/rc.d/init.d/supervisord:59
-#: /etc/rc.d/init.d/yum-cron:65 /etc/rc.d/init.d/yum-updatesd:71
+#: /etc/rc.d/init.d/fetch-crl-boot:66 /etc/rc.d/init.d/fetch-crl-cron:61
+#: /etc/rc.d/init.d/incrond:58 /etc/rc.d/init.d/mogilefsd:57
+#: /etc/rc.d/init.d/mogstored:57 /etc/rc.d/init.d/orbited:69
+#: /etc/rc.d/init.d/pdns-recursor:58 /etc/rc.d/init.d/perlbal:58
+#: /etc/rc.d/init.d/pound:58 /etc/rc.d/init.d/rwalld:90
+#: /etc/rc.d/init.d/rwhod:90 /etc/rc.d/init.d/smolt:73
+#: /etc/rc.d/init.d/supervisord:59 /etc/rc.d/init.d/yum-cron:65
+#: /etc/rc.d/init.d/yum-updatesd:71
 msgid "Usage: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
 msgstr ""
 "Használat: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
@@ -2110,7 +2130,7 @@ msgstr ""
 msgid "Reloading postfix: "
 msgstr "A Postfix újratöltése: "
 
-#: /etc/rc.d/init.d/autofs:137
+#: /etc/rc.d/init.d/autofs:148
 msgid "Reloading maps"
 msgstr "A hozzárendelések újratöltése"
 
@@ -2118,11 +2138,11 @@ msgstr "A hozzárendelések újratöltése"
 msgid "Missing parameter 'IPv4 address' (arg 1)"
 msgstr "Hiányzó paraméter: 'IPv4-cím' (arg 1)"
 
-#: /etc/rc.d/init.d/zabbix-agent:40
-msgid "Shutting down ZABBIX agent: "
-msgstr "A ZABBIX ügynök leállítása: "
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:1167
+msgid "Pidfile '$pidfile' is empty, cannot send trigger to radvd"
+msgstr "A(z) '$pidfile' PID-fájl üres, nem lehet értesíteni a radvd-t"
 
-#: /etc/rc.d/init.d/openct:36
+#: /etc/rc.d/init.d/openct:38
 msgid "Initializing OpenCT smart card terminals: "
 msgstr "Az OpenCT chipkártya terminálok inicializálása: "
 
@@ -2130,11 +2150,11 @@ msgstr "Az OpenCT chipkártya terminálok inicializálása: "
 msgid "Unconfigured: $prog, see /etc/sysconfig/hddtemp: "
 msgstr "Nincs beállítva: $prog, lásd /etc/sysconfig/hddtemp: "
 
-#: /etc/rc.d/init.d/iptables:246
+#: /etc/rc.d/init.d/iptables:250
 msgid "${IPTABLES}: Saving firewall rules to $IPTABLES_DATA: "
 msgstr "${IPTABLES}: A tűzfalszabályok mentése ide: $IPTABLES_DATA: "
 
-#: /etc/rc.d/init.d/network:274
+#: /etc/rc.d/init.d/network:268
 msgid "Currently active devices:"
 msgstr "Jelenleg aktív eszközök: "
 
@@ -2150,9 +2170,13 @@ msgstr "Az elosztott fordítás-ütemező leállítása: "
 msgid "Starting Condor daemons: "
 msgstr "A Condor szolgáltatások indítása: "
 
-#: /etc/rc.d/init.d/util-vserver:124
+#: /etc/rc.d/init.d/util-vserver:134
 msgid "Path to vshelper has been set"
 msgstr "A vshelper elérési útja beállítva"
+
+#: /etc/rc.d/init.d/fetch-crl-boot:22
+msgid "Running fetch-crl on boot can take a while: "
+msgstr ""
 
 #: /etc/rc.d/init.d/wesnothd:65
 msgid "Stopping Wesnoth game server: "
@@ -2197,29 +2221,25 @@ msgstr "A(z) $prog jelenleg fut..."
 msgid "$*"
 msgstr "$*"
 
-# Puppet is controlled by a manifest, a set of
-# instructions expressed in its own
-# domain-specific declarative language.
-#: /etc/rc.d/init.d/puppetmaster:57
-msgid "Manifest does not exist: $PUPPETMASTER_MANIFEST"
-msgstr "Vezérlőfájl nem létezik: $PUPPETMASTER_MANIFEST"
+#: /etc/rc.d/init.d/lldpad:237
+#, fuzzy
+msgid "Reloading $LLDPAD is not supported: "
+msgstr "A(z) $DCBD újratöltése nem támogatott:"
 
-#: /etc/rc.d/init.d/mldonkey:64
+#: /etc/rc.d/init.d/mldonkey:91
 msgid "Mldonkey (mlnet) is stopped"
 msgstr "A Mldonkey (mlnet) leállítva"
 
-#: /etc/rc.d/init.d/bgpd:38 /etc/rc.d/init.d/cachefilesd:43
-#: /etc/rc.d/init.d/fsniper:28 /etc/rc.d/init.d/ospf6d:37
-#: /etc/rc.d/init.d/ospfd:37 /etc/rc.d/init.d/radvd:46
-#: /etc/rc.d/init.d/remotetrx:26 /etc/rc.d/init.d/ripd:37
-#: /etc/rc.d/init.d/ripngd:37 /etc/rc.d/init.d/svxlink:26
-#: /etc/rc.d/init.d/xttpd:27 /etc/rc.d/init.d/zebra:34
+#: /etc/rc.d/init.d/bgpd:39 /etc/rc.d/init.d/cachefilesd:44
+#: /etc/rc.d/init.d/fsniper:28 /etc/rc.d/init.d/ospf6d:38
+#: /etc/rc.d/init.d/ospfd:38 /etc/rc.d/init.d/radvd:47
+#: /etc/rc.d/init.d/ripd:38 /etc/rc.d/init.d/ripngd:38
+#: /etc/rc.d/init.d/xttpd:27 /etc/rc.d/init.d/zebra:35
 msgid "Starting $PROG: "
 msgstr "A(z) $PROG indítása: "
 
 #: /etc/rc.d/init.d/dc_client:74 /etc/rc.d/init.d/dc_server:70
-#: /etc/rc.d/init.d/ksm:92 /etc/rc.d/init.d/rtpproxy:96
-#: /etc/rc.d/init.d/sems:67 /etc/rc.d/init.d/ser:93
+#: /etc/rc.d/init.d/ser:93
 msgid "Usage: $prog {start|stop|restart|condrestart|status|help}"
 msgstr "Használat: $prog {start|stop|restart|condrestart|status|help}"
 
@@ -2235,7 +2255,7 @@ msgstr ""
 msgid "error in $FILE: IPADDR_START greater than IPADDR_END"
 msgstr "hiba ebben: $FILE - az IPADDR_START nagyobb mint az IPADDR_END"
 
-#: /etc/rc.d/init.d/netfs:87 /etc/rc.d/rc.sysinit:608
+#: /etc/rc.d/init.d/netfs:92 /etc/rc.d/rc.sysinit:434
 msgid "(Repair filesystem)"
 msgstr "(Fájlrendszer javítása)"
 
@@ -2267,6 +2287,10 @@ msgstr "Az auto nice szolgáltatás indítása: "
 msgid "Checking database format in"
 msgstr "Adatbázis formátumának ellenőrzése"
 
+#: /etc/rc.d/init.d/libvirt-guests:254
+msgid "Suspending guests on $uri URI..."
+msgstr ""
+
 #: /etc/rc.d/init.d/hostapd:37
 #, fuzzy
 msgid "Starting $prog: $conf"
@@ -2284,7 +2308,7 @@ msgstr "Új mester $prog indítása: "
 msgid "VNC server"
 msgstr "VNC-kiszolgáló"
 
-#: /etc/rc.d/init.d/sshd:233 /etc/rc.d/init.d/tcsd:107
+#: /etc/rc.d/init.d/sshd:233
 msgid ""
 "Usage: $0 {start|stop|restart|reload|force-reload|condrestart|try-restart|"
 "status}"
@@ -2300,13 +2324,9 @@ msgstr "Lehetőségek:"
 msgid "packet import"
 msgstr "csomag importálás"
 
-#: /etc/rc.d/init.d/avahi-dnsconfd:85
-msgid "Avahi DNS daemon is not running"
-msgstr "Az Avahi DNS-szolgáltatás nem fut"
-
-#: /etc/rc.d/init.d/cyphesis:106
-msgid "Populating cyphesis world: "
-msgstr "A cyphesis világának feltöltése: "
+#: /etc/rc.d/init.d/ktune:109
+msgid "$file: "
+msgstr "$file: "
 
 #: /etc/rc.d/init.d/monotone:156
 msgid "To lose old key remove file"
@@ -2316,11 +2336,11 @@ msgstr "A régi kulcs eldobásához törölje a fájlt"
 msgid "program is dead and /var/run pid file exists"
 msgstr "A program nem fut, de létezik PID-fájl a /var/run helyen"
 
-#: /etc/rc.d/init.d/iscsid:65 /etc/rc.d/init.d/iscsid:66
+#: /etc/rc.d/init.d/iscsid:87 /etc/rc.d/init.d/iscsid:88
 msgid "Not stopping $prog: iscsi sessions still active"
 msgstr "A(z) $prog nem állítható le: még van aktív iscsi munkafolyamat"
 
-#: /etc/rc.d/rc.sysinit:67
+#: /etc/rc.d/rc.sysinit:66
 msgid "*** Warning -- SELinux ${SELINUXTYPE} policy relabel is required. "
 msgstr ""
 "*** Figyelmeztetés: SELinux ${SELINUXTYPE} szabályzat-újracímkézés "
@@ -2347,6 +2367,15 @@ msgstr "A BitTorrent seed kliens indítása: "
 msgid "Shutting down pand: "
 msgstr "A pand leállítása: "
 
+#: /etc/rc.d/init.d/ksm:98
+#, fuzzy
+msgid ""
+"Usage: $prog {start|stop|restart|force-reload|condrestart|try-restart|status|"
+"help}"
+msgstr ""
+"Használat: $0 {start|stop|restart|reload|force-reload|condrestart|try-"
+"restart|status}"
+
 #: /etc/rc.d/init.d/ajaxterm:71 /etc/rc.d/init.d/qemu:98
 msgid "Usage: $prog {start|stop|status|restart|condrestart}"
 msgstr "Használat: $prog {start|stop|status|restart|condrestart}"
@@ -2356,7 +2385,7 @@ msgid "Missing parameter 'address' (arg 1)"
 msgstr "Hiányzó paraméter: 'cím' (arg 1)"
 
 #: /etc/rc.d/init.d/cmirrord:102 /etc/rc.d/init.d/kannel:118
-#: /etc/rc.d/init.d/olpc-configure:389
+#: /etc/rc.d/init.d/olpc-configure:431
 msgid "Usage: $0 {start|stop|restart|status}"
 msgstr "Használat: $0 {start|stop|restart|status}"
 
@@ -2368,7 +2397,7 @@ msgstr "Az INND szolgáltatás leállítása (kényszerítés nélkül): "
 msgid "Stopping RPC idmapd: "
 msgstr "A RPC idmapd leállítása: "
 
-#: /etc/rc.d/init.d/slapd:143 /etc/rc.d/init.d/slapd:153
+#: /etc/rc.d/init.d/slapd:143 /etc/rc.d/init.d/slapd:161
 msgid "$file is not readable by \"$user\""
 msgstr "A $file fájlt \"$user\" felhasználó nem olvashatja"
 
@@ -2376,10 +2405,10 @@ msgstr "A $file fájlt \"$user\" felhasználó nem olvashatja"
 msgid "Stopping distributed compiler scheduler: "
 msgstr "Az elosztott fordítás-ütemező leállítása: "
 
-#: /etc/rc.d/init.d/avahi-daemon:55 /etc/rc.d/init.d/avahi-dnsconfd:52
-#: /etc/rc.d/init.d/functions:318 /etc/rc.d/init.d/functions:334
-#: /etc/rc.d/init.d/tclhttpd:116 /etc/rc.d/init.d/tclhttpd:127
-#: /etc/rc.d/init.d/voms:248 /etc/rc.d/init.d/voms:259
+#: /etc/rc.d/init.d/functions:303 /etc/rc.d/init.d/functions:324
+#: /etc/rc.d/init.d/functions:340 /etc/rc.d/init.d/tclhttpd:116
+#: /etc/rc.d/init.d/tclhttpd:127 /etc/rc.d/init.d/voms:259
+#: /etc/rc.d/init.d/voms:270
 msgid "$base shutdown"
 msgstr "A(z) $base leállítása"
 
@@ -2387,7 +2416,7 @@ msgstr "A(z) $base leállítása"
 msgid "Stopping $prog2: "
 msgstr "A(z) $prog2 leállítása: "
 
-#: /etc/rc.d/init.d/postgresql:165
+#: /etc/rc.d/init.d/postgresql:99
 msgid "An old version of the database format was found."
 msgstr "A rendszer régi verziójú adatbázisformátumot talált."
 
@@ -2403,15 +2432,22 @@ msgstr "Használat: $prog {start|stop|restart|reload|condrestart|status|help}"
 msgid "netconsole module not loaded"
 msgstr "A netconsole modul nincs betöltve"
 
-#: /etc/rc.d/init.d/qpidd:66
+#: /etc/rc.d/init.d/qpidd:81
 msgid "Stopping Qpid AMQP daemon: "
 msgstr "A Qpid AMQP szolgáltatás leállítása: "
+
+# Puppet is controlled by a manifest, a set of
+# instructions expressed in its own
+# domain-specific declarative language.
+#: /etc/rc.d/init.d/puppetmaster:57
+msgid "Manifest does not exist: $PUPPETMASTER_MANIFEST"
+msgstr "Vezérlőfájl nem létezik: $PUPPETMASTER_MANIFEST"
 
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:113
 msgid "ERROR    "
 msgstr "HIBA     "
 
-#: /etc/rc.d/init.d/ip6tables:31
+#: /etc/rc.d/init.d/ip6tables:33
 msgid "${IP6TABLES}: /sbin/$IP6TABLES does not exist."
 msgstr "${IP6TABLES}: Az /sbin/$IP6TABLES nem létezik."
 
@@ -2437,13 +2473,9 @@ msgstr "Nincs megadva az ok az radvd-s értesítéshez"
 msgid "Nightly apt update is disabled."
 msgstr "Az Apt programmal végzett éjszakánkénti frissítés kikapcsolva."
 
-#: /etc/rc.d/init.d/openct:46
+#: /etc/rc.d/init.d/openct:47
 msgid "Stopping OpenCT smart card terminals: "
 msgstr "Az OpenCT chipkártya terminál leállítása: "
-
-#: /etc/rc.d/init.d/funcd:77
-msgid "Starting func daemon: "
-msgstr "A func szolgáltatás indítása: "
 
 #: /etc/rc.d/init.d/arptables_jf:90
 msgid "Applying arptables firewall rules: "
@@ -2458,7 +2490,7 @@ msgstr "kulcs létrehozása"
 msgid "Device '$DEVICE' isn't supported as a valid GRE device name."
 msgstr "A(z) \"$DEVICE\" eszköz nem használható érvényes GRE eszköznévként."
 
-#: /etc/rc.d/init.d/amtu:82 /etc/rc.d/init.d/microcode_ctl:77
+#: /etc/rc.d/init.d/amtu:82 /etc/rc.d/init.d/oscap-scan:83
 msgid "Usage: $0 {start|stop|restart}"
 msgstr "Használat: $0 {start|stop|restart}"
 
@@ -2472,48 +2504,36 @@ msgstr ""
 "Használat: $0 {start|stop|restart|reload|force-reload|condrestart|try-"
 "restart|status}"
 
-#: /etc/rc.d/init.d/util-vserver:102
+#: /etc/rc.d/init.d/util-vserver:112
 #, fuzzy
 msgid "Unmounting cgroup-hierarchy"
 msgstr "$mountpoint leválasztása: "
-
-#: /etc/rc.d/init.d/zarafa-dagent:107
-#, fuzzy
-msgid ""
-"Usage: $dagent {start|stop|status|reload|restart|condrestart|force-reload|"
-"try-restart}"
-msgstr ""
-"Használat: $0 {start|stop|status|restart|reload|force-reload|try-restart}"
 
 #: /etc/rc.d/init.d/rwhod:39
 msgid "Starting rwho services: "
 msgstr "A rwho szolgáltatások indítása: "
 
-#: /etc/rc.d/init.d/acpid:60
+#: /etc/rc.d/init.d/acpid:57
 msgid "Stopping acpi daemon: "
 msgstr "Az acpi szolgáltatás leállítása: "
+
+#: /etc/rc.d/init.d/postgresql:174 /etc/rc.d/init.d/sepostgresql:144
+msgid "Initializing database: "
+msgstr "Adatbázis inicializálása: "
 
 #: /etc/rc.d/init.d/functions:123
 msgid "Unmounting loopback filesystems: "
 msgstr "Hurok (loop)-fájlrendszerek leválasztása: "
 
-#: /etc/rc.d/init.d/ipmi:548
+#: /etc/rc.d/init.d/ipmi:549
 msgid "          stop-all|status-all}"
 msgstr "          stop-all|status-all}"
 
-#: /etc/rc.d/init.d/ip6tables:98
+#: /etc/rc.d/init.d/ip6tables:102
 msgid "${IP6TABLES}: Flushing firewall rules: "
 msgstr "${IP6TABLES}: A tűzfalszabályok kiürítése: "
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:1008
-msgid ""
-"Given IPv6 default gateway '$address' is link-local, but no scope or gateway "
-"device is specified"
-msgstr ""
-"A megadott IPv6-os alapértelmezett átjáró ('$address') link-local típusú, de "
-"nincs megadva scope vagy átjáró"
-
-#: /etc/rc.d/init.d/util-vserver:79
+#: /etc/rc.d/init.d/util-vserver:89
 msgid "Loading default device map"
 msgstr "Az alapértelmezett eszköz-hozzárendelés betöltése"
 
@@ -2521,9 +2541,9 @@ msgstr "Az alapértelmezett eszköz-hozzárendelés betöltése"
 msgid "$prog dead but pid file exists"
 msgstr "A(z) $prog leállt, de létezik PID-fájl"
 
-#: /etc/rc.d/init.d/tclhttpd:60
-msgid "$base is stopped"
-msgstr "A(z) $base le van állítva"
+#: /etc/sysconfig/network-scripts/ifup-sit:71
+msgid "Device '$DEVICE' is already up, please shutdown first"
+msgstr "A(z) $DEVICE eszköz már aktív, kapcsolja le először"
 
 #: /etc/rc.d/init.d/dund:36
 msgid "Shutting down dund: "
@@ -2534,11 +2554,16 @@ msgstr "A dund leállítása: "
 msgid "Restarting Shorewall: "
 msgstr "A Shorewall újraindítása: "
 
+#: /etc/init/splash-manager.conf:12
+#, fuzzy
+msgid "Shutting down..."
+msgstr "A(z) $prog leállítása"
+
 #: /etc/rc.d/init.d/gpm:91
 msgid "Shutting down console mouse services: "
 msgstr "Konzolos egérszolgáltatások leállítása: "
 
-#: /etc/rc.d/init.d/util-vserver:127
+#: /etc/rc.d/init.d/util-vserver:137
 msgid "Path to vshelper has not been set"
 msgstr "A vshelper elérési útját nem sikerült beállítani"
 
@@ -2571,7 +2596,7 @@ msgstr "Az NFS statd leállítása: "
 msgid "Generating RSA key for server $MONOTONE_KEYID"
 msgstr "RSA kulcs létrehozása a(z) $MONOTONE_KEYID kiszolgáló számára"
 
-#: /etc/rc.d/init.d/spamass-milter:53
+#: /etc/rc.d/init.d/spamass-milter:57
 msgid "Starting ${desc} (${prog}): "
 msgstr "A(z) ${desc} (${prog}) indítása: "
 
@@ -2579,29 +2604,36 @@ msgstr "A(z) ${desc} (${prog}) indítása: "
 msgid "CIM server ($pid) is running"
 msgstr "A CIM kiszolgáló ($pid) fut"
 
-#: /etc/rc.d/init.d/cobblerd:73
-msgid "Stopping cobbler daemon: "
-msgstr "A cobbler szolgáltatás leállítása: "
+#: /etc/rc.d/init.d/iscsi:56 /etc/rc.d/init.d/iscsi:61
+#: /etc/rc.d/init.d/isdn:178 /etc/rc.d/init.d/isdn:181
+#: /etc/rc.d/init.d/speech-dispatcherd:23
+msgid "Starting $prog"
+msgstr "A(z) $prog indítása"
 
 #: /etc/rc.d/init.d/pdns-recursor:21
 msgid "Starting pdns-recursor: "
 msgstr "A pdns-recursor indítása: "
 
-#: /etc/rc.d/init.d/bgpd:68 /etc/rc.d/init.d/ripd:67
-#: /etc/rc.d/init.d/ripngd:67 /etc/rc.d/init.d/zebra:67
+#: /etc/rc.d/init.d/postgresql:240
+#, fuzzy
+msgid ""
+"Usage: $0 {start|stop|status|restart|condrestart|try-restart|reload|force-"
+"reload|initdb}"
+msgstr ""
+"Használat: $0 {start|stop|status|restart|condrestart|try-restart|reload|"
+"force-reload}"
+
+#: /etc/rc.d/init.d/bgpd:69 /etc/rc.d/init.d/ripd:68
+#: /etc/rc.d/init.d/ripngd:68 /etc/rc.d/init.d/zebra:68
 #, fuzzy
 msgid "Usage: $0 {start|stop|restart|reload|force-reload|try-restart|status}"
 msgstr ""
 "Használat: $0 {start|stop|restart|reload|force-reload|condrestart|try-"
 "restart|status}"
 
-#: /etc/rc.d/init.d/crossfire:31
-msgid "Starting Crossfire game server: "
-msgstr "A Crossfire játékkiszolgáló indítása: "
-
-#: /etc/rc.d/init.d/zabbix-server:45
-msgid "Shutting down ZABBIX server: "
-msgstr "A ZABBIX kiszolgáló leállítása: "
+#: /etc/rc.d/init.d/denyhosts:108
+msgid "Stopping denyhosts: "
+msgstr "A denyhosts leállítása: "
 
 #: /etc/rc.d/init.d/wine:37
 msgid "Unregistering binary handler for Windows applications: "
@@ -2611,9 +2643,9 @@ msgstr "A bejegyzett Windows alkalmazáskezelő eltávolítása"
 msgid "Shutting down telescope daemon: "
 msgstr "A telescope szolgáltatás leállítása: "
 
-#: /etc/rc.d/rc.sysinit:213
-msgid "$dst: LUKS requires non-random key, skipping"
-msgstr "$dst: a LUKS nem véletlenszerű kulcsot igényel - kihagyás"
+#: /etc/rc.d/init.d/ip6tables:224
+msgid "${IP6TABLES}: Unloading modules: "
+msgstr "${IP6TABLES}: Modulok eltávolítása: "
 
 #: /etc/rc.d/init.d/smolt:65
 msgid "Monthly smolt check-in is enabled."
@@ -2622,10 +2654,6 @@ msgstr "A havi Smolt-jelentés engedélyezett."
 #: /etc/ppp/ip-up.ipv6to4:87 /etc/sysconfig/network-scripts/ifup-ipv6:205
 msgid "Given IPv4 address '$ipv4addr' is not globally usable"
 msgstr "A megadott IPv4-cím ('$ipv4addr') nem használható globálisan"
-
-#: /etc/rc.d/init.d/monotone:192 /etc/rc.d/init.d/monotone:193
-msgid "move passphrase file"
-msgstr "jelszófájl áthelyezése"
 
 #: /etc/rc.d/init.d/tgtd:126
 #, fuzzy
@@ -2648,15 +2676,13 @@ msgstr "A sge_shadowd indítása: "
 msgid "Initializing database"
 msgstr "Adatbázis előkészítése"
 
-#: /etc/rc.d/init.d/aiccu:75 /etc/rc.d/init.d/nmb:52 /etc/rc.d/init.d/smb:52
-#: /etc/rc.d/init.d/winbind:43
+#: /etc/rc.d/init.d/nmb:52 /etc/rc.d/init.d/smb:52 /etc/rc.d/init.d/winbind:43
 msgid "Shutting down $KIND services: "
 msgstr "A(z) $KIND szolgáltatások leállítása: "
 
-#: /etc/rc.d/init.d/microcode_ctl:26
-#, fuzzy
-msgid "Loading AMD microcode update module"
-msgstr "$module kernelmodul betöltése: "
+#: /etc/rc.d/init.d/ypbind:67 /etc/rc.d/init.d/ypbind:72
+msgid "domain is '$NISDOMAIN' "
+msgstr "A domain '$NISDOMAIN' "
 
 #: /etc/rc.d/init.d/firehol:6863
 msgid "FireHOL: Activating new firewall:"
@@ -2666,7 +2692,7 @@ msgstr ""
 msgid "Kernel is not compiled with IPv6 support"
 msgstr "A kernel IPv6-támogatás nélkül lett lefordítva"
 
-#: /etc/rc.d/init.d/fsniper:36 /etc/rc.d/init.d/radvd:59
+#: /etc/rc.d/init.d/fsniper:36 /etc/rc.d/init.d/radvd:60
 #: /etc/rc.d/init.d/xttpd:56
 msgid "Stopping $PROG: "
 msgstr "$PROG leállítása: "
@@ -2683,7 +2709,7 @@ msgstr "A(z) $s le van állítva"
 msgid "Stopping Video Disk Recorder ($prog): "
 msgstr "A videolemez-felvevő ($prog) leállítása: "
 
-#: /etc/rc.d/init.d/functions:542
+#: /etc/rc.d/init.d/functions:552
 msgid "Start service $1 (Y)es/(N)o/(C)ontinue? [Y] "
 msgstr ""
 "El szeretné indítani a(z) $1 szolgáltatást? (I)gen/(N)em/(F)olytatás? [I] "
@@ -2700,7 +2726,7 @@ msgstr "A(z) $prog már fut."
 msgid "Shutting down BitTorrent tracker: "
 msgstr "A BitTorrent követő (tracker) leállítása: "
 
-#: /etc/rc.d/rc.sysinit:578
+#: /etc/rc.d/rc.sysinit:404
 msgid "Checking filesystems"
 msgstr "A fájlrendszerek ellenőrzése"
 
@@ -2708,37 +2734,39 @@ msgstr "A fájlrendszerek ellenőrzése"
 msgid "Initializing netconsole"
 msgstr "A netconsole inicializálása: "
 
-#: /etc/rc.d/init.d/functions:276
+#: /etc/rc.d/init.d/functions:277
 msgid "Usage: killproc [-p pidfile] [ -d delay] {program} [-signal]"
 msgstr ""
 "Használat: killproc [-p PID-fájl] [-d késleltetés] {program} [-szignál]"
 
-#: /etc/rc.d/init.d/nsd:47
-msgid "Starting nsd:"
-msgstr "A nsd indítása: "
+#: /etc/rc.d/init.d/nfs:130
+msgid "Shutting down NFS mountd: "
+msgstr "A NFS mountd leállítása: "
 
-#: /etc/rc.d/init.d/zabbix-proxy:46
-msgid "Shutting down ZABBIX proxy: "
-msgstr "A ZABBIX proxy leállítása: "
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:1051
+msgid "Given IPv6 default device '$device' doesn't exist or isn't up"
+msgstr ""
+"A megadott IPv6-os alapértelmezett eszköz ('$device') nem létezik vagy nem "
+"aktív"
 
 #: /etc/rc.d/init.d/multipathd:69
 msgid "Starting $prog daemon: "
 msgstr "A(z) $prog szolgáltatás indítása: "
 
+#: /etc/rc.d/init.d/vblade:35
+msgid "Starting up $prog: "
+msgstr "A(z) $prog indítása: "
+
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:863
 msgid "Unsupported selection '$selection' specified (arg 2)"
 msgstr "Nem támogatott kiválasztás ('$selection') lett megadva (arg 2)"
-
-#: /etc/rc.d/init.d/tclhttpd:69
-msgid "Usage: killproc {program} [signal]"
-msgstr "Használat: killproc {program} [szignál]"
 
 #: /etc/rc.d/init.d/orbited:61
 #, fuzzy
 msgid "Orbited is running."
 msgstr "$s$pid fut..."
 
-#: /etc/rc.d/init.d/netfs:84 /etc/rc.d/rc.sysinit:605
+#: /etc/rc.d/init.d/netfs:89 /etc/rc.d/rc.sysinit:431
 msgid "*** Dropping you to a shell; the system will reboot"
 msgstr "*** Ön egy parancsértelmezőbe kerül. A rendszer újraindul"
 
@@ -2746,41 +2774,37 @@ msgstr "*** Ön egy parancsértelmezőbe kerül. A rendszer újraindul"
 msgid "Starting supervisord: "
 msgstr "A supervisord indítása: "
 
-#: /etc/rc.d/init.d/condor:211 /etc/rc.d/init.d/freenx-server:85
-#: /etc/rc.d/init.d/tinyerp-server:88 /etc/rc.d/init.d/tinyerp-server:91
+#: /etc/rc.d/rc.sysinit:231
+msgid "*** Dropping you to a shell; the system will continue"
+msgstr "*** Ön egy parancsértelmezőbe kerül. A rendszer folytatja a működést"
+
+#: /etc/rc.d/init.d/condor:211 /etc/rc.d/init.d/tinyerp-server:88
+#: /etc/rc.d/init.d/tinyerp-server:91
 msgid "$prog is stopped"
 msgstr "A(z) $prog le van állítva"
 
-#: /etc/rc.d/init.d/zarafa-spooler:69
+#: /etc/rc.d/init.d/zarafa-spooler:77
 #, fuzzy
 msgid "Restarting $spooler: "
 msgstr "A(z) $prog újraindítása: "
-
-#: /etc/rc.d/init.d/httpd:115
-msgid ""
-"Usage: $prog {start|stop|restart|condrestart|reload|status|fullstatus|"
-"graceful|help|configtest}"
-msgstr ""
-"Használat: $prog {start|stop|restart|condrestart|reload|status|fullstatus|"
-"graceful|help|configtest}"
 
 #: /etc/rc.d/init.d/cyrus-imapd:93
 #, fuzzy
 msgid "Exporting $prog databases: "
 msgstr "A(z) $BASENAME adatbázisok exportálása: "
 
-#: /etc/rc.d/init.d/pgbouncer:44 /etc/rc.d/init.d/pgpool:98
-#: /etc/rc.d/init.d/postgresql:129 /etc/rc.d/init.d/sepostgresql:45
+#: /etc/rc.d/init.d/pgbouncer:47 /etc/rc.d/init.d/pgpool:98
+#: /etc/rc.d/init.d/postgresql:64 /etc/rc.d/init.d/sepostgresql:42
 msgid "Starting ${NAME} service: "
 msgstr "A(z) ${NAME} szolgáltatás indítása: "
 
-#: /etc/rc.d/init.d/maradns:86
-msgid "Stopping MaraDNS: "
-msgstr "A MaraDNS leállítása: "
-
-#: /etc/rc.d/rc.sysinit:186
+#: /etc/rc.d/init.d/functions:695
 msgid "$dst: no value for size option, skipping"
 msgstr "$dst: nincs érték a méret opcióhoz - kihagyás"
+
+#: /etc/rc.d/init.d/ypbind:65
+msgid "Setting NIS domain: "
+msgstr "NIS domain beállítása: "
 
 #: /etc/ppp/ip-down.ipv6to4:35 /etc/ppp/ip-up.ipv6to4:41
 msgid ""
@@ -2790,7 +2814,7 @@ msgstr ""
 "Az 1. argumentum üres, de a csatolónevet kellene tartalmaznia - az IPv6to4-"
 "inicializálás kihagyása"
 
-#: /etc/rc.d/init.d/zarafa-gateway:44
+#: /etc/rc.d/init.d/zarafa-gateway:49
 #, fuzzy
 msgid "Starting $gateway: "
 msgstr "A(z) $name indítása: "
@@ -2803,7 +2827,7 @@ msgstr "Létrehozáshoz használja ezt a Dvb-apps csomagból: \"scandvb -o vdr\"
 msgid "Reverting to ${KERNEL_ELEVATOR} elevator: "
 msgstr "Visszatérés a(z) ${KERNEL_ELEVATOR} elevatorhoz: "
 
-#: /etc/rc.d/init.d/netfs:142
+#: /etc/rc.d/init.d/netfs:147
 msgid "Active CIFS mountpoints: "
 msgstr "Aktív CIFS csatlakozási pontok: "
 
@@ -2811,7 +2835,7 @@ msgstr "Aktív CIFS csatlakozási pontok: "
 msgid "DSS key generation"
 msgstr "DSS kulcs létrehozása"
 
-#: /etc/rc.d/init.d/ksm:58 /etc/rc.d/init.d/nscd:59 /etc/rc.d/init.d/nscd:61
+#: /etc/rc.d/init.d/ksm:55 /etc/rc.d/init.d/nscd:59 /etc/rc.d/init.d/nscd:61
 msgid "$prog shutdown"
 msgstr "A(z) $prog leállítása"
 
@@ -2819,7 +2843,8 @@ msgstr "A(z) $prog leállítása"
 msgid "Generating SSH2 RSA host key: "
 msgstr "SSH2 RSA kiszolgálókulcs létrehozása: "
 
-#: /etc/sysconfig/network-scripts/ifup-eth:255
+#: /etc/sysconfig/network-scripts/ifup-eth:252
+#: /etc/sysconfig/network-scripts/ifup-ib:245
 msgid "Error adding address ${IPADDR} for ${DEVICE}."
 msgstr "Hiba a(z) ${IPADDR} cím ${DEVICE} számára való hozzáadásakor."
 
@@ -2836,21 +2861,21 @@ msgstr "A(z) $prog indítása: "
 msgid "Starting INND system: "
 msgstr "Az INND rendszer indítása: "
 
-#: /etc/rc.d/init.d/zarafa-monitor:44
+#: /etc/rc.d/init.d/zarafa-monitor:49
 #, fuzzy
 msgid "Starting $monitor: "
 msgstr "A moomps indítása: "
 
-#: /etc/rc.d/init.d/arptables_jf:159 /etc/rc.d/init.d/ip6tables:303
-#: /etc/rc.d/init.d/iptables:303
+#: /etc/rc.d/init.d/arptables_jf:159 /etc/rc.d/init.d/ip6tables:307
+#: /etc/rc.d/init.d/iptables:307
 msgid "Table: $table"
 msgstr "Tábla: $table"
 
-#: /etc/rc.d/init.d/util-vserver:72
+#: /etc/rc.d/init.d/util-vserver:82
 msgid "Creating required directories"
 msgstr "A szükséges könyvtárak létrehozása"
 
-#: /etc/rc.d/init.d/avahi-dnsconfd:59
+#: /etc/rc.d/init.d/avahi-dnsconfd:70
 msgid "Reloading Avahi DNS daemon... "
 msgstr "Az Avahi DNS-szolgáltatás újratöltése... "
 
@@ -2867,20 +2892,20 @@ msgstr "Az Apt programmal végzett éjszakánkénti frissítés bekapcsolva."
 msgid "Stopping GNU cfengine environmental history daemon: "
 msgstr "A GNU Cfengine környezeti előzmény szolgáltatás leállítása: "
 
-#: /etc/rc.d/init.d/postgresql:240 /etc/rc.d/init.d/sepostgresql:150
-msgid "Initializing database: "
-msgstr "Adatbázis inicializálása: "
+#: /etc/rc.d/init.d/postfix:74
+msgid "Starting postfix: "
+msgstr "A Postfix indítása: "
 
-#: /etc/rc.d/init.d/abrtd:40
+#: /etc/rc.d/init.d/abrtd:48
 msgid "Starting abrt daemon: "
 msgstr "Az abrt szolgáltatás indítása: "
 
-#: /etc/rc.d/init.d/zarafa-dagent:74
+#: /etc/rc.d/init.d/zarafa-dagent:82
 #, fuzzy
 msgid "Restarting $dagent: "
 msgstr "A(z) $prog újraindítása: "
 
-#: /etc/rc.d/init.d/zarafa-gateway:102
+#: /etc/rc.d/init.d/zarafa-gateway:110
 #, fuzzy
 msgid ""
 "Usage: $gateway {start|stop|status|reload|restart|condrestart|force-reload|"
@@ -2888,29 +2913,22 @@ msgid ""
 msgstr ""
 "Használat: $0 {start|stop|status|restart|reload|force-reload|try-restart}"
 
-#: /etc/rc.d/init.d/cyphesis:49
-msgid "Creating PostgreSQL account: "
-msgstr "PostgreSQL hozzáférés létrehozása: "
-
-#: /etc/rc.d/init.d/mongrel_cluster:136
-msgid ""
-"Usage: $prog {start|stop|status|reload|restart|condrestart|force-reload|try-"
-"restart} [<configfile.{yml|conf}>]"
-msgstr ""
-"Használat: $prog {start|stop|status|reload|restart|condrestart|force-reload|"
-"try-restart} [<configfile.{yml|conf}>]"
+#: /etc/rc.d/init.d/zarafa-gateway:62
+#, fuzzy
+msgid "Stopping $gateway: "
+msgstr "A(z) $name leállítása: "
 
 #: /etc/rc.d/init.d/nfs:184 /etc/rc.d/init.d/nfslock:125
 msgid "restart"
 msgstr "újraindítás"
 
-#: /etc/rc.d/init.d/exim:77
+#: /etc/rc.d/init.d/exim:76
 msgid "Starting exim: "
 msgstr "Az exim indítása: "
 
-#: /etc/rc.d/init.d/network:86
-msgid "Setting 802.1Q VLAN parameters: "
-msgstr "A 802.1Q VLAN paraméterek beállítása."
+#: /etc/rc.d/init.d/xend:43
+msgid "Stopping xend daemon: "
+msgstr "A xend szolgáltatás leállítása: "
 
 #: /etc/rc.d/init.d/pgpool:200
 msgid ""
@@ -2924,7 +2942,8 @@ msgstr ""
 msgid "$s is dead, but another script is running."
 msgstr "A(z) $s nem fut, de egy másik szkript igen."
 
-#: /etc/sysconfig/network-scripts/ifup-eth:250
+#: /etc/sysconfig/network-scripts/ifup-eth:247
+#: /etc/sysconfig/network-scripts/ifup-ib:240
 msgid "Error, some other host already uses address ${IPADDR}."
 msgstr "Hiba történt, egy másik gép már használja a(z) ${IPADDR} címet."
 
@@ -2936,7 +2955,7 @@ msgstr "Az NFS szolgáltatások leállítása: "
 msgid "Stopping monotone server: "
 msgstr "Amonotone kiszolgáló leállítása: "
 
-#: /etc/rc.d/init.d/netfs:130
+#: /etc/rc.d/init.d/netfs:135
 msgid "Configured NCP mountpoints: "
 msgstr "Beállított NCP csatlakozási pontok: "
 
@@ -2962,25 +2981,19 @@ msgstr ""
 "A(z) ${DEVICE} eszköz MAC címe ${FOUNDMACADDR}, a beállított ${HWADDR} cím "
 "helyett. Figyelmen kívül hagyva."
 
-#: /etc/rc.d/init.d/functions:454
+#: /etc/rc.d/init.d/functions:464
 msgid "FAILED"
 msgstr "SIKERTELEN"
 
-#: /etc/rc.d/rc.sysinit:179
+#: /etc/rc.d/init.d/functions:688
 msgid "$dst: no value for cipher option, skipping"
 msgstr "$dst: nincs érték a titkosítási (cipher) opcióhoz - kihagyás"
 
-#: /etc/rc.d/init.d/avahi-daemon:52
+#: /etc/rc.d/init.d/avahi-daemon:64
 msgid "Shutting down Avahi daemon: "
 msgstr "Az Avahi szolgáltatás leállítása: "
 
-#: /etc/rc.d/init.d/slapd:257 /etc/rc.d/init.d/slapd:261
-#, fuzzy
-msgid "Usage: $0 {start|stop|restart|status|condrestart|configtest|usage}"
-msgstr "Használat: $0 {start|stop|restart|status|condrestart|configtest}"
-
-#: /etc/rc.d/init.d/aiccu:65 /etc/rc.d/init.d/nmb:41 /etc/rc.d/init.d/smb:41
-#: /etc/rc.d/init.d/winbind:32
+#: /etc/rc.d/init.d/nmb:41 /etc/rc.d/init.d/smb:41 /etc/rc.d/init.d/winbind:32
 msgid "Starting $KIND services: "
 msgstr "A(z) $KIND szolgáltatások indítása: "
 
@@ -2988,27 +3001,24 @@ msgstr "A(z) $KIND szolgáltatások indítása: "
 msgid "error in $FILE: invalid alias number"
 msgstr "Hiba a(z) $FILE fájlban: érvénytelen alias-szám"
 
-#: /etc/rc.d/init.d/freenx-server:83 /etc/rc.d/init.d/ksm:70
-#: /etc/rc.d/init.d/tor:79
+#: /etc/rc.d/init.d/ksm:67 /etc/rc.d/init.d/tor:79
 msgid "$prog is running"
 msgstr "A(z) $prog fut"
 
-#: /etc/rc.d/init.d/vblade:35
-msgid "Starting up $prog: "
-msgstr "A(z) $prog indítása: "
+#: /etc/rc.d/init.d/functions:702
+msgid "$dst: no value for hash option, skipping"
+msgstr "$dst: nincs érték a hash opcióhoz - kihagyás"
 
 #: /etc/rc.d/init.d/libvirtd:88 /etc/rc.d/init.d/libvirt-qpid:63
 #: /etc/rc.d/init.d/matahari:47
 msgid "Reloading $SERVICE configuration: "
 msgstr "A(z) $SERVICE beállításainak újratöltése: "
 
-#: /etc/rc.d/init.d/iptables:98
+#: /etc/rc.d/init.d/iptables:102
 msgid "${IPTABLES}: Flushing firewall rules: "
 msgstr "${IPTABLES}: A tűzfalszabályok kiürítése: "
 
-#: /etc/rc.d/init.d/certmaster:124 /etc/rc.d/init.d/cgred:135
-#: /etc/rc.d/init.d/cobblerd:134 /etc/rc.d/init.d/funcd:127
-#: /etc/rc.d/init.d/libvirtd:112 /etc/rc.d/init.d/libvirt-qpid:87
+#: /etc/rc.d/init.d/cgred:135 /etc/rc.d/init.d/libvirt-qpid:87
 #: /etc/rc.d/init.d/matahari:71 /etc/rc.d/init.d/messagebus:89
 #: /etc/rc.d/init.d/multipathd:127 /etc/rc.d/init.d/mydns:71
 #: /etc/rc.d/init.d/preload:108 /etc/rc.d/init.d/smsd:88
@@ -3020,10 +3030,18 @@ msgstr "Használat: $0 {start|stop|status|restart|condrestart|reload}"
 msgid "*** $0 can not be called in this way"
 msgstr "*** $0 nem használható így"
 
-#: /etc/rc.d/init.d/myproxy-server:88
+#: /etc/rc.d/init.d/myproxy-server:89
 #, fuzzy
 msgid "Usage: $0 {start|stop|status|restart|reload|try-restart|force-reload}"
 msgstr "Használat: $0 {start|stop|status|restart|try-restart|force-reload}"
+
+#: /etc/rc.d/init.d/openct:110
+#, fuzzy
+msgid ""
+"Usage: $0 {start|stop|status|restart|try-restart|condrestart|reload|force-"
+"reload}"
+msgstr ""
+"Használat: $0 {start|stop|status|restart|try-restart|reload|force-reload}"
 
 #: /etc/rc.d/init.d/denyhosts:93
 msgid "Denyhosts already running."
@@ -3039,7 +3057,8 @@ msgstr ""
 "Figyelmeztetés: a tun6to4 eszköz nem támogatja az 'IPV6_DEFAULTGW'-t, "
 "figyelmen kívül hagyva"
 
-#: /etc/sysconfig/network-scripts/ifup-eth:81
+#: /etc/sysconfig/network-scripts/ifup-eth:76
+#: /etc/sysconfig/network-scripts/ifup-ib:54
 msgid "Device ${DEVICE} does not seem to be present, delaying initialization."
 msgstr "A(z) ${DEVICE} eszköz nem érhető el, az inicializálást elhalasztjuk."
 
@@ -3059,7 +3078,7 @@ msgstr "A(z) $DAEMON nincs beállítva."
 msgid "Starting pkcsslotd: "
 msgstr "A pkcsslotd indítása: "
 
-#: /etc/rc.d/init.d/network:70
+#: /etc/rc.d/init.d/network:67
 msgid "Bringing up loopback interface: "
 msgstr "Visszacsatolási eszköz indítása: "
 
@@ -3074,6 +3093,10 @@ msgstr "A puppetmaster indítása: "
 #: /etc/rc.d/init.d/rbldnsd:136
 msgid "dead but pid file exists"
 msgstr "leállt, de létezik PID-fájl"
+
+#: /etc/sysconfig/network-scripts/ifup-ppp:45
+msgid "pppd does not exist or is not executable"
+msgstr "A pppd nem létezik vagy nem futtatható"
 
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:122
 msgid "INFO     "
@@ -3091,14 +3114,14 @@ msgstr "A régi kiszolgáló jelszófájljának áthelyezése: "
 msgid "Stopping fail2ban: "
 msgstr "A fail2ban leállítása: "
 
-#: /etc/rc.d/init.d/zarafa-spooler:54
+#: /etc/rc.d/init.d/zarafa-spooler:62
 #, fuzzy
 msgid "Stopping $spooler: "
 msgstr "A(z) $prog leállítása: "
 
-#: /etc/rc.d/init.d/ip6tables:220
-msgid "${IP6TABLES}: Unloading modules: "
-msgstr "${IP6TABLES}: Modulok eltávolítása: "
+#: /etc/rc.d/init.d/functions:722
+msgid "$dst: LUKS requires non-random key, skipping"
+msgstr "$dst: a LUKS nem véletlenszerű kulcsot igényel - kihagyás"
 
 #: /etc/rc.d/init.d/rbldnsd:140
 msgid "dead but subsys locked"
@@ -3108,11 +3131,11 @@ msgstr "nem fut, de az alrendszer zárolva"
 msgid "$prog abort"
 msgstr "A(z) $prog megszakítása"
 
-#: /etc/rc.d/init.d/nfs:130
-msgid "Shutting down NFS mountd: "
-msgstr "A NFS mountd leállítása: "
+#: /etc/rc.d/init.d/libvirt-guests:211
+msgid "failed to shutdown in time"
+msgstr ""
 
-#: /etc/rc.d/init.d/halt:187
+#: /etc/rc.d/init.d/halt:187 /etc/rc.d/init.d/reboot:187
 msgid "On the next boot fsck will be forced."
 msgstr "A következő indításkor az fsck le fog futni."
 
@@ -3129,7 +3152,7 @@ msgstr ""
 msgid "Disabling monthly Smolt update: "
 msgstr "A havi Smolt frissítés kikapcsolása: "
 
-#: /etc/rc.d/init.d/functions:476
+#: /etc/rc.d/init.d/functions:486
 msgid "WARNING"
 msgstr "FIGYELEM"
 
@@ -3149,26 +3172,25 @@ msgstr "$1 nem elérhető"
 msgid "Shutting down sm-client: "
 msgstr "Az sm-client leállítása: "
 
-#: /etc/rc.d/init.d/certmaster:74
-msgid "Starting certmaster daemon: "
-msgstr "A certmaster szolgáltatás indítása: "
+#: /etc/rc.d/init.d/mongrel_cluster:136
+msgid ""
+"Usage: $prog {start|stop|status|reload|restart|condrestart|force-reload|try-"
+"restart} [<configfile.{yml|conf}>]"
+msgstr ""
+"Használat: $prog {start|stop|status|reload|restart|condrestart|force-reload|"
+"try-restart} [<configfile.{yml|conf}>]"
 
 #: /etc/rc.d/init.d/gnokii-smsd:45
 msgid "Stopping Gnokii SMS daemon ($prog): "
 msgstr "A Gnokii SMS-szolgáltatás ($prog) leállítása: "
 
-#: /etc/rc.d/init.d/amavisd:35
-msgid "Starting ${prog_base}:"
-msgstr "A(z) ${prog_base} indítása:"
+#: /etc/rc.d/init.d/systemtap:64
+msgid "\t-r kernelrelease: specify kernel release version"
+msgstr "\t-r kernelrelease: Add meg a kernel verzióját"
 
 #: /etc/sysconfig/network-scripts/ifup-ipv6:178
 msgid "Device 'tun6to4' (from '$DEVICE') is already up, shutdown first"
 msgstr "A tun6to4 eszköz ($DEVICE eszközön) már aktív, kapcsolja le előbb"
-
-#: /etc/rc.d/init.d/freenx-server:89
-#, fuzzy
-msgid "Usage: $prog {start|stop|restart|status}"
-msgstr "Használat: $0 {start|stop|restart|status}"
 
 #: /etc/rc.d/init.d/tor:84
 msgid "status $rc of $prog"
@@ -3186,11 +3208,21 @@ msgstr "A pand indítása: "
 msgid "Starting Gnokii SMS daemon ($prog): "
 msgstr "A Gnokii SMS-szolgáltatás ($prog) indítása: "
 
+#: /etc/rc.d/init.d/myproxy-server:43
+#, fuzzy
+msgid "$prog already running: "
+msgstr "A(z) $prog már fut"
+
 #: /etc/rc.d/init.d/gadget:47
 msgid "Starting Gadget daemon: "
 msgstr "A Gadget szolgáltatás indítása: "
 
-#: /etc/rc.d/init.d/functions:443
+#: /etc/sysconfig/network-scripts/ifup-ipv6:101
+#: /etc/sysconfig/network-scripts/ifup-ipv6:118
+msgid "Please restart network with '/sbin/service network restart'"
+msgstr "Indítsa újra a hálózatot az '/sbin/service network restart'-tal"
+
+#: /etc/rc.d/init.d/functions:453
 msgid "  OK  "
 msgstr "  OK  "
 
@@ -3198,7 +3230,7 @@ msgstr "  OK  "
 msgid "*** Please see /usr/share/doc/clamav-server-*/README how"
 msgstr "*** Kérem, olvassa el a /usr/share/doc/clamav-server-*/README fájlt"
 
-#: /etc/rc.d/init.d/network:271
+#: /etc/rc.d/init.d/network:265
 msgid "Configured devices:"
 msgstr "Beállított eszközök:"
 
@@ -3212,7 +3244,7 @@ msgstr ""
 msgid "FireHOL: Saving your old firewall to a temporary file:"
 msgstr ""
 
-#: /etc/rc.d/init.d/netfs:138
+#: /etc/rc.d/init.d/netfs:143
 msgid "Active NFS mountpoints: "
 msgstr "Aktív NFS csatlakozási pontok: "
 
@@ -3225,13 +3257,9 @@ msgstr "Felhasználók nem vezérelhetik ezt az eszközt."
 msgid "Starting router discovery: "
 msgstr "Az útválasztó keresés indítása: "
 
-#: /etc/rc.d/init.d/netfs:96
+#: /etc/rc.d/init.d/netfs:101
 msgid "Mounting other filesystems: "
 msgstr "Egyéb fájlrendszerek csatlakoztatása: "
-
-#: /etc/rc.d/init.d/microcode_ctl:24 /etc/rc.d/init.d/microcode_ctl:33
-msgid "Applying Intel CPU microcode update: "
-msgstr "Intel processzor mikrokód-frissítés alkalmazása: "
 
 #: /etc/rc.d/init.d/qemu:68
 msgid "qemu binary format handlers are registered."
@@ -3248,7 +3276,7 @@ msgstr "A(z) $desc ($prog) újratöltése: "
 
 # To look up an entry in a YP map, simply use
 # the entry name as a key in the tied hash.
-#: /etc/rc.d/init.d/zarafa-server:40
+#: /etc/rc.d/init.d/zarafa-server:45
 #, fuzzy
 msgid "Starting $server: "
 msgstr "A DAAP szerver indítása: "
@@ -3257,23 +3285,15 @@ msgstr "A DAAP szerver indítása: "
 msgid "\t-c configfile\t: specify config file"
 msgstr "\t-c configfile: beállításfájl megadása"
 
-#: /etc/rc.d/init.d/ktune:116
-msgid "Applying sysctl settings from $SYSCTL_POST: "
-msgstr "A sysctl beállítások alkalmazása innen $SYSCTL_POST: "
-
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:591
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:648
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:687
 msgid "Given device '$device' is not supported (arg 1)"
 msgstr "A megadott eszköz ('$device') nem támogatott (arg 1)"
 
-#: /etc/rc.d/init.d/functions:367
+#: /etc/rc.d/init.d/functions:373
 msgid "Usage: pidofproc [-p pidfile] {program}"
 msgstr "Használat: pidofproc [-p PID-fájl] {program}"
-
-#: /etc/rc.d/init.d/zarafa-server:74
-msgid "Timeout on stopping $server ... sending kill signal"
-msgstr ""
 
 #: /etc/rc.d/init.d/ntpdate:85
 msgid "Usage: $0 {start|stop|status|restart|force-reload}"
@@ -3287,7 +3307,7 @@ msgstr "Az irattach leállítása"
 msgid "Stopping NFS locking: "
 msgstr "A NFS-zárolás megszüntetése: "
 
-#: /etc/rc.d/init.d/ip6tables:277
+#: /etc/rc.d/init.d/ip6tables:281
 msgid "${IP6TABLES}: Firewall is not running."
 msgstr "${IP6TABLES}: A tűzfal nem fut."
 
@@ -3299,10 +3319,6 @@ msgstr "A(z) $prog újraindítása: "
 msgid "Starting $prog: $conf, $INTERFACES, $DRIVERS"
 msgstr "$prog indítasá: $conf, $INTERFACES, $DRIVERS"
 
-#: /etc/rc.d/init.d/zabbix-proxy:36
-msgid "Starting ZABBIX proxy: "
-msgstr "A ZABBIX proxy indítása: "
-
 #: /etc/rc.d/init.d/hddtemp:56
 msgid "Stopping hard disk temperature monitor daemon ($prog): "
 msgstr "Merevlemezhőmérséklet-figyelő szolgáltatás ($prog) leállítása: "
@@ -3312,7 +3328,7 @@ msgid "irattach startup"
 msgstr "Az irattach indítása"
 
 #: /etc/rc.d/init.d/ncidd:54 /etc/rc.d/init.d/ncid-hangup:58
-#: /etc/rc.d/init.d/ncid-kpopup:59 /etc/rc.d/init.d/ncid-mythtv:59
+#: /etc/rc.d/init.d/ncid-initmodem:58 /etc/rc.d/init.d/ncid-mythtv:59
 #: /etc/rc.d/init.d/ncid-page:60 /etc/rc.d/init.d/ncid-samba:59
 #: /etc/rc.d/init.d/ncidsip:57 /etc/rc.d/init.d/ncid-speak:59
 #: /etc/rc.d/init.d/sip2ncid:54 /etc/rc.d/init.d/yac2ncid:53
@@ -3327,10 +3343,6 @@ msgstr "A(z) ${prog} beállításainak újratöltése: "
 msgid "Starting ${prog}: "
 msgstr "A(z) $prog indítása: "
 
-#: /etc/rc.d/init.d/dcbd:161
-msgid "Starting $DCBD: "
-msgstr "A(z) $DCBD indítása: "
-
 #: /etc/rc.d/rc.sysinit:52
 msgid "*** Run 'setenforce 1' to reenable."
 msgstr "*** Az ismételt bekapcsoláshoz használja a \"setenforce 1\" parancsot."
@@ -3343,9 +3355,9 @@ msgstr "A preload leállítása: "
 msgid "6to4 configuration is not valid"
 msgstr "A 6to4 konfiguráció érvénytelen"
 
-#: /etc/rc.d/init.d/ibmasm:61
-msgid "Stopping ibmasm: "
-msgstr "A libmasm leállítása: "
+#: /etc/rc.d/init.d/pcscd:55
+msgid "Stopping PC/SC smart card daemon ($prog): "
+msgstr "A PC/SC chipkártya-szolgáltatás leállítása ($prog): "
 
 #: /etc/rc.d/init.d/ipmi:295 /etc/rc.d/init.d/ipmi:301
 msgid "Starting ipmi_poweroff driver: "
@@ -3371,6 +3383,10 @@ msgstr "A Bandwidthd hálózati forgalom figyelő leállítása: "
 msgid "Preparing $PROG config: "
 msgstr "A(z) $PROG beállításának előkészítése: "
 
+#: /etc/rc.d/init.d/libvirt-guests:144
+msgid "Ignoring guests on $uri URI"
+msgstr ""
+
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:116
 msgid "WARN     "
 msgstr "FIGY      "
@@ -3383,9 +3399,13 @@ msgstr ""
 "'Nincs útvonal a géphez' a(z) '$networkipv6' útvonalnak a(z) '$gatewayipv6' "
 "átjárón és a(z) '$device' eszközön keresztül való felvételekor"
 
-#: /etc/rc.d/init.d/cyphesis:77
-msgid "Loading database with rules: "
-msgstr "Adatbázis feltöltése szabályokkal: "
+#: /etc/rc.d/init.d/network:138 /etc/rc.d/init.d/network:150
+msgid "Bringing up interface $i: "
+msgstr "A(z) $i csatoló aktiválása: "
+
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:318
+msgid "Device '$device' enabling didn't work"
+msgstr "Nem sikerült aktiválni a(z) '$device' eszközt"
 
 #: /etc/rc.d/init.d/vncserver:98 /etc/rc.d/init.d/vncserver:99
 msgid "vncserver shutdown"
@@ -3395,7 +3415,7 @@ msgstr "A VNC kiszolgáló leállítása"
 msgid "Stopping xenconsoled daemon: "
 msgstr "A xenconsoled leállítása: "
 
-#: /etc/rc.d/init.d/netfs:134
+#: /etc/rc.d/init.d/netfs:139
 msgid "Configured network block devices: "
 msgstr "Beállított hálózati blokkeszközök: "
 
@@ -3407,19 +3427,15 @@ msgstr ""
 "Használat: $0 {condrestart|try-restart|start|stop|restart|reload|force-"
 "reload|status}"
 
-#: /etc/rc.d/init.d/cyphesis:161
-msgid "Usage: $0 (start|stop|restart|condrestart|status)"
-msgstr "Használat: $0 (start|stop|restart|condrestart|status)"
-
-#: /etc/rc.d/init.d/iptables:285
-msgid "${IPTABLES}: Firewall modules are not loaded."
-msgstr "${IPTABLES}: A tűzfal modulok nincsenek betöltve."
+#: /etc/rc.d/init.d/cfenvd:27
+msgid "Starting GNU cfengine environmental history daemon: "
+msgstr "A GNU Cfengine környezeti előzmény-szolgáltatás indítása: "
 
 #: /etc/rc.d/init.d/denyhosts:87
 msgid "Starting denyhosts: "
 msgstr "A denyhosts indítása: "
 
-#: /etc/rc.d/init.d/functions:546
+#: /etc/rc.d/init.d/functions:556
 msgid "cC"
 msgstr "mMfF"
 
@@ -3431,9 +3447,14 @@ msgstr "A(z) $prog lefordítva "
 msgid "Usage: $0 {start|stop|restart|try-restart|status|force-reload}"
 msgstr "Használat: $0 {start|stop|restart|try-restart|status|force-reload}"
 
-#: /etc/rc.d/rc.sysinit:405
-msgid "*** Dropping you to a shell; the system will continue"
-msgstr "*** Ön egy parancsértelmezőbe kerül. A rendszer folytatja a működést"
+#: /etc/rc.d/init.d/slapd:264 /etc/rc.d/init.d/slapd:268
+#, fuzzy
+msgid ""
+"Usage: $0 {start|stop|restart|force-reload|status|condrestart|try-restart|"
+"configtest|usage}"
+msgstr ""
+"Használat: $0 {start|stop|restart|reload|force-reload|condrestart|try-"
+"restart|status}"
 
 #: /etc/rc.d/init.d/restorecond:85
 #, fuzzy
@@ -3446,31 +3467,47 @@ msgstr "Használat: $0 {start|stop|restart|reload|status|condrestart}"
 msgid "not running"
 msgstr "A(z) $prog nem fut"
 
-#: /etc/rc.d/init.d/halt:138
+#: /etc/rc.d/init.d/halt:138 /etc/rc.d/init.d/reboot:138
 msgid "Unmounting pipe file systems (retry): "
 msgstr "A cső-alapú fájlrendszerek leválasztása (újabb próba): "
+
+#: /etc/rc.d/init.d/qpidd:114
+#, fuzzy
+msgid ""
+"Usage: $0 {start|stop|status|restart|condrestart|try-restart|force-reload}"
+msgstr ""
+"Használat: $0 {start|stop|status|restart|condrestart|try-restart|reload|"
+"force-reload}"
 
 #: /etc/rc.d/init.d/cyrus-imapd:115
 msgid "Reloading cyrus.conf file: "
 msgstr "A cyrus.conf fájl újratöltése: "
 
-#: /etc/rc.d/init.d/unbound:76
-msgid "Stopping unbound: "
-msgstr "Az unbound leállítása: "
+#: /etc/rc.d/init.d/lldpad:155
+#, fuzzy
+msgid "Starting $LLDPAD: "
+msgstr "A(z) $DCBD indítása: "
+
+# To look up an entry in a YP map, simply use
+# the entry name as a key in the tied hash.
+#: /etc/rc.d/init.d/zarafa-indexer:47
+#, fuzzy
+msgid "Starting $indexer: "
+msgstr "A DAAP szerver indítása: "
 
 #: /etc/rc.d/init.d/systemtap:614
 msgid "Cleaning up systemtap scripts: "
 msgstr "Takarítás a systemtap szkriptek után: "
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:125
-msgid "NOTICE   "
-msgstr "MEGJEGYZÉS    "
+#: /etc/rc.d/init.d/systemtap:500 /etc/rc.d/init.d/systemtap:591
+msgid "Failed to make cache directory ($CACHE_PATH)"
+msgstr "A gyorsítótár könyvtárának létrehozása nem sikerült ($CACHE_PATH)"
 
 #: /etc/rc.d/init.d/mongrel_cluster:118
 msgid "Restarting $prog for $file: "
 msgstr "A(z) $prog újindítása ehhez: $file: "
 
-#: /etc/rc.d/init.d/autofs:127 /etc/rc.d/init.d/autofs:133
+#: /etc/rc.d/init.d/autofs:138 /etc/rc.d/init.d/autofs:144
 msgid "$prog not running"
 msgstr "A(z) $prog nem fut"
 
@@ -3479,12 +3516,10 @@ msgstr "A(z) $prog nem fut"
 msgid "Force-updating $prog configuration: "
 msgstr "A(z) $prog beállításainak újraolvasása: "
 
-#: /etc/sysconfig/network-scripts/ifup-ppp:77
-msgid ""
-"/etc/sysconfig/network-scripts/chat-${DEVNAME} does not exist for ${DEVICE}"
-msgstr ""
-"Az /etc/sysconfig/network-scripts/chat-${DEVNAME} nem létezik ennél: "
-"${DEVICE}"
+#: /etc/rc.d/init.d/libvirt-guests:256
+#, fuzzy
+msgid "Shutting down guests on $uri URI..."
+msgstr "A restorecond leállítása: "
 
 #: /etc/rc.d/init.d/arptables_jf:76
 msgid "Clearing all current rules and user defined chains:"
@@ -3506,17 +3541,28 @@ msgstr ""
 "Használat: $0 {start|stop|restart|reload|abort|flush|check|status|"
 "condrestart}"
 
-#: /etc/rc.d/init.d/udev-post:33
+#: /etc/rc.d/init.d/udev-post:32
 msgid "Adding udev persistent rules"
 msgstr "Állandó udev szabályok hozzáadása"
 
-#: /etc/sysconfig/network-scripts/ifup-eth:205
+#: /etc/rc.d/init.d/libvirt-guests:197
+#, fuzzy
+msgid "Shutting down $name: "
+msgstr "Az exim leállítása: "
+
+#: /etc/sysconfig/network-scripts/ifup-eth:202
+#: /etc/sysconfig/network-scripts/ifup-ib:191
 msgid " failed."
 msgstr " sikertelen."
 
 #: /etc/rc.d/init.d/monotone:145 /etc/rc.d/init.d/monotone:146
 msgid "database initialization"
 msgstr "adatbázis inicializálása"
+
+#: /etc/rc.d/init.d/libvirt-guests:300
+#, fuzzy
+msgid "Usage: $0 {start|stop|restart|force-reload|gueststatus|shutdown}"
+msgstr "Használat: $0 {start|stop|restart|reload|status|condrestart}"
 
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:119
 msgid "CRITICAL "
@@ -3530,15 +3576,15 @@ msgstr "Az NFS-kvóták indítása: "
 msgid "Missing parameter 'global IPv4 address' (arg 2)"
 msgstr "Hiányzó paraméter: 'globális IPv4-cím' (arg 2)"
 
-#: /etc/rc.d/init.d/sepostgresql:137
+#: /etc/rc.d/init.d/sepostgresql:131
 msgid "Reloading ${NAME} service: "
 msgstr "A(z) ${NAME} szolgáltatás újratöltése: "
 
-#: /etc/rc.d/init.d/netfs:83 /etc/rc.d/rc.sysinit:604
+#: /etc/rc.d/init.d/netfs:88 /etc/rc.d/rc.sysinit:430
 msgid "*** An error occurred during the file system check."
 msgstr "*** Hiba lépett fel a fájlrendszerellenőrzés során."
 
-#: /etc/rc.d/init.d/netfs:116
+#: /etc/rc.d/init.d/netfs:121
 msgid "Unmounting NCP filesystems: "
 msgstr "A NCP fájlrendszerek leválasztása: "
 
@@ -3546,23 +3592,15 @@ msgstr "A NCP fájlrendszerek leválasztása: "
 msgid "Changing target policies to DROP: "
 msgstr "Célházirend átállítása ELDOBÁSra: "
 
-#: /etc/rc.d/init.d/udev-post:58
-msgid "Generating udev makedev cache file"
-msgstr "Az udev makedev gyorsítótár létrehozása"
+#: /etc/sysconfig/network-scripts/ifup-aliases:182
+msgid "error in $FILE: already seen ipaddr $IPADDR in $ipseen"
+msgstr "Hiba a(z) $FILE fájlban: már van $IPADDR cím itt: $ipseen"
 
-#: /etc/rc.d/init.d/avahi-dnsconfd:85
-msgid "Avahi DNS daemon is running"
-msgstr "Az Avahi DNS szolgáltatás fut"
-
-#: /etc/sysconfig/network-scripts/ifup-eth:56
-msgid "Bridge support not available: brctl not found"
-msgstr "Nincs bridge-támogatás: a brctl nem található"
-
-#: /etc/rc.d/init.d/functions:393
+#: /etc/rc.d/init.d/functions:399
 msgid "Usage: status [-p pidfile] {program}"
 msgstr "Használat: status [-p PID-fájl] {program}"
 
-#: /etc/rc.d/init.d/zarafa-ical:102
+#: /etc/rc.d/init.d/zarafa-ical:110
 #, fuzzy
 msgid ""
 "Usage: $ical {start|stop|status|reload|restart|condrestart|force-reload|try-"
@@ -3582,11 +3620,6 @@ msgstr "DSS kiszolgálókulcs létrehozása a dropbear-hez : "
 msgid "Setting up a new ${PEERCONF} config file"
 msgstr "Új ${PEERCONF} konfigurációs fájl beállítása"
 
-#: /etc/rc.d/init.d/zarafa-ical:44
-#, fuzzy
-msgid "Starting $ical: "
-msgstr "A(z) $name indítása: "
-
 #: /etc/rc.d/init.d/proftpd:90
 msgid "Re-reading $prog configuration: "
 msgstr "A(z) $prog beállításainak újraolvasása: "
@@ -3595,12 +3628,12 @@ msgstr "A(z) $prog beállításainak újraolvasása: "
 msgid "Dependency loop detected on $s"
 msgstr "Függőségi hurokot találtam itt: $s"
 
-#: /etc/rc.d/rc.sysinit:227
+#: /etc/rc.d/init.d/functions:736
 #, c-format
 msgid "%s is password protected"
 msgstr "%s jelszóval védett"
 
-#: /etc/rc.d/rc.sysinit:138
+#: /etc/rc.d/init.d/functions:647
 msgid "INSECURE OWNER FOR $key"
 msgstr "NEM BIZTONSÁGOS a(z) \"$key\" FÁJL TULAJDONOSA"
 
@@ -3608,17 +3641,23 @@ msgstr "NEM BIZTONSÁGOS a(z) \"$key\" FÁJL TULAJDONOSA"
 msgid "FireHOL config ${FIREHOL_CONFIG} not found:"
 msgstr ""
 
-#: /etc/rc.d/init.d/ktune:210
+#: /etc/rc.d/init.d/ktune:214
 msgid "Current elevator settings:"
 msgstr "Aktuális elevator beállítások:"
 
-#: /etc/sysconfig/network-scripts/ifup-eth:194
+#: /etc/sysconfig/network-scripts/ifup-eth:191
+#: /etc/sysconfig/network-scripts/ifup-ib:179
 msgid " failed; no link present.  Check cable?"
 msgstr " sikertelen, nincs kapcsolat. Ellenőrizte a kábelt?"
 
 #: /etc/rc.d/init.d/isdn:149 /etc/rc.d/init.d/isdn:151
 msgid "Loading Firmware"
 msgstr "A Firmware betöltése"
+
+#: /etc/rc.d/init.d/zarafa-server:89
+#, fuzzy
+msgid "Timeout on stopping $server"
+msgstr "A RADIUS kiszolgáló leállítása: "
 
 #: /etc/rc.d/init.d/liquidwar-server:32
 msgid "Starting liquidwar game server: "
@@ -3636,7 +3675,7 @@ msgstr ""
 msgid "Shutting down auto nice daemon:"
 msgstr "Az auto nice szolgáltatás leállítása: "
 
-#: /etc/rc.d/init.d/util-vserver:94
+#: /etc/rc.d/init.d/util-vserver:104
 msgid "Stopping all running guests"
 msgstr "Minden futó vendég leállítása"
 
@@ -3644,15 +3683,16 @@ msgstr "Minden futó vendég leállítása"
 msgid "Generating dropbear RSA host key: "
 msgstr "RSA kiszolgálókulcs létrehozása a dropbear-hez: "
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:117
+#: /etc/rc.d/init.d/memcached:85 /etc/rc.d/init.d/rpcbind:95
+#, fuzzy
 msgid ""
-"Global IPv6 forwarding is disabled in configuration, but not currently "
-"disabled in kernel"
+"Usage: $0 {start|stop|status|restart|reload|force-reload|condrestart|try-"
+"restart}"
 msgstr ""
-"Az általános IPv6-továbbítás le van tiltva a beállításokban, de nincs "
-"letiltva a kernelben"
+"Használat: $0 {start|stop|status|restart|force-reload|reload|condrestart|try-"
+"restart}"
 
-#: /etc/rc.d/init.d/crond:78 /etc/rc.d/init.d/sshd:166
+#: /etc/rc.d/init.d/crond:82 /etc/rc.d/init.d/sshd:166
 msgid "Reloading $prog"
 msgstr "A(z) $prog újratöltése"
 
@@ -3665,12 +3705,12 @@ msgstr "Használat: $prog {start|stop|restart|condrestart|status|help}"
 msgid "Stopping $desc ($prog): "
 msgstr "A(z) $desc ($prog) leállítása: "
 
-#: /etc/rc.d/init.d/halt:91
+#: /etc/rc.d/init.d/halt:91 /etc/rc.d/init.d/reboot:91
 msgid "Sending all processes the KILL signal..."
 msgstr "KILL szignál küldése az összes folyamatnak..."
 
-#: /etc/rc.d/init.d/functions:325 /etc/rc.d/init.d/tclhttpd:123
-#: /etc/rc.d/init.d/voms:255
+#: /etc/rc.d/init.d/functions:331 /etc/rc.d/init.d/tclhttpd:123
+#: /etc/rc.d/init.d/voms:266
 msgid "$base $killlevel"
 msgstr "$base $killlevel"
 
@@ -3687,33 +3727,41 @@ msgstr "Az IB alhálózat újbóli feltérképezése: "
 msgid "Saving current rules to $ARPTABLES_CONFIG: "
 msgstr "A jelenlegi szabályok mentése a következőbe: $ARPTABLES_CONFIG: "
 
-#: /etc/rc.d/init.d/avahi-dnsconfd:35
+#: /etc/rc.d/init.d/avahi-dnsconfd:52
 msgid "Starting Avahi DNS daemon... "
 msgstr "Az Avahi DNS-szolgáltatás indítása... "
 
-#: /etc/rc.d/init.d/aprsd:78 /etc/rc.d/init.d/cpuspeed:334
+#: /etc/rc.d/init.d/aprsd:78 /etc/rc.d/init.d/cpuspeed:338
 #: /etc/rc.d/init.d/cwdaemon:75 /etc/rc.d/init.d/dansguardian:80
 #: /etc/rc.d/init.d/glacier2router:105 /etc/rc.d/init.d/globus-rls-server:76
 #: /etc/rc.d/init.d/icegridnode:106 /etc/rc.d/init.d/icegridregistry:106
-#: /etc/rc.d/init.d/ktune:250 /etc/rc.d/init.d/mt-daapd:52
+#: /etc/rc.d/init.d/ktune:254 /etc/rc.d/init.d/mt-daapd:52
 #: /etc/rc.d/init.d/netlabel:114 /etc/rc.d/init.d/pads:84
 #: /etc/rc.d/init.d/prelude-correlator:81 /etc/rc.d/init.d/prelude-manager:66
-#: /etc/rc.d/init.d/psad:120 /etc/rc.d/init.d/qpidd:99
-#: /etc/rc.d/init.d/remotetrx:72 /etc/rc.d/init.d/roundup:78
+#: /etc/rc.d/init.d/psad:120 /etc/rc.d/init.d/roundup:78
 #: /etc/rc.d/init.d/sendmail:160 /etc/rc.d/init.d/ssbd:73
-#: /etc/rc.d/init.d/svxlink:72 /etc/rc.d/init.d/telescoped:70
-#: /etc/rc.d/init.d/thebridge:71 /etc/rc.d/init.d/ucarp:151
-#: /etc/rc.d/init.d/upnpd:89 /etc/rc.d/init.d/vmpsd:58
+#: /etc/rc.d/init.d/telescoped:70 /etc/rc.d/init.d/thebridge:71
+#: /etc/rc.d/init.d/ucarp:151 /etc/rc.d/init.d/upnpd:89
+#: /etc/rc.d/init.d/vmpsd:58
 msgid "Usage: $0 {start|stop|restart|condrestart|status}"
 msgstr "Használat: $0 {start|stop|restart|condrestart|status}"
 
-#: /etc/rc.d/init.d/ypxfrd:43
-msgid "Stopping YP map server: "
-msgstr "Az YP hozzárendelési szolgáltatás leállítása: "
+#: /etc/rc.d/init.d/wesnothd:43
+msgid "Starting Wesnoth game server: "
+msgstr "A Wesnoth játékkiszolgáló indítása: "
 
 #: /etc/rc.d/init.d/bandwidthd:34
 msgid "Starting Bandwidthd network traffic monitor: "
 msgstr "A Bandwidthd hálózati forgalom figyelő indítása: "
+
+#: /etc/rc.d/init.d/yppasswdd:49
+msgid "Starting YP passwd service: "
+msgstr "A YP jelszószolgáltatás indítása: "
+
+#: /etc/rc.d/init.d/zarafa-indexer:60
+#, fuzzy
+msgid "Stopping $indexer: "
+msgstr "A RADIUS kiszolgáló leállítása: "
 
 #: /etc/rc.d/init.d/tog-pegasus:112
 #, fuzzy
@@ -3735,17 +3783,13 @@ msgstr "A program vagy szolgáltatás állapota ismeretlen"
 msgid "Please specify a $type name"
 msgstr ""
 
-#: /etc/rc.d/init.d/kadmin:46
+#: /etc/rc.d/init.d/kadmin:48
 msgid "Error. Default principal database does not exist."
 msgstr "Hiba történt. Az alapértelmezett elsődleges adatbázis nem létezik."
 
 #: /etc/rc.d/init.d/ntpdate:46
 msgid "$prog: Synchronizing with time server: "
 msgstr "$prog: szinkronizálás az időszerverrel: "
-
-#: /etc/rc.d/init.d/ohmd:39
-msgid "Starting Open Hardware Manager: "
-msgstr "Az Open Hardware Manager indítása: "
 
 #: /etc/rc.d/init.d/denyhosts:98
 msgid "Stray lockfile present; removing it."
@@ -3755,7 +3799,7 @@ msgstr "Elévült zárolási fájl eltávolítása."
 msgid "$file is not owned by \"$user\""
 msgstr "$file tulajdonosa nem \"$user\""
 
-#: /etc/rc.d/init.d/vsftpd:43
+#: /etc/rc.d/init.d/vsftpd:44
 msgid "Starting $prog for $site: "
 msgstr "A(z) $prog indítása ehhez: $site: "
 
@@ -3771,7 +3815,7 @@ msgstr "A(z) ${NAME} újratöltése"
 msgid "Starting Video Disk Recorder ($prog): "
 msgstr "A videolemez-felvevő ($prog) indítása: "
 
-#: /etc/rc.d/init.d/functions:435
+#: /etc/rc.d/init.d/functions:445
 msgid "${base} is stopped"
 msgstr "A(z) ${base} le van állítva"
 
@@ -3792,7 +3836,7 @@ msgstr "A puppetmaster leállítása: "
 msgid "Usage: $0 {start|stop|status|restart|reload|condrestart|force-reload}"
 msgstr "Használat: $0 {start|stop|status|restart|reload|force-reload}"
 
-#: /etc/rc.d/init.d/perlbal:21
+#: /etc/rc.d/init.d/perlbal:19
 msgid "Starting Perlbal: "
 msgstr "A Perlbal indítása: "
 
@@ -3800,7 +3844,7 @@ msgstr "A Perlbal indítása: "
 msgid "DSA key generation"
 msgstr "DSA kulcs létrehozása"
 
-#: /etc/rc.d/init.d/pgbouncer:159
+#: /etc/rc.d/init.d/pgbouncer:162
 msgid ""
 "Usage: $0 {start|stop|status|restart|pause|continue|reload|force-reload|"
 "condrestart|condstop}"
@@ -3812,9 +3856,14 @@ msgstr ""
 msgid "Starting xen blktapctrl daemon: "
 msgstr "A xen blktapctrl szolgáltatás indítása: "
 
-#: /etc/rc.d/init.d/wesnothd:43
-msgid "Starting Wesnoth game server: "
-msgstr "A Wesnoth játékkiszolgáló indítása: "
+#: /etc/rc.d/init.d/nsd:47
+msgid "Starting nsd:"
+msgstr "A nsd indítása: "
+
+#: /etc/rc.d/init.d/spectrum:69
+#, fuzzy
+msgid "Starting spectrum transport: "
+msgstr "Az ICQ átvitel indítása: "
 
 #: /etc/rc.d/init.d/postfix:89
 msgid "$prog stop"
@@ -3836,7 +3885,7 @@ msgstr "A Bluetooth eszközök engedélyezése:"
 msgid "netconsole: can't resolve MAC address of $SYSLOGADDR"
 msgstr "netconsole: A(z) $SYSLOGADDR MAC-címe nem oldható fel"
 
-#: /etc/rc.d/init.d/halt:185
+#: /etc/rc.d/init.d/halt:185 /etc/rc.d/init.d/reboot:185
 msgid "On the next boot fsck will be skipped."
 msgstr "A következő indításnál az fsck át lesz ugorva."
 
@@ -3844,11 +3893,12 @@ msgstr "A következő indításnál az fsck át lesz ugorva."
 msgid "\tscript(s)\t: specify systemtap scripts"
 msgstr "\tscripts\t: systemtap szkriptek megadása"
 
-#: /etc/rc.d/rc.sysinit:804
+#: /etc/rc.d/rc.sysinit:629
 msgid "Enabling local swap partitions: "
 msgstr "A helyi lapozási (swap-) partíciók engedélyazése: "
 
-#: /etc/sysconfig/network-scripts/ifup-eth:225
+#: /etc/sysconfig/network-scripts/ifup-eth:222
+#: /etc/sysconfig/network-scripts/ifup-ib:216
 msgid "Failed to bring up ${DEVICE}."
 msgstr "A(z) ${DEVICE} eszköz aktiválása sikertelen."
 
@@ -3856,7 +3906,7 @@ msgstr "A(z) ${DEVICE} eszköz aktiválása sikertelen."
 msgid "Starting xenner daemons"
 msgstr "A xenner szolgáltatás indítása: "
 
-#: /etc/rc.d/init.d/halt:99
+#: /etc/rc.d/init.d/halt:99 /etc/rc.d/init.d/reboot:99
 msgid "Saving mixer settings"
 msgstr "A hangkeverő beállításainak mentése"
 
@@ -3868,7 +3918,7 @@ msgstr "Nem sikerült aktiválni a 'sit0' alagút-eszközt"
 msgid "Starting rfcomm: "
 msgstr "Az rfcomm indítása: "
 
-#: /etc/rc.d/init.d/udev-post:93
+#: /etc/rc.d/init.d/udev-post:64
 msgid "Usage: $0 {start|stop|reload}"
 msgstr "Használat: $0 {start|stop|reload}"
 
@@ -3878,10 +3928,6 @@ msgstr ""
 "Figyelem: a(z) $prog nem biztos, hogy leállt. Az (újra)indítás lehet, hogy "
 "nem fog működni"
 
-#: /etc/rc.d/rc.sysinit:278
-msgid "\t\tPress 'I' to enter interactive startup."
-msgstr "\t\tNyomjon 'I'-t az interaktív indításhoz."
-
 #: /etc/rc.d/init.d/clement:189 /etc/rc.d/init.d/clement:192
 msgid "clement stop"
 msgstr "clement leállítás"
@@ -3890,7 +3936,7 @@ msgstr "clement leállítás"
 msgid "Generating SSH2 DSA host key: "
 msgstr "SSH2 DSA kiszolgáló kulcs létrehozása: "
 
-#: /etc/sysconfig/network-scripts/ifup:88
+#: /etc/sysconfig/network-scripts/ifup:93
 msgid "No 802.1Q VLAN support available in kernel for device ${DEVICE}"
 msgstr "Nincs 802.1Q VLAN-támogatás a kernelben a(z) ${DEVICE} eszközhöz"
 
@@ -3898,19 +3944,20 @@ msgstr "Nincs 802.1Q VLAN-támogatás a kernelben a(z) ${DEVICE} eszközhöz"
 msgid "Stopping $display_name: "
 msgstr "A(z) $display_name leállítása: "
 
-#: /etc/rc.d/init.d/monotone:177 /etc/rc.d/init.d/monotone:179
-msgid "key generation"
-msgstr "kulcs létrehozása"
+#: /etc/rc.d/init.d/fetch-crl-cron:56
+#, fuzzy
+msgid "Periodic fetch-crl is disabled."
+msgstr "A process accounting letiltva."
 
-#: /etc/rc.d/rc.sysinit:747
+#: /etc/rc.d/rc.sysinit:573
 msgid "Resetting hostname ${HOSTNAME}: "
 msgstr "A(z) {$HOSTNAME} számítógépnév ismételt beállítása: "
 
-#: /etc/rc.d/init.d/netfs:61
+#: /etc/rc.d/init.d/netfs:66
 msgid "Checking network-attached filesystems"
 msgstr "Hálózati fájlrendszerek ellenőrzése"
 
-#: /etc/rc.d/init.d/ncid-hangup:44 /etc/rc.d/init.d/ncid-kpopup:45
+#: /etc/rc.d/init.d/ncid-hangup:44 /etc/rc.d/init.d/ncid-initmodem:44
 #: /etc/rc.d/init.d/ncid-mythtv:45 /etc/rc.d/init.d/ncid-page:46
 #: /etc/rc.d/init.d/ncid-samba:45 /etc/rc.d/init.d/ncid-speak:45
 #: /etc/rc.d/init.d/ncid-yac:44
@@ -3935,24 +3982,24 @@ msgid "Usage: $0 {start|stop|status|restart|reload|force-reload|try-restart}"
 msgstr ""
 "Használat: $0 {start|stop|status|restart|reload|force-reload|try-restart}"
 
-#: /etc/rc.d/init.d/rtpproxy:86
-#, fuzzy
-msgid "Reloading $prog: not supported"
-msgstr "A(z) $DCBD újratöltése nem támogatott:"
+#: /etc/rc.d/init.d/tclhttpd:69
+msgid "Usage: killproc {program} [signal]"
+msgstr "Használat: killproc {program} [szignál]"
 
-#: /etc/rc.d/rc.sysinit:337
+#: /etc/rc.d/rc.sysinit:163
 msgid "Setting hostname ${HOSTNAME}: "
 msgstr "A(z) ${HOSTNAME} számítógépnév beállítása: "
 
-#: /etc/rc.d/init.d/yppasswdd:49
-msgid "Starting YP passwd service: "
-msgstr "A YP jelszószolgáltatás indítása: "
+#: /etc/rc.d/init.d/fcoe:94
+#, fuzzy
+msgid "Stopping FCoE initiator service: "
+msgstr "A rstat szolgáltatások leállítása: "
 
 #: /etc/rc.d/init.d/modclusterd:153
 msgid "Usage: $0 {start|stop|reload|restart|status}"
 msgstr "Használat: $0 {start|stop|reload|restart|status}"
 
-#: /etc/rc.d/init.d/ncid-hangup:35 /etc/rc.d/init.d/ncid-kpopup:36
+#: /etc/rc.d/init.d/ncid-hangup:35 /etc/rc.d/init.d/ncid-initmodem:35
 #: /etc/rc.d/init.d/ncid-mythtv:36 /etc/rc.d/init.d/ncid-page:37
 #: /etc/rc.d/init.d/ncid-samba:36 /etc/rc.d/init.d/ncid-speak:36
 #: /etc/rc.d/init.d/ncid-yac:35
@@ -3968,8 +4015,9 @@ msgstr "HIBA: [ipv6_log] Hiányzó 'üzenet' (arg 1)"
 msgid "freshclam daemon NOT up and running (please check this)"
 msgstr "a freshclam szolgáltatás NEM fut (kérem ellenőrizze ezt)"
 
-#: /etc/rc.d/init.d/network:284 /etc/rc.d/init.d/rstatd:87
-#: /etc/rc.d/init.d/rusersd:88
+#: /etc/rc.d/init.d/network:278 /etc/rc.d/init.d/psacct:77
+#: /etc/rc.d/init.d/rstatd:91 /etc/rc.d/init.d/rstatd:95
+#: /etc/rc.d/init.d/rusersd:92 /etc/rc.d/init.d/rusersd:96
 msgid "Usage: $0 {start|stop|status|restart|reload|force-reload}"
 msgstr "Használat: $0 {start|stop|status|restart|reload|force-reload}"
 
@@ -3977,7 +4025,11 @@ msgstr "Használat: $0 {start|stop|status|restart|reload|force-reload}"
 msgid "$prog dead but subsys locked"
 msgstr "$prog nem fut, de az alrendszer zárolva"
 
-#: /etc/rc.d/init.d/halt:105
+#: /etc/rc.d/init.d/libvirt-guests:234
+msgid "Running guests on $uri URI: "
+msgstr ""
+
+#: /etc/rc.d/init.d/halt:105 /etc/rc.d/init.d/reboot:105
 msgid "Saving random seed: "
 msgstr "Véletlenszám-kezdőérték mentése: "
 
@@ -3985,7 +4037,7 @@ msgstr "Véletlenszám-kezdőérték mentése: "
 msgid "Loading ISDN modules"
 msgstr "Az ISDN modulok betöltése"
 
-#: /etc/rc.d/init.d/voms:416
+#: /etc/rc.d/init.d/voms:427
 #, fuzzy
 msgid "Usage: $0 {start|stop|restart|status|condrestart} [VO]"
 msgstr "Használat: $0 {start|stop|restart|status|condrestart}"
@@ -3994,17 +4046,18 @@ msgstr "Használat: $0 {start|stop|restart|status|condrestart}"
 msgid "killing ctdbd "
 msgstr "ctdbd leállítása "
 
-#: /etc/rc.d/init.d/uuidd:36
-msgid "Starting uuidd: "
-msgstr "Az uuidd indítása: "
-
-#: /etc/rc.d/rc.sysinit:677 /etc/rc.d/rc.sysinit:679
+#: /etc/rc.d/rc.sysinit:503 /etc/rc.d/rc.sysinit:505
 msgid "Mounting local filesystems: "
 msgstr "A helyi fájlrendszerek csatlakoztatása: "
 
-#: /etc/rc.d/init.d/privoxy:66
-msgid "Can't find $PRIVOXY_CONF, exit."
-msgstr "$PRIVOXY_CONF nem található, kilépés."
+#: /etc/rc.d/init.d/monotone:177 /etc/rc.d/init.d/monotone:179
+msgid "key generation"
+msgstr "kulcs létrehozása"
+
+#: /etc/rc.d/init.d/ipmi:545
+#, fuzzy
+msgid "Usage: $0 {start|stop|status"
+msgstr "Használat: $0 {start|stop|status}"
 
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:214
 msgid "Missing parameter 'IPv6-gateway' (arg 2)"
@@ -4014,20 +4067,20 @@ msgstr "Hiányzó paraméter: 'IPv6-átjáró' (arg 2)"
 msgid "Usage: $0 {start|stop|force-reload|restart|try-restart|status}"
 msgstr "Használat: $0 {start|stop|force-reload|restart|try-restart|status}"
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:101
-#: /etc/sysconfig/network-scripts/ifup-ipv6:118
-msgid "Please restart network with '/sbin/service network restart'"
-msgstr "Indítsa újra a hálózatot az '/sbin/service network restart'-tal"
+#: /etc/rc.d/init.d/mip6d:108
+#, fuzzy
+msgid ""
+"Usage: $prog {start|stop|status|restart|condrestart|try-restart|reload|force-"
+"reload}"
+msgstr ""
+"Használat: $0 {start|stop|status|restart|condrestart|try-restart|reload|"
+"force-reload}"
 
 #: /etc/rc.d/init.d/systemtap:61
 msgid "Usage: $prog {start|stop|restart|status|compile|cleanup} [option]"
 msgstr "Használat: $prog {start|stop|restart|status|compile|cleanup} [option]"
 
-#: /etc/rc.d/init.d/cyphesis:65
-msgid "Creating PostgreSQL database: "
-msgstr "A PostgreSQL adatbázis létrehozása: "
-
-#: /etc/rc.d/init.d/autofs:175
+#: /etc/rc.d/init.d/autofs:192
 #, fuzzy
 msgid ""
 "Usage: $0 {start|forcestart|stop|status|restart|forcerestart|reload|"
@@ -4036,21 +4089,10 @@ msgstr ""
 "Használat: $0 {start|forcestart|stop|status|restart|orcerestart|reload|"
 "condrestart}"
 
-#: /etc/rc.d/init.d/mip6d:91
-msgid "Usage: $prog {start|stop|restart}"
-msgstr "Használat: $prog {start|stop|restart}"
-
-#: /etc/rc.d/init.d/netfs:85 /etc/rc.d/rc.sysinit:70 /etc/rc.d/rc.sysinit:406
-#: /etc/rc.d/rc.sysinit:606
+#: /etc/rc.d/init.d/netfs:90 /etc/rc.d/rc.sysinit:69 /etc/rc.d/rc.sysinit:232
+#: /etc/rc.d/rc.sysinit:432
 msgid "*** when you leave the shell."
 msgstr "*** amikor Ön elhagyja a parancsértelmezőt."
-
-#: /etc/rc.d/init.d/openhpid:242
-msgid ""
-"Usage: $0 {start|stop|restart|condrestart|try-restart|status|force-reload}"
-msgstr ""
-"Használat: $0 {start|stop|restart|condrestart|try-restart|status|force-"
-"reload}"
 
 #: /etc/rc.d/init.d/sendmail:72
 msgid "Starting sm-client: "
@@ -4064,19 +4106,15 @@ msgstr "A(z) $NAME indítása: "
 msgid "Pre-0.26 monotone database must be migrated by hand: "
 msgstr "A 0.26-osnál korábbi monotone adatbázisokat kézzel kell átalakítani: "
 
-#: /etc/rc.d/init.d/iptables:197
+#: /etc/rc.d/init.d/iptables:201
 msgid "${IPTABLES}: Loading additional modules: "
 msgstr "${IPTABLES}: További modulok betöltése: "
 
-#: /etc/rc.d/init.d/syslog-ng:48
-msgid "Checking Configuration: "
-msgstr "Konfiguráció vizsgálata: "
+#: /etc/rc.d/init.d/tofmipd:88
+msgid "Usage: $progname {start|stop|restart|condrestart|status}"
+msgstr "Használat: $progname {start|stop|restart|condrestart|status}"
 
-#: /etc/rc.d/init.d/sqlgrey:15
-msgid "Starting SQLgrey: "
-msgstr "A SQLgrey indítása: "
-
-#: /etc/rc.d/init.d/dspam:62 /etc/rc.d/init.d/mip6d:57
+#: /etc/rc.d/init.d/dspam:62 /etc/rc.d/init.d/mip6d:62
 #: /etc/rc.d/init.d/oddjobd:85 /etc/rc.d/init.d/vnstat:55
 msgid "Reloading $prog configuration: "
 msgstr "A(z) $prog beállításainak újratöltése: "
@@ -4085,21 +4123,21 @@ msgstr "A(z) $prog beállításainak újratöltése: "
 msgid "Mounting CIFS filesystems: "
 msgstr "A CIFS fájlrendszerek csatolása: "
 
-#: /etc/rc.d/init.d/exim:38
+#: /etc/rc.d/init.d/exim:33
 msgid "Generating exim certificate: "
 msgstr "Exim tanusítvány készítése: "
 
 #: /etc/rc.d/init.d/bootparamd:78 /etc/rc.d/init.d/clamd-wrapper:88
 #: /etc/rc.d/init.d/collectd:60 /etc/rc.d/init.d/dhcp-fwd:73
 #: /etc/rc.d/init.d/dund:66 /etc/rc.d/init.d/ip-sentinel:77
-#: /etc/rc.d/init.d/ladvd:87 /etc/rc.d/init.d/maradns:115
-#: /etc/rc.d/init.d/maradns-zoneserver:109 /etc/rc.d/init.d/nscd:104
-#: /etc/rc.d/init.d/pand:69 /etc/rc.d/init.d/rfcomm:61
-#: /etc/rc.d/init.d/rpcbind:88 /etc/rc.d/init.d/snake-server:67
+#: /etc/rc.d/init.d/ladvd:87 /etc/rc.d/init.d/nscd:104
+#: /etc/rc.d/init.d/olbd:81 /etc/rc.d/init.d/pand:69
+#: /etc/rc.d/init.d/proofd:77 /etc/rc.d/init.d/rfcomm:61
+#: /etc/rc.d/init.d/rootd:78 /etc/rc.d/init.d/xrootd:82
 msgid "Usage: $0 {start|stop|status|restart|reload|condrestart}"
 msgstr "Használat: $0 {start|stop|status|restart|reload|condrestart}"
 
-#: /etc/rc.d/init.d/rusersd:40
+#: /etc/rc.d/init.d/rusersd:44
 msgid "Starting rusers services: "
 msgstr "A rusers szolgáltatások indítása: "
 
@@ -4181,11 +4219,20 @@ msgstr ""
 msgid "Stopping Xpilot game server: "
 msgstr "A Xpilot játékkiszolgáló leállítása: "
 
+#: /etc/rc.d/init.d/libvirt-guests:154
+#, fuzzy
+msgid "already active"
+msgstr "A(z) $prog már fut"
+
 #: /etc/rc.d/init.d/haldaemon:27
 msgid "Starting HAL daemon: "
 msgstr "A HAL szolgáltatás indítása: "
 
-#: /etc/rc.d/rc.sysinit:68
+#: /etc/rc.d/init.d/unbound:76
+msgid "Stopping unbound: "
+msgstr "Az unbound leállítása: "
+
+#: /etc/rc.d/rc.sysinit:67
 msgid "*** /etc/selinux/config indicates you want to manually fix labeling"
 msgstr ""
 "*** A /etc/selinux/config szerint Ön kézzel szeretné javítani a címkézési"
@@ -4194,11 +4241,11 @@ msgstr ""
 msgid "No scripts exist."
 msgstr "Nincsenek szkriptek."
 
-#: /etc/rc.d/init.d/vprocunhide:50
+#: /etc/rc.d/init.d/vprocunhide:60
 msgid "/proc entries were fixed"
 msgstr "/proc-bejegyzések beállítva"
 
-#: /etc/rc.d/init.d/postgresql:309 /etc/rc.d/init.d/sepostgresql:207
+#: /etc/rc.d/init.d/sepostgresql:200
 msgid ""
 "Usage: $0 {start|stop|status|restart|condrestart|condstop|reload|force-"
 "reload|initdb}"
@@ -4212,7 +4259,7 @@ msgstr ""
 "Használat: $0 {start|stop|restart|condrestart|reload|status|force-reload}"
 
 #: /etc/rc.d/init.d/halt:70 /etc/rc.d/init.d/killall:10
-#: /etc/rc.d/init.d/stinit:32
+#: /etc/rc.d/init.d/reboot:70 /etc/rc.d/init.d/stinit:32
 msgid "Usage: $0 {start}"
 msgstr "Használat: $0 {start}"
 
@@ -4224,23 +4271,23 @@ msgstr "A(z) '$device' alagút-eszközt nem sikerült létrehozni"
 msgid "Missing parameter 'IPv6-address' (arg 2)"
 msgstr "Hiányzó paraméter: 'IPv6-cím' (arg 2)"
 
-#: /etc/rc.d/rc.sysinit:74 /etc/rc.d/rc.sysinit:590 /etc/rc.d/rc.sysinit:613
+#: /etc/rc.d/rc.sysinit:81 /etc/rc.d/rc.sysinit:416 /etc/rc.d/rc.sysinit:439
 msgid "Unmounting file systems"
 msgstr "Fájlrendszerek leválasztása"
 
-#: /etc/rc.d/init.d/ntpdate:42
-msgid "NTP server not specified in $ntpstep or $ntpconf"
-msgstr "Nincs megadva NTP szerver a $ntpstep vagy a $ntpconf fájlban"
+#: /etc/rc.d/init.d/fetch-crl-cron:53
+#, fuzzy
+msgid "Periodic fetch-crl is enabled."
+msgstr "A process accounting engedélyezve."
 
 #: /etc/rc.d/init.d/portreserve:54
 msgid "(not starting, no services registered)"
 msgstr "(nem indítható, mert nincs bejegyzett szolgáltatás)"
 
-#: /etc/rc.d/init.d/bgpd:45 /etc/rc.d/init.d/cachefilesd:60
-#: /etc/rc.d/init.d/ospf6d:44 /etc/rc.d/init.d/ospfd:44
-#: /etc/rc.d/init.d/remotetrx:38 /etc/rc.d/init.d/ripd:44
-#: /etc/rc.d/init.d/ripngd:44 /etc/rc.d/init.d/svxlink:38
-#: /etc/rc.d/init.d/zebra:44
+#: /etc/rc.d/init.d/bgpd:46 /etc/rc.d/init.d/cachefilesd:66
+#: /etc/rc.d/init.d/ospf6d:45 /etc/rc.d/init.d/ospfd:45
+#: /etc/rc.d/init.d/ripd:45 /etc/rc.d/init.d/ripngd:45
+#: /etc/rc.d/init.d/watchquagga:38 /etc/rc.d/init.d/zebra:45
 msgid "Shutting down $PROG: "
 msgstr "A(z) $PROG leállítása: "
 
@@ -4260,6 +4307,11 @@ msgstr ""
 "Használat: $0 {start|stop|restart|reload|force-reload|condrestart|try-"
 "restart|status}"
 
+#: /etc/rc.d/init.d/sblim-sfcb:74
+#, fuzzy
+msgid "sfcb is not running, but lock file exists"
+msgstr "A CIM kiszolgáló nem fut"
+
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:312
 msgid "Device '$device' doesn't exist"
 msgstr "Nem létezik '$device' nevű eszköz"
@@ -4268,7 +4320,7 @@ msgstr "Nem létezik '$device' nevű eszköz"
 msgid "Stopping $type $name: "
 msgstr "A(z) $type $name leállítása: "
 
-#: /etc/rc.d/init.d/postgresql:167
+#: /etc/rc.d/init.d/postgresql:101
 msgid ""
 "See $SYSDOCDIR/postgresql-$PGVERSION/README.rpm-dist for more information."
 msgstr ""
@@ -4283,21 +4335,13 @@ msgstr "A(z) $SERVICE szolgáltatás indítása: "
 msgid "Mounting zfs partitions: "
 msgstr "A zfs partíciók csatolása: "
 
-#: /etc/rc.d/init.d/network:144 /etc/rc.d/init.d/network:156
-msgid "Bringing up interface $i: "
-msgstr "A(z) $i csatoló aktiválása: "
-
-#: /etc/rc.d/rc.sysinit:134
+#: /etc/rc.d/init.d/functions:643
 msgid "INSECURE MODE FOR $key"
 msgstr "NEM BIZTONSÁGOSAK \"$key\" FÁJL JOGOSULTSÁGAI"
 
 #: /etc/rc.d/init.d/clamd-wrapper:67
 msgid "Loading new virus-database: "
 msgstr "Az új vírusadatbázis betöltése: "
-
-#: /etc/rc.d/init.d/cyphesis:124
-msgid "Shutting down cyphesis: "
-msgstr "A cyphesis leállítása: "
 
 #: /etc/rc.d/init.d/crossfire:56
 msgid "Stopping Crossfire game server: "
@@ -4323,12 +4367,12 @@ msgstr "A(z) '$address' IPv6-cím nem vehető fel a(z) '$device' eszközre"
 msgid "Missing parameter 'device' (arg 1)"
 msgstr "Hiányzó paraméter: 'eszköz' (arg 1)"
 
-#: /etc/rc.d/init.d/psacct:40
+#: /etc/rc.d/init.d/psacct:45
 msgid "Shutting down process accounting: "
 msgstr "A process accounting leállítása: "
 
 #: /etc/rc.d/init.d/honeyd:120 /etc/rc.d/init.d/icecast:62
-#: /etc/rc.d/init.d/psacct:72 /etc/rc.d/init.d/rdisc:87
+#: /etc/rc.d/init.d/ipmiutil_wdt:142 /etc/rc.d/init.d/rdisc:87
 #: /etc/rc.d/init.d/ulogd:95
 msgid "Usage: $0 {start|stop|status|restart|reload}"
 msgstr "Használat: $0 {start|stop|status|restart|reload}"
@@ -4339,22 +4383,23 @@ msgstr "Az ifup-ppp kilépett a(z) ${DEVNAME} eszköznél"
 
 #: /etc/rc.d/init.d/3proxy:52 /etc/rc.d/init.d/ajaxterm:42
 #: /etc/rc.d/init.d/boa:60 /etc/rc.d/init.d/clamd-wrapper:64
-#: /etc/rc.d/init.d/crond:74 /etc/rc.d/init.d/cups:117
+#: /etc/rc.d/init.d/crond:78 /etc/rc.d/init.d/cups:117
 #: /etc/rc.d/init.d/cups:123 /etc/rc.d/init.d/dbmail-imapd:51
 #: /etc/rc.d/init.d/dbmail-lmtpd:52 /etc/rc.d/init.d/dbmail-pop3d:52
 #: /etc/rc.d/init.d/dbmail-timsieved:53 /etc/rc.d/init.d/dovecot:65
 #: /etc/rc.d/init.d/haproxy:75 /etc/rc.d/init.d/honeyd:91
-#: /etc/rc.d/init.d/httpd:73 /etc/rc.d/init.d/ircd:53
-#: /etc/rc.d/init.d/keepalived:59 /etc/rc.d/init.d/lighttpd:63
-#: /etc/rc.d/init.d/mailgraph:57 /etc/rc.d/init.d/monit:52
-#: /etc/rc.d/init.d/nginx:59 /etc/rc.d/init.d/ngircd:42
-#: /etc/rc.d/init.d/nscd:95 /etc/rc.d/init.d/ntop:57
+#: /etc/rc.d/init.d/httpd:73 /etc/rc.d/init.d/keepalived:59
+#: /etc/rc.d/init.d/lighttpd:63 /etc/rc.d/init.d/mailgraph:57
+#: /etc/rc.d/init.d/monit:52 /etc/rc.d/init.d/nginx:59
+#: /etc/rc.d/init.d/ngircd:42 /etc/rc.d/init.d/nscd:95
+#: /etc/rc.d/init.d/ntop:57 /etc/rc.d/init.d/polipo:75
 #: /etc/rc.d/init.d/postgrey:62 /etc/rc.d/init.d/pure-ftpd:60
-#: /etc/rc.d/init.d/pyicq-t:49 /etc/rc.d/init.d/ratbox-services:47
+#: /etc/rc.d/init.d/pyicq-t:49 /etc/rc.d/init.d/racoon:63
 #: /etc/rc.d/init.d/rbldnsd:116 /etc/rc.d/init.d/rinetd:49
 #: /etc/rc.d/init.d/sec:44 /etc/rc.d/init.d/sendmail:91
 #: /etc/rc.d/init.d/ser:53 /etc/rc.d/init.d/smsd:50 /etc/rc.d/init.d/snmpd:68
-#: /etc/rc.d/init.d/sshd:162 /etc/rc.d/init.d/sssd:59 /etc/rc.d/init.d/tor:71
+#: /etc/rc.d/init.d/sshd:162 /etc/rc.d/init.d/sssd:59
+#: /etc/rc.d/init.d/tinyproxy:59 /etc/rc.d/init.d/tor:71
 #: /etc/rc.d/init.d/ulogd:60 /etc/rc.d/init.d/ushare:44
 #: /etc/rc.d/init.d/xfs:90
 msgid "Reloading $prog: "
@@ -4377,41 +4422,47 @@ msgstr ""
 "Figyelmeztetés: a kapcsolat nem támogatja az IPv6-ot 'rawip' enkapszuláció "
 "esetén"
 
-#: /etc/rc.d/init.d/halt:57
+#: /etc/rc.d/init.d/halt:57 /etc/rc.d/init.d/reboot:57
 msgid "Please stand by while rebooting the system..."
 msgstr "Kis türelmet, a rendszer újraindul..."
 
-#: /etc/rc.d/init.d/avahi-dnsconfd:49
+#: /etc/rc.d/init.d/avahi-dnsconfd:61
 msgid "Shutting down Avahi DNS daemon: "
 msgstr "Az Avahi DNS-szolgáltatás leállítása: "
 
-#: /etc/rc.d/init.d/syslog-ng:68
-msgid "Stopping syslog-ng: "
-msgstr "A syslog-ng leállítása: "
+#: /etc/rc.d/rc.sysinit:74
+msgid "*** Warning -- SELinux ${SELINUXTYPE} policy relabel is required."
+msgstr ""
+"*** Figyelmeztetés: SELinux ${SELINUXTYPE} szabályzat újracímkézése "
+"szükséges."
 
 #: /etc/rc.d/init.d/mt-daapd:27
 msgid "Shutting down DAAP server: "
 msgstr "A DAAP kiszolgáló leállítása: "
 
-#: /etc/rc.d/init.d/openct:68
+#: /etc/rc.d/init.d/openct:78
 msgid "Waiting for reader attach/detach events..."
 msgstr "Várakozás az olvasó csatolás/leválasztás eseményeire..."
 
-#: /etc/rc.d/init.d/postfix:114
-msgid "$prog flush"
-msgstr "$prog - kiürítés"
+#: /etc/rc.d/init.d/ddclient:87
+#, fuzzy
+msgid ""
+"Usage: $0 {start|stop|status|reload|restart|condrestart|force-reload|try-"
+"restart}"
+msgstr ""
+"Használat: $0 {start|stop|status|restart|reload|force-reload|try-restart}"
 
-#: /etc/rc.d/init.d/avahi-daemon:65
-msgid "$base reload"
-msgstr "$base - újratöltés"
+#: /etc/rc.d/init.d/netfs:43
+msgid "Mounting NCP filesystems: "
+msgstr "A NCP fájlrendszerek csatlakoztatása: "
 
 #: /etc/rc.d/init.d/amavisd-snmp:23
 msgid "Shutting down amavisd-snmp-subagent: "
 msgstr "Az amavisd-snmp-subagent leállítása: "
 
-#: /etc/rc.d/init.d/zarafa-server:59 /etc/rc.d/init.d/zarafa-server:61
-#: /etc/rc.d/init.d/zarafa-server:64 /etc/rc.d/init.d/zarafa-server:78
-#: /etc/rc.d/init.d/zarafa-server:82
+#: /etc/rc.d/init.d/zarafa-server:74 /etc/rc.d/init.d/zarafa-server:76
+#: /etc/rc.d/init.d/zarafa-server:79 /etc/rc.d/init.d/zarafa-server:92
+#: /etc/rc.d/init.d/zarafa-server:96
 #, fuzzy
 msgid "Stopping $server: "
 msgstr "A RADIUS kiszolgáló leállítása: "
@@ -4424,21 +4475,22 @@ msgstr "A CIM kiszolgáló indítása: "
 msgid "Starting CallWeaver: "
 msgstr "A CallWeaver indítása: "
 
-#: /etc/rc.d/init.d/rstatd:51
+#: /etc/rc.d/init.d/rstatd:55
 msgid "Stopping rstat services: "
 msgstr "A rstat szolgáltatások leállítása: "
 
 #: /etc/rc.d/init.d/atop:74 /etc/rc.d/init.d/audio-entropyd:52
-#: /etc/rc.d/init.d/dspam:91 /etc/rc.d/init.d/krb5kdc:94
-#: /etc/rc.d/init.d/newscache:80 /etc/rc.d/init.d/squidGuard:171
+#: /etc/rc.d/init.d/dspam:91 /etc/rc.d/init.d/kprop:87
+#: /etc/rc.d/init.d/krb5kdc:96 /etc/rc.d/init.d/newscache:80
+#: /etc/rc.d/init.d/squidGuard:171
 msgid "Usage: $0 {start|stop|status|reload|restart|condrestart}"
 msgstr "Használat: $0 {start|stop|status|reload|restart|condrestart}"
 
-#: /etc/rc.d/init.d/cyphesis:31
-msgid "Could not check for running PostgreSQL database."
-msgstr "Nem sikerült a futó PostgreSQL adatbázis ellenőrzése."
+#: /etc/rc.d/init.d/ntpdate:42
+msgid "NTP server not specified in $ntpstep or $ntpconf"
+msgstr "Nincs megadva NTP szerver a $ntpstep vagy a $ntpconf fájlban"
 
-#: /etc/rc.d/init.d/freenx-server:66 /etc/rc.d/init.d/xfs:103
+#: /etc/rc.d/init.d/xfs:103
 msgid "Restarting $prog:"
 msgstr "A(z) $prog újraindítása:"
 
@@ -4446,11 +4498,9 @@ msgstr "A(z) $prog újraindítása:"
 msgid "Stopping liquidwar game server: "
 msgstr "A liquidwar játékkiszolgáló leállítása: "
 
-#: /etc/rc.d/init.d/cyphesis:43
-msgid "Cannot find user $CYPHESISUSER to run cyphesis service."
-msgstr ""
-"Nem található a $CYPHESISUSER felhasználó a cyphesis szolgáltatás "
-"futtatásához."
+#: /etc/rc.d/init.d/nsca:55
+msgid "Reloading nsca: "
+msgstr "nsca újratöltése: "
 
 #: /etc/rc.d/init.d/ipmi:311
 msgid "Stopping ipmi_poweroff driver: "
@@ -4464,55 +4514,45 @@ msgstr "A Qemu bináris formátumának kezelői nincsenek regisztrálva."
 msgid "Generating SSH1 RSA host key: "
 msgstr "SSH1 RSA kiszolgáló kulcs létrehozása: "
 
-#: /etc/rc.d/init.d/cherokee:35
-msgid "$NAME: already running"
-msgstr "$NAME: már fut"
-
 #: /etc/rc.d/init.d/ocspd:75
 msgid "Reloading CRLs: "
 msgstr "CRL-ek újratöltése: "
 
-#: /etc/rc.d/init.d/ipmi:545
-msgid "Usage: $0 {start|stop|status|restart|condrestart|try-restart"
-msgstr "Használat: $0 {start|stop|status|restart|condrestart|try-restart}"
+#: /etc/rc.d/init.d/iptables:289
+msgid "${IPTABLES}: Firewall modules are not loaded."
+msgstr "${IPTABLES}: A tűzfal modulok nincsenek betöltve."
 
-#: /etc/rc.d/init.d/maradns:77 /etc/rc.d/init.d/maradns-zoneserver:71
-msgid "$rcfile "
-msgstr "$rcfile "
-
-#: /etc/rc.d/init.d/arpwatch:80 /etc/rc.d/init.d/gkrellmd:74
-#: /etc/rc.d/init.d/gpsd:89 /etc/rc.d/init.d/hddtemp:90
-#: /etc/rc.d/init.d/ntpd:85 /etc/rc.d/init.d/shmpps:63
-#: /etc/rc.d/init.d/vdr:106 /etc/rc.d/init.d/vdradmind:66
-#: /etc/rc.d/init.d/zabbix-agent:74 /etc/rc.d/init.d/zabbix-proxy:80
-#: /etc/rc.d/init.d/zabbix-server:79
+#: /etc/rc.d/init.d/arpwatch:82 /etc/rc.d/init.d/gkrellmd:74
+#: /etc/rc.d/init.d/hddtemp:90 /etc/rc.d/init.d/ntpd:85
+#: /etc/rc.d/init.d/shmpps:63 /etc/rc.d/init.d/vdr:106
+#: /etc/rc.d/init.d/vdradmind:66
 msgid "Usage: $0 {start|stop|status|restart|try-restart|force-reload}"
 msgstr "Használat: $0 {start|stop|status|restart|try-restart|force-reload}"
 
-#: /etc/rc.d/init.d/slapd:175
+#: /etc/rc.d/init.d/slapd:183
 msgid "stale lock files may be present in $directory"
 msgstr "elévült zárolási fájlok (lock) lehetnek a $directory könyvtárban"
 
-#: /etc/rc.d/init.d/ip6tables:197
+#: /etc/rc.d/init.d/ip6tables:201
 msgid "${IP6TABLES}: Loading additional modules: "
 msgstr "${IP6TABLES}: További modulok betöltése: "
 
-#: /etc/rc.d/init.d/halt:117
+#: /etc/rc.d/init.d/halt:117 /etc/rc.d/init.d/reboot:117
 msgid "Turning off swap: "
 msgstr "A lapozás kikapcsolása: "
 
-#: /etc/rc.d/init.d/zarafa-gateway:54
-#, fuzzy
-msgid "Stopping $gateway: "
-msgstr "A(z) $name leállítása: "
-
-#: /etc/rc.d/init.d/privoxy:65
-msgid "Can't find $PRIVOXY_BIN, exit."
-msgstr "A(z) $PRIVOXY_BIN nem található, kilépés."
+#: /etc/sysconfig/network-scripts/ifup-aliases:259
+#: /etc/sysconfig/network-scripts/ifup-aliases:270
+msgid "error in ifcfg-${parent_device}: files"
+msgstr "hiba itt: ifcfg-${parent_device} (fájlok)"
 
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:1117
 msgid "Unsupported reason '$reason' for sending trigger to radvd"
 msgstr "Nem támogatott ok ('$reason') az radvd értesítésnél"
+
+#: /etc/rc.d/init.d/named:122
+msgid "named: already running"
+msgstr "named: már fut."
 
 #: /etc/rc.d/init.d/3proxy:80
 #, fuzzy
@@ -4523,11 +4563,12 @@ msgstr "Használat: $0 {start|stop|restart|condrestart|status}"
 msgid "ERROR: [ipv6_log] Loglevel isn't valid '$level' (arg 2)"
 msgstr "HIBA: [ipv6_log] A(z) '$level' naplózási szint érvénytelen (arg 2)"
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:182
-msgid "error in $FILE: already seen ipaddr $IPADDR in $ipseen"
-msgstr "Hiba a(z) $FILE fájlban: már van $IPADDR cím itt: $ipseen"
+#: /etc/rc.d/init.d/zarafa-indexer:75
+#, fuzzy
+msgid "Restarting $indexer: "
+msgstr "A(z) $prog újraindítása: "
 
-#: /etc/rc.d/init.d/ipmi:546
+#: /etc/rc.d/init.d/ipmi:547
 msgid "          start-watchdog|stop-watchdog|status-watchdog"
 msgstr "          start-watchdog|stop-watchdog|status-watchdog"
 
@@ -4568,7 +4609,7 @@ msgstr "Használat: $0 {start|stop|status}"
 msgid "Starting YP server services: "
 msgstr "A YP kiszolgáló szolgáltatások indítása: "
 
-#: /etc/rc.d/init.d/kadmin:109
+#: /etc/rc.d/init.d/kadmin:111
 msgid "Usage: $0 {start|stop|status|condrestart|reload|restart}"
 msgstr "Használat: $0 {start|stop|status|condrestart|reload|restart}"
 
@@ -4577,13 +4618,9 @@ msgstr "Használat: $0 {start|stop|status|condrestart|reload|restart}"
 msgid "$prog already running."
 msgstr "A(z) $prog már fut"
 
-#: /etc/rc.d/init.d/chronyd:72
+#: /etc/rc.d/init.d/chronyd:73
 msgid "Generating chrony command key: "
 msgstr "A chrony vezérlőkulcsának létrehozása: "
-
-#: /etc/rc.d/init.d/dcbd:246
-msgid "Reloading $DCBD is not supported: "
-msgstr "A(z) $DCBD újratöltése nem támogatott:"
 
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:1048
 msgid "Given IPv6 default device '$device' requires an explicit nexthop"
@@ -4591,12 +4628,12 @@ msgstr ""
 "A megadott IPv6-os alapértelmezett eszköz ('$device') explicit nexthop "
 "értéket igényel"
 
-#: /etc/rc.d/init.d/zarafa-ical:69
+#: /etc/rc.d/init.d/zarafa-ical:77
 #, fuzzy
 msgid "Restarting $ical: "
 msgstr "A(z) $prog újraindítása: "
 
-#: /etc/rc.d/rc.sysinit:684
+#: /etc/rc.d/rc.sysinit:510
 msgid "Checking local filesystem quotas: "
 msgstr "Helyi fájlrendszerkvóták ellenőrzése: "
 
@@ -4608,17 +4645,17 @@ msgstr "A NFS statd indítása: "
 msgid "Starting $master_prog: "
 msgstr "A(z) $master_prog indítása: "
 
-#: /etc/rc.d/init.d/xttpd:36
-msgid "PORT environment is not set."
-msgstr "A PORT környezet nincs beállítva."
+#: /etc/rc.d/init.d/libvirt-guests:129
+msgid "libvirt-guests is configured not to start any guests on boot"
+msgstr ""
 
 #: /etc/rc.d/init.d/innd:59 /etc/rc.d/init.d/innd:61
 msgid "innd shutdown"
 msgstr "Az innd leállítása"
 
-#: /etc/rc.d/init.d/ypbind:75 /etc/rc.d/init.d/ypbind:76
-msgid "domain not found"
-msgstr "A domain nem található"
+#: /etc/rc.d/init.d/rstatd:41
+msgid "Starting rstat services: "
+msgstr "A rstat szolgáltatások indítása: "
 
 #: /etc/sysconfig/network-scripts/ifup-ppp:48
 msgid "pppd does not exist or is not executable for ${DEVICE}"
@@ -4636,17 +4673,13 @@ msgstr "${NAME} újratöltése: "
 msgid "Reloading exim:"
 msgstr "Az exim újratöltése:"
 
-#: /etc/rc.d/init.d/functions:423
+#: /etc/rc.d/init.d/functions:429
 msgid "${base} dead but pid file exists"
 msgstr "A(z) ${base} nem fut, de létezik PID-fájl."
 
 #: /etc/rc.d/init.d/sendmail:52
 msgid "Package sendmail-cf is required to update configuration."
 msgstr "A sendmail-cf csomagnak szüksége van a beállítások frissítésére."
-
-#: /etc/rc.d/init.d/xend:43
-msgid "Stopping xend daemon: "
-msgstr "A xend szolgáltatás leállítása: "
 
 #: /etc/rc.d/init.d/restorecond:52
 msgid "Shutting down restorecond: "
@@ -4656,26 +4689,17 @@ msgstr "A restorecond leállítása: "
 msgid "program is dead and /var/lock lock file exists"
 msgstr "A program leállt, de létezik zárolási fájl a /var/lock helyen"
 
-#: /etc/rc.d/init.d/mysqld:166
-msgid "Usage: $0 {start|stop|status|condrestart|restart}"
-msgstr "Használat: $0 {start|stop|status|condrestart|restart}"
-
-#: /etc/rc.d/init.d/ksmtuned:84
-#, fuzzy
-msgid "Usage: $prog {start|stop|restart|condrestart|status|retune|help}"
-msgstr "Használat: $prog {start|stop|restart|condrestart|status|help}"
-
 #: /etc/sysconfig/network-scripts/ifup-ppp:46
 msgid "ifup-ppp for ${DEVICE} exiting"
 msgstr "Az ifup-ppp kilépett a(z) ${DEVICE} eszköznél"
 
-#: /etc/rc.d/init.d/argus:38
-msgid "Shutting down argus: "
-msgstr "Az argus leállítása: "
-
-#: /etc/rc.d/init.d/ip6tables:246
-msgid "${IP6TABLES}: Saving firewall rules to $IP6TABLES_DATA: "
-msgstr "${IP6TABLES}: Tűzfalszabályok mentése ide: $IP6TABLES_DATA: "
+#: /etc/rc.d/init.d/dbmail-imapd:85 /etc/rc.d/init.d/dbmail-lmtpd:86
+#: /etc/rc.d/init.d/dbmail-pop3d:86 /etc/rc.d/init.d/dbmail-timsieved:87
+#: /etc/rc.d/init.d/mailgraph:91 /etc/rc.d/init.d/ntop:90
+#: /etc/rc.d/init.d/polipo:107 /etc/rc.d/init.d/ris-linuxd:102
+#: /etc/rc.d/init.d/sip-redirect:73
+msgid "Usage: $prog {start|stop|restart|condrestart|reload|status}"
+msgstr "Használat: $prog {start|stop|restart|condrestart|reload|status}"
 
 #: /etc/rc.d/init.d/rbldnsd:132
 msgid "($pid) is running..."
@@ -4689,9 +4713,9 @@ msgstr "A(z) $prog szolgáltatás beállításainak újratöltése: "
 msgid "Reloading ${prog} conig file: "
 msgstr "A(z) ${prog} beállításainak újratöltése: "
 
-#: /etc/rc.d/init.d/qpidd:52
-msgid "Starting Qpid AMQP daemon: "
-msgstr "A Qpid AMQP szolgáltatás indítása: "
+#: /etc/rc.d/init.d/functions:650
+msgid "Key file for $dst not found, skipping"
+msgstr "Nem található kulcsfájl ehhez: $dst - kihagyás"
 
 #: /etc/rc.d/init.d/tofmipd:48
 msgid "Starting $progname: "
@@ -4715,7 +4739,7 @@ msgstr "A(z) $prog már fut"
 msgid "start"
 msgstr "indítás"
 
-#: /etc/rc.d/init.d/network:245
+#: /etc/rc.d/init.d/network:239
 msgid "Shutting down interface $i: "
 msgstr "A(z) $i csatoló leállítása: "
 
@@ -4729,12 +4753,6 @@ msgstr "RPM-ek frissítése a(z) $group csoportban: "
 msgid "not reloading ${httpd} due to configuration syntax error"
 msgstr "a beállítás szintaktikai hibája miatt a(z) $httpd nem tölthető újra"
 
-#: /etc/sysconfig/network-scripts/ifup:132
-msgid "WARNING: vconfig not able to disable REORDER_HDR on ${DEVICE}"
-msgstr ""
-"Figyelem: a vconfig nem tudja letiltani a REORDER_HDR-t ezen az eszközön: "
-"${DEVICE}"
-
 #: /etc/sysconfig/network-scripts/ifup-ipv6:147
 msgid ""
 "Cannot enable IPv6 privacy method '$IPV6_PRIVACY', not supported by kernel"
@@ -4742,32 +4760,29 @@ msgstr ""
 "Nem lehet bekapcsolni az IPv6-os \"$IPV6_PRIVACY\" adatvédelmi módszert - a "
 "kernel nem támogatja"
 
-#: /etc/rc.d/rc.sysinit:50
-msgid "*** Warning -- SELinux is active"
-msgstr "*** Figyelmeztetés -- a SELinux aktív"
-
-#: /etc/rc.d/init.d/spamass-milter:69
+#: /etc/rc.d/init.d/spamass-milter:73
 msgid "Shutting down ${desc} (${prog}): "
 msgstr "A(z) ${desc} (${prog}) leállítása: "
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:681
-msgid "Missing parameter 'local IPv4 address' (arg 2)"
-msgstr "Hiányzó paraméter: 'helyi IPv4-cím' (arg 2)"
-
-#: /etc/rc.d/init.d/ipsec:166
-#, fuzzy
-msgid ""
-"Usage: $prog {start|stop|restart|reload|force-reload|condrestart|try-restart|"
-"status|version}"
+#: /etc/rc.d/init.d/fetch-crl-cron:22
+msgid "Enabling periodic fetch-crl: "
 msgstr ""
-"Használat: $0 {start|stop|restart|reload|force-reload|condrestart|try-"
-"restart|status}"
 
-#: /etc/rc.d/init.d/iscsi:56 /etc/rc.d/init.d/iscsi:61
-#: /etc/rc.d/init.d/isdn:178 /etc/rc.d/init.d/isdn:181
-#: /etc/rc.d/init.d/speech-dispatcherd:23
-msgid "Starting $prog"
-msgstr "A(z) $prog indítása"
+#: /etc/rc.d/init.d/mldonkey:83
+msgid "reload unimplemented"
+msgstr ""
+
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:1008
+msgid ""
+"Given IPv6 default gateway '$address' is link-local, but no scope or gateway "
+"device is specified"
+msgstr ""
+"A megadott IPv6-os alapértelmezett átjáró ('$address') link-local típusú, de "
+"nincs megadva scope vagy átjáró"
+
+#: /etc/rc.d/init.d/chronyd:86
+msgid "Adding dhclient NTP servers to chrony: "
+msgstr ""
 
 #: /etc/rc.d/init.d/lirc:89
 msgid "Stopping infrared remote control daemon ($prog): "
@@ -4777,15 +4792,23 @@ msgstr "Az infravörös távirányító-szolgáltatás ($prog) leállítása: "
 msgid "Unconfigured: $prog, /etc/gkrellmd.conf not found"
 msgstr "Nincs beállítva: $prog, /etc/gkrellmd.conf nem található"
 
-#: /etc/rc.d/init.d/denyhosts:108
-msgid "Stopping denyhosts: "
-msgstr "A denyhosts leállítása: "
+#: /etc/rc.d/init.d/crossfire:31
+msgid "Starting Crossfire game server: "
+msgstr "A Crossfire játékkiszolgáló indítása: "
+
+#: /etc/sysconfig/network-scripts/ifup-ipv6:117
+msgid ""
+"Global IPv6 forwarding is disabled in configuration, but not currently "
+"disabled in kernel"
+msgstr ""
+"Az általános IPv6-továbbítás le van tiltva a beállításokban, de nincs "
+"letiltva a kernelben"
 
 #: /etc/rc.d/init.d/condor:173
 msgid "$0: error: insufficient privileges"
 msgstr "$0: hiba: nem elegendő jogosultság"
 
-#: /etc/rc.d/rc.sysinit:796
+#: /etc/rc.d/rc.sysinit:621
 msgid "Enabling /etc/fstab swaps: "
 msgstr "A /etc/fstab fájlban megadott lapozási területek bekapcsolása: "
 
@@ -4801,9 +4824,9 @@ msgstr "A(z) $progname leállítása: "
 msgid "is stopped"
 msgstr "le van állítva"
 
-#: /etc/rc.d/init.d/postfix:74
-msgid "Starting postfix: "
-msgstr "A Postfix indítása: "
+#: /etc/rc.d/init.d/libvirt-guests:226
+msgid "Shutdown action requested but SHUTDOWN_TIMEOUT was not set"
+msgstr ""
 
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:1000
 msgid ""
@@ -4814,7 +4837,7 @@ msgstr ""
 "'$device_scope' scope, a megadott alapértelmezett átjáró-eszköz ('$device') "
 "nem lesz felhasználva"
 
-#: /etc/rc.d/init.d/ksm:64
+#: /etc/rc.d/init.d/ksm:61
 #, fuzzy
 msgid "$prog not supported"
 msgstr "$0: Az újratöltés nem támogatott"
@@ -4823,7 +4846,7 @@ msgstr "$0: Az újratöltés nem támogatott"
 msgid "Unloading ISDN modules"
 msgstr "Az ISDN-modulok eltávolítása"
 
-#: /etc/rc.d/init.d/zarafa-dagent:59
+#: /etc/rc.d/init.d/zarafa-dagent:67
 #, fuzzy
 msgid "Stopping $dagent: "
 msgstr "A(z) $name leállítása: "
@@ -4856,23 +4879,20 @@ msgstr "Használat: $service {start|stop|restart|list|status|clean}"
 msgid "Starting up-imapproxy daemon: "
 msgstr "Az up-imapproxy szolgáltatás indítása: "
 
-#: /etc/rc.d/init.d/abrtd:98 /etc/rc.d/init.d/acpid:111
+#: /etc/rc.d/init.d/abrtd:111 /etc/rc.d/init.d/acpid:108
 #: /etc/rc.d/init.d/cfenvd:74 /etc/rc.d/init.d/cfexecd:71
-#: /etc/rc.d/init.d/cfservd:74 /etc/rc.d/init.d/gpm:131
-#: /etc/rc.d/init.d/pkcsslotd:84 /etc/rc.d/init.d/pppoe-server:77
-#: /etc/rc.d/init.d/snmpd:111 /etc/rc.d/init.d/snmptrapd:99
-#: /etc/rc.d/init.d/xenconsoled:116 /etc/rc.d/init.d/xend:92
+#: /etc/rc.d/init.d/cfservd:74 /etc/rc.d/init.d/pkcsslotd:72
+#: /etc/rc.d/init.d/pppoe-server:77 /etc/rc.d/init.d/snmpd:111
+#: /etc/rc.d/init.d/snmptrapd:99 /etc/rc.d/init.d/xenconsoled:116
+#: /etc/rc.d/init.d/xend:92
 msgid "Usage: $0 {start|stop|status|restart|condrestart|reload|force-reload}"
 msgstr ""
 "Használat: $0 {start|stop|status|restart|condrestart|reload|force-reload}"
 
-#: /etc/rc.d/init.d/sagator:63
+#: /etc/rc.d/init.d/ipmi_port:96 /etc/rc.d/init.d/ipmiutil_asy:70
+#: /etc/rc.d/init.d/ipmiutil_evt:74 /etc/rc.d/init.d/sagator:63
 msgid "Stopping $name: "
 msgstr "A(z) $name leállítása: "
-
-#: /etc/rc.d/init.d/zabbix-server:35
-msgid "Starting ZABBIX server: "
-msgstr "A ZABBIX kiszolgáló indítása: "
 
 #: /etc/rc.d/init.d/ktune:145
 msgid "Applying ${ELEVATOR} elevator: "
@@ -4886,19 +4906,20 @@ msgstr "Az  amavisd-snmp-subagent indítása: "
 msgid "CIM server is not running"
 msgstr "A CIM kiszolgáló nem fut"
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:318
-msgid "Device '$device' enabling didn't work"
-msgstr "Nem sikerült aktiválni a(z) '$device' eszközt"
+#: /etc/rc.d/init.d/zarafa-server:111
+#, fuzzy
+msgid "Restarting $server: "
+msgstr "A(z) $prog újraindítása: "
 
 #: /etc/rc.d/init.d/puppet:48
 msgid "Stopping puppet: "
 msgstr "A puppet leállítása: "
 
-#: /etc/rc.d/init.d/functions:550
+#: /etc/rc.d/init.d/functions:560
 msgid "nN"
 msgstr "nN"
 
-#: /etc/rc.d/init.d/ipmi:547
+#: /etc/rc.d/init.d/ipmi:548
 msgid "          start-powercontrol|stop-powercontrol|status-powercontrol"
 msgstr "          start-powercontrol|stop-powercontrol|status-powercontrol"
 
@@ -4906,7 +4927,7 @@ msgstr "          start-powercontrol|stop-powercontrol|status-powercontrol"
 msgid "Starting fail2ban: "
 msgstr "A fail2ban indítása: "
 
-#: /etc/rc.d/init.d/postgresql:166
+#: /etc/rc.d/init.d/postgresql:100
 msgid "You need to upgrade the data format before using PostgreSQL."
 msgstr "A PostgreSQL használata előtt frissítenie kell az adatformátumot."
 
@@ -4914,7 +4935,7 @@ msgstr "A PostgreSQL használata előtt frissítenie kell az adatformátumot."
 msgid "Starting Audio Entropy daemon... "
 msgstr "A Hang-entrópia szolgáltatás indítása... "
 
-#: /etc/rc.d/rc.sysinit:642
+#: /etc/rc.d/rc.sysinit:468
 msgid "Remounting root filesystem in read-write mode: "
 msgstr "A gyökér-fájlrendszer újracsatolása írható-olvasható módban: "
 
@@ -4931,15 +4952,16 @@ msgid "Nightly yum update is enabled."
 msgstr "Az éjszakánkénti yum frissítés engedélyezve."
 
 #: /etc/rc.d/init.d/halt:107 /etc/rc.d/init.d/ntpdate:54
+#: /etc/rc.d/init.d/reboot:107
 msgid "Syncing hardware clock to system time"
 msgstr "Hardveróra szinkronizálása a rendszerórához"
 
-#: /etc/rc.d/init.d/zarafa-spooler:44
+#: /etc/rc.d/init.d/zarafa-spooler:49
 #, fuzzy
 msgid "Starting $spooler: "
 msgstr "A(z) $prog indítása: "
 
-#: /etc/rc.d/init.d/zarafa-monitor:54
+#: /etc/rc.d/init.d/zarafa-monitor:62
 #, fuzzy
 msgid "Stopping $monitor: "
 msgstr "Az UPS figyelő leállítása: "
@@ -4948,9 +4970,14 @@ msgstr "Az UPS figyelő leállítása: "
 msgid "Configuration file or keys are invalid"
 msgstr "A konfigurációs fájl vagy a kulcsok érvénytelenek"
 
-#: /etc/rc.d/init.d/openhpid:169
-msgid "Checking for $prog daemon: "
-msgstr "A(z) $prog szolgáltatás ellenőrzése: "
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:125
+msgid "NOTICE   "
+msgstr "MEGJEGYZÉS    "
+
+#: /etc/sysconfig/network-scripts/ifup-ppp:142
+msgid "pppd started for ${DEVNAME} on ${MODEMPORT} at ${LINESPEED}"
+msgstr ""
+"A pppd elindult (${DEVNAME}, port: ${MODEMPORT}, sebesség: ${LINESPEED})"
 
 #: /etc/rc.d/init.d/ktune:124
 msgid "Reverting to saved sysctl settings: "
@@ -4961,9 +4988,8 @@ msgstr "Visszatérés a mentett sysctl beállításokhoz: "
 msgid "Cleaning $type $name: "
 msgstr "A(z) $type $name indítása: "
 
-#: /etc/rc.d/init.d/bandwidthd:72 /etc/rc.d/init.d/clvmd:168
-#: /etc/rc.d/init.d/gfs2:144 /etc/rc.d/init.d/netbsd-iscsi:95
-#: /etc/rc.d/init.d/netfs:168 /etc/rc.d/init.d/nighthttpd:86
+#: /etc/rc.d/init.d/bandwidthd:72 /etc/rc.d/init.d/netbsd-iscsi:95
+#: /etc/rc.d/init.d/netfs:173 /etc/rc.d/init.d/nighthttpd:86
 #: /etc/rc.d/init.d/yum-updateonboot:96
 msgid "Usage: $0 {start|stop|restart|reload|status}"
 msgstr "Használat: $0 {start|stop|restart|reload|status}"
@@ -4972,32 +4998,33 @@ msgstr "Használat: $0 {start|stop|restart|reload|status}"
 msgid "Turning on allow_ypbind SELinux boolean"
 msgstr "Az \"allow_ypbind\" SELinux-opció bekapcsolása"
 
-#: /etc/rc.d/init.d/monotone:101
-msgid "Starting monotone server: "
-msgstr "A monotone kiszolgáló indítása: "
+#: /etc/sysconfig/network-scripts/ifup-ipx:7
+msgid "usage: $0 <net-device>"
+msgstr "használat: $0 <hálózati eszköz>"
 
-#: /etc/rc.d/init.d/asterisk:80
-msgid "Starting asterisk: "
-msgstr "Az asterisk indítása: "
+#: /etc/rc.d/init.d/network:82
+msgid "No 802.1Q VLAN support available in kernel."
+msgstr "Nincs 802.1Q VLAN támogatás a kernelben."
 
-#: /etc/rc.d/init.d/acpid:47
+#: /etc/rc.d/init.d/acpid:44
 msgid "Starting acpi daemon: "
 msgstr "Az acpi szolgáltatás indítása: "
 
-#: /etc/rc.d/init.d/cobblerd:51
-msgid "Starting cobbler daemon: "
-msgstr "A cobbler szolgáltatás indítása: "
+#: /etc/rc.d/init.d/zvbid:32
+msgid "Stopping vbi proxy daemon: "
+msgstr "A VBI proxy szolgáltatás leállítása: "
 
-#: /etc/rc.d/init.d/ip6tables:131
+#: /etc/rc.d/init.d/rpcgssd:126 /etc/rc.d/init.d/rpcidmapd:110
+#: /etc/rc.d/init.d/rpcsvcgssd:123
+msgid "Usage: $0 {start|stop|restart|condstart|condrestart|status|condstop}"
+msgstr ""
+"Használat: $0 {start|stop|restart|condstart|condrestart|status|condstop}"
+
+#: /etc/rc.d/init.d/ip6tables:135
 msgid "${IP6TABLES}: Setting chains to policy $policy: "
 msgstr "${IP6TABLES}: Láncok beállítása a(z) $policy házirendre: "
 
-#: /etc/rc.d/init.d/dcbd:168
-msgid "Shutting down $DCBD: "
-msgstr "A(z) $DCBD leállítása: "
-
-#: /etc/rc.d/rc.sysinit:77 /etc/rc.d/rc.sysinit:90 /etc/rc.d/rc.sysinit:593
-#: /etc/rc.d/rc.sysinit:616
+#: /etc/rc.d/rc.sysinit:84 /etc/rc.d/rc.sysinit:419 /etc/rc.d/rc.sysinit:442
 msgid "Automatic reboot in progress."
 msgstr "Automatikus újraindítás folyamatban."
 
@@ -5005,26 +5032,27 @@ msgstr "Automatikus újraindítás folyamatban."
 msgid "Turning off allow_ypbind SELinux boolean"
 msgstr "Az \"allow_ypbind\" SELinux-opció kikapcsolása"
 
-#: /etc/sysconfig/network-scripts/ifup-ppp:45
-msgid "pppd does not exist or is not executable"
-msgstr "A pppd nem létezik vagy nem futtatható"
+#: /etc/rc.d/init.d/smokeping:51
+msgid "Reloading smokeping: "
+msgstr "A smokeping újratöltése: "
 
-#: /etc/rc.d/init.d/rinputd:54
+#: /etc/rc.d/init.d/httpd:83
 #, fuzzy
-msgid "Starting $DESC: "
-msgstr "A(z) $DCBD indítása: "
+msgid "httpd shutdown"
+msgstr "Az amd leállítása"
 
-#: /etc/rc.d/init.d/functions:526 /etc/rc.d/init.d/halt:42
-#: /etc/rc.d/init.d/halt:44
+#: /etc/rc.d/init.d/functions:536 /etc/rc.d/init.d/halt:42
+#: /etc/rc.d/init.d/halt:44 /etc/rc.d/init.d/reboot:42
+#: /etc/rc.d/init.d/reboot:44
 msgid "$STRING"
 msgstr "$STRING"
 
-#: /etc/rc.d/init.d/transmission-daemon:42
+#: /etc/rc.d/init.d/transmission-daemon:43
 #, fuzzy
 msgid "Starting ${NAME}: "
 msgstr "A(z) $NAME indítása: "
 
-#: /etc/rc.d/init.d/ip6tables:285
+#: /etc/rc.d/init.d/ip6tables:289
 msgid "${IP6TABLES}: Firewall modules are not loaded."
 msgstr "${IP6TABLES}: A tűzfal modulok nincsenek betöltve."
 
@@ -5065,7 +5093,7 @@ msgstr "Bináris kezelő regisztrálása Qemu-alkalmazásokhoz"
 msgid "Stopping nsd: "
 msgstr "A nsd leállítása: "
 
-#: /etc/rc.d/init.d/netfs:154
+#: /etc/rc.d/init.d/netfs:159
 msgid "/proc filesystem unavailable"
 msgstr "A /proc fájlrendszer nem érhető el"
 
@@ -5073,11 +5101,7 @@ msgstr "A /proc fájlrendszer nem érhető el"
 msgid "Starting NFS mountd: "
 msgstr "A NFS mountd indítása: "
 
-#: /etc/rc.d/init.d/vdr:42
-msgid "Error: no valid $cfg found."
-msgstr "Hiba: nem található érvényes $cfg."
-
-#: /etc/rc.d/init.d/functions:413 /etc/rc.d/init.d/functions:419
+#: /etc/rc.d/init.d/functions:419 /etc/rc.d/init.d/functions:425
 msgid "${base} (pid $pid) is running..."
 msgstr "A(z) $base (PID: $pid) fut..."
 
@@ -5094,129 +5118,119 @@ msgstr "A denyhosts ütemezett feladat engedélyezése: "
 msgid "Starting $PROG:"
 msgstr "A(z) $PROG indítása: "
 
-#: /etc/rc.d/init.d/funcd:94
-msgid "Stopping func daemon: "
-msgstr "A func szolgáltatás leállítása: "
+#: /etc/rc.d/init.d/monotone:101
+msgid "Starting monotone server: "
+msgstr "A monotone kiszolgáló indítása: "
 
-#: /etc/rc.d/init.d/smokeping:51
-msgid "Reloading smokeping: "
-msgstr "A smokeping újratöltése: "
+#: /etc/rc.d/init.d/mldonkey:98
+#, fuzzy
+msgid "Usage: $0 {start|stop|restart|try-restart|status}"
+msgstr "Használat: $0 {start|stop|restart|condrestart|status}"
 
-#: /etc/rc.d/init.d/rpcgssd:126 /etc/rc.d/init.d/rpcidmapd:110
-#: /etc/rc.d/init.d/rpcsvcgssd:123
-msgid "Usage: $0 {start|stop|restart|condstart|condrestart|status|condstop}"
-msgstr ""
-"Használat: $0 {start|stop|restart|condstart|condrestart|status|condstop}"
+#: /etc/rc.d/init.d/postfix:114
+msgid "$prog flush"
+msgstr "$prog - kiürítés"
 
 #: /etc/rc.d/init.d/moodle:67
 msgid "Moodle cron job is enabled."
 msgstr "A Moddle ütemezett feladat engedélyezve."
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:192
-msgid "error in $FILE: didn't specify device or ipaddr"
-msgstr "Hiba a(z) $FILE fájlban: nincs megadva eszköz vagy IP-cím"
-
 #: /etc/rc.d/init.d/yum-updatesd:34
 msgid "Starting yum-updatesd: "
 msgstr "A Yum-updatesd indítása: "
 
-#: /etc/rc.d/init.d/ip6tables:183
+#: /etc/rc.d/init.d/ip6tables:187
 msgid "${IP6TABLES}: Applying firewall rules: "
 msgstr "${IP6TABLES}: A tűzfalszabályok alkalmazása: "
 
-#: /etc/rc.d/init.d/netfs:43
-msgid "Mounting NCP filesystems: "
-msgstr "A NCP fájlrendszerek csatlakoztatása: "
-
 #: /etc/rc.d/init.d/3proxy:38 /etc/rc.d/init.d/ajaxterm:35
-#: /etc/rc.d/init.d/amd:45 /etc/rc.d/init.d/arpwatch:47
+#: /etc/rc.d/init.d/amd:56 /etc/rc.d/init.d/arpwatch:49
 #: /etc/rc.d/init.d/atd:45 /etc/rc.d/init.d/atop:29 /etc/rc.d/init.d/auditd:81
-#: /etc/rc.d/init.d/auth2:35 /etc/rc.d/init.d/autofs:102
+#: /etc/rc.d/init.d/auth2:35 /etc/rc.d/init.d/autofs:106
 #: /etc/rc.d/init.d/autogroup:54 /etc/rc.d/init.d/autohome:52
-#: /etc/rc.d/init.d/beanstalkd:72 /etc/rc.d/init.d/boa:46
+#: /etc/rc.d/init.d/beanstalkd:73 /etc/rc.d/init.d/boa:46
 #: /etc/rc.d/init.d/boinc-client:147 /etc/rc.d/init.d/bootparamd:47
 #: /etc/rc.d/init.d/bro:127 /etc/rc.d/init.d/certmonger:47
 #: /etc/rc.d/init.d/cfexecd:31 /etc/rc.d/init.d/cfservd:35
-#: /etc/rc.d/init.d/chronyd:93 /etc/rc.d/init.d/chunkd:42
+#: /etc/rc.d/init.d/chronyd:107 /etc/rc.d/init.d/chunkd:42
 #: /etc/rc.d/init.d/clamav-milter:32 /etc/rc.d/init.d/clamd-wrapper:54
 #: /etc/rc.d/init.d/cld:43 /etc/rc.d/init.d/coda-client:42
 #: /etc/rc.d/init.d/codasrv:38 /etc/rc.d/init.d/collectd:35
-#: /etc/rc.d/init.d/collectl:42 /etc/rc.d/init.d/couchdb:46
-#: /etc/rc.d/init.d/cpuspeed:125 /etc/rc.d/init.d/crond:55
-#: /etc/rc.d/init.d/ctrlproxy:50 /etc/rc.d/init.d/cups:90
-#: /etc/rc.d/init.d/dbmail-imapd:44 /etc/rc.d/init.d/dbmail-lmtpd:45
-#: /etc/rc.d/init.d/dbmail-pop3d:45 /etc/rc.d/init.d/dbmail-timsieved:46
-#: /etc/rc.d/init.d/dc_client:41 /etc/rc.d/init.d/dc_server:37
-#: /etc/rc.d/init.d/ddclient:39 /etc/rc.d/init.d/dhcp-fwd:49
-#: /etc/rc.d/init.d/distccd:51 /etc/rc.d/init.d/dovecot:56
-#: /etc/rc.d/init.d/dropbear:78 /etc/rc.d/init.d/dspam:53
-#: /etc/rc.d/init.d/fcron_watch_config:41 /etc/rc.d/init.d/fence_virtd:51
-#: /etc/rc.d/init.d/flow-capture:52 /etc/rc.d/init.d/freenx-server:57
-#: /etc/rc.d/init.d/freenx-server:59 /etc/rc.d/init.d/gearmand:46
-#: /etc/rc.d/init.d/globus-rls-server:37 /etc/rc.d/init.d/glusterfsd:46
-#: /etc/rc.d/init.d/gmediaserver:69 /etc/rc.d/init.d/gpsd:53
-#: /etc/rc.d/init.d/haproxy:50 /etc/rc.d/init.d/honeyd:61
-#: /etc/rc.d/init.d/hostapd:46 /etc/rc.d/init.d/httpd:66
-#: /etc/rc.d/init.d/ip-sentinel:51 /etc/rc.d/init.d/ircd:44
-#: /etc/rc.d/init.d/irqbalance:58 /etc/rc.d/init.d/iscsi:68
-#: /etc/rc.d/init.d/iscsid:71 /etc/rc.d/init.d/jetty:92
-#: /etc/rc.d/init.d/kadmin:70 /etc/rc.d/init.d/keepalived:45
-#: /etc/rc.d/init.d/kojid:50 /etc/rc.d/init.d/kojira:50
-#: /etc/rc.d/init.d/kprop:52 /etc/rc.d/init.d/krb5kdc:55
-#: /etc/rc.d/init.d/ksm:55 /etc/rc.d/init.d/ksmtuned:46
-#: /etc/rc.d/init.d/lighttpd:49 /etc/rc.d/init.d/mailgraph:50
-#: /etc/rc.d/init.d/mcstrans:64 /etc/rc.d/init.d/memcached:49
-#: /etc/rc.d/init.d/milter-greylist:40 /etc/rc.d/init.d/milter-regex:44
-#: /etc/rc.d/init.d/mip6d:47 /etc/rc.d/init.d/miredo-client:56
-#: /etc/rc.d/init.d/miredo-server:58 /etc/rc.d/init.d/mpdscribble:27
-#: /etc/rc.d/init.d/mrepo:36 /etc/rc.d/init.d/mydns:33
-#: /etc/rc.d/init.d/myproxy-server:52 /etc/rc.d/init.d/mysqld:123
-#: /etc/rc.d/init.d/mysqld:127 /etc/rc.d/init.d/mysqld:130
-#: /etc/rc.d/init.d/mysqld:134 /etc/rc.d/init.d/mysql-proxy:45
+#: /etc/rc.d/init.d/collectl:42 /etc/rc.d/init.d/couchdb:58
+#: /etc/rc.d/init.d/cpuspeed:125 /etc/rc.d/init.d/crond:59
+#: /etc/rc.d/init.d/cups:90 /etc/rc.d/init.d/dbmail-imapd:44
+#: /etc/rc.d/init.d/dbmail-lmtpd:45 /etc/rc.d/init.d/dbmail-pop3d:45
+#: /etc/rc.d/init.d/dbmail-timsieved:46 /etc/rc.d/init.d/dc_client:41
+#: /etc/rc.d/init.d/dc_server:37 /etc/rc.d/init.d/ddclient:53
+#: /etc/rc.d/init.d/dhcp-fwd:49 /etc/rc.d/init.d/dmapd:30
+#: /etc/rc.d/init.d/dovecot:56 /etc/rc.d/init.d/dropbear:78
+#: /etc/rc.d/init.d/dspam:53 /etc/rc.d/init.d/fcron_watch_config:41
+#: /etc/rc.d/init.d/fence_virtd:51 /etc/rc.d/init.d/flow-capture:52
+#: /etc/rc.d/init.d/gearmand:46 /etc/rc.d/init.d/globus-rls-server:37
+#: /etc/rc.d/init.d/gmediaserver:69 /etc/rc.d/init.d/haproxy:50
+#: /etc/rc.d/init.d/honeyd:61 /etc/rc.d/init.d/hostapd:46
+#: /etc/rc.d/init.d/httpd:66 /etc/rc.d/init.d/ipmiutil_wdt:77
+#: /etc/rc.d/init.d/ip-sentinel:51 /etc/rc.d/init.d/irqbalance:58
+#: /etc/rc.d/init.d/iscsi:68 /etc/rc.d/init.d/iscsid:93
+#: /etc/rc.d/init.d/jetty:92 /etc/rc.d/init.d/kadmin:72
+#: /etc/rc.d/init.d/keepalived:45 /etc/rc.d/init.d/kojid:50
+#: /etc/rc.d/init.d/kojira:50 /etc/rc.d/init.d/kprop:52
+#: /etc/rc.d/init.d/krb5kdc:57 /etc/rc.d/init.d/ksm:52
+#: /etc/rc.d/init.d/ksmtuned:46 /etc/rc.d/init.d/lighttpd:49
+#: /etc/rc.d/init.d/mailgraph:50 /etc/rc.d/init.d/mcstrans:64
+#: /etc/rc.d/init.d/memcached:51 /etc/rc.d/init.d/milter-greylist:40
+#: /etc/rc.d/init.d/milter-regex:44 /etc/rc.d/init.d/mip6d:47
+#: /etc/rc.d/init.d/miredo-client:56 /etc/rc.d/init.d/miredo-server:58
+#: /etc/rc.d/init.d/mpdscribble:27 /etc/rc.d/init.d/mrepo:36
+#: /etc/rc.d/init.d/mydns:33 /etc/rc.d/init.d/myproxy-server:53
+#: /etc/rc.d/init.d/mysqld:137 /etc/rc.d/init.d/mysqld:154
+#: /etc/rc.d/init.d/mysqld:158 /etc/rc.d/init.d/mysqld:161
+#: /etc/rc.d/init.d/mysqld:165 /etc/rc.d/init.d/mysql-proxy:45
 #: /etc/rc.d/init.d/ndo2db:56 /etc/rc.d/init.d/nessusd:47
-#: /etc/rc.d/init.d/nginx:43 /etc/rc.d/init.d/ngircd:34
-#: /etc/rc.d/init.d/noip:44 /etc/rc.d/init.d/npcd:43 /etc/rc.d/init.d/nscd:50
-#: /etc/rc.d/init.d/nslcd:37 /etc/rc.d/init.d/ntop:50
-#: /etc/rc.d/init.d/nuauth:74 /etc/rc.d/init.d/nufw:71
-#: /etc/rc.d/init.d/nxtvepgd:43 /etc/rc.d/init.d/oidentd:50
-#: /etc/rc.d/init.d/openhpid:138 /etc/rc.d/init.d/openhpid:150
-#: /etc/rc.d/init.d/openhpi-subagent:39 /etc/rc.d/init.d/openser:46
-#: /etc/rc.d/init.d/opensips:40 /etc/rc.d/init.d/pads:53
-#: /etc/rc.d/init.d/pathfinderd:47 /etc/rc.d/init.d/plague-builder:41
-#: /etc/rc.d/init.d/plague-server:42 /etc/rc.d/init.d/poker-bot:45
-#: /etc/rc.d/init.d/poker-server:48 /etc/rc.d/init.d/portreserve:60
+#: /etc/rc.d/init.d/netsniff-ng:52 /etc/rc.d/init.d/nginx:43
+#: /etc/rc.d/init.d/ngircd:34 /etc/rc.d/init.d/noip:44
+#: /etc/rc.d/init.d/npcd:43 /etc/rc.d/init.d/nscd:50 /etc/rc.d/init.d/nslcd:37
+#: /etc/rc.d/init.d/ntop:50 /etc/rc.d/init.d/nuauth:74
+#: /etc/rc.d/init.d/nufw:71 /etc/rc.d/init.d/nxtvepgd:43
+#: /etc/rc.d/init.d/oidentd:50 /etc/rc.d/init.d/olbd:50
+#: /etc/rc.d/init.d/openhpid:51 /etc/rc.d/init.d/openhpi-subagent:41
+#: /etc/rc.d/init.d/openser:46 /etc/rc.d/init.d/opensips:40
+#: /etc/rc.d/init.d/pads:53 /etc/rc.d/init.d/pathfinderd:47
+#: /etc/rc.d/init.d/plague-builder:41 /etc/rc.d/init.d/plague-server:42
+#: /etc/rc.d/init.d/poker-bot:45 /etc/rc.d/init.d/poker-server:48
+#: /etc/rc.d/init.d/polipo:68 /etc/rc.d/init.d/portreserve:60
 #: /etc/rc.d/init.d/postgrey:48 /etc/rc.d/init.d/pppoe-server:36
 #: /etc/rc.d/init.d/prelude-correlator:50 /etc/rc.d/init.d/prelude-manager:32
-#: /etc/rc.d/init.d/psad:81 /etc/rc.d/init.d/pure-ftpd:40
-#: /etc/rc.d/init.d/rabbit:75 /etc/rc.d/init.d/racoon:30
-#: /etc/rc.d/init.d/radiusd:45 /etc/rc.d/init.d/rarpd:52
-#: /etc/rc.d/init.d/ratbox-services:38 /etc/rc.d/init.d/rbldnsd:96
+#: /etc/rc.d/init.d/proofd:47 /etc/rc.d/init.d/psad:81
+#: /etc/rc.d/init.d/pure-ftpd:40 /etc/rc.d/init.d/rabbit:75
+#: /etc/rc.d/init.d/racoon:41 /etc/rc.d/init.d/radiusd:45
+#: /etc/rc.d/init.d/rarpd:52 /etc/rc.d/init.d/rbldnsd:96
 #: /etc/rc.d/init.d/rinetd:34 /etc/rc.d/init.d/ris-linuxd:57
-#: /etc/rc.d/init.d/roundup:37 /etc/rc.d/init.d/rpcbind:55
-#: /etc/rc.d/init.d/rtpproxy:54 /etc/rc.d/init.d/rwalld:52
-#: /etc/rc.d/init.d/saslauthd:49 /etc/rc.d/init.d/searchd:44
-#: /etc/rc.d/init.d/sec:30 /etc/rc.d/init.d/sems:32
-#: /etc/rc.d/init.d/sensord:44 /etc/rc.d/init.d/ser:45
+#: /etc/rc.d/init.d/rootd:48 /etc/rc.d/init.d/roundup:37
+#: /etc/rc.d/init.d/rpcbind:60 /etc/rc.d/init.d/rwalld:52
+#: /etc/rc.d/init.d/saslauthd:50 /etc/rc.d/init.d/searchd:44
+#: /etc/rc.d/init.d/sec:30 /etc/rc.d/init.d/sensord:44 /etc/rc.d/init.d/ser:45
 #: /etc/rc.d/init.d/sge_execd:62 /etc/rc.d/init.d/sgemaster:315
-#: /etc/rc.d/init.d/sip-redirect:40 /etc/rc.d/init.d/slapd:216
+#: /etc/rc.d/init.d/sip-redirect:40 /etc/rc.d/init.d/slapd:224
 #: /etc/rc.d/init.d/smsd:36 /etc/rc.d/init.d/snmpd:54
 #: /etc/rc.d/init.d/snmptrapd:50 /etc/rc.d/init.d/spamassassin:53
 #: /etc/rc.d/init.d/spampd:48 /etc/rc.d/init.d/squid:100
 #: /etc/rc.d/init.d/squidGuard:94 /etc/rc.d/init.d/sshd:142
-#: /etc/rc.d/init.d/sssd:50 /etc/rc.d/init.d/systemtap:542
-#: /etc/rc.d/init.d/tabled:43 /etc/rc.d/init.d/tclhttpd:151
-#: /etc/rc.d/init.d/tcsd:79 /etc/rc.d/init.d/tgtd:65
-#: /etc/rc.d/init.d/thttpd:45 /etc/rc.d/init.d/tinyerp-server:57
-#: /etc/rc.d/init.d/tinyproxy:45 /etc/rc.d/init.d/tokyotyrant:44
-#: /etc/rc.d/init.d/tor:46 /etc/rc.d/init.d/trytond:57
-#: /etc/rc.d/init.d/tuned:50 /etc/rc.d/init.d/ucarp:110
-#: /etc/rc.d/init.d/ulogd:48 /etc/rc.d/init.d/update:50
-#: /etc/rc.d/init.d/update:57 /etc/rc.d/init.d/upnpd:46
-#: /etc/rc.d/init.d/ups:75 /etc/rc.d/init.d/ushare:36
-#: /etc/rc.d/init.d/vdradmind:36 /etc/rc.d/init.d/vhostmd:57
-#: /etc/rc.d/init.d/vtund:45 /etc/rc.d/init.d/wpa_supplicant:47
-#: /etc/rc.d/init.d/xinetd:89 /etc/rc.d/init.d/xrdp:45
-#: /etc/rc.d/init.d/xrdp:69 /etc/rc.d/init.d/zfs-fuse:173
+#: /etc/rc.d/init.d/sssd:50 /etc/rc.d/init.d/suricata:66
+#: /etc/rc.d/init.d/systemtap:542 /etc/rc.d/init.d/tabled:43
+#: /etc/rc.d/init.d/tclhttpd:151 /etc/rc.d/init.d/tcsd:75
+#: /etc/rc.d/init.d/tgtd:65 /etc/rc.d/init.d/thttpd:45
+#: /etc/rc.d/init.d/tinyerp-server:57 /etc/rc.d/init.d/tinyproxy:45
+#: /etc/rc.d/init.d/tokyotyrant:44 /etc/rc.d/init.d/tor:46
+#: /etc/rc.d/init.d/trytond:57 /etc/rc.d/init.d/tuned:50
+#: /etc/rc.d/init.d/ucarp:110 /etc/rc.d/init.d/ulogd:48
+#: /etc/rc.d/init.d/update:50 /etc/rc.d/init.d/update:57
+#: /etc/rc.d/init.d/upnpd:46 /etc/rc.d/init.d/ups:75
+#: /etc/rc.d/init.d/ushare:36 /etc/rc.d/init.d/uuidd:57
+#: /etc/rc.d/init.d/vdradmind:36 /etc/rc.d/init.d/vtund:45
+#: /etc/rc.d/init.d/wpa_supplicant:47 /etc/rc.d/init.d/xinetd:89
+#: /etc/rc.d/init.d/xrdp:45 /etc/rc.d/init.d/xrdp:69
+#: /etc/rc.d/init.d/xrootd:51 /etc/rc.d/init.d/zfs-fuse:172
 #: /etc/rc.d/init.d/zoneminder:58
 msgid "Stopping $prog: "
 msgstr "A(z) $prog leállítása: "
@@ -5224,6 +5238,252 @@ msgstr "A(z) $prog leállítása: "
 #: /etc/rc.d/init.d/audio-entropyd:34
 msgid "Shutting down Audio Entropy daemon: "
 msgstr "A hang-entrópia szolgáltatás leállítása: "
+
+#~ msgid "Could not set 802.1Q VLAN parameters."
+#~ msgstr "Nem sikerült beállítani a 802.1Q VLAN paramétereit."
+
+#~ msgid "Usage: $0 {start|stop|restart|reload|condrestart|checkconfig}"
+#~ msgstr "Használat: $0 {start|stop|restart|reload|condrestart|checkconfig}"
+
+#~ msgid "Stopping MaraDNS-Zoneserver: "
+#~ msgstr "A MaraDNS-Zoneserver leállítása: "
+
+#~ msgid ""
+#~ "Usage: $PRIVOXY_PRG {start|stop|reload|restart|condrestart|status|top}"
+#~ msgstr ""
+#~ "Használat: $PRIVOXY_PRG {start|stop|reload|restart|condrestart|status|top}"
+
+#~ msgid "Usage: $0 {start|stop|restart|condrestart|status|panic|save}"
+#~ msgstr "Használat: $0 {start|stop|restart|condrestart|status|panic|save}"
+
+#~ msgid "Reloading syslog-ng: "
+#~ msgstr "A syslog-ngl újratöltése: "
+
+#~ msgid "Starting all MaraDNS processes: "
+#~ msgstr "Az összes MaraDNS folyamat indítása: "
+
+#~ msgid "Stopping Open Hardware Manager: "
+#~ msgstr "Az Open Hardware Manager leállítása: "
+
+#~ msgid "PostgreSQL server is not running."
+#~ msgstr "A PostgreSQL kiszolgáló nem fut."
+
+#~ msgid "Shutting down SQLgrey: "
+#~ msgstr "A SQLgrey leállítása: "
+
+#~ msgid "$0: CPU microcode data file not present ($DATAFILE)"
+#~ msgstr "$0: a mikrokód-adatfájl nem található ($DATAFILE)"
+
+#~ msgid "Stopping certmaster daemon: "
+#~ msgstr "A certmaster leállítása: "
+
+#~ msgid "Starting all MaraDNS-Zoneserver processes: "
+#~ msgstr "Az összes MaraDNS-Zoneserver folyamat indítása: "
+
+#~ msgid "Starting snake-server:"
+#~ msgstr "A snake kiszolgáló indítása: "
+
+#~ msgid "Starting ZABBIX agent: "
+#~ msgstr "A ZABBIX ügynök indítása: "
+
+#~ msgid "Starting cyphesis: "
+#~ msgstr "A cyphesis indítása: "
+
+#~ msgid "Usage: $0 {start|stop|restart|condrestart|reload|rehash|status}"
+#~ msgstr "Használat: $0 {start|stop|restart|condrestart|reload|rehash|status}"
+
+#~ msgid "Starting syslog-ng: "
+#~ msgstr "A syslog-ng indítása: "
+
+#~ msgid "Stopping $PRIVOXY_PRG: "
+#~ msgstr "A(z) $PRIVOXY_PRG leállítása: "
+
+#~ msgid "Avahi daemon is not running"
+#~ msgstr "Az Avahi szolgáltatás nem fut"
+
+#~ msgid "Service ${0##*/} does not support the reload action: "
+#~ msgstr "A(z) ${0##*/} szolgáltatás nem támogatja az újratöltést: "
+
+#~ msgid "Avahi daemon is running"
+#~ msgstr "Az Avahi szolgáltatás jelenleg fut"
+
+#~ msgid "Stopping uuidd: "
+#~ msgstr "Az uuidd leállítása: "
+
+#~ msgid "Starting $PRIVOXY_PRG: "
+#~ msgstr "A(z) $PRIVOXY_PRG indítása: "
+
+#, fuzzy
+#~ msgid "Stopping $DESC: "
+#~ msgstr "A(z) $SERVICE leállítása: "
+
+#~ msgid "Reloading $prog:"
+#~ msgstr "A(z) $prog újratöltése:"
+
+#~ msgid "Shutting down ZABBIX agent: "
+#~ msgstr "A ZABBIX ügynök leállítása: "
+
+#~ msgid "Avahi DNS daemon is not running"
+#~ msgstr "Az Avahi DNS-szolgáltatás nem fut"
+
+#~ msgid "Populating cyphesis world: "
+#~ msgstr "A cyphesis világának feltöltése: "
+
+#~ msgid "Starting func daemon: "
+#~ msgstr "A func szolgáltatás indítása: "
+
+#~ msgid "Stopping cobbler daemon: "
+#~ msgstr "A cobbler szolgáltatás leállítása: "
+
+#~ msgid "Shutting down ZABBIX server: "
+#~ msgstr "A ZABBIX kiszolgáló leállítása: "
+
+#, fuzzy
+#~ msgid "Loading AMD microcode update module"
+#~ msgstr "$module kernelmodul betöltése: "
+
+#~ msgid "Shutting down ZABBIX proxy: "
+#~ msgstr "A ZABBIX proxy leállítása: "
+
+#~ msgid "Stopping MaraDNS: "
+#~ msgstr "A MaraDNS leállítása: "
+
+#~ msgid "Creating PostgreSQL account: "
+#~ msgstr "PostgreSQL hozzáférés létrehozása: "
+
+#~ msgid "Setting 802.1Q VLAN parameters: "
+#~ msgstr "A 802.1Q VLAN paraméterek beállítása."
+
+#, fuzzy
+#~ msgid "Usage: $0 {start|stop|restart|status|condrestart|configtest|usage}"
+#~ msgstr "Használat: $0 {start|stop|restart|status|condrestart|configtest}"
+
+#~ msgid "Starting certmaster daemon: "
+#~ msgstr "A certmaster szolgáltatás indítása: "
+
+#, fuzzy
+#~ msgid "Usage: $prog {start|stop|restart|status}"
+#~ msgstr "Használat: $0 {start|stop|restart|status}"
+
+#~ msgid "Applying Intel CPU microcode update: "
+#~ msgstr "Intel processzor mikrokód-frissítés alkalmazása: "
+
+#~ msgid "Starting ZABBIX proxy: "
+#~ msgstr "A ZABBIX proxy indítása: "
+
+#~ msgid "Stopping ibmasm: "
+#~ msgstr "A libmasm leállítása: "
+
+#~ msgid "Loading database with rules: "
+#~ msgstr "Adatbázis feltöltése szabályokkal: "
+
+#~ msgid "Usage: $0 (start|stop|restart|condrestart|status)"
+#~ msgstr "Használat: $0 (start|stop|restart|condrestart|status)"
+
+#~ msgid "Generating udev makedev cache file"
+#~ msgstr "Az udev makedev gyorsítótár létrehozása"
+
+#~ msgid "Avahi DNS daemon is running"
+#~ msgstr "Az Avahi DNS szolgáltatás fut"
+
+#~ msgid "Starting Open Hardware Manager: "
+#~ msgstr "Az Open Hardware Manager indítása: "
+
+#~ msgid "\t\tPress 'I' to enter interactive startup."
+#~ msgstr "\t\tNyomjon 'I'-t az interaktív indításhoz."
+
+#, fuzzy
+#~ msgid "Reloading $prog: not supported"
+#~ msgstr "A(z) $DCBD újratöltése nem támogatott:"
+
+#~ msgid "Starting uuidd: "
+#~ msgstr "Az uuidd indítása: "
+
+#~ msgid "Can't find $PRIVOXY_CONF, exit."
+#~ msgstr "$PRIVOXY_CONF nem található, kilépés."
+
+#~ msgid "Creating PostgreSQL database: "
+#~ msgstr "A PostgreSQL adatbázis létrehozása: "
+
+#~ msgid "Usage: $prog {start|stop|restart}"
+#~ msgstr "Használat: $prog {start|stop|restart}"
+
+#~ msgid ""
+#~ "Usage: $0 {start|stop|restart|condrestart|try-restart|status|force-reload}"
+#~ msgstr ""
+#~ "Használat: $0 {start|stop|restart|condrestart|try-restart|status|force-"
+#~ "reload}"
+
+#~ msgid "Checking Configuration: "
+#~ msgstr "Konfiguráció vizsgálata: "
+
+#~ msgid "Starting SQLgrey: "
+#~ msgstr "A SQLgrey indítása: "
+
+#~ msgid "Shutting down cyphesis: "
+#~ msgstr "A cyphesis leállítása: "
+
+#~ msgid "Stopping syslog-ng: "
+#~ msgstr "A syslog-ng leállítása: "
+
+#~ msgid "$base reload"
+#~ msgstr "$base - újratöltés"
+
+#~ msgid "Could not check for running PostgreSQL database."
+#~ msgstr "Nem sikerült a futó PostgreSQL adatbázis ellenőrzése."
+
+#~ msgid "Cannot find user $CYPHESISUSER to run cyphesis service."
+#~ msgstr ""
+#~ "Nem található a $CYPHESISUSER felhasználó a cyphesis szolgáltatás "
+#~ "futtatásához."
+
+#~ msgid "$NAME: already running"
+#~ msgstr "$NAME: már fut"
+
+#~ msgid "Usage: $0 {start|stop|status|restart|condrestart|try-restart"
+#~ msgstr "Használat: $0 {start|stop|status|restart|condrestart|try-restart}"
+
+#~ msgid "$rcfile "
+#~ msgstr "$rcfile "
+
+#~ msgid "Can't find $PRIVOXY_BIN, exit."
+#~ msgstr "A(z) $PRIVOXY_BIN nem található, kilépés."
+
+#~ msgid "Usage: $0 {start|stop|status|condrestart|restart}"
+#~ msgstr "Használat: $0 {start|stop|status|condrestart|restart}"
+
+#, fuzzy
+#~ msgid "Usage: $prog {start|stop|restart|condrestart|status|retune|help}"
+#~ msgstr "Használat: $prog {start|stop|restart|condrestart|status|help}"
+
+#~ msgid "WARNING: vconfig not able to disable REORDER_HDR on ${DEVICE}"
+#~ msgstr ""
+#~ "Figyelem: a vconfig nem tudja letiltani a REORDER_HDR-t ezen az eszközön: "
+#~ "${DEVICE}"
+
+#, fuzzy
+#~ msgid ""
+#~ "Usage: $prog {start|stop|restart|reload|force-reload|condrestart|try-"
+#~ "restart|status|version}"
+#~ msgstr ""
+#~ "Használat: $0 {start|stop|restart|reload|force-reload|condrestart|try-"
+#~ "restart|status}"
+
+#~ msgid "Starting ZABBIX server: "
+#~ msgstr "A ZABBIX kiszolgáló indítása: "
+
+#~ msgid "Checking for $prog daemon: "
+#~ msgstr "A(z) $prog szolgáltatás ellenőrzése: "
+
+#~ msgid "Starting cobbler daemon: "
+#~ msgstr "A cobbler szolgáltatás indítása: "
+
+#, fuzzy
+#~ msgid "Starting $DESC: "
+#~ msgstr "A(z) $DCBD indítása: "
+
+#~ msgid "Stopping func daemon: "
+#~ msgstr "A func szolgáltatás leállítása: "
 
 #~ msgid "Stopping OpenAIS ($prog): "
 #~ msgstr "Az OpenAIS szolgáltatás leállítása ($prog): "
@@ -5269,9 +5529,6 @@ msgstr "A hang-entrópia szolgáltatás leállítása: "
 
 #~ msgid "Starting OpenAIS ($prog): "
 #~ msgstr "Az OpenAIS ($prog) indítása: "
-
-#~ msgid "Starting ICQ transport: "
-#~ msgstr "Az ICQ átvitel indítása: "
 
 #~ msgid "Usage: $0 {start|stop|status|reload|restart|condrestart|probe}"
 #~ msgstr "Használat: $0 {start|stop|status|reload|restart|condrestart|probe}"

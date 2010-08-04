@@ -14,6 +14,7 @@ msgstr ""
 "PO-Revision-Date: 2005-08-23 10:00+0200\n"
 "Last-Translator: Mohammad Ghoniem <Mohammad.Ghoniem@laposte.net>\n"
 "Language-Team: Arabic\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -29,9 +30,10 @@ msgstr "تجري إعادة تحميل $prog: "
 msgid "Stopping incrond: "
 msgstr "جاري إيقاف $prog: "
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:1057
-msgid "No parameters given to setup a default route"
-msgstr "لم تُدخل أي مُعطيات لإعداد مسار افتراضيّ"
+#: /etc/rc.d/init.d/mldonkey:59
+#, fuzzy
+msgid "already stopped"
+msgstr "$prog: يعمل مُسبقاً"
 
 #: /etc/rc.d/init.d/shorewall:36 /etc/rc.d/init.d/shorewall6:36
 #: /etc/rc.d/init.d/shorewall6-lite:36 /etc/rc.d/init.d/shorewall-lite:36
@@ -46,11 +48,6 @@ msgstr "جاري بدأ مراقب UPS (تابع): "
 #: /etc/rc.d/init.d/lirc:83
 msgid "Stopping infrared remote control mouse daemon ($prog2): "
 msgstr ""
-
-#: /etc/rc.d/init.d/smolt:68
-#, fuzzy
-msgid "Monthly smolt check-in is disabled."
-msgstr "مُحاسبة العمليّات مُعطّلة."
 
 #: /etc/rc.d/init.d/nginx:92
 msgid "Graceful shutdown of old $prog: "
@@ -69,29 +66,20 @@ msgstr ""
 msgid "$base dead but pid file exists"
 msgstr "${base} مات ولكنّ ملفّ رقم العمليّة لازال موجوداً"
 
-#: /etc/sysconfig/network-scripts/ifup:95
-msgid "Could not set 802.1Q VLAN parameters."
-msgstr "لم أستطع إعداد وسائط 802.1Q VLAN."
-
 #: /etc/sysconfig/network-scripts/ifup:100
-#: /etc/sysconfig/network-scripts/ifup-eth:79
+#: /etc/sysconfig/network-scripts/ifup-eth:74
+#: /etc/sysconfig/network-scripts/ifup-ib:52
 msgid ""
 "$alias device ${DEVICE} does not seem to be present, delaying initialization."
 msgstr "لا يبدو أنّ $alias جهاز ${DEVICE} حاضر، جاري تأخير التّمهيد."
 
-#: /etc/rc.d/init.d/amd:97 /etc/rc.d/init.d/btseed:70
-#: /etc/rc.d/init.d/bttrack:71 /etc/rc.d/init.d/dropbear:122
-#: /etc/rc.d/init.d/irda:71 /etc/rc.d/init.d/mldonkey:71
+#: /etc/rc.d/init.d/btseed:70 /etc/rc.d/init.d/bttrack:71
+#: /etc/rc.d/init.d/dropbear:122 /etc/rc.d/init.d/irda:71
 #: /etc/rc.d/init.d/mon:78 /etc/rc.d/init.d/monit:81
 #: /etc/rc.d/init.d/openxcap:74 /etc/rc.d/init.d/partimaged:88
-#: /etc/rc.d/init.d/vblade:91
+#: /etc/rc.d/init.d/vblade:91 /etc/rc.d/init.d/watchquagga:61
 msgid "Usage: $0 {start|stop|restart|reload|condrestart|status}"
 msgstr "الاستعمال: $0 {start|stop|restart|reload|condrestart|status}"
-
-#: /etc/rc.d/init.d/pcscd:55
-#, fuzzy
-msgid "Stopping PC/SC smart card daemon ($prog): "
-msgstr "جاري إيقاف عفريت acpi: "
 
 #: /etc/rc.d/init.d/gpm:47
 msgid "Starting console mouse services: "
@@ -122,11 +110,6 @@ msgstr "جاري إعادة تحميل $prog:"
 msgid "no dictionaries installed"
 msgstr "لم يسبق تثبيت أي قاموس"
 
-#: /etc/rc.d/init.d/syslog-ng:117
-#, fuzzy
-msgid "Usage: $0 {start|stop|restart|reload|condrestart|checkconfig}"
-msgstr "الاستعمال: $0 {start|stop|restart|reload|condrestart}"
-
 #: /etc/rc.d/init.d/vmpsd:19
 #, fuzzy
 msgid "Starting vmpsd: "
@@ -145,47 +128,38 @@ msgstr "/etc/sysconfig/network-scripts/chat-${DEVNAME} غير موجود"
 msgid "to"
 msgstr ""
 
-#: /etc/rc.d/init.d/maradns-zoneserver:80
-#, fuzzy
-msgid "Stopping MaraDNS-Zoneserver: "
-msgstr "جاري إيقاف خادم الخرائط YP: "
-
-#: /etc/rc.d/init.d/iptables:277
+#: /etc/rc.d/init.d/iptables:281
 #, fuzzy
 msgid "${IPTABLES}: Firewall is not running."
 msgstr "الجداري الناريّ غير مُهيّأ: "
 
-#: /etc/rc.d/init.d/iptables:291
+#: /etc/rc.d/init.d/iptables:295
 #, fuzzy
 msgid "${IPTABLES}: Firewall is not configured. "
 msgstr "الجداري الناريّ غير مُهيّأ: "
 
-#: /etc/rc.d/init.d/util-vserver:75
+#: /etc/rc.d/init.d/util-vserver:85
 msgid "Setting path to vshelper"
 msgstr ""
 
-#: /etc/rc.d/init.d/netfs:115
+#: /etc/rc.d/init.d/netfs:120
 msgid "Unmounting CIFS filesystems: "
 msgstr "إزالة تثبيت نظام ملفات CIFS: "
 
-#: /etc/rc.d/init.d/functions:352
+#: /etc/rc.d/init.d/functions:358
 msgid "Usage: pidfileofproc {program}"
 msgstr "الاستعمال: pidfileofproc {برنامج}"
 
-#: /etc/rc.d/init.d/yum-updatesd:42
+#: /etc/rc.d/init.d/spectrum:79
 #, fuzzy
-msgid "Stopping yum-updatesd: "
+msgid "Stopping spectrum transport: "
 msgstr "جاري إيقاف $subsys:"
-
-#: /etc/rc.d/init.d/vncserver:66
-msgid "vncserver start"
-msgstr "بدء vncserver"
 
 #: /etc/rc.d/init.d/netconsole:76
 msgid "Server address not specified in /etc/sysconfig/netconsole"
 msgstr ""
 
-#: /etc/rc.d/init.d/functions:465
+#: /etc/rc.d/init.d/functions:475
 msgid "PASSED"
 msgstr "نجح"
 
@@ -202,119 +176,114 @@ msgid "$s compilation failed "
 msgstr ""
 
 #: /etc/rc.d/init.d/3proxy:28 /etc/rc.d/init.d/ajaxterm:27
-#: /etc/rc.d/init.d/amd:36 /etc/rc.d/init.d/amtu:50 /etc/rc.d/init.d/aprsd:32
-#: /etc/rc.d/init.d/arpwatch:38 /etc/rc.d/init.d/atd:36
+#: /etc/rc.d/init.d/amd:46 /etc/rc.d/init.d/amtu:50 /etc/rc.d/init.d/aprsd:32
+#: /etc/rc.d/init.d/arpwatch:39 /etc/rc.d/init.d/atd:36
 #: /etc/rc.d/init.d/atop:19 /etc/rc.d/init.d/auditd:53
 #: /etc/rc.d/init.d/auth2:26 /etc/rc.d/init.d/autofs:88
 #: /etc/rc.d/init.d/autogroup:38 /etc/rc.d/init.d/autohome:36
-#: /etc/rc.d/init.d/beanstalkd:41 /etc/rc.d/init.d/boa:36
+#: /etc/rc.d/init.d/beanstalkd:42 /etc/rc.d/init.d/boa:36
 #: /etc/rc.d/init.d/boinc-client:114 /etc/rc.d/init.d/bootparamd:38
 #: /etc/rc.d/init.d/bro:86 /etc/rc.d/init.d/canna:37
 #: /etc/rc.d/init.d/certmonger:37 /etc/rc.d/init.d/cfexecd:22
-#: /etc/rc.d/init.d/cfservd:26 /etc/rc.d/init.d/chronyd:84
+#: /etc/rc.d/init.d/cfservd:26 /etc/rc.d/init.d/chronyd:97
 #: /etc/rc.d/init.d/chunkd:33 /etc/rc.d/init.d/clamav-milter:23
 #: /etc/rc.d/init.d/clamd-wrapper:43 /etc/rc.d/init.d/cld:34
 #: /etc/rc.d/init.d/coda-client:25 /etc/rc.d/init.d/codasrv:21
 #: /etc/rc.d/init.d/collectd:25 /etc/rc.d/init.d/collectl:33
-#: /etc/rc.d/init.d/couchdb:37 /etc/rc.d/init.d/cpuspeed:91
-#: /etc/rc.d/init.d/crond:46 /etc/rc.d/init.d/ctrlproxy:41
-#: /etc/rc.d/init.d/cups:66 /etc/rc.d/init.d/cwdaemon:32
-#: /etc/rc.d/init.d/cyrus-imapd:73 /etc/rc.d/init.d/dbmail-imapd:36
-#: /etc/rc.d/init.d/dbmail-lmtpd:37 /etc/rc.d/init.d/dbmail-pop3d:37
-#: /etc/rc.d/init.d/dbmail-timsieved:38 /etc/rc.d/init.d/dc_client:33
-#: /etc/rc.d/init.d/dc_server:29 /etc/rc.d/init.d/ddclient:28
-#: /etc/rc.d/init.d/dhcpd:88 /etc/rc.d/init.d/dhcp-fwd:40
-#: /etc/rc.d/init.d/dhcrelay:60 /etc/rc.d/init.d/dictd:34
-#: /etc/rc.d/init.d/distccd:42 /etc/rc.d/init.d/dovecot:47
-#: /etc/rc.d/init.d/dropbear:69 /etc/rc.d/init.d/dspam:35
-#: /etc/rc.d/init.d/fcron_watch_config:32 /etc/rc.d/init.d/fence_virtd:42
-#: /etc/rc.d/init.d/flow-capture:42 /etc/rc.d/init.d/fnfxd:26
-#: /etc/rc.d/init.d/freenx-server:40 /etc/rc.d/init.d/freenx-server:42
-#: /etc/rc.d/init.d/gearmand:37 /etc/rc.d/init.d/globus-rls-server:28
-#: /etc/rc.d/init.d/glusterfsd:37 /etc/rc.d/init.d/gmediaserver:59
-#: /etc/rc.d/init.d/gpsd:44 /etc/rc.d/init.d/haproxy:40
-#: /etc/rc.d/init.d/honeyd:38 /etc/rc.d/init.d/httpd:54
-#: /etc/rc.d/init.d/ibmasm:19 /etc/rc.d/init.d/inadyn:42
-#: /etc/rc.d/init.d/ip-sentinel:27 /etc/rc.d/init.d/ircd:33
+#: /etc/rc.d/init.d/couchdb:43 /etc/rc.d/init.d/cpuspeed:91
+#: /etc/rc.d/init.d/crond:46 /etc/rc.d/init.d/cups:66
+#: /etc/rc.d/init.d/cwdaemon:32 /etc/rc.d/init.d/cyrus-imapd:73
+#: /etc/rc.d/init.d/dbmail-imapd:36 /etc/rc.d/init.d/dbmail-lmtpd:37
+#: /etc/rc.d/init.d/dbmail-pop3d:37 /etc/rc.d/init.d/dbmail-timsieved:38
+#: /etc/rc.d/init.d/dc_client:33 /etc/rc.d/init.d/dc_server:29
+#: /etc/rc.d/init.d/ddclient:41 /etc/rc.d/init.d/dhcpd:88
+#: /etc/rc.d/init.d/dhcp-fwd:40 /etc/rc.d/init.d/dhcrelay:60
+#: /etc/rc.d/init.d/dictd:34 /etc/rc.d/init.d/dmapd:21
+#: /etc/rc.d/init.d/dovecot:47 /etc/rc.d/init.d/dropbear:69
+#: /etc/rc.d/init.d/dspam:35 /etc/rc.d/init.d/fcron_watch_config:32
+#: /etc/rc.d/init.d/fence_virtd:42 /etc/rc.d/init.d/flow-capture:42
+#: /etc/rc.d/init.d/fnfxd:26 /etc/rc.d/init.d/gearmand:37
+#: /etc/rc.d/init.d/globus-rls-server:28 /etc/rc.d/init.d/gmediaserver:59
+#: /etc/rc.d/init.d/haproxy:40 /etc/rc.d/init.d/honeyd:38
+#: /etc/rc.d/init.d/httpd:54 /etc/rc.d/init.d/inadyn:42
+#: /etc/rc.d/init.d/ipmiutil_wdt:36 /etc/rc.d/init.d/ip-sentinel:27
 #: /etc/rc.d/init.d/irda:23 /etc/rc.d/init.d/irqbalance:45
 #: /etc/rc.d/init.d/iscsi:50 /etc/rc.d/init.d/iscsid:37
-#: /etc/rc.d/init.d/jetty:72 /etc/rc.d/init.d/kadmin:56
+#: /etc/rc.d/init.d/jetty:72 /etc/rc.d/init.d/kadmin:58
 #: /etc/rc.d/init.d/keepalived:36 /etc/rc.d/init.d/kojid:32
 #: /etc/rc.d/init.d/kojira:32 /etc/rc.d/init.d/kprop:38
-#: /etc/rc.d/init.d/krb5kdc:41 /etc/rc.d/init.d/ksm:42
+#: /etc/rc.d/init.d/krb5kdc:43 /etc/rc.d/init.d/ksm:42
 #: /etc/rc.d/init.d/ksmtuned:38 /etc/rc.d/init.d/lighttpd:40
 #: /etc/rc.d/init.d/mailgraph:39 /etc/rc.d/init.d/mailman:85
-#: /etc/rc.d/init.d/mcstrans:45 /etc/rc.d/init.d/mdmonitor:46
-#: /etc/rc.d/init.d/mdmonitor:56 /etc/rc.d/init.d/memcached:37
+#: /etc/rc.d/init.d/mcstrans:45 /etc/rc.d/init.d/mdmonitor:47
+#: /etc/rc.d/init.d/mdmonitor:59 /etc/rc.d/init.d/memcached:39
 #: /etc/rc.d/init.d/milter-greylist:25 /etc/rc.d/init.d/milter-regex:30
 #: /etc/rc.d/init.d/mip6d:38 /etc/rc.d/init.d/miredo-client:46
 #: /etc/rc.d/init.d/miredo-server:48 /etc/rc.d/init.d/monit:29
 #: /etc/rc.d/init.d/mpdscribble:19 /etc/rc.d/init.d/mrepo:27
-#: /etc/rc.d/init.d/mydns:24 /etc/rc.d/init.d/myproxy-server:43
-#: /etc/rc.d/init.d/mysqld:100 /etc/rc.d/init.d/mysqld:103
+#: /etc/rc.d/init.d/mydns:24 /etc/rc.d/init.d/myproxy-server:44
+#: /etc/rc.d/init.d/mysqld:60 /etc/rc.d/init.d/mysqld:65
+#: /etc/rc.d/init.d/mysqld:125 /etc/rc.d/init.d/mysqld:128
 #: /etc/rc.d/init.d/mysql-proxy:35 /etc/rc.d/init.d/ncidd:31
 #: /etc/rc.d/init.d/ncidsip:34 /etc/rc.d/init.d/ndo2db:41
 #: /etc/rc.d/init.d/nessusd:38 /etc/rc.d/init.d/netplugd:50
-#: /etc/rc.d/init.d/nginx:34 /etc/rc.d/init.d/ngircd:25
-#: /etc/rc.d/init.d/noip:35 /etc/rc.d/init.d/npcd:34 /etc/rc.d/init.d/nscd:41
-#: /etc/rc.d/init.d/nslcd:28 /etc/rc.d/init.d/ntop:33 /etc/rc.d/init.d/ntpd:42
+#: /etc/rc.d/init.d/netsniff-ng:43 /etc/rc.d/init.d/nginx:34
+#: /etc/rc.d/init.d/ngircd:25 /etc/rc.d/init.d/noip:35
+#: /etc/rc.d/init.d/npcd:34 /etc/rc.d/init.d/nscd:41 /etc/rc.d/init.d/nslcd:28
+#: /etc/rc.d/init.d/ntop:33 /etc/rc.d/init.d/ntpd:42
 #: /etc/rc.d/init.d/nuauth:64 /etc/rc.d/init.d/nufw:62
 #: /etc/rc.d/init.d/nxtvepgd:34 /etc/rc.d/init.d/odccm:25
 #: /etc/rc.d/init.d/oddjobd:35 /etc/rc.d/init.d/oidentd:41
-#: /etc/rc.d/init.d/openhpid:101 /etc/rc.d/init.d/openhpid:106
-#: /etc/rc.d/init.d/openhpid:111 /etc/rc.d/init.d/openhpid:121
-#: /etc/rc.d/init.d/openhpi-subagent:30 /etc/rc.d/init.d/openser:28
-#: /etc/rc.d/init.d/opensips:30 /etc/rc.d/init.d/pads:35
-#: /etc/rc.d/init.d/pads:39 /etc/rc.d/init.d/pathfinderd:38
-#: /etc/rc.d/init.d/plague-builder:32 /etc/rc.d/init.d/plague-server:33
-#: /etc/rc.d/init.d/poker-bot:34 /etc/rc.d/init.d/poker-server:34
+#: /etc/rc.d/init.d/olbd:38 /etc/rc.d/init.d/openhpid:41
+#: /etc/rc.d/init.d/openhpi-subagent:31 /etc/rc.d/init.d/openser:28
+#: /etc/rc.d/init.d/opensips:30 /etc/rc.d/init.d/oscap-scan:49
+#: /etc/rc.d/init.d/pads:35 /etc/rc.d/init.d/pads:39
+#: /etc/rc.d/init.d/pathfinderd:38 /etc/rc.d/init.d/plague-builder:32
+#: /etc/rc.d/init.d/plague-server:33 /etc/rc.d/init.d/poker-bot:34
+#: /etc/rc.d/init.d/poker-server:34 /etc/rc.d/init.d/polipo:60
 #: /etc/rc.d/init.d/portreserve:48 /etc/rc.d/init.d/postgrey:39
 #: /etc/rc.d/init.d/pppoe-server:26 /etc/rc.d/init.d/prelude-correlator:32
 #: /etc/rc.d/init.d/prelude-correlator:36 /etc/rc.d/init.d/prelude-manager:17
 #: /etc/rc.d/init.d/prelude-manager:21 /etc/rc.d/init.d/proftpd:52
-#: /etc/rc.d/init.d/psad:50 /etc/rc.d/init.d/pure-ftpd:32
-#: /etc/rc.d/init.d/pyicq-t:22 /etc/rc.d/init.d/rabbit:58
-#: /etc/rc.d/init.d/racoon:21 /etc/rc.d/init.d/radiusd:36
-#: /etc/rc.d/init.d/rarpd:42 /etc/rc.d/init.d/ratbox-services:25
+#: /etc/rc.d/init.d/proofd:35 /etc/rc.d/init.d/psad:50
+#: /etc/rc.d/init.d/pure-ftpd:32 /etc/rc.d/init.d/pyicq-t:22
+#: /etc/rc.d/init.d/rabbit:58 /etc/rc.d/init.d/racoon:32
+#: /etc/rc.d/init.d/radiusd:36 /etc/rc.d/init.d/rarpd:42
 #: /etc/rc.d/init.d/rbldnsd:84 /etc/rc.d/init.d/rinetd:25
-#: /etc/rc.d/init.d/ris-linuxd:44 /etc/rc.d/init.d/roundup:27
-#: /etc/rc.d/init.d/rpcbind:45 /etc/rc.d/init.d/rtpproxy:38
-#: /etc/rc.d/init.d/rwalld:39 /etc/rc.d/init.d/saslauthd:40
-#: /etc/rc.d/init.d/searchd:34 /etc/rc.d/init.d/sems:23
-#: /etc/rc.d/init.d/sendmail:63 /etc/rc.d/init.d/sensord:22
-#: /etc/rc.d/init.d/ser:36 /etc/rc.d/init.d/sge_execd:53
-#: /etc/rc.d/init.d/shmpps:21 /etc/rc.d/init.d/sigul_bridge:13
-#: /etc/rc.d/init.d/sigul_server:14 /etc/rc.d/init.d/sip2ncid:31
-#: /etc/rc.d/init.d/sip-redirect:31 /etc/rc.d/init.d/slapd:201
-#: /etc/rc.d/init.d/smartd:58 /etc/rc.d/init.d/smsd:21
-#: /etc/rc.d/init.d/snmpd:40 /etc/rc.d/init.d/snmptrapd:41
-#: /etc/rc.d/init.d/spamassassin:43 /etc/rc.d/init.d/spampd:39
-#: /etc/rc.d/init.d/squid:65 /etc/rc.d/init.d/squid:77
-#: /etc/rc.d/init.d/squidGuard:71 /etc/rc.d/init.d/ssbd:30
-#: /etc/rc.d/init.d/sshd:132 /etc/rc.d/init.d/sssd:41
-#: /etc/rc.d/init.d/systemtap:482 /etc/rc.d/init.d/tabled:34
-#: /etc/rc.d/init.d/tclhttpd:143 /etc/rc.d/init.d/tcsd:70
-#: /etc/rc.d/init.d/tgtd:32 /etc/rc.d/init.d/thebridge:28
-#: /etc/rc.d/init.d/thttpd:36 /etc/rc.d/init.d/tinyerp-server:47
-#: /etc/rc.d/init.d/tinyproxy:36 /etc/rc.d/init.d/tokyotyrant:36
-#: /etc/rc.d/init.d/tor:32 /etc/rc.d/init.d/trytond:48
-#: /etc/rc.d/init.d/tuned:38 /etc/rc.d/init.d/ulogd:34
-#: /etc/rc.d/init.d/update:28 /etc/rc.d/init.d/update:36
-#: /etc/rc.d/init.d/upnpd:35 /etc/rc.d/init.d/ups:46
-#: /etc/rc.d/init.d/ushare:28 /etc/rc.d/init.d/vdradmind:27
-#: /etc/rc.d/init.d/vhostmd:48 /etc/rc.d/init.d/vncserver:38
-#: /etc/rc.d/init.d/vnstat:30 /etc/rc.d/init.d/vtund:36
-#: /etc/rc.d/init.d/watchdog:26 /etc/rc.d/init.d/xfs:57
+#: /etc/rc.d/init.d/ris-linuxd:44 /etc/rc.d/init.d/rootd:36
+#: /etc/rc.d/init.d/roundup:27 /etc/rc.d/init.d/rpcbind:50
+#: /etc/rc.d/init.d/rwalld:39 /etc/rc.d/init.d/saslauthd:41
+#: /etc/rc.d/init.d/searchd:34 /etc/rc.d/init.d/sendmail:63
+#: /etc/rc.d/init.d/sensord:22 /etc/rc.d/init.d/ser:36
+#: /etc/rc.d/init.d/sge_execd:53 /etc/rc.d/init.d/shmpps:21
+#: /etc/rc.d/init.d/sigul_bridge:13 /etc/rc.d/init.d/sigul_server:14
+#: /etc/rc.d/init.d/sip2ncid:31 /etc/rc.d/init.d/sip-redirect:31
+#: /etc/rc.d/init.d/slapd:209 /etc/rc.d/init.d/smartd:58
+#: /etc/rc.d/init.d/smsd:21 /etc/rc.d/init.d/snmpd:40
+#: /etc/rc.d/init.d/snmptrapd:41 /etc/rc.d/init.d/spamassassin:43
+#: /etc/rc.d/init.d/spampd:39 /etc/rc.d/init.d/squid:65
+#: /etc/rc.d/init.d/squid:77 /etc/rc.d/init.d/squidGuard:71
+#: /etc/rc.d/init.d/ssbd:30 /etc/rc.d/init.d/sshd:132 /etc/rc.d/init.d/sssd:41
+#: /etc/rc.d/init.d/suricata:52 /etc/rc.d/init.d/systemtap:482
+#: /etc/rc.d/init.d/tabled:34 /etc/rc.d/init.d/tclhttpd:143
+#: /etc/rc.d/init.d/tcsd:65 /etc/rc.d/init.d/tgtd:32
+#: /etc/rc.d/init.d/thebridge:28 /etc/rc.d/init.d/thttpd:36
+#: /etc/rc.d/init.d/tinyerp-server:47 /etc/rc.d/init.d/tinyproxy:36
+#: /etc/rc.d/init.d/tokyotyrant:36 /etc/rc.d/init.d/tor:32
+#: /etc/rc.d/init.d/trytond:48 /etc/rc.d/init.d/tuned:38
+#: /etc/rc.d/init.d/ulogd:34 /etc/rc.d/init.d/update:28
+#: /etc/rc.d/init.d/update:36 /etc/rc.d/init.d/upnpd:35
+#: /etc/rc.d/init.d/ups:46 /etc/rc.d/init.d/ushare:28
+#: /etc/rc.d/init.d/uuidd:47 /etc/rc.d/init.d/vdradmind:27
+#: /etc/rc.d/init.d/vncserver:38 /etc/rc.d/init.d/vnstat:30
+#: /etc/rc.d/init.d/vtund:36 /etc/rc.d/init.d/watchdog:26
+#: /etc/rc.d/init.d/watchquagga:31 /etc/rc.d/init.d/xfs:57
 #: /etc/rc.d/init.d/xinetd:59 /etc/rc.d/init.d/xrdp:34
-#: /etc/rc.d/init.d/xrdp:58 /etc/rc.d/init.d/yac2ncid:31
-#: /etc/rc.d/init.d/zfs-fuse:84 /etc/rc.d/init.d/zoneminder:47
+#: /etc/rc.d/init.d/xrdp:58 /etc/rc.d/init.d/xrootd:39
+#: /etc/rc.d/init.d/yac2ncid:31 /etc/rc.d/init.d/zfs-fuse:84
+#: /etc/rc.d/init.d/zoneminder:47
 msgid "Starting $prog: "
 msgstr "جاري بدأ $prog: "
-
-#: /etc/rc.d/init.d/ypbind:67 /etc/rc.d/init.d/ypbind:72
-#, fuzzy
-msgid "domain is '$NISDOMAIN' "
-msgstr "جاري تحديد اسم نطاق NIS $NISDOMAIN: "
 
 #: /etc/rc.d/init.d/cgred:73
 #, fuzzy
@@ -326,7 +295,7 @@ msgstr "جاري تشغيل عفرين acpi: "
 msgid "Starting xend daemon: "
 msgstr "جاري بدأ عفريت NFS: "
 
-#: /etc/rc.d/init.d/kadmin:51
+#: /etc/rc.d/init.d/kadmin:53
 msgid "Error. This appears to be a slave server, found kpropd.acl"
 msgstr ""
 
@@ -339,7 +308,8 @@ msgstr "جاري بدأ $prog: "
 msgid "Missing remote IPv4 address of tunnel, configuration is not valid"
 msgstr "عنوان IPv4 بعيد مفقود للنّفق، التّهيئة ليست صالحة"
 
-#: /etc/rc.d/init.d/ksm:49 /etc/rc.d/init.d/systemtap:518
+#: /etc/rc.d/init.d/ksm:47 /etc/rc.d/init.d/oscap-scan:62
+#: /etc/rc.d/init.d/systemtap:518
 #, fuzzy
 msgid "$prog startup"
 msgstr "بدء تشغيل $base"
@@ -354,7 +324,7 @@ msgstr "جاري تشغيل خادم $prog: "
 msgid "Disabling denyhosts cron service: "
 msgstr "جاري تعطيل أجهزة PLX... "
 
-#: /etc/rc.d/init.d/zarafa-spooler:102
+#: /etc/rc.d/init.d/zarafa-spooler:110
 #, fuzzy
 msgid ""
 "Usage: $spooler {start|stop|status|reload|restart|condrestart|force-reload|"
@@ -379,20 +349,17 @@ msgstr "جاري إعادة تحميل $prog:"
 msgid "Stopping system message bus: "
 msgstr "جاري إيقاف تشغيل ناقل الرّسائل: "
 
-#: /etc/rc.d/init.d/privoxy:134
-msgid "Usage: $PRIVOXY_PRG {start|stop|reload|restart|condrestart|status|top}"
-msgstr ""
-"الاستعمال: $PRIVOXY_PRG {start|stop|reload|restart|condrestart|status|top}"
-
-#: /etc/rc.d/init.d/nsca:55
+#: /etc/rc.d/init.d/exim:124
 #, fuzzy
-msgid "Reloading nsca: "
-msgstr "تجري إعادة تحميل $prog: "
+msgid ""
+"Usage: $0 {start|stop|restart|reload|force-reload|status|condrestart|try-"
+"restart}"
+msgstr "الاستعمال: $0 {start|stop|restart|condrestart|status}"
 
-#: /etc/rc.d/init.d/bgpd:34 /etc/rc.d/init.d/ospf6d:33
-#: /etc/rc.d/init.d/ospfd:33 /etc/rc.d/init.d/radvd:43
-#: /etc/rc.d/init.d/ripd:33 /etc/rc.d/init.d/ripngd:33
-#: /etc/rc.d/init.d/zebra:30
+#: /etc/rc.d/init.d/bgpd:35 /etc/rc.d/init.d/ospf6d:34
+#: /etc/rc.d/init.d/ospfd:34 /etc/rc.d/init.d/radvd:44
+#: /etc/rc.d/init.d/ripd:34 /etc/rc.d/init.d/ripngd:34
+#: /etc/rc.d/init.d/zebra:31
 msgid "Insufficient privilege"
 msgstr ""
 
@@ -407,9 +374,9 @@ msgid ""
 "reload}"
 msgstr "الاستعمال: $0 {start|stop|status|restart|condrestart|reload}"
 
-#: /etc/rc.d/init.d/arptables_jf:192
-msgid "Usage: $0 {start|stop|restart|condrestart|status|panic|save}"
-msgstr "الاستعمال: $0 {start|stop|restart|condrestart|status|panic|save}"
+#: /etc/rc.d/init.d/firstboot:52
+msgid "ERROR: Program /usr/sbin/firstboot is not installed"
+msgstr ""
 
 #: /etc/rc.d/init.d/ups:69
 msgid "Stopping UPS monitor: "
@@ -434,10 +401,6 @@ msgstr ""
 msgid "Enabling monthly Smolt checkin: "
 msgstr "جاري تمكين تحديث yum اللّيلي: "
 
-#: /etc/rc.d/rc.sysinit:82
-msgid "*** Warning -- SELinux ${SELINUXTYPE} policy relabel is required."
-msgstr ""
-
 #: /etc/rc.d/init.d/arptables_jf:117
 msgid "Removing user defined chains:"
 msgstr "إزالة السلاسل المعرفة من قبل المستخدم:"
@@ -451,11 +414,11 @@ msgstr "جاري بدأ $prog: "
 msgid "Nightly yum update is disabled."
 msgstr "تحديث yum اللّيلي معطّل."
 
-#: /etc/rc.d/init.d/udev-post:27
+#: /etc/rc.d/init.d/udev-post:26
 msgid "Retrigger failed udev events"
 msgstr ""
 
-#: /etc/rc.d/init.d/zarafa-dagent:49
+#: /etc/rc.d/init.d/zarafa-dagent:54
 #, fuzzy
 msgid "Starting $dagent: "
 msgstr "جاري تشغيل dund: "
@@ -478,6 +441,7 @@ msgid "Flushing all current rules and user defined chains:"
 msgstr "جاري مسح كل القواعد و السلاسل المعرفة من قبل المستخدم:"
 
 #: /etc/rc.d/init.d/bwbar:67 /etc/rc.d/init.d/fail2ban:87
+#: /etc/rc.d/init.d/sandbox:86
 msgid "Usage: $0 {start|stop|status|restart}"
 msgstr "الاستعمال: $0 {start|stop|status|restart}"
 
@@ -510,7 +474,7 @@ msgid ""
 msgstr ""
 "الاستعمال: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
 
-#: /etc/rc.d/init.d/zarafa-monitor:102
+#: /etc/rc.d/init.d/zarafa-monitor:110
 #, fuzzy
 msgid ""
 "Usage: $monitor {start|stop|status|reload|restart|condrestart|force-reload|"
@@ -518,7 +482,7 @@ msgid ""
 msgstr ""
 "الاستعمال: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
 
-#: /etc/rc.d/rc.sysinit:259
+#: /etc/rc.d/rc.sysinit:89
 msgid "\t\tWelcome to "
 msgstr "\t\tمرحبا في "
 
@@ -528,56 +492,53 @@ msgstr "\t\tمرحبا في "
 msgid "Shutting down $desc ($prog): "
 msgstr "جاري غلق $prog: "
 
-#: /etc/rc.d/init.d/syslog-ng:86
+#: /etc/rc.d/init.d/zarafa-dagent:115
 #, fuzzy
-msgid "Reloading syslog-ng: "
-msgstr "جاري إعادة تحميل ملف smb.conf: "
+msgid ""
+"Usage: $dagent {start|stop|status|reload|restart|condrestart|force-reload|"
+"try-restart}"
+msgstr ""
+"الاستعمال: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
 
 #: /etc/rc.d/init.d/rsyslog:50 /etc/rc.d/init.d/sysklogd:54
 msgid "Shutting down system logger: "
 msgstr "جاري إيقاف تشغيل مُسجّل النّظام: "
 
-#: /etc/rc.d/init.d/maradns:75
+#: /etc/rc.d/init.d/tclhttpd:60
 #, fuzzy
-msgid "Starting all MaraDNS processes: "
-msgstr "جاري بدأ خدمات NFS: "
+msgid "$base is stopped"
+msgstr "${base} مُتوقّف"
 
-#: /etc/sysconfig/network-scripts/ifup-eth:203
+#: /etc/sysconfig/network-scripts/ifup-eth:200
+#: /etc/sysconfig/network-scripts/ifup-ib:189
 msgid " done."
 msgstr " تمّ."
 
-#: /etc/rc.d/init.d/amavisd-snmp:62 /etc/rc.d/init.d/avahi-daemon:102
-#: /etc/rc.d/init.d/avahi-dnsconfd:99 /etc/rc.d/init.d/gadget:86
-#: /etc/rc.d/init.d/haldaemon:71 /etc/rc.d/init.d/ibmasm:95
-#: /etc/rc.d/init.d/innd:135 /etc/rc.d/init.d/ipa_kpasswd:79
-#: /etc/rc.d/init.d/ipa_webgui:75 /etc/rc.d/init.d/kprop:83
+#: /etc/rc.d/init.d/amavisd-snmp:62 /etc/rc.d/init.d/avahi-daemon:111
+#: /etc/rc.d/init.d/avahi-dnsconfd:108 /etc/rc.d/init.d/gadget:86
+#: /etc/rc.d/init.d/haldaemon:71 /etc/rc.d/init.d/innd:135
+#: /etc/rc.d/init.d/ipa_kpasswd:79 /etc/rc.d/init.d/ipa_webgui:75
 #: /etc/rc.d/init.d/milter-greylist:83 /etc/rc.d/init.d/nasd:83
 #: /etc/rc.d/init.d/ndo2db:96 /etc/rc.d/init.d/netconsole:36
-#: /etc/rc.d/init.d/NetworkManager:101 /etc/rc.d/init.d/ohmd:86
-#: /etc/rc.d/init.d/sqlgrey:65 /etc/rc.d/init.d/sysklogd:118
+#: /etc/rc.d/init.d/NetworkManager:101 /etc/rc.d/init.d/sysklogd:118
 #: /etc/rc.d/init.d/tinyerp-server:122 /etc/rc.d/init.d/xenner:163
 #: /etc/rc.d/init.d/zvbid:62
 msgid "Usage: $0 {start|stop|status|restart|condrestart}"
 msgstr "الاستعمال: $0 {start|stop|status|restart|condrestart}"
 
-#: /etc/rc.d/init.d/ohmd:48
-#, fuzzy
-msgid "Stopping Open Hardware Manager: "
-msgstr "جاري إيقاف خادم HAL: "
-
-#: /etc/rc.d/init.d/slapd:163 /etc/rc.d/init.d/slapd:169
+#: /etc/rc.d/init.d/slapd:171 /etc/rc.d/init.d/slapd:177
 #, fuzzy
 msgid "Checking configuration files for $prog: "
 msgstr "جاري تحميل التّهيئة: "
 
-#: /etc/rc.d/init.d/halt:62
+#: /etc/rc.d/init.d/halt:62 /etc/rc.d/init.d/reboot:62
 msgid "$0: call me as 'halt' or 'reboot' please!"
 msgstr "$0: الرجاء الاستدعاء بـ 'halt' أو 'reboot'!"
 
-#: /etc/rc.d/init.d/ypbind:65
+#: /etc/rc.d/init.d/fcoe:68
 #, fuzzy
-msgid "Setting NIS domain: "
-msgstr "جاري بدأ عفريت NFS: "
+msgid "Starting FCoE initiator service: "
+msgstr "جاري تشغيل خدمات rstat: "
 
 #: /etc/rc.d/init.d/isdn:252
 msgid "$NAME is attached to $DEVICE"
@@ -602,12 +563,12 @@ msgstr ""
 #: /etc/rc.d/init.d/smartd:69 /etc/rc.d/init.d/ssbd:40
 #: /etc/rc.d/init.d/thebridge:38 /etc/rc.d/init.d/vblade:51
 #: /etc/rc.d/init.d/vncserver:81 /etc/rc.d/init.d/vnstat:45
-#: /etc/rc.d/init.d/vsftpd:65 /etc/rc.d/init.d/xfs:76
+#: /etc/rc.d/init.d/vsftpd:69 /etc/rc.d/init.d/xfs:76
 #: /etc/rc.d/init.d/yac2ncid:39
 msgid "Shutting down $prog: "
 msgstr "جاري غلق $prog: "
 
-#: /etc/rc.d/init.d/acpid:79
+#: /etc/rc.d/init.d/acpid:76
 #, fuzzy
 msgid "Reloading acpi daemon:"
 msgstr "جاري تشغيل عفرين acpi: "
@@ -621,18 +582,28 @@ msgstr "جاري تشغيل خادم $prog: "
 msgid "Stopping NetworkManager daemon: "
 msgstr "جاري إيقاف خادم مدير الشبكةNetworkManager: "
 
-#: /etc/rc.d/init.d/capi:79 /etc/rc.d/init.d/fb-server:76
-#: /etc/rc.d/init.d/greylistd:69 /etc/rc.d/init.d/isdn:281
-#: /etc/rc.d/init.d/isnsd:74 /etc/rc.d/init.d/watchdog:84
+#: /etc/rc.d/init.d/bdii:323 /etc/rc.d/init.d/capi:79
+#: /etc/rc.d/init.d/fb-server:76 /etc/rc.d/init.d/greylistd:69
+#: /etc/rc.d/init.d/isdn:281 /etc/rc.d/init.d/isnsd:74
+#: /etc/rc.d/init.d/watchdog:84
 msgid "Usage: $0 {start|stop|restart|status|condrestart}"
 msgstr "الاستعمال: $0 {start|stop|restart|status|condrestart}"
+
+#: /etc/rc.d/init.d/httpd:119
+#, fuzzy
+msgid ""
+"Usage: $prog {start|stop|restart|condrestart|try-restart|force-reload|reload|"
+"status|fullstatus|graceful|help|configtest}"
+msgstr ""
+"الاستعمال: $prog {start|stop|restart|condrestart|reload|status|fullstatus|"
+"graceful|help|configtest}"
 
 #: /etc/rc.d/init.d/smokeping:33
 #, fuzzy
 msgid "Starting smokeping: "
 msgstr "جاري تشغيل pand: "
 
-#: /etc/rc.d/init.d/mldonkey:40
+#: /etc/rc.d/init.d/mldonkey:57
 #, fuzzy
 msgid "Stopping Mldonkey (mlnet): "
 msgstr "جاري إيقاف عفريت acpi: "
@@ -642,12 +613,12 @@ msgstr "جاري إيقاف عفريت acpi: "
 msgid "Starting puppet: "
 msgstr "جاري تشغيل dund: "
 
-#: /etc/rc.d/init.d/cyphesis:37
+#: /etc/rc.d/init.d/amavisd:35
 #, fuzzy
-msgid "PostgreSQL server is not running."
-msgstr "$prog لا يعمل"
+msgid "Starting ${prog_base}:"
+msgstr "جاري بدأ $prog: "
 
-#: /etc/rc.d/init.d/halt:87
+#: /etc/rc.d/init.d/halt:87 /etc/rc.d/init.d/reboot:87
 msgid "Sending all processes the TERM signal..."
 msgstr "إرسال إشارة TERMإلى كلّ العمليّات..."
 
@@ -675,16 +646,15 @@ msgstr "جاري بدأ عفريت NFS: "
 msgid "Starting ${ifprog}: "
 msgstr "جاري بدأ $prog: "
 
-#: /etc/rc.d/init.d/sqlgrey:25
-#, fuzzy
-msgid "Shutting down SQLgrey: "
-msgstr "جاري إيقاف تشغيل dund: "
+#: /etc/sysconfig/network-scripts/ifup-aliases:192
+msgid "error in $FILE: didn't specify device or ipaddr"
+msgstr "خطأ في $FILE: لم يتمّ تحديد الجهاز أو عنوان IP"
 
 #: /etc/rc.d/init.d/ups:53
 msgid "Starting UPS monitor (master): "
 msgstr "جاري تشغيل مُراقب UPS (الأساسي): "
 
-#: /etc/rc.d/init.d/vprocunhide:53
+#: /etc/rc.d/init.d/vprocunhide:63
 msgid "/proc entries are not fixed"
 msgstr ""
 
@@ -711,6 +681,14 @@ msgstr "جاري تشغيل dund: "
 #: /etc/rc.d/init.d/nfs:133
 msgid "Shutting down NFS daemon: "
 msgstr "جاري غلق عفريت NFS: "
+
+#: /etc/rc.d/init.d/cups:140
+#, fuzzy
+msgid ""
+"Usage: $prog {start|stop|restart|restartlog|condrestart|try-restart|reload|"
+"force-reload|status}"
+msgstr ""
+"الاستعمال: $0 {start|stop|status|restart|condrestart|reload|force-reload}"
 
 #: /etc/rc.d/init.d/ctdb:280
 #, fuzzy
@@ -749,11 +727,11 @@ msgstr "جاري إيقاف خادم HAL: "
 msgid "Flushing all chains:"
 msgstr "جاري إزالة كل السلاسل:"
 
-#: /etc/rc.d/init.d/mysqld:58
+#: /etc/rc.d/init.d/mysqld:83
 msgid "Initializing MySQL database: "
 msgstr "جاري تمهيد قاعدة بيانات MySQL: "
 
-#: /etc/rc.d/init.d/ip6tables:179
+#: /etc/rc.d/init.d/ip6tables:183
 msgid "${IP6TABLES}: ${_IPV} is disabled."
 msgstr ""
 
@@ -767,13 +745,12 @@ msgstr "جارى تشغيل hidd: "
 msgid "Starting capi4linux:"
 msgstr "جاري تشغيل sm-client: "
 
-#: /etc/rc.d/init.d/aiccu:117 /etc/rc.d/init.d/exim:124
 #: /etc/rc.d/init.d/nmb:110 /etc/rc.d/init.d/smb:110
 #: /etc/rc.d/init.d/winbind:98
 msgid "Usage: $0 {start|stop|restart|reload|status|condrestart}"
 msgstr "الاستعمال: $0 {start|stop|restart|reload|status|condrestart}"
 
-#: /etc/rc.d/init.d/halt:23
+#: /etc/rc.d/init.d/halt:23 /etc/rc.d/init.d/reboot:23
 #, fuzzy
 msgid "Stopping disk encryption for $dst"
 msgstr "جاري إيقاف عفريت acpi: "
@@ -787,15 +764,11 @@ msgstr "جاري غلق $prog: "
 msgid "Detaching loopback device $dev: "
 msgstr "جاري فصل جهاز loopback $dev: "
 
-#: /etc/rc.d/init.d/spamass-milter:109 /etc/rc.d/init.d/vsftpd:98
+#: /etc/rc.d/init.d/spamass-milter:113 /etc/rc.d/init.d/vsftpd:102
 #, fuzzy
 msgid "Usage: $0 {start|stop|restart|try-restart|force-reload|status}"
 msgstr ""
 "الاستعمال: $0 {start|stop|status|restart|condrestart|reload|force-reload}"
-
-#: /etc/sysconfig/network-scripts/ifup-ipx:7
-msgid "usage: $0 <net-device>"
-msgstr "الاستعمال: $0 <جهاز الشبكة>"
 
 #: /etc/rc.d/init.d/greylistd:35
 #, fuzzy
@@ -807,13 +780,12 @@ msgstr "جاري إيقاف تشغيل dund: "
 msgid "Stopping OpenSCADA daemon: "
 msgstr "جاري إيقاف خادم HAL: "
 
-#: /etc/rc.d/init.d/perlbal:29
+#: /etc/rc.d/init.d/perlbal:28
 #, fuzzy
 msgid "Stopping Perlbal: "
 msgstr "جاري إيقاف عفريت acpi: "
 
-#: /etc/rc.d/init.d/dkms_autoinstaller:206 /etc/rc.d/init.d/firstboot:41
-#: /etc/rc.d/init.d/sandbox:57
+#: /etc/rc.d/init.d/firstboot:41
 msgid "Usage: $0 {start|stop}"
 msgstr "الاستعمال: $0 {start|stop}"
 
@@ -829,22 +801,22 @@ msgstr "جاري بدأ $prog: "
 msgid "Stopping Shorewall: "
 msgstr "جاري إيقاف عفريت acpi: "
 
-#: /etc/rc.d/init.d/iptables:131
+#: /etc/rc.d/init.d/iptables:135
 #, fuzzy
 msgid "${IPTABLES}: Setting chains to policy $policy: "
 msgstr "جاري وضْع السلاسل للاستراتيجية $policy: "
 
-#: /etc/rc.d/init.d/fsniper:49 /etc/rc.d/init.d/radvd:75
+#: /etc/rc.d/init.d/fsniper:49 /etc/rc.d/init.d/radvd:76
 #, fuzzy
 msgid "Reloading $PROG: "
 msgstr "تجري إعادة تحميل $prog: "
 
-#: /etc/rc.d/init.d/microcode_ctl:36
+#: /etc/rc.d/init.d/yum-updatesd:42
 #, fuzzy
-msgid "$0: CPU microcode data file not present ($DATAFILE)"
-msgstr "$0: ملف بيانات الميكروكود غير موجود (/etc/firmware/microcode.dat)"
+msgid "Stopping yum-updatesd: "
+msgstr "جاري إيقاف $subsys:"
 
-#: /etc/sysconfig/network-scripts/ifup:81
+#: /etc/sysconfig/network-scripts/ifup:86
 #, fuzzy
 msgid "PHYSDEV should be set for device ${DEVICE}"
 msgstr "يجب تحديد متغير PHYSDEV الخاص بجهاز ${DEVICE}"
@@ -873,11 +845,11 @@ msgstr "فحص اﻷجهزة المجهزة ب SMART: "
 msgid "restarting $prog..."
 msgstr "جاري إعادة تشغيل $prog:"
 
-#: /etc/rc.d/init.d/psacct:26
+#: /etc/rc.d/init.d/psacct:31
 msgid "Starting process accounting: "
 msgstr "جاري تشغيل مُحاسبة العمليّات: "
 
-#: /etc/rc.d/init.d/zarafa-server:130
+#: /etc/rc.d/init.d/zarafa-server:144
 #, fuzzy
 msgid ""
 "Usage: $server {start|stop|status|reload|restart|condrestart|force-reload|"
@@ -903,9 +875,10 @@ msgstr ""
 msgid "Restarting Video Disk Recorder ($prog): "
 msgstr "جاري بدأ $prog: "
 
-#: /etc/rc.d/init.d/cfenvd:27
-msgid "Starting GNU cfengine environmental history daemon: "
-msgstr ""
+#: /etc/rc.d/init.d/ip6tables:250
+#, fuzzy
+msgid "${IP6TABLES}: Saving firewall rules to $IP6TABLES_DATA: "
+msgstr "جاري حفظ أحكام الجدار النّاري إلى $IP6TABLES_DATA: "
 
 #: /etc/rc.d/init.d/glacier2router:71 /etc/rc.d/init.d/icegridnode:72
 #: /etc/rc.d/init.d/icegridregistry:72
@@ -925,7 +898,7 @@ msgstr ""
 msgid "(no mouse is configured)"
 msgstr "(لم يتمّ تهيئة أيّة فأرة)"
 
-#: /etc/rc.d/rc.sysinit:83
+#: /etc/rc.d/rc.sysinit:75
 msgid "*** Relabeling could take a very long time, depending on file"
 msgstr ""
 
@@ -934,12 +907,16 @@ msgstr ""
 msgid "Starting $prog2: "
 msgstr "جاري بدأ $prog: "
 
+#: /etc/rc.d/init.d/ktune:116
+msgid "Applying sysctl settings from $SYSCTL_POST"
+msgstr ""
+
 #: /etc/rc.d/init.d/pgpool:134
 msgid "Sending switchover request to $NAME "
 msgstr ""
 
-#: /etc/rc.d/init.d/gkrellmd:70 /etc/rc.d/init.d/gpsd:85
-#: /etc/rc.d/init.d/hddtemp:86 /etc/rc.d/init.d/vdr:96
+#: /etc/rc.d/init.d/gkrellmd:70 /etc/rc.d/init.d/hddtemp:86
+#: /etc/rc.d/init.d/vdr:96
 msgid "Service $prog does not support the reload action: "
 msgstr ""
 
@@ -948,11 +925,12 @@ msgstr ""
 msgid "Reloading Red Hat Network Daemon: "
 msgstr "جاري إيقاف عفريت شبكة ردهات: "
 
-#: /etc/sysconfig/network-scripts/ifup-ppp:142
-msgid "pppd started for ${DEVNAME} on ${MODEMPORT} at ${LINESPEED}"
-msgstr "تمّ تشغيل pppd لـ${DEVNAME} على ${MODEMPORT} بسرعة ${LINESPEED}"
+#: /etc/rc.d/init.d/mldonkey:40
+#, fuzzy
+msgid "already started"
+msgstr "$prog: يعمل مُسبقاً"
 
-#: /etc/rc.d/init.d/dcbd:251 /etc/rc.d/init.d/dcbd:255
+#: /etc/rc.d/init.d/lldpad:242 /etc/rc.d/init.d/lldpad:246
 #, fuzzy
 msgid "Usage: $0 {start|stop|status|try-restart|restart|force-reload|reload}"
 msgstr "الصيغة: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
@@ -961,19 +939,18 @@ msgstr "الصيغة: $0 {start|stop|status|restart|reload|force-reload|condrest
 msgid "reloading sm-client: "
 msgstr "جاري إعادة تحميل sm-client: "
 
-#: /etc/rc.d/init.d/crossfire:98 /etc/rc.d/init.d/ctrlproxy:108
-#: /etc/rc.d/init.d/ddclient:77 /etc/rc.d/init.d/distccd:108
-#: /etc/rc.d/init.d/flow-capture:109 /etc/rc.d/init.d/gnokii-smsd:73
-#: /etc/rc.d/init.d/haproxy:107 /etc/rc.d/init.d/hostapd:86
-#: /etc/rc.d/init.d/iceccd:126 /etc/rc.d/init.d/icecc-scheduler:110
-#: /etc/rc.d/init.d/liquidwar-server:93 /etc/rc.d/init.d/lirc:131
-#: /etc/rc.d/init.d/named:264 /etc/rc.d/init.d/nessusd:86
-#: /etc/rc.d/init.d/openct:87 /etc/rc.d/init.d/pathfinderd:105
+#: /etc/rc.d/init.d/crossfire:98 /etc/rc.d/init.d/flow-capture:109
+#: /etc/rc.d/init.d/gnokii-smsd:73 /etc/rc.d/init.d/haproxy:107
+#: /etc/rc.d/init.d/hostapd:86 /etc/rc.d/init.d/iceccd:126
+#: /etc/rc.d/init.d/icecc-scheduler:110 /etc/rc.d/init.d/liquidwar-server:93
+#: /etc/rc.d/init.d/lirc:131 /etc/rc.d/init.d/named:264
+#: /etc/rc.d/init.d/nessusd:86 /etc/rc.d/init.d/pathfinderd:105
 #: /etc/rc.d/init.d/pcscd:82 /etc/rc.d/init.d/plague-builder:98
-#: /etc/rc.d/init.d/plague-server:99 /etc/rc.d/init.d/radvd:88
+#: /etc/rc.d/init.d/plague-server:99 /etc/rc.d/init.d/radvd:89
 #: /etc/rc.d/init.d/rinetd:81 /etc/rc.d/init.d/sgemaster:386
-#: /etc/rc.d/init.d/tetrinetx:100 /etc/rc.d/init.d/wesnothd:104
-#: /etc/rc.d/init.d/wpa_supplicant:87 /etc/rc.d/init.d/xpilot-ng-server:100
+#: /etc/rc.d/init.d/spectrum:124 /etc/rc.d/init.d/tetrinetx:100
+#: /etc/rc.d/init.d/wesnothd:104 /etc/rc.d/init.d/wpa_supplicant:87
+#: /etc/rc.d/init.d/xpilot-ng-server:100
 #, fuzzy
 msgid "Usage: $0 {start|stop|status|restart|try-restart|reload|force-reload}"
 msgstr "الصيغة: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
@@ -982,7 +959,7 @@ msgstr "الصيغة: $0 {start|stop|status|restart|reload|force-reload|condrest
 msgid "\t-R \t\t: recursively dependency checking"
 msgstr ""
 
-#: /etc/rc.d/init.d/avahi-daemon:35
+#: /etc/rc.d/init.d/avahi-daemon:52
 #, fuzzy
 msgid "Starting Avahi daemon... "
 msgstr "جاري بدأ عفريت NFS: "
@@ -996,12 +973,12 @@ msgstr "العُنوان المُعطى '$addr' ليس صالحاً كعنوان
 msgid "Stopping Pound: "
 msgstr "جاري إيقاف $prog: "
 
-#: /etc/rc.d/init.d/zarafa-ical:54
+#: /etc/rc.d/init.d/zarafa-ical:62
 #, fuzzy
 msgid "Stopping $ical: "
 msgstr "جاري إيقاف $prog: "
 
-#: /etc/rc.d/init.d/netfs:122
+#: /etc/rc.d/init.d/netfs:127
 msgid "Configured NFS mountpoints: "
 msgstr "تمّت تهيئة أماكن تجهيز NFS: "
 
@@ -1010,7 +987,7 @@ msgstr "تمّت تهيئة أماكن تجهيز NFS: "
 msgid "Starting Pound: "
 msgstr "جاري تشغيل dund: "
 
-#: /etc/rc.d/init.d/halt:137
+#: /etc/rc.d/init.d/halt:137 /etc/rc.d/init.d/reboot:137
 msgid "Unmounting pipe file systems: "
 msgstr "جاري إزالة تجهيز أنظمة ملفّات pipe: "
 
@@ -1040,6 +1017,14 @@ msgstr ""
 msgid "Starting $ID: "
 msgstr "جاري بدأ $MODEL: "
 
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:1057
+msgid "No parameters given to setup a default route"
+msgstr "لم تُدخل أي مُعطيات لإعداد مسار افتراضيّ"
+
+#: /etc/rc.d/init.d/vncserver:66
+msgid "vncserver start"
+msgstr "بدء vncserver"
+
 #: /etc/sysconfig/network-scripts/ifup-aliases:340
 msgid "error in $FILE: IPADDR_START and IPADDR_END don't agree"
 msgstr "خطأ في $FILE: لاتتوافق IPADDR_START وIPADDR_END"
@@ -1053,14 +1038,10 @@ msgstr "الاستعمال: nfs {start|stop|status|restart|reload|condrestart}"
 msgid "Usage: sys-unconfig"
 msgstr ""
 
-#: /etc/rc.d/init.d/netfs:150
+#: /etc/rc.d/init.d/netfs:155
 #, fuzzy
 msgid "Active network block devices: "
 msgstr "جاري إزالة تجهيز أنظمة ملفّات كتلة الشّبكة: "
-
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:1051
-msgid "Given IPv6 default device '$device' doesn't exist or isn't up"
-msgstr "جهاز IPv6 الافتراضي '$device' غير موجود أو لا يعمل"
 
 #: /etc/sysconfig/network-scripts/ifup-ppp:59
 msgid "adsl-start does not exist or is not executable for ${DEVICE}"
@@ -1074,35 +1055,25 @@ msgstr "جاري إيقاف تشغيل $prog"
 msgid "Starting system logger: "
 msgstr "جاري تشغيل مُسجّل النّظام: "
 
-#: /etc/rc.d/init.d/tofmipd:88
-#, fuzzy
-msgid "Usage: $progname {start|stop|restart|condrestart|status}"
-msgstr "الاستعمال: $prog {start|stop|restart|condrestart|status|help}"
-
 #: /etc/rc.d/init.d/vblade:29
 msgid "$4 (e$2.$3@$1) [pid $pid]"
 msgstr ""
 
-#: /etc/rc.d/init.d/pkcsslotd:51
+#: /etc/rc.d/init.d/pkcsslotd:39
 #, fuzzy
 msgid "Shutting down pkcsslotd:"
 msgstr "جاري إيقاف postfix: "
 
-#: /etc/rc.d/init.d/cachefilesd:82
+#: /etc/rc.d/init.d/cachefilesd:88
 msgid "Usage: $0 {start|stop|restart|condstart|condrestart|status}"
 msgstr "الاستعمال: $0 {start|stop|restart|condstart|condrestart|status}"
-
-#: /etc/sysconfig/network-scripts/ifup-aliases:259
-#: /etc/sysconfig/network-scripts/ifup-aliases:270
-msgid "error in ifcfg-${parent_device}: files"
-msgstr "خطأ في ifcfg-${parent_device}: الملفّات"
 
 #: /etc/rc.d/init.d/honeyd:94
 #, fuzzy
 msgid "Reloading $prog2: "
 msgstr "تجري إعادة تحميل $prog: "
 
-#: /etc/rc.d/init.d/chronyd:158
+#: /etc/rc.d/init.d/chronyd:172
 #, fuzzy
 msgid ""
 "Usage: $0 {start|stop|status|restart|condrestart|try-restart|reload|force-"
@@ -1126,7 +1097,7 @@ msgid "not reloading due to configuration syntax error"
 msgstr "لن تتم إعادة التحميل نظرا لوجود خطأ انشائي في التنصيبة "
 
 #: /etc/rc.d/init.d/ncidd:83 /etc/rc.d/init.d/ncid-hangup:88
-#: /etc/rc.d/init.d/ncid-kpopup:89 /etc/rc.d/init.d/ncid-mythtv:89
+#: /etc/rc.d/init.d/ncid-initmodem:88 /etc/rc.d/init.d/ncid-mythtv:89
 #: /etc/rc.d/init.d/ncid-page:90 /etc/rc.d/init.d/ncid-samba:89
 #: /etc/rc.d/init.d/ncidsip:87 /etc/rc.d/init.d/ncid-speak:89
 #: /etc/rc.d/init.d/ncid-yac:75 /etc/rc.d/init.d/sip2ncid:84
@@ -1145,7 +1116,12 @@ msgstr "جاري إعادة تشغيل $prog:"
 msgid "Failed to stop \"$s\". "
 msgstr "فشل تشغيل الجهاز ${DEVICE}."
 
-#: /etc/rc.d/init.d/network:259
+#: /etc/rc.d/init.d/libvirt-guests:244
+#, fuzzy
+msgid "no running guests."
+msgstr "$prog لا يعمل"
+
+#: /etc/rc.d/init.d/network:253
 msgid "Shutting down loopback interface: "
 msgstr "جاري إيقاف تشغيل واجهة loopback: "
 
@@ -1153,11 +1129,6 @@ msgstr "جاري إيقاف تشغيل واجهة loopback: "
 #, fuzzy
 msgid "Starting icecast streaming daemon: "
 msgstr "جاري تشغيل خادم مدير التشبيك: "
-
-#: /etc/rc.d/init.d/certmaster:91
-#, fuzzy
-msgid "Stopping certmaster daemon: "
-msgstr "جاري إيقاف خادم HAL: "
 
 #: /etc/rc.d/init.d/gkrellmd:41
 #, fuzzy
@@ -1177,7 +1148,7 @@ msgstr "الاستعمال: $0 {condrestart|start|stop|restart|reload|status}"
 msgid "Starting kernel logger: "
 msgstr "جاري تشغيل مُسجّل النّواة: "
 
-#: /etc/rc.d/init.d/transmission-daemon:64
+#: /etc/rc.d/init.d/transmission-daemon:65
 #, fuzzy
 msgid "Shutting down ${NAME}: "
 msgstr "جاري غلق $MODEL: "
@@ -1191,7 +1162,8 @@ msgstr "الاستعمال: $0 {start|stop|restart|status|condrestart}"
 msgid "Telling INIT to go to single user mode."
 msgstr "جاري إخبار INIT أن ينتقل إلى وضْع المستخدم المُفرد."
 
-#: /etc/rc.d/init.d/sagator:43
+#: /etc/rc.d/init.d/ipmi_port:50 /etc/rc.d/init.d/ipmiutil_asy:41
+#: /etc/rc.d/init.d/ipmiutil_evt:45 /etc/rc.d/init.d/sagator:43
 #, fuzzy
 msgid "Starting $name: "
 msgstr "جاري تشغيل dund: "
@@ -1205,9 +1177,13 @@ msgstr ""
 msgid "Usage: ifup <device name>"
 msgstr "الاستعمال: ifup <اسم الجهاز>"
 
-#: /etc/rc.d/init.d/util-vserver:83
+#: /etc/rc.d/init.d/util-vserver:93
 msgid "Mounting cgroup-hierarchy"
 msgstr ""
+
+#: /etc/sysconfig/network-scripts/ifup-aliases:128
+msgid "Missing config file $PARENTCONFIG."
+msgstr "ملفّ الإعداد $PARENTCONFIG مفقود"
 
 #: /etc/rc.d/init.d/ebtables:149
 #, fuzzy
@@ -1219,12 +1195,12 @@ msgstr "الاستعمال: $0 {start|stop|restart|condrestart|status}"
 msgid "Starting PC/SC smart card daemon ($prog): "
 msgstr "جاري تشغيل عفرين acpi: "
 
-#: /etc/rc.d/init.d/ip6tables:351
+#: /etc/rc.d/init.d/ip6tables:355
 #, fuzzy
 msgid "Usage: ${IP6TABLES} {start|stop|restart|condrestart|status|panic|save}"
 msgstr "الاستعمال: $0 {start|stop|restart|condrestart|status|panic|save}"
 
-#: /etc/rc.d/rc.sysinit:404
+#: /etc/rc.d/rc.sysinit:230
 msgid "*** Warning -- the system did not shut down cleanly. "
 msgstr ""
 
@@ -1238,7 +1214,7 @@ msgstr "جاري تشغيل $prog للموقع $site: "
 msgid "Shutting down $NAME: "
 msgstr "جاري غلق $MODEL: "
 
-#: /etc/rc.d/init.d/radvd:39
+#: /etc/rc.d/init.d/radvd:40
 #, fuzzy
 msgid "Configuration file /etc/radvd.conf missing"
 msgstr "ملفّ التهيئة أو المفاتيح غير صالحة"
@@ -1252,10 +1228,17 @@ msgstr "جاري إزالة تجهيز أنظمة الملفّات loopback (إ�
 msgid "usage: ifdown <device name>"
 msgstr "الاستعمال: ifdown <اسم الجهاز>"
 
-#: /etc/rc.d/init.d/smokeping:40
+#: /etc/rc.d/init.d/sblim-sfcb:77
 #, fuzzy
-msgid "Stopping smokeping: "
-msgstr "جاري إيقاف قفل NFS: "
+msgid "sfcb is not running"
+msgstr "$prog لا يعمل"
+
+#: /etc/rc.d/init.d/arptables_jf:192
+#, fuzzy
+msgid ""
+"Usage: $0 {start|stop|restart|try-restart|force-reload|status|panic|save}"
+msgstr ""
+"الاستعمال: $0 {start|stop|status|restart|condrestart|reload|force-reload}"
 
 #: /etc/rc.d/init.d/ctdb:172
 #, fuzzy
@@ -1267,10 +1250,9 @@ msgstr "$prog: يعمل مُسبقاً"
 msgid "Error occured while calculating the IPv6to4 prefix"
 msgstr "حدث خطأ خلال حساب بادئة IPv6to4"
 
-#: /etc/rc.d/init.d/openvpn:125
-#, fuzzy
-msgid "Starting openvpn: "
-msgstr "جاري تشغيل pand: "
+#: /etc/rc.d/init.d/fetch-crl-boot:57
+msgid "fetch-crl-boot lockfile present"
+msgstr ""
 
 #: /etc/rc.d/init.d/postfix:100
 msgid "$prog reload"
@@ -1281,7 +1263,7 @@ msgstr "إعادة تحميل $prog"
 msgid "Stopping MogileFS tracker daemon: "
 msgstr "جاري إيقاف عفريت acpi: "
 
-#: /etc/rc.d/rc.sysinit:84
+#: /etc/rc.d/rc.sysinit:76
 msgid "*** system size and speed of hard drives."
 msgstr ""
 
@@ -1308,37 +1290,39 @@ msgstr ""
 msgid "RSA key generation"
 msgstr "توليد مفاتيح RSA"
 
-#: /etc/rc.d/init.d/zvbid:32
-#, fuzzy
-msgid "Stopping vbi proxy daemon: "
-msgstr "جاري إيقاف خادم $prog: "
+#: /etc/rc.d/init.d/xttpd:36
+msgid "PORT environment is not set."
+msgstr ""
 
 #: /etc/rc.d/init.d/pure-ftpd:81
 #, fuzzy
 msgid "Usage: pure-ftpd {start|stop|restart|reload|condrestart|status}"
 msgstr "الاستعمال: $prog {start|stop|restart|reload|condrestart|status}"
 
-#: /etc/rc.d/init.d/util-vserver:97
+#: /etc/rc.d/init.d/util-vserver:107
 msgid "Killing all running contexts"
 msgstr ""
 
-#: /etc/rc.d/init.d/halt:128
+#: /etc/rc.d/init.d/halt:128 /etc/rc.d/init.d/reboot:128
 msgid "Turning off quotas: "
 msgstr "جاري إيقاف تشغيل الحصص النّسبيّة: "
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:1167
-msgid "Pidfile '$pidfile' is empty, cannot send trigger to radvd"
-msgstr "ملف رقم العمليّة '$pidfile' فارغ، لا يُمكن إرسال مُطلِق إلى radvd"
-
-#: /etc/rc.d/init.d/iptables:183
+#: /etc/rc.d/init.d/iptables:187
 #, fuzzy
 msgid "${IPTABLES}: Applying firewall rules: "
 msgstr "جاري تطبيق أحكام الجدار النّاري $IPTABLES: "
 
-#: /etc/rc.d/init.d/named:122
+#: /etc/rc.d/init.d/lldpad:163
 #, fuzzy
-msgid "named: already running"
-msgstr "$prog: يعمل مُسبقاً"
+msgid "Shutting down $LLDPAD: "
+msgstr "جاري غلق $MODEL: "
+
+#: /etc/rc.d/init.d/ksmtuned:84
+#, fuzzy
+msgid ""
+"Usage: $prog {start|stop|restart|force-reload|condrestart|try-restart|status|"
+"retune|help}"
+msgstr "الاستعمال: $0 {start|stop|restart|condrestart|status}"
 
 #: /etc/rc.d/init.d/netfs:40
 msgid "Mounting NFS filesystems: "
@@ -1348,7 +1332,7 @@ msgstr "جاري تجهيز أنظمة ملفّات NFS: "
 msgid "Starting NetworkManager daemon: "
 msgstr "جاري تشغيل خادم مدير التشبيك: "
 
-#: /etc/rc.d/init.d/ospf6d:67 /etc/rc.d/init.d/ospfd:67
+#: /etc/rc.d/init.d/ospf6d:68 /etc/rc.d/init.d/ospfd:68
 #, fuzzy
 msgid ""
 "Usage: $PROG {start|stop|restart|reload|force-reload|try-restart|status}"
@@ -1359,8 +1343,8 @@ msgstr "الاستعمال: $0 {start|stop|restart|condrestart|status}"
 msgid "Stopping Frozen Bubble server(s): "
 msgstr "جاري إيقاف خدمات المستخدمين البعيدين (rusers): "
 
-#: /etc/rc.d/init.d/rebootmgr:11 /etc/rc.d/init.d/util-vserver:10
-#: /etc/rc.d/init.d/vprocunhide:10 /etc/rc.d/init.d/vservers-legacy:8
+#: /etc/rc.d/init.d/rebootmgr:11 /etc/rc.d/init.d/util-vserver:20
+#: /etc/rc.d/init.d/vprocunhide:20 /etc/rc.d/init.d/vservers-legacy:8
 msgid ""
 "Can not find util-vserver installation (the file '$UTIL_VSERVER_VARS' would "
 "be expected); aborting..."
@@ -1387,11 +1371,19 @@ msgstr "حدث خطأ خلال حساب بادئة IPv6to4"
 msgid "Saving current rules to $ARPTABLES_CONFIG"
 msgstr "جاري حفظ أحكام الجدار النّاري إلى $ARPTABLES_CONFIG: "
 
+#: /etc/rc.d/init.d/gpm:131 /etc/rc.d/init.d/libvirtd:112
+#, fuzzy
+msgid ""
+"Usage: $0 {start|stop|status|restart|condrestart|reload|force-reload|try-"
+"restart}"
+msgstr ""
+"الاستعمال: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
+
 #: /etc/rc.d/init.d/firehol:5604 /etc/rc.d/init.d/firehol:5627
 msgid "FireHOL: Blocking all communications:"
 msgstr ""
 
-#: /etc/rc.d/init.d/zarafa-monitor:69
+#: /etc/rc.d/init.d/zarafa-monitor:77
 #, fuzzy
 msgid "Restarting $monitor: "
 msgstr "جاري إعادة تشغيل $prog:"
@@ -1401,23 +1393,21 @@ msgstr "جاري إعادة تشغيل $prog:"
 msgid "$named reload"
 msgstr "إعادة تحميل $prog"
 
-#: /etc/rc.d/init.d/maradns-zoneserver:69
-#, fuzzy
-msgid "Starting all MaraDNS-Zoneserver processes: "
-msgstr "جاري تشغيل خدمات خادم YP: "
+#: /etc/rc.d/init.d/monotone:192 /etc/rc.d/init.d/monotone:193
+msgid "move passphrase file"
+msgstr ""
 
 #: /etc/rc.d/rc:42
 msgid "Entering non-interactive startup"
 msgstr "دخول التشغيل غير التفاعلى"
 
-#: /etc/rc.d/init.d/network:88
-msgid "No 802.1Q VLAN support available in kernel."
-msgstr "لا يوجد دعم لشبكات 802.1Q VLAN في النّواة."
+#: /etc/rc.d/init.d/vdr:42
+msgid "Error: no valid $cfg found."
+msgstr ""
 
-#: /etc/rc.d/init.d/snake-server:32
-#, fuzzy
-msgid "Starting snake-server:"
-msgstr "جاري بدأ خادم الخرائط YP: "
+#: /etc/rc.d/rc.sysinit:50
+msgid "*** Warning -- SELinux is active"
+msgstr ""
 
 #: /etc/sysconfig/network-scripts/ifup-aliases:67
 msgid "usage: ifup-aliases <net-device> [<parent-config>]\n"
@@ -1427,6 +1417,10 @@ msgstr "الاستعمال: ifup-aliases <جهاز الشّبكة> [<التّه�
 #, fuzzy
 msgid "Reloading xenconsoled daemon: "
 msgstr "جاري تشغيل عفرين acpi: "
+
+#: /etc/rc.d/init.d/functions:433
+msgid "${base} status unknown due to insufficient privileges."
+msgstr ""
 
 #: /etc/rc.d/init.d/bttrack:33
 #, fuzzy
@@ -1442,16 +1436,16 @@ msgstr "خطأ: [ipv6_log] لا يمكنه التّسجيل إلى قناة '$ch
 msgid "Stopping $master_prog: "
 msgstr "جاري إيقاف $prog: "
 
-#: /etc/rc.d/init.d/abrtd:53
+#: /etc/rc.d/init.d/abrtd:61
 #, fuzzy
 msgid "Stopping abrt daemon: "
 msgstr "جاري إيقاف عفريت acpi: "
 
-#: /etc/rc.d/init.d/kadmin:77 /etc/rc.d/init.d/krb5kdc:62
+#: /etc/rc.d/init.d/kadmin:79 /etc/rc.d/init.d/krb5kdc:64
 msgid "Reopening $prog log file: "
 msgstr "جاري إعادة فتح ملفّ السجلّ $prog: "
 
-#: /etc/rc.d/init.d/iptables:351
+#: /etc/rc.d/init.d/iptables:355
 #, fuzzy
 msgid "Usage: ${IPTABLES} {start|stop|restart|condrestart|status|panic|save}"
 msgstr "الاستعمال: $0 {start|stop|restart|condrestart|status|panic|save}"
@@ -1484,12 +1478,7 @@ msgstr "جاري إيقاف تشغيل pand: "
 msgid "Invalid tunnel type $TYPE"
 msgstr ""
 
-#: /etc/rc.d/init.d/zabbix-agent:30
-#, fuzzy
-msgid "Starting ZABBIX agent: "
-msgstr "جاري بدأ خادم HAL: "
-
-#: /etc/rc.d/init.d/halt:183
+#: /etc/rc.d/init.d/halt:183 /etc/rc.d/init.d/reboot:183
 msgid "$message"
 msgstr "$message"
 
@@ -1497,28 +1486,22 @@ msgstr "$message"
 msgid "Stopping INNFeed service: "
 msgstr "جاري إيقاف خدمة INNFeed: "
 
-#: /etc/sysconfig/network-scripts/ifup-eth:48
+#: /etc/sysconfig/network-scripts/ifup-eth:43
+#: /etc/sysconfig/network-scripts/ifup-ib:42
 msgid "Device ${DEVICE} has different MAC address than expected, ignoring."
 msgstr "الجهاز ${DEVICE} له عنوان MAC مُختلف عن المتوقّع، جاري التّجاهل."
 
-#: /etc/rc.d/init.d/psacct:59
+#: /etc/rc.d/init.d/psacct:64
 msgid "Process accounting is enabled."
 msgstr "مُحاسبة العمليّات مُمكّنة."
 
-#: /etc/rc.d/init.d/cups:140
-#, fuzzy
-msgid ""
-"Usage: $prog {start|stop|restart|condrestart|try-restart|reload|force-reload|"
-"status}"
-msgstr ""
-"الاستعمال: $0 {start|stop|status|restart|condrestart|reload|force-reload}"
-
-#: /etc/sysconfig/network-scripts/ifup-eth:192
+#: /etc/sysconfig/network-scripts/ifup-eth:189
+#: /etc/sysconfig/network-scripts/ifup-ib:177
 msgid "Determining IP information for ${DEVICE}..."
 msgstr "جاري إقرار معلومات IP للجهاز ${DEVICE}..."
 
-#: /etc/rc.d/init.d/pgbouncer:83 /etc/rc.d/init.d/pgpool:119
-#: /etc/rc.d/init.d/postgresql:200 /etc/rc.d/init.d/sepostgresql:98
+#: /etc/rc.d/init.d/pgbouncer:86 /etc/rc.d/init.d/pgpool:119
+#: /etc/rc.d/init.d/postgresql:132 /etc/rc.d/init.d/sepostgresql:94
 msgid "Stopping ${NAME} service: "
 msgstr "جاري إيقاف خدمة ${NAME}: "
 
@@ -1531,8 +1514,8 @@ msgstr "جاري إيقاف خادم HAL: "
 msgid "Moving"
 msgstr ""
 
-#: /etc/rc.d/init.d/systemtap:500 /etc/rc.d/init.d/systemtap:591
-msgid "Failed to make cache directory ($CACHE_PATH)"
+#: /etc/rc.d/init.d/libvirt-guests:148
+msgid "Resuming guests on $uri URI..."
 msgstr ""
 
 #: /etc/rc.d/init.d/xenconsoled:58
@@ -1540,10 +1523,7 @@ msgstr ""
 msgid "Starting xenconsoled daemon: "
 msgstr "جاري بدأ عفريت NFS: "
 
-#: /etc/rc.d/init.d/avahi-daemon:43 /etc/rc.d/init.d/avahi-daemon:45
-#: /etc/rc.d/init.d/avahi-dnsconfd:40 /etc/rc.d/init.d/avahi-dnsconfd:42
-#: /etc/rc.d/init.d/avahi-dnsconfd:62 /etc/rc.d/init.d/functions:266
-#: /etc/rc.d/init.d/greylistd:28
+#: /etc/rc.d/init.d/functions:267 /etc/rc.d/init.d/greylistd:28
 msgid "$base startup"
 msgstr "بدء تشغيل $base"
 
@@ -1551,7 +1531,7 @@ msgstr "بدء تشغيل $base"
 msgid "RSA1 key generation"
 msgstr "توليد مفتاح RSA1"
 
-#: /etc/rc.d/init.d/iptables:179
+#: /etc/rc.d/init.d/iptables:183
 msgid "${IPTABLES}: ${_IPV} is disabled."
 msgstr ""
 
@@ -1559,10 +1539,10 @@ msgstr ""
 msgid "failed to clean cache $s.ko"
 msgstr ""
 
-#: /etc/rc.d/init.d/cyphesis:90
+#: /etc/rc.d/init.d/zarafa-ical:49
 #, fuzzy
-msgid "Starting cyphesis: "
-msgstr "جارى تشغيل hidd: "
+msgid "Starting $ical: "
+msgstr "جاري تشغيل dund: "
 
 #: /etc/rc.d/init.d/isdn:246
 msgid "$0: Link is down"
@@ -1572,20 +1552,15 @@ msgstr "$0: الرّابط متوقّف"
 msgid "ktune settings are not applied."
 msgstr ""
 
-#: /etc/rc.d/init.d/psacct:61
+#: /etc/rc.d/init.d/psacct:66
 msgid "Process accounting is disabled."
 msgstr "مُحاسبة العمليّات مُعطّلة."
-
-#: /etc/rc.d/init.d/ircd:88 /etc/rc.d/init.d/ratbox-services:79
-#, fuzzy
-msgid "Usage: $0 {start|stop|restart|condrestart|reload|rehash|status}"
-msgstr "الاستعمال: $0 {start|stop|restart|condrestart|reload|status}"
 
 #: /etc/rc.d/init.d/firstboot:47
 msgid "ERROR: Only root can run firstboot"
 msgstr ""
 
-#: /etc/rc.d/init.d/ejabberd:31
+#: /etc/rc.d/init.d/ejabberd:34
 #, fuzzy
 msgid "Starting ejabberd: "
 msgstr "جاري تشغيل dund: "
@@ -1594,16 +1569,8 @@ msgstr "جاري تشغيل dund: "
 msgid "$0: configuration for ${1} not found."
 msgstr "$0: لم يُعثر على تهيئة ${1}."
 
-#: /etc/rc.d/rc.sysinit:193
-msgid "$dst: no value for hash option, skipping"
-msgstr ""
-
-#: /etc/rc.d/init.d/syslog-ng:54
-#, fuzzy
-msgid "Starting syslog-ng: "
-msgstr "جاري تشغيل مُسجّل النّظام: "
-
-#: /etc/rc.d/init.d/auditd:104 /etc/rc.d/init.d/xinetd:102
+#: /etc/rc.d/init.d/auditd:104 /etc/rc.d/init.d/suricata:76
+#: /etc/rc.d/init.d/xinetd:102
 msgid "Reloading configuration: "
 msgstr "جاري تحميل التّهيئة: "
 
@@ -1616,7 +1583,7 @@ msgstr ""
 msgid "Preparing $PROG certificat: "
 msgstr "جاري تشغيل $PRIVOXY_PRG: "
 
-#: /etc/rc.d/init.d/netfs:126
+#: /etc/rc.d/init.d/netfs:131
 msgid "Configured CIFS mountpoints: "
 msgstr "تمّت تهيئة أماكن تثبيت CIFS: "
 
@@ -1629,17 +1596,17 @@ msgstr "جاري غلق $prog: "
 msgid "Please run makehistory and/or makedbz before starting innd."
 msgstr "رجاء قم بتشغيل makehistory و/أو makedbz قبل تشغيل innd."
 
-#: /etc/rc.d/init.d/privoxy:87
-msgid "Stopping $PRIVOXY_PRG: "
-msgstr "جاري إيقاف $PRIVOXY_PRG: "
-
-#: /etc/rc.d/rc.sysinit:688
+#: /etc/rc.d/rc.sysinit:514
 msgid "Enabling local filesystem quotas: "
 msgstr "جاري تمكين الحصص النّسبيّة لنظام الملفّات المحلّي: "
 
-#: /etc/rc.d/init.d/netfs:146
+#: /etc/rc.d/init.d/netfs:151
 msgid "Active NCP mountpoints: "
 msgstr "أماكن تجهيز NCP النّشطة: "
+
+#: /etc/rc.d/init.d/fetch-crl-cron:27
+msgid "Disabling periodic fetch-crl: "
+msgstr ""
 
 #: /etc/rc.d/init.d/openscadad:90
 #, fuzzy
@@ -1655,7 +1622,7 @@ msgstr "جاري إيقاف تشغيل hidd: "
 msgid "$0: error: program not installed"
 msgstr ""
 
-#: /etc/rc.d/init.d/iptables:220
+#: /etc/rc.d/init.d/iptables:224
 #, fuzzy
 msgid "${IPTABLES}: Unloading modules: "
 msgstr "جاري إزالة تحميل وحدات ISDN"
@@ -1665,14 +1632,23 @@ msgstr "جاري إزالة تحميل وحدات ISDN"
 msgid "Stopping pdns-recursor: "
 msgstr "جاري إيقاف $subsys:"
 
-#: /etc/rc.d/init.d/qpidd:74
+#: /etc/rc.d/init.d/ypbind:75 /etc/rc.d/init.d/ypbind:76
+msgid "domain not found"
+msgstr ""
+
+#: /etc/rc.d/init.d/qpidd:89
 msgid "$0: reload not supported"
 msgstr ""
 
-#: /etc/rc.d/init.d/ksm:67
+#: /etc/rc.d/init.d/ksm:64
 #, fuzzy
 msgid "$prog is not running"
 msgstr "$prog لا يعمل"
+
+#: /etc/rc.d/init.d/sblim-sfcb:67
+#, fuzzy
+msgid "sfcb ($pid) is running"
+msgstr "مُدير البطاقات cardmgr (رقم العمليّة $pid) يعمل..."
 
 #: /etc/rc.d/init.d/named:178
 #, fuzzy
@@ -1680,7 +1656,7 @@ msgid "Stopping named: "
 msgstr "جاري إيقاف $prog: "
 
 #: /etc/rc.d/init.d/atd:50 /etc/rc.d/init.d/chunkd:47 /etc/rc.d/init.d/cld:48
-#: /etc/rc.d/init.d/crond:60 /etc/rc.d/init.d/dropbear:82
+#: /etc/rc.d/init.d/crond:64 /etc/rc.d/init.d/dropbear:82
 #: /etc/rc.d/init.d/globus-rls-server:41 /etc/rc.d/init.d/iscsi:74
 #: /etc/rc.d/init.d/iscsi:79 /etc/rc.d/init.d/speech-dispatcherd:32
 #: /etc/rc.d/init.d/sshd:146 /etc/rc.d/init.d/tabled:48
@@ -1692,7 +1668,7 @@ msgstr "جاري إيقاف $prog:"
 msgid "Starting $prog for $ez_name: "
 msgstr "جاري تشغيل $prog للموقع $site: "
 
-#: /etc/rc.d/init.d/functions:544
+#: /etc/rc.d/init.d/functions:554
 msgid "yY"
 msgstr "yYن"
 
@@ -1705,9 +1681,9 @@ msgstr "جاري إعادة تشغيل $prog:"
 msgid "Unregistering binary handler for qemu applications"
 msgstr ""
 
-#: /etc/rc.d/init.d/avahi-daemon:88
-msgid "Avahi daemon is not running"
-msgstr ""
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:681
+msgid "Missing parameter 'local IPv4 address' (arg 2)"
+msgstr "مُعطى 'عنوان IPv4 المحلّي' مفقود (المُعطى الثّاني)"
 
 #: /etc/rc.d/init.d/firehol:273 /etc/rc.d/init.d/firehol:277
 #: /etc/rc.d/init.d/firehol:279
@@ -1719,28 +1695,33 @@ msgstr "جاري إعادة تشغيل $prog:"
 msgid "Shutting down NFS quotas: "
 msgstr "جاري إيقاف تشغيل حصص NFS النّسبيّة: "
 
-#: /etc/rc.d/init.d/functions:188 /etc/rc.d/init.d/functions:224
+#: /etc/rc.d/init.d/functions:189 /etc/rc.d/init.d/functions:225
 msgid "$0: Usage: daemon [+/-nicelevel] {program}"
 msgstr "$0: الاستعمال: daemon [+/-nicelevel] {البرنامج}"
 
-#: /etc/rc.d/init.d/functions:432
+#: /etc/rc.d/init.d/functions:442
 msgid "${base} dead but subsys locked"
 msgstr "${base} قد مات لكنّ subsys مُقفل"
 
-#: /etc/rc.d/init.d/zabbix-agent:70 /etc/rc.d/init.d/zabbix-proxy:76
-#: /etc/rc.d/init.d/zabbix-server:75
-msgid "Service ${0##*/} does not support the reload action: "
-msgstr ""
+#: /etc/rc.d/init.d/ipmi:546
+#, fuzzy
+msgid "          restart|condrestart|try-restart|reload|force-reload"
+msgstr "الصيغة: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
 
-#: /etc/rc.d/init.d/ibmasm:21 /etc/rc.d/init.d/mcstrans:47
-#: /etc/rc.d/init.d/watchdog:28
+#: /etc/rc.d/init.d/mcstrans:47 /etc/rc.d/init.d/watchdog:28
 #, fuzzy
 msgid "$prog: already running"
 msgstr "$prog: يعمل مُسبقاً"
 
-#: /etc/rc.d/init.d/rstatd:37
-msgid "Starting rstat services: "
-msgstr "جاري تشغيل خدمات rstat: "
+#: /etc/rc.d/init.d/libvirt-guests:151
+#, fuzzy
+msgid "Resuming guest $name: "
+msgstr "جاري إعادة تشغيل $prog:"
+
+#: /etc/rc.d/init.d/sblim-sfcb:71
+#, fuzzy
+msgid "sfcb is not running, but pid file exists"
+msgstr "$prog لا يعمل"
 
 #: /etc/rc.d/init.d/tgtd:93
 #, fuzzy
@@ -1752,45 +1733,54 @@ msgstr "جاري إيقاف $prog: "
 msgid "Reloading ${prog} config file: "
 msgstr "تجري إعادة تحميل إعداد العفريت $prog: "
 
-#: /etc/rc.d/init.d/atd:108 /etc/rc.d/init.d/auth2:92
+#: /etc/rc.d/init.d/amd:129 /etc/rc.d/init.d/atd:108 /etc/rc.d/init.d/auth2:92
 #: /etc/rc.d/init.d/autogroup:111 /etc/rc.d/init.d/autohome:109
-#: /etc/rc.d/init.d/beanstalkd:131 /etc/rc.d/init.d/boa:107
+#: /etc/rc.d/init.d/beanstalkd:132 /etc/rc.d/init.d/boa:107
 #: /etc/rc.d/init.d/boinc-client:188 /etc/rc.d/init.d/bro:184
 #: /etc/rc.d/init.d/certmonger:89 /etc/rc.d/init.d/chunkd:105
 #: /etc/rc.d/init.d/clamav-milter:90 /etc/rc.d/init.d/cld:106
-#: /etc/rc.d/init.d/coda-client:86 /etc/rc.d/init.d/codasrv:93
-#: /etc/rc.d/init.d/collectl:99 /etc/rc.d/init.d/couchdb:104
-#: /etc/rc.d/init.d/crond:126 /etc/rc.d/init.d/fcron_watch_config:99
+#: /etc/rc.d/init.d/clvmd:208 /etc/rc.d/init.d/coda-client:86
+#: /etc/rc.d/init.d/codasrv:93 /etc/rc.d/init.d/collectl:99
+#: /etc/rc.d/init.d/couchdb:112 /etc/rc.d/init.d/crond:130
+#: /etc/rc.d/init.d/dmapd:88 /etc/rc.d/init.d/fcron_watch_config:99
 #: /etc/rc.d/init.d/fence_virtd:109 /etc/rc.d/init.d/fsniper:94
-#: /etc/rc.d/init.d/glusterfsd:103 /etc/rc.d/init.d/gmediaserver:121
-#: /etc/rc.d/init.d/imapproxy:101 /etc/rc.d/init.d/keepalived:106
+#: /etc/rc.d/init.d/gmediaserver:121 /etc/rc.d/init.d/imapproxy:101
+#: /etc/rc.d/init.d/ipmi_port:177 /etc/rc.d/init.d/ipmiutil_asy:148
+#: /etc/rc.d/init.d/ipmiutil_evt:152 /etc/rc.d/init.d/keepalived:106
 #: /etc/rc.d/init.d/kojid:81 /etc/rc.d/init.d/kojira:81
 #: /etc/rc.d/init.d/lighttpd:110 /etc/rc.d/init.d/miredo-client:115
 #: /etc/rc.d/init.d/miredo-server:117 /etc/rc.d/init.d/mrepo:94
-#: /etc/rc.d/init.d/netplugd:112 /etc/rc.d/init.d/noip:102
+#: /etc/rc.d/init.d/mysqld:205 /etc/rc.d/init.d/netplugd:112
+#: /etc/rc.d/init.d/netsniff-ng:108 /etc/rc.d/init.d/noip:102
 #: /etc/rc.d/init.d/npcd:100 /etc/rc.d/init.d/nslcd:79
 #: /etc/rc.d/init.d/nuauth:133 /etc/rc.d/init.d/nufw:129
 #: /etc/rc.d/init.d/nxtvepgd:101 /etc/rc.d/init.d/oidentd:107
-#: /etc/rc.d/init.d/openhpi-subagent:97 /etc/rc.d/init.d/poker-bot:102
-#: /etc/rc.d/init.d/poker-server:105 /etc/rc.d/init.d/popfile:148
-#: /etc/rc.d/init.d/postgrey:109 /etc/rc.d/init.d/radiusd:110
-#: /etc/rc.d/init.d/saslauthd:106 /etc/rc.d/init.d/searchd:103
-#: /etc/rc.d/init.d/sigul_bridge:67 /etc/rc.d/init.d/sigul_server:68
-#: /etc/rc.d/init.d/spampd:105 /etc/rc.d/init.d/speech-dispatcherd:90
-#: /etc/rc.d/init.d/sssd:117 /etc/rc.d/init.d/tabled:106
-#: /etc/rc.d/init.d/thttpd:103 /etc/rc.d/init.d/tinyproxy:102
-#: /etc/rc.d/init.d/tokyotyrant:99 /etc/rc.d/init.d/trytond:113
-#: /etc/rc.d/init.d/tuned:80 /etc/rc.d/init.d/unbound:130
-#: /etc/rc.d/init.d/update:127 /etc/rc.d/init.d/uuidd:104
-#: /etc/rc.d/init.d/vhostmd:115 /etc/rc.d/init.d/vtund:107
+#: /etc/rc.d/init.d/openhpid:109 /etc/rc.d/init.d/openhpi-subagent:99
+#: /etc/rc.d/init.d/poker-bot:102 /etc/rc.d/init.d/poker-server:105
+#: /etc/rc.d/init.d/popfile:148 /etc/rc.d/init.d/postgrey:109
+#: /etc/rc.d/init.d/radiusd:110 /etc/rc.d/init.d/saslauthd:107
+#: /etc/rc.d/init.d/searchd:103 /etc/rc.d/init.d/sigul_bridge:67
+#: /etc/rc.d/init.d/sigul_server:68 /etc/rc.d/init.d/spampd:105
+#: /etc/rc.d/init.d/speech-dispatcherd:90 /etc/rc.d/init.d/sssd:117
+#: /etc/rc.d/init.d/suricata:113 /etc/rc.d/init.d/tabled:106
+#: /etc/rc.d/init.d/tcsd:130 /etc/rc.d/init.d/thttpd:103
+#: /etc/rc.d/init.d/tinyproxy:103 /etc/rc.d/init.d/tokyotyrant:99
+#: /etc/rc.d/init.d/trytond:113 /etc/rc.d/init.d/tuned:80
+#: /etc/rc.d/init.d/unbound:130 /etc/rc.d/init.d/update:127
+#: /etc/rc.d/init.d/uuidd:114 /etc/rc.d/init.d/vtund:107
 #: /etc/rc.d/init.d/xrdp:140 /etc/rc.d/init.d/ypbind:176
 #: /etc/rc.d/init.d/yppasswdd:91 /etc/rc.d/init.d/ypserv:88
-#: /etc/rc.d/init.d/ypxfrd:78 /etc/rc.d/init.d/zfs-fuse:228
+#: /etc/rc.d/init.d/ypxfrd:78 /etc/rc.d/init.d/zfs-fuse:230
 #, fuzzy
 msgid ""
 "Usage: $0 {start|stop|status|restart|condrestart|try-restart|reload|force-"
 "reload}"
 msgstr "الصيغة: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
+
+#: /etc/rc.d/init.d/smokeping:40
+#, fuzzy
+msgid "Stopping smokeping: "
+msgstr "جاري إيقاف قفل NFS: "
 
 #: /etc/rc.d/init.d/vncserver:63
 msgid "vncserver startup"
@@ -1800,13 +1790,23 @@ msgstr "بدء تشغيل vncserver"
 msgid "Generating unbound control key and certificate: "
 msgstr ""
 
+#: /etc/sysconfig/network-scripts/ifup-ppp:77
+msgid ""
+"/etc/sysconfig/network-scripts/chat-${DEVNAME} does not exist for ${DEVICE}"
+msgstr ""
+"/etc/sysconfig/network-scripts/chat-${DEVNAME} غير متوفّر للجهاز ${DEVICE}"
+
 #: /etc/sysconfig/network-scripts/init.ipv6-global:158
 msgid "Usage: $0 {start|stop|reload|restart|showsysctl}"
 msgstr "الاستعمال: $0 {start|stop|reload|restart|showsysctl}"
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:128
-msgid "Missing config file $PARENTCONFIG."
-msgstr "ملفّ الإعداد $PARENTCONFIG مفقود"
+#: /etc/rc.d/init.d/zarafa-indexer:108
+#, fuzzy
+msgid ""
+"Usage: $indexer {start|stop|status|reload|restart|condrestart|force-reload|"
+"try-restart}"
+msgstr ""
+"الاستعمال: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
 
 #: /etc/rc.d/init.d/ushare:76
 #, fuzzy
@@ -1827,16 +1827,10 @@ msgstr "بوّابة IPv6 الافتراضيّة المُدخلة '$address' ل�
 msgid "$base dead but subsys locked"
 msgstr "${base} قد مات لكنّ subsys مُقفل"
 
-#: /etc/sysconfig/network-scripts/ifup-sit:71
-msgid "Device '$DEVICE' is already up, please shutdown first"
-msgstr "الجهاز '$DEVICE' يعمل مسبقاً، رجاء قم بإيقاف تشغيله أوّلاً"
-
-#: /etc/rc.d/init.d/dbmail-imapd:85 /etc/rc.d/init.d/dbmail-lmtpd:86
-#: /etc/rc.d/init.d/dbmail-pop3d:86 /etc/rc.d/init.d/dbmail-timsieved:87
-#: /etc/rc.d/init.d/mailgraph:91 /etc/rc.d/init.d/ntop:90
-#: /etc/rc.d/init.d/ris-linuxd:102 /etc/rc.d/init.d/sip-redirect:73
-msgid "Usage: $prog {start|stop|restart|condrestart|reload|status}"
-msgstr "الاستعمال: $prog {start|stop|restart|condrestart|reload|status}"
+#: /etc/rc.d/init.d/argus:38
+#, fuzzy
+msgid "Shutting down argus: "
+msgstr "جاري غلق $prog: "
 
 #: /etc/rc.d/init.d/cgred:87
 #, fuzzy
@@ -1847,21 +1841,17 @@ msgstr "جاري إيقاف خادم HAL: "
 msgid "Stopping HAL daemon: "
 msgstr "جاري إيقاف خادم HAL: "
 
-#: /etc/rc.d/init.d/firstboot:52
-msgid "ERROR: Program /usr/sbin/firstboot is not installed"
-msgstr ""
-
-#: /etc/rc.d/init.d/avahi-daemon:88
+#: /etc/rc.d/init.d/asterisk:80
 #, fuzzy
-msgid "Avahi daemon is running"
-msgstr "مُدير البطاقات cardmgr (رقم العمليّة $pid) يعمل..."
+msgid "Starting asterisk: "
+msgstr "جاري بدأ $prog: "
 
 #: /etc/rc.d/init.d/vnstat:90
 #, fuzzy
 msgid "Usage: $0 {start|stop|reload|force-reload|restart|try-restart|status}"
 msgstr "الاستعمال: $0 {start|stop|restart|condrestart|status}"
 
-#: /etc/rc.d/rc.sysinit:69
+#: /etc/rc.d/rc.sysinit:68
 #, fuzzy
 msgid "*** problems. Dropping you to a shell; the system will reboot"
 msgstr "*** جاري إهباطك إلى الصًّدَفة، سيقوم النّظام بإعادة التّشغيل"
@@ -1879,34 +1869,33 @@ msgstr "جاري تشغيل RPC gssd: "
 msgid "reload"
 msgstr "إعادة التّحميل"
 
-#: /etc/rc.d/init.d/mldonkey:32
+#: /etc/rc.d/init.d/fetch-crl-boot:60
+msgid "fetch-crl-boot lockfile not-present"
+msgstr ""
+
+#: /etc/rc.d/init.d/mldonkey:38
 #, fuzzy
 msgid "Starting Mldonkey (mlnet): "
 msgstr "جاري تشغيل عفرين acpi: "
 
-#: /etc/rc.d/init.d/netfs:58 /etc/rc.d/rc.sysinit:379
+#: /etc/rc.d/init.d/netfs:58 /etc/rc.d/rc.sysinit:205
 msgid "Setting up Logical Volume Management:"
 msgstr "جاري إعداد إدارة الكتل المنطقيّة:"
-
-#: /etc/rc.d/init.d/uuidd:46
-#, fuzzy
-msgid "Stopping uuidd: "
-msgstr "جاري إيقاف $prog: "
 
 #: /etc/rc.d/init.d/ladvd:47
 #, fuzzy
 msgid "Starting ladvd: "
 msgstr "جاري تشغيل dund: "
 
-#: /etc/sysconfig/network-scripts/ifup:115
-#: /etc/sysconfig/network-scripts/ifup:116
+#: /etc/sysconfig/network-scripts/ifup:119
+#: /etc/sysconfig/network-scripts/ifup:120
 msgid "ERROR: could not add vlan ${VID} as ${DEVICE} on dev ${PHYSDEV}"
 msgstr "خطأ: لم يمكن إضافة vlan ${VID} كجهاز ${DEVICE} على الجهاز ${PHYSDEV}"
 
-#: /etc/rc.d/init.d/zarafa-server:97
+#: /etc/rc.d/init.d/openvpn:125
 #, fuzzy
-msgid "Restarting $server: "
-msgstr "جاري إعادة تشغيل $prog:"
+msgid "Starting openvpn: "
+msgstr "جاري تشغيل pand: "
 
 #: /etc/rc.d/init.d/mailman:168
 #, fuzzy
@@ -1932,11 +1921,7 @@ msgstr ""
 msgid "$s$pid is running..."
 msgstr "مُدير البطاقات cardmgr (رقم العمليّة $pid) يعمل..."
 
-#: /etc/rc.d/init.d/privoxy:72
-msgid "Starting $PRIVOXY_PRG: "
-msgstr "جاري تشغيل $PRIVOXY_PRG: "
-
-#: /etc/rc.d/init.d/vprocunhide:23
+#: /etc/rc.d/init.d/vprocunhide:33
 msgid "Fixing /proc entries visibility"
 msgstr ""
 
@@ -1944,6 +1929,10 @@ msgstr ""
 #, fuzzy
 msgid "program is not running"
 msgstr "$prog لا يعمل"
+
+#: /etc/sysconfig/network-scripts/ifup-eth:51
+msgid "Bridge support not available: brctl not found"
+msgstr "دعم الجسر غير متوفّر: لم يُعثر على brctl"
 
 #: /etc/rc.d/init.d/innd:89
 msgid "Stopping INN actived service: "
@@ -1954,8 +1943,8 @@ msgstr "جاري إيقاف خدمة INN المُنشّطة: "
 msgid "Stopping all ${MODULE_NAME} drivers: "
 msgstr "جاري إيقاف خدمة ${NAME}: "
 
-#: /etc/rc.d/init.d/ktune:109
-msgid "$file: "
+#: /etc/rc.d/init.d/ktune:209
+msgid "None"
 msgstr ""
 
 #: /etc/rc.d/init.d/tor:103
@@ -1972,6 +1961,11 @@ msgstr "/etc/sysconfig/network-scripts/dip-$DEVICE غير موجود"
 msgid "error in $FILE: already seen device $parent_device:$DEVNUM in $devseen"
 msgstr "خطأ في الملفّ $FILE: تمّت رؤية الجهاز $parent_device:$DEVNUM في $devseen"
 
+#: /etc/init/splash-manager.conf:14
+#, fuzzy
+msgid "Restarting..."
+msgstr "جاري إعادة تشغيل $prog:"
+
 #: /etc/rc.d/init.d/sysklogd:51
 msgid "Shutting down kernel logger: "
 msgstr "جاري إيقاف تشغيل مُسجّل النّواة: "
@@ -1986,9 +1980,10 @@ msgstr "جاري تمهيد قاعدة البيانات: "
 msgid "CIM server is not running, but lock file exists"
 msgstr "$prog لا يعمل"
 
-#: /etc/rc.d/rc.sysinit:141
-msgid "Key file for $dst not found, skipping"
-msgstr ""
+#: /etc/rc.d/init.d/qpidd:66
+#, fuzzy
+msgid "Starting Qpid AMQP daemon: "
+msgstr "جاري بدء تشغيل عفريت APM: "
 
 #: /etc/rc.d/init.d/ups:40
 #, fuzzy
@@ -2005,16 +2000,16 @@ msgstr "جاري إيقاف تشغيل sm-client: "
 msgid "Reloading xend daemon: "
 msgstr "جاري تشغيل عفرين acpi: "
 
-#: /etc/rc.d/init.d/halt:53
+#: /etc/rc.d/init.d/halt:53 /etc/rc.d/init.d/reboot:53
 msgid "Halting system..."
 msgstr "جاري إيقاف النّظام..."
 
-#: /etc/rc.d/init.d/avahi-daemon:62
+#: /etc/rc.d/init.d/avahi-daemon:73
 #, fuzzy
 msgid "Reloading Avahi daemon... "
 msgstr "جاري تشغيل عفرين acpi: "
 
-#: /etc/rc.d/init.d/iptables:31
+#: /etc/rc.d/init.d/iptables:33
 #, fuzzy
 msgid "${IPTABLES}: /sbin/$IPTABLES does not exist."
 msgstr "/sbin/$IPTABLES غير موجود."
@@ -2029,27 +2024,27 @@ msgstr "جاري تشغيل عفريت قابس الشّبكة: "
 msgid "$prog status is unknown"
 msgstr "مُدير البطاقات cardmgr (رقم العمليّة $pid) يعمل..."
 
-#: /etc/rc.d/init.d/ip6tables:291
+#: /etc/rc.d/init.d/ypxfrd:43
+msgid "Stopping YP map server: "
+msgstr "جاري إيقاف خادم الخرائط YP: "
+
+#: /etc/rc.d/init.d/ip6tables:295
 #, fuzzy
 msgid "${IP6TABLES}: Firewall is not configured. "
 msgstr "الجداري الناريّ غير مُهيّأ: "
 
 #: /etc/rc.d/init.d/canna:89 /etc/rc.d/init.d/condor:224
 #: /etc/rc.d/init.d/fnfxd:67 /etc/rc.d/init.d/odccm:63
-#: /etc/rc.d/init.d/rbldnsd:191 /etc/rc.d/init.d/ups:137
+#: /etc/rc.d/init.d/rbldnsd:191 /etc/rc.d/init.d/ups:143
 #, fuzzy
 msgid "Usage: $0 {start|stop|restart|try-restart|reload|force-reload|status}"
 msgstr ""
 "الاستعمال: $0 {start|stop|status|restart|condrestart|reload|force-reload}"
 
-#: /etc/rc.d/init.d/rinputd:73
+#: /etc/rc.d/init.d/smolt:68
 #, fuzzy
-msgid "Stopping $DESC: "
-msgstr "جاري إيقاف خدمة ${NAME}: "
-
-#: /etc/rc.d/init.d/systemtap:64
-msgid "\t-r kernelrelease: specify kernel release version"
-msgstr ""
+msgid "Monthly smolt check-in is disabled."
+msgstr "مُحاسبة العمليّات مُعطّلة."
 
 #: /etc/rc.d/init.d/postfix:120
 #, fuzzy
@@ -2069,21 +2064,17 @@ msgstr ""
 msgid "Usage: status {program}"
 msgstr "الاستعمال: status {البرنامج}"
 
-#: /etc/rc.d/init.d/amd:94
-msgid "Reloading $prog:"
-msgstr "جاري إعادة تحميل $prog:"
-
 #: /etc/rc.d/init.d/ypbind:91
 #, fuzzy
 msgid "Binding NIS service: "
 msgstr "جاري غلق خدمات NIS: "
 
-#: /etc/sysconfig/network-scripts/ifup-eth:69
+#: /etc/sysconfig/network-scripts/ifup-eth:64
 #, fuzzy
 msgid "Tap support not available: tunctl not found"
 msgstr "دعم الجسر غير متوفّر: لم يُعثر على brctl"
 
-#: /etc/rc.d/init.d/voms:215
+#: /etc/rc.d/init.d/voms:226
 #, fuzzy
 msgid "Usage: killproc {pids} [signal]"
 msgstr "الاستخدام: killproc {برنامج} [إشارة]"
@@ -2092,7 +2083,7 @@ msgstr "الاستخدام: killproc {برنامج} [إشارة]"
 msgid "Stopping Red Hat Network Daemon: "
 msgstr "جاري إيقاف عفريت شبكة ردهات: "
 
-#: /etc/rc.d/init.d/kdump:402
+#: /etc/rc.d/init.d/kdump:376
 #, fuzzy
 msgid "Usage: $0 {start|stop|status|restart|propagate}"
 msgstr "الاستعمال: $0 {start|stop|status|restart|reload}"
@@ -2121,17 +2112,12 @@ msgstr "يجب أن يكون تمرير 6to4 وRADVD IPv6 مستخدماً عا�
 msgid "Starting $SERVICE daemon: "
 msgstr "جاري بدأ عفريت NFS: "
 
-#: /etc/rc.d/init.d/amd:65
-#, fuzzy
-msgid "amd shutdown"
-msgstr "إيقاف تشغيل $base"
-
 #: /etc/rc.d/init.d/blktapctrl:48
 #, fuzzy
 msgid "Stoping xen blktapctrl daemon: "
 msgstr "جاري إيقاف خادم HAL: "
 
-#: /etc/rc.d/init.d/rusersd:53
+#: /etc/rc.d/init.d/rusersd:57
 msgid "Stopping rusers services: "
 msgstr "جاري إيقاف خدمات المستخدمين البعيدين (rusers): "
 
@@ -2166,7 +2152,7 @@ msgstr "تجري إعادة تحميل $prog: "
 msgid "Starting system message bus: "
 msgstr "جاري تشغيل نظام ناقل الرّسائل: "
 
-#: /etc/rc.d/init.d/zarafa-gateway:69
+#: /etc/rc.d/init.d/zarafa-gateway:77
 #, fuzzy
 msgid "Restarting $gateway: "
 msgstr "جاري إعادة تشغيل $prog:"
@@ -2204,6 +2190,12 @@ msgstr "جاري تشغيل عفرين acpi: "
 msgid "Starting OpenSCADA daemon: "
 msgstr "جاري بدأ عفريت NFS: "
 
+#: /etc/rc.d/init.d/libvirt-guests:157 /etc/rc.d/init.d/libvirt-guests:188
+#: /etc/rc.d/init.d/libvirt-guests:213
+#, fuzzy
+msgid "done"
+msgstr " تمّ."
+
 #: /etc/rc.d/init.d/clement:183
 #, fuzzy
 msgid "Stopping $PROG:"
@@ -2212,6 +2204,11 @@ msgstr "جاري إيقاف $PRIVOXY_PRG: "
 #: /etc/rc.d/init.d/supervisord:30
 #, fuzzy
 msgid "Stopping supervisord: "
+msgstr "جاري إيقاف $prog: "
+
+#: /etc/rc.d/init.d/libvirt-guests:173
+#, fuzzy
+msgid "Suspending $name: "
 msgstr "جاري إيقاف $prog: "
 
 #: /etc/rc.d/init.d/zvbid:23
@@ -2233,13 +2230,14 @@ msgid "Enabling nightly yum update: "
 msgstr "جاري تمكين تحديث yum اللّيلي: "
 
 #: /etc/rc.d/init.d/apt:75 /etc/rc.d/init.d/denyhosts:173
-#: /etc/rc.d/init.d/incrond:58 /etc/rc.d/init.d/memcached:83
-#: /etc/rc.d/init.d/mogilefsd:57 /etc/rc.d/init.d/mogstored:57
-#: /etc/rc.d/init.d/orbited:69 /etc/rc.d/init.d/pdns-recursor:58
-#: /etc/rc.d/init.d/perlbal:58 /etc/rc.d/init.d/pound:58
-#: /etc/rc.d/init.d/rwalld:90 /etc/rc.d/init.d/rwhod:90
-#: /etc/rc.d/init.d/smolt:73 /etc/rc.d/init.d/supervisord:59
-#: /etc/rc.d/init.d/yum-cron:65 /etc/rc.d/init.d/yum-updatesd:71
+#: /etc/rc.d/init.d/fetch-crl-boot:66 /etc/rc.d/init.d/fetch-crl-cron:61
+#: /etc/rc.d/init.d/incrond:58 /etc/rc.d/init.d/mogilefsd:57
+#: /etc/rc.d/init.d/mogstored:57 /etc/rc.d/init.d/orbited:69
+#: /etc/rc.d/init.d/pdns-recursor:58 /etc/rc.d/init.d/perlbal:58
+#: /etc/rc.d/init.d/pound:58 /etc/rc.d/init.d/rwalld:90
+#: /etc/rc.d/init.d/rwhod:90 /etc/rc.d/init.d/smolt:73
+#: /etc/rc.d/init.d/supervisord:59 /etc/rc.d/init.d/yum-cron:65
+#: /etc/rc.d/init.d/yum-updatesd:71
 msgid "Usage: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
 msgstr ""
 "الاستعمال: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
@@ -2248,7 +2246,7 @@ msgstr ""
 msgid "Reloading postfix: "
 msgstr "جاري إعادة تحميل postfix: "
 
-#: /etc/rc.d/init.d/autofs:137
+#: /etc/rc.d/init.d/autofs:148
 #, fuzzy
 msgid "Reloading maps"
 msgstr "جاري إعادة تحميل $prog:"
@@ -2257,12 +2255,11 @@ msgstr "جاري إعادة تحميل $prog:"
 msgid "Missing parameter 'IPv4 address' (arg 1)"
 msgstr "مُعطى 'عنوان IP4v' مفقود (المُدخل الأوّل)"
 
-#: /etc/rc.d/init.d/zabbix-agent:40
-#, fuzzy
-msgid "Shutting down ZABBIX agent: "
-msgstr "جاري إيقاف تشغيل عفريت APM: "
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:1167
+msgid "Pidfile '$pidfile' is empty, cannot send trigger to radvd"
+msgstr "ملف رقم العمليّة '$pidfile' فارغ، لا يُمكن إرسال مُطلِق إلى radvd"
 
-#: /etc/rc.d/init.d/openct:36
+#: /etc/rc.d/init.d/openct:38
 #, fuzzy
 msgid "Initializing OpenCT smart card terminals: "
 msgstr "جاري تمهيد قاعدة البيانات: "
@@ -2271,12 +2268,12 @@ msgstr "جاري تمهيد قاعدة البيانات: "
 msgid "Unconfigured: $prog, see /etc/sysconfig/hddtemp: "
 msgstr ""
 
-#: /etc/rc.d/init.d/iptables:246
+#: /etc/rc.d/init.d/iptables:250
 #, fuzzy
 msgid "${IPTABLES}: Saving firewall rules to $IPTABLES_DATA: "
 msgstr "جاري حفظ أحكام الجدار النّاري إلى $IPTABLES_DATA: "
 
-#: /etc/rc.d/init.d/network:274
+#: /etc/rc.d/init.d/network:268
 msgid "Currently active devices:"
 msgstr "الأجهزة النّشطة حاليا:"
 
@@ -2294,8 +2291,12 @@ msgstr "جاري إيقاف عفريت acpi: "
 msgid "Starting Condor daemons: "
 msgstr "جاري بدأ عفريت NFS: "
 
-#: /etc/rc.d/init.d/util-vserver:124
+#: /etc/rc.d/init.d/util-vserver:134
 msgid "Path to vshelper has been set"
+msgstr ""
+
+#: /etc/rc.d/init.d/fetch-crl-boot:22
+msgid "Running fetch-crl on boot can take a while: "
 msgstr ""
 
 #: /etc/rc.d/init.d/wesnothd:65
@@ -2342,27 +2343,26 @@ msgstr "مُدير البطاقات cardmgr (رقم العمليّة $pid) يع�
 msgid "$*"
 msgstr "$*"
 
-#: /etc/rc.d/init.d/puppetmaster:57
-msgid "Manifest does not exist: $PUPPETMASTER_MANIFEST"
-msgstr ""
+#: /etc/rc.d/init.d/lldpad:237
+#, fuzzy
+msgid "Reloading $LLDPAD is not supported: "
+msgstr "تجري إعادة تحميل $prog: "
 
-#: /etc/rc.d/init.d/mldonkey:64
+#: /etc/rc.d/init.d/mldonkey:91
 msgid "Mldonkey (mlnet) is stopped"
 msgstr ""
 
-#: /etc/rc.d/init.d/bgpd:38 /etc/rc.d/init.d/cachefilesd:43
-#: /etc/rc.d/init.d/fsniper:28 /etc/rc.d/init.d/ospf6d:37
-#: /etc/rc.d/init.d/ospfd:37 /etc/rc.d/init.d/radvd:46
-#: /etc/rc.d/init.d/remotetrx:26 /etc/rc.d/init.d/ripd:37
-#: /etc/rc.d/init.d/ripngd:37 /etc/rc.d/init.d/svxlink:26
-#: /etc/rc.d/init.d/xttpd:27 /etc/rc.d/init.d/zebra:34
+#: /etc/rc.d/init.d/bgpd:39 /etc/rc.d/init.d/cachefilesd:44
+#: /etc/rc.d/init.d/fsniper:28 /etc/rc.d/init.d/ospf6d:38
+#: /etc/rc.d/init.d/ospfd:38 /etc/rc.d/init.d/radvd:47
+#: /etc/rc.d/init.d/ripd:38 /etc/rc.d/init.d/ripngd:38
+#: /etc/rc.d/init.d/xttpd:27 /etc/rc.d/init.d/zebra:35
 #, fuzzy
 msgid "Starting $PROG: "
 msgstr "جاري تشغيل $PRIVOXY_PRG: "
 
 #: /etc/rc.d/init.d/dc_client:74 /etc/rc.d/init.d/dc_server:70
-#: /etc/rc.d/init.d/ksm:92 /etc/rc.d/init.d/rtpproxy:96
-#: /etc/rc.d/init.d/sems:67 /etc/rc.d/init.d/ser:93
+#: /etc/rc.d/init.d/ser:93
 msgid "Usage: $prog {start|stop|restart|condrestart|status|help}"
 msgstr "الاستعمال: $prog {start|stop|restart|condrestart|status|help}"
 
@@ -2379,7 +2379,7 @@ msgstr ""
 msgid "error in $FILE: IPADDR_START greater than IPADDR_END"
 msgstr "خطأ في $FILE: قيمة IPADDR_START أكبر من IPADDR_END"
 
-#: /etc/rc.d/init.d/netfs:87 /etc/rc.d/rc.sysinit:608
+#: /etc/rc.d/init.d/netfs:92 /etc/rc.d/rc.sysinit:434
 msgid "(Repair filesystem)"
 msgstr "(إصلاح نظام الملفّات)"
 
@@ -2415,6 +2415,10 @@ msgstr "جاري تشغيل عفرين acpi: "
 msgid "Checking database format in"
 msgstr "جاري تمهيد قاعدة البيانات: "
 
+#: /etc/rc.d/init.d/libvirt-guests:254
+msgid "Suspending guests on $uri URI..."
+msgstr ""
+
 #: /etc/rc.d/init.d/hostapd:37
 #, fuzzy
 msgid "Starting $prog: $conf"
@@ -2434,7 +2438,7 @@ msgstr "جاري بدأ $prog: "
 msgid "VNC server"
 msgstr "خادم VNC"
 
-#: /etc/rc.d/init.d/sshd:233 /etc/rc.d/init.d/tcsd:107
+#: /etc/rc.d/init.d/sshd:233
 #, fuzzy
 msgid ""
 "Usage: $0 {start|stop|restart|reload|force-reload|condrestart|try-restart|"
@@ -2449,15 +2453,9 @@ msgstr ""
 msgid "packet import"
 msgstr ""
 
-#: /etc/rc.d/init.d/avahi-dnsconfd:85
-#, fuzzy
-msgid "Avahi DNS daemon is not running"
-msgstr "مُدير البطاقات cardmgr (رقم العمليّة $pid) يعمل..."
-
-#: /etc/rc.d/init.d/cyphesis:106
-#, fuzzy
-msgid "Populating cyphesis world: "
-msgstr "جارى تشغيل hidd: "
+#: /etc/rc.d/init.d/ktune:109
+msgid "$file: "
+msgstr ""
 
 #: /etc/rc.d/init.d/monotone:156
 msgid "To lose old key remove file"
@@ -2468,11 +2466,11 @@ msgstr ""
 msgid "program is dead and /var/run pid file exists"
 msgstr "${base} مات ولكنّ ملفّ رقم العمليّة لازال موجوداً"
 
-#: /etc/rc.d/init.d/iscsid:65 /etc/rc.d/init.d/iscsid:66
+#: /etc/rc.d/init.d/iscsid:87 /etc/rc.d/init.d/iscsid:88
 msgid "Not stopping $prog: iscsi sessions still active"
 msgstr ""
 
-#: /etc/rc.d/rc.sysinit:67
+#: /etc/rc.d/rc.sysinit:66
 msgid "*** Warning -- SELinux ${SELINUXTYPE} policy relabel is required. "
 msgstr ""
 
@@ -2496,6 +2494,13 @@ msgstr "جاري تشغيل sm-client: "
 msgid "Shutting down pand: "
 msgstr "جاري إيقاف تشغيل dund: "
 
+#: /etc/rc.d/init.d/ksm:98
+#, fuzzy
+msgid ""
+"Usage: $prog {start|stop|restart|force-reload|condrestart|try-restart|status|"
+"help}"
+msgstr "الاستعمال: $0 {start|stop|restart|condrestart|status}"
+
 #: /etc/rc.d/init.d/ajaxterm:71 /etc/rc.d/init.d/qemu:98
 #, fuzzy
 msgid "Usage: $prog {start|stop|status|restart|condrestart}"
@@ -2506,7 +2511,7 @@ msgid "Missing parameter 'address' (arg 1)"
 msgstr "مُعطى 'العنوان' مفقود (المُعطى الأوّل)"
 
 #: /etc/rc.d/init.d/cmirrord:102 /etc/rc.d/init.d/kannel:118
-#: /etc/rc.d/init.d/olpc-configure:389
+#: /etc/rc.d/init.d/olpc-configure:431
 msgid "Usage: $0 {start|stop|restart|status}"
 msgstr "صيغة الاستعمال: $0 {start|stop|restart|reload|status}"
 
@@ -2520,7 +2525,7 @@ msgstr "جاري إيقاف خدمة INND: "
 msgid "Stopping RPC idmapd: "
 msgstr "جاري تشغيل RPCidmapd: "
 
-#: /etc/rc.d/init.d/slapd:143 /etc/rc.d/init.d/slapd:153
+#: /etc/rc.d/init.d/slapd:143 /etc/rc.d/init.d/slapd:161
 msgid "$file is not readable by \"$user\""
 msgstr "لا يملك المستخدم  \"$user\" أن يقرأ الملفّ $file "
 
@@ -2529,10 +2534,10 @@ msgstr "لا يملك المستخدم  \"$user\" أن يقرأ الملفّ $fi
 msgid "Stopping distributed compiler scheduler: "
 msgstr "جاري إيقاف خادم الخرائط YP: "
 
-#: /etc/rc.d/init.d/avahi-daemon:55 /etc/rc.d/init.d/avahi-dnsconfd:52
-#: /etc/rc.d/init.d/functions:318 /etc/rc.d/init.d/functions:334
-#: /etc/rc.d/init.d/tclhttpd:116 /etc/rc.d/init.d/tclhttpd:127
-#: /etc/rc.d/init.d/voms:248 /etc/rc.d/init.d/voms:259
+#: /etc/rc.d/init.d/functions:303 /etc/rc.d/init.d/functions:324
+#: /etc/rc.d/init.d/functions:340 /etc/rc.d/init.d/tclhttpd:116
+#: /etc/rc.d/init.d/tclhttpd:127 /etc/rc.d/init.d/voms:259
+#: /etc/rc.d/init.d/voms:270
 msgid "$base shutdown"
 msgstr "إيقاف تشغيل $base"
 
@@ -2541,7 +2546,7 @@ msgstr "إيقاف تشغيل $base"
 msgid "Stopping $prog2: "
 msgstr "جاري إيقاف $prog: "
 
-#: /etc/rc.d/init.d/postgresql:165
+#: /etc/rc.d/init.d/postgresql:99
 msgid "An old version of the database format was found."
 msgstr "تم العثور على إصدار قديم من صيغة قاعدة البيانات."
 
@@ -2558,16 +2563,20 @@ msgstr "الاستعمال: $prog {start|stop|restart|reload|condrestart|status}
 msgid "netconsole module not loaded"
 msgstr ""
 
-#: /etc/rc.d/init.d/qpidd:66
+#: /etc/rc.d/init.d/qpidd:81
 #, fuzzy
 msgid "Stopping Qpid AMQP daemon: "
 msgstr "جاري إيقاف عفريت acpi: "
+
+#: /etc/rc.d/init.d/puppetmaster:57
+msgid "Manifest does not exist: $PUPPETMASTER_MANIFEST"
+msgstr ""
 
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:113
 msgid "ERROR    "
 msgstr "خطأ    "
 
-#: /etc/rc.d/init.d/ip6tables:31
+#: /etc/rc.d/init.d/ip6tables:33
 #, fuzzy
 msgid "${IP6TABLES}: /sbin/$IP6TABLES does not exist."
 msgstr "/sbin/$IP6TABLES غير موجود."
@@ -2596,15 +2605,10 @@ msgstr "لم يُعطى أيّ سبب لإرسال مُطْلِقٍ إلى radvd
 msgid "Nightly apt update is disabled."
 msgstr "تحديث yum اللّيلي معطّل."
 
-#: /etc/rc.d/init.d/openct:46
+#: /etc/rc.d/init.d/openct:47
 #, fuzzy
 msgid "Stopping OpenCT smart card terminals: "
 msgstr "جاري إيقاف خدمات rstat: "
-
-#: /etc/rc.d/init.d/funcd:77
-#, fuzzy
-msgid "Starting func daemon: "
-msgstr "جاري بدأ عفريت NFS: "
 
 #: /etc/rc.d/init.d/arptables_jf:90
 msgid "Applying arptables firewall rules: "
@@ -2620,7 +2624,7 @@ msgstr "توليد مفاتيح RSA"
 msgid "Device '$DEVICE' isn't supported as a valid GRE device name."
 msgstr ""
 
-#: /etc/rc.d/init.d/amtu:82 /etc/rc.d/init.d/microcode_ctl:77
+#: /etc/rc.d/init.d/amtu:82 /etc/rc.d/init.d/oscap-scan:83
 msgid "Usage: $0 {start|stop|restart}"
 msgstr "صيغة الاستعمال: $0 {start|stop|restart}"
 
@@ -2632,49 +2636,37 @@ msgid ""
 "configtest|status}"
 msgstr "الاستعمال: $0 {start|stop|restart|condrestart|status}"
 
-#: /etc/rc.d/init.d/util-vserver:102
+#: /etc/rc.d/init.d/util-vserver:112
 #, fuzzy
 msgid "Unmounting cgroup-hierarchy"
 msgstr "تمّت تهيئة أماكن تجهيز NFS: "
-
-#: /etc/rc.d/init.d/zarafa-dagent:107
-#, fuzzy
-msgid ""
-"Usage: $dagent {start|stop|status|reload|restart|condrestart|force-reload|"
-"try-restart}"
-msgstr ""
-"الاستعمال: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
 
 #: /etc/rc.d/init.d/rwhod:39
 msgid "Starting rwho services: "
 msgstr "جاري تشغيل خدمات rwho: "
 
-#: /etc/rc.d/init.d/acpid:60
+#: /etc/rc.d/init.d/acpid:57
 msgid "Stopping acpi daemon: "
 msgstr "جاري إيقاف عفريت acpi: "
+
+#: /etc/rc.d/init.d/postgresql:174 /etc/rc.d/init.d/sepostgresql:144
+msgid "Initializing database: "
+msgstr "جاري تمهيد قاعدة البيانات: "
 
 #: /etc/rc.d/init.d/functions:123
 msgid "Unmounting loopback filesystems: "
 msgstr "جاري إزالة تجهيز أنظمة الملفّات loopback: "
 
-#: /etc/rc.d/init.d/ipmi:548
+#: /etc/rc.d/init.d/ipmi:549
 msgid "          stop-all|status-all}"
 msgstr ""
 
-#: /etc/rc.d/init.d/ip6tables:98
+#: /etc/rc.d/init.d/ip6tables:102
 #, fuzzy
 msgid "${IP6TABLES}: Flushing firewall rules: "
 msgstr "جاري إزالة أحكام الجدار النّاري: "
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:1008
-msgid ""
-"Given IPv6 default gateway '$address' is link-local, but no scope or gateway "
-"device is specified"
-msgstr ""
-"بوّابة IPv6 الافتراضيّة المُدخلة '$address' هي رابط محلّي، لكن لم يتمّ تحديد جهاز "
-"مجال أو بوّابة"
-
-#: /etc/rc.d/init.d/util-vserver:79
+#: /etc/rc.d/init.d/util-vserver:89
 #, fuzzy
 msgid "Loading default device map"
 msgstr "جاري تحميل خريطة المفاتيح الافتراضيّة"
@@ -2684,10 +2676,9 @@ msgstr "جاري تحميل خريطة المفاتيح الافتراضيّة"
 msgid "$prog dead but pid file exists"
 msgstr "${base} مات ولكنّ ملفّ رقم العمليّة لازال موجوداً"
 
-#: /etc/rc.d/init.d/tclhttpd:60
-#, fuzzy
-msgid "$base is stopped"
-msgstr "${base} مُتوقّف"
+#: /etc/sysconfig/network-scripts/ifup-sit:71
+msgid "Device '$DEVICE' is already up, please shutdown first"
+msgstr "الجهاز '$DEVICE' يعمل مسبقاً، رجاء قم بإيقاف تشغيله أوّلاً"
 
 #: /etc/rc.d/init.d/dund:36
 msgid "Shutting down dund: "
@@ -2699,11 +2690,16 @@ msgstr "جاري إيقاف تشغيل dund: "
 msgid "Restarting Shorewall: "
 msgstr "جاري إعادة تشغيل $prog:"
 
+#: /etc/init/splash-manager.conf:12
+#, fuzzy
+msgid "Shutting down..."
+msgstr "جاري إيقاف تشغيل $prog"
+
 #: /etc/rc.d/init.d/gpm:91
 msgid "Shutting down console mouse services: "
 msgstr "جاري إيقاف تشغيل خدمات فأرة الشّاشة الطّرفيّة: "
 
-#: /etc/rc.d/init.d/util-vserver:127
+#: /etc/rc.d/init.d/util-vserver:137
 msgid "Path to vshelper has not been set"
 msgstr ""
 
@@ -2737,7 +2733,7 @@ msgstr "جاري إيقاف NFS statd: "
 msgid "Generating RSA key for server $MONOTONE_KEYID"
 msgstr ""
 
-#: /etc/rc.d/init.d/spamass-milter:53
+#: /etc/rc.d/init.d/spamass-milter:57
 #, fuzzy
 msgid "Starting ${desc} (${prog}): "
 msgstr "جاري بدأ $prog: "
@@ -2747,31 +2743,34 @@ msgstr "جاري بدأ $prog: "
 msgid "CIM server ($pid) is running"
 msgstr "مُدير البطاقات cardmgr (رقم العمليّة $pid) يعمل..."
 
-#: /etc/rc.d/init.d/cobblerd:73
-#, fuzzy
-msgid "Stopping cobbler daemon: "
-msgstr "جاري إيقاف خادم HAL: "
+#: /etc/rc.d/init.d/iscsi:56 /etc/rc.d/init.d/iscsi:61
+#: /etc/rc.d/init.d/isdn:178 /etc/rc.d/init.d/isdn:181
+#: /etc/rc.d/init.d/speech-dispatcherd:23
+msgid "Starting $prog"
+msgstr "جاري تشغيل $prog"
 
 #: /etc/rc.d/init.d/pdns-recursor:21
 #, fuzzy
 msgid "Starting pdns-recursor: "
 msgstr "جاري بدأ $prog: "
 
-#: /etc/rc.d/init.d/bgpd:68 /etc/rc.d/init.d/ripd:67
-#: /etc/rc.d/init.d/ripngd:67 /etc/rc.d/init.d/zebra:67
+#: /etc/rc.d/init.d/postgresql:240
+#, fuzzy
+msgid ""
+"Usage: $0 {start|stop|status|restart|condrestart|try-restart|reload|force-"
+"reload|initdb}"
+msgstr "الصيغة: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
+
+#: /etc/rc.d/init.d/bgpd:69 /etc/rc.d/init.d/ripd:68
+#: /etc/rc.d/init.d/ripngd:68 /etc/rc.d/init.d/zebra:68
 #, fuzzy
 msgid "Usage: $0 {start|stop|restart|reload|force-reload|try-restart|status}"
 msgstr "الاستعمال: $0 {start|stop|restart|condrestart|status}"
 
-#: /etc/rc.d/init.d/crossfire:31
+#: /etc/rc.d/init.d/denyhosts:108
 #, fuzzy
-msgid "Starting Crossfire game server: "
-msgstr "جاري بدأ خادم الخرائط YP: "
-
-#: /etc/rc.d/init.d/zabbix-server:45
-#, fuzzy
-msgid "Shutting down ZABBIX server: "
-msgstr "جاري غلق خدمات NIS: "
+msgid "Stopping denyhosts: "
+msgstr "جاري إيقاف $subsys:"
 
 #: /etc/rc.d/init.d/wine:37
 msgid "Unregistering binary handler for Windows applications: "
@@ -2782,9 +2781,10 @@ msgstr ""
 msgid "Shutting down telescope daemon: "
 msgstr "جاري إيقاف تشغيل عفريت APM: "
 
-#: /etc/rc.d/rc.sysinit:213
-msgid "$dst: LUKS requires non-random key, skipping"
-msgstr ""
+#: /etc/rc.d/init.d/ip6tables:224
+#, fuzzy
+msgid "${IP6TABLES}: Unloading modules: "
+msgstr "جاري إزالة تجهيز وحدات $IP6TABLES: "
 
 #: /etc/rc.d/init.d/smolt:65
 #, fuzzy
@@ -2794,10 +2794,6 @@ msgstr "مُحاسبة العمليّات مُمكّنة."
 #: /etc/ppp/ip-up.ipv6to4:87 /etc/sysconfig/network-scripts/ifup-ipv6:205
 msgid "Given IPv4 address '$ipv4addr' is not globally usable"
 msgstr "عنوان IPv4 المُدخل '$ipv4addr' لا يمكن استخدامه بشكل عامّ"
-
-#: /etc/rc.d/init.d/monotone:192 /etc/rc.d/init.d/monotone:193
-msgid "move passphrase file"
-msgstr ""
 
 #: /etc/rc.d/init.d/tgtd:126
 #, fuzzy
@@ -2823,15 +2819,14 @@ msgstr "جارى تشغيل hidd: "
 msgid "Initializing database"
 msgstr "جاري تمهيد قاعدة البيانات: "
 
-#: /etc/rc.d/init.d/aiccu:75 /etc/rc.d/init.d/nmb:52 /etc/rc.d/init.d/smb:52
-#: /etc/rc.d/init.d/winbind:43
+#: /etc/rc.d/init.d/nmb:52 /etc/rc.d/init.d/smb:52 /etc/rc.d/init.d/winbind:43
 msgid "Shutting down $KIND services: "
 msgstr "جاري إيقاف خدمات $KIND: "
 
-#: /etc/rc.d/init.d/microcode_ctl:26
+#: /etc/rc.d/init.d/ypbind:67 /etc/rc.d/init.d/ypbind:72
 #, fuzzy
-msgid "Loading AMD microcode update module"
-msgstr "جاري تحميل خريطة المفاتيح الافتراضيّة: "
+msgid "domain is '$NISDOMAIN' "
+msgstr "جاري تحديد اسم نطاق NIS $NISDOMAIN: "
 
 #: /etc/rc.d/init.d/firehol:6863
 msgid "FireHOL: Activating new firewall:"
@@ -2841,7 +2836,7 @@ msgstr ""
 msgid "Kernel is not compiled with IPv6 support"
 msgstr "لم يتم ترجمة النّواة لتدعم IPv6"
 
-#: /etc/rc.d/init.d/fsniper:36 /etc/rc.d/init.d/radvd:59
+#: /etc/rc.d/init.d/fsniper:36 /etc/rc.d/init.d/radvd:60
 #: /etc/rc.d/init.d/xttpd:56
 #, fuzzy
 msgid "Stopping $PROG: "
@@ -2862,7 +2857,7 @@ msgstr "${base} مُتوقّف"
 msgid "Stopping Video Disk Recorder ($prog): "
 msgstr "جاري بدأ $prog: "
 
-#: /etc/rc.d/init.d/functions:542
+#: /etc/rc.d/init.d/functions:552
 msgid "Start service $1 (Y)es/(N)o/(C)ontinue? [Y] "
 msgstr "بدء الخدمة $1 (ن)عم\\(ل)ا\\ (و)اصل ؟ [ن] "
 
@@ -2881,7 +2876,7 @@ msgstr "$prog: يعمل مُسبقاً"
 msgid "Shutting down BitTorrent tracker: "
 msgstr "جاري إيقاف تشغيل الواجهة $i: "
 
-#: /etc/rc.d/rc.sysinit:578
+#: /etc/rc.d/rc.sysinit:404
 msgid "Checking filesystems"
 msgstr "جاري فحص أنظمة الملفّات"
 
@@ -2890,40 +2885,38 @@ msgstr "جاري فحص أنظمة الملفّات"
 msgid "Initializing netconsole"
 msgstr "جاري تمهيد netconsole"
 
-#: /etc/rc.d/init.d/functions:276
+#: /etc/rc.d/init.d/functions:277
 #, fuzzy
 msgid "Usage: killproc [-p pidfile] [ -d delay] {program} [-signal]"
 msgstr "الاستخدام: killproc {برنامج} [إشارة]"
 
-#: /etc/rc.d/init.d/nsd:47
-#, fuzzy
-msgid "Starting nsd:"
-msgstr "جاري تشغيل dund: "
+#: /etc/rc.d/init.d/nfs:130
+msgid "Shutting down NFS mountd: "
+msgstr "جاري إيقاف تشغيل NFS mountd: "
 
-#: /etc/rc.d/init.d/zabbix-proxy:46
-#, fuzzy
-msgid "Shutting down ZABBIX proxy: "
-msgstr "جاري غلق $prog: "
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:1051
+msgid "Given IPv6 default device '$device' doesn't exist or isn't up"
+msgstr "جهاز IPv6 الافتراضي '$device' غير موجود أو لا يعمل"
 
 #: /etc/rc.d/init.d/multipathd:69
 msgid "Starting $prog daemon: "
 msgstr "جاري تشغيل خادم $prog: "
 
+#: /etc/rc.d/init.d/vblade:35
+#, fuzzy
+msgid "Starting up $prog: "
+msgstr "جاري بدأ $prog: "
+
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:863
 msgid "Unsupported selection '$selection' specified (arg 2)"
 msgstr "الخيار '$selection' المُحدّد غير مدعوم (المُعطى الثّاني)"
-
-#: /etc/rc.d/init.d/tclhttpd:69
-#, fuzzy
-msgid "Usage: killproc {program} [signal]"
-msgstr "الاستخدام: killproc {برنامج} [إشارة]"
 
 #: /etc/rc.d/init.d/orbited:61
 #, fuzzy
 msgid "Orbited is running."
 msgstr "مُدير البطاقات cardmgr (رقم العمليّة $pid) يعمل..."
 
-#: /etc/rc.d/init.d/netfs:84 /etc/rc.d/rc.sysinit:605
+#: /etc/rc.d/init.d/netfs:89 /etc/rc.d/rc.sysinit:431
 msgid "*** Dropping you to a shell; the system will reboot"
 msgstr "*** جاري إهباطك إلى الصًّدَفة، سيقوم النّظام بإعادة التّشغيل"
 
@@ -2932,43 +2925,40 @@ msgstr "*** جاري إهباطك إلى الصًّدَفة، سيقوم الن�
 msgid "Starting supervisord: "
 msgstr "جارى تشغيل hidd: "
 
-#: /etc/rc.d/init.d/condor:211 /etc/rc.d/init.d/freenx-server:85
-#: /etc/rc.d/init.d/tinyerp-server:88 /etc/rc.d/init.d/tinyerp-server:91
+#: /etc/rc.d/rc.sysinit:231
+#, fuzzy
+msgid "*** Dropping you to a shell; the system will continue"
+msgstr "*** جاري إهباطك إلى الصًّدَفة، سيقوم النّظام بإعادة التّشغيل"
+
+#: /etc/rc.d/init.d/condor:211 /etc/rc.d/init.d/tinyerp-server:88
+#: /etc/rc.d/init.d/tinyerp-server:91
 #, fuzzy
 msgid "$prog is stopped"
 msgstr "${base} مُتوقّف"
 
-#: /etc/rc.d/init.d/zarafa-spooler:69
+#: /etc/rc.d/init.d/zarafa-spooler:77
 #, fuzzy
 msgid "Restarting $spooler: "
 msgstr "جاري إعادة تشغيل $prog:"
-
-#: /etc/rc.d/init.d/httpd:115
-msgid ""
-"Usage: $prog {start|stop|restart|condrestart|reload|status|fullstatus|"
-"graceful|help|configtest}"
-msgstr ""
-"الاستعمال: $prog {start|stop|restart|condrestart|reload|status|fullstatus|"
-"graceful|help|configtest}"
 
 #: /etc/rc.d/init.d/cyrus-imapd:93
 #, fuzzy
 msgid "Exporting $prog databases: "
 msgstr "جاري بدأ $MODEL: "
 
-#: /etc/rc.d/init.d/pgbouncer:44 /etc/rc.d/init.d/pgpool:98
-#: /etc/rc.d/init.d/postgresql:129 /etc/rc.d/init.d/sepostgresql:45
+#: /etc/rc.d/init.d/pgbouncer:47 /etc/rc.d/init.d/pgpool:98
+#: /etc/rc.d/init.d/postgresql:64 /etc/rc.d/init.d/sepostgresql:42
 msgid "Starting ${NAME} service: "
 msgstr "جاري تشغيل خدمة ${NAME}: "
 
-#: /etc/rc.d/init.d/maradns:86
-#, fuzzy
-msgid "Stopping MaraDNS: "
-msgstr "جاري إيقاف عفريت acpi: "
-
-#: /etc/rc.d/rc.sysinit:186
+#: /etc/rc.d/init.d/functions:695
 msgid "$dst: no value for size option, skipping"
 msgstr ""
+
+#: /etc/rc.d/init.d/ypbind:65
+#, fuzzy
+msgid "Setting NIS domain: "
+msgstr "جاري بدأ عفريت NFS: "
 
 #: /etc/ppp/ip-down.ipv6to4:35 /etc/ppp/ip-up.ipv6to4:41
 msgid ""
@@ -2976,7 +2966,7 @@ msgid ""
 "initialization"
 msgstr ""
 
-#: /etc/rc.d/init.d/zarafa-gateway:44
+#: /etc/rc.d/init.d/zarafa-gateway:49
 #, fuzzy
 msgid "Starting $gateway: "
 msgstr "جاري تشغيل dund: "
@@ -2989,7 +2979,7 @@ msgstr ""
 msgid "Reverting to ${KERNEL_ELEVATOR} elevator: "
 msgstr ""
 
-#: /etc/rc.d/init.d/netfs:142
+#: /etc/rc.d/init.d/netfs:147
 msgid "Active CIFS mountpoints: "
 msgstr "أماكن تثبيت CIFS النّشطة: "
 
@@ -2998,7 +2988,7 @@ msgstr "أماكن تثبيت CIFS النّشطة: "
 msgid "DSS key generation"
 msgstr "توليد مفتاح DSA"
 
-#: /etc/rc.d/init.d/ksm:58 /etc/rc.d/init.d/nscd:59 /etc/rc.d/init.d/nscd:61
+#: /etc/rc.d/init.d/ksm:55 /etc/rc.d/init.d/nscd:59 /etc/rc.d/init.d/nscd:61
 msgid "$prog shutdown"
 msgstr "إيقاف تشغيل $prog"
 
@@ -3006,7 +2996,8 @@ msgstr "إيقاف تشغيل $prog"
 msgid "Generating SSH2 RSA host key: "
 msgstr "جاري توليد مفتاح SSH2 RSA للمضيف: "
 
-#: /etc/sysconfig/network-scripts/ifup-eth:255
+#: /etc/sysconfig/network-scripts/ifup-eth:252
+#: /etc/sysconfig/network-scripts/ifup-ib:245
 msgid "Error adding address ${IPADDR} for ${DEVICE}."
 msgstr "خطأ في إضافة العنوان ${IPADDR} للجهاز ${DEVICE}."
 
@@ -3024,21 +3015,21 @@ msgstr "جاري بدأ $prog: "
 msgid "Starting INND system: "
 msgstr "جاري تشغيل نظام INND: "
 
-#: /etc/rc.d/init.d/zarafa-monitor:44
+#: /etc/rc.d/init.d/zarafa-monitor:49
 #, fuzzy
 msgid "Starting $monitor: "
 msgstr "جاري تشغيل pand: "
 
-#: /etc/rc.d/init.d/arptables_jf:159 /etc/rc.d/init.d/ip6tables:303
-#: /etc/rc.d/init.d/iptables:303
+#: /etc/rc.d/init.d/arptables_jf:159 /etc/rc.d/init.d/ip6tables:307
+#: /etc/rc.d/init.d/iptables:307
 msgid "Table: $table"
 msgstr "الجدول: $table"
 
-#: /etc/rc.d/init.d/util-vserver:72
+#: /etc/rc.d/init.d/util-vserver:82
 msgid "Creating required directories"
 msgstr ""
 
-#: /etc/rc.d/init.d/avahi-dnsconfd:59
+#: /etc/rc.d/init.d/avahi-dnsconfd:70
 #, fuzzy
 msgid "Reloading Avahi DNS daemon... "
 msgstr "جاري تشغيل عفرين acpi: "
@@ -3057,21 +3048,21 @@ msgstr "تحديث yum اللّيلي مُمكّن."
 msgid "Stopping GNU cfengine environmental history daemon: "
 msgstr ""
 
-#: /etc/rc.d/init.d/postgresql:240 /etc/rc.d/init.d/sepostgresql:150
-msgid "Initializing database: "
-msgstr "جاري تمهيد قاعدة البيانات: "
+#: /etc/rc.d/init.d/postfix:74
+msgid "Starting postfix: "
+msgstr "جاري تشغيل postfix: "
 
-#: /etc/rc.d/init.d/abrtd:40
+#: /etc/rc.d/init.d/abrtd:48
 #, fuzzy
 msgid "Starting abrt daemon: "
 msgstr "جاري تشغيل عفرين acpi: "
 
-#: /etc/rc.d/init.d/zarafa-dagent:74
+#: /etc/rc.d/init.d/zarafa-dagent:82
 #, fuzzy
 msgid "Restarting $dagent: "
 msgstr "جاري إعادة تشغيل $prog:"
 
-#: /etc/rc.d/init.d/zarafa-gateway:102
+#: /etc/rc.d/init.d/zarafa-gateway:110
 #, fuzzy
 msgid ""
 "Usage: $gateway {start|stop|status|reload|restart|condrestart|force-reload|"
@@ -3079,31 +3070,24 @@ msgid ""
 msgstr ""
 "الاستعمال: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
 
-#: /etc/rc.d/init.d/cyphesis:49
+#: /etc/rc.d/init.d/zarafa-gateway:62
 #, fuzzy
-msgid "Creating PostgreSQL account: "
-msgstr "جاري تشغيل مُحاسبة العمليّات: "
-
-#: /etc/rc.d/init.d/mongrel_cluster:136
-#, fuzzy
-msgid ""
-"Usage: $prog {start|stop|status|reload|restart|condrestart|force-reload|try-"
-"restart} [<configfile.{yml|conf}>]"
-msgstr ""
-"الاستعمال: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
+msgid "Stopping $gateway: "
+msgstr "جاري إيقاف $prog: "
 
 #: /etc/rc.d/init.d/nfs:184 /etc/rc.d/init.d/nfslock:125
 msgid "restart"
 msgstr "إعادة التّشغيل"
 
-#: /etc/rc.d/init.d/exim:77
+#: /etc/rc.d/init.d/exim:76
 #, fuzzy
 msgid "Starting exim: "
 msgstr "جارى تشغيل hidd: "
 
-#: /etc/rc.d/init.d/network:86
-msgid "Setting 802.1Q VLAN parameters: "
-msgstr "جاري وضع مُدخلات 802.1Q VLAN: "
+#: /etc/rc.d/init.d/xend:43
+#, fuzzy
+msgid "Stopping xend daemon: "
+msgstr "جاري إيقاف خادم HAL: "
 
 #: /etc/rc.d/init.d/pgpool:200
 #, fuzzy
@@ -3117,7 +3101,8 @@ msgstr ""
 msgid "$s is dead, but another script is running."
 msgstr ""
 
-#: /etc/sysconfig/network-scripts/ifup-eth:250
+#: /etc/sysconfig/network-scripts/ifup-eth:247
+#: /etc/sysconfig/network-scripts/ifup-ib:240
 msgid "Error, some other host already uses address ${IPADDR}."
 msgstr "خطأ، مضيف آخر ما يستخدم العنوان ${IPADDR} مسبقاً."
 
@@ -3130,7 +3115,7 @@ msgstr "جاري إيقاف تشغيل خدمات NFS: "
 msgid "Stopping monotone server: "
 msgstr "جاري إيقاف خادم الخرائط YP: "
 
-#: /etc/rc.d/init.d/netfs:130
+#: /etc/rc.d/init.d/netfs:135
 msgid "Configured NCP mountpoints: "
 msgstr "أماكن تجهيز NCP المُهيّئة: "
 
@@ -3153,26 +3138,20 @@ msgid ""
 "address ${HWADDR}. Ignoring."
 msgstr ""
 
-#: /etc/rc.d/init.d/functions:454
+#: /etc/rc.d/init.d/functions:464
 msgid "FAILED"
 msgstr "فَشِل"
 
-#: /etc/rc.d/rc.sysinit:179
+#: /etc/rc.d/init.d/functions:688
 msgid "$dst: no value for cipher option, skipping"
 msgstr ""
 
-#: /etc/rc.d/init.d/avahi-daemon:52
+#: /etc/rc.d/init.d/avahi-daemon:64
 #, fuzzy
 msgid "Shutting down Avahi daemon: "
 msgstr "جاري إيقاف تشغيل عفريت APM: "
 
-#: /etc/rc.d/init.d/slapd:257 /etc/rc.d/init.d/slapd:261
-#, fuzzy
-msgid "Usage: $0 {start|stop|restart|status|condrestart|configtest|usage}"
-msgstr "الاستعمال: $0 {start|stop|restart|status|condrestart}"
-
-#: /etc/rc.d/init.d/aiccu:65 /etc/rc.d/init.d/nmb:41 /etc/rc.d/init.d/smb:41
-#: /etc/rc.d/init.d/winbind:32
+#: /etc/rc.d/init.d/nmb:41 /etc/rc.d/init.d/smb:41 /etc/rc.d/init.d/winbind:32
 msgid "Starting $KIND services: "
 msgstr "جاري تشغيل خدمات $KIND: "
 
@@ -3180,16 +3159,14 @@ msgstr "جاري تشغيل خدمات $KIND: "
 msgid "error in $FILE: invalid alias number"
 msgstr ""
 
-#: /etc/rc.d/init.d/freenx-server:83 /etc/rc.d/init.d/ksm:70
-#: /etc/rc.d/init.d/tor:79
+#: /etc/rc.d/init.d/ksm:67 /etc/rc.d/init.d/tor:79
 #, fuzzy
 msgid "$prog is running"
 msgstr "مُدير البطاقات cardmgr (رقم العمليّة $pid) يعمل..."
 
-#: /etc/rc.d/init.d/vblade:35
-#, fuzzy
-msgid "Starting up $prog: "
-msgstr "جاري بدأ $prog: "
+#: /etc/rc.d/init.d/functions:702
+msgid "$dst: no value for hash option, skipping"
+msgstr ""
 
 #: /etc/rc.d/init.d/libvirtd:88 /etc/rc.d/init.d/libvirt-qpid:63
 #: /etc/rc.d/init.d/matahari:47
@@ -3197,14 +3174,12 @@ msgstr "جاري بدأ $prog: "
 msgid "Reloading $SERVICE configuration: "
 msgstr "جاري تحميل التّهيئة: "
 
-#: /etc/rc.d/init.d/iptables:98
+#: /etc/rc.d/init.d/iptables:102
 #, fuzzy
 msgid "${IPTABLES}: Flushing firewall rules: "
 msgstr "جاري إزالة أحكام الجدار النّاري: "
 
-#: /etc/rc.d/init.d/certmaster:124 /etc/rc.d/init.d/cgred:135
-#: /etc/rc.d/init.d/cobblerd:134 /etc/rc.d/init.d/funcd:127
-#: /etc/rc.d/init.d/libvirtd:112 /etc/rc.d/init.d/libvirt-qpid:87
+#: /etc/rc.d/init.d/cgred:135 /etc/rc.d/init.d/libvirt-qpid:87
 #: /etc/rc.d/init.d/matahari:71 /etc/rc.d/init.d/messagebus:89
 #: /etc/rc.d/init.d/multipathd:127 /etc/rc.d/init.d/mydns:71
 #: /etc/rc.d/init.d/preload:108 /etc/rc.d/init.d/smsd:88
@@ -3216,9 +3191,16 @@ msgstr "الاستعمال: $0 {start|stop|status|restart|condrestart|reload}"
 msgid "*** $0 can not be called in this way"
 msgstr ""
 
-#: /etc/rc.d/init.d/myproxy-server:88
+#: /etc/rc.d/init.d/myproxy-server:89
 #, fuzzy
 msgid "Usage: $0 {start|stop|status|restart|reload|try-restart|force-reload}"
+msgstr "الصيغة: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
+
+#: /etc/rc.d/init.d/openct:110
+#, fuzzy
+msgid ""
+"Usage: $0 {start|stop|status|restart|try-restart|condrestart|reload|force-"
+"reload}"
 msgstr "الصيغة: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
 
 #: /etc/rc.d/init.d/denyhosts:93
@@ -3235,7 +3217,8 @@ msgstr "جاري إيقاف عفريت acpi: "
 msgid "Warning: interface 'tun6to4' does not support 'IPV6_DEFAULTGW', ignored"
 msgstr "تحذير: الواجهة 'tun6to4' لا تدعم 'IPV6_DEFAULTGW'، تمّ التّجاهل"
 
-#: /etc/sysconfig/network-scripts/ifup-eth:81
+#: /etc/sysconfig/network-scripts/ifup-eth:76
+#: /etc/sysconfig/network-scripts/ifup-ib:54
 #, fuzzy
 msgid "Device ${DEVICE} does not seem to be present, delaying initialization."
 msgstr "لا يبدو أنّ جهاز ${DEVICE} حاضر، جاري تأخير التّمهيد."
@@ -3258,7 +3241,7 @@ msgstr ""
 msgid "Starting pkcsslotd: "
 msgstr "جاري تشغيل pand: "
 
-#: /etc/rc.d/init.d/network:70
+#: /etc/rc.d/init.d/network:67
 msgid "Bringing up loopback interface: "
 msgstr "جاري تشغيل واجهة loopback: "
 
@@ -3275,6 +3258,10 @@ msgstr "جاري تشغيل خدمات AppleTalk: "
 #, fuzzy
 msgid "dead but pid file exists"
 msgstr "${base} مات ولكنّ ملفّ رقم العمليّة لازال موجوداً"
+
+#: /etc/sysconfig/network-scripts/ifup-ppp:45
+msgid "pppd does not exist or is not executable"
+msgstr "pppd غير موجود أو ليس تنفيذيّاً"
 
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:122
 msgid "INFO     "
@@ -3293,15 +3280,14 @@ msgstr ""
 msgid "Stopping fail2ban: "
 msgstr "جاري إيقاف عفريت acpi: "
 
-#: /etc/rc.d/init.d/zarafa-spooler:54
+#: /etc/rc.d/init.d/zarafa-spooler:62
 #, fuzzy
 msgid "Stopping $spooler: "
 msgstr "جاري إيقاف $prog: "
 
-#: /etc/rc.d/init.d/ip6tables:220
-#, fuzzy
-msgid "${IP6TABLES}: Unloading modules: "
-msgstr "جاري إزالة تجهيز وحدات $IP6TABLES: "
+#: /etc/rc.d/init.d/functions:722
+msgid "$dst: LUKS requires non-random key, skipping"
+msgstr ""
 
 #: /etc/rc.d/init.d/rbldnsd:140
 #, fuzzy
@@ -3313,11 +3299,11 @@ msgstr "${base} قد مات لكنّ subsys مُقفل"
 msgid "$prog abort"
 msgstr "اجهاض postfix"
 
-#: /etc/rc.d/init.d/nfs:130
-msgid "Shutting down NFS mountd: "
-msgstr "جاري إيقاف تشغيل NFS mountd: "
+#: /etc/rc.d/init.d/libvirt-guests:211
+msgid "failed to shutdown in time"
+msgstr ""
 
-#: /etc/rc.d/init.d/halt:187
+#: /etc/rc.d/init.d/halt:187 /etc/rc.d/init.d/reboot:187
 msgid "On the next boot fsck will be forced."
 msgstr "عند الإقلاع التّالي سوف يُجبر تشغيل fsck."
 
@@ -3335,7 +3321,7 @@ msgstr ""
 msgid "Disabling monthly Smolt update: "
 msgstr "جاري تعطيل التّحديث اللّيلي لـyum: "
 
-#: /etc/rc.d/init.d/functions:476
+#: /etc/rc.d/init.d/functions:486
 msgid "WARNING"
 msgstr "تحذير"
 
@@ -3356,29 +3342,26 @@ msgstr ""
 msgid "Shutting down sm-client: "
 msgstr "جاري إيقاف تشغيل sm-client: "
 
-#: /etc/rc.d/init.d/certmaster:74
+#: /etc/rc.d/init.d/mongrel_cluster:136
 #, fuzzy
-msgid "Starting certmaster daemon: "
-msgstr "جاري بدأ عفريت NFS: "
+msgid ""
+"Usage: $prog {start|stop|status|reload|restart|condrestart|force-reload|try-"
+"restart} [<configfile.{yml|conf}>]"
+msgstr ""
+"الاستعمال: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
 
 #: /etc/rc.d/init.d/gnokii-smsd:45
 #, fuzzy
 msgid "Stopping Gnokii SMS daemon ($prog): "
 msgstr "جاري إيقاف عفريت acpi: "
 
-#: /etc/rc.d/init.d/amavisd:35
-#, fuzzy
-msgid "Starting ${prog_base}:"
-msgstr "جاري بدأ $prog: "
+#: /etc/rc.d/init.d/systemtap:64
+msgid "\t-r kernelrelease: specify kernel release version"
+msgstr ""
 
 #: /etc/sysconfig/network-scripts/ifup-ipv6:178
 msgid "Device 'tun6to4' (from '$DEVICE') is already up, shutdown first"
 msgstr "الجهاز 'tun6to4' (من '$DEVICE') يعمل مسبقاً، قُم بإيقاف تشغيله أوّلاً"
-
-#: /etc/rc.d/init.d/freenx-server:89
-#, fuzzy
-msgid "Usage: $prog {start|stop|restart|status}"
-msgstr "صيغة الاستعمال: $0 {start|stop|restart|reload|status}"
 
 #: /etc/rc.d/init.d/tor:84
 msgid "status $rc of $prog"
@@ -3397,12 +3380,22 @@ msgstr "جاري تشغيل pand: "
 msgid "Starting Gnokii SMS daemon ($prog): "
 msgstr "جاري بدأ $prog: "
 
+#: /etc/rc.d/init.d/myproxy-server:43
+#, fuzzy
+msgid "$prog already running: "
+msgstr "$prog: يعمل مُسبقاً"
+
 #: /etc/rc.d/init.d/gadget:47
 #, fuzzy
 msgid "Starting Gadget daemon: "
 msgstr "جاري تشغيل عفرين acpi: "
 
-#: /etc/rc.d/init.d/functions:443
+#: /etc/sysconfig/network-scripts/ifup-ipv6:101
+#: /etc/sysconfig/network-scripts/ifup-ipv6:118
+msgid "Please restart network with '/sbin/service network restart'"
+msgstr "رجاء قم بإعادة تشغيل الشّبكة باستخدام '/sbin/service network restart'"
+
+#: /etc/rc.d/init.d/functions:453
 msgid "  OK  "
 msgstr ""
 
@@ -3410,7 +3403,7 @@ msgstr ""
 msgid "*** Please see /usr/share/doc/clamav-server-*/README how"
 msgstr ""
 
-#: /etc/rc.d/init.d/network:271
+#: /etc/rc.d/init.d/network:265
 msgid "Configured devices:"
 msgstr "الأجهزة المُهيّئة:"
 
@@ -3424,7 +3417,7 @@ msgstr "جاري إيقاف خدمة INND: "
 msgid "FireHOL: Saving your old firewall to a temporary file:"
 msgstr ""
 
-#: /etc/rc.d/init.d/netfs:138
+#: /etc/rc.d/init.d/netfs:143
 msgid "Active NFS mountpoints: "
 msgstr "أماكن تجهيز NFS النّشطة: "
 
@@ -3437,14 +3430,9 @@ msgstr "لا يمكن للمستخدمين التّحكّم بهذا الجها�
 msgid "Starting router discovery: "
 msgstr "جاري تشغيل خدمة استطلاع الموجه:"
 
-#: /etc/rc.d/init.d/netfs:96
+#: /etc/rc.d/init.d/netfs:101
 msgid "Mounting other filesystems: "
 msgstr "جاري تجهيز أنظمة ملفّات أخرى: "
-
-#: /etc/rc.d/init.d/microcode_ctl:24 /etc/rc.d/init.d/microcode_ctl:33
-#, fuzzy
-msgid "Applying Intel CPU microcode update: "
-msgstr "جاري تطبيق تحديث ميكروكود انتل IA32: "
 
 #: /etc/rc.d/init.d/qemu:68
 msgid "qemu binary format handlers are registered."
@@ -3460,7 +3448,7 @@ msgstr ""
 msgid "Reloading $desc ($prog): "
 msgstr "جاري بدأ $prog: "
 
-#: /etc/rc.d/init.d/zarafa-server:40
+#: /etc/rc.d/init.d/zarafa-server:45
 #, fuzzy
 msgid "Starting $server: "
 msgstr "جاري بدأ خادم الخرائط YP: "
@@ -3469,24 +3457,16 @@ msgstr "جاري بدأ خادم الخرائط YP: "
 msgid "\t-c configfile\t: specify config file"
 msgstr ""
 
-#: /etc/rc.d/init.d/ktune:116
-msgid "Applying sysctl settings from $SYSCTL_POST: "
-msgstr ""
-
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:591
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:648
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:687
 msgid "Given device '$device' is not supported (arg 1)"
 msgstr "الجهاز المُدخل '$device' غير مدعوم (المُعطى الأوّل)"
 
-#: /etc/rc.d/init.d/functions:367
+#: /etc/rc.d/init.d/functions:373
 #, fuzzy
 msgid "Usage: pidofproc [-p pidfile] {program}"
 msgstr "الاستعمال: pidofproc {program}"
-
-#: /etc/rc.d/init.d/zarafa-server:74
-msgid "Timeout on stopping $server ... sending kill signal"
-msgstr ""
 
 #: /etc/rc.d/init.d/ntpdate:85
 #, fuzzy
@@ -3502,7 +3482,7 @@ msgstr "إيقاف تشغيل $base"
 msgid "Stopping NFS locking: "
 msgstr "جاري إيقاف قفل NFS: "
 
-#: /etc/rc.d/init.d/ip6tables:277
+#: /etc/rc.d/init.d/ip6tables:281
 #, fuzzy
 msgid "${IP6TABLES}: Firewall is not running."
 msgstr "الجداري الناريّ غير مُهيّأ: "
@@ -3516,11 +3496,6 @@ msgstr "جاري إعادة تشغيل $prog:"
 msgid "Starting $prog: $conf, $INTERFACES, $DRIVERS"
 msgstr ""
 
-#: /etc/rc.d/init.d/zabbix-proxy:36
-#, fuzzy
-msgid "Starting ZABBIX proxy: "
-msgstr "جاري تشغيل RPCidmapd: "
-
 #: /etc/rc.d/init.d/hddtemp:56
 msgid "Stopping hard disk temperature monitor daemon ($prog): "
 msgstr ""
@@ -3531,7 +3506,7 @@ msgid "irattach startup"
 msgstr "بدء تشغيل $base"
 
 #: /etc/rc.d/init.d/ncidd:54 /etc/rc.d/init.d/ncid-hangup:58
-#: /etc/rc.d/init.d/ncid-kpopup:59 /etc/rc.d/init.d/ncid-mythtv:59
+#: /etc/rc.d/init.d/ncid-initmodem:58 /etc/rc.d/init.d/ncid-mythtv:59
 #: /etc/rc.d/init.d/ncid-page:60 /etc/rc.d/init.d/ncid-samba:59
 #: /etc/rc.d/init.d/ncidsip:57 /etc/rc.d/init.d/ncid-speak:59
 #: /etc/rc.d/init.d/sip2ncid:54 /etc/rc.d/init.d/yac2ncid:53
@@ -3547,11 +3522,6 @@ msgstr "تجري إعادة تحميل إعداد العفريت $prog: "
 msgid "Starting ${prog}: "
 msgstr "جاري بدأ $prog: "
 
-#: /etc/rc.d/init.d/dcbd:161
-#, fuzzy
-msgid "Starting $DCBD: "
-msgstr "جاري بدأ $MODEL: "
-
 #: /etc/rc.d/rc.sysinit:52
 msgid "*** Run 'setenforce 1' to reenable."
 msgstr ""
@@ -3565,10 +3535,10 @@ msgstr "جاري إيقاف خادم $prog: "
 msgid "6to4 configuration is not valid"
 msgstr "تهيئة 6to4 غير صالحة"
 
-#: /etc/rc.d/init.d/ibmasm:61
+#: /etc/rc.d/init.d/pcscd:55
 #, fuzzy
-msgid "Stopping ibmasm: "
-msgstr "جاري إيقاف $prog: "
+msgid "Stopping PC/SC smart card daemon ($prog): "
+msgstr "جاري إيقاف عفريت acpi: "
 
 #: /etc/rc.d/init.d/ipmi:295 /etc/rc.d/init.d/ipmi:301
 #, fuzzy
@@ -3599,6 +3569,10 @@ msgstr "جاري إيقاف تشغيل عفريت قابس الشّبكة: "
 msgid "Preparing $PROG config: "
 msgstr "جاري تشغيل $PRIVOXY_PRG: "
 
+#: /etc/rc.d/init.d/libvirt-guests:144
+msgid "Ignoring guests on $uri URI"
+msgstr ""
+
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:116
 msgid "WARN     "
 msgstr "إنذار     "
@@ -3611,10 +3585,13 @@ msgstr ""
 "لم يتم العثور  على طريق إلى المضيف' عند إضافة الوُجهة '$networkipv6' عبر "
 "البوّابة '$gatewayipv6'. من خلال جهاز '$device'"
 
-#: /etc/rc.d/init.d/cyphesis:77
-#, fuzzy
-msgid "Loading database with rules: "
-msgstr "جاري تحميل خريطة المفاتيح الافتراضيّة: "
+#: /etc/rc.d/init.d/network:138 /etc/rc.d/init.d/network:150
+msgid "Bringing up interface $i: "
+msgstr "جاري تشغيل الواجهة $i: "
+
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:318
+msgid "Device '$device' enabling didn't work"
+msgstr "لم ينجح تمكين الجهاز '$device'"
 
 #: /etc/rc.d/init.d/vncserver:98 /etc/rc.d/init.d/vncserver:99
 msgid "vncserver shutdown"
@@ -3625,7 +3602,7 @@ msgstr "إيقاف تشغيل vncserver"
 msgid "Stopping xenconsoled daemon: "
 msgstr "جاري إيقاف خادم HAL: "
 
-#: /etc/rc.d/init.d/netfs:134
+#: /etc/rc.d/init.d/netfs:139
 #, fuzzy
 msgid "Configured network block devices: "
 msgstr "الأجهزة المُهيّئة:"
@@ -3638,13 +3615,8 @@ msgid ""
 msgstr ""
 "الاستعمال: $0 {start|stop|status|restart|condrestart|reload|force-reload}"
 
-#: /etc/rc.d/init.d/cyphesis:161
-#, fuzzy
-msgid "Usage: $0 (start|stop|restart|condrestart|status)"
-msgstr "الاستعمال: $0 {start|stop|restart|condrestart|status}"
-
-#: /etc/rc.d/init.d/iptables:285
-msgid "${IPTABLES}: Firewall modules are not loaded."
+#: /etc/rc.d/init.d/cfenvd:27
+msgid "Starting GNU cfengine environmental history daemon: "
 msgstr ""
 
 #: /etc/rc.d/init.d/denyhosts:87
@@ -3652,7 +3624,7 @@ msgstr ""
 msgid "Starting denyhosts: "
 msgstr "جاري تمكين مساحة الذّاكرة البديلة: "
 
-#: /etc/rc.d/init.d/functions:546
+#: /etc/rc.d/init.d/functions:556
 msgid "cC"
 msgstr "cCس"
 
@@ -3666,10 +3638,12 @@ msgstr "${base} مُتوقّف"
 msgid "Usage: $0 {start|stop|restart|try-restart|status|force-reload}"
 msgstr "الاستعمال: $0 {start|stop|restart|status|condrestart}"
 
-#: /etc/rc.d/rc.sysinit:405
+#: /etc/rc.d/init.d/slapd:264 /etc/rc.d/init.d/slapd:268
 #, fuzzy
-msgid "*** Dropping you to a shell; the system will continue"
-msgstr "*** جاري إهباطك إلى الصًّدَفة، سيقوم النّظام بإعادة التّشغيل"
+msgid ""
+"Usage: $0 {start|stop|restart|force-reload|status|condrestart|try-restart|"
+"configtest|usage}"
+msgstr "الاستعمال: $0 {start|stop|restart|condrestart|status}"
 
 #: /etc/rc.d/init.d/restorecond:85
 #, fuzzy
@@ -3682,35 +3656,46 @@ msgstr "الاستعمال: $0 {start|stop|restart|reload|status|condrestart}"
 msgid "not running"
 msgstr "$prog لا يعمل"
 
-#: /etc/rc.d/init.d/halt:138
+#: /etc/rc.d/init.d/halt:138 /etc/rc.d/init.d/reboot:138
 msgid "Unmounting pipe file systems (retry): "
 msgstr "جاري إزالة تجهيز أنظمة ملفّات pipe (إعادة المحاولة): "
+
+#: /etc/rc.d/init.d/qpidd:114
+#, fuzzy
+msgid ""
+"Usage: $0 {start|stop|status|restart|condrestart|try-restart|force-reload}"
+msgstr "الصيغة: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
 
 #: /etc/rc.d/init.d/cyrus-imapd:115
 #, fuzzy
 msgid "Reloading cyrus.conf file: "
 msgstr "جاري إعادة تحميل ملف smb.conf: "
 
-#: /etc/rc.d/init.d/unbound:76
+#: /etc/rc.d/init.d/lldpad:155
 #, fuzzy
-msgid "Stopping unbound: "
-msgstr "جاري إيقاف $prog: "
+msgid "Starting $LLDPAD: "
+msgstr "جاري بدأ $MODEL: "
+
+#: /etc/rc.d/init.d/zarafa-indexer:47
+#, fuzzy
+msgid "Starting $indexer: "
+msgstr "جاري بدأ خادم الخرائط YP: "
 
 #: /etc/rc.d/init.d/systemtap:614
 #, fuzzy
 msgid "Cleaning up systemtap scripts: "
 msgstr "جاري بدأ $prog: "
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:125
-msgid "NOTICE   "
-msgstr "إشعار   "
+#: /etc/rc.d/init.d/systemtap:500 /etc/rc.d/init.d/systemtap:591
+msgid "Failed to make cache directory ($CACHE_PATH)"
+msgstr ""
 
 #: /etc/rc.d/init.d/mongrel_cluster:118
 #, fuzzy
 msgid "Restarting $prog for $file: "
 msgstr "جاري تشغيل $prog للموقع $site: "
 
-#: /etc/rc.d/init.d/autofs:127 /etc/rc.d/init.d/autofs:133
+#: /etc/rc.d/init.d/autofs:138 /etc/rc.d/init.d/autofs:144
 msgid "$prog not running"
 msgstr "$prog لا يعمل"
 
@@ -3719,11 +3704,10 @@ msgstr "$prog لا يعمل"
 msgid "Force-updating $prog configuration: "
 msgstr "تجري إعادة تحميل إعداد العفريت $prog: "
 
-#: /etc/sysconfig/network-scripts/ifup-ppp:77
-msgid ""
-"/etc/sysconfig/network-scripts/chat-${DEVNAME} does not exist for ${DEVICE}"
-msgstr ""
-"/etc/sysconfig/network-scripts/chat-${DEVNAME} غير متوفّر للجهاز ${DEVICE}"
+#: /etc/rc.d/init.d/libvirt-guests:256
+#, fuzzy
+msgid "Shutting down guests on $uri URI..."
+msgstr "جاري إيقاف تشغيل dund: "
 
 #: /etc/rc.d/init.d/arptables_jf:76
 msgid "Clearing all current rules and user defined chains:"
@@ -3746,17 +3730,28 @@ msgstr ""
 "صيغة الاستعمال: postfix {start|stop|restart|reload|abort|flush|check|status|"
 "condrestart}"
 
-#: /etc/rc.d/init.d/udev-post:33
+#: /etc/rc.d/init.d/udev-post:32
 msgid "Adding udev persistent rules"
 msgstr ""
 
-#: /etc/sysconfig/network-scripts/ifup-eth:205
+#: /etc/rc.d/init.d/libvirt-guests:197
+#, fuzzy
+msgid "Shutting down $name: "
+msgstr "جاري إيقاف تشغيل hidd: "
+
+#: /etc/sysconfig/network-scripts/ifup-eth:202
+#: /etc/sysconfig/network-scripts/ifup-ib:191
 msgid " failed."
 msgstr " فَشِل."
 
 #: /etc/rc.d/init.d/monotone:145 /etc/rc.d/init.d/monotone:146
 msgid "database initialization"
 msgstr ""
+
+#: /etc/rc.d/init.d/libvirt-guests:300
+#, fuzzy
+msgid "Usage: $0 {start|stop|restart|force-reload|gueststatus|shutdown}"
+msgstr "الاستعمال: $0 {start|stop|restart|reload|status|condrestart}"
 
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:119
 msgid "CRITICAL "
@@ -3770,16 +3765,16 @@ msgstr "جاري تشغيل حصص NFS النّسبيّة: "
 msgid "Missing parameter 'global IPv4 address' (arg 2)"
 msgstr "مُعطى 'عنوان IPv4 المحلّي' مفقود (المُعطى الثّاني)"
 
-#: /etc/rc.d/init.d/sepostgresql:137
+#: /etc/rc.d/init.d/sepostgresql:131
 #, fuzzy
 msgid "Reloading ${NAME} service: "
 msgstr "جاري إيقاف خدمة ${NAME}: "
 
-#: /etc/rc.d/init.d/netfs:83 /etc/rc.d/rc.sysinit:604
+#: /etc/rc.d/init.d/netfs:88 /etc/rc.d/rc.sysinit:430
 msgid "*** An error occurred during the file system check."
 msgstr "*** حدث خطأ أثناء تفحّص نظام الملفّات."
 
-#: /etc/rc.d/init.d/netfs:116
+#: /etc/rc.d/init.d/netfs:121
 msgid "Unmounting NCP filesystems: "
 msgstr "جاري إزالة تجهيز أنظمة ملفّات NCP: "
 
@@ -3787,25 +3782,16 @@ msgstr "جاري إزالة تجهيز أنظمة ملفّات NCP: "
 msgid "Changing target policies to DROP: "
 msgstr "جاري تغيير سياسات الهدف إلى رفض (DROP): "
 
-#: /etc/rc.d/init.d/udev-post:58
-msgid "Generating udev makedev cache file"
-msgstr ""
+#: /etc/sysconfig/network-scripts/ifup-aliases:182
+msgid "error in $FILE: already seen ipaddr $IPADDR in $ipseen"
+msgstr "خطأ في $FILE: تمّت رؤية عنوان IP $IPADDR مسبقاً في $ipseen"
 
-#: /etc/rc.d/init.d/avahi-dnsconfd:85
-#, fuzzy
-msgid "Avahi DNS daemon is running"
-msgstr "مُدير البطاقات cardmgr (رقم العمليّة $pid) يعمل..."
-
-#: /etc/sysconfig/network-scripts/ifup-eth:56
-msgid "Bridge support not available: brctl not found"
-msgstr "دعم الجسر غير متوفّر: لم يُعثر على brctl"
-
-#: /etc/rc.d/init.d/functions:393
+#: /etc/rc.d/init.d/functions:399
 #, fuzzy
 msgid "Usage: status [-p pidfile] {program}"
 msgstr "الاستعمال: status {البرنامج}"
 
-#: /etc/rc.d/init.d/zarafa-ical:102
+#: /etc/rc.d/init.d/zarafa-ical:110
 #, fuzzy
 msgid ""
 "Usage: $ical {start|stop|status|reload|restart|condrestart|force-reload|try-"
@@ -3827,11 +3813,6 @@ msgstr "جاري توليد مفتاح SSH2 DSA للمضيف: "
 msgid "Setting up a new ${PEERCONF} config file"
 msgstr "جاري إعداد ملفّ تهيئة ${PEERCONF} جديد"
 
-#: /etc/rc.d/init.d/zarafa-ical:44
-#, fuzzy
-msgid "Starting $ical: "
-msgstr "جاري تشغيل dund: "
-
 #: /etc/rc.d/init.d/proftpd:90
 #, fuzzy
 msgid "Re-reading $prog configuration: "
@@ -3841,12 +3822,12 @@ msgstr "تجري إعادة تحميل إعداد العفريت $prog: "
 msgid "Dependency loop detected on $s"
 msgstr ""
 
-#: /etc/rc.d/rc.sysinit:227
+#: /etc/rc.d/init.d/functions:736
 #, c-format
 msgid "%s is password protected"
 msgstr ""
 
-#: /etc/rc.d/rc.sysinit:138
+#: /etc/rc.d/init.d/functions:647
 msgid "INSECURE OWNER FOR $key"
 msgstr ""
 
@@ -3854,17 +3835,23 @@ msgstr ""
 msgid "FireHOL config ${FIREHOL_CONFIG} not found:"
 msgstr ""
 
-#: /etc/rc.d/init.d/ktune:210
+#: /etc/rc.d/init.d/ktune:214
 msgid "Current elevator settings:"
 msgstr ""
 
-#: /etc/sysconfig/network-scripts/ifup-eth:194
+#: /etc/sysconfig/network-scripts/ifup-eth:191
+#: /etc/sysconfig/network-scripts/ifup-ib:179
 msgid " failed; no link present.  Check cable?"
 msgstr " فَشِل، ليس هناك اتّصال.  تحقّق من السّلك؟"
 
 #: /etc/rc.d/init.d/isdn:149 /etc/rc.d/init.d/isdn:151
 msgid "Loading Firmware"
 msgstr "جاري تحميل فايَروايَر"
+
+#: /etc/rc.d/init.d/zarafa-server:89
+#, fuzzy
+msgid "Timeout on stopping $server"
+msgstr "جاري إيقاف $prog: "
 
 #: /etc/rc.d/init.d/liquidwar-server:32
 #, fuzzy
@@ -3881,7 +3868,7 @@ msgstr ""
 msgid "Shutting down auto nice daemon:"
 msgstr "جاري إيقاف تشغيل عفريت APM: "
 
-#: /etc/rc.d/init.d/util-vserver:94
+#: /etc/rc.d/init.d/util-vserver:104
 msgid "Stopping all running guests"
 msgstr ""
 
@@ -3890,13 +3877,14 @@ msgstr ""
 msgid "Generating dropbear RSA host key: "
 msgstr "جاري توليد مفتاح SSH2 RSA للمضيف: "
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:117
+#: /etc/rc.d/init.d/memcached:85 /etc/rc.d/init.d/rpcbind:95
+#, fuzzy
 msgid ""
-"Global IPv6 forwarding is disabled in configuration, but not currently "
-"disabled in kernel"
-msgstr "تمرير IPv6 العامّ مُعطّل في التّهيئة، ولكن ليس كذلك حاليّاً في النّواة"
+"Usage: $0 {start|stop|status|restart|reload|force-reload|condrestart|try-"
+"restart}"
+msgstr "الاستعمال: $0 {start|stop|status|restart|condrestart|reload}"
 
-#: /etc/rc.d/init.d/crond:78 /etc/rc.d/init.d/sshd:166
+#: /etc/rc.d/init.d/crond:82 /etc/rc.d/init.d/sshd:166
 msgid "Reloading $prog"
 msgstr "جاري إعادة تحميل $prog:"
 
@@ -3910,12 +3898,12 @@ msgstr "الاستعمال: $prog {start|stop|restart|condrestart|status|help}"
 msgid "Stopping $desc ($prog): "
 msgstr "جاري بدأ $prog: "
 
-#: /etc/rc.d/init.d/halt:91
+#: /etc/rc.d/init.d/halt:91 /etc/rc.d/init.d/reboot:91
 msgid "Sending all processes the KILL signal..."
 msgstr "جاري إرسال إشارة KILL إلى كلّ العمليّات..."
 
-#: /etc/rc.d/init.d/functions:325 /etc/rc.d/init.d/tclhttpd:123
-#: /etc/rc.d/init.d/voms:255
+#: /etc/rc.d/init.d/functions:331 /etc/rc.d/init.d/tclhttpd:123
+#: /etc/rc.d/init.d/voms:266
 msgid "$base $killlevel"
 msgstr "$base $killlevel"
 
@@ -3933,35 +3921,44 @@ msgstr "جاري إعادة تشغيل $prog:"
 msgid "Saving current rules to $ARPTABLES_CONFIG: "
 msgstr "جاري حفظ أحكام الجدار النّاري إلى $ARPTABLES_CONFIG: "
 
-#: /etc/rc.d/init.d/avahi-dnsconfd:35
+#: /etc/rc.d/init.d/avahi-dnsconfd:52
 #, fuzzy
 msgid "Starting Avahi DNS daemon... "
 msgstr "جاري بدأ عفريت NFS: "
 
-#: /etc/rc.d/init.d/aprsd:78 /etc/rc.d/init.d/cpuspeed:334
+#: /etc/rc.d/init.d/aprsd:78 /etc/rc.d/init.d/cpuspeed:338
 #: /etc/rc.d/init.d/cwdaemon:75 /etc/rc.d/init.d/dansguardian:80
 #: /etc/rc.d/init.d/glacier2router:105 /etc/rc.d/init.d/globus-rls-server:76
 #: /etc/rc.d/init.d/icegridnode:106 /etc/rc.d/init.d/icegridregistry:106
-#: /etc/rc.d/init.d/ktune:250 /etc/rc.d/init.d/mt-daapd:52
+#: /etc/rc.d/init.d/ktune:254 /etc/rc.d/init.d/mt-daapd:52
 #: /etc/rc.d/init.d/netlabel:114 /etc/rc.d/init.d/pads:84
 #: /etc/rc.d/init.d/prelude-correlator:81 /etc/rc.d/init.d/prelude-manager:66
-#: /etc/rc.d/init.d/psad:120 /etc/rc.d/init.d/qpidd:99
-#: /etc/rc.d/init.d/remotetrx:72 /etc/rc.d/init.d/roundup:78
+#: /etc/rc.d/init.d/psad:120 /etc/rc.d/init.d/roundup:78
 #: /etc/rc.d/init.d/sendmail:160 /etc/rc.d/init.d/ssbd:73
-#: /etc/rc.d/init.d/svxlink:72 /etc/rc.d/init.d/telescoped:70
-#: /etc/rc.d/init.d/thebridge:71 /etc/rc.d/init.d/ucarp:151
-#: /etc/rc.d/init.d/upnpd:89 /etc/rc.d/init.d/vmpsd:58
+#: /etc/rc.d/init.d/telescoped:70 /etc/rc.d/init.d/thebridge:71
+#: /etc/rc.d/init.d/ucarp:151 /etc/rc.d/init.d/upnpd:89
+#: /etc/rc.d/init.d/vmpsd:58
 msgid "Usage: $0 {start|stop|restart|condrestart|status}"
 msgstr "الاستعمال: $0 {start|stop|restart|condrestart|status}"
 
-#: /etc/rc.d/init.d/ypxfrd:43
-msgid "Stopping YP map server: "
-msgstr "جاري إيقاف خادم الخرائط YP: "
+#: /etc/rc.d/init.d/wesnothd:43
+#, fuzzy
+msgid "Starting Wesnoth game server: "
+msgstr "جاري بدأ خادم الخرائط YP: "
 
 #: /etc/rc.d/init.d/bandwidthd:34
 #, fuzzy
 msgid "Starting Bandwidthd network traffic monitor: "
 msgstr "جاري بدأ عفريت الشّبكة لريدهات: "
+
+#: /etc/rc.d/init.d/yppasswdd:49
+msgid "Starting YP passwd service: "
+msgstr "جاري تشغيل خدمة كلمة مرور YP: "
+
+#: /etc/rc.d/init.d/zarafa-indexer:60
+#, fuzzy
+msgid "Stopping $indexer: "
+msgstr "جاري إيقاف $prog: "
 
 #: /etc/rc.d/init.d/tog-pegasus:112
 #, fuzzy
@@ -3984,18 +3981,13 @@ msgstr ""
 msgid "Please specify a $type name"
 msgstr ""
 
-#: /etc/rc.d/init.d/kadmin:46
+#: /etc/rc.d/init.d/kadmin:48
 msgid "Error. Default principal database does not exist."
 msgstr ""
 
 #: /etc/rc.d/init.d/ntpdate:46
 msgid "$prog: Synchronizing with time server: "
 msgstr "$prog: جاري المُزامنة مع خادم الوقت: "
-
-#: /etc/rc.d/init.d/ohmd:39
-#, fuzzy
-msgid "Starting Open Hardware Manager: "
-msgstr "جاري بدأ عفريت NFS: "
 
 #: /etc/rc.d/init.d/denyhosts:98
 msgid "Stray lockfile present; removing it."
@@ -4005,7 +3997,7 @@ msgstr ""
 msgid "$file is not owned by \"$user\""
 msgstr "الملفّ $file لا يملكه المستخد \"$user\""
 
-#: /etc/rc.d/init.d/vsftpd:43
+#: /etc/rc.d/init.d/vsftpd:44
 msgid "Starting $prog for $site: "
 msgstr "جاري تشغيل $prog للموقع $site: "
 
@@ -4024,7 +4016,7 @@ msgstr "جاري إعادة تحميل $prog:"
 msgid "Starting Video Disk Recorder ($prog): "
 msgstr "جاري بدأ $prog: "
 
-#: /etc/rc.d/init.d/functions:435
+#: /etc/rc.d/init.d/functions:445
 msgid "${base} is stopped"
 msgstr "${base} مُتوقّف"
 
@@ -4048,7 +4040,7 @@ msgstr "جاري إيقاف خادم الخرائط YP: "
 msgid "Usage: $0 {start|stop|status|restart|reload|condrestart|force-reload}"
 msgstr "الصيغة: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
 
-#: /etc/rc.d/init.d/perlbal:21
+#: /etc/rc.d/init.d/perlbal:19
 #, fuzzy
 msgid "Starting Perlbal: "
 msgstr "جاري تشغيل pand: "
@@ -4057,7 +4049,7 @@ msgstr "جاري تشغيل pand: "
 msgid "DSA key generation"
 msgstr "توليد مفتاح DSA"
 
-#: /etc/rc.d/init.d/pgbouncer:159
+#: /etc/rc.d/init.d/pgbouncer:162
 #, fuzzy
 msgid ""
 "Usage: $0 {start|stop|status|restart|pause|continue|reload|force-reload|"
@@ -4070,10 +4062,15 @@ msgstr ""
 msgid "Starting xen blktapctrl daemon: "
 msgstr "جاري بدأ عفريت NFS: "
 
-#: /etc/rc.d/init.d/wesnothd:43
+#: /etc/rc.d/init.d/nsd:47
 #, fuzzy
-msgid "Starting Wesnoth game server: "
-msgstr "جاري بدأ خادم الخرائط YP: "
+msgid "Starting nsd:"
+msgstr "جاري تشغيل dund: "
+
+#: /etc/rc.d/init.d/spectrum:69
+#, fuzzy
+msgid "Starting spectrum transport: "
+msgstr "جاري تشغيل NFS statd: "
 
 #: /etc/rc.d/init.d/postfix:89
 #, fuzzy
@@ -4097,7 +4094,7 @@ msgstr "جاري تشغيل خدمات Bluetooth: "
 msgid "netconsole: can't resolve MAC address of $SYSLOGADDR"
 msgstr ""
 
-#: /etc/rc.d/init.d/halt:185
+#: /etc/rc.d/init.d/halt:185 /etc/rc.d/init.d/reboot:185
 msgid "On the next boot fsck will be skipped."
 msgstr "عند الإقلاع التّالي سوف يُتخطّى تشغيل fsck."
 
@@ -4105,12 +4102,13 @@ msgstr "عند الإقلاع التّالي سوف يُتخطّى تشغيل fs
 msgid "\tscript(s)\t: specify systemtap scripts"
 msgstr ""
 
-#: /etc/rc.d/rc.sysinit:804
+#: /etc/rc.d/rc.sysinit:629
 #, fuzzy
 msgid "Enabling local swap partitions: "
 msgstr "جاري تمكين مساحة الذّاكرة البديلة: "
 
-#: /etc/sysconfig/network-scripts/ifup-eth:225
+#: /etc/sysconfig/network-scripts/ifup-eth:222
+#: /etc/sysconfig/network-scripts/ifup-ib:216
 msgid "Failed to bring up ${DEVICE}."
 msgstr "فشل تشغيل الجهاز ${DEVICE}."
 
@@ -4119,7 +4117,7 @@ msgstr "فشل تشغيل الجهاز ${DEVICE}."
 msgid "Starting xenner daemons"
 msgstr "جاري بدأ عفريت NFS: "
 
-#: /etc/rc.d/init.d/halt:99
+#: /etc/rc.d/init.d/halt:99 /etc/rc.d/init.d/reboot:99
 msgid "Saving mixer settings"
 msgstr "جاري حفظ إعدادات المازِج"
 
@@ -4132,7 +4130,7 @@ msgstr "لم ينجح تمكين جهاز النّفق 'sit0'"
 msgid "Starting rfcomm: "
 msgstr "جاري بدأ $prog: "
 
-#: /etc/rc.d/init.d/udev-post:93
+#: /etc/rc.d/init.d/udev-post:64
 #, fuzzy
 msgid "Usage: $0 {start|stop|reload}"
 msgstr "صيغة الاستعمال: $0 {start|stop|restart}"
@@ -4140,10 +4138,6 @@ msgstr "صيغة الاستعمال: $0 {start|stop|restart}"
 #: /etc/rc.d/init.d/condor:58
 msgid "Warning: $prog may not have exited, start/restart may fail"
 msgstr ""
-
-#: /etc/rc.d/rc.sysinit:278
-msgid "\t\tPress 'I' to enter interactive startup."
-msgstr "\t\tاضغط 'I' كي تدخل بدء التّشغيل التّفاعليّ."
 
 #: /etc/rc.d/init.d/clement:189 /etc/rc.d/init.d/clement:192
 msgid "clement stop"
@@ -4153,7 +4147,7 @@ msgstr ""
 msgid "Generating SSH2 DSA host key: "
 msgstr "جاري توليد مفتاح SSH2 DSA للمضيف: "
 
-#: /etc/sysconfig/network-scripts/ifup:88
+#: /etc/sysconfig/network-scripts/ifup:93
 msgid "No 802.1Q VLAN support available in kernel for device ${DEVICE}"
 msgstr "لا يوجد دعم لشبكات 802.1Q VLAN في النّواة للجهاز ${DEVICE}"
 
@@ -4162,21 +4156,21 @@ msgstr "لا يوجد دعم لشبكات 802.1Q VLAN في النّواة للج
 msgid "Stopping $display_name: "
 msgstr "جاري إيقاف $prog: "
 
-#: /etc/rc.d/init.d/monotone:177 /etc/rc.d/init.d/monotone:179
+#: /etc/rc.d/init.d/fetch-crl-cron:56
 #, fuzzy
-msgid "key generation"
-msgstr "توليد مفاتيح RSA"
+msgid "Periodic fetch-crl is disabled."
+msgstr "مُحاسبة العمليّات مُعطّلة."
 
-#: /etc/rc.d/rc.sysinit:747
+#: /etc/rc.d/rc.sysinit:573
 msgid "Resetting hostname ${HOSTNAME}: "
 msgstr "إعادة اسم المضيف ${HOSTNAME} للأصل: "
 
-#: /etc/rc.d/init.d/netfs:61
+#: /etc/rc.d/init.d/netfs:66
 #, fuzzy
 msgid "Checking network-attached filesystems"
 msgstr "جاري فحص أنظمة الملفّات"
 
-#: /etc/rc.d/init.d/ncid-hangup:44 /etc/rc.d/init.d/ncid-kpopup:45
+#: /etc/rc.d/init.d/ncid-hangup:44 /etc/rc.d/init.d/ncid-initmodem:44
 #: /etc/rc.d/init.d/ncid-mythtv:45 /etc/rc.d/init.d/ncid-page:46
 #: /etc/rc.d/init.d/ncid-samba:45 /etc/rc.d/init.d/ncid-speak:45
 #: /etc/rc.d/init.d/ncid-yac:44
@@ -4205,25 +4199,26 @@ msgid "Usage: $0 {start|stop|status|restart|reload|force-reload|try-restart}"
 msgstr ""
 "الاستعمال: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
 
-#: /etc/rc.d/init.d/rtpproxy:86
+#: /etc/rc.d/init.d/tclhttpd:69
 #, fuzzy
-msgid "Reloading $prog: not supported"
-msgstr "تجري إعادة تحميل $prog: "
+msgid "Usage: killproc {program} [signal]"
+msgstr "الاستخدام: killproc {برنامج} [إشارة]"
 
-#: /etc/rc.d/rc.sysinit:337
+#: /etc/rc.d/rc.sysinit:163
 msgid "Setting hostname ${HOSTNAME}: "
 msgstr "جاري تحديد اسم المضيف ${HOSTNAME}: "
 
-#: /etc/rc.d/init.d/yppasswdd:49
-msgid "Starting YP passwd service: "
-msgstr "جاري تشغيل خدمة كلمة مرور YP: "
+#: /etc/rc.d/init.d/fcoe:94
+#, fuzzy
+msgid "Stopping FCoE initiator service: "
+msgstr "جاري إيقاف خدمات rstat: "
 
 #: /etc/rc.d/init.d/modclusterd:153
 #, fuzzy
 msgid "Usage: $0 {start|stop|reload|restart|status}"
 msgstr "الاستعمال: $0 {start|stop|restart|condrestart|status}"
 
-#: /etc/rc.d/init.d/ncid-hangup:35 /etc/rc.d/init.d/ncid-kpopup:36
+#: /etc/rc.d/init.d/ncid-hangup:35 /etc/rc.d/init.d/ncid-initmodem:35
 #: /etc/rc.d/init.d/ncid-mythtv:36 /etc/rc.d/init.d/ncid-page:37
 #: /etc/rc.d/init.d/ncid-samba:36 /etc/rc.d/init.d/ncid-speak:36
 #: /etc/rc.d/init.d/ncid-yac:35
@@ -4239,8 +4234,9 @@ msgstr "خطأ: [ipv6_log] ينقصها 'message' (المُدخل الأوّل)"
 msgid "freshclam daemon NOT up and running (please check this)"
 msgstr ""
 
-#: /etc/rc.d/init.d/network:284 /etc/rc.d/init.d/rstatd:87
-#: /etc/rc.d/init.d/rusersd:88
+#: /etc/rc.d/init.d/network:278 /etc/rc.d/init.d/psacct:77
+#: /etc/rc.d/init.d/rstatd:91 /etc/rc.d/init.d/rstatd:95
+#: /etc/rc.d/init.d/rusersd:92 /etc/rc.d/init.d/rusersd:96
 msgid "Usage: $0 {start|stop|status|restart|reload|force-reload}"
 msgstr "الصيغة: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
 
@@ -4249,7 +4245,11 @@ msgstr "الصيغة: $0 {start|stop|status|restart|reload|force-reload|condrest
 msgid "$prog dead but subsys locked"
 msgstr "${base} قد مات لكنّ subsys مُقفل"
 
-#: /etc/rc.d/init.d/halt:105
+#: /etc/rc.d/init.d/libvirt-guests:234
+msgid "Running guests on $uri URI: "
+msgstr ""
+
+#: /etc/rc.d/init.d/halt:105 /etc/rc.d/init.d/reboot:105
 msgid "Saving random seed: "
 msgstr "جاري حفظ المَنشأ العشوائي: "
 
@@ -4257,7 +4257,7 @@ msgstr "جاري حفظ المَنشأ العشوائي: "
 msgid "Loading ISDN modules"
 msgstr "جاري تحميل وحدات ISDN"
 
-#: /etc/rc.d/init.d/voms:416
+#: /etc/rc.d/init.d/voms:427
 #, fuzzy
 msgid "Usage: $0 {start|stop|restart|status|condrestart} [VO]"
 msgstr "الاستعمال: $0 {start|stop|restart|status|condrestart}"
@@ -4266,18 +4266,19 @@ msgstr "الاستعمال: $0 {start|stop|restart|status|condrestart}"
 msgid "killing ctdbd "
 msgstr ""
 
-#: /etc/rc.d/init.d/uuidd:36
-#, fuzzy
-msgid "Starting uuidd: "
-msgstr "جارى تشغيل hidd: "
-
-#: /etc/rc.d/rc.sysinit:677 /etc/rc.d/rc.sysinit:679
+#: /etc/rc.d/rc.sysinit:503 /etc/rc.d/rc.sysinit:505
 msgid "Mounting local filesystems: "
 msgstr "جاري تجهيز أنظمة الملفّات المحليّة: "
 
-#: /etc/rc.d/init.d/privoxy:66
-msgid "Can't find $PRIVOXY_CONF, exit."
-msgstr "لم يمكن العثور $PRIVOXY_CONF، اخرج."
+#: /etc/rc.d/init.d/monotone:177 /etc/rc.d/init.d/monotone:179
+#, fuzzy
+msgid "key generation"
+msgstr "توليد مفاتيح RSA"
+
+#: /etc/rc.d/init.d/ipmi:545
+#, fuzzy
+msgid "Usage: $0 {start|stop|status"
+msgstr "الصيغة: $0 {start|stop|status}"
 
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:214
 msgid "Missing parameter 'IPv6-gateway' (arg 2)"
@@ -4288,44 +4289,29 @@ msgstr "الوسيط 'IPv6-gateway' مفقود )الوسيط الثاني(ني)"
 msgid "Usage: $0 {start|stop|force-reload|restart|try-restart|status}"
 msgstr "الاستعمال: $0 {start|stop|restart|condrestart|status}"
 
-#: /etc/sysconfig/network-scripts/ifup-ipv6:101
-#: /etc/sysconfig/network-scripts/ifup-ipv6:118
-msgid "Please restart network with '/sbin/service network restart'"
-msgstr "رجاء قم بإعادة تشغيل الشّبكة باستخدام '/sbin/service network restart'"
+#: /etc/rc.d/init.d/mip6d:108
+#, fuzzy
+msgid ""
+"Usage: $prog {start|stop|status|restart|condrestart|try-restart|reload|force-"
+"reload}"
+msgstr "الصيغة: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
 
 #: /etc/rc.d/init.d/systemtap:61
 #, fuzzy
 msgid "Usage: $prog {start|stop|restart|status|compile|cleanup} [option]"
 msgstr "الاستعمال: $prog {start|stop|restart|status|condrestart}"
 
-#: /etc/rc.d/init.d/cyphesis:65
-#, fuzzy
-msgid "Creating PostgreSQL database: "
-msgstr "جاري تمهيد قاعدة بيانات MySQL: "
-
-#: /etc/rc.d/init.d/autofs:175
+#: /etc/rc.d/init.d/autofs:192
 #, fuzzy
 msgid ""
 "Usage: $0 {start|forcestart|stop|status|restart|forcerestart|reload|"
 "condrestart}"
 msgstr "الاستعمال: $0 {start|stop|status|restart|reload|condrestart}"
 
-#: /etc/rc.d/init.d/mip6d:91
-#, fuzzy
-msgid "Usage: $prog {start|stop|restart}"
-msgstr "صيغة الاستعمال: $0 {start|stop|restart}"
-
-#: /etc/rc.d/init.d/netfs:85 /etc/rc.d/rc.sysinit:70 /etc/rc.d/rc.sysinit:406
-#: /etc/rc.d/rc.sysinit:606
+#: /etc/rc.d/init.d/netfs:90 /etc/rc.d/rc.sysinit:69 /etc/rc.d/rc.sysinit:232
+#: /etc/rc.d/rc.sysinit:432
 msgid "*** when you leave the shell."
 msgstr "*** عندما تترك هذه الصَّدَفة."
-
-#: /etc/rc.d/init.d/openhpid:242
-#, fuzzy
-msgid ""
-"Usage: $0 {start|stop|restart|condrestart|try-restart|status|force-reload}"
-msgstr ""
-"الاستعمال: $0 {start|stop|status|restart|condrestart|reload|force-reload}"
 
 #: /etc/rc.d/init.d/sendmail:72
 msgid "Starting sm-client: "
@@ -4340,22 +4326,17 @@ msgstr "جاري بدأ $MODEL: "
 msgid "Pre-0.26 monotone database must be migrated by hand: "
 msgstr ""
 
-#: /etc/rc.d/init.d/iptables:197
+#: /etc/rc.d/init.d/iptables:201
 #, fuzzy
 msgid "${IPTABLES}: Loading additional modules: "
 msgstr "جاري تحميل وحدات $IPTABLES إضافيّة: "
 
-#: /etc/rc.d/init.d/syslog-ng:48
+#: /etc/rc.d/init.d/tofmipd:88
 #, fuzzy
-msgid "Checking Configuration: "
-msgstr "جاري تحميل التّهيئة: "
+msgid "Usage: $progname {start|stop|restart|condrestart|status}"
+msgstr "الاستعمال: $prog {start|stop|restart|condrestart|status|help}"
 
-#: /etc/rc.d/init.d/sqlgrey:15
-#, fuzzy
-msgid "Starting SQLgrey: "
-msgstr "جاري تشغيل خادم $prog: "
-
-#: /etc/rc.d/init.d/dspam:62 /etc/rc.d/init.d/mip6d:57
+#: /etc/rc.d/init.d/dspam:62 /etc/rc.d/init.d/mip6d:62
 #: /etc/rc.d/init.d/oddjobd:85 /etc/rc.d/init.d/vnstat:55
 #, fuzzy
 msgid "Reloading $prog configuration: "
@@ -4365,7 +4346,7 @@ msgstr "تجري إعادة تحميل إعداد العفريت $prog: "
 msgid "Mounting CIFS filesystems: "
 msgstr "جاري تثبيت أنظمة ملفّات CIFS: "
 
-#: /etc/rc.d/init.d/exim:38
+#: /etc/rc.d/init.d/exim:33
 #, fuzzy
 msgid "Generating exim certificate: "
 msgstr "جاري توليد مفتاح SSH2 DSA للمضيف: "
@@ -4373,14 +4354,14 @@ msgstr "جاري توليد مفتاح SSH2 DSA للمضيف: "
 #: /etc/rc.d/init.d/bootparamd:78 /etc/rc.d/init.d/clamd-wrapper:88
 #: /etc/rc.d/init.d/collectd:60 /etc/rc.d/init.d/dhcp-fwd:73
 #: /etc/rc.d/init.d/dund:66 /etc/rc.d/init.d/ip-sentinel:77
-#: /etc/rc.d/init.d/ladvd:87 /etc/rc.d/init.d/maradns:115
-#: /etc/rc.d/init.d/maradns-zoneserver:109 /etc/rc.d/init.d/nscd:104
-#: /etc/rc.d/init.d/pand:69 /etc/rc.d/init.d/rfcomm:61
-#: /etc/rc.d/init.d/rpcbind:88 /etc/rc.d/init.d/snake-server:67
+#: /etc/rc.d/init.d/ladvd:87 /etc/rc.d/init.d/nscd:104
+#: /etc/rc.d/init.d/olbd:81 /etc/rc.d/init.d/pand:69
+#: /etc/rc.d/init.d/proofd:77 /etc/rc.d/init.d/rfcomm:61
+#: /etc/rc.d/init.d/rootd:78 /etc/rc.d/init.d/xrootd:82
 msgid "Usage: $0 {start|stop|status|restart|reload|condrestart}"
 msgstr "الاستعمال: $0 {start|stop|status|restart|reload|condrestart}"
 
-#: /etc/rc.d/init.d/rusersd:40
+#: /etc/rc.d/init.d/rusersd:44
 msgid "Starting rusers services: "
 msgstr "جاري بدأ خدمات المستخدمين البعيدين (rusers): "
 
@@ -4464,11 +4445,21 @@ msgstr "الاستعمال: $0 {start|stop|status|restart|condrestart|reload|pro
 msgid "Stopping Xpilot game server: "
 msgstr "جاري إيقاف خادم الخرائط YP: "
 
+#: /etc/rc.d/init.d/libvirt-guests:154
+#, fuzzy
+msgid "already active"
+msgstr "$prog: يعمل مُسبقاً"
+
 #: /etc/rc.d/init.d/haldaemon:27
 msgid "Starting HAL daemon: "
 msgstr "جاري بدأ خادم HAL: "
 
-#: /etc/rc.d/rc.sysinit:68
+#: /etc/rc.d/init.d/unbound:76
+#, fuzzy
+msgid "Stopping unbound: "
+msgstr "جاري إيقاف $prog: "
+
+#: /etc/rc.d/rc.sysinit:67
 msgid "*** /etc/selinux/config indicates you want to manually fix labeling"
 msgstr ""
 
@@ -4476,11 +4467,11 @@ msgstr ""
 msgid "No scripts exist."
 msgstr ""
 
-#: /etc/rc.d/init.d/vprocunhide:50
+#: /etc/rc.d/init.d/vprocunhide:60
 msgid "/proc entries were fixed"
 msgstr ""
 
-#: /etc/rc.d/init.d/postgresql:309 /etc/rc.d/init.d/sepostgresql:207
+#: /etc/rc.d/init.d/sepostgresql:200
 #, fuzzy
 msgid ""
 "Usage: $0 {start|stop|status|restart|condrestart|condstop|reload|force-"
@@ -4495,7 +4486,7 @@ msgstr ""
 "الاستعمال: $0 {start|stop|status|restart|condrestart|reload|force-reload}"
 
 #: /etc/rc.d/init.d/halt:70 /etc/rc.d/init.d/killall:10
-#: /etc/rc.d/init.d/stinit:32
+#: /etc/rc.d/init.d/reboot:70 /etc/rc.d/init.d/stinit:32
 msgid "Usage: $0 {start}"
 msgstr "الاستعمال: $0 {start}"
 
@@ -4507,24 +4498,24 @@ msgstr "لم ينجح إنشاء جهاز النّفق '$device'"
 msgid "Missing parameter 'IPv6-address' (arg 2)"
 msgstr "المُعطى 'عنوان IPv6' مفقود (المُعطى الثّاني)"
 
-#: /etc/rc.d/rc.sysinit:74 /etc/rc.d/rc.sysinit:590 /etc/rc.d/rc.sysinit:613
+#: /etc/rc.d/rc.sysinit:81 /etc/rc.d/rc.sysinit:416 /etc/rc.d/rc.sysinit:439
 msgid "Unmounting file systems"
 msgstr "جاري إزالة تجهيز أنظمة الملفّات"
 
-#: /etc/rc.d/init.d/ntpdate:42
-msgid "NTP server not specified in $ntpstep or $ntpconf"
-msgstr ""
+#: /etc/rc.d/init.d/fetch-crl-cron:53
+#, fuzzy
+msgid "Periodic fetch-crl is enabled."
+msgstr "مُحاسبة العمليّات مُمكّنة."
 
 #: /etc/rc.d/init.d/portreserve:54
 #, fuzzy
 msgid "(not starting, no services registered)"
 msgstr "جاري تشغيل خدمات rwho: "
 
-#: /etc/rc.d/init.d/bgpd:45 /etc/rc.d/init.d/cachefilesd:60
-#: /etc/rc.d/init.d/ospf6d:44 /etc/rc.d/init.d/ospfd:44
-#: /etc/rc.d/init.d/remotetrx:38 /etc/rc.d/init.d/ripd:44
-#: /etc/rc.d/init.d/ripngd:44 /etc/rc.d/init.d/svxlink:38
-#: /etc/rc.d/init.d/zebra:44
+#: /etc/rc.d/init.d/bgpd:46 /etc/rc.d/init.d/cachefilesd:66
+#: /etc/rc.d/init.d/ospf6d:45 /etc/rc.d/init.d/ospfd:45
+#: /etc/rc.d/init.d/ripd:45 /etc/rc.d/init.d/ripngd:45
+#: /etc/rc.d/init.d/watchquagga:38 /etc/rc.d/init.d/zebra:45
 #, fuzzy
 msgid "Shutting down $PROG: "
 msgstr "جاري إيقاف RPC gssd: "
@@ -4544,6 +4535,11 @@ msgid ""
 "Usage: $0 {start|stop|status|reload|force-reload|restart|try-restart|probe}"
 msgstr "الاستعمال: $0 {start|stop|restart|condrestart|status}"
 
+#: /etc/rc.d/init.d/sblim-sfcb:74
+#, fuzzy
+msgid "sfcb is not running, but lock file exists"
+msgstr "$prog لا يعمل"
+
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:312
 msgid "Device '$device' doesn't exist"
 msgstr "الجهاز '$device' غير موجود"
@@ -4553,7 +4549,7 @@ msgstr "الجهاز '$device' غير موجود"
 msgid "Stopping $type $name: "
 msgstr "جاري إيقاف خادم $prog: "
 
-#: /etc/rc.d/init.d/postgresql:167
+#: /etc/rc.d/init.d/postgresql:101
 msgid ""
 "See $SYSDOCDIR/postgresql-$PGVERSION/README.rpm-dist for more information."
 msgstr ""
@@ -4569,22 +4565,13 @@ msgstr "جاري بدأ عفريت NFS: "
 msgid "Mounting zfs partitions: "
 msgstr "جاري تمكين مساحة الذّاكرة البديلة: "
 
-#: /etc/rc.d/init.d/network:144 /etc/rc.d/init.d/network:156
-msgid "Bringing up interface $i: "
-msgstr "جاري تشغيل الواجهة $i: "
-
-#: /etc/rc.d/rc.sysinit:134
+#: /etc/rc.d/init.d/functions:643
 msgid "INSECURE MODE FOR $key"
 msgstr ""
 
 #: /etc/rc.d/init.d/clamd-wrapper:67
 msgid "Loading new virus-database: "
 msgstr ""
-
-#: /etc/rc.d/init.d/cyphesis:124
-#, fuzzy
-msgid "Shutting down cyphesis: "
-msgstr "جاري إيقاف تشغيل hidd: "
 
 #: /etc/rc.d/init.d/crossfire:56
 #, fuzzy
@@ -4611,12 +4598,12 @@ msgstr "لا يمكن إضافة عنوان  '$address'  من طراز IPv6 إل
 msgid "Missing parameter 'device' (arg 1)"
 msgstr "المُعطى 'جهاز' مفقود (المُعطى الأوّل)"
 
-#: /etc/rc.d/init.d/psacct:40
+#: /etc/rc.d/init.d/psacct:45
 msgid "Shutting down process accounting: "
 msgstr "جاري إيقاف تشغيل مُحاسبة العمليّات: "
 
 #: /etc/rc.d/init.d/honeyd:120 /etc/rc.d/init.d/icecast:62
-#: /etc/rc.d/init.d/psacct:72 /etc/rc.d/init.d/rdisc:87
+#: /etc/rc.d/init.d/ipmiutil_wdt:142 /etc/rc.d/init.d/rdisc:87
 #: /etc/rc.d/init.d/ulogd:95
 msgid "Usage: $0 {start|stop|status|restart|reload}"
 msgstr "الاستعمال: $0 {start|stop|status|restart|reload}"
@@ -4627,22 +4614,23 @@ msgstr "يقوم ifup-ppp لجهاز  ${DEVNAME} بالخروج"
 
 #: /etc/rc.d/init.d/3proxy:52 /etc/rc.d/init.d/ajaxterm:42
 #: /etc/rc.d/init.d/boa:60 /etc/rc.d/init.d/clamd-wrapper:64
-#: /etc/rc.d/init.d/crond:74 /etc/rc.d/init.d/cups:117
+#: /etc/rc.d/init.d/crond:78 /etc/rc.d/init.d/cups:117
 #: /etc/rc.d/init.d/cups:123 /etc/rc.d/init.d/dbmail-imapd:51
 #: /etc/rc.d/init.d/dbmail-lmtpd:52 /etc/rc.d/init.d/dbmail-pop3d:52
 #: /etc/rc.d/init.d/dbmail-timsieved:53 /etc/rc.d/init.d/dovecot:65
 #: /etc/rc.d/init.d/haproxy:75 /etc/rc.d/init.d/honeyd:91
-#: /etc/rc.d/init.d/httpd:73 /etc/rc.d/init.d/ircd:53
-#: /etc/rc.d/init.d/keepalived:59 /etc/rc.d/init.d/lighttpd:63
-#: /etc/rc.d/init.d/mailgraph:57 /etc/rc.d/init.d/monit:52
-#: /etc/rc.d/init.d/nginx:59 /etc/rc.d/init.d/ngircd:42
-#: /etc/rc.d/init.d/nscd:95 /etc/rc.d/init.d/ntop:57
+#: /etc/rc.d/init.d/httpd:73 /etc/rc.d/init.d/keepalived:59
+#: /etc/rc.d/init.d/lighttpd:63 /etc/rc.d/init.d/mailgraph:57
+#: /etc/rc.d/init.d/monit:52 /etc/rc.d/init.d/nginx:59
+#: /etc/rc.d/init.d/ngircd:42 /etc/rc.d/init.d/nscd:95
+#: /etc/rc.d/init.d/ntop:57 /etc/rc.d/init.d/polipo:75
 #: /etc/rc.d/init.d/postgrey:62 /etc/rc.d/init.d/pure-ftpd:60
-#: /etc/rc.d/init.d/pyicq-t:49 /etc/rc.d/init.d/ratbox-services:47
+#: /etc/rc.d/init.d/pyicq-t:49 /etc/rc.d/init.d/racoon:63
 #: /etc/rc.d/init.d/rbldnsd:116 /etc/rc.d/init.d/rinetd:49
 #: /etc/rc.d/init.d/sec:44 /etc/rc.d/init.d/sendmail:91
 #: /etc/rc.d/init.d/ser:53 /etc/rc.d/init.d/smsd:50 /etc/rc.d/init.d/snmpd:68
-#: /etc/rc.d/init.d/sshd:162 /etc/rc.d/init.d/sssd:59 /etc/rc.d/init.d/tor:71
+#: /etc/rc.d/init.d/sshd:162 /etc/rc.d/init.d/sssd:59
+#: /etc/rc.d/init.d/tinyproxy:59 /etc/rc.d/init.d/tor:71
 #: /etc/rc.d/init.d/ulogd:60 /etc/rc.d/init.d/ushare:44
 #: /etc/rc.d/init.d/xfs:90
 msgid "Reloading $prog: "
@@ -4662,47 +4650,48 @@ msgstr ""
 msgid "Warning: link doesn't support IPv6 using encapsulation 'rawip'"
 msgstr "تحذير: الرّابط لا يدعم IPv6 الذي يستخدم التّضمين 'rawip'"
 
-#: /etc/rc.d/init.d/halt:57
+#: /etc/rc.d/init.d/halt:57 /etc/rc.d/init.d/reboot:57
 msgid "Please stand by while rebooting the system..."
 msgstr "الرجاء الترقّب بينما تتمّ إعادة تشغيل النّظام..."
 
-#: /etc/rc.d/init.d/avahi-dnsconfd:49
+#: /etc/rc.d/init.d/avahi-dnsconfd:61
 #, fuzzy
 msgid "Shutting down Avahi DNS daemon: "
 msgstr "جاري إيقاف تشغيل عفريت APM: "
 
-#: /etc/rc.d/init.d/syslog-ng:68
-#, fuzzy
-msgid "Stopping syslog-ng: "
-msgstr "جاري إيقاف قفل NFS: "
+#: /etc/rc.d/rc.sysinit:74
+msgid "*** Warning -- SELinux ${SELINUXTYPE} policy relabel is required."
+msgstr ""
 
 #: /etc/rc.d/init.d/mt-daapd:27
 #, fuzzy
 msgid "Shutting down DAAP server: "
 msgstr "جاري غلق خدمات NIS: "
 
-#: /etc/rc.d/init.d/openct:68
+#: /etc/rc.d/init.d/openct:78
 msgid "Waiting for reader attach/detach events..."
 msgstr ""
 
-#: /etc/rc.d/init.d/postfix:114
+#: /etc/rc.d/init.d/ddclient:87
 #, fuzzy
-msgid "$prog flush"
-msgstr "تفريغ postfix"
+msgid ""
+"Usage: $0 {start|stop|status|reload|restart|condrestart|force-reload|try-"
+"restart}"
+msgstr ""
+"الاستعمال: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
 
-#: /etc/rc.d/init.d/avahi-daemon:65
-#, fuzzy
-msgid "$base reload"
-msgstr "إعادة تحميل $prog"
+#: /etc/rc.d/init.d/netfs:43
+msgid "Mounting NCP filesystems: "
+msgstr "جاري تجهيز أنظمة ملفّات NCP: "
 
 #: /etc/rc.d/init.d/amavisd-snmp:23
 #, fuzzy
 msgid "Shutting down amavisd-snmp-subagent: "
 msgstr "جاري إيقاف تشغيل sm-client: "
 
-#: /etc/rc.d/init.d/zarafa-server:59 /etc/rc.d/init.d/zarafa-server:61
-#: /etc/rc.d/init.d/zarafa-server:64 /etc/rc.d/init.d/zarafa-server:78
-#: /etc/rc.d/init.d/zarafa-server:82
+#: /etc/rc.d/init.d/zarafa-server:74 /etc/rc.d/init.d/zarafa-server:76
+#: /etc/rc.d/init.d/zarafa-server:79 /etc/rc.d/init.d/zarafa-server:92
+#: /etc/rc.d/init.d/zarafa-server:96
 #, fuzzy
 msgid "Stopping $server: "
 msgstr "جاري إيقاف $prog: "
@@ -4717,22 +4706,22 @@ msgstr "جاري بدأ خادم الخرائط YP: "
 msgid "Starting CallWeaver: "
 msgstr "جاري تشغيل dund: "
 
-#: /etc/rc.d/init.d/rstatd:51
+#: /etc/rc.d/init.d/rstatd:55
 msgid "Stopping rstat services: "
 msgstr "جاري إيقاف خدمات rstat: "
 
 #: /etc/rc.d/init.d/atop:74 /etc/rc.d/init.d/audio-entropyd:52
-#: /etc/rc.d/init.d/dspam:91 /etc/rc.d/init.d/krb5kdc:94
-#: /etc/rc.d/init.d/newscache:80 /etc/rc.d/init.d/squidGuard:171
+#: /etc/rc.d/init.d/dspam:91 /etc/rc.d/init.d/kprop:87
+#: /etc/rc.d/init.d/krb5kdc:96 /etc/rc.d/init.d/newscache:80
+#: /etc/rc.d/init.d/squidGuard:171
 msgid "Usage: $0 {start|stop|status|reload|restart|condrestart}"
 msgstr "الاستعمال: $0 {start|stop|status|reload|restart|condrestart}"
 
-#: /etc/rc.d/init.d/cyphesis:31
-#, fuzzy
-msgid "Could not check for running PostgreSQL database."
-msgstr "جاري تمهيد قاعدة بيانات MySQL: "
+#: /etc/rc.d/init.d/ntpdate:42
+msgid "NTP server not specified in $ntpstep or $ntpconf"
+msgstr ""
 
-#: /etc/rc.d/init.d/freenx-server:66 /etc/rc.d/init.d/xfs:103
+#: /etc/rc.d/init.d/xfs:103
 msgid "Restarting $prog:"
 msgstr "جاري إعادة تشغيل $prog:"
 
@@ -4741,9 +4730,10 @@ msgstr "جاري إعادة تشغيل $prog:"
 msgid "Stopping liquidwar game server: "
 msgstr "جاري إيقاف خادم الخرائط YP: "
 
-#: /etc/rc.d/init.d/cyphesis:43
-msgid "Cannot find user $CYPHESISUSER to run cyphesis service."
-msgstr ""
+#: /etc/rc.d/init.d/nsca:55
+#, fuzzy
+msgid "Reloading nsca: "
+msgstr "تجري إعادة تحميل $prog: "
 
 #: /etc/rc.d/init.d/ipmi:311
 #, fuzzy
@@ -4758,60 +4748,49 @@ msgstr ""
 msgid "Generating SSH1 RSA host key: "
 msgstr "جاري توليد مفتاح SSH2 RSA للمضيف: "
 
-#: /etc/rc.d/init.d/cherokee:35
-#, fuzzy
-msgid "$NAME: already running"
-msgstr "$prog: يعمل مُسبقاً"
-
 #: /etc/rc.d/init.d/ocspd:75
 #, fuzzy
 msgid "Reloading CRLs: "
 msgstr "تجري إعادة تحميل $prog: "
 
-#: /etc/rc.d/init.d/ipmi:545
-#, fuzzy
-msgid "Usage: $0 {start|stop|status|restart|condrestart|try-restart"
-msgstr "الاستعمال: $0 {start|stop|status|restart|condrestart|reload}"
-
-#: /etc/rc.d/init.d/maradns:77 /etc/rc.d/init.d/maradns-zoneserver:71
-msgid "$rcfile "
+#: /etc/rc.d/init.d/iptables:289
+msgid "${IPTABLES}: Firewall modules are not loaded."
 msgstr ""
 
-#: /etc/rc.d/init.d/arpwatch:80 /etc/rc.d/init.d/gkrellmd:74
-#: /etc/rc.d/init.d/gpsd:89 /etc/rc.d/init.d/hddtemp:90
-#: /etc/rc.d/init.d/ntpd:85 /etc/rc.d/init.d/shmpps:63
-#: /etc/rc.d/init.d/vdr:106 /etc/rc.d/init.d/vdradmind:66
-#: /etc/rc.d/init.d/zabbix-agent:74 /etc/rc.d/init.d/zabbix-proxy:80
-#: /etc/rc.d/init.d/zabbix-server:79
+#: /etc/rc.d/init.d/arpwatch:82 /etc/rc.d/init.d/gkrellmd:74
+#: /etc/rc.d/init.d/hddtemp:90 /etc/rc.d/init.d/ntpd:85
+#: /etc/rc.d/init.d/shmpps:63 /etc/rc.d/init.d/vdr:106
+#: /etc/rc.d/init.d/vdradmind:66
 #, fuzzy
 msgid "Usage: $0 {start|stop|status|restart|try-restart|force-reload}"
 msgstr "الصيغة: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
 
-#: /etc/rc.d/init.d/slapd:175
+#: /etc/rc.d/init.d/slapd:183
 msgid "stale lock files may be present in $directory"
 msgstr ""
 
-#: /etc/rc.d/init.d/ip6tables:197
+#: /etc/rc.d/init.d/ip6tables:201
 #, fuzzy
 msgid "${IP6TABLES}: Loading additional modules: "
 msgstr "جاري تحميل وحدات $IPTABLES إضافيّة: "
 
-#: /etc/rc.d/init.d/halt:117
+#: /etc/rc.d/init.d/halt:117 /etc/rc.d/init.d/reboot:117
 msgid "Turning off swap: "
 msgstr "جاري إيقاف الذّاكرة البديلة: "
 
-#: /etc/rc.d/init.d/zarafa-gateway:54
-#, fuzzy
-msgid "Stopping $gateway: "
-msgstr "جاري إيقاف $prog: "
-
-#: /etc/rc.d/init.d/privoxy:65
-msgid "Can't find $PRIVOXY_BIN, exit."
-msgstr "لم يُعثر على $PRIVOXY_BIN، اخرج."
+#: /etc/sysconfig/network-scripts/ifup-aliases:259
+#: /etc/sysconfig/network-scripts/ifup-aliases:270
+msgid "error in ifcfg-${parent_device}: files"
+msgstr "خطأ في ifcfg-${parent_device}: الملفّات"
 
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:1117
 msgid "Unsupported reason '$reason' for sending trigger to radvd"
 msgstr "'$reason' هو سبب غير مدعوم لإرسال مُطْلِق إلى radvd"
+
+#: /etc/rc.d/init.d/named:122
+#, fuzzy
+msgid "named: already running"
+msgstr "$prog: يعمل مُسبقاً"
 
 #: /etc/rc.d/init.d/3proxy:80
 #, fuzzy
@@ -4822,11 +4801,12 @@ msgstr "الاستعمال: $0 {start|stop|restart|condrestart|status}"
 msgid "ERROR: [ipv6_log] Loglevel isn't valid '$level' (arg 2)"
 msgstr "خطأ: مستوى التّسجيل [ipv6_log] ليس '$level' صالحاً (المُعطى الثّاني)"
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:182
-msgid "error in $FILE: already seen ipaddr $IPADDR in $ipseen"
-msgstr "خطأ في $FILE: تمّت رؤية عنوان IP $IPADDR مسبقاً في $ipseen"
+#: /etc/rc.d/init.d/zarafa-indexer:75
+#, fuzzy
+msgid "Restarting $indexer: "
+msgstr "جاري إعادة تشغيل $prog:"
 
-#: /etc/rc.d/init.d/ipmi:546
+#: /etc/rc.d/init.d/ipmi:547
 msgid "          start-watchdog|stop-watchdog|status-watchdog"
 msgstr ""
 
@@ -4868,7 +4848,7 @@ msgstr "الصيغة: $0 {start|stop|status}"
 msgid "Starting YP server services: "
 msgstr "جاري تشغيل خدمات خادم YP: "
 
-#: /etc/rc.d/init.d/kadmin:109
+#: /etc/rc.d/init.d/kadmin:111
 msgid "Usage: $0 {start|stop|status|condrestart|reload|restart}"
 msgstr "الاستعمال: $0 {start|stop|status|condrestart|reload|restart}"
 
@@ -4877,25 +4857,21 @@ msgstr "الاستعمال: $0 {start|stop|status|condrestart|reload|restart}"
 msgid "$prog already running."
 msgstr "$prog: يعمل مُسبقاً"
 
-#: /etc/rc.d/init.d/chronyd:72
+#: /etc/rc.d/init.d/chronyd:73
 #, fuzzy
 msgid "Generating chrony command key: "
 msgstr "جاري توليد مفتاح SSH2 DSA للمضيف: "
-
-#: /etc/rc.d/init.d/dcbd:246
-msgid "Reloading $DCBD is not supported: "
-msgstr ""
 
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:1048
 msgid "Given IPv6 default device '$device' requires an explicit nexthop"
 msgstr "جهاز IPv6 المُدخل الافتراضي '$device' يتطلّب nexthop مُصرّح"
 
-#: /etc/rc.d/init.d/zarafa-ical:69
+#: /etc/rc.d/init.d/zarafa-ical:77
 #, fuzzy
 msgid "Restarting $ical: "
 msgstr "جاري إعادة تشغيل $prog:"
 
-#: /etc/rc.d/rc.sysinit:684
+#: /etc/rc.d/rc.sysinit:510
 msgid "Checking local filesystem quotas: "
 msgstr "جاري التّحقّق من الحصص النّسبيّة لأنظمة الملفّات المحليّة: "
 
@@ -4908,8 +4884,8 @@ msgstr "جاري تشغيل NFS statd: "
 msgid "Starting $master_prog: "
 msgstr "جاري بدأ $prog: "
 
-#: /etc/rc.d/init.d/xttpd:36
-msgid "PORT environment is not set."
+#: /etc/rc.d/init.d/libvirt-guests:129
+msgid "libvirt-guests is configured not to start any guests on boot"
 msgstr ""
 
 #: /etc/rc.d/init.d/innd:59 /etc/rc.d/init.d/innd:61
@@ -4917,9 +4893,9 @@ msgstr ""
 msgid "innd shutdown"
 msgstr "إيقاف تشغيل $base"
 
-#: /etc/rc.d/init.d/ypbind:75 /etc/rc.d/init.d/ypbind:76
-msgid "domain not found"
-msgstr ""
+#: /etc/rc.d/init.d/rstatd:41
+msgid "Starting rstat services: "
+msgstr "جاري تشغيل خدمات rstat: "
 
 #: /etc/sysconfig/network-scripts/ifup-ppp:48
 msgid "pppd does not exist or is not executable for ${DEVICE}"
@@ -4940,18 +4916,13 @@ msgstr "تجري إعادة تحميل $prog: "
 msgid "Reloading exim:"
 msgstr "جاري إعادة تحميل $prog:"
 
-#: /etc/rc.d/init.d/functions:423
+#: /etc/rc.d/init.d/functions:429
 msgid "${base} dead but pid file exists"
 msgstr "${base} مات ولكنّ ملفّ رقم العمليّة لازال موجوداً"
 
 #: /etc/rc.d/init.d/sendmail:52
 msgid "Package sendmail-cf is required to update configuration."
 msgstr ""
-
-#: /etc/rc.d/init.d/xend:43
-#, fuzzy
-msgid "Stopping xend daemon: "
-msgstr "جاري إيقاف خادم HAL: "
 
 #: /etc/rc.d/init.d/restorecond:52
 #, fuzzy
@@ -4963,28 +4934,17 @@ msgstr "جاري إيقاف تشغيل dund: "
 msgid "program is dead and /var/lock lock file exists"
 msgstr "${base} مات ولكنّ ملفّ رقم العمليّة لازال موجوداً"
 
-#: /etc/rc.d/init.d/mysqld:166
-msgid "Usage: $0 {start|stop|status|condrestart|restart}"
-msgstr "الاستعمال: $0 {start|stop|status|condrestart|restart}"
-
-#: /etc/rc.d/init.d/ksmtuned:84
-#, fuzzy
-msgid "Usage: $prog {start|stop|restart|condrestart|status|retune|help}"
-msgstr "الاستعمال: $prog {start|stop|restart|condrestart|status|help}"
-
 #: /etc/sysconfig/network-scripts/ifup-ppp:46
 msgid "ifup-ppp for ${DEVICE} exiting"
 msgstr "يقوم ifup-ppp لجهاز ${DEVICE} بالخروج"
 
-#: /etc/rc.d/init.d/argus:38
-#, fuzzy
-msgid "Shutting down argus: "
-msgstr "جاري غلق $prog: "
-
-#: /etc/rc.d/init.d/ip6tables:246
-#, fuzzy
-msgid "${IP6TABLES}: Saving firewall rules to $IP6TABLES_DATA: "
-msgstr "جاري حفظ أحكام الجدار النّاري إلى $IP6TABLES_DATA: "
+#: /etc/rc.d/init.d/dbmail-imapd:85 /etc/rc.d/init.d/dbmail-lmtpd:86
+#: /etc/rc.d/init.d/dbmail-pop3d:86 /etc/rc.d/init.d/dbmail-timsieved:87
+#: /etc/rc.d/init.d/mailgraph:91 /etc/rc.d/init.d/ntop:90
+#: /etc/rc.d/init.d/polipo:107 /etc/rc.d/init.d/ris-linuxd:102
+#: /etc/rc.d/init.d/sip-redirect:73
+msgid "Usage: $prog {start|stop|restart|condrestart|reload|status}"
+msgstr "الاستعمال: $prog {start|stop|restart|condrestart|reload|status}"
 
 #: /etc/rc.d/init.d/rbldnsd:132
 #, fuzzy
@@ -5000,10 +4960,9 @@ msgstr "تجري إعادة تحميل إعداد العفريت $prog: "
 msgid "Reloading ${prog} conig file: "
 msgstr "تجري إعادة تحميل إعداد العفريت $prog: "
 
-#: /etc/rc.d/init.d/qpidd:52
-#, fuzzy
-msgid "Starting Qpid AMQP daemon: "
-msgstr "جاري بدء تشغيل عفريت APM: "
+#: /etc/rc.d/init.d/functions:650
+msgid "Key file for $dst not found, skipping"
+msgstr ""
 
 #: /etc/rc.d/init.d/tofmipd:48
 #, fuzzy
@@ -5029,7 +4988,7 @@ msgstr "$prog: يعمل مُسبقاً"
 msgid "start"
 msgstr "تشغيل"
 
-#: /etc/rc.d/init.d/network:245
+#: /etc/rc.d/init.d/network:239
 msgid "Shutting down interface $i: "
 msgstr "جاري إيقاف تشغيل الواجهة $i: "
 
@@ -5043,40 +5002,35 @@ msgstr ""
 msgid "not reloading ${httpd} due to configuration syntax error"
 msgstr "لن تجري إعادة تحميل خادم $httpd لوجود خطأ انشائي في التنصيبة"
 
-#: /etc/sysconfig/network-scripts/ifup:132
-msgid "WARNING: vconfig not able to disable REORDER_HDR on ${DEVICE}"
-msgstr "تحذير: vconfig غير قادر على تعطيل REORDER_HDR على ${DEVICE}"
-
 #: /etc/sysconfig/network-scripts/ifup-ipv6:147
 msgid ""
 "Cannot enable IPv6 privacy method '$IPV6_PRIVACY', not supported by kernel"
 msgstr ""
 
-#: /etc/rc.d/rc.sysinit:50
-msgid "*** Warning -- SELinux is active"
-msgstr ""
-
-#: /etc/rc.d/init.d/spamass-milter:69
+#: /etc/rc.d/init.d/spamass-milter:73
 #, fuzzy
 msgid "Shutting down ${desc} (${prog}): "
 msgstr "جاري غلق $prog: "
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:681
-msgid "Missing parameter 'local IPv4 address' (arg 2)"
-msgstr "مُعطى 'عنوان IPv4 المحلّي' مفقود (المُعطى الثّاني)"
+#: /etc/rc.d/init.d/fetch-crl-cron:22
+msgid "Enabling periodic fetch-crl: "
+msgstr ""
 
-#: /etc/rc.d/init.d/ipsec:166
-#, fuzzy
+#: /etc/rc.d/init.d/mldonkey:83
+msgid "reload unimplemented"
+msgstr ""
+
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:1008
 msgid ""
-"Usage: $prog {start|stop|restart|reload|force-reload|condrestart|try-restart|"
-"status|version}"
-msgstr "الاستعمال: $0 {start|stop|restart|condrestart|status}"
+"Given IPv6 default gateway '$address' is link-local, but no scope or gateway "
+"device is specified"
+msgstr ""
+"بوّابة IPv6 الافتراضيّة المُدخلة '$address' هي رابط محلّي، لكن لم يتمّ تحديد جهاز "
+"مجال أو بوّابة"
 
-#: /etc/rc.d/init.d/iscsi:56 /etc/rc.d/init.d/iscsi:61
-#: /etc/rc.d/init.d/isdn:178 /etc/rc.d/init.d/isdn:181
-#: /etc/rc.d/init.d/speech-dispatcherd:23
-msgid "Starting $prog"
-msgstr "جاري تشغيل $prog"
+#: /etc/rc.d/init.d/chronyd:86
+msgid "Adding dhclient NTP servers to chrony: "
+msgstr ""
 
 #: /etc/rc.d/init.d/lirc:89
 msgid "Stopping infrared remote control daemon ($prog): "
@@ -5086,16 +5040,22 @@ msgstr ""
 msgid "Unconfigured: $prog, /etc/gkrellmd.conf not found"
 msgstr ""
 
-#: /etc/rc.d/init.d/denyhosts:108
+#: /etc/rc.d/init.d/crossfire:31
 #, fuzzy
-msgid "Stopping denyhosts: "
-msgstr "جاري إيقاف $subsys:"
+msgid "Starting Crossfire game server: "
+msgstr "جاري بدأ خادم الخرائط YP: "
+
+#: /etc/sysconfig/network-scripts/ifup-ipv6:117
+msgid ""
+"Global IPv6 forwarding is disabled in configuration, but not currently "
+"disabled in kernel"
+msgstr "تمرير IPv6 العامّ مُعطّل في التّهيئة، ولكن ليس كذلك حاليّاً في النّواة"
 
 #: /etc/rc.d/init.d/condor:173
 msgid "$0: error: insufficient privileges"
 msgstr ""
 
-#: /etc/rc.d/rc.sysinit:796
+#: /etc/rc.d/rc.sysinit:621
 #, fuzzy
 msgid "Enabling /etc/fstab swaps: "
 msgstr "جاري تمكين مساحة الذّاكرة البديلة: "
@@ -5114,9 +5074,9 @@ msgstr "جاري إيقاف $prog: "
 msgid "is stopped"
 msgstr "cardmgr مُتوقّف"
 
-#: /etc/rc.d/init.d/postfix:74
-msgid "Starting postfix: "
-msgstr "جاري تشغيل postfix: "
+#: /etc/rc.d/init.d/libvirt-guests:226
+msgid "Shutdown action requested but SHUTDOWN_TIMEOUT was not set"
+msgstr ""
 
 #: /etc/sysconfig/network-scripts/network-functions-ipv6:1000
 msgid ""
@@ -5126,7 +5086,7 @@ msgstr ""
 "عنوان IPv6 للبوّابة الافتراضية '$address' له مجال '$device_scope' مُعرّف، لن "
 "يتم استخدام جهاز البوّابة الافتراضيّ المُدخل '$device'"
 
-#: /etc/rc.d/init.d/ksm:64
+#: /etc/rc.d/init.d/ksm:61
 #, fuzzy
 msgid "$prog not supported"
 msgstr "$prog $site"
@@ -5135,7 +5095,7 @@ msgstr "$prog $site"
 msgid "Unloading ISDN modules"
 msgstr "جاري إزالة تحميل وحدات ISDN"
 
-#: /etc/rc.d/init.d/zarafa-dagent:59
+#: /etc/rc.d/init.d/zarafa-dagent:67
 #, fuzzy
 msgid "Stopping $dagent: "
 msgstr "جاري إيقاف $prog: "
@@ -5166,26 +5126,22 @@ msgstr "صيغة الاستعمال: $0 {start|stop|restart|reload|status}"
 msgid "Starting up-imapproxy daemon: "
 msgstr "جاري تشغيل خادم $prog: "
 
-#: /etc/rc.d/init.d/abrtd:98 /etc/rc.d/init.d/acpid:111
+#: /etc/rc.d/init.d/abrtd:111 /etc/rc.d/init.d/acpid:108
 #: /etc/rc.d/init.d/cfenvd:74 /etc/rc.d/init.d/cfexecd:71
-#: /etc/rc.d/init.d/cfservd:74 /etc/rc.d/init.d/gpm:131
-#: /etc/rc.d/init.d/pkcsslotd:84 /etc/rc.d/init.d/pppoe-server:77
-#: /etc/rc.d/init.d/snmpd:111 /etc/rc.d/init.d/snmptrapd:99
-#: /etc/rc.d/init.d/xenconsoled:116 /etc/rc.d/init.d/xend:92
+#: /etc/rc.d/init.d/cfservd:74 /etc/rc.d/init.d/pkcsslotd:72
+#: /etc/rc.d/init.d/pppoe-server:77 /etc/rc.d/init.d/snmpd:111
+#: /etc/rc.d/init.d/snmptrapd:99 /etc/rc.d/init.d/xenconsoled:116
+#: /etc/rc.d/init.d/xend:92
 #, fuzzy
 msgid "Usage: $0 {start|stop|status|restart|condrestart|reload|force-reload}"
 msgstr ""
 "الاستعمال: $0 {start|stop|status|restart|condrestart|reload|force-reload}"
 
-#: /etc/rc.d/init.d/sagator:63
+#: /etc/rc.d/init.d/ipmi_port:96 /etc/rc.d/init.d/ipmiutil_asy:70
+#: /etc/rc.d/init.d/ipmiutil_evt:74 /etc/rc.d/init.d/sagator:63
 #, fuzzy
 msgid "Stopping $name: "
 msgstr "جاري إيقاف $prog: "
-
-#: /etc/rc.d/init.d/zabbix-server:35
-#, fuzzy
-msgid "Starting ZABBIX server: "
-msgstr "جاري تشغيل خادم RADIUS: "
 
 #: /etc/rc.d/init.d/ktune:145
 msgid "Applying ${ELEVATOR} elevator: "
@@ -5201,20 +5157,21 @@ msgstr "جاري تشغيل sm-client: "
 msgid "CIM server is not running"
 msgstr "$prog لا يعمل"
 
-#: /etc/sysconfig/network-scripts/network-functions-ipv6:318
-msgid "Device '$device' enabling didn't work"
-msgstr "لم ينجح تمكين الجهاز '$device'"
+#: /etc/rc.d/init.d/zarafa-server:111
+#, fuzzy
+msgid "Restarting $server: "
+msgstr "جاري إعادة تشغيل $prog:"
 
 #: /etc/rc.d/init.d/puppet:48
 #, fuzzy
 msgid "Stopping puppet: "
 msgstr "جاري إيقاف $prog: "
 
-#: /etc/rc.d/init.d/functions:550
+#: /etc/rc.d/init.d/functions:560
 msgid "nN"
 msgstr "nNل"
 
-#: /etc/rc.d/init.d/ipmi:547
+#: /etc/rc.d/init.d/ipmi:548
 msgid "          start-powercontrol|stop-powercontrol|status-powercontrol"
 msgstr ""
 
@@ -5223,7 +5180,7 @@ msgstr ""
 msgid "Starting fail2ban: "
 msgstr "جاري تشغيل pand: "
 
-#: /etc/rc.d/init.d/postgresql:166
+#: /etc/rc.d/init.d/postgresql:100
 msgid "You need to upgrade the data format before using PostgreSQL."
 msgstr "يتعين تحديث صيغة البيانات قبل استخدام PostgreSQL."
 
@@ -5232,7 +5189,7 @@ msgstr "يتعين تحديث صيغة البيانات قبل استخدام Po
 msgid "Starting Audio Entropy daemon... "
 msgstr "جاري بدأ عفريت NFS: "
 
-#: /etc/rc.d/rc.sysinit:642
+#: /etc/rc.d/rc.sysinit:468
 msgid "Remounting root filesystem in read-write mode: "
 msgstr "إعادة تجهيز نظام الملفّات الجذر بوَضْع القراءة والكتابة: "
 
@@ -5251,15 +5208,16 @@ msgid "Nightly yum update is enabled."
 msgstr "تحديث yum اللّيلي مُمكّن."
 
 #: /etc/rc.d/init.d/halt:107 /etc/rc.d/init.d/ntpdate:54
+#: /etc/rc.d/init.d/reboot:107
 msgid "Syncing hardware clock to system time"
 msgstr "جاري مُزامنة ساعة العتاد مع وقت النّظام"
 
-#: /etc/rc.d/init.d/zarafa-spooler:44
+#: /etc/rc.d/init.d/zarafa-spooler:49
 #, fuzzy
 msgid "Starting $spooler: "
 msgstr "جاري بدأ $prog: "
 
-#: /etc/rc.d/init.d/zarafa-monitor:54
+#: /etc/rc.d/init.d/zarafa-monitor:62
 #, fuzzy
 msgid "Stopping $monitor: "
 msgstr "جاري إيقاف مُراقب UPS: "
@@ -5268,10 +5226,13 @@ msgstr "جاري إيقاف مُراقب UPS: "
 msgid "Configuration file or keys are invalid"
 msgstr "ملفّ التهيئة أو المفاتيح غير صالحة"
 
-#: /etc/rc.d/init.d/openhpid:169
-#, fuzzy
-msgid "Checking for $prog daemon: "
-msgstr "جاري إيقاف خادم $prog: "
+#: /etc/sysconfig/network-scripts/network-functions-ipv6:125
+msgid "NOTICE   "
+msgstr "إشعار   "
+
+#: /etc/sysconfig/network-scripts/ifup-ppp:142
+msgid "pppd started for ${DEVNAME} on ${MODEMPORT} at ${LINESPEED}"
+msgstr "تمّ تشغيل pppd لـ${DEVNAME} على ${MODEMPORT} بسرعة ${LINESPEED}"
 
 #: /etc/rc.d/init.d/ktune:124
 msgid "Reverting to saved sysctl settings: "
@@ -5282,9 +5243,8 @@ msgstr ""
 msgid "Cleaning $type $name: "
 msgstr "جاري تشغيل خادم $prog: "
 
-#: /etc/rc.d/init.d/bandwidthd:72 /etc/rc.d/init.d/clvmd:168
-#: /etc/rc.d/init.d/gfs2:144 /etc/rc.d/init.d/netbsd-iscsi:95
-#: /etc/rc.d/init.d/netfs:168 /etc/rc.d/init.d/nighthttpd:86
+#: /etc/rc.d/init.d/bandwidthd:72 /etc/rc.d/init.d/netbsd-iscsi:95
+#: /etc/rc.d/init.d/netfs:173 /etc/rc.d/init.d/nighthttpd:86
 #: /etc/rc.d/init.d/yum-updateonboot:96
 msgid "Usage: $0 {start|stop|restart|reload|status}"
 msgstr "الاستعمال: $0 {start|stop|restart|reload|status}"
@@ -5293,37 +5253,35 @@ msgstr "الاستعمال: $0 {start|stop|restart|reload|status}"
 msgid "Turning on allow_ypbind SELinux boolean"
 msgstr ""
 
-#: /etc/rc.d/init.d/monotone:101
-#, fuzzy
-msgid "Starting monotone server: "
-msgstr "جاري بدأ خادم الخرائط YP: "
+#: /etc/sysconfig/network-scripts/ifup-ipx:7
+msgid "usage: $0 <net-device>"
+msgstr "الاستعمال: $0 <جهاز الشبكة>"
 
-#: /etc/rc.d/init.d/asterisk:80
-#, fuzzy
-msgid "Starting asterisk: "
-msgstr "جاري بدأ $prog: "
+#: /etc/rc.d/init.d/network:82
+msgid "No 802.1Q VLAN support available in kernel."
+msgstr "لا يوجد دعم لشبكات 802.1Q VLAN في النّواة."
 
-#: /etc/rc.d/init.d/acpid:47
+#: /etc/rc.d/init.d/acpid:44
 msgid "Starting acpi daemon: "
 msgstr "جاري تشغيل عفرين acpi: "
 
-#: /etc/rc.d/init.d/cobblerd:51
+#: /etc/rc.d/init.d/zvbid:32
 #, fuzzy
-msgid "Starting cobbler daemon: "
-msgstr "جاري بدأ عفريت NFS: "
+msgid "Stopping vbi proxy daemon: "
+msgstr "جاري إيقاف خادم $prog: "
 
-#: /etc/rc.d/init.d/ip6tables:131
+#: /etc/rc.d/init.d/rpcgssd:126 /etc/rc.d/init.d/rpcidmapd:110
+#: /etc/rc.d/init.d/rpcsvcgssd:123
+#, fuzzy
+msgid "Usage: $0 {start|stop|restart|condstart|condrestart|status|condstop}"
+msgstr "الاستعمال: $0 {start|stop|restart|condstart|condrestart|status}"
+
+#: /etc/rc.d/init.d/ip6tables:135
 #, fuzzy
 msgid "${IP6TABLES}: Setting chains to policy $policy: "
 msgstr "جاري وضْع السلاسل للاستراتيجية $policy: "
 
-#: /etc/rc.d/init.d/dcbd:168
-#, fuzzy
-msgid "Shutting down $DCBD: "
-msgstr "جاري غلق $MODEL: "
-
-#: /etc/rc.d/rc.sysinit:77 /etc/rc.d/rc.sysinit:90 /etc/rc.d/rc.sysinit:593
-#: /etc/rc.d/rc.sysinit:616
+#: /etc/rc.d/rc.sysinit:84 /etc/rc.d/rc.sysinit:419 /etc/rc.d/rc.sysinit:442
 msgid "Automatic reboot in progress."
 msgstr "تجري إعادة التّشغيل الآليّة."
 
@@ -5331,26 +5289,28 @@ msgstr "تجري إعادة التّشغيل الآليّة."
 msgid "Turning off allow_ypbind SELinux boolean"
 msgstr ""
 
-#: /etc/sysconfig/network-scripts/ifup-ppp:45
-msgid "pppd does not exist or is not executable"
-msgstr "pppd غير موجود أو ليس تنفيذيّاً"
-
-#: /etc/rc.d/init.d/rinputd:54
+#: /etc/rc.d/init.d/smokeping:51
 #, fuzzy
-msgid "Starting $DESC: "
-msgstr "جاري بدأ $MODEL: "
+msgid "Reloading smokeping: "
+msgstr "تجري إعادة تحميل $prog: "
 
-#: /etc/rc.d/init.d/functions:526 /etc/rc.d/init.d/halt:42
-#: /etc/rc.d/init.d/halt:44
+#: /etc/rc.d/init.d/httpd:83
+#, fuzzy
+msgid "httpd shutdown"
+msgstr "إيقاف تشغيل $base"
+
+#: /etc/rc.d/init.d/functions:536 /etc/rc.d/init.d/halt:42
+#: /etc/rc.d/init.d/halt:44 /etc/rc.d/init.d/reboot:42
+#: /etc/rc.d/init.d/reboot:44
 msgid "$STRING"
 msgstr "$STRING"
 
-#: /etc/rc.d/init.d/transmission-daemon:42
+#: /etc/rc.d/init.d/transmission-daemon:43
 #, fuzzy
 msgid "Starting ${NAME}: "
 msgstr "جاري بدأ $MODEL: "
 
-#: /etc/rc.d/init.d/ip6tables:285
+#: /etc/rc.d/init.d/ip6tables:289
 msgid "${IP6TABLES}: Firewall modules are not loaded."
 msgstr ""
 
@@ -5394,7 +5354,7 @@ msgstr ""
 msgid "Stopping nsd: "
 msgstr "جاري إيقاف $prog: "
 
-#: /etc/rc.d/init.d/netfs:154
+#: /etc/rc.d/init.d/netfs:159
 msgid "/proc filesystem unavailable"
 msgstr "نظام ملفّات /proc غير موجود"
 
@@ -5402,11 +5362,7 @@ msgstr "نظام ملفّات /proc غير موجود"
 msgid "Starting NFS mountd: "
 msgstr "جاري تشغيل NFS mountd: "
 
-#: /etc/rc.d/init.d/vdr:42
-msgid "Error: no valid $cfg found."
-msgstr ""
-
-#: /etc/rc.d/init.d/functions:413 /etc/rc.d/init.d/functions:419
+#: /etc/rc.d/init.d/functions:419 /etc/rc.d/init.d/functions:425
 msgid "${base} (pid $pid) is running..."
 msgstr "${base} (ملفّ العمليّة $pid) يعمل..."
 
@@ -5425,134 +5381,124 @@ msgstr "جاري تمكين مساحة الذّاكرة البديلة: "
 msgid "Starting $PROG:"
 msgstr "جاري تشغيل $PRIVOXY_PRG: "
 
-#: /etc/rc.d/init.d/funcd:94
+#: /etc/rc.d/init.d/monotone:101
 #, fuzzy
-msgid "Stopping func daemon: "
-msgstr "جاري إيقاف خادم HAL: "
+msgid "Starting monotone server: "
+msgstr "جاري بدأ خادم الخرائط YP: "
 
-#: /etc/rc.d/init.d/smokeping:51
+#: /etc/rc.d/init.d/mldonkey:98
 #, fuzzy
-msgid "Reloading smokeping: "
-msgstr "تجري إعادة تحميل $prog: "
+msgid "Usage: $0 {start|stop|restart|try-restart|status}"
+msgstr "الاستعمال: $0 {start|stop|restart|condrestart|status}"
 
-#: /etc/rc.d/init.d/rpcgssd:126 /etc/rc.d/init.d/rpcidmapd:110
-#: /etc/rc.d/init.d/rpcsvcgssd:123
+#: /etc/rc.d/init.d/postfix:114
 #, fuzzy
-msgid "Usage: $0 {start|stop|restart|condstart|condrestart|status|condstop}"
-msgstr "الاستعمال: $0 {start|stop|restart|condstart|condrestart|status}"
+msgid "$prog flush"
+msgstr "تفريغ postfix"
 
 #: /etc/rc.d/init.d/moodle:67
 #, fuzzy
 msgid "Moodle cron job is enabled."
 msgstr "مُحاسبة العمليّات مُعطّلة."
 
-#: /etc/sysconfig/network-scripts/ifup-aliases:192
-msgid "error in $FILE: didn't specify device or ipaddr"
-msgstr "خطأ في $FILE: لم يتمّ تحديد الجهاز أو عنوان IP"
-
 #: /etc/rc.d/init.d/yum-updatesd:34
 #, fuzzy
 msgid "Starting yum-updatesd: "
 msgstr "جاري تشغيل pand: "
 
-#: /etc/rc.d/init.d/ip6tables:183
+#: /etc/rc.d/init.d/ip6tables:187
 #, fuzzy
 msgid "${IP6TABLES}: Applying firewall rules: "
 msgstr "جاري تطبيق الأحكام $IP6TABLES للجداري النّاري: "
 
-#: /etc/rc.d/init.d/netfs:43
-msgid "Mounting NCP filesystems: "
-msgstr "جاري تجهيز أنظمة ملفّات NCP: "
-
 #: /etc/rc.d/init.d/3proxy:38 /etc/rc.d/init.d/ajaxterm:35
-#: /etc/rc.d/init.d/amd:45 /etc/rc.d/init.d/arpwatch:47
+#: /etc/rc.d/init.d/amd:56 /etc/rc.d/init.d/arpwatch:49
 #: /etc/rc.d/init.d/atd:45 /etc/rc.d/init.d/atop:29 /etc/rc.d/init.d/auditd:81
-#: /etc/rc.d/init.d/auth2:35 /etc/rc.d/init.d/autofs:102
+#: /etc/rc.d/init.d/auth2:35 /etc/rc.d/init.d/autofs:106
 #: /etc/rc.d/init.d/autogroup:54 /etc/rc.d/init.d/autohome:52
-#: /etc/rc.d/init.d/beanstalkd:72 /etc/rc.d/init.d/boa:46
+#: /etc/rc.d/init.d/beanstalkd:73 /etc/rc.d/init.d/boa:46
 #: /etc/rc.d/init.d/boinc-client:147 /etc/rc.d/init.d/bootparamd:47
 #: /etc/rc.d/init.d/bro:127 /etc/rc.d/init.d/certmonger:47
 #: /etc/rc.d/init.d/cfexecd:31 /etc/rc.d/init.d/cfservd:35
-#: /etc/rc.d/init.d/chronyd:93 /etc/rc.d/init.d/chunkd:42
+#: /etc/rc.d/init.d/chronyd:107 /etc/rc.d/init.d/chunkd:42
 #: /etc/rc.d/init.d/clamav-milter:32 /etc/rc.d/init.d/clamd-wrapper:54
 #: /etc/rc.d/init.d/cld:43 /etc/rc.d/init.d/coda-client:42
 #: /etc/rc.d/init.d/codasrv:38 /etc/rc.d/init.d/collectd:35
-#: /etc/rc.d/init.d/collectl:42 /etc/rc.d/init.d/couchdb:46
-#: /etc/rc.d/init.d/cpuspeed:125 /etc/rc.d/init.d/crond:55
-#: /etc/rc.d/init.d/ctrlproxy:50 /etc/rc.d/init.d/cups:90
-#: /etc/rc.d/init.d/dbmail-imapd:44 /etc/rc.d/init.d/dbmail-lmtpd:45
-#: /etc/rc.d/init.d/dbmail-pop3d:45 /etc/rc.d/init.d/dbmail-timsieved:46
-#: /etc/rc.d/init.d/dc_client:41 /etc/rc.d/init.d/dc_server:37
-#: /etc/rc.d/init.d/ddclient:39 /etc/rc.d/init.d/dhcp-fwd:49
-#: /etc/rc.d/init.d/distccd:51 /etc/rc.d/init.d/dovecot:56
-#: /etc/rc.d/init.d/dropbear:78 /etc/rc.d/init.d/dspam:53
-#: /etc/rc.d/init.d/fcron_watch_config:41 /etc/rc.d/init.d/fence_virtd:51
-#: /etc/rc.d/init.d/flow-capture:52 /etc/rc.d/init.d/freenx-server:57
-#: /etc/rc.d/init.d/freenx-server:59 /etc/rc.d/init.d/gearmand:46
-#: /etc/rc.d/init.d/globus-rls-server:37 /etc/rc.d/init.d/glusterfsd:46
-#: /etc/rc.d/init.d/gmediaserver:69 /etc/rc.d/init.d/gpsd:53
-#: /etc/rc.d/init.d/haproxy:50 /etc/rc.d/init.d/honeyd:61
-#: /etc/rc.d/init.d/hostapd:46 /etc/rc.d/init.d/httpd:66
-#: /etc/rc.d/init.d/ip-sentinel:51 /etc/rc.d/init.d/ircd:44
-#: /etc/rc.d/init.d/irqbalance:58 /etc/rc.d/init.d/iscsi:68
-#: /etc/rc.d/init.d/iscsid:71 /etc/rc.d/init.d/jetty:92
-#: /etc/rc.d/init.d/kadmin:70 /etc/rc.d/init.d/keepalived:45
-#: /etc/rc.d/init.d/kojid:50 /etc/rc.d/init.d/kojira:50
-#: /etc/rc.d/init.d/kprop:52 /etc/rc.d/init.d/krb5kdc:55
-#: /etc/rc.d/init.d/ksm:55 /etc/rc.d/init.d/ksmtuned:46
-#: /etc/rc.d/init.d/lighttpd:49 /etc/rc.d/init.d/mailgraph:50
-#: /etc/rc.d/init.d/mcstrans:64 /etc/rc.d/init.d/memcached:49
-#: /etc/rc.d/init.d/milter-greylist:40 /etc/rc.d/init.d/milter-regex:44
-#: /etc/rc.d/init.d/mip6d:47 /etc/rc.d/init.d/miredo-client:56
-#: /etc/rc.d/init.d/miredo-server:58 /etc/rc.d/init.d/mpdscribble:27
-#: /etc/rc.d/init.d/mrepo:36 /etc/rc.d/init.d/mydns:33
-#: /etc/rc.d/init.d/myproxy-server:52 /etc/rc.d/init.d/mysqld:123
-#: /etc/rc.d/init.d/mysqld:127 /etc/rc.d/init.d/mysqld:130
-#: /etc/rc.d/init.d/mysqld:134 /etc/rc.d/init.d/mysql-proxy:45
+#: /etc/rc.d/init.d/collectl:42 /etc/rc.d/init.d/couchdb:58
+#: /etc/rc.d/init.d/cpuspeed:125 /etc/rc.d/init.d/crond:59
+#: /etc/rc.d/init.d/cups:90 /etc/rc.d/init.d/dbmail-imapd:44
+#: /etc/rc.d/init.d/dbmail-lmtpd:45 /etc/rc.d/init.d/dbmail-pop3d:45
+#: /etc/rc.d/init.d/dbmail-timsieved:46 /etc/rc.d/init.d/dc_client:41
+#: /etc/rc.d/init.d/dc_server:37 /etc/rc.d/init.d/ddclient:53
+#: /etc/rc.d/init.d/dhcp-fwd:49 /etc/rc.d/init.d/dmapd:30
+#: /etc/rc.d/init.d/dovecot:56 /etc/rc.d/init.d/dropbear:78
+#: /etc/rc.d/init.d/dspam:53 /etc/rc.d/init.d/fcron_watch_config:41
+#: /etc/rc.d/init.d/fence_virtd:51 /etc/rc.d/init.d/flow-capture:52
+#: /etc/rc.d/init.d/gearmand:46 /etc/rc.d/init.d/globus-rls-server:37
+#: /etc/rc.d/init.d/gmediaserver:69 /etc/rc.d/init.d/haproxy:50
+#: /etc/rc.d/init.d/honeyd:61 /etc/rc.d/init.d/hostapd:46
+#: /etc/rc.d/init.d/httpd:66 /etc/rc.d/init.d/ipmiutil_wdt:77
+#: /etc/rc.d/init.d/ip-sentinel:51 /etc/rc.d/init.d/irqbalance:58
+#: /etc/rc.d/init.d/iscsi:68 /etc/rc.d/init.d/iscsid:93
+#: /etc/rc.d/init.d/jetty:92 /etc/rc.d/init.d/kadmin:72
+#: /etc/rc.d/init.d/keepalived:45 /etc/rc.d/init.d/kojid:50
+#: /etc/rc.d/init.d/kojira:50 /etc/rc.d/init.d/kprop:52
+#: /etc/rc.d/init.d/krb5kdc:57 /etc/rc.d/init.d/ksm:52
+#: /etc/rc.d/init.d/ksmtuned:46 /etc/rc.d/init.d/lighttpd:49
+#: /etc/rc.d/init.d/mailgraph:50 /etc/rc.d/init.d/mcstrans:64
+#: /etc/rc.d/init.d/memcached:51 /etc/rc.d/init.d/milter-greylist:40
+#: /etc/rc.d/init.d/milter-regex:44 /etc/rc.d/init.d/mip6d:47
+#: /etc/rc.d/init.d/miredo-client:56 /etc/rc.d/init.d/miredo-server:58
+#: /etc/rc.d/init.d/mpdscribble:27 /etc/rc.d/init.d/mrepo:36
+#: /etc/rc.d/init.d/mydns:33 /etc/rc.d/init.d/myproxy-server:53
+#: /etc/rc.d/init.d/mysqld:137 /etc/rc.d/init.d/mysqld:154
+#: /etc/rc.d/init.d/mysqld:158 /etc/rc.d/init.d/mysqld:161
+#: /etc/rc.d/init.d/mysqld:165 /etc/rc.d/init.d/mysql-proxy:45
 #: /etc/rc.d/init.d/ndo2db:56 /etc/rc.d/init.d/nessusd:47
-#: /etc/rc.d/init.d/nginx:43 /etc/rc.d/init.d/ngircd:34
-#: /etc/rc.d/init.d/noip:44 /etc/rc.d/init.d/npcd:43 /etc/rc.d/init.d/nscd:50
-#: /etc/rc.d/init.d/nslcd:37 /etc/rc.d/init.d/ntop:50
-#: /etc/rc.d/init.d/nuauth:74 /etc/rc.d/init.d/nufw:71
-#: /etc/rc.d/init.d/nxtvepgd:43 /etc/rc.d/init.d/oidentd:50
-#: /etc/rc.d/init.d/openhpid:138 /etc/rc.d/init.d/openhpid:150
-#: /etc/rc.d/init.d/openhpi-subagent:39 /etc/rc.d/init.d/openser:46
-#: /etc/rc.d/init.d/opensips:40 /etc/rc.d/init.d/pads:53
-#: /etc/rc.d/init.d/pathfinderd:47 /etc/rc.d/init.d/plague-builder:41
-#: /etc/rc.d/init.d/plague-server:42 /etc/rc.d/init.d/poker-bot:45
-#: /etc/rc.d/init.d/poker-server:48 /etc/rc.d/init.d/portreserve:60
+#: /etc/rc.d/init.d/netsniff-ng:52 /etc/rc.d/init.d/nginx:43
+#: /etc/rc.d/init.d/ngircd:34 /etc/rc.d/init.d/noip:44
+#: /etc/rc.d/init.d/npcd:43 /etc/rc.d/init.d/nscd:50 /etc/rc.d/init.d/nslcd:37
+#: /etc/rc.d/init.d/ntop:50 /etc/rc.d/init.d/nuauth:74
+#: /etc/rc.d/init.d/nufw:71 /etc/rc.d/init.d/nxtvepgd:43
+#: /etc/rc.d/init.d/oidentd:50 /etc/rc.d/init.d/olbd:50
+#: /etc/rc.d/init.d/openhpid:51 /etc/rc.d/init.d/openhpi-subagent:41
+#: /etc/rc.d/init.d/openser:46 /etc/rc.d/init.d/opensips:40
+#: /etc/rc.d/init.d/pads:53 /etc/rc.d/init.d/pathfinderd:47
+#: /etc/rc.d/init.d/plague-builder:41 /etc/rc.d/init.d/plague-server:42
+#: /etc/rc.d/init.d/poker-bot:45 /etc/rc.d/init.d/poker-server:48
+#: /etc/rc.d/init.d/polipo:68 /etc/rc.d/init.d/portreserve:60
 #: /etc/rc.d/init.d/postgrey:48 /etc/rc.d/init.d/pppoe-server:36
 #: /etc/rc.d/init.d/prelude-correlator:50 /etc/rc.d/init.d/prelude-manager:32
-#: /etc/rc.d/init.d/psad:81 /etc/rc.d/init.d/pure-ftpd:40
-#: /etc/rc.d/init.d/rabbit:75 /etc/rc.d/init.d/racoon:30
-#: /etc/rc.d/init.d/radiusd:45 /etc/rc.d/init.d/rarpd:52
-#: /etc/rc.d/init.d/ratbox-services:38 /etc/rc.d/init.d/rbldnsd:96
+#: /etc/rc.d/init.d/proofd:47 /etc/rc.d/init.d/psad:81
+#: /etc/rc.d/init.d/pure-ftpd:40 /etc/rc.d/init.d/rabbit:75
+#: /etc/rc.d/init.d/racoon:41 /etc/rc.d/init.d/radiusd:45
+#: /etc/rc.d/init.d/rarpd:52 /etc/rc.d/init.d/rbldnsd:96
 #: /etc/rc.d/init.d/rinetd:34 /etc/rc.d/init.d/ris-linuxd:57
-#: /etc/rc.d/init.d/roundup:37 /etc/rc.d/init.d/rpcbind:55
-#: /etc/rc.d/init.d/rtpproxy:54 /etc/rc.d/init.d/rwalld:52
-#: /etc/rc.d/init.d/saslauthd:49 /etc/rc.d/init.d/searchd:44
-#: /etc/rc.d/init.d/sec:30 /etc/rc.d/init.d/sems:32
-#: /etc/rc.d/init.d/sensord:44 /etc/rc.d/init.d/ser:45
+#: /etc/rc.d/init.d/rootd:48 /etc/rc.d/init.d/roundup:37
+#: /etc/rc.d/init.d/rpcbind:60 /etc/rc.d/init.d/rwalld:52
+#: /etc/rc.d/init.d/saslauthd:50 /etc/rc.d/init.d/searchd:44
+#: /etc/rc.d/init.d/sec:30 /etc/rc.d/init.d/sensord:44 /etc/rc.d/init.d/ser:45
 #: /etc/rc.d/init.d/sge_execd:62 /etc/rc.d/init.d/sgemaster:315
-#: /etc/rc.d/init.d/sip-redirect:40 /etc/rc.d/init.d/slapd:216
+#: /etc/rc.d/init.d/sip-redirect:40 /etc/rc.d/init.d/slapd:224
 #: /etc/rc.d/init.d/smsd:36 /etc/rc.d/init.d/snmpd:54
 #: /etc/rc.d/init.d/snmptrapd:50 /etc/rc.d/init.d/spamassassin:53
 #: /etc/rc.d/init.d/spampd:48 /etc/rc.d/init.d/squid:100
 #: /etc/rc.d/init.d/squidGuard:94 /etc/rc.d/init.d/sshd:142
-#: /etc/rc.d/init.d/sssd:50 /etc/rc.d/init.d/systemtap:542
-#: /etc/rc.d/init.d/tabled:43 /etc/rc.d/init.d/tclhttpd:151
-#: /etc/rc.d/init.d/tcsd:79 /etc/rc.d/init.d/tgtd:65
-#: /etc/rc.d/init.d/thttpd:45 /etc/rc.d/init.d/tinyerp-server:57
-#: /etc/rc.d/init.d/tinyproxy:45 /etc/rc.d/init.d/tokyotyrant:44
-#: /etc/rc.d/init.d/tor:46 /etc/rc.d/init.d/trytond:57
-#: /etc/rc.d/init.d/tuned:50 /etc/rc.d/init.d/ucarp:110
-#: /etc/rc.d/init.d/ulogd:48 /etc/rc.d/init.d/update:50
-#: /etc/rc.d/init.d/update:57 /etc/rc.d/init.d/upnpd:46
-#: /etc/rc.d/init.d/ups:75 /etc/rc.d/init.d/ushare:36
-#: /etc/rc.d/init.d/vdradmind:36 /etc/rc.d/init.d/vhostmd:57
-#: /etc/rc.d/init.d/vtund:45 /etc/rc.d/init.d/wpa_supplicant:47
-#: /etc/rc.d/init.d/xinetd:89 /etc/rc.d/init.d/xrdp:45
-#: /etc/rc.d/init.d/xrdp:69 /etc/rc.d/init.d/zfs-fuse:173
+#: /etc/rc.d/init.d/sssd:50 /etc/rc.d/init.d/suricata:66
+#: /etc/rc.d/init.d/systemtap:542 /etc/rc.d/init.d/tabled:43
+#: /etc/rc.d/init.d/tclhttpd:151 /etc/rc.d/init.d/tcsd:75
+#: /etc/rc.d/init.d/tgtd:65 /etc/rc.d/init.d/thttpd:45
+#: /etc/rc.d/init.d/tinyerp-server:57 /etc/rc.d/init.d/tinyproxy:45
+#: /etc/rc.d/init.d/tokyotyrant:44 /etc/rc.d/init.d/tor:46
+#: /etc/rc.d/init.d/trytond:57 /etc/rc.d/init.d/tuned:50
+#: /etc/rc.d/init.d/ucarp:110 /etc/rc.d/init.d/ulogd:48
+#: /etc/rc.d/init.d/update:50 /etc/rc.d/init.d/update:57
+#: /etc/rc.d/init.d/upnpd:46 /etc/rc.d/init.d/ups:75
+#: /etc/rc.d/init.d/ushare:36 /etc/rc.d/init.d/uuidd:57
+#: /etc/rc.d/init.d/vdradmind:36 /etc/rc.d/init.d/vtund:45
+#: /etc/rc.d/init.d/wpa_supplicant:47 /etc/rc.d/init.d/xinetd:89
+#: /etc/rc.d/init.d/xrdp:45 /etc/rc.d/init.d/xrdp:69
+#: /etc/rc.d/init.d/xrootd:51 /etc/rc.d/init.d/zfs-fuse:172
 #: /etc/rc.d/init.d/zoneminder:58
 msgid "Stopping $prog: "
 msgstr "جاري إيقاف $prog: "
@@ -5561,6 +5507,276 @@ msgstr "جاري إيقاف $prog: "
 #, fuzzy
 msgid "Shutting down Audio Entropy daemon: "
 msgstr "جاري إيقاف تشغيل عفريت APM: "
+
+#~ msgid "Could not set 802.1Q VLAN parameters."
+#~ msgstr "لم أستطع إعداد وسائط 802.1Q VLAN."
+
+#, fuzzy
+#~ msgid "Usage: $0 {start|stop|restart|reload|condrestart|checkconfig}"
+#~ msgstr "الاستعمال: $0 {start|stop|restart|reload|condrestart}"
+
+#, fuzzy
+#~ msgid "Stopping MaraDNS-Zoneserver: "
+#~ msgstr "جاري إيقاف خادم الخرائط YP: "
+
+#~ msgid ""
+#~ "Usage: $PRIVOXY_PRG {start|stop|reload|restart|condrestart|status|top}"
+#~ msgstr ""
+#~ "الاستعمال: $PRIVOXY_PRG {start|stop|reload|restart|condrestart|status|top}"
+
+#~ msgid "Usage: $0 {start|stop|restart|condrestart|status|panic|save}"
+#~ msgstr "الاستعمال: $0 {start|stop|restart|condrestart|status|panic|save}"
+
+#, fuzzy
+#~ msgid "Reloading syslog-ng: "
+#~ msgstr "جاري إعادة تحميل ملف smb.conf: "
+
+#, fuzzy
+#~ msgid "Starting all MaraDNS processes: "
+#~ msgstr "جاري بدأ خدمات NFS: "
+
+#, fuzzy
+#~ msgid "Stopping Open Hardware Manager: "
+#~ msgstr "جاري إيقاف خادم HAL: "
+
+#, fuzzy
+#~ msgid "PostgreSQL server is not running."
+#~ msgstr "$prog لا يعمل"
+
+#, fuzzy
+#~ msgid "Shutting down SQLgrey: "
+#~ msgstr "جاري إيقاف تشغيل dund: "
+
+#, fuzzy
+#~ msgid "$0: CPU microcode data file not present ($DATAFILE)"
+#~ msgstr "$0: ملف بيانات الميكروكود غير موجود (/etc/firmware/microcode.dat)"
+
+#, fuzzy
+#~ msgid "Stopping certmaster daemon: "
+#~ msgstr "جاري إيقاف خادم HAL: "
+
+#, fuzzy
+#~ msgid "Starting all MaraDNS-Zoneserver processes: "
+#~ msgstr "جاري تشغيل خدمات خادم YP: "
+
+#, fuzzy
+#~ msgid "Starting snake-server:"
+#~ msgstr "جاري بدأ خادم الخرائط YP: "
+
+#, fuzzy
+#~ msgid "Starting ZABBIX agent: "
+#~ msgstr "جاري بدأ خادم HAL: "
+
+#, fuzzy
+#~ msgid "Starting cyphesis: "
+#~ msgstr "جارى تشغيل hidd: "
+
+#, fuzzy
+#~ msgid "Usage: $0 {start|stop|restart|condrestart|reload|rehash|status}"
+#~ msgstr "الاستعمال: $0 {start|stop|restart|condrestart|reload|status}"
+
+#, fuzzy
+#~ msgid "Starting syslog-ng: "
+#~ msgstr "جاري تشغيل مُسجّل النّظام: "
+
+#~ msgid "Stopping $PRIVOXY_PRG: "
+#~ msgstr "جاري إيقاف $PRIVOXY_PRG: "
+
+#, fuzzy
+#~ msgid "Avahi daemon is running"
+#~ msgstr "مُدير البطاقات cardmgr (رقم العمليّة $pid) يعمل..."
+
+#, fuzzy
+#~ msgid "Stopping uuidd: "
+#~ msgstr "جاري إيقاف $prog: "
+
+#~ msgid "Starting $PRIVOXY_PRG: "
+#~ msgstr "جاري تشغيل $PRIVOXY_PRG: "
+
+#, fuzzy
+#~ msgid "Stopping $DESC: "
+#~ msgstr "جاري إيقاف خدمة ${NAME}: "
+
+#~ msgid "Reloading $prog:"
+#~ msgstr "جاري إعادة تحميل $prog:"
+
+#, fuzzy
+#~ msgid "Shutting down ZABBIX agent: "
+#~ msgstr "جاري إيقاف تشغيل عفريت APM: "
+
+#, fuzzy
+#~ msgid "Avahi DNS daemon is not running"
+#~ msgstr "مُدير البطاقات cardmgr (رقم العمليّة $pid) يعمل..."
+
+#, fuzzy
+#~ msgid "Populating cyphesis world: "
+#~ msgstr "جارى تشغيل hidd: "
+
+#, fuzzy
+#~ msgid "Starting func daemon: "
+#~ msgstr "جاري بدأ عفريت NFS: "
+
+#, fuzzy
+#~ msgid "Stopping cobbler daemon: "
+#~ msgstr "جاري إيقاف خادم HAL: "
+
+#, fuzzy
+#~ msgid "Shutting down ZABBIX server: "
+#~ msgstr "جاري غلق خدمات NIS: "
+
+#, fuzzy
+#~ msgid "Loading AMD microcode update module"
+#~ msgstr "جاري تحميل خريطة المفاتيح الافتراضيّة: "
+
+#, fuzzy
+#~ msgid "Shutting down ZABBIX proxy: "
+#~ msgstr "جاري غلق $prog: "
+
+#, fuzzy
+#~ msgid "Stopping MaraDNS: "
+#~ msgstr "جاري إيقاف عفريت acpi: "
+
+#, fuzzy
+#~ msgid "Creating PostgreSQL account: "
+#~ msgstr "جاري تشغيل مُحاسبة العمليّات: "
+
+#~ msgid "Setting 802.1Q VLAN parameters: "
+#~ msgstr "جاري وضع مُدخلات 802.1Q VLAN: "
+
+#, fuzzy
+#~ msgid "Usage: $0 {start|stop|restart|status|condrestart|configtest|usage}"
+#~ msgstr "الاستعمال: $0 {start|stop|restart|status|condrestart}"
+
+#, fuzzy
+#~ msgid "Starting certmaster daemon: "
+#~ msgstr "جاري بدأ عفريت NFS: "
+
+#, fuzzy
+#~ msgid "Usage: $prog {start|stop|restart|status}"
+#~ msgstr "صيغة الاستعمال: $0 {start|stop|restart|reload|status}"
+
+#, fuzzy
+#~ msgid "Applying Intel CPU microcode update: "
+#~ msgstr "جاري تطبيق تحديث ميكروكود انتل IA32: "
+
+#, fuzzy
+#~ msgid "Starting ZABBIX proxy: "
+#~ msgstr "جاري تشغيل RPCidmapd: "
+
+#, fuzzy
+#~ msgid "Stopping ibmasm: "
+#~ msgstr "جاري إيقاف $prog: "
+
+#, fuzzy
+#~ msgid "Loading database with rules: "
+#~ msgstr "جاري تحميل خريطة المفاتيح الافتراضيّة: "
+
+#, fuzzy
+#~ msgid "Usage: $0 (start|stop|restart|condrestart|status)"
+#~ msgstr "الاستعمال: $0 {start|stop|restart|condrestart|status}"
+
+#, fuzzy
+#~ msgid "Avahi DNS daemon is running"
+#~ msgstr "مُدير البطاقات cardmgr (رقم العمليّة $pid) يعمل..."
+
+#, fuzzy
+#~ msgid "Starting Open Hardware Manager: "
+#~ msgstr "جاري بدأ عفريت NFS: "
+
+#~ msgid "\t\tPress 'I' to enter interactive startup."
+#~ msgstr "\t\tاضغط 'I' كي تدخل بدء التّشغيل التّفاعليّ."
+
+#, fuzzy
+#~ msgid "Starting uuidd: "
+#~ msgstr "جارى تشغيل hidd: "
+
+#~ msgid "Can't find $PRIVOXY_CONF, exit."
+#~ msgstr "لم يمكن العثور $PRIVOXY_CONF، اخرج."
+
+#, fuzzy
+#~ msgid "Creating PostgreSQL database: "
+#~ msgstr "جاري تمهيد قاعدة بيانات MySQL: "
+
+#, fuzzy
+#~ msgid "Usage: $prog {start|stop|restart}"
+#~ msgstr "صيغة الاستعمال: $0 {start|stop|restart}"
+
+#, fuzzy
+#~ msgid ""
+#~ "Usage: $0 {start|stop|restart|condrestart|try-restart|status|force-reload}"
+#~ msgstr ""
+#~ "الاستعمال: $0 {start|stop|status|restart|condrestart|reload|force-reload}"
+
+#, fuzzy
+#~ msgid "Checking Configuration: "
+#~ msgstr "جاري تحميل التّهيئة: "
+
+#, fuzzy
+#~ msgid "Starting SQLgrey: "
+#~ msgstr "جاري تشغيل خادم $prog: "
+
+#, fuzzy
+#~ msgid "Shutting down cyphesis: "
+#~ msgstr "جاري إيقاف تشغيل hidd: "
+
+#, fuzzy
+#~ msgid "Stopping syslog-ng: "
+#~ msgstr "جاري إيقاف قفل NFS: "
+
+#, fuzzy
+#~ msgid "$base reload"
+#~ msgstr "إعادة تحميل $prog"
+
+#, fuzzy
+#~ msgid "Could not check for running PostgreSQL database."
+#~ msgstr "جاري تمهيد قاعدة بيانات MySQL: "
+
+#, fuzzy
+#~ msgid "$NAME: already running"
+#~ msgstr "$prog: يعمل مُسبقاً"
+
+#, fuzzy
+#~ msgid "Usage: $0 {start|stop|status|restart|condrestart|try-restart"
+#~ msgstr "الاستعمال: $0 {start|stop|status|restart|condrestart|reload}"
+
+#~ msgid "Can't find $PRIVOXY_BIN, exit."
+#~ msgstr "لم يُعثر على $PRIVOXY_BIN، اخرج."
+
+#~ msgid "Usage: $0 {start|stop|status|condrestart|restart}"
+#~ msgstr "الاستعمال: $0 {start|stop|status|condrestart|restart}"
+
+#, fuzzy
+#~ msgid "Usage: $prog {start|stop|restart|condrestart|status|retune|help}"
+#~ msgstr "الاستعمال: $prog {start|stop|restart|condrestart|status|help}"
+
+#~ msgid "WARNING: vconfig not able to disable REORDER_HDR on ${DEVICE}"
+#~ msgstr "تحذير: vconfig غير قادر على تعطيل REORDER_HDR على ${DEVICE}"
+
+#, fuzzy
+#~ msgid ""
+#~ "Usage: $prog {start|stop|restart|reload|force-reload|condrestart|try-"
+#~ "restart|status|version}"
+#~ msgstr "الاستعمال: $0 {start|stop|restart|condrestart|status}"
+
+#, fuzzy
+#~ msgid "Starting ZABBIX server: "
+#~ msgstr "جاري تشغيل خادم RADIUS: "
+
+#, fuzzy
+#~ msgid "Checking for $prog daemon: "
+#~ msgstr "جاري إيقاف خادم $prog: "
+
+#, fuzzy
+#~ msgid "Starting cobbler daemon: "
+#~ msgstr "جاري بدأ عفريت NFS: "
+
+#, fuzzy
+#~ msgid "Starting $DESC: "
+#~ msgstr "جاري بدأ $MODEL: "
+
+#, fuzzy
+#~ msgid "Stopping func daemon: "
+#~ msgstr "جاري إيقاف خادم HAL: "
 
 #, fuzzy
 #~ msgid "Stopping OpenAIS ($prog): "
@@ -5605,10 +5821,6 @@ msgstr "جاري إيقاف تشغيل عفريت APM: "
 #, fuzzy
 #~ msgid "Starting OpenAIS ($prog): "
 #~ msgstr "جاري بدأ $prog: "
-
-#, fuzzy
-#~ msgid "Starting ICQ transport: "
-#~ msgstr "جاري تشغيل NFS statd: "
 
 #, fuzzy
 #~ msgid "Usage: $0 {start|stop|status|reload|restart|condrestart|probe}"
@@ -5818,8 +6030,8 @@ msgstr "جاري إيقاف تشغيل عفريت APM: "
 #~ "On given address '$testipv6addr_valid' the prefix length is out of range "
 #~ "(valid: 0-128)"
 #~ msgstr ""
-#~ "في العنوان المُدخل '$testipv6addr_valid' طول البادئة خارج المدى (يصلح 0-"
-#~ "128)"
+#~ "في العنوان المُدخل '$testipv6addr_valid' طول البادئة خارج المدى (يصلح "
+#~ "0-128)"
 
 #, fuzzy
 #~ msgid "Stopping oki4daemon: "
@@ -6142,10 +6354,6 @@ msgstr "جاري إيقاف تشغيل عفريت APM: "
 #~ msgstr "جاري تشغيل pand: "
 
 #, fuzzy
-#~ msgid "Stopping iSCSI initiator service: "
-#~ msgstr "جاري إيقاف خدمات rstat: "
-
-#, fuzzy
 #~ msgid "$prog: Usage: < start | stop | restart | reload | status >"
 #~ msgstr "الاستعمال: $0 {start|stop|restart|reload|status}"
 
@@ -6177,10 +6385,6 @@ msgstr "جاري إيقاف تشغيل عفريت APM: "
 
 #~ msgid "Converting old group quota files: "
 #~ msgstr "جاري تحويل ملفّات حصّة المجموعات النّسبيّة القديمة: "
-
-#, fuzzy
-#~ msgid "Starting iSCSI initiator service: "
-#~ msgstr "جاري تشغيل خدمات rstat: "
 
 #, fuzzy
 #~ msgid "Usage: $0 {start|stop|restart|condstart|condrestart|condstop|status}"
@@ -6374,9 +6578,6 @@ msgstr "جاري إيقاف تشغيل عفريت APM: "
 
 #~ msgid " audio"
 #~ msgstr "صوت"
-
-#~ msgid " done"
-#~ msgstr " تمّ."
 
 #~ msgid " network"
 #~ msgstr "شبكة"
