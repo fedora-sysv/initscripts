@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.14
+Version: 9.03.15
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -239,6 +239,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Mon Aug  9 2010 Bill Nottingham <notting@redhat.com> - 9.03.15-1
+- set default loglevel to match RHEL 5 behavior (#621257)
+
 * Tue Aug  3 2010 Bill Nottingham <notting@redhat.com> - 9.03.14-1
 - free kexec-reserved memory when necessary (#613578)
 
