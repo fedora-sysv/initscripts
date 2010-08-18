@@ -16,7 +16,9 @@ export PATH
 # Get a sane screen width
 [ -z "${COLUMNS:-}" ] && COLUMNS=80
 
-[ -z "${CONSOLETYPE:-}" ] && CONSOLETYPE="$(/sbin/consoletype)"
+# /sbin/consoletype checks the type of stdin. Since we are mostly
+# interested in output, we use redirection to check stdout/stderr instead.
+[ -z "${CONSOLETYPE:-}" ] && CONSOLETYPE="$(/sbin/consoletype < /dev/stderr)"
 
 if [ -z "${NOLOCALE:-}" ] && [ -z "${LANGSH_SOURCED:-}" ] && [ -f /etc/sysconfig/i18n ] ; then
   . /etc/profile.d/lang.sh 2>/dev/null
