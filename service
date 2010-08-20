@@ -7,6 +7,7 @@ USAGE="Usage: $(basename $0) < option > | --status-all | \
 [ service_name [ command | --full-restart ] ]"
 SERVICE=
 SERVICEDIR="/etc/init.d"
+SYSTEMDSERVICEDIR="/lib/systemd/system"
 OPTIONS=
 
 if [ $# -eq 0 ]; then
@@ -60,6 +61,8 @@ done
 
 if [ -f "${SERVICEDIR}/${SERVICE}" ]; then
    env -i PATH="$PATH" TERM="$TERM" "${SERVICEDIR}/${SERVICE}" ${OPTIONS}
+elif [ -f "${SYSTEMDSERVICEDIR}/${SERVICE}.service" ]; then
+   exec /bin/systemctl ${OPTIONS} ${SERVICE}.service
 else
    echo $"${SERVICE}: unrecognized service" >&2
    exit 1
