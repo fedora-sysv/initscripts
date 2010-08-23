@@ -62,6 +62,7 @@ done
 if [ -f "${SERVICEDIR}/${SERVICE}" ]; then
    env -i PATH="$PATH" TERM="$TERM" "${SERVICEDIR}/${SERVICE}" ${OPTIONS}
 elif [ -f "${SYSTEMDSERVICEDIR}/${SERVICE}.service" ]; then
+   echo $"Redirecting to /bin/systemctl ${OPTIONS} ${SERVICE}.service" >/dev/stderr
    exec /bin/systemctl ${OPTIONS} ${SERVICE}.service
 else
    echo $"${SERVICE}: unrecognized service" >&2
