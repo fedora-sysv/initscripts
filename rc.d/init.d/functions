@@ -13,11 +13,40 @@ umask 022
 PATH="/sbin:/usr/sbin:/bin:/usr/bin"
 export PATH
 
+if [ $PPID -ne 1 -a -z "$SYSTEMCTL_SKIP_REDIRECT" ] && /bin/mountpoint -q /cgroup/systemd ; then
+        case "$0" in
+        /etc/init.d/*|/etc/rc.d/init.d/*)
+		_use_systemctl=1
+		;;
+	esac
+fi
+
+systemctl_redirect () {
+	local s
+	local prog=${1##*/}
+        local command=$2
+
+	case "$command" in
+	start)
+		s=$"Starting $prog (via systemctl): "
+		;;
+	stop)
+		s=$"Stopping $prog (via systemctl): "
+		;;
+	reload|try-reload)
+		s=$"Reloading $prog configuration (via systemctl): "
+		;;
+	restart|try-restart|condrestart)
+		s=$"Restarting $prog (via systemctl): "
+		;;
+	esac
+
+	action "$s" /bin/systemctl $command "$prog.service"
+}
+
 # Get a sane screen width
 [ -z "${COLUMNS:-}" ] && COLUMNS=80
 
-# /sbin/consoletype checks the type of stdin. Since we are mostly
-# interested in output, we use redirection to check stdout/stderr instead.
 [ -z "${CONSOLETYPE:-}" ] && CONSOLETYPE="$(/sbin/consoletype < /dev/stderr)"
 
 if [ -z "${NOLOCALE:-}" ] && [ -z "${LANGSH_SOURCED:-}" ] && [ -f /etc/sysconfig/i18n ] ; then
@@ -411,6 +440,11 @@ status() {
 	fi
 	base=${1##*/}
 
+	if [ "$_use_systemctl" = "1" ]; then
+		systemctl status ${0##*/}.service
+		return $?
+	fi
+
 	# First try "pidof"
 	__pids_var_run "$1" "$pid_file"
 	RC=$?
@@ -768,3 +802,17 @@ init_crypto() {
 
 # A sed expression to filter out the files that is_ignored_file recognizes
 __sed_discard_ignored_files='/\(~\|\.bak\|\.orig\|\.rpmnew\|\.rpmorig\|\.rpmsave\)$/d'
+
+if [ "$_use_systemctl" = "1" ]; then
+        if  [ "x$1" = xstart -o \
+                "x$1" = xstop -o \
+                "x$1" = xrestart -o \
+                "x$1" = xreload -o \
+                "x$1" = xtry-restart -o \
+                "x$1" = xforce-reload -o \
+                "x$1" = xcondrestart ] ; then
+
+		systemctl_redirect $0 $1
+		exit $?
+	fi
+fi
