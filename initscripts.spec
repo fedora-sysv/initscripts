@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.16
+Version: 9.17
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -242,6 +242,15 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Wed Aug 25 2010 Bill Nottingham <notting@redhat.com> - 9.17-1
+- init.d/functions: redirect start/stop/condrestart/etc to systemctl in a systemd environment (#612728)
+- rc.sysinit: don't frob the console loglevel on boot (#621257, #626572)
+- service: use systemctl on systemd services
+- 10-console.rules: only init consoles on add, not change (<lennart@poettering.net>)
+- halt: fix unmounting bind mounts (#620461, <phr@doc.ic.ac.uk>)
+- killall: exit 0 (#605519)
+- translation updates: de, es, fi, fr, nl, pl, sv, uk
+
 * Tue Jul 27 2010 Bill Nottingham <notting@redhat.com> - 9.16-1
 - halt: don't umount cgroups (#612789)
 - rename_device: dequote DEVICE key, handle SUBCHANNELS (<harald@redhat.com>)
