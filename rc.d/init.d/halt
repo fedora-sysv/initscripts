@@ -138,7 +138,7 @@ __umount_loop '$3 ~ /^rpc_pipefs$/ || $3 ~ /^rpc_svc_gss_pipefs$/ {print $2}' \
     $"Unmounting pipe file systems (retry): " \
     -f
 
-LANG=C __umount_loop '$2 ~ /^\/$|^\/proc|^\/cgroup|^\/dev/{next}
+LANG=C __umount_loop '$2 ~ /^\/$|^\/proc|^\/cgroup|^\/sys\/fs\/cgroup|^\/dev/{next}
 	$3 == "tmpfs" || $3 == "proc" {print $2 ; next}
 	/(loopfs|autofs|nfs|cifs|smbfs|ncpfs|sysfs|^none|^\/dev\/ram|^\/dev\/root$)/ {next}
 	{print $2}' /proc/mounts \
@@ -155,7 +155,7 @@ rm -f /.autofsck
 
 # Try all file systems other than root, essential filesystems and RAM disks,
 # one last time.
-awk '$2 !~ /\/(|dev|proc|selinux|cgroup|sys)$/ && $1 !~ /^\/dev\/ram/ { print $2 }' \
+awk '$2 !~ /\/(|dev|proc|selinux|cgroup|sys)$/ && $1 !~ /(^\/dev\/ram|cgroup)/ { print $2 }' \
     /proc/mounts | sort -r | \
   while read line; do
     fstab-decode $UMOUNT -f $line
