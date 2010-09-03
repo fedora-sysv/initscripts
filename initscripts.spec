@@ -84,7 +84,7 @@ make ROOT=$RPM_BUILD_ROOT SUPERUSER=`id -un` SUPERGROUP=`id -gn` mandir=%{_mandi
 
 %find_lang %{name}
 
-%ig %{_with_systemd}
+%if %{_with_systemd}
  mv -f $RPM_BUILD_ROOT/etc/inittab.systemd $RPM_BUILD_ROOT/etc/inittab
 %endif
 %if %{_with_upstart}
