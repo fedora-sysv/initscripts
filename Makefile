@@ -25,6 +25,7 @@ install:
 	  install -m644 inittab.s390 $(ROOT)/etc/inittab.sysv ; \
 	fi
 	install -m644 inittab.upstart $(ROOT)/etc/inittab.upstart
+	install -m644 inittab.systemd $(ROOT)/etc/inittab.systemd
 	install -m644  rwtab statetab networks $(ROOT)/etc
 	install -m755  service setsysfont $(ROOT)/sbin
 	install -m644  lang.csh lang.sh $(ROOT)/etc/profile.d
@@ -47,6 +48,8 @@ install:
 	install -m644 sysconfig/debug sysconfig/init sysconfig/netconsole sysconfig/readonly-root $(ROOT)/etc/sysconfig/
 	cp -af sysconfig/network-scripts $(ROOT)/etc/sysconfig/
 	cp -af ppp NetworkManager init $(ROOT)/etc
+	mkdir -p $(ROOT)/lib/systemd/system
+	cp -af systemd/* $(ROOT)/lib/systemd/system
 	mkdir -p $(ROOT)/etc/ppp/peers
 	mkdir -p $(ROOT)/lib
 	cp -af udev $(ROOT)/lib
@@ -106,10 +109,16 @@ install:
 
 	ln -s ../init.d/single $(ROOT)/etc/rc.d/rc1.d/S99single
 
-	ln -s ../rc.local $(ROOT)/etc/rc.d/rc2.d/S99local
-	ln -s ../rc.local $(ROOT)/etc/rc.d/rc3.d/S99local
-	ln -s ../rc.local $(ROOT)/etc/rc.d/rc4.d/S99local
-	ln -s ../rc.local $(ROOT)/etc/rc.d/rc5.d/S99local
+	ln -s ../rc.local $(ROOT)/etc/rc.d/rc2.d/S99rc-local
+	ln -s ../rc.local $(ROOT)/etc/rc.d/rc3.d/S99rc-local
+	ln -s ../rc.local $(ROOT)/etc/rc.d/rc4.d/S99rc-local
+	ln -s ../rc.local $(ROOT)/etc/rc.d/rc5.d/S99rc-local
+
+	ln -s halt $(ROOT)/etc/rc.d/init.d/reboot
+
+	mkdir -p $(ROOT)/etc/systemd/system
+	ln -s /lib/systemd/system/prefdm.service $(ROOT)/etc/systemd/system/display-manager.service
+	ln -s /lib/systemd/system/reboot.target $(ROOT)/etc/systemd/system/ctrl-alt-del.target
 
 # These are LSB compatibility symlinks.  At some point in the future
 # the actual files will be here instead of symlinks

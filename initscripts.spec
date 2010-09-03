@@ -1,4 +1,6 @@
-%define with_upstart 1%{nil}
+%define _with_upstart 1
+%define _with_systemd 1
+%define _with_sysvinit 0
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
@@ -18,9 +20,15 @@ Requires: module-init-tools
 Requires: util-linux-ng >= 2.16
 Requires: bash >= 3.0
 Requires: sysvinit-tools >= 2.87
-%if with_upstart
-Requires: upstart >= 0.6.0
-%else
+Requires: sysvinit-userspace
+%if %{_with_upstart}
+Conflicts: upstart < 0.6.0
+%endif
+%if %{_with_systemd}
+Conflicts: systemd < 9-3
+Conflicts: systemd-units < 9-3
+%endif
+%if %{_with_sysvinit}
 Requires: SysVinit >= 2.85-38
 %endif
 Requires: /sbin/ip, /sbin/arping, net-tools, /bin/find
@@ -76,11 +84,20 @@ make ROOT=$RPM_BUILD_ROOT SUPERUSER=`id -un` SUPERGROUP=`id -gn` mandir=%{_mandi
 
 %find_lang %{name}
 
-%if with_upstart
+%ig %{_with_systemd}
+ mv -f $RPM_BUILD_ROOT/etc/inittab.systemd $RPM_BUILD_ROOT/etc/inittab
+%endif
+%if %{_with_upstart}
  mv -f $RPM_BUILD_ROOT/etc/inittab.upstart $RPM_BUILD_ROOT/etc/inittab
-%else
+%endif
+%if %{_with_sysvinit}
  mv -f $RPM_BUILD_ROOT/etc/inittab.sysv $RPM_BUILD_ROOT/etc/inittab
+%endif
+%if ! %{_with_upstart}
  rm -rf $RPM_BUILD_ROOT/etc/init
+%endif
+%if ! %{_with_systemd}
+ rm -rf $RPM_BUILD_ROOT/etc/systemd $RPM_BUILD_ROOT/lib/systemd
 %endif
 rm -f $RPM_BUILD_ROOT/etc/inittab.*
 
@@ -105,6 +122,11 @@ chmod 600 /var/log/btmp
 /sbin/chkconfig --add netfs
 /sbin/chkconfig --add network
 /sbin/chkconfig --add netconsole
+%if %{_with_systemd}
+if [ $1 -eq 1 ]; then
+        /bin/systemctl daemon-reload > /dev/null 2>&1 || :
+fi
+%endif
 
 %preun
 if [ $1 = 0 ]; then
@@ -117,6 +139,14 @@ fi
 /sbin/chkconfig --del random
 /sbin/chkconfig --del rawdevices
 exit 0
+
+%if %{_with_systemd}
+%postun
+if [ $1 -ge 1 ]; then
+	/bin/systemctl daemon-reload > /dev/null 2>&1 || :
+fi
+%endif
+
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -178,8 +208,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/rwtab.d
 /etc/statetab
 %dir /etc/statetab.d
-%if with_upstart
+%if %{_with_upstart}
 /etc/init/*
+%endif
+%if %{_with_systemd}
+%config(noreplace) /etc/systemd/system/*
+/lib/systemd/system/*
 %endif
 %config /etc/X11/prefdm
 %config(noreplace) /etc/inittab
