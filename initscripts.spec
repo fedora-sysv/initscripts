@@ -4,7 +4,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.17
+Version: 9.18
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -276,6 +276,11 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Fri Sep  3 2010 Bill Nottingham <notting@redhat.com> - 9.18-1
+- fix for new cgroups location (#612789, others <plautrba@redhat.com>)
+- add in basic systemd units
+- translation updates: nb, pt, sv
+
 * Wed Aug 25 2010 Bill Nottingham <notting@redhat.com> - 9.17-1
 - init.d/functions: redirect start/stop/condrestart/etc to systemctl in a systemd environment (#612728)
 - rc.sysinit: don't frob the console loglevel on boot (#621257, #626572)
