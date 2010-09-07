@@ -116,9 +116,12 @@ install:
 
 	ln -s halt $(ROOT)/etc/rc.d/init.d/reboot
 
-	mkdir -p $(ROOT)/etc/systemd/system
-	ln -s /lib/systemd/system/prefdm.service $(ROOT)/etc/systemd/system/display-manager.service
-	ln -s /lib/systemd/system/reboot.target $(ROOT)/etc/systemd/system/ctrl-alt-del.target
+	mkdir -p -m 755 $(ROOT)/lib/systemd/system/multi-user.target.wants
+	mkdir -p -m 755 $(ROOT)/lib/systemd/system/graphical.target.wants
+	ln -s prefdm.service $(ROOT)/lib/systemd/system/display-manager.service
+	ln -s reboot.target $(ROOT)/lib/systemd/system/ctrl-alt-del.target
+	ln -s ../rc-local.service $(ROOT)/lib/systemd/system/multi-user.target.wants
+	ln -s ../display-manager.service $(ROOT)/lib/systemd/system/graphical.target.wants
 
 # These are LSB compatibility symlinks.  At some point in the future
 # the actual files will be here instead of symlinks

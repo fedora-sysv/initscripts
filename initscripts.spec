@@ -97,7 +97,7 @@ make ROOT=$RPM_BUILD_ROOT SUPERUSER=`id -un` SUPERGROUP=`id -gn` mandir=%{_mandi
  rm -rf $RPM_BUILD_ROOT/etc/init
 %endif
 %if ! %{_with_systemd}
- rm -rf $RPM_BUILD_ROOT/etc/systemd $RPM_BUILD_ROOT/lib/systemd
+ rm -rf $RPM_BUILD_ROOT/lib/systemd
 %endif
 rm -f $RPM_BUILD_ROOT/etc/inittab.*
 
@@ -212,7 +212,6 @@ rm -rf $RPM_BUILD_ROOT
 /etc/init/*
 %endif
 %if %{_with_systemd}
-%config(noreplace) /etc/systemd/system/*
 /lib/systemd/system/*
 %endif
 %config /etc/X11/prefdm
