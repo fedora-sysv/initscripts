@@ -182,8 +182,8 @@ __pids_var_run() {
 
 # Output PIDs of matching processes, found using pidof
 __pids_pidof() {
-	pidof -c -o $$ -o $PPID -o %PPID -x "$1" || \
-		pidof -c -o $$ -o $PPID -o %PPID -x "${1##*/}"
+	pidof -c -m -o $$ -o $PPID -o %PPID -x "$1" || \
+		pidof -c -m -o $$ -o $PPID -o %PPID -x "${1##*/}"
 }
 
 
