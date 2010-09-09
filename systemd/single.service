@@ -17,6 +17,7 @@ Before=multi-user.target
 [Service]
 Type=oneshot
 EnvironmentFile=/etc/sysconfig/init
+Environment=HOME=/root
 ExecStartPre=-/bin/plymouth --hide-splash
 ExecStart=-/bin/bash -c "exec $SINGLE"
 ExecStartPost=/bin/systemctl default
