@@ -4,7 +4,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.19
+Version: 9.20
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -275,6 +275,11 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Thu Sep  9 2010 Bill Nottingham <notting@redhat.com> - 9.20-1
+- use new pidof -m option to avoid false positives (#632321)
+- systemd/single: set $HOME for single-user mode. (#631590)
+- systemd/killal.service: require shutdown.target (#630935, #632198)
+
 * Tue Sep  7 2010 Bill Nottingham <notting@redhat.com> - 9.19-1
 - fix packaging of prefdm, rc-local systemd units (#630952)
 - systemd/single.service: conflict with shutdown.target (#630935)
