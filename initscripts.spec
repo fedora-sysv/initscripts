@@ -51,6 +51,7 @@ make ROOT=$RPM_BUILD_ROOT SUPERUSER=`id -un` SUPERGROUP=`id -gn` mandir=%{_mandi
 rm -f \
  $RPM_BUILD_ROOT/etc/sysconfig/network-scripts/ifup-ctc \
  $RPM_BUILD_ROOT/etc/sysconfig/network-scripts/ifup-iucv \
+ $RPM_BUILD_ROOT/etc/udev/rules.d/54-cu3088-fix.rules \
  $RPM_BUILD_ROOT/etc/udev/rules.d/55-ccw.rules \
  $RPM_BUILD_ROOT/lib/udev/ccw_init
 %else
@@ -232,6 +233,11 @@ Resolves: rhbz#492994
 - remove deprecation comments (#472891)
 - applied missing ipcalc patch for IPv6 address validation (#464268)
 - Resolves: rhbz#472891 rhbz#464268
+
+* Tue Jul 07 2009 Phil Knirsch <pknirsch@redhat.com> 8.45.29-3
+- Final fixes for IP address validation (#464268)
+- Added required 54-cu3088-fix.rules udev rules file (#475721)
+- Resolves: #464268,#475721
 
 * Tue Jun 16 2009 Harald Hoyer <harald@redhat.com> 8.45.29-1
 - cleanup /var/run/libvirt (#505600)
