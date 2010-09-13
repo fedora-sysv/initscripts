@@ -7,13 +7,11 @@
 #              (such as hard drive partitions). This is for the use \
 #	       of applications such as Oracle. You can set up the \
 #	       raw device to block device mapping by editing \
-#	       the file /etc/sysconfig/rawdevices. Note that the use \
-#              of raw devices is deprecated, and applications should \
-#              open regular block devices with O_DIRECT instead.
+#	       the file /etc/sysconfig/rawdevices. 
 #
 # config: /etc/sysconfig/rawdevices
 
-[ -f /usr/bin/raw ] || exit 0
+[ -f /bin/raw ] || exit 0
 [ -f /etc/sysconfig/rawdevices ] || exit 0
 # Exit if the file just has the default comments.
 LC_ALL=C /bin/egrep -q -v "^ *#" /etc/sysconfig/rawdevices 2>/dev/null || exit 0

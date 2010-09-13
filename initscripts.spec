@@ -227,6 +227,12 @@ Resolves: rhbz#498052
 - remove /var/run/dovecot/* also (not only /var/run/dovecot/*/*)
 Resolves: rhbz#492994
 
+* Sat Jul 04 2009 Harald Hoyer <harald@redhat.com> 8.45.30-1
+- fix raw path in initscript (#472891)
+- remove deprecation comments (#472891)
+- applied missing ipcalc patch for IPv6 address validation (#464268)
+- Resolves: rhbz#472891 rhbz#464268
+
 * Tue Jun 16 2009 Harald Hoyer <harald@redhat.com> 8.45.29-1
 - cleanup /var/run/libvirt (#505600)
 - Resolves: rhbz#505600
