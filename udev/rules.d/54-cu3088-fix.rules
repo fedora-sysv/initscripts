@@ -1,0 +1,10 @@
+# LCS
+ACTION=="add", SUBSYSTEM=="ccw", SYSFS{cutype}=="3088/01", RUN+="/sbin/modprobe --quiet lcs"
+ACTION=="add", SUBSYSTEM=="ccw", SYSFS{cutype}=="3088/60", RUN+="/sbin/modprobe --quiet lcs"
+# could be either CTC or LCS
+ACTION=="add", SUBSYSTEM=="ccw", SYSFS{cutype}=="3088/08", RUN+="/sbin/modprobe --quiet ctc"
+ACTION=="add", SUBSYSTEM=="ccw", SYSFS{cutype}=="3088/08", RUN+="/sbin/modprobe --quiet lcs"
+ACTION=="add", SUBSYSTEM=="ccw", SYSFS{cutype}=="3088/1f", RUN+="/sbin/modprobe --quiet ctc"
+ACTION=="add", SUBSYSTEM=="ccw", SYSFS{cutype}=="3088/1f", RUN+="/sbin/modprobe --quiet lcs"
+# CTC
+ACTION=="add", SUBSYSTEM=="ccw", SYSFS{cutype}=="3088/1e", RUN+="/sbin/modprobe --quiet ctc"
