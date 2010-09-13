@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.45.30
+Version: 8.45.31
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -202,7 +202,7 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
-* Mon Sep 13 2010 Harald Hoyer <harald@redhat.com> 8.45.30-1
+* Mon Sep 13 2010 Harald Hoyer <harald@redhat.com> 8.45.31-1
 - do not killall racoon with the full path
 Resolves: rhbz#567295
 - fixed the interactive startup keys in translation

@@ -1,3 +1,255 @@
+commit 6c1b28fe9754a794ccd406094a6b03744551a9a5
+Author: Harald Hoyer <harald@redhat.com>
+Date:   Mon Sep 13 17:30:23 2010 +0200
+
+    version 8.45.31
+
+ initscripts.spec |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 52a7a1f115bb87323620b73f5dde21e2c5e7d9a7
+Author: Phil Knirsch <pknirsch@redhat.com>
+Date:   Mon Sep 13 16:29:45 2010 +0200
+
+    s390: Added required 54-cu3088-fix.rules udev rules file (#475721)
+
+ initscripts.spec |    6 ++++++
+ 1 files changed, 6 insertions(+), 0 deletions(-)
+
+commit b74c943aa01f6a8facc36246dc20ccebd9eb690c
+Author: David Cantrell <dcantrell@redhat.com>
+Date:   Fri Sep 26 16:41:21 2008 -1000
+
+    Expand get_hostname() function to support IPv4 and IPv6.
+    
+    Make sure that get_hostname() if the user specifies either address
+    family.
+
+ src/ipcalc.c |   36 +++++++++++++++++++++++++++++-------
+ 1 files changed, 29 insertions(+), 7 deletions(-)
+
+commit f085cdfdc0d67fe240c23e75d14dce6534d36c8a
+Author: David Cantrell <dcantrell@redhat.com>
+Date:   Fri Sep 26 16:30:38 2008 -1000
+
+    Remove unnecessary tab.
+
+ src/ipcalc.c |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit e921ac88353159dee451f7c0094fca95a9b2bb56
+Author: David Cantrell <dcantrell@redhat.com>
+Date:   Fri Sep 26 16:29:21 2008 -1000
+
+    Correct address family option handling in ipcalc.
+    
+    Make sure the default is IPv4.  If the check option is specified,
+    make sure we just validate the address and return 1 or 0.
+
+ src/ipcalc.c |   83 ++++++++++++++++++++++++++++-----------------------------
+ 1 files changed, 41 insertions(+), 42 deletions(-)
+
+commit 9253ed4bdddd635706a0a741259cbaa8a21d8b89
+Author: David Cantrell <dcantrell@redhat.com>
+Date:   Fri Sep 26 16:26:27 2008 -1000
+
+    Compile ipcalc with _GNU_SOURCE defined (for asprintf).
+
+ src/Makefile |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 192392a47594d8141aaf14a0a705bc421899adb0
+Author: Harald Hoyer <harald@redhat.com>
+Date:   Mon Sep 13 16:20:36 2010 +0200
+
+    remove deprecation comments for raw devices and fix path
+
+ initscripts.spec       |    6 ++++++
+ rc.d/init.d/rawdevices |    6 ++----
+ sysconfig/rawdevices   |    3 ---
+ 3 files changed, 8 insertions(+), 7 deletions(-)
+
+commit 6c0c324a6c0c031ed4604c6a020829503e8d086f
+Author: Harald Hoyer <harald@redhat.com>
+Date:   Mon Sep 13 15:59:40 2010 +0200
+
+    version 8.45.30
+
+ initscripts.spec |   28 +++++++++++++++++++++++++++-
+ 1 files changed, 27 insertions(+), 1 deletions(-)
+
+commit 8f65b61fc53d245c7865bfa0ab879337d9c6ff31
+Author: Harald Hoyer <harald@redhat.com>
+Date:   Mon Sep 13 15:48:34 2010 +0200
+
+    rc.sysinit: also remove /var/run/dovecot/*
+    
+    https://bugzilla.redhat.com/show_bug.cgi?id=492994
+
+ rc.d/rc.sysinit |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 85f809ad1d6f47d4fe73a07fa358fd917bc94b87
+Author: Bill Nottingham <notting@redhat.com>
+Date:   Wed Sep 2 16:28:02 2009 -0400
+
+    Doucment DHCP_HOSTNAME (#498052)
+
+ sysconfig.txt |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
+
+commit 52dfb70cd860e4d0fd51e37e30a081fd197f1b74
+Author: Bill Nottingham <notting@redhat.com>
+Date:   Fri Jul 20 20:54:47 2007 +0000
+
+    move quotacheck to after filesystem mounting so it actually works (#249003, <tometzky@batory.org.pl>)
+    also, nuke the convertquota stuff that has been obsolete (and not working) for quite some time
+
+ rc.d/rc.sysinit |   25 +++++--------------------
+ 1 files changed, 5 insertions(+), 20 deletions(-)
+
+commit 873660981a5a42a6de411e04958a4f204704efe1
+Author: Bill Nottingham <notting@redhat.com>
+Date:   Tue Dec 15 10:59:44 2009 -0500
+
+    Silence error. (#516569)
+
+ sysconfig/network-scripts/network-functions |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 3ae2380e43092dfdc12b2d242ade6bd1379fe1e7
+Author: Bill Nottingham <notting@redhat.com>
+Date:   Tue Oct 20 16:56:32 2009 -0400
+
+    Load bonding driver if BONDING_OPTS is defined. (#516569)
+
+ sysconfig/network-scripts/network-functions |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
+
+commit f08000519addd0b13fada0eba4afef72871613c1
+Author: Bill Nottingham <notting@redhat.com>
+Date:   Thu Aug 27 13:25:41 2009 -0400
+
+    Restore context of recreated files. (#519748)
+
+ rc.d/rc.sysinit |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+
+commit 209e5e18cbd1cbb76f7e49c83854763c4e9f1d1c
+Author: Bill Nottingham <notting@redhat.com>
+Date:   Fri Oct 9 16:18:04 2009 -0400
+
+    Do not try to activate subsets and layer raid and handle 'no raid disks'.
+    
+    - 'no raid disks' handling: (#527726, <mschmidt@redhat.com>)
+    - no subsets: https://bugzilla.redhat.com/show_bug.cgi?id=524356
+
+ rc.d/rc.sysinit |   15 +++++++--------
+ 1 files changed, 7 insertions(+), 8 deletions(-)
+
+commit 40ddde4c4e6ad1dc855a8a3f4ae594d6c2d16179
+Author: Bill Nottingham <notting@redhat.com>
+Date:   Wed Oct 7 11:10:12 2009 -0400
+
+    Add /var/lib/xend. (#526046)
+
+ rwtab |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+
+commit 643c05c59a581663140e307f08732c6bef3d7622
+Author: Bill Nottingham <notting@redhat.com>
+Date:   Fri Feb 12 17:09:22 2010 -0500
+
+    Fix various device checks to not misidentify devices.
+    
+    Also, don't use ifconfig for checking link state on alias devices;
+    /sbin/ip does fine with that.
+    
+    https://bugzilla.redhat.com/show_bug.cgi?id=538863
+
+ sysconfig/network-scripts/network-functions |   18 ++++--------------
+ 1 files changed, 4 insertions(+), 14 deletions(-)
+
+commit 00ba92b1adbb7d02f86b87a95b797b0332d42aec
+Author: Bill Nottingham <notting@redhat.com>
+Date:   Wed Jan 20 11:19:05 2010 -0500
+
+    Use the proper UNIMAP argument rather than SYSFONTACM when calling /bin/unicode_start. (#557089)
+
+ setsysfont |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 562ef3e446a792ae157ab25a27f3295308e0d76e
+Author: Bill Nottingham <notting@redhat.com>
+Date:   Mon Sep 13 15:30:15 2010 +0200
+
+    functions:daemon(): do not clear environment by the login shell
+    
+    Do not start a login shell, when switching users with runuser, so that
+    existing environment variables are not removed.
+    
+    https://bugzilla.redhat.com/show_bug.cgi?id=564093
+
+ rc.d/init.d/functions |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+commit 9dfc9d4d06a9eb074de60d52dc30443bae3fc9aa
+Author: Bill Nottingham <notting@redhat.com>
+Date:   Mon Sep 13 15:28:10 2010 +0200
+
+    po/*.po: fixed interactive startup keys
+    
+    Fixed the mismatch between accepted key and displayed shortcut keys for
+    the interactive startup.
+    
+    https://bugzilla.redhat.com/show_bug.cgi?id=566579
+
+ po/cy.po |    2 +-
+ po/de.po |    2 +-
+ po/es.po |    2 +-
+ po/gl.po |    2 +-
+ po/hr.po |    4 ++--
+ po/hu.po |    2 +-
+ po/id.po |    4 ++--
+ po/is.po |    4 ++--
+ po/it.po |    2 +-
+ po/ms.po |    4 ++--
+ 10 files changed, 14 insertions(+), 14 deletions(-)
+
+commit c9de9d255a0655112718e8ea33e175fb126705f8
+Author: Tomas Mraz <tmraz@redhat.com>
+Date:   Mon Sep 13 15:23:50 2010 +0200
+
+    ifup/ifdown-ipsec: do not killall racoon with full path
+    
+    killall tries to read /proc/<pid>/exe, if called with the full path,
+    which is not working for selinux in enforcing MLS.
+    
+    https://bugzilla.redhat.com/show_bug.cgi?id=567295
+
+ sysconfig/network-scripts/ifdown-ipsec |    2 +-
+ sysconfig/network-scripts/ifup-ipsec   |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+commit 9d95480566ca271c848fac834197142929496e36
+Author: nagyesta <nagyesta@fedoraproject.org>
+Date:   Wed Sep 9 16:02:49 2009 +0000
+
+    Sending translation for Hungarian
+
+ po/hu.po | 1768 ++++++++++++++++++++++++++++++++++++--------------------------
+ 1 files changed, 1019 insertions(+), 749 deletions(-)
+
+commit d73f150be526ecdbb73ccee9427bff03858191fd
+Author: Harald Hoyer <harald@redhat.com>
+Date:   Tue Jun 16 13:07:51 2009 +0200
+
+    version 8.45.29
+
+ ChangeLog        |   27 +++++++++++++++++++++++++++
+ initscripts.spec |    5 ++++-
+ 2 files changed, 31 insertions(+), 1 deletions(-)
+
 commit e2cd6a6b94e6993f4b5ce982c329fecd41efe0fb
 Author: Harald Hoyer <harald@redhat.com>
 Date:   Tue Jun 16 12:59:27 2009 +0200
@@ -1118,8 +1370,8 @@ Date:   Thu Nov 30 14:02:49 2006 +0000
 
     Routine merge by l10n
 
- po/ml.po | 2633 ++++++++++++++++++++++++++++++++++++--------------------------
- 1 files changed, 1512 insertions(+), 1121 deletions(-)
+ po/ml.po | 2635 ++++++++++++++++++++++++++++++++++++--------------------------
+ 1 files changed, 1513 insertions(+), 1122 deletions(-)
 
 commit ad9e25e10ec18f53bc1a7f566a0df86a7aa608b7
 Author: Sree Thottempudi <sthottem@redhat.com>
@@ -1154,8 +1406,8 @@ Date:   Wed Nov 29 12:51:40 2006 +0000
 
     Updated Malaylam file
 
- po/ml.po | 2839 ++++++++++++++++++++++++++++----------------------------------
- 1 files changed, 1264 insertions(+), 1575 deletions(-)
+ po/ml.po | 2853 ++++++++++++++++++++++++++++----------------------------------
+ 1 files changed, 1271 insertions(+), 1582 deletions(-)
 
 commit 7cc1345c115576113769bd5a3ca96818f72ca6b1
 Author: Rajesh Ranjan <rranjan@redhat.com>
@@ -1390,74 +1642,74 @@ Date:   Wed Nov 22 16:34:35 2006 +0000
 
     update-po and refresh-po
 
- po/ar.po           | 2711 +++++++++++--------
- po/as.po           | 2358 +++++++++-------
- po/bg.po           | 2721 +++++++++++--------
- po/bn.po           | 2644 ++++++++++--------
- po/bn_IN.po        | 2648 +++++++++++--------
- po/ca.po           | 2631 ++++++++++--------
- po/cs.po           | 2606 ++++++++++--------
- po/cy.po           | 2555 ++++++++++--------
- po/da.po           | 2597 ++++++++++--------
- po/de.po           | 2661 +++++++++++--------
- po/el.po           | 2544 ++++++++++--------
- po/en_GB.po        | 2738 +++++++++++--------
- po/es.po           | 7686 +++++++++++++++++++++++++++-------------------------
- po/et.po           | 2738 +++++++++++--------
- po/eu_ES.po        | 2346 +++++++++-------
- po/fi.po           | 2674 +++++++++++--------
- po/fr.po           | 4406 ++++++++++++++++--------------
- po/gl.po           | 2709 +++++++++++--------
- po/gu.po           | 2594 ++++++++++--------
- po/he.po           | 2346 +++++++++-------
- po/hi.po           | 2590 ++++++++++--------
- po/hr.po           | 3208 ++++++++++++----------
- po/hu.po           | 2668 +++++++++++--------
- po/hy.po           | 2346 +++++++++-------
- po/id.po           | 2725 +++++++++++--------
- po/initscripts.pot | 2346 +++++++++-------
- po/is.po           | 2575 ++++++++++--------
- po/it.po           | 2645 +++++++++++--------
- po/ja.po           | 3158 ++++++++++++----------
- po/ka.po           | 2346 +++++++++-------
- po/kn.po           | 2346 +++++++++-------
- po/ko.po           | 2617 ++++++++++--------
- po/ku.po           | 2346 +++++++++-------
- po/lo.po           | 2346 +++++++++-------
- po/lt.po           | 2718 +++++++++++--------
- po/mk.po           | 2739 +++++++++++--------
- po/ml.po           | 2565 ++++++++++--------
- po/mr.po           | 2481 ++++++++++--------
- po/ms.po           | 3288 ++++++++++++-----------
- po/my.po           | 2346 +++++++++-------
- po/nb.po           | 2596 ++++++++++--------
- po/nl.po           | 2599 ++++++++++--------
- po/nn.po           | 2647 ++++++++++--------
- po/no.po           | 2737 +++++++++++--------
- po/or.po           | 2621 ++++++++++--------
- po/pa.po           | 2581 ++++++++++--------
- po/pl.po           | 2569 ++++++++++--------
- po/pt.po           | 2674 +++++++++++--------
- po/pt_BR.po        | 2579 ++++++++++--------
- po/ro.po           | 2643 ++++++++++--------
- po/ru.po           | 2606 ++++++++++--------
- po/si.po           | 2346 +++++++++-------
- po/sk.po           | 2672 ++++++++++--------
- po/sl.po           | 2616 ++++++++++--------
- po/sq.po           | 2346 +++++++++-------
- po/sr.po           | 3141 +++++++++++----------
- po/sr@Latn.po      | 3143 +++++++++++----------
- po/sv.po           | 2583 ++++++++++--------
- po/ta.po           | 2625 +++++++++++--------
- po/te.po           | 2346 +++++++++-------
- po/tr.po           | 2693 +++++++++++--------
- po/uk.po           | 2603 ++++++++++--------
- po/ur.po           | 2346 +++++++++-------
- po/vi.po           | 2783 +++++++++++---------
- po/wa.po           | 2346 +++++++++-------
- po/zh_CN.po        | 2551 ++++++++++--------
- po/zh_TW.po        | 2545 ++++++++++--------
- 67 files changed, 102397 insertions(+), 79452 deletions(-)
+ po/ar.po           | 2757 ++++++++++--------
+ po/as.po           | 2360 +++++++++-------
+ po/bg.po           | 2757 ++++++++++--------
+ po/bn.po           | 2708 ++++++++++--------
+ po/bn_IN.po        | 2650 ++++++++++--------
+ po/ca.po           | 2925 +++++++++++---------
+ po/cs.po           | 2606 ++++++++++-------
+ po/cy.po           | 2555 ++++++++++-------
+ po/da.po           | 2605 ++++++++++--------
+ po/de.po           | 2663 ++++++++++--------
+ po/el.po           | 2544 ++++++++++-------
+ po/en_GB.po        | 3028 +++++++++++---------
+ po/es.po           | 8082 +++++++++++++++++++++++++++-------------------------
+ po/et.po           | 3028 +++++++++++---------
+ po/eu_ES.po        | 2350 +++++++++-------
+ po/fi.po           | 2676 ++++++++++--------
+ po/fr.po           | 4416 +++++++++++++++--------------
+ po/gl.po           | 2773 ++++++++++--------
+ po/gu.po           | 2594 ++++++++++-------
+ po/he.po           | 2350 +++++++++-------
+ po/hi.po           | 2590 ++++++++++-------
+ po/hr.po           | 3212 +++++++++++----------
+ po/hu.po           | 2682 ++++++++++--------
+ po/hy.po           | 2350 +++++++++-------
+ po/id.po           | 2763 ++++++++++--------
+ po/initscripts.pot | 2350 +++++++++-------
+ po/is.po           | 2583 ++++++++++-------
+ po/it.po           | 2649 ++++++++++--------
+ po/ja.po           | 3170 +++++++++++----------
+ po/ka.po           | 2350 +++++++++-------
+ po/kn.po           | 2350 +++++++++-------
+ po/ko.po           | 2621 ++++++++++--------
+ po/ku.po           | 2350 +++++++++-------
+ po/lo.po           | 2350 +++++++++-------
+ po/lt.po           | 2776 ++++++++++--------
+ po/mk.po           | 3031 +++++++++++---------
+ po/ml.po           | 2565 ++++++++++-------
+ po/mr.po           | 2495 +++++++++-------
+ po/ms.po           | 3294 +++++++++++----------
+ po/my.po           | 2350 +++++++++-------
+ po/nb.po           | 2892 +++++++++++---------
+ po/nl.po           | 2901 +++++++++++---------
+ po/nn.po           | 2731 ++++++++++--------
+ po/no.po           | 3033 +++++++++++---------
+ po/or.po           | 2627 ++++++++++--------
+ po/pa.po           | 2581 ++++++++++-------
+ po/pl.po           | 2573 ++++++++++-------
+ po/pt.po           | 2974 +++++++++++---------
+ po/pt_BR.po        | 2579 ++++++++++-------
+ po/ro.po           | 2737 ++++++++++--------
+ po/ru.po           | 2904 +++++++++++---------
+ po/si.po           | 2350 +++++++++-------
+ po/sk.po           | 2740 ++++++++++--------
+ po/sl.po           | 2616 ++++++++++-------
+ po/sq.po           | 2350 +++++++++-------
+ po/sr.po           | 3143 +++++++++++----------
+ po/sr@Latn.po      | 3147 +++++++++++----------
+ po/sv.po           | 2583 ++++++++++-------
+ po/ta.po           | 2635 ++++++++++--------
+ po/te.po           | 2350 +++++++++-------
+ po/tr.po           | 2739 ++++++++++--------
+ po/uk.po           | 2607 ++++++++++--------
+ po/ur.po           | 2350 +++++++++-------
+ po/vi.po           | 3075 +++++++++++---------
+ po/wa.po           | 2350 +++++++++-------
+ po/zh_CN.po        | 2551 ++++++++++-------
+ po/zh_TW.po        | 2545 ++++++++++-------
+ 67 files changed, 104458 insertions(+), 81513 deletions(-)
 
 commit ae68ffa5bef444b181c95174f8989aa2790e6e18
 Author: Bill Nottingham <notting@redhat.com>
@@ -3487,73 +3739,73 @@ Date:   Fri Jul 21 20:16:07 2006 +0000
 
     refresh-po and update-po
 
- po/ar.po           | 1951 +++++++++++++++----------
- po/bg.po           | 1958 +++++++++++++++----------
- po/bn.po           | 1979 +++++++++++++++----------
- po/bn_IN.po        | 1961 +++++++++++++++---------
- po/ca.po           | 1995 +++++++++++++++----------
- po/cs.po           | 2017 ++++++++++++++++----------
- po/cy.po           | 1969 +++++++++++++++----------
- po/da.po           | 1984 +++++++++++++++----------
- po/de.po           | 1991 +++++++++++++++----------
- po/el.po           | 1836 ++++++++++++++---------
- po/en_GB.po        | 1962 +++++++++++++++----------
- po/es.po           | 4242 +++++++++++++++++++++++++++++++++++++---------------
- po/et.po           | 1963 +++++++++++++++----------
- po/eu_ES.po        | 1590 ++++++++++++--------
- po/fi.po           | 2013 ++++++++++++++++----------
- po/fr.po           | 2688 ++++++++++++++++++++++-----------
- po/gl.po           | 1970 +++++++++++++++----------
- po/gu.po           | 1952 +++++++++++++++---------
- po/he.po           | 1590 ++++++++++++--------
- po/hi.po           | 1984 +++++++++++++++---------
- po/hr.po           | 2525 ++++++++++++++++++--------------
- po/hu.po           | 1997 ++++++++++++++++---------
- po/hy.po           | 1590 ++++++++++++--------
- po/id.po           | 1971 +++++++++++++++----------
- po/initscripts.pot | 1250 +++++++++-------
- po/is.po           | 1956 +++++++++++++++---------
- po/it.po           | 2036 ++++++++++++++++----------
- po/ja.po           | 1986 +++++++++++++++----------
- po/ka.po           | 1590 ++++++++++++--------
- po/kn.po           | 2209 +++++++++++++++++-----------
- po/ko.po           | 1999 ++++++++++++++++---------
- po/ku.po           | 1590 ++++++++++++--------
- po/lo.po           | 1590 ++++++++++++--------
- po/lt.po           | 1957 +++++++++++++++----------
- po/mk.po           | 1967 +++++++++++++++----------
- po/ml.po           | 1857 ++++++++++++++++--------
- po/mr.po           | 1746 +++++++++++++---------
- po/ms.po           | 2552 ++++++++++++++++++--------------
- po/my.po           | 1590 ++++++++++++--------
- po/nb.po           | 1967 +++++++++++++++----------
- po/nl.po           | 1991 +++++++++++++++----------
- po/nn.po           | 1900 ++++++++++++++----------
- po/no.po           | 1968 +++++++++++++++----------
- po/or.po           | 2037 ++++++++++++++++----------
- po/pa.po           | 1952 +++++++++++++++---------
- po/pl.po           | 1958 +++++++++++++++---------
- po/pt.po           | 2043 ++++++++++++++++----------
- po/pt_BR.po        | 2019 ++++++++++++++++----------
- po/ro.po           | 1844 ++++++++++++++---------
- po/ru.po           | 1994 +++++++++++++++----------
- po/si.po           | 1590 ++++++++++++--------
- po/sk.po           | 1896 ++++++++++++++----------
- po/sl.po           | 1975 +++++++++++++++----------
- po/sq.po           | 1590 ++++++++++++--------
- po/sr.po           | 2500 ++++++++++++++++++-------------
- po/sr@Latn.po      | 2502 ++++++++++++++++++-------------
- po/sv.po           | 2054 ++++++++++++++++----------
- po/ta.po           | 2019 ++++++++++++++++----------
- po/te.po           | 2209 +++++++++++++++++-----------
- po/tr.po           | 1970 +++++++++++++++----------
- po/uk.po           | 1962 +++++++++++++++---------
- po/ur.po           | 1590 ++++++++++++--------
- po/vi.po           | 2027 +++++++++++++++----------
- po/wa.po           | 1590 ++++++++++++--------
- po/zh_CN.po        | 2492 +++++++++++++++++--------------
- po/zh_TW.po        | 1946 +++++++++++++++---------
- 66 files changed, 80367 insertions(+), 50771 deletions(-)
+ po/ar.po           | 1951 +++++++++++++--------
+ po/bg.po           | 1958 +++++++++++++--------
+ po/bn.po           | 1981 +++++++++++++--------
+ po/bn_IN.po        | 1961 +++++++++++++--------
+ po/ca.po           | 1995 +++++++++++++--------
+ po/cs.po           | 2017 +++++++++++++--------
+ po/cy.po           | 1969 +++++++++++++--------
+ po/da.po           | 1984 +++++++++++++--------
+ po/de.po           | 1991 +++++++++++++--------
+ po/el.po           | 1838 ++++++++++++--------
+ po/en_GB.po        | 1964 +++++++++++++--------
+ po/es.po           | 4992 ++++++++++++++++++++++++++++++++++++----------------
+ po/et.po           | 1965 +++++++++++++--------
+ po/eu_ES.po        | 1590 ++++++++++-------
+ po/fi.po           | 2013 +++++++++++++--------
+ po/fr.po           | 2754 +++++++++++++++++++----------
+ po/gl.po           | 1970 +++++++++++++--------
+ po/gu.po           | 1952 +++++++++++++--------
+ po/he.po           | 1590 ++++++++++-------
+ po/hi.po           | 1984 +++++++++++++--------
+ po/hr.po           | 2527 +++++++++++++++------------
+ po/hu.po           | 1997 +++++++++++++--------
+ po/hy.po           | 1590 ++++++++++-------
+ po/id.po           | 1971 +++++++++++++--------
+ po/initscripts.pot | 1250 ++++++++------
+ po/is.po           | 1956 +++++++++++++--------
+ po/it.po           | 2036 ++++++++++++++--------
+ po/ja.po           | 1986 +++++++++++++--------
+ po/ka.po           | 1590 ++++++++++-------
+ po/kn.po           | 2209 ++++++++++++++---------
+ po/ko.po           | 1999 +++++++++++++--------
+ po/ku.po           | 1590 ++++++++++-------
+ po/lo.po           | 1590 ++++++++++-------
+ po/lt.po           | 1957 +++++++++++++--------
+ po/mk.po           | 1967 +++++++++++++--------
+ po/ml.po           | 1857 +++++++++++++-------
+ po/mr.po           | 1748 +++++++++++--------
+ po/ms.po           | 2552 +++++++++++++++------------
+ po/my.po           | 1590 ++++++++++-------
+ po/nb.po           | 1967 +++++++++++++--------
+ po/nl.po           | 1991 +++++++++++++--------
+ po/nn.po           | 1904 ++++++++++++--------
+ po/no.po           | 1968 +++++++++++++--------
+ po/or.po           | 2041 ++++++++++++++--------
+ po/pa.po           | 1952 +++++++++++++--------
+ po/pl.po           | 1958 +++++++++++++--------
+ po/pt.po           | 2043 +++++++++++++--------
+ po/pt_BR.po        | 2019 +++++++++++++--------
+ po/ro.po           | 1844 ++++++++++++--------
+ po/ru.po           | 1994 +++++++++++++--------
+ po/si.po           | 1590 ++++++++++-------
+ po/sk.po           | 1896 ++++++++++++--------
+ po/sl.po           | 1975 +++++++++++++--------
+ po/sq.po           | 1590 ++++++++++-------
+ po/sr.po           | 2500 +++++++++++++++------------
+ po/sr@Latn.po      | 2502 +++++++++++++++------------
+ po/sv.po           | 2054 +++++++++++++---------
+ po/ta.po           | 2019 +++++++++++++--------
+ po/te.po           | 2209 ++++++++++++++---------
+ po/tr.po           | 1970 +++++++++++++--------
+ po/uk.po           | 1962 +++++++++++++--------
+ po/ur.po           | 1590 ++++++++++-------
+ po/vi.po           | 2041 +++++++++++++---------
+ po/wa.po           | 1590 ++++++++++-------
+ po/zh_CN.po        | 2494 +++++++++++++++------------
+ po/zh_TW.po        | 1946 +++++++++++++--------
+ 66 files changed, 80793 insertions(+), 51197 deletions(-)
 
 commit 98e00c62f5459dacada641e85c69714fa9704194
 Author: Bill Nottingham <notting@redhat.com>
@@ -6743,67 +6995,67 @@ Date:   Wed Jan 11 22:17:56 2006 +0000
     Now includes translations for Fedora Extras packages.
 
  po/ar.po           | 5386 ++++++++++++++++++++++++++++++----------------------
- po/bg.po           | 1902 +++++++++++++------
- po/bn.po           | 1894 +++++++++++++------
- po/bn_IN.po        | 1904 +++++++++++++------
- po/ca.po           | 1914 +++++++++++++------
+ po/bg.po           | 1904 +++++++++++++------
+ po/bn.po           | 1902 +++++++++++++------
+ po/bn_IN.po        | 1906 +++++++++++++------
+ po/ca.po           | 1916 +++++++++++++------
  po/cs.po           | 1857 +++++++++++++------
- po/cy.po           | 1897 +++++++++++++------
+ po/cy.po           | 1901 +++++++++++++------
  po/da.po           | 1940 +++++++++++++------
- po/de.po           | 1907 +++++++++++++------
- po/en_GB.po        | 1897 +++++++++++++------
- po/es.po           | 4505 ++++++++++++++++++++++++++++++++------------
+ po/de.po           | 1917 +++++++++++++------
+ po/en_GB.po        | 1903 +++++++++++++------
+ po/es.po           | 5081 +++++++++++++++++++++++++++++++++++--------------
  po/et.po           | 2298 +++++++++++++++--------
- po/eu_ES.po        | 1454 ++++++++++-----
- po/fi.po           | 1891 +++++++++++++------
- po/fr.po           | 3052 ++++++++++++++++++++---------
- po/gl.po           | 1900 +++++++++++++------
- po/gu.po           | 1888 +++++++++++++------
- po/he.po           | 1454 ++++++++++-----
+ po/eu_ES.po        | 1456 ++++++++++-----
+ po/fi.po           | 1895 +++++++++++++------
+ po/fr.po           | 3062 ++++++++++++++++++++---------
+ po/gl.po           | 1902 +++++++++++++------
+ po/gu.po           | 1890 +++++++++++++------
+ po/he.po           | 1456 ++++++++++-----
  po/hi.po           | 1879 +++++++++++++------
- po/hr.po           | 1909 +++++++++++++------
+ po/hr.po           | 1911 +++++++++++++------
  po/hu.po           | 1938 +++++++++++++------
- po/hy.po           | 1454 ++++++++++-----
+ po/hy.po           | 1456 ++++++++++-----
  po/id.po           | 1996 ++++++++++++++------
- po/initscripts.pot | 1250 +++++++++----
+ po/initscripts.pot | 1256 +++++++++----
  po/is.po           | 1861 +++++++++++++------
  po/it.po           | 1943 +++++++++++++------
  po/ja.po           | 1934 +++++++++++++------
- po/ka.po           | 1454 ++++++++++-----
- po/ko.po           | 2407 +++++++++++++++--------
- po/ku.po           | 1454 ++++++++++-----
- po/lo.po           | 1454 ++++++++++-----
+ po/ka.po           | 1456 ++++++++++-----
+ po/ko.po           | 2411 ++++++++++++++++--------
+ po/ku.po           | 1456 ++++++++++-----
+ po/lo.po           | 1456 ++++++++++-----
  po/lt.po           | 1875 +++++++++++++------
- po/mk.po           | 1911 +++++++++++++------
- po/mr.po           | 1454 ++++++++++-----
- po/ms.po           | 2285 +++++++++++++++--------
- po/my.po           | 1454 ++++++++++-----
- po/nb.po           | 1903 +++++++++++++------
+ po/mk.po           | 1919 +++++++++++++------
+ po/mr.po           | 1456 ++++++++++-----
+ po/ms.po           | 2287 +++++++++++++++--------
+ po/my.po           | 1456 ++++++++++-----
+ po/nb.po           | 1913 +++++++++++++------
  po/nl.po           | 1918 +++++++++++++------
- po/nn.po           | 1799 ++++++++++++------
+ po/nn.po           | 1807 ++++++++++++------
  po/no.po           | 1899 +++++++++++++------
- po/pa.po           | 1853 +++++++++++++------
+ po/pa.po           | 1855 +++++++++++++------
  po/pl.po           | 1871 +++++++++++++------
- po/pt.po           | 1969 +++++++++++++------
+ po/pt.po           | 1975 +++++++++++++------
  po/pt_BR.po        | 1900 +++++++++++++------
  po/ro.po           | 1751 ++++++++++++------
- po/ru.po           | 1909 +++++++++++++------
- po/si.po           | 1454 ++++++++++-----
- po/sk.po           | 1775 ++++++++++++------
+ po/ru.po           | 1911 +++++++++++++------
+ po/si.po           | 1456 ++++++++++-----
+ po/sk.po           | 1779 ++++++++++++------
  po/sl.po           | 1901 +++++++++++++------
- po/sq.po           | 1454 ++++++++++-----
+ po/sq.po           | 1456 ++++++++++-----
  po/sr.po           | 2249 ++++++++++++++--------
  po/sr@Latn.po      | 2250 ++++++++++++++--------
- po/sv.po           | 2009 +++++++++++++-------
- po/ta.po           | 1891 +++++++++++++------
+ po/sv.po           | 2027 +++++++++++++-------
+ po/ta.po           | 1893 +++++++++++++------
  po/tr.po           | 1926 +++++++++++++------
- po/uk.po           | 1901 +++++++++++++------
- po/ur.po           | 1454 ++++++++++-----
+ po/uk.po           | 1903 +++++++++++++------
+ po/ur.po           | 1456 ++++++++++-----
  po/vi.po           | 2008 +++++++++++++-------
- po/wa.po           | 1454 ++++++++++-----
+ po/wa.po           | 1456 ++++++++++-----
  po/zh_CN.po        | 2188 ++++++++++++++--------
  po/zh_TW.po        | 1855 +++++++++++++------
- 61 files changed, 81158 insertions(+), 38235 deletions(-)
+ 61 files changed, 81522 insertions(+), 38599 deletions(-)
 
 commit d7f04a0acd74c4e49463666b34c56becde12defb
 Author: Miloš Komarčević <kmilos@gmail.com>
@@ -8410,7 +8662,7 @@ Date:   Fri Apr 15 21:48:32 2005 +0000
  po/da.po           | 1346 ++++++++++++++++-------------
  po/de.po           | 1361 ++++++++++++++++-------------
  po/en_GB.po        | 1326 ++++++++++++++++-------------
- po/es.po           | 2453 +++++++++++++++++++++++++++++++---------------------
+ po/es.po           | 2457 +++++++++++++++++++++++++++++++---------------------
  po/et.po           | 1715 +++++++++++++++++++------------------
  po/eu_ES.po        | 1042 +++++++++++------------
  po/fi.po           | 1402 +++++++++++++++++-------------
@@ -8458,7 +8710,7 @@ Date:   Fri Apr 15 21:48:32 2005 +0000
  po/wa.po           | 1042 +++++++++++------------
  po/zh_CN.po        | 1315 ++++++++++++++++-------------
  po/zh_TW.po        | 1315 ++++++++++++++++-------------
- 58 files changed, 41359 insertions(+), 35423 deletions(-)
+ 58 files changed, 41361 insertions(+), 35425 deletions(-)
 
 commit 94f069227c13ac476ae53e875fedbec35abfd549
 Author: Bill Nottingham <notting@redhat.com>
@@ -11598,63 +11850,63 @@ Date:   Thu Sep 16 01:46:54 2004 +0000
 
     update-po/refresh-po
 
- po/ar.po           | 1468 ++++++++++++++++------------
- po/bg.po           | 1479 +++++++++++++++++------------
- po/bn.po           | 1557 +++++++++++++++++++-----------
- po/ca.po           | 1423 ++++++++++++++++-----------
- po/cs.po           | 1444 ++++++++++++++++-----------
- po/cy.po           | 1508 +++++++++++++++++------------
- po/da.po           | 1448 ++++++++++++++++------------
- po/de.po           | 1507 +++++++++++++++++------------
- po/es.po           | 2743 ++++++++++++++++++++++++++++++++++++----------------
- po/et.po           | 1445 ++++++++++++++++------------
- po/eu_ES.po        | 1159 ++++++++++++-----------
- po/fi.po           | 1460 ++++++++++++++++------------
- po/fr.po           | 1796 ++++++++++++++++++++++-------------
- po/gl.po           | 1446 ++++++++++++++++------------
- po/gu.po           | 1523 +++++++++++++++++++-----------
- po/he.po           | 1159 ++++++++++++-----------
- po/hi.po           | 1439 ++++++++++++++++-----------
- po/hr.po           | 1443 ++++++++++++++++------------
- po/hu.po           | 1495 +++++++++++++++++------------
- po/id.po           | 1159 ++++++++++++-----------
- po/initscripts.pot |  978 ++++++++++---------
- po/is.po           | 1424 ++++++++++++++++-----------
- po/it.po           | 1511 +++++++++++++++++------------
- po/ja.po           | 1512 +++++++++++++++++------------
- po/ka.po           | 1159 ++++++++++++-----------
- po/ko.po           | 1503 +++++++++++++++++------------
- po/ku.po           | 1159 ++++++++++++-----------
- po/lo.po           | 1159 ++++++++++++-----------
- po/lt.po           | 1431 +++++++++++++++++----------
- po/mk.po           | 1495 +++++++++++++++++------------
- po/mr.po           | 1159 ++++++++++++-----------
- po/ms.po           | 1494 +++++++++++++++++------------
- po/nb.po           | 1422 ++++++++++++++++-----------
- po/nl.po           | 1484 +++++++++++++++++------------
- po/nn.po           | 1358 +++++++++++++++------------
- po/no.po           | 1422 ++++++++++++++++-----------
- po/pa.po           | 1485 +++++++++++++++++------------
- po/pl.po           | 1825 +++++++++++++++++++----------------
- po/pt.po           | 1477 +++++++++++++++++------------
- po/pt_BR.po        | 1500 +++++++++++++++++------------
- po/ro.po           | 1177 ++++++++++++-----------
- po/ru.po           | 1550 ++++++++++++++++++------------
- po/si.po           | 1159 ++++++++++++-----------
- po/sk.po           | 1307 ++++++++++++++-----------
- po/sl.po           | 1459 ++++++++++++++++------------
- po/sq.po           | 1159 ++++++++++++-----------
- po/sr.po           | 1159 ++++++++++++-----------
- po/sv.po           | 1447 ++++++++++++++++------------
- po/ta.po           | 1483 +++++++++++++++++------------
- po/tr.po           | 1477 +++++++++++++++++------------
- po/uk.po           | 1458 +++++++++++++++++------------
- po/ur.po           | 1159 ++++++++++++-----------
- po/vi.po           | 1500 ++++++++++++++++-------------
- po/wa.po           | 1159 ++++++++++++-----------
- po/zh_CN.po        | 1727 ++++++++++++++++++---------------
- po/zh_TW.po        | 1432 ++++++++++++++++-----------
- 56 files changed, 46380 insertions(+), 33490 deletions(-)
+ po/ar.po           | 1468 +++++++++++++++-----------
+ po/bg.po           | 1479 ++++++++++++++++-----------
+ po/bn.po           | 1557 ++++++++++++++++++----------
+ po/ca.po           | 1423 +++++++++++++++-----------
+ po/cs.po           | 1444 +++++++++++++++-----------
+ po/cy.po           | 1508 ++++++++++++++++-----------
+ po/da.po           | 1448 +++++++++++++++-----------
+ po/de.po           | 1507 ++++++++++++++++-----------
+ po/es.po           | 2961 +++++++++++++++++++++++++++++++++++-----------------
+ po/et.po           | 1445 +++++++++++++++-----------
+ po/eu_ES.po        | 1159 +++++++++++----------
+ po/fi.po           | 1460 +++++++++++++++-----------
+ po/fr.po           | 1796 ++++++++++++++++++++------------
+ po/gl.po           | 1446 +++++++++++++++-----------
+ po/gu.po           | 1523 +++++++++++++++++----------
+ po/he.po           | 1159 +++++++++++----------
+ po/hi.po           | 1439 +++++++++++++++-----------
+ po/hr.po           | 1443 +++++++++++++++-----------
+ po/hu.po           | 1495 ++++++++++++++++-----------
+ po/id.po           | 1159 +++++++++++----------
+ po/initscripts.pot |  978 +++++++++--------
+ po/is.po           | 1424 +++++++++++++++-----------
+ po/it.po           | 1511 ++++++++++++++++-----------
+ po/ja.po           | 1512 ++++++++++++++++-----------
+ po/ka.po           | 1159 +++++++++++----------
+ po/ko.po           | 1503 +++++++++++++++-----------
+ po/ku.po           | 1159 +++++++++++----------
+ po/lo.po           | 1159 +++++++++++----------
+ po/lt.po           | 1431 ++++++++++++++++---------
+ po/mk.po           | 1495 ++++++++++++++++-----------
+ po/mr.po           | 1159 +++++++++++----------
+ po/ms.po           | 1494 ++++++++++++++++-----------
+ po/nb.po           | 1422 +++++++++++++++----------
+ po/nl.po           | 1484 +++++++++++++++-----------
+ po/nn.po           | 1358 ++++++++++++++-----------
+ po/no.po           | 1422 +++++++++++++++----------
+ po/pa.po           | 1485 +++++++++++++++-----------
+ po/pl.po           | 1825 ++++++++++++++++++---------------
+ po/pt.po           | 1477 +++++++++++++++-----------
+ po/pt_BR.po        | 1500 ++++++++++++++++-----------
+ po/ro.po           | 1177 +++++++++++----------
+ po/ru.po           | 1550 ++++++++++++++++-----------
+ po/si.po           | 1159 +++++++++++----------
+ po/sk.po           | 1307 +++++++++++++----------
+ po/sl.po           | 1459 +++++++++++++++-----------
+ po/sq.po           | 1159 +++++++++++----------
+ po/sr.po           | 1159 +++++++++++----------
+ po/sv.po           | 1447 +++++++++++++++-----------
+ po/ta.po           | 1483 ++++++++++++++++-----------
+ po/tr.po           | 1477 ++++++++++++++++-----------
+ po/uk.po           | 1458 +++++++++++++++-----------
+ po/ur.po           | 1159 +++++++++++----------
+ po/vi.po           | 1500 +++++++++++++++------------
+ po/wa.po           | 1159 +++++++++++----------
+ po/zh_CN.po        | 1727 ++++++++++++++++--------------
+ po/zh_TW.po        | 1432 +++++++++++++++-----------
+ 56 files changed, 46489 insertions(+), 33599 deletions(-)
 
 commit 641f4123b47d25fe5bccd00a96534bacdacfed3e
 Author: Sarah Wang <sarahs@redhat.com>
@@ -14195,51 +14447,51 @@ Date:   Wed Mar 17 07:11:49 2004 +0000
 
     update-po and refresh-po
 
- po/ar.po           | 2309 +++++++++++++---------
- po/bg.po           | 2852 +++++++++++++++++-----------
- po/ca.po           | 2613 +++++++++++++++----------
- po/cs.po           | 2743 ++++++++++++++++-----------
- po/cy.po           | 2709 ++++++++++++++++----------
- po/da.po           | 2892 ++++++++++++++++------------
- po/de.po           | 2777 ++++++++++++++++-----------
- po/es.po           | 5514 ++++++++++++++++++++++++++++++----------------------
- po/et.po           | 2690 ++++++++++++++++----------
- po/eu_ES.po        | 2272 +++++++++++++---------
- po/fi.po           | 2745 ++++++++++++++++-----------
- po/fr.po           | 3528 ++++++++++++++++++++--------------
- po/gl.po           | 2932 ++++++++++++++++------------
- po/hi.po           | 2727 ++++++++++++++++-----------
- po/hr.po           | 2854 +++++++++++++++++----------
- po/hu.po           | 2784 ++++++++++++++++-----------
- po/id.po           | 2272 +++++++++++++---------
- po/initscripts.pot | 2010 ++++++++++++--------
- po/is.po           | 2734 ++++++++++++++++-----------
- po/it.po           | 2773 ++++++++++++++++-----------
- po/ja.po           | 2765 ++++++++++++++++-----------
- po/ko.po           | 2757 ++++++++++++++++-----------
- po/ms.po           | 2918 ++++++++++++++++------------
- po/nb.po           | 2746 ++++++++++++++++-----------
- po/nl.po           | 2780 ++++++++++++++++-----------
- po/nn.po           | 2662 +++++++++++++++-----------
- po/no.po           | 2746 ++++++++++++++++-----------
- po/pa.po           | 2186 +++++++++++++--------
- po/pl.po           | 2728 ++++++++++++++++-----------
- po/pt.po           | 2743 ++++++++++++++++-----------
- po/pt_BR.po        | 2764 ++++++++++++++++-----------
- po/ro.po           | 2272 +++++++++++++---------
- po/ru.po           | 2775 ++++++++++++++++-----------
- po/sk.po           | 2519 ++++++++++++++----------
- po/sl.po           | 2774 ++++++++++++++++-----------
- po/sr.po           | 2272 +++++++++++++---------
- po/sv.po           | 2900 ++++++++++++++++------------
- po/ta.po           | 3046 +++++++++++++++++------------
- po/tr.po           | 2779 ++++++++++++++++-----------
- po/uk.po           | 2739 ++++++++++++++++-----------
- po/vi.po           | 2908 ++++++++++++++++------------
- po/wa.po           | 2272 +++++++++++++---------
- po/zh_CN.po        | 2723 ++++++++++++++++-----------
- po/zh_TW.po        | 2738 ++++++++++++++++-----------
- 44 files changed, 72418 insertions(+), 48824 deletions(-)
+ po/ar.po           | 2451 +++++++++++++---------
+ po/bg.po           | 2900 ++++++++++++++++----------
+ po/ca.po           | 2655 +++++++++++++++----------
+ po/cs.po           | 2801 +++++++++++++++-----------
+ po/cy.po           | 2743 ++++++++++++++++----------
+ po/da.po           | 2934 ++++++++++++++++-----------
+ po/de.po           | 2825 +++++++++++++++-----------
+ po/es.po           | 5744 ++++++++++++++++++++++++++++++----------------------
+ po/et.po           | 2726 ++++++++++++++++----------
+ po/eu_ES.po        | 2416 +++++++++++++---------
+ po/fi.po           | 2789 +++++++++++++++----------
+ po/fr.po           | 3610 +++++++++++++++++++--------------
+ po/gl.po           | 2958 ++++++++++++++++-----------
+ po/hi.po           | 2777 +++++++++++++++----------
+ po/hr.po           | 2902 ++++++++++++++++----------
+ po/hu.po           | 2832 ++++++++++++++++-----------
+ po/id.po           | 2416 +++++++++++++---------
+ po/initscripts.pot | 2178 ++++++++++++--------
+ po/is.po           | 2776 +++++++++++++++----------
+ po/it.po           | 2835 +++++++++++++++-----------
+ po/ja.po           | 2819 +++++++++++++++-----------
+ po/ko.po           | 2799 +++++++++++++++-----------
+ po/ms.po           | 2970 ++++++++++++++++------------
+ po/nb.po           | 2808 +++++++++++++++-----------
+ po/nl.po           | 2830 ++++++++++++++++-----------
+ po/nn.po           | 2726 +++++++++++++++----------
+ po/no.po           | 2808 +++++++++++++++-----------
+ po/pa.po           | 2230 +++++++++++++--------
+ po/pl.po           | 2748 +++++++++++++++----------
+ po/pt.po           | 2805 +++++++++++++++-----------
+ po/pt_BR.po        | 2826 +++++++++++++++-----------
+ po/ro.po           | 2416 +++++++++++++---------
+ po/ru.po           | 2815 +++++++++++++++-----------
+ po/sk.po           | 2543 ++++++++++++++----------
+ po/sl.po           | 2804 +++++++++++++++-----------
+ po/sr.po           | 2416 +++++++++++++---------
+ po/sv.po           | 2942 ++++++++++++++++------------
+ po/ta.po           | 3096 ++++++++++++++++------------
+ po/tr.po           | 2811 +++++++++++++++-----------
+ po/uk.po           | 2781 +++++++++++++++----------
+ po/vi.po           | 2944 ++++++++++++++++-----------
+ po/wa.po           | 2416 +++++++++++++---------
+ po/zh_CN.po        | 2769 +++++++++++++++----------
+ po/zh_TW.po        | 2778 +++++++++++++++----------
+ 44 files changed, 73881 insertions(+), 50287 deletions(-)
 
 commit d71c583bdc51617ac431fe7afa8f1b90dfc2ed9b
 Author: Bill Nottingham <notting@redhat.com>
@@ -18149,20 +18401,20 @@ Date:   Tue Jan 14 17:06:38 2003 +0000
 
  po/cs.po           |  835 ++++++++++++++++++-------------
  po/da.po           |  830 ++++++++++++++++++-------------
- po/de.po           |  879 +++++++++++++++++++--------------
- po/es.po           | 1407 +++++++++++++++++++++++++++++++---------------------
+ po/de.po           |  879 +++++++++++++++++++-------------
+ po/es.po           | 1441 +++++++++++++++++++++++++++++++---------------------
  po/eu_ES.po        |  702 +++++++++++++++-----------
  po/fi.po           |  702 +++++++++++++++-----------
  po/fr.po           | 1008 ++++++++++++++++++++++---------------
- po/gl.po           |  823 ++++++++++++++++++-------------
+ po/gl.po           |  823 +++++++++++++++++-------------
  po/hu.po           |  702 +++++++++++++++-----------
  po/id.po           |  702 +++++++++++++++-----------
- po/initscripts.pot |  632 ++++++++++++++----------
+ po/initscripts.pot |  632 +++++++++++++----------
  po/is.po           |  828 ++++++++++++++++++-------------
- po/it.po           |  879 +++++++++++++++++++--------------
- po/ja.po           |  854 +++++++++++++++++++-------------
- po/ko.po           |  851 +++++++++++++++++++-------------
- po/ms.po           | 1184 ++++++++++++++++++++++----------------------
+ po/it.po           |  879 +++++++++++++++++++-------------
+ po/ja.po           |  854 ++++++++++++++++++-------------
+ po/ko.po           |  851 ++++++++++++++++++-------------
+ po/ms.po           | 1184 ++++++++++++++++++++++---------------------
  po/nb.po           |  828 ++++++++++++++++++-------------
  po/nn.po           |  758 ++++++++++++++++------------
  po/no.po           |  828 ++++++++++++++++++-------------
@@ -18176,12 +18428,12 @@ Date:   Tue Jan 14 17:06:38 2003 +0000
  po/sr.po           |  702 +++++++++++++++-----------
  po/sv.po           |  836 ++++++++++++++++++-------------
  po/tr.po           |  827 ++++++++++++++++++-------------
- po/uk.po           |  823 ++++++++++++++++++-------------
+ po/uk.po           |  823 +++++++++++++++++-------------
  po/wa.po           |  702 +++++++++++++++-----------
  po/xgettext_sh.py  |    2 +-
  po/zh_CN.po        |  830 ++++++++++++++++++-------------
  po/zh_TW.po        |  831 ++++++++++++++++++-------------
- 34 files changed, 15772 insertions(+), 11451 deletions(-)
+ 34 files changed, 15789 insertions(+), 11468 deletions(-)
 
 commit d0e10c52fda28ed06b340e7f0915e1599c29903f
 Author: Bill Nottingham <notting@redhat.com>
@@ -19822,40 +20074,40 @@ Date:   Mon Jul 15 20:47:22 2002 +0000
 
     update-po
 
- po/cs.po           | 2471 ++++++++++++-----------
- po/da.po           | 2511 ++++++++++++-----------
- po/de.po           | 2491 ++++++++++++-----------
- po/es.po           | 5761 ++++++++++++++++++++++++++++------------------------
- po/eu_ES.po        | 1701 ++++++++--------
- po/fi.po           | 1701 ++++++++--------
- po/fr.po           | 3405 +++++++++++++++++---------------
- po/gl.po           | 2496 ++++++++++++-----------
- po/hu.po           | 1701 ++++++++--------
- po/id.po           | 1701 ++++++++--------
- po/initscripts.pot | 1466 +++++++-------
- po/is.po           | 2470 ++++++++++++-----------
- po/it.po           | 2506 ++++++++++++-----------
- po/ja.po           | 2473 ++++++++++++-----------
- po/ko.po           | 2479 ++++++++++++-----------
- po/nb.po           | 2491 ++++++++++++-----------
- po/nn.po           | 2201 +++++++++++----------
- po/no.po           | 2491 ++++++++++++-----------
- po/pl.po           | 1701 ++++++++--------
- po/pt.po           | 2482 ++++++++++++-----------
- po/pt_BR.po        | 2482 ++++++++++++-----------
- po/ro.po           | 1701 ++++++++--------
- po/ru.po           | 2476 ++++++++++++-----------
- po/sk.po           | 1701 ++++++++--------
- po/sl.po           | 2251 +++++++++++----------
- po/sr.po           | 1701 ++++++++--------
- po/sv.po           | 2519 ++++++++++++-----------
- po/tr.po           | 2369 ++++++++++++----------
- po/uk.po           | 2478 ++++++++++++-----------
- po/wa.po           | 1701 ++++++++--------
- po/zh.po           | 1701 ++++++++--------
- po/zh_CN.po        | 2442 ++++++++++++-----------
- po/zh_TW.po        | 2445 ++++++++++++-----------
- 33 files changed, 40617 insertions(+), 36049 deletions(-)
+ po/cs.po           | 2479 ++++++++++++-----------
+ po/da.po           | 2517 ++++++++++++-----------
+ po/de.po           | 2503 ++++++++++++-----------
+ po/es.po           | 5929 ++++++++++++++++++++++++++++------------------------
+ po/eu_ES.po        | 1705 ++++++++-------
+ po/fi.po           | 1705 ++++++++-------
+ po/fr.po           | 3413 ++++++++++++++++--------------
+ po/gl.po           | 2500 ++++++++++++-----------
+ po/hu.po           | 1705 ++++++++-------
+ po/id.po           | 1705 ++++++++-------
+ po/initscripts.pot | 1468 +++++++------
+ po/is.po           | 2476 ++++++++++++-----------
+ po/it.po           | 2514 ++++++++++++-----------
+ po/ja.po           | 2483 ++++++++++++----------
+ po/ko.po           | 2487 ++++++++++++-----------
+ po/nb.po           | 2497 ++++++++++++-----------
+ po/nn.po           | 2221 ++++++++++----------
+ po/no.po           | 2497 ++++++++++++-----------
+ po/pl.po           | 1705 ++++++++-------
+ po/pt.po           | 2494 ++++++++++++-----------
+ po/pt_BR.po        | 2500 ++++++++++++-----------
+ po/ro.po           | 1705 ++++++++-------
+ po/ru.po           | 2478 ++++++++++++----------
+ po/sk.po           | 1705 ++++++++-------
+ po/sl.po           | 2253 +++++++++++----------
+ po/sr.po           | 1705 ++++++++-------
+ po/sv.po           | 2531 ++++++++++++-----------
+ po/tr.po           | 2371 ++++++++++++---------
+ po/uk.po           | 2508 ++++++++++++-----------
+ po/wa.po           | 1705 ++++++++-------
+ po/zh.po           | 1705 ++++++++-------
+ po/zh_CN.po        | 2452 ++++++++++++----------
+ po/zh_TW.po        | 2453 ++++++++++++----------
+ 33 files changed, 40821 insertions(+), 36253 deletions(-)
 
 commit 23428efc712d46b0a90ae81062b317cd89f242ed
 Author: Bill Nottingham <notting@redhat.com>
@@ -21535,7 +21787,7 @@ Date:   Fri Mar 15 05:25:19 2002 +0000
  po/cs.po           | 1392 ++++++++++---------
  po/da.po           | 1408 +++++++++++---------
  po/de.po           | 1424 +++++++++++---------
- po/es.po           | 2688 +++++++++++++++++++-----------------
+ po/es.po           | 3068 ++++++++++++++++++++++--------------------
  po/eu_ES.po        | 1049 +++++++--------
  po/fi.po           | 1049 +++++++--------
  po/fr.po           | 3839 +++++++++++++++++++++++++++-------------------------
@@ -21563,7 +21815,7 @@ Date:   Fri Mar 15 05:25:19 2002 +0000
  po/wa.po           | 1049 +++++++--------
  po/zh.po           | 1049 +++++++--------
  po/zh_CN.GB2312.po | 1366 ++++++++++---------
- 31 files changed, 22290 insertions(+), 20960 deletions(-)
+ 31 files changed, 22480 insertions(+), 21150 deletions(-)
 
 commit a00b13b4fdd8b74d8b7ce465f1e996fe69818d70
 Author: Bill Nottingham <notting@redhat.com>
@@ -23451,7 +23703,7 @@ Date:   Wed Aug 15 20:41:07 2001 +0000
  po/Makefile        |    3 +-
  po/cs.po           |  580 ++++---
  po/da.po           |  583 +++---
- po/de.po           | 1400 +++------------
+ po/de.po           | 1402 +++------------
  po/es.po           | 5014 ++++++++++++++++++++++++++++------------------------
  po/eu_ES.po        |  426 ++---
  po/fi.po           |  426 ++---
@@ -23481,7 +23733,7 @@ Date:   Wed Aug 15 20:41:07 2001 +0000
  po/wa.po           |  426 ++---
  po/zh.po           |  426 ++---
  po/zh_CN.GB2312.po |  426 ++---
- 33 files changed, 10345 insertions(+), 11420 deletions(-)
+ 33 files changed, 10346 insertions(+), 11421 deletions(-)
 
 commit f6e1525cde05acf072129a357e02bedcd14d79c9
 Author: Bill Nottingham <notting@redhat.com>
@@ -23680,11 +23932,11 @@ Date:   Fri Aug 10 15:08:22 2001 +0000
 
     initscripts
 
- po/de.po | 1123 ++++++++++++++--
+ po/de.po | 1127 ++++++++++++++--
  po/es.po | 4553 +++++++++++++++++++++++++++++++-------------------------------
  po/fr.po |  294 ++---
  po/it.po |  274 ++--
- 4 files changed, 3510 insertions(+), 2734 deletions(-)
+ 4 files changed, 3512 insertions(+), 2736 deletions(-)
 
 commit bb136dc06679812ea53669cd9a5885ad8d3935cb
 Author: Than Ngo <than@redhat.com>
@@ -24132,14 +24384,14 @@ Date:   Mon Jul 30 14:55:36 2001 +0000
     refresh from public beta
 
  po/Makefile        |   12 +-
- po/cs.po           | 1399 ++++++++++++++++++++++++++++-----------------
- po/da.po           | 1399 ++++++++++++++++++++++++++++-----------------
+ po/cs.po           | 1401 ++++++++++++++++++++++++++++-----------------
+ po/da.po           | 1401 ++++++++++++++++++++++++++++-----------------
  po/de.po           | 1407 ++++++++++++++++++++++++++++-----------------
  po/es.po           | 1624 ++++++++++++++++++++++++++++------------------------
  po/eu_ES.po        | 1065 ++++++++++++++++++++---------------
  po/fi.po           | 1065 ++++++++++++++++++++---------------
  po/fr.po           | 1414 ++++++++++++++++++++++++++++-----------------
- po/gl.po           | 1403 ++++++++++++++++++++++++++++-----------------
+ po/gl.po           | 1405 ++++++++++++++++++++++++++++-----------------
  po/hu.po           | 1065 ++++++++++++++++++++---------------
  po/id.po           | 1065 ++++++++++++++++++++---------------
  po/initscripts.pot | 1239 +++++++++++++++++++++-------------------
@@ -24154,17 +24406,17 @@ Date:   Mon Jul 30 14:55:36 2001 +0000
  po/pt.po           | 1403 ++++++++++++++++++++++++++++-----------------
  po/pt_BR.po        | 1455 ++++++++++++++++++++++++++++-------------------
  po/ro.po           | 1065 ++++++++++++++++++++---------------
- po/ru.po           | 1399 ++++++++++++++++++++++++++++-----------------
+ po/ru.po           | 1401 ++++++++++++++++++++++++++++-----------------
  po/sk.po           | 1065 ++++++++++++++++++++---------------
  po/sl.po           | 1065 ++++++++++++++++++++---------------
  po/sr.po           | 1065 ++++++++++++++++++++---------------
  po/sv.po           | 1408 ++++++++++++++++++++++++++++-----------------
- po/tr.po           | 1434 ++++++++++++++++++++++++++++------------------
- po/uk.po           | 1446 +++++++++++++++++++++++++++-------------------
+ po/tr.po           | 1438 ++++++++++++++++++++++++++++------------------
+ po/uk.po           | 1450 +++++++++++++++++++++++++++-------------------
  po/wa.po           | 1065 ++++++++++++++++++++---------------
  po/zh.po           | 1065 ++++++++++++++++++++---------------
  po/zh_CN.GB2312.po | 1065 ++++++++++++++++++++---------------
- 33 files changed, 23882 insertions(+), 16385 deletions(-)
+ 33 files changed, 23890 insertions(+), 16393 deletions(-)
 
 commit 2fe56195625a090e2e550f53f514bf254a2e6c71
 Author: Christian Rose <menthos@menthos.com>
@@ -26087,38 +26339,38 @@ Date:   Tue Mar 13 20:30:15 2001 +0000
     update initscripts.pot with current tree, run make refresh-po
 
  po/Makefile        |   10 +-
- po/cs.po           | 2400 +++++++++++++++++++++++++++------------------------
- po/da.po           | 2400 +++++++++++++++++++++++++++------------------------
- po/de.po           | 1605 ++++++++++++++++------------------
- po/es.po           | 2474 +++++++++++++++++++++++++++-------------------------
- po/eu_ES.po        | 1605 ++++++++++++++++------------------
- po/fi.po           | 1605 ++++++++++++++++------------------
- po/fr.po           | 1605 ++++++++++++++++------------------
- po/gl.po           | 2400 +++++++++++++++++++++++++++------------------------
- po/hu.po           | 1605 ++++++++++++++++------------------
- po/id.po           | 1605 ++++++++++++++++------------------
- po/initscripts.pot | 1533 ++++++++++++++------------------
- po/is.po           | 2407 +++++++++++++++++++++++++++------------------------
- po/it.po           | 1605 ++++++++++++++++------------------
- po/ja.po           | 1605 ++++++++++++++++------------------
- po/ko.po           | 1605 ++++++++++++++++------------------
- po/nb.po           | 2414 +++++++++++++++++++++++++++------------------------
- po/no.po           | 2414 +++++++++++++++++++++++++++------------------------
- po/pl.po           | 1605 ++++++++++++++++------------------
- po/pt.po           | 2402 +++++++++++++++++++++++++++------------------------
- po/pt_BR.po        | 2467 +++++++++++++++++++++++++++-------------------------
- po/ro.po           | 1605 ++++++++++++++++------------------
- po/ru.po           | 2402 +++++++++++++++++++++++++++------------------------
- po/sk.po           | 1605 ++++++++++++++++------------------
- po/sl.po           | 1605 ++++++++++++++++------------------
- po/sr.po           | 1605 ++++++++++++++++------------------
- po/sv.po           | 2414 +++++++++++++++++++++++++++------------------------
- po/tr.po           | 2400 +++++++++++++++++++++++++++------------------------
- po/uk.po           | 2485 +++++++++++++++++++++++++++-------------------------
- po/wa.po           | 1605 ++++++++++++++++------------------
- po/zh.po           | 1605 ++++++++++++++++------------------
- po/zh_CN.GB2312.po | 1605 ++++++++++++++++------------------
- 32 files changed, 30148 insertions(+), 30159 deletions(-)
+ po/cs.po           | 2448 ++++++++++++++++++++++++++-----------------------
+ po/da.po           | 2448 ++++++++++++++++++++++++++-----------------------
+ po/de.po           | 1623 +++++++++++++++------------------
+ po/es.po           | 2582 +++++++++++++++++++++++++++-------------------------
+ po/eu_ES.po        | 1623 +++++++++++++++------------------
+ po/fi.po           | 1623 +++++++++++++++------------------
+ po/fr.po           | 1623 +++++++++++++++------------------
+ po/gl.po           | 2448 ++++++++++++++++++++++++++-----------------------
+ po/hu.po           | 1623 +++++++++++++++------------------
+ po/id.po           | 1623 +++++++++++++++------------------
+ po/initscripts.pot | 1533 ++++++++++++++-----------------
+ po/is.po           | 2473 ++++++++++++++++++++++++++-----------------------
+ po/it.po           | 1623 +++++++++++++++------------------
+ po/ja.po           | 1623 +++++++++++++++------------------
+ po/ko.po           | 1623 +++++++++++++++------------------
+ po/nb.po           | 2466 ++++++++++++++++++++++++++-----------------------
+ po/no.po           | 2466 ++++++++++++++++++++++++++-----------------------
+ po/pl.po           | 1623 +++++++++++++++------------------
+ po/pt.po           | 2456 ++++++++++++++++++++++++++-----------------------
+ po/pt_BR.po        | 2577 +++++++++++++++++++++++++++-------------------------
+ po/ro.po           | 1623 +++++++++++++++------------------
+ po/ru.po           | 2456 ++++++++++++++++++++++++++-----------------------
+ po/sk.po           | 1623 +++++++++++++++------------------
+ po/sl.po           | 1623 +++++++++++++++------------------
+ po/sr.po           | 1623 +++++++++++++++------------------
+ po/sv.po           | 2466 ++++++++++++++++++++++++++-----------------------
+ po/tr.po           | 2448 ++++++++++++++++++++++++++-----------------------
+ po/uk.po           | 2555 +++++++++++++++++++++++++++-------------------------
+ po/wa.po           | 1623 +++++++++++++++------------------
+ po/zh.po           | 1623 +++++++++++++++------------------
+ po/zh_CN.GB2312.po | 1623 +++++++++++++++------------------
+ 32 files changed, 30706 insertions(+), 30717 deletions(-)
 
 commit 0a9d40fb007d993b85a8da3791cd18035400b8dd
 Author: Bill Nottingham <notting@redhat.com>
@@ -28066,13 +28318,13 @@ Date:   Wed Jan 24 17:27:56 2001 +0000
 
  po/Makefile        |   14 +-
  po/cs.po           | 2029 ++++++++++++++++++++++++++++++----------------------
- po/da.po           | 1798 ++++++++++++++++++++++++++++++----------------
+ po/da.po           | 1832 +++++++++++++++++++++++++++++++----------------
  po/de.po           | 2029 ++++++++++++++++++++++++++++++----------------------
- po/es.po           | 1817 ++++++++++++++++++++++++++++++-----------------
+ po/es.po           | 1871 ++++++++++++++++++++++++++++++------------------
  po/eu_ES.po        | 2029 ++++++++++++++++++++++++++++++----------------------
  po/fi.po           | 2029 ++++++++++++++++++++++++++++++----------------------
  po/fr.po           | 2029 ++++++++++++++++++++++++++++++----------------------
- po/gl.po           | 1794 ++++++++++++++++++++++++++++++----------------
+ po/gl.po           | 1830 +++++++++++++++++++++++++++++++----------------
  po/hu.po           | 2029 ++++++++++++++++++++++++++++++----------------------
  po/id.po           | 2029 ++++++++++++++++++++++++++++++----------------------
  po/initscripts.pot | 1969 ++++++++++++++++++++++++++++----------------------
@@ -28080,24 +28332,24 @@ Date:   Wed Jan 24 17:27:56 2001 +0000
  po/it.po           | 2029 ++++++++++++++++++++++++++++++----------------------
  po/ja.po           | 2029 ++++++++++++++++++++++++++++++----------------------
  po/ko.po           | 2029 ++++++++++++++++++++++++++++++----------------------
- po/nb.po           | 1796 ++++++++++++++++++++++++++++++----------------
- po/no.po           | 1796 ++++++++++++++++++++++++++++++----------------
+ po/nb.po           | 1830 +++++++++++++++++++++++++++++++----------------
+ po/no.po           | 1830 +++++++++++++++++++++++++++++++----------------
  po/pl.po           | 2029 ++++++++++++++++++++++++++++++----------------------
- po/pt.po           | 1799 ++++++++++++++++++++++++++++++----------------
- po/pt_BR.po        | 1817 +++++++++++++++++++++++++++++-----------------
+ po/pt.po           | 1835 +++++++++++++++++++++++++++++++----------------
+ po/pt_BR.po        | 1871 ++++++++++++++++++++++++++++++------------------
  po/ro.po           | 2029 ++++++++++++++++++++++++++++++----------------------
  po/ru.po           | 2029 ++++++++++++++++++++++++++++++----------------------
  po/sk.po           | 2029 ++++++++++++++++++++++++++++++----------------------
  po/sl.po           | 2029 ++++++++++++++++++++++++++++++----------------------
  po/sr.po           | 2029 ++++++++++++++++++++++++++++++----------------------
- po/sv.po           | 1799 ++++++++++++++++++++++++++++++----------------
- po/tr.po           | 1771 ++++++++++++++++++++++++++++++----------------
- po/uk.po           | 1797 ++++++++++++++++++++++++++++++----------------
+ po/sv.po           | 1833 +++++++++++++++++++++++++++++++----------------
+ po/tr.po           | 1807 ++++++++++++++++++++++++++++++----------------
+ po/uk.po           | 1831 +++++++++++++++++++++++++++++++----------------
  po/wa.po           | 2029 ++++++++++++++++++++++++++++++----------------------
  po/xgettext_sh.py  |    4 +
  po/zh.po           | 2029 ++++++++++++++++++++++++++++++----------------------
  po/zh_CN.GB2312.po | 2029 ++++++++++++++++++++++++++++++----------------------
- 33 files changed, 36343 insertions(+), 24208 deletions(-)
+ 33 files changed, 36536 insertions(+), 24401 deletions(-)
 
 commit 131668e4b0555bb9172f86b2d351de1662dc3147
 Author: Bill Nottingham <notting@redhat.com>
