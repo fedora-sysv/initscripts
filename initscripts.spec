@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.45.29
+Version: 8.45.30
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -201,6 +201,32 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Mon Sep 13 2010 Harald Hoyer <harald@redhat.com> 8.45.30-1
+- do not killall racoon with the full path
+Resolves: rhbz#567295
+- fixed the interactive startup keys in translation
+Resolves: rhbz#566579
+- do not clear the environment for daemon()
+Resolves: rhbz#564093
+- call unicode_start with $UNIMAP instead of $SYSFONTACM
+Resolves: rhbz#557089
+- fixed the network interface name grep in checks
+Resolves: rhbz#538863
+- make /var/lib/xend a bind mount for read-only root systems
+Resolves: rhbz#526046
+- do not try to activate individual dmraid subsets
+Resolves: rhbz#524356
+- create /var/run/utmp* /var/log/wtmp* with the correct selinux context
+Resolves: rhbz#519748
+- load the bonding driver, if bonding options are present in the ifcfg file
+Resolves: rhbz#516569
+- run quotacheck after the local filesystems have been mounted
+Resolves: rhbz#499207
+- add DHCP_HOSTNAME documentation to sysconfig.txt
+Resolves: rhbz#498052
+- remove /var/run/dovecot/* also (not only /var/run/dovecot/*/*)
+Resolves: rhbz#492994
+
 * Tue Jun 16 2009 Harald Hoyer <harald@redhat.com> 8.45.29-1
 - cleanup /var/run/libvirt (#505600)
 - Resolves: rhbz#505600
