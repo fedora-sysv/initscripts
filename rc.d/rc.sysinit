@@ -587,9 +587,10 @@ rm -f /var/gdm/.gdmfifo &> /dev/null
 
 # Clean up utmp/wtmp
 > /var/run/utmp
-touch /var/log/wtmp
-chgrp utmp /var/run/utmp /var/log/wtmp
+touch /var/log/wtmp /var/log/btmp
+chgrp utmp /var/run/utmp /var/log/wtmp /var/log/btmp
 chmod 0664 /var/run/utmp /var/log/wtmp
+chmod 0600 /var/log/btmp
 if [ -n "$_NEED_XFILES" ]; then
   > /var/run/utmpx
   touch /var/log/wtmpx
