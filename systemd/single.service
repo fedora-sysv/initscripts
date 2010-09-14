@@ -15,12 +15,12 @@ After=sysinit.target
 Before=multi-user.target
 
 [Service]
-Type=oneshot
+Type=simple
 EnvironmentFile=/etc/sysconfig/init
 Environment=HOME=/root
 ExecStartPre=-/bin/plymouth --hide-splash
 ExecStart=-/bin/bash -c "exec $SINGLE"
-ExecStartPost=/bin/systemctl default
+ExecStopPost=/bin/systemctl default
 StandardInput=tty-force
 KillMode=process-group
 
