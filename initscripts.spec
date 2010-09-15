@@ -23,10 +23,16 @@ Requires: sysvinit-tools >= 2.87-5
 Requires: sysvinit-userspace
 %if %{_with_upstart}
 Conflicts: upstart < 0.6.0
+%if ! %{_with_systemd}
+Requires: upstart-sysvinit
+%endif
 %endif
 %if %{_with_systemd}
 Conflicts: systemd < 9-3
 Conflicts: systemd-units < 9-3
+%if ! %{_with_upstart}
+Requires: systemd-sysvinit
+%endif
 %endif
 %if %{_with_sysvinit}
 Requires: SysVinit >= 2.85-38
