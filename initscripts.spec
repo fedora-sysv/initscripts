@@ -1,4 +1,4 @@
-%define _with_upstart 1
+%define _with_upstart 0
 %define _with_systemd 1
 %define _with_sysvinit 0
 
