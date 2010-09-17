@@ -4,7 +4,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.20
+Version: 9.21
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -281,6 +281,12 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Fri Seo 17 2010 Bill Nottingham <notting@redhat.com> - 9.21-1
+- build for systemd only
+- ship a default.target link in case the one in /etc gets deleted
+- rc.sysinit: reset btmp on boot if necessary (#633768, <dmach@redhat.com>)
+- single.service: fix invocation so that 'runlevel' works (#630914)
+
 * Thu Sep  9 2010 Bill Nottingham <notting@redhat.com> - 9.20-1
 - use new pidof -m option to avoid false positives (#632321)
 - systemd/single: set $HOME for single-user mode. (#631590)
