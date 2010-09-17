@@ -281,7 +281,7 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
-* Fri Seo 17 2010 Bill Nottingham <notting@redhat.com> - 9.21-1
+* Fri Sep 17 2010 Bill Nottingham <notting@redhat.com> - 9.21-1
 - build for systemd only
 - ship a default.target link in case the one in /etc gets deleted
 - rc.sysinit: reset btmp on boot if necessary (#633768, <dmach@redhat.com>)
