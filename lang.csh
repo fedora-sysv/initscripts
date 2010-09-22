@@ -6,7 +6,7 @@ if ($?LANG) then
 else
     foreach file (/etc/sysconfig/i18n $HOME/.i18n)
 	if ( -f $file ) then
-	    eval `grep -v '^[:blank:]*#' $file | sed 's|\([^=]*\)=\([^=]*\)|setenv \1 \2|g' | sed 's|$|;|'`
+	    eval `grep -v '^[[:blank:]]*#' $file | sed 's|\([^=]*\)=\([^=]*\)|setenv \1 \2|g' | sed 's|$|;|'`
 	endif
 	set sourced=1
     end
