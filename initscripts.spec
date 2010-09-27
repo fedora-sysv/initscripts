@@ -20,7 +20,6 @@ Requires: module-init-tools
 Requires: util-linux-ng >= 2.16
 Requires: bash >= 3.0
 Requires: sysvinit-tools >= 2.87-5
-Requires: sysvinit-userspace
 %if %{_with_upstart}
 Conflicts: upstart < 0.6.0
 %if ! %{_with_systemd}
