@@ -4,7 +4,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.20
+Version: 9.20.1
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -275,6 +275,12 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Mon Sep 27 2010 Bill Nottingham <notting@redhat.com> - 9.20.1-1
+- sysconfig.txt: adjust clock docs to match reality (#637058)
+- lang.csh: fix for grep-2.7 (#636552)
+- fix checkpid description to match reality (#637176)
+- reset btmp on boot where necessary (#633768, <dmach@redhat.com>)
+
 * Thu Sep  9 2010 Bill Nottingham <notting@redhat.com> - 9.20-1
 - use new pidof -m option to avoid false positives (#632321)
 - systemd/single: set $HOME for single-user mode. (#631590)
