@@ -1,0 +1,17 @@
+[Unit]
+Description=System Initialization End
+DefaultDependencies=no
+Conflicts=shutdown.target
+Before=shutdown.target emergency.service emergency.target
+Before=sysinit.target
+After=rcS-dmesg.service
+Conflicts=sysinit.service
+
+[Service]
+ExecStart=/etc/rc.d/rcS.d/990-sysinitend.sh
+Type=oneshot
+TimeoutSec=0
+RemainAfterExit=yes
+
+[Install]
+WantedBy=sysinit.target

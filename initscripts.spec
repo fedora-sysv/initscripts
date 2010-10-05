@@ -39,7 +39,9 @@ Requires: SysVinit >= 2.85-38
 Requires: /sbin/ip, /sbin/arping, net-tools, /bin/find
 Requires: /etc/system-release
 Requires: /sbin/runuser
-Requires: udev >= 125-1
+Requires: udev >= 160-8
+Requires: systemd-units
+Conflicts: systemd < 4-4
 Requires: cpio
 Conflicts: mkinitrd < 4.0, kernel < 2.6.18, mdadm < 3.1.2-9
 Conflicts: ypbind < 1.6-12, psacct < 6.3.2-12, kbd < 1.06-19, lokkit < 0.50-14
@@ -131,6 +133,21 @@ chmod 600 /var/log/btmp
 if [ $1 -eq 1 ]; then
         /bin/systemctl daemon-reload > /dev/null 2>&1 || :
 fi
+%endif
+
+%posttrans
+%if %{_with_systemd}
+for i in \
+    rcS-autoswap.service rcS-cleanup.service rcS-configure.service \
+    rcS-dmesg.service rcS-dmraid.service rcS-initcrypto1.service \
+    rcS-initcrypto2.service rcS-initcrypto3.service rcS-kernelparam.service \
+    rcS-loaddmmod.service rcS-loadmodules.service rcS-lvm.service \
+    rcS-mdraid.service rcS-mountall.service rcS-multipath.service \
+    rcS-quota.service rcS-random.service rcS-selinuxrelabel.service \
+    rcS-sysinitend.service rcS-waitscan.service ;do
+    /bin/systemctl enable $i ;
+done
+:
 %endif
 
 %preun
@@ -254,6 +271,8 @@ rm -rf $RPM_BUILD_ROOT
 /lib/udev/console_check
 /sbin/service
 /sbin/ppp-watch
+/etc/rc.d/rcS.d/*
+/lib/systemd/system/rcS*.service
 %{_mandir}/man*/*
 %dir %attr(775,root,root) /var/run/netreport
 %dir /etc/ppp

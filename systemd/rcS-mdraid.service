@@ -1,0 +1,18 @@
+[Unit]
+Description=System Initialization
+DefaultDependencies=no
+Conflicts=shutdown.target
+Before=shutdown.target emergency.service emergency.target
+After=rcS-dmraid.service
+Before=rcS-initcrypto2.service
+Conflicts=sysinit.service
+
+[Service]
+ExecStart=/etc/rc.d/rcS.d/160-mdraid.sh
+Type=oneshot
+TimeoutSec=0
+StandardInput=tty
+RemainAfterExit=yes
+
+[Install]
+WantedBy=sysinit.target

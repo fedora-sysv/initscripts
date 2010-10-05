@@ -1,0 +1,16 @@
+[Unit]
+Description=System Initialization
+DefaultDependencies=no
+Conflicts=shutdown.target
+Before=shutdown.target emergency.service emergency.target
+After=rcS-mountall.service
+Conflicts=sysinit.service
+
+[Service]
+ExecStart=/etc/rc.d/rcS.d/250-cleanup.sh
+Type=oneshot
+TimeoutSec=0
+RemainAfterExit=yes
+
+[Install]
+WantedBy=sysinit.target
