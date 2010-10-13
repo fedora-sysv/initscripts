@@ -196,6 +196,14 @@ case "$1" in
 			/etc/init.d/netfs stop
 		fi
 	fi
+
+	# If this is a final shutdown/halt and there is an iSCSI session,
+	# do not stop the service.
+	if [ "$RUNLEVEL" = "6" -o "$RUNLEVEL" = "0" -o "$RUNLEVEL" = "1" ]; then
+		if [ `find /sys/class/iscsi_session/ -mindepth 1 -maxdepth 1 -type d | wc -l` -ge 1 ]; then
+			exit 1
+		fi
+	fi
 	
  	# IPv6 hook (pre IPv4 stop)
  	if [ "$NETWORKING_IPV6" = "yes" ]; then
