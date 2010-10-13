@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.45.32
+Version: 8.45.33
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -202,6 +202,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Oct 13 2010 Harald Hoyer <harald@redhat.com> 8.45.33-1
+- don't turn of net on shutdown if iscsi is running
+Resolves: rhbz#583218
+
 * Mon Sep 13 2010 Harald Hoyer <harald@redhat.com> 8.45.32-1
 - readded missing 54-cu3088-fix.rules
 Related: rhbz#475721
