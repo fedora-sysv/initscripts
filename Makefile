@@ -48,8 +48,8 @@ install:
 	install -m644 sysconfig/debug sysconfig/init sysconfig/netconsole sysconfig/readonly-root $(ROOT)/etc/sysconfig/
 	cp -af sysconfig/network-scripts $(ROOT)/etc/sysconfig/
 	cp -af ppp NetworkManager init $(ROOT)/etc
-	mkdir -p $(ROOT)/lib/systemd/system
-	cp -af systemd/* $(ROOT)/lib/systemd/system
+	mkdir -p $(ROOT)/lib/systemd/
+	cp -af systemd/* $(ROOT)/lib/systemd/
 	mkdir -p $(ROOT)/etc/ppp/peers
 	mkdir -p $(ROOT)/lib
 	cp -af udev $(ROOT)/lib
