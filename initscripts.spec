@@ -66,6 +66,15 @@ your Red Hat or Fedora system, change runlevels, and shut the system down
 cleanly.  Initscripts also contains the scripts that activate and
 deactivate most network interfaces.
 
+%package legacy
+Summary: Support for legacy booting methods
+Requires: initscripts
+Group System Environment/Base
+
+%description legacy
+The initscripts-legacy package contains basic scripts that may be
+required to boot the system using older init systems
+
 %package -n debugmode
 Summary: Scripts for running in debugging mode
 Requires: initscripts
@@ -273,6 +282,21 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0600,root,utmp) /var/log/btmp
 %ghost %attr(0664,root,utmp) /var/log/wtmp
 %ghost %attr(0664,root,utmp) /var/run/utmp
+
+%files legacy
+%defattr(-,root,root)
+%config(noreplace) /etc/inittab
+%dir /etc/rc.d
+%dir /etc/rc.d/rc[0-9].d
+%config(missingok) /etc/rc.d/rc[0-9].d/*
+/etc/rc[0-9].d
+/etc/rc
+%dir /etc/rc.d/init.d
+/etc/rc.sysinit
+/etc/rc.d/init.d/*
+/etc/rc.d/rc
+/etc/rc.d/rc.sysinit
+/lib/udev/rules.d/*
 
 %files -n debugmode
 %defattr(-,root,root)
