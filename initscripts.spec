@@ -234,12 +234,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/rc.d/rc[0-9].d
 %config(missingok) /etc/rc.d/rc[0-9].d/*
 /etc/rc[0-9].d
-/etc/rc
 %dir /etc/rc.d/init.d
 /etc/rc.local
 /etc/rc.sysinit
 /etc/rc.d/init.d/*
-/etc/rc.d/rc
 %config(noreplace) /etc/rc.d/rc.local
 /etc/rc.d/rc.sysinit
 %config(noreplace) /etc/sysctl.conf
