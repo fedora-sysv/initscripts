@@ -45,9 +45,6 @@ install:
 	install -m755 -d $(ROOT)/etc/rc.d $(ROOT)/etc/sysconfig
 	install -m755 rc.d/rc rc.d/rc.local rc.d/rc.sysinit $(ROOT)/etc/rc.d/
 	cp -af rc.d/init.d $(ROOT)/etc/rc.d/
-	cp -af rc.d/rcS.d $(ROOT)/etc/rc.d/
-	mkdir -p $(ROOT)/lib/systemd/system
-	cp -af systemd/rcS*.service $(ROOT)/lib/systemd/system
 	install -m644 sysconfig/debug sysconfig/init sysconfig/netconsole sysconfig/readonly-root $(ROOT)/etc/sysconfig/
 	cp -af sysconfig/network-scripts $(ROOT)/etc/sysconfig/
 	cp -af ppp NetworkManager init $(ROOT)/etc
@@ -173,4 +170,4 @@ archive: clean syntax-check tag changelog
 	@sha1sum initscripts-$(VERSION).tar.bz2 > initscripts-$(VERSION).sha1sum
 	@scp initscripts-$(VERSION).tar.bz2 initscripts-$(VERSION).sha1sum fedorahosted.org:initscripts 2>/dev/null|| scp initscripts-$(VERSION).tar.bz2 initscripts-$(VERSION).sha1sum fedorahosted.org:/srv/web/releases/i/n/initscripts
 	@echo "Everything done, files uploaded to Fedorahosted.org"
-
+		
