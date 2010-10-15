@@ -1,0 +1,10 @@
+[Unit]
+Description=Bootup hack
+DefaultDependencies=no
+Conflicts=shutdown.target
+Before=shutdown.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=-/bin/rm -f /dev/.in_sysinit

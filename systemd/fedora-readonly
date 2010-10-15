@@ -1,0 +1,167 @@
+#!/bin/bash
+#
+# Set up readonly-root support.
+#
+
+. /etc/init.d/functions
+
+# Check SELinux status
+SELINUX_STATE=
+if [ -e "/selinux/enforce" ] && [ "$(cat /proc/self/attr/current)" != "kernel" ]; then
+	if [ -r "/selinux/enforce" ] ; then
+		SELINUX_STATE=$(cat "/selinux/enforce")
+	else
+		# assume enforcing if you can't read it
+		SELINUX_STATE=1
+	fi
+fi
+
+# Only read this once.
+[ -z "${cmdline}" ] && cmdline=$(cat /proc/cmdline)
+
+READONLY=
+if [ -f /etc/sysconfig/readonly-root ]; then
+	. /etc/sysconfig/readonly-root
+fi
+if strstr "$cmdline" readonlyroot ; then
+	READONLY=yes
+	[ -z "$RW_MOUNT" ] && RW_MOUNT=/var/lib/stateless/writable
+	[ -z "$STATE_MOUNT" ] && STATE_MOUNT=/var/lib/stateless/state
+fi
+if strstr "$cmdline" noreadonlyroot ; then
+	READONLY=no
+fi
+
+if [ "$READONLY" = "yes" -o "$TEMPORARY_STATE" = "yes" ]; then
+
+	mount_empty() {
+		if [ -e "$1" ]; then
+			echo "$1" | cpio -p -vd "$RW_MOUNT" &>/dev/null
+			mount -n --bind "$RW_MOUNT$1" "$1"
+		fi
+	}
+
+	mount_dirs() {
+		if [ -e "$1" ]; then
+			mkdir -p "$RW_MOUNT$1"
+			find "$1" -type d -print0 | cpio -p -0vd "$RW_MOUNT" &>/dev/null
+			mount -n --bind "$RW_MOUNT$1" "$1"
+		fi
+	}
+
+	mount_files() {
+		if [ -e "$1" ]; then
+			cp -a --parents "$1" "$RW_MOUNT"
+			mount -n --bind "$RW_MOUNT$1" "$1"
+		fi
+	}
+
+	# Common mount options for scratch space regardless of
+	# type of backing store
+	mountopts=
+
+	# Scan partitions for local scratch storage
+	rw_mount_dev=$(blkid -t LABEL="$RW_LABEL" -l -o device)
+
+	# First try to mount scratch storage from /etc/fstab, then any
+	# partition with the proper label.  If either succeeds, be sure
+	# to wipe the scratch storage clean.  If both fail, then mount
+	# scratch storage via tmpfs.
+	if mount $mountopts "$RW_MOUNT" > /dev/null 2>&1 ; then
+		rm -rf "$RW_MOUNT" > /dev/null 2>&1
+	elif [ x$rw_mount_dev != x ] && mount $rw_mount_dev $mountopts "$RW_MOUNT" > /dev/null 2>&1; then
+		rm -rf "$RW_MOUNT"  > /dev/null 2>&1
+	else
+		mount -n -t tmpfs $RW_OPTIONS $mountopts none "$RW_MOUNT"
+	fi
+
+	for file in /etc/rwtab /etc/rwtab.d/* /dev/.initramfs/rwtab ; do
+		is_ignored_file "$file" && continue
+	[ -f $file ] && cat $file | while read type path ; do
+			case "$type" in
+				empty)
+					mount_empty $path
+					;;
+				files)
+					mount_files $path
+					;;
+				dirs)
+					mount_dirs $path
+					;;
+				*)
+					;;
+			esac
+			[ -n "$SELINUX_STATE" ] && [ -e "$path" ] && restorecon -R "$path"
+		done
+	done
+
+	# Use any state passed by initramfs
+	[ -d /dev/.initramfs/state ] && cp -a /dev/.initramfs/state/* $RW_MOUNT
+
+	# In theory there should be no more than one network interface active
+	# this early in the boot process -- the one we're booting from.
+	# Use the network address to set the hostname of the client.  This
+	# must be done even if we have local storage.
+	ipaddr=
+	if [ "$HOSTNAME" = "localhost" -o "$HOSTNAME" = "localhost.localdomain" ]; then
+		ipaddr=$(ip addr show to 0.0.0.0/0 scope global | awk '/[[:space:]]inet / { print gensub("/.*","","g",$2) }')
+		for ip in $ipaddr ; do
+			HOSTNAME=
+			eval $(ipcalc -h $ipaddr 2>/dev/null)
+			[ -n "$HOSTNAME" ] && { hostname ${HOSTNAME} ; break; }
+		done
+	fi
+	
+	# Clients with read-only root filesystems may be provided with a
+	# place where they can place minimal amounts of persistent
+	# state.  SSH keys or puppet certificates for example.
+	#
+	# Ideally we'll use puppet to manage the state directory and to
+	# create the bind mounts.  However, until that's all ready this
+	# is sufficient to build a working system.
+
+	# First try to mount persistent data from /etc/fstab, then any
+	# partition with the proper label, then fallback to NFS
+	state_mount_dev=$(blkid -t LABEL="$STATE_LABEL" -l -o device)
+	if mount $mountopts $STATE_OPTIONS "$STATE_MOUNT" > /dev/null 2>&1 ; then
+		/bin/true
+	elif [ x$state_mount_dev != x ] && mount $state_mount_dev $mountopts "$STATE_MOUNT" > /dev/null 2>&1;  then
+		/bin/true
+	elif [ ! -z "$CLIENTSTATE" ]; then
+		# No local storage was found.  Make a final attempt to find
+		# state on an NFS server.
+
+		mount -t nfs $CLIENTSTATE/$HOSTNAME $STATE_MOUNT -o rw,nolock
+	fi
+
+	if [ -w "$STATE_MOUNT" ]; then
+
+		mount_state() {
+			if [ -e "$1" ]; then
+				[ ! -e "$STATE_MOUNT$1" ] && cp -a --parents "$1" "$STATE_MOUNT"
+				mount -n --bind "$STATE_MOUNT$1" "$1"
+			fi
+		}
+
+		for file in /etc/statetab /etc/statetab.d/* ; do
+			is_ignored_file "$file" && continue
+			[ ! -f "$file" ] && continue
+
+			if [ -f "$STATE_MOUNT/$file" ] ; then
+				mount -n --bind "$STATE_MOUNT/$file" "$file"
+			fi
+
+			for path in $(grep -v "^#" "$file" 2>/dev/null); do
+				mount_state "$path"
+				[ -n "$SELINUX_STATE" ] && [ -e "$path" ] && restorecon -R "$path"
+			done
+		done
+
+		if [ -f "$STATE_MOUNT/files" ] ; then
+			for path in $(grep -v "^#" "$STATE_MOUNT/files" 2>/dev/null); do
+				mount_state "$path"
+				[ -n "$SELINUX_STATE" ] && [ -e "$path" ] && restorecon -R "$path"
+			done
+		fi
+	fi
+fi

@@ -1,0 +1,14 @@
+[Unit]
+Description=Configure read-only root support
+DefaultDependencies=no
+Conflicts=shutdown.target
+Before=shutdown.target emergency.service emergency.target fedora-cleanup.service
+After=fedora-mountall.service
+Requires=fedora-mountall.service
+
+[Service]
+ExecStart=/lib/systemd/fedora-readonly
+Type=oneshot
+TimeoutSec=0
+StandardInput=tty
+RemainAfterExit=yes
