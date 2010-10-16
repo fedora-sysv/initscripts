@@ -69,7 +69,7 @@ deactivate most network interfaces.
 %package legacy
 Summary: Support for legacy booting methods
 Requires: initscripts
-Group System Environment/Base
+Group: System Environment/Base
 
 %description legacy
 The initscripts-legacy package contains basic scripts that may be
@@ -236,10 +236,8 @@ rm -rf $RPM_BUILD_ROOT
 /etc/rc[0-9].d
 %dir /etc/rc.d/init.d
 /etc/rc.local
-/etc/rc.sysinit
 /etc/rc.d/init.d/*
 %config(noreplace) /etc/rc.d/rc.local
-/etc/rc.d/rc.sysinit
 %config(noreplace) /etc/sysctl.conf
 %exclude /etc/profile.d/debug*
 /etc/profile.d/*
