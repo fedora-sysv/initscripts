@@ -1,12 +1,10 @@
 #!/bin/bash
 #
-# Start up swap (partitions and files)
+# Support automatic swapon.
 #
 
 . /etc/init.d/functions
 
-update_boot_stage RCswap
-action $"Enabling /etc/fstab swaps: " swapon -a -e
 if [ "$AUTOSWAP" = "yes" ]; then
 	curswap=$(awk '/^\/dev/ { print $1 }' /proc/swaps | while read x; do get_numeric_dev dec $x ; echo -n " "; done)
 	swappartitions=$(blkid -t TYPE=swap -o device)

@@ -127,7 +127,7 @@ install:
 	mkdir -p -m 755 $(ROOT)/lib/systemd/system/sysinit.target.wants
 	ln -s ../fedora-configure.service $(ROOT)/lib/systemd/system/basic.target.wants
 	ln -s ../fedora-loadmodules.service $(ROOT)/lib/systemd/system/basic.target.wants
-	ln -s ../fedora-swapon.service $(ROOT)/lib/systemd/system/basic.target.wants
+	ln -s ../fedora-autoswap.service $(ROOT)/lib/systemd/system/basic.target.wants
 	ln -s ../fedora-sysinit-hack.service $(ROOT)/lib/systemd/system/basic.target.wants
 	ln -s ../fedora-cleanup.service $(ROOT)/lib/systemd/system/local-fs.target.wants
 	ln -s ../fedora-mountall.service $(ROOT)/lib/systemd/system/local-fs.target.wants

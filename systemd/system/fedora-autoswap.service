@@ -1,5 +1,5 @@
 [Unit]
-Description=Configure the system if the administrator requested it
+Description=Enable all detected swap partitions
 DefaultDependencies=no
 Conflicts=shutdown.target
 Before=shutdown.target emergency.service emergency.target
@@ -7,7 +7,7 @@ After=fedora-mountall.service fedora-init-crypto-3.service
 Requires=fedora-mountall.service fedora-init-crypto-3.service
 
 [Service]
-ExecStart=/lib/systemd/fedora-swapon
+ExecStart=/lib/systemd/fedora-autoswap
 Type=oneshot
 TimeoutSec=0
 RemainAfterExit=yes
