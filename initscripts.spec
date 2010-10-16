@@ -226,6 +226,7 @@ rm -rf $RPM_BUILD_ROOT
 /etc/init/*
 %endif
 %if %{_with_systemd}
+/lib/systemd/*
 /lib/systemd/system/*
 %endif
 %config /etc/X11/prefdm
