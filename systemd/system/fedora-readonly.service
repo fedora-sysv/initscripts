@@ -2,9 +2,8 @@
 Description=Configure read-only root support
 DefaultDependencies=no
 Conflicts=shutdown.target
-Before=shutdown.target emergency.service emergency.target fedora-cleanup.service
-After=fedora-mountall.service
-Requires=fedora-mountall.service
+Before=shutdown.target emergency.service emergency.target systemd-tmpfiles-setup.service
+After=remount-rootfs.service
 
 [Service]
 ExecStart=/lib/systemd/fedora-readonly

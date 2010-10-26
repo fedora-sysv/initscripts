@@ -129,8 +129,6 @@ install:
 	ln -s ../fedora-loadmodules.service $(ROOT)/lib/systemd/system/basic.target.wants
 	ln -s ../fedora-autoswap.service $(ROOT)/lib/systemd/system/basic.target.wants
 	ln -s ../fedora-sysinit-hack.service $(ROOT)/lib/systemd/system/basic.target.wants
-	ln -s ../fedora-cleanup.service $(ROOT)/lib/systemd/system/local-fs.target.wants
-	ln -s ../fedora-mountall.service $(ROOT)/lib/systemd/system/local-fs.target.wants
 	ln -s ../fedora-readonly.service $(ROOT)/lib/systemd/system/local-fs.target.wants
 	ln -s ../fedora-storage-init.service $(ROOT)/lib/systemd/system/local-fs.target.wants
 	ln -s ../fedora-wait-storage.service $(ROOT)/lib/systemd/system/local-fs.target.wants
