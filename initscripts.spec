@@ -255,6 +255,7 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/sushell
 %attr(2755,root,root) /sbin/netreport
 /lib/udev/rules.d/*
+%exclude /lib/udev/rules.d/10-console.rules
 %exclude /lib/udev/rules.d/88-clock.rules
 /lib/udev/rename_device
 /lib/udev/console_init
