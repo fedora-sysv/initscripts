@@ -234,10 +234,14 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/rc.d
 %dir /etc/rc.d/rc[0-9].d
 %config(missingok) /etc/rc.d/rc[0-9].d/*
+%exclude /etc/rc.d/rc[0-9].d/*reboot
+%exclude /etc/rc.d/rc[0-9].d/*halt
 /etc/rc[0-9].d
 %dir /etc/rc.d/init.d
 /etc/rc.local
 /etc/rc.d/init.d/*
+%exclude /etc/rc.d/init.d/halt
+%exclude /etc/rc.d/init.d/reboot
 %config(noreplace) /etc/rc.d/rc.local
 %config(noreplace) /etc/sysctl.conf
 %exclude /etc/profile.d/debug*
