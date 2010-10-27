@@ -68,7 +68,7 @@ deactivate most network interfaces.
 
 %package legacy
 Summary: Support for legacy booting methods
-Requires: initscripts
+Requires: initscripts = %{version}-%{release}
 Group: System Environment/Base
 
 %description legacy
