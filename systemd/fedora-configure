@@ -4,22 +4,18 @@
 
 . /etc/init.d/functions
 
-if [ -f /.unconfigured ]; then
-    if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
-	/usr/bin/rhgb-client --quit
-    fi
+if [ -x /usr/bin/rhgb-client ] && /usr/bin/rhgb-client --ping ; then
+    /usr/bin/rhgb-client --quit
+fi
    
-    if [ -x /usr/sbin/firstboot ]; then
-        /usr/sbin/firstboot
-    fi
+if [ -x /usr/sbin/firstboot ]; then
+    /usr/sbin/firstboot
+fi
 
-    # Reread in network configuration data.
-    if [ -f /etc/sysconfig/network ]; then
-	. /etc/sysconfig/network
+# Reread in network configuration data.
+if [ -f /etc/sysconfig/network ]; then
+    . /etc/sysconfig/network
 
-	# Reset the hostname.
-	action $"Resetting hostname ${HOSTNAME}: " hostname ${HOSTNAME}
-    fi
-
-    rm -f /.unconfigured
+    # Reset the hostname.
+    action $"Resetting hostname ${HOSTNAME}: " hostname ${HOSTNAME}
 fi

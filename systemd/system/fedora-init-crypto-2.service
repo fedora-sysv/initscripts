@@ -5,6 +5,7 @@ Conflicts=shutdown.target
 Before=shutdown.target emergency.service emergency.target
 After=fedora-storage-init.service
 Requires=fedora-storage-init.service
+ConditionPathExists=/etc/crypttab
 
 [Service]
 ExecStart=/lib/systemd/fedora-init-crypto 0
