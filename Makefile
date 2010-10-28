@@ -118,10 +118,7 @@ install:
 
 	mkdir -p -m 755 $(ROOT)/lib/systemd/system/multi-user.target.wants
 	mkdir -p -m 755 $(ROOT)/lib/systemd/system/graphical.target.wants
-	ln -s prefdm.service $(ROOT)/lib/systemd/system/display-manager.service
 	ln -s reboot.target $(ROOT)/lib/systemd/system/ctrl-alt-del.target
-	ln -s ../rc-local.service $(ROOT)/lib/systemd/system/multi-user.target.wants
-	ln -s ../display-manager.service $(ROOT)/lib/systemd/system/graphical.target.wants
 	mkdir -p -m 755 $(ROOT)/lib/systemd/system/local-fs.target.wants
 	mkdir -p -m 755 $(ROOT)/lib/systemd/system/basic.target.wants
 	mkdir -p -m 755 $(ROOT)/lib/systemd/system/sysinit.target.wants
