@@ -6,8 +6,6 @@
 
 [ -z "${cmdline}" ] && cmdline=$(cat /proc/cmdline)
 
-[ -f /etc/crypttab ] && init_crypto 0
-
 if ! strstr "$cmdline" nompath && [ -f /etc/multipath.conf ] && \
 		[ -x /sbin/multipath ]; then
 	modprobe dm-multipath > /dev/null 2>&1
