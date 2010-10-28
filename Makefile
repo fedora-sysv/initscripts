@@ -132,7 +132,6 @@ install:
 	ln -s ../fedora-sysinit-hack.service $(ROOT)/lib/systemd/system/basic.target.wants
 	ln -s ../fedora-readonly.service $(ROOT)/lib/systemd/system/local-fs.target.wants
 	ln -s ../fedora-storage-init.service $(ROOT)/lib/systemd/system/local-fs.target.wants
-	ln -s ../fedora-wait-storage.service $(ROOT)/lib/systemd/system/local-fs.target.wants
 	ln -s ../fedora-sysinit-unhack.service $(ROOT)/lib/systemd/system/multi-user.target.wants
 
 # These are LSB compatibility symlinks.  At some point in the future
