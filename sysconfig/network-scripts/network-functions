@@ -121,6 +121,9 @@ source_config ()
 	SIT | sit)
 		DEVICETYPE="sit"
 		;;
+	InfiniBand | infiniband)
+		DEVICETYPE="ib"
+		;;
     esac
     if [ -n "$HWADDR" ]; then
         HWADDR=$(echo $HWADDR | awk '{ print toupper($0) }')
