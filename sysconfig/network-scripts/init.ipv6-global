@@ -144,7 +144,9 @@ case $ACTION in
 		ipv6_cleanup_tunnel_devices
 
 		# Shut down generic tunnel interface now
-		/sbin/ip link set sit0 down
+		if ipv6_test_device_status sit0 ; then
+			/sbin/ip link set sit0 down
+		fi
 		;;
 
 	    *)
