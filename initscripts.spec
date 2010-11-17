@@ -8,7 +8,7 @@ Version: 9.22
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
-Release: 2%{?dist}
+Release: 1%{?dist}
 URL: http://fedorahosted.org/releases/i/n/initscripts/
 Source: http://fedorahosted.org/releases/i/n/initscripts/initscripts-%{version}.tar.bz2
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
@@ -27,8 +27,8 @@ Requires: upstart-sysvinit
 %endif
 %endif
 %if %{_with_systemd}
-Conflicts: systemd < 9-3
-Conflicts: systemd-units < 9-3
+Conflicts: systemd < 12-1
+Conflicts: systemd-units < 12-1
 %if ! %{_with_upstart}
 Requires: systemd-sysvinit
 %endif
