@@ -4,7 +4,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.21.systemd
+Version: 9.22
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -307,6 +307,17 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Tue Nov 16 2010 Bill Nottingham <notting@redhat.com> - 9.22-1
+- merge in systemd-specific startup support; package a -legacy package
+  (based on work by <harald@redhat.com>)
+- init-ipv6.global: don't load sit module on shutdown. (#654098, <ejsheldrake@gmail.com>)
+- do not call rhgb-client
+- network-functions: add infiniband mapping (#648524, <monis@voltaire.com>)
+- fix ifdown nmcli invocation (#612934, jklimes@redhat.com>)
+- *ipv6*: don't use obsolete /sbin/ip wrapper
+- sysconfig.txt: adjust clock docs (#637058)
+- lang.csh: fix tcsh + grep-2.7. (#636552)
+
 * Fri Sep 17 2010 Bill Nottingham <notting@redhat.com> - 9.21-1
 - build for systemd only
 - ship a default.target link in case the one in /etc gets deleted
