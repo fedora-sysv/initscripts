@@ -48,8 +48,8 @@ install:
 	install -m644 sysconfig/debug sysconfig/init sysconfig/netconsole sysconfig/readonly-root $(ROOT)/etc/sysconfig/
 	cp -af sysconfig/network-scripts $(ROOT)/etc/sysconfig/
 	cp -af ppp NetworkManager init $(ROOT)/etc
-	mkdir -p $(ROOT)/lib/systemd/system
-	cp -af systemd/* $(ROOT)/lib/systemd/system
+	mkdir -p $(ROOT)/lib/systemd/
+	cp -af systemd/* $(ROOT)/lib/systemd/
 	mkdir -p $(ROOT)/etc/ppp/peers
 	mkdir -p $(ROOT)/lib
 	cp -af udev $(ROOT)/lib
@@ -118,10 +118,18 @@ install:
 
 	mkdir -p -m 755 $(ROOT)/lib/systemd/system/multi-user.target.wants
 	mkdir -p -m 755 $(ROOT)/lib/systemd/system/graphical.target.wants
-	ln -s prefdm.service $(ROOT)/lib/systemd/system/display-manager.service
 	ln -s reboot.target $(ROOT)/lib/systemd/system/ctrl-alt-del.target
-	ln -s ../rc-local.service $(ROOT)/lib/systemd/system/multi-user.target.wants
-	ln -s ../display-manager.service $(ROOT)/lib/systemd/system/graphical.target.wants
+	mkdir -p -m 755 $(ROOT)/lib/systemd/system/local-fs.target.wants
+	mkdir -p -m 755 $(ROOT)/lib/systemd/system/basic.target.wants
+	mkdir -p -m 755 $(ROOT)/lib/systemd/system/sysinit.target.wants
+	ln -s ../fedora-configure.service $(ROOT)/lib/systemd/system/basic.target.wants
+	ln -s ../fedora-loadmodules.service $(ROOT)/lib/systemd/system/basic.target.wants
+	ln -s ../fedora-autoswap.service $(ROOT)/lib/systemd/system/basic.target.wants
+	ln -s ../fedora-autorelabel.service $(ROOT)/lib/systemd/system/basic.target.wants
+	ln -s ../fedora-sysinit-hack.service $(ROOT)/lib/systemd/system/basic.target.wants
+	ln -s ../fedora-readonly.service $(ROOT)/lib/systemd/system/local-fs.target.wants
+	ln -s ../fedora-storage-init.service $(ROOT)/lib/systemd/system/local-fs.target.wants
+	ln -s ../fedora-sysinit-unhack.service $(ROOT)/lib/systemd/system/multi-user.target.wants
 
 # These are LSB compatibility symlinks.  At some point in the future
 # the actual files will be here instead of symlinks
@@ -169,4 +177,3 @@ archive: clean syntax-check tag changelog
 	@sha1sum initscripts-$(VERSION).tar.bz2 > initscripts-$(VERSION).sha1sum
 	@scp initscripts-$(VERSION).tar.bz2 initscripts-$(VERSION).sha1sum fedorahosted.org:initscripts 2>/dev/null|| scp initscripts-$(VERSION).tar.bz2 initscripts-$(VERSION).sha1sum fedorahosted.org:/srv/web/releases/i/n/initscripts
 	@echo "Everything done, files uploaded to Fedorahosted.org"
-		

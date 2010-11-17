@@ -1,0 +1,10 @@
+[Unit]
+Description=Bootup hack
+DefaultDependencies=no
+Conflicts=shutdown.target
+Before=basic.target shutdown.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/touch /dev/.in_sysinit

@@ -1,0 +1,40 @@
+#!/bin/bash
+#
+# Storage initialization
+
+. /etc/init.d/functions
+
+[ -z "${cmdline}" ] && cmdline=$(cat /proc/cmdline)
+
+if ! strstr "$cmdline" nompath && [ -f /etc/multipath.conf ] && \
+		[ -x /sbin/multipath ]; then
+	modprobe dm-multipath > /dev/null 2>&1
+	/sbin/multipath -v 0
+	if [ -x /sbin/kpartx ]; then
+		/sbin/dmsetup ls --target multipath --exec "/sbin/kpartx -a -p p" >/dev/null
+	fi
+fi
+
+if ! strstr "$cmdline" nodmraid && [ -x /sbin/dmraid ]; then
+	modprobe dm-mirror >/dev/null 2>&1
+	dmraidsets=$(LC_ALL=C /sbin/dmraid -s -c -i)
+	if [ "$?" = "0" ]; then
+		for dmname in $dmraidsets; do
+			if [[ "$dmname" == isw_* ]] && \
+			   ! strstr "$cmdline" noiswmd; then
+				continue
+			fi
+			/sbin/dmraid -ay -i --rm_partitions -p "$dmname" >/dev/null 2>&1
+			/sbin/kpartx -a -p p "/dev/mapper/$dmname"
+		done
+	fi
+fi
+
+# Start any MD RAID arrays that haven't been started yet
+[ -r /proc/mdstat -a -r /dev/md/md-device-map ] && /sbin/mdadm -IRs
+
+if [ -x /sbin/lvm ]; then
+	action $"Setting up Logical Volume Management:" /sbin/lvm vgchange -a y --sysinit
+fi
+
+[ -f /etc/crypttab ] && init_crypto 0

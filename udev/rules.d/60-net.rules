@@ -1,3 +1,2 @@
-ACTION=="add", SUBSYSTEM=="net", DEVPATH=="/devices/virtual/net/lo", RUN+="/sbin/ifup $env{INTERFACE}"
 ACTION=="add", SUBSYSTEM=="net", PROGRAM="/lib/udev/rename_device", RESULT=="?*", ENV{INTERFACE_NAME}="$result"
 SUBSYSTEM=="net", RUN+="/etc/sysconfig/network-scripts/net.hotplug"

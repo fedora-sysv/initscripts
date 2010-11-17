@@ -1,0 +1,15 @@
+[Unit]
+Description=Initialize encrypted filesystems on top of other storage
+DefaultDependencies=no
+Conflicts=shutdown.target
+Before=shutdown.target emergency.service emergency.target
+After=fedora-storage-init.service
+Requires=fedora-storage-init.service
+ConditionPathExists=/etc/crypttab
+
+[Service]
+ExecStart=/lib/systemd/fedora-init-crypto 0
+Type=oneshot
+TimeoutSec=0
+RemainAfterExit=yes
+StandardInput=tty

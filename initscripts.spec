@@ -4,11 +4,11 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.21
+Version: 9.21.systemd
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
-Release: 1%{?dist}
+Release: 2%{?dist}
 URL: http://fedorahosted.org/releases/i/n/initscripts/
 Source: http://fedorahosted.org/releases/i/n/initscripts/initscripts-%{version}.tar.bz2
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
@@ -65,6 +65,15 @@ The initscripts package contains the basic system scripts used to boot
 your Red Hat or Fedora system, change runlevels, and shut the system down
 cleanly.  Initscripts also contains the scripts that activate and
 deactivate most network interfaces.
+
+%package legacy
+Summary: Support for legacy booting methods
+Requires: initscripts = %{version}-%{release}
+Group: System Environment/Base
+
+%description legacy
+The initscripts-legacy package contains basic scripts that may be
+required to boot the system using older init systems
 
 %package -n debugmode
 Summary: Scripts for running in debugging mode
@@ -217,6 +226,7 @@ rm -rf $RPM_BUILD_ROOT
 /etc/init/*
 %endif
 %if %{_with_systemd}
+/lib/systemd/*
 /lib/systemd/system/*
 %endif
 %config /etc/X11/prefdm
@@ -224,15 +234,15 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/rc.d
 %dir /etc/rc.d/rc[0-9].d
 %config(missingok) /etc/rc.d/rc[0-9].d/*
+%exclude /etc/rc.d/rc[0-9].d/*reboot
+%exclude /etc/rc.d/rc[0-9].d/*halt
 /etc/rc[0-9].d
-/etc/rc
 %dir /etc/rc.d/init.d
 /etc/rc.local
-/etc/rc.sysinit
 /etc/rc.d/init.d/*
-/etc/rc.d/rc
+%exclude /etc/rc.d/init.d/halt
+%exclude /etc/rc.d/init.d/reboot
 %config(noreplace) /etc/rc.d/rc.local
-/etc/rc.d/rc.sysinit
 %config(noreplace) /etc/sysctl.conf
 %exclude /etc/profile.d/debug*
 /etc/profile.d/*
@@ -249,6 +259,8 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/sushell
 %attr(2755,root,root) /sbin/netreport
 /lib/udev/rules.d/*
+%exclude /lib/udev/rules.d/10-console.rules
+%exclude /lib/udev/rules.d/88-clock.rules
 /lib/udev/rename_device
 /lib/udev/console_init
 /lib/udev/console_check
@@ -273,6 +285,21 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0600,root,utmp) /var/log/btmp
 %ghost %attr(0664,root,utmp) /var/log/wtmp
 %ghost %attr(0664,root,utmp) /var/run/utmp
+
+%files legacy
+%defattr(-,root,root)
+%config(noreplace) /etc/inittab
+%dir /etc/rc.d
+%dir /etc/rc.d/rc[0-9].d
+%config(missingok) /etc/rc.d/rc[0-9].d/*
+/etc/rc[0-9].d
+/etc/rc
+%dir /etc/rc.d/init.d
+/etc/rc.sysinit
+/etc/rc.d/init.d/*
+/etc/rc.d/rc
+/etc/rc.d/rc.sysinit
+/lib/udev/rules.d/*
 
 %files -n debugmode
 %defattr(-,root,root)

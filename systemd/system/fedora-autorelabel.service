@@ -1,0 +1,14 @@
+[Unit]
+Description=Relabel all filesystems, if necessary
+DefaultDependencies=no
+Conflicts=shutdown.target
+Before=shutdown.target emergency.service emergency.target
+After=local-fs.target
+Requires=remount-rootfs.service local-fs.target
+
+[Service]
+ExecStart=/lib/systemd/fedora-autorelabel
+Type=oneshot
+TimeoutSec=0
+RemainAfterExit=yes
+StandardInput=tty

@@ -1,0 +1,13 @@
+[Unit]
+Description=Enable all detected swap partitions
+DefaultDependencies=no
+Conflicts=shutdown.target
+Before=shutdown.target emergency.service emergency.target
+After=local-fs.target fedora-init-crypto-3.service
+Requires=local-fs.target fedora-init-crypto-3.service
+
+[Service]
+ExecStart=/lib/systemd/fedora-autoswap
+Type=oneshot
+TimeoutSec=0
+RemainAfterExit=yes

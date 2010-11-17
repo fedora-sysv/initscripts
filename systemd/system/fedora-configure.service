@@ -1,0 +1,15 @@
+[Unit]
+Description=Reconfigure the system on administrator request
+DefaultDependencies=no
+Conflicts=shutdown.target
+Before=multi-user.target shutdown.target
+After=local-fs.target
+ConditionPathExists=/.unconfigured
+
+[Service]
+ExecStart=/lib/systemd/fedora-configure
+ExecStopPost=rm -f /.unconfigured
+Type=oneshot
+TimeoutSec=0
+StandardInput=tty
+RemainAfterExit=yes

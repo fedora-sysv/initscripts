@@ -1,0 +1,13 @@
+[Unit]
+Description=Configure read-only root support
+DefaultDependencies=no
+Conflicts=shutdown.target
+Before=shutdown.target emergency.service emergency.target systemd-tmpfiles-setup.service
+After=remount-rootfs.service
+
+[Service]
+ExecStart=/lib/systemd/fedora-readonly
+Type=oneshot
+TimeoutSec=0
+StandardInput=tty
+RemainAfterExit=yes

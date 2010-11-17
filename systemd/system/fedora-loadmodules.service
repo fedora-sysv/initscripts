@@ -1,0 +1,15 @@
+[Unit]
+Description=Load legacy module configuration
+DefaultDependencies=no
+Conflicts=shutdown.target
+Before=basic.target shutdown.target emergency.service emergency.target
+#Conflicts=sysinit.service
+After=udev.service
+Requires=udev.service
+
+[Service]
+ExecStart=/lib/systemd/fedora-loadmodules
+Type=oneshot
+TimeoutSec=0
+RemainAfterExit=yes
+
