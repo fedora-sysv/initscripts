@@ -60,21 +60,10 @@ relabel_selinux() {
 
 [ -z "${cmdline}" ] && cmdline=$(cat /proc/cmdline)
 
-# Clean up SELinux labels
-if [ -n "$SELINUX_STATE" ]; then
-   restorecon /etc/mtab /etc/ld.so.cache /etc/blkid/blkid.tab /etc/resolv.conf >/dev/null 2>&1
-fi
-
-# If relabeling, relabel mount points.
-if [ -n "$SELINUX_STATE" -a "$READONLY" != "yes" ]; then
-    if strstr "$cmdline" autorelabel || [ -f /.autorelabel ] ; then
-	restorecon $(awk '!/^#/ && $4 !~ /noauto/ && $2 ~ /^\// { print $2 }' /etc/fstab) >/dev/null 2>&1
-    fi
-fi
-
 # Check to see if a full relabel is needed
 if [ -n "$SELINUX_STATE" -a "$READONLY" != "yes" ]; then
     if strstr "$cmdline" autorelabel || [ -f /.autorelabel ] ; then
+	restorecon $(awk '!/^#/ && $4 !~ /noauto/ && $2 ~ /^\// { print $2 }' /etc/fstab) >/dev/null 2>&1
 	relabel_selinux
     fi
 else
