@@ -2,9 +2,9 @@
 Description=Wait for storage scan
 DefaultDependencies=no
 Conflicts=shutdown.target
-Before=local-fs.target shutdown.target emergency.service emergency.target
 After=udev-settle.service
-Requires=udev.service udev-settle.service
+Before=local-fs.target shutdown.target
+Wants=udev.service udev-settle.service
 
 [Service]
 ExecStart=-/sbin/rmmod scsi_wait_scan

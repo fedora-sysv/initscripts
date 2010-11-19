@@ -2,9 +2,9 @@
 Description=Initialize storage subsystems (RAID, LVM, etc.)
 DefaultDependencies=no
 Conflicts=shutdown.target
-Before=shutdown.target local-fs.target emergency.service emergency.target
 After=fedora-wait-storage.service
-Requires=fedora-wait-storage.service
+Before=local-fs.target shutdown.target
+Wants=fedora-wait-storage.service
 
 [Service]
 ExecStart=/lib/systemd/fedora-storage-init
