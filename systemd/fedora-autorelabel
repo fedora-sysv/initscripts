@@ -19,13 +19,6 @@ if [ -e "/selinux/enforce" ] && [ "$(cat /proc/self/attr/current)" != "kernel" ]
 	fi
 fi
 
-disable_selinux() {
-	echo $"*** Warning -- SELinux is active"
-	echo $"*** Disabling security enforcement for system recovery."
-	echo $"*** Run 'setenforce 1' to reenable."
-	echo "0" > "/selinux/enforce"
-}
-
 relabel_selinux() {
     # if /sbin/init is not labeled correctly this process is running in the
     # wrong context, so a reboot will be required after relabel
