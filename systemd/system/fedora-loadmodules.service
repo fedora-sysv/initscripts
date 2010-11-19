@@ -2,10 +2,8 @@
 Description=Load legacy module configuration
 DefaultDependencies=no
 Conflicts=shutdown.target
-Before=basic.target shutdown.target emergency.service emergency.target
-#Conflicts=sysinit.service
-After=udev.service
-Requires=udev.service
+After=systemd-readahead-collect.service systemd-readahead-replay.service
+Before=sysinit.target shutdown.target
 ConditionFileExists=/etc/rc.modules
 ConditionDirectoryNotEmpty=/etc/sysconfig/modules/
 
