@@ -51,11 +51,7 @@ relabel_selinux() {
 	/sbin/fixfiles -F restore > /dev/null 2>&1
     fi
     rm -f  /.autorelabel
-    echo $"Unmounting file systems"
-    umount -a
-    mount -n -o remount,ro /
-    echo $"Automatic reboot in progress."
-    reboot -f
+    systemctl --force reboot
 }
 
 [ -z "${cmdline}" ] && cmdline=$(cat /proc/cmdline)
