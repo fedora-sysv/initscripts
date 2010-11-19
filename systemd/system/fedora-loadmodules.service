@@ -6,10 +6,11 @@ Before=basic.target shutdown.target emergency.service emergency.target
 #Conflicts=sysinit.service
 After=udev.service
 Requires=udev.service
+ConditionFileExists=/etc/rc.modules
+ConditionDirectoryNotEmpty=/etc/sysconfig/modules/
 
 [Service]
 ExecStart=/lib/systemd/fedora-loadmodules
 Type=oneshot
 TimeoutSec=0
 RemainAfterExit=yes
-
