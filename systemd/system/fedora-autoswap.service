@@ -2,7 +2,7 @@
 Description=Enable all detected swap partitions
 DefaultDependencies=no
 Conflicts=shutdown.target
-After=systemd-readahead-collect.service systemd-readahead-replay.service
+After=systemd-readahead-collect.service systemd-readahead-replay.service local-fs.target
 Before=swap.target shutdown.target
 
 [Service]
