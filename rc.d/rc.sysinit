@@ -597,7 +597,7 @@ if [ -n "$_NEED_XFILES" ]; then
   chgrp utmp /var/run/utmpx /var/log/wtmpx
   chmod 0664 /var/run/utmpx /var/log/wtmpx
 fi
-[ -n "$SELINUX_STATE" ] && restorecon /var/run/utmp* /var/log/wtmp* >/dev/null 2>&1
+[ -n "$SELINUX_STATE" ] && restorecon /var/run/utmp* /var/log/wtmp* /var/log/btmp >/dev/null 2>&1
 
 # Clean up various /tmp bits
 [ -n "$SELINUX_STATE" ] && restorecon /tmp
