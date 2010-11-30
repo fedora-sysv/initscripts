@@ -131,6 +131,9 @@ install:
 	ln -s ../fedora-storage-init.service $(ROOT)/lib/systemd/system/local-fs.target.wants
 	ln -s ../fedora-sysinit-unhack.service $(ROOT)/lib/systemd/system/multi-user.target.wants
 
+	mkdir -p $(ROOT)/etc/tmpfiles.d
+	install -m 644 initscripts.tmpfiles.d $(ROOT)/etc/tmpfiles.d/initscripts.conf
+
 # These are LSB compatibility symlinks.  At some point in the future
 # the actual files will be here instead of symlinks
 	for i in 0 1 2 3 4 5 6 ; do \

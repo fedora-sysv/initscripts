@@ -285,6 +285,8 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0600,root,utmp) /var/log/btmp
 %ghost %attr(0664,root,utmp) /var/log/wtmp
 %ghost %attr(0664,root,utmp) /var/run/utmp
+%dir /etc/tmpfiles.d
+/etc/tmpfiles.d/initscripts.conf
 
 %files legacy
 %defattr(-,root,root)
