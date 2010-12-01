@@ -48,7 +48,7 @@ systemctl_redirect () {
 # Get a sane screen width
 [ -z "${COLUMNS:-}" ] && COLUMNS=80
 
-[ -z "${CONSOLETYPE:-}" ] && CONSOLETYPE="$(/sbin/consoletype < /dev/stderr)"
+[ -z "${CONSOLETYPE:-}" ] && CONSOLETYPE="$(/sbin/consoletype < /dev/stderr 2>/dev/null)"
 
 if [ -z "${NOLOCALE:-}" ] && [ -z "${LANGSH_SOURCED:-}" ] && [ -f /etc/sysconfig/i18n ] ; then
   . /etc/profile.d/lang.sh 2>/dev/null
