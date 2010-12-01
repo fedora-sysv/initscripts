@@ -522,14 +522,18 @@ Files in /etc/sysconfig/network-scripts/
       Most important for PPP.  Only used in front ends.
     DEVICE=<name of physical device (except dynamically-allocated PPP
       devices where it is the "logical name")>
-    IPADDR=
-    PREFIX=
+    IPADDRn=
+    PREFIXn=
       Network prefix.  It is used for all configurations except aliases
       and ippp devices.  It takes precedence over NETMASK when both
       PREFIX and NETMASK are set.
-    NETMASK=
+    NETMASKn=
       Subnet mask; just useful for aliases and ippp devices.  For all other
       configurations, use PREFIX instead.
+
+    The "n" is expected to be consecutive positive integers starting from 0.
+    It can be omitted if there is only one address being configured.
+
     GATEWAY=
     METRIC=
       Metric for the default route using GATEWAY
@@ -997,8 +1001,8 @@ Files in /etc/sysconfig/network-scripts/
     NETMASKn=<network/prefix mask>
     GATEWAYn=<next-hop router/gateway IP address>
 
-  The "n" can be any integer number, but is expected to be consecutive
-  positive integers starting from 0. For example:
+  The "n" is expected to be consecutive positive integers starting from 0.
+  For example:
 
     ADDRESS0=192.168.2.0
     NETMASK0=255.255.255.0
