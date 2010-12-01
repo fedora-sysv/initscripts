@@ -150,20 +150,36 @@ source_config ()
 
 expand_config ()
 {
-    if [ -z "${NETMASK}" ]; then
-	eval $(/bin/ipcalc --netmask ${IPADDR})
-    fi
+    local i=0 val
+    for idx in '' {0..255} ; do
+        ipaddr[$i]=$(eval echo '$'IPADDR$idx)
+        if [ -z "${ipaddr[$i]}" ]; then
+           [ "$idx" ] && [ $idx -gt 2 ] && break
+           continue
+        fi
+        prefix[$i]=$(eval echo '$'PREFIX$idx)
+        netmask[$i]=$(eval echo '$'NETMASK$idx)
+        broadcast[$i]=$(eval echo '$'BROADCAST$idx)
 
-    if [ -z "${PREFIX}" ]; then
-	eval $(/bin/ipcalc --prefix ${IPADDR} ${NETMASK})
-    fi
+        if [ "${netmask[$i]}x" = "x" ]; then
+            val=$(/bin/ipcalc --netmask "${ipaddr[$i]}")
+            netmask[$i]=${val##NETMASK=}
+        fi
 
-    if [ -z "${BROADCAST}" ]; then
-	eval $(/bin/ipcalc --broadcast ${IPADDR} ${NETMASK})
-    fi
+        if [ "${prefix[$i]}x" = "x" ]; then
+            val=$(/bin/ipcalc --prefix ${ipaddr[$i]} ${netmask[$i]})
+            prefix[$i]=${val##PREFIX=}
+        fi
+
+        if [ "${broadcast[$i]}x" = "x" ]; then
+            val=$(/bin/ipcalc --broadcast ${ipaddr[$i]} ${netmask[$i]})
+            broadcast[$i]=${val##BROADCAST=}
+        fi
+        i=$((i+1))
+    done
 
     if [ -z "${NETWORK}" ]; then
-	eval $(/bin/ipcalc --network ${IPADDR} ${NETMASK})
+        eval $(/bin/ipcalc --network ${ipaddr[0]} ${netmask[0]})
     fi
 }
 

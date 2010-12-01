@@ -1,6 +1,6 @@
 #!/bin/bash
 # Network Interface Configuration System
-# Copyright (c) 1996-2009 Red Hat, Inc. all rights reserved.
+# Copyright (c) 1996-2010 Red Hat, Inc. all rights reserved.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License, version 2,
@@ -219,7 +219,7 @@ else
     else
   
     expand_config
-    
+
     [ -n "${ARP}" ] && \
 	ip link set dev ${REALDEVICE} $(toggle_value arp $ARP)
    
@@ -246,27 +246,36 @@ else
        SRC=
     fi
     
-    if [ "${REALDEVICE}" != "lo" ]; then
-    if ! LC_ALL=C ip addr ls ${REALDEVICE} | LC_ALL=C grep -q "${IPADDR}/${PREFIX}" ; then
-	 if ! /sbin/arping -q -c 2 -w 3 -D -I ${REALDEVICE} ${IPADDR} ; then
-	    echo $"Error, some other host already uses address ${IPADDR}."
-	    exit 1
-	 fi
-	 if ! ip addr add ${IPADDR}/${PREFIX} \
-	    brd ${BROADCAST:-+} dev ${REALDEVICE} ${SCOPE} label ${DEVICE}; then
-	    echo $"Error adding address ${IPADDR} for ${DEVICE}."
-	 fi
-    fi
-    
-    if [ -n "$SRCADDR" ]; then
-           sysctl -w "net.ipv4.conf.${REALDEVICE}.arp_filter=1" >/dev/null 2>&1
-    fi
+    # set IP address(es)
+    for idx in {0..256} ; do
+	if [ -z "${ipaddr[$idx]}" ]; then
+            break
+        fi
 
-    # update ARP cache of neighboring computers
-    /sbin/arping -q -A -c 1 -I ${REALDEVICE} ${IPADDR}
-    ( sleep 2;
-      /sbin/arping -q -U -c 1 -I ${REALDEVICE} ${IPADDR} ) > /dev/null 2>&1 < /dev/null &
-    fi
+        if ! LC_ALL=C ip addr ls ${REALDEVICE} | LC_ALL=C grep -q "${ipaddr[$idx]}/${prefix[$idx]}" ; then
+            [ "${REALDEVICE}" != "lo" ] && \
+            if ! /sbin/arping -q -c 2 -w 3 -D -I ${REALDEVICE} ${ipaddr[$idx]} ; then
+                echo $"Error, some other host already uses address ${ipaddr[$idx]}."
+                exit 1
+            fi
+
+            if ! ip addr add ${ipaddr[$idx]}/${prefix[$idx]} \
+              brd ${broadcast[$idx]:-+} dev ${REALDEVICE} ${SCOPE} label ${DEVICE}; then
+                echo $"Error adding address ${ipaddr[$idx]} for ${DEVICE}."
+            fi
+        fi
+
+        if [ -n "$SRCADDR" ]; then
+               sysctl -w "net.ipv4.conf.${REALDEVICE}.arp_filter=1" >/dev/null 2>&1
+        fi
+
+        # update ARP cache of neighboring computers
+        if [ "${REALDEVICE}" != "lo" ]; then
+          /sbin/arping -q -A -c 1 -I ${REALDEVICE} ${ipaddr[$idx]}
+          ( sleep 2;
+            /sbin/arping -q -U -c 1 -I ${REALDEVICE} ${ipaddr[$idx]} ) > /dev/null 2>&1 < /dev/null &
+        fi
+    done
 
     # Set a default route.
     if [ "${DEFROUTE}" != "no" ] && [ -z "${GATEWAYDEV}" -o "${GATEWAYDEV}" = "${REALDEVICE}" ]; then
