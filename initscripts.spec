@@ -4,7 +4,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.22
+Version: 9.23
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -309,6 +309,13 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Thu Dec 02 2010 Bill Nottingham <notting@redhat.com> - 9.23-1
+- don't throw errors on unreadable /dev/stderr (#650103, <plautrba@redhat.com>)
+- support multiple ipv4 addresses, not just alias devices (#132912, #633984, <jklimes@redhat.com>)
+- properly handle /var/run on tmpfs (#656602, <plautrba@redhat.com>)
+- allow '0' as a vlan tag (#624704, #635360)
+- assorted systemd unit cleanup (<lennart@poettering.net>)
+
 * Tue Nov 16 2010 Bill Nottingham <notting@redhat.com> - 9.22-1
 - merge in systemd-specific startup support; package a -legacy package
   (based on work by <harald@redhat.com>)
