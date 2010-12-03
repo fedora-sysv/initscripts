@@ -18,3 +18,13 @@ kernel.core_uses_pid = 1
 
 # Controls the use of TCP syncookies
 net.ipv4.tcp_syncookies = 1
+
+# Do not spend as much process time too early to write out dirty pages
+vm.dirty_ratio = 40
+
+# Increase the average time a process runs continuously and also improve the
+# cache utilization and server style workload throughput at minor latency cost
+kernel.sched_min_granularity_ns = 10000000
+kernel.sched_wakeup_granularity_ns = 15000000
+kernel.sched_tunable_scaling = 0
+kernel.sched_latency_ns = 80000000
