@@ -275,7 +275,7 @@ else
     # Set a default route.
     if [ "${DEFROUTE}" != "no" ] && [ -z "${GATEWAYDEV}" -o "${GATEWAYDEV}" = "${REALDEVICE}" ]; then
 	# set up default gateway. replace if one already exists
-	if [ -n "${GATEWAY}" ] && [ "$(ipcalc --network ${GATEWAY} ${NETMASK} 2>/dev/null)" = "NETWORK=${NETWORK}" ]; then
+	if [ -n "${GATEWAY}" ] && [ "$(ipcalc --network ${GATEWAY} ${netmask[0]} 2>/dev/null)" = "NETWORK=${NETWORK}" ]; then
 	    ip route replace default ${METRIC:+metric $METRIC} \
 		via ${GATEWAY} ${WINDOW:+window $WINDOW} ${SRC} \
 		${GATEWAYDEV:+dev $GATEWAYDEV}
