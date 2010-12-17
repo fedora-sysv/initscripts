@@ -47,6 +47,8 @@ interfaces=$(ls ifcfg* | \
 	    LANG=C sed -e "$__sed_discard_ignored_files" \
 		       -e '/\(ifcfg-lo\|:\|ifcfg-.*-range\)/d' \
 		       -e '/ifcfg-[A-Za-z0-9\._-]\+$/ { s/^ifcfg-//g;s/[0-9]/ &/}' | \
+		       -e '/\(ifcfg-lo$\|:\|ifcfg-.*-range\)/d' \
+		       -e '/ifcfg-[A-Za-z0-9#\._-]\+$/ { s/^ifcfg-//g;s/[0-9]/ &/}' | \
 	    LANG=C sort -k 1,1 -k 2n | \
 	    LANG=C sed 's/ //')
 
