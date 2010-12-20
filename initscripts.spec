@@ -124,6 +124,8 @@ rm -f \
  $RPM_BUILD_ROOT/etc/sysconfig/init.s390
 %endif
 
+touch $RPM_BUILD_ROOT/etc/crypttab
+
 %pre
 /usr/sbin/groupadd -g 22 -r -f utmp
 
@@ -285,6 +287,7 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0600,root,utmp) /var/log/btmp
 %ghost %attr(0664,root,utmp) /var/log/wtmp
 %ghost %attr(0664,root,utmp) /var/run/utmp
+%ghost %verify(not md5 size mtime) %config(noreplace,missingok) /etc/crypttab
 %dir /etc/tmpfiles.d
 /etc/tmpfiles.d/initscripts.conf
 
