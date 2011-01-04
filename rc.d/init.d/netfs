@@ -25,8 +25,8 @@ NCPFSTAB=$(LC_ALL=C awk '!/^#/ && $3 == "ncpfs" && $4 !~ /noauto/ { print $2 }' 
 NETDEVFSTAB=$(LC_ALL=C awk '!/^#/ && $4 ~/_netdev/ && $4 !~ /noauto/ { print $1 }' /etc/fstab)
 
 NFSMTAB=$(LC_ALL=C awk '$3 ~ /^nfs/ && $3 != "nfsd" && $2 != "/" { print $2 }' /proc/mounts)
-CIFSMTAB=$(LC_ALL=C awk '$3 == "cifs" { print $2 }' /proc/mounts)
-NCPMTAB=$(LC_ALL=C awk '$3 == "ncpfs" { print $2 }' /proc/mounts)
+CIFSMTAB=$(LC_ALL=C awk '$3 == "cifs" { print $2 }' /proc/mounts | tac)
+NCPMTAB=$(LC_ALL=C awk '$3 == "ncpfs" { print $2 }' /proc/mounts | tac)
 NETDEVMTAB=$(LC_ALL=C awk '$4 ~ /_netdev/ && $2 != "/" { print $2 }' /etc/mtab)
 
 # See how we were called.
@@ -117,8 +117,16 @@ case "$1" in
 			$"Unmounting NFS filesystems (retry): " \
 			"-f -l"
 	fi
-	[ -n "$CIFSMTAB" ] && action $"Unmounting CIFS filesystems: " umount -a -t cifs
-	[ -n "$NCPMTAB" ] && action $"Unmounting NCP filesystems: " umount -a -t ncp,ncpfs
+	if [ -n "$CIFSMTAB" ]; then
+		for MNT in $CIFSMTAB; do
+			action $"Unmounting CIFS filesystem: $MNT" umount "$MNT"
+		done
+	fi
+	if [ -n "$NCPMTAB" ]; then
+		for MNT in $NCPMTAB; do
+			action $"Unmounting NCP filesystem: $MNT" umount "$MNT"
+		done
+	fi
 	rm -f /var/lock/subsys/netfs
 	;;
   status)
