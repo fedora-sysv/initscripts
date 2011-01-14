@@ -104,7 +104,7 @@ touch /var/lib/random-seed
 chmod 600 /var/lib/random-seed
 action $"Saving random seed: " dd if=/dev/urandom of=/var/lib/random-seed count=1 bs=512 2>/dev/null
 
-[ -x /sbin/hwclock ] && action $"Syncing hardware clock to system time" /sbin/hwclock --systohc
+[ -x /sbin/hwclock -a -e /dev/rtc ] && action $"Syncing hardware clock to system time" /sbin/hwclock --systohc
 
 # Try to unmount tmpfs filesystems to avoid swapping them in.  Ignore failures.
 tmpfs=$(awk '$2 ~ /^\/($|proc|dev)/ { next; }
