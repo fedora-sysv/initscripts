@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.17
+Version: 9.03.18
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -239,6 +239,23 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Fri Jan 14 2011 Petr Lautrbach <plautrba@redhat.com> 9.03.18-1
+- don't use the ipv6_exec_ip wrapper
+- don't accidentally cause sit module to be loaded on shutdown. (#654098, <ejsheldrake@gmail.com>)
+- simplify various string match constructs. (#558575, <ville.skytta@iki.fi>)
+- explicitly pass both device and dir when remounting read-only (#620461, <phr@doc.ic.ac.uk>)
+- add infiniband mapping (#648524, <monis@voltaire.com>)
+- fix ifdown calling nmcli for NM-managed devices (#612934, <jklimes@redhat.com>)
+- allow 0 as a vlan tag. (#635360)
+- support multiple IP addreses via IPADDRn, PREFIXn (or NETMASKn) (#633984)
+- stop tty and serial also on runlevel 's' (#629257)
+- system z optimized sysctl settings per default (#633323)
+- don't run kexec-disable for runlevels [S016] (#658138)
+- add # as a valid character in network device names (<Matt_Domsch@dell.com>)
+- use SYSCTLDEVICE without . (#667211, <notting@redhat.com>)
+- handle 'MASTER' being quoted. (#651450, <gfidente@redhat.com>)
+- test if there is /dev/rtc before syncing hardware clock (#598850)
+
 * Wed Sep 01 2010 Harald Hoyer <harald@redhat.com> 9.03.17-1
 - enable syncookies again (#629259)
 
