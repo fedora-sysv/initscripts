@@ -135,6 +135,7 @@ source_config ()
     [ -z "$DEVICETYPE" ] && DEVICETYPE=$(echo ${DEVICE} | sed "s/[0-9]*$//")
     [ -z "$REALDEVICE" -a -n "$PARENTDEVICE" ] && REALDEVICE=$PARENTDEVICE
     [ -z "$REALDEVICE" ] && REALDEVICE=${DEVICE%%:*}
+    [ -z "$SYSCTLDEVICE" ] && SYSCTLDEVICE=${REALDEVICE/.//}
     if [ "${DEVICE}" != "${REALDEVICE}" ]; then
         ISALIAS=yes
     else

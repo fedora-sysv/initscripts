@@ -765,9 +765,9 @@ ipv6_add_tunnel_device() {
 		fi
 
 		# Set sysctls proper (regardless "default")
-		/sbin/sysctl -e -w net.ipv6.conf.$device.forwarding=1 >/dev/null 2>&1
-		/sbin/sysctl -e -w net.ipv6.conf.$device.accept_ra=0 >/dev/null 2>&1
-		/sbin/sysctl -e -w net.ipv6.conf.$device.accept_redirects=0 >/dev/null 2>&1
+		/sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.forwarding=1 >/dev/null 2>&1
+		/sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.accept_ra=0 >/dev/null 2>&1
+		/sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.accept_redirects=0 >/dev/null 2>&1
 
 		if [ -n "$addressipv6local" ]; then
 			# Setup P-t-P address
