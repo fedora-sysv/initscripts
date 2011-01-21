@@ -322,7 +322,7 @@ rm -rf $RPM_BUILD_ROOT
 - ifup-eth: fix routing regression (#660363)
 - sysctl.conf.s390 - system z optimized sysctl settings per default (#633323, <plautrba@redhat.com>)
 - serial.conf, tty.conf: stop tty and serial also on runlevel 's' (#629257, <plautrba@redhat.com>)
-- translation updates: bn_IN, es, gu, nds, or, uk
+- translation updates: bn_IN, es, gu, hi, nds, or, pa, uk, zh_CN
 
 * Thu Dec 02 2010 Bill Nottingham <notting@redhat.com> - 9.23-1
 - don't throw errors on unreadable /dev/stderr (#650103, <plautrba@redhat.com>)
