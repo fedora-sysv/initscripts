@@ -4,7 +4,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.23
+Version: 9.24
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -312,6 +312,18 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Fri Jan 21 2010 Bill Nottingham <notting@redhat.com> - 9.24-1
+- ifup-eth/ifdown-eth: handle 'MASTER' being quoted. (#651450, <gfidente@redhat.com>)
+- tmpfiles.d: remove entries that exist in systemd
+- frob device when calling sysctl, in case of vlans. (#665601, #667211, <ossman@cendio.se>)
+- netfs: rework to handle bind-mounted cifs/ncpfs (#663140, <dmudrich@nospam.mudrichsystems.com>)
+- own /etc/crypttab (#664309)
+- init.d/network: add # as a valid character in network device names (<Matt_Domsch@dell.com>)
+- ifup-eth: fix routing regression (#660363)
+- sysctl.conf.s390 - system z optimized sysctl settings per default (#633323, <plautrba@redhat.com>)
+- serial.conf, tty.conf: stop tty and serial also on runlevel 's' (#629257, <plautrba@redhat.com>)
+- translation updates: bn_IN, es, gu, nds, or, uk
+
 * Thu Dec 02 2010 Bill Nottingham <notting@redhat.com> - 9.23-1
 - don't throw errors on unreadable /dev/stderr (#650103, <plautrba@redhat.com>)
 - support multiple ipv4 addresses, not just alias devices (#132912, #633984, <jklimes@redhat.com>)
