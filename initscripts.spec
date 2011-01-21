@@ -312,7 +312,7 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
-* Fri Jan 21 2010 Bill Nottingham <notting@redhat.com> - 9.24-1
+* Fri Jan 21 2011 Bill Nottingham <notting@redhat.com> - 9.24-1
 - ifup-eth/ifdown-eth: handle 'MASTER' being quoted. (#651450, <gfidente@redhat.com>)
 - tmpfiles.d: remove entries that exist in systemd
 - frob device when calling sysctl, in case of vlans. (#665601, #667211, <ossman@cendio.se>)
