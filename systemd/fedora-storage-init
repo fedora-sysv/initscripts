@@ -31,7 +31,7 @@ if ! strstr "$cmdline" nodmraid && [ -x /sbin/dmraid ]; then
 fi
 
 # Start any MD RAID arrays that haven't been started yet
-[ -r /proc/mdstat -a -r /dev/md/md-device-map ] && /sbin/mdadm -IRs
+[ -r /proc/mdstat ] && [ -r /dev/md/md-device-map ] && /sbin/mdadm -IRs
 
 if [ -x /sbin/lvm ]; then
 	action $"Setting up Logical Volume Management:" /sbin/lvm vgchange -a y --sysinit

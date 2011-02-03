@@ -194,7 +194,7 @@ if ! strstr "$cmdline" nodmraid && [ -x /sbin/dmraid ]; then
 fi
 
 # Start any MD RAID arrays that haven't been started yet
-[ -r /proc/mdstat -a -r /dev/md/md-device-map ] && /sbin/mdadm -IRs
+[ -r /proc/mdstat ] && [ -r /dev/md/md-device-map ] && /sbin/mdadm -IRs
 
 if [ -x /sbin/lvm ]; then
 	action $"Setting up Logical Volume Management:" /sbin/lvm vgchange -a y --sysinit
@@ -204,7 +204,7 @@ if [ -f /etc/crypttab ]; then
     init_crypto 0
 fi
 
-if [ -f /fastboot ] || strstr "$cmdline" fastboot ; then
+if strstr "$cmdline" fastboot || [ -f /fastboot ]; then
 	fastboot=yes
 fi
 
@@ -212,7 +212,7 @@ if [ -f /fsckoptions ]; then
 	fsckoptions=$(cat /fsckoptions)
 fi
 
-if [ -f /forcefsck ] || strstr "$cmdline" forcefsck ; then
+if strstr "$cmdline" forcefsck || [ -f /forcefsck ]; then
 	fsckoptions="-f $fsckoptions"
 elif [ -f /.autofsck ]; then
 	[ -f /etc/sysconfig/autofsck ] && . /etc/sysconfig/autofsck
@@ -632,14 +632,12 @@ fi
 /bin/mount -t binfmt_misc none /proc/sys/fs/binfmt_misc > /dev/null 2>&1
 
 # Boot time profiles. Yes, this should be somewhere else.
-if [ -x /usr/sbin/system-config-network-cmd ]; then
-  if strstr "$cmdline" netprofile= ; then
+if strstr "$cmdline" netprofile= && [ -x /usr/sbin/system-config-network-cmd ]; then
     for arg in $cmdline ; do
         if [ "${arg##netprofile=}" != "${arg}" ]; then
 	    /usr/sbin/system-config-network-cmd --profile ${arg##netprofile=}
         fi
     done
-  fi
 fi
 
 # Now that we have all of our basic modules loaded and the kernel going,
