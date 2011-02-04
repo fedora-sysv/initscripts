@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.18
+Version: 9.03.19
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -239,6 +239,10 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Fri Feb 04 2011 Petr Lautrbach <plautrba@redhat.com> 9.03.19-1
+- sys-unconfig(8) manpage fix (#674397)
+- set default shmmax and shmall for certain architectures (#660036)
+
 * Fri Jan 14 2011 Petr Lautrbach <plautrba@redhat.com> 9.03.18-1
 - don't use the ipv6_exec_ip wrapper
 - don't accidentally cause sit module to be loaded on shutdown. (#654098, <ejsheldrake@gmail.com>)
