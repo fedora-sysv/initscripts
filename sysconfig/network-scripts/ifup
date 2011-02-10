@@ -73,9 +73,9 @@ fi
 # Ethernet 802.1Q VLAN support
 if [ "${VLAN}" = "yes" ] && [ "$ISALIAS" = "no" ]; then
     VID=""
-    MATCH='^(eth|hsi|bond)[0-9]+\.[0-9]{1,4}$'
+    MATCH='^.+\.[0-9]{1,4}$'
     if [[ "${DEVICE}" =~ $MATCH ]]; then
-	VID=$(echo "${DEVICE}" | LC_ALL=C sed 's/^[a-z0-9]*\.0*\([0-9]\+\)/\1/')
+	VID=$(echo "${DEVICE}" | LC_ALL=C sed 's/^.*\.\([0-9]\+\)/\1/')
 	PHYSDEV=${DEVICE%.*}
     fi
     MATCH='^vlan[0-9]{1,4}?'
