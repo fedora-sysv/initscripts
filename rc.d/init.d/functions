@@ -26,6 +26,7 @@ systemctl_redirect () {
 	local s
 	local prog=${1##*/}
         local command=$2
+        local options=""
 
 	case "$command" in
 	start)
@@ -42,7 +43,11 @@ systemctl_redirect () {
 		;;
 	esac
 
-	action "$s" /bin/systemctl $command "$prog.service"
+        if [ -n "$SYSTEMCTL_IGNORE_DEPENDENCIES" ] ; then
+                options="--ignore-dependencies"
+        fi
+
+	action "$s" /bin/systemctl $options $command "$prog.service"
 }
 
 # Get a sane screen width
