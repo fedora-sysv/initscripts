@@ -26,6 +26,14 @@ while [ $# -gt 0 ]; do
        echo "${VERSION}" >&2
        exit 0
        ;;
+    --ignore-dependencies)
+       export SYSTEMCTL_IGNORE_DEPENDENCIES=1
+       shift
+       ;;
+    --skip-redirect)
+       export SYSTEMCTL_SKIP_REDIRECT=1
+       shift
+       ;;
     *)
        if [ -z "${SERVICE}" -a $# -eq 1 -a "${1}" = "--status-all" ]; then
           cd ${SERVICEDIR}
@@ -60,7 +68,7 @@ while [ $# -gt 0 ]; do
 done
 
 if [ -f "${SERVICEDIR}/${SERVICE}" ]; then
-   env -i PATH="$PATH" TERM="$TERM" "${SERVICEDIR}/${SERVICE}" ${OPTIONS}
+   env -i PATH="$PATH" TERM="$TERM" SYSTEMCTL_IGNORE_DEPENDENCIES=${SYSTEMCTL_IGNORE_DEPENDENCIES} SYSTEMCTL_SKIP_REDIRECT=${SYSTEMCTL_SKIP_REDIRECT} "${SERVICEDIR}/${SERVICE}" ${OPTIONS}
 elif [ -f "${SYSTEMDSERVICEDIR}/${SERVICE}.service" ]; then
    echo $"Redirecting to /bin/systemctl ${OPTIONS} ${SERVICE}.service" >/dev/stderr
    exec /bin/systemctl ${OPTIONS} ${SERVICE}.service
