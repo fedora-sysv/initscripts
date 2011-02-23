@@ -28,6 +28,11 @@
 #include <linux/serial.h>
 #include <linux/serial_core.h>
 
+#ifndef PORT_OMAP
+/* from linux-2.6/include/linux/serial_core.h commit b612633b */
+#define PORT_OMAP 96
+#endif
+
 struct speeds
 {
 	speed_t speed;
@@ -122,7 +127,7 @@ char *serial_tty_name(int type) {
 		case PORT_MPC52xx:
 			return "ttyPSC";
 		case PORT_OMAP:
-			return "ttySO";
+			return "ttyO";
 		default:
 			return NULL;
 	}
