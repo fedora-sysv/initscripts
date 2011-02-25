@@ -278,7 +278,7 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
-* Fri Feb 25 2010 Bill Nottingham <notting@redhat.com> - 9.20.2-1
+* Fri Feb 25 2011 Bill Nottingham <notting@redhat.com> - 9.20.2-1
 - rc.sysinit: add support for sysctl.d (#593211, <martin@laptop.org>)
 - console_check: support OMAP serial console (#678875, <ndevos@redhat.com>)
 - ifup-eth/ifdown-eth: handle 'MASTER' being quoted. (#651450, <gfidente@redhat.com>)
