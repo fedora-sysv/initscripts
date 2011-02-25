@@ -2,10 +2,14 @@
 #
 # ADDING CONFIGURATION HERE WILL HAVE NO EFFECT ON YOUR SYSTEM.
 #
-# Non-SysV tasks for individual runlevels live in /lib/systemd/system/runlevelX.target.wants
-#
 # Ctrl-Alt-Delete is handled by /etc/systemd/system/ctrl-alt-del.target
 #
-# To set a default runlevel <X>, run:
+# systemd uses 'targets' instead of runlevels. By default, there are two main targets:
 #
-# ln -s /lib/systemd/system/runlevel<X>.target /etc/systemd/system/default.target
+# multi-user.target: analagous to runlevel 3
+# graphical.target: analagous to runlevel 5
+#
+# To set a default target, run:
+#
+# ln -s /lib/systemd/system/<target name>.target /etc/systemd/system/default.target
+#
