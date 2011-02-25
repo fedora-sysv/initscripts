@@ -4,7 +4,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.20.1
+Version: 9.20.2
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -278,6 +278,20 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Fri Feb 25 2010 Bill Nottingham <notting@redhat.com> - 9.20.2-1
+- rc.sysinit: add support for sysctl.d (#593211, <martin@laptop.org>)
+- console_check: support OMAP serial console (#678875, <ndevos@redhat.com>)
+- ifup-eth/ifdown-eth: handle 'MASTER' being quoted. (#651450, <gfidente@redhat.com>)
+- netfs: rework to handle bind-mounted cifs/ncpfs (#663140, <dmudrich@nospam.mudrichsystems.com>)
+- own /etc/crypttab (#664309)
+- init.d/network: add # as a valid character in network device names (<Matt_Domsch@dell.com>)
+- don't throw errors on unreadable /dev/stderr (#650103, <plautrba@redhat.com>)
+- allow '0' as a vlan tag (#624704, #635360)
+- init-ipv6.global: don't load sit module on shutdown. (#654098, <ejsheldrake@gmail.com>)
+- network-functions: add infiniband mapping (#648524, <monis@voltaire.com>)
+- fix ifdown nmcli invocation (#612934, jklimes@redhat.com>)
+- *ipv6*: don't use obsolete /sbin/ip wrapper
+
 * Mon Sep 27 2010 Bill Nottingham <notting@redhat.com> - 9.20.1-1
 - sysconfig.txt: adjust clock docs to match reality (#637058)
 - lang.csh: fix for grep-2.7 (#636552)
