@@ -786,10 +786,16 @@ init_crypto() {
 		rc=$?
 	    fi
 	else
-	    [ -z "$key" ] && plymouth --hide-splash
-	    /sbin/cryptsetup $params ${key:+-d $key} create "$dst" "$src" <&1 2>/dev/null && success || failure
-	    rc=$?
-	    [ -z "$key" ] && plymouth --show-splash
+	    if [ -z "$key" ]; then
+		mount_point="$(find_crypto_mount_point $dst)"
+		[ -n "$mount_point" ] || mount_point=${src##*/}
+		prompt=$(printf $"%s is password protected" "$mount_point")
+		plymouth ask-for-password --prompt "$prompt" --command="/sbin/cryptsetup $params create $dst $src" <&1
+		rc=$?
+	    else
+		/sbin/cryptsetup $params ${key:+-d $key} create "$dst" "$src" <&1 2>/dev/null && success || failure
+		rc=$?
+	    fi
 	fi
 	if [ $rc -ne 0 ]; then
 	    ret=1
