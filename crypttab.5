@@ -39,7 +39,8 @@ of the resulting encrypted block device;
 the device is set up at
 \fB/dev/mapper/\fIname\fR.
 
-The second field contains a path to the underlying block device.
+The second field contains a path to the underlying block device,
+or a specification of a block device via UUID=<device uuid>.
 If the block device contains a LUKS signature,
 it is opened as a LUKS encrypted partition;
 otherwise it is assumed to be a raw dm-crypt partition.
@@ -51,6 +52,8 @@ Otherwise the field is interpreted as a path to a file
 containing the encryption password.
 For swap encryption
 .B /dev/urandom
+or the hardware device
+.B /dev/hw_random
 can be used as the password file;
 using
 .B /dev/random
@@ -84,6 +87,10 @@ for possible values and the default value of this option.
 \fBverify\fR
 If the the encryption password is read from console,
 it has to be entered twice (to prevent typos).
+
+.TP
+\fBnoauto\fR
+This device will not be automatically unlocked on boot.
 
 .TP
 \fBswap\fR
