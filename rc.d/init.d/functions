@@ -658,6 +658,15 @@ is_false() {
     return 1
 }
 
+# Apply sysctl settings, including files in /etc/sysctl.d
+apply_sysctl() {
+    sysctl -e -p /etc/sysctl.conf >/dev/null 2>&1
+    for file in /etc/sysctl.d/* ; do
+        is_ignored_file "$file" && continue
+        test -f "$file" && sysctl -e -p "$file" >/dev/null 2>&1
+    done
+}
+
 key_is_random() {
     [ "$1" = "/dev/urandom" -o "$1" = "/dev/hw_random" \
 	-o "$1" = "/dev/random" ]
