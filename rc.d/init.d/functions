@@ -354,7 +354,7 @@ killproc() {
 		       if checkpid $pid 2>&1; then
 			   # TERM first, then KILL if not dead
 			   kill -TERM $pid >/dev/null 2>&1
-			   usleep 100000
+			   usleep 50000
 			   if checkpid $pid ; then
 				try=0
 				while [ $try -lt $delay ] ; do
@@ -364,7 +364,7 @@ killproc() {
 				done
 				if checkpid $pid ; then
 					kill -KILL $pid >/dev/null 2>&1
-					usleep 100000
+					usleep 50000
 				fi
 			   fi
 		        fi
