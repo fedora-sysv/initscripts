@@ -269,7 +269,7 @@ daemon() {
 
 # A function to stop a program.
 killproc() {
-	local RC killlevel= base pid pid_file= delay
+	local RC killlevel= base pid pid_file= delay try
 
 	RC=0; delay=3
 	# Test syntax.
@@ -312,11 +312,17 @@ killproc() {
 			   # TERM first, then KILL if not dead
 			   kill -TERM $pid >/dev/null 2>&1
 			   usleep 100000
-			   if checkpid $pid && sleep 1 &&
-			      checkpid $pid && sleep $delay &&
-			      checkpid $pid ; then
-                                kill -KILL $pid >/dev/null 2>&1
-				usleep 100000
+			   if checkpid $pid ; then
+				try=0
+				while [ $try -lt $delay ] ; do
+					checkpid $pid || break
+					sleep 1
+					let try+=1
+				done
+				if checkpid $pid ; then
+					kill -KILL $pid >/dev/null 2>&1
+					usleep 100000
+				fi
 			   fi
 		        fi
 			checkpid $pid
