@@ -363,11 +363,7 @@ fi
 
 # Configure kernel parameters
 update_boot_stage RCkernelparam
-sysctl -e -p /etc/sysctl.conf >/dev/null 2>&1
-for file in /etc/sysctl.d/* ; do
-	is_ignored_file "$file" && continue
-	test -f "$file" && sysctl -e -p "$file" >/dev/null 2>&1
-done
+apply_sysctl
 
 if [ -x /bin/loadkeys ]; then
  KEYTABLE=

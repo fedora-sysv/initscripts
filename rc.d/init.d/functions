@@ -579,5 +579,15 @@ is_ignored_file() {
     esac
     return 1
 }
+
+# Apply sysctl settings, including files in /etc/sysctl.d
+apply_sysctl() {
+    sysctl -e -p /etc/sysctl.conf >/dev/null 2>&1
+    for file in /etc/sysctl.d/* ; do
+        is_ignored_file "$file" && continue
+        test -f "$file" && sysctl -e -p "$file" >/dev/null 2>&1
+    done
+}
+
 # A sed expression to filter out the files that is_ignored_file recognizes
 __sed_discard_ignored_files='/\(~\|\.bak\|\.orig\|\.rpmnew\|\.rpmorig\|\.rpmsave\)$/d'
