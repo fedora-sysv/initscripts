@@ -114,7 +114,11 @@ if [ "${VLAN}" = "yes" ] && [ "$ISALIAS" = "no" ]; then
 		FLAG_REORDER_HDR="reorder_hdr off"
 	    fi
 
-	    ip link add dev ${DEVICE} link ${PHYSDEV} type vlan id ${VID} ${FLAG_REORDER_HDR} || {
+	    if [ "${GVRP}" = "yes" -o "${GVRP}" = "1" ]; then
+		FLAG_GVRP="gvrp on"
+	    fi
+
+	    ip link add dev ${DEVICE} link ${PHYSDEV} type vlan id ${VID} ${FLAG_REORDER_HDR} ${FLAG_GVRP} || {
 		(/usr/bin/logger -p daemon.info -t ifup \
 		    $"ERROR: could not add vlan ${VID} as ${DEVICE} on dev ${PHYSDEV}" &)&
 		echo $"ERROR: could not add vlan ${VID} as ${DEVICE} on dev ${PHYSDEV}"
