@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.19
+Version: 9.03.20
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -239,6 +239,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Thu Mar 10 2011 Petr Lautrbach <plautrba@redhat.com> 9.03.20-1
+- Don't do force/lazy umount for the first nfs umount. (#676851, <jlayton@redhat.com>)
+
 * Fri Feb 04 2011 Petr Lautrbach <plautrba@redhat.com> 9.03.19-1
 - sys-unconfig(8) manpage fix (#674397)
 - set default shmmax and shmall for certain architectures (#660036)
