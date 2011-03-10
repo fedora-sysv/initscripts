@@ -178,7 +178,7 @@ if [ -n "${DYNCONFIG}" ] && [ -x /sbin/dhclient ]; then
        DHCLIENTCONF='';
     fi;
     # copy any lease obtained by the initrd
-    for file in /dev/.dhclient-${DEVICE}.leases /dev/{.run/initramfs,.initramfs/net.${DEVICE}.lease ; do
+    for file in /dev/.dhclient-${DEVICE}.leases /dev/{.run/initramfs,.initramfs}/net.${DEVICE}.lease ; do
         if [ -f "${file}" ]; then
             mv -f $file /var/lib/dhclient/dhclient-${DEVICE}.leases
             [ -x /sbin/restorecon ] && restorecon /var/lib/dhclient/dhclient-${DEVICE}.leases > /dev/null 2>&1
