@@ -4,7 +4,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.25
+Version: 9.26
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -312,6 +312,19 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Thu Mar 10 2011 Bill Nottingham <notting@redhat.com> - 9.26-1
+- network-functions: fix check for unmanaged devices (#670154)
+- ifup-eth: also check /dev/.run/initramfs (<harald@redhat.com>)
+- systemd: execute fedora-sysinit-unhack after sysinit.target (<arvidjaar@gmail.com>)
+- init.d/functions: don't do force/lazy umount for the first nfs umount. (#676851, <jlayton@redhat.com>)
+- further sysctl.d fixes (#593211)
+- init.d/functions: make killproc more granular when delay is passed. (#428029, <xjakub@fi.muni.cz>)
+- ifup: add GVRP support (#597598, <tomek@jot23.org>)
+- init.d/functions: add support for noauto crypt devices, to mirror systemd
+- documentation updates
+- bash cleanups (<ville.skytta@iki.fi>)
+- ifup: remove network device naming requirement from VLAN devices (#462095, <Matt_Domsch@dell.com>)
+
 * Fri Feb 25 2011 Bill Nottingham <notting@redhat.com> - 9.25-1
 - remove 'Red Hat Linux' references from sysctl.conf* (<ville.skytta@iki.fi>)
 - rc.sysinit: add support for sysctl.d (#593211, <martin@laptop.org>)
