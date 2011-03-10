@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.20
+Version: 9.03.21
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -239,6 +239,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Thu Mar 10 2011 Petr Lautrbach <plautrba@redhat.com> 9.03.21-1
+- remove network device naming requirement from VLAN devices (#676708, <Matt_Domsch@dell.com>)
+
 * Thu Mar 10 2011 Petr Lautrbach <plautrba@redhat.com> 9.03.20-1
 - Don't do force/lazy umount for the first nfs umount. (#676851, <jlayton@redhat.com>)
 
