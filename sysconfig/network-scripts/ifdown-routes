@@ -9,17 +9,23 @@ fi
 # The routes are actually dropped just by setting the link down, so nothing
 # needs to be done
 
+MATCH='^[[:space:]]*(\#.*)?$'
+
 # Routing rules
-FILES="/etc/sysconfig/network-scripts/rule-$1"
+FILES="/etc/sysconfig/network-scripts/rule-$1 /etc/sysconfig/network-scripts/rule6-$1"
 if [ -n "$2" -a "$2" != "$1" ]; then
-    FILES="$FILES /etc/sysconfig/network-scripts/rule-$2"
+    FILES="$FILES /etc/sysconfig/network-scripts/rule-$2 /etc/sysconfig/network-scripts/rule6-$2"
 fi
 
 for file in $FILES; do
    if [ -f "$file" ]; then
+       proto=
+       if [ "$file" != "${file##*/rule6-}" ]; then
+           proto="-6"
+       fi
        { cat "$file" ; echo ; } | while read line; do
-	   if [[ ! "$line" =~ '^[[:space:]]*(\#.*)?$' ]]; then
-	       /sbin/ip rule del $line
+	   if [[ ! "$line" =~ $MATCH ]]; then
+	       /sbin/ip $proto rule del $line
 	   fi
        done
    fi

@@ -17,7 +17,6 @@
 #        exit codes aren't handled by "ifup"
 #
 # Uses following information from "/etc/sysconfig/network":
-#  NETWORKING_IPV6=yes|no: controls IPv6 initialization (global setting)
 #  IPV6_DEFAULTDEV=<device>: controls default route (optional)
 #  IPV6_DEFAULTGW=<address>: controls default route (optional)
 #
@@ -63,13 +62,12 @@ CONFIG=$1
 [ -f "$CONFIG" ] || CONFIG=ifcfg-$CONFIG
 source_config
 
+# IPv6 don't need aliases anymore, config is skipped
 REALDEVICE=${DEVICE%%:*}
 DEVICE=$REALDEVICE
 
 # Test whether IPv6 configuration is enabled for this interface, else stop
 [ "$IPV6INIT" = "yes" ] || exit 0
-
-# Test whether IPv6 should be configured, else stop
 [ "${NETWORKING_IPV6}" = "yes" ] || exit 0
 
 [ -f /etc/sysconfig/network-scripts/network-functions-ipv6 ] || exit 1
@@ -160,13 +158,6 @@ fi
 if [ -f /etc/sysconfig/static-routes-ipv6 ]; then
 	LC_ALL=C grep -w "^$DEVICE" /etc/sysconfig/static-routes-ipv6 | while read device args; do
 		ipv6_add_route $args $DEVICE
-	done
-fi
-
-# Setup additional static IPv6 routes (newer config style)
-if [ -f "/etc/sysconfig/network-scripts/route6-$DEVICE" ]; then
-	cat "/etc/sysconfig/network-scripts/route6-$DEVICE" | sed 's/#.*//g' | grep -v '^[[:space:]]*$' | while read line; do
-		ipv6_exec_ip -6 route add $line
 	done
 fi
 
