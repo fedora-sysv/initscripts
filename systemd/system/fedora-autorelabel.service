@@ -5,8 +5,8 @@ Requires=local-fs.target
 Conflicts=shutdown.target
 After=local-fs.target
 Before=sysinit.target shutdown.target
-ConditionKernelCommandLine=autorelabel
-ConditionPathExists=/.autorelabel
+ConditionKernelCommandLine=|autorelabel
+ConditionPathExists=|/.autorelabel
 
 [Service]
 ExecStart=/lib/systemd/fedora-autorelabel
