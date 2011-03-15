@@ -129,7 +129,7 @@ __umount_loop() {
 	remaining=$(LC_ALL=C awk "/^#/ {next} $1" "$2" | sort -r)
 	while [ -n "$remaining" -a "$retry" -gt 0 ]; do
 		if [ "$retry" -eq 3 ]; then
-			action "$3" fstab-decode umount '' $remaining
+			action "$3" fstab-decode umount $remaining
 		else
 			action "$4" fstab-decode umount $5 $remaining
 		fi
