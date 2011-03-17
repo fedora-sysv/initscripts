@@ -4,7 +4,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.26
+Version: 9.27
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -312,6 +312,11 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Thu Mar 17 2011 Bill Nottingham <notting@redhat.com> - 9.27-1
+- init.d/functions: fix mishandled argument to fstab-decode. (#685137)
+- support ipv6 routing rules, merge route/rule code (#680872, <tobiasoed@hotmail.com>)
+- autorelabel.service, loadmodules.service: fix conditions so that they operate as OR, not AND. (#684125)
+
 * Thu Mar 10 2011 Bill Nottingham <notting@redhat.com> - 9.26-1
 - network-functions: fix check for unmanaged devices (#670154)
 - ifup-eth: also check /dev/.run/initramfs (<harald@redhat.com>)
