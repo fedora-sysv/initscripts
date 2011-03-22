@@ -98,6 +98,7 @@ case "$1" in
 	   fi
 	  }
 	touch /var/lock/subsys/netfs
+	# The 'no' applies to all listed filesystem types. See mount(8).
 	action $"Mounting other filesystems: " mount -a -t nonfs,nfs4,cifs,ncpfs,gfs
 	;;
   stop)
