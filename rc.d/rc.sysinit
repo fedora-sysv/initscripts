@@ -734,6 +734,7 @@ fi
 # Mount all other filesystems (except for NFS and /proc, which is already
 # mounted). Contrary to standard usage,
 # filesystems are NOT unmounted in single user mode.
+# The 'no' applies to all listed filesystem types. See mount(8).
 if [ "$READONLY" != "yes" ] ; then
 	action $"Mounting local filesystems: " mount -a -t nonfs,nfs4,smbfs,ncpfs,cifs,gfs,gfs2 -O no_netdev
 else
