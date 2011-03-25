@@ -440,7 +440,22 @@ net_log() {
 	[ -z "$level" ] && level=info
 	[ -z "$name" ] && name=$0
 
-	echo $message
+	case $level in
+	    'debug')
+		local txt_level=$"DEBUG    "
+		;;
+	    'err')
+		local txt_level=$"ERROR    "
+		;;
+	    'warning')
+		local txt_level=$"WARN     "
+		;;
+	    'info')
+		local txt_level=$"INFO     "
+		;;
+	esac
+
+	echo "$txt_level: [$name] $message"
 
 	if [ -x /usr/bin/logger ]; then
 		/usr/bin/logger -p daemon.$level -t "$name" "$message"
