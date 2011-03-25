@@ -4,7 +4,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.27
+Version: 9.28
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -312,6 +312,10 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Fri Mar 25 2011 Bill Nottingham <notting@redhat.com> - 9.28-1
+- add some generic network logging, port scripts to it (#507515, #653630)
+- add an error when setting the gateway fails (#672202)
+
 * Thu Mar 17 2011 Bill Nottingham <notting@redhat.com> - 9.27-1
 - init.d/functions: fix mishandled argument to fstab-decode. (#685137)
 - support ipv6 routing rules, merge route/rule code (#680872, <tobiasoed@hotmail.com>)
