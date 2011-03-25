@@ -43,7 +43,7 @@ REALDEVICE=`echo ${DEVICE} | sed 's/:.*//g'`
 
 # Generic tunnel device sit0 is not supported here
 if [ "$DEVICE" = "sit0" ]; then
-	echo $"Device '$DEVICE' isn't supported here, use IPV6_AUTOTUNNEL setting and restart (IPv6) networking"
+	net_log $"Device '$DEVICE' isn't supported here, use IPV6_AUTOTUNNEL setting and restart (IPv6) networking"
 	exit 1
 fi
 

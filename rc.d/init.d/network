@@ -83,7 +83,7 @@ case "$1" in
 		test -z "$VLAN_NAME_TYPE" && VLAN_NAME_TYPE=DEV_PLUS_VID_NO_PAD
 		action $"Setting 802.1Q VLAN parameters: " /sbin/vconfig set_name_type "$VLAN_NAME_TYPE"
 	    else
-		echo $"No 802.1Q VLAN support available in kernel."
+		net_log $"No 802.1Q VLAN support available in kernel."
 	    fi
 	    ;;
 	esac
