@@ -438,3 +438,26 @@ change_resolv_conf ()
     fi;
     return $r;
 }
+
+# Logging function
+#
+# Usage: net_log <message> <err|warning|info> <optional file/function name>
+#
+# Default level is 'info'.
+
+net_log() {
+	local message="$1"
+	local level="$2"
+	local name="$3"
+
+	[ -z "$message" ] && return 1
+	[ -z "$level" ] && level=info
+	[ -z "$name" ] && name=$0
+
+	echo $message
+
+	if [ -x /usr/bin/logger ]; then
+		/usr/bin/logger -p daemon.$level -t "$name" "$message"
+	fi
+	return 0
+}
