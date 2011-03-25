@@ -429,7 +429,7 @@ change_resolv_conf ()
 #
 # Usage: net_log <message> <err|warning|info> <optional file/function name>
 #
-# Default level is 'info'.
+# Default level is 'err'.
 
 net_log() {
 	local message="$1"
@@ -437,7 +437,7 @@ net_log() {
 	local name="$3"
 
 	[ -z "$message" ] && return 1
-	[ -z "$level" ] && level=info
+	[ -z "$level" ] && level=err
 	[ -z "$name" ] && name=$0
 
 	case $level in
