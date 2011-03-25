@@ -43,7 +43,7 @@ if [ -n "${HWADDR}" ]; then
         curdev=`get_device_by_hwaddr ${HWADDR}`
         if [ -n "$curdev" ]; then
 	  rename_device "${REALDEVICE}" "${HWADDR}" "${curdev}" || {
-	    echo $"Device ${DEVICE} has different MAC address than expected, ignoring."
+	    net_log $"Device ${DEVICE} has different MAC address than expected, ignoring."
 	    exit 1
 	  }
 	else
@@ -55,7 +55,7 @@ fi
 
 if [ "${TYPE}" = "Bridge" ]; then
       if [ ! -x /usr/sbin/brctl ]; then
-	  echo $"Bridge support not available: brctl not found"
+	  net_log $"Bridge support not available: brctl not found"
 	  exit 1
       fi
       if ! LC_ALL=C /usr/sbin/brctl show | LC_ALL=C grep -q "^${DEVICE}	"; then
@@ -75,9 +75,9 @@ fi
 # now check the real state
 is_available ${REALDEVICE} || {
       if [ -n "$alias" ]; then
-         echo $"$alias device ${DEVICE} does not seem to be present, delaying initialization."
+         net_log $"$alias device ${DEVICE} does not seem to be present, delaying initialization."
       else
-         echo $"Device ${DEVICE} does not seem to be present, delaying initialization."
+         net_log $"Device ${DEVICE} does not seem to be present, delaying initialization."
       fi
       exit 1
 }
@@ -241,7 +241,7 @@ else
 	ip link set dev ${REALDEVICE} $(toggle_value arp $ARP)
    
     if ! ip link set dev ${REALDEVICE} up ; then
-	echo $"Failed to bring up ${DEVICE}."
+	net_log $"Failed to bring up ${DEVICE}."
 	exit 1
     fi
 
@@ -265,12 +265,12 @@ else
     
     if ! LC_ALL=C ip addr ls ${REALDEVICE} | LC_ALL=C grep -q "${IPADDR}/${PREFIX}" ; then
 	 if ! arping -q -c 2 -w 3 -D -I ${REALDEVICE} ${IPADDR} ; then
-	    echo $"Error, some other host already uses address ${IPADDR}."
+	    net_log $"Error, some other host already uses address ${IPADDR}."
 	    exit 1
 	 fi
 	 if ! ip addr add ${IPADDR}/${PREFIX} \
 	    brd ${BROADCAST:-+} dev ${REALDEVICE} ${SCOPE} label ${DEVICE}; then
-	    echo $"Error adding address ${IPADDR} for ${DEVICE}."
+	    net_log $"Error adding address ${IPADDR} for ${DEVICE}."
 	 fi
     fi
     

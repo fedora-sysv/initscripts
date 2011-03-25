@@ -33,13 +33,13 @@ if [ -n "${HWADDR}" -a -z "${MACADDR}" ]; then
 	if [ -n "${NEWCONFIG}" ]; then
 	   eval $(LANG=C fgrep "DEVICE=" $NEWCONFIG)
 	else
-	   echo $"Device ${DEVICE} has MAC address ${FOUNDMACADDR}, instead of configured address ${HWADDR}. Ignoring."
+	   net_log $"Device ${DEVICE} has MAC address ${FOUNDMACADDR}, instead of configured address ${HWADDR}. Ignoring."
 	   exit 1
 	fi
 	if [ -n "${NEWCONFIG}" -a "${NEWCONFIG##*/}" != "${CONFIG##*/}" -a "${DEVICE}" = "${REALDEVICE}" ]; then
 	   exec /sbin/ifdown ${NEWCONFIG}
 	else
-	   echo $"Device ${DEVICE} has MAC address ${FOUNDMACADDR}, instead of configured address ${HWADDR}. Ignoring."
+	   net_log $"Device ${DEVICE} has MAC address ${FOUNDMACADDR}, instead of configured address ${HWADDR}. Ignoring."
 	   exit 1
 	fi
     fi
