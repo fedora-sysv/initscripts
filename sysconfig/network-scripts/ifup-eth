@@ -278,10 +278,12 @@ else
 	if [ -n "${GATEWAY}" ] && [ "$(ipcalc --network ${GATEWAY} ${netmask[0]} 2>/dev/null)" = "NETWORK=${NETWORK}" ]; then
 	    ip route replace default ${METRIC:+metric $METRIC} \
 		via ${GATEWAY} ${WINDOW:+window $WINDOW} ${SRC} \
-		${GATEWAYDEV:+dev $GATEWAYDEV}
+		${GATEWAYDEV:+dev $GATEWAYDEV} ||
+			net_log $"Error adding default gateway ${GATEWAY} for ${DEVICE}."
 	elif [ "${GATEWAYDEV}" = "${DEVICE}" ]; then
 	    ip route replace default ${METRIC:+metric $METRIC} \
-		${SRC} ${WINDOW:+window $WINDOW} dev ${REALDEVICE}
+		${SRC} ${WINDOW:+window $WINDOW} dev ${REALDEVICE} ||
+			net_log $"Erorr adding default gateway for ${REALDEVICE}."
 	fi
     fi
     fi
