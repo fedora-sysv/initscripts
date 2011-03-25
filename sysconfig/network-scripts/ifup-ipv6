@@ -97,8 +97,8 @@ if [ "$IPV6FORWARDING" = "yes" ]; then
 
 	# Check, if global IPv6 forwarding was already set by global script
 	if [ $ipv6_global_forwarding_current -ne 1 ]; then
-		echo $"Global IPv6 forwarding is enabled in configuration, but not currently enabled in kernel"
-		echo $"Please restart network with '/sbin/service network restart'"
+		net_log $"Global IPv6 forwarding is enabled in configuration, but not currently enabled in kernel"
+		net_log $"Please restart network with '/sbin/service network restart'"
 	fi
 
 	ipv6_local_forwarding=1
@@ -114,8 +114,8 @@ else
 
 	# Check, if global IPv6 forwarding was already set by global script
 	if [ $ipv6_global_forwarding_current -ne 0 ]; then
-		echo $"Global IPv6 forwarding is disabled in configuration, but not currently disabled in kernel"
-		echo $"Please restart network with '/sbin/service network restart'"
+		net_log $"Global IPv6 forwarding is disabled in configuration, but not currently disabled in kernel"
+		net_log $"Please restart network with '/sbin/service network restart'"
 	fi
 
 	ipv6_local_forwarding=0
@@ -144,7 +144,7 @@ fi
 if [ "$IPV6_PRIVACY" = "rfc3041" ]; then
 	/sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.use_tempaddr=2 >/dev/null 2>&1
 	if [ $? -ne 0 ]; then
-		echo $"Cannot enable IPv6 privacy method '$IPV6_PRIVACY', not supported by kernel"
+		net_log $"Cannot enable IPv6 privacy method '$IPV6_PRIVACY', not supported by kernel"
 	fi
 fi
 
@@ -168,7 +168,7 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 	ipv6_test_device_status tun6to4
 	if [ $? = 0 ]; then
 		# device is already up
-		echo $"Device 'tun6to4' (from '$DEVICE') is already up, shutdown first"
+		net_log $"Device 'tun6to4' (from '$DEVICE') is already up, shutdown first"
 		exit 1
 	fi
 
@@ -195,7 +195,7 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 
 	if [ -n "$ipv4addr" ]; then
 		if ! ipv6_test_ipv4_addr_global_usable $ipv4addr; then
-			echo $"Given IPv4 address '$ipv4addr' is not globally usable"
+			net_log $"Given IPv4 address '$ipv4addr' is not globally usable" info
 	                valid6to4config="no"
         	fi
 		if [ -z "$IPV6TO4_RELAY" ]; then
@@ -208,7 +208,7 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 			valid6to4config="no"
 		fi
 	else
-        	echo $"IPv6to4 configuration needs an IPv4 address on related interface or otherwise specified"
+        	net_log $"IPv6to4 configuration needs an IPv4 address on related interface or otherwise specified" info
 		valid6to4config="no"
 	fi
 
@@ -223,7 +223,7 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 
 		if [ -n "$IPV6TO4_MTU" ]; then
 			if [ $IPV6TO4_MTU -gt $tunnelmtu ]; then
-				echo $"Warning: configured MTU '$IPV6TO4_MTU' for 6to4 exceeds maximum limit of '$tunnelmtu', ignored"
+				net_log $"Warning: configured MTU '$IPV6TO4_MTU' for 6to4 exceeds maximum limit of '$tunnelmtu', ignored" warning
 			else
 				tunnelmtu=$IPV6TO4_MTU
 			fi
@@ -237,7 +237,7 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 		# Add default route, if device matches
 		if [ "$IPV6_DEFAULTDEV" = "tun6to4" ]; then
 			if [ -n "$IPV6_DEFAULTGW" ]; then
-				echo $"Warning: interface 'tun6to4' does not support 'IPV6_DEFAULTGW', ignored"
+				net_log $"Warning: interface 'tun6to4' does not support 'IPV6_DEFAULTGW', ignored" warning
 			fi
 			ipv6_set_default_route $ipv6to4_relay tun6to4
 		fi
@@ -273,7 +273,7 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 	        if [ "$IPV6_CONTROL_RADVD" = "yes" ]; then
 			# RADVD is in use, so forwarding of IPv6 packets should be enabled, display warning
 			if [ $ipv6_global_forwarding_current -ne 1 ]; then
-				echo $"Using 6to4 and RADVD IPv6 forwarding usually should be enabled, but it isn't"
+				net_log $"Using 6to4 and RADVD IPv6 forwarding usually should be enabled, but it isn't" warning
 			fi
 
 		        if [ -n "$IPV6TO4_ROUTING" ]; then
@@ -286,17 +286,17 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
 						ipv6_add_addr_on_device ${dev} ${ipv6to4prefix}${suf}
 					done
 				else
-					echo $"Error occurred while calculating the IPv6to4 prefix"
+					net_log $"Error occurred while calculating the IPv6to4 prefix"
 				fi
 			else
-				echo $"radvd control enabled, but config is not complete"
+				net_log $"radvd control enabled, but config is not complete"
 			fi
 
 			# Control running radvd
 			ipv6_trigger_radvd up "$IPV6_RADVD_TRIGGER_ACTION" $IPV6_RADVD_PIDFILE
 		fi
 	else
-		echo $"6to4 configuration is not valid"
+		net_log $"6to4 configuration is not valid"
 		exit 1
         fi
 fi

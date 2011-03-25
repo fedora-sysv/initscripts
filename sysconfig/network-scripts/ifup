@@ -83,21 +83,21 @@ if [ "${VLAN}" = "yes" ] && [ "$ISALIAS" = "no" ]; then
 	VID=$(echo "${DEVICE}" | LC_ALL=C sed 's/^vlan0*//')
 	# PHYSDEV should be set in ifcfg-vlan* file
 	if test -z "$PHYSDEV"; then
-		echo $"PHYSDEV should be set for device ${DEVICE}"
+		net_log $"PHYSDEV should be set for device ${DEVICE}"
 		exit 1
 	fi
     fi
     if [ -n "$VID" ]; then
 	if [ ! -d /proc/net/vlan ]; then
             if ! modprobe 8021q >/dev/null 2>&1 ; then
-		echo $"No 802.1Q VLAN support available in kernel for device ${DEVICE}"
+		net_log $"No 802.1Q VLAN support available in kernel for device ${DEVICE}"
 		exit 1
 	    fi
 	fi
 
 	is_available ${PHYSDEV} || {
 	    if [ "$?" = "1" ] ; then
-		echo $"$alias device ${DEVICE} does not seem to be present, delaying initialization."
+		net_log $"$alias device ${DEVICE} does not seem to be present, delaying initialization."
 		exit 1
 	    else
 		exit 0
@@ -121,7 +121,7 @@ if [ "${VLAN}" = "yes" ] && [ "$ISALIAS" = "no" ]; then
 	    ip link add dev ${DEVICE} link ${PHYSDEV} type vlan id ${VID} ${FLAG_REORDER_HDR} ${FLAG_GVRP} || {
 		(/usr/bin/logger -p daemon.info -t ifup \
 		    $"ERROR: could not add vlan ${VID} as ${DEVICE} on dev ${PHYSDEV}" &)&
-		echo $"ERROR: could not add vlan ${VID} as ${DEVICE} on dev ${PHYSDEV}"
+		net_log $"ERROR: could not add vlan ${VID} as ${DEVICE} on dev ${PHYSDEV}"
 		exit 1
 	    }
 	fi
