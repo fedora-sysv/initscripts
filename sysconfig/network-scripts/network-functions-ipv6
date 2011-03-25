@@ -11,158 +11,6 @@
 #
 
 
-
-
-
-
-##### Logging function
-#  $1: <message> : message string
-#  $2: [stdout|stderr].[err|warn[ing]|inf[o]|notice] : log level with optional channel, default is "stdout.notice"
-#      [syslog.[facility.].err|warn[ing]|inf[o]|notice : syslog channel, default is "syslog.user.notice"
-#  $3: <function name> : name of function which calls this log function, can be empty using ""
-# return code: 0=ok 1=argument error  3=major problem
-ipv6_log() {
-	local message="$1"
-	local level="$2"
-	local name="$3"
-
-	if [ -z "$message" ]; then
-		echo $"ERROR: [ipv6_log] Missing 'message' (arg 1)" >/dev/stderr
-		return 1
-	fi
-	if [ -z "$level" ]; then
-		local level="stdout.notice"
-	fi
-
-
-	# Map loglevel now
-	local fn=1
-	local fnawk="print \$$fn"
-	local t="$(echo $level | awk -F. "{ $fnawk }")"
-
-	# Check channel, if given
-	case $t in
-	    'stdout'|'stderr'|'syslog')
-		local channel="$t"
-		local fn=$(($fn + 1))
-		;;
-	    *)
-		local channel="stdout"
-		;;
-	esac
-
-	# Check syslog facilty, if given
-	if [ "$channel" = "syslog" ]; then
-		local fnawk="print \$$fn"
-		local t="$(echo $level | awk -F. "{ $fnawk }")"
-		case $t in
-		    'local0'|'local1'|'local2'|'local3'|'local4'|'local5'|'local6'|'local7'|'daemon')
-			local facility="$t"
-			local fn=$(($fn + 1))
-			;;
-		    *)
-			local facility="user"
-			;;
-		esac
-	fi
-
-	local fnawk="print \$$fn"
-	local t="$(echo $level | awk -F. "{ $fnawk }")"
-
-	# Map priority
-	[ "$t" = "inf"      ] && local t="info"
-	[ "$t" = "deb"      ] && local t="debug"
-	[ "$t" = "warning"  ] && local t="warn"
-	[ "$t" = "error"    ] && local t="err"
-	[ "$t" = "critical" ] && local t="crit"
-
-	# Check priority, if given
-	case $t in
-	    'info'|'debug'|'notice'|'warn'|'err'|'crit')
-			local priority="$t"
-			local fn=$(($fn + 1))
-			;;
-		    *)
-			local priority="notice"
-			;;
-	esac
-
-	local fnawk="print \$$fn"
-	local t="$(echo $level | awk -F. "{ $fnawk }")"
-	if [ -n "$t" ]; then
-		echo $"ERROR: [ipv6_log] Loglevel isn't valid '$level' (arg 2)" >/dev/stderr
-		return 1
-	fi
-
-	# Generate function text
-	if [ -z "$name" ]; then
-		local txt_name=""
-	else
-		local txt_name="[$name]"
-	fi
-
-	# Log message
-	case $channel in
-	    'stdout'|'stderr')
-		# Generate level text
-		case $priority in
-		    'debug')
-			local txt_level=$"DEBUG    "
-			;;
-		    'err')
-			local txt_level=$"ERROR    "
-			;;
-		    'warn')
-			local txt_level=$"WARN     "
-			;;
-		    'crit')
-			local txt_level=$"CRITICAL "
-			;;
-		    'info')
-			local txt_level=$"INFO     "
-			;;
-		    'notice')
-			local txt_level=$"NOTICE   "
-			;;
-		esac
-
-		[ -n "$txt_name" ] && local txt_name="$txt_name "
-
-		if [ "$channel" = "stderr" ]; then
-			echo "$txt_level: ${txt_name}${message}" >/dev/stderr
-		elif [ "$channel" = "stdout" ]; then
-			echo "$txt_level: ${txt_name}${message}"
-		fi
-		;;
-	    'syslog')
-		# note: logger resides in /usr/bin, but not used by default
-		if ! [ -x /usr/bin/logger ]; then
-			echo $"ERROR: [ipv6_log] Syslog is chosen, but binary 'logger' doesn't exist or isn't executable" >/dev/stderr
-			return 3
-		fi
-		if [ -z "$txt_name" ]; then
-			/usr/bin/logger -p $facility.$priority $message
-		else
-			/usr/bin/logger -p $facility.$priority -t "$txt_name" "$message"
-		fi
-		;;
-	    *)
-		echo $"ERROR: [ipv6_log] Cannot log to channel '$channel'" >/dev/stderr
-		return 3
-		;;
-	esac
-
-	return 0
-}
-
-
-###### Beginning of main code here, always executed on "source|. network-functions-ipv6"
-
-
-
-###### End of main code here
-
-
 ##### Test for IPv6 capabilites
 # $1: (optional) testflag: currently supported: "testonly" (do not load a module)
 # return code: 0=ok 2=IPv6 test fails
@@ -178,7 +26,6 @@ ipv6_test() {
 			modprobe ipv6
 
 			if ! [ -f /proc/net/if_inet6 ]; then
-				#	ipv6_log $"Kernel is not compiled with IPv6 support" crit $fn
 				return 2
 			fi
 		fi
@@ -206,12 +53,12 @@ ipv6_add_route() {
 	local device=$3		# maybe empty
 
 	if [ -z "$networkipv6" ]; then
-		ipv6_log $"Missing parameter 'IPv6-network' (arg 1)" err $fn
+		net_log $"Missing parameter 'IPv6-network' (arg 1)" err $fn
 		return 1
 	fi
 
 	if [ -z "$gatewayipv6" ]; then
-		ipv6_log $"Missing parameter 'IPv6-gateway' (arg 2)" err $fn
+		net_log $"Missing parameter 'IPv6-gateway' (arg 2)" err $fn
 		return 1
 	fi
 
@@ -236,10 +83,10 @@ ipv6_add_route() {
 			true
 		elif echo $returntxt | LC_ALL=C grep -q "No route to host"; then
 			# Netlink: "No route to host"
-			ipv6_log $"'No route to host' adding route '$networkipv6' via gateway '$gatewayipv6' through device '$device'" warn $fn
+			net_log $"'No route to host' adding route '$networkipv6' via gateway '$gatewayipv6' through device '$device'" err $fn
 			return 3
 		else
-			ipv6_log $"Unknown error" warn $fn
+			net_log $"Unknown error" err $fn
 			return 3
 		fi
 	fi
@@ -264,7 +111,7 @@ ipv6_enable_autotunnel() {
 		/sbin/ip link set sit0 up
 
 			if ! ipv6_test_device_status sit0; then
-				ipv6_log $"Tunnel device 'sit0' enabling didn't work" err $fn
+				net_log $"Tunnel device 'sit0' enabling didn't work" err $fn
 				return 3
 			fi
 
@@ -290,12 +137,12 @@ ipv6_add_addr_on_device() {
 	local address=$2
 
 	if [ -z "$device" ]; then
-		ipv6_log $"Missing parameter 'device' (arg 1)" err $fn
+		net_log $"Missing parameter 'device' (arg 1)" err $fn
 		return 1
 	fi
 
 	if [ -z "$address" ]; then
-		ipv6_log $"Missing parameter 'IPv6-address' (arg 2)" err $fn
+		net_log $"Missing parameter 'IPv6-address' (arg 2)" err $fn
 		return 1
 	fi
 
@@ -309,13 +156,13 @@ ipv6_add_addr_on_device() {
 	if [ "$result" = "0" ]; then
 		true
 	elif [ "$result" != "11" ]; then
-		ipv6_log $"Device '$device' doesn't exist" err $fn
+		net_log $"Device '$device' doesn't exist" err $fn
 		return 3
 	else
 		/sbin/ip link set $device up
 
 			if ! ipv6_test_device_status $device; then
-				ipv6_log $"Device '$device' enabling didn't work" err $fn
+				net_log $"Device '$device' enabling didn't work" err $fn
 				return 3
 			fi
 	fi
@@ -336,7 +183,7 @@ ipv6_add_addr_on_device() {
 	if [ $result -eq 2 ]; then
 		return 0
 	elif [ $result -ne 0 ]; then
-		ipv6_log $"Cannot add IPv6 address '$address' on dev '$device'" err $fn
+		net_log $"Cannot add IPv6 address '$address' on dev '$device'" err $fn
 		return 3
 	fi
 
@@ -353,7 +200,7 @@ ipv6_cleanup_device() {
 	local device=$1
 
 	if [ -z "$device" ]; then
-		ipv6_log $"Missing parameter 'device' (arg 1)" err $fn
+		net_log $"Missing parameter 'device' (arg 1)" err $fn
 		return 1
 	fi
 
@@ -382,7 +229,7 @@ ipv6_cleanup_6to4_device() {
 	local device=$1
 
 	if [ -z "$device" ]; then
-		ipv6_log $"Missing parameter 'device' (arg 1)" err $fn
+		net_log $"Missing parameter 'device' (arg 1)" err $fn
 		return 1
 	fi
 
@@ -462,7 +309,7 @@ ipv6_test_device_status() {
 	local device=$1
 
 	if [ -z "$device" ]; then
-		ipv6_log $"Missing parameter 'device' (arg 1)" err $fn
+		net_log $"Missing parameter 'device' (arg 1)" err $fn
 		return 1
 	fi
 
@@ -493,7 +340,7 @@ ipv6_create_6to4_prefix() {
 	local ipv4addr=$1
 
 	if [ -z "$ipv4addr" ]; then
-		ipv6_log $"Missing parameter 'IPv4 address' (arg 1)" stderr.err $fn
+		net_log $"Missing parameter 'IPv4 address' (arg 1)" err $fn
 	fi
 
 	local major1="${ipv4addr%%.*}"
@@ -533,7 +380,7 @@ ipv6_create_6to4_relay_address() {
 	local addr=$1
 
 	if [ -z "$addr" ]; then
-		ipv6_log $"Missing parameter 'address' (arg 1)" stderr.err $fn
+		net_log $"Missing parameter 'address' (arg 1)" err $fn
 		return 1
 	fi
 
@@ -544,11 +391,11 @@ ipv6_create_6to4_relay_address() {
 			# IPv4 globally usable
 			local ipv6to4_relay="::$addr"
 		else
-			ipv6_log $"Given address '$addr' is not a global IPv4 one (arg 1)" stderr.err $fn
+			net_log $"Given address '$addr' is not a global IPv4 one (arg 1)" err $fn
 			return 1
 		fi
 	else
-		ipv6_log $"Given address '$addr' is not a valid IPv4 one (arg 1)" stderr.err $fn
+		net_log $"Given address '$addr' is not a valid IPv4 one (arg 1)" err $fn
 		return 1
 	fi
 
@@ -577,18 +424,18 @@ ipv6_add_6to4_tunnel() {
 	local localipv4=$5
 
 	if [ -z "$device" ]; then
-		ipv6_log $"Missing parameter 'device' (arg 1)" err $fn
+		net_log $"Missing parameter 'device' (arg 1)" err $fn
 		return 1
 	fi
 
 	if [ -z "$globalipv4" ]; then
-		ipv6_log $"Missing parameter 'global IPv4 address' (arg 2)" err $fn
+		net_log $"Missing parameter 'global IPv4 address' (arg 2)" err $fn
 		return 1
 	fi
 
 	# Check device
 	if [ "$device" != "tun6to4" ]; then
-		ipv6_log $"Given device '$device' is not supported (arg 1)" err $fn
+		net_log $"Given device '$device' is not supported (arg 1)" err $fn
 		return 1
 	fi
 
@@ -639,13 +486,13 @@ ipv6_cleanup_6to4_tunnels() {
 	local device=$1
 
 	if [ -z "$device" ]; then
-		ipv6_log $"Missing parameter 'device' (arg 1)" err $fn
+		net_log $"Missing parameter 'device' (arg 1)" err $fn
 		return 1
 	fi
 
 	# Check device
 	if [ "$device" != "tun6to4" ]; then
-		ipv6_log $"Given device '$device' is not supported (arg 1)" err $fn
+		net_log $"Given device '$device' is not supported (arg 1)" err $fn
 		return 1
 	fi
 
@@ -673,18 +520,18 @@ ipv6_del_6to4_tunnel() {
 	local localipv4=$2
 
 	if [ -z "$device" ]; then
-		ipv6_log $"Missing parameter 'device' (arg 1)" err $fn
+		net_log $"Missing parameter 'device' (arg 1)" err $fn
 		return 1
 	fi
 
 	if [ -z "$localipv4" ]; then
-		ipv6_log $"Missing parameter 'local IPv4 address' (arg 2)" err $fn
+		net_log $"Missing parameter 'local IPv4 address' (arg 2)" err $fn
 		return 1
 	fi
 
 	# Check device
 	if [ "$device" != "tun6to4" ]; then
-		ipv6_log $"Given device '$device' is not supported (arg 1)" err $fn
+		net_log $"Given device '$device' is not supported (arg 1)" err $fn
 		return 1
 	fi
 
@@ -715,12 +562,12 @@ ipv6_add_tunnel_device() {
 	local addressipv4tunnellocal=$4
 
 	if [ -z "$device" ]; then
-		ipv6_log $"Missing parameter 'device' (arg 1)" err $fn
+		net_log $"Missing parameter 'device' (arg 1)" err $fn
 		return 1
 	fi
 
 	if [ -z "$addressipv4tunnel" ]; then
-		ipv6_log $"Missing parameter 'IPv4-tunnel address' (arg 2)" err $fn
+		net_log $"Missing parameter 'IPv4-tunnel address' (arg 2)" err $fn
 		return 1
 	fi
 
@@ -740,7 +587,7 @@ ipv6_add_tunnel_device() {
 		if [ "$addressipv4tunnel" != "0.0.0.0" -a "$addressipv4tunnel" != "any" ]; then
 			/sbin/ip tunnel show remote $addressipv4tunnel 2>/dev/null | LC_ALL=C grep -w "ipv6/ip" | while IFS=":" read devnew rest; do
 				if [ "$devnew" != "$device" ]; then
-					ipv6_log $"Given remote address '$addressipv4tunnel' on tunnel device '$device' is already configured on device '$devnew'" err $fn
+					net_log $"Given remote address '$addressipv4tunnel' on tunnel device '$device' is already configured on device '$devnew'" err $fn
 					return 3
 				fi
 			done
@@ -753,14 +600,14 @@ ipv6_add_tunnel_device() {
 
 		# Test, whether "ip tunnel show" reports valid content
 		if ! /sbin/ip tunnel show $device 2>/dev/null | LC_ALL=C grep -q -w "remote"; then
-			ipv6_log $"Tunnel device '$device' creation didn't work" err $fn
+			net_log $"Tunnel device '$device' creation didn't work" err $fn
 			return 3
 		fi
 
 		/sbin/ip link set $device up
 
 		if ! ipv6_test_device_status $device; then
-			ipv6_log $"Tunnel device '$device' bringing up didn't work" err $fn
+			net_log $"Tunnel device '$device' bringing up didn't work" err $fn
 			return 3
 		fi
 
@@ -793,7 +640,7 @@ ipv6_del_tunnel_device() {
 	local device=$1
 
 	if [ -z "$device" ]; then
-		ipv6_log $"Missing parameter 'device' (arg 1)" err $fn
+		net_log $"Missing parameter 'device' (arg 1)" err $fn
 		return 1
 	fi
 
@@ -851,16 +698,16 @@ ipv6_get_ipv4addr_of_tunnel() {
 	local selection=$2
 
 	if [ -z "$device" ]; then
-		ipv6_log $"Missing parameter 'device' (arg 1)" stderr.err $fn
+		net_log $"Missing parameter 'device' (arg 1)" err $fn
 		return 1
 	fi
 
 	if [ -z "$selection" ]; then
-		ipv6_log $"Missing parameter 'selection' (arg 2)" stderr.err $fn
+		net_log $"Missing parameter 'selection' (arg 2)" err $fn
 		return 1
 	fi
 	if [ "$selection" != "local" -a "$selection" != "remote" ]; then
-		ipv6_log $"Unsupported selection '$selection' specified (arg 2)" stderr.err $fn
+		net_log $"Unsupported selection '$selection' specified (arg 2)" err $fn
 		return 1
 	fi
 
@@ -904,7 +751,7 @@ ipv6_get_ipv4addr_of_device() {
 	local device=$1
 
 	if [ -z "$device" ]; then
-		ipv6_log $"Missing parameter 'device' (arg 1)" stderr.err $fn
+		net_log $"Missing parameter 'device' (arg 1)" err $fn
 		return 1
 	fi
 
@@ -943,18 +790,18 @@ ipv6_set_mtu() {
 	local ipv6_mtu=$2
 
 	if [ -z "$device" ]; then
-		ipv6_log $"Missing parameter 'device' (arg 1)" err $fn
+		net_log $"Missing parameter 'device' (arg 1)" err $fn
 		return 1
 	fi
 
 	if [ -z "$ipv6_mtu" ]; then
-		ipv6_log $"Missing parameter 'IPv6 MTU' (arg 2)" err $fn
+		net_log $"Missing parameter 'IPv6 MTU' (arg 2)" err $fn
 		return 1
 	fi
 
 	# Check range
 	if [ $ipv6_mtu -lt 1280 -o $ipv6_mtu -gt 65535 ]; then
-		ipv6_log $"Given IPv6 MTU '$ipv6_mtu' is out of range" err $fn
+		net_log $"Given IPv6 MTU '$ipv6_mtu' is out of range" err $fn
 		return 1
 	fi
 
@@ -991,13 +838,13 @@ ipv6_set_default_route() {
 		local device_scope=$(echo $address | awk -F% '{ print $2 }')
 
 		if [ -z "$addressgw" ]; then
-			ipv6_log $"Given IPv6 default gateway '$address' is not in proper format" err $fn
+			net_log $"Given IPv6 default gateway '$address' is not in proper format" err $fn
 			return 3
 		fi
 
 		# Scope device has precedence
 		if [ -n "$device_scope" -a -n "$device" -a "$device_scope" != "$device" ]; then
-			ipv6_log $"Given IPv6 default gateway '$address' has scope '$device_scope' defined, given default gateway device '$device' will be not used" inf $fn
+			net_log $"Given IPv6 default gateway '$address' has scope '$device_scope' defined, given default gateway device '$device' will be not used" info $fn
 			local device=""
 		fi
 
@@ -1005,7 +852,7 @@ ipv6_set_default_route() {
 		if echo $addressgw | LC_ALL=C grep -qi "^fe80:"; then
 			if [ -z "$device_scope" ]; then
 				if [ -z "$device" ]; then
-					ipv6_log $"Given IPv6 default gateway '$address' is link-local, but no scope or gateway device is specified" err $fn
+					net_log $"Given IPv6 default gateway '$address' is link-local, but no scope or gateway device is specified" err $fn
 					return 3
 				fi
 			fi
@@ -1045,16 +892,16 @@ ipv6_set_default_route() {
 		local result=$?
 
 		if [ $result = 0 ]; then
-			ipv6_log $"Given IPv6 default device '$device' requires an explicit nexthop" err $fn
+			net_log $"Given IPv6 default device '$device' requires an explicit nexthop" err $fn
 			return 3
 		elif [ $result != 10 ]; then
-			ipv6_log $"Given IPv6 default device '$device' doesn't exist or isn't up" err $fn
+			net_log $"Given IPv6 default device '$device' doesn't exist or isn't up" err $fn
 			return 3
 		fi
 
 		ipv6_add_route ::/0 :: $device
 	else
-		ipv6_log $"No parameters given to setup a default route" err $fn
+		net_log $"No parameters given to setup a default route" err $fn
 		return 3
 	fi
 
@@ -1071,7 +918,7 @@ ipv6_test_route_requires_next_hop() {
 	local device=$1
 
 	if [ -z "$device" ]; then
-		ipv6_log $"Missing parameter 'device' (arg 1)" err $fn
+		net_log $"Missing parameter 'device' (arg 1)" err $fn
 		return 1
 	fi
 
@@ -1109,12 +956,12 @@ ipv6_trigger_radvd() {
 	local pidfile=$3
 
 	if [ -z "$reason" ]; then
-		ipv6_log $"No reason given for sending trigger to radvd" err $fn
+		net_log $"No reason given for sending trigger to radvd" err $fn
 		return 1
 	fi
 
 	if [ "$reason" != "up" -a "$reason" != "down" ]; then
-		ipv6_log $"Unsupported reason '$reason' for sending trigger to radvd" err $fn
+		net_log $"Unsupported reason '$reason' for sending trigger to radvd" err $fn
 		return 1
 	fi
 
@@ -1143,7 +990,7 @@ ipv6_trigger_radvd() {
 		local action="$mechanism"
 		;;
 	    *)
-		ipv6_log $"Unsupported mechanism '$mechanism' for sending trigger to radvd" err $fn
+		net_log $"Unsupported mechanism '$mechanism' for sending trigger to radvd" err $fn
 		return 3
 		;;
 	esac
@@ -1155,7 +1002,7 @@ ipv6_trigger_radvd() {
 				# be quiet because triggering may have been disabled
 				true
 			else
-				ipv6_log $"Given pidfile '$pidfile' doesn't exist, cannot send trigger to radvd" err $fn
+				net_log $"Given pidfile '$pidfile' doesn't exist, cannot send trigger to radvd" err $fn
 			fi
 			return 3
 		fi
@@ -1164,7 +1011,7 @@ ipv6_trigger_radvd() {
 		local pid="$(cat $pidfile)"
 		if [ -z "$pid" ]; then
 			# pidfile empty - strange
-			ipv6_log $"Pidfile '$pidfile' is empty, cannot send trigger to radvd" err $fn
+			net_log $"Pidfile '$pidfile' is empty, cannot send trigger to radvd" err $fn
 			return 3
 		fi
 	fi
@@ -1181,7 +1028,7 @@ ipv6_trigger_radvd() {
 					# be quiet because triggering may have been disabled
 					true
 				else
-					ipv6_log $"radvd not (properly) installed, triggering failed" err $fn
+					net_log $"radvd not (properly) installed, triggering failed" err $fn
 				fi
 				return 3
 			else
