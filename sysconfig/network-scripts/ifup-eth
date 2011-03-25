@@ -45,7 +45,7 @@ is_available ${REALDEVICE}
 if [ -n "${HWADDR}" ]; then
     FOUNDMACADDR=$(get_hwaddr ${REALDEVICE})
     if [ "${FOUNDMACADDR}" != "${HWADDR}" -a "${FOUNDMACADDR}" != "${MACADDR}" ]; then
-	    echo $"Device ${DEVICE} has different MAC address than expected, ignoring."
+	    net_log $"Device ${DEVICE} has different MAC address than expected, ignoring."
 	    exit 1
     fi
 fi
@@ -53,7 +53,7 @@ fi
 # If the device is a bridge, create it with brctl, if available.
 if [ "${TYPE}" = "Bridge" ]; then
       if [ ! -x /usr/sbin/brctl ]; then
-	  echo $"Bridge support not available: brctl not found"
+	  net_log $"Bridge support not available: brctl not found"
 	  exit 1
       fi
       if [ ! -d /sys/class/net/${DEVICE}/bridge ]; then
@@ -66,7 +66,7 @@ fi
 # If the device is a tap device, create it with tunctl, if available.
 if [ "${TYPE}" = "Tap" ]; then
       if [ ! -x /usr/sbin/tunctl ]; then
-          echo $"Tap support not available: tunctl not found"
+          net_log  $"Tap support not available: tunctl not found"
           exit 1
       fi
       [ -n "${OWNER}" ] && OWNER="-u ${OWNER}"
@@ -76,9 +76,9 @@ fi
 # now check the real state
 is_available ${REALDEVICE} || {
       if [ -n "$alias" ]; then
-         echo $"$alias device ${DEVICE} does not seem to be present, delaying initialization."
+         net_log $"$alias device ${DEVICE} does not seem to be present, delaying initialization."
       else
-         echo $"Device ${DEVICE} does not seem to be present, delaying initialization."
+         net_log $"Device ${DEVICE} does not seem to be present, delaying initialization."
       fi
       exit 1
 }
@@ -224,7 +224,7 @@ else
 	ip link set dev ${REALDEVICE} $(toggle_value arp $ARP)
    
     if ! ip link set dev ${REALDEVICE} up ; then
-	echo $"Failed to bring up ${DEVICE}."
+	net_log $"Failed to bring up ${DEVICE}."
 	exit 1
     fi
 
@@ -255,13 +255,13 @@ else
         if ! LC_ALL=C ip addr ls ${REALDEVICE} | LC_ALL=C grep -q "${ipaddr[$idx]}/${prefix[$idx]}" ; then
             [ "${REALDEVICE}" != "lo" ] && \
             if ! /sbin/arping -q -c 2 -w 3 -D -I ${REALDEVICE} ${ipaddr[$idx]} ; then
-                echo $"Error, some other host already uses address ${ipaddr[$idx]}."
+                net_log $"Error, some other host already uses address ${ipaddr[$idx]}."
                 exit 1
             fi
 
             if ! ip addr add ${ipaddr[$idx]}/${prefix[$idx]} \
               brd ${broadcast[$idx]:-+} dev ${REALDEVICE} ${SCOPE} label ${DEVICE}; then
-                echo $"Error adding address ${ipaddr[$idx]} for ${DEVICE}."
+                net_log $"Error adding address ${ipaddr[$idx]} for ${DEVICE}."
             fi
         fi
 
