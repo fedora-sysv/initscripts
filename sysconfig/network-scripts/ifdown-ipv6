@@ -48,9 +48,8 @@ CONFIG=$1
 [ -f "$CONFIG" ] || CONFIG=ifcfg-$CONFIG
 source_config
 
-# IPv6 don't need aliases anymore, config is skipped
-REALDEVICE=`echo ${DEVICE} | sed 's/:.*//g'`
-[ "$DEVICE" != "$REALDEVICE" ] && exit 0
+REALDEVICE=${DEVICE%%:*}
+DEVICE=$REALDEVICE
 
 # Test whether IPv6 should be configured, else stop
 [ "${NETWORKING_IPV6}" = "yes" ] || exit 0
