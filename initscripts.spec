@@ -125,6 +125,7 @@ rm -f \
 %endif
 
 touch $RPM_BUILD_ROOT/etc/crypttab
+chmod 600 $RPM_BUILD_ROOT/etc/crypttab
 
 %pre
 /usr/sbin/groupadd -g 22 -r -f utmp
