@@ -43,8 +43,8 @@ case "$1" in
         [ -n "$NCPFSTAB" ] && action $"Mounting NCP filesystems: " mount -a -t ncpfs
         [ -n "$NETDEVFSTAB" ] &&
 	  {
-	    if [ -f /etc/mdadm.conf ]; then
-		mdadm -A -s
+	    if [ -f /etc/mdadm.conf ] && [ -x /sbin/mdadm ]; then
+		/sbin/mdadm -A -s
 	    fi
 	    if [ -f /etc/multipath.conf ] && [ -x /sbin/multipath ]; then
 	    	modprobe dm-multipath >/dev/null 2>&1
