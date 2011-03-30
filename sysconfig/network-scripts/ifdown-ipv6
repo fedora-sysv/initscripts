@@ -45,9 +45,8 @@ CONFIG=$1
 [ -f "$CONFIG" ] || CONFIG=ifcfg-$CONFIG
 source_config
 
-# IPv6 don't need aliases anymore, config is skipped
-REALDEVICE=$(echo ${DEVICE} | sed 's/:.*//g')
-[ "$DEVICE" != "$REALDEVICE" ] && exit 0
+REALDEVICE=${DEVICE%%:*}
+DEVICE=$REALDEVICE
 
 [ -f /etc/sysconfig/network-scripts/network-functions-ipv6 ] || exit 1
 . /etc/sysconfig/network-scripts/network-functions-ipv6
