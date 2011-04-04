@@ -5,16 +5,13 @@
 
 . /etc/init.d/functions
 
-PLYMOUTH=
-[ -x /usr/bin/plymouth ] && PLYMOUTH=yes
-
 relabel_selinux() {
     # if /sbin/init is not labeled correctly this process is running in the
     # wrong context, so a reboot will be required after relabel
     AUTORELABEL=
     . /etc/selinux/config
     echo "0" > /selinux/enforce
-    [ -n "$PLYMOUTH" ] && plymouth --hide-splash
+    [ -x /usr/bin/plymouth ] && plymouth --hide-splash
 
     if [ "$AUTORELABEL" = "0" ]; then
 	echo
