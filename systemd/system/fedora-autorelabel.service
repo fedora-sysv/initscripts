@@ -5,6 +5,7 @@ Requires=local-fs.target
 Conflicts=shutdown.target
 After=local-fs.target
 Before=sysinit.target shutdown.target
+ConditionSecurity=selinux
 ConditionKernelCommandLine=|autorelabel
 ConditionPathExists=|/.autorelabel
 

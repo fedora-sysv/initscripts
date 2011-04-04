@@ -8,17 +8,6 @@
 PLYMOUTH=
 [ -x /usr/bin/plymouth ] && PLYMOUTH=yes
 
-# Check SELinux status
-SELINUX_STATE=
-if [ -e "/selinux/enforce" ] && [ "$(cat /proc/self/attr/current)" != "kernel" ]; then
-	if [ -r "/selinux/enforce" ] ; then
-		SELINUX_STATE=$(cat "/selinux/enforce")
-	else
-		# assume enforcing if you can't read it
-		SELINUX_STATE=1
-	fi
-fi
-
 relabel_selinux() {
     # if /sbin/init is not labeled correctly this process is running in the
     # wrong context, so a reboot will be required after relabel
@@ -47,14 +36,10 @@ relabel_selinux() {
     systemctl --force reboot
 }
 
-[ -z "${cmdline}" ] && cmdline=$(cat /proc/cmdline)
-
 # Check to see if a full relabel is needed
-if [ -n "$SELINUX_STATE" -a "$READONLY" != "yes" ]; then
-    if strstr "$cmdline" autorelabel || [ -f /.autorelabel ] ; then
-	restorecon $(awk '!/^#/ && $4 !~ /noauto/ && $2 ~ /^\// { print $2 }' /etc/fstab) >/dev/null 2>&1
-	relabel_selinux
-    fi
+if [ "$READONLY" != "yes" ]; then
+    restorecon $(awk '!/^#/ && $4 !~ /noauto/ && $2 ~ /^\// { print $2 }' /etc/fstab) >/dev/null 2>&1
+    relabel_selinux
 else
     if [ "$READONLY" != "yes" ] && [ -d /etc/selinux ]; then
         [ -f /.autorelabel ] || touch /.autorelabel
