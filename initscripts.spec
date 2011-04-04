@@ -27,8 +27,8 @@ Requires: upstart-sysvinit
 %endif
 %endif
 %if %{_with_systemd}
-Conflicts: systemd < 12-1
-Conflicts: systemd-units < 12-1
+Conflicts: systemd < 23-1
+Conflicts: systemd-units < 23-1
 %if ! %{_with_upstart}
 Requires: systemd-sysvinit
 %endif
