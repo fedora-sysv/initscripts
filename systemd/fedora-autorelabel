@@ -37,8 +37,4 @@ relabel_selinux() {
 if [ "$READONLY" != "yes" ]; then
     restorecon $(awk '!/^#/ && $4 !~ /noauto/ && $2 ~ /^\// { print $2 }' /etc/fstab) >/dev/null 2>&1
     relabel_selinux
-else
-    if [ "$READONLY" != "yes" ] && [ -d /etc/selinux ]; then
-        [ -f /.autorelabel ] || touch /.autorelabel
-    fi
 fi
