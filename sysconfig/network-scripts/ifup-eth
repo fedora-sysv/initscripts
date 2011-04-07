@@ -94,7 +94,8 @@ is_wireless_device ${DEVICE} && . ./ifup-wireless
 
 # slave device?
 if [ "${SLAVE}" = yes -a "${ISALIAS}" = no -a "${MASTER}" != "" ]; then
-    grep -wq "${DEVICE}" /sys/class/net/${MASTER}/bonding/slaves || {
+    install_bonding_driver ${MASTER}
+    grep -wq "${DEVICE}" /sys/class/net/${MASTER}/bonding/slaves 2>/dev/null || {
 	/sbin/ip link set dev ${DEVICE} down
 	echo "+${DEVICE}" > /sys/class/net/${MASTER}/bonding/slaves 2>/dev/null
     }
