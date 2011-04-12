@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.45.33
+Version: 8.45.34
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -202,6 +202,14 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Apr 12 2011 Harald Hoyer <harald@redhat.com> 8.45.34-1
+- if $LANG is set, don't override it
+Resolves: rhbz#692893
+- fix arp_ip_target for ifup/ifdown
+Resolves: rhbz#604669
+- add udev rules for OSX Devices (1731/2)
+Resolves: rhbz#653621
+
 * Wed Oct 13 2010 Harald Hoyer <harald@redhat.com> 8.45.33-1
 - don't turn of net on shutdown if iscsi is running
 Resolves: rhbz#583218
