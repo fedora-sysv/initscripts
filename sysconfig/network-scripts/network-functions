@@ -161,7 +161,7 @@ expand_config ()
     for idx in '' {0..255} ; do
         ipaddr[$i]=$(eval echo '$'IPADDR$idx)
         if [ -z "${ipaddr[$i]}" ]; then
-           [ "$idx" ] && [ $idx -gt 2 ] && break
+           [ "$idx" ] && [ $idx -ge 2 ] && break
            continue
         fi
         prefix[$i]=$(eval echo '$'PREFIX$idx)
