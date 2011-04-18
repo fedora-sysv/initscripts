@@ -15,6 +15,7 @@ fi
 # Reread in network configuration data.
 if [ -f /etc/sysconfig/network ]; then
     . /etc/sysconfig/network
+    [ -r /etc/hostname ] && HOSTNAME=$(cat /etc/hostname)
 
     # Reset the hostname.
     action $"Resetting hostname ${HOSTNAME}: " hostname ${HOSTNAME}

@@ -12,6 +12,9 @@ set -m
 if [ -f /etc/sysconfig/network ]; then
     . /etc/sysconfig/network
 fi
+if [ -r /etc/hostname ]; then
+    HOSTNAME=$(cat /etc/hostname)
+fi
 if [ -z "$HOSTNAME" -o "$HOSTNAME" = "(none)" ]; then
     HOSTNAME=localhost
 fi
