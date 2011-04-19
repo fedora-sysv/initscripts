@@ -127,9 +127,9 @@ else
 		ipv6_local_auto=0
 	fi
 fi
-ipv6_exec_sysctl -w net.ipv6.conf.$DEVICE.forwarding=$ipv6_local_forwarding >/dev/null 2>&1
-ipv6_exec_sysctl -w net.ipv6.conf.$DEVICE.accept_ra=$ipv6_local_auto >/dev/null 2>&1
-ipv6_exec_sysctl -w net.ipv6.conf.$DEVICE.accept_redirects=$ipv6_local_auto >/dev/null 2>&1
+ipv6_exec_sysctl -w net.ipv6.conf.$SYSCTLDEVICE.forwarding=$ipv6_local_forwarding >/dev/null 2>&1
+ipv6_exec_sysctl -w net.ipv6.conf.$SYSCTLDEVICE.accept_ra=$ipv6_local_auto >/dev/null 2>&1
+ipv6_exec_sysctl -w net.ipv6.conf.$SYSCTLDEVICE.accept_redirects=$ipv6_local_auto >/dev/null 2>&1
 
 # Set IPv6 MTU, if given
 if [ -n "$IPV6_MTU" ]; then
@@ -145,7 +145,7 @@ fi
 
 # Enable IPv6 RFC3041 privacy extensions if desired
 if [ "$IPV6_PRIVACY" = "rfc3041" ]; then
-	ipv6_exec_sysctl -w net.ipv6.conf.$DEVICE.use_tempaddr=2 >/dev/null 2>&1
+	ipv6_exec_sysctl -w net.ipv6.conf.$SYSCTLDEVICE.use_tempaddr=2 >/dev/null 2>&1
 	if [ $? -ne 0 ]; then
 		echo $"Cannot enable IPv6 privacy method '$IPV6_PRIVACY', not supported by kernel"
 	fi

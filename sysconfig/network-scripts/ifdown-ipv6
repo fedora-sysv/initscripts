@@ -69,9 +69,9 @@ if [ $? != 0 -a $? != 11 ]; then
 fi
 
 # Switch some sysctls to secure mode
-ipv6_exec_sysctl -w net.ipv6.conf.$DEVICE.forwarding=0 >/dev/null 2>&1
-ipv6_exec_sysctl -w net.ipv6.conf.$DEVICE.accept_ra=0 >/dev/null 2>&1
-ipv6_exec_sysctl -w net.ipv6.conf.$DEVICE.accept_redirects=0 >/dev/null 2>&1
+ipv6_exec_sysctl -w net.ipv6.conf.$SYSCTLDEVICE.forwarding=0 >/dev/null 2>&1
+ipv6_exec_sysctl -w net.ipv6.conf.$SYSCTLDEVICE.accept_ra=0 >/dev/null 2>&1
+ipv6_exec_sysctl -w net.ipv6.conf.$SYSCTLDEVICE.accept_redirects=0 >/dev/null 2>&1
 
 # Test status of tun6to4 device
 ipv6_test_device_status tun6to4
