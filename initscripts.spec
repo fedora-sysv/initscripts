@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.22
+Version: 9.03.23
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -239,6 +239,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Tue Apr 19 2011 Petr Lautrbach <plautrba@redhat.com> 9.03.23-1
+- netfs: don't print errors if mdadm isn't installed. (#696110)
+
 * Mon Mar 21 2011 Petr Lautrbach <plautrba@redhat.com> 9.03.22-1
 - init.d/functions: fix mishandled argument to fstab-decode (#682879)
 - network-functions: fix check for unmanaged devices (#670154)
