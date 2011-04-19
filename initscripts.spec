@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.45.34
+Version: 8.45.35
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -202,6 +202,40 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Apr 19 2011 Harald Hoyer <harald@redhat.com> 8.45.35-1
+- fix VLAN configs with non-numeric interface names
+Resolves: rhbz#462095
+- do not ignore IPv6 aliases
+Resolves: rhbz#612877
+- support vlan tag 0
+Resolves: rhbz#624704
+- clarify comment of checkpid()
+Resolves: rhbz#637176
+- specify DEVICETYPE for InfiniBand
+Resolves: rhbz#648524
+- fix grep in lang.csh
+Resolves: rhbz#649995
+- support "#" in interface names
+Resolves: rhbz#664091
+- fixed sysctl calls fail with VLANs
+Resolves: rhbz#665601
+- fixed loop for switched MACs
+Resolves: rhbz#669728
+- fixed dmraid output parsing
+Resolves: rhbz#671386
+- fixed MASTER in double quotes
+Resolves: rhbz#674221
+- don't do force/lazy umount for the first nfs umount
+Resolves: rhbz#676851 rhbz#687890
+- fixed DHCPv6 if no IPv4 address configured
+Resolves: rhbz#684909
+- disable link checking when PERSISTENT_DHCLIENT is set
+Resolves: rhbz#685038
+- no more noisy output for iscsid check during shutdown or reboot
+Resolves: rhbz#687849
+- clarified mount option in netfs
+Resolves: rhbz#689898
+
 * Tue Apr 12 2011 Harald Hoyer <harald@redhat.com> 8.45.34-1
 - if $LANG is set, don't override it
 Resolves: rhbz#692893
