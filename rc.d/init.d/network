@@ -202,7 +202,7 @@ case "$1" in
 	# If this is a final shutdown/halt and there is an iSCSI session,
 	# do not stop the service.
 	if [ "$RUNLEVEL" = "6" -o "$RUNLEVEL" = "0" -o "$RUNLEVEL" = "1" ]; then
-		if [ `find /sys/class/iscsi_session/ -mindepth 1 -maxdepth 1 -type d | wc -l` -ge 1 ]; then
+	        if [ $(ls -d /sys/class/iscsi_session/*/. 2>/dev/null | wc -l) -ge 1 ]; then
 			exit 1
 		fi
 	fi
