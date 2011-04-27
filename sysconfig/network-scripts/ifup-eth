@@ -211,7 +211,7 @@ if [ -n "${DYNCONFIG}" ] && [ -x /sbin/dhclient ]; then
     fi
 # end dynamic device configuration
 else 
-    if [ -z "${IPADDR}" ]; then
+    if [ -z "${IPADDR}" -a -z "${IPADDR0}" -a -z "${IPADDR1}" -a -z "${IPADDR2}" ]; then
          # enable device without IP, useful for e.g. PPPoE
 	 ip link set dev ${REALDEVICE} up
 	 if [ -n "$ETHTOOL_OPTS" ] ; then
