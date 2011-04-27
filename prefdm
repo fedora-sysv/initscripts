@@ -14,9 +14,6 @@ if [ -f /etc/sysconfig/desktop ]; then
 		preferred=/usr/sbin/gdm
 	elif [ "$DISPLAYMANAGER" = KDE ]; then
 		preferred=/usr/bin/kdm
-
-		# KDM supports "old-style" transition
-		splash_quit_command="plymouth quit --retain-splash"
 	elif [ "$DISPLAYMANAGER" = WDM ]; then
 		preferred=/usr/bin/wdm
 		splash_quit_command="plymouth quit"
