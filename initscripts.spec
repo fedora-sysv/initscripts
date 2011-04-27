@@ -4,7 +4,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.29
+Version: 9.30
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -314,6 +314,16 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Wed Apr 27 2011 Bill Nottingham <notting@redhat.com> - 9.30-1
+- ifup-eth: handle IPADDRx correctly for static addresses (#697838)
+- systemd: fix storage setup service after cryptsetup.target (#699918)
+- prefdm: tweak how plymouth is quit in the gdm/kdm case (<rstrode@redhat.com>)
+- support /etc/hostname as an override for hostname in /etc/sysconfig/network
+- init.d/single: only ship this in -legacy
+- network-functions: fix IPADDRx index handling (<jklimes@redhat.com>)
+- ifup/down-eth: properly handle apr_ip_target, when used with module options (#604669, <harald@redhat.com>)
+- ifup-eth: ensure bond exists before bringing up slaves (#694501)
+
 * Wed Apr 06 2011 Bill Nottingham <notting@redhat.com> - 9.29-1
 - systemd: add a storage setup service after cryptsetup.target (#692198)
 - fix /.autorelabel handling (<mschimdt@redhat.com>)
