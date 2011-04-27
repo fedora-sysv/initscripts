@@ -2,7 +2,7 @@
 Description=Initialize storage subsystems (RAID, LVM, etc.)
 DefaultDependencies=no
 Conflicts=shutdown.target
-After=cryptsetup.target
+After=cryptsetup.target fedora-storage-init.service
 Before=local-fs.target shutdown.target
 Wants=fedora-wait-storage.service
 
