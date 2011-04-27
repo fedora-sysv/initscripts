@@ -1,6 +1,7 @@
 #!/bin/sh
 
 export LC_ALL=C
+export SYSTEMCTL_SKIP_REDIRECT=1
 
 if [ "$2" = "down" ]; then
 	/sbin/ip route ls | grep -q ^default || {
