@@ -128,7 +128,7 @@ __fgrep() {
 # awk_program should process fstab_file and return a list of fstab-encoded
 # paths; it doesn't have to handle comments in fstab_file.
 __umount_loop() {
-	local remaining sig=
+	local remaining sig=-15
 	local retry=3 count
 
 	remaining=$(LC_ALL=C awk "/^#/ {next} $1" "$2" | sort -r)
@@ -156,7 +156,7 @@ __umount_loop() {
 
 # Similar to __umount loop above, specialized for loopback devices
 __umount_loopback_loop() {
-	local remaining devremaining sig=
+	local remaining devremaining sig=-15
 	local retry=3
 
 	remaining=$(awk '$1 ~ /^\/dev\/loop/ && $2 != "/" {print $2}' /proc/mounts)
