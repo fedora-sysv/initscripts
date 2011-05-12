@@ -98,6 +98,10 @@ case "$1" in
 
 		if [ -z "$DEVICE" ] ; then DEVICE="$i"; fi
 
+		if [ "$SLAVE" = "yes" ]; then
+			continue
+		fi
+
 		if [ "${DEVICE##cipcb}" != "$DEVICE" ] ; then
 			vpninterfaces="$vpninterfaces $i"
 			continue
@@ -121,10 +125,6 @@ case "$1" in
 			continue
 		fi
 		
-		if [ "$SLAVE" = "yes" ]; then
-			continue
-		fi
-
 		if LANG=C grep -EL "^ONBOOT=['\"]?[Nn][Oo]['\"]?" ifcfg-$i > /dev/null ; then
 		        # this loads the module, to preserve ordering
 			is_available $i
