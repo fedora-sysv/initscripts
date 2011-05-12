@@ -84,6 +84,10 @@ case "$1" in
 
 		if [ -z "$DEVICE" ] ; then DEVICE="$i"; fi
 
+		if [ "$SLAVE" = "yes" ]; then
+			continue
+		fi
+
 		if [ "$TYPE" = "xDSL" ]; then
 		        xdslinterfaces="$xdslinterfaces $i"
 			continue
@@ -99,10 +103,6 @@ case "$1" in
 			continue
 		fi
 		
-		if [ "$SLAVE" = "yes" ]; then
-			continue
-		fi
-
 		if LANG=C egrep -L "^ONBOOT=['\"]?[Nn][Oo]['\"]?" ifcfg-$i > /dev/null ; then
 		        # this loads the module, to preserve ordering
 			is_available $i
