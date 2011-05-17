@@ -245,6 +245,7 @@ rm -rf $RPM_BUILD_ROOT
 /etc/rc.d/init.d/*
 %exclude /etc/rc.d/init.d/halt
 %exclude /etc/rc.d/init.d/reboot
+%exclude /etc/rc.d/rc[0-9].d/*single
 %exclude /etc/rc.d/init.d/single
 %config(noreplace) /etc/rc.d/rc.local
 %config(noreplace) /etc/sysctl.conf
