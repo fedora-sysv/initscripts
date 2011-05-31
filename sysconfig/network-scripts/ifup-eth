@@ -191,7 +191,7 @@ if [ -n "${DYNCONFIG}" ] && [ -x /sbin/dhclient ]; then
             [ -x /sbin/restorecon ] && restorecon /var/lib/dhclient/dhclient-${DEVICE}.leases > /dev/null 2>&1
         fi
     done
-    DHCLIENTARGS="${DHCLIENTARGS} ${DHCP_HOSTNAME:+-H $DHCP_HOSTNAME} ${ONESHOT} -q ${DHCLIENTCONF} -lf /var/lib/dhclient/dhclient-${DEVICE}.leases -pf /var/run/dhclient-${DEVICE}.pid"
+    DHCLIENTARGS="${DHCLIENTARGS} -H ${DHCP_HOSTNAME:-${HOSTNAME%%.*}} ${ONESHOT} -q ${DHCLIENTCONF} -lf /var/lib/dhclient/dhclient-${DEVICE}.leases -pf /var/run/dhclient-${DEVICE}.pid"
     echo
     echo -n $"Determining IP information for ${DEVICE}..."
     if [[ "${PERSISTENT_DHCLIENT}" !=  [yY1]* ]] && check_link_down ${DEVICE}; then
@@ -304,7 +304,7 @@ fi
 # IPv6 initialisation?
 /etc/sysconfig/network-scripts/ifup-ipv6 ${CONFIG}
 if [[ "${DHCPV6C}"  = [Yy1]* ]] && [ -x /sbin/dhclient ]; then
-    /sbin/dhclient -6 -1 ${DHCPV6C_OPTIONS} -lf /var/lib/dhclient/dhclient6-${DEVICE}.leases -pf /var/run/dhclient6-${DEVICE}.pid ${DHCP_HOSTNAME:+-H $DHCP_HOSTNAME} ${DEVICE}
+    /sbin/dhclient -6 -1 ${DHCPV6C_OPTIONS} -lf /var/lib/dhclient/dhclient6-${DEVICE}.leases -pf /var/run/dhclient6-${DEVICE}.pid -H ${DHCP_HOSTNAME:-${HOSTNAME%%.*}} ${DEVICE}
 fi
 
 if [ "${IPX}" = yes ]; then

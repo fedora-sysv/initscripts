@@ -185,6 +185,8 @@ expand_config ()
         i=$((i+1))
     done
 
+    [ -n "$DHCP_HOSTNAME" ] && DHCP_HOSTNAME=${DHCP_HOSTNAME%%.*}
+
     if [ -z "${NETWORK}" ]; then
         eval $(/bin/ipcalc --network ${ipaddr[0]} ${netmask[0]})
     fi
