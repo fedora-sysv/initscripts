@@ -55,9 +55,9 @@ systemctl_redirect () {
 
 if [ -z "${CONSOLETYPE:-}" ]; then
   if [ -r "/dev/stderr" ]; then
-    CONSOLETYPE="$(/sbin/consoletype < /dev/stderr)"
+    CONSOLETYPE="$(/sbin/consoletype < /dev/stderr 2>/dev/null)"
   else
-    CONSOLETYPE="$(/sbin/consoletype)"
+    CONSOLETYPE="$(/sbin/consoletype 2>/dev/null)"
   fi
 fi
 
