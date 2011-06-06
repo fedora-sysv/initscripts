@@ -292,6 +292,8 @@ function new_interface ()
 
                /sbin/ifconfig ${DEVICE} ${IPADDR} netmask ${NETMASK} broadcast ${BROADCAST}
 
+	       [ "$IPV6INIT" = "yes" ]  && /etc/sysconfig/network-scripts/ifup-ipv6 ${DEVICE}
+
                if [ "$NO_ALIASROUTING" != yes ]; then
 
                        GATEWAYDEV=$network_GATEWAYDEV;
