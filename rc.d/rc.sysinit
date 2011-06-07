@@ -850,9 +850,6 @@ for afile in /var/lock/* /var/run/* ; do
 		*/dovecot)	rm -f $afile/* $afile/*/* ;;
 		*/cups)		rm -f $afile/*/* ;;
 		*/libvirt)	rm -rf $afile/*/* ;;
-		*/subsys)       if [ -d "$afile/rhsm" ]; then 
-					rm -rf $afile/rhsm/* 
-				fi ;;
 		*)		rm -f $afile/* ;;
 	   esac
 	else
