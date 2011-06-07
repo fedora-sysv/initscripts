@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.45.36
+Version: 8.45.37
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -202,6 +202,10 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Jun 07 2011 Petr Lautrbach <plautrba@redhat.com> 8.45.37-1
+- add /etc/sysctl.d/ support
+Resolves: rhbz#624385
+
 * Wed Jun 01 2011 Harald Hoyer <harald@redhat.com> 8.45.36-1
 - add net_log
 Resolves: rhbz#507515
