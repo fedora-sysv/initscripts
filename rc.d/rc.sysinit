@@ -137,7 +137,10 @@ fi
 nashpid=$(pidof nash 2>/dev/null)
 [ -n "$nashpid" ] && kill $nashpid >/dev/null 2>&1
 unset nashpid
-/sbin/start_udev
+/sbin/udevd --daemon
+/sbin/udevadm trigger --type=subsystems --action=add
+/sbin/udevadm trigger --type=devices --action=add
+/sbin/udevadm settle
 
 # Load other user-defined modules
 for file in /etc/sysconfig/modules/*.modules ; do
