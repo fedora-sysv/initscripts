@@ -54,6 +54,7 @@ Conflicts: e2fsprogs < 1.15
 # http://bugzilla.redhat.com/show_bug.cgi?id=252973
 Conflicts: nut < 2.2.0
 Conflicts: NetworkManager < 1:0.8.0-12.git20100504
+Conflicts: ipsec-tools < 0.8.0-2
 Obsoletes: hotplug <= 3:2004_09_23-10.1
 Requires(pre): /usr/sbin/groupadd
 Requires(post): /sbin/chkconfig, coreutils
@@ -204,8 +205,6 @@ rm -rf $RPM_BUILD_ROOT
 /etc/sysconfig/network-scripts/ifdown-eth
 /etc/sysconfig/network-scripts/ifup-ipv6
 /etc/sysconfig/network-scripts/ifdown-ipv6
-/etc/sysconfig/network-scripts/ifup-ipsec
-/etc/sysconfig/network-scripts/ifdown-ipsec
 /etc/sysconfig/network-scripts/ifup-sit
 /etc/sysconfig/network-scripts/ifdown-sit
 /etc/sysconfig/network-scripts/ifup-tunnel
