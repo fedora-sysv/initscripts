@@ -4,7 +4,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.30
+Version: 9.31
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -314,6 +314,18 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Tue Jun 21 2011 Bill Nottingham <notting@redhat.com> - 9.31-1
+- remove ifup/ifdown-ipsec; they're now in ipsec-tools
+- rc.sysinit: start udev by hand, start_udev is no more (#714531)
+- ifup-aliases: if IPv6 is configured on the alias, configure it. (#583409)
+- ifup-eth: ensure DHCP_HOSTNAME is a short hostname, seed it from HOSTNAME if needed. (#697877)
+- network-functions: override NETMASK from PREFIX where specified (#705367, <mpoole@redhat.com>)
+- exclude single symlink from main package (#705457)
+- network: VLAN, etc. interfaces can be slaves; check for being a slave first. (#703475)
+- network: use LC_ALL=C when calling sed. (https://bugs.mageia.org/show_bug.cgi?id=1216, via <sander.lepik@eesti.ee>)
+- functions: (umount_loop) fuser -k defaults to -9; set the initial pass to kill -15. (#703457)
+- init.d/halt: don't match filesystem types in hostnames (#703203, <jmueller@data-tronics.com>)
+
 * Wed Apr 27 2011 Bill Nottingham <notting@redhat.com> - 9.30-1
 - ifup-eth: handle IPADDRx correctly for static addresses (#697838)
 - systemd: fix storage setup service after cryptsetup.target (#699918)
