@@ -137,7 +137,7 @@ fi
 nashpid=$(pidof nash 2>/dev/null)
 [ -n "$nashpid" ] && kill $nashpid >/dev/null 2>&1
 unset nashpid
-/sbin/udevd --daemon
+action $"Starting udev: " /sbin/udevd --daemon
 /sbin/udevadm trigger --type=subsystems --action=add
 /sbin/udevadm trigger --type=devices --action=add
 /sbin/udevadm settle
