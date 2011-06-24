@@ -2,7 +2,9 @@
 
 sourced=0
 
-if [ -n "$LANG" ]; then
+# $sysxkbmap means we're running under Xinit; we want to re-read settings in case
+# we're running in CJKI and have been defaulted to English on the console.
+if [ -z "$sysxkbmap" -a -n "$LANG" ]; then
     sourced=1
 else
     for langfile in /etc/sysconfig/i18n $HOME/.i18n ; do
