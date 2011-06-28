@@ -147,7 +147,21 @@ source_config ()
     fi
 }
 
-
+ethtool_set()
+{
+    oldifs=$IFS;
+    IFS=';';
+    for opts in $ETHTOOL_OPTS ; do
+	IFS=$oldifs;
+        if [[ "${opts}" =~ [[:space:]]*- ]]; then
+	    /sbin/ethtool $opts
+        else
+	    /sbin/ethtool -s ${REALDEVICE} $opts
+        fi
+	IFS=';';
+    done
+    IFS=$oldifs;
+}
 
 expand_config ()
 {
