@@ -126,6 +126,8 @@ char *serial_tty_name(int type) {
 			return "ttyCPM";
 		case PORT_MPC52xx:
 			return "ttyPSC";
+		case PORT_IMX:
+			return "ttymxc";
 		case PORT_OMAP:
 			return "ttyO";
 		default:
