@@ -266,8 +266,6 @@ rm -rf $RPM_BUILD_ROOT
 %exclude /lib/udev/rules.d/10-console.rules
 %exclude /lib/udev/rules.d/88-clock.rules
 /lib/udev/rename_device
-/lib/udev/console_init
-/lib/udev/console_check
 /sbin/service
 /sbin/ppp-watch
 %{_mandir}/man*/*
@@ -307,6 +305,8 @@ rm -rf $RPM_BUILD_ROOT
 /etc/rc.d/rc
 /etc/rc.d/rc.sysinit
 /lib/udev/rules.d/*
+/lib/udev/console_init
+/lib/udev/console_check
 
 %files -n debugmode
 %defattr(-,root,root)
