@@ -32,7 +32,7 @@ fi
 . /etc/init.d/functions
 
 PLYMOUTH=
-[ -x /usr/bin/plymouth ] && PLYMOUTH=yes
+[ -x /bin/plymouth ] && PLYMOUTH=yes
 
 # Check SELinux status
 SELINUX_STATE=
@@ -545,8 +545,8 @@ fi
 # Configure machine if necessary.
 if [ -f /.unconfigured ]; then
 
-    if [ -x /usr/bin/plymouth ]; then
-        /usr/bin/plymouth quit
+    if [ -x /bin/plymouth ]; then
+        /bin/plymouth quit
     fi
 
     if [ -x /usr/bin/system-config-keyboard ]; then
@@ -660,7 +660,7 @@ if strstr "$cmdline" confirm ; then
 fi
 
 # Let rhgb know that we're leaving rc.sysinit
-if [ -x /usr/bin/plymouth ]; then
-    /usr/bin/plymouth --sysinit
+if [ -x /bin/plymouth ]; then
+    /bin/plymouth --sysinit
 fi
 
