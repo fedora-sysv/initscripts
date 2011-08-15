@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.23
+Version: 9.03.24
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -239,6 +239,23 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Mon Aug 15 2011 Petr Lautrbach <plautrba@redhat.com> 9.03.24-1
+- add support for sysctl.d (#680527)
+- log network messages via syslog (#653630, #672202)
+- document NM_CONTROLLED (#692123)
+- don't explictly disallow IPv6 aliases (#692240)
+- make sure the bond exists when we bring up the slaves. (#694501)
+- properly add and remove arp_ip_target's (#675079)
+- load static arp entries from ethers file (#696788)
+- fix logic error in rc.sysinit (#698520, <jlau@redhat.com>)
+- handle IPADDRx correctly for static addresses (#700184)
+- don't match filesystem types in hostnames (#703210, <jmueller@data-tronics.com>)
+- check for VLAN interfaces is being slave first (#703475)
+- override NETMASK from PREFIX where specified (#705367, <mpoole@redhat.com>)
+- allow multiple ETHTOOL_OPTS option types (#692410, #693583)
+- don't mount gfs2 in netfs (#689593)
+- fix pid file usage for IPv6. (#729292, <daveg@dgit.ndo.co.uk>)
+
 * Tue Apr 19 2011 Petr Lautrbach <plautrba@redhat.com> 9.03.23-1
 - netfs: don't print errors if mdadm isn't installed. (#696110)
 
