@@ -136,6 +136,10 @@ case "$1" in
               /sbin/route add -$args
 	   done
 	fi    
+	# Add non interface-specific static arp entries.
+	if [ -f /etc/ethers ]; then
+		/sbin/arp -f /etc/ethers
+	fi
 
  	# IPv6 hook (post IPv4 start)
  	if [ -x /etc/sysconfig/network-scripts/init.ipv6-global ]; then
