@@ -78,8 +78,8 @@ case "$1" in
 	    fi
 	    
 	    if [ "$rc" -gt 1 ]; then
-		if [ -x /usr/bin/plymouth ] && /usr/bin/plymouth --ping ; then
-			/usr/bin/plymouth --hide-splash
+		if [ -x /bin/plymouth ] && /bin/plymouth --ping ; then
+			/bin/plymouth --hide-splash
 		fi
 		failure "$STRING"
 		tty >/dev/null 2>&1 || exit 1
