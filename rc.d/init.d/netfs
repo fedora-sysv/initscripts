@@ -48,9 +48,9 @@ case "$1" in
 	    fi
 	    if [ -f /etc/multipath.conf ] && [ -x /sbin/multipath ]; then
 	    	modprobe dm-multipath >/dev/null 2>&1
-		/sbin/multipath -v 0
+		/sbin/multipath -u -v 0
 		if [ -x /sbin/kpartx ]; then
-		       /sbin/dmsetup ls --target multipath --exec "/sbin/kpartx -a -p p"
+		       /sbin/dmsetup ls --target multipath --exec "/sbin/kpartx -u -a -p p"
 		fi
 	    fi
 	    if [ -x /sbin/lvm ]; then
