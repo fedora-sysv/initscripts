@@ -36,9 +36,9 @@ PLYMOUTH=
 
 # Check SELinux status
 SELINUX_STATE=
-if [ -e "/selinux/enforce" ] && [ "$(cat /proc/self/attr/current)" != "kernel" ]; then
-	if [ -r "/selinux/enforce" ] ; then
-		SELINUX_STATE=$(cat "/selinux/enforce")
+if [ -e "/sys/fs/selinux/enforce" ] && [ "$(cat /proc/self/attr/current)" != "kernel" ]; then
+	if [ -r "/sys/fs/selinux/enforce" ] ; then
+		SELINUX_STATE=$(cat "/sys/fs/selinux/enforce")
 	else
 		# assume enforcing if you can't read it
 		SELINUX_STATE=1
@@ -53,7 +53,7 @@ disable_selinux() {
 	echo $"*** Warning -- SELinux is active"
 	echo $"*** Disabling security enforcement for system recovery."
 	echo $"*** Run 'setenforce 1' to reenable."
-	echo "0" > "/selinux/enforce"
+	echo "0" > "/sys/fs/selinux/enforce"
 }
 
 relabel_selinux() {
@@ -61,7 +61,7 @@ relabel_selinux() {
     # wrong context, so a reboot will be required after relabel
     AUTORELABEL=
     . /etc/selinux/config
-    echo "0" > /selinux/enforce
+    echo "0" > /sys/fs/selinux/enforce
     [ -n "$PLYMOUTH" ] && plymouth --hide-splash
 
     if [ "$AUTORELABEL" = "0" ]; then
@@ -231,9 +231,9 @@ elif [ -f /.autofsck ]; then
 		echo $"*** Warning -- the system did not shut down cleanly. "
 		echo $"*** Dropping you to a shell; the system will continue"
 		echo $"*** when you leave the shell."
-		[ -n "$SELINUX_STATE" ] && echo "0" > /selinux/enforce
+		[ -n "$SELINUX_STATE" ] && echo "0" > /sys/fs/selinux/enforce
 		sulogin
-		[ -n "$SELINUX_STATE" ] && echo "1" > /selinux/enforce
+		[ -n "$SELINUX_STATE" ] && echo "1" > /sys/fs/selinux/enforce
 		[ -n "$PLYMOUTH" ] && plymouth --show-splash
 	fi
 	fsckoptions="$AUTOFSCK_OPT $fsckoptions"

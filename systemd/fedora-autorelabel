@@ -10,7 +10,7 @@ relabel_selinux() {
     # wrong context, so a reboot will be required after relabel
     AUTORELABEL=
     . /etc/selinux/config
-    echo "0" > /selinux/enforce
+    echo "0" > /sys/fs/selinux/enforce
     [ -x /bin/plymouth ] && plymouth --hide-splash
 
     if [ "$AUTORELABEL" = "0" ]; then
