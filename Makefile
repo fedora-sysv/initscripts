@@ -163,7 +163,7 @@ clean:
 	make clean -C src
 	make clean -C po
 	@rm -fv *~ changenew ChangeLog.old *gz
-	@find . -name "*~" -exec rm -f {} \;
+	@find . -name "*~" -exec rm -v -f {} \;
 
 tag:
 	@git tag -a -f -m "Tag as $(TAG)" $(TAG)
