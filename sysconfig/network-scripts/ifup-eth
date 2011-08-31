@@ -61,6 +61,12 @@ if [ "${TYPE}" = "Bridge" ]; then
       fi
       [ -n "${DELAY}" ] && /usr/sbin/brctl setfd ${DEVICE} ${DELAY}
       [ -n "${STP}" ] && /usr/sbin/brctl stp ${DEVICE} ${STP}
+      # add the bits to setup driver parameters here
+      for arg in $BRIDGING_OPTS ; do
+          key=${arg%%=*};
+          value=${arg##*=};
+          echo $value > /sys/class/net/${DEVICE}/bridge/$key
+      done
 fi
 
 # If the device is a tap device, create it with tunctl, if available.
@@ -164,6 +170,12 @@ if [ -n "${BRIDGE}" -a -x /usr/sbin/brctl ]; then
       ethtool_set
       [ -n "${LINKDELAY}" ] && /bin/sleep ${LINKDELAY}
       /usr/sbin/brctl addif ${BRIDGE} ${DEVICE}
+      # add the bits to setup driver parameters here
+      for arg in $BRIDGING_OPTS ; do
+          key=${arg%%=*};
+          value=${arg##*=};
+          echo $value > /sys/class/net/${DEVICE}/brport/$key
+      done
       # Upon adding a device to a bridge,
       # it's necessary to make radvd reload its config
       [ -r /var/run/radvd/radvd.pid ] && kill -HUP $(cat /var/run/radvd/radvd.pid)

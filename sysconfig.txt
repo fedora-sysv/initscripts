@@ -888,6 +888,14 @@ Files in /etc/sysconfig/network-scripts/
     TYPE=Bridge
     STP=off|on (see 'brctl stp')
     DELAY=forward delay time in seconds (see 'brctl setfd')
+    BRIDGING_OPTS=
+      A space-separated list of bridging options for either the bridge
+      device, or the port device, such as:
+
+      BRIDGING_OPTS="hello_time=200 priority=65535"
+        for bridge devices, or
+      BRIDGING_OPTS="hairpin_mode=1"
+        for port devices.
 
   TUN/TAP-specific items:
     OWNER=<owner of the device>
