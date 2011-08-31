@@ -241,15 +241,13 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/rc.d
 %dir /etc/rc.d/rc[0-9].d
 %config(missingok) /etc/rc.d/rc[0-9].d/*
-%exclude /etc/rc.d/rc[0-9].d/*local
-%exclude /etc/rc.d/rc[0-9].d/*reboot
-%exclude /etc/rc.d/rc[0-9].d/*halt
+%exclude /etc/rc.d/rc[0-9].d/*
 /etc/rc[0-9].d
 %dir /etc/rc.d/init.d
 /etc/rc.d/init.d/*
 %exclude /etc/rc.d/init.d/halt
+%exclude /etc/rc.d/init.d/killall
 %exclude /etc/rc.d/init.d/reboot
-%exclude /etc/rc.d/rc[0-9].d/*single
 %exclude /etc/rc.d/init.d/single
 %ghost %verify(not md5 size mtime) %config(noreplace,missingok) /etc/rc.d/rc.local
 %config(noreplace) /etc/sysctl.conf
