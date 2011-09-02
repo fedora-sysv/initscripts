@@ -4,7 +4,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.31
+Version: 9.32
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -317,6 +317,24 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Fri Sep  2 2011 Bill Nottingham <notting@redhat.com> - 9.32-1
+- prefdm: if exec() of all DMs fails, call 'plymouth quit' (#735215)
+- %%ghost rc.local (but leave it around on upgrade) (#734268)
+- ifup: support random bridging options via BRIDGING_OPTS (#734045, #665378)
+- selinuxfs moved to /sys/fs, handle it (#733759)
+- netfs/fedora-storage-init: call multipath and kpartx with -u (#733437)
+- plymouth lives in /bin (#702814)
+- drop fedora-autoswap
+- ifdown-eth: fix dhclient pid file for IPv6 (#729292, <daveg@dgit.ndo.co.uk>)
+- move some more things to the legacy subpackage
+- netfs: don't mount gfs2 here (#689593)
+- readonly-root: add an empty CLIENTSTATE defintion (#725476)
+- drop sysinit hack/unhack
+- ifup-eth: allow more options in ETHTOOL_OPTS (#692410, #693583)
+- rwtab: update for systemd (#704783)
+- debug.csh: fix for latest csh
+- update translations: eu_ES, hy, ku, lo, my, wa
+
 * Tue Jun 21 2011 Bill Nottingham <notting@redhat.com> - 9.31-1
 - remove ifup/ifdown-ipsec; they're now in ipsec-tools
 - rc.sysinit: start udev by hand, start_udev is no more (#714531)
