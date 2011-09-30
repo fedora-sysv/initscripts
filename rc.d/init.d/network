@@ -43,10 +43,10 @@ cd /etc/sysconfig/network-scripts
 
 # find all the interfaces besides loopback.
 # ignore aliases, alternative configurations, and editor backup files
-interfaces=$(ls ifcfg* | \
+interfaces=$(ls ifcfg-* | \
 	    LC_ALL=C sed -e "$__sed_discard_ignored_files" \
 		       -e '/\(ifcfg-lo$\|:\|ifcfg-.*-range\)/d' \
-		       -e '/ifcfg-[A-Za-z0-9#\._-]\+$/ { s/^ifcfg-//g;s/[0-9]/ &/}' | \
+		       -e '{ s/^ifcfg-//g;s/[0-9]/ &/}' | \
 	    LC_ALL=C sort -k 1,1 -k 2n | \
 	    LC_ALL=C sed 's/ //')
 rc=0
