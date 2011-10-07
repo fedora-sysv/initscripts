@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.26
+Version: 9.03.27
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -239,6 +239,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Fri Oct 07 2011 Petr Lautrbach <plautrba@redhat.com> 9.03.27-1
+- use restorecon -F for /dev and /dev/pts (#743222)
+
 * Tue Sep 20 2011 Petr Lautrbach <plautrba@redhat.com> 9.03.26-1
 - add 'emergency' mode (#681357)
 - kexec - free reservation memory only for crashkernel=auto (#734987)
