@@ -43,7 +43,7 @@ if [ -e "/selinux/enforce" ] && [ "$(cat /proc/self/attr/current)" != "kernel" ]
 fi
 
 if [ -n "$SELINUX_STATE" -a -x /sbin/restorecon ] && __fgrep " /dev " /proc/mounts >/dev/null 2>&1 ; then
-	/sbin/restorecon  -R /dev 2>/dev/null
+	/sbin/restorecon -R -F /dev 2>/dev/null
 fi
 
 disable_selinux() {
@@ -147,7 +147,7 @@ if [ -f /etc/rc.modules ]; then
 fi
 
 mount -n /dev/pts >/dev/null 2>&1
-[ -n "$SELINUX_STATE" ] && restorecon /dev/pts >/dev/null 2>&1
+[ -n "$SELINUX_STATE" ] && restorecon -F /dev/pts >/dev/null 2>&1
 
 # Configure kernel parameters
 update_boot_stage RCkernelparam
