@@ -4,7 +4,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.30
+Version: 9.30.1
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -315,6 +315,16 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Wed Oct 12 2011 Bill Nottingham <notting@redhat.com> - 9.30.1-1
+- netconsole: only use the first ARP response (#744309, <doug.knight@karmix.org>)
+- assorted: plymouth lives in /bin (#702814)
+- ifdown-eth: fix dhclient pid file for IPv6 (#729292, <daveg@dgit.ndo.co.uk>)
+- console_*: add freescale ttymx ports (#728730, <ndevos@redhat.com>)
+- rwtab: update for systemd (#704783)
+- lang.csh/debug.csh: fix character classes
+- ifup-aliases: if IPv6 is configured on the alias, configure it. (#583409)
+- ifup-eth: ensure DHCP_HOSTNAME is a short hostname, seed it from HOSTNAME if needed. (#697877)
+
 * Wed Apr 27 2011 Bill Nottingham <notting@redhat.com> - 9.30-1
 - ifup-eth: handle IPADDRx correctly for static addresses (#697838)
 - systemd: fix storage setup service after cryptsetup.target (#699918)
