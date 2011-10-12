@@ -4,7 +4,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.32
+Version: 9.33
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -317,6 +317,13 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Wed Oct 12 2011 Bill Nottingham <notting@redhat.com> - 9.33-1
+- netconsole: only use the first ARP response (#744309, <doug.knight@karmix.org>)
+- udev/rules.d/88-clock.rules: drop this entirely, as it causes issues in conjunction with systemd
+- init.d/network: be less picky about ifcfg file names. (#742276)
+- /sbin/service: do not check for the existence of a systemd unit before redirecting (<mschmidt@redhat.com>)
+- init.d/functions: only run consoletype if connected to something that's console-ish. (#657869)
+
 * Fri Sep  2 2011 Bill Nottingham <notting@redhat.com> - 9.32-1
 - prefdm: if exec() of all DMs fails, call 'plymouth quit' (#735215)
 - %%ghost rc.local (but leave it around on upgrade) (#734268)
