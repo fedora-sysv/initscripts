@@ -54,7 +54,7 @@ if is_bonding_device ${DEVICE} ; then
 
     for arg in $BONDING_OPTS ; do   
 	key=${arg%%=*};
-	[[ "${key}" != "arp_ip_target" ]] || continue
+	[[ "${key}" != "arp_ip_target" ]] && continue
 	value=${arg##*=};
 	if [ "${value:0:1}" != "+" ]; then
             OLDIFS=$IFS;
