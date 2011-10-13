@@ -67,7 +67,7 @@ relabel_selinux() {
 	echo $"*** /etc/selinux/config indicates you want to manually fix labeling"
 	echo $"*** problems. Dropping you to a shell; the system will reboot"
 	echo $"*** when you leave the shell."
-	sulogin
+	start rcS-emergency
 
     else
 	echo
@@ -226,7 +226,7 @@ elif [ -f /.autofsck ]; then
 		echo $"*** Dropping you to a shell; the system will continue"
 		echo $"*** when you leave the shell."
 		[ -n "$SELINUX_STATE" ] && echo "0" > /selinux/enforce
-		sulogin
+		start rcS-emergency
 		[ -n "$SELINUX_STATE" ] && echo "1" > /selinux/enforce
 		[ -n "$PLYMOUTH" ] && plymouth --show-splash
 	fi
@@ -429,7 +429,7 @@ if [ -z "$fastboot" -a "$READONLY" != "yes" ]; then
                 str=$"(Repair filesystem)"
 		PS1="$str \# # "; export PS1
 		[ "$SELINUX_STATE" = "1" ] && disable_selinux
-		sulogin
+		start rcS-emergency
 
 		echo $"Unmounting file systems"
 		umount -a
