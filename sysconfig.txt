@@ -431,9 +431,10 @@ Generic options:
     -q option is not given to sendmail if /etc/sysconfig/sendmail
     exists and QUEUE is empty or undefined.
 
-/etc/sysconfig/i18n
-  If ~/.i18n exists, it is used in addition to /etc/sysconfig/i18n and allows
-  per-user customization of the locales.
+/etc/locale.conf
+
+  A configutration file for locale settings. See locale.conf(5) for
+  more details. 
 
   LANG= set locale for all categories, can be any two letter ISO
     language code
@@ -451,6 +452,14 @@ Generic options:
 
   The above variables are used in /etc/profile.d/lang.sh.
 
+  This data will be also be read from the legacy /etc/sysconfig/i18n
+  location, but /etc/locale.conf takes precedence.
+
+  If ~/.i18n exists, it is used in addition to /etc/locale.conf and
+  /etc/sysconfig/i18n for per-user customization of the locales.
+
+/etc/vconsole.conf:
+
   SYSFONT= Console font. Fonts are found in /lib/kbd/consolefonts.
 
   UNIMAP= Unicode font map. Most fonts have these built-in. Font maps
@@ -460,8 +469,9 @@ Generic options:
   SYSFONTACM= Console map. These are applied via setfont's -m option,
   and are found in /lib/kbd/consoletrans.
  
-  The above are used by the /sbin/setsysfont command (which is run
-  by rc.sysinit at boot time.) For more information, see setfont(8).
+  The above are used to set up the keyboard at boot time. For more
+  information, see vconsole.conf(5). If this file does not exist,
+  values will be read from /etc/sysconfig/i18n.
 
 Files in /etc/sysconfig/network-scripts/
 ========================================

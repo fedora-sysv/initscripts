@@ -11,7 +11,7 @@ if ($?LANG) then
     setenv LANG $saved_lang
     unset saved_lang
 else
-    foreach file (/etc/sysconfig/i18n "$HOME/.i18n")
+    foreach file (/etc/sysconfig/i18n /etc/locale.conf "$HOME/.i18n")
         if ( -f $file ) then
 	    eval `sed -ne 's|^[[:blank:]]*\([^#=]\{1,\}\)=\([^=]*\)|setenv \1 \2;|p' $file`
 	    set sourced=1

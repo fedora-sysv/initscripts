@@ -61,7 +61,7 @@ if [ -z "${CONSOLETYPE:-}" ]; then
   fi
 fi
 
-if [ -z "${NOLOCALE:-}" ] && [ -z "${LANGSH_SOURCED:-}" ] && [ -f /etc/sysconfig/i18n ] ; then
+if [ -z "${NOLOCALE:-}" ] && [ -z "${LANGSH_SOURCED:-}" ] && [ -f /etc/sysconfig/i18n -o -f /etc/locale.conf ] ; then
   . /etc/profile.d/lang.sh 2>/dev/null
   # avoid propagating LANGSH_SOURCED any further
   unset LANGSH_SOURCED
