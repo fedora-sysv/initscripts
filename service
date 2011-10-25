@@ -69,6 +69,6 @@ done
 if [ -f "${SERVICEDIR}/${SERVICE}" ]; then
    env -i PATH="$PATH" TERM="$TERM" SYSTEMCTL_IGNORE_DEPENDENCIES=${SYSTEMCTL_IGNORE_DEPENDENCIES} SYSTEMCTL_SKIP_REDIRECT=${SYSTEMCTL_SKIP_REDIRECT} "${SERVICEDIR}/${SERVICE}" ${OPTIONS}
 else
-   echo $"Redirecting to /bin/systemctl ${OPTIONS} ${SERVICE}.service" >/dev/stderr
+   [ -c /dev/stderr ] && echo $"Redirecting to /bin/systemctl ${OPTIONS} ${SERVICE}.service" >/dev/stderr
    exec /bin/systemctl ${OPTIONS} ${SERVICE}.service
 fi
