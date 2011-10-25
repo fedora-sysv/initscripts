@@ -262,7 +262,6 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/fstab-decode
 /sbin/genhostid
 /sbin/getkey
-/sbin/securetty
 /sbin/sushell
 %attr(2755,root,root) /sbin/netreport
 /lib/udev/rules.d/*
@@ -271,6 +270,7 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/service
 /sbin/ppp-watch
 %{_mandir}/man*/*
+%exclude %{_mandir}/man*/securetty*
 %dir %attr(775,root,root) /var/run/netreport
 %dir /etc/ppp
 %dir /etc/ppp/peers
@@ -309,6 +309,8 @@ rm -rf $RPM_BUILD_ROOT
 /lib/udev/rules.d/*
 /lib/udev/console_init
 /lib/udev/console_check
+/sbin/securetty
+%{_mandir}/man*/securetty*
 
 %files -n debugmode
 %defattr(-,root,root)
