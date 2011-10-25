@@ -4,7 +4,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.33
+Version: 9.34
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -316,6 +316,10 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Tue Oct 25 2011 Bill Nottingham <notting@redhat.com> - 9.34-1
+- read locale.conf if it exists (#706756)
+- ifdown: fix logic error with removing arp_ip_target (#745681)
+
 * Wed Oct 12 2011 Bill Nottingham <notting@redhat.com> - 9.33-1
 - netconsole: only use the first ARP response (#744309, <doug.knight@karmix.org>)
 - udev/rules.d/88-clock.rules: drop this entirely, as it causes issues in conjunction with systemd
