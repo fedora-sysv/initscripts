@@ -147,11 +147,13 @@ struct netdev *get_configs() {
 	for (x = 0; x < ncfgs; x++ ) {
 		char *path;
 		char *devname, *hwaddr;
+		int vlan;
 		gchar *contents, **lines;
 		int i;
 		
 		devname = hwaddr = contents = NULL;
 		lines = NULL;
+		vlan = 0;
 		if (asprintf(&path,"/etc/sysconfig/network-scripts/%s",
 			     cfgs[x]->d_name) == -1)
 			continue;
@@ -175,8 +177,11 @@ struct netdev *get_configs() {
 				hwaddr = dequote(lines[i] + 7, NULL);
 			}
 #endif
+			if (g_str_has_prefix(lines[i],"VLAN=yes")) {
+				vlan=1;
+			}
 		}
-		if (!devname || !hwaddr) {
+		if (!devname || !hwaddr || vlan) {
 			g_free(contents);
 			g_strfreev(lines);
 			continue;
