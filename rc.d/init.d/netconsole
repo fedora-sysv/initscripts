@@ -54,7 +54,7 @@ print_address_info ()
 		target=$host
 	fi
 	if [ -z "$SYSLOGMACADDR" ]; then
-		arp=$(LANG=C /sbin/arping -c 1 -I $DEV $target 2>/dev/null | awk '/ reply from .*[.*]/ { print gensub(".* reply from .* \\[(.*)\\].*","\\1","G") }')
+		arp=$(LANG=C /sbin/arping -f -c 1 -I $DEV $target 2>/dev/null | awk '/ reply from .*[.*]/ { print gensub(".* reply from .* \\[(.*)\\].*","\\1","G"); exit }')
 		[ -n "$arp" ] && echo "SYSLOGMACADDR=$arp"
 	fi	
 }	
