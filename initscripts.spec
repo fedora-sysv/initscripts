@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.45.39
+Version: 8.45.40
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -202,6 +202,9 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue Nov 22 2011 Lukas Nykryn <lnykryn@redhat.com> 8.45.40-1
+- exit arping on first response (#744734)
+
 * Tue Nov 01 2011 Petr Lautrbach <plautrba@redhat.com> 8.45.39-1
 - suppress remove error message during boot (#679998)
 - fix logic error with removing arp_ip_target (#745681)
