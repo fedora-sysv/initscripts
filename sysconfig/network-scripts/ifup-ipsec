@@ -207,7 +207,7 @@ if [ "$KEYING" = "automatic" ]; then
         cat > /etc/racoon/$DST.conf << EOF
 remote $DST
 {
-	exchange_mode aggressive, main;
+	exchange_mode main, aggressive;
 EOF
         case "$IKE_METHOD" in
            PSK)
