@@ -16,6 +16,12 @@ if [ -e "/sys/fs/selinux/enforce" ] && [ "$(cat /proc/self/attr/current)" != "ke
 	fi
 fi
 
+selinux_fixup() {
+	if [ -n "$SELINUX_STATE" ] && [ -e "$1" ]; then
+		restorecon -R "$1"
+	fi
+}
+
 # Only read this once.
 [ -z "${cmdline}" ] && cmdline=$(cat /proc/cmdline)
 
@@ -91,7 +97,7 @@ if [ "$READONLY" = "yes" -o "$TEMPORARY_STATE" = "yes" ]; then
 				*)
 					;;
 			esac
-			[ -n "$SELINUX_STATE" ] && [ -e "$path" ] && restorecon -R "$path"
+			selinux_fixup "$path"
 		done
 	done
 
@@ -153,14 +159,14 @@ if [ "$READONLY" = "yes" -o "$TEMPORARY_STATE" = "yes" ]; then
 
 			for path in $(grep -v "^#" "$file" 2>/dev/null); do
 				mount_state "$path"
-				[ -n "$SELINUX_STATE" ] && [ -e "$path" ] && restorecon -R "$path"
+				selinux_fixup "$path"
 			done
 		done
 
 		if [ -f "$STATE_MOUNT/files" ] ; then
 			for path in $(grep -v "^#" "$STATE_MOUNT/files" 2>/dev/null); do
 				mount_state "$path"
-				[ -n "$SELINUX_STATE" ] && [ -e "$path" ] && restorecon -R "$path"
+				selinux_fixup "$path"
 			done
 		fi
 	fi
