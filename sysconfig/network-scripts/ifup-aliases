@@ -74,43 +74,42 @@ parent_device=$device
 cd /etc/sysconfig/network-scripts  
 . ./network-functions
 
-# Grab the current configuration of any running aliases device info is placed
-# into variables in the form: rdev_$DEVICE_addr, dev_$DEVICE_mb and
-# rdevip_$IPGLOP.  A list of all the devices is created in rdev_LIST.
+# Grab the current configuration of any running aliases, place device info
+# into variables of the form:
+# rdev_<index>_addr = <ip address>
+# rdev_<index>_pb = <prefix>_<broadcast>
+# rdevip_<ipaddress> = <index>
+# Example:
+# rdev_0_addr=192.168.1.1
+# rdev_0_pb=24_192.16.1.255
+# rdevip_192_168_1_1=0
+#
+# A list of all the devices is created in rdev_LIST.
 
-eval $(LC_ALL= LANG= /sbin/ifconfig | LC_ALL=C sed -n '
-# Alias name: store the number in TMP, ignore the following address if the
-# device name does not match.  This may leave a hanging ||, so dummy X=x
-# comands are used to ignore a possible previous condition.
-/^[^[:space:]]*:[0-9A-Za-z_]*/ {
-	s|^\([^:]*\):\([0-9A-Za-z_]*\).*$|X=x; TMP="\2"; [ "$device" != "\1" ] \|\| |p
-	b
-}
-# Non-alias device: always ignore the following address
-/^[^[:space:]]/ {
-	s|^.*$|X=x; true \|\| |p
-	b
-}
-# Address: Preceded by a device name, which was converted into
-#	condition ||
-# So this triggers only for $device.
-# Add a trailing || (which will be swallowed by X=x) to keep the syntax
-# correct.
-/inet addr:[0-9]*\.[0-9]*\.[0-9]*\.[0-9]* *Bcast:[0-9.]* *Mask:[0-9.]*/ {
-	s|^.*inet addr:\(\([0-9]*\)\.\([0-9]*\)\.\([0-9]*\)\.\([0-9]*\)\) *Bcast:\([0-9.]*\) *Mask:\([0-9.]*\).*$|eval "rdev_${TMP}_addr=\1; rdev_${TMP}_mb=\7_\6; rdevip_\2_\3_\4_\5=${TMP}; rdev_LIST=\\"\\$rdev_LIST \\${TMP}\\"; " \|\| |p
-	b
-}') X=x
+OLDIFS=$IFS
+IFS='\n'
 
-if [ -z "$rdev_LIST" ]; then
-       no_devices_are_up=yes
-fi
+for RDEV_VAR in $( ip addr show $device label $device:* | \
+	awk 'BEGIN { COUNT=0;LAST_DEV="" } /inet / {
+# Split IP address into address/prefix
+                split($2,IPADDR,"/");
+# Create A_B_C_D IP address form
+                IP_ADDR=IPADDR[1];
+                gsub(/\./,"_",IP_ADDR);
+# Split device into device:index
+                split($NF,DEV,":");
+# Update last device
+                LAST_DEV=LAST_DEV " " DEV[2];
+                printf("rdev_%s_addr=%s\nrdevip_%s=%s\nrdev_%s_pb=%s_%s\nrdev_LIST=\"%s\"\n",
+	             DEV[2],IPADDR[1],IP_ADDR,DEV[2],DEV[2],IPADDR[2],$4,LAST_DEV);
+	     } END {
+	        if(LAST_DEV == "") print "no_devices_are_up=yes"
+	     }' );
+do
+  eval $RDEV_VAR
+done
 
-##for DEVNUM in $rdev_LIST ; do
-##eval "
-##echo \"rdev_${DEVNUM}_addr = \$rdev_${DEVNUM}_addr\"
-##echo \"rdev_${DEVNUM}_mb = \$rdev_${DEVNUM}_mb\" ";
-##done
-##echo ""; echo "-----"; echo ""
+IFS=$OLDIFS
 
        #
        # Store configuration of the parent device and network
@@ -130,6 +129,7 @@ eval ` (
 }
 eval ` (
        . ./$PARENTCONFIG;
+       echo default_PREFIX=$PREFIX\;;
        echo default_NETMASK=$NETMASK\;;
        echo default_BROADCAST=$BROADCAST\;;
        echo default_GATEWAY=$GATEWAY\;;
@@ -141,6 +141,7 @@ function ini_env ()
 {
        DEVICE=""
        IPADDR=""
+       PREFIX=$default_PREFIX
        NETMASK=$default_NETMASK
        BROADCAST=$default_BROADCAST
        GATEWAY=$default_GATEWAY
@@ -193,37 +194,17 @@ function new_interface ()
 	      return 1
        fi
 
-       if [ -z "$NETMASK" ]; then
-               eval $(/bin/ipcalc --netmask ${IPADDR})
+       if [ -z "$NETMASK" -a -z "$PREFIX" ]; then
+               net_log $"error iN $FILE: didn't specify netmask or prefix"
+       fi
+
+       if [ -z "$PREFIX" ]; then
+               eval $(/bin/ipcalc --prefix ${IPADDR} ${NETMASK})
        fi
 
        if [ -z "$BROADCAST" -o "$BROADCAST" = "$default_BROADCAST" ]; then
-               eval $(/bin/ipcalc --broadcast ${IPADDR} ${NETMASK})
-               nma=$NETMASK; nmb=${nma#*.}; nmc=${nmb#*.};
-               NMGLOP="${nma%%.*}_${nmb%%.*}_${nmc%%.*}_${nmc#*.}";
-               if [ ${nma%%.*} -eq 0 ]; then ipnm_a=0; else ipnm_a=${ipa%%.*}; fi
-               if [ ${nmb%%.*} -eq 0 ]; then ipnm_b=0; else ipnm_b=${ipb%%.*}; fi
-               if [ ${nmc%%.*} -eq 0 ]; then ipnm_c=0; else ipnm_c=${ipc%%.*}; fi
-               if [ ${nmc#*.}  -eq 0 ]; then ipnm_d=0; else ipnm_d=${ipc#*.};  fi
-               CACHENAME="${NMGLOP}_${ipnm_a}_${ipnm_b}_${ipnm_c}_${ipnm_d}"
-               eval "
-                       if [ -z \"\$bcastcache_${CACHENAME}\" ]; then
-                               eval $(/bin/ipcalc --broadcast $IPADDR $NETMASK)
-                               bcastcache_${CACHENAME}=\$BROADCAST
-                       else
-                               BROADCAST=\$bcastcache_${CACHENAME}
-                       fi
-               ";
+               eval $(/bin/ipcalc --broadcast ${IPADDR}/${PREFIX})
        fi
-
-##echo "";
-##echo "----------------------------"
-##echo "device = $DEVICE"
-##echo "ipaddr = $IPADDR"
-##echo "netmask = $NETMASK"
-##echo "broadcast = $BROADCAST"
-##echo "devnum = $DEVNUM";
-##echo "";
 
        if [ "$no_devices_are_up" = "yes" ]; then
                setup_this=yes
@@ -233,7 +214,7 @@ function new_interface ()
 
                eval "
                        rdev_addr=\$rdev_${DEVNUM}_addr;
-                       rdev_mb=\$rdev_${DEVNUM}_mb;
+                       rdev_pb=\$rdev_${DEVNUM}_pb;
                        rdev_mark=\$rdev_${DEVNUM}_mark;
                        rdevip=\$rdevip_${IPGLOP};
                ";
@@ -241,15 +222,14 @@ function new_interface ()
                if [ -n "$rdev_addr" ]; then
                        if [ "$rdev_addr" = "${IPADDR}" ]; then
                                newmark=keep
-                               if [ "$rdev_mb" != "${NETMASK}_${BROADCAST}" ]; then
+                               if [ "$rdev_pb" != "${PREFIX}_${BROADCAST}" ]; then
                                        setup_this=freshen
                                else
                                        setup_this=no
                                fi
                        else
                                if [ "$rdev_mark" != "remove" ]; then
-##echo "removing device $parent_device:${DEVNUM} (devnum conflict)"
-                                       /sbin/ifconfig $parent_device:${DEVNUM} down
+                                       /sbin/ip addr flush dev $parent_device label $parent_device:${DEVNUM}
                                        do_netreport=yes
                                fi
                                newmark=remove
@@ -272,8 +252,7 @@ function new_interface ()
                        fi
                        if [ "$mark_remove" != "remove" ]; then
                                eval " rdev_${rdevip}_mark=remove ";
-##echo "removing device $parent_device:$rdevip (ipaddr conflict)"
-                               /sbin/ifconfig $parent_device:$rdevip down
+                               /sbin/ip addr flush dev $parent_device label $parent_device:$rdevip
                                do_netreport=yes
                        fi
                fi
@@ -282,15 +261,11 @@ function new_interface ()
 
        if [ "$setup_this" = "freshen" ] ; then
                # we can do the freshen stuff right now
-##echo "freshening device $DEVICE"
-               /sbin/ifconfig $DEVICE netmask $NETMASK broadcast $BROADCAST;
+               /sbin/ip addr change ${IPADDR}/${PREFIX} brd ${BROADCAST}
        fi
 
        if [ "$setup_this" = "yes" ] ; then
-
-##echo "setting up device $DEVICE"
-
-               /sbin/ifconfig ${DEVICE} ${IPADDR} netmask ${NETMASK} broadcast ${BROADCAST}
+               /sbin/ip addr add ${IPADDR}/${PREFIX} brd ${BROADCAST} dev ${parent_device} label ${DEVICE}
 
 	       [ "$IPV6INIT" = "yes" ]  && /etc/sysconfig/network-scripts/ifup-ipv6 ${DEVICE}
 
@@ -365,8 +340,7 @@ done
 	for DEVNUM in $rdev_LIST ; do
 	       eval " rdev_mark=\$rdev_${DEVNUM}_mark ";
 	       if [ -z "$rdev_mark" ]; then
-	##echo "removing device $parent_device:${DEVNUM} (lingering)"
-	               /sbin/ifconfig $parent_device:${DEVNUM} down
+	               /sbin/ip addr flush dev $parent_device label $parent_device:${DEVNUM}
         	       do_netreport=yes
 	       fi
 	done
