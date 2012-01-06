@@ -11,14 +11,10 @@ then
 	exit
 fi
 
-ifconfig ${DEVICE} ${IPADDR} pointopoint ${REMIP}
-route add -net ${NETWORK} netmask ${NETMASK} ${DEVICE}
-
-# this is broken! it's only here to keep compatibility with old RH systems
-if [ "${GATEWAY}" != "" -a "${GATEWAY}" != "none" ]
-then
-	route add default gw ${GATEWAY} metric ${METRIC:-1} ${DEVICE}
-fi
+[ -z "$PREFIX" ] && eval $(/bin/ipcalc --prefix ${IPADDR} ${NETMASK})
+ip addr add ${IPADDR} peer ${REMIP}/${PREFIX} dev ${DEVICE}
+ip link set up dev ${DEVICE}
+ip route add ${NETWORK} dev ${DEVICE}
 
 . /etc/sysconfig/network
 

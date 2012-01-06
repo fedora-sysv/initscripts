@@ -22,12 +22,14 @@ then
 	exit
 fi
 
+[ -z "$PREFIX" ] && eval $(/bin/ipcalc --prefix ${IPADDR} ${NETMASK})
+
 if [ ${BROADCAST} != ""  ]  ; then
-    ifconfig ${DEVICE} ${IPADDR} pointopoint ${REMIP} netmask ${NETMASK}
-broadcast ${BROADCAST}
+    ip addr add ${IPADDR} peer ${REMIP}/${PREFIX} broadcast ${BROADCAST} dev ${DEVICE}
 else
-    ifconfig ${DEVICE} ${IPADDR} pointopoint ${REMIP} netmask ${NETMASK} 
+    ip addr add ${IPADDR} peer ${REMIP}/${PREFIX} dev ${DEVICE}
 fi
+ip link set up dev ${DEVICE}
 
 . /etc/sysconfig/network
 

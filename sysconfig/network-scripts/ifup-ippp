@@ -335,11 +335,14 @@ function addprovider()
     [ "$DEBUG" = "yes" ] && options="-d $options"
 
     # set netmask, if available
-    [ -n "$NETMASK" ] && netmask="netmask $NETMASK"
-
+    [ -n "$NETMASK" ] && {
+        val=$(ipcalc --prefix $IPADDR $NETMASK)
+        pfx=${val##PREFIX=}
+    }
     # activate ISDN device
-    /usr/bin/logger -p daemon.info -t ifup-ippp "ifconfig $DEVICE $IPADDR pointopoint $GATEWAY $netmask up"
-    ifconfig $DEVICE $IPADDR pointopoint $GATEWAY $netmask up >/dev/null 2>&1
+    /usr/bin/logger -p daemon.info -t ifup-ippp "ip addr add $IPADDR peer $GATEWAY${pfx:/$pfx} dev $DEVICE"
+    ip addr add $IPADDR peer $GATEWAY${pfx:/$pfx} dev $DEVICE
+    ip link set dev $DEVICE up
 
     if [ "$ENCAP" = "syncppp" ]; then
         # start ipppd daemon

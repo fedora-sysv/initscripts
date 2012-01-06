@@ -23,10 +23,11 @@ if [ "$2" = "boot" -a "${ONBOOT}" = "no" ]
 then
 	exit
 fi
-[ -n "${MTU}" ] && opts="${opts} mtu ${MTU}"
+[ -n "${MTU}" ] && ip link set dev ${DEVICE} mtu ${MTU}
 
-ifconfig ${DEVICE} ${IPADDR} ${opts} pointopoint ${GATEWAY} netmask ${NETMASK}
-
+[ -z "$PREFIX" ] && eval $(/bin/ipcalc --prefix ${IPADDR} ${NETMASK})
+ip addr add ${IPADDR} peer ${GATEWAY}/${PREFIX} dev ${DEVICE}
+ip link set up dev ${DEVICE}
 # Wait for the device to come up - the chandev'ified ctc driver can take
 # quite a while...
 timeout=0
