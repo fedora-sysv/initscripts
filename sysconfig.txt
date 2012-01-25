@@ -739,6 +739,9 @@ Files in /etc/sysconfig/network-scripts/
       Note that changing speed or duplex settings almost always
       requires disabling autonegotiation with 'autoneg off'.
 
+      Multiple options can also be set like so :
+      ETHTOOL_OPTS="-K ${DEVICE} tso on; -G ${DEVICE} rx 256 tx 256"
+
       Long term, this should be done by sysadmin-written udev rules.
 
     No longer supported:
