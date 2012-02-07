@@ -142,7 +142,6 @@ chown root:utmp /var/log/wtmp /var/run/utmp /var/log/btmp
 chmod 664 /var/log/wtmp /var/run/utmp
 chmod 600 /var/log/btmp
 
-/sbin/chkconfig --add netfs
 /sbin/chkconfig --add network
 /sbin/chkconfig --add netconsole
 %if %{_with_systemd}
@@ -156,6 +155,14 @@ if [ $1 = 0 ]; then
   /sbin/chkconfig --del netfs
   /sbin/chkconfig --del network
   /sbin/chkconfig --del netconsole
+fi
+
+%post legacy
+/sbin/chkconfig --add netfs
+
+%preun legacy
+if [ $1 = 0 ; then
+  /sbin/chkconfig --del netfs
 fi
 
 %triggerun -- initscripts < 7.62
@@ -245,6 +252,7 @@ rm -rf $RPM_BUILD_ROOT
 /etc/rc[0-9].d
 %dir /etc/rc.d/init.d
 /etc/rc.d/init.d/*
+%exclude /etc/rc.d/init.d/netfs
 %exclude /etc/rc.d/init.d/halt
 %exclude /etc/rc.d/init.d/killall
 %exclude /etc/rc.d/init.d/reboot
@@ -283,7 +291,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/NetworkManager
 %dir /etc/NetworkManager/dispatcher.d
 /etc/NetworkManager/dispatcher.d/00-netreport
-/etc/NetworkManager/dispatcher.d/05-netfs
 %doc sysconfig.txt sysvinitfiles static-routes-ipv6 ipv6-tunnel.howto ipv6-6to4.howto changes.ipv6 COPYING README-init
 /var/lib/stateless
 %ghost %attr(0600,root,utmp) /var/log/btmp
@@ -296,6 +303,7 @@ rm -rf $RPM_BUILD_ROOT
 %files legacy
 %defattr(-,root,root)
 %config(noreplace) /etc/inittab
+/etc/NetworkManager/dispatcher.d/05-netfs
 %dir /etc/rc.d
 %dir /etc/rc.d/rc[0-9].d
 %config(missingok) /etc/rc.d/rc[0-9].d/*
