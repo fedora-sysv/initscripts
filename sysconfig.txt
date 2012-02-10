@@ -290,12 +290,9 @@ Generic options:
     NETWORKING_IPV6=yes|no
       Enable or disable global IPv6 initialization
       
-      To do this properly, add a rule in /etc/modprobe.d that disables IPv6.
-      Note that the ipv6 module may be required by some other modules, for
-      example bonding, even when IPv6 is not in use so it is not recommended
-      to prevent loading it. Instead, use for example this in
-      /etc/modprobe.d/disable-ipv6.conf:
-         options ipv6 disable=1
+      To do this properly, disable IPv6 in the module itself.
+
+      This can be done by booting the kernel with "ipv6.disable_ipv6=1".
 
 /etc/sysconfig/static-routes-ipv6:
   Contains lines of the form:
