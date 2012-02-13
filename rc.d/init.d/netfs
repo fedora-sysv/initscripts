@@ -67,7 +67,7 @@ case "$1" in
 	    STRING=$"Checking network-attached filesystems"
 	    
 	    echo $STRING
-	    fsck -A -T -R -a -t opts=_netdev
+	    fsck -A -T -M -a -t opts=_netdev
 	    rc=$?
 	    
 	    if [ "$rc" -eq "0" ]; then
