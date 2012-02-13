@@ -199,6 +199,11 @@ if [ "$command" = /sbin/halt -a -f /etc/sysconfig/ups ]; then
 	fi
 fi
 
+# Turn off UPS in powerfail situation
+if [ -x /etc/apcupsd/apccontrol -a -f /etc/apcupsd/powerfail ]; then 
+	/etc/apcupsd/apccontrol killpower
+fi 
+
 # First, try kexec. If that fails, fall back to rebooting the old way.
 [ -n "$kexec_command" ] && $kexec_command -e -x >& /dev/null
 
