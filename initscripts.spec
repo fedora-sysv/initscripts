@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.27
+Version: 9.03.28
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -239,6 +239,20 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Tue Feb 14 2012 Lukas Nykryn <lnykryn@redhat.com> 9.03.28-1
+- sysconfig support for IPv6 policy based routing (#781493)
+- fix typo in translation (#757637)
+- fix logic error with removing arp_ip_target (#787107, #746045)
+- don't set primary before we enslave devices. (#749610, <agospoda@redhat.com>)
+- do not check mounted filesystems (#745224)
+- eviscerate ifconfig uses from ip-aliases (#721010, #588993)
+- improve comment in init/serial.conf (#746808)
+- turn off UPS in powerfail situation (#754984, <robert@fedoraproject.org>)
+- netconsole exit arping on first response (#765835)
+- add cifs to check for network filesystem (#760018)
+- fix comments in sysctl.conf (#755175)
+- rc.sysinit - use rcS-emergency job instead of sulogin (#582002)
+
 * Fri Oct 07 2011 Petr Lautrbach <plautrba@redhat.com> 9.03.27-1
 - use restorecon -F for /dev and /dev/pts (#743222)
 
