@@ -192,13 +192,6 @@ if [ -n "${DYNCONFIG}" ] && [ -x /sbin/dhclient ]; then
     else
        DHCLIENTCONF='';
     fi;
-    # copy any lease obtained by the initrd
-    for file in /run/initramfs/net.${DEVICE}.lease; do
-        if [ -f "${file}" ]; then
-            mv -f $file /var/lib/dhclient/dhclient-${DEVICE}.leases
-            [ -x /sbin/restorecon ] && restorecon /var/lib/dhclient/dhclient-${DEVICE}.leases > /dev/null 2>&1
-        fi
-    done
     DHCLIENTARGS="${DHCLIENTARGS} -H ${DHCP_HOSTNAME:-${HOSTNAME%%.*}} ${ONESHOT} -q ${DHCLIENTCONF} -lf /var/lib/dhclient/dhclient-${DEVICE}.leases -pf /var/run/dhclient-${DEVICE}.pid"
     echo
     echo -n $"Determining IP information for ${DEVICE}..."
