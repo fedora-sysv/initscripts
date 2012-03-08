@@ -301,7 +301,7 @@ if [ "$READONLY" = "yes" -o "$TEMPORARY_STATE" = "yes" ]; then
 		mount -n -t tmpfs $RW_OPTIONS $mountopts none "$RW_MOUNT"
 	fi
 
-	for file in /etc/rwtab /etc/rwtab.d/* /dev/.initramfs/rwtab ; do
+	for file in /etc/rwtab /etc/rwtab.d/* /run/initramfs/rwtab; do
 		is_ignored_file "$file" && continue
 	[ -f $file ] && cat $file | while read type path ; do
 			case "$type" in
@@ -322,7 +322,7 @@ if [ "$READONLY" = "yes" -o "$TEMPORARY_STATE" = "yes" ]; then
 	done
 
 	# Use any state passed by initramfs
-	[ -d /dev/.initramfs/state ] && cp -a /dev/.initramfs/state/* $RW_MOUNT
+	[ -d /run/initramfs/state ] && cp -a /run/initramfs/state/* $RW_MOUNT
 
 	# In theory there should be no more than one network interface active
 	# this early in the boot process -- the one we're booting from.
