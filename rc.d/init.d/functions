@@ -54,7 +54,7 @@ systemctl_redirect () {
 [ -z "${COLUMNS:-}" ] && COLUMNS=80
 
 if [ -z "${CONSOLETYPE:-}" ]; then
-  if [ -c "/dev/stderr" ]; then
+  if [ -c "/dev/stderr" -a -r "/dev/stderr" ]; then
     CONSOLETYPE="$(/sbin/consoletype < /dev/stderr 2>/dev/null)"
   else
     CONSOLETYPE="serial"
