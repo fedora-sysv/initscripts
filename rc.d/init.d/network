@@ -184,7 +184,7 @@ case "$1" in
   	# If this is a final shutdown/halt, check for network FS,
 	# and unmount them even if the user didn't turn on netfs
 	if [ "$RUNLEVEL" = "6" -o "$RUNLEVEL" = "0" -o "$RUNLEVEL" = "1" ]; then
-		NETMOUNTS=$(findmnt -m -t nfs,nfs4,smbfs,ncpfs,cifs 2>/dev/null)
+		NETMOUNTS=$(findmnt -n -m -t nfs,nfs4,smbfs,ncpfs,cifs 2>/dev/null)
 		if [ -n "$NETMOUNTS" ] ; then
 			/etc/init.d/netfs stop
 		fi
