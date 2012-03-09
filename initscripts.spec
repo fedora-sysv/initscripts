@@ -4,7 +4,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.34
+Version: 9.34.1
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -318,6 +318,16 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Fri Mar  9 2012 Bill Nottingham <notting@redhat.com> - 9.34.1-1
+- sysconfig.txt: clean up section on disabling IPv6
+- ifup: allow for ifup-$TYPE/ifdown-$TYPE
+- fedora-readonly.service: drop StandardInput=tty (#785662)
+- sysconfig.txt: document additional ETHTOOL_OPTS enhancements (<raghusiddarth@gmail.com>)
+- don't use ifconfig in ifup-aliases (#721010, 588993, based on <tgummels@redhat.com>)
+- fedora-storage-init: handle dmraid sets with spaces (#728795, <lnykryn@redhat.com>)
+- fedora-readonly: don't exit with an error if SEinux isn't active. (#768628)
+- fedora-wait-storage: drop stdin/stdout/stderr (#735867)
+
 * Tue Oct 25 2011 Bill Nottingham <notting@redhat.com> - 9.34-1
 - read locale.conf if it exists (#706756)
 - ifdown: fix logic error with removing arp_ip_target (#745681)
