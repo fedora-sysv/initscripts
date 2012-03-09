@@ -59,6 +59,15 @@ get_uuid_by_config ()
     dbus-send --system --print-reply --dest=com.redhat.ifcfgrh1 /com/redhat/ifcfgrh1 com.redhat.ifcfgrh1.GetIfcfgDetails string:"/etc/sysconfig/network-scripts/$1" 2>/dev/null | awk -F '"' '/string / { print $2 }'
 }
 
+generate_lease_file_name () {
+	local ver=$1
+	LEASEFILE="/var/lib/dhclient/dhclient$ver-${DEVICE}.leases"
+	if [ -f $LEASEFILE ]; then
+		 return
+	fi
+	LEASEFILE="/var/lib/dhclient/dhclient$ver-${UUID}-${DEVICE}.lease"
+}
+
 need_config ()
 {
     local nconfig

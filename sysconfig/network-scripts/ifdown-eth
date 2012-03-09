@@ -86,8 +86,9 @@ retcode=0
    for VER in "" 6 ; do
 	if [ -f "/var/run/dhclient$VER-${DEVICE}.pid" ]; then
 		dhcpid=$(cat /var/run/dhclient$VER-${DEVICE}.pid)
+		generate_lease_file_name $VER
 		if [[ "$DHCPRELEASE" = [yY1]* ]];  then
-			/sbin/dhclient -r -lf /var/lib/dhclient/dhclient$VER-${DEVICE}.leases -pf /var/run/dhclient$VER-${DEVICE}.pid ${DEVICE} >/dev/null 2>&1
+			/sbin/dhclient -r -lf ${LEASEFILE} -pf /var/run/dhclient$VER-${DEVICE}.pid ${DEVICE} >/dev/null 2>&1
 			retcode=$?
 		else
 			kill $dhcpid >/dev/null 2>&1
