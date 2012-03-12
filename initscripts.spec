@@ -4,7 +4,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.35
+Version: 9.36
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -326,6 +326,10 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Mon Mar 12 2012 Bill Nottingham <notting@redhat.com> - 9.36-1
+- ifup-aliases: fix IFS usage mangling of device names (#802119)
+- ifup/ifdown: fix typo (#802055, <lubek@users.sourceforge.net>)
+
 * Fri Mar  9 2012 Bill Nottingham <notting@redhat.com> - 9.35-1
 - use the same DHCP lease file names as NetworkManager, where appropriate
 - copy network state from initramfs with a systemd service, not inline (<wwoods@redhat.com>)
