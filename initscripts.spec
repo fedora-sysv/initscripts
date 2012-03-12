@@ -4,7 +4,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.34.1
+Version: 9.34.2
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -318,6 +318,10 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Mon Mar 12 2012 Bill Nottingham <notting@redhat.com> - 9.34.2-1
+- ifup-aliases: fix IFS usage mangling of device names (#802119)
+- ifup/ifdown: fix typo (#802055, <lubek@users.sourceforge.net>)
+
 * Fri Mar  9 2012 Bill Nottingham <notting@redhat.com> - 9.34.1-1
 - sysconfig.txt: clean up section on disabling IPv6
 - ifup: allow for ifup-$TYPE/ifdown-$TYPE
