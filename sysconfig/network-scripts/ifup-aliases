@@ -86,10 +86,7 @@ cd /etc/sysconfig/network-scripts
 #
 # A list of all the devices is created in rdev_LIST.
 
-OLDIFS=$IFS
-IFS='\n'
-
-for RDEV_VAR in $( ip addr show $device label $device:* | \
+eval $( ip addr show $device label $device:* | \
 	awk 'BEGIN { COUNT=0;LAST_DEV="" } /inet / {
 # Split IP address into address/prefix
                 split($2,IPADDR,"/");
@@ -105,11 +102,6 @@ for RDEV_VAR in $( ip addr show $device label $device:* | \
 	     } END {
 	        if(LAST_DEV == "") print "no_devices_are_up=yes"
 	     }' );
-do
-  eval $RDEV_VAR
-done
-
-IFS=$OLDIFS
 
        #
        # Store configuration of the parent device and network
