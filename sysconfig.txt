@@ -552,6 +552,8 @@ Files in /etc/sysconfig/network-scripts/
     HOTPLUG=yes|no
     USERCTL=yes|no
     BOOTPROTO=none|bootp|dhcp
+      'bootp' or 'dhcp' cause a DHCP client to run on the device. Any other
+      value causes any static configuration in the file to be applied.
     MTU=
       Default MTU for this device
     WINDOW=
@@ -563,8 +565,8 @@ Files in /etc/sysconfig/network-scripts/
       provide DNS addresses that are dropped into the resolv.conf
       file if PEERDNS is not set to "no".
     SCOPE=
-      Set to "scope SCOPE-ID" to set a non-default scope.  Supported only on
-      Ethernet with BOOTPROTO=none.
+      Set to "scope SCOPE-ID" to set a non-default scope for a statically
+      configured IP address.
     SRCADDR=
       use the specified source address for outgoing packets
     HWADDR=
@@ -605,9 +607,8 @@ Files in /etc/sysconfig/network-scripts/
       If set to 'no', NetworkManager will ignore this connection/device.
       Defaults to 'yes'.
 
-  If BOOTPROTO is not "none", then the only other item that
-  must be set is the DEVICE item; all the rest will be determined
-  by the boot protocol.  No "dummy" entries need to be created.
+  For dynamic addressing (BOOTPROTO=dhcp) only DEVICE needs to
+  be set; all the rest will be determined by the boot protocol.
 
   Base items being deprecated:
     NETWORK=<will be calculated automatically with ipcalc>
