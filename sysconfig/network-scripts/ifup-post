@@ -93,6 +93,11 @@ if [ "$2" = "boot" -a \
     fi
 fi
 
+# Inform firewall which network zone (empty means default) this interface belongs to
+if [ -x /usr/bin/firewall-cmd -a "${REALDEVICE}" != "lo" ]; then
+    /usr/bin/firewall-cmd --zone=${ZONE} --change --interface=${DEVICE} > /dev/null 2>&1
+fi
+
 # Notify programs that have requested notification
 do_netreport
 
