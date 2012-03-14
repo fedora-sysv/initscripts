@@ -161,7 +161,7 @@ fi
 /sbin/chkconfig --add netfs
 
 %preun legacy
-if [ $1 = 0 ; then
+if [ $1 = 0 ]; then
   /sbin/chkconfig --del netfs
 fi
 
