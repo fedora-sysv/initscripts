@@ -106,6 +106,11 @@ chmod 600 /var/log/btmp
 /sbin/chkconfig --add network
 /sbin/chkconfig --add netconsole
 
+if [ ! -f /var/lib/random-seed ] ; then
+	dd if=/dev/urandom of=/var/lib/random-seed count=1 bs=512 2>/dev/null
+	chmod 600 /var/lib/random-seed
+fi
+
 %preun
 if [ $1 = 0 ]; then
   /sbin/chkconfig --del netfs
