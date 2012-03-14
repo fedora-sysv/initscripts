@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.28
+Version: 9.03.29
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -244,6 +244,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Wed Mar 14 2012 Lukas Nykryn <lnykryn@redhat.com> 9.03.29-1
+- save entropy during system install (#786404)
+
 * Tue Feb 14 2012 Lukas Nykryn <lnykryn@redhat.com> 9.03.28-1
 - sysconfig support for IPv6 policy based routing (#781493)
 - fix typo in translation (#757637)
