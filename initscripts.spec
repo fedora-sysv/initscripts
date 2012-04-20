@@ -43,22 +43,8 @@ Requires: /etc/system-release
 Requires: /sbin/runuser
 Requires: udev >= 125-1
 Requires: cpio
-Conflicts: mkinitrd < 4.0, kernel < 2.6.18, mdadm < 3.1.2-9
-Conflicts: ypbind < 1.6-12, psacct < 6.3.2-12, kbd < 1.06-19, lokkit < 0.50-14
-Conflicts: dhclient < 12:4.1.0-6
-Conflicts: tcsh < 6.13-5
-Conflicts: xorg-x11, glib2 < 2.11.1-2
-Conflicts: alsa-utils < 1.0.18
-Conflicts: plymouth < 0.7.0-0.2009.02.26
-Conflicts: s390utils < 2:1.8.2-11
-Conflicts: dmraid < 1.0.0.rc16-7, lvm2 < 2.02.65
-Conflicts: e2fsprogs < 1.15
-# http://bugzilla.redhat.com/show_bug.cgi?id=252973
-Conflicts: nut < 2.2.0
-Conflicts: NetworkManager < 1:0.8.0-12.git20100504
 Conflicts: libselinux < 2.1.0
 Conflicts: ipsec-tools < 0.8.0-2
-Obsoletes: hotplug <= 3:2004_09_23-10.1
 Requires(pre): /usr/sbin/groupadd
 Requires(post): /sbin/chkconfig, coreutils
 Requires(preun): /sbin/chkconfig
