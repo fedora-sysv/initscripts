@@ -12,7 +12,7 @@ Release: 1%{?dist}
 URL: http://fedorahosted.org/releases/i/n/initscripts/
 Source: http://fedorahosted.org/releases/i/n/initscripts/initscripts-%{version}.tar.bz2
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
-Requires: mingetty, /bin/awk, /bin/sed, coreutils
+Requires: /bin/awk, /bin/sed, coreutils
 Requires: /sbin/sysctl
 Requires: /sbin/fuser, /bin/grep
 Requires: /sbin/pidof, /sbin/blkid
@@ -22,6 +22,7 @@ Requires: bash >= 3.0
 Requires: sysvinit-tools >= 2.87-5
 %if %{_with_upstart}
 Conflicts: upstart < 0.6.0
+Requires: mingetty
 %if ! %{_with_systemd}
 Requires: upstart-sysvinit
 %endif
@@ -35,6 +36,7 @@ Requires: systemd-sysvinit
 %endif
 %if %{_with_sysvinit}
 Requires: SysVinit >= 2.85-38
+Requires: mingetty
 %endif
 Requires: /sbin/ip, /sbin/arping, /bin/find
 Requires: /etc/system-release
