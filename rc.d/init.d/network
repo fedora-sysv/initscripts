@@ -154,9 +154,13 @@ case "$1" in
 
 	# Add non interface-specific static-routes.
 	if [ -f /etc/sysconfig/static-routes ]; then
-	   grep "^any" /etc/sysconfig/static-routes | while read ignore args ; do
-              /sbin/route add -$args
-	   done
+	   if [ -x /sbin/route ]; then
+	       grep "^any" /etc/sysconfig/static-routes | while read ignore args ; do
+                   /sbin/route add -$args
+	       done
+	   else
+	       net_log $"Legacy static-route support not available: route not found"
+	   fi
 	fi    
 
  	# IPv6 hook (post IPv4 start)

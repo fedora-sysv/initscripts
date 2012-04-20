@@ -36,7 +36,7 @@ Requires: systemd-sysvinit
 %if %{_with_sysvinit}
 Requires: SysVinit >= 2.85-38
 %endif
-Requires: /sbin/ip, /sbin/arping, net-tools, /bin/find
+Requires: /sbin/ip, /sbin/arping, /bin/find
 Requires: /etc/system-release
 Requires: /sbin/runuser
 Requires: udev >= 125-1
