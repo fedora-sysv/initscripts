@@ -40,13 +40,13 @@ while ! ping -w 30 -c 1 ${GATEWAY} &>/dev/null; do
 done
 
 if [ "${NETWORK}" != "" ] ; then
-	route add -host ${GATEWAY} metric 1 ${DEVICE}
+	ip route add to ${GATEWAY} metric 1 dev ${DEVICE}
 fi
 
 if [ "${GATEWAY}" != "" ]; then
 	if [ "${GATEWAYDEV}" = "" -o "${GATEWAYDEV}" = "${DEVICE}" ]; then
 		# set up default gateway
-		route add default gw ${GATEWAY} ${METRIC:+metric $METRIC}
+                ip route replace default ${METRIC:+metric $METRIC} via ${GATEWAY}
 	fi
 fi
 

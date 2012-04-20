@@ -359,13 +359,10 @@ function addprovider()
     if [ "$DIALMODE" = "auto" ] ; then
         echo 1 > /proc/sys/net/ipv4/ip_dynaddr
         if  [ "$DEFROUTE" = "yes" ] ; then
-            route del default >/dev/null 2>&1
             if [ "$GATEWAY" = "0.0.0.0" ]; then
-                route add default ${METRIC:+metric $METRIC} $DEVICE \
-		    >/dev/null 2>&1
+                ip route replace default ${METRIC:+metric $METRIC} dev ${DEVICE} >/dev/null 2>&1
             else
-                route add default gw $GATEWAY ${METRIC:+metric $METRIC} \
-		    >/dev/null 2>&1
+                ip route replace default ${METRIC:+metric $METRIC} via ${GATEWAY} dev ${DEVICE} >/dev/null 2>&1
             fi
         fi
     fi

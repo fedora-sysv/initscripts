@@ -143,9 +143,8 @@ function ini_env ()
 
 function is_default_gateway ()
 {
-	LC_ALL=C /sbin/route -n \
-		| awk '$1 == "0.0.0.0" && $2 == "'"$1"'" { found = 1; }
-		       END { exit found == 0; }'
+	LC_ALL=C /sbin/ip route ls default scope global \
+		| awk '$3 == "'"$1"'" { found = 1; } END { exit found == 0; }'
 }
 
        #
@@ -269,8 +268,7 @@ function new_interface ()
 			       \( -z "${GATEWAYDEV}" -o "${GATEWAYDEV}" = "${DEVICE}" \) ]; then
                                # set up default gateway, if it isn't already there
 			       if ! is_default_gateway "$GATEWAY"; then
-				       route add default gw ${GATEWAY} \
-					   ${METRIC:+metric $METRIC} ${DEVICE}
+					ip route replace default ${METRIC:+metric $METRIC} via ${GATEWAY} dev ${DEVICE}
 			       fi
                        fi
 

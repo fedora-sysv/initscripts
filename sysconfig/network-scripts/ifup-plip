@@ -21,7 +21,7 @@ ip route add ${NETWORK} dev ${DEVICE}
 if [ "${GATEWAY}" != "" ]; then
 	if [ "${GATEWAYDEV}" = "" -o "${GATEWAYDEV}" = "${DEVICE}" ]; then
 		# set up default gateway
-		route add default gw ${GATEWAY} ${METRIC:+metric $METRIC}
+                ip route replace default ${METRIC:+metric $METRIC} via ${GATEWAY}
 	fi
 fi
 
