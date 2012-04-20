@@ -258,7 +258,7 @@ rm -rf $RPM_BUILD_ROOT
 %exclude /etc/rc.d/init.d/reboot
 %exclude /etc/rc.d/init.d/single
 %ghost %verify(not md5 size mtime) %config(noreplace,missingok) /etc/rc.d/rc.local
-%config(noreplace) /etc/sysctl.conf
+/usr/lib/sysctl.d/00-system.conf
 %exclude /etc/profile.d/debug*
 /etc/profile.d/*
 /usr/sbin/sys-unconfig

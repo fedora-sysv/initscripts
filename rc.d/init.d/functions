@@ -660,11 +660,26 @@ is_false() {
 
 # Apply sysctl settings, including files in /etc/sysctl.d
 apply_sysctl() {
-    sysctl -e -p /etc/sysctl.conf >/dev/null 2>&1
-    for file in /etc/sysctl.d/* ; do
-        is_ignored_file "$file" && continue
-        test -f "$file" && sysctl -e -p "$file" >/dev/null 2>&1
-    done
+    if [ -x /lib/systemd/systemd-sysctl ]; then
+	/lib/systemd/systemd-sysctl
+    else
+        for file in /usr/lib/sysctl.d/*.conf ; do
+            is_ignored_file "$file" && continue
+            [ -f /run/sysctl.d/${file##*/} ] && continue
+            [ -f /etc/sysctl.d/${file##*/} ] && continue
+            test -f "$file" && sysctl -e -p "$file" >/dev/null 2>&1
+        done
+        for file in /run/sysctl.d/*.conf ; do
+            is_ignored_file "$file" && continue
+            [ -f /etc/sysctl.d/${file##*/} ] && continue
+            test -f "$file" && sysctl -e -p "$file" >/dev/null 2>&1
+        done
+        for file in /etc/sysctl.d/*.conf ; do
+            is_ignored_file "$file" && continue
+            test -f "$file" && sysctl -e -p "$file" >/dev/null 2>&1
+        done
+        sysctl -e -p /etc/sysctl.conf >/dev/null 2>&1
+    fi
 }
 
 key_is_random() {

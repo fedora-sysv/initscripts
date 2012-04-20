@@ -33,11 +33,12 @@ install:
 	install -m755  sys-unconfig $(ROOT)/usr/sbin
 	install -m644  crypttab.5 $(ROOT)$(mandir)/man5
 	install -m644  service.8 sys-unconfig.8 $(ROOT)$(mandir)/man8
-	install -m644 sysctl.conf $(ROOT)/etc/sysctl.conf
+	mkdir -p -m 755 $(ROOT)/usr/lib/sysctl.d
+	install -m644 sysctl.conf $(ROOT)/usr/lib/sysctl.d/00-system.conf
 	if uname -m | grep -q sparc ; then \
-	  install -m644 sysctl.conf.sparc $(ROOT)/etc/sysctl.conf ; fi
+	  install -m644 sysctl.conf.sparc $(ROOT)/usr/lib/sysctl.d/00-system.conf ; fi
 	if uname -m | grep -q s390 ; then \
-	  install -m644 sysctl.conf.s390 $(ROOT)/etc/sysctl.conf ; fi
+	  install -m644 sysctl.conf.s390 $(ROOT)/usr/lib/sysctl.d/00-system.conf ; fi
 
 	mkdir -p $(ROOT)/etc/X11
 	install -m755 prefdm $(ROOT)/etc/X11/prefdm
