@@ -243,7 +243,7 @@ else
         fi
 
         if ! LC_ALL=C ip addr ls ${REALDEVICE} | LC_ALL=C grep -q "${ipaddr[$idx]}/${prefix[$idx]}" ; then
-            [ "${REALDEVICE}" != "lo" ] && \
+            [ "${REALDEVICE}" != "lo" ] && [ "${arpcheck[$idx]}" != "no" ] && \
             if ! /sbin/arping -q -c 2 -w 3 -D -I ${REALDEVICE} ${ipaddr[$idx]} ; then
                 net_log $"Error, some other host already uses address ${ipaddr[$idx]}."
                 exit 1
