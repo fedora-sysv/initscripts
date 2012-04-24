@@ -165,15 +165,7 @@ if [ -n "${DYNCONFIG}" -a -x /sbin/dhclient ]; then
     else
        ONESHOT="-1";
     fi;
-    # allow users to use generic '/etc/dhclient.conf' (as documented in manpage!) 
-    # if per-device file doesn't exist or is empty
-    if [ -s /etc/dhcp/dhclient-${DEVICE}.conf ]; then
-       DHCLIENTCONF="-cf /etc/dhcp/dhclient-${DEVICE}.conf";
-    elif [ -s /etc/dhclient-${DEVICE}.conf ]; then
-       DHCLIENTCONF="-cf /etc/dhclient-${DEVICE}.conf";
-    else
-       DHCLIENTCONF='';
-    fi;
+    generate_config_file_name
     # copy any lease obtained by the initrd
     for file in /dev/.dhclient-${DEVICE}.leases /dev/.initramfs/net.${DEVICE}.lease ; do
         if [ -f "${file}" ]; then
@@ -288,7 +280,8 @@ fi
 # IPv6 initialisation?
 /etc/sysconfig/network-scripts/ifup-ipv6 ${CONFIG}
 if [[ "${DHCPV6C}"  = [Yy1]* ]] && [ -x /sbin/dhclient ]; then
-    /sbin/dhclient -6 -1 ${DHCPV6C_OPTIONS} -lf /var/lib/dhclient/dhclient6-${DEVICE}.leases -pf /var/run/dhclient6-${DEVICE}.pid ${DHCP_HOSTNAME:+-H $DHCP_HOSTNAME} ${DEVICE}
+    generate_config_file_name 6
+    /sbin/dhclient -6 -1 ${DHCPV6C_OPTIONS} ${DHCLIENTCONF} -lf /var/lib/dhclient/dhclient6-${DEVICE}.leases -pf /var/run/dhclient6-${DEVICE}.pid ${DHCP_HOSTNAME:+-H $DHCP_HOSTNAME} ${DEVICE}
 fi
 
 exec /etc/sysconfig/network-scripts/ifup-post ${CONFIG} ${2}
