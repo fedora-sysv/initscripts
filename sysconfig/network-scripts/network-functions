@@ -68,6 +68,17 @@ generate_lease_file_name () {
 	LEASEFILE="/var/lib/dhclient/dhclient$ver-${UUID}-${DEVICE}.lease"
 }
 
+generate_config_file_name () {
+	local ver=$1
+	if [ -s /etc/dhcp/dhclient$ver-${DEVICE}.conf ]; then
+		DHCLIENTCONF="-cf /etc/dhcp/dhclient$ver-${DEVICE}.conf";
+	elif [ -s /etc/dhclient$ver-${DEVICE}.conf ]; then
+		DHCLIENTCONF="-cf /etc/dhclient$ver-${DEVICE}.conf";
+	else
+		DHCLIENTCONF='';
+	fi
+}
+
 need_config ()
 {
     local nconfig

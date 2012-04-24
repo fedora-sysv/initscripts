@@ -183,15 +183,7 @@ if [ -n "${DYNCONFIG}" ] && [ -x /sbin/dhclient ]; then
     else
        ONESHOT="-1";
     fi;
-    # allow users to use generic '/etc/dhcp/dhclient.conf' (as documented in manpage!)
-    # if per-device file doesn't exist or is empty
-    if [ -s /etc/dhcp/dhclient-${DEVICE}.conf ]; then
-       DHCLIENTCONF="-cf /etc/dhcp/dhclient-${DEVICE}.conf";
-    elif [ -s /etc/dhclient-${DEVICE}.conf ]; then
-       DHCLIENTCONF="-cf /etc/dhclient-${DEVICE}.conf";
-    else
-       DHCLIENTCONF='';
-    fi;
+    generate_config_file_name
     generate_lease_file_name
     DHCLIENTARGS="${DHCLIENTARGS} -H ${DHCP_HOSTNAME:-${HOSTNAME%%.*}} ${ONESHOT} -q ${DHCLIENTCONF} -lf ${LEASEFILE} -pf /var/run/dhclient-${DEVICE}.pid"
     echo
@@ -300,8 +292,9 @@ fi
 # IPv6 initialisation?
 /etc/sysconfig/network-scripts/ifup-ipv6 ${CONFIG}
 if [[ "${DHCPV6C}"  = [Yy1]* ]] && [ -x /sbin/dhclient ]; then
+    generate_config_file_name 6
     generate_lease_file_name 6
-    /sbin/dhclient -6 -1 ${DHCPV6C_OPTIONS} -lf ${LEASEFILE} -pf /var/run/dhclient6-${DEVICE}.pid -H ${DHCP_HOSTNAME:-${HOSTNAME%%.*}} ${DEVICE}
+    /sbin/dhclient -6 -1 ${DHCPV6C_OPTIONS} ${DHCLIENTCONF} -lf ${LEASEFILE} -pf /var/run/dhclient6-${DEVICE}.pid -H ${DHCP_HOSTNAME:-${HOSTNAME%%.*}} ${DEVICE}
 fi
 
 if [ "${IPX}" = yes ]; then
