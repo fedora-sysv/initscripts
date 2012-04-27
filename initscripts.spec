@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.30
+Version: 9.03.31
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -244,6 +244,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Fri Apr 27 2012 Lukas Nykryn <lnykryn@redhat.com> 9.03.31-1
+- set NIS domain (#704919)
+
 * Tue Mar 20 2012 Lukas Nykryn <lnykryn@redhat.com> 9.03.30-1
 - fix IFS usage mangling device names (#802119)
 
