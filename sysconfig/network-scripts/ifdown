@@ -41,7 +41,7 @@ then
     exit 0
 fi
 
-if [ "$USE_NM" = "true" ]; then
+if [ "$_use_nm" = "true" ]; then
     if [ -n "$UUID" -a -z "$DEVICE" ]; then
 	DEVICE=$(nmcli -t --fields uuid,devices con status | awk -F ':' "\$1 == \"$UUID\" { print \$2 }")
     fi
