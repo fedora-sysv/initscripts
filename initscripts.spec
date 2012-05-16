@@ -12,10 +12,9 @@ Release: 1%{?dist}
 URL: http://fedorahosted.org/releases/i/n/initscripts/
 Source: http://fedorahosted.org/releases/i/n/initscripts/initscripts-%{version}.tar.bz2
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
-Requires: /bin/awk, /bin/sed, coreutils
+Requires: /bin/awk, sed, coreutils
 Requires: /sbin/sysctl
-Requires: /sbin/fuser, /bin/grep
-Requires: /sbin/pidof, /sbin/blkid
+Requires: /sbin/fuser, grep
 Requires: module-init-tools
 Requires: util-linux >= 2.16
 Requires: bash >= 3.0
@@ -38,9 +37,8 @@ Requires: systemd-sysvinit
 Requires: SysVinit >= 2.85-38
 Requires: mingetty
 %endif
-Requires: /sbin/ip, /sbin/arping, /bin/find
+Requires: iproute, /sbin/arping, findutils
 Requires: /etc/system-release
-Requires: /sbin/runuser
 Requires: udev >= 125-1
 Requires: cpio
 Conflicts: libselinux < 2.1.0
