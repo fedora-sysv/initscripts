@@ -53,7 +53,7 @@ fi
 fi
 
 if is_bonding_device ${DEVICE} ; then
-    for device in $(LANG=C egrep -l "^[[:space:]]*MASTER=\"?${DEVICE}\"?" /etc/sysconfig/network-scripts/ifcfg-*) ; do
+    for device in $(LANG=C egrep -l "^[[:space:]]*MASTER=\"?${DEVICE}\"?[[:space:]]*$" /etc/sysconfig/network-scripts/ifcfg-*) ; do
 	is_ignored_file "$device" && continue
 	/sbin/ifdown ${device##*/}
     done
