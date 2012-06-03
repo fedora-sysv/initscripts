@@ -52,10 +52,10 @@ if [ "${TYPE}" = "Bridge" ]; then
 	  exit 1
       fi
       if [ ! -d /sys/class/net/${DEVICE}/bridge ]; then
-		/usr/sbin/brctl addbr ${DEVICE} || exit 1
+		/usr/sbin/brctl addbr -- ${DEVICE} || exit 1
       fi
-      [ -n "${DELAY}" ] && /usr/sbin/brctl setfd ${DEVICE} ${DELAY}
-      [ -n "${STP}" ] && /usr/sbin/brctl stp ${DEVICE} ${STP}
+      [ -n "${DELAY}" ] && /usr/sbin/brctl setfd -- ${DEVICE} ${DELAY}
+      [ -n "${STP}" ] && /usr/sbin/brctl stp -- ${DEVICE} ${STP}
       # add the bits to setup driver parameters here
       for arg in $BRIDGING_OPTS ; do
           key=${arg%%=*};
@@ -158,13 +158,13 @@ fi
 # If the device is part of a bridge, add the device to the bridge
 if [ -n "${BRIDGE}" ] && [ -x /usr/sbin/brctl ]; then
       if [ ! -d /sys/class/net/${BRIDGE}/bridge ]; then
-	  /usr/sbin/brctl addbr ${BRIDGE} 2>/dev/null
+	  /usr/sbin/brctl addbr -- ${BRIDGE} 2>/dev/null
       fi
       /sbin/ip addr flush dev ${DEVICE} 2>/dev/null
       /sbin/ip link set dev ${DEVICE} up
       ethtool_set
       [ -n "${LINKDELAY}" ] && /bin/sleep ${LINKDELAY}
-      /usr/sbin/brctl addif ${BRIDGE} ${DEVICE}
+      /usr/sbin/brctl addif -- ${BRIDGE} ${DEVICE}
       # add the bits to setup driver parameters here
       for arg in $BRIDGING_OPTS ; do
           key=${arg%%=*};
