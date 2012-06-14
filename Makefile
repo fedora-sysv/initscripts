@@ -142,6 +142,7 @@ install:
 		ln -s rc.d/$$i $(ROOT)/etc/$$i; \
 	done
 
+	mkdir -p -m 755 $(ROOT)/usr/libexec/initscripts/legacy-actions
 
 
 syntax-check:

@@ -5,8 +5,10 @@
 VERSION="$(basename $0) ver. 0.91"
 USAGE="Usage: $(basename $0) < option > | --status-all | \
 [ service_name [ command | --full-restart ] ]"
-SERVICE=
 SERVICEDIR="/etc/init.d"
+ACTIONDIR="/usr/libexec/initscripts/legacy-actions"
+SERVICE=
+ACTION=
 OPTIONS=
 
 if [ $# -eq 0 ]; then
@@ -58,6 +60,8 @@ while [ $# -gt 0 ]; do
           fi
        elif [ -z "${SERVICE}" ]; then
          SERVICE="${1}"
+       elif [ -z "${ACTION}" ]; then
+         ACTION="${1}"
        else
          OPTIONS="${OPTIONS} ${1}"
        fi
@@ -67,8 +71,10 @@ while [ $# -gt 0 ]; do
 done
 
 if [ -f "${SERVICEDIR}/${SERVICE}" ]; then
-   env -i PATH="$PATH" TERM="$TERM" SYSTEMCTL_IGNORE_DEPENDENCIES=${SYSTEMCTL_IGNORE_DEPENDENCIES} SYSTEMCTL_SKIP_REDIRECT=${SYSTEMCTL_SKIP_REDIRECT} "${SERVICEDIR}/${SERVICE}" ${OPTIONS}
+   env -i PATH="$PATH" TERM="$TERM" SYSTEMCTL_IGNORE_DEPENDENCIES=${SYSTEMCTL_IGNORE_DEPENDENCIES} SYSTEMCTL_SKIP_REDIRECT=${SYSTEMCTL_SKIP_REDIRECT} "${SERVICEDIR}/${SERVICE}" ${ACTION} ${OPTIONS}
+elif [ -x "${ACTIONDIR}/${SERVICE}/${ACTION}" ]; then
+   env -i PATH="$PATH" TERM="$TERM" SYSTEMCTL_IGNORE_DEPENDENCIES=${SYSTEMCTL_IGNORE_DEPENDENCIES} SYSTEMCTL_SKIP_REDIRECT=${SYSTEMCTL_SKIP_REDIRECT} "${ACTIONDIR}/${SERVICE}/${ACTION}" ${OPTIONS}
 else
-   echo $"Redirecting to /bin/systemctl ${OPTIONS} ${SERVICE}.service" >&2
-   exec /bin/systemctl ${OPTIONS} ${SERVICE}.service
+   echo $"Redirecting to /bin/systemctl ${ACTION} ${OPTIONS} ${SERVICE}.service" >&2
+   exec /bin/systemctl ${ACTION} ${OPTIONS} ${SERVICE}.service
 fi
