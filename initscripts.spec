@@ -285,6 +285,7 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %verify(not md5 size mtime) %config(noreplace,missingok) /etc/crypttab
 %dir /etc/tmpfiles.d
 /etc/tmpfiles.d/initscripts.conf
+%dir /usr/libexec/initscripts/legacy-actions
 
 %files legacy
 %defattr(-,root,root)
