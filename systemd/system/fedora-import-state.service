@@ -1,6 +1,7 @@
 [Unit]
 Description=Import network configuration from initramfs
 DefaultDependencies=no
+ConditionPathIsReadWrite=/
 ConditionDirectoryNotEmpty=/run/initramfs/state
 Conflicts=shutdown.target
 Before=shutdown.target emergency.service emergency.target systemd-tmpfiles-setup.service
