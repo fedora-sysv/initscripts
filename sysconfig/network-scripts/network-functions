@@ -29,7 +29,7 @@ get_config_by_device ()
 
 get_config_by_hwaddr ()
 {
-    LANG=C grep -il "^[[:space:]]*HWADDR=${1}\([[:space:]#]\|$\)" /etc/sysconfig/network-scripts/ifcfg-* \
+    LANG=C grep -il "^[[:space:]]*HWADDR=\"\?${1}\"\?\([[:space:]#]\|$\)" /etc/sysconfig/network-scripts/ifcfg-* \
 	| LC_ALL=C sed -e "$__sed_discard_ignored_files"
 }
 
