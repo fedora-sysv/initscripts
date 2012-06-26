@@ -358,7 +358,7 @@ rm -rf $RPM_BUILD_ROOT
 - ifdown-eth: fix dhclient pid file for IPv6 (#729292, <daveg@dgit.ndo.co.uk>)
 - move some more things to the legacy subpackage
 - netfs: don't mount gfs2 here (#689593)
-- readonly-root: add an empty CLIENTSTATE defintion (#725476)
+- readonly-root: add an empty CLIENTSTATE definition (#725476)
 - drop sysinit hack/unhack
 - ifup-eth: allow more options in ETHTOOL_OPTS (#692410, #693583)
 - rwtab: update for systemd (#704783)
@@ -696,7 +696,7 @@ rm -rf $RPM_BUILD_ROOT
 - fix various issues with dmraid handling (#485895, <hdegoede@redhat.com>)
 - rc.sysinit: fix typo. (#487926)
 - console_init: loadkeys has a -q option for silent running. Use it.
-- ifup-tunnel: add compatiblity for openNHRP tunnels (#486559, <claude.tompers@ieee.lu>)
+- ifup-tunnel: add compatibility for openNHRP tunnels (#486559, <claude.tompers@ieee.lu>)
 - ccw_init: don't re-init an existing device, it causes errors. (#484411, <jpayne@redhat.com>)
 - netfs: use same kpartx arguments as rc.sysinit
 - don't list mtab in rwtab (#457941)
@@ -2711,7 +2711,7 @@ rm -rf $RPM_BUILD_ROOT
 - fix typo in /etc/rc.d/init.d/network that broke linuxconf (#10472)
 
 * Mon Mar 27 2000 Bill Nottingham <notting@redhat.com>
-- remove compatiblity chkconfig links
+- remove compatibility chkconfig links
 - run 'netfs stop' on 'network stop' if necessary
 
 * Tue Mar 21 2000 Bernhard Rosenkraenzer <bero@redhat.com>
@@ -3182,7 +3182,7 @@ rm -rf $RPM_BUILD_ROOT
 
 * Thu Nov 06 1997 Michael K. Johnson <johnsonm@redhat.com>
 - Fixed DEBUG option in ifup-ppp
-- Fixed PPP persistance
+- Fixed PPP persistence
 - Only change IP forwarding if necessary
 
 * Tue Oct 28 1997 Donnie Barnes <djb@redhat.com>
