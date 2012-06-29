@@ -4,7 +4,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.37
+Version: 9.38
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -313,6 +313,16 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Fri Jun 29 2012 Bill Nottingham <notting@redhat.com> - 9.38-1
+- assorted documentation cleanups
+- typo, spelling, licenese clean up (<ville.skytta@iki.fi>)
+- service: add support for legacy custom actions packaged in
+  /usr/libexec/initscripts/legacy-actions/<script>/<action>
+- network-functions: handle quoted HWADDR (#835372)
+- allow bridge names that start with '-' (<danken@redhat.com>)
+- remove all non-legacy uses of /sbin/route (#682308)
+- move default sysctl.conf to /usr/lib/sysctl.d (#760254)
+
 * Fri Mar 16 2012 Bill Nottingham <notting@redhat.com> - 9.37-1
 - Add support for firewalld zones (#802415, from <jpopelka@redhat.com>)
 
