@@ -4,7 +4,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.38
+Version: 9.39
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -313,7 +313,7 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
-* Fri Jun 29 2012 Bill Nottingham <notting@redhat.com> - 9.38-1
+* Fri Jun 29 2012 Bill Nottingham <notting@redhat.com> - 9.39-1
 - assorted documentation cleanups
 - typo, spelling, licenese clean up (<ville.skytta@iki.fi>)
 - service: add support for legacy custom actions packaged in
