@@ -205,23 +205,12 @@ Generic options:
     network has spanning tree running and must wait for STP convergence.
     Default: 0 (no delay)
 
-  NETWORKWAIT=yes|no
-    When using NetworkManager, wait for an active network interface to
-    be configured before continuing. This can be useful if you have legacy
-    daemons that do not react properly to changing network configuration.
-    If this is set but no active devices receive an address, it will timeout
-    and continue 30 seconds after link acquisition.
-    Default: no (do not wait)
 
   IPV6FORWARDING=yes|no
     Enable or disable global forwarding of incoming IPv6 packets 
     on all interfaces.
     Note: Actual packet forwarding cannot be controlled per-device, use netfilter6 for such issues
     Default: no
-  IPV6INIT=yes|no
-    Enable or disable IPv6 configuration for all interfaces
-    Use with caution!
-    Default: value not set in this file
 
   IPV6_AUTOCONF=yes|no
     Sets the default for device-based autoconfiguration.
@@ -286,11 +275,12 @@ Generic options:
       This setting has been moved into net.ipv4.ip_forward setting
       in /etc/sysctl.conf. Setting it to 1 there enables IP forwarding,
       setting it to 0 disables it (which is the default for RFC compliance).
-    NETWORKING_IPV6=yes|no
-      Enable or disable global IPv6 initialization
-      
-      To do this properly, disable IPv6 in the module itself.
 
+    NETWORKWAIT=yes|no
+      This is not used with the move to systemd.
+
+    NETWORKING_IPV6=yes|no
+      To do this properly, disable IPv6 in the module itself.
       This can be done by booting the kernel with "ipv6.disable_ipv6=1".
 
 /etc/sysconfig/static-routes-ipv6:
@@ -626,7 +616,7 @@ Files in /etc/sysconfig/network-scripts/
 
   IPv6-only items for real interfaces:
     IPV6INIT=yes|no
-      Enable or disable IPv6 configuration for this interface
+      Enable or disable IPv6 static, DHCP, or autoconf configuration for this interface
       Default: no
     IPV6FORWARDING=yes|no
       Enable or disable global forwarding of incoming IPv6 packets
