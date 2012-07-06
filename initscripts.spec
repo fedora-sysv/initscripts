@@ -4,7 +4,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.34.2
+Version: 9.34.3
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -319,6 +319,11 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Fri Jul  6 2012 Bill Nottingham <notting@redhat.com> - 9.34.3-1
+- assorted documentation cleanups
+- service: add support for legacy custom actions packaged in
+  /usr/libexec/initscripts/legacy-actions/<script>/<action>
+
 * Mon Mar 12 2012 Bill Nottingham <notting@redhat.com> - 9.34.2-1
 - ifup-aliases: fix IFS usage mangling of device names (#802119)
 - ifup/ifdown: fix typo (#802055, <lubek@users.sourceforge.net>)
