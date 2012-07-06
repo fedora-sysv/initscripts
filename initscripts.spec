@@ -4,7 +4,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.37
+Version: 9.37.1
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -329,6 +329,13 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Fri Jul  6 2012 Bill Nottingham <notting@redhat.com> - 9.37.1-1
+- assorted documentation cleanups
+- service: add support for legacy custom actions packaged in
+  /usr/libexec/initscripts/legacy-actions/<script>/<action>
+- fedora-readonly: assorted minor fixes (#808907)
+- match bonding devices correctly (#824175)
+
 * Fri Mar 16 2012 Bill Nottingham <notting@redhat.com> - 9.37-1
 - Add support for firewalld zones (#802415, from <jpopelka@redhat.com>)
 
