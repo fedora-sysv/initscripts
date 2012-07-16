@@ -283,8 +283,8 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/log/wtmp
 %ghost %attr(0664,root,utmp) /var/run/utmp
 %ghost %verify(not md5 size mtime) %config(noreplace,missingok) /etc/crypttab
-%dir /etc/tmpfiles.d
-/etc/tmpfiles.d/initscripts.conf
+%dir /lib/tmpfiles.d
+/lib/tmpfiles.d/initscripts.conf
 %dir /usr/libexec/initscripts/legacy-actions
 
 %files legacy
