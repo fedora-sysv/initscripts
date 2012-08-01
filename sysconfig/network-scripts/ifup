@@ -121,6 +121,21 @@ if [ "${VLAN}" = "yes" ] && [ "$ISALIAS" = "no" ]; then
 		exit 1
 	    }
 	fi
+
+        VDEV=`echo ${DEVICE} | sed -n 's/\(.\+\)\.\([0-9]\{1,4\}\)$/\1\/\2/p'`
+        if [ ! "${VDEV}" = "" ]; then
+
+            FILELIST=""
+            for FILE in /etc/sysctl.d/* ; do
+                is_ignored_file "${FILE}" && continue
+                test -f "${FILE}" && FILELIST=${FILELIST}" "${FILE}
+            done
+
+            grep -h "\.${VDEV}\." /etc/sysctl.conf ${FILELIST} | grep -v -e "^\s*;" -e "^\s*#" | sed -n 's/^\s*\(\S\+\)\s*=\s*\(\S\+\)/\1=\2/p' |
+            while read LINE ; do
+                sysctl -w "${LINE}"
+            done
+        fi
     fi
 fi
 
