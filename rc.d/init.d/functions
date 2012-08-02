@@ -103,22 +103,6 @@ checkpid() {
 	return 1
 }
 
-__readlink() {
-    ls -bl "$@" 2>/dev/null| awk '{ print $NF }'
-}
-
-__fgrep() {
-    s=$1
-    f=$2
-    while read line; do
-	if strstr "$line" "$s"; then
-	    echo $line
-	    return 0
-	fi
-    done < $f
-    return 1
-}
-
 # __proc_pids {program} [pidfile]
 # Set $pid to pids from /var/run* for {program}.  $pid should be declared
 # local in the caller.
@@ -532,24 +516,6 @@ action() {
 strstr() {
   [ "${1#*$2*}" = "$1" ] && return 1
   return 0
-}
-
-# Confirm whether we really want to run this service
-confirm() {
-  [ -x /bin/plymouth ] && /bin/plymouth --hide-splash
-  while : ; do 
-      echo -n $"Start service $1 (Y)es/(N)o/(C)ontinue? [Y] "
-      read answer
-      if strstr $"yY" "$answer" || [ "$answer" = "" ] ; then
-         return 0
-      elif strstr $"cC" "$answer" ; then
-	 rm -f /var/run/confirm
-	 [ -x /bin/plymouth ] && /bin/plymouth --show-splash
-         return 2
-      elif strstr $"nN" "$answer" ; then
-         return 1
-      fi
-  done
 }
 
 # Check whether file $1 is a backup or rpm-generated file and should be ignored

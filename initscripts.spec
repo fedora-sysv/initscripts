@@ -123,10 +123,6 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/ifup
 %dir /etc/sysconfig/console
 %dir /etc/sysconfig/modules
-%dir /etc/sysconfig/networking
-%dir /etc/sysconfig/networking/devices
-%dir /etc/sysconfig/networking/profiles
-%dir /etc/sysconfig/networking/profiles/default
 /etc/sysconfig/network-scripts/network-functions
 /etc/sysconfig/network-scripts/network-functions-ipv6
 /etc/sysconfig/network-scripts/init.ipv6-global

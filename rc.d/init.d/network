@@ -130,11 +130,6 @@ case "$1" in
 			is_available $i
 			continue
 		fi
-		# If we're in confirmation mode, get user confirmation.
-		if [ -f /var/run/confirm ]; then
-			confirm $i
-			test $? = 1 && continue
-		fi
 		action $"Bringing up interface $i: " ./ifup $i boot
 		[ $? -ne 0 ] && rc=1
 	done
@@ -142,11 +137,6 @@ case "$1" in
 	# Bring up xDSL and VPN interfaces
 	for i in $vlaninterfaces $bridgeinterfaces $xdslinterfaces $vpninterfaces ; do
             if ! LANG=C grep -EL "^ONBOOT=['\"]?[Nn][Oo]['\"]?" ifcfg-$i >/dev/null 2>&1 ; then
-		# If we're in confirmation mode, get user confirmation.
-		if [ -f /var/run/confirm ]; then
-			confirm $i
-			test $? = 1 && continue
-		fi
 		action $"Bringing up interface $i: " ./ifup $i boot
 		[ $? -ne 0 ] && rc=1
 	    fi

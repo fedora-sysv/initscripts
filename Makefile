@@ -56,14 +56,6 @@ install:
 	chmod 755 $(ROOT)/etc/sysconfig/network-scripts/init*
 	chmod 755 $(ROOT)/etc/NetworkManager/dispatcher.d/00-netreport
 	mkdir -p $(ROOT)/etc/sysconfig/modules
-	mkdir -p $(ROOT)/etc/sysconfig/networking/devices
-	mkdir -p $(ROOT)/etc/sysconfig/networking/profiles/default
-	#mv  $(ROOT)/etc/sysconfig/network-scripts/ifcfg-lo \
-	#	$(ROOT)/etc/sysconfig/networking/devices
-	#ln -s ../networking/devices/ifcfg-lo \
-	#   	$(ROOT)/etc/sysconfig/network-scripts/ifcfg-lo
-	#ln -s ../networking/devices/ifcfg-lo \
-	#	$(ROOT)/etc/sysconfig/networking/profiles/default/ifcfg-lo
 	mkdir -p $(ROOT)/etc/sysconfig/console
 	if uname -m | grep -q s390 ; then \
 	  install -m644 sysconfig/init.s390 $(ROOT)/etc/sysconfig/init ; \
