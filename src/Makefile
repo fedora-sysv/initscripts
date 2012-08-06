@@ -1,8 +1,7 @@
 CFLAGS+=$(RPM_OPT_FLAGS) -Wall -D_GNU_SOURCE
 
 PROGS=usernetctl netreport testd usleep ipcalc \
-	fstab-decode getkey ppp-watch consoletype genhostid rename_device \
-	console_init console_check securetty
+	fstab-decode getkey ppp-watch consoletype genhostid rename_device
 PPPWATCH_OBJS=ppp-watch.o shvar.o
 CONSOLE_INIT_OBJS=console_init.o shvar.o
 USLEEP_OBJS=usleep.o
@@ -28,11 +27,8 @@ install:
 	install -m 755 getkey $(ROOT)/sbin/getkey
 	install -m 755 ppp-watch $(ROOT)/sbin/ppp-watch
 	install -m 755 consoletype $(ROOT)/sbin/consoletype
-	install -m 755 securetty $(ROOT)/sbin/securetty
 	install -m 755 sushell $(ROOT)/sbin/sushell
 	install -m 755 rename_device $(ROOT)/lib/udev/rename_device
-	install -m 755 console_init $(ROOT)/lib/udev/console_init
-	install -m 755 console_check $(ROOT)/lib/udev/console_check
 	install -m 644 genhostid.1 $(ROOT)$(mandir)/man1
 	install -m 644 getkey.1 $(ROOT)$(mandir)/man1
 	install -m 644 netreport.1 $(ROOT)$(mandir)/man1
@@ -44,7 +40,6 @@ install:
 	install -m 644 consoletype.1 $(ROOT)$(mandir)/man1
 	install -m 644 ifup.8 $(ROOT)$(mandir)/man8
 	install -m 644 setsysfont.8 $(ROOT)$(mandir)/man8
-	install -m 644 securetty.8 $(ROOT)$(mandir)/man8
 	install -m 644 sushell.8 $(ROOT)$(mandir)/man8
 	ln -s ifup.8 $(ROOT)$(mandir)/man8/ifdown.8
 
@@ -72,9 +67,6 @@ usernetctl.o: usernetctl.c
 usernetctl: usernetctl.c usernetctl.o
 	$(CC) $(LDFLAGS) -pie -o $@ $@.o
 
-securetty: securetty.o
-	$(CC) $(LDFLAGS) -o $@ $<
-
 shvar.o: shvar.c
 	$(CC) $(CFLAGS) `pkg-config glib-2.0 --cflags` -c shvar.c -o shvar.o
 
@@ -84,8 +76,3 @@ ppp-watch.o: ppp-watch.c
 rename_device: rename_device.c
 	$(CC) $(CFLAGS) `pkg-config glib-2.0 --cflags` -o $@ $< `pkg-config glib-2.0 --libs`
 
-console_init.o: console_init.c
-	$(CC) $(CFLAGS) `pkg-config glib-2.0 --cflags` -c console_init.c -o console_init.o
-
-console_init: $(CONSOLE_INIT_OBJS)
-	$(CC) $(LDFLAGS) -o $@ $(CONSOLE_INIT_OBJS) `pkg-config glib-2.0 --libs`

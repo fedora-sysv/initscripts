@@ -20,12 +20,7 @@ install:
 	mkdir -p $(ROOT)/var/lib/stateless/state
 
 	install -m644  adjtime $(ROOT)/etc
-	install -m644 inittab $(ROOT)/etc/inittab.sysv 
-	if uname -m | grep -q s390 ; then \
-	  install -m644 inittab.s390 $(ROOT)/etc/inittab.sysv ; \
-	fi
-	install -m644 inittab.upstart $(ROOT)/etc/inittab.upstart
-	install -m644 inittab.systemd $(ROOT)/etc/inittab.systemd
+	install -m644 inittab $(ROOT)/etc
 	install -m644  rwtab statetab networks $(ROOT)/etc
 	install -m755  service setsysfont $(ROOT)/sbin
 	install -m644  lang.csh lang.sh $(ROOT)/etc/profile.d
@@ -43,11 +38,10 @@ install:
 	install -m755 prefdm $(ROOT)/etc/X11/prefdm
 
 	install -m755 -d $(ROOT)/etc/rc.d $(ROOT)/etc/sysconfig
-	install -m755 rc.d/rc rc.d/rc.local rc.d/rc.sysinit $(ROOT)/etc/rc.d/
 	cp -af rc.d/init.d $(ROOT)/etc/rc.d/
 	install -m644 sysconfig/debug sysconfig/init sysconfig/netconsole sysconfig/readonly-root $(ROOT)/etc/sysconfig/
 	cp -af sysconfig/network-scripts $(ROOT)/etc/sysconfig/
-	cp -af ppp NetworkManager init $(ROOT)/etc
+	cp -af ppp NetworkManager $(ROOT)/etc
 	mkdir -p $(ROOT)/lib/systemd/
 	cp -af systemd/* $(ROOT)/lib/systemd/
 	mkdir -p $(ROOT)/etc/ppp/peers
@@ -62,7 +56,6 @@ install:
 	chmod 755 $(ROOT)/etc/sysconfig/network-scripts/init*
 	chmod 755 $(ROOT)/etc/sysconfig/network-scripts/net.hotplug
 	chmod 755 $(ROOT)/etc/NetworkManager/dispatcher.d/00-netreport
-	chmod 644 $(ROOT)/etc/init/*
 	mkdir -p $(ROOT)/etc/sysconfig/modules
 	mkdir -p $(ROOT)/etc/sysconfig/networking/devices
 	mkdir -p $(ROOT)/etc/sysconfig/networking/profiles/default
@@ -101,21 +94,6 @@ install:
 	done
 
 # Can't store symlinks in a CVS archive
-	ln -s ../init.d/killall $(ROOT)/etc/rc.d/rc0.d/S00killall
-	ln -s ../init.d/killall $(ROOT)/etc/rc.d/rc6.d/S00killall
-
-	ln -s ../init.d/halt $(ROOT)/etc/rc.d/rc0.d/S01halt
-	ln -s ../init.d/halt $(ROOT)/etc/rc.d/rc6.d/S01reboot
-
-	ln -s ../init.d/single $(ROOT)/etc/rc.d/rc1.d/S99single
-
-	ln -s ../rc.local $(ROOT)/etc/rc.d/rc2.d/S99rc-local
-	ln -s ../rc.local $(ROOT)/etc/rc.d/rc3.d/S99rc-local
-	ln -s ../rc.local $(ROOT)/etc/rc.d/rc4.d/S99rc-local
-	ln -s ../rc.local $(ROOT)/etc/rc.d/rc5.d/S99rc-local
-
-	ln -s halt $(ROOT)/etc/rc.d/init.d/reboot
-
 	mkdir -p -m 755 $(ROOT)/lib/systemd/system/multi-user.target.wants
 	mkdir -p -m 755 $(ROOT)/lib/systemd/system/graphical.target.wants
 	ln -s reboot.target $(ROOT)/lib/systemd/system/ctrl-alt-del.target
@@ -138,9 +116,6 @@ install:
 # the actual files will be here instead of symlinks
 	for i in 0 1 2 3 4 5 6 ; do \
 		ln -s rc.d/rc$$i.d $(ROOT)/etc/rc$$i.d; \
-	done
-	for i in rc rc.sysinit rc.local ; do \
-		ln -s rc.d/$$i $(ROOT)/etc/$$i; \
 	done
 
 	mkdir -p -m 755 $(ROOT)/usr/libexec/initscripts/legacy-actions
