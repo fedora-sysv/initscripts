@@ -182,9 +182,7 @@ rm -rf $RPM_BUILD_ROOT
 /bin/usleep
 %attr(4755,root,root) /usr/sbin/usernetctl
 /sbin/consoletype
-/sbin/fstab-decode
 /sbin/genhostid
-/sbin/getkey
 /sbin/sushell
 %attr(2755,root,root) /sbin/netreport
 /lib/udev/rules.d/*

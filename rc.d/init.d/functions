@@ -93,11 +93,6 @@ if [ -z "${BOOTUP:-}" ]; then
   fi
 fi
 
-# Interpret escape sequences in an fstab entry
-fstab_decode_str() {
-	fstab-decode echo "$1"
-}
-
 # Check if any of $pid (could be plural) are running
 checkpid() {
 	local i
@@ -122,66 +117,6 @@ __fgrep() {
 	fi
     done < $f
     return 1
-}
-
-# __umount_loop awk_program fstab_file first_msg retry_msg retry_umount_args
-# awk_program should process fstab_file and return a list of fstab-encoded
-# paths; it doesn't have to handle comments in fstab_file.
-__umount_loop() {
-	local remaining sig=-15
-	local retry=3 count
-
-	remaining=$(LC_ALL=C awk "/^#/ {next} $1" "$2" | sort -r)
-	while [ -n "$remaining" -a "$retry" -gt 0 ]; do
-		if [ "$retry" -eq 3 ]; then
-			action "$3" fstab-decode umount $remaining
-		else
-			action "$4" fstab-decode umount $5 $remaining
-		fi
-		count=4
-		remaining=$(LC_ALL=C awk "/^#/ {next} $1" "$2" | sort -r)
-		while [ "$count" -gt 0 ]; do
-			[ -z "$remaining" ] && break
-			count=$(($count-1))
-			usleep 500000
-			remaining=$(LC_ALL=C awk "/^#/ {next} $1" "$2" | sort -r)
-		done
-		[ -z "$remaining" ] && break
-		fstab-decode /sbin/fuser -k -m $sig $remaining >/dev/null
-		sleep 3
-		retry=$(($retry -1))
-		sig=-9
-	done
-}
-
-# Similar to __umount loop above, specialized for loopback devices
-__umount_loopback_loop() {
-	local remaining devremaining sig=-15
-	local retry=3
-
-	remaining=$(awk '$1 ~ /^\/dev\/loop/ && $2 != "/" {print $2}' /proc/mounts)
-	devremaining=$(awk '$1 ~ /^\/dev\/loop/ && $2 != "/" {print $1}' /proc/mounts)
-	while [ -n "$remaining" -a "$retry" -gt 0 ]; do
-		if [ "$retry" -eq 3 ]; then
-			action $"Unmounting loopback filesystems: " \
-				fstab-decode umount $remaining
-		else
-			action $"Unmounting loopback filesystems (retry):" \
-				fstab-decode umount $remaining
-		fi
-		for dev in $devremaining ; do
-			losetup $dev > /dev/null 2>&1 && \
-				action $"Detaching loopback device $dev: " \
-				losetup -d $dev
-		done
-		remaining=$(awk '$1 ~ /^\/dev\/loop/ && $2 != "/" {print $2}' /proc/mounts)
-		devremaining=$(awk '$1 ~ /^\/dev\/loop/ && $2 != "/" {print $1}' /proc/mounts)
-		[ -z "$remaining" ] && break
-		fstab-decode /sbin/fuser -k -m $sig $remaining >/dev/null
-		sleep 3
-		retry=$(($retry -1))
-		sig=-9
-	done
 }
 
 # __proc_pids {program} [pidfile]
