@@ -54,7 +54,6 @@ install:
 	chmod 755 $(ROOT)/etc/sysconfig/network-scripts/ifup-*
 	chmod 755 $(ROOT)/etc/sysconfig/network-scripts/ifdown-*
 	chmod 755 $(ROOT)/etc/sysconfig/network-scripts/init*
-	chmod 755 $(ROOT)/etc/sysconfig/network-scripts/net.hotplug
 	chmod 755 $(ROOT)/etc/NetworkManager/dispatcher.d/00-netreport
 	mkdir -p $(ROOT)/etc/sysconfig/modules
 	mkdir -p $(ROOT)/etc/sysconfig/networking/devices

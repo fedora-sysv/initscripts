@@ -155,7 +155,6 @@ rm -rf $RPM_BUILD_ROOT
 /etc/sysconfig/network-scripts/ifup-wireless
 /etc/sysconfig/network-scripts/ifup-isdn
 /etc/sysconfig/network-scripts/ifdown-isdn
-/etc/sysconfig/network-scripts/net.hotplug
 %ifarch s390 s390x
 /etc/sysconfig/network-scripts/ifup-ctc
 %endif
