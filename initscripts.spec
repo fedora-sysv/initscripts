@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.39
+Version: 9.40
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -214,6 +214,10 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Mon Aug  6 2012 Bill Nottingham <notting@redhat.com> - 9.40-1
+- drop support for booting non-systemd systems
+- drop legacy commands: getkey, fstab-decode, testd
+
 * Fri Jun 29 2012 Bill Nottingham <notting@redhat.com> - 9.39-1
 - assorted documentation cleanups
 - typo, spelling, licenese clean up (<ville.skytta@iki.fi>)
