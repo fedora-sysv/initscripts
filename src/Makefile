@@ -1,6 +1,6 @@
 CFLAGS+=$(RPM_OPT_FLAGS) -Wall -D_GNU_SOURCE
 
-PROGS=usernetctl netreport testd usleep ipcalc \
+PROGS=usernetctl netreport usleep ipcalc \
 	fstab-decode getkey ppp-watch consoletype genhostid rename_device
 PPPWATCH_OBJS=ppp-watch.o shvar.o
 CONSOLE_INIT_OBJS=console_init.o shvar.o
@@ -42,12 +42,6 @@ install:
 	install -m 644 setsysfont.8 $(ROOT)$(mandir)/man8
 	install -m 644 sushell.8 $(ROOT)$(mandir)/man8
 	ln -s ifup.8 $(ROOT)$(mandir)/man8/ifdown.8
-
-# this daemon and initscript are useful for testing the up/down/status stuff
-# not installed by default, only comes from sources.
-install-test:
-	install -m 755 testd $(ROOT)/usr/sbin/testd
-	install -m 755 testdinit $(ROOT)/etc/init.d/testd
 
 getkey: getkey.o
 	$(CC) $(LDFLAGS) -o $@ $< -lpopt
