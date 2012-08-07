@@ -49,6 +49,14 @@ If the field is not present or the password is set to \fBnone\fR,
 the password has to be manually entered during system boot.
 Otherwise the field is interpreted as a path to a file
 containing the encryption password.
+This field does not support spaces, whether escaped with back slashes
+or quotes.  Back slashes or quotes will cause this field
+to be interpreted as a path to a password file.  If you wish
+to use a password with spaces in it, please use a password file.
+If using a password file, please note that the entire contents of the
+password file is used, including new lines and non-printable characters.
+A password file without a line feed can be created with the "echo" command's "-n"
+option.  For example: echo -n "pass phrase" > MyPasswordFile
 For swap encryption
 .B /dev/urandom
 can be used as the password file;
