@@ -104,9 +104,5 @@ if [ -f /etc/sysconfig/static-routes-ipv6 ]; then
 	done
 fi
 
-# Setup additional static IPv6 routes (newer config style)
-if [ -f "/etc/sysconfig/network-scripts/route6-$REALDEVICE" ]; then
-	cat "/etc/sysconfig/network-scripts/route6-$REALDEVICE" | sed 's/#.*//g' | grep -v '^[[:space:]]*$' | while read line; do
-		/sbin/ip -6 route add $line
-	done
-fi
+# Setup static routes
+/etc/sysconfig/network-scripts/ifup-routes ${REALDEVICE}

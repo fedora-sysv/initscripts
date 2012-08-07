@@ -51,5 +51,8 @@ if [ $? != 0 -a $? != 11 ]; then
 	exit 0
 fi
 
+# Cleanup additional static routes
+/etc/sysconfig/network-scripts/ifdown-routes ${REALDEVICE}
+
 # Cleanup and shut down IPv6-in-IPv4 tunnel device
 ipv6_del_tunnel_device $DEVICE
