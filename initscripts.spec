@@ -161,7 +161,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/statetab.d
 /lib/systemd/fedora-*
 /lib/systemd/system/*
-%config /etc/X11/prefdm
 %config(noreplace) /etc/inittab
 %dir /etc/rc.d
 %dir /etc/rc.d/rc[0-9].d

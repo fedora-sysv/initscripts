@@ -34,9 +34,6 @@ install:
 	if uname -m | grep -q s390 ; then \
 	  install -m644 sysctl.conf.s390 $(ROOT)/usr/lib/sysctl.d/00-system.conf ; fi
 
-	mkdir -p $(ROOT)/etc/X11
-	install -m755 prefdm $(ROOT)/etc/X11/prefdm
-
 	install -m755 -d $(ROOT)/etc/rc.d $(ROOT)/etc/sysconfig
 	cp -af rc.d/init.d $(ROOT)/etc/rc.d/
 	install -m644 sysconfig/debug sysconfig/init sysconfig/netconsole sysconfig/readonly-root $(ROOT)/etc/sysconfig/
