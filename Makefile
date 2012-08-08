@@ -24,6 +24,7 @@ install:
 	install -m644  rwtab statetab networks $(ROOT)/etc
 	install -m755  service setsysfont $(ROOT)/sbin
 	install -m644  lang.csh lang.sh $(ROOT)/etc/profile.d
+	install -m644  term256.csh term256.sh $(ROOT)/etc/profile.d
 	install -m644  debug.csh debug.sh $(ROOT)/etc/profile.d
 	install -m755  sys-unconfig $(ROOT)/usr/sbin
 	install -m644  service.8 sys-unconfig.8 $(ROOT)$(mandir)/man8
