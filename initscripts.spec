@@ -23,6 +23,7 @@ Requires: iproute, /sbin/arping, findutils
 Requires: /etc/system-release
 Requires: udev >= 125-1
 Requires: cpio
+Requires: hostname
 Conflicts: libselinux < 2.1.0
 Conflicts: ipsec-tools < 0.8.0-2
 Requires(pre): /usr/sbin/groupadd
