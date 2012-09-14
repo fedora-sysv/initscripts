@@ -1,10 +1,8 @@
 # Enable 256 color capabilities for appropriate terminals
 
-# Uncomment this if you want remote xterms connecting
-# to this system, to be sent 256 colors.  Note that
-# local xterms, ssh'ing to localhost are considered
-# remote in this context, but in that case, $TERM should
-# have already been set to 256 color capable.
+# Set this variable in your local shell config if you want remote
+# xterms connecting to this system, to be sent 256 colors.
+# This can be done in /etc/csh.cshrc, or in an earlier profile.d script.
 #   SEND_256_COLORS_TO_REMOTE=1
 
 # Terminals with any of the following set, support 256 colors (and are local)
