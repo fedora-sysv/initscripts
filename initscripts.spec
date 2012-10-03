@@ -11,20 +11,20 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 Obsoletes: initscripts-legacy <= 9.39
 Requires: /bin/awk, sed, coreutils
 Requires: /sbin/sysctl
-Requires: /sbin/fuser, grep
+Requires: grep
 Requires: module-init-tools
 Requires: util-linux >= 2.16
 Requires: bash >= 3.0
 Requires: sysvinit-tools >= 2.87-5
 Conflicts: systemd < 23-1
 Conflicts: systemd-units < 23-1
-Requires: systemd-sysvinit
+Requires: systemd
 Requires: iproute, /sbin/arping, findutils
+# Not strictly required, but nothing else requires it
 Requires: /etc/system-release
 Requires: udev >= 125-1
 Requires: cpio
 Requires: hostname
-Conflicts: libselinux < 2.1.0
 Conflicts: ipsec-tools < 0.8.0-2
 Requires(pre): /usr/sbin/groupadd
 Requires(post): /sbin/chkconfig, coreutils
@@ -65,7 +65,6 @@ rm -f \
  $RPM_BUILD_ROOT/etc/sysconfig/network-scripts/ifup-ctc \
 %else
 rm -f \
- $RPM_BUILD_ROOT/etc/rc.d/rc.sysinit.s390init \
  $RPM_BUILD_ROOT/etc/sysconfig/init.s390
 %endif
 
