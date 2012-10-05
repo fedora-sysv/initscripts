@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.40
+Version: 9.41
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -213,6 +213,14 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Fri Oct  5 2012 Bill Nottingham <notting@redhat.com> - 9.41-1
+- debugmode: MALLOC_CHECK_ is not thread safe. Don't enable it by default (#853175)
+- Add support for 256 color terminals (<pbrady@redhat.com>)
+- ifdown-eth: be less strict about VLAN name (#505314, <vpavlin@redhat.com>)
+- drop prefdm
+- ifup-eth: allow duplicate address detection to be disabled (<bcodding@uvm.edu>)
+- process rule6-* for sit devices (#840009, <lnykryn@redhat.com>)
+
 * Mon Aug  6 2012 Bill Nottingham <notting@redhat.com> - 9.40-1
 - drop support for booting non-systemd systems
 - drop legacy commands: getkey, fstab-decode, testd
