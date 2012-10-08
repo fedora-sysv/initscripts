@@ -257,6 +257,12 @@ function new_interface ()
        fi
 
        if [ "$setup_this" = "yes" ] ; then
+               [ "${REALDEVICE}" != "lo" ] && \
+               if ! /sbin/arping -q -c 2 -w 3 -D -I ${parent_device} ${$IPADDR} ; then
+                   net_log $"Error, some other host already uses address ${IPADDR}."
+                   return 1
+               fi
+
                /sbin/ip addr add ${IPADDR}/${PREFIX} brd ${BROADCAST} dev ${parent_device} label ${DEVICE}
 
                if [ "$NO_ALIASROUTING" != yes ]; then
