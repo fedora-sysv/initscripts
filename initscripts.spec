@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.31
+Version: 9.03.32
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -244,6 +244,25 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Mon Oct 08 2012 Lukáš Nykrýn <lnykryn@redhat.com> - 9.03.32-1
+- check an IP address for existence in ifup-alias
+- remount /dev/shm in sysinit to apply attributes from fstab
+- sets BONDING_OPTS before interface is brougth up and checks if it is not already added
+- Add support for setting random bridge options via BRIDGING_OPTS
+- use vgchange -aay in rc.sysinit and netfs init script
+- script should not kill itself during shutdown
+- fix the NIS domain setting
+- be less strict about VLAN name
+- clarification of work with white spaces in crypttab manpage
+- re-read sysctl values for VLANs on ifup
+- pass useful arguments to halt.local
+- start serial console when we return from runlevel1
+- move VLAN= docs to the interface configuration section, rather than /etc/sysconfig/network.
+- don't accidentally match other bonding devices
+- add usage stanzas for tty.conf and serial.conf
+- rename_device: skip VLAN=yes configuration files
+- allow duplicate address dectection to be disabled
+
 * Fri Apr 27 2012 Lukas Nykryn <lnykryn@redhat.com> 9.03.31-1
 - set NIS domain (#704919)
 
