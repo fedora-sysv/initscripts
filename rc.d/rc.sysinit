@@ -26,6 +26,9 @@ else
 	mount -n -t usbfs /proc/bus/usb /proc/bus/usb
 fi
 
+#remount /dev/shm to set attributes from fstab #669700
+mount -n -o remount /dev/shm >/dev/null 2>&1
+
 . /etc/init.d/functions
 
 PLYMOUTH=
