@@ -269,9 +269,9 @@ daemon() {
 
 # A function to stop a program.
 killproc() {
-	local RC killlevel= base pid pid_file= delay try
+	local RC killlevel= base pid pid_file= delay
 
-	RC=0; delay=3; try=0
+	RC=0; delay=3
 	# Test syntax.
 	if [ "$#" -eq 0 ]; then
 		echo $"Usage: killproc [-p pidfile] [ -d delay] {program} [-signal]"
@@ -282,11 +282,7 @@ killproc() {
 		shift 2
 	fi
 	if [ "$1" = "-d" ]; then
-		delay=$(echo $2 | awk -v RS=' ' -v IGNORECASE=1 '{if($1!~/^[0-9.]+[smhd]?$/) exit 1;d=$1~/s$|^[0-9.]*$/?1:$1~/m$/?60:$1~/h$/?60*60:$1~/d$/?24*60*60:-1;if(d==-1) exit 1;delay+=d*$1} END {printf("%d",delay+0.5)}')
-		if [ "$?" -eq 1 ]; then
-			echo $"Usage: killproc [-p pidfile] [ -d delay] {program} [-signal]"
-			return 1
-		fi
+		delay=$2
 		shift 2
 	fi
         
@@ -316,17 +312,11 @@ killproc() {
 			   # TERM first, then KILL if not dead
 			   kill -TERM $pid >/dev/null 2>&1
 			   usleep 100000
-			   if checkpid $pid ; then
-				try=0
-				while [ $try -lt $delay ] ; do
-					checkpid $pid || break
-					sleep 1
-					let try+=1
-				done
-				if checkpid $pid ; then
-					kill -KILL $pid >/dev/null 2>&1
-					usleep 100000
-				fi
+			   if checkpid $pid && sleep 1 &&
+			      checkpid $pid && sleep $delay &&
+			      checkpid $pid ; then
+                                kill -KILL $pid >/dev/null 2>&1
+				usleep 100000
 			   fi
 		        fi
 			checkpid $pid

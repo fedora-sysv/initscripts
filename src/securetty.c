@@ -18,7 +18,6 @@
 
 #include <errno.h>
 #include <fcntl.h>
-#include <limits.h>
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -26,7 +25,6 @@
 #include <syslog.h>
 #include <unistd.h>
 
-#include <sys/mman.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 
@@ -68,10 +66,29 @@ int open_and_lock_securetty() {
 
 int rewrite_securetty(char *terminal) {
         int fd;
+        char *buf, *pos;
+        struct stat sbuf;
         
         fd = open_and_lock_securetty();
         if (fd == -1)
                 return 1;
+        if (fstat(fd, &sbuf) == -1) {
+                close(fd);
+                syslog(LOG_ERR, "Couldn't stat /etc/securetty: %s",strerror(errno));
+                return 1;
+        }
+        buf = malloc(sbuf.st_size + 1);
+        if (read(fd, buf, sbuf.st_size) != sbuf.st_size) {
+                close(fd);
+                syslog(LOG_ERR, "Couldn't read /etc/securetty: %s",strerror(errno));
+                return 1;
+        }
+        if (!strncmp(buf,terminal,strlen(terminal)) && buf[strlen(terminal)] == '\n')
+                goto out_ok;
+        if ((pos = strstr(buf, terminal))) {
+                if (pos[strlen(terminal)] == '\n' && *(pos-1) == '\n')
+                        goto out_ok;
+        }
         if (lseek(fd, 0, SEEK_END) == -1) {
                 close(fd);
                 syslog(LOG_ERR, "Couldn't seek to end of /etc/securetty: %s",strerror(errno));
@@ -79,39 +96,9 @@ int rewrite_securetty(char *terminal) {
         }
         write(fd, terminal, strlen(terminal));
         write(fd, "\n", 1);
+out_ok:
         close(fd);
         return 0;
-}
-
-int check_securetty(char *terminal) {
-        int fd, rc = 1;
-        char *buf, term[PATH_MAX];
-        struct stat sb;
-
-        fd = open("/etc/securetty", O_RDONLY);
-        if (fd == -1)
-                goto out;
-        fstat(fd, &sb);
-        buf = mmap(NULL, sb.st_size, PROT_READ, MAP_SHARED, fd, 0);
-        if (buf == ((caddr_t) -1)) {
-                close(fd);
-                return 1;
-        }
-        snprintf(term,PATH_MAX,"%s\n",terminal);
-        if (!strncmp(buf,term,strlen(term))) {
-                rc = 0;
-                goto out_unmap;
-        }
-        snprintf(term,PATH_MAX,"\n%s\n",terminal);
-        if (strstr(buf,term)) {
-                rc = 0;
-                goto out_unmap;
-        }
-out_unmap:
-        munmap(buf, sb.st_size);
-out:
-        close(fd);
-        return rc;
 }
 
 int main(int argc, char **argv) {
@@ -120,8 +107,5 @@ int main(int argc, char **argv) {
                 exit(1);
         }
         openlog("securetty", LOG_CONS, LOG_DAEMON);
-        if (check_securetty(argv[1]))
-                return rewrite_securetty(argv[1]);
-        else
-                return 0;
+        return rewrite_securetty(argv[1]);
 }

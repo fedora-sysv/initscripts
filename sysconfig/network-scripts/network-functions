@@ -59,17 +59,6 @@ get_uuid_by_config ()
     dbus-send --system --print-reply --dest=com.redhat.ifcfgrh1 /com/redhat/ifcfgrh1 com.redhat.ifcfgrh1.GetIfcfgDetails string:"/etc/sysconfig/network-scripts/$1" 2>/dev/null | awk -F '"' '/string / { print $2 }'
 }
 
-generate_config_file_name () {
-	local ver=$1
-	if [ -s /etc/dhcp/dhclient$ver-${DEVICE}.conf ]; then
-		DHCLIENTCONF="-cf /etc/dhcp/dhclient$ver-${DEVICE}.conf";
-	elif [ -s /etc/dhclient$ver-${DEVICE}.conf ]; then
-		DHCLIENTCONF="-cf /etc/dhclient$ver-${DEVICE}.conf";
-	else
-		DHCLIENTCONF='';
-	fi
-}
-
 need_config ()
 {
     local nconfig
