@@ -416,7 +416,37 @@ install_bonding_driver ()
 {
    ethtool -i $1 2>/dev/null | grep -q "driver: bonding" && return 0
    [ ! -f /sys/class/net/bonding_masters ] && ( modprobe bonding || return 1 )
-   echo "+$1" > /sys/class/net/bonding_masters 2>/dev/null
+   if ! grep -sq "$1" /sys/class/net/bonding_masters; then
+       echo "+$1" > /sys/class/net/bonding_masters 2>/dev/null
+   fi
+   (
+	# Set config here
+	need_config "$1"
+	source_config
+        /sbin/ip link set dev ${DEVICE} down
+
+        # add the bits to setup driver parameters here
+        for arg in $BONDING_OPTS ; do
+            key=${arg%%=*};
+            value=${arg##*=};
+            if [ "${key}" = "arp_ip_target" -a "${value:0:1}" != "+" ]; then
+                OLDIFS=$IFS;
+                IFS=',';
+                for arp_ip in $value; do
+		    if ! grep -q $arp_ip /sys/class/net/${DEVICE}/bonding/$key; then
+                        echo +$arp_ip > /sys/class/net/${DEVICE}/bonding/$key
+		    fi
+                done
+                IFS=$OLDIFS;
+            elif [ "${key}" = "arp_ip_target" ]; then
+	        if ! grep -q ${value#+} /sys/class/net/${DEVICE}/bonding/$key; then
+                    echo "$value" > /sys/class/net/${DEVICE}/bonding/$key
+	        fi
+	    elif [ "${key}" != "primary" ]; then
+                echo $value > /sys/class/net/${DEVICE}/bonding/$key
+            fi
+        done
+   )
    return 0
 }
 

@@ -118,31 +118,6 @@ fi
 # Bonding initialization. For DHCP, we need to enslave the devices early,
 # so it can actually get an IP.
 if [ "$ISALIAS" = no ] && is_bonding_device ${DEVICE} ; then
-
-    /sbin/ip link set dev ${DEVICE} down
-
-    # add the bits to setup driver parameters here
-    for arg in $BONDING_OPTS ; do   
-        key=${arg%%=*};
-        value=${arg##*=};
-        if [ "${key}" = "arp_ip_target" -a "${value:0:1}" != "+" ]; then
-            OLDIFS=$IFS;
-            IFS=',';
-            for arp_ip in $value; do
-		if ! grep -q $arp_ip /sys/class/net/${DEVICE}/bonding/$key; then
-                    echo +$arp_ip > /sys/class/net/${DEVICE}/bonding/$key
-		fi
-            done
-            IFS=$OLDIFS;
-        elif [ "${key}" = "arp_ip_target" ]; then
-	    if ! grep -q ${value#+} /sys/class/net/${DEVICE}/bonding/$key; then
-                echo "$value" > /sys/class/net/${DEVICE}/bonding/$key
-	    fi
-	elif [ "${key}" != "primary" ]; then
-            echo $value > /sys/class/net/${DEVICE}/bonding/$key
-        fi
-    done
-
     /sbin/ip link set dev ${DEVICE} up
     [ -n "${LINKDELAY}" ] && /bin/sleep ${LINKDELAY}
     for device in $(LANG=C egrep -l "^[[:space:]]*MASTER=\"?${DEVICE}\"?[[:space:]]*$" /etc/sysconfig/network-scripts/ifcfg-*) ; do
