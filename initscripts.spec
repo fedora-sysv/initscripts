@@ -36,7 +36,7 @@ Conflicts: xorg-x11, glib2 < 2.11.1-2
 Conflicts: alsa-utils < 1.0.18
 Conflicts: plymouth < 0.8.3-9
 Conflicts: s390utils < 2:1.8.2-11
-Conflicts: dmraid < 1.0.0.rc16-7, lvm2 < 2.02.65
+Conflicts: dmraid < 1.0.0.rc16-7, lvm2 < 2.02.97-2
 Conflicts: e2fsprogs < 1.15
 # http://bugzilla.redhat.com/show_bug.cgi?id=252973
 Conflicts: nut < 2.2.0
