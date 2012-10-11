@@ -10,9 +10,9 @@ NLSPACKAGE = initscripts
 CATALOGS = $(shell ls *.po)
 FMTCATALOGS = $(patsubst %.po,%.mo,$(CATALOGS))
 
-POTFILES = /etc/ppp/ip* /etc/rc.d/init.d/* /etc/rc.d/rc /etc/rc.d/rc.* \
+POTFILES = /etc/ppp/ip* /etc/rc.d/init.d/* \
 	$(shell ls /etc/sysconfig/network-scripts/* | grep -v ifcfg-) \
-	/sbin/service /usr/sbin/sys-unconfig /etc/init/*.conf
+	/sbin/service /usr/sbin/sys-unconfig
 
 all: $(NLSPACKAGE).pot $(FMTCATALOGS)
 
