@@ -34,6 +34,7 @@ install:
 	  install -m644 sysctl.conf.sparc $(ROOT)/usr/lib/sysctl.d/00-system.conf ; fi
 	if uname -m | grep -q s390 ; then \
 	  install -m644 sysctl.conf.s390 $(ROOT)/usr/lib/sysctl.d/00-system.conf ; fi
+	install -m 644 sysctl.conf.README $(ROOT)/etc/sysctl.conf
 
 	install -m755 -d $(ROOT)/etc/rc.d $(ROOT)/etc/sysconfig
 	cp -af rc.d/init.d $(ROOT)/etc/rc.d/
