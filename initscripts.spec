@@ -18,6 +18,8 @@ Requires: bash >= 3.0
 Requires: sysvinit-tools >= 2.87-5
 Conflicts: systemd < 23-1
 Conflicts: systemd-units < 23-1
+Conflicts: lvm2 < 2.02.98-3
+Conflicts: dmraid < 1.0.0.rc16-18
 Requires: systemd
 Requires: iproute, /sbin/arping, findutils
 # Not strictly required, but nothing else requires it

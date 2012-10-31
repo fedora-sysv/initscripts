@@ -96,8 +96,6 @@ install:
 	ln -s ../fedora-autorelabel-mark.service $(ROOT)/lib/systemd/system/basic.target.wants
 	ln -s ../fedora-readonly.service $(ROOT)/lib/systemd/system/local-fs.target.wants
 	ln -s ../fedora-import-state.service $(ROOT)/lib/systemd/system/local-fs.target.wants
-	ln -s ../fedora-storage-init.service $(ROOT)/lib/systemd/system/local-fs.target.wants
-	ln -s ../fedora-storage-init-late.service $(ROOT)/lib/systemd/system/local-fs.target.wants
 
 	mkdir -p $(ROOT)/lib/tmpfiles.d
 	install -m 644 initscripts.tmpfiles.d $(ROOT)/lib/tmpfiles.d/initscripts.conf
