@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.41
+Version: 9.42
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -214,6 +214,13 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Wed Oct 31 2012 Bill Nottingham <notting@redhat.com> - 9.42-1
+- Halloween release!
+- add a default /etc/sysctl.conf that describes how to change values, and where the defaults now live. (#760254)
+- translation updates
+- fedora-autorelabel: don't pass -F to fixfiles (#863662, <dwalsh@redhat.com>)
+- fix calling of firewall-cmd in ifup-post/ifdown-post (<jpopelka@redhat.com>)
+
 * Fri Oct  5 2012 Bill Nottingham <notting@redhat.com> - 9.41-1
 - debugmode: MALLOC_CHECK_ is not thread safe. Don't enable it by default (#853175)
 - Add support for 256 color terminals (<pbrady@redhat.com>)
