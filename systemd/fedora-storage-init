@@ -37,5 +37,5 @@ fi
 [ -r /proc/mdstat ] && [ -r /dev/md/md-device-map ] && /sbin/mdadm -IRs
 
 if [ -x /sbin/lvm ]; then
-	action $"Setting up Logical Volume Management:" /sbin/lvm vgchange -a y --sysinit
+	action $"Setting up Logical Volume Management:" /sbin/lvm vgchange -a ay --sysinit
 fi
