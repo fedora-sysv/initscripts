@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.32
+Version: 9.03.33
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -244,6 +244,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Thu Nov 08 2012 Lukáš Nykrýn <lnykryn@redhat.com> - 9.03.33-1
+- apply BONDING_OPT on ifup of master (#874030)
+
 * Mon Oct 08 2012 Lukáš Nykrýn <lnykryn@redhat.com> - 9.03.32-1
 - check an IP address for existence in ifup-alias
 - remount /dev/shm in sysinit to apply attributes from fstab
