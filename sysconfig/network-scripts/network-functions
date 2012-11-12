@@ -400,7 +400,9 @@ add_default_route ()
 
 is_wireless_device ()
 {
-    [ -d "/sys/class/net/$1/wireless" ]
+    [ -x /sbin/iwconfig ] || return 1
+    LC_ALL=C iwconfig $1 2>&1 | grep -q "no wireless extensions" || return 0
+    return 1
 }
 
 install_bonding_driver ()
