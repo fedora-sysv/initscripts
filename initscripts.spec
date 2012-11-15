@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.33
+Version: 9.03.34
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -244,6 +244,10 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Thu Nov 15 2012 Václav Pavlín <vpavlin@redhat.com> - 9.03.34-1
+- there should be crypttab instead of crypptab in man page (#870025)
+- sysconfig.txt advised saslauthd -a instad of -v (#869075)
+
 * Thu Nov 08 2012 Lukáš Nykrýn <lnykryn@redhat.com> - 9.03.33-1
 - apply BONDING_OPT on ifup of master (#874030)
 
