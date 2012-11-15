@@ -4,7 +4,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.34.3
+Version: 9.34.4
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -319,6 +319,10 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Thu Nov 15 2012 Bill Nottingham <notting@redhat.com> - 9.34.4-1
+- disable MALLOC_CHECK_ in debugmode, it's not thread-safe (#853175)
+- use iwconfig instead of sysfs to check for wireless devices for kernel 3.6 (#875328)
+
 * Fri Jul  6 2012 Bill Nottingham <notting@redhat.com> - 9.34.3-1
 - assorted documentation cleanups
 - service: add support for legacy custom actions packaged in
