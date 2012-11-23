@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.34
+Version: 9.03.35
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -244,6 +244,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Fri Nov 23 2012 Lukáš Nykrýn <lnykryn@redhat.com> - 9.03.35-1
+- fix typo in ifup-aliases duplicate check (#879243)
+
 * Thu Nov 15 2012 Václav Pavlín <vpavlin@redhat.com> - 9.03.34-1
 - there should be crypttab instead of crypptab in man page (#870025)
 - sysconfig.txt advised saslauthd -a instad of -v (#869075)
