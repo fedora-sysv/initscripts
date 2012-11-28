@@ -139,6 +139,7 @@ function ini_env ()
        GATEWAY=$default_GATEWAY
        NO_ALIASROUTING=$default_NO_ALIASROUTING
        ONPARENT=""
+       ARPCHECK=""
 }
 
 function is_default_gateway ()
@@ -257,7 +258,9 @@ function new_interface ()
        fi
 
        if [ "$setup_this" = "yes" ] ; then
-               [ "${REALDEVICE}" != "lo" ] && \
+               [ "${parent_device}" != "lo" ] &&  [ "${ARPCHECK}" != "no" ] && \
+               is_available ${parent_device} && \
+               grep -qswi "up" /sys/class/net/${parent_device}/operstate && \
                if ! /sbin/arping -q -c 2 -w 3 -D -I ${parent_device} ${IPADDR} ; then
                    net_log $"Error, some other host already uses address ${IPADDR}."
                    return 1
