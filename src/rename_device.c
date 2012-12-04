@@ -241,7 +241,10 @@ void take_lock() {
 	while (1) {
 		lockfd = open(LOCKFILE, O_RDWR|O_CREAT|O_EXCL, 0644);
 		if (lockfd != -1) {
-			write(lockfd,"%d\n",getpid());
+			char buf[32];
+
+			snprintf(buf,32,"%d\n",getpid());
+			write(lockfd,buf,strlen(buf));
 			close(lockfd);
 			break;
 		}
