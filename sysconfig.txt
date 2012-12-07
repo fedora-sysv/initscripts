@@ -174,8 +174,6 @@ Generic options:
 /etc/sysconfig/network:
 
   NETWORKING=yes|no
-  HOSTNAME=<fqdn by default, but whatever hostname you want>
-   Note that this can be overriden by /etc/hostname.
   GATEWAY=<gateway IP>
   GATEWAYDEV=<gateway device to use, when multiple devices have GATEWAY=> (e.g. eth0)
   NISDOMAIN=<nis domain name>
@@ -271,6 +269,9 @@ Generic options:
     NETWORKING_IPV6=yes|no
       To do this properly, disable IPv6 in the module itself.
       This can be done by booting the kernel with "ipv6.disable_ipv6=1".
+
+    HOSTNAME=<fqdn by default, but whatever hostname you want>
+      This is now configured in /etc/hostname.
 
 /etc/sysconfig/static-routes-ipv6:
   Contains lines of the form:
@@ -427,11 +428,8 @@ Generic options:
 
   The above variables are used in /etc/profile.d/lang.sh.
 
-  This data will be also be read from the legacy /etc/sysconfig/i18n
-  location, but /etc/locale.conf takes precedence.
-
   If ~/.i18n exists, it is used in addition to /etc/locale.conf and
-  /etc/sysconfig/i18n for per-user customization of the locales.
+  for per-user customization of the locales.
 
 /etc/vconsole.conf:
 
@@ -445,8 +443,7 @@ Generic options:
   and are found in /lib/kbd/consoletrans.
  
   The above are used to set up the keyboard at boot time. For more
-  information, see vconsole.conf(5). If this file does not exist,
-  values will be read from /etc/sysconfig/i18n.
+  information, see vconsole.conf(5).
 
 Files in /etc/sysconfig/network-scripts/
 ========================================
