@@ -173,7 +173,6 @@ rm -rf $RPM_BUILD_ROOT
 %exclude /etc/profile.d/debug*
 /etc/profile.d/*
 /usr/sbin/sys-unconfig
-/sbin/setsysfont
 /bin/ipcalc
 /bin/usleep
 %attr(4755,root,root) /usr/sbin/usernetctl
