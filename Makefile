@@ -22,6 +22,7 @@ install:
 	install -m644  adjtime $(ROOT)/etc
 	install -m644 inittab $(ROOT)/etc
 	install -m644  rwtab statetab networks $(ROOT)/etc
+	install -m755  service $(ROOT)/sbin
 	install -m644  lang.csh lang.sh $(ROOT)/etc/profile.d
 	install -m644  term256.csh term256.sh $(ROOT)/etc/profile.d
 	install -m644  debug.csh debug.sh $(ROOT)/etc/profile.d
