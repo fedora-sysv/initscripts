@@ -8,7 +8,7 @@ if [ -n "$LANG" ]; then
     LANG="$saved_lang"
     unset saved_lang
 else
-    for langfile in /etc/sysconfig/i18n /etc/locale.conf "$HOME/.i18n" ; do
+    for langfile in /etc/locale.conf "$HOME/.i18n" ; do
         [ -f $langfile ] && . $langfile && sourced=1
     done
 fi

@@ -13,10 +13,8 @@ if [ -x /usr/sbin/firstboot ]; then
 fi
 
 # Reread in network configuration data.
-if [ -f /etc/sysconfig/network ]; then
-    . /etc/sysconfig/network
-    [ -r /etc/hostname ] && HOSTNAME=$(cat /etc/hostname)
-
+if [ -r /etc/hostname ]; then
+    HOSTNAME=$(cat /etc/hostname)
     # Reset the hostname.
     action $"Resetting hostname ${HOSTNAME}: " hostname ${HOSTNAME}
 fi
