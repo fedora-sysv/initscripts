@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.36
+Version: 9.03.37
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -244,6 +244,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Thu Dec 13 2012 Lukáš Nykrýn <lnykryn@redhat.com> - 9.03.37-1
+- don't apply BONDING_OPTS on device with active slaves (#885235)
+
 * Wed Nov 28 2012 Lukáš Nykrýn <lnykryn@redhat.com> - 9.03.36-1
 - improve duplicate ip address check in ifup-aliases (#880684)
 
