@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.37
+Version: 9.03.38
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -244,6 +244,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Wed Jan 09 2013 Lukáš Nykrýn <lnykryn@redhat.com> - 9.03.38-1
+- call ip link up on master after slaves are up (#893395)
+
 * Thu Dec 13 2012 Lukáš Nykrýn <lnykryn@redhat.com> - 9.03.37-1
 - don't apply BONDING_OPTS on device with active slaves (#885235)
 
