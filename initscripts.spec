@@ -207,6 +207,7 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %verify(not md5 size mtime) %config(noreplace,missingok) /etc/crypttab
 %dir /lib/tmpfiles.d
 /lib/tmpfiles.d/initscripts.conf
+%dir /usr/libexec/initscripts
 %dir /usr/libexec/initscripts/legacy-actions
 
 %files -n debugmode
