@@ -1,4 +1,5 @@
 CFLAGS+=$(RPM_OPT_FLAGS) -Wall -D_GNU_SOURCE
+LDFLAGS+=$(RPM_LD_FLAGS)
 
 PROGS=usernetctl netreport usleep ipcalc \
 	ppp-watch consoletype genhostid rename_device
