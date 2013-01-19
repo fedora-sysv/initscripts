@@ -105,7 +105,7 @@ exit 0
 
 %postun
 if [ $1 -ge 1 ]; then
-	/bin/systemctl daemon-reload > /dev/null 2>&1 || :
+  /bin/systemctl daemon-reload > /dev/null 2>&1 || :
 fi
 
 %clean
