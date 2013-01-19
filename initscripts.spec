@@ -1444,7 +1444,7 @@ rm -rf $RPM_BUILD_ROOT
 * Thu Oct 07 2004 Florian La Roche <Florian.LaRoche@redhat.de>
 - change /etc/sysctl.conf to not allow source routed packets per default
 
-* Fri Oct  6 2004 Bill Nottingham <notting@redhat.com> - 7.88-1
+* Wed Oct  6 2004 Bill Nottingham <notting@redhat.com> - 7.88-1
 - fix requires
 
 * Tue Oct  5 2004 Dan Walsh <dwalsh@redhat.com> - 7.87-1
@@ -1542,7 +1542,7 @@ rm -rf $RPM_BUILD_ROOT
 * Tue Aug 24 2004 Karsten Hopp <karsten@redhat.de> 7.68-1
 - execute zfcfconf.sh if available (mainframe)
 
-* Mon Aug 20 2004 Jason Vas Dias <jvdias@redhat.com> 7.67-1
+* Mon Aug 23 2004 Jason Vas Dias <jvdias@redhat.com> 7.67-1
 - fix change_resolv_conf: if pre-existing /etc/resolv.conf
 - non-existent or empty, replace with new file contents.
 
@@ -1575,7 +1575,7 @@ rm -rf $RPM_BUILD_ROOT
 - fix nfs unmounting (#129765)
 - fix URL (#129433)
 
-* Tue Aug 11 2004 Jason Vas Dias <jvdias@redhat.com> 7.61-1
+* Wed Aug 11 2004 Jason Vas Dias <jvdias@redhat.com> 7.61-1
 - fix for bug 120093: add PERSISTENT_DHCLIENT option to ifcfg files
 
 * Tue Aug  3 2004 Karsten Hopp <karsten@redhat.de> 7.60-1
@@ -1919,7 +1919,7 @@ rm -rf $RPM_BUILD_ROOT
 - loop checking for network link state, don't unilterally wait five
   seconds
 
-* Fri Dec 14 2002 Karsten Hopp <karsten@redhat.de> 6.99-1
+* Sat Dec 14 2002 Karsten Hopp <karsten@redhat.de> 6.99-1
 - remove call to /sbin/update for S/390, too
 
 * Wed Dec 11 2002 Bill Nottingham <notting@redhat.com> 6.98-1
@@ -2272,7 +2272,7 @@ rm -rf $RPM_BUILD_ROOT
 * Mon Jul 16 2001 Than Ngo <than@redhat.com>
 - fix country_code for ISDN
 
-* Tue Jul  9 2001 Bill Nottingham <notting@redhat.com>
+* Mon Jul  9 2001 Bill Nottingham <notting@redhat.com>
 - fix '--check'
 - prereq sh-utils (#43065)
 - fix some invocations of reboot/halt (#45966)
@@ -2288,7 +2288,7 @@ rm -rf $RPM_BUILD_ROOT
 - Fix up kernel versioning on binary-only modules (S390)
 - don't use newt scripts on S390 console
 
-* Sat Jul 01 2001 Trond Eivind Glomsrød <teg@redhat.com>
+* Sun Jul 01 2001 Trond Eivind Glomsrød <teg@redhat.com>
 - reenable pump, but make sure dhcpcd is the default. This
   way, upgrades of systems without dhcpcd has a better chance at
   working.
@@ -2526,7 +2526,7 @@ rm -rf $RPM_BUILD_ROOT
 * Tue Aug 15 2000 Nalin Dahyabhai <nalin@redhat.com>
 - be more careful about creating files in netreport (#16164)
 
-* Sat Aug 11 2000 Nalin Dahyabhai <nalin@redhat.com>
+* Fri Aug 11 2000 Nalin Dahyabhai <nalin@redhat.com>
 - move documentation for the DEMAND and IDLETIMEOUT values to the right
   section of sysconfig.txt
 
@@ -2595,7 +2595,7 @@ rm -rf $RPM_BUILD_ROOT
 * Sun Jul 02 2000 Trond Eivind Glomsrød <teg@redhat.com>
 - don't use tail
 
-* Thu Jun 28 2000 Trond Eivind Glomsrød <teg@redhat.com>
+* Wed Jun 28 2000 Trond Eivind Glomsrød <teg@redhat.com>
 - add support for USB controllers and HID devices
   (mice, keyboards)
 
@@ -2637,7 +2637,7 @@ rm -rf $RPM_BUILD_ROOT
 - fix lang.csh, again (oops)
 - use /poweroff, /halt to determine whether to poweroff
 
-* Thu Apr 14 2000 Bill Nottingham <notting@redhat.com>
+* Fri Apr 14 2000 Bill Nottingham <notting@redhat.com>
 - fix testing of RESOLV_MODS (which shouldn't be used anyways)
 
 * Tue Apr 04 2000 Ngo Than <than@redhat.de>
@@ -2741,7 +2741,7 @@ rm -rf $RPM_BUILD_ROOT
 - better signal handling in ppp-watch
 - yet another attempt to fix those rare PAP/CHAP problems
 
-* Sat Nov 28 1999 Bill Nottingham <notting@redhat.com>
+* Sun Nov 28 1999 Bill Nottingham <notting@redhat.com>
 - impressive. Three new features, three new bugs.
 
 * Mon Nov 22 1999 Michael K. Johnson <johnsonm@redhat.com>
@@ -3014,7 +3014,7 @@ rm -rf $RPM_BUILD_ROOT
 * Tue Nov 10 1998 Michael K. Johnson <johnsonm@redhat.com>
 - handle new linuxconf output for ipaliases
 
-* Mon Oct 15 1998 Erik Troan <ewt@redhat.com>
+* Thu Oct 15 1998 Erik Troan <ewt@redhat.com>
 - fixed raid start stuff
 - added raidstop to halt
 
