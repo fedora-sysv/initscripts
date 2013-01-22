@@ -222,6 +222,8 @@ case "$1" in
 		fi
 		remaining="$remaining $i"
 	done
+
+        unset DEVICE TYPE
 	
 	for i in $vpninterfaces $xdslinterfaces $bridgeinterfaces $vlaninterfaces $remaining; do
 		(. ./ifcfg-$i
