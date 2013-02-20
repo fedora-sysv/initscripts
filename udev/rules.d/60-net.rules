@@ -1,1 +1,1 @@
-ACTION=="add", SUBSYSTEM=="net", PROGRAM="/lib/udev/rename_device", RESULT=="?*", NAME="$result"
+ACTION=="add", SUBSYSTEM=="net", DRIVERS=="?*", ATTR{type}=="1", PROGRAM="/lib/udev/rename_device", RESULT=="?*", NAME="$result"
