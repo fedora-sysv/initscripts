@@ -119,7 +119,7 @@ fi
 # so it can actually get an IP.
 if [ "$ISALIAS" = no ] && is_bonding_device ${DEVICE} ; then
     install_bonding_driver ${DEVICE}
-    for device in $(LANG=C egrep -l "^[[:space:]]*MASTER=\"?${DEVICE}\"?[[:space:]]*$" /etc/sysconfig/network-scripts/ifcfg-*) ; do
+    for device in $(LANG=C grep -l "^[[:space:]]*MASTER=\"\?${DEVICE}\"\?\([[:space:]#]\|$\)" /etc/sysconfig/network-scripts/ifcfg-*) ; do
 	    is_ignored_file "$device" && continue
 	    /sbin/ifup ${device##*/}
     done
