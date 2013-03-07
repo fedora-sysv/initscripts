@@ -52,7 +52,13 @@ usernetctl.o: usernetctl.c
 	$(CC) $(CFLAGS) -fPIE -c usernetctl.c -o usernetctl.o
 
 usernetctl: usernetctl.c usernetctl.o
-	$(CC) $(LDFLAGS) -pie -o $@ $@.o
+	$(CC) $(LDFLAGS) -pie -z relro -z now -o $@ $@.o
+
+netreport.o: netreport.c
+	$(CC) $(CFLAGS) -fPIE -c netreport.c -o netreport.o
+
+netreport: netreport.o
+	$(CC) $(LDFLAGS) -pie -z relro -z now -o $@ $@.o
 
 shvar.o: shvar.c
 	$(CC) $(CFLAGS) `pkg-config glib-2.0 --cflags` -c shvar.c -o shvar.o
