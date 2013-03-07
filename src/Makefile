@@ -18,16 +18,16 @@ clean:
 	rm -f $(PROGS) *.o *~
 
 install:
-	mkdir -p $(ROOT)/bin $(ROOT)/usr/sbin $(ROOT)$(mandir)/man{1,8} $(ROOT)/etc $(ROOT)/lib/udev
-	install -m 755 usleep $(ROOT)/bin/usleep
+	mkdir -p $(ROOT)/usr/bin $(ROOT)/usr/sbin $(ROOT)$(mandir)/man{1,8} $(ROOT)/etc $(ROOT)/usr/lib/udev
+	install -m 755 usleep $(ROOT)/usr/bin/usleep
 	install -m 4755 usernetctl $(ROOT)/usr/sbin/usernetctl
-	install -m 2755 netreport $(ROOT)/sbin/netreport
-	install -m 755 ipcalc $(ROOT)/bin/ipcalc
-	install -m 755 genhostid $(ROOT)/sbin/genhostid
-	install -m 755 ppp-watch $(ROOT)/sbin/ppp-watch
-	install -m 755 consoletype $(ROOT)/sbin/consoletype
-	install -m 755 sushell $(ROOT)/sbin/sushell
-	install -m 755 rename_device $(ROOT)/lib/udev/rename_device
+	install -m 2755 netreport $(ROOT)/usr/sbin/netreport
+	install -m 755 ipcalc $(ROOT)/usr/bin/ipcalc
+	install -m 755 genhostid $(ROOT)/usr/sbin/genhostid
+	install -m 755 ppp-watch $(ROOT)/usr/sbin/ppp-watch
+	install -m 755 consoletype $(ROOT)/usr/sbin/consoletype
+	install -m 755 sushell $(ROOT)/usr/sbin/sushell
+	install -m 755 rename_device $(ROOT)/usr/lib/udev/rename_device
 	install -m 644 genhostid.1 $(ROOT)$(mandir)/man1
 	install -m 644 netreport.1 $(ROOT)$(mandir)/man1
 	install -m 644 usleep.1 $(ROOT)$(mandir)/man1

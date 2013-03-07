@@ -13,16 +13,16 @@ all:
 	make -C po
 
 install:
-	mkdir -p $(ROOT)/etc/profile.d $(ROOT)/sbin $(ROOT)/usr/sbin
+	mkdir -p $(ROOT)/etc/profile.d $(ROOT)/usr/sbin
 	mkdir -p $(ROOT)$(mandir)/man{5,8}
 	mkdir -p $(ROOT)/etc/rwtab.d $(ROOT)/etc/statetab.d
 	mkdir -p $(ROOT)/var/lib/stateless/writable
 	mkdir -p $(ROOT)/var/lib/stateless/state
 
 	install -m644  adjtime $(ROOT)/etc
-	install -m644 inittab $(ROOT)/etc
+	install -m644  inittab $(ROOT)/etc
 	install -m644  rwtab statetab networks $(ROOT)/etc
-	install -m755  service $(ROOT)/sbin
+	install -m755  service $(ROOT)/usr/sbin
 	install -m644  lang.csh lang.sh $(ROOT)/etc/profile.d
 	install -m644  256term.csh 256term.sh $(ROOT)/etc/profile.d
 	install -m644  debug.csh debug.sh $(ROOT)/etc/profile.d
@@ -41,11 +41,11 @@ install:
 	install -m644 sysconfig/debug sysconfig/init sysconfig/netconsole sysconfig/readonly-root $(ROOT)/etc/sysconfig/
 	cp -af sysconfig/network-scripts $(ROOT)/etc/sysconfig/
 	cp -af ppp NetworkManager $(ROOT)/etc
-	mkdir -p $(ROOT)/lib/systemd/
-	cp -af systemd/* $(ROOT)/lib/systemd/
+	mkdir -p $(ROOT)/usr/lib/systemd/
+	cp -af systemd/* $(ROOT)/usr/lib/systemd/
 	mkdir -p $(ROOT)/etc/ppp/peers
-	mkdir -p $(ROOT)/lib
-	cp -af udev $(ROOT)/lib
+	mkdir -p $(ROOT)/usr/lib
+	cp -af udev $(ROOT)/usr/lib
 	chmod 755 $(ROOT)/etc/rc.d/* $(ROOT)/etc/rc.d/init.d/*
 	chmod 644 $(ROOT)/etc/rc.d/init.d/functions
 	chmod 755 $(ROOT)/etc/ppp/peers
@@ -60,13 +60,13 @@ install:
 	  install -m644 sysconfig/init.s390 $(ROOT)/etc/sysconfig/init ; \
 	fi
 
-	mv $(ROOT)/etc/sysconfig/network-scripts/ifup $(ROOT)/sbin
-	mv $(ROOT)/etc/sysconfig/network-scripts/ifdown $(ROOT)/sbin
+	mv $(ROOT)/etc/sysconfig/network-scripts/ifup $(ROOT)/usr/sbin
+	mv $(ROOT)/etc/sysconfig/network-scripts/ifdown $(ROOT)/usr/sbin
 	(cd $(ROOT)/etc/sysconfig/network-scripts; \
 	  ln -sf ifup-ippp ifup-isdn ; \
 	  ln -sf ifdown-ippp ifdown-isdn ; \
-	  ln -sf ../../../sbin/ifup . ; \
-	  ln -sf ../../../sbin/ifdown . )
+	  ln -sf ../../../usr/sbin/ifup . ; \
+	  ln -sf ../../../usr/sbin/ifdown . )
 	make install ROOT=$(ROOT) mandir=$(mandir) -C src
 	make install PREFIX=$(ROOT) -C po
 
@@ -84,21 +84,21 @@ install:
 	done
 
 # Can't store symlinks in a CVS archive
-	mkdir -p -m 755 $(ROOT)/lib/systemd/system/multi-user.target.wants
-	mkdir -p -m 755 $(ROOT)/lib/systemd/system/graphical.target.wants
-	ln -s reboot.target $(ROOT)/lib/systemd/system/ctrl-alt-del.target
-	mkdir -p -m 755 $(ROOT)/lib/systemd/system/local-fs.target.wants
-	mkdir -p -m 755 $(ROOT)/lib/systemd/system/basic.target.wants
-	mkdir -p -m 755 $(ROOT)/lib/systemd/system/sysinit.target.wants
-	ln -s ../fedora-configure.service $(ROOT)/lib/systemd/system/basic.target.wants
-	ln -s ../fedora-loadmodules.service $(ROOT)/lib/systemd/system/basic.target.wants
-	ln -s ../fedora-autorelabel.service $(ROOT)/lib/systemd/system/basic.target.wants
-	ln -s ../fedora-autorelabel-mark.service $(ROOT)/lib/systemd/system/basic.target.wants
-	ln -s ../fedora-readonly.service $(ROOT)/lib/systemd/system/local-fs.target.wants
-	ln -s ../fedora-import-state.service $(ROOT)/lib/systemd/system/local-fs.target.wants
+	mkdir -p -m 755 $(ROOT)/usr/lib/systemd/system/multi-user.target.wants
+	mkdir -p -m 755 $(ROOT)/usr/lib/systemd/system/graphical.target.wants
+	ln -s reboot.target $(ROOT)/usr/lib/systemd/system/ctrl-alt-del.target
+	mkdir -p -m 755 $(ROOT)/usr/lib/systemd/system/local-fs.target.wants
+	mkdir -p -m 755 $(ROOT)/usr/lib/systemd/system/basic.target.wants
+	mkdir -p -m 755 $(ROOT)/usr/lib/systemd/system/sysinit.target.wants
+	ln -s ../fedora-configure.service $(ROOT)/usr/lib/systemd/system/basic.target.wants
+	ln -s ../fedora-loadmodules.service $(ROOT)/usr/lib/systemd/system/basic.target.wants
+	ln -s ../fedora-autorelabel.service $(ROOT)/usr/lib/systemd/system/basic.target.wants
+	ln -s ../fedora-autorelabel-mark.service $(ROOT)/usr/lib/systemd/system/basic.target.wants
+	ln -s ../fedora-readonly.service $(ROOT)/usr/lib/systemd/system/local-fs.target.wants
+	ln -s ../fedora-import-state.service $(ROOT)/usr/lib/systemd/system/local-fs.target.wants
 
-	mkdir -p $(ROOT)/lib/tmpfiles.d
-	install -m 644 initscripts.tmpfiles.d $(ROOT)/lib/tmpfiles.d/initscripts.conf
+	mkdir -p $(ROOT)/usr/lib/tmpfiles.d
+	install -m 644 initscripts.tmpfiles.d $(ROOT)/usr/lib/tmpfiles.d/initscripts.conf
 
 # These are LSB compatibility symlinks.  At some point in the future
 # the actual files will be here instead of symlinks
