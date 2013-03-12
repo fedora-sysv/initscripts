@@ -3,7 +3,7 @@ Description=Configure read-only root support
 DefaultDependencies=no
 Conflicts=shutdown.target
 Before=shutdown.target emergency.service emergency.target systemd-tmpfiles-setup.service local-fs.target
-After=remount-rootfs.service
+After=systemd-remount-fs.service
 
 [Service]
 ExecStart=/lib/systemd/fedora-readonly
