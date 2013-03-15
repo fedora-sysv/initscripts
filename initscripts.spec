@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.44
+Version: 9.45
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -216,6 +216,18 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Fri Mar 15 2013 Lukáš Nykrýn <lnykryn@redhat.com> - 9.45-1
+- turn on symlink protections in sysctl (#922030)
+- add systemd-random-seed.service to  Before= in fedora-readonly.service (#888615)
+- mention rule6 files in sysconfig.txt
+- skip nmcli for wireless device (#863707)
+- remove config-noreplace from /etc/inittab (#627474)
+- remount-rootfs.service got renamed to systemd-remount-fs.service
+- compile netreport and usernetctl with full RELRO and PIE (#853178)
+- move stuff directly to /usr (#905492)
+- Remove NETWORKING_IPV6 from sysconfig.txt (#918622)
+- fix greps to correctly handle comments and quotation
+
 * Wed Feb 20 2013 Lukáš Nykrýn <lnykryn@redhat.com> - 9.44-1
 - limit udev rule for network renaming (#907365, mschmidt@redhat.com)
 - fix path for arpwatch, seems to be in /var/lib on Fedora 18
