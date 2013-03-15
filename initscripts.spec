@@ -4,7 +4,7 @@ Version: 9.45
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
-Release: 1%{?dist}
+Release: 2%{?dist}
 URL: http://fedorahosted.org/releases/i/n/initscripts/
 Source: http://fedorahosted.org/releases/i/n/initscripts/initscripts-%{version}.tar.bz2
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
@@ -32,6 +32,7 @@ Requires(pre): /usr/sbin/groupadd
 Requires(post): /sbin/chkconfig, coreutils
 Requires(preun): /sbin/chkconfig
 BuildRequires: glib2-devel popt-devel gettext pkgconfig
+Provides: /sbin/service
 
 %description
 The initscripts package contains the basic system scripts used to boot
@@ -216,6 +217,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Fri Mar 15 2013 Lukáš Nykrýn <lnykryn@redhat.com> - 9.45-2
+- provides /sbin/service
+
 * Fri Mar 15 2013 Lukáš Nykrýn <lnykryn@redhat.com> - 9.45-1
 - turn on symlink protections in sysctl (#922030)
 - add systemd-random-seed.service to  Before= in fedora-readonly.service (#888615)
