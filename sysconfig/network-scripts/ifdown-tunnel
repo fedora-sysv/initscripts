@@ -32,7 +32,7 @@ need_config "$CONFIG"
 source_config
 
 # Generic tunnel devices are not supported here
-if [ "$DEVICE" = gre0 -o "$DEVICE" = tunl0 ]; then
+if [ "$DEVICE" = gre0 -o "$DEVICE" = tunl0 -o "$DEVICE" = ip6tnl0 ]; then
     net_log $"Device '$DEVICE' isn't supported as a valid GRE device name."
     exit 1
 fi
