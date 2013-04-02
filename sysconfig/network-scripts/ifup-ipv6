@@ -126,6 +126,7 @@ fi
 /sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.forwarding=$ipv6_local_forwarding >/dev/null 2>&1
 /sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.accept_ra=$ipv6_local_auto >/dev/null 2>&1
 /sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.accept_redirects=$ipv6_local_auto >/dev/null 2>&1
+/sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.autoconf=$ipv6_local_auto >/dev/null 2>&1
 
 # Set IPv6 MTU, if given
 if [ -n "$IPV6_MTU" ]; then
