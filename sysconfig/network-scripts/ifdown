@@ -46,8 +46,11 @@ if [ "$_use_nm" = "true" ]; then
 	DEVICE=$(nmcli -t --fields uuid,devices con status | awk -F ':' "\$1 == \"$UUID\" { print \$2 }")
     fi
     if [ -n "$DEVICE" ] && ! is_nm_device_unmanaged "$DEVICE" ; then
-	nmcli dev disconnect iface "$DEVICE"
-	exit $?
+        if ! LC_ALL=C nmcli -t -f STATE,DEVICE dev status | egrep -q "^(failed|disconnected|unmanaged|unavailable):$DEVICE$"; then
+            nmcli dev disconnect iface "$DEVICE"
+            exit $?
+        fi
+        exit 0
     fi
 fi
 
