@@ -108,9 +108,9 @@ retcode=0
 # instance instead.
 if [ -d "/sys/class/net/${REALDEVICE}" ]; then
 	if [ "${REALDEVICE}" = "${DEVICE}" ]; then
-		ip addr flush dev ${REALDEVICE} 2>/dev/null
+		ip addr flush dev ${REALDEVICE} scope global 2>/dev/null
 	else
-		ip addr flush dev ${REALDEVICE} label ${DEVICE} 2>/dev/null
+		ip addr flush dev ${REALDEVICE} label ${DEVICE} scope global 2>/dev/null
 	fi
 	
 	if [ "${SLAVE}" = "yes" -a -n "${MASTER}" ]; then
