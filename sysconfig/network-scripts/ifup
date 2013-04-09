@@ -129,6 +129,8 @@ if [ "${VLAN}" = "yes" ] && [ "$ISALIAS" = "no" ]; then
 	    }
 	fi
     fi
+
+    /usr/lib/systemd/systemd-sysctl --prefix "/proc/sys/net/ipv4/conf/${DEVICE}" --prefix "/proc/sys/net/ipv6/conf/${DEVICE}"
 fi
 
 if [ "${BOOTPROTO}" = "bootp" -o "${BOOTPROTO}" = "dhcp" ]; then
