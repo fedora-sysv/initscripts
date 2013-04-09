@@ -64,14 +64,12 @@ if [ "${TYPE}" = "Bridge" ]; then
       done
 fi
 
-# If the device is a tap device, create it with tunctl, if available.
+# Create tap device.
 if [ "${TYPE}" = "Tap" ]; then
-      if [ ! -x /usr/sbin/tunctl ]; then
-          net_log  $"Tap support not available: tunctl not found"
-          exit 1
-      fi
-      [ -n "${OWNER}" ] && OWNER="-u ${OWNER}"
-      /usr/sbin/tunctl ${OWNER} -t ${DEVICE} > /dev/null
+      [ -n "${OWNER}" ] && OWNER="user ${OWNER}"
+      TUNMODE="mode tap"
+      [[ ${DEVICE} == tun* ]] && TUNMODE="mode tun"
+      ip tuntap add ${TUNMODE} ${OWNER} dev ${DEVICE} > /dev/null
 fi
 
 # now check the real state
