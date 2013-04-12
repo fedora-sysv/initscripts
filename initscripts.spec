@@ -1,10 +1,10 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.45
+Version: 9.46
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
-Release: 2%{?dist}
+Release: 1%{?dist}
 URL: http://fedorahosted.org/releases/i/n/initscripts/
 Source: http://fedorahosted.org/releases/i/n/initscripts/initscripts-%{version}.tar.bz2
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
@@ -217,6 +217,20 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Fri Apr 12 2013 Lukáš Nykrýn <lnykryn@redhat.com> - 9.46-1
+- add /var/lib/NetworkManager
+- add ipip6 tunneling support (#928232, raorn@raorn.name)
+- bonding: set master up before slaves
+- set net.ipv6.conf.SYSCTLDEVICE.autoconf in ifup-ipv6
+- ifdown: don't call nmcli on interface that is alread down
+- remove some defaults from sysctl.conf (move to systemd)
+- call flush addresses with scope global
+- service: action should not be empty when calling legacy-actions (#947817)
+- ifup-eth: ignore arping errors (#928379)
+- replace tunctl with ip tuntap (#947875)
+- reload sysctl settings for vlans on ifup
+- try dhcpv6 after v4 failed (#846618)
+
 * Fri Mar 15 2013 Lukáš Nykrýn <lnykryn@redhat.com> - 9.45-2
 - provides /sbin/service
 
