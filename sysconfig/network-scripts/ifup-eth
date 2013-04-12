@@ -184,10 +184,17 @@ if [ -n "${DYNCONFIG}" -a -x /sbin/dhclient ]; then
     ethtool_set
 
     if /sbin/dhclient ${DHCLIENTARGS} ${DEVICE} ; then
-	echo $" done."
+		echo $" done."
+		dhcpipv4="good"
     else
-	echo $" failed."
-	exit 1
+		echo $" failed."
+		if [[ "${IPV4_FAILURE_FATAL}"  = [Yy1]* ]] ; then
+			exit 1
+		fi
+		if [[ "$IPV6INIT" != [yY1]* && "$DHCPV6C" != [yY1]* ]] ; then
+			exit 1
+		fi
+		net_log "Unable to obtain IPv4 DHCP address ${DEVICE}." warning
     fi
 # end dynamic device configuration
 else 
@@ -281,7 +288,22 @@ fi
 /etc/sysconfig/network-scripts/ifup-ipv6 ${CONFIG}
 if [[ "${DHCPV6C}"  = [Yy1]* ]] && [ -x /sbin/dhclient ]; then
     generate_config_file_name 6
-    /sbin/dhclient -6 -1 ${DHCPV6C_OPTIONS} ${DHCLIENTCONF} -lf /var/lib/dhclient/dhclient6-${DEVICE}.leases -pf /var/run/dhclient6-${DEVICE}.pid ${DHCP_HOSTNAME:+-H $DHCP_HOSTNAME} ${DEVICE}
+    echo
+    echo -n $"Determining IPv6 information for ${DEVICE}..."
+    if /sbin/dhclient -6 -1 ${DHCPV6C_OPTIONS} ${DHCLIENTCONF} -lf /var/lib/dhclient/dhclient6-${DEVICE}.leases -pf /var/run/dhclient6-${DEVICE}.pid ${DHCP_HOSTNAME:+-H $DHCP_HOSTNAME} ${DEVICE} ; then
+        echo $" done."
+    else
+        echo $" failed."
+        if [ "${dhcpipv4}" = "good" -o -n "${IPADDR}" ]; then
+            net_log "Unable to obtain IPv6 DHCP address ${DEVICE}." warning
+        else
+            exit 1
+        fi
+    fi
+fi
+
+if [ "${IPX}" = yes ]; then
+       /etc/sysconfig/network-scripts/ifup-ipx ${DEVICE}
 fi
 
 exec /etc/sysconfig/network-scripts/ifup-post ${CONFIG} ${2}
