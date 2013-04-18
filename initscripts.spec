@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.45.42
+Version: 8.45.43
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -202,6 +202,15 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Thu Apr 18 2013 Lukas Nykryn <lnykryn@redhat.com> - 8.45.43-1
+- add a -l option to status to pass the lock file name (#852967)
+- clarify docs around IPV6INIT=yes/no (#545881)
+- support ipv6 routing rules by merging IPv4/IPv6, and route/rule code (#853038)
+- make killproc more granular when delay is passed (#843386)
+- don't accidentally match other bonding devices (#880890)
+- set NIS domain (#705218)
+- don't set primary before we enslave devices (#747418)
+
 * Mon Dec 19 2011 Lukas Nykryn <lnykryn@redhat.com> 8.45.42-1
 - changed exchange_mode to "main, aggressive" (#435274)
 
