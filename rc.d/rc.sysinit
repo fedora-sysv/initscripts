@@ -397,6 +397,7 @@ fi
 # Set the hostname.
 update_boot_stage RChostname
 action $"Setting hostname ${HOSTNAME}: " hostname ${HOSTNAME}
+[ -n "${NISDOMAIN}" ] && domainname ${NISDOMAIN}
 
 # Initialize ACPI bits
 if [ -d /proc/acpi ]; then
