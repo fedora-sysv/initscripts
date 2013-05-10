@@ -12,14 +12,14 @@ cd /etc/sysconfig/network-scripts
 CONFIG=$1
 
 [ -z "$CONFIG" ] && {
-    echo $"usage: ifdown <device name>" >&2
+    echo $"usage: ifdown <configuration>" >&2
     exit 1
 }
 
 need_config "${CONFIG}"
 
 [ -f "$CONFIG" ] || {
-    echo $"usage: ifdown <device name>" >&2
+    echo $"usage: ifdown <configuration>" >&2
     exit 1
 }
 
