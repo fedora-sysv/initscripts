@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.45.43
+Version: 8.45.44
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -202,6 +202,14 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Tue May 14 2013 Lukas Nykryn <lnykryn@redhat.com> - 8.45.44-1
+- move VLAN= docs to the interface configuration section, rather than /etc/sysconfig/network (#860252)
+- fix comments in sysctl.conf (#862597)
+- sysctl.d manpage (#735982)
+- check_device_down: Don't bother calling ip to check link state if the device doesn't exist (#814058)
+- test if there is /dev/rtc before syncing hardware clock (#636861)
+- sysconfig.txt advised saslauthd -a instad of -v (#957109)
+
 * Thu Apr 18 2013 Lukas Nykryn <lnykryn@redhat.com> - 8.45.43-1
 - add a -l option to status to pass the lock file name (#852967)
 - clarify docs around IPV6INIT=yes/no (#545881)
