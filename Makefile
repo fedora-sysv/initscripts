@@ -26,7 +26,7 @@ install:
 	install -m755  service setsysfont $(ROOT)/sbin
 	install -m755  lang.csh lang.sh $(ROOT)/etc/profile.d
 	install -m755  sys-unconfig $(ROOT)/usr/sbin
-	install -m644  crypttab.5 $(ROOT)$(mandir)/man5
+	install -m644  crypttab.5 sysctl.d.5 $(ROOT)$(mandir)/man5
 	install -m644  service.8 sys-unconfig.8 $(ROOT)$(mandir)/man8
 	install -m644 sysctl.conf $(ROOT)/etc/sysctl.conf
 	if [ -f sysctl.conf.$(ARCH) ]; then \

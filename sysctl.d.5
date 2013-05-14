@@ -1,0 +1,59 @@
+'\" t
+.TH "SYSCTL\&.D" "5" "" "sysctl.d"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+sysctl.d \- Configure kernel parameters at boot
+.SH "SYNOPSIS"
+.PP
+/etc/sysctl\&.d/*
+.SH "DESCRIPTION"
+.PP
+At boot rc.sysinit reads configuration files from the above directory to configure
+\fBsysctl\fR(8)
+kernel parameters\&.
+.SH "CONFIGURATION FORMAT"
+.PP
+The configuration files contain a list of variable assignments, separated by newlines\&. Empty lines and lines whose first non\-whitespace character is # or ; are ignored\&.
+.PP
+Note that both / and \&. are accepted as label separators within sysctl variable names\&.
+kernel\&.domainname=foo
+and
+kernel/domainname=foo
+hence are entirely equivalent\&.
+.PP
+.SH "EXAMPLE"
+.PP
+\fBExample\ \&1.\ \&/etc/sysctl.d/domain-name.conf example:\fR
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+# Set kernel YP domain name
+kernel\&.domainname=example\&.com
+.fi
+.if n \{\
+.RE
+.\}
+.SH "SEE ALSO"
+.PP
+\fBsysctl\fR(8),
+\fBsysctl.conf\fR(5)
