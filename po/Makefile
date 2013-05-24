@@ -10,16 +10,12 @@ NLSPACKAGE = initscripts
 CATALOGS = $(shell ls *.po)
 FMTCATALOGS = $(patsubst %.po,%.mo,$(CATALOGS))
 
-POTFILES = /etc/ppp/ip* /etc/rc.d/init.d/* \
-	$(shell ls /etc/sysconfig/network-scripts/* | grep -v ifcfg-) \
-	/sbin/service /usr/sbin/sys-unconfig
+POTFILES = ../ppp/ip* $(shell ls ../sysconfig/network-scripts/* | grep -v ifcfg-) \
+	../service ../sys-unconfig ../systemd/fedora-* ../rc.d/init.d/*
 
 all: $(NLSPACKAGE).pot $(FMTCATALOGS)
 
-$(NLSPACKAGE).pot:
-	@echo "Please don't run 'make initscripts.pot unless you have a *FULL*, current install."
-
-new-pot-file-i-really-mean-it: $(POTFILES)
+$(NLSPACKAGE).pot: $(POTFILES)
 	./xgettext_sh.py $(POTFILES) > $(NLSPACKAGE).po
 	if cmp -s $(NLSPACKAGE).po $(NLSPACKAGE).pot; then \
 	    rm -f $(NLSPACKAGE).po; \
