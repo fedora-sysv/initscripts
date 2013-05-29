@@ -65,6 +65,11 @@ runs all init scripts, in alphabetical order, with the
 .B status
 command.
 
+If the init script file does not exist, the script tries to use
+.B legacy actions.
+If there is no suitable legacy action found, input is redirected to the
+.B systemctl.
+
 .SH FILES
 .TP
 \fB/etc/init.d\fR
