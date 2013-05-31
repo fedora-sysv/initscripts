@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.46
+Version: 9.47
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -217,6 +217,17 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Fri May 31 2013 Lukáš Nykrýn <lnykryn@redhat.com> - 9.47-1
+- network-functions: to determine state of nscd check socket not lock (#960779)
+- sysconfig.txt advised saslauthd -a instad of -v
+- update translations from transifex
+- drop translation for other initscripts
+- tweak ifup/ifdown usage and man page (#961917)
+- ctrl-alt-delete.target is provided by systemd package
+- remove some defaults from arch specific sysctl.conf
+- readonly-root: remount rpc_pipefs if readonly-root is used
+- service: mention legacy actions and systemctl redirection in man page
+
 * Fri Apr 12 2013 Lukáš Nykrýn <lnykryn@redhat.com> - 9.46-1
 - add /var/lib/NetworkManager
 - add ipip6 tunneling support (#928232, raorn@raorn.name)
