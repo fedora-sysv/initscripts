@@ -172,6 +172,6 @@ if [ "$READONLY" = "yes" -o "$TEMPORARY_STATE" = "yes" ]; then
 	fi
 
         if mount | grep -q /var/lib/nfs/rpc_pipefs ; then
-                mount -t rpc_pipefs sunrpc /var/lib/nfs/rpc_pipefs && service rpcidmapd restart
+                mount -t rpc_pipefs sunrpc /var/lib/nfs/rpc_pipefs
         fi
 fi
