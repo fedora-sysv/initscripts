@@ -247,7 +247,9 @@ void take_lock() {
 			write(lockfd,buf,strlen(buf));
 			close(lockfd);
 			break;
-		}
+		} else if (errno == EACCES)
+                        break;
+
 		count++;
 		/* If we've slept for 20 seconds, break the lock. */
 		if (count >= 200) {
