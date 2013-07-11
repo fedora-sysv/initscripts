@@ -18,7 +18,7 @@ if ($?TERM && ($local256 || $?SEND_256_COLORS_TO_REMOTE)) then
   endsw
 
   if ($?TERMCAP && ($TERM == "screen-256color")) then
-    setenv TERMCAP `echo "$TERMCAP" | sed -e 's/Co#8/Co#256/g'`
+    setenv TERMCAP `echo $TERMCAP | sed -e 's/Co#8/Co#256/g'`
   endif
 endif
 
