@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.47
+Version: 9.48
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -217,6 +217,16 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Fri Jul 12 2013 Lukáš Nykrýn <lnykryn@redhat.com> - 9.48-1
+- man: add systemd man pages to service.8 "see also" section
+- add possibility to set domainname through /etc/sysconfig/network
+- rename_device: don't wait for lock with lower permissions
+- 256term.csh: remove quotes around variable (#979796)
+- drop useless variables from /etc/sysconfig/init
+- readonly-root: rpcidmapd restart is not needed anymore
+- ifup-eth: print error only if arping is really called (#974603)
+- readonly-root: Add /var/lib/samba to rwtab
+
 * Fri May 31 2013 Lukáš Nykrýn <lnykryn@redhat.com> - 9.47-1
 - network-functions: to determine state of nscd check socket not lock (#960779)
 - sysconfig.txt advised saslauthd -a instad of -v
