@@ -11,7 +11,7 @@ CATALOGS = $(shell ls *.po)
 FMTCATALOGS = $(patsubst %.po,%.mo,$(CATALOGS))
 
 POTFILES = ../ppp/ip* $(shell ls ../sysconfig/network-scripts/* | grep -v ifcfg-) \
-	../service ../sys-unconfig ../systemd/fedora-* ../rc.d/init.d/*
+	../service ../sys-unconfig ../systemd/rhel-* ../rc.d/init.d/*
 
 all: $(NLSPACKAGE).pot $(FMTCATALOGS)
 
