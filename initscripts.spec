@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.48
+Version: 9.49.1
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -217,6 +217,10 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Mon Jul 15 2013 Lukáš Nykrýn <lnykryn@redhat.com> - 9.49.1-1
+- rename fedora-* to rhel-*
+- first rhel7 version
+
 * Fri Jul 12 2013 Lukáš Nykrýn <lnykryn@redhat.com> - 9.48-1
 - man: add systemd man pages to service.8 "see also" section
 - add possibility to set domainname through /etc/sysconfig/network
