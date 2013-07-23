@@ -238,11 +238,13 @@ else
         fi
 
         if ! LC_ALL=C ip addr ls ${REALDEVICE} | LC_ALL=C grep -q "${ipaddr[$idx]}/${prefix[$idx]}" ; then
-            [ "${REALDEVICE}" != "lo" ] && [ "${arpcheck[$idx]}" != "no" ] && \
-            if ! /sbin/arping -q -c 2 -w 3 -D -I ${REALDEVICE} ${ipaddr[$idx]} ; then
-                net_log $"Error, some other host already uses address ${ipaddr[$idx]}."
-                exit 1
-            fi
+            if [ "${REALDEVICE}" != "lo" ] && [ "${arpcheck[$idx]}" != "no" ] ; then
+				echo $"Determining if ip address ${ipaddr[$idx]} is already in use for device ${REALDEVICE}..."
+				if ! /sbin/arping -q -c 2 -w 3 -D -I ${REALDEVICE} ${ipaddr[$idx]} ; then
+					net_log $"Error, some other host already uses address ${ipaddr[$idx]}."
+					exit 1
+				fi
+			fi
 
             if ! ip addr add ${ipaddr[$idx]}/${prefix[$idx]} \
               brd ${broadcast[$idx]:-+} dev ${REALDEVICE} ${SCOPE} label ${DEVICE}; then
