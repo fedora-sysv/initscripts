@@ -65,8 +65,8 @@ source_config
 REALDEVICE=${DEVICE%%:*}
 DEVICE=$REALDEVICE
 
-# Test whether IPv6 configuration is enabled for this interface, else stop
-[ "$IPV6INIT" = "yes" ] || exit 0
+# Test whether IPv6 configuration is disabled for this interface
+[[ "$IPV6INIT" = [nN0]* ]] && exit 0
 
 [ -f /etc/sysconfig/network-scripts/network-functions-ipv6 ] || exit 1
 . /etc/sysconfig/network-scripts/network-functions-ipv6
