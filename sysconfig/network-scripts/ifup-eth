@@ -178,7 +178,7 @@ if [ -n "${DYNCONFIG}" ] && [ -x /sbin/dhclient ]; then
 	if [[ "${IPV4_FAILURE_FATAL}"  = [Yy1]* ]] ; then
 	    exit 1
 	fi
-	if [[ "$IPV6INIT" != [yY1]* && "$DHCPV6C" != [yY1]* ]] ; then
+	if [[ "$IPV6INIT" = [nN0]* || "$DHCPV6C" != [yY1]* ]] ; then
 	    exit 1
 	fi
 	net_log "Unable to obtain IPv4 DHCP address ${DEVICE}." warning

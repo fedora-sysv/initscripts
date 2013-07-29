@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 #
 # ifup-ippp
 # 
@@ -368,7 +368,7 @@ function addprovider()
     fi
 
     # Setup IPv6
-    if [ "$IPV6INIT" = "yes" -a ! -z "$IPV6ADDR" ]; then
+    if [[ "$IPV6INIT" != [nN0]* && ! -z "$IPV6ADDR" ]]; then
 	    # Native IPv6 use of device configured, check of encapsulation required		
             if [ "$ENCAP" = "syncppp" ]; then
 		echo $"Warning: ipppd (kernel 2.4.x and below) doesn't support IPv6 using encapsulation 'syncppp'"
