@@ -428,7 +428,6 @@ is_wireless_device ()
 
 install_bonding_driver ()
 {
-   [ -d "/sys/class/net/$1" ] && return 0
    [ ! -f /sys/class/net/bonding_masters ] && ( modprobe bonding || return 1 )
    if ! grep -sq "$1" /sys/class/net/bonding_masters; then
        echo "+$1" > /sys/class/net/bonding_masters 2>/dev/null
