@@ -74,7 +74,9 @@ if [ -f "${SERVICEDIR}/${SERVICE}" ]; then
    env -i PATH="$PATH" TERM="$TERM" SYSTEMCTL_IGNORE_DEPENDENCIES=${SYSTEMCTL_IGNORE_DEPENDENCIES} SYSTEMCTL_SKIP_REDIRECT=${SYSTEMCTL_SKIP_REDIRECT} "${SERVICEDIR}/${SERVICE}" ${ACTION} ${OPTIONS}
 elif [ -x "${ACTIONDIR}/${SERVICE}/${ACTION}" -a -n "${ACTION}" ]; then
    env -i PATH="$PATH" TERM="$TERM" SYSTEMCTL_IGNORE_DEPENDENCIES=${SYSTEMCTL_IGNORE_DEPENDENCIES} SYSTEMCTL_SKIP_REDIRECT=${SYSTEMCTL_SKIP_REDIRECT} "${ACTIONDIR}/${SERVICE}/${ACTION}" ${OPTIONS}
-else
+elif `echo $ACTION | egrep -q "start|stop|restart|try-restart|reload|force-reload|status"` ; then
    echo $"Redirecting to /bin/systemctl ${ACTION} ${OPTIONS} ${SERVICE}.service" >&2
    exec /bin/systemctl ${ACTION} ${OPTIONS} ${SERVICE}.service
+else
+   exit 2
 fi
