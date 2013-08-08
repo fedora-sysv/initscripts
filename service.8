@@ -67,8 +67,11 @@ command.
 
 If the init script file does not exist, the script tries to use
 .B legacy actions.
-If there is no suitable legacy action found, input is redirected to the
+If there is no suitable legacy action found and
+.I COMMAND
+is one of actions specified in LSB Core Specification, input is redirected to the
 .B systemctl.
+Otherwise the command fails with return code 2.
 
 .SH FILES
 .TP
