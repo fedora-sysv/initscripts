@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.38
+Version: 9.03.39
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -244,6 +244,24 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Fri Aug 09 2013 Lukáš Nykrýn <lnykryn@redhat.com> - 9.03.39-1
+- remount /proc to set attributes from fstab #984003
+- print something when arping is detecting colliding ip addresses
+- try dhcpv6 after v4 failed
+- Allow dhclient configuration files for DHCPv6 as well. (#815676)
+- ifdown: don't call nmcli on interface that is alread down
+- call flush addresses with scope global
+- init: inform users about .override files in .conf files
+- netfs: do not force NFS exports to be mounted before _netdev mounts
+- set net.ipv6.conf..autoconf in ifup-ipv6
+- mention rule6 files
+- securetty: check if the device is in the file before attempting to write to it
+- Process rule6-* for sit devices (#840009)
+- Killproc -d should parse same values as sleep
+- Make killproc more granular when delay is passed. (#428029, <xjakub@fi.muni.cz>)
+- bonding: set master up before slaves
+- Fix greps to correctly handle comments and quotation (#915659)
+
 * Wed Jan 09 2013 Lukáš Nykrýn <lnykryn@redhat.com> - 9.03.38-1
 - call ip link up on master after slaves are up (#893395)
 
