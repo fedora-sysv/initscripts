@@ -66,11 +66,7 @@ case "$1" in
 	    STRING=$"Checking network-attached filesystems"
 	    
 	    echo $STRING
-            (
-                flock -ne 200 || exit 1
-                fsck -A -T -M -a -t opts=_netdev
-                exit $?
-            ) 200>/var/lock/subsys/netfs-fsck.lock
+	    fsck -A -T -M -a -t opts=_netdev
 	    rc=$?
 	    
 	    if [ "$rc" -eq "0" ]; then
