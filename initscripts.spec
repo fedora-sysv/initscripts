@@ -173,6 +173,7 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %verify(not md5 size mtime) %config(noreplace,missingok) /etc/rc.d/rc.local
 %config(noreplace) /etc/sysctl.conf
 /usr/lib/sysctl.d/00-system.conf
+/etc/sysctl.d/99-sysctl.conf
 %exclude /etc/profile.d/debug*
 /etc/profile.d/*
 /usr/sbin/sys-unconfig
