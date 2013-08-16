@@ -890,6 +890,11 @@ mkdir -m 1777 -p /tmp/.ICE-unix >/dev/null 2>&1
 chown root:root /tmp/.ICE-unix
 [ -n "$SELINUX_STATE" ] && restorecon /tmp/.ICE-unix >/dev/null 2>&1
 
+# Make X11 directory
+mkdir -m 1777 -p /tmp/.X11-unix >/dev/null 2>&1
+chown root:root /tmp/.X11-unix
+[ -n "$SELINUX_STATE" ] && restorecon /tmp/.X11-unix >/dev/null 2>&1
+
 #if [ -x /etc/init.d/diskdump ]; then
 #	/etc/init.d/diskdump swapsavecore
 #fi
