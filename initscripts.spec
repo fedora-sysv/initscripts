@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.49.1
+Version: 9.49.2
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -218,6 +218,14 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Mon Aug 19 2013 Lukáš Nykrýn <lnykryn@redhat.com> - 9.49.2-1
+- symlink /etc/sysctl.conf -> /etc/sysctl.d/
+- man: only action specified in LSB are redirected to systemd
+- service: filter actions that are not supported by systemctl in service (#947823)
+- install_bonding_driver: drop check for existing device (#991335)
+- consider IPV6INIT undefined as YES
+- don't care about network filesystems
+
 * Mon Jul 15 2013 Lukáš Nykrýn <lnykryn@redhat.com> - 9.49.1-1
 - rename fedora-* to rhel-*
 - first rhel7 version
