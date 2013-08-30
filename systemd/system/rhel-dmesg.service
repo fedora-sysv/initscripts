@@ -1,0 +1,11 @@
+[Unit]
+Description=Dump dmesg to /var/log/dmesg
+After=basic.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/lib/systemd/rhel-dmesg
+RemainAfterExit=yes
+
+[Install]
+WantedBy=basic.target

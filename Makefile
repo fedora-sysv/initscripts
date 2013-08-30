@@ -95,6 +95,7 @@ install:
 	ln -s ../rhel-loadmodules.service $(ROOT)/usr/lib/systemd/system/basic.target.wants
 	ln -s ../rhel-autorelabel.service $(ROOT)/usr/lib/systemd/system/basic.target.wants
 	ln -s ../rhel-autorelabel-mark.service $(ROOT)/usr/lib/systemd/system/basic.target.wants
+	ln -s ../rhel-dmesg.service $(ROOT)/usr/lib/systemd/system/basic.target.wants
 	ln -s ../rhel-readonly.service $(ROOT)/usr/lib/systemd/system/local-fs.target.wants
 	ln -s ../rhel-import-state.service $(ROOT)/usr/lib/systemd/system/local-fs.target.wants
 
