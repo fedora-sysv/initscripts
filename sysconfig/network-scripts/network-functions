@@ -271,7 +271,7 @@ do_netreport ()
 
 is_nm_running ()
 {
-    [ "$(LANG=C nmcli -t --fields running nm status 2>/dev/null)" = "running" ]
+    [ "$(LANG=C nmcli -t --fields running general status 2>/dev/null)" = "running" ]
 }
 
 is_nm_active ()
@@ -281,7 +281,7 @@ is_nm_active ()
 
 is_nm_device_unmanaged ()
 {
-    LANG=C nmcli -t --fields GENERAL dev list iface "${1}"  2>/dev/null | awk -F ':' '/GENERAL.STATE/ { if ($2 == "unmanaged") exit 0 ; else exit 1; }'
+    LANG=C nmcli -t --fields GENERAL dev show "${1}"  2>/dev/null | awk -F ':' '/GENERAL.STATE/ { if ($2 == "unmanaged") exit 0 ; else exit 1; }'
 }
 
 # Sets $alias to the device module if $? != 0
