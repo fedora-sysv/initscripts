@@ -141,7 +141,12 @@ struct in_addr calc_broadcast(struct in_addr addr, int prefix)
     struct in_addr broadcast;
 
     memset(&broadcast, 0, sizeof(broadcast));
-    broadcast.s_addr = (addr.s_addr & mask.s_addr) | ~mask.s_addr;
+
+/* if prefix is set to 31 return 255.255.255.255 (RFC3021) */
+    if (mask.s_addr ==  htonl(0xFFFFFFFE))
+        broadcast.s_addr = htonl(0xFFFFFFFF);
+    else
+        broadcast.s_addr = (addr.s_addr & mask.s_addr) | ~mask.s_addr;
     return broadcast;
 }
 
