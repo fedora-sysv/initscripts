@@ -38,27 +38,32 @@ if strstr "$cmdline" noreadonlyroot ; then
 	READONLY=no
 fi
 
+MOUNTS=()
 if [ "$READONLY" = "yes" -o "$TEMPORARY_STATE" = "yes" ]; then
 
-	mount_empty() {
-		if [ -e "$1" ]; then
-			echo "$1" | cpio -p -vd "$RW_MOUNT" &>/dev/null
-			mount -n --bind "$RW_MOUNT$1" "$1"
-		fi
-	}
+        add_mount() {
+                MOUNTS=("${MOUNTS[@]}" "$1")
+        }
 
-	mount_dirs() {
+        cp_empty() {
+                if [ -e "$1" ]; then
+			echo "$1" | cpio -p -vd "$RW_MOUNT" &>/dev/null
+                        add_mount $1
+		fi
+        }
+
+        cp_dirs() {
 		if [ -e "$1" ]; then
 			mkdir -p "$RW_MOUNT$1"
 			find "$1" -type d -print0 | cpio -p -0vd "$RW_MOUNT" &>/dev/null
-			mount -n --bind "$RW_MOUNT$1" "$1"
+                        add_mount $1
 		fi
 	}
 
-	mount_files() {
+        cp_files() {
 		if [ -e "$1" ]; then
 			cp -a --parents "$1" "$RW_MOUNT"
-			mount -n --bind "$RW_MOUNT$1" "$1"
+                        add_mount $1
 		fi
 	}
 
@@ -83,23 +88,37 @@ if [ "$READONLY" = "yes" -o "$TEMPORARY_STATE" = "yes" ]; then
 
 	for file in /etc/rwtab /etc/rwtab.d/* /run/initramfs/rwtab ; do
 		is_ignored_file "$file" && continue
-	[ -f $file ] && cat $file | while read type path ; do
+	[ -f $file ] && while read type path ; do
 			case "$type" in
 				empty)
-					mount_empty $path
+					cp_empty $path
 					;;
 				files)
-					mount_files $path
+					cp_files $path
 					;;
 				dirs)
-					mount_dirs $path
+					cp_dirs $path
 					;;
 				*)
 					;;
 			esac
 			selinux_fixup "$path"
-		done
+                done < <(cat $file)
 	done
+
+        for m in "${MOUNTS[@]}"; do
+                prefix=0
+                for mount_point in "${MOUNTS[@]}"; do
+                        [[ $m = $mount_point ]] && continue
+                        if [[ $m =~ ^$mount_point.* ]] ; then
+                                prefix=1
+                                break
+                        fi
+                done
+                [[ $prefix -eq 1 ]] && continue
+
+                mount -n --bind "$RW_MOUNT$m" "$m"
+        done
 
 	# Use any state passed by initramfs
 	[ -d /run/initramfs/state ] && cp -a /run/initramfs/state/* $RW_MOUNT
