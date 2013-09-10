@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.49.3
+Version: 9.49.4
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -219,6 +219,11 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Tue Sep 10 2013 Lukas Nykryn <lnykryn@redhat.com> - 9.49.4-1
+- ifdown: fix typo in nmcli call (#1006222)
+- ipcalc: support RFC3021 (#997271)
+- enable 'network' service at boot time for interfaces not supported by NetworkManager (#1003936)
+
 * Fri Aug 30 2013 Lukas Nykryn <lnykryn@redhat.com> - 9.49.3-1
 - update functions who call nmcli (#1002958)
 - create /var/log/dmesg for compatibility reasons (#854002)
