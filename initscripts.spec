@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.49.4
+Version: 9.49.5
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -219,6 +219,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Thu Sep 12 2013 Václav Pavlín <vpavlin@redhat.com> - 9.49.5-1
+- readonly-root: bind-mount only necessary subset of entries in rwtab
+
 * Tue Sep 10 2013 Lukas Nykryn <lnykryn@redhat.com> - 9.49.4-1
 - ifdown: fix typo in nmcli call (#1006222)
 - ipcalc: support RFC3021 (#997271)
