@@ -98,6 +98,7 @@ install:
 	ln -s ../rhel-dmesg.service $(ROOT)/usr/lib/systemd/system/basic.target.wants
 	ln -s ../rhel-readonly.service $(ROOT)/usr/lib/systemd/system/local-fs.target.wants
 	ln -s ../rhel-import-state.service $(ROOT)/usr/lib/systemd/system/local-fs.target.wants
+	ln -s ../brandbot.path $(ROOT)/usr/lib/systemd/system/multi-user.target.wants
 
 	mkdir -p $(ROOT)/usr/lib/tmpfiles.d
 	install -m 644 initscripts.tmpfiles.d $(ROOT)/usr/lib/tmpfiles.d/initscripts.conf

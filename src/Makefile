@@ -1,9 +1,10 @@
 CFLAGS+=$(RPM_OPT_FLAGS) -Wall -D_GNU_SOURCE
 LDFLAGS+=$(RPM_LD_FLAGS)
 
-PROGS=usernetctl netreport usleep ipcalc \
+PROGS=usernetctl netreport usleep ipcalc brandbot \
 	ppp-watch consoletype genhostid rename_device
 PPPWATCH_OBJS=ppp-watch.o shvar.o
+BRANDBOT_OBJS=brandbot.o shvar.o
 CONSOLE_INIT_OBJS=console_init.o shvar.o
 USLEEP_OBJS=usleep.o
 
@@ -27,6 +28,7 @@ install:
 	install -m 755 ppp-watch $(ROOT)/usr/sbin/ppp-watch
 	install -m 755 consoletype $(ROOT)/usr/sbin/consoletype
 	install -m 755 sushell $(ROOT)/usr/sbin/sushell
+	install -m 755 brandbot $(ROOT)/usr/sbin/brandbot
 	install -m 755 rename_device $(ROOT)/usr/lib/udev/rename_device
 	install -m 644 genhostid.1 $(ROOT)$(mandir)/man1
 	install -m 644 netreport.1 $(ROOT)$(mandir)/man1
@@ -48,6 +50,9 @@ usleep: $(USLEEP_OBJS)
 ppp-watch: $(PPPWATCH_OBJS)
 	$(CC) $(LDFLAGS) -o $@ $(PPPWATCH_OBJS) `pkg-config glib-2.0 --libs`
 
+brandbot: $(BRANDBOT_OBJS)
+	$(CC) $(LDFLAGS) -o $@ $(BRANDBOT_OBJS) `pkg-config glib-2.0 --libs`
+
 usernetctl.o: usernetctl.c
 	$(CC) $(CFLAGS) -fPIE -c usernetctl.c -o usernetctl.o
 
@@ -62,6 +67,9 @@ netreport: netreport.o
 
 shvar.o: shvar.c
 	$(CC) $(CFLAGS) `pkg-config glib-2.0 --cflags` -c shvar.c -o shvar.o
+
+brandbot.o: brandbot.c
+	$(CC) $(CFLAGS) `pkg-config glib-2.0 --cflags` -c brandbot.c -o brandbot.o
 
 ppp-watch.o: ppp-watch.c
 	$(CC) $(CFLAGS) `pkg-config glib-2.0 --cflags` -c ppp-watch.c -o ppp-watch.o
