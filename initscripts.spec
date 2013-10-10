@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.39
+Version: 9.03.40
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -246,6 +246,11 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Thu Oct 10 2013 Lukas Nykryn <lnykryn@redhat.com> - 9.03.40-1
+- sync disks before halt (#1006294)
+- provide KVM guest count and limit info message (#1014731)
+- add ability to disable LVM activation on boot (#1015065)
+
 * Fri Aug 09 2013 Lukáš Nykrýn <lnykryn@redhat.com> - 9.03.39-1
 - remount /proc to set attributes from fstab #984003
 - print something when arping is detecting colliding ip addresses
