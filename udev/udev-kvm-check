@@ -1,0 +1,49 @@
+#! /bin/sh
+
+if test -f /etc/sysconfig/kvm; then
+  . /etc/sysconfig/kvm
+fi
+
+: ${THRESHOLD:=0}
+COUNT=$1
+EVENT=$2
+
+if [ "$THRESHOLD" -eq 0 ]; then
+  level=user.debug
+else
+  level=user.info
+fi
+
+subscr_msg="your Red Hat Enterprise Linux subscription limit is $THRESHOLD"
+subscr_msg="$subscr_msg guests. Please review your Red Hat Enterprise Linux"
+subscr_msg="$subscr_msg subscription agreement or contact your Red Hat"
+subscr_msg="$subscr_msg support representative for more information. You"
+subscr_msg="$subscr_msg may review the Red Hat Enterprise subscription"
+subscr_msg="$subscr_msg limits at http://www.redhat.com/rhel-virt-limits"
+
+case $COUNT in
+  1) guests=guest ;;
+  *) guests=guests ;;
+esac
+
+case $EVENT in
+  create)
+    if [ "$THRESHOLD" -eq 0 ]; then
+      msg="$COUNT $guests now active"
+    elif [ $COUNT -gt "$THRESHOLD" ]; then
+      level=user.warning
+      msg="$COUNT $guests are currently active; $subscr_msg"
+    fi
+    ;;
+  terminate)
+    if [ $COUNT -ge "$THRESHOLD" ]; then
+      msg="$COUNT $guests now active"
+    fi
+    ;;
+esac
+
+if [ -n "$msg" ]; then
+  logger -p $level "KVM: $msg"
+fi
+exit 0
+

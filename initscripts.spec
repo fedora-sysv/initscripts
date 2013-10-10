@@ -216,6 +216,7 @@ rm -rf $RPM_BUILD_ROOT
 /lib/udev/rename_device
 /lib/udev/console_init
 /lib/udev/console_check
+/lib/udev/udev-kvm-check
 /sbin/service
 /sbin/ppp-watch
 %{_mandir}/man*/*
@@ -237,6 +238,7 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0600,root,utmp) /var/log/btmp
 %ghost %attr(0664,root,utmp) /var/log/wtmp
 %ghost %attr(0664,root,utmp) /var/run/utmp
+%ghost %attr(0644,root,root) /etc/sysconfig/kvm
 
 %files -n debugmode
 %defattr(-,root,root)
