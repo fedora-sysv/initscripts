@@ -204,7 +204,6 @@ fi
 
 if [ -x /sbin/lvm ]; then
 	if [ ! -f /.nolvm ] && ! strstr "$cmdline" nolvm ; then
-	then
 		action $"Setting up Logical Volume Management:" /sbin/lvm vgchange -a ay --sysinit
 	else
 		echo $"Logical Volume Management disabled at boot."
