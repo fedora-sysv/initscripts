@@ -203,7 +203,12 @@ fi
 [ -r /proc/mdstat -a -r /dev/md/md-device-map ] && /sbin/mdadm -IRs
 
 if [ -x /sbin/lvm ]; then
-	action $"Setting up Logical Volume Management:" /sbin/lvm vgchange -a ay --sysinit
+	if [ ! -f /.nolvm ] && ! strstr "$cmdline" nolvm ; then
+	then
+		action $"Setting up Logical Volume Management:" /sbin/lvm vgchange -a ay --sysinit
+	else
+		echo $"Logical Volume Management disabled at boot."
+	fi
 fi
 
 if [ -f /etc/crypttab ]; then
