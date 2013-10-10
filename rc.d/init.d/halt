@@ -180,6 +180,8 @@ done
 
 # If we left mdmon's running wait for the raidsets to become clean
 if [ -n "$OMITARGS" ]; then
+    sync
+    HALTARGS="$HALTARGS -n"
     mdadm --wait-clean --scan
 fi
 
