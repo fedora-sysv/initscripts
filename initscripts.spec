@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.49.6
+Version: 9.49.7
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -220,6 +220,10 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Tue Nov 05 2013 Lukas Nykryn <lnykryn@redhat.com> - 9.49.7-1
+- readonly-root: Add /var/log/audit/audit.log to rwtab (#1026815)
+- brandot: fix posssible segfault (#1024922)
+
 * Fri Sep 20 2013 Lukas Nykryn <lnykryn@redhat.com> - 9.49.6-1
 - brandbot: tool to write branding to /etc/os-release (#1009947)
 
