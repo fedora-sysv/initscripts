@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
     if (!osrelease)
         return 0;
     oldname = svGetValue(osrelease, "PRETTY_NAME");
-    if (!strcmp(oldname, newname))
+    if (oldname && !strcmp(oldname, newname))
         return 0;
     svSetValue(osrelease, "PRETTY_NAME", newname);
     rc += svWriteFile(osrelease, 0644);
