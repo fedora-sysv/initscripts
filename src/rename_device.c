@@ -120,6 +120,14 @@ int isCfg(const struct dirent *dent) {
 }
 
 static inline char *dequote(char *start, char *end) {
+        char *c;
+        //remove comments and trailing whitespace
+        c = strchr(start, '#');
+        if (c!=NULL)
+                *c='\0';
+
+        g_strchomp(start);
+
 	if (end==NULL) {
 		end=start;
 		while(*end) end++;
