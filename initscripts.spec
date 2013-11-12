@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.49.7
+Version: 9.49.8
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -220,6 +220,11 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Tue Nov 12 2013 Václav Pavlín <vpavlin@redhat.com> - 9.49.8-1
+- service: suggest using systemctl if unknown action is used (#1029350)
+- rename_device: remove comments and trailing whitespaces (#1027945)
+- readonly-root: restore selinux context after bind mount (#1029342)
+
 * Tue Nov 05 2013 Lukas Nykryn <lnykryn@redhat.com> - 9.49.7-1
 - readonly-root: Add /var/log/audit/audit.log to rwtab (#1026815)
 - brandot: fix posssible segfault (#1024922)
