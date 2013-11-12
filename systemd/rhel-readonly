@@ -102,7 +102,6 @@ if [ "$READONLY" = "yes" -o "$TEMPORARY_STATE" = "yes" ]; then
 				*)
 					;;
 			esac
-			selinux_fixup "$path"
                 done < <(cat $file)
 	done
 
@@ -118,6 +117,7 @@ if [ "$READONLY" = "yes" -o "$TEMPORARY_STATE" = "yes" ]; then
                 [[ $prefix -eq 1 ]] && continue
 
                 mount -n --bind "$RW_MOUNT$m" "$m"
+	        selinux_fixup "$m"
         done
 
 	# Use any state passed by initramfs
