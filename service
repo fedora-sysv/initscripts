@@ -78,5 +78,6 @@ elif `echo $ACTION | egrep -q "start|stop|restart|try-restart|reload|force-reloa
    echo $"Redirecting to /bin/systemctl ${ACTION} ${OPTIONS} ${SERVICE}.service" >&2
    exec /bin/systemctl ${ACTION} ${OPTIONS} ${SERVICE}.service
 else
+   echo $"The service command supports only basic LSB actions (start, stop, restart, try-restart, reload, force-reload, status). For other actions, please try to use systemctl." >&2
    exit 2
 fi
