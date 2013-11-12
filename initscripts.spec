@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.49.8
+Version: 9.49.9
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -36,10 +36,9 @@ BuildRequires: glib2-devel popt-devel gettext pkgconfig
 Provides: /sbin/service
 
 %description
-The initscripts package contains the basic system scripts used to boot
-your Red Hat or Fedora system, change runlevels, and shut the system down
-cleanly.  Initscripts also contains the scripts that activate and
-deactivate most network interfaces.
+The initscripts package contains basic system scripts used
+during a boot of the system. It also contains scripts which
+activate and deactivate most network interfaces.
 
 %package -n debugmode
 Summary: Scripts for running in debugging mode
@@ -220,6 +219,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Tue Nov 12 2013 Václav Pavlín <vpavlin@redhat.com> - 9.49.9-1
+- spec: update description of the initscript package
+
 * Tue Nov 12 2013 Václav Pavlín <vpavlin@redhat.com> - 9.49.8-1
 - service: suggest using systemctl if unknown action is used (#1029350)
 - rename_device: remove comments and trailing whitespaces (#1027945)
