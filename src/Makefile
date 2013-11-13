@@ -2,7 +2,7 @@ CFLAGS+=$(RPM_OPT_FLAGS) -Wall -D_GNU_SOURCE
 LDFLAGS+=$(RPM_LD_FLAGS)
 
 PROGS=usernetctl netreport usleep ipcalc brandbot \
-	ppp-watch consoletype genhostid rename_device
+	ppp-watch consoletype genhostid rename_device udev-kvm-check
 PPPWATCH_OBJS=ppp-watch.o shvar.o
 BRANDBOT_OBJS=brandbot.o shvar.o
 CONSOLE_INIT_OBJS=console_init.o shvar.o
@@ -30,6 +30,7 @@ install:
 	install -m 755 sushell $(ROOT)/usr/sbin/sushell
 	install -m 755 brandbot $(ROOT)/usr/sbin/brandbot
 	install -m 755 rename_device $(ROOT)/usr/lib/udev/rename_device
+	install -m 755 udev-kvm-check $(ROOT)/usr/lib/udev/udev-kvm-check
 	install -m 644 genhostid.1 $(ROOT)$(mandir)/man1
 	install -m 644 netreport.1 $(ROOT)$(mandir)/man1
 	install -m 644 usleep.1 $(ROOT)$(mandir)/man1
@@ -76,4 +77,7 @@ ppp-watch.o: ppp-watch.c
 
 rename_device: rename_device.c
 	$(CC) $(CFLAGS) `pkg-config glib-2.0 --cflags` -o $@ $< `pkg-config glib-2.0 --libs`
+
+udev-kvm-check: udev-kvm-check.c
+	$(CC) $(CFLAGS) -o $@ $<
 
