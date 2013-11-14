@@ -187,7 +187,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(2755,root,root) /usr/sbin/netreport
 /usr/lib/udev/rules.d/*
 /usr/lib/udev/rename_device
-/usr/lib/udev/udev-kvm-check
 /usr/sbin/service
 /usr/sbin/ppp-watch
 %{_mandir}/man*/*
@@ -208,7 +207,6 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0600,root,utmp) /var/log/btmp
 %ghost %attr(0664,root,utmp) /var/log/wtmp
 %ghost %attr(0664,root,utmp) /var/run/utmp
-%ghost %attr(0644,root,root) /etc/sysconfig/kvm
 %ghost %verify(not md5 size mtime) %config(noreplace,missingok) /etc/crypttab
 %dir /usr/lib/tmpfiles.d
 /usr/lib/tmpfiles.d/initscripts.conf
