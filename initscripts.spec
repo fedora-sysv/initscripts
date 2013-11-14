@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.49.10
+Version: 9.49.11
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -221,6 +221,10 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Thu Nov 14 2013 Václav Pavlín <vpavlin@redhat.com> - 9.49.11-1
+- Revert: provide KVM guest count and limit info message (#1014731)
+- add C implementation of reverted patch
+
 * Wed Nov 13 2013 Václav Pavlín <vpavlin@redhat.com> - 9.49.10-1
 - provide KVM guest count and limit info message (#1014731)
 
