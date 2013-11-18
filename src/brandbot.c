@@ -8,10 +8,15 @@
 
 char *read_name() {
     gchar *name = NULL;
+    char *c;
 
     g_file_get_contents("/var/lib/rhsm/branded_name", &name, NULL, NULL);
-    if (name)
+    if (name) {
+        c = strchr(name, '\n');
+        if (c)
+                *c = '\0';
         name = g_strstrip(name);
+    }
     return name;
 }
 
