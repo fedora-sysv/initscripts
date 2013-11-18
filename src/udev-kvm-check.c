@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "shvar.h"
 
 #define DEFAULT 0
 #define FACILITY "kvm"
@@ -19,85 +20,27 @@
     " may review the Red Hat Enterprise subscription" \
     " limits at http://www.redhat.com/rhel-virt-limits"
 
-int get_threshold_from_file(FILE *fp)
-{
-    static const char key[] = "THRESHOLD=";
-    int pos = 0;
-    int thres;
-    char ch;
-
-start:
-    /* State START - at beginning of line, search for beginning of "THRESHOLD="
-     * string.
-     */
-    ch = getc(fp);
-    if (ch == EOF) {
-        return DEFAULT;
-    }
-    if (isspace(ch)) {
-        goto start;
-    }
-    if (ch == 'T') {
-        pos = 1;
-        goto key;
-    }
-    goto eol;
-
-eol:
-    /* State EOL - loop until end of line */
-    ch = getc(fp);
-    if (ch == EOF) {
-        return DEFAULT;
-    }
-    if (ch == '\n') {
-        goto start;
-    }
-    goto eol;
-
-key:
-    /* State KEY - match "THRESHOLD=" string, go to THRESHOLD if found */
-    ch = getc(fp);
-    if (ch == EOF) {
-        return DEFAULT;
-    }
-    if (ch == key[pos]) {
-        pos++;
-        if (key[pos] == 0) {
-            goto threshold;
-        } else {
-            goto key;
-        }
-    }
-    goto eol;
-
-threshold:
-    /* State THRESHOLD - parse number using fscanf, expect comment or space
-     * or EOL.
-     */
-    ch = getc(fp);
-    if (ch == EOF) {
-        return DEFAULT;
-    }
-    if (!isdigit(ch)) {
-        goto eol;
-    }
-    ungetc(ch, fp);
-    if (fscanf(fp, "%d", &thres) != 1) {
-        return DEFAULT;
-    }
-    ch = getc(fp);
-    if (ch == '#' || ch == EOF || ch == '\n' || isspace(ch)) {
-        return thres;
-    }
-    goto eol;
-}
 
 int get_threshold()
 {
-    FILE *fp = fopen(SYSCONFIG_KVM, "r");
-    int val = get_threshold_from_file(fp);
+    int val = 0;
+    char *cval = NULL;
 
-    fclose (fp);
+    shvarFile *file = svNewFile(SYSCONFIG_KVM);
+    if (!file)
+        return 0;
+
+    cval = svGetValue(file, "THRESHOLD");
+
+    svCloseFile(file);
+
+    if (cval == NULL)
+        return 0;
+
+    val = atoi(cval);
+
+    free(cval);
+    
     return val;
 }
 

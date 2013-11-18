@@ -7,6 +7,7 @@ PPPWATCH_OBJS=ppp-watch.o shvar.o
 BRANDBOT_OBJS=brandbot.o shvar.o
 CONSOLE_INIT_OBJS=console_init.o shvar.o
 USLEEP_OBJS=usleep.o
+UDEV_KVM_CHECK_OBJS=udev-kvm-check.o shvar.o
 
 mandir=/usr/share/man
 
@@ -54,6 +55,9 @@ ppp-watch: $(PPPWATCH_OBJS)
 brandbot: $(BRANDBOT_OBJS)
 	$(CC) $(LDFLAGS) -o $@ $(BRANDBOT_OBJS) `pkg-config glib-2.0 --libs`
 
+udev-kvm-check: $(UDEV_KVM_CHECK_OBJS)
+	$(CC) $(LDFLAGS) -o $@ $(UDEV_KVM_CHECK_OBJS) `pkg-config glib-2.0 --libs`
+
 usernetctl.o: usernetctl.c
 	$(CC) $(CFLAGS) -fPIE -c usernetctl.c -o usernetctl.o
 
@@ -78,6 +82,6 @@ ppp-watch.o: ppp-watch.c
 rename_device: rename_device.c
 	$(CC) $(CFLAGS) `pkg-config glib-2.0 --cflags` -o $@ $< `pkg-config glib-2.0 --libs`
 
-udev-kvm-check: udev-kvm-check.c
-	$(CC) $(CFLAGS) -o $@ $<
+udev-kvm-check.o: udev-kvm-check.c
+	$(CC) $(CFLAGS) `pkg-config glib-2.0 --cflags` -c udev-kvm-check.c -o udev-kvm-check.o
 
