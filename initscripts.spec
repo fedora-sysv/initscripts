@@ -74,10 +74,6 @@ rm -f \
 touch $RPM_BUILD_ROOT/etc/crypttab
 chmod 600 $RPM_BUILD_ROOT/etc/crypttab
 
-rm -f $RPM_BUILD_ROOT/etc/rc.d/rc.local $RPM_BUILD_ROOT/etc/rc.local
-touch $RPM_BUILD_ROOT/etc/rc.d/rc.local
-chmod 755 $RPM_BUILD_ROOT/etc/rc.d/rc.local
-
 %pre
 /usr/sbin/groupadd -g 22 -r -f utmp
 
@@ -171,7 +167,6 @@ rm -rf $RPM_BUILD_ROOT
 /etc/rc[0-9].d
 %dir /etc/rc.d/init.d
 /etc/rc.d/init.d/*
-%ghost %verify(not md5 size mtime) %config(noreplace,missingok) /etc/rc.d/rc.local
 %config(noreplace) /etc/sysctl.conf
 /usr/lib/sysctl.d/00-system.conf
 /etc/sysctl.d/99-sysctl.conf
