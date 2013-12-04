@@ -845,26 +845,13 @@ Files in /etc/sysconfig/network-scripts/
     REMOTE_IP=    will be converted to GATEWAY by netconf
 
   Wireless-specific items:
-    See iwconfig(8) for additional information.
-    MODE=[Ad-Hoc|Managed|Master|Repeater|Secondary|Monitor|Auto]
+    See iw(8) for additional information.
+    MODE=[Managed|Ad-Hoc|Monitor]
     ESSID=
-      Defaults to "any".
-    NWID=
+      Required.
     FREQ=
-      Ignored if MODE=Managed.
-    CHANNEL=
-      Ignored if MODE=Managed.
-    SENS=<sensitivity threshold>
-    RATE=
-    KEY{1,2,3,4}=<WEP key with the given index>
-    DEFAULTKEY=<default key index>
+      Required if MODE=Ad-Hoc.
     KEY=<default WEP key>
-    SECURITYMODE=[on|off|open|restricted]
-    RTS=[auto|fixed|off|<rts threshold>]
-    FRAG=[off|<fragmentation threshold>]
-    IWCONFIG=<other iwconfig(8) options>
-    SPYIPS=<list of IP addresses to monitor for link quality>
-    IWPRIV=<iwpriv(8) commands>
 
   IPSEC specific items
      SRC=source address. Not required.
