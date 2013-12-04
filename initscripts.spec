@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.49.11
+Version: 9.49.12
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -216,6 +216,12 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Wed Dec 04 2013 Lukas Nykryn <lnykryn@redhat.com> - 9.49.12-1
+- use iw instead of iwconfig and friends (#915343)
+- don't care about rc.local anymore (#1034156)
+- udev-kvm-check: simplify reading of threshold (#1031568)
+- brandbot: read only first line (#1031490)
+
 * Thu Nov 14 2013 Václav Pavlín <vpavlin@redhat.com> - 9.49.11-1
 - Revert: provide KVM guest count and limit info message (#1014731)
 - add C implementation of reverted patch
