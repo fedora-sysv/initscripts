@@ -262,7 +262,7 @@ else
 	elif [ "${GATEWAYDEV}" = "${DEVICE}" ]; then
 	    ip route replace default ${METRIC:+metric $METRIC} \
 		${SRC} ${WINDOW:+window $WINDOW} dev ${REALDEVICE} ||
-			net_log $"Erorr adding default gateway for ${REALDEVICE}."
+			net_log $"Error adding default gateway for ${REALDEVICE}."
 	fi
     fi
     fi
