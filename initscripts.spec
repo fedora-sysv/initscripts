@@ -15,7 +15,6 @@ Requires: grep
 Requires: module-init-tools
 Requires: util-linux >= 2.16
 Requires: bash >= 3.0
-Requires: sysvinit-tools >= 2.87-5
 Requires: procps-ng >= 3.3.8-16
 Conflicts: systemd < 23-1
 Conflicts: systemd-units < 23-1
