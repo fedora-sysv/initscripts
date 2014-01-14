@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.51
+Version: 9.52
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -16,6 +16,7 @@ Requires: module-init-tools
 Requires: util-linux >= 2.16
 Requires: bash >= 3.0
 Requires: sysvinit-tools >= 2.87-5
+Requires: procps-ng >= 3.3.8-16
 Conflicts: systemd < 23-1
 Conflicts: systemd-units < 23-1
 Conflicts: lvm2 < 2.02.98-3
@@ -219,6 +220,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Tue Jan 14 2014 Lukáš Nykrýn <lnykryn@redhat.com> - 9.52-1
+- require procps-ng
+
 * Tue Jan 14 2014 Lukáš Nykrýn <lnykryn@redhat.com> 9.51-1
 - readonly-root: bind-mount only necessary subset of entries in rwtab
 - readonly-root: Add /var/log/audit/audit.log to rwtab
