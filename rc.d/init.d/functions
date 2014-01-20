@@ -148,6 +148,7 @@ __umount_loopback_loop() {
 __pids_var_run() {
 	local base=${1##*/}
 	local pid_file=${2:-/var/run/$base.pid}
+	local binary=$3
 
 	pid=
 	if [ -f "$pid_file" ] ; then
@@ -158,7 +159,13 @@ __pids_var_run() {
 			read line
 			[ -z "$line" ] && break
 			for p in $line ; do
-				[ -z "${p//[0-9]/}" -a -d "/proc/$p" ] && pid="$pid $p"
+				if [ -z "${p//[0-9]/}" -a -d "/proc/$p" ] ; then
+					if [ -n "$binary" ] ; then
+						local b=$(__readlink /proc/$p/exe)
+						[ "$b" != "$binary" ] && continue
+					fi
+					pid="$pid $p"
+				fi
 			done
 		done < "$pid_file"
 
@@ -269,7 +276,7 @@ daemon() {
 
 # A function to stop a program.
 killproc() {
-	local RC killlevel= base pid pid_file= delay try
+	local RC killlevel= base pid pid_file= delay try binary=
 
 	RC=0; delay=3; try=0
 	# Test syntax.
@@ -279,6 +286,15 @@ killproc() {
 	fi
 	if [ "$1" = "-p" ]; then
 		pid_file=$2
+		shift 2
+	fi
+	if [ "$1" = "-b" ]; then
+		if [ -z $pid_file ]; then
+			echo $"-b option can be used only with -p"
+			echo $"Usage: killproc -p pidfile -b binary program"
+			return 1
+		fi
+		binary=$2
 		shift 2
 	fi
 	if [ "$1" = "-d" ]; then
@@ -298,7 +314,7 @@ killproc() {
         base=${1##*/}
 
         # Find pid.
-	__pids_var_run "$1" "$pid_file"
+	__pids_var_run "$1" "$pid_file" "$binary"
 	RC=$?
 	if [ -z "$pid" ]; then
 		if [ -z "$pid_file" ]; then
@@ -402,7 +418,7 @@ pidofproc() {
 }
 
 status() {
-	local base pid lock_file= pid_file=
+	local base pid lock_file= pid_file= binary=
 
 	# Test syntax.
 	if [ "$#" = 0 ] ; then
@@ -417,10 +433,19 @@ status() {
 		lock_file=$2
 		shift 2
 	fi
+	if [ "$1" = "-b" ]; then
+		if [ -z $pid_file ]; then
+			echo $"-b option can be used only with -p"
+			echo $"Usage: status -p pidfile -b binary program"
+			return 1
+		fi
+		binary=$2
+		shift 2
+	fi
 	base=${1##*/}
 
 	# First try "pidof"
-	__pids_var_run "$1" "$pid_file"
+	__pids_var_run "$1" "$pid_file" "$binary"
 	RC=$?
 	if [ -z "$pid_file" -a -z "$pid" ]; then
 		pid="$(__pids_pidof "$1")"
