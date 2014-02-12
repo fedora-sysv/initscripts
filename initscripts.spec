@@ -28,7 +28,7 @@ Requires: udev >= 125-1
 Requires: cpio
 Requires: hostname
 Conflicts: ipsec-tools < 0.8.0-2
-Conflicts: NetworkManager < 0.9.9.0-9.git20130807
+Conflicts: NetworkManager < 0.9.9.0-37.git20140131.el7
 Requires(pre): /usr/sbin/groupadd
 Requires(post): /sbin/chkconfig, coreutils
 Requires(preun): /sbin/chkconfig
