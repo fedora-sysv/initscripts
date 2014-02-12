@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.49.12
+Version: 9.49.13
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -215,6 +215,11 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Wed Feb 12 2014 Lukáš Nykrýn <lnykryn@redhat.com> - 9.49.13-1
+- delete IPX support
+- update ifup/ifdown NetworkManager interaction (#1036701, #1061810)
+- set shmmax and shmall defaults to match rhel6 values (#1056547)
+
 * Wed Dec 04 2013 Lukas Nykryn <lnykryn@redhat.com> - 9.49.12-1
 - use iw instead of iwconfig and friends (#915343)
 - don't care about rc.local anymore (#1034156)
