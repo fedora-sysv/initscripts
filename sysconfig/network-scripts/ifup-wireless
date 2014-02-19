@@ -26,26 +26,29 @@
 
 # Only meant to be called from ifup.
 
-IW=iw
+IW=${IW:-iw}
 
-[ "$DEVICE" -a "$MODE" ] || exit
 [ "$KEY" ] && KEYS="key d:0:$KEY"
 
 shopt -s nocasematch
 
 case "$MODE" in
 managed)
-    [ "$ESSID" ] || exit
-    $IW dev "$DEVICE" set type managed
-    $IW dev "$DEVICE" connect -w "$ESSID" $FREQ $KEYS
+    if [ "$ESSID" ]; then
+	$IW dev "$DEVICE" set type managed
+	$IW dev "$DEVICE" connect -w "$ESSID" $FREQ $KEYS
+    fi
     ;;
 ad-hoc)
-    [ "$ESSID" && "$FREQ" ] || exit
-    $IW dev "$DEVICE" set type ibss
-    $IW dev "$DEVICE" ibss join "$ESSID" "$FREQ" $KEYS
+    if [ "$ESSID" && "$FREQ" ]; then
+	$IW dev "$DEVICE" set type ibss
+	$IW dev "$DEVICE" ibss join "$ESSID" "$FREQ" $KEYS
+    fi
     ;;
 monitor)
-    [ "$FREQ" ] || exit
-    $IW dev "$DEVICE" set type monitor
-    $IW dev "$DEVICE" set freq "$FREQ"
+    if [ "$FREQ" ]; then 
+	$IW dev "$DEVICE" set type monitor
+	$IW dev "$DEVICE" set freq "$FREQ"
+    fi
+    ;;
 esac
