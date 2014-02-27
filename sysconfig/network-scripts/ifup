@@ -69,6 +69,7 @@ if [ "$_use_nm" = "true" -a -n "$UUID" ]; then
     if [ "foo$2" = "fooboot" ] && [ "${TYPE}" = "Wireless" ]; then
         exit 0
     fi
+    is_nm_handling ${DEVICE} && exit 0
     nmcli con up uuid "$UUID"
     exit $?
 fi

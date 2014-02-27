@@ -280,6 +280,11 @@ is_nm_active ()
     LANG=C nmcli -t --fields device,state  dev status 2>/dev/null | grep -q "^${1}:connected$"
 }
 
+is_nm_handling ()
+{
+    LANG=C nmcli -t --fields device,state  dev status 2>/dev/null | grep -q "^\(${1}:connected\)\|\(${1}:connecting\)$"
+}
+
 is_nm_device_unmanaged ()
 {
     LANG=C nmcli -t --fields GENERAL dev show "${1}"  2>/dev/null | awk -F ':' '/GENERAL.STATE/ { if ($2 == "unmanaged") exit 0 ; else exit 1; }'
