@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.49.14
+Version: 9.49.15
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -215,6 +215,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Tue Mar 11 2014 Lukáš Nykrýn <lnykryn@redhat.com> - 9.49.15-1
+- network: try to not compete with NM during boot (#1068621)
+
 * Thu Feb 27 2014 Lukáš Nykrýn <lnykryn@redhat.com> - 9.49.14-1
 - update ifup/ifdown NetworkManager interaction (#1036701, #1061810)
 - service: fix action matching
