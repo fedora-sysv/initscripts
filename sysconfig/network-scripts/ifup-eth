@@ -56,6 +56,8 @@ if [ "${TYPE}" = "Bridge" ]; then
       fi
       [ -n "${DELAY}" ] && /usr/sbin/brctl setfd -- ${DEVICE} ${DELAY}
       [ -n "${STP}" ] && /usr/sbin/brctl stp -- ${DEVICE} ${STP}
+      [ -n "${PRIO}" ] && /usr/sbin/brctl setbridgeprio ${DEVICE} ${PRIO}
+      [ -n "${AGEING}" ] && /usr/sbin/brctl setageing ${DEVICE} ${AGEING}
       # add the bits to setup driver parameters here
       for arg in $BRIDGING_OPTS ; do
           key=${arg%%=*};
