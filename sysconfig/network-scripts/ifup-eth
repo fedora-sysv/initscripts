@@ -264,7 +264,7 @@ else
     fi
     
     if ! LC_ALL=C ip addr ls ${REALDEVICE} | LC_ALL=C grep -q "${IPADDR}/${PREFIX}" ; then
-	 if ! arping -q -c 2 -w 3 -D -I ${REALDEVICE} ${IPADDR} ; then
+	 if ! arping -q -c 2 -w ${ARPING_WAIT:-3} -D -I ${REALDEVICE} ${IPADDR} ; then
 	    net_log $"Error, some other host already uses address ${IPADDR}."
 	    exit 1
 	 fi
