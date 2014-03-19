@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts.
 Name: initscripts
-Version: 8.45.44
+Version: 8.45.45
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -202,6 +202,12 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %attr(0664,root,utmp) /var/run/utmp
 
 %changelog
+* Wed Mar 19 2014 Lukas Nykryn <lnykryn@redhat.com> - 8.45.45-2
+- bridging: add possibility to set prio and ageing
+- ifup: add possibility to specify value for -w parameter of arping
+- Don't try to startup crypto if we can't find the device, or if it isn't there.
+- create /tmp/.X11-unix in rc.sysinit
+
 * Tue May 14 2013 Lukas Nykryn <lnykryn@redhat.com> - 8.45.44-1
 - move VLAN= docs to the interface configuration section, rather than /etc/sysconfig/network (#860252)
 - fix comments in sysctl.conf (#862597)
