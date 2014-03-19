@@ -70,6 +70,8 @@ if [ "${TYPE}" = "Bridge" ]; then
       [ -n "${DELAY}" ] && /usr/sbin/brctl setfd ${DEVICE} ${DELAY}
       [ -n "${GCINT}" ] && /usr/sbin/brctl setgcint ${DEVICE} ${GCINT}
       [ -n "${STP}" ] && /usr/sbin/brctl stp ${DEVICE} ${STP}
+      [ -n "${PRIO}" ] && /usr/sbin/brctl setbridgeprio ${DEVICE} ${PRIO}
+      [ -n "${AGEING}" ] && /usr/sbin/brctl setageing ${DEVICE} ${AGEING}
 fi
 
 # now check the real state
