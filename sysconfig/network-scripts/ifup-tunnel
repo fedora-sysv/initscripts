@@ -77,4 +77,7 @@ fi
 
 /sbin/ip link set dev "$DEVICE" up
 
+# IPv6 initialisation?
+/etc/sysconfig/network-scripts/ifup-ipv6 ${CONFIG}
+
 exec /etc/sysconfig/network-scripts/ifup-post "$CONFIG" "$2"
