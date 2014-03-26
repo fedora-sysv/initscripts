@@ -161,7 +161,7 @@ __pids_var_run() {
 			for p in $line ; do
 				if [ -z "${p//[0-9]/}" -a -d "/proc/$p" ] ; then
 					if [ -n "$binary" ] ; then
-						local b=$(__readlink /proc/$p/exe)
+						local b=$(readlink /proc/$p/exe | sed -e 's/\s*(deleted)$//')
 						[ "$b" != "$binary" ] && continue
 					fi
 					pid="$pid $p"
