@@ -539,7 +539,7 @@ else
 fi
 if [ "$READONLY" != "yes" ]; then
 	chmod 600 /var/lib/random-seed
-	dd if=/dev/urandom of=/var/lib/random-seed count=1 bs=512 2>/dev/null
+	dd if=/dev/urandom of=/var/lib/random-seed count=1 bs=4096 2>/dev/null
 fi
 
 if [ -f /etc/crypttab ]; then
