@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.52
+Version: 9.53
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -218,6 +218,21 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Wed Mar 26 2014 Lukáš Nykrýn <lnykryn@redhat.com> - 9.53-1
+- bridging: add possibility to set prio and ageing
+- ifup: add possibility to specify value for -w parameter of arping
+- network: try to not compete with NM during boot
+- fedora-domainname: DefaultDependencies=no
+- service: add condrestart to allowed commands
+- update ifup/ifdown NetworkManager interaction once more(#1036701, #1061810)
+- network: modify ifup-wireless so it doesn't call exit
+- set shmmax and shmall defaults to match rhel6 values (#1056547)
+- update ifup/ifdown NetworkManager interaction (#1036701, #1061810)
+- service: fix action matching
+- remove ifup-ipx from spec
+- Delete IPX support.
+- remove dependency on sysvinit-tools
+
 * Tue Jan 14 2014 Lukáš Nykrýn <lnykryn@redhat.com> - 9.52-1
 - require procps-ng
 
