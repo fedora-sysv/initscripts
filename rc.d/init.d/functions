@@ -104,7 +104,7 @@ __umount_loop() {
 			remaining=$(LC_ALL=C awk "/^#/ {next} $1" "$2" | sort -r)
 		done
 		[ -z "$remaining" ] && break
-		fstab-decode /sbin/fuser -m $remaining 2>/dev/null  | sed -e "s/\b$$\b//" | xargs kill $sig >/dev/null
+		kill $sig $(fstab-decode /sbin/fuser -m $remaining 2>/dev/null  | sed -e "s/\b$$\b//") > /dev/null
 		sleep 3
 		retry=$(($retry -1))
 		sig=-9
