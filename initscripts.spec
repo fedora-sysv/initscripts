@@ -19,7 +19,7 @@ Requires: util-linux-ng >= 2.16
 Requires: bash >= 3.0
 Requires: sysvinit-tools >= 2.87
 %if with_upstart
-Requires: upstart >= 0.6.0
+Requires: upstart >= 0.6.5-11
 %else
 Requires: SysVinit >= 2.85-38
 %endif
