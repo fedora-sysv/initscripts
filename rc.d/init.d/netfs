@@ -55,7 +55,7 @@ case "$1" in
 	    fi
 	    if [ -x /sbin/lvm ]; then
 		if /sbin/lvm vgscan > /dev/null 2>&1 ; then
-		       action $"Setting up Logical Volume Management:" /sbin/lvm vgchange -a ay
+		       action $"Setting up Logical Volume Management:" /sbin/lvm vgchange -a ay --ignoreskippedcluster
 		fi
 	    fi
 

@@ -204,7 +204,7 @@ fi
 
 if [ -x /sbin/lvm ]; then
 	if [ ! -f /.nolvm ] && ! strstr "$cmdline" nolvm ; then
-		action $"Setting up Logical Volume Management:" /sbin/lvm vgchange -a ay --sysinit
+		action $"Setting up Logical Volume Management:" /sbin/lvm vgchange -a ay --sysinit --ignoreskippedcluster
 	else
 		echo $"Logical Volume Management disabled at boot."
 	fi
