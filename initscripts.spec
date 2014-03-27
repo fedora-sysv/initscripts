@@ -1,45 +1,28 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.54
+Version: 10.0
 License: GPLv2
 Group: System Environment/Base
-Release: 1%{?dist}
+Release: 0%{?dist}.1
 URL: http://fedorahosted.org/releases/i/n/initscripts/
 Source: http://fedorahosted.org/releases/i/n/initscripts/initscripts-%{version}.tar.bz2
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
-Obsoletes: initscripts-legacy <= 9.39
-Requires: /bin/awk, sed, coreutils
-Requires: /sbin/sysctl
-Requires: grep
-Requires: module-init-tools
+
+Requires: gawk, sed, coreutils, grep
 Requires: util-linux >= 2.16
-Requires: bash >= 3.0
+Requires: bash
 Requires: procps-ng >= 3.3.8-16
-Conflicts: systemd < 23-1
-Conflicts: systemd-units < 23-1
-Conflicts: lvm2 < 2.02.98-3
-Conflicts: dmraid < 1.0.0.rc16-18
 Requires: systemd
-Requires: iproute, /sbin/arping, findutils
-# Not strictly required, but nothing else requires it
-Requires: /etc/system-release
-Requires: udev >= 125-1
-Requires: cpio
-Requires: hostname
-Conflicts: ipsec-tools < 0.8.0-2
-Conflicts: NetworkManager < 0.9.9.0-37.git20140131.el7
-Conflicts: ppp < 2.4.6-4
-Requires(pre): /usr/sbin/groupadd
-Requires(post): /sbin/chkconfig, coreutils
-Requires(preun): /sbin/chkconfig
+Requires: findutils
+Requires: initscripts-core
+
 BuildRequires: glib2-devel popt-devel gettext pkgconfig
+
 Provides: /sbin/service
 
 %description
-The initscripts package contains the basic system scripts used to boot
-your Red Hat or Fedora system, change runlevels, and shut the system down
-cleanly.  Initscripts also contains the scripts that activate and
-deactivate most network interfaces.
+The initscripts package contains basic system scripts used
+during a boot of the system.
 
 %package -n debugmode
 Summary: Scripts for running in debugging mode
@@ -52,6 +35,88 @@ the system in a debugging mode.
 
 Currently, this consists of various memory checking code.
 
+%package compat
+Summary: Compat package for initscripts
+Requires: initscripts >= 10.0
+Requires: initscripts-network >= 10.0
+Requires: initscripts-core >= 10.0
+Requires: initscripts-man >= 10.0
+Requires: initscripts-locale >= 10.0
+Requires: initscripts-doc >= 10.0
+Requires: initscripts-readonly >= 10.0
+Obsoletes: initscripts < 10.0
+Group: System Environment/Base
+
+%description compat
+This package only exists to help transition for users to the new
+package split. It will be removed after one distribution release cycle, please
+do not reference it or depend on it in any way.
+
+%package network
+Summary: Initscript for setting up the network
+Requires: initscripts
+Requires: iproute, /sbin/arping
+Requires: hostname
+Requires: kmod
+Requires(post):  chkconfig
+Requires(preun): chkconfig
+Conflicts: NetworkManager < 0.9.9.0-37.git20140131.el7
+Conflicts: ppp < 2.4.6-4
+Conflicts: initscripts < 10.0-0
+Group: System Environment/Base
+
+%description network
+Initscripts-network contains the scripts that activate and
+deactivate most network interfaces.
+
+%package core
+Summary: Basic system scripts
+Requires: hostname
+Requires: cpio
+Requires: kmod
+Requires: gawk, sed, coreutils, grep
+Requires(pre):   /usr/sbin/groupadd
+Conflicts: initscripts < 10.0-0
+Group: System Environment/Base
+
+%description core
+The initscripts-core package contains basic system scripts used
+during a boot of the system.
+
+%package  readonly
+Summary: Readonly-root support
+Requires: initscripts
+Conflicts: initscripts < 10.0-0
+Group: System Environment/Base
+
+%description readonly
+Initscripts-readonly contains the scripts and configuration
+files for readonly-root support.
+
+%package man
+Summary: Manpages for initscripts
+Conflicts: initscripts < 10.0-0
+Group: System Environment/Base
+
+%description man
+Manpages for initscripts.
+
+%package doc
+Summary: Documentation for initscripts
+Conflicts: initscripts < 10.0-0
+Group: System Environment/Base
+
+%description doc
+Documentation for initscripts.
+
+%package locale
+Summary: Translations for initscripts
+Conflicts: initscripts < 10.0-0
+Group: System Environment/Base
+
+%description locale
+Translationss for initscripts.
+
 %prep
 %setup -q
 
@@ -59,163 +124,185 @@ Currently, this consists of various memory checking code.
 make
 
 %install
-rm -rf $RPM_BUILD_ROOT
-make ROOT=$RPM_BUILD_ROOT SUPERUSER=`id -un` SUPERGROUP=`id -gn` mandir=%{_mandir} install
+make ROOT=%{buildroot} SUPERUSER=`id -un` SUPERGROUP=`id -gn` mandir=%{_mandir} install
 
 %find_lang %{name}
 
 %ifnarch s390 s390x
 rm -f \
- $RPM_BUILD_ROOT/etc/sysconfig/network-scripts/ifup-ctc \
+ %{buildroot}%{_sysconfdir}/sysconfig/network-scripts/ifup-ctc \
 %else
 rm -f \
- $RPM_BUILD_ROOT/etc/sysconfig/init.s390
+ %{buildroot}%{_sysconfdir}/sysconfig/init.s390
 %endif
 
-touch $RPM_BUILD_ROOT/etc/crypttab
-chmod 600 $RPM_BUILD_ROOT/etc/crypttab
+touch %{buildroot}%{_sysconfdir}/crypttab
+chmod 600 %{buildroot}%{_sysconfdir}/crypttab
 
-rm -f $RPM_BUILD_ROOT/etc/rc.d/rc.local $RPM_BUILD_ROOT/etc/rc.local
-touch $RPM_BUILD_ROOT/etc/rc.d/rc.local
-chmod 755 $RPM_BUILD_ROOT/etc/rc.d/rc.local
-
-%pre
+##################### this should go to setup package####################
+%pre core
 /usr/sbin/groupadd -g 22 -r -f utmp
 
-%post
+%post core
 touch /var/log/wtmp /var/run/utmp /var/log/btmp
 chown root:utmp /var/log/wtmp /var/run/utmp /var/log/btmp
 chmod 664 /var/log/wtmp /var/run/utmp
 chmod 600 /var/log/btmp
+#########################################################################
 
+
+%postun -n initscripts-core
+if [ $1 -ge 1 ]; then
+        /usr/bin/systemctl daemon-reload > /dev/null 2>&1 || :
+fi
+
+%post network
 /usr/sbin/chkconfig --add network
 /usr/sbin/chkconfig --add netconsole
 if [ $1 -eq 1 ]; then
         /usr/bin/systemctl daemon-reload > /dev/null 2>&1 || :
 fi
 
-%preun
+%preun network
 if [ $1 = 0 ]; then
-  /usr/sbin/chkconfig --del network
-  /usr/sbin/chkconfig --del netconsole
+        /usr/sbin/chkconfig --del network
+        /usr/sbin/chkconfig --del netconsole
 fi
 
-%triggerun -- initscripts < 7.62
-/usr/sbin/chkconfig --del random
-/usr/sbin/chkconfig --del rawdevices
-exit 0
-
-%postun
+%postun network
 if [ $1 -ge 1 ]; then
-  /usr/bin/systemctl daemon-reload > /dev/null 2>&1 || :
+        /usr/bin/systemctl daemon-reload > /dev/null 2>&1 || :
 fi
 
-%clean
-rm -rf $RPM_BUILD_ROOT
-
-%files -f %{name}.lang
+%files
 %defattr(-,root,root)
-%dir /etc/sysconfig/network-scripts
-%config(noreplace) %verify(not md5 mtime size) /etc/adjtime
-%config(noreplace) /etc/sysconfig/init
-%config(noreplace) /etc/sysconfig/netconsole
-%config(noreplace) /etc/sysconfig/readonly-root
-/etc/sysconfig/network-scripts/ifdown
-/usr/sbin/ifdown
-/etc/sysconfig/network-scripts/ifdown-post
-/etc/sysconfig/network-scripts/ifup
-/usr/sbin/ifup
-%dir /etc/sysconfig/console
-%dir /etc/sysconfig/modules
-/etc/sysconfig/network-scripts/network-functions
-/etc/sysconfig/network-scripts/network-functions-ipv6
-/etc/sysconfig/network-scripts/init.ipv6-global
-%config(noreplace) /etc/sysconfig/network-scripts/ifcfg-lo
-/etc/sysconfig/network-scripts/ifup-post
-/etc/sysconfig/network-scripts/ifup-routes
-/etc/sysconfig/network-scripts/ifdown-routes
-/etc/sysconfig/network-scripts/ifup-plip
-/etc/sysconfig/network-scripts/ifup-plusb
-/etc/sysconfig/network-scripts/ifup-bnep
-/etc/sysconfig/network-scripts/ifdown-bnep
-/etc/sysconfig/network-scripts/ifup-eth
-/etc/sysconfig/network-scripts/ifdown-eth
-/etc/sysconfig/network-scripts/ifup-ipv6
-/etc/sysconfig/network-scripts/ifdown-ipv6
-/etc/sysconfig/network-scripts/ifup-sit
-/etc/sysconfig/network-scripts/ifdown-sit
-/etc/sysconfig/network-scripts/ifup-tunnel
-/etc/sysconfig/network-scripts/ifdown-tunnel
-/etc/sysconfig/network-scripts/ifup-aliases
-/etc/sysconfig/network-scripts/ifup-ippp
-/etc/sysconfig/network-scripts/ifdown-ippp
-/etc/sysconfig/network-scripts/ifup-wireless
-/etc/sysconfig/network-scripts/ifup-isdn
-/etc/sysconfig/network-scripts/ifdown-isdn
-%ifarch s390 s390x
-/etc/sysconfig/network-scripts/ifup-ctc
-%endif
-%config(noreplace) /etc/networks
-/etc/rwtab
-%dir /etc/rwtab.d
-/etc/statetab
-%dir /etc/statetab.d
-/usr/lib/systemd/fedora-*
-/usr/lib/systemd/system/*
-/etc/inittab
-%dir /etc/rc.d
-%dir /etc/rc.d/rc[0-9].d
-/etc/rc[0-9].d
-%dir /etc/rc.d/init.d
-/etc/rc.d/init.d/*
-%ghost %verify(not md5 size mtime) %config(noreplace,missingok) /etc/rc.d/rc.local
-%config(noreplace) /etc/sysctl.conf
-/usr/lib/sysctl.d/00-system.conf
-/etc/sysctl.d/99-sysctl.conf
-%exclude /etc/profile.d/debug*
-/etc/profile.d/*
-/usr/sbin/sys-unconfig
-/usr/bin/ipcalc
-/usr/bin/usleep
-%attr(4755,root,root) /usr/sbin/usernetctl
-/usr/sbin/consoletype
-/usr/sbin/genhostid
-/usr/sbin/sushell
-%attr(2755,root,root) /usr/sbin/netreport
-/usr/lib/udev/rules.d/*
-/usr/lib/udev/rename_device
-/usr/sbin/service
-%{_mandir}/man*/*
-%dir %attr(775,root,root) /var/run/netreport
-%dir /etc/NetworkManager
-%dir /etc/NetworkManager/dispatcher.d
-/etc/NetworkManager/dispatcher.d/00-netreport
-%doc sysconfig.txt sysvinitfiles static-routes-ipv6 ipv6-tunnel.howto ipv6-6to4.howto changes.ipv6 COPYING
-/var/lib/stateless
-%ghost %attr(0600,root,utmp) /var/log/btmp
-%ghost %attr(0664,root,utmp) /var/log/wtmp
-%ghost %attr(0664,root,utmp) /var/run/utmp
-%ghost %verify(not md5 size mtime) %config(noreplace,missingok) /etc/crypttab
-%dir /usr/lib/tmpfiles.d
-/usr/lib/tmpfiles.d/initscripts.conf
-%dir /usr/libexec/initscripts
-%dir /usr/libexec/initscripts/legacy-actions
+%{_sysconfdir}/rc[0-9].d
+%dir %{_sysconfdir}/rc.d
+%dir %{_sysconfdir}/rc.d/rc[0-9].d
+%dir %{_sysconfdir}/rc.d/init.d
+%dir %{_libexecdir}/initscripts
+%dir %{_libexecdir}/initscripts/legacy-actions
+
+%{_sysconfdir}/rc.d/init.d/functions
+
+%{_sbindir}/service
 
 %files -n debugmode
 %defattr(-,root,root)
-%config(noreplace) /etc/sysconfig/debug
-/etc/profile.d/debug*
+%config(noreplace) %{_sysconfdir}/sysconfig/debug
+%{_sysconfdir}/profile.d/debug*
+
+%files network
+%dir %{_sysconfdir}/sysconfig/network-scripts
+%{_sysconfdir}/rc.d/init.d/network
+%{_sysconfdir}/rc.d/init.d/netconsole
+%{_sbindir}/ifup
+%{_sbindir}/ifdown
+%{_sysconfdir}/sysconfig/network-scripts/ifdown
+%{_sysconfdir}/sysconfig/network-scripts/ifup
+%config(noreplace) %{_sysconfdir}/sysconfig/network-scripts/ifcfg-lo
+%{_sysconfdir}/sysconfig/network-scripts/network-functions
+%{_sysconfdir}/sysconfig/network-scripts/network-functions-ipv6
+%{_sysconfdir}/sysconfig/network-scripts/init.ipv6-global
+%{_sysconfdir}/sysconfig/network-scripts/ifdown-post
+%{_sysconfdir}/sysconfig/network-scripts/ifup-post
+%{_sysconfdir}/sysconfig/network-scripts/ifup-routes
+%{_sysconfdir}/sysconfig/network-scripts/ifdown-routes
+%{_sysconfdir}/sysconfig/network-scripts/ifup-plip
+%{_sysconfdir}/sysconfig/network-scripts/ifup-plusb
+%{_sysconfdir}/sysconfig/network-scripts/ifup-bnep
+%{_sysconfdir}/sysconfig/network-scripts/ifdown-bnep
+%{_sysconfdir}/sysconfig/network-scripts/ifup-eth
+%{_sysconfdir}/sysconfig/network-scripts/ifdown-eth
+%{_sysconfdir}/sysconfig/network-scripts/ifup-ipv6
+%{_sysconfdir}/sysconfig/network-scripts/ifdown-ipv6
+%{_sysconfdir}/sysconfig/network-scripts/ifup-sit
+%{_sysconfdir}/sysconfig/network-scripts/ifdown-sit
+%{_sysconfdir}/sysconfig/network-scripts/ifup-tunnel
+%{_sysconfdir}/sysconfig/network-scripts/ifdown-tunnel
+%{_sysconfdir}/sysconfig/network-scripts/ifup-aliases
+%{_sysconfdir}/sysconfig/network-scripts/ifup-ippp
+%{_sysconfdir}/sysconfig/network-scripts/ifdown-ippp
+%{_sysconfdir}/sysconfig/network-scripts/ifup-wireless
+%{_sysconfdir}/sysconfig/network-scripts/ifup-isdn
+%{_sysconfdir}/sysconfig/network-scripts/ifdown-isdn
+%ifarch s390 s390x
+%{_sysconfdir}/sysconfig/network-scripts/ifup-ctc
+%endif
+%config(noreplace) %{_sysconfdir}/networks
+%attr(4755,root,root) %{_sbindir}/usernetctl
+
+
+#######################own package for netreport?##############################
+%dir %{_sysconfdir}/NetworkManager
+%dir %{_sysconfdir}/NetworkManager/dispatcher.d
+%{_sysconfdir}/NetworkManager/dispatcher.d/00-netreport
+%dir %attr(775,root,root) /var/run/netreport
+%attr(2755,root,root) %{_sbindir}/netreport
+###############################################################################
+
+%files core
+%config(noreplace) %{_sysconfdir}/sysconfig/init
+%config(noreplace) %{_sysconfdir}/sysconfig/netconsole
+%{_prefix}/lib/tmpfiles.d/netconsole.conf
+
+%exclude %{_prefix}/lib/systemd/fedora-readonly
+%exclude %{_prefix}/lib/systemd/system/fedora-readonly.service
+%{_prefix}/lib/systemd/fedora-*
+%{_prefix}/lib/systemd/system/*
+%ghost %verify(not md5 size mtime) %config(noreplace,missingok) %{_sysconfdir}/rc.d/rc.local
+
+%{_sbindir}/consoletype
+%{_sbindir}/genhostid
+%{_sbindir}/sushell
+%{_sbindir}/sys-unconfig
+%{_bindir}/ipcalc
+%{_bindir}/usleep
+
+%{_prefix}/lib/udev/rules.d/*
+%{_prefix}/lib/udev/rename_device
+
+##################### this should go to setup package####################
+%ghost %attr(0600,root,utmp) /var/log/btmp
+%ghost %attr(0664,root,utmp) /var/log/wtmp
+%ghost %attr(0664,root,utmp) /var/run/utmp
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/adjtime
+
+%ghost %verify(not md5 size mtime) %config(noreplace,missingok) %{_sysconfdir}/crypttab
+%{_sysconfdir}/inittab
+#####################################################################################
+
+%exclude %{_sysconfdir}/profile.d/debug*
+%{_sysconfdir}/profile.d/*
+
+%config(noreplace) %{_sysconfdir}/sysctl.conf
+%{_prefix}/lib/sysctl.d/00-system.conf
+%{_sysconfdir}/sysctl.d/99-sysctl.conf
+
+%dir %{_sysconfdir}/sysconfig/console
+%dir %{_sysconfdir}/sysconfig/modules
+
+%files readonly
+%{_sysconfdir}/rwtab
+%dir %{_sysconfdir}/rwtab.d
+%{_sysconfdir}/statetab
+%dir %{_sysconfdir}/statetab.d
+%{_prefix}/lib/systemd/fedora-readonly
+%{_prefix}/lib/systemd/system/fedora-readonly.service
+%{_sharedstatedir}/stateless
+%config(noreplace) %{_sysconfdir}/sysconfig/readonly-root
+
+%files man
+%{_mandir}/man*/*
+
+%files locale -f %{name}.lang
+
+%files doc
+%doc sysconfig.txt sysvinitfiles static-routes-ipv6 ipv6-tunnel.howto ipv6-6to4.howto changes.ipv6 COPYING
 
 %changelog
-* Tue Apr 15 2014 Lukáš Nykrýn <lnykryn@redhat.com> - 9.54-1
-- move ppp support to ppp package
-- remove fedora-configure
-- network: detect if / is on netfs
-- is_nm_handling: fix RE
-- bonding: match whole name of interface
-- network: add support for team devices
-- ifup-wireless: fix syntax error
-- fedora-readonly: fix prefix detection
+* Wed Mar 26 2014 Lukáš Nykrýn <lnykryn@redhat.com> - 10.0-0.1
+- the great split
 
 * Wed Mar 26 2014 Lukáš Nykrýn <lnykryn@redhat.com> - 9.53-1
 - bridging: add possibility to set prio and ageing
@@ -1122,7 +1209,7 @@ rm -rf $RPM_BUILD_ROOT
 - run rc.sysinit, /etc/rc in monitor mode (part of #184340)
 - use a better check for 'native' services (#190989, #110761, adapted
   from <matthias@rpmforge.net>)
- 
+
 * Tue Sep 19 2006 Bill Nottingham <notting@redhat.com> 8.41-1
 - fix network ipv6 hang (#207137, others)
 - rc.sysinit: change blkid.tab path to /etc/blkid/blkid.tab
@@ -1467,7 +1554,7 @@ rm -rf $RPM_BUILD_ROOT
   for ipv6calc (<pb@bierenger.de>, <pekkas@netcore.fi>)
 - fix quoting in daemon() (#144634)
 - make sysctl be silent (#144483)
- 
+
 * Mon Jan  3 2005 Bill Nottingham <notting@redhat.com> 8.02-1
 - remove initlog, minilogd
 - add a flag to kmodule for use with kudzu's socket mode, use it
@@ -1651,7 +1738,7 @@ rm -rf $RPM_BUILD_ROOT
 - rc.sysinit: remove devfs compat and the remaining 2.4 compat
 - ifup-wireless: support multiple keys (#127957)
 - fix firmware loading (#129155, <bnocera@redhat.com>)
- 
+
 * Tue Aug 24 2004 Karsten Hopp <karsten@redhat.de> 7.68-1
 - execute zfcfconf.sh if available (mainframe)
 
@@ -1671,7 +1758,7 @@ rm -rf $RPM_BUILD_ROOT
 
 * Fri Aug 20 2004 Bill Nottingham <notting@redhat.com> 7.64-1
 - rc.d/rc.sysinit: check for dev file too (#130350)
- 
+
 * Thu Aug 19 2004 Than Ngo <than@redhat.com> 7.63-1
 - allow CBCP with own number (#125710)
 
@@ -2232,7 +2319,7 @@ rm -rf $RPM_BUILD_ROOT
 * Mon Oct 29 2001 Than Ngo <than@redhat.com>
 - fix bug in channel bundling if MSN is missed
 - support DEBUG option
- 
+
 * Wed Sep 19 2001 Than Ngo <than@redhat.com>
 - don't show user name by DSL connection
 
@@ -2412,7 +2499,7 @@ rm -rf $RPM_BUILD_ROOT
 * Wed Jun 27 2001 Than Ngo <than@redhat.com>
 - fix pap/chap authentication for syncppp
 - support ippp options
- 
+
 * Mon Jun 25 2001 Bill Nottingham <notting@redhat.com>
 - add ifup-wireless
 
@@ -3080,7 +3167,7 @@ rm -rf $RPM_BUILD_ROOT
 - set macaddr before bootp
 - zero in the /var/run/utmpx file (gafton)
 - don't set hostname on ppp/slip (kills X)
- 
+
 * Wed Mar 17 1999 Bill Nottingham <notting@redhat.com>
 - exit ifup if pump fails
 - fix stupid errors in reading commands from subprocess
