@@ -95,7 +95,7 @@ install:
 	ln -s ../fedora-import-state.service $(ROOT)/usr/lib/systemd/system/local-fs.target.wants
 
 	mkdir -p $(ROOT)/usr/lib/tmpfiles.d
-	install -m 644 initscripts.tmpfiles.d $(ROOT)/usr/lib/tmpfiles.d/initscripts.conf
+	install -m 644 netconsole.tmpfiles.d $(ROOT)/usr/lib/tmpfiles.d/netconsole.conf
 
 # These are LSB compatibility symlinks.  At some point in the future
 # the actual files will be here instead of symlinks
@@ -138,7 +138,3 @@ archive: clean syntax-check tag changelog
 	@tar --append -f initscripts-$(VERSION).tar initscripts-$(VERSION)
 	@bzip2 -f initscripts-$(VERSION).tar
 	@rm -rf initscripts-$(VERSION)
-	@echo "The archive is at initscripts-$(VERSION).tar.bz2"
-	@sha1sum initscripts-$(VERSION).tar.bz2 > initscripts-$(VERSION).sha1sum
-	@scp initscripts-$(VERSION).tar.bz2 initscripts-$(VERSION).sha1sum fedorahosted.org:initscripts 2>/dev/null|| scp initscripts-$(VERSION).tar.bz2 initscripts-$(VERSION).sha1sum fedorahosted.org:/srv/web/releases/i/n/initscripts
-	@echo "Everything done, files uploaded to Fedorahosted.org"
