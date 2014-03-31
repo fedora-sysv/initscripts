@@ -40,7 +40,7 @@ managed)
     fi
     ;;
 ad-hoc)
-    if [ "$ESSID" && "$FREQ" ]; then
+    if [ -n "$ESSID" -a -n "$FREQ" ]; then
 	$IW dev "$DEVICE" set type ibss
 	$IW dev "$DEVICE" ibss join "$ESSID" "$FREQ" $KEYS
     fi
