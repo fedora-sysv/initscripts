@@ -31,6 +31,10 @@ source_config
 # Check to make sure the device is actually up
 check_device_down ${DEVICE} && [ "$BOOTPROTO" != "dhcp" -a "$BOOTPROTO" != "bootp" ] && [ -n "$VLAN" -a "$VLAN" != "yes" ] && exit 0
 
+if [ -n "${TEAM_MASTER}" ] && [ ! "${DEVICETYPE}" = "TeamPort" ] && [ -x ./ifdown-TeamPort ]; then
+    ./ifdown-TeamPort ${CONFIG} $2
+fi
+
 if [ "${SLAVE}" != "yes" -o -z "${MASTER}" ]; then
 if [ -n "${HWADDR}" -a -z "${MACADDR}" ]; then
     FOUNDMACADDR=$(get_hwaddr ${REALDEVICE})
@@ -138,6 +142,10 @@ if [ "${TYPE}" = "Tap" ]; then
         TUNMODE="mode tap"
         [[ ${DEVICE} == tun* ]] && TUNMODE="mode tun"
         ip tuntap del ${TUNMODE} dev ${DEVICE} >/dev/null
+fi
+
+if [ -n "${TEAM_CONFIG}" ] && [ ! "${DEVICETYPE}" = "Team" ] && [ -x ./ifdown-Team ]; then
+    ./ifdown-Team ${CONFIG} $2
 fi
 
 # wait up to 5 seconds for device to actually come down...
