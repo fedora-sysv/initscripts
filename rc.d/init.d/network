@@ -162,6 +162,8 @@ case "$1" in
 	if [[ "$rootfs" == nfs* || "$rootopts" =~ _r?netdev ]] ; then
 		exit 1
 	fi
+
+        systemctl show --property=RequiredBy -- -.mount | grep -q 'remote-fs.target' && exit 1
   
 	vlaninterfaces=""
 	vpninterfaces=""
