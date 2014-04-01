@@ -282,7 +282,7 @@ is_nm_active ()
 
 is_nm_handling ()
 {
-    LANG=C nmcli -t --fields device,state  dev status 2>/dev/null | grep -q "^\(${1}:connected\)\|\(${1}:connecting\)$"
+    LANG=C nmcli -t --fields device,state  dev status 2>/dev/null | grep -q "^\(${1}:connected\)\|\(${1}:connecting.*\)$"
 }
 
 is_nm_device_unmanaged ()
