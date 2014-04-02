@@ -73,7 +73,7 @@ if [ "${TYPE}" = "Tap" ]; then
 fi
 
 # now check the real state
-is_available ${REALDEVICE} || {
+is_available_wait ${REALDEVICE} ${DEVTIMEOUT} || {
       if [ -n "$alias" ]; then
          net_log $"$alias device ${DEVICE} does not seem to be present, delaying initialization."
       else

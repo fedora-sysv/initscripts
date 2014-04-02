@@ -329,6 +329,23 @@ END {
     [ -d "/sys/class/net/$1" ] && return 0 || return 1
 }
 
+is_available_wait ()
+{
+    [ -z "$1" ] && return 1
+
+    local retry=${2##*[!0-9]*}
+
+    is_available $1 && return 0
+
+    while [ 0"$retry" -gt 0 ]; do
+        sleep 1
+        [ -d "/sys/class/net/$1" ] && return 0
+        retry=$(($retry -1))
+    done
+
+    return 1
+}
+
 need_hostname ()
 {
     CHECK_HOSTNAME=$(hostname)

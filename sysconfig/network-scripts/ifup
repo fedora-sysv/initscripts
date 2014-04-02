@@ -99,7 +99,7 @@ if [ "${VLAN}" = "yes" ] && [ "$ISALIAS" = "no" ]; then
 	    fi
 	fi
 
-	is_available ${PHYSDEV} || {
+	is_available_wait ${PHYSDEV} ${DEVTIMEOUT} || {
 	    if [ "$?" = "1" ] ; then
 		net_log $"$alias device ${DEVICE} does not seem to be present, delaying initialization."
 		exit 1
