@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.49.16
+Version: 9.49.17
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -215,6 +215,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Wed Apr 02 2014 Lukáš Nykrýn <lnykryn@redhat.com> - 9.49.17-1
+- add configurable DEVTIMEOUT
+
 * Tue Apr 01 2014 Lukáš Nykrýn <lnykryn@redhat.com> - 9.49.16-1
 - network: detect if / is on netfs (#1029677)
 - is_nm_handling: fix RE (#1083040)
