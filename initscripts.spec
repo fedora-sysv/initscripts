@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.53
+Version: 9.54
 License: GPLv2
 Group: System Environment/Base
 Release: 1%{?dist}
@@ -28,7 +28,7 @@ Requires: cpio
 Requires: hostname
 Conflicts: ipsec-tools < 0.8.0-2
 Conflicts: NetworkManager < 0.9.9.0-37.git20140131.el7
-Conflicts: ppp < 2.4.6-3
+Conflicts: ppp < 2.4.6-4
 Requires(pre): /usr/sbin/groupadd
 Requires(post): /sbin/chkconfig, coreutils
 Requires(preun): /sbin/chkconfig
@@ -207,6 +207,16 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Tue Apr 15 2014 Lukáš Nykrýn <lnykryn@redhat.com> - 9.54-1
+- move ppp support to ppp package
+- remove fedora-configure
+- network: detect if / is on netfs
+- is_nm_handling: fix RE
+- bonding: match whole name of interface
+- network: add support for team devices
+- ifup-wireless: fix syntax error
+- fedora-readonly: fix prefix detection
+
 * Wed Mar 26 2014 Lukáš Nykrýn <lnykryn@redhat.com> - 9.53-1
 - bridging: add possibility to set prio and ageing
 - ifup: add possibility to specify value for -w parameter of arping
