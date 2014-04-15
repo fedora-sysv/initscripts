@@ -42,16 +42,13 @@ install:
 	cp -af rc.d/init.d $(ROOT)/etc/rc.d/
 	install -m644 sysconfig/debug sysconfig/init sysconfig/netconsole sysconfig/readonly-root $(ROOT)/etc/sysconfig/
 	cp -af sysconfig/network-scripts $(ROOT)/etc/sysconfig/
-	cp -af ppp NetworkManager $(ROOT)/etc
+	cp -af NetworkManager $(ROOT)/etc
 	mkdir -p $(ROOT)/usr/lib/systemd/
 	cp -af systemd/* $(ROOT)/usr/lib/systemd/
-	mkdir -p $(ROOT)/etc/ppp/peers
 	mkdir -p $(ROOT)/usr/lib
 	cp -af udev $(ROOT)/usr/lib
 	chmod 755 $(ROOT)/etc/rc.d/* $(ROOT)/etc/rc.d/init.d/*
 	chmod 644 $(ROOT)/etc/rc.d/init.d/functions
-	chmod 755 $(ROOT)/etc/ppp/peers
-	chmod 755 $(ROOT)/etc/ppp/ip*
 	chmod 755 $(ROOT)/etc/sysconfig/network-scripts/ifup-*
 	chmod 755 $(ROOT)/etc/sysconfig/network-scripts/ifdown-*
 	chmod 755 $(ROOT)/etc/sysconfig/network-scripts/init*
