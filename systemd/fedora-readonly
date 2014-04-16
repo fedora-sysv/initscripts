@@ -42,7 +42,8 @@ MOUNTS=()
 if [ "$READONLY" = "yes" -o "$TEMPORARY_STATE" = "yes" ]; then
 
         add_mount() {
-                MOUNTS=("${MOUNTS[@]}" "$1")
+                mnt=${1%/}
+                MOUNTS=("${MOUNTS[@]}" "$mnt")
         }
 
         cp_empty() {
@@ -109,7 +110,7 @@ if [ "$READONLY" = "yes" -o "$TEMPORARY_STATE" = "yes" ]; then
                 prefix=0
                 for mount_point in "${MOUNTS[@]}"; do
                         [[ $m = $mount_point ]] && continue
-                        if [[ $m =~ ^$mount_point.* ]] ; then
+                        if [[ $m =~ ^$mount_point/.* ]] ; then
                                 prefix=1
                                 break
                         fi
