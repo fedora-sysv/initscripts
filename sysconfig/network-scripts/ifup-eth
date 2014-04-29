@@ -286,6 +286,16 @@ if [ -z "${NOZEROCONF}" -a "${ISALIAS}" = "no" -a "${REALDEVICE}" != "lo" ]; the
     ip route add 169.254.0.0/16 dev ${REALDEVICE} metric $((1000 + $(cat /sys/class/net/${REALDEVICE}/ifindex))) scope link
 fi
 
+if [ "${TYPE}" = "Bridge" ]; then
+    for arg in $BRIDGING_OPTS ; do
+        key=${arg%%=*};
+        value=${arg##*=};
+        if [ "${key}" = "multicast_router" -o "${key}" = "hash_max" ]; then
+            echo $value > /sys/class/net/${DEVICE}/bridge/$key
+        fi
+    done
+fi
+
 # IPv6 initialisation?
 /etc/sysconfig/network-scripts/ifup-ipv6 ${CONFIG}
 if [[ "${DHCPV6C}"  = [Yy1]* ]] && [ -x /sbin/dhclient ]; then
