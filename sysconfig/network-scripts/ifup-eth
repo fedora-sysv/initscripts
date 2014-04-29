@@ -292,6 +292,16 @@ if [ -x /usr/bin/firewall-cmd -a "${REALDEVICE}" != "lo" ]; then
     /usr/bin/firewall-cmd --zone="${ZONE}" --change-interface="${DEVICE}" > /dev/null 2>&1
 fi
 
+if [ "${TYPE}" = "Bridge" ]; then
+    for arg in $BRIDGING_OPTS ; do
+        key=${arg%%=*};
+        value=${arg##*=};
+        if [ "${key}" = "multicast_router" -o "${key}" = "hash_max" ]; then
+            echo $value > /sys/class/net/${DEVICE}/bridge/$key
+        fi
+    done
+fi
+
 # IPv6 initialisation?
 /etc/sysconfig/network-scripts/ifup-ipv6 ${CONFIG}
 if [[ "${DHCPV6C}"  = [Yy1]* ]] && [ -x /sbin/dhclient ]; then
