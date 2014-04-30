@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.40
+Version: 9.03.41
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -246,6 +246,24 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Wed Apr 30 2014 Lukáš Nykrýn <lnykryn@redhat.com> - 9.03.41-1
+- netfs: implicitly handle glusterfs as a network filesystemd
+- init.d/functions: check parent dir of pid file for accessibility
+- ifup-eth: some options for bridge can be applied after the bridge is up
+- rc.sysinit: apply sysctl settings before starting udev
+- ifup: add possibility to specify value for -w parameter of arping
+- ifup-tunnel: call ifup-ipv6 in the end
+- pids_var_run: handle '(deleted)'
+- require correct version of upstart
+- rc.sysinit: use 'vgchange --ignoreskippedcluster'
+- during install do not create /var/lib/random-seed if /dev/urandom does not exist
+- rc.sysinit: increase the saved random-seed to 4K (#1023471)
+- umount-loop: make sure that we don't kill our own process
+- umount-loop: don't use xargs
+- ifup-eth: remove ipx relic (#1028135)
+- init.d/functions: add -b optin to status and killproc (#1047948)
+- remove duplicit then
+
 * Thu Oct 10 2013 Lukas Nykryn <lnykryn@redhat.com> - 9.03.40-1
 - sync disks before halt (#1006294)
 - provide KVM guest count and limit info message (#1014731)
