@@ -22,11 +22,13 @@
 NFSFSTAB=$(LC_ALL=C awk '!/^#/ && $3 ~ /^nfs/ && $3 != "nfsd" && $4 !~ /noauto/ { print $2 }' /etc/fstab)
 CIFSFSTAB=$(LC_ALL=C awk '!/^#/ && $3 == "cifs" && $4 !~ /noauto/ { print $2 }' /etc/fstab)
 NCPFSTAB=$(LC_ALL=C awk '!/^#/ && $3 == "ncpfs" && $4 !~ /noauto/ { print $2 }' /etc/fstab)
+GLUSTERFSFSTAB=$(LC_ALL=C awk '!/^#/ && $3 == "glusterfs" && $4 !~ /noauto/ { print $2 }' /etc/fstab)
 NETDEVFSTAB=$(LC_ALL=C awk '!/^#/ && $4 ~/_netdev/ && $4 !~ /noauto/ { print $1 }' /etc/fstab)
 
 NFSMTAB=$(LC_ALL=C awk '$3 ~ /^nfs/ && $3 != "nfsd" && $2 != "/" { print $2 }' /proc/mounts)
 CIFSMTAB=$(LC_ALL=C awk '$3 == "cifs" { print $2 }' /proc/mounts)
 NCPMTAB=$(LC_ALL=C awk '$3 == "ncpfs" { print $2 }' /proc/mounts)
+GLUSTERFSMTAB=$(LC_ALL=C awk '$3 == "fuse.glusterfs" { print $2 }' /proc/mounts)
 NETDEVMTAB=$(LC_ALL=C awk '$4 ~ /_netdev/ && $2 != "/" { print $2 }' /etc/mtab)
 
 # See how we were called.
@@ -41,6 +43,7 @@ case "$1" in
 	  }
         [ -n "$CIFSFSTAB" ] && echo $"CIFS filesystems queued to be mounted"
         [ -n "$NCPFSTAB" ] && echo $"NCP filesystems queued to be mounted"
+        [ -n "$GLUSTERFSFSTAB" ] && echo $"GLUSTERFS filesystems queued to be mounted"
         [ -n "$NETDEVFSTAB" ] &&
 	  {
 	    if [ -f /etc/mdadm.conf ] && [ -x /sbin/mdadm ]; then
@@ -111,6 +114,12 @@ case "$1" in
 			$"Unmounting network block filesystems: " \
 			$"Unmounting network block filesystems (retry): "
 	fi
+	if [ -n "$GLUSTERFSMTAB" ]; then
+		__umount_loop '$3 ~ /^glusterfs/ {print $2}' \
+			/etc/mtab \
+			$"Unmounting GLUSTERFS filesystems: " \
+			$"Unmounting GLUSTERFS filesystems (retry): "
+	fi
   	if [ -n "$NFSMTAB" ]; then
 		__umount_loop '$3 ~ /^nfs/ && $3 != "nfsd" && $2 != "/" {print $2}' \
 			/proc/mounts \
@@ -151,6 +160,10 @@ case "$1" in
 		[ -n "$NCPMTAB" ] && {
                       echo $"Active NCP mountpoints: "
 		      for fs in $NCPMTAB; do echo $fs ; done
+		}
+		[ -n "$GLUSTERFSMTAB" ] && {
+                      echo $"Active GLUSTERFS mountpoints: "
+		      for fs in $GLUSTERFSMTAB; do echo $fs ; done
 		}
 		[ -n "$NETDEVMTAB" ] && {
 		      echo $"Active network block devices: "
