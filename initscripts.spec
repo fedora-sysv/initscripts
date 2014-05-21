@@ -9,7 +9,6 @@ Source: http://fedorahosted.org/releases/i/n/initscripts/initscripts-%{version}.
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 Obsoletes: initscripts-legacy <= 9.39
 Requires: /bin/awk, sed, coreutils
-Requires: /sbin/sysctl
 Requires: grep
 Requires: module-init-tools
 Requires: util-linux >= 2.16
