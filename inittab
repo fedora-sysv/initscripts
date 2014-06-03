@@ -2,14 +2,16 @@
 #
 # ADDING CONFIGURATION HERE WILL HAVE NO EFFECT ON YOUR SYSTEM.
 #
-# Ctrl-Alt-Delete is handled by /etc/systemd/system/ctrl-alt-del.target
+# Ctrl-Alt-Delete is handled by /usr/lib/systemd/system/ctrl-alt-del.target
 #
 # systemd uses 'targets' instead of runlevels. By default, there are two main targets:
 #
 # multi-user.target: analogous to runlevel 3
 # graphical.target: analogous to runlevel 5
 #
-# To set a default target, run:
+# To view current default target, run:
+# systemctl get-default
 #
-# ln -sf /lib/systemd/system/<target name>.target /etc/systemd/system/default.target
+# To set a default target, run:
+# systemctl set-default TARGET.target
 #
