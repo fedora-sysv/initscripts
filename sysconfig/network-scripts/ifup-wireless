@@ -52,3 +52,8 @@ monitor)
     fi
     ;;
 esac
+
+if [ -n "$WOWLAN" ] ; then
+    PHYDEVICE=phy_wireless_device $DEVICE
+    iw phy $PHYDEVICE wowlan enable ${WOWLAN}
+fi
