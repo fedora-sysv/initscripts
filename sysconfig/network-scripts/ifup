@@ -71,21 +71,28 @@ if [ "$USE_NM" = "true" -a -n "$UUID" ]; then
 fi
 
 # Ethernet 802.1Q VLAN support
-if [ "${VLAN}" = "yes" ] && [ "$ISALIAS" = "no" ]; then
-    VID=""
-    MATCH='^.+\.[0-9]{1,4}$'
-    if [[ "${DEVICE}" =~ $MATCH ]]; then
-	VID=$(echo "${DEVICE}" | LC_ALL=C sed 's/^.*\.\([0-9]\+\)/\1/')
-	PHYSDEV=${DEVICE%.*}
-    fi
-    MATCH='^vlan[0-9]{1,4}?'
-    if [[ "${DEVICE}" =~ $MATCH ]]; then
-	VID=$(echo "${DEVICE}" | LC_ALL=C sed 's/^vlan0*//')
-	# PHYSDEV should be set in ifcfg-vlan* file
-	if test -z "$PHYSDEV"; then
-		net_log $"PHYSDEV should be set for device ${DEVICE}"
-		exit 1
-	fi
+if [ "${VLAN}" = "yes" ] && [ "$ISALIAS" = "no" ] && [ -n $DEVICE ]; then
+    if [ -n ${VID} ]; then
+        if test -z "$PHYSDEV"; then
+            net_log $"PHYSDEV should be set for device ${DEVICE}"
+            exit 1
+        fi
+    else
+        VID=""
+        MATCH='^.+\.[0-9]{1,4}$'
+        if [[ "${DEVICE}" =~ $MATCH ]]; then
+            VID=$(echo "${DEVICE}" | LC_ALL=C sed 's/^.*\.\([0-9]\+\)/\1/')
+            PHYSDEV=${DEVICE%.*}
+        fi
+        MATCH='^vlan[0-9]{1,4}?'
+         if [[ "${DEVICE}" =~ $MATCH ]]; then
+             VID=$(echo "${DEVICE}" | LC_ALL=C sed 's/^vlan0*//'):
+             # PHYSDEV should be set in ifcfg-vlan* file
+             if test -z "$PHYSDEV"; then
+                net_log $"PHYSDEV should be set for device ${DEVICE}"
+                exit 1
+             fi
+        fi
     fi
     if [ -n "$VID" ]; then
 	if [ ! -d /proc/net/vlan ]; then
