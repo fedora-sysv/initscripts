@@ -33,6 +33,7 @@
 #    IWCONFIG: Extra parameters to pass directly to IWCONFIG
 #    SECURITYMODE: Security mode, e.g: 'open' or 'restricted'
 #    IWPRIV: Extra parameters to pass directly to IWPRIV
+#    WOWLAN: Enable wowlan (any, disconnect, magic-packet,...)
 
 # Only meant to be called from ifup.
 
@@ -96,6 +97,10 @@ if [ -n "$SPYIPS" ] ; then
 fi
 if [ -n "$IWPRIV" ] ; then
     iwpriv $DEVICE $IWPRIV
+fi
+if [ -n "$WOWLAN" ] ; then
+    PHYDEVICE=phy_wireless_device $DEVICE
+    iw phy $PHYDEVICE wowlan enable ${WOWLAN}
 fi
 
 # ESSID need to be last : most device re-perform the scanning/discovery
