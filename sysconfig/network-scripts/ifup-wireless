@@ -49,3 +49,8 @@ monitor)
     $IW dev "$DEVICE" set type monitor
     $IW dev "$DEVICE" set freq "$FREQ"
 esac
+
+if [ -n "$WOWLAN" ] ; then
+    PHYDEVICE=phy_wireless_device $DEVICE
+    iw phy $PHYDEVICE wowlan enable ${WOWLAN}
+fi
