@@ -162,6 +162,7 @@ ethtool_set()
 {
     oldifs=$IFS;
     IFS=';';
+    [ -n "${ETHTOOL_DELAY}" ] && /bin/usleep ${ETHTOOL_DELAY}
     for opts in $ETHTOOL_OPTS ; do
 	IFS=$oldifs;
         if [[ "${opts}" =~ [[:space:]]*- ]]; then
