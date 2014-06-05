@@ -437,10 +437,36 @@ install_bonding_driver ()
 	if [ -f /sys/class/net/${DEVICE}/bonding/slaves -a $(wc -l < /sys/class/net/${DEVICE}/bonding/slaves) -eq 0 ]; then
 	        /sbin/ip link set dev ${DEVICE} down
 
-	        # add the bits to setup driver parameters here
+	        # parse options and put them to arrays
 	        for arg in $BONDING_OPTS ; do
-	            key=${arg%%=*};
-	            value=${arg##*=};
+	            bopts_keys[${#bopts_keys[*]}]=${arg%%=*}
+	            bopts_vals[${#bopts_vals[*]}]=${arg##*=}
+	        done
+
+	        # add the bits to setup driver parameters here
+	        # first set mode, miimon
+	        for (( idx=0; idx < ${#bopts_keys[*]}; idx++ )) ; do
+	            key=${bopts_keys[$idx]}
+	            value=${bopts_vals[$idx]}
+
+	            if [ "${key}" = "mode" ] ; then
+	                echo "${value}" > /sys/class/net/${DEVICE}/bonding/$key
+	                bopts_keys[$idx]=""
+	            fi
+	            if [ "${key}" = "miimon" ] ; then
+	                echo "${value}" > /sys/class/net/${DEVICE}/bonding/$key
+	                bopts_keys[$idx]=""
+	            fi
+	        done
+
+	        # set all other remaining options
+	        for (( idx=0; idx < ${#bopts_keys[*]}; idx++ )) ; do
+	            key=${bopts_keys[$idx]}
+	            value=${bopts_vals[$idx]}
+
+	            # option already set; take next
+	            [[ -z "$key" ]] && continue
+
 	            if [ "${key}" = "arp_ip_target" -a "${value:0:1}" != "+" ]; then
 	                OLDIFS=$IFS;
 	                IFS=',';
