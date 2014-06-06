@@ -397,6 +397,10 @@ if [ "$READONLY" = "yes" -o "$TEMPORARY_STATE" = "yes" ]; then
 			done
 		fi
 	fi
+
+        if mount | grep -q /var/lib/nfs/rpc_pipefs ; then
+                mount -t rpc_pipefs sunrpc /var/lib/nfs/rpc_pipefs && service rpcidmapd restart
+        fi
 fi
 
 if [[ " $fsckoptions" != *" -y"* ]]; then
