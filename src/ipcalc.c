@@ -319,8 +319,8 @@ int main(int argc, const char **argv) {
         }
     }
 
-    if (showBroadcast || showNetwork || showPrefix) {
-        if (!(netmaskStr = (char *) poptGetArg(optCon)) && (prefix < 0)) {
+    if (showBroadcast || showNetwork || showPrefix || doCheck) {
+        if (!(netmaskStr = (char *) poptGetArg(optCon)) && (prefix < 0 && !doCheck)) {
             if (!beSilent) {
                 fprintf(stderr, "ipcalc: netmask or prefix expected\n");
                 poptPrintHelp(optCon, stderr, 0);
