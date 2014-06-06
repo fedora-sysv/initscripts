@@ -424,6 +424,11 @@ is_wireless_device ()
     [ -d "/sys/class/net/$1/wireless" ]
 }
 
+phy_wireless_device ()
+{
+	cat /sys/class/net/$1/phy80211/name
+}
+
 install_bonding_driver ()
 {
    [ ! -f /sys/class/net/bonding_masters ] && ( modprobe bonding || return 1 )
