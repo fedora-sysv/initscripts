@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.41
+Version: 9.03.42
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -246,6 +246,18 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Fri Jun 06 2014 Lukáš Nykrýn <lnykryn@redhat.com> - 9.03.42-1
+- ipcalc: -c allow netmask
+- ipcalc: parse prefix more safely
+- vi.po: fix parentheses
+- network-functions: handle BONDING_OPTS better
+- custom naming for VLAN devices
+- bonding: match whole name of interface
+- network-functions: ETHTOOL_DELAY introduction patch
+- ifup-wireless: add support for wowlan
+- Remove NETWORKING_IPV6 from sysconfig.txt (#918622)
+- bridging: add possibility to set prio and ageing
+
 * Wed Apr 30 2014 Lukáš Nykrýn <lnykryn@redhat.com> - 9.03.41-1
 - netfs: implicitly handle glusterfs as a network filesystemd
 - init.d/functions: check parent dir of pid file for accessibility
