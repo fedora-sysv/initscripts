@@ -30,6 +30,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <netdb.h>
+#include <errno.h>
 
 /*!
   \file ipcalc.c
@@ -47,6 +48,24 @@
   take host byte order or network byte order.  Most take host byte order, and
   return host byte order, but there are some exceptions.
 */
+
+int safe_atoi(const char *s, int *ret_i) {
+        char *x = NULL;
+        long l;
+
+        errno = 0;
+        l = strtol(s, &x, 0);
+
+        if (!x || x == s || *x || errno)
+                return errno > 0 ? -errno : -EINVAL;
+
+        if ((long) (int) l != l)
+                return -ERANGE;
+
+        *ret_i = (int) l;
+        return 0;
+}
+
 
 /*!
   \fn struct in_addr prefix2mask(int bits)
@@ -291,8 +310,9 @@ int main(int argc, const char **argv) {
     }
 
     if (prefixStr != NULL) {
-        prefix = atoi(prefixStr);
-        if (prefix < 0 || ((familyIPv6 && prefix > 128) || (!familyIPv6 && prefix > 32))) {
+    	int r = 0;
+        r = safe_atoi(prefixStr, &prefix);
+        if (r != 0 || prefix < 0 || ((familyIPv6 && prefix > 128) || (!familyIPv6 && prefix > 32))) {
             if (!beSilent)
                 fprintf(stderr, "ipcalc: bad prefix: %s\n", prefixStr);
             return 1;
