@@ -137,12 +137,14 @@ if [ "${TYPE}" = "Tap" ]; then
 	tunctl -d "${DEVICE}" >/dev/null
 fi
 
-# wait up to 5 seconds for device to actually come down...
-waited=0
-while ! check_device_down ${DEVICE} && [ "$waited" -lt 50 ] ; do
-    usleep 10000
-    waited=$(($waited+1))
-done
+# wait up to 5 seconds for device to actually come down if it is not an alias
+if [ ${DEVICE} == ${DEVICE%:*} ]; then
+    waited=0
+    while ! check_device_down ${DEVICE} && [ "$waited" -lt 50 ] ; do
+        usleep 10000
+        waited=$(($waited+1))
+    done
+fi
 
 # don't leave an outdated key sitting around
 if [ -n "${WIRELESS_ENC_KEY}" -a -x /sbin/iwconfig ]; then
