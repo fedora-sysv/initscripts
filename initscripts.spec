@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.42
+Version: 9.03.43
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -246,6 +246,13 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Tue Jun 10 2014 Lukáš Nykrýn - 9.03.43-1
+- ifup-aliases: arpcheck - check for parent operstate and carrier
+- ifdown: don't wait for aliases
+- hotplug: don't call ifup when new vlan appears
+- ifup-wireless: add support for wowlan (second part)
+- readonly-root: remount rpc_pipefs if readonly-root is used
+
 * Fri Jun 06 2014 Lukáš Nykrýn <lnykryn@redhat.com> - 9.03.42-1
 - ipcalc: -c allow netmask
 - ipcalc: parse prefix more safely
