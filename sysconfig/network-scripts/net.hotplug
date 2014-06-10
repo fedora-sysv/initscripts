@@ -24,6 +24,9 @@ add|register)
 	    ;;
 	# interfaces that are registered then brought up
 	*)
+            if [ -e /proc/net/vlan/${INTERFACE} ]; then
+                exit 0
+            fi
 	    export IN_HOTPLUG=1
 	    if [ -x /sbin/ifup ]; then
 	        addr=$(get_hwaddr ${INTERFACE})
