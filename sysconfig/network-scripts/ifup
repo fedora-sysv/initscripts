@@ -76,7 +76,7 @@ fi
 
 # Ethernet 802.1Q VLAN support
 if [ "${VLAN}" = "yes" ] && [ "$ISALIAS" = "no" ] && [ -n $DEVICE ]; then
-    if [ -n ${VID} ]; then
+    if [ -n "${VID}" ]; then
         if test -z "$PHYSDEV"; then
             net_log $"PHYSDEV should be set for device ${DEVICE}"
             exit 1
