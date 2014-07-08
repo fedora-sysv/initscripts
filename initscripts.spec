@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.44
+Version: 9.03.45
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -246,6 +246,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Tue Jul 08 2014 Lukáš Nykrýn <lnykryn@redhat.com> - 9.03.45-1
+- ifup,vlan: fix typo
+
 * Wed Jun 18 2014 Lukáš Nykrýn - 9.03.44-1
 - init.d/functions: fix typo in pid_dir
 
