@@ -189,7 +189,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/NetworkManager
 %dir /etc/NetworkManager/dispatcher.d
 /etc/NetworkManager/dispatcher.d/00-netreport
-%doc sysconfig.txt sysvinitfiles static-routes-ipv6 ipv6-tunnel.howto ipv6-6to4.howto changes.ipv6 COPYING
+%doc sysconfig.txt sysvinitfiles static-routes-ipv6 ipv6-tunnel.howto ipv6-6to4.howto changes.ipv6
+%{!?_licensedir:%global license %%doc}
+%license COPYING
 /var/lib/stateless
 %ghost %attr(0600,root,utmp) /var/log/btmp
 %ghost %attr(0664,root,utmp) /var/log/wtmp
