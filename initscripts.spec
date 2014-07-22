@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.54
+Version: 9.55
 License: GPLv2
 Group: System Environment/Base
 Release: 1%{?dist}
@@ -208,6 +208,16 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Tue Jul 22 2014 Lukáš Nykrýn <lnykryn@redhat.com> - 9.55-1
+- fix license handling
+- ipcalc: -c allow netmask
+- ipcalc: parse prefix more safely
+- inittab: fix path and mention set-default
+- don't require /sbin/sysctl
+- init.d/functions: check parent dir of pid file for accessibility
+- ifup-eth: some options for bridge can be applied after the bridge is up
+- remove ppp from translation
+
 * Tue Apr 15 2014 Lukáš Nykrýn <lnykryn@redhat.com> - 9.54-1
 - move ppp support to ppp package
 - remove fedora-configure
