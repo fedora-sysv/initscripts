@@ -257,13 +257,15 @@ function new_interface ()
        fi
 
        if [ "$setup_this" = "yes" ] ; then
-               [ "${parent_device}" != "lo" ] &&  [ "${ARPCHECK}" != "no" ] && \
+               if [ "${parent_device}" != "lo" ] &&  [ "${ARPCHECK}" != "no" ] && \
                is_available ${parent_device} && \
-               grep -qswi "up" /sys/class/net/${parent_device}/operstate && \
-               if ! /sbin/arping -q -c 2 -w ${ARPING_WAIT:-3} -D -I ${parent_device} ${IPADDR} ; then
-                   net_log $"Error, some other host already uses address ${IPADDR}."
-                   return 1
-               fi
+               ( grep -qswi "up" /sys/class/net/${parent_device}/operstate ||  grep -qswi "1" /sys/class/net/${parent_device}/carrier ) ; then
+                   echo $"Determining if ip address ${IPADDR} is already in use for device ${parent_device}..."
+				   if ! /sbin/arping -q -c 2 -w ${ARPING_WAIT:-3} -D -I ${parent_device} ${IPADDR} ; then
+					   net_log $"Error, some other host already uses address ${IPADDR}."
+					   return 1
+				   fi
+			   fi
 
                /sbin/ip addr add ${IPADDR}/${PREFIX} brd ${BROADCAST} dev ${parent_device} label ${DEVICE}
 
