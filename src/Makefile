@@ -1,5 +1,5 @@
-CFLAGS+=$(RPM_OPT_FLAGS) -Wall -D_GNU_SOURCE
-LDFLAGS+=$(RPM_LD_FLAGS)
+CFLAGS+=$(RPM_OPT_FLAGS) -Wall -D_GNU_SOURCE -fPIE
+LDFLAGS+=$(RPM_LD_FLAGS) -pie -z relro -z now
 
 PROGS=usernetctl netreport usleep ipcalc brandbot \
 	ppp-watch consoletype genhostid rename_device udev-kvm-check
@@ -59,16 +59,16 @@ udev-kvm-check: $(UDEV_KVM_CHECK_OBJS)
 	$(CC) $(LDFLAGS) -o $@ $(UDEV_KVM_CHECK_OBJS) `pkg-config glib-2.0 --libs`
 
 usernetctl.o: usernetctl.c
-	$(CC) $(CFLAGS) -fPIE -c usernetctl.c -o usernetctl.o
+	$(CC) $(CFLAGS) -c usernetctl.c -o usernetctl.o
 
 usernetctl: usernetctl.c usernetctl.o
-	$(CC) $(LDFLAGS) -pie -z relro -z now -o $@ $@.o
+	$(CC) $(LDFLAGS) -o $@ $@.o
 
 netreport.o: netreport.c
-	$(CC) $(CFLAGS) -fPIE -c netreport.c -o netreport.o
+	$(CC) $(CFLAGS) -c netreport.c -o netreport.o
 
 netreport: netreport.o
-	$(CC) $(LDFLAGS) -pie -z relro -z now -o $@ $@.o
+	$(CC) $(LDFLAGS) -o $@ $@.o
 
 shvar.o: shvar.c
 	$(CC) $(CFLAGS) `pkg-config glib-2.0 --cflags` -c shvar.c -o shvar.o
@@ -80,7 +80,7 @@ ppp-watch.o: ppp-watch.c
 	$(CC) $(CFLAGS) `pkg-config glib-2.0 --cflags` -c ppp-watch.c -o ppp-watch.o
 
 rename_device: rename_device.c
-	$(CC) $(CFLAGS) `pkg-config glib-2.0 --cflags` -o $@ $< `pkg-config glib-2.0 --libs`
+	$(CC) $(CFLAGS) `pkg-config glib-2.0 --cflags` -o $@ $< $(LDFLAGS) `pkg-config glib-2.0 --libs`
 
 udev-kvm-check.o: udev-kvm-check.c
 	$(CC) $(CFLAGS) `pkg-config glib-2.0 --cflags` -c udev-kvm-check.c -o udev-kvm-check.o
