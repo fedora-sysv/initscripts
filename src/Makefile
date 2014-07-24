@@ -1,5 +1,5 @@
-CFLAGS+=$(RPM_OPT_FLAGS) -Wall -D_GNU_SOURCE
-LDFLAGS+=$(RPM_LD_FLAGS)
+CFLAGS+=$(RPM_OPT_FLAGS) -Wall -D_GNU_SOURCE -fPIE
+LDFLAGS+=$(RPM_LD_FLAGS) -pie -z relro -z now
 
 PROGS=usernetctl netreport usleep ipcalc \
 	consoletype genhostid rename_device
@@ -43,20 +43,20 @@ usleep: $(USLEEP_OBJS)
 	$(CC) $(LDFLAGS) -o $@ $(USLEEP_OBJS) -lpopt
 
 usernetctl.o: usernetctl.c
-	$(CC) $(CFLAGS) -fPIE -c usernetctl.c -o usernetctl.o
+	$(CC) $(CFLAGS) -c usernetctl.c -o usernetctl.o
 
 usernetctl: usernetctl.c usernetctl.o
-	$(CC) $(LDFLAGS) -pie -z relro -z now -o $@ $@.o
+	$(CC) $(LDFLAGS) -o $@ $@.o
 
 netreport.o: netreport.c
-	$(CC) $(CFLAGS) -fPIE -c netreport.c -o netreport.o
+	$(CC) $(CFLAGS) -c netreport.c -o netreport.o
 
 netreport: netreport.o
-	$(CC) $(LDFLAGS) -pie -z relro -z now -o $@ $@.o
+	$(CC) $(LDFLAGS) -o $@ $@.o
 
 shvar.o: shvar.c
 	$(CC) $(CFLAGS) `pkg-config glib-2.0 --cflags` -c shvar.c -o shvar.o
 
 rename_device: rename_device.c
-	$(CC) $(CFLAGS) `pkg-config glib-2.0 --cflags` -o $@ $< `pkg-config glib-2.0 --libs`
+	$(CC) $(CFLAGS) `pkg-config glib-2.0 --cflags` -o $@ $< $(LDFLAGS) `pkg-config glib-2.0 --libs`
 
