@@ -83,10 +83,11 @@ case "$1" in
 		eval $(LANG=C grep -F "DEVICE=" ifcfg-$i)
 		eval $(LANG=C grep -F "TYPE=" ifcfg-$i)
 		eval $(LANG=C grep -F "SLAVE=" ifcfg-$i)
+		eval $(LANG=C grep -F "NM_CONTROLLED=" ifcfg-$i)
 
 		if [ -z "$DEVICE" ] ; then DEVICE="$i"; fi
 
-		if [ "$SLAVE" = "yes" ]; then
+                if [ "$SLAVE" = "yes" ] && ( ! is_nm_running || is_false $NM_CONTROLLED ) ; then
 			continue
 		fi
 
