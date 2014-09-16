@@ -458,7 +458,7 @@ phy_wireless_device ()
 install_bonding_driver ()
 {
    [ ! -f /sys/class/net/bonding_masters ] && ( modprobe bonding || return 1 )
-   if ! grep -sq "$1" /sys/class/net/bonding_masters; then
+   if ! grep -sqx "$1" /sys/class/net/bonding_masters; then
        echo "+$1" > /sys/class/net/bonding_masters 2>/dev/null
    fi
    (
