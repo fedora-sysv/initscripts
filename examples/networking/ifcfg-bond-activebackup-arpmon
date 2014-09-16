@@ -1,0 +1,17 @@
+# ifcfg sample for bond in active-backup mode using
+# ARP monitoring. The ARP probes frequency (arp_interval)
+# is 500ms and the target IP address (arp_ip_target)
+# is 192.168.1.1
+#
+# Please read /usr/share/doc/initscripts-*/sysconfig.txt
+# for the documentation of these parameters.
+
+DEVICE=bond0
+ONBOOT=yes
+USERCTL=no
+TYPE=Ethernet
+BOOTPROTO=none
+BONDING_OPTS="mode=1 arp_interval=500 arp_ip_target=192.168.1.1"
+IPADDR=192.168.1.4
+NETMASK=255.255.255.0
+GATEWAY=192.168.1.1

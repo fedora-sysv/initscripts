@@ -190,6 +190,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/NetworkManager/dispatcher.d
 /etc/NetworkManager/dispatcher.d/00-netreport
 %doc sysconfig.txt sysvinitfiles static-routes-ipv6 ipv6-tunnel.howto ipv6-6to4.howto changes.ipv6
+%doc examples
 %{!?_licensedir:%global license %%doc}
 %license COPYING
 /var/lib/stateless
