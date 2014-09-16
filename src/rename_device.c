@@ -27,6 +27,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <ctype.h>
 
 #include <sys/ioctl.h>
 #include <sys/time.h>
@@ -120,13 +121,19 @@ int isCfg(const struct dirent *dent) {
 }
 
 static inline char *dequote(char *start, char *end) {
-        char *c;
-        //remove comments and trailing whitespace
-        c = strchr(start, '#');
-        if (c!=NULL)
-                *c='\0';
+	char *c;
+	//remove comments and trailing whitespace
+	for (c = start; c && *c; c++) {
+		c = strchr(c, '#');
+		if (!c)
+			break;
+		if (c > start && isblank(*(c-1))) {
+			*c = '\0';
+			break;
+		}
+	}
 
-        g_strchomp(start);
+	g_strchomp(start);
 
 	if (end==NULL) {
 		end=start;
