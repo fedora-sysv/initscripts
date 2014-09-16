@@ -292,7 +292,7 @@ if [ "${TYPE}" = "Bridge" ]; then
     for arg in $BRIDGING_OPTS ; do
         key=${arg%%=*};
         value=${arg##*=};
-        if [ "${key}" = "multicast_router" -o "${key}" = "hash_max" ]; then
+        if [ "${key}" = "multicast_router" -o "${key}" = "hash_max" -o "${key}" = "multicast_snooping" ]; then
             echo $value > /sys/class/net/${DEVICE}/bridge/$key
         fi
     done
