@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.49.17
+Version: 9.49.18
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -216,6 +216,33 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Wed Sep 17 2014 Lukáš Nykrýn <lnykryn@redhat.com> - 9.49.18-1
+- is_available_wait: properly propage return value from is_available
+- man: update sys-unconfig.8
+- rename_devices: comments need to have a blank before them
+- add example ifcfg files
+- network-functions: improve bonding_masters grep
+- ifup: if we were unable to determine DEVICE always call nmcli up
+- ifup-tunnel: call ifup-ipv6 in the end
+- ifup: also set multicast_snooping after the bridge is up
+- ifup-eth: some options for bridge can be applied after the bridge is up
+- custom naming for VLAN devices
+- ifup-wireless: add support for wowlan
+- vi.po: fix parentheses
+- network-functions: ETHTOOL_DELAY introduction patch
+- ipcalc: -c allow netmask
+- ipcalc: parse prefix more safely
+- use pie and relro by default
+- sys-unconfig: use poweroff instead of halt
+- ifup-aliases: improve duplicate address detection
+- network-functions: handle BONDING_OPTS better
+- fedora-readonly: fix prefix detection (#1059749)
+- network: tell nm to wake the slaves
+- bridging: add possibility to set prio and ageing
+- network: add support for team devices
+- inittab: fix path and mention set-default
+- fedora-domainname: DefaultDependencies=no
+
 * Wed Apr 02 2014 Lukáš Nykrýn <lnykryn@redhat.com> - 9.49.17-1
 - add configurable DEVTIMEOUT
 
