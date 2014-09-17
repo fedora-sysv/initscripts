@@ -5,26 +5,23 @@ sys-unconfig \- shell script to reconfigure the system upon next boot
 \fBsys-unconfig\fR
 .SH DESCRIPTION
 \fBsys-unconfig\fR provides a simple method of reconfiguring a system
-in a new environment.  Upon executing sys-unconfig will halt your
-system, and run the following configuration programs at boot:
-passwd (to change the root password), netconfig, timeconfig,
-kbdconfig, authconfig, and ntsysv.
+in a new environment. Upon executing sys-unconfig will poweroff your
+system, and run firstboot at next boot.
 
 .SH FILES
 .PD 0
 .TP 20
 \fI/.unconfigured\fR
-The presence of this file will cause /etc/rc.d/rc.sysinit to run
-the programs mentioned above.
+The presence of this file will trigger firsboot.
+
+.SH NOTES
+.PD
+This utility should not be used for creating cloud or virtual machine images.
+For that use please see \fBvirt-sysprep\fP.
 
 .PD
 .SH "SEE ALSO"
-.BR passwd (1),
-.BR netconfig (8),
-.BR timeconfig (8),
-.BR kbdconfig (8),
-.BR authconfig (8),
-.BR ntsysv(8)
+.BR virt-sysprep(1)
 
 .SH AUTHORS
 .nf
