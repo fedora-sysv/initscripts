@@ -339,7 +339,7 @@ is_available_wait ()
     is_available $1
     ret=$?
 
-    [ 0"$ret" -gt 0 ] && return $ret
+    [ 0"$ret" -ne 1 ] && return $ret
 
     while [ 0"$retry" -gt 0 ]; do
         sleep 1
