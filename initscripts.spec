@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.49.18
+Version: 9.49.19
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -216,6 +216,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Tue Sep 23 2014 Lukáš Nykrýn <lnykryn@redhat.com> - 9.49.19-1
+- minor fixes
+
 * Wed Sep 17 2014 Lukáš Nykrýn <lnykryn@redhat.com> - 9.49.18-1
 - is_available_wait: properly propage return value from is_available
 - man: update sys-unconfig.8
