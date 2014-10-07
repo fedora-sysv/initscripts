@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.55
+Version: 9.56
 License: GPLv2
 Group: System Environment/Base
 Release: 1%{?dist}
@@ -209,6 +209,32 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Tue Oct 07 2014 Lukáš Nykrýn <lnykryn@redhat.com> - 9.56-1
+- network_function: return immediately when device is pres
+ent
+- add configurable DEVTIMEOUT
+- fedora-import-state: do not clobber /
+- network-functions: grep->fgrep in bonding masters matchi
+ng
+- man: update sys-unconfig.8
+- rename_devices: comments need to have a blank before them
+- add example ifcfg files
+- network-functions: improve bonding_masters grep
+- ifup: if we were unable to determine DEVICE always call nmcli up
+- ifup-tunnel: call ifup-ipv6 in the end
+- ifup: also set multicast_snooping after the bridge is up
+- network-functions: ETHTOOL_DELAY introduction patch
+- use pie and relro by default
+- custom naming for VLAN devices
+- vi.po: fix parentheses
+- ifup-wireless: add support for wowlan
+- ifup-wireless: add support for wowlan (second part)
+- ifup-aliases: do not bring up ipv6 for range files
+- sys-unconfig: use poweroff instead of halt
+- ifup-aliases: improve duplicate address detection
+- network-functions: handle BONDING_OPTS better
+- network: tell nm to wake the slaves
+
 * Tue Jul 22 2014 Lukáš Nykrýn <lnykryn@redhat.com> - 9.55-1
 - fix license handling
 - ipcalc: -c allow netmask
