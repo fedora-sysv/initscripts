@@ -1,6 +1,6 @@
-Summary: The inittab file and the /etc/init.d scripts
+Summary: Scripts to bring up network interfaces and legacy utilities
 Name: initscripts
-Version: 9.56
+Version: 9.57
 License: GPLv2
 Group: System Environment/Base
 Release: 1%{?dist}
@@ -35,19 +35,17 @@ BuildRequires: glib2-devel popt-devel gettext pkgconfig
 Provides: /sbin/service
 
 %description
-The initscripts package contains the basic system scripts used to boot
-your Red Hat or Fedora system, change runlevels, and shut the system down
-cleanly.  Initscripts also contains the scripts that activate and
-deactivate most network interfaces.
+This package contains the script that activates and deactivates most
+network interfaces, some utilities, and other legacy files.
 
 %package -n debugmode
-Summary: Scripts for running in debugging mode
+Summary: Scripts for running in debug mode
 Requires: initscripts
 Group: System Environment/Base
 
 %description -n debugmode
 The debugmode package contains some basic scripts that are used to run
-the system in a debugging mode.
+the system in a debug mode.
 
 Currently, this consists of various memory checking code.
 
@@ -71,22 +69,11 @@ rm -f \
  $RPM_BUILD_ROOT/etc/sysconfig/init.s390
 %endif
 
-touch $RPM_BUILD_ROOT/etc/crypttab
-chmod 600 $RPM_BUILD_ROOT/etc/crypttab
-
 rm -f $RPM_BUILD_ROOT/etc/rc.d/rc.local $RPM_BUILD_ROOT/etc/rc.local
 touch $RPM_BUILD_ROOT/etc/rc.d/rc.local
 chmod 755 $RPM_BUILD_ROOT/etc/rc.d/rc.local
 
-%pre
-/usr/sbin/groupadd -g 22 -r -f utmp
-
 %post
-touch /var/log/wtmp /var/run/utmp /var/log/btmp
-chown root:utmp /var/log/wtmp /var/run/utmp /var/log/btmp
-chmod 664 /var/log/wtmp /var/run/utmp
-chmod 600 /var/log/btmp
-
 /usr/sbin/chkconfig --add network
 /usr/sbin/chkconfig --add netconsole
 if [ $1 -eq 1 ]; then
@@ -161,16 +148,13 @@ rm -rf $RPM_BUILD_ROOT
 %dir /etc/statetab.d
 /usr/lib/systemd/fedora-*
 /usr/lib/systemd/system/*
-/etc/inittab
 %dir /etc/rc.d
 %dir /etc/rc.d/rc[0-9].d
 /etc/rc[0-9].d
 %dir /etc/rc.d/init.d
 /etc/rc.d/init.d/*
 %ghost %verify(not md5 size mtime) %config(noreplace,missingok) /etc/rc.d/rc.local
-%config(noreplace) /etc/sysctl.conf
 /usr/lib/sysctl.d/00-system.conf
-/etc/sysctl.d/99-sysctl.conf
 %exclude /etc/profile.d/debug*
 /etc/profile.d/*
 /usr/sbin/sys-unconfig
@@ -194,10 +178,6 @@ rm -rf $RPM_BUILD_ROOT
 %{!?_licensedir:%global license %%doc}
 %license COPYING
 /var/lib/stateless
-%ghost %attr(0600,root,utmp) /var/log/btmp
-%ghost %attr(0664,root,utmp) /var/log/wtmp
-%ghost %attr(0664,root,utmp) /var/run/utmp
-%ghost %verify(not md5 size mtime) %config(noreplace,missingok) /etc/crypttab
 %dir /usr/lib/tmpfiles.d
 /usr/lib/tmpfiles.d/initscripts.conf
 %dir /usr/libexec/initscripts
@@ -209,6 +189,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Tue Oct 07 2014 Zbigniew Jędrzejewski-Szmek - 9.57
+- Remove /etc/inittab, /etc/crypttab, utmp, wtmp, btmp
+
 * Tue Oct 07 2014 Lukáš Nykrýn <lnykryn@redhat.com> - 9.56-1
 - network_function: return immediately when device is pres
 ent
