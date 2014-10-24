@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.49.20
+Version: 9.49.21
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -216,6 +216,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Fri Oct 24 2014 Lukáš Nykrýn <lnykryn@redhat.com> - 9.49.21-1
+- ifup,vlan: fix typo
+
 * Thu Oct 09 2014 Lukáš Nykrýn <lnykryn@redhat.com> - 9.49.20-1
 - rhel-import-state: do not clobber /
 
