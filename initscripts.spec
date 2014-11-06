@@ -14,7 +14,7 @@ Requires: module-init-tools
 Requires: util-linux >= 2.16
 Requires: bash >= 3.0
 Requires: procps-ng >= 3.3.8-16
-Conflicts: systemd < 23-1
+Conflicts: systemd < 216-3
 Conflicts: systemd-units < 23-1
 Conflicts: lvm2 < 2.02.98-3
 Conflicts: dmraid < 1.0.0.rc16-18
