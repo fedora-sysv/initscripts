@@ -1,6 +1,6 @@
 #!/bin/bash
 # Network Interface Configuration System
-# Copyright (c) 1996-2010 Red Hat, Inc. all rights reserved.
+# Copyright (c) 1996-2014 Red Hat, Inc. all rights reserved.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License, version 2,
@@ -64,6 +64,15 @@ if [ "${TYPE}" = "Bridge" ]; then
           value=${arg##*=};
           echo $value > /sys/class/net/${DEVICE}/bridge/$key
       done
+      # set LINKDELAY (used as timeout when calling check_link_down())
+      # to at least (${DELAY} * 2) + 7 if STP is enabled. This is the
+      # minimum time required for /sys/class/net/$REALDEVICE/carrier to
+      # become 1 after "ip link set dev $DEVICE up" is called.
+      if [ "${STP}" = "yes" -o "${STP}" = "on" ]; then
+          TMPD=7
+          [ -n "${DELAY}" ] && TMPD=$(expr ${DELAY} \* 2 + ${TMPD})
+          [ 0$LINKDELAY -lt $TMPD ] && LINKDELAY=$TMPD
+      fi
 fi
 
 # Create tap device.
