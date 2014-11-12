@@ -1,6 +1,6 @@
 Summary: Scripts to bring up network interfaces and legacy utilities
 Name: initscripts
-Version: 9.58
+Version: 9.59
 License: GPLv2
 Group: System Environment/Base
 Release: 1%{?dist}
@@ -189,6 +189,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Wed Nov 12 2014 Lukáš Nykrýn <lnykryn@redhat.com> - 9.59-1
+- adjust LINKDELAY when STP is on
+
 * Thu Nov 06 2014 Lukáš Nykrýn <lnykryn@redhat.com> - 9.58-1
 - ifup,vlan: fix typo
 - doc: be consistent and use BOOTPROTO=none
