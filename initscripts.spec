@@ -1,6 +1,6 @@
 Summary: Scripts to bring up network interfaces and legacy utilities
 Name: initscripts
-Version: 9.59
+Version: 9.60
 License: GPLv2
 Group: System Environment/Base
 Release: 1%{?dist}
@@ -189,6 +189,12 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Tue Dec 16 2014 Lukáš Nykrýn <lnykryn@redhat.com> - 9.60-1
+- improve_check_for_bond_master_in_install_bonding_driver
+- network-functions: reeplace iwconfig with iw
+- ifup: fix typo
+- ifdown-ipv6: reset addrgenmode to eui64 for device
+
 * Wed Nov 12 2014 Lukáš Nykrýn <lnykryn@redhat.com> - 9.59-1
 - adjust LINKDELAY when STP is on
 
