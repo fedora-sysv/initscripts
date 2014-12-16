@@ -90,7 +90,7 @@ if [ "${VLAN}" = "yes" ] && [ "$ISALIAS" = "no" ] && [ -n $DEVICE ]; then
         fi
         MATCH='^vlan[0-9]{1,4}?'
          if [[ "${DEVICE}" =~ $MATCH ]]; then
-             VID=$(echo "${DEVICE}" | LC_ALL=C sed 's/^vlan0*//'):
+             VID=$(echo "${DEVICE}" | LC_ALL=C sed 's/^vlan0*//')
              # PHYSDEV should be set in ifcfg-vlan* file
              if test -z "$PHYSDEV"; then
                 net_log $"PHYSDEV should be set for device ${DEVICE}"
