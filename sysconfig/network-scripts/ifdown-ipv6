@@ -66,6 +66,7 @@ fi
 /sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.forwarding=0 >/dev/null 2>&1
 /sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.accept_ra=0 >/dev/null 2>&1
 /sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.accept_redirects=0 >/dev/null 2>&1
+/sbin/ip link set $DEVICE addrgenmode eui64 >/dev/null 2>&1
 
 # Test status of tun6to4 device
 ipv6_test_device_status tun6to4
