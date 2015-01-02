@@ -468,7 +468,7 @@ install_bonding_driver ()
 	# Set config here
 	need_config "$1"
 	source_config
-	if [ -f /sys/class/net/${DEVICE}/bonding/slaves -a $(wc -l < /sys/class/net/${DEVICE}/bonding/slaves) -eq 0 ]; then
+	if [ -f /sys/class/net/${DEVICE}/bonding/slaves ] && [ $(wc -l < /sys/class/net/${DEVICE}/bonding/slaves) -eq 0 ]; then
 	        /sbin/ip link set dev ${DEVICE} down
 
 	        # parse options and put them to arrays
