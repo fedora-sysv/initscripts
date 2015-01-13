@@ -4,8 +4,8 @@ DefaultDependencies=no
 ConditionPathIsReadWrite=/
 ConditionDirectoryNotEmpty=/run/initramfs/state
 Conflicts=shutdown.target
-Before=shutdown.target emergency.service emergency.target systemd-tmpfiles-setup.service
-After=systemd-remount-fs.service
+Before=shutdown.target emergency.service emergency.target systemd-tmpfiles-setup.service basic.target
+After=local-fs.target
 
 [Service]
 ExecStart=/lib/systemd/fedora-import-state
