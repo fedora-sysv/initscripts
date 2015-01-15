@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.49.23
+Version: 9.49.24
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -216,6 +216,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Thu Jan 15 2015 Lukáš Nykrýn <lnykryn@redhat.com> - 9.49.24-1
+- rhel-import-state.service: run a little bit later
+
 * Tue Dec 16 2014 Lukáš Nykrýn <lnykryn@redhat.com> - 9.49.23-1
 - ifdown-ipv6: reset addrgenmode to eui64 for device
 - ifup: fix typo
