@@ -133,6 +133,7 @@ function ini_env ()
 {
        DEVICE=""
        IPADDR=""
+       IPV6ADDR=""
        PREFIX=$default_PREFIX
        NETMASK=$default_NETMASK
        BROADCAST=$default_BROADCAST
@@ -182,6 +183,10 @@ function new_interface ()
        fi
 
        if [ -z "$DEVICE" -o -z "$IPADDR" ]; then
+              if [ -n "$IPV6ADDR" -a -n "$DEVICE" ] && [[ "$IPV6INIT" != [nN0]* ]]; then
+                    /etc/sysconfig/network-scripts/ifup-ipv6 ${DEVICE}
+                    return $?
+              fi
               net_log $"error in $FILE: didn't specify device or ipaddr"
 	      return 1
        fi
