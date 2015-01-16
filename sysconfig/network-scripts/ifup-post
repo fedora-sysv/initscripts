@@ -26,7 +26,14 @@ fi
 if [ "$PEERDNS" != "no" ] ||[ -n "$RESOLV_MODS" -a "$RESOLV_MODS" != "no" ]; then
   [ -n "$MS_DNS1" ] && DNS1=$MS_DNS1
   [ -n "$MS_DNS2" ] && DNS2=$MS_DNS2
-  if [ -n "$DNS1" ] && ! grep -q "^nameserver $DNS1" /etc/resolv.conf &&
+
+  if [ -z "$DNS1" -a -n "$DNS2" ]; then
+          DNS1=$DNS2
+          DNS2=
+  fi
+
+  if ( [ -n "$DNS1" ] && ! grep -q "^nameserver $DNS1" /etc/resolv.conf ) ||
+   ( [ -n "$DNS2" ] && ! grep -q "^nameserver $DNS2" /etc/resolv.conf ) &&
    tr=$(mktemp /tmp/XXXXXX) ; then
     current_replacement="$DNS1"
     next_replacement="$DNS2"
