@@ -121,11 +121,63 @@ case "$1" in
 			$"Unmounting GLUSTERFS filesystems (retry): "
 	fi
   	if [ -n "$NFSMTAB" ]; then
-		__umount_loop '$3 ~ /^nfs/ && $3 != "nfsd" && $2 != "/" {print $2}' \
-			/proc/mounts \
-			$"Unmounting NFS filesystems: " \
-			$"Unmounting NFS filesystems (retry): " \
-			"-f -l"
+		STRING=$"Unmounting NFS filesystems:"
+		echo -n $STRING
+		nfs_fs=$(LC_ALL=C awk '/^#/ {next} $3 ~ /^nfs/ && $3 != "nfsd" && $2 != "/" {print $2}' /proc/mounts | sort -r)
+		if [ -n "$nfs_fs" ]; then
+			# create a device id reference
+			devs=$(stat -c "%d" $nfs_fs)
+
+			# the lazy umount
+			for fs in $nfs_fs ; do
+				umount -l $fs
+			done
+
+			# find fds that don't start with /, are not sockets or pipes or other.
+			# these are potentially detached fds
+			detached_fds=$(find /proc/ -regex '/proc/[0-9]+/fd/.*' -printf "%p %l\n" 2>/dev/null |\
+					 grep -Ev '/proc/[0-9]+/fd/[0-9]+ (/.*|inotify|\[.+\]|(socket|pipe):\[[0-9]+\])')
+
+			# check each detached fd to see if it has the same device
+			# as one of our lazy umounted filesystems
+			kill_list=
+			[ -n "$detached_fds" ] && while read fdline; do
+				fd=${fdline%% *}
+				pid=$(echo $fdline | sed -r 's/\/proc\/([0-9]+).+/\1/')
+				fd_dev=$(stat -L -c "%d" $fd)
+				for dev in $devs ; do
+					[ "$dev" = "$fd_dev" ] && kill_list+="$pid "
+				done
+			done <<< "$detached_fds"
+
+			[ -n "$kill_list" ] && kill $kill_list
+
+			# run a little wait/check loop for procs to exit
+			count=4
+			while [ "$count" -gt 0 ] ; do
+				[ -z "$kill_list" ] && break
+				count=$(($count-1))
+				usleep 500000
+				remaining=
+				for pid in $kill_list ; do
+					[ -d "/proc/$pid" ] && remaining+="$pid "
+				done
+				kill_list=$remaining
+			done
+
+			# try to finish the job:
+			if [ -n "$kill_list" ] ; then
+				kill -9 $kill_list
+				usleep 500000
+				# last check
+				remaining=
+				for pid in $kill_list ; do
+					[ -d "/proc/$pid" ] && remaining+="$pid "
+				done
+			fi
+			[ -z "$remaining" ] && success "$STRING" || failure "$STRING"
+			echo
+		fi
 	fi
 	[ -n "$CIFSMTAB" ] && action $"Unmounting CIFS filesystems: " umount -a -t cifs
 	[ -n "$NCPMTAB" ] && action $"Unmounting NCP filesystems: " umount -a -t ncp,ncpfs
