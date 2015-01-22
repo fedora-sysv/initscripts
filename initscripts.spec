@@ -1,13 +1,12 @@
 Summary: Scripts to bring up network interfaces and legacy utilities
 Name: initscripts
-Version: 9.60
+Version: 9.61
 License: GPLv2
 Group: System Environment/Base
 Release: 1%{?dist}
 URL: http://fedorahosted.org/releases/i/n/initscripts/
 Source: http://fedorahosted.org/releases/i/n/initscripts/initscripts-%{version}.tar.bz2
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
-Obsoletes: initscripts-legacy <= 9.39
 Requires: /bin/awk, sed, coreutils
 Requires: grep
 Requires: module-init-tools
@@ -15,14 +14,12 @@ Requires: util-linux >= 2.16
 Requires: bash >= 3.0
 Requires: procps-ng >= 3.3.8-16
 Conflicts: systemd < 216-3
-Conflicts: systemd-units < 23-1
 Conflicts: lvm2 < 2.02.98-3
 Conflicts: dmraid < 1.0.0.rc16-18
 Requires: systemd
 Requires: iproute, /sbin/arping, findutils
 # Not strictly required, but nothing else requires it
 Requires: /etc/system-release
-Requires: udev >= 125-1
 Requires: cpio
 Requires: hostname
 Conflicts: ipsec-tools < 0.8.0-2
@@ -179,8 +176,19 @@ fi
 %{_sysconfdir}/profile.d/debug*
 
 %changelog
+* Thu Jan 22 2015 Lukáš Nykrýn <lnykryn@redhat.com> - 9.61-1
+- specfile cleanup
+- ifup-ipv6: set accept_ra to 2 when IPV6FORWARDING=yes and IPV6_AUTOCONF=yes
+- ifup-post: check resolve.conf also with DNS2
+- ifup-aliases: do not fail when only ipv6 addr is specified
+- fedora-import-state.service: run a little bit later
+- fedora-readonly: Updates for systemd random-seed handling
+- network-functions: is_available_wait should wait even in the case that is_available returns 2
+- ifdown-post: remove resolv.conf only in specific cases
+- network-functions: fix check in install_bonding_driver
+
 * Tue Dec 16 2014 Lukáš Nykrýn <lnykryn@redhat.com> - 9.60-1
-- improve_check_for_bond_master_in_install_bonding_driver
+- improve check for bond master in install bonding driver
 - network-functions: reeplace iwconfig with iw
 - ifup: fix typo
 - ifdown-ipv6: reset addrgenmode to eui64 for device
