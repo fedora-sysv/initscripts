@@ -111,10 +111,15 @@ retcode=0
 # brought up.  Flush all addresses associated with this
 # instance instead.
 if [ -d "/sys/class/net/${REALDEVICE}" ]; then
-	if [ "${REALDEVICE}" = "${DEVICE}" ]; then
-		ip addr flush dev ${REALDEVICE} scope global 2>/dev/null
+	if [ "${REALDEVICE}" = "lo" ]; then
+		SCOPE="host"
 	else
-		ip addr flush dev ${REALDEVICE} label ${DEVICE} scope global 2>/dev/null
+		SCOPE="global"
+	fi
+	if [ "${REALDEVICE}" = "${DEVICE}" ]; then
+		ip addr flush dev ${REALDEVICE} scope ${SCOPE} 2>/dev/null
+	else
+		ip addr flush dev ${REALDEVICE} label ${DEVICE} scope ${SCOPE} 2>/dev/null
 	fi
 	
 	if [ "${SLAVE}" = "yes" -a -n "${MASTER}" ]; then
