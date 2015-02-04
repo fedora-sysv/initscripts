@@ -201,6 +201,8 @@ if [ "$command" = /sbin/halt -a -f /etc/sysconfig/ups ]; then
 	fi
 	if [ "$SERVER" = "yes" -a -f $POWERDOWNFLAG ]; then
 		/sbin/upsdrvctl shutdown
+                sleep 120
+                /sbin/reboot --force
 	fi
 fi
 
