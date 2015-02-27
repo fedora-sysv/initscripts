@@ -813,3 +813,9 @@ init_crypto() {
 
 # A sed expression to filter out the files that is_ignored_file recognizes
 __sed_discard_ignored_files='/\(~\|\.bak\|\.orig\|\.rpmnew\|\.rpmorig\|\.rpmsave\)$/d'
+
+#if we have privileges lets log to kmsg, otherwise to stderr
+if strstr "$(cat /proc/cmdline)" "rc.debug"; then
+        [ -w /dev/kmsg ] && exec 30>/dev/kmsg && BASH_XTRACEFD=30
+        set -x
+fi
