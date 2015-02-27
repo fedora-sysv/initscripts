@@ -160,12 +160,11 @@ case "$1" in
         rootfs=$(awk '{ if ($1 !~ /^[ \t]*#/ && $2 == "/" && $3 != "rootfs") { print $3; }}' /proc/mounts)
         rootopts=$(awk '{ if ($1 !~ /^[ \t]*#/ && $2 == "/") { print $4; }}' /etc/mtab)
 	
-	if [[ "$rootfs" == nfs* || "$rootopts" =~ _r?netdev ]] ; then
+	if [[ "$rootfs" == nfs* || "$rootopts" =~ _r?netdev ]] || systemctl show --property=RequiredBy -- -.mount | grep -q 'remote-fs.target' ; then
+	        net_log $"rootfs is on network filesystem, leaving network up"
 		exit 1
 	fi
 
-        systemctl show --property=RequiredBy -- -.mount | grep -q 'remote-fs.target' && exit 1
-  
 	vlaninterfaces=""
 	vpninterfaces=""
 	xdslinterfaces=""
