@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.46
+Version: 9.03.47
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -246,6 +246,24 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Fri Feb 27 2015 Lukáš Nykrýn <lnykryn@redhat.com> - 9.03.47-1
+- rc.sysinit: be more verbose
+- init.d/functions: rc.debug option to debug initscripts
+- ifup-aliases: inherit ARPCHECK from parent device
+- netfs: don't race NFS umount to network shutdown
+- network: report that we can't shut down network for root on netfs
+- Fix tcsh + grep-2.7. (#636552)
+- sysctl.conf: move bridge setting to module-init-tools
+- rc.sysinit: set affinity also for current shell
+- ifdown-eth: use scope host for lo
+- improve_check_for_bond_master_in_install_bonding_driver
+- network-functions: fix check in install_bonding_driver
+- ifdown-post: remove resolv.conf only in specific cases
+- netconsole: lets run earlier
+- ipcalc: support RFC3021 (#997271)
+- halt: add delay after upsdrvctl shutdown
+- ifup: also set multicast_snooping after the bridge is up
+
 * Tue Jul 22 2014 Lukáš Nykrýn <lnykryn@redhat.com> - 9.03.46-1
 - ifup,vlan: fix typo
 
