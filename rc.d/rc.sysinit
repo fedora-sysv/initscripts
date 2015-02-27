@@ -131,6 +131,7 @@ if [ -x /bin/taskset ]; then
      for arg in $cmdline ; do
          if [ "${arg##default_affinity=}" != "${arg}" ]; then
              /bin/taskset -p ${arg##default_affinity=} 1
+             /bin/taskset -p ${arg##default_affinity=} $$
          fi
      done
    fi
