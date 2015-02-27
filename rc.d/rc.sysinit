@@ -184,7 +184,7 @@ if ! strstr "$cmdline" nompath && [ -f /etc/multipath.conf -a \
 	modprobe dm-multipath > /dev/null 2>&1
 	/sbin/multipath -v 0
 	if [ -x /sbin/kpartx ]; then
-		/sbin/dmsetup ls --target multipath --exec "/sbin/kpartx -a -p p" >/dev/null
+                action_silent $"Add partition mappings: " /sbin/dmsetup ls --target multipath --exec "/sbin/kpartx -a -p p" 
 	fi
 fi
 
@@ -197,14 +197,14 @@ if ! strstr "$cmdline" nodmraid && [ -x /sbin/dmraid ]; then
 			   ! strstr "$cmdline" noiswmd; then
 				continue
 			fi
-			/sbin/dmraid -ay -i --rm_partitions -p "$dmname" >/dev/null 2>&1
+                        action_silent $"Activate software (ATA)RAID: " /sbin/dmraid -ay -i --rm_partitions -p "$dmname"
 			/sbin/kpartx -a -p p "/dev/mapper/$dmname"
 		done
 	fi
 fi
 
 # Start any MD RAID arrays that haven't been started yet
-[ -r /proc/mdstat -a -r /dev/md/md-device-map ] && /sbin/mdadm -IRs
+[ -r /proc/mdstat -a -r /dev/md/md-device-map ] && action $"Run MD devices: " /sbin/mdadm -IRs
 
 if [ -x /sbin/lvm ]; then
 	if [ ! -f /.nolvm ] && ! strstr "$cmdline" nolvm ; then

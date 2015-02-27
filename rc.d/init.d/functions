@@ -577,6 +577,19 @@ action() {
   return $rc
 }
 
+# Run some action. Silently.
+action_silent() {
+  local STRING rc
+
+  STRING=$1
+  echo -n "$STRING "
+  shift
+  "$@" >/dev/null && success $"$STRING" || failure $"$STRING"
+  rc=$?
+  echo
+  return $rc
+}
+
 # returns OK if $1 contains $2
 strstr() {
   [ "${1#*$2*}" = "$1" ] && return 1
