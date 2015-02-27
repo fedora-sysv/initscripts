@@ -126,6 +126,7 @@ eval ` (
        echo default_BROADCAST=$BROADCAST\;;
        echo default_GATEWAY=$GATEWAY\;;
        echo default_NO_ALIASROUTING=$NO_ALIASROUTING\;;
+       echo default_ARPCHECK=$ARPCHECK\;;
 ) `
 [ -z "$default_GATEWAY" ] && default_GATEWAY=$network_GATEWAY
 
@@ -139,7 +140,7 @@ function ini_env ()
        GATEWAY=$default_GATEWAY
        NO_ALIASROUTING=$default_NO_ALIASROUTING
        ONPARENT=""
-       ARPCHECK=""
+       ARPCHECK=$default_ARPCHECK
 }
 
 function is_default_gateway ()
