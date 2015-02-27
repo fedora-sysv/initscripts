@@ -14,7 +14,7 @@ Requires: mingetty, /bin/awk, /bin/sed, mktemp
 Requires: /sbin/sysctl
 Requires: /sbin/fuser, /bin/grep
 Requires: /sbin/pidof, /sbin/blkid
-Requires: module-init-tools
+Requires: module-init-tools >= 3.9-25
 Requires: util-linux-ng >= 2.16
 Requires: bash >= 3.0
 Requires: sysvinit-tools >= 2.87
