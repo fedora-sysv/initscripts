@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.47
+Version: 9.03.48
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -246,6 +246,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Mon Mar 02 2015 Lukáš Nykrýn <lnykryn@redhat.com> - 9.03.48-1
+- use new -m option to pidof
+
 * Fri Feb 27 2015 Lukáš Nykrýn <lnykryn@redhat.com> - 9.03.47-1
 - rc.sysinit: be more verbose
 - init.d/functions: rc.debug option to debug initscripts
