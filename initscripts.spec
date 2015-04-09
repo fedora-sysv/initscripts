@@ -1,6 +1,6 @@
 Summary: Scripts to bring up network interfaces and legacy utilities
 Name: initscripts
-Version: 9.61
+Version: 9.62
 License: GPLv2
 Group: System Environment/Base
 Release: 1%{?dist}
@@ -176,6 +176,14 @@ fi
 %{_sysconfdir}/profile.d/debug*
 
 %changelog
+* Thu Apr 09 2015 Lukáš Nykrýn <lnykryn@redhat.com> - 9.62-1
+- network-functions: fix change_resolv_conf after grep update
+- ifup-aliases: don't return with error when arping fails
+- init.d/functions: rc.debug option to debug initscripts
+- ifup-aliases: inherit ARPCHECK from parent device
+- network: report that we can't shut down network for root on netfs
+- ifdown-eth: use scope host for lo
+
 * Thu Jan 22 2015 Lukáš Nykrýn <lnykryn@redhat.com> - 9.61-1
 - specfile cleanup
 - ifup-ipv6: set accept_ra to 2 when IPV6FORWARDING=yes and IPV6_AUTOCONF=yes
