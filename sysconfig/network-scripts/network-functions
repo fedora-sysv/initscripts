@@ -532,10 +532,10 @@ is_bonding_device ()
 change_resolv_conf ()
 {
     s=$(/bin/grep '^[\ \	]*option' /etc/resolv.conf 2>/dev/null);
-    if [ "x$s" != "x" ]; then
-       s="$s"$'\n';
-    fi;
     if [ $# -gt 1 ]; then
+       if [ "x$s" != "x" ]; then
+          s="$s"$'\n';
+       fi;
        n_args=$#;
        while [ $n_args -gt 0 ]; 
 	 do 
@@ -553,7 +553,7 @@ change_resolv_conf ()
          done;       
     elif [ $# -eq 1 ]; then
        if [ "x$s" != "x" ]; then
-	  s="$s"$(/bin/grep -vF "$s" $1);
+	  s="$s"$'\n'$(/bin/grep -vF "$s" $1);
        else
 	  s=$(cat $1);
        fi;
