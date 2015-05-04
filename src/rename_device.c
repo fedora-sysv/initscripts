@@ -186,6 +186,8 @@ struct netdev *get_configs() {
 #if defined(__s390__) || defined(__s390x__)
 			if (g_str_has_prefix(lines[i],"SUBCHANNELS=")) {
 				hwaddr = dequote(lines[i] + 12, NULL);
+			} else if (g_str_has_prefix(lines[i],"HWADDR=")) {
+				hwaddr = dequote(lines[i] + 7, NULL);
 			}
 #else
 			if (g_str_has_prefix(lines[i],"HWADDR=")) {
@@ -222,6 +224,13 @@ char *get_hwaddr(char *device) {
 	if (asprintf(&path, "/sys/class/net/%s/device/.", device) == -1)
 		return NULL;
 	contents = read_subchannels(path);
+
+	if (contents == NULL) {
+		if (asprintf(&path, "/sys/class/net/%s/address", device) == -1)
+			return NULL;
+		g_file_get_contents(path, &contents, NULL, NULL);
+	}
+
 #else
 	if (asprintf(&path, "/sys/class/net/%s/address", device) == -1)
 		return NULL;
