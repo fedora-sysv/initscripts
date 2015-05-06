@@ -65,7 +65,7 @@ then
     exit 0
 fi
 
-if [ "$_use_nm" = "true" -a -n "$UUID" ]; then
+if [ "$_use_nm" = "true" -a -n "$UUID" -a "$DEVICE" != "lo" ]; then
     if [ "foo$2" = "fooboot" ] && [ "${TYPE}" = "Wireless" ]; then
         exit 0
     fi
