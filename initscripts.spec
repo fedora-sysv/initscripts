@@ -120,7 +120,7 @@ rm -rf $RPM_BUILD_ROOT
 /etc/sysconfig/network-scripts/ifdown-post
 /etc/sysconfig/network-scripts/ifup
 /usr/sbin/ifup
-/usr/sbin/brandbot
+/usr/libexec/initscripts/brandbot
 %dir /etc/sysconfig/console
 %dir /etc/sysconfig/modules
 /etc/sysconfig/network-scripts/network-functions

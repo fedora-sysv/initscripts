@@ -20,7 +20,7 @@ clean:
 	rm -f $(PROGS) *.o *~
 
 install:
-	mkdir -p $(ROOT)/usr/bin $(ROOT)/usr/sbin $(ROOT)$(mandir)/man{1,8} $(ROOT)/etc $(ROOT)/usr/lib/udev
+	mkdir -p $(ROOT)/usr/bin $(ROOT)/usr/sbin $(ROOT)$(mandir)/man{1,8} $(ROOT)/etc $(ROOT)/usr/lib/udev $(ROOT)/usr/libexec/initscripts/
 	install -m 755 usleep $(ROOT)/usr/bin/usleep
 	install -m 4755 usernetctl $(ROOT)/usr/sbin/usernetctl
 	install -m 2755 netreport $(ROOT)/usr/sbin/netreport
@@ -29,7 +29,7 @@ install:
 	install -m 755 ppp-watch $(ROOT)/usr/sbin/ppp-watch
 	install -m 755 consoletype $(ROOT)/usr/sbin/consoletype
 	install -m 755 sushell $(ROOT)/usr/sbin/sushell
-	install -m 755 brandbot $(ROOT)/usr/sbin/brandbot
+	install -m 755 brandbot $(ROOT)/usr/libexec/initscripts/brandbot
 	install -m 755 rename_device $(ROOT)/usr/lib/udev/rename_device
 	install -m 755 udev-kvm-check $(ROOT)/usr/lib/udev/udev-kvm-check
 	install -m 644 genhostid.1 $(ROOT)$(mandir)/man1
