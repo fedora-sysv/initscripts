@@ -61,6 +61,11 @@ case "$1" in
   
 	apply_sysctl
 
+	#tell NM to reload its configuration
+	if [ "$(LANG=C nmcli -t --fields running general status 2>/dev/null)" = "running" ]; then
+		nmcli connection reload
+	fi
+
 	# bring up loopback interface
 	action $"Bringing up loopback interface: " ./ifup ifcfg-lo
 
