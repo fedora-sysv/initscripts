@@ -1,6 +1,6 @@
 Summary: Scripts to bring up network interfaces and legacy utilities
 Name: initscripts
-Version: 9.62
+Version: 9.63
 License: GPLv2
 Group: System Environment/Base
 Release: 1%{?dist}
@@ -176,6 +176,16 @@ fi
 %{_sysconfdir}/profile.d/debug*
 
 %changelog
+* Mon May 18 2015 Lukáš Nykrýn <lnykryn@redhat.com> - 9.63-1
+- remove ipcalc, it has its own package now
+- network: tell NM to reload its configuration during start
+- bonding: warn if the ifup for slave device failed
+- sysctl.conf: drop SHMALL and SHMMAX, they have sane default values in kernel
+- ifup: don't call NM for loopback
+- clarify daemon() usage message
+- rename_device: allow non-channel nics for s390x machines
+- ifup: add missing quotes
+
 * Thu Apr 09 2015 Lukáš Nykrýn <lnykryn@redhat.com> - 9.62-1
 - network-functions: fix change_resolv_conf after grep update
 - ifup-aliases: don't return with error when arping fails
