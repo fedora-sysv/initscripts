@@ -1,7 +1,7 @@
 CFLAGS+=$(RPM_OPT_FLAGS) -Wall -D_GNU_SOURCE -fPIE
 LDFLAGS+=$(RPM_LD_FLAGS) -pie -z relro -z now
 
-PROGS=usernetctl netreport usleep ipcalc \
+PROGS=usernetctl netreport usleep \
 	consoletype genhostid rename_device
 CONSOLE_INIT_OBJS=console_init.o shvar.o
 USLEEP_OBJS=usleep.o
@@ -9,9 +9,6 @@ USLEEP_OBJS=usleep.o
 mandir=/usr/share/man
 
 all:	$(PROGS)
-
-check:	all
-	./ipcalc-tests
 
 clean:
 	rm -f $(PROGS) *.o *~
@@ -21,7 +18,6 @@ install:
 	install -m 755 usleep $(ROOT)/usr/bin/usleep
 	install -m 4755 usernetctl $(ROOT)/usr/sbin/usernetctl
 	install -m 2755 netreport $(ROOT)/usr/sbin/netreport
-	install -m 755 ipcalc $(ROOT)/usr/bin/ipcalc
 	install -m 755 genhostid $(ROOT)/usr/sbin/genhostid
 	install -m 755 consoletype $(ROOT)/usr/sbin/consoletype
 	install -m 755 sushell $(ROOT)/usr/sbin/sushell
@@ -30,14 +26,10 @@ install:
 	install -m 644 netreport.1 $(ROOT)$(mandir)/man1
 	install -m 644 usleep.1 $(ROOT)$(mandir)/man1
 	install -m 644 usernetctl.8 $(ROOT)$(mandir)/man8
-	install -m 644 ipcalc.1 $(ROOT)$(mandir)/man1
 	install -m 644 consoletype.1 $(ROOT)$(mandir)/man1
 	install -m 644 ifup.8 $(ROOT)$(mandir)/man8
 	install -m 644 sushell.8 $(ROOT)$(mandir)/man8
 	ln -s ifup.8 $(ROOT)$(mandir)/man8/ifdown.8
-
-ipcalc: ipcalc.o
-	$(CC) -D_GNU_SOURCE $(LDFLAGS) -o $@ $< -lpopt
 
 usleep: $(USLEEP_OBJS)
 	$(CC) $(LDFLAGS) -o $@ $(USLEEP_OBJS) -lpopt

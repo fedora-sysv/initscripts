@@ -13,6 +13,7 @@ Requires: module-init-tools
 Requires: util-linux >= 2.16
 Requires: bash >= 3.0
 Requires: procps-ng >= 3.3.8-16
+Requires: ipcalc
 Conflicts: systemd < 216-3
 Conflicts: lvm2 < 2.02.98-3
 Conflicts: dmraid < 1.0.0.rc16-18
@@ -146,7 +147,6 @@ fi
 %exclude %{_sysconfdir}/profile.d/debug*
 %{_sysconfdir}/profile.d/*
 %{_sbindir}/sys-unconfig
-%{_bindir}/ipcalc
 %{_bindir}/usleep
 %attr(4755,root,root) %{_sbindir}/usernetctl
 %{_sbindir}/consoletype
