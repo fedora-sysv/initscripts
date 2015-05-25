@@ -100,7 +100,7 @@ case "$1" in
 			vpninterfaces="$vpninterfaces $i"
 			continue
 		fi
-		if [ "$TYPE" = "xDSL" ]; then
+		if [ "$TYPE" = "xDSL"  -o  "$TYPE" = "Modem" ]; then
 		        xdslinterfaces="$xdslinterfaces $i"
 			continue
 		fi
@@ -197,7 +197,7 @@ case "$1" in
 		        bridgeinterfaces="$bridgeinterfaces $i"
 		        continue
 		fi
-		if [ "$TYPE" = "xDSL" ]; then
+		if [ "$TYPE" = "xDSL"  -o  "$TYPE" = "Modem" ]; then
 		        xdslinterfaces="$xdslinterfaces $i"
 			continue
 		fi
