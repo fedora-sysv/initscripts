@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.49.24
+Version: 9.49.25
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -216,6 +216,19 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Wed Jun 17 2015 Lukáš Nykrýn <lnykryn@redhat.com> - 9.49.25-1
+- network: tell NM to reload its configuration during start
+- bonding: warn if the ifup for slave device failed
+- brandbot: move to /usr/libexec/initscripts
+- sysctl.conf: drop SHMALL and SHMMAX, they have sane default values in kernel
+- rename_device: allow non-channel nics for s390x machines
+- network-functions: fix check in install_bonding_driver
+- ifup-aliases: don't return with error when arping fails
+- network-functions: fix change_resolv_conf after grep update
+- clarify daemon() usage message
+- ifup: don't call NM for loopback
+- ifup: add missing quotes
+
 * Thu Jan 15 2015 Lukáš Nykrýn <lnykryn@redhat.com> - 9.49.24-1
 - rhel-import-state.service: run a little bit later
 
