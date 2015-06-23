@@ -6,6 +6,6 @@ cd /run/initramfs/state
 find . -mindepth 1 -maxdepth 1 -exec cp -av -t / {} \;
 
 # run restorecon on the copied files
-if [ -e /sys/fs/selinux/enforce ]; then
+if [ -e /sys/fs/selinux/enforce -a -x /usr/sbin/restorecon ]; then
     find . -mindepth 1 -print0 | { cd / && xargs --null restorecon -i; }
 fi
