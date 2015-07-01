@@ -75,6 +75,9 @@ if [ "$READONLY" = "yes" -o "$TEMPORARY_STATE" = "yes" ]; then
 	# Scan partitions for local scratch storage
 	rw_mount_dev=$(blkid -t LABEL="$RW_LABEL" -l -o device)
 
+        bindmountopts=
+        [ "$SLAVE_MOUNTS" = "yes" ] && bindmountopts="--make-slave"
+
 	# First try to mount scratch storage from /etc/fstab, then any
 	# partition with the proper label.  If either succeeds, be sure
 	# to wipe the scratch storage clean.  If both fail, then mount
@@ -117,7 +120,7 @@ if [ "$READONLY" = "yes" -o "$TEMPORARY_STATE" = "yes" ]; then
                 done
                 [[ $prefix -eq 1 ]] && continue
 
-                mount -n --bind "$RW_MOUNT$m" "$m"
+                mount -n --bind $bindmountopts "$RW_MOUNT$m" "$m"
 	        selinux_fixup "$m"
         done
 
@@ -165,7 +168,7 @@ if [ "$READONLY" = "yes" -o "$TEMPORARY_STATE" = "yes" ]; then
 		mount_state() {
 			if [ -e "$1" ]; then
 				[ ! -e "$STATE_MOUNT$1" ] && cp -a --parents "$1" "$STATE_MOUNT"
-				mount -n --bind "$STATE_MOUNT$1" "$1"
+				mount -n --bind $bindmountopts "$STATE_MOUNT$1" "$1"
 			fi
 		}
 
@@ -174,7 +177,7 @@ if [ "$READONLY" = "yes" -o "$TEMPORARY_STATE" = "yes" ]; then
 			[ ! -f "$file" ] && continue
 
 			if [ -f "$STATE_MOUNT/$file" ] ; then
-				mount -n --bind "$STATE_MOUNT/$file" "$file"
+				mount -n --bind $bindmountopts "$STATE_MOUNT/$file" "$file"
 			fi
 
 			for path in $(grep -v "^#" "$file" 2>/dev/null); do
