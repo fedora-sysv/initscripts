@@ -1,6 +1,6 @@
 Summary: Scripts to bring up network interfaces and legacy utilities
 Name: initscripts
-Version: 9.63
+Version: 9.64
 License: GPLv2
 Group: System Environment/Base
 Release: 1%{?dist}
@@ -176,6 +176,13 @@ fi
 %{_sysconfdir}/profile.d/debug*
 
 %changelog
+* Thu Aug 06 2015 Lukáš Nykrýn <lnykryn@redhat.com> - 9.64-1
+- network-functions: fix wireless detection
+- fedora-readonly: use --make-slave with --bind mounts
+- import-state: don't run restorecon when it does not exist
+- network: modem type interfaces should explicitly start after and stop before common interfaces
+- ifup-post: should be interpreted in bash
+
 * Mon May 18 2015 Lukáš Nykrýn <lnykryn@redhat.com> - 9.63-1
 - remove ipcalc, it has its own package now
 - network: tell NM to reload its configuration during start
