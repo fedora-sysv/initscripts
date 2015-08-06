@@ -449,7 +449,7 @@ add_default_route ()
 is_wireless_device ()
 {
     [ -x /usr/sbin/iw ] || return 1
-    LC_ALL=C /usr/sbin/iw dev $1 info > /dev/null 2>&1 || return 0
+    LC_ALL=C /usr/sbin/iw dev $1 info > /dev/null 2>&1 && return 0
     return 1
 }
 
