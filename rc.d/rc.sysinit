@@ -519,15 +519,6 @@ else
 	action $"Mounting local filesystems: " mount -a -n -t nonfs,nfs4,smbfs,ncpfs,cifs,gfs,gfs2i,glusterfs -O no_netdev
 fi
 
-# Update quotas if necessary
-if [ X"$_RUN_QUOTACHECK" = X1 -a -x /sbin/quotacheck ]; then
-	action $"Checking local filesystem quotas: " /sbin/quotacheck -anug
-fi
-
-if [ -x /sbin/quotaon ]; then
-    action $"Enabling local filesystem quotas: " /sbin/quotaon -aug
-fi
-
 # Check to see if a full relabel is needed
 if [ -n "$SELINUX_STATE" -a "$READONLY" != "yes" ]; then
     if [ -f /.autorelabel ] || strstr "$cmdline" autorelabel ; then
@@ -537,6 +528,15 @@ else
     if [ -d /etc/selinux -a "$READONLY" != "yes" ]; then
         [ -f /.autorelabel ] || touch /.autorelabel
     fi
+fi
+
+# Update quotas if necessary
+if [ X"$_RUN_QUOTACHECK" = X1 -a -x /sbin/quotacheck ]; then
+	action $"Checking local filesystem quotas: " /sbin/quotacheck -anug
+fi
+
+if [ -x /sbin/quotaon ]; then
+    action $"Enabling local filesystem quotas: " /sbin/quotaon -aug
 fi
 
 # Initialize pseudo-random number generator
