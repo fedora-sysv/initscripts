@@ -47,6 +47,10 @@ systemctl_redirect () {
                 options="--ignore-dependencies"
         fi
 
+        if systemctl show -p LoadState "$prog.service" | grep -q 'not-found' ; then
+                action $"Reloading systemd: " /bin/systemctl daemon-reload
+        fi
+
 	action "$s" /bin/systemctl $options $command "$prog.service"
 }
 
