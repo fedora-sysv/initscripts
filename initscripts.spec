@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.49.27
+Version: 9.49.28
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -216,6 +216,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Mon Aug 31 2015 Lukáš Nykrýn <lnykryn@redhat.com> - 9.49.28-1
+- init.d/functions: reload systemd if it can't see an initscript
+
 * Fri Aug 07 2015 Lukáš Nykrýn <lnykryn@redhat.com> - 9.49.27-1
 - network-functions: fix wireless detection
 
