@@ -71,6 +71,13 @@ while [ $# -gt 0 ]; do
 done
 
 if [ -f "${SERVICEDIR}/${SERVICE}" ]; then
+   # LSB daemons that dies abnormally in systemd looks alive in systemd's eyes due to RemainAfterExit=yes
+   # lets reap them before next start
+   if [ "${ACTION}" = "start" ] && \
+   systemctl show -p ActiveState ${SERVICE}.service | grep -q '=active$' && \
+   systemctl show -p SubState ${SERVICE}.service | grep -q '=exited$' ; then
+       /bin/systemctl stop ${SERVICE}.service
+   fi
    env -i PATH="$PATH" TERM="$TERM" SYSTEMCTL_IGNORE_DEPENDENCIES=${SYSTEMCTL_IGNORE_DEPENDENCIES} SYSTEMCTL_SKIP_REDIRECT=${SYSTEMCTL_SKIP_REDIRECT} "${SERVICEDIR}/${SERVICE}" ${ACTION} ${OPTIONS}
 elif [ -x "${ACTIONDIR}/${SERVICE}/${ACTION}" -a -n "${ACTION}" ]; then
    env -i PATH="$PATH" TERM="$TERM" SYSTEMCTL_IGNORE_DEPENDENCIES=${SYSTEMCTL_IGNORE_DEPENDENCIES} SYSTEMCTL_SKIP_REDIRECT=${SYSTEMCTL_SKIP_REDIRECT} "${ACTIONDIR}/${SERVICE}/${ACTION}" ${OPTIONS}

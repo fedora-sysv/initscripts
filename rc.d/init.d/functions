@@ -387,7 +387,14 @@ status() {
 
 	if [ "$_use_systemctl" = "1" ]; then
 		systemctl status ${0##*/}.service
-		return $?
+		ret=$?
+		# LSB daemons that dies abnormally in systemd looks alive in systemd's eyes due to RemainAfterExit=yes
+		# lets adjust the reality a little bit
+		if systemctl show -p ActiveState ${0##*/}.service | grep -q '=active$' && \
+		systemctl show -p SubState ${0##*/}.service | grep -q '=exited$' ; then
+			ret=3
+		fi
+		return $ret
 	fi
 
 	# First try "pidof"
