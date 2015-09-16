@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.49.29
+Version: 9.49.30
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -216,6 +216,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Wed Sep 16 2015 Lukáš Nykrýn <lnykryn@redhat.com> - 9.49.30-1
+- ifup-eth: some bridge options are applied later
+
 * Tue Sep 15 2015 Lukáš Nykrýn <lnykryn@redhat.com> - 9.49.29-1
 - service: improve status and stop function for daemon with intscripts
 
