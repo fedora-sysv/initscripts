@@ -26,6 +26,9 @@
 
 # Only meant to be called from ifup.
 
+cd /etc/sysconfig/network-scripts
+. ./network-functions
+
 IW=${IW:-iw}
 
 [ "$KEY" ] && KEYS="key d:0:$KEY"
@@ -54,6 +57,6 @@ monitor)
 esac
 
 if [ -n "$WOWLAN" ] ; then
-    PHYDEVICE=phy_wireless_device $DEVICE
+    PHYDEVICE=$(phy_wireless_device $DEVICE)
     iw phy $PHYDEVICE wowlan enable ${WOWLAN}
 fi
