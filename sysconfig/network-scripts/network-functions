@@ -22,14 +22,14 @@ get_hwaddr ()
 
 get_config_by_device ()
 {
-    LANG=C grep -l "^[[:space:]]*DEVICE=\"\?${1}\"\?\([[:space:]#]\|$\)" \
+    LANG=C grep -l "^[[:space:]]*DEVICE=['\"]\?${1}['\"]\?\([[:space:]#]\|$\)" \
 	/etc/sysconfig/network-scripts/ifcfg-* \
 	| LC_ALL=C sed -e "$__sed_discard_ignored_files"
 }
 
 get_config_by_hwaddr ()
 {
-    LANG=C grep -il "^[[:space:]]*HWADDR=\"\?${1}\"\?\([[:space:]#]\|$\)" /etc/sysconfig/network-scripts/ifcfg-* \
+    LANG=C grep -il "^[[:space:]]*HWADDR=['\"]\?${1}['\"]\?\([[:space:]#]\|$\)" /etc/sysconfig/network-scripts/ifcfg-* \
 	| LC_ALL=C sed -e "$__sed_discard_ignored_files"
 }
 
