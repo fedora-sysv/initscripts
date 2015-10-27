@@ -171,6 +171,8 @@ fi
 
 # Tell init to re-exec itself.
 kill -TERM 1
+# And give init some time to do that (#1259873)
+sleep 1
 
 # Remount read only anything that's left mounted.
 # echo $"Remounting remaining filesystems readonly"
