@@ -1,6 +1,6 @@
 Summary: Scripts to bring up network interfaces and legacy utilities
 Name: initscripts
-Version: 9.64
+Version: 9.65
 License: GPLv2
 Group: System Environment/Base
 Release: 1%{?dist}
@@ -176,6 +176,16 @@ fi
 %{_sysconfdir}/profile.d/debug*
 
 %changelog
+* Mon Dec 07 2015 Lukáš Nykrýn <lnykryn@redhat.com> - 9.65-1
+- init.d/functions: end with 0
+- fedora-loadmodules: we don't have readahead anymore
+- network-scripts: DEVICE and HWADRR could be quoted by apostrophe
+- ifup-wireless: fix calling of phy_wireless_device
+- ifdown: clean ipv4 localhost addresses
+- ifup-eth: some bridge options are applied later
+- service: improve status and stop function for daemon with intscripts
+- init.d/functions: reload systemd if it can't see an initscript
+
 * Thu Aug 06 2015 Lukáš Nykrýn <lnykryn@redhat.com> - 9.64-1
 - network-functions: fix wireless detection
 - fedora-readonly: use --make-slave with --bind mounts
