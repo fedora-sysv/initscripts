@@ -20,6 +20,7 @@ install:
 	mkdir -p $(ROOT)/etc/rwtab.d $(ROOT)/etc/statetab.d
 	mkdir -p $(ROOT)/var/lib/stateless/writable
 	mkdir -p $(ROOT)/var/lib/stateless/state
+	mkdir -p $(ROOT)/etc/sysctl.d
 
 	install -m644  adjtime $(ROOT)/etc
 	install -m644 inittab $(ROOT)/etc/inittab.sysv 
