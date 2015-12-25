@@ -112,7 +112,7 @@ retcode=0
 # instance instead.
 if [ -d "/sys/class/net/${REALDEVICE}" ]; then
         LABEL=
-	if [ "${REALDEVICE}" = "${DEVICE}" ]; then
+	if [ "${REALDEVICE}" != "${DEVICE}" ]; then
                LABEL="label ${DEVICE}"
         fi
 	if [ "${REALDEVICE}" = "lo" ]; then
