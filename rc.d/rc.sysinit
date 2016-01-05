@@ -83,6 +83,9 @@ relabel_selinux() {
 	/sbin/fixfiles -F restore > /dev/null 2>&1
     fi
     rm -f  /.autorelabel
+    # at this point fsck was already executed see bz1236062
+    [ -f /forcefsck ] && rm -f /forcefsck
+
     echo $"Unmounting file systems"
     umount -a
     mount -n -o remount,ro /
