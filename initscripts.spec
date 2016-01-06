@@ -28,6 +28,7 @@ Requires: /etc/system-release
 Requires: ethtool >= 1.8-2, /sbin/runuser
 Requires: udev >= 125-1
 Requires: cpio
+Requires: plymouth
 Conflicts: mkinitrd < 4.0, kernel < 2.6.18, mdadm < 3.1.2-9
 Conflicts: ypbind < 1.6-12, psacct < 6.3.2-12, kbd < 1.06-19, lokkit < 0.50-14
 Conflicts: dhclient < 12:4.1.0-6
