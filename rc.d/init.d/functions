@@ -111,6 +111,76 @@ __umount_loop() {
 	done
 }
 
+# Similar to __umount loop above, without calling fuser
+__umount_loop_2() {
+	local remaining=
+        local count
+
+    #call regular umount
+	remaining=$(LC_ALL=C awk "/^#/ {next} $1" "$2" | sort -r)
+	action "$3" fstab-decode umount $remaining
+
+        count=4
+	remaining=$(LC_ALL=C awk "/^#/ {next} $1" "$2" | sort -r)
+        while [ "$count" -gt 0 ]; do
+                [ -z "$remaining" ] && break
+                count=$(($count-1))
+                usleep 500000
+                remaining=$(LC_ALL=C awk "/^#/ {next} $1" "$2" | sort -r)
+        done
+	[ -z "$remaining" ] && return 0
+
+	devs=$(stat -c "%d" $remaining)
+	action "$4" fstab-decode umount "-l" $remaining
+
+    # find fds that don't start with /, are not sockets or pipes or other.
+	# these are potentially detached fds
+	detached_fds=$(find /proc/ -regex '/proc/[0-9]+/fd/.*' -printf "%p %l\n" 2>/dev/null |\
+			 grep -Ev '/proc/[0-9]+/fd/[0-9]+ (/.*|inotify|\[.+\]|(socket|pipe):\[[0-9]+\])')
+
+	# check each detached fd to see if it has the same device
+	# as one of our lazy umounted filesystems
+	kill_list=
+	[ -n "$detached_fds" ] && while read fdline; do
+		fd=${fdline%% *}
+		pid=$(echo $fdline | sed -r 's/\/proc\/([0-9]+).+/\1/')
+		fd_dev=$(stat -L -c "%d" $fd)
+		for dev in $devs ; do
+			[ "$dev" = "$fd_dev" ] && kill_list+="$pid "
+		done
+	done <<< "$detached_fds"
+
+	[ -n "$kill_list" ] && kill $kill_list
+
+	# run a little wait/check loop for procs to exit
+	count=4
+	while [ "$count" -gt 0 ] ; do
+		[ -z "$kill_list" ] && break
+		count=$(($count-1))
+		usleep 500000
+		remaining=
+		for pid in $kill_list ; do
+			[ -d "/proc/$pid" ] && remaining+="$pid "
+		done
+		kill_list=$remaining
+	done
+
+	# try to finish the job:
+	if [ -n "$kill_list" ] ; then
+		kill -9 $kill_list
+		usleep 500000
+		# last check
+		remaining=
+		for pid in $kill_list ; do
+			[ -d "/proc/$pid" ] && remaining+="$pid "
+		done
+		kill_list=$remaining
+	fi
+	STRING=$"Killing processes with open filedescriptors on the unmounted disk:"
+	[ -z "$kill_list" ] && success "$STRING" || failure "$STRING"
+	echo
+}
+
 # Similar to __umount loop above, specialized for loopback devices
 __umount_loopback_loop() {
 	local remaining devremaining sig=
