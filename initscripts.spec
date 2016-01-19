@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.49
+Version: 9.03.50
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -248,6 +248,32 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Tue Jan 19 2016 Lukáš Nykrýn <lnykryn@redhat.com> - 9.03.50-1
+- functions: improve killing loops
+- netfs: tweak nfs umount
+- sysctl.conf: mention sysctl -a
+- sysconfig.txt: document PPPOE_EXTRA and PPPD_EXTRA
+- spec: require plymouth
+- fix mangled sysconfig/init.s390
+- rc.sysinit: don't perform fsck twice with /.autorelabel
+- ifdown-eth: fix comparison
+- ifup-eth: if arping fails, output responding MAC
+- network-functions: fix change_resolv_conf after grep update
+- spec: add sysctl.d dir
+- rc.sysinit: fix typo in fs
+- rename_devices: comments need to have a blank before them
+- rename_device: remove comments and trailing whitespaces
+- bonding: warn if the ifup for slave device failed
+- clarify daemon() usage message
+- ifdown: clean ipv4 localhost addresses
+- ifup-post: check resolve.conf also with DNS2
+- ifup: add missing quotes
+- ifup-eth: some bridge options are applied later
+- init.d/halt: give init some time to reexecute
+- network-scripts: DEVICE and HWADRR could be quoted by apostrophe
+- ifup-wireless: fix calling of phy_wireless_device
+- rc.sysinit: apply quotas after system is relabeled
+
 * Thu Apr 09 2015 Lukáš Nykrýn <lnykryn@redhat.com> - 9.03.49-1
 - network-functions: fix change_resolv_conf after grep update
 
