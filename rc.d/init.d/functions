@@ -107,6 +107,72 @@ checkpid() {
 	return 1
 }
 
+__kill_pids_term_kill_checkpids() {
+    local base_stime=$1
+    shift 1
+    local pid=
+    local pids=$*
+    local remaining=
+    local stat=
+    local stime=
+
+    for pid in $pids ; do
+        [ ! -e  "/proc/$pid" ] && continue
+        read -r line < "/proc/$pid/stat" 2> /dev/null
+
+        stat=($line)
+        stime=${stat[21]}
+
+        [ -n "$stime" ] && [ "$base_stime" -lt "$stime" ] && continue
+        remaining+="$pid "
+    done
+
+    echo "$remaining"
+    [ -n "$remaining" ] && return 1
+
+    return 0
+}
+
+__kill_pids_term_kill() {
+    local try=0
+    local delay=3;
+    local pid=
+    local stat=($(< /proc/self/stat))
+    local base_stime=${stat[21]}
+
+    if [ "$1" = "-d" ]; then
+        delay=$2
+        shift 2
+    fi
+
+    local kill_list=$*
+
+    kill_list=$(__kill_pids_term_kill_checkpids $base_stime $kill_list)
+
+    [ -z "$kill_list" ] && return 0
+
+    kill -TERM $kill_list >/dev/null 2>&1
+    usleep 100000
+
+    kill_list=$(__kill_pids_term_kill_checkpids $base_stime $kill_list)
+    if [ -n "$kill_list" ] ; then
+        while [ $try -lt $delay ] ; do
+            sleep 1
+            kill_list=$(__kill_pids_term_kill_checkpids $base_stime $kill_list)
+            [ -z "$kill_list" ] && break
+            let try+=1
+        done
+        if [ -n "$kill_list" ] ; then
+            kill -KILL $kill_list >/dev/null 2>&1
+            usleep 100000
+            kill_list=$(__kill_pids_term_kill_checkpids $base_stime $kill_list)
+        fi
+    fi
+
+    [ -n "$kill_list" ] && return 1
+    return 0
+}
+
 # __proc_pids {program} [pidfile]
 # Set $pid to pids from /var/run* for {program}.  $pid should be declared
 # local in the caller.
@@ -203,10 +269,10 @@ daemon() {
 
 	# make sure it doesn't core dump anywhere unless requested
 	corelimit="ulimit -S -c ${DAEMON_COREFILE_LIMIT:-0}"
-	
+
 	# if they set NICELEVEL in /etc/sysconfig/foo, honor it
 	[ -n "${NICELEVEL:-}" ] && nice="nice -n $NICELEVEL"
-	
+
 	# if they set CGROUP_DAEMON in /etc/sysconfig/foo, honor it
 	if [ -n "${CGROUP_DAEMON}" ]; then
 		if [ ! -x /bin/cgexec ]; then
@@ -255,7 +321,7 @@ killproc() {
 		fi
 		shift 2
 	fi
-        
+
 
 	# check for second arg to be kill level
 	[ -n "${2:-}" ] && killlevel=$2
@@ -278,27 +344,9 @@ killproc() {
         if [ -n "$pid" ] ; then
                 [ "$BOOTUP" = "verbose" -a -z "${LSB:-}" ] && echo -n "$base "
 		if [ -z "$killlevel" ] ; then
-		       if checkpid $pid 2>&1; then
-			   # TERM first, then KILL if not dead
-			   kill -TERM $pid >/dev/null 2>&1
-			   usleep 50000
-			   if checkpid $pid ; then
-				try=0
-				while [ $try -lt $delay ] ; do
-					checkpid $pid || break
-					sleep 1
-					let try+=1
-				done
-				if checkpid $pid ; then
-					kill -KILL $pid >/dev/null 2>&1
-					usleep 50000
-				fi
-			   fi
-		        fi
-			checkpid $pid
+			__kill_pids_term_kill -d $delay $pid
 			RC=$?
-			[ "$RC" -eq 0 ] && failure $"$base shutdown" || success $"$base shutdown"
-			RC=$((! $RC))
+			[ "$RC" -eq 0 ] && success $"$base shutdown" || failure $"$base shutdown"
 		# use specified level only
 		else
 		        if checkpid $pid; then
@@ -505,14 +553,14 @@ passed() {
   local rc=$?
   [ "$BOOTUP" != "verbose" -a -z "${LSB:-}" ] && echo_passed
   return $rc
-}  
+}
 
 # Log a warning
 warning() {
   local rc=$?
   [ "$BOOTUP" != "verbose" -a -z "${LSB:-}" ] && echo_warning
   return $rc
-}  
+}
 
 # Run some action. Log its output.
 action() {
