@@ -81,6 +81,66 @@ __fgrep() {
     return 1
 }
 
+__kill_pids_term_kill_checkpids() {
+    local base_stime=$1
+    shift 1
+    local pid=
+    local pids=$*
+    local remaining=
+    local stat=
+    local stime=
+
+    for pid in $pids ; do
+        [ ! -e  "/proc/$pid" ] && continue
+        read -r line < "/proc/$pid/stat" 2> /dev/null
+
+        stat=($line)
+        stime=${stat[21]}
+
+        [ -n "$stime" ] && [ "$base_stime" -lt "$stime" ] && continue
+        remaining+="$pid "
+    done
+
+    echo "$remaining"
+    [ -n "$remaining" ] && return 1
+
+    return 0
+}
+
+__kill_pids_term_kill() {
+    local try=0
+    local delay=3;
+    local pid=
+    local kill_list=$*
+    local stat=($(< /proc/self/stat))
+    local base_stime=${stat[21]}
+
+    kill_list=$(__kill_pids_term_kill_checkpids $base_stime $kill_list)
+
+    [ -z "$kill_list" ] && return 0
+
+    kill -TERM $kill_list >/dev/null 2>&1
+    usleep 100000
+
+    kill_list=$(__kill_pids_term_kill_checkpids $base_stime $kill_list)
+    if [ -n "$kill_list" ] ; then
+        while [ $try -lt $delay ] ; do
+            sleep 1
+            kill_list=$(__kill_pids_term_kill_checkpids $base_stime $kill_list)
+            [ -z "$kill_list" ] && break
+            let try+=1
+        done
+        if [ -n "$kill_list" ] ; then
+            kill -KILL $kill_list >/dev/null 2>&1
+            usleep 100000
+            kill_list=$(__kill_pids_term_kill_checkpids $base_stime $kill_list)
+        fi
+    fi
+
+    [ -n "$kill_list" ] && return 1
+    return 0
+}
+
 # __umount_loop awk_program fstab_file first_msg retry_msg retry_umount_args
 # awk_program should process fstab_file and return a list of fstab-encoded
 # paths; it doesn't have to handle comments in fstab_file.
@@ -113,14 +173,15 @@ __umount_loop() {
 
 # Similar to __umount loop above, without calling fuser
 __umount_loop_2() {
-	local remaining=
-        local count
+    local remaining=
+    local count
+    local kill_list
 
     #call regular umount
 	remaining=$(LC_ALL=C awk "/^#/ {next} $1" "$2" | sort -r)
 	action "$3" fstab-decode umount $remaining
 
-        count=4
+	count=4
 	remaining=$(LC_ALL=C awk "/^#/ {next} $1" "$2" | sort -r)
         while [ "$count" -gt 0 ]; do
                 [ -z "$remaining" ] && break
@@ -150,35 +211,11 @@ __umount_loop_2() {
 		done
 	done <<< "$detached_fds"
 
-	[ -n "$kill_list" ] && kill $kill_list
-
-	# run a little wait/check loop for procs to exit
-	count=4
-	while [ "$count" -gt 0 ] ; do
-		[ -z "$kill_list" ] && break
-		count=$(($count-1))
-		usleep 500000
-		remaining=
-		for pid in $kill_list ; do
-			[ -d "/proc/$pid" ] && remaining+="$pid "
-		done
-		kill_list=$remaining
-	done
-
-	# try to finish the job:
 	if [ -n "$kill_list" ] ; then
-		kill -9 $kill_list
-		usleep 500000
-		# last check
-		remaining=
-		for pid in $kill_list ; do
-			[ -d "/proc/$pid" ] && remaining+="$pid "
-		done
-		kill_list=$remaining
-	fi
-	STRING=$"Killing processes with open filedescriptors on the unmounted disk:"
-	[ -z "$kill_list" ] && success "$STRING" || failure "$STRING"
-	echo
+		STRING=$"Killing processes with open filedescriptors on the unmounted disk:"
+		__kill_pids_term_kill $kill_list && success "$STRING" || failure "$STRING"
+		echo
+    fi
 }
 
 # Similar to __umount loop above, specialized for loopback devices
@@ -317,10 +354,10 @@ daemon() {
 
 	# make sure it doesn't core dump anywhere unless requested
 	corelimit="ulimit -S -c ${DAEMON_COREFILE_LIMIT:-0}"
-	
+
 	# if they set NICELEVEL in /etc/sysconfig/foo, honor it
 	[ -n "${NICELEVEL:-}" ] && nice="nice -n $NICELEVEL"
-	
+
 	# if they set CGROUP_DAEMON in /etc/sysconfig/foo, honor it
 	if [ -n "${CGROUP_DAEMON}" ]; then
 		if [ ! -x /bin/cgexec ]; then
@@ -378,7 +415,7 @@ killproc() {
 		fi
 		shift 2
 	fi
-        
+
 
 	# check for second arg to be kill level
 	[ -n "${2:-}" ] && killlevel=$2
@@ -401,27 +438,9 @@ killproc() {
         if [ -n "$pid" ] ; then
                 [ "$BOOTUP" = "verbose" -a -z "${LSB:-}" ] && echo -n "$base "
 		if [ -z "$killlevel" ] ; then
-		       if checkpid $pid 2>&1; then
-			   # TERM first, then KILL if not dead
-			   kill -TERM $pid >/dev/null 2>&1
-			   usleep 100000
-			   if checkpid $pid ; then
-				try=0
-				while [ $try -lt $delay ] ; do
-					checkpid $pid || break
-					sleep 1
-					let try+=1
-				done
-				if checkpid $pid ; then
-					kill -KILL $pid >/dev/null 2>&1
-					usleep 100000
-				fi
-			   fi
-		        fi
-			checkpid $pid
+		    __kill_pids_term_kill $pid
 			RC=$?
-			[ "$RC" -eq 0 ] && failure $"$base shutdown" || success $"$base shutdown"
-			RC=$((! $RC))
+			[ "$RC" -eq 0 ] && success $"$base shutdown" || failure $"$base shutdown"
 		# use specified level only
 		else
 		        if checkpid $pid; then
@@ -625,14 +644,14 @@ passed() {
   local rc=$?
   [ "$BOOTUP" != "verbose" -a -z "${LSB:-}" ] && echo_passed
   return $rc
-}  
+}
 
 # Log a warning
 warning() {
   local rc=$?
   [ "$BOOTUP" != "verbose" -a -z "${LSB:-}" ] && echo_warning
   return $rc
-}  
+}
 
 # Run some action. Log its output.
 action() {
@@ -669,7 +688,7 @@ strstr() {
 # Confirm whether we really want to run this service
 confirm() {
   [ -x /bin/plymouth ] && /bin/plymouth --hide-splash
-  while : ; do 
+  while : ; do
       echo -n $"Start service $1 (Y)es/(N)o/(C)ontinue? [Y] "
       read answer
       if strstr $"yY" "$answer" || [ "$answer" = "" ] ; then
