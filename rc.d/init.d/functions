@@ -91,8 +91,8 @@ __kill_pids_term_kill_checkpids() {
     local stime=
 
     for pid in $pids ; do
-        [ ! -e  "/proc/$pid" ] && continue
-        read -r line < "/proc/$pid/stat" 2> /dev/null
+        [ -e  "/proc/$pid" ] || continue
+        read -r line < "/proc/$pid/stat" 2> /dev/null || continue
 
         stat=($line)
         stime=${stat[21]}
