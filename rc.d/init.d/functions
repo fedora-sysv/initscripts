@@ -218,13 +218,59 @@ __umount_loop_2() {
     fi
 }
 
+__source_netdevs_fstab() {
+        NFSFSTAB=$(LC_ALL=C awk '!/^#/ && $3 ~ /^nfs/ && $3 != "nfsd" && $4 !~ /noauto/ { print $2 }' /etc/fstab)
+        CIFSFSTAB=$(LC_ALL=C awk '!/^#/ && $3 == "cifs" && $4 !~ /noauto/ { print $2 }' /etc/fstab)
+        NCPFSTAB=$(LC_ALL=C awk '!/^#/ && $3 == "ncpfs" && $4 !~ /noauto/ { print $2 }' /etc/fstab)
+        GLUSTERFSFSTAB=$(LC_ALL=C awk '!/^#/ && $3 == "glusterfs" && $4 !~ /noauto/ { print $2 }' /etc/fstab)
+        NETDEVFSTAB=$(LC_ALL=C awk '!/^#/ && $4 ~/_netdev/ && $4 !~ /noauto/ { print $1 }' /etc/fstab)
+}
+
+__source_netdevs_mtab() {
+        NFSMTAB=$(LC_ALL=C awk '$3 ~ /^nfs/ && $3 != "nfsd" && $2 != "/" { print $2 }' /proc/mounts)
+        CIFSMTAB=$(LC_ALL=C awk '$3 == "cifs" { print $2 }' /proc/mounts)
+        NCPMTAB=$(LC_ALL=C awk '$3 == "ncpfs" { print $2 }' /proc/mounts)
+        GLUSTERFSMTAB=$(LC_ALL=C awk '$3 == "fuse.glusterfs" { print $2 }' /proc/mounts)
+        NETDEVMTAB=$(LC_ALL=C awk '$4 ~ /_netdev/ && $2 != "/" { print $2 }' /etc/mtab)
+
+        ALLNETDEVMTAB="$NFSMTAB $CIFSMTAB $NCPMTAB $GLUSTERFSMTAB $NETDEVMTAB"
+}
+
 # Similar to __umount loop above, specialized for loopback devices
 __umount_loopback_loop() {
 	local remaining devremaining sig=
 	local retry=3
 
-	remaining=$(awk '$1 ~ /^\/dev\/loop/ && $2 != "/" {print $2}' /proc/mounts)
-	devremaining=$(awk '$1 ~ /^\/dev\/loop/ && $2 != "/" {print $1}' /proc/mounts)
+        __find_mounts() {
+                if [ "$1" = "--netdev" ] ; then
+                       __source_netdevs_mtab
+                       remaining=
+                       devremaining=
+                       local mount= netdev= _rest
+                       while read -r dev mount _rest ; do
+                               [ "$dev" = "${dev##/dev/loop}" ] && continue
+                               local back_file=$(losetup $dev | sed -e 's/^\/dev\/loop[0-9]\+: \[[0-9a-f]\+\]:[0-9]\+ (\(.*\))$/\1/')
+                               for netdev in $ALLNETDEVMTAB ; do
+                                        local netdev_decoded=
+                                        netdev="${netdev}/"
+                                        netdev_decoded=$(fstab_decode_str ${netdev})
+                                        if [ "$mount" != "${mount##$netdev}" ] || [ "$back_file" != "${back_file##$netdev_decoded}" ] ; then
+                                                remaining="$remaining $mount"
+                                                #device might be mounted in other location,
+                                                #but then losetup -d will be noop, so meh
+                                                devremaining="$devremaining $dev"
+                                                continue 2
+                                        fi
+                               done
+                        done < /proc/mounts
+                else
+                        remaining=$(awk '$1 ~ /^\/dev\/loop/ && $2 != "/" {print $2}' /proc/mounts)
+                        devremaining=$(awk '$1 ~ /^\/dev\/loop/ && $2 != "/" {print $1}' /proc/mounts)
+                fi
+        }
+
+        __find_mounts $1
+
 	while [ -n "$remaining" -a "$retry" -gt 0 ]; do
 		if [ "$retry" -eq 3 ]; then
 			action $"Unmounting loopback filesystems: " \
@@ -233,13 +279,20 @@ __umount_loopback_loop() {
 			action $"Unmounting loopback filesystems (retry):" \
 				fstab-decode umount $remaining
 		fi
+                
 		for dev in $devremaining ; do
-			losetup $dev > /dev/null 2>&1 && \
-				action $"Detaching loopback device $dev: " \
-				losetup -d $dev
-		done
-		remaining=$(awk '$1 ~ /^\/dev\/loop/ && $2 != "/" {print $2}' /proc/mounts)
-		devremaining=$(awk '$1 ~ /^\/dev\/loop/ && $2 != "/" {print $1}' /proc/mounts)
+                        if [ "$1" = "--netdev" ] ; then
+                                #some loopdevices might be mounted on top of non-netdev
+                                #so ignore failures
+                                losetup -d $dev > /dev/null 2>&1 
+                        else
+                                losetup $dev > /dev/null 2>&1 && \
+                                        action $"Detaching loopback device $dev: " \
+                                        losetup -d $dev
+                fi
+                done
+                #check what is still mounted
+                __find_mounts $1
 		[ -z "$remaining" ] && break
 		fstab-decode /sbin/fuser -k -m $sig $remaining >/dev/null
 		sleep 3

@@ -19,17 +19,8 @@
 . /etc/init.d/functions
 . /etc/sysconfig/network
 
-NFSFSTAB=$(LC_ALL=C awk '!/^#/ && $3 ~ /^nfs/ && $3 != "nfsd" && $4 !~ /noauto/ { print $2 }' /etc/fstab)
-CIFSFSTAB=$(LC_ALL=C awk '!/^#/ && $3 == "cifs" && $4 !~ /noauto/ { print $2 }' /etc/fstab)
-NCPFSTAB=$(LC_ALL=C awk '!/^#/ && $3 == "ncpfs" && $4 !~ /noauto/ { print $2 }' /etc/fstab)
-GLUSTERFSFSTAB=$(LC_ALL=C awk '!/^#/ && $3 == "glusterfs" && $4 !~ /noauto/ { print $2 }' /etc/fstab)
-NETDEVFSTAB=$(LC_ALL=C awk '!/^#/ && $4 ~/_netdev/ && $4 !~ /noauto/ { print $1 }' /etc/fstab)
-
-NFSMTAB=$(LC_ALL=C awk '$3 ~ /^nfs/ && $3 != "nfsd" && $2 != "/" { print $2 }' /proc/mounts)
-CIFSMTAB=$(LC_ALL=C awk '$3 == "cifs" { print $2 }' /proc/mounts)
-NCPMTAB=$(LC_ALL=C awk '$3 == "ncpfs" { print $2 }' /proc/mounts)
-GLUSTERFSMTAB=$(LC_ALL=C awk '$3 == "fuse.glusterfs" { print $2 }' /proc/mounts)
-NETDEVMTAB=$(LC_ALL=C awk '$4 ~ /_netdev/ && $2 != "/" { print $2 }' /etc/mtab)
+__source_netdevs_fstab
+__source_netdevs_mtab
 
 # See how we were called.
 case "$1" in
@@ -107,7 +98,7 @@ case "$1" in
   stop)
         # Unmount loopback stuff first
         [ "$EUID" != "0" ] && exit 4
-	__umount_loopback_loop
+	__umount_loopback_loop --netdev
   	if [ -n "$NETDEVMTAB" ]; then
 		__umount_loop '$4 ~ /_netdev/ && $2 != "/" {print $2}' \
 			/etc/mtab \
