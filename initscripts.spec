@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.50
+Version: 9.03.51
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -248,6 +248,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Tue Feb 23 2016 Lukáš Nykrýn <lnykryn@redhat.com> - 9.03.51-1
+- netfs: only unmount loopback device mounted on top of netdev or with back-file on netdev
+
 * Tue Jan 19 2016 Lukáš Nykrýn <lnykryn@redhat.com> - 9.03.50-1
 - functions: improve killing loops
 - netfs: tweak nfs umount
