@@ -115,6 +115,11 @@ __kill_pids_term_kill() {
     local stat=($(< /proc/self/stat))
     local base_stime=${stat[21]}
 
+    if [ "$1" = "-d" ]; then
+        delay=$2
+        shift 2
+    fi
+
     kill_list=$(__kill_pids_term_kill_checkpids $base_stime $kill_list)
 
     [ -z "$kill_list" ] && return 0
@@ -491,7 +496,7 @@ killproc() {
         if [ -n "$pid" ] ; then
                 [ "$BOOTUP" = "verbose" -a -z "${LSB:-}" ] && echo -n "$base "
 		if [ -z "$killlevel" ] ; then
-		    __kill_pids_term_kill $pid
+			__kill_pids_term_kill -d $delay $pid
 			RC=$?
 			[ "$RC" -eq 0 ] && success $"$base shutdown" || failure $"$base shutdown"
 		# use specified level only
