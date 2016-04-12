@@ -111,7 +111,6 @@ __kill_pids_term_kill() {
     local try=0
     local delay=3;
     local pid=
-    local kill_list=$*
     local stat=($(< /proc/self/stat))
     local base_stime=${stat[21]}
 
@@ -119,6 +118,8 @@ __kill_pids_term_kill() {
         delay=$2
         shift 2
     fi
+
+    local kill_list=$*
 
     kill_list=$(__kill_pids_term_kill_checkpids $base_stime $kill_list)
 
