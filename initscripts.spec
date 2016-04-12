@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.52
+Version: 9.03.53
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -248,6 +248,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Tue Apr 12 2016 Lukáš Nykrýn <lnykryn@redhat.com> - 9.03.53-1
+- functions: parse -d first
+
 * Mon Apr 11 2016 Lukáš Nykrýn <lnykryn@redhat.com> - 9.03.52-1
 - functions: fix ignored delay in killproc
 
