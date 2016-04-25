@@ -1,6 +1,6 @@
 Summary: Scripts to bring up network interfaces and legacy utilities
 Name: initscripts
-Version: 9.65
+Version: 9.66
 License: GPLv2
 Group: System Environment/Base
 Release: 1%{?dist}
@@ -17,6 +17,7 @@ Requires: ipcalc
 Conflicts: systemd < 216-3
 Conflicts: lvm2 < 2.02.98-3
 Conflicts: dmraid < 1.0.0.rc16-18
+Conflicts: policycoreutils < 2.5-6
 Requires: systemd
 Requires: iproute, /sbin/arping, findutils
 # Not strictly required, but nothing else requires it
@@ -176,6 +177,14 @@ fi
 %{_sysconfdir}/profile.d/debug*
 
 %changelog
+* Mon Apr 25 2016 Lukáš Nykrýn <lnykryn@redhat.com> - 9.66-1
+- remove autorelabel stuff
+- autorelabel: turn quota off before relabeling
+- network: Treat other tunnel interfaces, fixes ifdown stage
+- autorelabel: call dracut-initramfs-restore before forced reboot
+- sysconfig.txt: document PPPOE_EXTRA and PPPD_EXTRA
+- ifdown-eth: fix comparison
+
 * Mon Dec 07 2015 Lukáš Nykrýn <lnykryn@redhat.com> - 9.65-1
 - init.d/functions: end with 0
 - fedora-loadmodules: we don't have readahead anymore
