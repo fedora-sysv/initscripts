@@ -209,6 +209,8 @@ rm -rf $RPM_BUILD_ROOT
 /usr/lib/tmpfiles.d/initscripts.conf
 %dir /usr/libexec/initscripts
 %dir /usr/libexec/initscripts/legacy-actions
+%ghost %{_localstatedir}/log/dmesg
+%ghost %{_localstatedir}/log/dmesg.old
 
 %files -n debugmode
 %defattr(-,root,root)
