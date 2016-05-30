@@ -274,6 +274,9 @@ else
           ( sleep 2;
             /sbin/arping -q -U -c 1 -I ${REALDEVICE} ${ipaddr[$idx]} ) > /dev/null 2>&1 < /dev/null &
         fi
+
+        # set lifetime of address to forever
+        ip addr change ${ipaddr[$idx]} dev ${REALDEVICE} valid_lft forever preferred_lft forever
     done
 
     # Set a default route.
