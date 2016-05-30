@@ -107,6 +107,8 @@ int mask2prefix(struct in_addr mask)
     uint32_t saddr = ntohl(mask.s_addr);
 
     for (count=0; saddr > 0; count++) {
+        if (!((1 << 31) & saddr))
+                return -1;
         saddr=saddr << 1;
     }
 
@@ -339,6 +341,11 @@ int main(int argc, const char **argv) {
                 return 1;
             }
             prefix = mask2prefix(netmask);
+            if (prefix < 0 ) {
+                if (!beSilent)
+                    fprintf(stderr, "ipcalc: bad netmask: %s\n", netmaskStr);
+                return 1;
+            }
         }
     }
 
