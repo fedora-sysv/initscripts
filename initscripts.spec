@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.49.30
+Version: 9.49.31
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -218,6 +218,25 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Mon Jun 13 2016 Lukáš Nykrýn <lnykryn@redhat.com> - 9.49.31-1
+- ipv6: wait for all global IPv6 addresses to leave the "tentative" state
+- source_config: tell NetworkManger to load ifcfg file even for NM_CONTROLLED=no
+- ifup-aliases: inherit ARPCHECK from parent device
+- rhel-dmesg: don't start in containers
+- ifup-eth: fix typo in error message (#1038776)
+- sysctl.conf: steal comments about /usr,/etc,... from fedora's sysctl.conf
+- rwtab: /var/lib/nfs needs to copy the files
+- functions: improve killing loops
+- ipcalc: detect invalid mask
+- ifup: set valid_lft and preferred_lft to forever for static ip
+- service: use systemd mangle for given service
+- ifup-post: check resolve.conf also with DNS2
+- ifdown-post: remove resolv.conf only in specific cases
+- spec: ghost /var/log/dmesg
+- network-functions: is_available_wait should wait even in the case that is_available returns 2
+- autorelabel: turn quota off before relabeling
+- autorelabel: call dracut-initramfs-restore before forced reboot
+
 * Wed Sep 16 2015 Lukáš Nykrýn <lnykryn@redhat.com> - 9.49.30-1
 - ifup-eth: some bridge options are applied later
 
