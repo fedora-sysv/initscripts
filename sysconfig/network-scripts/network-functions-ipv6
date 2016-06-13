@@ -1042,3 +1042,24 @@ ipv6_trigger_radvd() {
 
 	return 0
 }
+
+#https://www.vaspects.com/2013/12/11/services-dont-bind-to-ipv6-address/
+ipv6_wait_tentative() {
+        local fn="ipv6_wait_tentative"
+        local device=$1
+        local countdown=30
+
+        if [ -z "$device" ]; then
+                net_log $"Missing parameter 'device' (arg 1)" err $fn
+                return 1
+        fi
+
+        [ "$device" = lo ] && return 0
+
+        while [ ${countdown} -gt 0 -a -n "$(ip -6 addr show dev ${device} scope global tentative)" ]; do
+                net_log $"Waiting for interface ${device} IPv6 address(es) to leave the \"tentative\" state" info $fn
+                countdown=$(($countdown - 1))
+                sleep 1
+        done
+        return 0
+}
