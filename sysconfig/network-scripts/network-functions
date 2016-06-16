@@ -170,7 +170,7 @@ source_config ()
     else
 	ISALIAS=no
     fi
-    if is_nm_running; then
+    if is_nm_running && [ "$REALDEVICE" != "lo" ] ; then
         nmcli con load "/etc/sysconfig/network-scripts/$CONFIG"
         if ! is_false $NM_CONTROLLED; then
             UUID=$(get_uuid_by_config $CONFIG)
