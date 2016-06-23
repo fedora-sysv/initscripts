@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.49.31
+Version: 9.49.32
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -218,6 +218,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Thu Jun 23 2016 Lukáš Nykrýn <lnykryn@redhat.com> - 9.49.32-1
+- ifup-eth: fix setting preferred_lft and valid_lft
+
 * Mon Jun 13 2016 Lukáš Nykrýn <lnykryn@redhat.com> - 9.49.31-1
 - ipv6: wait for all global IPv6 addresses to leave the "tentative" state
 - source_config: tell NetworkManger to load ifcfg file even for NM_CONTROLLED=no
