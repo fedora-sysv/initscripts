@@ -111,7 +111,10 @@ if [ -d "/sys/class/net/${REALDEVICE}" ]; then
                LABEL="label ${DEVICE}"
         fi
 	if [ "${REALDEVICE}" = "lo" ]; then
-		ip addr flush dev ${REALDEVICE} ${LABEL} scope host 2>/dev/null
+                TIMEOUT=""
+                [ -x /usr/bin/timeout ] && TIMEOUT="/usr/bin/timeout --signal=SIGQUIT 4"
+		$TIMEOUT ip addr flush dev ${REALDEVICE} ${LABEL} scope global 2>/dev/null
+		$TIMEOUT ip addr flush dev ${REALDEVICE} ${LABEL} scope host 2>/dev/null
 	else
 		ip addr flush dev ${REALDEVICE} ${LABEL} scope global 2>/dev/null
 		ip -4 addr flush dev ${REALDEVICE} ${LABEL} scope host 2>/dev/null
