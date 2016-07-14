@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.49.32
+Version: 9.49.33
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -218,6 +218,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Thu Jul 14 2016 Lukáš Nykrýn <lnykryn@redhat.com> - 9.49.33-1
+- network: run after network-pre.target
+
 * Thu Jun 23 2016 Lukáš Nykrýn <lnykryn@redhat.com> - 9.49.32-1
 - ifup-eth: fix setting preferred_lft and valid_lft
 
