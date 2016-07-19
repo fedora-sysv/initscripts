@@ -1,6 +1,6 @@
 Summary: Scripts to bring up network interfaces and legacy utilities
 Name: initscripts
-Version: 9.66
+Version: 9.67
 License: GPLv2
 Group: System Environment/Base
 Release: 1%{?dist}
@@ -177,6 +177,18 @@ fi
 %{_sysconfdir}/profile.d/debug*
 
 %changelog
+* Tue Jul 19 2016 Lukáš Nykrýn <lnykryn@redhat.com> - 9.67-1
+- import-state: restore also sensitivity part of SELinux context
+- network: run after network-pre.target
+- ifup-eth: fix setting preferred_lft and valid_lft
+- ifup: don't call nmcli on any lo device
+- source_config: tell NetworkManger to load ifcfg file even for NM_CONTROLLED=no
+- ipv6: wait for all global IPv6 addresses to leave the "tentative" state
+- rwtab: /var/lib/nfs needs to copy the files
+- functions: improve killing loops
+- ifup: set valid_lft and preferred_lft to forever for static ip
+- service: use systemd mangle for given service
+
 * Mon Apr 25 2016 Lukáš Nykrýn <lnykryn@redhat.com> - 9.66-1
 - remove autorelabel stuff
 - autorelabel: turn quota off before relabeling
