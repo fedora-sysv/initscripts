@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.49.34
+Version: 9.49.35
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -218,6 +218,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Tue Aug 02 2016 Lukáš Nykrýn <lnykryn@redhat.com> - 9.49.35-1
+- functions: systemctl show now returns an error when unit does not exist
+
 * Fri Jul 15 2016 Lukáš Nykrýn <lnykryn@redhat.com> - 9.49.34-1
 - import-state: restore also sensitivity part of SELinux context
 
