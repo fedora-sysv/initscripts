@@ -1,11 +1,39 @@
 #!/bin/bash
 # fedora-import-state: import state files from initramfs (e.g. network config)
 
-# copy state into root
+# Copy state into root folder:
+# ============================
 cd /run/initramfs/state
-find . -mindepth 1 -maxdepth 1 -exec cp -av -t / {} \;
 
-# run restorecon on the copied files
+IFS_backup=$IFS
+IFS=$'\n'                 # Process find's results line by line
+
+dirs_found=$(find . -type d)
+
+for dir in $dirs_found; do
+  pushd "$dir" > /dev/null
+
+  # Remove initial '.' char from the find's result:
+  dest_dir="${dir/\./}"
+
+  # Create destination folder if it does not exist (with the same rights):
+  if ! [[ -d "$dest_dir" ]]; then
+    mkdir -p "$dest_dir"
+    chmod --reference="$PWD" "$dest_dir"
+    chown --reference="$PWD" "$dest_dir"
+  fi
+
+  # Copy all files that are not directory:
+  find . -mindepth 1 -maxdepth 1 -not -type d -exec cp -av -t "$dest_dir" {} \; > /dev/null
+
+  popd > /dev/null
+done
+
+IFS=$IFS_backup
+
+
+# Run restorecon on the copied files:
+# ===================================
 if [ -e /sys/fs/selinux/enforce -a -x /usr/sbin/restorecon ]; then
     find . -mindepth 1 -print0 | { cd / && xargs --null restorecon -iF; }
 fi
