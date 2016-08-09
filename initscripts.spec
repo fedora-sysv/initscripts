@@ -1,6 +1,6 @@
 Summary: Scripts to bring up network interfaces and legacy utilities
 Name: initscripts
-Version: 9.67
+Version: 9.68
 License: GPLv2
 Group: System Environment/Base
 Release: 1%{?dist}
@@ -177,6 +177,10 @@ fi
 %{_sysconfdir}/profile.d/debug*
 
 %changelog
+* Tue Aug  9 2016 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.68-1
+- fedora-import-state: skip modifying of existing folders (#1347436)
+- functions: systemctl show now returns an error when unit does not exist
+
 * Tue Jul 19 2016 Lukáš Nykrýn <lnykryn@redhat.com> - 9.67-1
 - import-state: restore also sensitivity part of SELinux context
 - network: run after network-pre.target
