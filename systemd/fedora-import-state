@@ -17,7 +17,7 @@ for dir in $dirs_found; do
   dest_dir="${dir/\./}"
 
   # Create destination folder if it does not exist (with the same rights):
-  if ! [[ -d "$dest_dir" ]]; then
+  if [[ -n "$dest_dir" && ! -d "$dest_dir" ]]; then
     mkdir -p "$dest_dir"
     chmod --reference="$PWD" "$dest_dir"
     chown --reference="$PWD" "$dest_dir"
