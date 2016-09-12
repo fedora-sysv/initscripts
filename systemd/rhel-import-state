@@ -3,7 +3,7 @@
 
 # copy state into root
 cd /run/initramfs/state
-find . -mindepth 1 -maxdepth 1 -exec cp -v -t -R --preserve=mode,ownership,timestamps,links / {} \;
+find . -mindepth 1 -maxdepth 1 -exec cp -v -R --preserve=mode,ownership,timestamps,links -t / {} \;
 
 # run restorecon on the copied files
 if [ -e /sys/fs/selinux/enforce -a -x /usr/sbin/restorecon ]; then
