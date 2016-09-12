@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.49.36
+Version: 9.49.37
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -218,6 +218,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Mon Sep 12 2016 Lukáš Nykrýn <lnykryn@redhat.com> - 9.49.37-1
+- rhel-import-state: fix broken order of parameters
+
 * Fri Sep 09 2016 Lukáš Nykrýn <lnykryn@redhat.com> - 9.49.36-1
 - import-state: copy just some attributes
 
