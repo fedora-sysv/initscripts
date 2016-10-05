@@ -19,7 +19,7 @@ source_config
 
 if [ "foo$2" = "fooboot" -a "${ONBOOT}" = "no" ]
 then
-	exit
+    exit
 fi
 
 [ -z "$PREFIX" ] && eval $(/bin/ipcalc --prefix ${IPADDR} ${NETMASK})
@@ -34,10 +34,10 @@ ip link set up dev ${DEVICE}
 . /etc/sysconfig/network
 
 if [ "${GATEWAY}" != "" ]; then
-	if [ "${GATEWAYDEV}" = "" -o "${GATEWAYDEV}" = "${DEVICE}" ]; then
-		# set up default gateway
-		ip route replace default ${METRIC:+metric $METRIC} via ${GATEWAY}
-	fi
+    if [ "${GATEWAYDEV}" = "" -o "${GATEWAYDEV}" = "${DEVICE}" ]; then
+        # set up default gateway
+        ip route replace default ${METRIC:+metric $METRIC} via ${GATEWAY}
+    fi
 fi
 
 /etc/sysconfig/network-scripts/ifup-post $1

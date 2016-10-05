@@ -13,43 +13,43 @@ source_config
 
 # On hotplug events, just bring the virtual device up as if it's normal Ethernet
 if [ -n "$IN_HOTPLUG" ]; then
-	exec sh -x /etc/sysconfig/network-scripts/ifup-eth ${CONFIG} $2 
+    exec sh -x /etc/sysconfig/network-scripts/ifup-eth ${CONFIG} $2 
 fi
 
 start_panu()
 {
-	PANDARGS="--persist --pidfile=/var/run/pand-${DEVICE}.pid --ethernet=${DEVICE} --autozap"
-	[ "${CACHE}" != "no" -a "${CACHE}" != "NO" ] && PANDARGS="${PANDARGS} --cache"
-	if [ "${REMOTEBDADDR}" = "" ]; then
-		PANDARGS="${PANDARGS} --search"
-	else
-		PANDARGS="${PANDARGS} --connect ${REMOTEBDADDR}"
-	fi
-	/usr/bin/pand ${PANDARGS}
+    PANDARGS="--persist --pidfile=/var/run/pand-${DEVICE}.pid --ethernet=${DEVICE} --autozap"
+    [ "${CACHE}" != "no" -a "${CACHE}" != "NO" ] && PANDARGS="${PANDARGS} --cache"
+    if [ "${REMOTEBDADDR}" = "" ]; then
+        PANDARGS="${PANDARGS} --search"
+    else
+        PANDARGS="${PANDARGS} --connect ${REMOTEBDADDR}"
+    fi
+    /usr/bin/pand ${PANDARGS}
 }
 
 start_nap()
 {
-	:
+    :
 }
 
 start_gn()
 {
-	:
+    :
 }
 
 case "$ROLE" in
-	PANU)
-		start_panu
-		;;
-	NAP)
-		start_nap
-		;;
-	GN)
-		start_gn
-		;;
-	*)
-		echo Unknown BNEP mode :$ROLE
-		;;
+PANU)
+    start_panu
+    ;;
+NAP)
+    start_nap
+    ;;
+GN)
+    start_gn
+    ;;
+*)
+    echo Unknown BNEP mode :$ROLE
+    ;;
 esac
 

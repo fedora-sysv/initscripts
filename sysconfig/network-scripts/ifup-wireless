@@ -38,20 +38,20 @@ shopt -s nocasematch
 case "$MODE" in
 managed)
     if [ "$ESSID" ]; then
-	$IW dev "$DEVICE" set type managed
-	$IW dev "$DEVICE" connect -w "$ESSID" $FREQ $KEYS
+        $IW dev "$DEVICE" set type managed
+        $IW dev "$DEVICE" connect -w "$ESSID" $FREQ $KEYS
     fi
     ;;
 ad-hoc)
     if [ -n "$ESSID" -a -n "$FREQ" ]; then
-	$IW dev "$DEVICE" set type ibss
-	$IW dev "$DEVICE" ibss join "$ESSID" "$FREQ" $KEYS
+        $IW dev "$DEVICE" set type ibss
+        $IW dev "$DEVICE" ibss join "$ESSID" "$FREQ" $KEYS
     fi
     ;;
 monitor)
     if [ "$FREQ" ]; then 
-	$IW dev "$DEVICE" set type monitor
-	$IW dev "$DEVICE" set freq "$FREQ"
+        $IW dev "$DEVICE" set type monitor
+        $IW dev "$DEVICE" set freq "$FREQ"
     fi
     ;;
 esac
