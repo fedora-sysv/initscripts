@@ -15,27 +15,27 @@
 # $1: (optional) testflag: currently supported: "testonly" (do not load a module)
 # return code: 0=ok 2=IPv6 test fails
 ipv6_test() {
-	local fn="ipv6_test"
+    local fn="ipv6_test"
 
-	local testflag=$1
+    local testflag=$1
 
-	if ! [ -f /proc/net/if_inet6 ]; then
-		if [ "$testflag" = "testonly" ]; then
-			return 2
-		else
-			modprobe ipv6
+    if ! [ -f /proc/net/if_inet6 ]; then
+        if [ "$testflag" = "testonly" ]; then
+            return 2
+        else
+            modprobe ipv6
 
-			if ! [ -f /proc/net/if_inet6 ]; then
-				return 2
-			fi
-		fi
-	fi
+            if ! [ -f /proc/net/if_inet6 ]; then
+                return 2
+            fi
+        fi
+    fi
 
-	if ! [ -d /proc/sys/net/ipv6/conf/ ]; then
-		return 2
-	fi
+    if ! [ -d /proc/sys/net/ipv6/conf/ ]; then
+        return 2
+    fi
 
-	return 0
+    return 0
 }
 
 ##### Static IPv6 route configuration
@@ -46,52 +46,52 @@ ipv6_test() {
 #  $3: [<Interface>] : (optional)
 # return code: 0=ok 1=argument error 2=IPv6 test fails 3=major problem adding route
 ipv6_add_route() {
-	local fn="ipv6_add_route"
+    local fn="ipv6_add_route"
 
-	local networkipv6=$1
-	local gatewayipv6=$2
-	local device=$3		# maybe empty
+    local networkipv6=$1
+    local gatewayipv6=$2
+    local device=$3        # maybe empty
 
-	if [ -z "$networkipv6" ]; then
-		net_log $"Missing parameter 'IPv6-network' (arg 1)" err $fn
-		return 1
-	fi
+    if [ -z "$networkipv6" ]; then
+        net_log $"Missing parameter 'IPv6-network' (arg 1)" err $fn
+        return 1
+    fi
 
-	if [ -z "$gatewayipv6" ]; then
-		net_log $"Missing parameter 'IPv6-gateway' (arg 2)" err $fn
-		return 1
-	fi
+    if [ -z "$gatewayipv6" ]; then
+        net_log $"Missing parameter 'IPv6-gateway' (arg 2)" err $fn
+        return 1
+    fi
 
-	ipv6_test || return 2
+    ipv6_test || return 2
 
-	ipv6_test_ipv6_addr_valid $networkipv6 || return 2
-	ipv6_test_ipv6_addr_valid $gatewayipv6 || return 2
+    ipv6_test_ipv6_addr_valid $networkipv6 || return 2
+    ipv6_test_ipv6_addr_valid $gatewayipv6 || return 2
 
-	if [ -z "$device" ]; then
-		local returntxt="$(/sbin/ip -6 route add $networkipv6 via $gatewayipv6 metric 1 2>&1)"
-	else
-		if [ "$gatewayipv6" = "::" ]; then
-			local returntxt="$(/sbin/ip -6 route add $networkipv6 dev $device metric 1 2>&1)"
-		else
-			local returntxt="$(/sbin/ip -6 route add $networkipv6 via $gatewayipv6 dev $device metric 1 2>&1)"
-		fi
-	fi
+    if [ -z "$device" ]; then
+        local returntxt="$(/sbin/ip -6 route add $networkipv6 via $gatewayipv6 metric 1 2>&1)"
+    else
+        if [ "$gatewayipv6" = "::" ]; then
+            local returntxt="$(/sbin/ip -6 route add $networkipv6 dev $device metric 1 2>&1)"
+        else
+            local returntxt="$(/sbin/ip -6 route add $networkipv6 via $gatewayipv6 dev $device metric 1 2>&1)"
+        fi
+    fi
 
-	if [ -n "$returntxt" ]; then
-		if echo $returntxt | LC_ALL=C grep -q "File exists"; then
-			# Netlink: "File exists"
-			true
-		elif echo $returntxt | LC_ALL=C grep -q "No route to host"; then
-			# Netlink: "No route to host"
-			net_log $"'No route to host' adding route '$networkipv6' via gateway '$gatewayipv6' through device '$device'" err $fn
-			return 3
-		else
-			net_log $"Unknown error" err $fn
-			return 3
-		fi
-	fi
+    if [ -n "$returntxt" ]; then
+        if echo $returntxt | LC_ALL=C grep -q "File exists"; then
+            # Netlink: "File exists"
+            true
+        elif echo $returntxt | LC_ALL=C grep -q "No route to host"; then
+            # Netlink: "No route to host"
+            net_log $"'No route to host' adding route '$networkipv6' via gateway '$gatewayipv6' through device '$device'" err $fn
+            return 3
+        else
+            net_log $"Unknown error" err $fn
+            return 3
+        fi
+    fi
 
-	return 0
+    return 0
 }
 
 ##### automatic tunneling configuration
@@ -99,29 +99,29 @@ ipv6_add_route() {
 ## Configure automatic tunneling up
 # return code: 0=ok 2=IPv6 test fails 3=major problem
 ipv6_enable_autotunnel() {
-	local fn="ipv6_enable_autotunnel"
+    local fn="ipv6_enable_autotunnel"
 
-	ipv6_test || return 2
+    ipv6_test || return 2
 
-	# enable IPv6-over-IPv4 tunnels
-	if ipv6_test_device_status sit0; then
-		true
-	else
-		# bring up basic tunnel device
-		/sbin/ip link set sit0 up
+    # enable IPv6-over-IPv4 tunnels
+    if ipv6_test_device_status sit0; then
+        true
+    else
+        # bring up basic tunnel device
+        /sbin/ip link set sit0 up
 
-			if ! ipv6_test_device_status sit0; then
-				net_log $"Tunnel device 'sit0' enabling didn't work" err $fn
-				return 3
-			fi
+            if ! ipv6_test_device_status sit0; then
+                net_log $"Tunnel device 'sit0' enabling didn't work" err $fn
+                return 3
+            fi
 
-		# Set sysctls proper (regardless "default")
-		/sbin/sysctl -e -w net.ipv6.conf.sit0.forwarding=1 >/dev/null 2>&1
-		/sbin/sysctl -e -w net.ipv6.conf.sit0.accept_ra=0 >/dev/null 2>&1
-		/sbin/sysctl -e -w net.ipv6.conf.sit0.accept_redirects=0 >/dev/null 2>&1
-	fi
+        # Set sysctls proper (regardless "default")
+        /sbin/sysctl -e -w net.ipv6.conf.sit0.forwarding=1 >/dev/null 2>&1
+        /sbin/sysctl -e -w net.ipv6.conf.sit0.accept_ra=0 >/dev/null 2>&1
+        /sbin/sysctl -e -w net.ipv6.conf.sit0.accept_redirects=0 >/dev/null 2>&1
+    fi
 
-	return 0
+    return 0
 }
 
 ##### Interface configuration
@@ -131,63 +131,63 @@ ipv6_enable_autotunnel() {
 #  $2: <IPv6 address[/prefix]>
 # return code: 0=ok 1=argument error 2=IPv6 test fails 3=major problem
 ipv6_add_addr_on_device() {
-	local fn="ipv6_add_addr_on_device"
+    local fn="ipv6_add_addr_on_device"
 
-	local device=$1
-	local address=$2
+    local device=$1
+    local address=$2
 
-	if [ -z "$device" ]; then
-		net_log $"Missing parameter 'device' (arg 1)" err $fn
-		return 1
-	fi
+    if [ -z "$device" ]; then
+        net_log $"Missing parameter 'device' (arg 1)" err $fn
+        return 1
+    fi
 
-	if [ -z "$address" ]; then
-		net_log $"Missing parameter 'IPv6-address' (arg 2)" err $fn
-		return 1
-	fi
+    if [ -z "$address" ]; then
+        net_log $"Missing parameter 'IPv6-address' (arg 2)" err $fn
+        return 1
+    fi
 
-	ipv6_test || return 2
+    ipv6_test || return 2
 
-	ipv6_test_ipv6_addr_valid $address || return 1
+    ipv6_test_ipv6_addr_valid $address || return 1
 
-	ipv6_test_device_status $device
-	local result=$?
+    ipv6_test_device_status $device
+    local result=$?
 
-	if [ "$result" = "0" ]; then
-		true
-	elif [ "$result" != "11" ]; then
-		net_log $"Device '$device' doesn't exist" err $fn
-		return 3
-	else
-		/sbin/ip link set $device up
+    if [ "$result" = "0" ]; then
+        true
+    elif [ "$result" != "11" ]; then
+        net_log $"Device '$device' doesn't exist" err $fn
+        return 3
+    else
+        /sbin/ip link set $device up
 
-			if ! ipv6_test_device_status $device; then
-				net_log $"Device '$device' enabling didn't work" err $fn
-				return 3
-			fi
-	fi
+            if ! ipv6_test_device_status $device; then
+                net_log $"Device '$device' enabling didn't work" err $fn
+                return 3
+            fi
+    fi
 
-	# Extract address parts
-	local prefixlength_implicit="$(echo $address | awk -F/ '{ print $2 }')"
-	local address_implicit="${address%%/*}"
+    # Extract address parts
+    local prefixlength_implicit="$(echo $address | awk -F/ '{ print $2 }')"
+    local address_implicit="${address%%/*}"
 
-	# Check prefix length and using '64' as default
-	if [ -z "$prefixlength_implicit" ]; then
-		local prefixlength_implicit="64"
-		local address="$address_implicit/$prefixlength_implicit"
-	fi
+    # Check prefix length and using '64' as default
+    if [ -z "$prefixlength_implicit" ]; then
+        local prefixlength_implicit="64"
+        local address="$address_implicit/$prefixlength_implicit"
+    fi
 
-	/sbin/ip -6 addr add $address dev $device
-	local result=$?
+    /sbin/ip -6 addr add $address dev $device
+    local result=$?
 
-	if [ $result -eq 2 ]; then
-		return 0
-	elif [ $result -ne 0 ]; then
-		net_log $"Cannot add IPv6 address '$address' on dev '$device'" err $fn
-		return 3
-	fi
+    if [ $result -eq 2 ]; then
+        return 0
+    elif [ $result -ne 0 ]; then
+        net_log $"Cannot add IPv6 address '$address' on dev '$device'" err $fn
+        return 3
+    fi
 
-	return 0
+    return 0
 }
 
 
@@ -195,28 +195,28 @@ ipv6_add_addr_on_device() {
 #  $1: <Interface>
 # return code: 0=ok 1=argument error 2=IPv6 test fails 3=major problem
 ipv6_cleanup_device() {
-	local fn="ipv6_cleanup_device"
+    local fn="ipv6_cleanup_device"
 
-	local device=$1
+    local device=$1
 
-	if [ -z "$device" ]; then
-		net_log $"Missing parameter 'device' (arg 1)" err $fn
-		return 1
-	fi
+    if [ -z "$device" ]; then
+        net_log $"Missing parameter 'device' (arg 1)" err $fn
+        return 1
+    fi
 
-	ipv6_test testonly || return 2
+    ipv6_test testonly || return 2
 
-	# Remove all IPv6 routes through this device (but not "lo")
-	if [ "$device" != "lo" ]; then
-		/sbin/ip -6 route flush dev $device scope global >/dev/null 2>&1
-		/sbin/ip -6 route flush dev $device scope site   >/dev/null 2>&1
-	fi
+    # Remove all IPv6 routes through this device (but not "lo")
+    if [ "$device" != "lo" ]; then
+        /sbin/ip -6 route flush dev $device scope global >/dev/null 2>&1
+        /sbin/ip -6 route flush dev $device scope site     >/dev/null 2>&1
+    fi
 
-	# Remove all IPv6 addresses on this interface
-	/sbin/ip -6 addr flush dev $device scope global >/dev/null 2>&1
-	/sbin/ip -6 addr flush dev $device scope site   >/dev/null 2>&1
+    # Remove all IPv6 addresses on this interface
+    /sbin/ip -6 addr flush dev $device scope global >/dev/null 2>&1
+    /sbin/ip -6 addr flush dev $device scope site     >/dev/null 2>&1
 
-	return 0
+    return 0
 }
 
 
@@ -224,28 +224,28 @@ ipv6_cleanup_device() {
 #  $1: <Interface>
 # return code: 0=ok 1=argument error 2=IPv6 test fails 3=major problem
 ipv6_cleanup_6to4_device() {
-	local fn="ipv6_cleanup_6to4_device"
+    local fn="ipv6_cleanup_6to4_device"
 
-	local device=$1
+    local device=$1
 
-	if [ -z "$device" ]; then
-		net_log $"Missing parameter 'device' (arg 1)" err $fn
-		return 1
-	fi
+    if [ -z "$device" ]; then
+        net_log $"Missing parameter 'device' (arg 1)" err $fn
+        return 1
+    fi
 
-	ipv6_test testonly || return 2
+    ipv6_test testonly || return 2
 
-	# Cleanup 6to4 addresses on this device
-	/sbin/ip -6 addr show dev $dev scope global permanent | awk '/\<inet6\>/ && $2 ~ /^2002:/ { print $2 }' | while read addr; do
-		/sbin/ip -6 addr del ${addr} dev ${dev}
-	done
+    # Cleanup 6to4 addresses on this device
+    /sbin/ip -6 addr show dev $dev scope global permanent | awk '/\<inet6\>/ && $2 ~ /^2002:/ { print $2 }' | while read addr; do
+        /sbin/ip -6 addr del ${addr} dev ${dev}
+    done
 
-	# Get all IPv6 routes through given interface related to 6to4 and remove them
-	/sbin/ip -6 route show dev $device | LC_ALL=C grep "^2002:" | while read ipv6net dummy; do
-		/sbin/ip -6 route del $ipv6net dev $device
-	done
+    # Get all IPv6 routes through given interface related to 6to4 and remove them
+    /sbin/ip -6 route show dev $device | LC_ALL=C grep "^2002:" | while read ipv6net dummy; do
+        /sbin/ip -6 route del $ipv6net dev $device
+    done
 
-	return 0
+    return 0
 }
 
 
@@ -255,7 +255,7 @@ ipv6_cleanup_6to4_device() {
 #  $1: <IPv6 address>
 # return code: 0=ok 1=not valid
 ipv6_test_ipv6_addr_valid() {
-	ipcalc -cs6 $1
+    ipcalc -cs6 $1
 }
 
 
@@ -263,7 +263,7 @@ ipv6_test_ipv6_addr_valid() {
 #  $1: <IPv4 address>
 # return code: 0=ok 1=not valid
 ipv6_test_ipv4_addr_valid() {
-	ipcalc -cs4 $1
+    ipcalc -cs4 $1
 }
 
 
@@ -271,32 +271,32 @@ ipv6_test_ipv4_addr_valid() {
 #  $1: <IPv4 address>
 # return code: 0=ok 1=argument error 10=private or not unicast
 ipv6_test_ipv4_addr_global_usable() {
-	local fn="ipv6_test_ipv4_addr_global_usable"
+    local fn="ipv6_test_ipv4_addr_global_usable"
 
-	local testipv4addr_globalusable=$1
+    local testipv4addr_globalusable=$1
 
 
-	if [ -z "$testipv4addr_globalusable" ]; then
-		return 1
-	fi
+    if [ -z "$testipv4addr_globalusable" ]; then
+        return 1
+    fi
 
-	# Test for a globally usable IPv4 address now
-		# test 0.0.0.0/8
-		/bin/ipcalc --network $testipv4addr_globalusable 255.0.0.0   | LC_ALL=C grep -q "NETWORK=0\.0\.0\.0"     && return 10
-		# test 10.0.0.0/8     (RFC 1918 / private)
-		/bin/ipcalc --network $testipv4addr_globalusable 255.0.0.0   | LC_ALL=C grep -q "NETWORK=10\.0\.0\.0"    && return 10
-		# test 127.0.0.0/8    (loopback)
-		/bin/ipcalc --network $testipv4addr_globalusable 255.0.0.0   | LC_ALL=C grep -q "NETWORK=127\.0\.0\.0"   && return 10
-		# test 169.254.0.0/16 (APIPA / DHCP link local)
-		/bin/ipcalc --network $testipv4addr_globalusable 255.255.0.0 | LC_ALL=C grep -q "NETWORK=169\.254\.0\.0" && return 10
-		# test 172.16.0.0/12  (RFC 1918 / private)
-		/bin/ipcalc --network $testipv4addr_globalusable 255.240.0.0 | LC_ALL=C grep -q "NETWORK=172\.16\.0\.0"  && return 10
-		# test 192.168.0.0/16 (RFC 1918 / private)
-		/bin/ipcalc --network $testipv4addr_globalusable 255.255.0.0 | LC_ALL=C grep -q "NETWORK=192\.168\.0\.0" && return 10
-		# test 224.0.0.0/3    (multicast and reserved, broadcast)
-		/bin/ipcalc --network $testipv4addr_globalusable 224.0.0.0   | LC_ALL=C grep -q "NETWORK=224\.0\.0\.0"   && return 10
+    # Test for a globally usable IPv4 address now
+        # test 0.0.0.0/8
+        /bin/ipcalc --network $testipv4addr_globalusable 255.0.0.0     | LC_ALL=C grep -q "NETWORK=0\.0\.0\.0"         && return 10
+        # test 10.0.0.0/8         (RFC 1918 / private)
+        /bin/ipcalc --network $testipv4addr_globalusable 255.0.0.0     | LC_ALL=C grep -q "NETWORK=10\.0\.0\.0"        && return 10
+        # test 127.0.0.0/8        (loopback)
+        /bin/ipcalc --network $testipv4addr_globalusable 255.0.0.0     | LC_ALL=C grep -q "NETWORK=127\.0\.0\.0"     && return 10
+        # test 169.254.0.0/16 (APIPA / DHCP link local)
+        /bin/ipcalc --network $testipv4addr_globalusable 255.255.0.0 | LC_ALL=C grep -q "NETWORK=169\.254\.0\.0" && return 10
+        # test 172.16.0.0/12    (RFC 1918 / private)
+        /bin/ipcalc --network $testipv4addr_globalusable 255.240.0.0 | LC_ALL=C grep -q "NETWORK=172\.16\.0\.0"    && return 10
+        # test 192.168.0.0/16 (RFC 1918 / private)
+        /bin/ipcalc --network $testipv4addr_globalusable 255.255.0.0 | LC_ALL=C grep -q "NETWORK=192\.168\.0\.0" && return 10
+        # test 224.0.0.0/3        (multicast and reserved, broadcast)
+        /bin/ipcalc --network $testipv4addr_globalusable 224.0.0.0     | LC_ALL=C grep -q "NETWORK=224\.0\.0\.0"     && return 10
 
-	return 0
+    return 0
 }
 
 
@@ -304,29 +304,29 @@ ipv6_test_ipv4_addr_global_usable() {
 #  $1: <Interface>
 # return code: 0=ok 1=argument error 10=not exists 11=down
 ipv6_test_device_status() {
-	local fn="ipv6_test_device_status"
+    local fn="ipv6_test_device_status"
 
-	local device=$1
+    local device=$1
 
-	if [ -z "$device" ]; then
-		net_log $"Missing parameter 'device' (arg 1)" err $fn
-		return 1
-	fi
+    if [ -z "$device" ]; then
+        net_log $"Missing parameter 'device' (arg 1)" err $fn
+        return 1
+    fi
 
-	# Test if device exists
-	if [ ! -d "/sys/class/net/${device}" ]; then
-		# not exists
-		return 10
-	fi
+    # Test if device exists
+    if [ ! -d "/sys/class/net/${device}" ]; then
+        # not exists
+        return 10
+    fi
 
-	# Test if device is up
-	if /sbin/ip link show dev $device 2>/dev/null | LC_ALL=C grep -q "UP"; then
-		# up
-		return 0
-	else
-		# down
-		return 11
-	fi
+    # Test if device is up
+    if /sbin/ip link show dev $device 2>/dev/null | LC_ALL=C grep -q "UP"; then
+        # up
+        return 0
+    else
+        # down
+        return 11
+    fi
 }
 
 
@@ -335,38 +335,38 @@ ipv6_test_device_status() {
 # stdout: <6to4address>
 # return code: 0=ok 1=argument error
 ipv6_create_6to4_prefix() {
-	local fn="ipv6_create_6to4_prefix"
+    local fn="ipv6_create_6to4_prefix"
 
-	local ipv4addr=$1
+    local ipv4addr=$1
 
-	if [ -z "$ipv4addr" ]; then
-		net_log $"Missing parameter 'IPv4 address' (arg 1)" err $fn
-	fi
+    if [ -z "$ipv4addr" ]; then
+        net_log $"Missing parameter 'IPv4 address' (arg 1)" err $fn
+    fi
 
-	local major1="${ipv4addr%%.*}"
-	local minor1="$(echo $ipv4addr | awk -F. '{ print $2 }')"
-	local major2="$(echo $ipv4addr | awk -F. '{ print $3 }')"
-	local minor2="$(echo $ipv4addr | awk -F. '{ print $4 }')"
+    local major1="${ipv4addr%%.*}"
+    local minor1="$(echo $ipv4addr | awk -F. '{ print $2 }')"
+    local major2="$(echo $ipv4addr | awk -F. '{ print $3 }')"
+    local minor2="$(echo $ipv4addr | awk -F. '{ print $4 }')"
 
-	if [ -z "$major1" -o -z "$minor1" -o -z "$major2" -o -z "$minor2" ]; then
-		return 1
-	fi
+    if [ -z "$major1" -o -z "$minor1" -o -z "$major2" -o -z "$minor2" ]; then
+        return 1
+    fi
 
-	if [ $major1 -eq 0 ]; then
-		local block1="$(printf "%x" $minor1)"
-	else
-		local block1="$(printf "%x%02x" $major1 $minor1)"
-	fi
-	if [ $major2 -eq 0 ]; then
-		local block2="$(printf "%x" $minor2)"
-	else
-		local block2="$(printf "%x%02x" $major2 $minor2)"
-	fi
+    if [ $major1 -eq 0 ]; then
+        local block1="$(printf "%x" $minor1)"
+    else
+        local block1="$(printf "%x%02x" $major1 $minor1)"
+    fi
+    if [ $major2 -eq 0 ]; then
+        local block2="$(printf "%x" $minor2)"
+    else
+        local block2="$(printf "%x%02x" $major2 $minor2)"
+    fi
 
-	local prefix6to4="2002:$block1:$block2"
+    local prefix6to4="2002:$block1:$block2"
 
-	echo "$prefix6to4"
-	return 0
+    echo "$prefix6to4"
+    return 0
 }
 
 
@@ -375,33 +375,33 @@ ipv6_create_6to4_prefix() {
 # stdout: <tunnel relay address>
 # return code: 0=ok 1=argument error
 ipv6_create_6to4_relay_address() {
-	local fn="ipv6_create_6to4_relay_address"
+    local fn="ipv6_create_6to4_relay_address"
 
-	local addr=$1
+    local addr=$1
 
-	if [ -z "$addr" ]; then
-		net_log $"Missing parameter 'address' (arg 1)" err $fn
-		return 1
-	fi
+    if [ -z "$addr" ]; then
+        net_log $"Missing parameter 'address' (arg 1)" err $fn
+        return 1
+    fi
 
-	# Check
-	if ipv6_test_ipv4_addr_valid $addr ; then
-		# ok, a IPv4 one
-		if ipv6_test_ipv4_addr_global_usable $addr; then
-			# IPv4 globally usable
-			local ipv6to4_relay="::$addr"
-		else
-			net_log $"Given address '$addr' is not a global IPv4 one (arg 1)" err $fn
-			return 1
-		fi
-	else
-		net_log $"Given address '$addr' is not a valid IPv4 one (arg 1)" err $fn
-		return 1
-	fi
+    # Check
+    if ipv6_test_ipv4_addr_valid $addr ; then
+        # ok, a IPv4 one
+        if ipv6_test_ipv4_addr_global_usable $addr; then
+            # IPv4 globally usable
+            local ipv6to4_relay="::$addr"
+        else
+            net_log $"Given address '$addr' is not a global IPv4 one (arg 1)" err $fn
+            return 1
+        fi
+    else
+        net_log $"Given address '$addr' is not a valid IPv4 one (arg 1)" err $fn
+        return 1
+    fi
 
-	echo "$ipv6to4_relay"
+    echo "$ipv6to4_relay"
 
-	return 0
+    return 0
 }
 
 
@@ -415,65 +415,65 @@ ipv6_create_6to4_relay_address() {
 #  $5: [<IPv4 address>] : local IPv4 address of tunnel interface (required in case of 6to4 behind NAT)
 # return code: 0=ok 1=argument error 2=IPv6 test fails 3=major problem
 ipv6_add_6to4_tunnel() {
-	local fn="ipv6_add_6to4_tunnel"
+    local fn="ipv6_add_6to4_tunnel"
 
-	local device=$1
-	local globalipv4=$2
-	local globalipv6to4suffix=$3
-	local mtu=$4
-	local localipv4=$5
+    local device=$1
+    local globalipv4=$2
+    local globalipv6to4suffix=$3
+    local mtu=$4
+    local localipv4=$5
 
-	if [ -z "$device" ]; then
-		net_log $"Missing parameter 'device' (arg 1)" err $fn
-		return 1
-	fi
+    if [ -z "$device" ]; then
+        net_log $"Missing parameter 'device' (arg 1)" err $fn
+        return 1
+    fi
 
-	if [ -z "$globalipv4" ]; then
-		net_log $"Missing parameter 'global IPv4 address' (arg 2)" err $fn
-		return 1
-	fi
+    if [ -z "$globalipv4" ]; then
+        net_log $"Missing parameter 'global IPv4 address' (arg 2)" err $fn
+        return 1
+    fi
 
-	# Check device
-	if [ "$device" != "tun6to4" ]; then
-		net_log $"Given device '$device' is not supported (arg 1)" err $fn
-		return 1
-	fi
+    # Check device
+    if [ "$device" != "tun6to4" ]; then
+        net_log $"Given device '$device' is not supported (arg 1)" err $fn
+        return 1
+    fi
 
-	# Copy global IPv4 address to local if last one is not given
-	if [ -z "$localipv4" ]; then
-		localipv4="$globalipv4"
-	fi
+    # Copy global IPv4 address to local if last one is not given
+    if [ -z "$localipv4" ]; then
+        localipv4="$globalipv4"
+    fi
 
-	ipv6_test || return 2
+    ipv6_test || return 2
 
-	# Generate 6to4 address
-	local prefix6to4="$(ipv6_create_6to4_prefix $globalipv4)"
-	if [ $? -ne 0 -o -z "$prefix6to4" ]; then
-		return 3
-	fi
+    # Generate 6to4 address
+    local prefix6to4="$(ipv6_create_6to4_prefix $globalipv4)"
+    if [ $? -ne 0 -o -z "$prefix6to4" ]; then
+        return 3
+    fi
 
-	if [ -z "$globalipv6to4suffix" ]; then
-		local address6to4="${prefix6to4}::1/16"
-	else
-		local address6to4="${prefix6to4}::${globalipv6to4suffix}/16"
-	fi
+    if [ -z "$globalipv6to4suffix" ]; then
+        local address6to4="${prefix6to4}::1/16"
+    else
+        local address6to4="${prefix6to4}::${globalipv6to4suffix}/16"
+    fi
 
-		ipv6_add_tunnel_device tun6to4 0.0.0.0 $address6to4 $localipv4
-		if [ $? -ne 0 ]; then
-			local retval=3
-		else
-			local retval=0
-		fi
+        ipv6_add_tunnel_device tun6to4 0.0.0.0 $address6to4 $localipv4
+        if [ $? -ne 0 ]; then
+            local retval=3
+        else
+            local retval=0
+        fi
 
-		# Add unspecific unreachable route for local 6to4 address space
-		/sbin/ip route add unreach ${prefix6to4}::/48
+        # Add unspecific unreachable route for local 6to4 address space
+        /sbin/ip route add unreach ${prefix6to4}::/48
 
-	# Set MTU, if given
-	if [ -n "$mtu" ]; then
-		ipv6_set_mtu $device $mtu
-	fi
+    # Set MTU, if given
+    if [ -n "$mtu" ]; then
+        ipv6_set_mtu $device $mtu
+    fi
 
-	return $retval
+    return $retval
 }
 
 
@@ -481,31 +481,31 @@ ipv6_add_6to4_tunnel() {
 #  $1: <Interface> : only "tun6to4" is supported
 # return code: 0=ok 1=argument error 2=IPv6 test fails 3=major problem
 ipv6_cleanup_6to4_tunnels() {
-	local fn="ipv6_cleanup_6to4_tunnels"
+    local fn="ipv6_cleanup_6to4_tunnels"
 
-	local device=$1
+    local device=$1
 
-	if [ -z "$device" ]; then
-		net_log $"Missing parameter 'device' (arg 1)" err $fn
-		return 1
-	fi
+    if [ -z "$device" ]; then
+        net_log $"Missing parameter 'device' (arg 1)" err $fn
+        return 1
+    fi
 
-	# Check device
-	if [ "$device" != "tun6to4" ]; then
-		net_log $"Given device '$device' is not supported (arg 1)" err $fn
-		return 1
-	fi
+    # Check device
+    if [ "$device" != "tun6to4" ]; then
+        net_log $"Given device '$device' is not supported (arg 1)" err $fn
+        return 1
+    fi
 
-	ipv6_test testonly || return 2
+    ipv6_test testonly || return 2
 
-		ipv6_del_tunnel_device tun6to4
+        ipv6_del_tunnel_device tun6to4
 
-		# Remove all unspecific unreachable routes for local 6to4 address space
-		/sbin/ip -6 route | LC_ALL=C grep "^unreachable 2002:.*/48 dev lo" | while read token net rest; do
-			/sbin/ip route del unreach $net
-		done
+        # Remove all unspecific unreachable routes for local 6to4 address space
+        /sbin/ip -6 route | LC_ALL=C grep "^unreachable 2002:.*/48 dev lo" | while read token net rest; do
+            /sbin/ip route del unreach $net
+        done
 
-	return 0
+    return 0
 }
 
 
@@ -514,36 +514,36 @@ ipv6_cleanup_6to4_tunnels() {
 #  $2: <IPv4 address> : global address of local interface
 # return code: 0=ok 1=argument error 2=IPv6 test fails 3=major problem
 ipv6_del_6to4_tunnel() {
-	local fn="ipv6_del_6to4_tunnel"
+    local fn="ipv6_del_6to4_tunnel"
 
-	local device=$1
-	local localipv4=$2
+    local device=$1
+    local localipv4=$2
 
-	if [ -z "$device" ]; then
-		net_log $"Missing parameter 'device' (arg 1)" err $fn
-		return 1
-	fi
+    if [ -z "$device" ]; then
+        net_log $"Missing parameter 'device' (arg 1)" err $fn
+        return 1
+    fi
 
-	if [ -z "$localipv4" ]; then
-		net_log $"Missing parameter 'local IPv4 address' (arg 2)" err $fn
-		return 1
-	fi
+    if [ -z "$localipv4" ]; then
+        net_log $"Missing parameter 'local IPv4 address' (arg 2)" err $fn
+        return 1
+    fi
 
-	# Check device
-	if [ "$device" != "tun6to4" ]; then
-		net_log $"Given device '$device' is not supported (arg 1)" err $fn
-		return 1
-	fi
+    # Check device
+    if [ "$device" != "tun6to4" ]; then
+        net_log $"Given device '$device' is not supported (arg 1)" err $fn
+        return 1
+    fi
 
-	ipv6_test || return 2
+    ipv6_test || return 2
 
-		ipv6_del_tunnel_device tun6to4
-		local retval=$?
+        ipv6_del_tunnel_device tun6to4
+        local retval=$?
 
-		# Remove unspecific unreachable route for local 6to4 address space
-		/sbin/ip route del unreach ${prefix6to4}::/48
+        # Remove unspecific unreachable route for local 6to4 address space
+        /sbin/ip route del unreach ${prefix6to4}::/48
 
-	return $retval
+    return $retval
 }
 
 
@@ -554,80 +554,80 @@ ipv6_del_6to4_tunnel() {
 #  $4: [<IPv4 address>] : local one of tunnel (optional)
 # return code: 0=ok 1=argument error 2=IPv6 test fails 3=major problem
 ipv6_add_tunnel_device() {
-	local fn="ipv6_add_tunnel_device"
+    local fn="ipv6_add_tunnel_device"
 
-	local device=$1
-	local addressipv4tunnel=$2
-	local addressipv6local=$3
-	local addressipv4tunnellocal=$4
+    local device=$1
+    local addressipv4tunnel=$2
+    local addressipv6local=$3
+    local addressipv4tunnellocal=$4
 
-	if [ -z "$device" ]; then
-		net_log $"Missing parameter 'device' (arg 1)" err $fn
-		return 1
-	fi
+    if [ -z "$device" ]; then
+        net_log $"Missing parameter 'device' (arg 1)" err $fn
+        return 1
+    fi
 
-	if [ -z "$addressipv4tunnel" ]; then
-		net_log $"Missing parameter 'IPv4-tunnel address' (arg 2)" err $fn
-		return 1
-	fi
+    if [ -z "$addressipv4tunnel" ]; then
+        net_log $"Missing parameter 'IPv4-tunnel address' (arg 2)" err $fn
+        return 1
+    fi
 
-	if [ -z "$addressipv4tunnellocal" ]; then
-		local addressipv4tunnellocal="any"
-	fi
+    if [ -z "$addressipv4tunnellocal" ]; then
+        local addressipv4tunnellocal="any"
+    fi
 
-	ipv6_test || return 2
+    ipv6_test || return 2
 
-	if ! ipv6_test_device_status $device; then
-		local ttldefault="$(/sbin/sysctl -e net.ipv4.ip_default_ttl | awk '{ print $3 }')"
-		if [ -z "$ttldefault" ]; then
-			local ttldefault=64
-		fi
+    if ! ipv6_test_device_status $device; then
+        local ttldefault="$(/sbin/sysctl -e net.ipv4.ip_default_ttl | awk '{ print $3 }')"
+        if [ -z "$ttldefault" ]; then
+            local ttldefault=64
+        fi
 
-		# Test whether remote IPv4 address was already applied to another tunnel
-		if [ "$addressipv4tunnel" != "0.0.0.0" -a "$addressipv4tunnel" != "any" ]; then
-			/sbin/ip tunnel show remote $addressipv4tunnel 2>/dev/null | LC_ALL=C grep -w "ipv6/ip" | while IFS=":" read devnew rest; do
-				if [ "$devnew" != "$device" ]; then
-					net_log $"Given remote address '$addressipv4tunnel' on tunnel device '$device' is already configured on device '$devnew'" err $fn
-					return 3
-				fi
-			done
-		fi
+        # Test whether remote IPv4 address was already applied to another tunnel
+        if [ "$addressipv4tunnel" != "0.0.0.0" -a "$addressipv4tunnel" != "any" ]; then
+            /sbin/ip tunnel show remote $addressipv4tunnel 2>/dev/null | LC_ALL=C grep -w "ipv6/ip" | while IFS=":" read devnew rest; do
+                if [ "$devnew" != "$device" ]; then
+                    net_log $"Given remote address '$addressipv4tunnel' on tunnel device '$device' is already configured on device '$devnew'" err $fn
+                    return 3
+                fi
+            done
+        fi
 
-		/sbin/ip tunnel add $device mode sit ttl $ttldefault remote $addressipv4tunnel local $addressipv4tunnellocal
-		if [ $? -ne 0 ]; then
-			return 3
-		fi
+        /sbin/ip tunnel add $device mode sit ttl $ttldefault remote $addressipv4tunnel local $addressipv4tunnellocal
+        if [ $? -ne 0 ]; then
+            return 3
+        fi
 
-		# Test, whether "ip tunnel show" reports valid content
-		if ! /sbin/ip tunnel show $device 2>/dev/null | LC_ALL=C grep -q -w "remote"; then
-			net_log $"Tunnel device '$device' creation didn't work" err $fn
-			return 3
-		fi
+        # Test, whether "ip tunnel show" reports valid content
+        if ! /sbin/ip tunnel show $device 2>/dev/null | LC_ALL=C grep -q -w "remote"; then
+            net_log $"Tunnel device '$device' creation didn't work" err $fn
+            return 3
+        fi
 
-		/sbin/ip link set $device up
+        /sbin/ip link set $device up
 
-		if ! ipv6_test_device_status $device; then
-			net_log $"Tunnel device '$device' bringing up didn't work" err $fn
-			return 3
-		fi
+        if ! ipv6_test_device_status $device; then
+            net_log $"Tunnel device '$device' bringing up didn't work" err $fn
+            return 3
+        fi
 
-		# Set sysctls proper (regardless "default")
-		/sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.forwarding=1 >/dev/null 2>&1
-		/sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.accept_ra=0 >/dev/null 2>&1
-		/sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.accept_redirects=0 >/dev/null 2>&1
+        # Set sysctls proper (regardless "default")
+        /sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.forwarding=1 >/dev/null 2>&1
+        /sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.accept_ra=0 >/dev/null 2>&1
+        /sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.accept_redirects=0 >/dev/null 2>&1
 
-		if [ -n "$addressipv6local" ]; then
-			# Setup P-t-P address
-			ipv6_add_addr_on_device $device $addressipv6local
-			if [ $? -ne 0 ]; then
-				return 3
-			fi
-		fi
-	else
-		false
-	fi
+        if [ -n "$addressipv6local" ]; then
+            # Setup P-t-P address
+            ipv6_add_addr_on_device $device $addressipv6local
+            if [ $? -ne 0 ]; then
+                return 3
+            fi
+        fi
+    else
+        false
+    fi
 
-	return 0
+    return 0
 }
 
 
@@ -635,54 +635,54 @@ ipv6_add_tunnel_device() {
 #  $1: <Interface>
 # return code: 0=ok 1=argument error 2=IPv6 test fails 3=major problem
 ipv6_del_tunnel_device() {
-	local fn="ipv6_del_tunnel_device"
+    local fn="ipv6_del_tunnel_device"
 
-	local device=$1
+    local device=$1
 
-	if [ -z "$device" ]; then
-		net_log $"Missing parameter 'device' (arg 1)" err $fn
-		return 1
-	fi
+    if [ -z "$device" ]; then
+        net_log $"Missing parameter 'device' (arg 1)" err $fn
+        return 1
+    fi
 
-	ipv6_test testonly || return 2
+    ipv6_test testonly || return 2
 
-	if ipv6_test_device_status $device; then
-		ipv6_cleanup_device $device
-	else
-		if [ "$device" != "sit0" ]; then
-			false
-		fi
-	fi
+    if ipv6_test_device_status $device; then
+        ipv6_cleanup_device $device
+    else
+        if [ "$device" != "sit0" ]; then
+            false
+        fi
+    fi
 
-	if [ "$device" != "sit0" ]; then
-		if /sbin/ip tunnel show $device 2>/dev/null | LC_ALL=C grep -q -w "ipv6/ip"; then
-			/sbin/ip tunnel del $device
+    if [ "$device" != "sit0" ]; then
+        if /sbin/ip tunnel show $device 2>/dev/null | LC_ALL=C grep -q -w "ipv6/ip"; then
+            /sbin/ip tunnel del $device
 
-				if ipv6_test_device_status $device; then
-					return 3
-				fi
-		else
-			false
-		fi
-	fi
+            if ipv6_test_device_status $device; then
+                return 3
+            fi
+        else
+            false
+        fi
+    fi
 
-	return 0
+    return 0
 }
 
 
 ## Cleanup all dedicated tunnel devices
 ipv6_cleanup_tunnel_devices() {
-	local fn="ipv6_cleanup_tunnel_devices"
+    local fn="ipv6_cleanup_tunnel_devices"
 
-	ipv6_test testonly || return 2
+    ipv6_test testonly || return 2
 
-	# Find still existing tunnel devices and shutdown and delete them
+    # Find still existing tunnel devices and shutdown and delete them
 
-	/sbin/ip tunnel show | awk -F: '/\<ipv6\/ip\>/ { print $1 }' | while read device; do
-		ipv6_del_tunnel_device $device
-	done
+    /sbin/ip tunnel show | awk -F: '/\<ipv6\/ip\>/ { print $1 }' | while read device; do
+        ipv6_del_tunnel_device $device
+    done
 
-	return 0
+    return 0
 }
 
 
@@ -692,52 +692,52 @@ ipv6_cleanup_tunnel_devices() {
 # stdout: <IPv4 address> if available
 # return code: 0=ok 1=argument error 2=IPv6 test fails 3=major problem
 ipv6_get_ipv4addr_of_tunnel() {
-	local fn="ipv6_get_local_ipv4_of_tunnel"
+    local fn="ipv6_get_local_ipv4_of_tunnel"
 
-	local device=$1
-	local selection=$2
+    local device=$1
+    local selection=$2
 
-	if [ -z "$device" ]; then
-		net_log $"Missing parameter 'device' (arg 1)" err $fn
-		return 1
-	fi
+    if [ -z "$device" ]; then
+        net_log $"Missing parameter 'device' (arg 1)" err $fn
+        return 1
+    fi
 
-	if [ -z "$selection" ]; then
-		net_log $"Missing parameter 'selection' (arg 2)" err $fn
-		return 1
-	fi
-	if [ "$selection" != "local" -a "$selection" != "remote" ]; then
-		net_log $"Unsupported selection '$selection' specified (arg 2)" err $fn
-		return 1
-	fi
+    if [ -z "$selection" ]; then
+        net_log $"Missing parameter 'selection' (arg 2)" err $fn
+        return 1
+    fi
+    if [ "$selection" != "local" -a "$selection" != "remote" ]; then
+        net_log $"Unsupported selection '$selection' specified (arg 2)" err $fn
+        return 1
+    fi
 
-	ipv6_test testonly || return 2
+    ipv6_test testonly || return 2
 
-	ipv6_test_device_status $device
+    ipv6_test_device_status $device
 
-	if [ $? != 0 -a $? != 11 ]; then
-		# Device doesn't exist
-		return 3
-	fi
+    if [ $? != 0 -a $? != 11 ]; then
+        # Device doesn't exist
+        return 3
+    fi
 
-	# Device exists, retrieve address
-	if [ "$selection" = "local" ]; then
-		local tunnel_local_ipv4addr="$(/sbin/ip tunnel show $device | awk '{ print $6 }')"
-	elif [ "$selection" = "remote" ]; then
-		local tunnel_local_ipv4addr="$(/sbin/ip tunnel show $device | awk '{ print $4 }')"
-	fi
+    # Device exists, retrieve address
+    if [ "$selection" = "local" ]; then
+        local tunnel_local_ipv4addr="$(/sbin/ip tunnel show $device | awk '{ print $6 }')"
+    elif [ "$selection" = "remote" ]; then
+        local tunnel_local_ipv4addr="$(/sbin/ip tunnel show $device | awk '{ print $4 }')"
+    fi
 
-	if [ $? != 0 ]; then
-		return 3
-	fi
+    if [ $? != 0 ]; then
+        return 3
+    fi
 
-	if [ "$tunnel_local_ipv4addr" = "any" ]; then
-		local tunnel_local_ipv4addr="0.0.0.0"
-	fi
+    if [ "$tunnel_local_ipv4addr" = "any" ]; then
+        local tunnel_local_ipv4addr="0.0.0.0"
+    fi
 
-	echo "$tunnel_local_ipv4addr"
+    echo "$tunnel_local_ipv4addr"
 
-	return 0
+    return 0
 }
 
 
@@ -746,36 +746,36 @@ ipv6_get_ipv4addr_of_tunnel() {
 # stdout: <IPv4 address> if available
 # return code: 0=ok 1=argument error 2=IPv6 test fails 3=major problem (more than one IPv4 address applied)
 ipv6_get_ipv4addr_of_device() {
-	local fn="ipv6_get_ipv4addr_of_device"
+    local fn="ipv6_get_ipv4addr_of_device"
 
-	local device=$1
+    local device=$1
 
-	if [ -z "$device" ]; then
-		net_log $"Missing parameter 'device' (arg 1)" err $fn
-		return 1
-	fi
+    if [ -z "$device" ]; then
+        net_log $"Missing parameter 'device' (arg 1)" err $fn
+        return 1
+    fi
 
-	ipv6_test_device_status $device
+    ipv6_test_device_status $device
 
-	if [ $? != 0 -a $? != 11 ]; then
-		# Device doesn't exist
-		return 3
-	fi
+    if [ $? != 0 -a $? != 11 ]; then
+        # Device doesn't exist
+        return 3
+    fi
 
-	# Device exists, retrieve the first address only
-	local ipv4addr="$(/sbin/ip -o -4 addr show dev $device | awk '{ print $4 }' | awk -F/ '{ print $1; exit }')"
+    # Device exists, retrieve the first address only
+    local ipv4addr="$(/sbin/ip -o -4 addr show dev $device | awk '{ print $4 }' | awk -F/ '{ print $1; exit }')"
 
-	if [ $? != 0 ]; then
-		return 3
-	fi
+    if [ $? != 0 ]; then
+        return 3
+    fi
 
-	if [ "$ipv4addr" = "any" ]; then
-		local ipv4addr="0.0.0.0"
-	fi
+    if [ "$ipv4addr" = "any" ]; then
+        local ipv4addr="0.0.0.0"
+    fi
 
-	echo "$ipv4addr"
+    echo "$ipv4addr"
 
-	return 0
+    return 0
 }
 
 
@@ -784,33 +784,33 @@ ipv6_get_ipv4addr_of_device() {
 #  $2: <IPv6 MTU>
 # return code: 0=ok 1=argument error 2=IPv6 test fails 3=major problem
 ipv6_set_mtu() {
-	local fn="ipv6_set_mtu"
+    local fn="ipv6_set_mtu"
 
-	local device=$1
-	local ipv6_mtu=$2
+    local device=$1
+    local ipv6_mtu=$2
 
-	if [ -z "$device" ]; then
-		net_log $"Missing parameter 'device' (arg 1)" err $fn
-		return 1
-	fi
+    if [ -z "$device" ]; then
+        net_log $"Missing parameter 'device' (arg 1)" err $fn
+        return 1
+    fi
 
-	if [ -z "$ipv6_mtu" ]; then
-		net_log $"Missing parameter 'IPv6 MTU' (arg 2)" err $fn
-		return 1
-	fi
+    if [ -z "$ipv6_mtu" ]; then
+        net_log $"Missing parameter 'IPv6 MTU' (arg 2)" err $fn
+        return 1
+    fi
 
-	# Check range
-	if [ $ipv6_mtu -lt 1280 -o $ipv6_mtu -gt 65535 ]; then
-		net_log $"Given IPv6 MTU '$ipv6_mtu' is out of range" err $fn
-		return 1
-	fi
+    # Check range
+    if [ $ipv6_mtu -lt 1280 -o $ipv6_mtu -gt 65535 ]; then
+        net_log $"Given IPv6 MTU '$ipv6_mtu' is out of range" err $fn
+        return 1
+    fi
 
-	ipv6_test testonly || return 2
+    ipv6_test testonly || return 2
 
-	# Set value
-	/sbin/ip link set dev $device mtu $ipv6_mtu
+    # Set value
+    /sbin/ip link set dev $device mtu $ipv6_mtu
 
-	return 0
+    return 0
 }
 
 
@@ -820,92 +820,92 @@ ipv6_set_mtu() {
 #  $3: <check device>: (optional) device to check scope and gateway device against (setup is skipped, if not matching)
 # return code: 0=ok 1=argument error 2=IPv6 test fails 3=major problem
 ipv6_set_default_route() {
-	local fn="ipv6_set_default_route"
+    local fn="ipv6_set_default_route"
 
-	local address=$1
-	local device=$2
-	local device_check=$3
+    local address=$1
+    local device=$2
+    local device_check=$3
 
-	ipv6_test testonly || return 2
+    ipv6_test testonly || return 2
 
-	# Map the unspecified address to nothing
-	if [ "$address" = "::" ]; then
-		local address=""
-	fi
+    # Map the unspecified address to nothing
+    if [ "$address" = "::" ]; then
+        local address=""
+    fi
 
-	if [ -n "$address" ]; then
-		local addressgw=${address%%%*}
-		local device_scope=$(echo $address | awk -F% '{ print $2 }')
+    if [ -n "$address" ]; then
+        local addressgw=${address%%%*}
+        local device_scope=$(echo $address | awk -F% '{ print $2 }')
 
-		if [ -z "$addressgw" ]; then
-			net_log $"Given IPv6 default gateway '$address' is not in proper format" err $fn
-			return 3
-		fi
+        if [ -z "$addressgw" ]; then
+            net_log $"Given IPv6 default gateway '$address' is not in proper format" err $fn
+            return 3
+        fi
 
-		# Scope device has precedence
-		if [ -n "$device_scope" -a -n "$device" -a "$device_scope" != "$device" ]; then
-			net_log $"Given IPv6 default gateway '$address' has scope '$device_scope' defined, given default gateway device '$device' will be not used" info $fn
-			local device=""
-		fi
+        # Scope device has precedence
+        if [ -n "$device_scope" -a -n "$device" -a "$device_scope" != "$device" ]; then
+            net_log $"Given IPv6 default gateway '$address' has scope '$device_scope' defined, given default gateway device '$device' will be not used" info $fn
+            local device=""
+        fi
 
-		# Link local addresses require a device
-		if echo $addressgw | LC_ALL=C grep -qi "^fe80:"; then
-			if [ -z "$device_scope" ]; then
-				if [ -z "$device" ]; then
-					net_log $"Given IPv6 default gateway '$address' is link-local, but no scope or gateway device is specified" err $fn
-					return 3
-				fi
-			fi
-		fi
+        # Link local addresses require a device
+        if echo $addressgw | LC_ALL=C grep -qi "^fe80:"; then
+            if [ -z "$device_scope" ]; then
+                if [ -z "$device" ]; then
+                    net_log $"Given IPv6 default gateway '$address' is link-local, but no scope or gateway device is specified" err $fn
+                    return 3
+                fi
+            fi
+        fi
 
-		# Check whether the route belongs to the specific given interface
-		if [ -n "$device_check" ]; then
-			# Check whether scope device matches given check device
-			if [ -n "$device_scope" -a "$device_check" != "$device_scope" ]; then
-				# scope device != specific given -> skip
-				return 0
-			elif [ -n "$device" -a "$device_check" != "$device" ]; then
-				# gateway device != specific given -> skip
-				return 0
-			fi
-		fi
+        # Check whether the route belongs to the specific given interface
+        if [ -n "$device_check" ]; then
+            # Check whether scope device matches given check device
+            if [ -n "$device_scope" -a "$device_check" != "$device_scope" ]; then
+                # scope device != specific given -> skip
+                return 0
+            elif [ -n "$device" -a "$device_check" != "$device" ]; then
+                # gateway device != specific given -> skip
+                return 0
+            fi
+        fi
 
-		# Set device now, if not given
-		if [ -z "$device" ]; then
-			local device="$device_scope"
-		fi
+        # Set device now, if not given
+        if [ -z "$device" ]; then
+            local device="$device_scope"
+        fi
 
-		if [ -z "$device" ]; then
-			# Note: this can cause a warning and a not installed route, if given address is not reachable on the link
-			ipv6_add_route ::/0 $addressgw
-		else
-			ipv6_add_route ::/0 $addressgw $device
-		fi
-	elif [ -n "$device" ]; then
-		# Check whether the route belongs to the specific given interface
-		if [ -n "$device_check" -a "$device_check" != "$device" ]; then
-			# gateway device != specific given -> skip
-			return 0
-		fi
+        if [ -z "$device" ]; then
+            # Note: this can cause a warning and a not installed route, if given address is not reachable on the link
+            ipv6_add_route ::/0 $addressgw
+        else
+            ipv6_add_route ::/0 $addressgw $device
+        fi
+    elif [ -n "$device" ]; then
+        # Check whether the route belongs to the specific given interface
+        if [ -n "$device_check" -a "$device_check" != "$device" ]; then
+            # gateway device != specific given -> skip
+            return 0
+        fi
 
-		ipv6_test_route_requires_next_hop $device
-		local result=$?
+        ipv6_test_route_requires_next_hop $device
+        local result=$?
 
-		if [ $result = 0 ]; then
-			net_log $"Given IPv6 default device '$device' requires an explicit nexthop" err $fn
-			return 3
-		elif [ $result != 10 ]; then
-			net_log $"Given IPv6 default device '$device' doesn't exist or isn't up" err $fn
-			return 3
-		fi
+        if [ $result = 0 ]; then
+            net_log $"Given IPv6 default device '$device' requires an explicit nexthop" err $fn
+            return 3
+        elif [ $result != 10 ]; then
+            net_log $"Given IPv6 default device '$device' doesn't exist or isn't up" err $fn
+            return 3
+        fi
 
-		ipv6_add_route ::/0 :: $device
-	else
-		net_log $"No parameters given to setup a default route" err $fn
-		return 3
-	fi
+        ipv6_add_route ::/0 :: $device
+    else
+        net_log $"No parameters given to setup a default route" err $fn
+        return 3
+    fi
 
-	return 0
+    return 0
 }
 
 
@@ -913,32 +913,32 @@ ipv6_set_default_route() {
 #  $1: <Interface>
 # return code: 0=ok 1=argument error 2=IPv6 test fails 3=major problem 10=needs no explicit hop
 ipv6_test_route_requires_next_hop() {
-	local fn="ipv6_test_route_requires_next_hop"
+    local fn="ipv6_test_route_requires_next_hop"
 
-	local device=$1
+    local device=$1
 
-	if [ -z "$device" ]; then
-		net_log $"Missing parameter 'device' (arg 1)" err $fn
-		return 1
-	fi
+    if [ -z "$device" ]; then
+        net_log $"Missing parameter 'device' (arg 1)" err $fn
+        return 1
+    fi
 
-	ipv6_test testonly || return 2
+    ipv6_test testonly || return 2
 
-	ipv6_test_device_status $device
+    ipv6_test_device_status $device
 
-	if [ $? != 0 ]; then
-		return 3
-	fi
+    if [ $? != 0 ]; then
+        return 3
+    fi
 
-	if [ "$device" = "sit0" ]; then
-		return 10
-	fi
+    if [ "$device" = "sit0" ]; then
+        return 10
+    fi
 
-	if /sbin/ip -o link show $device 2>/dev/null |  LC_ALL=C grep -q "POINTOPOINT"; then
-		return 10
-	fi
+    if /sbin/ip -o link show $device 2>/dev/null |    LC_ALL=C grep -q "POINTOPOINT"; then
+        return 10
+    fi
 
-	return 0
+    return 0
 }
 
 
@@ -946,120 +946,120 @@ ipv6_test_route_requires_next_hop() {
 #  $1: up|down : device reason for triggering (coming up or going down)
 #  $2: [startstop|restart|reload|SIGHUP] : triger mechanism (default is "SIGHUP")
 #        "startstop" : reason=up -> start, reason=down -> stop
-#  $3: [<filename>] : alternative pid file  [optional]
+#  $3: [<filename>] : alternative pid file    [optional]
 # return code: 0=ok 1=argument error 2=IPv6 test fails 3=major problem
 ipv6_trigger_radvd() {
-	local fn="ipv6_trigger_radvd"
+    local fn="ipv6_trigger_radvd"
 
-	local reason=$1
-	local mechanism=$2
-	local pidfile=$3
+    local reason=$1
+    local mechanism=$2
+    local pidfile=$3
 
-	if [ -z "$reason" ]; then
-		net_log $"No reason given for sending trigger to radvd" err $fn
-		return 1
-	fi
+    if [ -z "$reason" ]; then
+        net_log $"No reason given for sending trigger to radvd" err $fn
+        return 1
+    fi
 
-	if [ "$reason" != "up" -a "$reason" != "down" ]; then
-		net_log $"Unsupported reason '$reason' for sending trigger to radvd" err $fn
-		return 1
-	fi
+    if [ "$reason" != "up" -a "$reason" != "down" ]; then
+        net_log $"Unsupported reason '$reason' for sending trigger to radvd" err $fn
+        return 1
+    fi
 
-	if [ -z "$mechanism" ]; then
-		# Take default
-		local mechanism="SIGHUP"
-	fi
+    if [ -z "$mechanism" ]; then
+        # Take default
+        local mechanism="SIGHUP"
+    fi
 
-	if [ -z "$pidfile" ]; then
-		local pidfile="/var/run/radvd/radvd.pid"
-	fi
+    if [ -z "$pidfile" ]; then
+        local pidfile="/var/run/radvd/radvd.pid"
+    fi
 
-	# Print message and select action
-	case $mechanism in
-	    'startstop')
-		case $reason in
-		    up)
-			local action="start"
-			;;
-		    down)
-			local action="stop"
-			;;
-		esac
-		;;
-	    'reload'|'restart'|'SIGHUP')
-		local action="$mechanism"
-		;;
-	    *)
-		net_log $"Unsupported mechanism '$mechanism' for sending trigger to radvd" err $fn
-		return 3
-		;;
-	esac
+    # Print message and select action
+    case $mechanism in
+        'startstop')
+            case $reason in
+            up)
+                local action="start"
+                ;;
+            down)
+                local action="stop"
+                ;;
+            esac
+            ;;
+        'reload'|'restart'|'SIGHUP')
+            local action="$mechanism"
+            ;;
+        *)
+            net_log $"Unsupported mechanism '$mechanism' for sending trigger to radvd" err $fn
+            return 3
+            ;;
+    esac
 
-	# PID file needed?
-	if [ "$action" = "SIGHUP" ]; then
-		if ! [ -f "$pidfile" ]; then
-			if [ "$reason" = "down" ]; then
-				# be quiet because triggering may have been disabled
-				true
-			else
-				net_log $"Given pidfile '$pidfile' doesn't exist, cannot send trigger to radvd" err $fn
-			fi
-			return 3
-		fi
+    # PID file needed?
+    if [ "$action" = "SIGHUP" ]; then
+        if ! [ -f "$pidfile" ]; then
+            if [ "$reason" = "down" ]; then
+                # be quiet because triggering may have been disabled
+                true
+            else
+                net_log $"Given pidfile '$pidfile' doesn't exist, cannot send trigger to radvd" err $fn
+            fi
+            return 3
+        fi
 
-		# Get PID
-		local pid="$(cat $pidfile)"
-		if [ -z "$pid" ]; then
-			# pidfile empty - strange
-			net_log $"Pidfile '$pidfile' is empty, cannot send trigger to radvd" err $fn
-			return 3
-		fi
-	fi
+        # Get PID
+        local pid="$(cat $pidfile)"
+        if [ -z "$pid" ]; then
+            # pidfile empty - strange
+            net_log $"Pidfile '$pidfile' is empty, cannot send trigger to radvd" err $fn
+            return 3
+        fi
+    fi
 
 
-	# Do action
-	case $action in
-	    'SIGHUP')
-		kill -HUP $pid
-		;;
-	    'reload'|'restart'|'stop'|'start')
-			if ! /sbin/chkconfig --list radvd >/dev/null 2>&1; then
-				if [ "$reason" = "down" ]; then
-					# be quiet because triggering may have been disabled
-					true
-				else
-					net_log $"radvd not (properly) installed, triggering failed" err $fn
-				fi
-				return 3
-			else
-				/sbin/service radvd $action >/dev/null 2>&1
-			fi
-		;;
-	    *)
-		# Normally not reached, "action" is set above to proper value
-		;;
-	esac
+    # Do action
+    case $action in
+        'SIGHUP')
+            kill -HUP $pid
+            ;;
+        'reload'|'restart'|'stop'|'start')
+            if ! /sbin/chkconfig --list radvd >/dev/null 2>&1; then
+                if [ "$reason" = "down" ]; then
+                    # be quiet because triggering may have been disabled
+                    true
+                else
+                    net_log $"radvd not (properly) installed, triggering failed" err $fn
+                fi
+                return 3
+            else
+                /sbin/service radvd $action >/dev/null 2>&1
+            fi
+            ;;
+        *)
+            # Normally not reached, "action" is set above to proper value
+            ;;
+    esac
 
-	return 0
+    return 0
 }
 
 #https://www.vaspects.com/2013/12/11/services-dont-bind-to-ipv6-address/
 ipv6_wait_tentative() {
-        local fn="ipv6_wait_tentative"
-        local device=$1
-        local countdown=30
+    local fn="ipv6_wait_tentative"
+    local device=$1
+    local countdown=30
 
-        if [ -z "$device" ]; then
-                net_log $"Missing parameter 'device' (arg 1)" err $fn
-                return 1
-        fi
+    if [ -z "$device" ]; then
+        net_log $"Missing parameter 'device' (arg 1)" err $fn
+        return 1
+    fi
 
-        [ "$device" = lo ] && return 0
+    [ "$device" = lo ] && return 0
 
-        while [ ${countdown} -gt 0 -a -n "$(ip -6 addr show dev ${device} scope global tentative)" ]; do
-                net_log $"Waiting for interface ${device} IPv6 address(es) to leave the \"tentative\" state" info $fn
-                countdown=$(($countdown - 1))
-                sleep 1
-        done
-        return 0
+    while [ ${countdown} -gt 0 -a -n "$(ip -6 addr show dev ${device} scope global tentative)" ]; do
+        net_log $"Waiting for interface ${device} IPv6 address(es) to leave the \"tentative\" state" info $fn
+        countdown=$(($countdown - 1))
+        sleep 1
+    done
+    return 0
 }
