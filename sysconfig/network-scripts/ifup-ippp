@@ -20,7 +20,7 @@ CONFIG=$1
 source_config
 
 if [ "${2}" = "boot" -a "${ONBOOT}" = "no" ]; then
-  exit
+    exit
 fi
 
 if [ ! -f /var/lock/subsys/isdn ] && [ -x /etc/init.d/isdn ] ; then
@@ -46,7 +46,7 @@ if ! isdnctrl list all >/dev/null 2>&1 ; then
     /usr/bin/logger -p daemon.info -t ifup-ippp "cannot list ISDN devices"
     exit 1
 fi
-		
+
 # check if device already is configured
 isdnctrl list $DEVICE >/dev/null 2>&1 && exit 0
 
@@ -116,15 +116,15 @@ function addprovider()
             return 1
         fi
         if [ "$DIALIN" != "on" ]; then
-        # we should hide the user name, so i add user name to option file.
-        if [ "$AUTH" = "-pap +chap" ]; then
-            create_option_file "name \"$USER\""
-        else
-            create_option_file "user \"$USER\""
+            # we should hide the user name, so i add user name to option file.
+            if [ "$AUTH" = "-pap +chap" ]; then
+                create_option_file "name \"$USER\""
+            else
+                create_option_file "user \"$USER\""
+            fi
+            options="$options file /etc/ppp/ioption-secret-$DEVICE"
         fi
-        options="$options file /etc/ppp/ioption-secret-$DEVICE"
-        fi
- 
+
         # authentication options:
         # +pap and/or +chap does not work correct by dialout - remove
         # them if it's configured as dialout
@@ -160,7 +160,7 @@ function addprovider()
 
     # set dialmode
     log_isdnctrl dialmode $DEVICE $DIALMODE
- 
+
     [ -n "$SECURE" ] && log_isdnctrl secure $DEVICE $SECURE
     [ -n "$HUPTIMEOUT" ] && log_isdnctrl huptimeout $DEVICE $HUPTIMEOUT
     [ -n "$CHARGEHUP" ] && log_isdnctrl chargehup $DEVICE $CHARGEHUP
@@ -179,7 +179,7 @@ function addprovider()
     fi
     [ -n "$CBDELAY" ] && log_isdnctrl cbdelay $DEVICE $CBDELAY
     [ -n "$CBHUP" ] && log_isdnctrl cbhup $DEVICE $CBHUP
- 
+
     options="$options ipparam $DEVNAME"
 
     [ "$ENCAP" = "syncppp" ] && log_isdnctrl pppbind $DEVICE
@@ -188,12 +188,12 @@ function addprovider()
         options="$options ipcp-accept-local"
     else
         if [ "$DIALIN" != "on" ]; then
-        options="$options noipdefault"
+            options="$options noipdefault"
         fi
     fi
     # Add device
     options="$options /dev/$DEVICE"
- 
+
     # set channel bundling
     if [ "$BUNDLING" = "yes" -o "$BUNDLING" = "on" ] && [ -n "$SLAVE_DEVICE" ]; then
         [ -z "$SLAVE_MSN" ] && SLAVE_MSN="$MSN"
@@ -208,10 +208,10 @@ function addprovider()
         [ -z "$SLAVE_CALLBACK" ] && SLAVE_CALLBACK="$CALLBACK"
         [ -z "$SLAVE_CBDELAY" ] && SLAVE_CBDELAY="$CBDELAY"
         if [ "$DIALIN" != "on" ] ; then
-               [ -z "$SLAVE_DIALMODE" ] && SLAVE_DIALMODE="auto"
+            [ -z "$SLAVE_DIALMODE" ] && SLAVE_DIALMODE="auto"
         else
-               # Master should not dial by default on incoming MPPP
-               [ -z "$SLAVE_DIALMODE" ] && SLAVE_DIALMODE="$DIALMODE"
+            # Master should not dial by default on incoming MPPP
+            [ -z "$SLAVE_DIALMODE" ] && SLAVE_DIALMODE="$DIALMODE"
         fi
 
         slave=$SLAVE_DEVICE
@@ -259,7 +259,7 @@ function addprovider()
 
     if [ "$GATEWAY" = "0.0.0.0" ]; then
         if [ "$DIALIN" != "on" ]; then
-        options="$options ipcp-accept-remote"
+            options="$options ipcp-accept-remote"
         fi
         options="$IPADDR:$GATEWAY $options"
     else
@@ -277,16 +277,16 @@ function addprovider()
 
     # BSD-Compression scheme
     if [ "$BSDCOMP" = "on" ] ; then
-         options="$options bsdcomp 9,9"
+        options="$options bsdcomp 9,9"
     else
-         options="$options -bsdcomp"
+        options="$options -bsdcomp"
     fi
     # Stac compression
     if [ "$LZS" = "on" ] ; then
-         # supports LZS check mode 3 and 4
-         [ -n "$LZS_MODE" ] || LZS_MODE="4"
-         [ "$LZS_MODE" = "3" ] && options="$options lzs 1"
-         [ "$LZS_MODE" = "4" ] && options="$options lzs 1:4"
+        # supports LZS check mode 3 and 4
+        [ -n "$LZS_MODE" ] || LZS_MODE="4"
+        [ "$LZS_MODE" = "3" ] && options="$options lzs 1"
+        [ "$LZS_MODE" = "4" ] && options="$options lzs 1:4"
     fi
 
     # Set max receive and max transmit units
@@ -309,10 +309,10 @@ function addprovider()
 
     # set CCP protocoll
     [ "$CCP" = "off" ] && options="$options noccp"
- 
+
     # set host name
     [ -n "$ISDN_HOSTNAME" ] && options="$options remotename $ISDN_HOSTNAME"
- 
+
     # Set authentication
     for i in $AUTH ; do
         options="$options $i"
@@ -369,12 +369,12 @@ function addprovider()
 
     # Setup IPv6
     if [[ "$IPV6INIT" != [nN0]* && ! -z "$IPV6ADDR" ]]; then
-	    # Native IPv6 use of device configured, check of encapsulation required		
-            if [ "$ENCAP" = "syncppp" ]; then
-		echo $"Warning: ipppd (kernel 2.4.x and below) doesn't support IPv6 using encapsulation 'syncppp'"
-            elif [ "$ENCAP" = "rawip" ]; then
-		echo $"Warning: link doesn't support IPv6 using encapsulation 'rawip'"
-	    fi
+        # Native IPv6 use of device configured, check of encapsulation required    
+        if [ "$ENCAP" = "syncppp" ]; then
+            echo $"Warning: ipppd (kernel 2.4.x and below) doesn't support IPv6 using encapsulation 'syncppp'"
+        elif [ "$ENCAP" = "rawip" ]; then
+            echo $"Warning: link doesn't support IPv6 using encapsulation 'rawip'"
+        fi
     fi
     /etc/sysconfig/network-scripts/ifup-ipv6 $CONFIG
 }

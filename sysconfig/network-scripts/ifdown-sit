@@ -37,8 +37,8 @@ REALDEVICE=${DEVICE%%:*}
 
 # Generic tunnel device sit0 is not supported here
 if [ "$DEVICE" = "sit0" ]; then
-	net_log $"Device '$DEVICE' isn't supported here, use IPV6_AUTOTUNNEL setting and restart (IPv6) networking"
-	exit 1
+    net_log $"Device '$DEVICE' isn't supported here, use IPV6_AUTOTUNNEL setting and restart (IPv6) networking"
+    exit 1
 fi
 
 # IPv6 test, no module loaded, exit if system is not IPv6-ready
@@ -47,8 +47,8 @@ ipv6_test testonly || exit 0
 # Test device status
 ipv6_test_device_status $DEVICE
 if [ $? != 0 -a $? != 11 ]; then
-	# device doesn't exist or other problem occurs
-	exit 0
+    # device doesn't exist or other problem occurs
+    exit 0
 fi
 
 # Cleanup additional static routes

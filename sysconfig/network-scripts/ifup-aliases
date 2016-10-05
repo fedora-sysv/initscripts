@@ -64,8 +64,8 @@ TEXTDOMAINDIR=/etc/locale
 
 device=$1
 if [ "$device" = "" ]; then
-	echo $"usage: ifup-aliases <net-device> [<parent-config>]\n"
-	exit 1
+  echo $"usage: ifup-aliases <net-device> [<parent-config>]\n"
+  exit 1
 fi
 
 PARENTCONFIG=${2:-ifcfg-$device}
@@ -87,282 +87,286 @@ cd /etc/sysconfig/network-scripts
 # A list of all the devices is created in rdev_LIST.
 
 eval $( ip addr show $device label $device:* | \
-	awk 'BEGIN { COUNT=0;LAST_DEV="" } /inet / {
-# Split IP address into address/prefix
-                split($2,IPADDR,"/");
-# Create A_B_C_D IP address form
-                IP_ADDR=IPADDR[1];
-                gsub(/\./,"_",IP_ADDR);
-# Split device into device:index
-                split($NF,DEV,":");
-# Update last device
-                LAST_DEV=LAST_DEV " " DEV[2];
-                printf("rdev_%s_addr=%s\nrdevip_%s=%s\nrdev_%s_pb=%s_%s\nrdev_LIST=\"%s\"\n",
-	             DEV[2],IPADDR[1],IP_ADDR,DEV[2],DEV[2],IPADDR[2],$4,LAST_DEV);
-	     } END {
-	        if(LAST_DEV == "") print "no_devices_are_up=yes"
-	     }' );
+    awk 'BEGIN { COUNT=0;LAST_DEV="" } /inet / {
+        # Split IP address into address/prefix
+        split($2,IPADDR,"/");
+        # Create A_B_C_D IP address form
+        IP_ADDR=IPADDR[1];
+        gsub(/\./,"_",IP_ADDR);
+        # Split device into device:index
+        split($NF,DEV,":");
+        # Update last device
+        LAST_DEV=LAST_DEV " " DEV[2];
+        printf("rdev_%s_addr=%s\nrdevip_%s=%s\nrdev_%s_pb=%s_%s\nrdev_LIST=\"%s\"\n",
+        DEV[2],IPADDR[1],IP_ADDR,DEV[2],DEV[2],IPADDR[2],$4,LAST_DEV);
+    } END {
+        if(LAST_DEV == "") print "no_devices_are_up=yes"
+    }' );
 
-       #
-       # Store configuration of the parent device and network
-       #
+#
+# Store configuration of the parent device and network
+#
 
 # read from the /etc/sysconfig/network
 eval ` (
-       . /etc/sysconfig/network;
-       echo network_GATEWAY=$GATEWAY\;;
-       echo network_GATEWAYDEV=$GATEWAYDEV\;;
+    . /etc/sysconfig/network;
+    echo network_GATEWAY=$GATEWAY\;;
+    echo network_GATEWAYDEV=$GATEWAYDEV\;;
 ) `
 
 # read defaults from the parent config file
 [ -f $PARENTCONFIG ] || {
-       net_log $"Missing config file $PARENTCONFIG."
-       exit 1
+    net_log $"Missing config file $PARENTCONFIG."
+    exit 1
 }
 eval ` (
-       . ./$PARENTCONFIG;
-       echo default_PREFIX=$PREFIX\;;
-       echo default_NETMASK=$NETMASK\;;
-       echo default_BROADCAST=$BROADCAST\;;
-       echo default_GATEWAY=$GATEWAY\;;
-       echo default_NO_ALIASROUTING=$NO_ALIASROUTING\;;
-       echo default_ARPCHECK=$ARPCHECK\;;
+    . ./$PARENTCONFIG;
+    echo default_PREFIX=$PREFIX\;;
+    echo default_NETMASK=$NETMASK\;;
+    echo default_BROADCAST=$BROADCAST\;;
+    echo default_GATEWAY=$GATEWAY\;;
+    echo default_NO_ALIASROUTING=$NO_ALIASROUTING\;;
+    echo default_ARPCHECK=$ARPCHECK\;;
 ) `
 [ -z "$default_GATEWAY" ] && default_GATEWAY=$network_GATEWAY
 
 function ini_env ()
 {
-       DEVICE=""
-       IPADDR=""
-       IPV6ADDR=""
-       PREFIX=$default_PREFIX
-       NETMASK=$default_NETMASK
-       BROADCAST=$default_BROADCAST
-       GATEWAY=$default_GATEWAY
-       NO_ALIASROUTING=$default_NO_ALIASROUTING
-       ONPARENT=""
-       ARPCHECK=$default_ARPCHECK
+    DEVICE=""
+    IPADDR=""
+    IPV6ADDR=""
+    PREFIX=$default_PREFIX
+    NETMASK=$default_NETMASK
+    BROADCAST=$default_BROADCAST
+    GATEWAY=$default_GATEWAY
+    NO_ALIASROUTING=$default_NO_ALIASROUTING
+    ONPARENT=""
+    ARPCHECK=$default_ARPCHECK
 }
 
 function is_default_gateway ()
 {
-	LC_ALL=C /sbin/ip route ls default scope global \
-		| awk '$3 == "'"$1"'" { found = 1; } END { exit found == 0; }'
+    LC_ALL=C /sbin/ip route ls default scope global \
+        | awk '$3 == "'"$1"'" { found = 1; } END { exit found == 0; }'
 }
 
-       #
-       # Read the alias configuration files and enable each aliased
-       # device using new_interface()
-       #
+#
+# Read the alias configuration files and enable each aliased
+# device using new_interface()
+#
 
 function new_interface ()
 {
 
-       ipa=$IPADDR; ipb=${ipa#*.}; ipc=${ipb#*.};
-       IPGLOP="${ipa%%.*}_${ipb%%.*}_${ipc%%.*}_${ipc#*.}";
-       DEVNUM=${DEVICE#*:}
+    ipa=$IPADDR; ipb=${ipa#*.}; ipc=${ipb#*.};
+    IPGLOP="${ipa%%.*}_${ipb%%.*}_${ipc%%.*}_${ipc#*.}";
+    DEVNUM=${DEVICE#*:}
 
-       MATCH='^[0-9A-Za-z_]*$'
-       if (LC_ALL=C; [[ ! "$DEVNUM" =~ $MATCH ]]); then
-	      net_log $"error in $FILE: invalid alias number"
-	      return 1
-       fi
+    MATCH='^[0-9A-Za-z_]*$'
+    if (LC_ALL=C; [[ ! "$DEVNUM" =~ $MATCH ]]); then
+        net_log $"error in $FILE: invalid alias number"
+        return 1
+    fi
 
-       eval "
-              ipseen=\$ipseen_${IPGLOP}; devseen=\$devseen_${DEVNUM};
-              ipseen_${IPGLOP}=$FILE; devseen_${DEVNUM}=$FILE;
-       ";
+    eval "
+        ipseen=\$ipseen_${IPGLOP}; devseen=\$devseen_${DEVNUM};
+        ipseen_${IPGLOP}=$FILE; devseen_${DEVNUM}=$FILE;
+    ";
 
-       if [ -n "$ipseen" ]; then
-              net_log $"error in $FILE: already seen ipaddr $IPADDR in $ipseen"
-	      return 1
-       fi
+    if [ -n "$ipseen" ]; then
+        net_log $"error in $FILE: already seen ipaddr $IPADDR in $ipseen"
+        return 1
+    fi
 
-       if [ -n "$devseen" ]; then
-              net_log $"error in $FILE: already seen device $parent_device:$DEVNUM in $devseen"
-	      return 1
-       fi
+    if [ -n "$devseen" ]; then
+        net_log $"error in $FILE: already seen device $parent_device:$DEVNUM in $devseen"
+        return 1
+    fi
 
-       if [ -z "$DEVICE" -o -z "$IPADDR" ]; then
-              if [ -n "$IPV6ADDR" -a -n "$DEVICE" ] && [[ "$IPV6INIT" != [nN0]* ]]; then
-                    /etc/sysconfig/network-scripts/ifup-ipv6 ${DEVICE}
-                    return $?
-              fi
-              net_log $"error in $FILE: didn't specify device or ipaddr"
-	      return 1
-       fi
+    if [ -z "$DEVICE" -o -z "$IPADDR" ]; then
+        if [ -n "$IPV6ADDR" -a -n "$DEVICE" ] && [[ "$IPV6INIT" != [nN0]* ]]; then
+            /etc/sysconfig/network-scripts/ifup-ipv6 ${DEVICE}
+            return $?
+        fi
+        net_log $"error in $FILE: didn't specify device or ipaddr"
+        return 1
+    fi
 
-       if [ -z "$NETMASK" -a -z "$PREFIX" ]; then
-               net_log $"error iN $FILE: didn't specify netmask or prefix"
-       fi
+    if [ -z "$NETMASK" -a -z "$PREFIX" ]; then
+        net_log $"error iN $FILE: didn't specify netmask or prefix"
+    fi
 
-       if [ -z "$PREFIX" ]; then
-               eval $(/bin/ipcalc --prefix ${IPADDR} ${NETMASK})
-       fi
+    if [ -z "$PREFIX" ]; then
+        eval $(/bin/ipcalc --prefix ${IPADDR} ${NETMASK})
+    fi
 
-       if [ -z "$BROADCAST" -o "$BROADCAST" = "$default_BROADCAST" ]; then
-               eval $(/bin/ipcalc --broadcast ${IPADDR}/${PREFIX})
-       fi
+    if [ -z "$BROADCAST" -o "$BROADCAST" = "$default_BROADCAST" ]; then
+        eval $(/bin/ipcalc --broadcast ${IPADDR}/${PREFIX})
+    fi
 
-       if [ "$no_devices_are_up" = "yes" ]; then
-               setup_this=yes
-       else
+    if [ "$no_devices_are_up" = "yes" ]; then
+        setup_this=yes
+    else
 
-               setup_this=""
+        setup_this=""
 
-               eval "
-                       rdev_addr=\$rdev_${DEVNUM}_addr;
-                       rdev_pb=\$rdev_${DEVNUM}_pb;
-                       rdev_mark=\$rdev_${DEVNUM}_mark;
-                       rdevip=\$rdevip_${IPGLOP};
-               ";
+        eval "
+        rdev_addr=\$rdev_${DEVNUM}_addr;
+        rdev_pb=\$rdev_${DEVNUM}_pb;
+        rdev_mark=\$rdev_${DEVNUM}_mark;
+        rdevip=\$rdevip_${IPGLOP};
+        ";
 
-               if [ -n "$rdev_addr" ]; then
-                       if [ "$rdev_addr" = "${IPADDR}" ]; then
-                               newmark=keep
-                               if [ "$rdev_pb" != "${PREFIX}_${BROADCAST}" ]; then
-                                       setup_this=freshen
-                               else
-                                       setup_this=no
-                               fi
-                       else
-                               if [ "$rdev_mark" != "remove" ]; then
-                                       /sbin/ip addr flush dev $parent_device label $parent_device:${DEVNUM}
-                                       do_netreport=yes
-                               fi
-                               newmark=remove
-                               setup_this=yes
-                       fi
-                       if [ -n "$rdev_mark" -a "$rdev_mark" != "$newmark" ]; then
-                               net_log $"error in ifcfg-${parent_device}: files"
-			       return 1
-                       fi
-                       eval " rdev_${DEVNUM}_mark=\$newmark ";
-               else
-                       setup_this=yes
-               fi
+        if [ -n "$rdev_addr" ]; then
+            if [ "$rdev_addr" = "${IPADDR}" ]; then
+                newmark=keep
+                if [ "$rdev_pb" != "${PREFIX}_${BROADCAST}" ]; then
+                    setup_this=freshen
+                else
+                    setup_this=no
+                fi
+            else
+                if [ "$rdev_mark" != "remove" ]; then
+                    /sbin/ip addr flush dev $parent_device label $parent_device:${DEVNUM}
+                    do_netreport=yes
+                fi
+                newmark=remove
+                setup_this=yes
+            fi
+            if [ -n "$rdev_mark" -a "$rdev_mark" != "$newmark" ]; then
+                net_log $"error in ifcfg-${parent_device}: files"
+                return 1
+            fi
+            eval " rdev_${DEVNUM}_mark=\$newmark ";
+        else
+            setup_this=yes
+        fi
 
-               if [ -n "$rdevip" -a "$rdevip" != "${DEVNUM}" ]; then
-                       eval " mark_remove=\$rdev_${rdevip}_mark ";
-                       if [ -n "$mark_remove" -a "$mark_remove" != "remove" ]; then
-                               net_log $"error in ifcfg-${parent_device}: files"
-			       return 1
-                       fi
-                       if [ "$mark_remove" != "remove" ]; then
-                               eval " rdev_${rdevip}_mark=remove ";
-                               /sbin/ip addr flush dev $parent_device label $parent_device:$rdevip
-                               do_netreport=yes
-                       fi
-               fi
+        if [ -n "$rdevip" -a "$rdevip" != "${DEVNUM}" ]; then
+            eval " mark_remove=\$rdev_${rdevip}_mark ";
+            if [ -n "$mark_remove" -a "$mark_remove" != "remove" ]; then
+                net_log $"error in ifcfg-${parent_device}: files"
+                return 1
+            fi
+            if [ "$mark_remove" != "remove" ]; then
+                eval " rdev_${rdevip}_mark=remove ";
+                /sbin/ip addr flush dev $parent_device label $parent_device:$rdevip
+                do_netreport=yes
+            fi
+        fi
 
-       fi
+    fi
 
-       if [ "$setup_this" = "freshen" ] ; then
-               # we can do the freshen stuff right now
-               /sbin/ip addr change ${IPADDR}/${PREFIX} brd ${BROADCAST}
-       fi
+    if [ "$setup_this" = "freshen" ] ; then
+        # we can do the freshen stuff right now
+        /sbin/ip addr change ${IPADDR}/${PREFIX} brd ${BROADCAST}
+    fi
 
-       if [ "$setup_this" = "yes" ] ; then
-               if [ "${parent_device}" != "lo" ] &&  [ "${ARPCHECK}" != "no" ] && \
-               is_available ${parent_device} && \
-               ( grep -qswi "up" /sys/class/net/${parent_device}/operstate ||  grep -qswi "1" /sys/class/net/${parent_device}/carrier ) ; then
-                   echo $"Determining if ip address ${IPADDR} is already in use for device ${parent_device}..."
-				   /sbin/arping -q -c 2 -w ${ARPING_WAIT:-3} -D -I ${parent_device} ${IPADDR}
-				   if [ $? = 1 ]; then
-					   net_log $"Error, some other host already uses address ${IPADDR}."
-					   return 1
-				   fi
-			   fi
+    if [ "$setup_this" = "yes" ] ; then
+        if [ "${parent_device}" != "lo" ] &&  [ "${ARPCHECK}" != "no" ] && \
+                is_available ${parent_device} && \
+                ( grep -qswi "up" /sys/class/net/${parent_device}/operstate ||  grep -qswi "1" /sys/class/net/${parent_device}/carrier ) ; then
+            echo $"Determining if ip address ${IPADDR} is already in use for device ${parent_device}..."
+            /sbin/arping -q -c 2 -w ${ARPING_WAIT:-3} -D -I ${parent_device} ${IPADDR}
+            if [ $? = 1 ]; then
+                net_log $"Error, some other host already uses address ${IPADDR}."
+                return 1
+            fi
+        fi
 
-               /sbin/ip addr add ${IPADDR}/${PREFIX} brd ${BROADCAST} dev ${parent_device} label ${DEVICE}
+        /sbin/ip addr add ${IPADDR}/${PREFIX} brd ${BROADCAST} \
+            dev ${parent_device} label ${DEVICE}
 
-	       [[ "$IPV6INIT" != [nN0]* ]]  && /etc/sysconfig/network-scripts/ifup-ipv6 ${DEVICE}
+        [[ "$IPV6INIT" != [nN0]* ]] && \
+            /etc/sysconfig/network-scripts/ifup-ipv6 ${DEVICE}
 
-               if [ "$NO_ALIASROUTING" != yes ]; then
+        if [ "$NO_ALIASROUTING" != yes ]; then
 
-                       GATEWAYDEV=$network_GATEWAYDEV;
+            GATEWAYDEV=$network_GATEWAYDEV;
 
-                       if [ -n "${GATEWAY}" -a \
-			       \( -z "${GATEWAYDEV}" -o "${GATEWAYDEV}" = "${DEVICE}" \) ]; then
-                               # set up default gateway, if it isn't already there
-			       if ! is_default_gateway "$GATEWAY"; then
-					ip route replace default ${METRIC:+metric $METRIC} via ${GATEWAY} dev ${DEVICE}
-			       fi
-                       fi
+            if [ -n "${GATEWAY}" -a \
+                    \( -z "${GATEWAYDEV}" -o "${GATEWAYDEV}" = "${DEVICE}" \) ]; then
+                # set up default gateway, if it isn't already there
+                if ! is_default_gateway "$GATEWAY"; then
+                    ip route replace default ${METRIC:+metric $METRIC} via ${GATEWAY} dev ${DEVICE}
+                fi
+            fi
 
-		       /etc/sysconfig/network-scripts/ifup-routes ${DEVICE} ${NAME}
+            /etc/sysconfig/network-scripts/ifup-routes ${DEVICE} ${NAME}
 
-                       do_netreport=yes
-                       ifuplocal_queue="$ifuplocal_queue $DEVICE"
-
-               fi
-
-	fi
-
+            do_netreport=yes
+            ifuplocal_queue="$ifuplocal_queue $DEVICE"
+        fi
+    fi
 }
 
-if [ "$BASH_VERSINFO" ]; then shopt -s nullglob; else allow_null_glob_expansion=foo; fi
+if [ "$BASH_VERSINFO" ]; then
+    shopt -s nullglob
+else
+    allow_null_glob_expansion=foo
+fi
 
 for FILE in ifcfg-${parent_device}:* ; do
-       is_ignored_file "$FILE" && continue
-       ini_env;
-       . ./$FILE;
-       [ -z "$DEVICE" ] && DEVICE=${FILE##ifcfg-}
-       [ "$ONPARENT" != "no" -a "$ONPARENT" != "NO" ] && new_interface;
-       unset DEVICE
+    is_ignored_file "$FILE" && continue
+    ini_env
+    . ./$FILE
+    [ -z "$DEVICE" ] && DEVICE=${FILE##ifcfg-}
+    [ "$ONPARENT" != "no" -a "$ONPARENT" != "NO" ] && new_interface
+    unset DEVICE
 done
 
 for FILE in ifcfg-${parent_device}-range* ; do
-       is_ignored_file "$FILE" && continue
-       ini_env;
-       . ./$FILE;
+    is_ignored_file "$FILE" && continue
+    ini_env
+    . ./$FILE
 
-       ipaddr_prefix=${IPADDR_START%.*}
-       ipaddr_startnum=${IPADDR_START##*.}
-       ipaddr_endnum=${IPADDR_END##*.}
+    ipaddr_prefix=${IPADDR_START%.*}
+    ipaddr_startnum=${IPADDR_START##*.}
+    ipaddr_endnum=${IPADDR_END##*.}
 
-       if [ "${IPADDR_START%.*}" != "${IPADDR_END%.*}" ]; then
-               net_log $"error in $FILE: IPADDR_START and IPADDR_END don't agree"; continue
-       fi
+    if [ "${IPADDR_START%.*}" != "${IPADDR_END%.*}" ]; then
+        net_log $"error in $FILE: IPADDR_START and IPADDR_END don't agree"
+        continue
+    fi
 
-       if [ $ipaddr_startnum -gt $ipaddr_endnum ]; then
-               net_log $"error in $FILE: IPADDR_START greater than IPADDR_END"; continue
-       fi
+    if [ $ipaddr_startnum -gt $ipaddr_endnum ]; then
+        net_log $"error in $FILE: IPADDR_START greater than IPADDR_END"
+        continue
+    fi
 
-       ipaddr_num=$ipaddr_startnum
-       ipaddr_clonenum=$CLONENUM_START
+    ipaddr_num=$ipaddr_startnum
+    ipaddr_clonenum=$CLONENUM_START
 
-       while [ $ipaddr_num -le $ipaddr_endnum ]; do
-               IPADDR="$ipaddr_prefix.$ipaddr_num"
-               DEVICE="$parent_device:$ipaddr_clonenum"
-               IPV6INIT="no"
-	       [ "$ONPARENT" != "no" -a "$ONPARENT" != "NO" ] && new_interface;
-               ipaddr_num=$(($ipaddr_num+1))
-               ipaddr_clonenum=$(($ipaddr_clonenum+1))
-       done
-       
+    while [ $ipaddr_num -le $ipaddr_endnum ]; do
+        IPADDR="$ipaddr_prefix.$ipaddr_num"
+        DEVICE="$parent_device:$ipaddr_clonenum"
+        IPV6INIT="no"
+        [ "$ONPARENT" != "no" -a "$ONPARENT" != "NO" ] && new_interface
+        ipaddr_num=$(($ipaddr_num+1))
+        ipaddr_clonenum=$(($ipaddr_clonenum+1))
+    done
 done
 
-       #
-       # Remove any devices that should not be around
-       #
-	for DEVNUM in $rdev_LIST ; do
-	       eval " rdev_mark=\$rdev_${DEVNUM}_mark ";
-	       if [ -z "$rdev_mark" ]; then
-	               /sbin/ip addr flush dev $parent_device label $parent_device:${DEVNUM}
-        	       do_netreport=yes
-	       fi
-	done
-       #
-       # Notify of new device creation
-       #
+#
+# Remove any devices that should not be around
+#
+for DEVNUM in $rdev_LIST ; do
+    eval " rdev_mark=\$rdev_${DEVNUM}_mark "
+    if [ -z "$rdev_mark" ]; then
+        /sbin/ip addr flush dev $parent_device label $parent_device:${DEVNUM}
+        do_netreport=yes
+    fi
+done
+#
+# Notify of new device creation
+#
 
 if [ -n "$do_netreport" ]; then
-       do_netreport
+    do_netreport
 fi
 
 if [ -x /sbin/ifup-local ]; then
-       for DEVICE in $ifuplocal_queue ; do
-               /sbin/ifup-local ${DEVICE}
-       done
+    for DEVICE in $ifuplocal_queue ; do
+        /sbin/ifup-local ${DEVICE}
+    done
 fi

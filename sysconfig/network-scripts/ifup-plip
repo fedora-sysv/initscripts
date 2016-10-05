@@ -6,9 +6,8 @@ cd /etc/sysconfig/network-scripts
 CONFIG=$1
 source_config
 
-if [ "foo$2" = "fooboot" -a "${ONBOOT}" = "no" ]
-then
-	exit
+if [ "foo$2" = "fooboot" -a "${ONBOOT}" = "no" ]; then
+    exit
 fi
 
 [ -z "$PREFIX" ] && eval $(/bin/ipcalc --prefix ${IPADDR} ${NETMASK})
@@ -19,10 +18,10 @@ ip route add ${NETWORK} dev ${DEVICE}
 . /etc/sysconfig/network
 
 if [ "${GATEWAY}" != "" ]; then
-	if [ "${GATEWAYDEV}" = "" -o "${GATEWAYDEV}" = "${DEVICE}" ]; then
-		# set up default gateway
-                ip route replace default ${METRIC:+metric $METRIC} via ${GATEWAY}
-	fi
+    if [ "${GATEWAYDEV}" = "" -o "${GATEWAYDEV}" = "${DEVICE}" ]; then
+        # set up default gateway
+        ip route replace default ${METRIC:+metric $METRIC} via ${GATEWAY}
+    fi
 fi
 
 /etc/sysconfig/network-scripts/ifup-post $1
