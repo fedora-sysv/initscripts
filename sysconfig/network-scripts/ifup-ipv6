@@ -127,10 +127,13 @@ else
                 ipv6_local_accept_ra=0
 	fi
 fi
-/sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.forwarding=$ipv6_local_forwarding >/dev/null 2>&1
-/sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.accept_ra=$ipv6_local_accept_ra >/dev/null 2>&1
-/sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.accept_redirects=$ipv6_local_auto >/dev/null 2>&1
-/sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.autoconf=$ipv6_local_auto >/dev/null 2>&1
+
+if [ ! "$IPV6_SET_SYSCTLS" = "no" ]; then
+  /sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.forwarding=$ipv6_local_forwarding >/dev/null 2>&1
+  /sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.accept_ra=$ipv6_local_accept_ra >/dev/null 2>&1
+  /sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.accept_redirects=$ipv6_local_auto >/dev/null 2>&1
+  /sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.autoconf=$ipv6_local_auto >/dev/null 2>&1
+fi
 
 # Set IPv6 MTU, if given
 if [ -n "$IPV6_MTU" ]; then
@@ -146,10 +149,12 @@ fi
 
 # Enable IPv6 RFC3041 privacy extensions if desired
 if [ "$IPV6_PRIVACY" = "rfc3041" ]; then
-	/sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.use_tempaddr=2 >/dev/null 2>&1
-	if [ $? -ne 0 ]; then
-		net_log $"Cannot enable IPv6 privacy method '$IPV6_PRIVACY', not supported by kernel"
-	fi
+  if [ ! "$IPV6_SET_SYSCTLS" = "no" ]; then
+	  /sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.use_tempaddr=2 >/dev/null 2>&1
+  	if [ $? -ne 0 ]; then
+		  net_log $"Cannot enable IPv6 privacy method '$IPV6_PRIVACY', not supported by kernel"
+	  fi
+  fi
 fi
 
 # Setup default IPv6 route, check are done by function
