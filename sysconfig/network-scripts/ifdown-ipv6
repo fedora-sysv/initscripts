@@ -62,10 +62,12 @@ if [ $? != 0 -a $? != 11 ]; then
 	exit 1
 fi
 
-# Switch some sysctls to secure mode
-/sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.forwarding=0 >/dev/null 2>&1
-/sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.accept_ra=0 >/dev/null 2>&1
-/sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.accept_redirects=0 >/dev/null 2>&1
+if [ ! "$IPV6_SET_SYCTL" = "no" ]; then
+  # Switch some sysctls to secure mode
+  /sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.forwarding=0 >/dev/null 2>&1
+  /sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.accept_ra=0 >/dev/null 2>&1
+  /sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.accept_redirects=0 >/dev/null 2>&1
+fi
 /sbin/ip link set $DEVICE addrgenmode eui64 >/dev/null 2>&1
 
 # Test status of tun6to4 device

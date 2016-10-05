@@ -28,8 +28,6 @@
 #  IPV6_DEFAULTDEV=<interface> [optional]
 #
 
-
-
 . /etc/sysconfig/network
 
 cd /etc/sysconfig/network-scripts
@@ -64,16 +62,18 @@ case $ACTION in
 		fi
 
 		# Reset IPv6 sysctl switches for "all", "default" and still existing devices
-		for i in /proc/sys/net/ipv6/conf/* ; do
-			interface=${i##*/}
-			sinterface=${interface/.//}
-			# Host/Router behaviour for the interface
-			/sbin/sysctl -e -w net.ipv6.conf.$sinterface.forwarding=$ipv6_global_forwarding >/dev/null 2>&1
+    if [ ! "$IPV6_SET_SYSCTLS" = "no" ]; then
+      for i in /proc/sys/net/ipv6/conf/* ; do
+        interface=${i##*/}
+        sinterface=${interface/.//}
+        # Host/Router behaviour for the interface
+        /sbin/sysctl -e -w net.ipv6.conf.$sinterface.forwarding=$ipv6_global_forwarding >/dev/null 2>&1
 
-			# Autoconfiguration and redirect handling for Hosts
-			/sbin/sysctl -e -w net.ipv6.conf.$sinterface.accept_ra=$ipv6_global_auto >/dev/null 2>&1
-			/sbin/sysctl -e -w net.ipv6.conf.$sinterface.accept_redirects=$ipv6_global_auto >/dev/null 2>&1
-		done
+        # Autoconfiguration and redirect handling for Hosts
+        /sbin/sysctl -e -w net.ipv6.conf.$sinterface.accept_ra=$ipv6_global_auto >/dev/null 2>&1
+        /sbin/sysctl -e -w net.ipv6.conf.$sinterface.accept_redirects=$ipv6_global_auto >/dev/null 2>&1
+      done
+    fi
 		;;
 
 	    post)
@@ -131,16 +131,18 @@ case $ACTION in
 		ipv6_test testonly || exit 0
 
 
-		for i in /proc/sys/net/ipv6/conf/* ; do
-			interface=${i##*/}
-			sinterface=${interface/.//}
-			# Assume Host behaviour
-			/sbin/sysctl -e -w net.ipv6.conf.$sinterface.forwarding=0 >/dev/null 2>&1
+    if [ ! "$IPV6_SET_SYSCTLS" = "no" ]; then
+      for i in /proc/sys/net/ipv6/conf/* ; do
+        interface=${i##*/}
+        sinterface=${interface/.//}
+        # Assume Host behaviour
+        /sbin/sysctl -e -w net.ipv6.conf.$sinterface.forwarding=0 >/dev/null 2>&1
 
-			# Disable autoconfiguration and redirects
-			/sbin/sysctl -e -w net.ipv6.conf.$sinterface.accept_ra=0 >/dev/null 2>&1
-			/sbin/sysctl -e -w net.ipv6.conf.$sinterface.accept_redirects=0 >/dev/null 2>&1
-		done
+        # Disable autoconfiguration and redirects
+        /sbin/sysctl -e -w net.ipv6.conf.$sinterface.accept_ra=0 >/dev/null 2>&1
+        /sbin/sysctl -e -w net.ipv6.conf.$sinterface.accept_redirects=0 >/dev/null 2>&1
+      done
+    fi
 
 		# Cleanup still existing tunnel devices
 		ipv6_cleanup_tunnel_devices
