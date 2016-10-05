@@ -42,126 +42,123 @@ POSITION="$2"
 
 # Initialize IPv6, depending on caller option
 case $ACTION in
-    start)
-	case $POSITION in
-	    pre)
-		# IPv6 test, module loaded, exit if system is not IPv6-ready
-		ipv6_test || exit 1
+start)
+    case $POSITION in
+    pre)
+        # IPv6 test, module loaded, exit if system is not IPv6-ready
+        ipv6_test || exit 1
 
+        if [ "$IPV6FORWARDING" = "yes" ]; then
+            ipv6_global_forwarding=1
+            ipv6_global_auto=0
+        else
+            ipv6_global_forwarding=0
+            if [ "$IPV6_AUTOCONF" = "no" ]; then
+                ipv6_global_auto=0
+            else
+                ipv6_global_auto=1
+            fi
+        fi
 
-		if [ "$IPV6FORWARDING" = "yes" ]; then
-			ipv6_global_forwarding=1
-			ipv6_global_auto=0
-		else
-			ipv6_global_forwarding=0
-			if [ "$IPV6_AUTOCONF" = "no" ]; then
-				ipv6_global_auto=0
-			else
-				ipv6_global_auto=1
-			fi
-		fi
+        if [ ! "$IPV6_SET_SYSCTLS" = "no" ]; then
+            # Reset IPv6 sysctl switches for "all", "default" and still existing devices
+            for i in /proc/sys/net/ipv6/conf/* ; do
+                interface=${i##*/}
+                sinterface=${interface/.//}
+                # Host/Router behaviour for the interface
+                /sbin/sysctl -e -w net.ipv6.conf.$sinterface.forwarding=$ipv6_global_forwarding >/dev/null 2>&1
 
-		# Reset IPv6 sysctl switches for "all", "default" and still existing devices
-    if [ ! "$IPV6_SET_SYSCTLS" = "no" ]; then
-      for i in /proc/sys/net/ipv6/conf/* ; do
-        interface=${i##*/}
-        sinterface=${interface/.//}
-        # Host/Router behaviour for the interface
-        /sbin/sysctl -e -w net.ipv6.conf.$sinterface.forwarding=$ipv6_global_forwarding >/dev/null 2>&1
+                # Autoconfiguration and redirect handling for Hosts
+                /sbin/sysctl -e -w net.ipv6.conf.$sinterface.accept_ra=$ipv6_global_auto >/dev/null 2>&1
+                /sbin/sysctl -e -w net.ipv6.conf.$sinterface.accept_redirects=$ipv6_global_auto >/dev/null 2>&1
+            done
+        fi
+        ;;
 
-        # Autoconfiguration and redirect handling for Hosts
-        /sbin/sysctl -e -w net.ipv6.conf.$sinterface.accept_ra=$ipv6_global_auto >/dev/null 2>&1
-        /sbin/sysctl -e -w net.ipv6.conf.$sinterface.accept_redirects=$ipv6_global_auto >/dev/null 2>&1
-      done
-    fi
-		;;
+    post)
+        # IPv6 test, module loaded, exit if system is not IPv6-ready
+        ipv6_test || exit 1
 
-	    post)
-		# IPv6 test, module loaded, exit if system is not IPv6-ready
-		ipv6_test || exit 1
+        if [ "$IPV6_AUTOTUNNEL" = "yes" ]; then
+            ipv6_enable_autotunnel
+            # autotunnel interface doesn't require a MTU setup
+        fi
 
+        ## Add some routes which should never appear on the wire
+        # Unreachable IPv4-only addresses, normally blocked by source address selection
+        /sbin/ip route add unreach    ::ffff:0.0.0.0/96
+        # Unreachable IPv4-mapped addresses
+        /sbin/ip route add unreach    ::0.0.0.0/96
+        # Unreachable 6to4: IPv4 multicast, reserved, limited broadcast
+        /sbin/ip route add unreach    2002:e000::/19
+        # Unreachable 6to4: IPv4 loopback
+        /sbin/ip route add unreach    2002:7f00::/24
+        # Unreachable 6to4: IPv4 private (RFC 1918)
+        /sbin/ip route add unreach    2002:0a00::/24
+        /sbin/ip route add unreach    2002:ac10::/28
+        /sbin/ip route add unreach    2002:c0a8::/32
+        # Unreachable 6to4: IPv4 private (APIPA / DHCP link-local)
+        /sbin/ip route add unreach    2002:a9fe::/32
+        # Unreachable IPv6: 6bone test addresses
+        /sbin/ip route add unreach    3ffe:ffff::/32
 
-		if [ "$IPV6_AUTOTUNNEL" = "yes" ]; then
-			ipv6_enable_autotunnel
-			# autotunnel interface doesn't require a MTU setup
-		fi
-
-		## Add some routes which should never appear on the wire
-		# Unreachable IPv4-only addresses, normally blocked by source address selection
-		/sbin/ip route add unreach  ::ffff:0.0.0.0/96
-		# Unreachable IPv4-mapped addresses
-		/sbin/ip route add unreach  ::0.0.0.0/96
-		# Unreachable 6to4: IPv4 multicast, reserved, limited broadcast
-		/sbin/ip route add unreach  2002:e000::/19
-		# Unreachable 6to4: IPv4 loopback
-		/sbin/ip route add unreach  2002:7f00::/24
-		# Unreachable 6to4: IPv4 private (RFC 1918)
-		/sbin/ip route add unreach  2002:0a00::/24
-		/sbin/ip route add unreach  2002:ac10::/28
-		/sbin/ip route add unreach  2002:c0a8::/32
-		# Unreachable 6to4: IPv4 private (APIPA / DHCP link-local)
-		/sbin/ip route add unreach  2002:a9fe::/32
-		# Unreachable IPv6: 6bone test addresses
-		/sbin/ip route add unreach  3ffe:ffff::/32
-
-		# Set default route for autotunnel, if specified
-		if [ "$IPV6_DEFAULTDEV" = "sit0" -a "$IPV6_AUTOTUNNEL" = "yes" ]; then
-			if [ -n "$IPV6_DEFAULTGW" ]; then
-				ipv6_set_default_route $IPV6_DEFAULTGW $IPV6_DEFAULTDEV sit0
-			elif [ -n "$IPV6_DEFAULTDEV" ]; then
-				ipv6_set_default_route "" $IPV6_DEFAULTDEV sit0
-			fi
-		fi
-		;;
-
-	    *)
-		echo "Usage: $0 $1 {pre|post}"
-		;;
-
-	esac
-	;;
-
-    stop)
-	case $POSITION in
-	    pre)
-		;;
-
-	    post)
-		# IPv6 test, no module loaded, exit if system is not IPv6-ready
-		ipv6_test testonly || exit 0
-
-
-    if [ ! "$IPV6_SET_SYSCTLS" = "no" ]; then
-      for i in /proc/sys/net/ipv6/conf/* ; do
-        interface=${i##*/}
-        sinterface=${interface/.//}
-        # Assume Host behaviour
-        /sbin/sysctl -e -w net.ipv6.conf.$sinterface.forwarding=0 >/dev/null 2>&1
-
-        # Disable autoconfiguration and redirects
-        /sbin/sysctl -e -w net.ipv6.conf.$sinterface.accept_ra=0 >/dev/null 2>&1
-        /sbin/sysctl -e -w net.ipv6.conf.$sinterface.accept_redirects=0 >/dev/null 2>&1
-      done
-    fi
-
-		# Cleanup still existing tunnel devices
-		ipv6_cleanup_tunnel_devices
-
-		# Shut down generic tunnel interface now
-		if ipv6_test_device_status sit0 ; then
-			/sbin/ip link set sit0 down
-		fi
-		;;
-
-	    *)
-		echo "Usage: $0 $1 {pre|post}"
-		;;
-
-	esac
-	;;
+        # Set default route for autotunnel, if specified
+        if [ "$IPV6_DEFAULTDEV" = "sit0" -a "$IPV6_AUTOTUNNEL" = "yes" ]; then
+            if [ -n "$IPV6_DEFAULTGW" ]; then
+                ipv6_set_default_route $IPV6_DEFAULTGW $IPV6_DEFAULTDEV sit0
+            elif [ -n "$IPV6_DEFAULTDEV" ]; then
+                ipv6_set_default_route "" $IPV6_DEFAULTDEV sit0
+            fi
+        fi
+        ;;
 
     *)
-	echo $"Usage: $0 {start|stop|reload|restart|showsysctl}"
-	exit 1
-	;;
+        echo "Usage: $0 $1 {pre|post}"
+        ;;
+
+    esac
+    ;;
+
+stop)
+    case $POSITION in
+    pre)
+        ;;
+
+    post)
+        # IPv6 test, no module loaded, exit if system is not IPv6-ready
+        ipv6_test testonly || exit 0
+
+        if [ ! "$IPV6_SET_SYSCTLS" = "no" ]; then
+            for i in /proc/sys/net/ipv6/conf/* ; do
+                interface=${i##*/}
+                sinterface=${interface/.//}
+                # Assume Host behaviour
+                /sbin/sysctl -e -w net.ipv6.conf.$sinterface.forwarding=0 >/dev/null 2>&1
+
+                # Disable autoconfiguration and redirects
+                /sbin/sysctl -e -w net.ipv6.conf.$sinterface.accept_ra=0 >/dev/null 2>&1
+                /sbin/sysctl -e -w net.ipv6.conf.$sinterface.accept_redirects=0 >/dev/null 2>&1
+            done
+        fi
+
+        # Cleanup still existing tunnel devices
+        ipv6_cleanup_tunnel_devices
+
+        # Shut down generic tunnel interface now
+        if ipv6_test_device_status sit0 ; then
+            /sbin/ip link set sit0 down
+        fi
+        ;;
+
+    *)
+        echo "Usage: $0 $1 {pre|post}"
+        ;;
+
+    esac
+    ;;
+
+*)
+    echo $"Usage: $0 {start|stop|reload|restart|showsysctl}"
+    exit 1
+    ;;
 esac
