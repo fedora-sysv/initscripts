@@ -14,7 +14,7 @@ PATH="/sbin:/usr/sbin:/bin:/usr/bin"
 export PATH
 
 if [ $PPID -ne 1 -a -z "$SYSTEMCTL_SKIP_REDIRECT" ] && \
-		( /bin/mountpoint -q /cgroup/systemd || /bin/mountpoint -q /sys/fs/cgroup/systemd ) ; then
+		[ -d /run/systemd/system ] ; then
         case "$0" in
         /etc/init.d/*|/etc/rc.d/init.d/*)
 		_use_systemctl=1
