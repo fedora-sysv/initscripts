@@ -124,7 +124,9 @@ else
         ipv6_local_accept_ra=1
 	if [ "$IPV6_AUTOCONF" = "no" ]; then
 		ipv6_local_auto=0
-                ipv6_local_accept_ra=0
+    if [ ! "$IPV6_FORCE_ACCEPT_RA" = "yes" ]; then
+      ipv6_local_accept_ra=0
+    fi
 	fi
 fi
 
