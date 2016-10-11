@@ -178,7 +178,7 @@ if [ -n "${BRIDGE}" ] && [ -x /usr/sbin/brctl ]; then
 fi
 
 if [ -n "${DYNCONFIG}" ] && [ -x /sbin/dhclient ]; then
-    if [[ "${PERSISTENT_DHCLIENT}" =  [yY1]* ]]; then
+    if is_true "${PERSISTENT_DHCLIENT}"; then
         ONESHOT="";
     else
         ONESHOT="-1";
@@ -188,7 +188,7 @@ if [ -n "${DYNCONFIG}" ] && [ -x /sbin/dhclient ]; then
     DHCLIENTARGS="${DHCLIENTARGS} -H ${DHCP_HOSTNAME:-${HOSTNAME%%.*}} ${ONESHOT} -q ${DHCLIENTCONF} -lf ${LEASEFILE} -pf /var/run/dhclient-${DEVICE}.pid"
     echo
     echo -n $"Determining IP information for ${DEVICE}..."
-    if [[ "${PERSISTENT_DHCLIENT}" !=  [yY1]* ]] && check_link_down ${DEVICE}; then
+    if ! is_true "${PERSISTENT_DHCLIENT}" && check_link_down ${DEVICE}; then
         echo $" failed; no link present.  Check cable?"
         exit 1
     fi
@@ -200,10 +200,10 @@ if [ -n "${DYNCONFIG}" ] && [ -x /sbin/dhclient ]; then
         dhcpipv4="good"
     else
         echo $" failed."
-        if [[ "${IPV4_FAILURE_FATAL}"  = [Yy1]* ]] ; then
+        if is_true "${IPV4_FAILURE_FATAL}"; then
             exit 1
         fi
-        if [[ "$IPV6INIT" = [nN0]* || "$DHCPV6C" != [yY1]* ]] ; then
+        if is_false "$IPV6INIT" || ! is_true "$DHCPV6C"; then
             exit 1
         fi
         net_log "Unable to obtain IPv4 DHCP address ${DEVICE}." warning
@@ -318,7 +318,7 @@ fi
 
 # IPv6 initialisation?
 /etc/sysconfig/network-scripts/ifup-ipv6 ${CONFIG}
-if [[ "${DHCPV6C}"  = [Yy1]* ]] && [ -x /sbin/dhclient ]; then
+if is_true "${DHCPV6C}" && [ -x /sbin/dhclient ]; then
     generate_config_file_name 6
     generate_lease_file_name 6
     echo

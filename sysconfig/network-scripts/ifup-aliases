@@ -184,7 +184,7 @@ function new_interface ()
     fi
 
     if [ -z "$DEVICE" -o -z "$IPADDR" ]; then
-        if [ -n "$IPV6ADDR" -a -n "$DEVICE" ] && [[ "$IPV6INIT" != [nN0]* ]]; then
+        if [ -n "$IPV6ADDR" -a -n "$DEVICE" ] && ! is_false "$IPV6INIT"; then
             /etc/sysconfig/network-scripts/ifup-ipv6 ${DEVICE}
             return $?
         fi
@@ -277,7 +277,7 @@ function new_interface ()
         /sbin/ip addr add ${IPADDR}/${PREFIX} brd ${BROADCAST} \
             dev ${parent_device} label ${DEVICE}
 
-        [[ "$IPV6INIT" != [nN0]* ]] && \
+        ! is_false "$IPV6INIT" && \
             /etc/sysconfig/network-scripts/ifup-ipv6 ${DEVICE}
 
         if [ "$NO_ALIASROUTING" != yes ]; then
