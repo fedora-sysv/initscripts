@@ -786,7 +786,7 @@ is_ignored_file() {
 # Evaluate shvar-style booleans
 is_true() {
     case "$1" in
-	[tT] | [yY] | [yY][eE][sS] | [tT][rR][uU][eE])
+	[tT] | [yY] | [yY][eE][sS] | [tT][rR][uU][eE] | 1)
 	return 0
 	;;
     esac
@@ -796,7 +796,7 @@ is_true() {
 # Evaluate shvar-style booleans
 is_false() {
     case "$1" in
-	[fF] | [nN] | [nN][oO] | [fF][aA][lL][sS][eE])
+	[fF] | [nN] | [nN][oO] | [fF][aA][lL][sS][eE] | 0)
 	return 0
 	;;
     esac
