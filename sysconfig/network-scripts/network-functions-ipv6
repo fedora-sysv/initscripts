@@ -236,8 +236,8 @@ ipv6_cleanup_6to4_device() {
     ipv6_test testonly || return 2
 
     # Cleanup 6to4 addresses on this device
-    /sbin/ip -6 addr show dev $dev scope global permanent | awk '/\<inet6\>/ && $2 ~ /^2002:/ { print $2 }' | while read addr; do
-        /sbin/ip -6 addr del ${addr} dev ${dev}
+    /sbin/ip -6 addr show dev $device scope global permanent | awk '/\<inet6\>/ && $2 ~ /^2002:/ { print $2 }' | while read addr; do
+        /sbin/ip -6 addr del ${addr} dev ${device}
     done
 
     # Get all IPv6 routes through given interface related to 6to4 and remove them
