@@ -23,7 +23,9 @@ if is_false "$ISALIAS"; then
     /etc/sysconfig/network-scripts/ifup-aliases ${DEVICE} ${CONFIG}
 fi
 
-/etc/sysconfig/network-scripts/ifup-routes ${REALDEVICE} ${DEVNAME}
+if ! is_true "$NOROUTESET"; then
+    /etc/sysconfig/network-scripts/ifup-routes ${REALDEVICE} ${DEVNAME}
+fi
 
 
 if ! is_false "$PEERDNS" || [ -n "$RESOLV_MODS" ] && ! is_false "$RESOLV_MODS"; then
