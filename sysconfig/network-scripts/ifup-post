@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Source the general functions for is_true() and is_false():
+. /etc/init.d/functions
+
 cd /etc/sysconfig/network-scripts
 . ./network-functions
 
@@ -16,14 +19,14 @@ source_config
 
 [ -z "$REALDEVICE" ] && REALDEVICE=$DEVICE
 
-if [ "$ISALIAS" = no ] ; then
+if is_false "$ISALIAS"; then
     /etc/sysconfig/network-scripts/ifup-aliases ${DEVICE} ${CONFIG}
 fi
 
 /etc/sysconfig/network-scripts/ifup-routes ${REALDEVICE} ${DEVNAME}
 
 
-if [ "$PEERDNS" != "no" ] ||[ -n "$RESOLV_MODS" -a "$RESOLV_MODS" != "no" ]; then
+if ! is_false "$PEERDNS" || [ -n "$RESOLV_MODS" ] && ! is_false "$RESOLV_MODS"; then
     [ -n "$MS_DNS1" ] && DNS1=$MS_DNS1
     [ -n "$MS_DNS2" ] && DNS2=$MS_DNS2
 
