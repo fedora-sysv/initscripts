@@ -275,6 +275,12 @@ function new_interface ()
 
                /sbin/ip addr add ${IPADDR}/${PREFIX} brd ${BROADCAST} dev ${parent_device} label ${DEVICE}
 
+               # update ARP cache of neighboring computers:
+               if [ "${REALDEVICE}" != "lo" ]; then
+                    /sbin/arping -q -A -c 1 -I ${parent_device} ${IPADDR}
+                    ( sleep 2; /sbin/arping -q -U -c 1 -I ${parent_device} ${IPADDR} ) > /dev/null 2>&1 < /dev/null &
+               fi
+
                if [ "$NO_ALIASROUTING" != yes ]; then
 
                        GATEWAYDEV=$network_GATEWAYDEV;
