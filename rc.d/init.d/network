@@ -160,13 +160,10 @@ start)
     ;;
 stop)
     [ "$EUID" != "0" ] && exit 4
-    # Don't shut the network down if root is on NFS or a network
+    # Don't shut the network down if root or /usr is on NFS or a network
     # block device.
-    rootfs=$(awk '{ if ($1 !~ /^[ \t]*#/ && $2 == "/" && $3 != "rootfs") { print $3; }}' /proc/mounts)
-    rootopts=$(awk '{ if ($1 !~ /^[ \t]*#/ && $2 == "/") { print $4; }}' /etc/mtab)
-
-    if [[ "$rootfs" == nfs* || "$rootopts" =~ _r?netdev ]] || systemctl show --property=RequiredBy -- -.mount | grep -q 'remote-fs.target' ; then
-        net_log $"rootfs is on network filesystem, leaving network up"
+    if systemctl show --property=RequiredBy -- -.mount usr.mount | grep -q 'remote-fs.target' ; then
+        net_log $"rootfs or /usr is on network filesystem, leaving network up"
         exit 1
     fi
 
