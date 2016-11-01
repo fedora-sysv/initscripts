@@ -1048,6 +1048,7 @@ ipv6_wait_tentative() {
     local fn="ipv6_wait_tentative"
     local device=$1
     local countdown=30
+    local ip_output=""
 
     if [ -z "$device" ]; then
         net_log $"Missing parameter 'device' (arg 1)" err $fn
@@ -1056,10 +1057,28 @@ ipv6_wait_tentative() {
 
     [ "$device" = lo ] && return 0
 
-    while [ ${countdown} -gt 0 -a -n "$(ip -6 addr show dev ${device} scope global tentative)" ]; do
-        net_log $"Waiting for interface ${device} IPv6 address(es) to leave the \"tentative\" state" info $fn
-        countdown=$(($countdown - 1))
+    while [ ${countdown} -gt 0 ]; do
+        ip_output="$(ip -6 addr show dev ${device} scope global tentative)"
+
+        if [ -z "$ip_output" ]; then
+            return 0;
+        elif echo "$ip_output" | grep "dadfailed" > /dev/null; then
+            net_log $"Duplicate Address Detection: Duplicate addresses detected" err $fn
+            net_log $"Duplicate Address Detection: Please, fix your network configuration" err $fn
+            return 1
+        fi
+
+        net_log $"Waiting for interface ${device} IPv6 address(es) to leave the 'tentative' state" info $fn
         sleep 1
+        countdown=$(($countdown - 1))
     done
+
+    ip_output="$(ip -6 addr show dev ${device} scope global tentative)"
+
+    if [ -n "$ip_output" ]; then
+        net_log $"Some IPv6 address(es) of ${device} remain still in 'tentative' state" warning $fn
+        net_log $"Run 'ip -6 addr show dev ${device} scope global tentative' to see more" warning $fn
+    fi
+
     return 0
 }
