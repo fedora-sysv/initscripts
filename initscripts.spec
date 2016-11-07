@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.53
+Version: 9.03.54
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -248,6 +248,13 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Mon Nov  7 2016 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.03.54-1
+- specfile: require newer lvm
+- ifdown-eth: add timeout for when flushing global scope
+- functions: support boolean values in is_true() & is_false()
+- ifup-aliases: do not return with error when arping fails
+- netconsole: resolve domain name via 'getent' instead of 'hosts'
+
 * Tue Apr 12 2016 Lukáš Nykrýn <lnykryn@redhat.com> - 9.03.53-1
 - functions: parse -d first
 
