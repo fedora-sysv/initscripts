@@ -177,7 +177,13 @@ if [ -n "${DYNCONFIG}" -a -x /sbin/dhclient ]; then
             [ -x /sbin/restorecon ] && restorecon /var/lib/dhclient/dhclient-${DEVICE}.leases > /dev/null 2>&1
         fi
     done
-    DHCLIENTARGS="${DHCLIENTARGS} -H ${DHCP_HOSTNAME:-${HOSTNAME%%.*}} ${ONESHOT} -q ${DHCLIENTCONF} -lf /var/lib/dhclient/dhclient-${DEVICE}.leases -pf /var/run/dhclient-${DEVICE}.pid"
+
+    if need_hostname; then
+        DHCLIENTARGS="${DHCLIENTARGS} ${DHCP_HOSTNAME:+-H $DHCP_HOSTNAME} ${ONESHOT} -q ${DHCLIENTCONF} -lf ${LEASEFILE} -pf /var/run/dhclient-${DEVICE}.pid"
+    else
+        DHCLIENTARGS="${DHCLIENTARGS} -H ${DHCP_HOSTNAME:-${HOSTNAME%%.*}} ${ONESHOT} -q ${DHCLIENTCONF} -lf ${LEASEFILE} -pf /var/run/dhclient-${DEVICE}.pid"
+    fi
+
     echo
     echo -n $"Determining IP information for ${DEVICE}..."
     if [[ "${PERSISTENT_DHCLIENT}" !=  [yY1]* ]] && check_link_down ${DEVICE}; then
@@ -307,7 +313,14 @@ if [[ "${DHCPV6C}"  = [Yy1]* ]] && [ -x /sbin/dhclient ]; then
     generate_config_file_name 6
     echo
     echo -n $"Determining IPv6 information for ${DEVICE}..."
-    if /sbin/dhclient -6 -1 ${DHCPV6C_OPTIONS} ${DHCLIENTCONF} -lf /var/lib/dhclient/dhclient6-${DEVICE}.leases -pf /var/run/dhclient6-${DEVICE}.pid -H ${DHCP_HOSTNAME:-${HOSTNAME%%.*}} ${DEVICE} ; then
+
+    if need_hostname; then
+        DHCLIENTARGS="-6 -1 ${DHCPV6C_OPTIONS} ${DHCLIENTCONF} -lf ${LEASEFILE} -pf /var/run/dhclient6-${DEVICE}.pid ${DHCP_HOSTNAME:+-H $DHCP_HOSTNAME} ${DEVICE}"
+    else
+        DHCLIENTARGS="-6 -1 ${DHCPV6C_OPTIONS} ${DHCLIENTCONF} -lf ${LEASEFILE} -pf /var/run/dhclient6-${DEVICE}.pid -H ${DHCP_HOSTNAME:-${HOSTNAME%%.*}} ${DEVICE}"
+    fi
+
+    if /sbin/dhclient "$DHCLIENTARGS"; then
         echo $" done."
     else
         echo $" failed."

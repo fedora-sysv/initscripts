@@ -309,13 +309,16 @@ END {
 
 need_hostname ()
 {
-    CHECK_HOSTNAME=$(hostname)
-    if [ "$CHECK_HOSTNAME" = "(none)" -o "$CHECK_HOSTNAME" = "localhost" -o \
-	"$CHECK_HOSTNAME" = "localhost.localdomain" ]; then
-	return 0
-    else
-	return 1
-    fi
+    CHECK_HOSTNAME="$(hostname)"
+
+    case "$CHECK_HOSTNAME" in
+        '(none)' | 'localhost' | 'localhost.localdomain')
+            return 0
+            ;;
+        *)
+            return 1
+            ;;
+    esac
 }
 
 set_hostname ()
