@@ -330,7 +330,7 @@ ipv6_add_addr_on_device() {
 		local address="$address_implicit/$prefixlength_implicit"
 	fi
 
-	/sbin/ip -6 addr add $address dev $device
+	/sbin/ip -6 addr replace $address dev $device
 	local result=$?
 
 	if [ $result -eq 2 ]; then
