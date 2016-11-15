@@ -307,18 +307,34 @@ END {
     [ -d "/sys/class/net/$1" ] && return 0 || return 1
 }
 
-need_hostname ()
+is_hostname_set ()
 {
     CHECK_HOSTNAME="$(hostname)"
 
     case "$CHECK_HOSTNAME" in
         '(none)' | 'localhost' | 'localhost.localdomain')
-            return 0
-            ;;
-        *)
+            # Hostname NOT set:
             return 1
             ;;
+        *)
+            # Hostname IS set:
+            return 0
+            ;;
     esac
+}
+
+need_hostname ()
+{
+    # Should we avoid obtaining hostname from DHCP? (user override)
+    is_true "${NO_DHCP_HOSTNAME}" && return 1
+
+    if is_hostname_set; then
+        # Hostname is already set, we do not need to acquire it:
+        return 1
+    else
+        # Hostname is NOT set, we need to acquire it:
+        return 0
+    fi
 }
 
 set_hostname ()
