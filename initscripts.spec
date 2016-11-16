@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.54
+Version: 9.03.55
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -248,6 +248,15 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Wed Nov 16 2016 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.03.55-1
+- ipcalc: detect invalid mask
+- ifup-aliases: send gratuitous ARPs when adding addresses
+- network: treat other tunnel interfaces (fixes ifdown stage)
+- kexec-disable.conf: release kexec memory properly
+- network-functions: do not send hostname via dhclient everytime
+- sysconfig/network: NO_DHCP_HOSTNAME option introduced
+- ipv6_add_addr_on_device: replace the existing address on NIC
+
 * Mon Nov  7 2016 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.03.54-1
 - specfile: require newer lvm
 - ifdown-eth: add timeout for when flushing global scope
