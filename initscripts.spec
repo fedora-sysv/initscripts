@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.55
+Version: 9.03.56
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -248,6 +248,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Mon Nov 21 2016 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.03.56-1
+- regression in commit ca3cea691b6 fixed [${LEASEFILE} not specified]
+
 * Wed Nov 16 2016 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.03.55-1
 - ipcalc: detect invalid mask
 - ifup-aliases: send gratuitous ARPs when adding addresses
