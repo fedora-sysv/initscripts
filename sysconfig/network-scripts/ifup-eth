@@ -324,7 +324,7 @@ if [[ "${DHCPV6C}"  = [Yy1]* ]] && [ -x /sbin/dhclient ]; then
         DHCLIENTARGS="-6 -1 ${DHCPV6C_OPTIONS} ${DHCLIENTCONF} -lf /var/lib/dhclient/dhclient6-${DEVICE}.leases -pf /var/run/dhclient6-${DEVICE}.pid ${DHCP_HOSTNAME:+-H $DHCP_HOSTNAME} ${DEVICE}"
     fi
 
-    if /sbin/dhclient "$DHCLIENTARGS"; then
+    if /sbin/dhclient $DHCLIENTARGS; then
         echo $" done."
     else
         echo $" failed."
