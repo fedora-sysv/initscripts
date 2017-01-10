@@ -2,7 +2,7 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.56
+Version: 9.03.57
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -248,6 +248,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Tue Jan 10 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.03.57-1
+- regression in commit ca3cea691b6 fixed [quotes for $DHCLIENTARGS removed]
+
 * Mon Nov 21 2016 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.03.56-1
 - regression in commit ca3cea691b6 fixed [${LEASEFILE} not specified]
 
