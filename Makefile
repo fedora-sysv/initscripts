@@ -83,8 +83,6 @@ install:
 	mkdir -p -m 755 $(ROOT)/usr/lib/systemd/system/basic.target.wants
 	mkdir -p -m 755 $(ROOT)/usr/lib/systemd/system/sysinit.target.wants
 	ln -s ../fedora-loadmodules.service $(ROOT)/usr/lib/systemd/system/basic.target.wants
-	ln -s ../fedora-autorelabel.service $(ROOT)/usr/lib/systemd/system/basic.target.wants
-	ln -s ../fedora-autorelabel-mark.service $(ROOT)/usr/lib/systemd/system/basic.target.wants
 	ln -s ../fedora-readonly.service $(ROOT)/usr/lib/systemd/system/local-fs.target.wants
 	ln -s ../fedora-import-state.service $(ROOT)/usr/lib/systemd/system/local-fs.target.wants
 
