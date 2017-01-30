@@ -275,7 +275,11 @@ do_netreport ()
 
 is_nm_running ()
 {
-    [ "$(LANG=C nmcli -t --fields running general status 2>/dev/null)" = "running" ]
+    dbus-send --system --print-reply \
+        --dest=org.freedesktop.DBus \
+        /org/freedesktop/DBus \
+        org.freedesktop.DBus.GetNameOwner \
+        string:"org.freedesktop.NetworkManager" >/dev/null 2>&1
 }
 
 is_nm_active ()
