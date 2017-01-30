@@ -172,12 +172,20 @@ source_config ()
         ISALIAS=no
     fi
     if is_nm_running && [ "$REALDEVICE" != "lo" ] ; then
-        nmcli con load "/etc/sysconfig/network-scripts/$CONFIG"
+        nm_con_load "$CONFIG"
         if ! is_false $NM_CONTROLLED; then
             UUID=$(get_uuid_by_config $CONFIG)
             [ -n "$UUID" ] && _use_nm=true
         fi
     fi
+}
+
+nm_con_load () {
+    dbus-send --system --print-reply \
+        --dest=org.freedesktop.NetworkManager \
+        /org/freedesktop/NetworkManager/Settings \
+        org.freedesktop.NetworkManager.Settings.LoadConnections \
+        array:string:"/etc/sysconfig/network-scripts/${1}" >/dev/null 2>&1
 }
 
 ethtool_set()
