@@ -5,8 +5,8 @@ Version: 9.49.37
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
 Release: 1%{?dist}
-URL: http://fedorahosted.org/releases/i/n/initscripts/
-Source: http://fedorahosted.org/releases/i/n/initscripts/initscripts-%{version}.tar.bz2
+URL: https://github.com/fedora-sysv/initscripts
+Source: https://github.com/fedora-sysv/initscripts/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 Obsoletes: initscripts-legacy <= 9.39
 Requires: /bin/awk, sed, coreutils
