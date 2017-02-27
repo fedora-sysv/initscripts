@@ -64,13 +64,16 @@ def xgettext(arq):
 def print_header():
 	print 'msgid ""' 
 	print 'msgstr ""' 
-	print '"Project-Id-Version: \\n"'
-	print '"PO-Revision-Date: YYYY-MM-DD HH:MM TZO DST\\n"'
-	print '"Last-Translator: \\n"'
-	print '"Language-Team: <XX@li.org>\\n"'
+	print '"Project-Id-Version: PACKAGE VERSION\\n"'
+	print '"Report-Msgid-Bugs-To: \\n"'
+	print '"POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\\n"'
+	print '"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\\n"'
+	print '"Last-Translator: FULL NAME <EMAIL@ADDRESS>\\n"'
+	print '"Language-Team: LANGUAGE <LL@li.org>\\n"'
+	print '"Language: \\n"'
 	print '"MIME-Version: 1.0\\n"'
-	print '"Content-Type: text/plain; charset=ISO-8859-1\\n"'
-	print '"Content-Transfer-Encoding: 8-bit\\n"\n'
+	print '"Content-Type: text/plain; charset=UTF-8\\n"'
+	print '"Content-Transfer-Encoding: 8bit\\n"\n'
 
 def print_pot():
 	print_header()
