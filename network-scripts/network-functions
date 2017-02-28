@@ -158,6 +158,9 @@ source_config ()
     OVS*)
         DEVICETYPE="ovs"
         ;;
+    Bridge)
+        DEVICETYPE="eth"
+        ;;
     esac
     if [ -n "$HWADDR" ]; then
         HWADDR=$(tr '[a-z]' '[A-Z]' <<<"$HWADDR")
