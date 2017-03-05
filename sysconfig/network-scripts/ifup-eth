@@ -45,6 +45,17 @@ if [ -n "${HWADDR}" ]; then
     fi
 fi
 
+# Create veth device
+if [ "${TYPE}" = "Veth" ]; then
+    if [ -z "${PEER}" ]; then
+        net_log $"cannot create veth without peer"
+        exit 1
+    fi
+    if [ ! -d /sys/class/net/${DEVICE} ]; then
+        ip link add ${DEVICE} type veth peer name ${PEER} type veth
+    fi
+fi
+
 # If the device is a bridge, create it with brctl, if available.
 if [ "${TYPE}" = "Bridge" ]; then
     if [ ! -x /usr/sbin/brctl ]; then
