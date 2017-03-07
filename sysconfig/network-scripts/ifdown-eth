@@ -178,4 +178,10 @@ if [ -n "$VLAN" ]; then
     fi
 fi
 
+if [ "${TYPE}" = "Veth" ]; then
+    if [ $(ip link show ${PEER} up | wc -l) -eq 0 ]; then
+        ip link delete ${DEVICE}
+    fi
+fi
+
 exit $retcode
