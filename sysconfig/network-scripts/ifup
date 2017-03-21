@@ -41,10 +41,10 @@ need_config "${CONFIG}"
 
 if [ ${UID} != 0 ]; then
     if [ -x /usr/sbin/usernetctl ]; then
-	source_config
-	if /usr/sbin/usernetctl ${CONFIG} report ; then
-	    exec /usr/sbin/usernetctl ${CONFIG} up
-	fi
+        source_config
+        if /usr/sbin/usernetctl ${CONFIG} report ; then
+            exec /usr/sbin/usernetctl ${CONFIG} up
+        fi
     fi
     echo $"Users cannot control this device." >&2
     exit 1
@@ -89,56 +89,56 @@ if [ "${VLAN}" = "yes" ] && [ "$ISALIAS" = "no" ] && [ -n "$DEVICE" ]; then
             PHYSDEV=${DEVICE%.*}
         fi
         MATCH='^vlan[0-9]{1,4}?'
-         if [[ "${DEVICE}" =~ $MATCH ]]; then
-             VID=$(echo "${DEVICE}" | LC_ALL=C sed 's/^vlan0*//')
-             # PHYSDEV should be set in ifcfg-vlan* file
-             if test -z "$PHYSDEV"; then
+        if [[ "${DEVICE}" =~ $MATCH ]]; then
+            VID=$(echo "${DEVICE}" | LC_ALL=C sed 's/^vlan0*//')
+            # PHYSDEV should be set in ifcfg-vlan* file
+            if test -z "$PHYSDEV"; then
                 net_log $"PHYSDEV should be set for device ${DEVICE}"
                 exit 1
-             fi
+            fi
         fi
     fi
     if [ -n "$VID" ]; then
-	if [ ! -d /proc/net/vlan ]; then
+        if [ ! -d /proc/net/vlan ]; then
             if ! modprobe 8021q >/dev/null 2>&1 ; then
-		net_log $"No 802.1Q VLAN support available in kernel for device ${DEVICE}"
-		exit 1
-	    fi
-	fi
+                net_log $"No 802.1Q VLAN support available in kernel for device ${DEVICE}"
+                exit 1
+            fi
+        fi
 
-	is_available_wait ${PHYSDEV} ${DEVTIMEOUT} || {
-	    if [ "$?" = "1" ] ; then
-		net_log $"$alias device ${DEVICE} does not seem to be present, delaying initialization."
-		exit 1
-	    else
-		exit 0
-	    fi
-	}
+        is_available_wait ${PHYSDEV} ${DEVTIMEOUT} || {
+            if [ "$?" = "1" ] ; then
+                net_log $"$alias device ${DEVICE} does not seem to be present, delaying initialization."
+                exit 1
+            else
+                exit 0
+            fi
+        }
 
-	# Link on Physical device needs to be up but no ip required
-	check_device_down ${PHYSDEV} && {
-	    ip -o link set dev ${PHYSDEV} up
-	}
+        # Link on Physical device needs to be up but no ip required
+        check_device_down ${PHYSDEV} && { ip -o link set dev ${PHYSDEV} up; }
 
-	if [ ! -f /proc/net/vlan/${DEVICE} ]; then
-	    if [ "${REORDER_HDR}" = "no" -o "${REORDER_HDR}" = "0" ]; then
-		FLAG_REORDER_HDR="reorder_hdr off"
-	    fi
+        if [ ! -f /proc/net/vlan/${DEVICE} ]; then
+            if [ "${REORDER_HDR}" = "no" -o "${REORDER_HDR}" = "0" ]; then
+                FLAG_REORDER_HDR="reorder_hdr off"
+            fi
 
-	    if [ "${GVRP}" = "yes" -o "${GVRP}" = "1" ]; then
-		FLAG_GVRP="gvrp on"
-	    fi
+            if [ "${GVRP}" = "yes" -o "${GVRP}" = "1" ]; then
+                FLAG_GVRP="gvrp on"
+            fi
 
-	    ip link add dev ${DEVICE} link ${PHYSDEV} type vlan id ${VID} ${FLAG_REORDER_HDR} ${FLAG_GVRP} || {
-		(/usr/bin/logger -p daemon.info -t ifup \
-		    $"ERROR: could not add vlan ${VID} as ${DEVICE} on dev ${PHYSDEV}" &)&
-		net_log $"ERROR: could not add vlan ${VID} as ${DEVICE} on dev ${PHYSDEV}"
-		exit 1
-	    }
-	fi
+            ip link add dev ${DEVICE} link ${PHYSDEV} type vlan id ${VID} ${FLAG_REORDER_HDR} ${FLAG_GVRP} || {
+                (/usr/bin/logger -p daemon.info -t ifup \
+                     $"ERROR: could not add vlan ${VID} as ${DEVICE} on dev ${PHYSDEV}" &) &
+                net_log $"ERROR: could not add vlan ${VID} as ${DEVICE} on dev ${PHYSDEV}"
+                exit 1
+            }
+        fi
     fi
 
-    /usr/lib/systemd/systemd-sysctl --prefix "/proc/sys/net/ipv4/conf/${DEVICE}" --prefix "/proc/sys/net/ipv6/conf/${DEVICE}"
+    /usr/lib/systemd/systemd-sysctl \
+        --prefix "/proc/sys/net/ipv4/conf/${DEVICE}" \
+        --prefix "/proc/sys/net/ipv6/conf/${DEVICE}"
 fi
 
 if [ "${BOOTPROTO}" = "bootp" -o "${BOOTPROTO}" = "dhcp" ]; then
@@ -160,5 +160,3 @@ if [ ! -x ${OTHERSCRIPT} ]; then
 fi
 
 exec ${OTHERSCRIPT} ${CONFIG} $2
-
-

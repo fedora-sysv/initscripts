@@ -1,4 +1,7 @@
-#!/bin/sh
+#!/bin/bash
+
+# Source the general functions for is_true() and is_false():
+. /etc/init.d/functions
 
 cd /etc/sysconfig/network-scripts
 . ./network-functions
@@ -16,87 +19,89 @@ source_config
 
 [ -z "$REALDEVICE" ] && REALDEVICE=$DEVICE
 
-if [ "$ISALIAS" = no ] ; then
+if is_false "$ISALIAS"; then
     /etc/sysconfig/network-scripts/ifup-aliases ${DEVICE} ${CONFIG}
 fi
 
-/etc/sysconfig/network-scripts/ifup-routes ${REALDEVICE} ${DEVNAME}
+if ! is_true "$NOROUTESET"; then
+    /etc/sysconfig/network-scripts/ifup-routes ${REALDEVICE} ${DEVNAME}
+fi
 
 
-if [ "$PEERDNS" != "no" ] ||[ -n "$RESOLV_MODS" -a "$RESOLV_MODS" != "no" ]; then
-  [ -n "$MS_DNS1" ] && DNS1=$MS_DNS1
-  [ -n "$MS_DNS2" ] && DNS2=$MS_DNS2
+if ! is_false "$PEERDNS" || [ -n "$RESOLV_MODS" ] && ! is_false "$RESOLV_MODS"; then
+    [ -n "$MS_DNS1" ] && DNS1=$MS_DNS1
+    [ -n "$MS_DNS2" ] && DNS2=$MS_DNS2
 
-  if [ -z "$DNS1" -a -n "$DNS2" ]; then
-          DNS1=$DNS2
-          DNS2=
-  fi
-
-  if ( [ -n "$DNS1" ] && ! grep -q "^nameserver $DNS1" /etc/resolv.conf ) ||
-   ( [ -n "$DNS2" ] && ! grep -q "^nameserver $DNS2" /etc/resolv.conf ) &&
-   tr=$(mktemp /tmp/XXXXXX) ; then
-    current_replacement="$DNS1"
-    next_replacement="$DNS2"
-    search=
-    (cat /etc/resolv.conf ; echo EOF ; echo EOF) | while read answer ; do
-	case $answer in
-	    nameserver*|EOF)
-		if [ -n "$current_replacement" ] ; then
-		    echo "nameserver $current_replacement" >> $tr
-		    if [ -n "$next_replacement" ] ; then
-			current_replacement="$next_replacement"
-			next_replacement=
-		    else
-			current_replacement=
-		    fi
-		else
-		    if [ "$answer" != EOF ] ; then
-			echo "$answer" >> $tr
-		    fi
-		fi
-		;;
-	    domain*|search*)
-	        if [ -n "$DOMAIN" ]; then
-	            echo "$answer" | while read key value ; do
-		        search="$search $value"
-		    done
-		else
-		    echo "$answer" >> $tr
-		fi
-		;;
-	    *)
-		echo "$answer" >> $tr
-		;;
-	esac
-    done
-    if [ -n "$DOMAIN" ]; then
-        echo "search $DOMAIN $search" >> $tr
+    if [ -z "$DNS1" -a -n "$DNS2" ]; then
+        DNS1=$DNS2
+        DNS2=
     fi
 
-    # backup resolv.conf
-    cp -af /etc/resolv.conf /etc/resolv.conf.save
+    if ( [ -n "$DNS1" ] && ! grep -q "^nameserver $DNS1" /etc/resolv.conf ) ||
+            ( [ -n "$DNS2" ] && ! grep -q "^nameserver $DNS2" /etc/resolv.conf ) &&
+            tr=$(mktemp /tmp/XXXXXX) ; then
+        current_replacement="$DNS1"
+        next_replacement="$DNS2"
+        search=
+        (cat /etc/resolv.conf ; echo EOF ; echo EOF) | while read answer ; do
+            case $answer in
+            nameserver*|EOF)
+                if [ -n "$current_replacement" ] ; then
+                    echo "nameserver $current_replacement" >> $tr
+                    if [ -n "$next_replacement" ] ; then
+                        current_replacement="$next_replacement"
+                        next_replacement=
+                    else
+                        current_replacement=
+                    fi
+                else
+                    if [ "$answer" != EOF ] ; then
+                        echo "$answer" >> $tr
+                    fi
+                fi
+                ;;
+            domain*|search*)
+                if [ -n "$DOMAIN" ]; then
+                    echo "$answer" | while read key value ; do
+                        search="$search $value"
+                    done
+                else
+                    echo "$answer" >> $tr
+                fi
+                ;;
+            *)
+                echo "$answer" >> $tr
+                ;;
+            esac
+        done
+        if [ -n "$DOMAIN" ]; then
+            echo "search $DOMAIN $search" >> $tr
+        fi
 
-    # maintain permissions
-    # but set umask in case it doesn't exist!
-    oldumask=$(umask)
-    umask 022
-    change_resolv_conf $tr 
-    rm -f $tr
-    umask $oldumask
-  fi
+        # backup resolv.conf
+        cp -af /etc/resolv.conf /etc/resolv.conf.save
+
+        # maintain permissions
+        # but set umask in case it doesn't exist!
+        oldumask=$(umask)
+        umask 022
+        change_resolv_conf $tr 
+        rm -f $tr
+        umask $oldumask
+    fi
 fi
 
 # don't set hostname on ppp/slip connections
 if [ "$2" = "boot" -a \
-     "${DEVICE}" != lo -a \
-     "${DEVICETYPE}" != "ppp" -a \
-     "${DEVICETYPE}" != "slip" ]; then
+        "${DEVICE}" != lo -a \
+        "${DEVICETYPE}" != "ppp" -a \
+        "${DEVICETYPE}" != "slip" ]; then
     if need_hostname; then
-	IPADDR=$(LANG=C ip -o -4 addr ls dev ${DEVICE} | awk '{ print $4 ; exit }')
-	eval $(/bin/ipcalc --silent --hostname ${IPADDR} ; echo "status=$?")
-	if [ "$status" = "0" ]; then
-	    set_hostname $HOSTNAME
-	fi
+        IPADDR=$(LANG=C ip -o -4 addr ls dev ${DEVICE} | awk '{ print $4 ; exit }')
+        eval $(/bin/ipcalc --silent --hostname ${IPADDR} ; echo "status=$?")
+        if [ "$status" = "0" ]; then
+            set_hostname $HOSTNAME
+        fi
     fi
 fi
 
