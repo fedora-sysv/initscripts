@@ -37,25 +37,25 @@ if [ "$PEER_OUTER_IPADDR" = "$PEER_INNER_IPADDR" ]; then
 fi
 
 case "$TYPE" in
-    GRE)
-	MODE=gre
-	proto=-4
-	/sbin/modprobe ip_gre
-	;;
-    IPIP)
-	MODE=ipip
-	proto=-4
-	/sbin/modprobe ipip
-	;;
-    IPIP6)
-	MODE=ipip6
-	proto=-6
-	/sbin/modprobe ip6_tunnel
-	;;
-    *)
-	net_log $"Invalid tunnel type $TYPE"
-	exit 1
-	;;
+GRE)
+    MODE=gre
+    proto=-4
+    /sbin/modprobe ip_gre
+    ;;
+IPIP)
+    MODE=ipip
+    proto=-4
+    /sbin/modprobe ipip
+    ;;
+IPIP6)
+    MODE=ipip6
+    proto=-6
+    /sbin/modprobe ip6_tunnel
+    ;;
+*)
+    net_log $"Invalid tunnel type $TYPE"
+    exit 1
+    ;;
 esac
 
 # Generic tunnel devices are not supported here

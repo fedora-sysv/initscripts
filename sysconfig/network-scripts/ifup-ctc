@@ -19,9 +19,8 @@ CONFIG=$1
 [ -f "$CONFIG" ] || CONFIG=ifcfg-$CONFIG
 source_config
 
-if [ "$2" = "boot" -a "${ONBOOT}" = "no" ]
-then
-	exit
+if [ "$2" = "boot" -a "${ONBOOT}" = "no" ] ; then
+    exit
 fi
 [ -n "${MTU}" ] && ip link set dev ${DEVICE} mtu ${MTU}
 
@@ -32,22 +31,22 @@ ip link set up dev ${DEVICE}
 # quite a while...
 timeout=0
 while ! ping -w 30 -c 1 ${GATEWAY} &>/dev/null; do
-	timeout=$(($timeout + 1))
-	if [ $timeout = 20 ]; then
-		net_log $"ERROR: ${DEVICE} did not come up!"
-		break
-	fi
+    timeout=$(($timeout + 1))
+    if [ $timeout = 20 ]; then
+        net_log $"ERROR: ${DEVICE} did not come up!"
+        break
+    fi
 done
 
 if [ "${NETWORK}" != "" ] ; then
-	ip route add to ${GATEWAY} metric 1 dev ${DEVICE}
+    ip route add to ${GATEWAY} metric 1 dev ${DEVICE}
 fi
 
 if [ "${GATEWAY}" != "" ]; then
-	if [ "${GATEWAYDEV}" = "" -o "${GATEWAYDEV}" = "${DEVICE}" ]; then
-		# set up default gateway
-                ip route replace default ${METRIC:+metric $METRIC} via ${GATEWAY}
-	fi
+    if [ "${GATEWAYDEV}" = "" -o "${GATEWAYDEV}" = "${DEVICE}" ]; then
+        # set up default gateway
+        ip route replace default ${METRIC:+metric $METRIC} via ${GATEWAY}
+    fi
 fi
 
 /etc/sysconfig/network-scripts/ifup-post $1
