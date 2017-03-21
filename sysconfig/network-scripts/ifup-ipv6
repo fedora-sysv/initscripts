@@ -66,7 +66,7 @@ REALDEVICE=${DEVICE%%:*}
 DEVICE=$REALDEVICE
 
 # Test whether IPv6 configuration is disabled for this interface
-[[ "$IPV6INIT" = [nN0]* ]] && exit 0
+is_false "$IPV6INIT" && exit 0
 
 [ -f /etc/sysconfig/network-scripts/network-functions-ipv6 ] || exit 1
 . /etc/sysconfig/network-scripts/network-functions-ipv6
@@ -78,13 +78,13 @@ ipv6_test || exit 1
 # Test device status
 ipv6_test_device_status $DEVICE
 if [ $? != 0 -a $? != 11 ]; then
-	# device doesn't exist or other problem occurs
-	exit 1
+    # device doesn't exist or other problem occurs
+    exit 1
 fi
 
 # Setup IPv6 address on specified interface
 if [ -n "$IPV6ADDR" ]; then
-	ipv6_add_addr_on_device $DEVICE $IPV6ADDR || exit 1
+    ipv6_add_addr_on_device $DEVICE $IPV6ADDR || exit 1
 fi
 
 # Get current global IPv6 forwarding
@@ -92,213 +92,224 @@ ipv6_global_forwarding_current="$(/sbin/sysctl -e -n net.ipv6.conf.all.forwardin
 
 # Set some proc switches depending on defines
 if [ "$IPV6FORWARDING" = "yes" ]; then
-	# Global forwarding should be enabled
+    # Global forwarding should be enabled
 
-	# Check, if global IPv6 forwarding was already set by global script
-	if [ $ipv6_global_forwarding_current -ne 1 ]; then
-		net_log $"Global IPv6 forwarding is enabled in configuration, but not currently enabled in kernel"
-		net_log $"Please restart network with '/sbin/service network restart'"
-	fi
+    # Check, if global IPv6 forwarding was already set by global script
+    if [ $ipv6_global_forwarding_current -ne 1 ]; then
+        net_log $"Global IPv6 forwarding is enabled in configuration, but not currently enabled in kernel"
+        net_log $"Please restart network with '/sbin/service network restart'"
+    fi
 
-	ipv6_local_forwarding=1
-	ipv6_local_auto=0
-	if [ "$IPV6_ROUTER" = "no" ]; then
-		ipv6_local_forwarding=0
-	fi
-	if [ "$IPV6_AUTOCONF" = "yes" ]; then
-		ipv6_local_auto=1
-	fi
+    ipv6_local_forwarding=1
+    ipv6_local_auto=0
+    ipv6_local_accept_ra=0
+    if [ "$IPV6_ROUTER" = "no" ]; then
+        ipv6_local_forwarding=0
+    fi
+    if [ "$IPV6_AUTOCONF" = "yes" ]; then
+        ipv6_local_auto=1
+        ipv6_local_accept_ra=2
+    fi
 else
-	# Global forwarding should be disabled
+    # Global forwarding should be disabled
 
-	# Check, if global IPv6 forwarding was already set by global script
-	if [ $ipv6_global_forwarding_current -ne 0 ]; then
-		net_log $"Global IPv6 forwarding is disabled in configuration, but not currently disabled in kernel"
-		net_log $"Please restart network with '/sbin/service network restart'"
-	fi
+    # Check, if global IPv6 forwarding was already set by global script
+    if [ $ipv6_global_forwarding_current -ne 0 ]; then
+        net_log $"Global IPv6 forwarding is disabled in configuration, but not currently disabled in kernel"
+        net_log $"Please restart network with '/sbin/service network restart'"
+    fi
 
-	ipv6_local_forwarding=0
-	ipv6_local_auto=1
-	if [ "$IPV6_AUTOCONF" = "no" ]; then
-		ipv6_local_auto=0
-	fi
+    ipv6_local_forwarding=0
+    ipv6_local_auto=1
+    ipv6_local_accept_ra=1
+    if [ "$IPV6_AUTOCONF" = "no" ]; then
+        ipv6_local_auto=0
+        if [ ! "$IPV6_FORCE_ACCEPT_RA" = "yes" ]; then
+            ipv6_local_accept_ra=0
+        fi
+    fi
 fi
-/sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.forwarding=$ipv6_local_forwarding >/dev/null 2>&1
-/sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.accept_ra=$ipv6_local_auto >/dev/null 2>&1
-/sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.accept_redirects=$ipv6_local_auto >/dev/null 2>&1
-/sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.autoconf=$ipv6_local_auto >/dev/null 2>&1
+
+if [ ! "$IPV6_SET_SYSCTLS" = "no" ]; then
+    /sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.forwarding=$ipv6_local_forwarding >/dev/null 2>&1
+    /sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.accept_ra=$ipv6_local_accept_ra >/dev/null 2>&1
+    /sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.accept_redirects=$ipv6_local_auto >/dev/null 2>&1
+    /sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.autoconf=$ipv6_local_auto >/dev/null 2>&1
+fi
 
 # Set IPv6 MTU, if given
 if [ -n "$IPV6_MTU" ]; then
-	ipv6_set_mtu $DEVICE $IPV6_MTU
+    ipv6_set_mtu $DEVICE $IPV6_MTU
 fi
 
 # Setup additional IPv6 addresses from list, if given
 if [ -n "$IPV6ADDR_SECONDARIES" ]; then
-	for ipv6addr in $IPV6ADDR_SECONDARIES; do
-		ipv6_add_addr_on_device $DEVICE $ipv6addr
-	done
+    for ipv6addr in $IPV6ADDR_SECONDARIES; do
+        ipv6_add_addr_on_device $DEVICE $ipv6addr
+    done
 fi
 
 # Enable IPv6 RFC3041 privacy extensions if desired
 if [ "$IPV6_PRIVACY" = "rfc3041" ]; then
-	/sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.use_tempaddr=2 >/dev/null 2>&1
-	if [ $? -ne 0 ]; then
-		net_log $"Cannot enable IPv6 privacy method '$IPV6_PRIVACY', not supported by kernel"
-	fi
+    if [ ! "$IPV6_SET_SYSCTLS" = "no" ]; then
+        /sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.use_tempaddr=2 >/dev/null 2>&1
+        if [ $? -ne 0 ]; then
+            net_log $"Cannot enable IPv6 privacy method '$IPV6_PRIVACY', not supported by kernel"
+        fi
+    fi
 fi
 
 # Setup default IPv6 route, check are done by function
 if [ -n "$IPV6_DEFAULTDEV" -o -n "$IPV6_DEFAULTGW" ]; then
-	ipv6_set_default_route "$IPV6_DEFAULTGW" "$IPV6_DEFAULTDEV" "$DEVICE"
+    ipv6_set_default_route "$IPV6_DEFAULTGW" "$IPV6_DEFAULTDEV" "$DEVICE"
 fi
 
 # Setup additional static IPv6 routes on specified interface, if given
 if [ -f /etc/sysconfig/static-routes-ipv6 ]; then
-	LC_ALL=C grep -w "^$DEVICE" /etc/sysconfig/static-routes-ipv6 | while read device args; do
-		ipv6_add_route $args $DEVICE
-	done
+    LC_ALL=C grep -w "^$DEVICE" /etc/sysconfig/static-routes-ipv6 | while read device args; do
+        ipv6_add_route $args $DEVICE
+    done
 fi
 
 # Setup of 6to4, if configured
 if [ "$IPV6TO4INIT" = "yes" ]; then
-	valid6to4config="yes"
+    valid6to4config="yes"
 
-	# Test device status of 6to4 tunnel
-	ipv6_test_device_status tun6to4
-	if [ $? = 0 ]; then
-		# device is already up
-		net_log $"Device 'tun6to4' (from '$DEVICE') is already up, shutdown first"
-		exit 1
-	fi
+    # Test device status of 6to4 tunnel
+    ipv6_test_device_status tun6to4
+    if [ $? = 0 ]; then
+        # device is already up
+        net_log $"Device 'tun6to4' (from '$DEVICE') is already up, shutdown first"
+        exit 1
+    fi
 
-	# Get IPv4 address for global 6to4 prefix calculation
-	if [ -n "$IPV6TO4_IPV4ADDR" ]; then
-		# Take special configured from config file (precedence 1)
-		ipv4addr="$IPV6TO4_IPV4ADDR"
+    # Get IPv4 address for global 6to4 prefix calculation
+    if [ -n "$IPV6TO4_IPV4ADDR" ]; then
+        # Take special configured from config file (precedence 1)
+        ipv4addr="$IPV6TO4_IPV4ADDR"
 
-		# Get local IPv4 address from interface
-		ipv4addrlocal="$(ipv6_get_ipv4addr_of_device $DEVICE)"
-		if [ -z "$ipv4addrlocal" ]; then
-			# Take configured from config file
-			ipv4addrlocal="$IPADDR"
-		fi
-        else
-		# Get IPv4 address from interface first (has precedence 2)
-		ipv4addr="$(ipv6_get_ipv4addr_of_device $DEVICE)"
-		if [ -z "$ipv4addr" ]; then
-			# Take configured from config file (precedence 3)
-			ipv4addr="$IPADDR"
-		fi
-		ipv4addrlocal="$ipv4addr"
+        # Get local IPv4 address from interface
+        ipv4addrlocal="$(ipv6_get_ipv4addr_of_device $DEVICE)"
+        if [ -z "$ipv4addrlocal" ]; then
+            # Take configured from config file
+            ipv4addrlocal="$IPADDR"
+        fi
+    else
+        # Get IPv4 address from interface first (has precedence 2)
+        ipv4addr="$(ipv6_get_ipv4addr_of_device $DEVICE)"
+        if [ -z "$ipv4addr" ]; then
+            # Take configured from config file (precedence 3)
+            ipv4addr="$IPADDR"
+        fi
+        ipv4addrlocal="$ipv4addr"
+    fi
+
+    if [ -n "$ipv4addr" ]; then
+        if ! ipv6_test_ipv4_addr_global_usable $ipv4addr; then
+            net_log $"Given IPv4 address '$ipv4addr' is not globally usable" info
+            valid6to4config="no"
+        fi
+        if [ -z "$IPV6TO4_RELAY" ]; then
+            IPV6TO4_RELAY="192.88.99.1"
         fi
 
-	if [ -n "$ipv4addr" ]; then
-		if ! ipv6_test_ipv4_addr_global_usable $ipv4addr; then
-			net_log $"Given IPv4 address '$ipv4addr' is not globally usable" info
-	                valid6to4config="no"
-        	fi
-		if [ -z "$IPV6TO4_RELAY" ]; then
-			IPV6TO4_RELAY="192.88.99.1"
-		fi
-
-		# Check/generate relay address
-		ipv6to4_relay="$(ipv6_create_6to4_relay_address $IPV6TO4_RELAY)"
-		if [ $? -ne 0 ]; then
-			valid6to4config="no"
-		fi
-	else
-        	net_log $"IPv6to4 configuration needs an IPv4 address on related interface or otherwise specified" info
-		valid6to4config="no"
-	fi
-
-	# Setup 6to4 tunnel (hardwired name is "tun6to4"), if config is valid
-        if [ "$valid6to4config" = "yes" ]; then
-		# Get MTU of master device
-		ipv4mtu="$(/sbin/ip link show dev $DEVICE | awk '/\<mtu\>/ { print $5 }')"
-		if [ -n "$ipv4mtu" ]; then
-			# IPv6 tunnel MTU is IPv4 MTU minus 20 for IPv4 header
-			tunnelmtu=$(($ipv4mtu-20))
-		fi
-
-		if [ -n "$IPV6TO4_MTU" ]; then
-			if [ $IPV6TO4_MTU -gt $tunnelmtu ]; then
-				net_log $"Warning: configured MTU '$IPV6TO4_MTU' for 6to4 exceeds maximum limit of '$tunnelmtu', ignored" warning
-			else
-				tunnelmtu=$IPV6TO4_MTU
-			fi
-		fi
-
-		ipv6_add_6to4_tunnel tun6to4 $ipv4addr "" $tunnelmtu $ipv4addrlocal || exit 1
-
-		# Add route to for compatible addresses (removed later again)
-		ipv6_add_route "::/96" "::" tun6to4
-
-		# Add default route, if device matches
-		if [ "$IPV6_DEFAULTDEV" = "tun6to4" ]; then
-			if [ -n "$IPV6_DEFAULTGW" ]; then
-				net_log $"Warning: interface 'tun6to4' does not support 'IPV6_DEFAULTGW', ignored" warning
-			fi
-			ipv6_set_default_route $ipv6to4_relay tun6to4
-		fi
-
-		# Add static routes
-		if [ -f /etc/sysconfig/static-routes-ipv6 ]; then
-			LC_ALL=C grep -w "^tun6to4" /etc/sysconfig/static-routes-ipv6 | while read device network gateway; do
-				if [ -z "$network" ]; then
-					continue
-				fi
-				if [ -z "$gateway" ]; then
-					gateway="$ipv6to4_relay"
-				fi
-				ipv6_add_route $network $gateway tun6to4
-			done
-		fi
-
-		# Setup additional static IPv6 routes (newer config style)
-		if [ -f "/etc/sysconfig/network-scripts/route6-tun6to4" ]; then
-			sed -ne 's/#.*//' -e '/[^[:space:]]/p' /etc/sysconfig/network-scripts/route6-tun6to4 | while read line; do
-				if echo "$line" | LC_ALL=C grep -vq 'via'; then
-					# Add gateway if missing
-					line="$line via $ipv6to4_relay"
-				fi
-				/sbin/ip -6 route add $line
-			done
-		fi
-
-		# Cleanup autmatically generated autotunnel (not needed for 6to4)
-		/sbin/ip -6 route del ::/96 dev tun6to4
-		/sbin/ip -6 addr del "::$ipv4addrlocal/128" dev tun6to4
-
-	        if [ "$IPV6_CONTROL_RADVD" = "yes" ]; then
-			# RADVD is in use, so forwarding of IPv6 packets should be enabled, display warning
-			if [ $ipv6_global_forwarding_current -ne 1 ]; then
-				net_log $"Using 6to4 and RADVD IPv6 forwarding usually should be enabled, but it isn't" warning
-			fi
-
-		        if [ -n "$IPV6TO4_ROUTING" ]; then
-				ipv6to4prefix="$(ipv6_create_6to4_prefix $ipv4addr)"
-				if [ -n "$ipv6to4prefix" ]; then
-					# Add route to local networks
-					for devsuf in $IPV6TO4_ROUTING; do
-						dev="${devsuf%%-*}"
-						suf="$(echo $devsuf | awk -F- '{ print $2 }')"
-						ipv6_add_addr_on_device ${dev} ${ipv6to4prefix}${suf}
-					done
-				else
-					net_log $"Error occurred while calculating the IPv6to4 prefix"
-				fi
-			else
-				net_log $"radvd control enabled, but config is not complete"
-			fi
-
-			# Control running radvd
-			ipv6_trigger_radvd up "$IPV6_RADVD_TRIGGER_ACTION" $IPV6_RADVD_PIDFILE
-		fi
-	else
-		net_log $"6to4 configuration is not valid"
-		exit 1
+        # Check/generate relay address
+        ipv6to4_relay="$(ipv6_create_6to4_relay_address $IPV6TO4_RELAY)"
+        if [ $? -ne 0 ]; then
+            valid6to4config="no"
         fi
+    else
+        net_log $"IPv6to4 configuration needs an IPv4 address on related interface or otherwise specified" info
+        valid6to4config="no"
+    fi
+
+    # Setup 6to4 tunnel (hardwired name is "tun6to4"), if config is valid
+    if [ "$valid6to4config" = "yes" ]; then
+        # Get MTU of master device
+        ipv4mtu="$(/sbin/ip link show dev $DEVICE | awk '/\<mtu\>/ { print $5 }')"
+        if [ -n "$ipv4mtu" ]; then
+            # IPv6 tunnel MTU is IPv4 MTU minus 20 for IPv4 header
+            tunnelmtu=$(($ipv4mtu-20))
+        fi
+
+        if [ -n "$IPV6TO4_MTU" ]; then
+            if [ $IPV6TO4_MTU -gt $tunnelmtu ]; then
+                net_log $"Warning: configured MTU '$IPV6TO4_MTU' for 6to4 exceeds maximum limit of '$tunnelmtu', ignored" warning
+            else
+                tunnelmtu=$IPV6TO4_MTU
+            fi
+        fi
+
+        ipv6_add_6to4_tunnel tun6to4 $ipv4addr "" $tunnelmtu $ipv4addrlocal || exit 1
+
+        # Add route to for compatible addresses (removed later again)
+        ipv6_add_route "::/96" "::" tun6to4
+
+        # Add default route, if device matches
+        if [ "$IPV6_DEFAULTDEV" = "tun6to4" ]; then
+            if [ -n "$IPV6_DEFAULTGW" ]; then
+                net_log $"Warning: interface 'tun6to4' does not support 'IPV6_DEFAULTGW', ignored" warning
+            fi
+            ipv6_set_default_route $ipv6to4_relay tun6to4
+        fi
+
+        # Add static routes
+        if [ -f /etc/sysconfig/static-routes-ipv6 ]; then
+            LC_ALL=C grep -w "^tun6to4" /etc/sysconfig/static-routes-ipv6 | while read device network gateway; do
+                if [ -z "$network" ]; then
+                    continue
+                fi
+                if [ -z "$gateway" ]; then
+                    gateway="$ipv6to4_relay"
+                fi
+                ipv6_add_route $network $gateway tun6to4
+            done
+        fi
+
+        # Setup additional static IPv6 routes (newer config style)
+        if [ -f "/etc/sysconfig/network-scripts/route6-tun6to4" ]; then
+            sed -ne 's/#.*//' -e '/[^[:space:]]/p' /etc/sysconfig/network-scripts/route6-tun6to4 | while read line; do
+                if echo "$line" | LC_ALL=C grep -vq 'via'; then
+                    # Add gateway if missing
+                    line="$line via $ipv6to4_relay"
+                fi
+                /sbin/ip -6 route add $line
+            done
+        fi
+
+        # Cleanup autmatically generated autotunnel (not needed for 6to4)
+        /sbin/ip -6 route del ::/96 dev tun6to4
+        /sbin/ip -6 addr del "::$ipv4addrlocal/128" dev tun6to4
+
+        if [ "$IPV6_CONTROL_RADVD" = "yes" ]; then
+            # RADVD is in use, so forwarding of IPv6 packets should be enabled, display warning
+            if [ $ipv6_global_forwarding_current -ne 1 ]; then
+                net_log $"Using 6to4 and RADVD IPv6 forwarding usually should be enabled, but it isn't" warning
+            fi
+
+            if [ -n "$IPV6TO4_ROUTING" ]; then
+                ipv6to4prefix="$(ipv6_create_6to4_prefix $ipv4addr)"
+                if [ -n "$ipv6to4prefix" ]; then
+                    # Add route to local networks
+                    for devsuf in $IPV6TO4_ROUTING; do
+                        dev="${devsuf%%-*}"
+                        suf="$(echo $devsuf | awk -F- '{ print $2 }')"
+                        ipv6_add_addr_on_device ${dev} ${ipv6to4prefix}${suf}
+                    done
+                else
+                    net_log $"Error occurred while calculating the IPv6to4 prefix"
+                fi
+            else
+                net_log $"radvd control enabled, but config is not complete"
+            fi
+
+            # Control running radvd
+            ipv6_trigger_radvd up "$IPV6_RADVD_TRIGGER_ACTION" $IPV6_RADVD_PIDFILE
+        fi
+    else
+        net_log $"6to4 configuration is not valid"
+        exit 1
+    fi
 fi
 
 #wait for all global IPv6 addresses to leave the "tentative" state

@@ -44,7 +44,7 @@ REALDEVICE=${DEVICE%%:*}
 [ "$DEVICE" != "$REALDEVICE" ] && exit 0
 
 # Test whether IPv6 configuration is disabled for this interface
-[[ "$IPV6INIT" = [nN0]* ]] && exit 0
+is_false "$IPV6INIT" && exit 0
 
 [ -f /etc/sysconfig/network-scripts/network-functions-ipv6 ] || exit 1
 . /etc/sysconfig/network-scripts/network-functions-ipv6
@@ -55,21 +55,21 @@ ipv6_test || exit 1
 
 # Generic tunnel device sit0 is not supported here
 if [ "$DEVICE" = "sit0" ]; then
-	net_log $"Device '$DEVICE' isn't supported here, use IPV6_AUTOTUNNEL setting and restart (IPv6) networking"
-	exit 1
+    net_log $"Device '$DEVICE' isn't supported here, use IPV6_AUTOTUNNEL setting and restart (IPv6) networking"
+    exit 1
 fi
 
 if [ -z "$IPV6TUNNELIPV4" ]; then
-	net_log $"Missing remote IPv4 address of tunnel, configuration is not valid"
-	exit 1
+    net_log $"Missing remote IPv4 address of tunnel, configuration is not valid"
+    exit 1
 fi
 
 # Test device status
 ipv6_test_device_status $DEVICE
 if [ $? = 0 ]; then
-	# device is already up
-	net_log $"Device '$DEVICE' is already up, please shutdown first"
-	exit 1
+    # device is already up
+    net_log $"Device '$DEVICE' is already up, please shutdown first"
+    exit 1
 fi
 
 # Create tunnel
@@ -77,31 +77,31 @@ ipv6_add_tunnel_device $DEVICE $IPV6TUNNELIPV4 "" $IPV6TUNNELIPV4LOCAL || exit 1
 
 # Set IPv6 MTU, if given
 if [ -n "$IPV6_MTU" ]; then
-	ipv6_set_mtu $DEVICE $IPV6_MTU
+    ipv6_set_mtu $DEVICE $IPV6_MTU
 fi
 
 # Apply local IPv6 address, if given (numbered tunnel)
 if [ -n "$IPV6ADDR" ]; then
-	ipv6_add_addr_on_device $DEVICE $IPV6ADDR
+    ipv6_add_addr_on_device $DEVICE $IPV6ADDR
 fi
 
 # Setup additional IPv6 addresses from list, if given
 if [ -n "$IPV6ADDR_SECONDARIES" ]; then
-	for ipv6addr in $IPV6ADDR_SECONDARIES; do
-		ipv6_add_addr_on_device $DEVICE $ipv6addr
-	done
+    for ipv6addr in $IPV6ADDR_SECONDARIES; do
+        ipv6_add_addr_on_device $DEVICE $ipv6addr
+    done
 fi
 
 # Setup default IPv6 route, check are done by function
 if [ -n "$IPV6_DEFAULTDEV" -o -n "$IPV6_DEFAULTGW" ]; then
-	ipv6_set_default_route "$IPV6_DEFAULTGW" "$IPV6_DEFAULTDEV" "$DEVICE"
+    ipv6_set_default_route "$IPV6_DEFAULTGW" "$IPV6_DEFAULTDEV" "$DEVICE"
 fi
 
 # Setup additional static IPv6 routes on specified interface, if given
 if [ -f /etc/sysconfig/static-routes-ipv6 ]; then
-	LC_ALL=C grep -w "^$DEVICE" /etc/sysconfig/static-routes-ipv6 | while read device ipv6route args; do
-		ipv6_add_route $ipv6route :: $DEVICE
-	done
+    LC_ALL=C grep -w "^$DEVICE" /etc/sysconfig/static-routes-ipv6 | while read device ipv6route args; do
+    ipv6_add_route $ipv6route :: $DEVICE
+done
 fi
 
 # Setup static routes

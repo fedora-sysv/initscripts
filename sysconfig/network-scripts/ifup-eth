@@ -40,49 +40,49 @@ is_available ${REALDEVICE}
 if [ -n "${HWADDR}" ]; then
     FOUNDMACADDR=$(get_hwaddr ${REALDEVICE})
     if [ "${FOUNDMACADDR}" != "${HWADDR}" -a "${FOUNDMACADDR}" != "${MACADDR}" ]; then
-	    net_log $"Device ${DEVICE} has different MAC address than expected, ignoring."
-	    exit 1
+        net_log $"Device ${DEVICE} has different MAC address than expected, ignoring."
+        exit 1
     fi
 fi
 
 # If the device is a bridge, create it with brctl, if available.
 if [ "${TYPE}" = "Bridge" ]; then
-      if [ ! -x /usr/sbin/brctl ]; then
-	  net_log $"Bridge support not available: brctl not found"
-	  exit 1
-      fi
-      if [ ! -d /sys/class/net/${DEVICE}/bridge ]; then
-		/usr/sbin/brctl addbr -- ${DEVICE} || exit 1
-      fi
-      [ -n "${DELAY}" ] && /usr/sbin/brctl setfd -- ${DEVICE} ${DELAY}
-      [ -n "${STP}" ] && /usr/sbin/brctl stp -- ${DEVICE} ${STP}
-      [ -n "${PRIO}" ] && /usr/sbin/brctl setbridgeprio ${DEVICE} ${PRIO}
-      [ -n "${AGEING}" ] && /usr/sbin/brctl setageing ${DEVICE} ${AGEING}
-      # add the bits to setup driver parameters here
-      for arg in $BRIDGING_OPTS ; do
-          key=${arg%%=*};
-          value=${arg##*=};
-          if [ "${key}" != "multicast_router" -a "${key}" != "hash_max" -a "${key}" != "multicast_snooping" ]; then
-              echo $value > /sys/class/net/${DEVICE}/bridge/$key
-          fi
-      done
-      # set LINKDELAY (used as timeout when calling check_link_down())
-      # to at least (${DELAY} * 2) + 7 if STP is enabled. This is the
-      # minimum time required for /sys/class/net/$REALDEVICE/carrier to
-      # become 1 after "ip link set dev $DEVICE up" is called.
-      if [ "${STP}" = "yes" -o "${STP}" = "on" ]; then
-          TMPD=7
-          [ -n "${DELAY}" ] && TMPD=$(expr ${DELAY} \* 2 + ${TMPD})
-          [ 0$LINKDELAY -lt $TMPD ] && LINKDELAY=$TMPD
-      fi
+    if [ ! -x /usr/sbin/brctl ]; then
+        net_log $"Bridge support not available: brctl not found"
+        exit 1
+    fi
+    if [ ! -d /sys/class/net/${DEVICE}/bridge ]; then
+        /usr/sbin/brctl addbr -- ${DEVICE} || exit 1
+    fi
+    [ -n "${DELAY}" ] && /usr/sbin/brctl setfd -- ${DEVICE} ${DELAY}
+    [ -n "${STP}" ] && /usr/sbin/brctl stp -- ${DEVICE} ${STP}
+    [ -n "${PRIO}" ] && /usr/sbin/brctl setbridgeprio ${DEVICE} ${PRIO}
+    [ -n "${AGEING}" ] && /usr/sbin/brctl setageing ${DEVICE} ${AGEING}
+    # add the bits to setup driver parameters here
+    for arg in $BRIDGING_OPTS ; do
+        key=${arg%%=*};
+        value=${arg##*=};
+        if [ "${key}" != "multicast_router" -a "${key}" != "hash_max" -a "${key}" != "multicast_snooping" ]; then
+            echo $value > /sys/class/net/${DEVICE}/bridge/$key
+        fi
+    done
+    # set LINKDELAY (used as timeout when calling check_link_down())
+    # to at least (${DELAY} * 2) + 7 if STP is enabled. This is the
+    # minimum time required for /sys/class/net/$REALDEVICE/carrier to
+    # become 1 after "ip link set dev $DEVICE up" is called.
+    if [ "${STP}" = "yes" -o "${STP}" = "on" ]; then
+        TMPD=7
+        [ -n "${DELAY}" ] && TMPD=$(expr ${DELAY} \* 2 + ${TMPD})
+        [ 0$LINKDELAY -lt $TMPD ] && LINKDELAY=$TMPD
+    fi
 fi
 
 # Create tap device.
 if [ "${TYPE}" = "Tap" ]; then
-      [ -n "${OWNER}" ] && OWNER="user ${OWNER}"
-      TUNMODE="mode tap"
-      [[ ${DEVICE} == tun* ]] && TUNMODE="mode tun"
-      ip tuntap add ${TUNMODE} ${OWNER} dev ${DEVICE} > /dev/null
+    [ -n "${OWNER}" ] && OWNER="user ${OWNER}"
+    TUNMODE="mode tap"
+    [[ ${DEVICE} == tun* ]] && TUNMODE="mode tun"
+    ip tuntap add ${TUNMODE} ${OWNER} dev ${DEVICE} > /dev/null
 fi
 
 # Team master initialization.
@@ -92,12 +92,12 @@ fi
 
 # now check the real state
 is_available_wait ${REALDEVICE} ${DEVTIMEOUT} || {
-      if [ -n "$alias" ]; then
-         net_log $"$alias device ${DEVICE} does not seem to be present, delaying initialization."
-      else
-         net_log $"Device ${DEVICE} does not seem to be present, delaying initialization."
-      fi
-      exit 1
+    if [ -n "$alias" ]; then
+        net_log $"$alias device ${DEVICE} does not seem to be present, delaying initialization."
+    else
+        net_log $"Device ${DEVICE} does not seem to be present, delaying initialization."
+    fi
+    exit 1
 }
 
 
@@ -105,10 +105,10 @@ is_available_wait ${REALDEVICE} ${DEVTIMEOUT} || {
 # available as a configuration option in the config file, forcing the kernel
 # to think an ethernet card has a different MAC address than it really has.
 if [ -n "${MACADDR}" ]; then
-   ip link set dev ${DEVICE} address ${MACADDR}
+    ip link set dev ${DEVICE} address ${MACADDR}
 fi
 if [ -n "${MTU}" ]; then
-   ip link set dev ${DEVICE} mtu ${MTU}
+    ip link set dev ${DEVICE} mtu ${MTU}
 fi
 
 # is the device wireless? If so, configure wireless device specifics
@@ -125,8 +125,8 @@ fi
 if [ "${SLAVE}" = yes -a "${ISALIAS}" = no -a "${MASTER}" != "" ]; then
     install_bonding_driver ${MASTER}
     grep -wq "${DEVICE}" /sys/class/net/${MASTER}/bonding/slaves 2>/dev/null || {
-	/sbin/ip link set dev ${DEVICE} down
-	echo "+${DEVICE}" > /sys/class/net/${MASTER}/bonding/slaves 2>/dev/null
+        /sbin/ip link set dev ${DEVICE} down
+        echo "+${DEVICE}" > /sys/class/net/${MASTER}/bonding/slaves 2>/dev/null
     }
     ethtool_set
 
@@ -138,9 +138,9 @@ fi
 if [ "$ISALIAS" = no ] && is_bonding_device ${DEVICE} ; then
     install_bonding_driver ${DEVICE}
     /sbin/ip link set dev ${DEVICE} up
-    for device in $(LANG=C grep -l "^[[:space:]]*MASTER=\"\?${DEVICE}\"\?\([[:space:]#]\|$\)" /etc/sysconfig/network-scripts/ifcfg-*) ; do
-	    is_ignored_file "$device" && continue
-	    /sbin/ifup ${device##*/} || net_log "Unable to start slave device ${device##*/} for master ${DEVICE}." warning
+    for device in $(LANG=C grep -l "^[[:space:]]*MASTER=['\"]\?${DEVICE}['\"]\?\([[:space:]#]\|$\)" /etc/sysconfig/network-scripts/ifcfg-*) ; do
+        is_ignored_file "$device" && continue
+        /sbin/ifup ${device##*/} || net_log "Unable to start slave device ${device##*/} for master ${DEVICE}." warning
     done
 
     [ -n "${LINKDELAY}" ] && /bin/sleep ${LINKDELAY}
@@ -149,150 +149,161 @@ if [ "$ISALIAS" = no ] && is_bonding_device ${DEVICE} ; then
     for arg in $BONDING_OPTS ; do   
         key=${arg%%=*};
         value=${arg##*=};
-	if [ "${key}" = "primary" ]; then 
+        if [ "${key}" = "primary" ]; then 
             echo $value > /sys/class/net/${DEVICE}/bonding/$key
-	fi
+        fi
     done
 fi
 
 # If the device is part of a bridge, add the device to the bridge
 if [ -n "${BRIDGE}" ] && [ -x /usr/sbin/brctl ]; then
-      if [ ! -d /sys/class/net/${BRIDGE}/bridge ]; then
-	  /usr/sbin/brctl addbr -- ${BRIDGE} 2>/dev/null
-      fi
-      /sbin/ip addr flush dev ${DEVICE} 2>/dev/null
-      /sbin/ip link set dev ${DEVICE} up
-      ethtool_set
-      [ -n "${LINKDELAY}" ] && /bin/sleep ${LINKDELAY}
-      /usr/sbin/brctl addif -- ${BRIDGE} ${DEVICE}
-      # add the bits to setup driver parameters here
-      for arg in $BRIDGING_OPTS ; do
-          key=${arg%%=*};
-          value=${arg##*=};
-          echo $value > /sys/class/net/${DEVICE}/brport/$key
-      done
-      # Upon adding a device to a bridge,
-      # it's necessary to make radvd reload its config
-      [ -r /var/run/radvd/radvd.pid ] && kill -HUP $(cat /var/run/radvd/radvd.pid)
-      exit 0
+    if [ ! -d /sys/class/net/${BRIDGE}/bridge ]; then
+        /usr/sbin/brctl addbr -- ${BRIDGE} 2>/dev/null
+    fi
+    /sbin/ip addr flush dev ${DEVICE} 2>/dev/null
+    /sbin/ip link set dev ${DEVICE} up
+    ethtool_set
+    [ -n "${LINKDELAY}" ] && /bin/sleep ${LINKDELAY}
+    /usr/sbin/brctl addif -- ${BRIDGE} ${DEVICE}
+    # add the bits to setup driver parameters here
+    for arg in $BRIDGING_OPTS ; do
+        key=${arg%%=*};
+        value=${arg##*=};
+        echo $value > /sys/class/net/${DEVICE}/brport/$key
+    done
+    # Upon adding a device to a bridge,
+    # it's necessary to make radvd reload its config
+    [ -r /var/run/radvd/radvd.pid ] && kill -HUP $(cat /var/run/radvd/radvd.pid)
+    exit 0
 fi
-		     
+
 if [ -n "${DYNCONFIG}" ] && [ -x /sbin/dhclient ]; then
-    if [[ "${PERSISTENT_DHCLIENT}" =  [yY1]* ]]; then
-       ONESHOT="";
+    if is_true "${PERSISTENT_DHCLIENT}"; then
+        ONESHOT="";
     else
-       ONESHOT="-1";
+        ONESHOT="-1";
     fi;
     generate_config_file_name
     generate_lease_file_name
-    DHCLIENTARGS="${DHCLIENTARGS} -H ${DHCP_HOSTNAME:-${HOSTNAME%%.*}} ${ONESHOT} -q ${DHCLIENTCONF} -lf ${LEASEFILE} -pf /var/run/dhclient-${DEVICE}.pid"
+
+    if is_hostname_set; then
+        # We already have the hostname ->> send it to DHCP:
+        DHCLIENTARGS="${DHCLIENTARGS} -H ${DHCP_HOSTNAME:-${HOSTNAME%%.*}} ${ONESHOT} -q ${DHCLIENTCONF} -lf ${LEASEFILE} -pf /var/run/dhclient-${DEVICE}.pid"
+    else
+        # We need to acquire the hostname:
+        DHCLIENTARGS="${DHCLIENTARGS} ${DHCP_HOSTNAME:+-H $DHCP_HOSTNAME} ${ONESHOT} -q ${DHCLIENTCONF} -lf ${LEASEFILE} -pf /var/run/dhclient-${DEVICE}.pid"
+    fi
+
     echo
     echo -n $"Determining IP information for ${DEVICE}..."
-    if [[ "${PERSISTENT_DHCLIENT}" !=  [yY1]* ]] && check_link_down ${DEVICE}; then
-	echo $" failed; no link present.  Check cable?"
-	exit 1
+    if ! is_true "${PERSISTENT_DHCLIENT}" && check_link_down ${DEVICE}; then
+        echo $" failed; no link present.  Check cable?"
+        exit 1
     fi
 
     ethtool_set
 
     if /sbin/dhclient ${DHCLIENTARGS} ${DEVICE} ; then
-	echo $" done."
-	dhcpipv4="good"
+        echo $" done."
+        dhcpipv4="good"
     else
-	echo $" failed."
-	if [[ "${IPV4_FAILURE_FATAL}"  = [Yy1]* ]] ; then
-	    exit 1
-	fi
-	if [[ "$IPV6INIT" = [nN0]* || "$DHCPV6C" != [yY1]* ]] ; then
-	    exit 1
-	fi
-	net_log "Unable to obtain IPv4 DHCP address ${DEVICE}." warning
+        echo $" failed."
+        if is_true "${IPV4_FAILURE_FATAL}"; then
+            exit 1
+        fi
+        if is_false "$IPV6INIT" || ! is_true "$DHCPV6C"; then
+            exit 1
+        fi
+        net_log "Unable to obtain IPv4 DHCP address ${DEVICE}." warning
     fi
-# end dynamic device configuration
+    # end dynamic device configuration
 else 
     if [ -z "${IPADDR}" -a -z "${IPADDR0}" -a -z "${IPADDR1}" -a -z "${IPADDR2}" ]; then
-         # enable device without IP, useful for e.g. PPPoE
-	 ip link set dev ${REALDEVICE} up
-	 ethtool_set
-	 [ -n "${LINKDELAY}" ] && /bin/sleep ${LINKDELAY}
+        # enable device without IP, useful for e.g. PPPoE
+        ip link set dev ${REALDEVICE} up
+        ethtool_set
+        [ -n "${LINKDELAY}" ] && /bin/sleep ${LINKDELAY}
     else
-  
-    expand_config
 
-    [ -n "${ARP}" ] && \
-	ip link set dev ${REALDEVICE} $(toggle_value arp $ARP)
-   
-    if ! ip link set dev ${REALDEVICE} up ; then
-	net_log $"Failed to bring up ${DEVICE}."
-	exit 1
-    fi
+        expand_config
 
-    ethtool_set
+        [ -n "${ARP}" ] && \
+            ip link set dev ${REALDEVICE} $(toggle_value arp $ARP)
 
-    [ -n "${LINKDELAY}" ] && /bin/sleep ${LINKDELAY}
-
-    if [ "${DEVICE}" = "lo" ]; then
-    	SCOPE="scope host"
-    else
-        SCOPE=${SCOPE:-}
-    fi
-    
-    if [ -n "$SRCADDR" ]; then
-       SRC="src $SRCADDR"
-    else
-       SRC=
-    fi
-    
-    # set IP address(es)
-    for idx in {0..256} ; do
-	if [ -z "${ipaddr[$idx]}" ]; then
-            break
+        if ! ip link set dev ${REALDEVICE} up ; then
+            net_log $"Failed to bring up ${DEVICE}."
+            exit 1
         fi
 
-        if ! LC_ALL=C ip addr ls ${REALDEVICE} | LC_ALL=C grep -q "${ipaddr[$idx]}/${prefix[$idx]}" ; then
-            if [ "${REALDEVICE}" != "lo" ] && [ "${arpcheck[$idx]}" != "no" ] ; then
-                    /sbin/arping -q -c 2 -w 3 -D -I ${REALDEVICE} ${ipaddr[$idx]}
-                    if [ $? = 1 ]; then
-                        net_log $"Error, some other host already uses address ${ipaddr[$idx]}."
-                        exit 1
-                    fi
-            fi
+        ethtool_set
 
-            if ! ip addr add ${ipaddr[$idx]}/${prefix[$idx]} \
-              brd ${broadcast[$idx]:-+} dev ${REALDEVICE} ${SCOPE} label ${DEVICE}; then
-                net_log $"Error adding address ${ipaddr[$idx]} for ${DEVICE}."
-            fi
+        [ -n "${LINKDELAY}" ] && /bin/sleep ${LINKDELAY}
+
+        if [ "${DEVICE}" = "lo" ]; then
+            SCOPE="scope host"
+        else
+            SCOPE=${SCOPE:-}
         fi
 
         if [ -n "$SRCADDR" ]; then
-               sysctl -w "net.ipv4.conf.${SYSCTLDEVICE}.arp_filter=1" >/dev/null 2>&1
+            SRC="src $SRCADDR"
+        else
+            SRC=
         fi
 
-        # update ARP cache of neighboring computers
-        if [ "${REALDEVICE}" != "lo" ]; then
-          /sbin/arping -q -A -c 1 -I ${REALDEVICE} ${ipaddr[$idx]}
-          ( sleep 2;
-            /sbin/arping -q -U -c 1 -I ${REALDEVICE} ${ipaddr[$idx]} ) > /dev/null 2>&1 < /dev/null &
+        # set IP address(es)
+        for idx in {0..256} ; do
+            if [ -z "${ipaddr[$idx]}" ]; then
+                break
+            fi
+
+            if ! LC_ALL=C ip addr ls ${REALDEVICE} | LC_ALL=C grep -q "${ipaddr[$idx]}/${prefix[$idx]}" ; then
+                if [ "${REALDEVICE}" != "lo" ] && [ "${arpcheck[$idx]}" != "no" ] ; then
+                    ARPING=$(/sbin/arping -c 2 -w ${ARPING_WAIT:-3} -D -I ${REALDEVICE} ${ipaddr[$idx]})
+                    if [ $? = 1 ]; then
+                        ARPINGMAC=$(echo $ARPING |  sed -ne 's/.*\[\(.*\)\].*/\1/p')
+                        net_log $"Error, some other host ($ARPINGMAC) already uses address ${ipaddr[$idx]}."
+                        exit 1
+                    fi
+                fi
+
+                if ! ip addr add ${ipaddr[$idx]}/${prefix[$idx]} \
+                    brd ${broadcast[$idx]:-+} dev ${REALDEVICE} ${SCOPE} label ${DEVICE}; then
+                    net_log $"Error adding address ${ipaddr[$idx]} for ${DEVICE}."
+                fi
+            fi
+
+            if [ -n "$SRCADDR" ]; then
+                sysctl -w "net.ipv4.conf.${SYSCTLDEVICE}.arp_filter=1" >/dev/null 2>&1
+            fi
+
+            # update ARP cache of neighboring computers
+            if [ "${REALDEVICE}" != "lo" ]; then
+                /sbin/arping -q -A -c 1 -I ${REALDEVICE} ${ipaddr[$idx]}
+                ( sleep 2;
+                /sbin/arping -q -U -c 1 -I ${REALDEVICE} ${ipaddr[$idx]} ) > /dev/null 2>&1 < /dev/null &
+            fi
+
+            # set lifetime of address to forever
+            ip addr change ${ipaddr[$idx]}/${prefix[$idx]} dev ${REALDEVICE} valid_lft forever preferred_lft forever
+        done
+
+        # Set a default route.
+        if [ "${DEFROUTE}" != "no" ] && [ -z "${GATEWAYDEV}" -o "${GATEWAYDEV}" = "${REALDEVICE}" ]; then
+            # set up default gateway. replace if one already exists
+            if [ -n "${GATEWAY}" ] && [ "$(ipcalc --network ${GATEWAY} ${netmask[0]} 2>/dev/null)" = "NETWORK=${NETWORK}" ]; then
+                ip route replace default ${METRIC:+metric $METRIC} \
+                    ${EXTRA_ROUTE_OPTS} \
+                    via ${GATEWAY} ${WINDOW:+window $WINDOW} ${SRC} \
+                    ${GATEWAYDEV:+dev $GATEWAYDEV} ||
+                    net_log $"Error adding default gateway ${GATEWAY} for ${DEVICE}."
+            elif [ "${GATEWAYDEV}" = "${DEVICE}" ]; then
+                ip route replace default ${METRIC:+metric $METRIC} \
+                    ${EXTRA_ROUTE_OPTS} \
+                    ${SRC} ${WINDOW:+window $WINDOW} dev ${REALDEVICE} ||
+                    net_log $"Error adding default gateway for ${REALDEVICE}."
+            fi
         fi
-
-        # set lifetime of address to forever
-        ip addr change ${ipaddr[$idx]}/${prefix[$idx]} dev ${REALDEVICE} valid_lft forever preferred_lft forever
-    done
-
-    # Set a default route.
-    if [ "${DEFROUTE}" != "no" ] && [ -z "${GATEWAYDEV}" -o "${GATEWAYDEV}" = "${REALDEVICE}" ]; then
-	# set up default gateway. replace if one already exists
-	if [ -n "${GATEWAY}" ] && [ "$(ipcalc --network ${GATEWAY} ${netmask[0]} 2>/dev/null)" = "NETWORK=${NETWORK}" ]; then
-	    ip route replace default ${METRIC:+metric $METRIC} \
-		via ${GATEWAY} ${WINDOW:+window $WINDOW} ${SRC} \
-		${GATEWAYDEV:+dev $GATEWAYDEV} ||
-			net_log $"Error adding default gateway ${GATEWAY} for ${DEVICE}."
-	elif [ "${GATEWAYDEV}" = "${DEVICE}" ]; then
-	    ip route replace default ${METRIC:+metric $METRIC} \
-		${SRC} ${WINDOW:+window $WINDOW} dev ${REALDEVICE} ||
-			net_log $"Error adding default gateway for ${REALDEVICE}."
-	fi
-    fi
     fi
 fi
 
@@ -318,12 +329,21 @@ fi
 
 # IPv6 initialisation?
 /etc/sysconfig/network-scripts/ifup-ipv6 ${CONFIG}
-if [[ "${DHCPV6C}"  = [Yy1]* ]] && [ -x /sbin/dhclient ]; then
+if is_true "${DHCPV6C}" && [ -x /sbin/dhclient ]; then
     generate_config_file_name 6
     generate_lease_file_name 6
     echo
     echo -n $"Determining IPv6 information for ${DEVICE}..."
-    if /sbin/dhclient -6 -1 ${DHCPV6C_OPTIONS} ${DHCLIENTCONF} -lf ${LEASEFILE} -pf /var/run/dhclient6-${DEVICE}.pid -H ${DHCP_HOSTNAME:-${HOSTNAME%%.*}} ${DEVICE} ; then
+
+    if is_hostname_set; then
+        # We already have the hostname ->> send it to DHCP:
+        DHCLIENTARGS="-6 -1 ${DHCPV6C_OPTIONS} ${DHCLIENTCONF} -lf ${LEASEFILE} -pf /var/run/dhclient6-${DEVICE}.pid -H ${DHCP_HOSTNAME:-${HOSTNAME%%.*}} ${DEVICE}"
+    else
+        # We need to acquire the hostname:
+        DHCLIENTARGS="-6 -1 ${DHCPV6C_OPTIONS} ${DHCLIENTCONF} -lf ${LEASEFILE} -pf /var/run/dhclient6-${DEVICE}.pid ${DHCP_HOSTNAME:+-H $DHCP_HOSTNAME} ${DEVICE}"
+    fi
+
+    if /sbin/dhclient "$DHCLIENTARGS"; then
         echo $" done."
     else
         echo $" failed."
@@ -336,4 +356,3 @@ if [[ "${DHCPV6C}"  = [Yy1]* ]] && [ -x /sbin/dhclient ]; then
 fi
 
 exec /etc/sysconfig/network-scripts/ifup-post ${CONFIG} ${2}
-

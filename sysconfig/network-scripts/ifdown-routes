@@ -1,6 +1,7 @@
 #! /bin/bash
 #
 # Drops static routes which go through device $1
+
 if [ -z "$1" ]; then
     echo $"usage: ifdown-routes <net-device> [<nickname>]"
     exit 1
@@ -18,15 +19,15 @@ if [ -n "$2" -a "$2" != "$1" ]; then
 fi
 
 for file in $FILES; do
-   if [ -f "$file" ]; then
-       proto=
-       if [ "$file" != "${file##*/rule6-}" ]; then
-           proto="-6"
-       fi
-       { cat "$file" ; echo ; } | while read line; do
-	   if [[ ! "$line" =~ $MATCH ]]; then
-	       /sbin/ip $proto rule del $line
-	   fi
-       done
-   fi
+    if [ -f "$file" ]; then
+        proto=
+        if [ "$file" != "${file##*/rule6-}" ]; then
+            proto="-6"
+        fi
+        { cat "$file" ; echo ; } | while read line; do
+            if [[ ! "$line" =~ $MATCH ]]; then
+                /sbin/ip $proto rule del $line
+            fi
+        done
+    fi
 done
