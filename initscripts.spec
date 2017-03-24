@@ -154,9 +154,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/sysconfig/network-scripts/ifup-ctc
 %endif
 %config(noreplace) /etc/networks
-/etc/rwtab
+%config(noreplace) /etc/rwtab
+%config(noreplace) /etc/statetab
 %dir /etc/rwtab.d
-/etc/statetab
 %dir /etc/statetab.d
 /usr/lib/systemd/rhel-*
 /usr/lib/systemd/system/*
