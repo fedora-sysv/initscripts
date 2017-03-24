@@ -131,9 +131,9 @@ fi
 %{_sysconfdir}/sysconfig/network-scripts/ifup-ctc
 %endif
 %config(noreplace) %{_sysconfdir}/networks
-%{_sysconfdir}/rwtab
+%config(noreplace) %{_sysconfdir}/rwtab
+%config(noreplace) %{_sysconfdir}/statetab
 %dir %{_sysconfdir}/rwtab.d
-%{_sysconfdir}/statetab
 %dir %{_sysconfdir}/statetab.d
 %{_prefix}/lib/systemd/fedora-*
 %{_prefix}/lib/systemd/system/*
