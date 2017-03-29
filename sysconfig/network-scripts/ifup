@@ -133,6 +133,8 @@ if [ "${VLAN}" = "yes" ] && [ "$ISALIAS" = "no" ] && [ -n "$DEVICE" ]; then
                 net_log $"ERROR: could not add vlan ${VID} as ${DEVICE} on dev ${PHYSDEV}"
                 exit 1
             }
+
+            [ -n "${VLAN_EGRESS_PRIORITY_MAP}" ] && ip link set ${DEVICE} type vlan egress ${VLAN_EGRESS_PRIORITY_MAP}
         fi
     fi
 
