@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.49.37
+Version: 9.49.38
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -218,6 +218,28 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Thu Mar 30 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.49.38-1
+- ifdown-eth: we need to flush global scope as well
+- killproc/status: add missing '-b <binary>' option
+- specfile: mark 'rwtab' and 'statetab' as config files
+- spec: we need newer lvm
+- rwtab: add /var/lib/systemd/timers
+- ifup-eth: remove quote marks
+- 9.70-sync: Move everything to github
+- 9.70-sync: rwtab updated
+- 9.70-sync: service file updated
+- 9.70-sync: syconfig.txt updated
+- 9.70-sync: systemd/rhel-import-state updated
+- 9.70-sync: sysconfig/network-scripts/* updated - part 2
+- 9.70-sync: sysconfig/network-scripts/* updated - part 1
+- 9.70-sync: rc.d/init.d/network updated
+- 9.70-sync: rc.d/init.d/netconsole updated
+- 9.70-sync: rc.d/init.d/functions updated
+- 9.70-sync: ipv6-6to4.howto example updated
+- 9.70-sync: examples/networking/ifcfg-bridge updated
+- network: load NetworkManager connection via dbus
+- network: check for running NetworkManager via dbus
+
 * Mon Sep 12 2016 Lukáš Nykrýn <lnykryn@redhat.com> - 9.49.37-1
 - rhel-import-state: fix broken order of parameters
 
