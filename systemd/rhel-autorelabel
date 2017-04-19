@@ -33,6 +33,7 @@ relabel_selinux() {
     fi
     rm -f  /.autorelabel
     /usr/lib/dracut/dracut-initramfs-restore
+    sync
     systemctl --force reboot
 }
 
