@@ -152,6 +152,19 @@ source_config ()
     else
 	ISALIAS=no
     fi
+
+    if ! is_true "$NM_BOND_BRIDGE_VLAN_ENABLED"; then
+        case "$TYPE" in
+            Bridge | Bond | Vlan)
+                NM_CONTROLLED=no
+                ;;
+        esac
+    fi
+
+    if [[ "$TYPE" == "Infiniband" && -n "$PHYSDEV" ]]; then
+        NM_CONTROLLED=no
+    fi
+
     ! is_false $NM_CONTROLLED && is_nm_running && USE_NM=true
     if [ -z "$UUID" -a "$USE_NM" = "true" ]; then
 	UUID=$(get_uuid_by_config $CONFIG)
