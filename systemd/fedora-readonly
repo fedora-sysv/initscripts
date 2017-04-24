@@ -5,6 +5,10 @@
 
 . /etc/init.d/functions
 
+# We need to initialize the $HOSTNAME variable by ourselves now:
+# (It was previously done for RHEL-6 branch, but got lost in time.)
+HOSTNAME="$(hostname)"
+
 # Check SELinux status
 SELINUX_STATE=
 if [ -e "/sys/fs/selinux/enforce" ] && [ "$(cat /proc/self/attr/current)" != "kernel" ]; then
