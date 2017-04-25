@@ -84,16 +84,22 @@ start)
 
     # bring up all other interfaces configured to come up at boot time
     for i in $interfaces; do
-        unset DEVICE TYPE SLAVE NM_CONTROLLED
+        unset DEVICE TYPE SLAVE NM_CONTROLLED NETBOOT
         eval $(LANG=C grep -F "DEVICE=" ifcfg-$i)
         eval $(LANG=C grep -F "TYPE=" ifcfg-$i)
         eval $(LANG=C grep -F "SLAVE=" ifcfg-$i)
         eval $(LANG=C grep -F "NM_CONTROLLED=" ifcfg-$i)
+        eval $(LANG=C grep -F "NETBOOT=" ifcfg-$i)
 
         if [ -z "$DEVICE" ] ; then DEVICE="$i"; fi
 
         if [ "$SLAVE" = "yes" ] && ( ! is_nm_running || is_false $NM_CONTROLLED ) ; then
             continue
+        fi
+
+        # NOTE: Initialization of NETBOOT-enabled interface must be done manually with ifup script.
+        if is_true "${NETBOOT}"; then
+          continue
         fi
 
         if [ "${DEVICE##cipcb}" != "$DEVICE" ] ; then
@@ -160,8 +166,8 @@ start)
     ;;
 stop)
     [ "$EUID" != "0" ] && exit 4
-    # Don't shut the network down if root or /usr is on NFS or a network
-    # block device.
+
+    # Don't shut the network down if root or /usr is on NFS or a network block device.
     if systemctl show --property=RequiredBy -- -.mount usr.mount | grep -q 'remote-fs.target' ; then
         net_log $"rootfs or /usr is on network filesystem, leaving network up"
         exit 1
@@ -176,9 +182,18 @@ stop)
 
     # get list of bonding, vpn, and xdsl interfaces
     for i in $interfaces; do
-        unset DEVICE TYPE
+        unset DEVICE TYPE NETBOOT
         eval $(LANG=C grep -F "DEVICE=" ifcfg-$i)
         eval $(LANG=C grep -F "TYPE=" ifcfg-$i)
+        eval $(LANG=C grep -F "NETBOOT=" ifcfg-$i)
+
+        # NOTE: User has to bring down this type of network interface manually with ifdown script.
+        #       We cannot do it automatically, user has to take full responsibility for this in
+        #       case they are trying to 'shoot themselves in the leg'...
+        if is_true "${NETBOOT}"; then
+          net_log $"'NETBOOT=yes' found in $i interface configuation, leaving network up"
+          continue
+        fi
 
         if [ -z "$DEVICE" ] ; then DEVICE="$i"; fi
 
