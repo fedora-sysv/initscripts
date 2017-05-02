@@ -397,6 +397,38 @@ need_hostname ()
     fi
 }
 
+set_hostname_options ()
+{
+    # User explicitly requires to *not* send DHCP_HOSTNAME, DHCP_FQDN or HOSTNAME:
+    is_false "${DHCP_SEND_HOSTNAME}" && return
+
+    if [[ -n "${DHCP_HOSTNAME}" && -n "${DHCP_FQDN}" ]]; then
+        net_log $"Both 'DHCP_HOSTNAME=${DHCP_HOSTNAME}' and 'DHCP_FQDN=${DHCP_FQDN}' are configured... Using DHCP_FQDN." warning
+    fi
+
+    local hostname_options=''
+
+    # DHCP_FQDN takes precedence before DHCP_HOSTNAME -- as it does in NetworkManager,
+    # and DHCP_HOSTNAME takes precedence before HOSTNAME:
+    if [[ -n "${DHCP_FQDN}" ]]; then
+        hostname_options="-F ${DHCP_FQDN}"
+    elif [[ -n "${DHCP_HOSTNAME}" ]]; then
+        hostname_options="-H ${DHCP_HOSTNAME}"
+    elif is_hostname_set; then
+        # We need to truncate the hostname in case it is the FQDN:
+        hostname_options="-H ${HOSTNAME%%.*}"
+    else
+        # Nothing to send to the DHCP server:
+        # ['(none)', 'localhost' or 'localhost.localdomain' are not valid]
+        return
+    fi
+
+    # Append the hostname options to the content of passed variable name:
+    eval "$1='${!1} ${hostname_options}'"
+
+    return
+}
+
 set_hostname ()
 {
     hostname $1
