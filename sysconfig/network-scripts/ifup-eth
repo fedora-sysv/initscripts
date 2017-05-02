@@ -186,13 +186,9 @@ if [ -n "${DYNCONFIG}" ] && [ -x /sbin/dhclient ]; then
     generate_config_file_name
     generate_lease_file_name
 
-    if is_hostname_set; then
-        # We already have the hostname ->> send it to DHCP:
-        DHCLIENTARGS="${DHCLIENTARGS} -H ${DHCP_HOSTNAME:-${HOSTNAME%%.*}} ${ONESHOT} -q ${DHCLIENTCONF} -lf ${LEASEFILE} -pf /var/run/dhclient-${DEVICE}.pid"
-    else
-        # We need to acquire the hostname:
-        DHCLIENTARGS="${DHCLIENTARGS} ${DHCP_HOSTNAME:+-H $DHCP_HOSTNAME} ${ONESHOT} -q ${DHCLIENTCONF} -lf ${LEASEFILE} -pf /var/run/dhclient-${DEVICE}.pid"
-    fi
+    # Initialize the dhclient args and obtain the hostname options if needed:
+    DHCLIENTARGS="${DHCLIENTARGS} ${ONESHOT} -q ${DHCLIENTCONF} -lf ${LEASEFILE} -pf /var/run/dhclient-${DEVICE}.pid"
+    set_hostname_options DHCLIENTARGS
 
     echo
     echo -n $"Determining IP information for ${DEVICE}..."
@@ -335,13 +331,9 @@ if is_true "${DHCPV6C}" && [ -x /sbin/dhclient ]; then
     echo
     echo -n $"Determining IPv6 information for ${DEVICE}..."
 
-    if is_hostname_set; then
-        # We already have the hostname ->> send it to DHCP:
-        DHCLIENTARGS="-6 -1 ${DHCPV6C_OPTIONS} ${DHCLIENTCONF} -lf ${LEASEFILE} -pf /var/run/dhclient6-${DEVICE}.pid -H ${DHCP_HOSTNAME:-${HOSTNAME%%.*}} ${DEVICE}"
-    else
-        # We need to acquire the hostname:
-        DHCLIENTARGS="-6 -1 ${DHCPV6C_OPTIONS} ${DHCLIENTCONF} -lf ${LEASEFILE} -pf /var/run/dhclient6-${DEVICE}.pid ${DHCP_HOSTNAME:+-H $DHCP_HOSTNAME} ${DEVICE}"
-    fi
+    # Initialize the dhclient args for IPv6 and obtain the hostname options if needed:
+    DHCLIENTARGS="-6 -1 ${DHCPV6C_OPTIONS} ${DHCLIENTCONF} -lf ${LEASEFILE} -pf /var/run/dhclient6-${DEVICE}.pid ${DEVICE}"
+    set_hostname_options DHCLIENTARGS
 
     if /sbin/dhclient $DHCLIENTARGS; then
         echo $" done."
