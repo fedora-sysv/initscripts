@@ -175,6 +175,19 @@ source_config ()
     else
         ISALIAS=no
     fi
+
+    if ! is_true "$NM_BOND_BRIDGE_VLAN_ENABLED"; then
+        case "$TYPE" in
+            Bridge | Bond | Vlan)
+                NM_CONTROLLED=no
+                ;;
+        esac
+    fi
+
+    if [[ "$TYPE" == "Infiniband" && -n "$PHYSDEV" ]]; then
+        NM_CONTROLLED=no
+    fi
+
     if is_nm_running && [ "$REALDEVICE" != "lo" ] ; then
         nm_con_load "$CONFIG"
         if ! is_false $NM_CONTROLLED; then
