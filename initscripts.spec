@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.49.38
+Version: 9.49.39
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -218,6 +218,13 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Wed May 03 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.49.39-1
+- sysconfig.txt: mention previously introduced NO_DHCP_HOSTNAME option
+- DHCP_FQDN and DHCP_SEND_HOSTNAME introduced
+- re-add missing $HOSTNAME initialization
+- ifup: add support for VLAN_EGRESS_PRIORITY_MAP
+- rhel-autorelabel: synchronize cached writes before reboot
+
 * Thu Mar 30 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.49.38-1
 - ifdown-eth: we need to flush global scope as well
 - killproc/status: add missing '-b <binary>' option
