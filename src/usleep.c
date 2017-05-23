@@ -44,6 +44,9 @@ int main(int argc, char **argv) {
             { 0, 0, 0, 0, 0 }
         };
 
+  fprintf(stderr, "%s: warning: usleep(1) is deprecated, and will be removed in near future!!\n"
+                  "%s: warning: use sleep(1) instead...\n", argv[0], argv[0]);
+
   optCon = poptGetContext("usleep", argc, argv, options,0);
   /*poptReadDefaultConfig(optCon, 1);*/
   poptSetOtherOptionHelp(optCon, "[microseconds]");
