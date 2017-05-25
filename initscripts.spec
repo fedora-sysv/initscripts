@@ -1,6 +1,6 @@
 Summary: Scripts to bring up network interfaces and legacy utilities
 Name: initscripts
-Version: 9.71
+Version: 9.72
 License: GPLv2
 Group: System Environment/Base
 Release: 1%{?dist}
@@ -176,6 +176,11 @@ fi
 %{_sysconfdir}/profile.d/debug*
 
 %changelog
+* Thu May 25 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.72-1
+- rename_device.c: rewrite of isCfg() function
+- Add *.old to list of ignored files
+- Replace usleep(1) calls with sleep(1) calls
+
 * Wed May 24 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.71-1
 - usleep: print deprecation warning from now on
 - sysconfig.txt: mention previously introduced NO_DHCP_HOSTNAME option
