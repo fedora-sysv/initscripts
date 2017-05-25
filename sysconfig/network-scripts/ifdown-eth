@@ -159,7 +159,7 @@ fi
 # wait up to 5 seconds for device to actually come down...
 waited=0
 while ! check_device_down ${DEVICE} && [ "$waited" -lt 50 ] ; do
-    usleep 10000
+    sleep 0.01
     waited=$(($waited+1))
 done
 
