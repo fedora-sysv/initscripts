@@ -618,7 +618,7 @@ strstr() {
 # Check whether file $1 is a backup or rpm-generated file and should be ignored
 is_ignored_file() {
     case "$1" in
-    *~ | *.bak | *.orig | *.rpmnew | *.rpmorig | *.rpmsave)
+    *~ | *.bak | *.old | *.orig | *.rpmnew | *.rpmorig | *.rpmsave)
         return 0
         ;;
     esac
@@ -670,7 +670,7 @@ apply_sysctl() {
 }
 
 # A sed expression to filter out the files that is_ignored_file recognizes
-__sed_discard_ignored_files='/\(~\|\.bak\|\.orig\|\.rpmnew\|\.rpmorig\|\.rpmsave\)$/d'
+__sed_discard_ignored_files='/\(~\|\.bak\|\.old\|\.orig\|\.rpmnew\|\.rpmorig\|\.rpmsave\)$/d'
 
 if [ "$_use_systemctl" = "1" ]; then
         if  [ "x$1" = xstart -o \
