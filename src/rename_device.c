@@ -104,20 +104,40 @@ char *read_subchannels(char *path) {
 
 #endif
 
+/*
+ * Taken from systemd:
+ * https://github.com/systemd/systemd/blob/master/src/basic/string-util.c#L49
+ */
+char* endswith(const char *s, const char *postfix) {
+        size_t sl, pl;
+
+        sl = strlen(s);
+        pl = strlen(postfix);
+
+        if (pl == 0)
+                return (char*) s + sl;
+
+        if (sl < pl)
+                return NULL;
+
+        if (memcmp(s + sl - pl, postfix, pl) != 0)
+                return NULL;
+
+        return (char*) s + sl - pl;
+}
+
 int isCfg(const struct dirent *dent) {
-	int len = strlen(dent->d_name);
-	
-	if (strncmp(dent->d_name,"ifcfg-",6))
+	if (strncmp(dent->d_name, "ifcfg-",6) ||
+	    endswith(dent->d_name, ".rpmnew") != NULL ||
+	    endswith(dent->d_name, ".rpmsave") != NULL ||
+	    endswith(dent->d_name, ".rpmorig") != NULL ||
+	    endswith(dent->d_name, ".orig") != NULL ||
+	    endswith(dent->d_name, ".old") != NULL ||
+	    endswith(dent->d_name, ".bak") != NULL ||
+	    endswith(dent->d_name, "~") != NULL)
 		return 0;
-	if (strstr(dent->d_name,"rpmnew") ||
-	    strstr(dent->d_name,"rpmsave") ||
-	    strstr(dent->d_name,"rpmorig"))
-		return 0;
-	if (dent->d_name[len-1] == '~')
-		return 0;
-	if (!strncmp(dent->d_name+len-4,".bak",4))
-		return 0;
-	return 1;
+	else
+		return 1;
 }
 
 static inline char *dequote(char *start, char *end) {
