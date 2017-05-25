@@ -154,7 +154,7 @@ __kill_pids_term_kill() {
     [ -z "$kill_list" ] && return 0
 
     kill -TERM $kill_list >/dev/null 2>&1
-    usleep 100000
+    sleep 0.1
 
     kill_list=$(__kill_pids_term_kill_checkpids $base_stime $kill_list)
     if [ -n "$kill_list" ] ; then
@@ -166,7 +166,7 @@ __kill_pids_term_kill() {
         done
         if [ -n "$kill_list" ] ; then
             kill -KILL $kill_list >/dev/null 2>&1
-            usleep 100000
+            sleep 0.1
             kill_list=$(__kill_pids_term_kill_checkpids $base_stime $kill_list)
         fi
     fi
