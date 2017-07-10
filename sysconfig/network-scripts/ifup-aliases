@@ -127,6 +127,7 @@ eval ` (
        echo default_GATEWAY=$GATEWAY\;;
        echo default_NO_ALIASROUTING=$NO_ALIASROUTING\;;
        echo default_ARPCHECK=$ARPCHECK\;;
+       echo default_ARPUPDATE=$ARPUPDATE\;;
 ) `
 [ -z "$default_GATEWAY" ] && default_GATEWAY=$network_GATEWAY
 
@@ -141,6 +142,7 @@ function ini_env ()
        NO_ALIASROUTING=$default_NO_ALIASROUTING
        ONPARENT=""
        ARPCHECK=$default_ARPCHECK
+       ARPUPDATE=$default_ARPUPDATE
 }
 
 function is_default_gateway ()
@@ -276,7 +278,7 @@ function new_interface ()
                /sbin/ip addr add ${IPADDR}/${PREFIX} brd ${BROADCAST} dev ${parent_device} label ${DEVICE}
 
                # update ARP cache of neighboring computers:
-               if [ "${REALDEVICE}" != "lo" ]; then
+               if ! is_false "${ARPUPDATE}" && [ "${REALDEVICE}" != "lo" ]; then
                     /sbin/arping -q -A -c 1 -I ${parent_device} ${IPADDR}
                     ( sleep 2; /sbin/arping -q -U -c 1 -I ${parent_device} ${IPADDR} ) > /dev/null 2>&1 < /dev/null &
                fi
