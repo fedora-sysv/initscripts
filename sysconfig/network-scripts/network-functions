@@ -188,6 +188,7 @@ expand_config ()
         netmask[$i]=$(eval echo '$'NETMASK$idx)
         broadcast[$i]=$(eval echo '$'BROADCAST$idx)
         arpcheck[$i]=$(eval echo '$'ARPCHECK$idx)
+        arpupdate[$i]=$(eval echo '$'ARPUPDATE$idx)
 
         if [ "${prefix[$i]}x" != "x" ]; then
             val=$(/bin/ipcalc --netmask "${ipaddr[$i]}/${prefix[$i]}")
@@ -212,6 +213,11 @@ expand_config ()
         if [ "${arpcheck[$i]}x" != "x" ]; then
             arpcheck[$i]=${arpcheck[$i]##ARPCHECK=}
             arpcheck[$i]=${arpcheck[$i],,*}
+        fi
+
+        if [ "${arpupdate[$i]}x" != "x" ]; then
+            arpupdate[$i]=${arpupdate[$i]##ARPUPDATE=}
+            arpupdate[$i]=${arpupdate[$i],,*}
         fi
 
         i=$((i+1))
