@@ -94,7 +94,7 @@ for VER in "" 6 ; do
         if is_true "$DHCPRELEASE";  then
             /sbin/dhclient -r -lf ${LEASEFILE} -pf /var/run/dhclient$VER-${DEVICE}.pid ${DEVICE} >/dev/null 2>&1
             retcode=$?
-        else
+        elif kill -0 $dhcpid >/dev/null 2>&1; then
             kill $dhcpid >/dev/null 2>&1
             retcode=$?
             reason=STOP$VER interface=${DEVICE} /sbin/dhclient-script
