@@ -146,6 +146,7 @@ if [ "${SLAVE}" = yes -a "${ISALIAS}" = no -a "${MASTER}" != "" ]; then
         echo "+${DEVICE}" > /sys/class/net/${MASTER}/bonding/slaves 2>/dev/null
     }
     ethtool_set
+    exec /etc/sysconfig/network-scripts/ifup-post ${CONFIG} ${2}
 
     exit 0
 fi
@@ -163,10 +164,10 @@ if [ "$ISALIAS" = no ] && is_bonding_device ${DEVICE} ; then
     [ -n "${LINKDELAY}" ] && /bin/sleep ${LINKDELAY}
 
     # add the bits to setup the needed post enslavement parameters
-    for arg in $BONDING_OPTS ; do   
+    for arg in $BONDING_OPTS ; do
         key=${arg%%=*};
         value=${arg##*=};
-        if [ "${key}" = "primary" ]; then 
+        if [ "${key}" = "primary" ]; then
             echo $value > /sys/class/net/${DEVICE}/bonding/$key
         fi
     done
@@ -230,7 +231,7 @@ if [ -n "${DYNCONFIG}" ] && [ -x /sbin/dhclient ]; then
         net_log "Unable to obtain IPv4 DHCP address ${DEVICE}." warning
     fi
     # end dynamic device configuration
-else 
+else
     if [ -z "${IPADDR}" -a -z "${IPADDR0}" -a -z "${IPADDR1}" -a -z "${IPADDR2}" ]; then
         # enable device without IP, useful for e.g. PPPoE
         ip link set dev ${REALDEVICE} up
