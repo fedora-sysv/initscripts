@@ -625,6 +625,22 @@ is_ignored_file() {
     return 1
 }
 
+# Convert the value ${1} of time unit ${2}-seconds into seconds:
+convert2sec() {
+  local retval=""
+
+  case "${2}" in
+    deci)   retval=$(awk "BEGIN {printf \"%.1f\", ${1} / 10}") ;;
+    centi)  retval=$(awk "BEGIN {printf \"%.2f\", ${1} / 100}") ;;
+    mili)   retval=$(awk "BEGIN {printf \"%.3f\", ${1} / 1000}") ;;
+    micro)  retval=$(awk "BEGIN {printf \"%.6f\", ${1} / 1000000}") ;;
+    nano)   retval=$(awk "BEGIN {printf \"%.9f\", ${1} / 1000000000}") ;;
+    piko)   retval=$(awk "BEGIN {printf \"%.12f\", ${1} / 1000000000000}") ;;
+  esac
+
+  echo "${retval}"
+}
+
 # Evaluate shvar-style booleans
 is_true() {
     case "$1" in
