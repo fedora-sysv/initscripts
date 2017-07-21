@@ -26,13 +26,10 @@ install:
 	install -m644  debug.csh debug.sh $(ROOT)/etc/profile.d
 	install -m755  sys-unconfig $(ROOT)/usr/sbin
 	install -m644  service.8 sys-unconfig.8 $(ROOT)$(mandir)/man8
-	mkdir -p -m 755 $(ROOT)/usr/lib/sysctl.d
-	mkdir -p -m 755 $(ROOT)/etc/sysctl.d
-	install -m644 sysctl.conf $(ROOT)/usr/lib/sysctl.d/00-system.conf
 	if uname -m | grep -q sparc ; then \
-	  install -m644 sysctl.conf.sparc $(ROOT)/usr/lib/sysctl.d/00-system.conf ; fi
+	  install -D -m644 sysctl.conf.sparc $(ROOT)/usr/lib/sysctl.d/00-system.conf ; fi
 	if uname -m | grep -q s390 ; then \
-	  install -m644 sysctl.conf.s390 $(ROOT)/usr/lib/sysctl.d/00-system.conf ; fi
+	  install -D -m644 sysctl.conf.s390 $(ROOT)/usr/lib/sysctl.d/00-system.conf ; fi
 
 	install -m755 -d $(ROOT)/etc/rc.d $(ROOT)/etc/sysconfig
 	cp -af rc.d/init.d $(ROOT)/etc/rc.d/
