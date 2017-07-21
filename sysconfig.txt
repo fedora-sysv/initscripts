@@ -127,13 +127,13 @@ Generic options:
        Setting this to 'no' used to disable the magic sysrq key and
        Stop-A (break on serial console) on SPARC. This setting has been
        moved into kernel.sysrq and kernel.stop-a settings respectively in
-       /etc/sysctl.conf. Setting either of them there to 0 disables it,
-       setting it to 1 enables it.
+       sysctl.d/00-system.conf. Setting either of them there to 0 disables
+       it, setting it to 1 enables it.
     STOP_A=yes|no
        Setting this to 'no' used to disable the Stop-A (break on
        serial console) key on SPARC.
        This setting has been moved into kernel.stop-a setting in
-       /etc/sysctl.conf. Setting it there to 0 disables it,
+       sysctl.d/00-system.conf. Setting it there to 0 disables it,
        setting it to 1 enables it. The setting should be present
        on SPARC only.
 
@@ -245,8 +245,8 @@ Generic options:
   obsoleted values from earlier releases:
 
     FORWARD_IPV4=yes|no
-      This setting has been moved into net.ipv4.ip_forward setting
-      in /etc/sysctl.conf. Setting it to 1 there enables IP forwarding,
+      Create a new file in /etc/sysctl.d/ with the net.ipv4.ip_forward
+      setting instead. Setting it to 1 there enables IP forwarding,
       setting it to 0 disables it (which is the default for RFC compliance).
 
     NETWORKWAIT=yes|no
