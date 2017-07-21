@@ -198,7 +198,7 @@ ethtool_set()
     IFS=';';
     if [ -n "${ETHTOOL_DELAY}" ]; then
       # Convert microseconds to seconds:
-      local ETHTOOL_DELAY_SEC=$(awk "BEGIN {printf \"%f\", ${ETHTOOL_DELAY} / 1000000}")
+      local ETHTOOL_DELAY_SEC=$(convert2sec ${ETHTOOL_DELAY} micro)
       sleep ${ETHTOOL_DELAY_SEC}
     fi
     for opts in $ETHTOOL_OPTS ; do
