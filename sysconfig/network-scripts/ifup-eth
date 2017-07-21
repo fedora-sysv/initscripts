@@ -51,13 +51,16 @@ if [ "${TYPE}" = "Bridge" ]; then
         net_log $"Bridge support not available: brctl not found"
         exit 1
     fi
+
     if [ ! -d /sys/class/net/${DEVICE}/bridge ]; then
         /usr/sbin/brctl addbr -- ${DEVICE} || exit 1
     fi
+
     [ -n "${DELAY}" ] && /usr/sbin/brctl setfd -- ${DEVICE} ${DELAY}
     [ -n "${STP}" ] && /usr/sbin/brctl stp -- ${DEVICE} ${STP}
     [ -n "${PRIO}" ] && /usr/sbin/brctl setbridgeprio ${DEVICE} ${PRIO}
     [ -n "${AGEING}" ] && /usr/sbin/brctl setageing ${DEVICE} ${AGEING}
+
     # add the bits to setup driver parameters here
     for arg in $BRIDGING_OPTS ; do
         key=${arg%%=*};
@@ -66,14 +69,28 @@ if [ "${TYPE}" = "Bridge" ]; then
             echo $value > /sys/class/net/${DEVICE}/bridge/$key
         fi
     done
+
     # set LINKDELAY (used as timeout when calling check_link_down())
     # to at least (${DELAY} * 2) + 7 if STP is enabled. This is the
     # minimum time required for /sys/class/net/$REALDEVICE/carrier to
     # become 1 after "ip link set dev $DEVICE up" is called.
-    if [ "${STP}" = "yes" -o "${STP}" = "on" ]; then
-        TMPD=7
-        [ -n "${DELAY}" ] && TMPD=$(expr ${DELAY} \* 2 + ${TMPD})
-        [ 0$LINKDELAY -lt $TMPD ] && LINKDELAY=$TMPD
+    if is_true "${STP}"; then
+        if [ -n "${DELAY}" ]; then
+          forward_delay="${DELAY}"
+        else
+          # If the ${DELAY} value is not set by the user, then we need to obtain
+          # the forward_delay value from kernel first, and convert it to seconds.
+          # Otherwise STP might not correctly complete the startup before trying
+          # to obtain an IP address from DHCP.
+          forward_delay="$(cat /sys/devices/virtual/net/${DEVICE}/bridge/forward_delay)"
+          forward_delay="$(convert2sec ${forward_delay} centi)"
+        fi
+
+        forward_delay=$(expr ${forward_delay} \* 2 + 7)
+
+        [ 0$LINKDELAY -lt $forward_delay ] && LINKDELAY=$forward_delay
+
+        unset forward_delay
     fi
 fi
 
