@@ -27,8 +27,8 @@ ip link set dev $DEVICE down >/dev/null 2>&1
 isdnctrl delif $DEVICE >/dev/null 2>&1
 
 # kill ipppd daemon
-if [ -f /var/run/ipppd.$DEVICE.pid ] ; then
-    pppdpid=$(cat /var/run/ipppd.$DEVICE.pid)
+if [ -f /run/ipppd.$DEVICE.pid ] ; then
+    pppdpid=$(cat /run/ipppd.$DEVICE.pid)
     kill -9 $pppdpid > /dev/null 2>&1
-    rm -f /var/run/ipppd.$DEVICE.pid > /dev/null 2>&1
+    rm -f /run/ipppd.$DEVICE.pid > /dev/null 2>&1
 fi
