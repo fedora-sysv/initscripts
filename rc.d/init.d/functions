@@ -176,12 +176,12 @@ __kill_pids_term_kill() {
 }
 
 # __proc_pids {program} [pidfile]
-# Set $pid to pids from /var/run* for {program}.  $pid should be declared
+# Set $pid to pids from /run* for {program}.  $pid should be declared
 # local in the caller.
 # Returns LSB exit code for the 'status' action.
 __pids_var_run() {
     local base=${1##*/}
-    local pid_file=${2:-/var/run/$base.pid}
+    local pid_file=${2:-/run/$base.pid}
     local pid_dir=$(/usr/bin/dirname $pid_file > /dev/null)
     local binary=$3
 
@@ -209,7 +209,7 @@ __pids_var_run() {
             if [ -n "$pid" ]; then
                     return 0
             fi
-        return 1 # "Program is dead and /var/run pid file exists"
+        return 1 # "Program is dead and /run pid file exists"
     fi
     return 3 # "Program is not running"
 }
@@ -393,7 +393,7 @@ killproc() {
 
     # Remove pid file if any.
     if [ -z "$killlevel" ]; then
-        rm -f "${pid_file:-/var/run/$base.pid}"
+        rm -f "${pid_file:-/run/$base.pid}"
     fi
     return $RC
 }
@@ -428,7 +428,7 @@ pidofproc() {
     fi
     fail_code=3 # "Program is not running"
 
-    # First try "/var/run/*.pid" files
+    # First try "/run/*.pid" files
     __pids_var_run "$1" "$pid_file"
     RC=$?
     if [ -n "$pid" ]; then

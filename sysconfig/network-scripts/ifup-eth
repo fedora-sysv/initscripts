@@ -173,7 +173,7 @@ if [ -n "${BRIDGE}" ] && [ -x /usr/sbin/brctl ]; then
     done
     # Upon adding a device to a bridge,
     # it's necessary to make radvd reload its config
-    [ -r /var/run/radvd/radvd.pid ] && kill -HUP $(cat /var/run/radvd/radvd.pid)
+    [ -r /run/radvd/radvd.pid ] && kill -HUP $(cat /run/radvd/radvd.pid)
     exit 0
 fi
 
@@ -187,7 +187,7 @@ if [ -n "${DYNCONFIG}" ] && [ -x /sbin/dhclient ]; then
     generate_lease_file_name
 
     # Initialize the dhclient args and obtain the hostname options if needed:
-    DHCLIENTARGS="${DHCLIENTARGS} ${ONESHOT} -q ${DHCLIENTCONF} -lf ${LEASEFILE} -pf /var/run/dhclient-${DEVICE}.pid"
+    DHCLIENTARGS="${DHCLIENTARGS} ${ONESHOT} -q ${DHCLIENTCONF} -lf ${LEASEFILE} -pf /run/dhclient-${DEVICE}.pid"
     set_hostname_options DHCLIENTARGS
 
     echo
@@ -332,7 +332,7 @@ if is_true "${DHCPV6C}" && [ -x /sbin/dhclient ]; then
     echo -n $"Determining IPv6 information for ${DEVICE}..."
 
     # Initialize the dhclient args for IPv6 and obtain the hostname options if needed:
-    DHCLIENTARGS="-6 -1 ${DHCPV6C_OPTIONS} ${DHCLIENTCONF} -lf ${LEASEFILE} -pf /var/run/dhclient6-${DEVICE}.pid ${DEVICE}"
+    DHCLIENTARGS="-6 -1 ${DHCPV6C_OPTIONS} ${DHCLIENTCONF} -lf ${LEASEFILE} -pf /run/dhclient6-${DEVICE}.pid ${DEVICE}"
     set_hostname_options DHCLIENTARGS
 
     if /sbin/dhclient $DHCLIENTARGS; then
