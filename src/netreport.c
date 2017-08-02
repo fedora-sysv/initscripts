@@ -34,7 +34,7 @@ usage(void) {
 #define DEL 0
 int main(int argc, char ** argv) {
     int action = ADD;
-    /* more than long enough for "/var/run/netreport/<pid>\0" */
+    /* more than long enough for "/run/netreport/<pid>\0" */
     char netreport_name[64];
     int  netreport_file;
 
@@ -51,7 +51,7 @@ int main(int argc, char ** argv) {
     }
 
     snprintf(netreport_name, sizeof(netreport_name),
-	     "/var/run/netreport/%d", getppid());
+	     "/run/netreport/%d", getppid());
     if (action == ADD) {
 	netreport_file = open(netreport_name,
 			      O_EXCL|O_CREAT|O_WRONLY|O_TRUNC|O_NOFOLLOW, 0);

@@ -88,19 +88,19 @@ fi
 retcode=0
 [ -n "$(pidof -x dhclient)" ] && {
 for VER in "" 6 ; do
-    if [ -f "/var/run/dhclient$VER-${DEVICE}.pid" ]; then
-        dhcpid=$(cat /var/run/dhclient$VER-${DEVICE}.pid)
+    if [ -f "/run/dhclient$VER-${DEVICE}.pid" ]; then
+        dhcpid=$(cat /run/dhclient$VER-${DEVICE}.pid)
         generate_lease_file_name $VER
         if is_true "$DHCPRELEASE";  then
-            /sbin/dhclient -r -lf ${LEASEFILE} -pf /var/run/dhclient$VER-${DEVICE}.pid ${DEVICE} >/dev/null 2>&1
+            /sbin/dhclient -r -lf ${LEASEFILE} -pf /run/dhclient$VER-${DEVICE}.pid ${DEVICE} >/dev/null 2>&1
             retcode=$?
         else
             kill $dhcpid >/dev/null 2>&1
             retcode=$?
             reason=STOP$VER interface=${DEVICE} /sbin/dhclient-script
         fi
-        if [ -f "/var/run/dhclient$VER-${DEVICE}.pid" ]; then
-            rm -f /var/run/dhclient$VER-${DEVICE}.pid
+        if [ -f "/run/dhclient$VER-${DEVICE}.pid" ]; then
+            rm -f /run/dhclient$VER-${DEVICE}.pid
             kill $dhcpid >/dev/null 2>&1
         fi  
     fi
@@ -140,7 +140,7 @@ if [ -n "${BRIDGE}" ] && [ -x /usr/sbin/brctl ]; then
     /usr/sbin/brctl delif -- ${BRIDGE} ${DEVICE}
     # Upon removing a device from a bridge,
     # it's necessary to make radvd reload its config
-    [ -r /var/run/radvd/radvd.pid ] && kill -HUP $(cat /var/run/radvd/radvd.pid)
+    [ -r /run/radvd/radvd.pid ] && kill -HUP $(cat /run/radvd/radvd.pid)
     if [ -d /sys/class/net/${BRIDGE}/brif ] && [ $(ls -1 /sys/class/net/${BRIDGE}/brif | wc -l) -eq 0 ]; then
         /usr/sbin/brctl delbr -- ${BRIDGE}
     fi

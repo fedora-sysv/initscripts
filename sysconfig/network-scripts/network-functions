@@ -283,7 +283,7 @@ do_netreport ()
 {
     # Notify programs that have requested notification
     (
-        cd /var/run/netreport || exit
+        cd /run/netreport || exit
         for i in * ; do
             if [ -f $i ]; then
                 if [ "$(id -u)" = "0" ]; then
@@ -654,7 +654,7 @@ change_resolv_conf ()
     if [ $r -eq 0 ]; then
         [ -x /sbin/restorecon ] && /sbin/restorecon /etc/resolv.conf >/dev/null 2>&1 # reset the correct context
         /usr/bin/logger -p local7.notice -t "NET" -i "$0 : updated /etc/resolv.conf"
-        [ -e /var/run/nscd/socket ] && /usr/sbin/nscd -i hosts # invalidate cache
+        [ -e /run/nscd/socket ] && /usr/sbin/nscd -i hosts # invalidate cache
     fi
     return $r
 }
