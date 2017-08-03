@@ -1,6 +1,6 @@
 Summary: Scripts to bring up network interfaces and legacy utilities
 Name: initscripts
-Version: 9.72
+Version: 9.73
 License: GPLv2
 Group: System Environment/Base
 Release: 1%{?dist}
@@ -175,6 +175,14 @@ fi
 %{_sysconfdir}/profile.d/debug*
 
 %changelog
+* Thu Aug 03 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.73-1
+- Makefile: replace /var/run with /run
+- Replace /var/run with /run everywhere
+- Update references to sysctl.conf
+- Drop sysctl.d/00-system.conf
+- Drop 256term.{sh,csh}
+- ARPUPDATE introduced
+
 * Thu May 25 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.72-1
 - rename_device.c: rewrite of isCfg() function
 - Add *.old to list of ignored files
