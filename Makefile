@@ -62,7 +62,7 @@ install:
 	make install PREFIX=$(ROOT) -C po
 
 	mkdir -p $(ROOT)/var/log
-        if -z "$(ROOT)"; then \
+	if -z "$(ROOT)"; then \
 	  # do not touch /run if installing into a chroot
 	  mkdir -p $(ROOT)/run/netreport; \
 	  chown $(SUPERUSER):$(SUPERGROUP) $(ROOT)/run/netreport; \
