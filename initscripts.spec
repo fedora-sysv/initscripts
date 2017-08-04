@@ -1,6 +1,6 @@
 Summary: Scripts to bring up network interfaces and legacy utilities
 Name: initscripts
-Version: 9.73
+Version: 9.74
 License: GPLv2
 Group: System Environment/Base
 Release: 1%{?dist}
@@ -175,6 +175,9 @@ fi
 %{_sysconfdir}/profile.d/debug*
 
 %changelog
+* Fri Aug 04 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.74-1
+- Makefile: fix whitespace error in commit b119d37d1
+
 * Thu Aug 03 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.73-1
 - Makefile: replace /var/run with /run
 - Replace /var/run with /run everywhere
