@@ -129,6 +129,7 @@ fi
 %{_sysconfdir}/sysconfig/network-scripts/ifdown-isdn
 %ifarch s390 s390x
 %{_sysconfdir}/sysconfig/network-scripts/ifup-ctc
+%{_prefix}/lib/sysctl.d/00-system.conf
 %endif
 %config(noreplace) %{_sysconfdir}/networks
 %config(noreplace) %{_sysconfdir}/rwtab
