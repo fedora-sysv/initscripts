@@ -1,6 +1,6 @@
 Summary: Scripts to bring up network interfaces and legacy utilities
 Name: initscripts
-Version: 9.74
+Version: 9.75
 License: GPLv2
 Group: System Environment/Base
 Release: 1%{?dist}
@@ -175,6 +175,13 @@ fi
 %{_sysconfdir}/profile.d/debug*
 
 %changelog
+* Mon Aug 07 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.75-1
+- Makefile: $ROOT variable is now empty by default
+- Makefile: Fix additional error in commit b119d37d1
+- ifup-eth: wait for STP to complete setup on bridge if $DELAY is not set
+- init.d/functions: is_true() & is_false() extended by ON/OFF support
+- init.d/functions: convert2sec() function added
+
 * Fri Aug 04 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.74-1
 - Makefile: fix whitespace error in commit b119d37d1
 
