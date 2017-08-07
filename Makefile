@@ -1,4 +1,4 @@
-ROOT=/
+ROOT=
 SUPERUSER=root
 SUPERGROUP=root
 
