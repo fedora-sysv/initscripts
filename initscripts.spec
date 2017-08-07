@@ -156,7 +156,7 @@ fi
 %{_prefix}/lib/udev/rename_device
 %{_sbindir}/service
 %{_mandir}/man*/*
-%dir %attr(775,root,root) /var/run/netreport
+%dir %attr(775,root,root) /run/netreport
 %dir %{_sysconfdir}/NetworkManager
 %dir %{_sysconfdir}/NetworkManager/dispatcher.d
 %{_sysconfdir}/NetworkManager/dispatcher.d/00-netreport
