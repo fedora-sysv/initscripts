@@ -61,13 +61,9 @@ install:
 	make install ROOT=$(ROOT) mandir=$(mandir) -C src
 	make install PREFIX=$(ROOT) -C po
 
-	mkdir -p $(ROOT)/var/log
-	# do not touch /run if installing into a chroot
-	if -z "$(ROOT)"; then \
-	  mkdir -p /run/netreport; \
-	  chown $(SUPERUSER):$(SUPERGROUP) /run/netreport; \
-	  chmod u=rwx,g=rwx,o=rx /run/netreport; \
-	fi
+	mkdir -p $(ROOT)/run/netreport $(ROOT)/var/log
+	chown $(SUPERUSER):$(SUPERGROUP) $(ROOT)/run/netreport
+	chmod u=rwx,g=rwx,o=rx $(ROOT)/run/netreport
 
 	for i in 0 1 2 3 4 5 6 ; do \
 		dir=$(ROOT)/etc/rc.d/rc$$i.d; \
