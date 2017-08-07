@@ -135,3 +135,12 @@ clean:
 tag:
 	@git tag -a -f -m "Tag as $(TAG)" $(TAG)
 	@echo "Tagged as $(TAG)"
+
+archive: clean changelog
+	@git archive --format=tar --prefix=initscripts-$(VERSION)/ HEAD > initscripts-$(VERSION).tar
+	@mkdir -p initscripts-$(VERSION)/
+	@cp ChangeLog initscripts-$(VERSION)/
+	@tar --append -f initscripts-$(VERSION).tar initscripts-$(VERSION)
+	@gzip -f initscripts-$(VERSION).tar
+	@rm -rf initscripts-$(VERSION)
+	@echo "The archive is at initscripts-$(VERSION).tar.gz"
