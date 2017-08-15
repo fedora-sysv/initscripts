@@ -1,6 +1,6 @@
 Summary: Scripts to bring up network interfaces and legacy utilities
 Name: initscripts
-Version: 9.76
+Version: 9.77
 License: GPLv2
 Group: System Environment/Base
 Release: 1%{?dist}
@@ -176,6 +176,10 @@ fi
 %{_sysconfdir}/profile.d/debug*
 
 %changelog
+* Tue Aug 15 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.77-1
+- specfile: Fix failing build for s390* architecture
+- Drop no longer supported SPARC architecture
+
 * Mon Aug 07 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.76-1
 - Makefile: return make archive for testing purposes
 - Revert "Makefile: replace /var/run with /run"
