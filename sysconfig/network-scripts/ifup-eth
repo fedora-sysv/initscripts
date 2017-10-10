@@ -308,11 +308,6 @@ if [ -z "${NOZEROCONF}" -a "${ISALIAS}" = "no" -a "${REALDEVICE}" != "lo" ]; the
     ip route add 169.254.0.0/16 dev ${REALDEVICE} metric $((1000 + $(cat /sys/class/net/${REALDEVICE}/ifindex))) scope link
 fi
 
-# Inform firewall which network zone (empty means default) this interface belongs to
-if [ -x /usr/bin/firewall-cmd -a "${REALDEVICE}" != "lo" ]; then
-    /usr/bin/firewall-cmd --zone="${ZONE}" --change-interface="${DEVICE}" > /dev/null 2>&1
-fi
-
 if [ "${TYPE}" = "Bridge" ]; then
     for arg in $BRIDGING_OPTS ; do
         key=${arg%%=*};
@@ -326,6 +321,16 @@ fi
 # IPv6 initialisation?
 /etc/sysconfig/network-scripts/ifup-ipv6 ${CONFIG}
 if is_true "${DHCPV6C}" && [ -x /sbin/dhclient ]; then
+
+    # Assign interface into a firewalld zone so we can obtain the IPv6 via DHCPv6:
+    if [ "${REALDEVICE}" != "lo" ]; then
+        dbus-send --print-reply --system --dest=org.fedoraproject.FirewallD1 \
+                  /org/fedoraproject/FirewallD1 \
+                  org.fedoraproject.FirewallD1.zone.changeZoneOfInterface \
+                  string:"${ZONE}" string:"${DEVICE}" \
+                  &> /dev/null
+    fi
+
     generate_config_file_name 6
     generate_lease_file_name 6
     echo

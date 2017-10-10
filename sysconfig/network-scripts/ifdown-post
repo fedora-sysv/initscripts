@@ -49,9 +49,12 @@ else
 fi
 fi
 
-# Inform firewall
-if [ -x /usr/bin/firewall-cmd -a "${REALDEVICE}" != "lo" ]; then
-    /usr/bin/firewall-cmd --remove-interface="${DEVICE}" > /dev/null 2>&1
+# Reset firewall ZONE to "default":
+if [ "${REALDEVICE}" != "lo" ]; then
+    dbus-send --system --dest=org.fedoraproject.FirewallD1 \
+              /org/fedoraproject/FirewallD1 \
+              org.fedoraproject.FirewallD1.zone.removeInterface \
+              string: "" string:"${DEVICE}"
 fi
 
 # Notify programs that have requested notification
