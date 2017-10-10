@@ -105,9 +105,12 @@ if [ "$2" = "boot" -a \
     fi
 fi
 
-# Inform firewall which network zone (empty means default) this interface belongs to
-if [ -x /usr/bin/firewall-cmd -a "${REALDEVICE}" != "lo" ]; then
-    /usr/bin/firewall-cmd --zone="${ZONE}" --change-interface="${DEVICE}" > /dev/null 2>&1
+# Set firewall ZONE for this device (empty means default):
+if [ "${REALDEVICE}" != "lo" ]; then
+    dbus-send --system --dest=org.fedoraproject.FirewallD1 \
+              /org/fedoraproject/FirewallD1 \
+              org.fedoraproject.FirewallD1.zone.changeZoneOfInterface \
+              string:"${ZONE}" string:"${DEVICE}"
 fi
 
 # Notify programs that have requested notification
