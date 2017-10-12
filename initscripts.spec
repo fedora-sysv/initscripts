@@ -61,9 +61,6 @@ make ROOT=%{buildroot} SUPERUSER=`id -un` SUPERGROUP=`id -gn` mandir=%{_mandir} 
 %ifnarch s390 s390x
 rm -f \
   %{buildroot}%{_sysconfdir}/sysconfig/network-scripts/ifup-ctc \
-%else
-rm -f \
-  %{buildroot}%{_sysconfdir}/sysconfig/init.s390
 %endif
 
 rm -f %{buildroot}%{_sysconfdir}/rc.d/rc.local %{buildroot}%{_sysconfdir}/rc.local
@@ -92,7 +89,6 @@ fi
 %defattr(-,root,root)
 %dir %{_sysconfdir}/sysconfig/network-scripts
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/adjtime
-%config(noreplace) %{_sysconfdir}/sysconfig/init
 %config(noreplace) %{_sysconfdir}/sysconfig/netconsole
 %config(noreplace) %{_sysconfdir}/sysconfig/readonly-root
 %{_sysconfdir}/sysconfig/network-scripts/ifdown
