@@ -36,17 +36,6 @@ Provides: /sbin/service
 This package contains the script that activates and deactivates most
 network interfaces, some utilities, and other legacy files.
 
-%package -n debugmode
-Summary: Scripts for running in debug mode
-Requires: initscripts
-Group: System Environment/Base
-
-%description -n debugmode
-The debugmode package contains some basic scripts that are used to run
-the system in a debug mode.
-
-Currently, this consists of various memory checking code.
-
 %prep
 %setup -q
 
@@ -139,7 +128,6 @@ fi
 %dir %{_sysconfdir}/rc.d/init.d
 %{_sysconfdir}/rc.d/init.d/*
 %ghost %verify(not md5 size mtime) %config(noreplace,missingok) %{_sysconfdir}/rc.d/rc.local
-%exclude %{_sysconfdir}/profile.d/debug*
 %{_sysconfdir}/profile.d/*
 %{_sbindir}/sys-unconfig
 %{_bindir}/usleep
@@ -164,11 +152,6 @@ fi
 %{_tmpfilesdir}/initscripts.conf
 %dir %{_libexecdir}/initscripts
 %dir %{_libexecdir}/initscripts/legacy-actions
-
-%files -n debugmode
-%defattr(-,root,root)
-%config(noreplace) %{_sysconfdir}/sysconfig/debug
-%{_sysconfdir}/profile.d/debug*
 
 %changelog
 * Tue Aug 15 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.77-1

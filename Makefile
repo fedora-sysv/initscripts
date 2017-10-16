@@ -22,13 +22,12 @@ install:
 	install -m644  rwtab statetab networks $(ROOT)/etc
 	install -m755  service $(ROOT)/usr/sbin
 	install -m644  lang.csh lang.sh $(ROOT)/etc/profile.d
-	install -m644  debug.csh debug.sh $(ROOT)/etc/profile.d
 	install -m755  sys-unconfig $(ROOT)/usr/sbin
 	install -m644  service.8 sys-unconfig.8 $(ROOT)$(mandir)/man8
 
 	install -m755 -d $(ROOT)/etc/rc.d $(ROOT)/etc/sysconfig
 	cp -af rc.d/init.d $(ROOT)/etc/rc.d/
-	install -m644 sysconfig/debug sysconfig/netconsole sysconfig/readonly-root $(ROOT)/etc/sysconfig/
+	install -m644 sysconfig/netconsole sysconfig/readonly-root $(ROOT)/etc/sysconfig/
 	cp -af sysconfig/network-scripts $(ROOT)/etc/sysconfig/
 	cp -af NetworkManager $(ROOT)/etc
 	mkdir -p $(ROOT)/usr/lib/systemd/
