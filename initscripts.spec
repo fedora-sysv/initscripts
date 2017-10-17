@@ -29,6 +29,7 @@ Conflicts: ppp < 2.4.6-4
 Requires(pre): /usr/sbin/groupadd
 Requires(post): /sbin/chkconfig, coreutils
 Requires(preun): /sbin/chkconfig
+%{?systemd_requires}
 BuildRequires: glib2-devel popt-devel gettext pkgconfig systemd
 Provides: /sbin/service
 
@@ -57,21 +58,27 @@ touch %{buildroot}%{_sysconfdir}/rc.d/rc.local
 chmod 755 %{buildroot}%{_sysconfdir}/rc.d/rc.local
 
 %post
+%systemd_post fedora-import-state.service fedora-loadmodules.service fedora-readonly.service
+
 /usr/sbin/chkconfig --add network > /dev/null 2>&1 || :
 /usr/sbin/chkconfig --add netconsole > /dev/null 2>&1 || :
-if [ $1 -eq 1 ]; then
-  /usr/bin/systemctl daemon-reload > /dev/null 2>&1 || :
-fi
 
 %preun
+%systemd_preun fedora-import-state.service fedora-loadmodules.service fedora-readonly.service
+
 if [ $1 = 0 ]; then
   /usr/sbin/chkconfig --del network > /dev/null 2>&1 || :
   /usr/sbin/chkconfig --del netconsole > /dev/null 2>&1 || :
 fi
 
 %postun
-if [ $1 -ge 1 ]; then
-  /usr/bin/systemctl daemon-reload > /dev/null 2>&1 || :
+%systemd_postun fedora-import-state.service fedora-loadmodules.service fedora-readonly.service
+
+# This should be removed in Rawhide for Fedora 29:
+%triggerun -- initscripts < 9.78
+if [ $1 -gt 1 ]; then
+  systemctl enable fedora-import-state.service fedora-readonly.service &> /dev/null || :
+  echo -e "\nUPGRADE: Automatically re-enabling default systemd units: fedora-import-state.service fedora-readonly.service\n" || :
 fi
 
 %files -f %{name}.lang

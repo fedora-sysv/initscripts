@@ -1,11 +1,11 @@
 [Unit]
 Description=Read and set NIS domainname from /etc/sysconfig/network
-Before=ypbind.service yppasswdd.service ypserv.service ypxfrd.service
+Before=ypbind.service yppasswdd.service ypserv.service ypxfrd.service sysinit.target
 DefaultDependencies=no
 Conflicts=shutdown.target
 
 [Service]
-ExecStart=/lib/systemd/fedora-domainname
+ExecStart=/usr/lib/systemd/fedora-domainname
 Type=oneshot
 RemainAfterExit=yes
 
