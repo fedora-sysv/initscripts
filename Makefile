@@ -64,15 +64,6 @@ install:
 	done
 
 # Can't store symlinks in a CVS archive
-	mkdir -p -m 755 $(ROOT)/usr/lib/systemd/system/multi-user.target.wants
-	mkdir -p -m 755 $(ROOT)/usr/lib/systemd/system/graphical.target.wants
-	mkdir -p -m 755 $(ROOT)/usr/lib/systemd/system/local-fs.target.wants
-	mkdir -p -m 755 $(ROOT)/usr/lib/systemd/system/basic.target.wants
-	mkdir -p -m 755 $(ROOT)/usr/lib/systemd/system/sysinit.target.wants
-	ln -s ../fedora-loadmodules.service $(ROOT)/usr/lib/systemd/system/basic.target.wants
-	ln -s ../fedora-readonly.service $(ROOT)/usr/lib/systemd/system/local-fs.target.wants
-	ln -s ../fedora-import-state.service $(ROOT)/usr/lib/systemd/system/local-fs.target.wants
-
 	mkdir -p $(ROOT)/usr/lib/tmpfiles.d
 	install -m 644 initscripts.tmpfiles.d $(ROOT)/usr/lib/tmpfiles.d/initscripts.conf
 

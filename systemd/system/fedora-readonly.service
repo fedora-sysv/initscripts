@@ -6,7 +6,10 @@ Before=shutdown.target emergency.service emergency.target systemd-tmpfiles-setup
 After=systemd-remount-fs.service
 
 [Service]
-ExecStart=/lib/systemd/fedora-readonly
+ExecStart=/usr/lib/systemd/fedora-readonly
 Type=oneshot
 TimeoutSec=0
 RemainAfterExit=yes
+
+[Install]
+WantedBy=local-fs.target
