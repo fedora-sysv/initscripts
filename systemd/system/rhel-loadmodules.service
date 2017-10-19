@@ -8,7 +8,10 @@ ConditionPathExists=|/etc/rc.modules
 ConditionDirectoryNotEmpty=|/etc/sysconfig/modules/
 
 [Service]
-ExecStart=/lib/systemd/rhel-loadmodules
+ExecStart=/usr/lib/systemd/rhel-loadmodules
 Type=oneshot
 TimeoutSec=0
 RemainAfterExit=yes
+
+[Install]
+WantedBy=sysinit.target

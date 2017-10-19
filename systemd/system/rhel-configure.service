@@ -7,9 +7,12 @@ After=local-fs.target
 ConditionPathExists=/.unconfigured
 
 [Service]
-ExecStart=/lib/systemd/rhel-configure
+ExecStart=/usr/lib/systemd/rhel-configure
 ExecStopPost=/bin/rm -f /.unconfigured
 Type=oneshot
 TimeoutSec=0
 StandardInput=tty
 RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

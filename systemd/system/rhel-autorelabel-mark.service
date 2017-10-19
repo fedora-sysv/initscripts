@@ -10,6 +10,9 @@ ConditionPathIsDirectory=/etc/selinux
 ConditionPathExists=!/.autorelabel
 
 [Service]
-ExecStart=-/bin/touch /.autorelabel
+ExecStart=-/usr/bin/touch /.autorelabel
 Type=oneshot
 RemainAfterExit=yes
+
+[Install]
+WantedBy=sysinit.target
