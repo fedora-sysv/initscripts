@@ -10,8 +10,11 @@ ConditionKernelCommandLine=|autorelabel
 ConditionPathExists=|/.autorelabel
 
 [Service]
-ExecStart=/lib/systemd/rhel-autorelabel
+ExecStart=/usr/lib/systemd/rhel-autorelabel
 Type=oneshot
 TimeoutSec=0
 RemainAfterExit=yes
 StandardInput=tty
+
+[Install]
+WantedBy=sysinit.target

@@ -84,21 +84,6 @@ install:
 		chmod u=rwx,g=rx,o=rx $$dir; \
 	done
 
-# Can't store symlinks in a CVS archive
-	mkdir -p -m 755 $(ROOT)/usr/lib/systemd/system/multi-user.target.wants
-	mkdir -p -m 755 $(ROOT)/usr/lib/systemd/system/graphical.target.wants
-	mkdir -p -m 755 $(ROOT)/usr/lib/systemd/system/local-fs.target.wants
-	mkdir -p -m 755 $(ROOT)/usr/lib/systemd/system/basic.target.wants
-	mkdir -p -m 755 $(ROOT)/usr/lib/systemd/system/sysinit.target.wants
-	ln -s ../rhel-configure.service $(ROOT)/usr/lib/systemd/system/basic.target.wants
-	ln -s ../rhel-loadmodules.service $(ROOT)/usr/lib/systemd/system/basic.target.wants
-	ln -s ../rhel-autorelabel.service $(ROOT)/usr/lib/systemd/system/basic.target.wants
-	ln -s ../rhel-autorelabel-mark.service $(ROOT)/usr/lib/systemd/system/basic.target.wants
-	ln -s ../rhel-dmesg.service $(ROOT)/usr/lib/systemd/system/basic.target.wants
-	ln -s ../rhel-readonly.service $(ROOT)/usr/lib/systemd/system/local-fs.target.wants
-	ln -s ../rhel-import-state.service $(ROOT)/usr/lib/systemd/system/local-fs.target.wants
-	ln -s ../brandbot.path $(ROOT)/usr/lib/systemd/system/multi-user.target.wants
-
 	mkdir -p $(ROOT)/usr/lib/tmpfiles.d
 	install -m 644 initscripts.tmpfiles.d $(ROOT)/usr/lib/tmpfiles.d/initscripts.conf
 

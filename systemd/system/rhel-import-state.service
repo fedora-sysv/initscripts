@@ -4,11 +4,14 @@ DefaultDependencies=no
 ConditionPathIsReadWrite=/
 ConditionDirectoryNotEmpty=/run/initramfs/state
 Conflicts=shutdown.target
-Before=shutdown.target emergency.service emergency.target systemd-tmpfiles-setup.service basic.target
+Before=shutdown.target emergency.service emergency.target systemd-tmpfiles-setup.service sysinit.target
 After=local-fs.target
 
 [Service]
-ExecStart=/lib/systemd/rhel-import-state
+ExecStart=/usr/lib/systemd/rhel-import-state
 Type=oneshot
 TimeoutSec=0
 RemainAfterExit=yes
+
+[Install]
+WantedBy=sysinit.target

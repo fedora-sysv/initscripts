@@ -32,7 +32,8 @@ Conflicts: NetworkManager < 0.9.9.0-37.git20140131.el7
 Requires(pre): /usr/sbin/groupadd
 Requires(post): /sbin/chkconfig, coreutils
 Requires(preun): /sbin/chkconfig
-BuildRequires: glib2-devel popt-devel gettext pkgconfig
+%{?systemd_requires}
+BuildRequires: glib2-devel popt-devel gettext pkgconfig systemd
 Provides: /sbin/service
 
 %description
@@ -78,6 +79,8 @@ chmod 600 $RPM_BUILD_ROOT/etc/crypttab
 /usr/sbin/groupadd -g 22 -r -f utmp
 
 %post
+%systemd_post brandbot.path rhel-autorelabel.service rhel-autorelabel-mark.service rhel-configure.service rhel-dmesg.service rhel-domainname.service rhel-import-state.service rhel-loadmodules.service rhel-readonly.service
+
 touch /var/log/wtmp /var/run/utmp /var/log/btmp
 chown root:utmp /var/log/wtmp /var/run/utmp /var/log/btmp
 chmod 664 /var/log/wtmp /var/run/utmp
@@ -85,24 +88,23 @@ chmod 600 /var/log/btmp
 
 /usr/sbin/chkconfig --add network
 /usr/sbin/chkconfig --add netconsole
-if [ $1 -eq 1 ]; then
-        /usr/bin/systemctl daemon-reload > /dev/null 2>&1 || :
-fi
 
 %preun
+%systemd_preun brandbot.path rhel-autorelabel.service rhel-autorelabel-mark.service rhel-configure.service rhel-dmesg.service rhel-domainname.service rhel-import-state.service rhel-loadmodules.service rhel-readonly.service
+
 if [ $1 = 0 ]; then
   /usr/sbin/chkconfig --del network
   /usr/sbin/chkconfig --del netconsole
 fi
 
-%triggerun -- initscripts < 7.62
-/usr/sbin/chkconfig --del random
-/usr/sbin/chkconfig --del rawdevices
-exit 0
-
 %postun
-if [ $1 -ge 1 ]; then
-  /usr/bin/systemctl daemon-reload > /dev/null 2>&1 || :
+%systemd_postun brandbot.path rhel-autorelabel.service rhel-autorelabel-mark.service rhel-configure.service rhel-dmesg.service rhel-domainname.service rhel-import-state.service rhel-loadmodules.service rhel-readonly.service
+
+# We need to keep this in initscripts until the EOL of RHEL-7.2-EUS:
+%triggerun -- initscripts < 9.49.40
+if [ $1 -gt 1 ]; then
+  systemctl enable brandbot.path rhel-autorelabel.service rhel-autorelabel-mark.service rhel-configure.service rhel-dmesg.service rhel-domainname.service rhel-import-state.service rhel-loadmodules.service rhel-readonly.service &> /dev/null || :
+  echo -e "\nUPGRADE: Automatically re-enabling default systemd units:\n\tbrandbot.path\n\trhel-autorelabel.service\n\trhel-autorelabel-mark.service\n\trhel-configure.service\n\trhel-dmesg.service\n\trhel-domainname.service\n\trhel-import-state.service\n\trhel-loadmodules.service\n\trhel-readonly.service\n" || :
 fi
 
 %clean
