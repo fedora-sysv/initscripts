@@ -81,7 +81,7 @@ if [ -f "${SERVICEDIR}/${SERVICE}" ]; then
    env -i PATH="$PATH" TERM="$TERM" SYSTEMCTL_IGNORE_DEPENDENCIES=${SYSTEMCTL_IGNORE_DEPENDENCIES} SYSTEMCTL_SKIP_REDIRECT=${SYSTEMCTL_SKIP_REDIRECT} "${SERVICEDIR}/${SERVICE}" ${ACTION} ${OPTIONS}
 elif [ -n "${ACTION}" ] && [ -x "${ACTIONDIR}/${SERVICE}/${ACTION}" ]; then
    env -i PATH="$PATH" TERM="$TERM" SYSTEMCTL_IGNORE_DEPENDENCIES=${SYSTEMCTL_IGNORE_DEPENDENCIES} SYSTEMCTL_SKIP_REDIRECT=${SYSTEMCTL_SKIP_REDIRECT} "${ACTIONDIR}/${SERVICE}/${ACTION}" ${OPTIONS}
-elif `echo $ACTION | egrep -qw "start|stop|restart|try-restart|reload|force-reload|status|condrestart"` ; then
+elif `echo $ACTION | grep -Eqw "start|stop|restart|try-restart|reload|force-reload|status|condrestart"` ; then
    SERVICE_MANGLED=$(/usr/bin/systemd-escape --mangle ${SERVICE})
    echo $"Redirecting to /bin/systemctl ${ACTION}${OPTIONS:+ }${OPTIONS} ${SERVICE_MANGLED}" >&2
    exec /bin/systemctl ${ACTION} ${OPTIONS} ${SERVICE_MANGLED}
