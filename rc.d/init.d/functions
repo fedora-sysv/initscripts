@@ -59,7 +59,7 @@ systemctl_redirect () {
 [ -z "${COLUMNS:-}" ] && COLUMNS=80
 
 if [ -z "${CONSOLETYPE:-}" ]; then
-    if [ -c "/dev/stderr" -a -r "/dev/stderr" ]; then
+    if [ -c "/dev/stderr" ] && [ -r "/dev/stderr" ]; then
         CONSOLETYPE="$(/sbin/consoletype < /dev/stderr 2>/dev/null)"
     else
         CONSOLETYPE="serial"
@@ -194,7 +194,7 @@ __pids_var_run() {
     local pid_dir=$(/usr/bin/dirname $pid_file > /dev/null)
     local binary=$3
 
-    [ -d "$pid_dir" -a ! -r "$pid_dir" ] && return 4
+    [ -d "$pid_dir" ] && [ ! -r "$pid_dir" ] && return 4
 
     pid=
     if [ -f "$pid_file" ] ; then

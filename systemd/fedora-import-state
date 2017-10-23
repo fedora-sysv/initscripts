@@ -34,6 +34,6 @@ IFS=$IFS_backup
 
 # Run restorecon on the copied files:
 # ===================================
-if [ -e /sys/fs/selinux/enforce -a -x /usr/sbin/restorecon ]; then
+if [ -e /sys/fs/selinux/enforce ] && [ -x /usr/sbin/restorecon ]; then
     find . -mindepth 1 -print0 | { cd / && xargs --null restorecon -iF; }
 fi
