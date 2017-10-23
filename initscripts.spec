@@ -395,7 +395,7 @@ ng
 
 * Fri May 31 2013 Lukáš Nykrýn <lnykryn@redhat.com> - 9.47-1
 - network-functions: to determine state of nscd check socket not lock (#960779)
-- sysconfig.txt advised saslauthd -a instad of -v
+- sysconfig.txt advised saslauthd -a instead of -v
 - update translations from transifex
 - drop translation for other initscripts
 - tweak ifup/ifdown usage and man page (#961917)
@@ -1041,7 +1041,7 @@ ng
   by booting)
 - serial: add a crude hack to wait for runlevels to finish (#437379)
 - serial: frob /etc/securetty when necessary (#437381)
-- add a upstart-specific inittab
+- add an upstart-specific inittab
 - translation updates: as, bn_IN, cs, de, es, fi, fr, gu, hi, it, ja, kn, ml, mr, nb,
   nl, pa, pl, pt_BR, ru, sk, sr, ta, te, zh_CN
 
@@ -1532,7 +1532,7 @@ ng
 - network-functions: don't error out if hotplug doesn't exist (#140008)
 - ifup: always return errors on trying to bring up nonexistent devices (#131461)
 - ifup: fix error message (#143674)
-- rc.sysinit: add a autorelabel boot target (#154496)
+- rc.sysinit: add an autorelabel boot target (#154496)
 - prefdm: if something else is specified as $DISPLAYMANAGER, try that (#147304)
 - remove support for the old firewall type
 - network: optimize some (#138557, <drepper@redhat.com>)
@@ -1858,7 +1858,7 @@ ng
 - readonly root fixes (<alexl@redhat.com>)
 
 * Tue May 25 2004 Karsten Hopp <karsten@redhat.de> 7.56-1
-- special TYPE for qeth devices to differenciate them from ethX
+- special TYPE for qeth devices to differentiate them from ethX
 
 * Mon May 24 2004 Bill Nottingham <notting@redhat.com>
 - fix pppd vs. ppp typo in conflicts (#123680)
@@ -2382,7 +2382,7 @@ ng
 
 * Sun Sep  2 2001 Than Ngo <than@redhat.com>
 - add ISDN patches from pekkas@netcore.fi and pb@bieringer.de (bug #52491)
-- fix handling of ISDN LSZ Compresssion
+- fix handling of ISDN LSZ Compression
 
 * Thu Aug 30 2001 Than Ngo <than@redhat.com>
 - po/de.po: fix typo bug, lo instead 1o
