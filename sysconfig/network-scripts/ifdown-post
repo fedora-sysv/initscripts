@@ -18,35 +18,39 @@ source_config
 
 /etc/sysconfig/network-scripts/ifdown-routes ${REALDEVICE} ${DEVNAME}
 
-if [ "$PEERDNS" != "no" -o -n "$RESOLV_MODS" -a "$RESOLV_MODS" != "no" ] && \
+# Remove duplicate DNS entries and shift them,
+# to have always correct condition below...
+update_DNS_entries
+
+if ! is_false "${PEERDNS}" || ! is_false "${RESOLV_MODS}" && \
     [ "${DEVICETYPE}" = "ppp" -o "${DEVICETYPE}" = "ippp" -o -n "${DNS1}" \
     -o "${BOOTPROTO}" = "bootp" -o "${BOOTPROTO}" = "dhcp" ] ; then
-if [ -f /etc/resolv.conf.save ]; then
-    change_resolv_conf /etc/resolv.conf.save
-    rm -f /etc/resolv.conf.save
-fi
-if [ "${DEVICETYPE}" = "ppp" -o "${DEVICETYPE}" = "ippp" ]; then
-    if [ -f /etc/ppp/peers/$DEVICE ] ; then
-        rm -f /etc/ppp/peers/$DEVICE
+    if [ -f /etc/resolv.conf.save ]; then
+        change_resolv_conf /etc/resolv.conf.save
+        rm -f /etc/resolv.conf.save
     fi
-fi
+    if [ "${DEVICETYPE}" = "ppp" -o "${DEVICETYPE}" = "ippp" ]; then
+        if [ -f /etc/ppp/peers/$DEVICE ] ; then
+            rm -f /etc/ppp/peers/$DEVICE
+        fi
+    fi
 fi
 
 # Reset the default route if this interface had a special one
 if ! check_default_route ; then
     # ISDN device needs special handling dial on demand
     if [ "${DEVICETYPE}" = "ippp" -o "${DEVICETYPE}" = "isdn" ] && \
-        [ "$DIALMODE" = "auto" ] ; then
-    if [ -z "$GATEWAY" ] ; then
-        /sbin/ip route add default ${METRIC:+metric} \
-            ${WINDOW:+window $WINDOW} dev ${DEVICE}
+       [ "$DIALMODE" = "auto" ] ; then
+        if [ -z "$GATEWAY" ] ; then
+            /sbin/ip route add default ${METRIC:+metric} \
+                ${WINDOW:+window $WINDOW} dev ${DEVICE}
+        else
+            /sbin/ip route add default ${METRIC:+metric} \
+                ${WINDOW:+window $WINDOW} via ${GATEWAY}
+        fi
     else
-        /sbin/ip route add default ${METRIC:+metric} \
-            ${WINDOW:+window $WINDOW} via ${GATEWAY}
+        add_default_route ${DEVICE}
     fi
-else
-    add_default_route ${DEVICE}
-fi
 fi
 
 # Inform firewall
