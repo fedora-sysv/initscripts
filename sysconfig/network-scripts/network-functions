@@ -697,3 +697,32 @@ net_log()
     fi
     return 0
 }
+
+update_DNS_entries()
+{
+    # Remove duplicate values from DNS options if any:
+    if [ -n "${DNS3}" ] && [[ "${DNS3}" == "${DNS2}" || "${DNS3}" == "${DNS1}" ]]; then
+        unset DNS3
+    fi
+
+    if [ -n "${DNS2}" ] && [[ "${DNS2}" == "${DNS1}" ]]; then
+        unset DNS2
+    fi
+
+    # Shift the DNS options if necessary:
+    if [ -z "${DNS1}" ] && [ -n "${DNS2}" ]; then
+        DNS1="${DNS2}"
+        unset DNS2
+    fi
+
+    if [ -z "${DNS2}" ] && [ -n "${DNS3}" ]; then
+        DNS2="${DNS3}"
+        unset DNS3
+    fi
+
+    # We need to check DNS1 again in case only DNS3 was set at all:
+    if [ -z "${DNS1}" ] && [ -n "${DNS2}" ]; then
+        DNS1="${DNS2}"
+        unset DNS2
+    fi
+}
