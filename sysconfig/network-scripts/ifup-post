@@ -110,7 +110,8 @@ if [ "${REALDEVICE}" != "lo" ]; then
     dbus-send --system --dest=org.fedoraproject.FirewallD1 \
               /org/fedoraproject/FirewallD1 \
               org.fedoraproject.FirewallD1.zone.changeZoneOfInterface \
-              string:"${ZONE}" string:"${DEVICE}"
+              string:"${ZONE}" string:"${DEVICE}" \
+              &> /dev/null
 fi
 
 # Notify programs that have requested notification
