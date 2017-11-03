@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.49.39
+Version: 9.49.40
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -220,6 +220,19 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Fri Nov 03 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.49.40-1
+- require 'redhat-release' instead of /etc/system-release & conflict with older versions
+- ifup-post: always update 'nameserver' & 'search' entries in /etc/resolv.conf
+- systemd/system: symlinks for initscripts' services removed
+- *.old extension added to list of ignored files
+- ifup-eth: wait for STP to complete setup on bridge if $DELAY is not set
+- init.d/functions: convert2sec() function added
+- init.d/functions: is_true() & is_false() extended by ON/OFF support
+- usleep(1) calls replaced with sleep(1) calls
+- network-scripts: DBus calls forwarded to /dev/null
+- network-scripts: firewall-cmd replaced with DBus calls
+- ARPUDATE option introduced
+
 * Wed May 03 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.49.39-1
 - sysconfig.txt: mention previously introduced NO_DHCP_HOSTNAME option
 - DHCP_FQDN and DHCP_SEND_HOSTNAME introduced
