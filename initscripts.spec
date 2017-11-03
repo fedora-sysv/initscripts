@@ -22,8 +22,8 @@ Conflicts: lvm2 < 2.02.100-5
 Conflicts: dmraid < 1.0.0.rc16-18
 Requires: systemd
 Requires: iproute, /sbin/arping, findutils
-# Not strictly required, but nothing else requires it
-Requires: /etc/system-release
+Requires: redhat-release
+Conflicts: redhat-release < 7.5-0.11
 Requires: udev >= 125-1
 Requires: cpio
 Requires: hostname
