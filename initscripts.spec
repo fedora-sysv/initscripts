@@ -19,8 +19,6 @@ Conflicts: dmraid < 1.0.0.rc16-18
 Conflicts: policycoreutils < 2.5-6
 Requires: systemd
 Requires: iproute, /sbin/arping, findutils
-# Not strictly required, but nothing else requires it
-Requires: /etc/system-release
 Requires: cpio
 Requires: hostname
 Conflicts: ipsec-tools < 0.8.0-2
