@@ -138,7 +138,7 @@ if [ "${REALDEVICE}" != "lo" ]; then
               /org/fedoraproject/FirewallD1 \
               org.fedoraproject.FirewallD1.zone.changeZoneOfInterface \
               string:"${ZONE}" string:"${DEVICE}" \
-              &> /dev/null
+              > /dev/null 2>&1
 fi
 
 # Notify programs that have requested notification
