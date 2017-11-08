@@ -1,6 +1,6 @@
 Summary: Scripts to bring up network interfaces and legacy utilities
 Name: initscripts
-Version: 9.77
+Version: 9.78
 License: GPLv2
 Group: System Environment/Base
 Release: 1%{?dist}
@@ -159,6 +159,21 @@ fi
 %dir %{_libexecdir}/initscripts/legacy-actions
 
 %changelog
+* Wed Nov 08 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.78-1
+- specfile: drop dependancy on /etc/system-release
+- ifup-post: always update nameserver & search entries in /etc/resolv.conf
+- network-scripts: forward DBus calls to /dev/null
+- Spelling fixes
+- Tell git to ignore *.o
+- Use grep -E instead of deprecated egrep
+- Avoid some unnecessary stat calls
+- systemd/system: symlinks for fedora-* services removed
+- network-scripts: firewall-cmd replaced with DBus calls
+- 'debugmode' subpackage dropped completely
+- sysconfig/init* files dropped
+- sysctl.conf.s390 dropped
+- usleep: change the error message to print the full replacement commandline
+
 * Tue Aug 15 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.77-1
 - specfile: Fix failing build for s390* architecture
 - Drop no longer supported SPARC architecture
