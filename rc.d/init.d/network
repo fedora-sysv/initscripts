@@ -167,6 +167,15 @@ stop)
         exit 1
     fi
 
+    # Don't shut the network down when shutting down the system if configured
+    # as such in sysconfig
+    if [ "$IFDOWN_ON_SHUTDOWN" = no ]; then
+      if systemctl is-system-running | grep -q 'stopping'; then
+        net_log "system is shutting down, leaving interfaces up as requested"
+        exit 1
+      fi
+    fi
+
     vlaninterfaces=""
     vpninterfaces=""
     xdslinterfaces=""
