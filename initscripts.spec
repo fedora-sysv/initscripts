@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.49.40
+Version: 9.49.41
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -220,6 +220,10 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Tue Jan 02 2018 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.49.41-1
+- ifdown-post: fix logical error in commit 5d61564
+- network-functions: use POSIX forwarding instead of bash-ism
+
 * Fri Nov 03 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.49.40-1
 - require 'redhat-release' instead of /etc/system-release & conflict with older versions
 - ifup-post: always update 'nameserver' & 'search' entries in /etc/resolv.conf
