@@ -22,7 +22,7 @@ source_config
 # to have always correct condition below...
 update_DNS_entries
 
-if ! is_false "${PEERDNS}" || ! is_false "${RESOLV_MODS}" && \
+if ! is_false "${PEERDNS}" || is_true "${RESOLV_MODS}" && \
     [ "${DEVICETYPE}" = "ppp" -o "${DEVICETYPE}" = "ippp" -o -n "${DNS1}" \
     -o "${BOOTPROTO}" = "bootp" -o "${BOOTPROTO}" = "dhcp" ] ; then
     if [ -f /etc/resolv.conf.save ]; then
