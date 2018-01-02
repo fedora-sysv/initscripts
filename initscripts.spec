@@ -1,6 +1,6 @@
 Summary: Scripts to bring up network interfaces and legacy utilities
 Name: initscripts
-Version: 9.78
+Version: 9.79
 License: GPLv2
 Group: System Environment/Base
 Release: 1%{?dist}
@@ -159,6 +159,11 @@ fi
 %dir %{_libexecdir}/initscripts/legacy-actions
 
 %changelog
+* Tue Jan 02 2018 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.79-1
+- ifdown-post: fix logical error in commit 5d61564
+- network: add knob to optionally keep interfaces up during shutdown
+- network-functions: use POSIX forwarding instead of bash-ism
+
 * Wed Nov 08 2017 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.78-1
 - specfile: drop dependancy on /etc/system-release
 - ifup-post: always update nameserver & search entries in /etc/resolv.conf
