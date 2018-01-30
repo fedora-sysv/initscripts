@@ -45,7 +45,11 @@ while [ $# -gt 0 ]; do
               *)
                 if ! is_ignored_file "${SERVICE}" \
 		    && [ -x "${SERVICEDIR}/${SERVICE}" ]; then
-                  env -i PATH="$PATH" TERM="$TERM" "${SERVICEDIR}/${SERVICE}" status
+                  if grep -e "'status'" -e '\"status\"' -e 'status[[:blank:]]*)' "${SERVICEDIR}/${SERVICE}" > /dev/null 2>&1; then
+                    env -i PATH="$PATH" TERM="$TERM" "${SERVICEDIR}/${SERVICE}" status
+                  else
+                    echo $"Warning: ${SERVICEDIR}/${SERVICE} does not support reporting of its status" >&2
+                  fi
                 fi
                 ;;
             esac
