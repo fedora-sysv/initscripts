@@ -139,8 +139,13 @@ __kill_pids_term_kill() {
     local try=0
     local delay=3;
     local pid=
-    local stat=($(< /proc/self/stat))
-    local base_stime=${stat[21]}
+    local stat=
+    local base_stime=
+
+    # We can't initialize stat & base_stime on the same line where 'local'
+    # keyword is, otherwise the sourcing of this file will fail for ksh...
+    stat=($(< /proc/self/stat))
+    base_stime=${stat[21]}
 
     if [ "$1" = "-d" ]; then
         delay=$2
