@@ -28,7 +28,7 @@ Requires(pre): /usr/sbin/groupadd
 Requires(post): /sbin/chkconfig, coreutils
 Requires(preun): /sbin/chkconfig
 %{?systemd_requires}
-BuildRequires: glib2-devel popt-devel gettext pkgconfig systemd
+BuildRequires: gcc glib2-devel popt-devel gettext pkgconfig systemd
 Provides: /sbin/service
 
 %description
