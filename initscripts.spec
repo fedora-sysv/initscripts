@@ -72,13 +72,6 @@ fi
 %postun
 %systemd_postun fedora-import-state.service fedora-loadmodules.service fedora-readonly.service
 
-# This should be removed in Rawhide for Fedora 29:
-%triggerun -- initscripts < 9.78
-if [ $1 -gt 1 ]; then
-  systemctl enable fedora-import-state.service fedora-readonly.service &> /dev/null || :
-  echo -e "\nUPGRADE: Automatically re-enabling default systemd units: fedora-import-state.service fedora-readonly.service\n" || :
-fi
-
 %files -f %{name}.lang
 %defattr(-,root,root)
 %dir %{_sysconfdir}/sysconfig/network-scripts
