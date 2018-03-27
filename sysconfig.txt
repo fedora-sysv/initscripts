@@ -931,7 +931,12 @@ Files in /etc/sysconfig/network-scripts/
       "mode=active-backup arp_interval=60 arp_ip_target=192.168.1.1,192.168.1.2"
 
   Tunnel-specific items:
-    TYPE=GRE|IPIP|IPIP6
+    TYPE=GRE|IPIP|IPIP6|EXTERNAL
+      External is a mode for ip6_tunnel interfaces (that cannot be set on
+      the primary ip6tnl0 interface), which permits unwrapping encapsulated
+      packets regardless of their internal IP (v4 or v6) provided the inner
+      address is on the interface. Use $MY_INNER_IPADDR for v4 addresses. Use
+      $IPV6ADDR and $IPV6ADDR_SECONDARIES as usual for v6 addresses.
     MY_INNER_IPADDR=local IP address of the tunnel interface
     PEER_OUTER_IPADDR=IP address of the remote tunnel endpoint
     MY_OUTER_IPADDR=IP address of the local tunnel endpoint
