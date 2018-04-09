@@ -16,7 +16,7 @@ HOSTNAME="$(hostname)"
 get_hwaddr ()
 {
     if [ -f /sys/class/net/${1}/address ]; then
-        awk '{ print toupper($0) }' < /sys/class/net/${1}/address
+        tr '[a-z]' '[A-Z]' < /sys/class/net/${1}/address
     elif [ -d "/sys/class/net/${1}" ]; then
         LC_ALL= LANG= ip -o link show ${1} 2>/dev/null | \
             awk '{ print toupper(gensub(/.*link\/[^ ]* ([[:alnum:]:]*).*/,
@@ -160,10 +160,10 @@ source_config ()
         ;;
     esac
     if [ -n "$HWADDR" ]; then
-        HWADDR=$(echo $HWADDR | awk '{ print toupper($0) }')
+        HWADDR=$(tr '[a-z]' '[A-Z]' <<<"$HWADDR")
     fi
     if [ -n "$MACADDR" ]; then
-        MACADDR=$(echo $MACADDR | awk '{ print toupper($0) }')
+        MACADDR=$(tr '[a-z]' '[A-Z]' <<<"$MACADDR")
     fi
     [ -z "$DEVICE" -a -n "$HWADDR" ] && DEVICE=$(get_device_by_hwaddr $HWADDR)
     [ -z "$DEVICETYPE" ] && DEVICETYPE=$(echo ${DEVICE} | sed "s/[0-9]*$//")
