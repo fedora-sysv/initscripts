@@ -26,7 +26,7 @@ fi
 
 [ -z "$PREFIX" ] && eval $(/bin/ipcalc --prefix ${IPADDR} ${NETMASK})
 ip addr add ${IPADDR} peer ${GATEWAY}/${PREFIX} dev ${DEVICE}
-ip link set up dev ${DEVICE}
+set_link_up ${DEVICE}
 # Wait for the device to come up - the chandev'ified ctc driver can take
 # quite a while...
 timeout=0

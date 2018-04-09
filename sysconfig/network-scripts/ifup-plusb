@@ -29,7 +29,7 @@ if [ ${BROADCAST} != ""  ]  ; then
 else
     ip addr add ${IPADDR} peer ${REMIP}/${PREFIX} dev ${DEVICE}
 fi
-ip link set up dev ${DEVICE}
+set_link_up ${DEVICE}
 
 . /etc/sysconfig/network
 

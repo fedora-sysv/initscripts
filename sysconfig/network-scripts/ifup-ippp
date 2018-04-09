@@ -342,7 +342,7 @@ function addprovider()
     # activate ISDN device
     /usr/bin/logger -p daemon.info -t ifup-ippp "ip addr add $IPADDR peer $GATEWAY${pfx:/$pfx} dev $DEVICE"
     ip addr add $IPADDR peer $GATEWAY${pfx:/$pfx} dev $DEVICE
-    ip link set dev $DEVICE up
+    set_link_up $DEVICE
 
     if [ "$ENCAP" = "syncppp" ]; then
         # start ipppd daemon

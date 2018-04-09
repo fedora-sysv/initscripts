@@ -468,11 +468,14 @@ check_device_down ()
     fi
 }
 
+set_link_up ()
+{
+    [ "$LINKSTATUS" = down ] || grep -qsx 1 /sys/class/net/$1/carrier && ip link set dev $1 up >/dev/null 2>&1
+}
+
 check_link_down ()
 {
-    if ! LC_ALL=C ip link show dev $1 2>/dev/null| grep -q ",UP" ; then
-        ip link set dev $1 up >/dev/null 2>&1
-    fi
+    set_link_up $1
     timeout=0
     delay=10
     [ -n "$LINKDELAY" ] && delay=$(($LINKDELAY * 2))

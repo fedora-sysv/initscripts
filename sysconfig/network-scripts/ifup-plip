@@ -12,7 +12,7 @@ fi
 
 [ -z "$PREFIX" ] && eval $(/bin/ipcalc --prefix ${IPADDR} ${NETMASK})
 ip addr add ${IPADDR} peer ${REMIP}/${PREFIX} dev ${DEVICE}
-ip link set up dev ${DEVICE}
+set_link_up ${DEVICE}
 ip route add ${NETWORK} dev ${DEVICE}
 
 . /etc/sysconfig/network
