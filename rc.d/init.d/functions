@@ -952,7 +952,7 @@ init_crypto() {
 	    fi
 	else
 	    [ -z "$key" ] && plymouth --hide-splash
-	    /sbin/cryptsetup $params ${key:+-d $key} create "$dst" "$src" <&1 2>/dev/null && success || failure
+	    /sbin/cryptsetup $params ${key:+-d $key} create "$dst" "$src" <&1 && success || failure
 	    rc=$?
 	    [ -z "$key" ] && plymouth --show-splash
 	fi
