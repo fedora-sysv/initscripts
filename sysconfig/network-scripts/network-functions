@@ -384,11 +384,11 @@ is_hostname_set ()
     case "${HOSTNAME}" in
         '(none)' | 'localhost' | 'localhost.localdomain')
             # Hostname NOT set:
-            return 1
+            return 0
             ;;
         *)
             # Hostname IS set:
-            return 0
+            return 1
             ;;
     esac
 }
