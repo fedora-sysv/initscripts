@@ -2,13 +2,13 @@
 
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.03.60
+Version: 9.03.61
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
 Release: 1%{?dist}
-URL: http://fedorahosted.org/releases/i/n/initscripts/
-Source: http://fedorahosted.org/releases/i/n/initscripts/initscripts-%{version}.tar.bz2
+URL: https://github.com/fedora-sysv/initscripts
+Source: https://github.com/fedora-sysv/initscripts/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 Requires: mingetty, /bin/awk, /bin/sed, mktemp
 Requires: /sbin/sysctl
@@ -248,6 +248,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Thu Apr 27 2018 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.03.61-1
+- Move Source & URL to Github
+
 * Thu Apr 26 2018 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.03.60-1
 - cryptsetup: do not forward STDERR to /dev/null when promting for passphrase
 
