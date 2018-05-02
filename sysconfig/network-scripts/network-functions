@@ -554,6 +554,8 @@ bond_master_exists ()
 
 install_bonding_driver ()
 {
+    local fn="install_bonding_driver"
+
     if ! bond_master_exists ${1}; then
         modprobe bonding || return 1
         echo "+$1" > /sys/class/net/bonding_masters 2>/dev/null
@@ -578,11 +580,15 @@ install_bonding_driver ()
                 value=${bopts_vals[$idx]}
 
                 if [ "${key}" = "mode" ] ; then
-                    echo "${value}" > /sys/class/net/${DEVICE}/bonding/$key
+                    echo "${value}" > /sys/class/net/${DEVICE}/bonding/$key || {
+                        net_log $"Failed to set value '$value' [mode] to ${DEVICE} bonding device" err $fn
+                    }
                     bopts_keys[$idx]=""
                 fi
                 if [ "${key}" = "miimon" ] ; then
-                    echo "${value}" > /sys/class/net/${DEVICE}/bonding/$key
+                    echo "${value}" > /sys/class/net/${DEVICE}/bonding/$key || {
+                        net_log $"Failed to set value '$value' [miimon] to ${DEVICE} bonding device" err $fn
+                    }
                     bopts_keys[$idx]=""
                 fi
             done
@@ -600,16 +606,22 @@ install_bonding_driver ()
                     IFS=',';
                     for arp_ip in $value; do
                         if ! grep -q $arp_ip /sys/class/net/${DEVICE}/bonding/$key; then
-                            echo +$arp_ip > /sys/class/net/${DEVICE}/bonding/$key
+                            echo +$arp_ip > /sys/class/net/${DEVICE}/bonding/$key || {
+                                net_log $"Failed to set '$arp_ip' value [arp_ip_target] to ${DEVICE} bonding device" err $fn
+                            }
                         fi
                     done
                     IFS=$OLDIFS;
                 elif [ "${key}" = "arp_ip_target" ]; then
                     if ! grep -q ${value#+} /sys/class/net/${DEVICE}/bonding/$key; then
-                        echo "$value" > /sys/class/net/${DEVICE}/bonding/$key
+                        echo "$value" > /sys/class/net/${DEVICE}/bonding/$key || {
+                            net_log $"Failed to set '$value' value [arp_ip_target] to ${DEVICE} bonding device" err $fn
+                        }
                     fi
                 elif [ "${key}" != "primary" ]; then
-                    echo $value > /sys/class/net/${DEVICE}/bonding/$key
+                    echo $value > /sys/class/net/${DEVICE}/bonding/$key || {
+                        net_log $"Failed to set '$value' value [$key] to ${DEVICE} bonding device" err $fn
+                    }
                 fi
             done
         fi
