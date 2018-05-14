@@ -86,7 +86,7 @@ fi
 /etc/sysconfig/network-scripts/ifdown-ipv6 ${CONFIG}
 
 retcode=0
-[ -n "$(pidof -x dhclient)" ] && {
+
 for VER in "" 6 ; do
     if [ -f "/var/run/dhclient$VER-${DEVICE}.pid" ]; then
         dhcpid=$(cat /var/run/dhclient$VER-${DEVICE}.pid)
@@ -105,7 +105,7 @@ for VER in "" 6 ; do
         fi  
     fi
 done
-}  
+
 # we can't just delete the configured address because that address
 # may have been changed in the config file since the device was
 # brought up.  Flush all addresses associated with this
