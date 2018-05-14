@@ -62,7 +62,8 @@ def xgettext(arq):
                         p2 = p2 + 1
                     else:
                         break
-                    text = l[p1:p2]
+
+                text = l[p1:p2]
 
                 if text in s:
                     s[text].append((arq, line))
