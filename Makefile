@@ -103,24 +103,18 @@ install-post: install-etc
 	touch $(DESTDIR)$(sysconfdir)/rc.d/rc.local
 	chmod 0755 $(DESTDIR)$(sysconfdir)/rc.d/rc.local
 
-changelog:
-	@rm -f ChangeLog
-	git log --stat > ChangeLog
-
 clean:
 	make clean -C src
 	make clean -C po
-	@rm -fv *~ changenew ChangeLog.old *gz
 	@find . -name "*~" -exec rm -v -f {} \;
 
 tag:
 	@git tag -a -f -m "Tag as $(TAG)" $(TAG)
 	@echo "Tagged as $(TAG)"
 
-archive: clean changelog
+archive: clean
 	@git archive --format=tar --prefix=initscripts-$(VERSION)/ HEAD > initscripts-$(VERSION).tar
 	@mkdir -p initscripts-$(VERSION)/
-	@cp ChangeLog initscripts-$(VERSION)/
 	@tar --append -f initscripts-$(VERSION).tar initscripts-$(VERSION)
 	@gzip -f initscripts-$(VERSION).tar
 	@rm -rf initscripts-$(VERSION)
