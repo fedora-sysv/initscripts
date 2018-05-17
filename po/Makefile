@@ -28,7 +28,7 @@ CATALOGS    = $(shell ls *.po)
 FMTCATALOGS = $(patsubst %.po,%.mo,$(CATALOGS))
 
 POTFILES    = $(shell ls ../network-scripts/* | grep -v ifcfg-) \
-	..$(sbindir)/service ..$(sbindir)/sys-unconfig \
+	..$(sbindir)/service \
 	..$(libdir)/systemd/fedora-* \
 	..$(sysconfdir)/rc.d/init.d/*\
 
