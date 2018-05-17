@@ -79,7 +79,3 @@ usleep: build/usleep.o
 
 build/usleep.o: usleep.c
 	$(CC) $(CFLAGS) -c -o $@ $^
-
-
-build/shvar.o: shvar.c
-	$(CC) $(CFLAGS) -c -o $@ $^ `pkg-config glib-2.0 --cflags`
