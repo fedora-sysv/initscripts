@@ -171,13 +171,12 @@ fi
 
 # ---------------
 
-%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/adjtime
-%config(noreplace)                             %{_sysconfdir}/networks
-%config(noreplace)                             %{_sysconfdir}/rwtab
-%config(noreplace)                             %{_sysconfdir}/statetab
-%config(noreplace)                             %{_sysconfdir}/sysconfig/netconsole
-%config(noreplace)                             %{_sysconfdir}/sysconfig/readonly-root
-%config(noreplace)                             %{_sysconfdir}/sysconfig/network-scripts/ifcfg-lo
+%config(noreplace) %{_sysconfdir}/networks
+%config(noreplace) %{_sysconfdir}/rwtab
+%config(noreplace) %{_sysconfdir}/statetab
+%config(noreplace) %{_sysconfdir}/sysconfig/netconsole
+%config(noreplace) %{_sysconfdir}/sysconfig/readonly-root
+%config(noreplace) %{_sysconfdir}/sysconfig/network-scripts/ifcfg-lo
 
 %ghost %config(noreplace, missingok) %verify(not md5 size mtime) %{_sysconfdir}/rc.d/rc.local
 
