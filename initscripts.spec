@@ -211,7 +211,6 @@ fi
 %{_sbindir}/genhostid
 %{_sbindir}/service
 %{_sbindir}/sushell
-%{_sbindir}/sys-unconfig
 
 %ghost %{_sbindir}/ifup
 %ghost %{_sbindir}/ifdown
