@@ -185,7 +185,6 @@ fi
 
 # ---------------
 
-%config(noreplace) %{_sysconfdir}/networks
 %config(noreplace) %{_sysconfdir}/rwtab
 %config(noreplace) %{_sysconfdir}/statetab
 %config(noreplace) %{_sysconfdir}/sysconfig/netconsole
