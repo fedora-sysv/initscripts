@@ -210,7 +210,6 @@ fi
 %{_sbindir}/consoletype
 %{_sbindir}/genhostid
 %{_sbindir}/service
-%{_sbindir}/sushell
 
 %ghost %{_sbindir}/ifup
 %ghost %{_sbindir}/ifdown
