@@ -43,13 +43,9 @@ install:
 	mkdir -p $(ROOT)/etc/sysconfig/modules
 	mkdir -p $(ROOT)/etc/sysconfig/console
 
-	mv $(ROOT)/etc/sysconfig/network-scripts/ifup $(ROOT)/usr/sbin
-	mv $(ROOT)/etc/sysconfig/network-scripts/ifdown $(ROOT)/usr/sbin
 	(cd $(ROOT)/etc/sysconfig/network-scripts; \
 	  ln -sf ifup-ippp ifup-isdn ; \
-	  ln -sf ifdown-ippp ifdown-isdn ; \
-	  ln -sf ../../../usr/sbin/ifup . ; \
-	  ln -sf ../../../usr/sbin/ifdown . )
+	  ln -sf ifdown-ippp ifdown-isdn )
 	make install ROOT=$(ROOT) mandir=$(mandir) -C src
 	make install PREFIX=$(ROOT) -C po
 
