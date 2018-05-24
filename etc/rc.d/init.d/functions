@@ -58,21 +58,6 @@ systemctl_redirect () {
 # Get a sane screen width
 [ -z "${COLUMNS:-}" ] && COLUMNS=80
 
-if [ -z "${CONSOLETYPE:-}" ]; then
-    if [ -c "/dev/stderr" ] && [ -r "/dev/stderr" ]; then
-        CONSOLETYPE="$(/sbin/consoletype < /dev/stderr 2>/dev/null)"
-    else
-        CONSOLETYPE="serial"
-    fi
-fi
-
-if [ -z "${NOLOCALE:-}" ] && [ -z "${LANGSH_SOURCED:-}" ] && \
-        [ -f /etc/sysconfig/i18n -o -f /etc/locale.conf ] ; then
-    . /etc/profile.d/lang.sh 2>/dev/null
-    # avoid propagating LANGSH_SOURCED any further
-    unset LANGSH_SOURCED
-fi
-
 # Read in our configuration
 if [ -z "${BOOTUP:-}" ]; then
     if [ -f /etc/sysconfig/init ]; then
@@ -98,7 +83,9 @@ if [ -z "${BOOTUP:-}" ]; then
         # Verbosity of logging:
         LOGLEVEL=1
     fi
-    if [ "$CONSOLETYPE" = "serial" ]; then
+
+    # NOTE: /dev/ttyS* is serial console.
+    if tty | grep --quiet -e '/dev/ttyS'; then
         BOOTUP=serial
         MOVE_TO_COL=
         SETCOLOR_SUCCESS=
