@@ -141,9 +141,6 @@ if [ "${REALDEVICE}" != "lo" ]; then
               > /dev/null 2>&1
 fi
 
-# Notify programs that have requested notification
-do_netreport
-
 if [ -x /sbin/ifup-local ]; then
     /sbin/ifup-local ${DEVICE}
 fi

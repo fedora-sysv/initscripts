@@ -94,7 +94,6 @@ install-post: install-etc
 	install -m 0755 -d $(DESTDIR)$(sharedstatedir)/stateless/state
 	install -m 0755 -d $(DESTDIR)$(sharedstatedir)/stateless/writable
 	install -m 0755 -d $(DESTDIR)$(libexecdir)/initscripts/legacy-actions
-	install -m 0775 -d $(DESTDIR)/run/netreport
 	for idx in {0..6}; do \
 	    dir=$(DESTDIR)$(sysconfdir)/rc.d/rc$$idx.d; \
 	    install -m 0755 -d $$dir; \

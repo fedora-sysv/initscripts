@@ -21,7 +21,7 @@ CC          = gcc
 CFLAGS     += $(RPM_OPT_FLAGS) -Wall -D_GNU_SOURCE -fPIE
 LDFLAGS    += $(RPM_LD_FLAGS) -pie -z relro -z now
 
-PROGS       = consoletype genhostid netreport rename_device usernetctl usleep
+PROGS       = consoletype genhostid rename_device usernetctl usleep
 
 all: $(PROGS)
 
@@ -32,7 +32,6 @@ install: all
 	install -m 0755 build/usleep         $(DESTDIR)$(bindir)
 	install -m 0755 build/consoletype    $(DESTDIR)$(sbindir)
 	install -m 0755 build/genhostid      $(DESTDIR)$(sbindir)
-	install -m 0755 build/netreport      $(DESTDIR)$(sbindir)
 	install -m 0755 build/usernetctl     $(DESTDIR)$(sbindir)
 	install -m 0755 build/rename_device  $(DESTDIR)$(libdir)/udev
 
@@ -50,13 +49,6 @@ genhostid: build/genhostid.o
 	$(CC) $(LDFLAGS) -o build/$@ $^
 
 build/genhostid.o: genhostid.c
-	$(CC) $(CFLAGS) -c -o $@ $^
-
-
-netreport: build/netreport.o
-	$(CC) $(LDFLAGS) -o build/$@ $^
-
-build/netreport.o: netreport.c
 	$(CC) $(CFLAGS) -c -o $@ $^
 
 

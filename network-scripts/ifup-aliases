@@ -230,7 +230,6 @@ function new_interface ()
             else
                 if [ "$rdev_mark" != "remove" ]; then
                     /sbin/ip addr flush dev $parent_device label $parent_device:${DEVNUM}
-                    do_netreport=yes
                 fi
                 newmark=remove
                 setup_this=yes
@@ -253,7 +252,6 @@ function new_interface ()
             if [ "$mark_remove" != "remove" ]; then
                 eval " rdev_${rdevip}_mark=remove ";
                 /sbin/ip addr flush dev $parent_device label $parent_device:$rdevip
-                do_netreport=yes
             fi
         fi
 
@@ -303,7 +301,6 @@ function new_interface ()
 
             /etc/sysconfig/network-scripts/ifup-routes ${DEVICE} ${NAME}
 
-            do_netreport=yes
             ifuplocal_queue="$ifuplocal_queue $DEVICE"
         fi
     fi
@@ -363,16 +360,8 @@ for DEVNUM in $rdev_LIST ; do
     eval " rdev_mark=\$rdev_${DEVNUM}_mark "
     if [ -z "$rdev_mark" ]; then
         /sbin/ip addr flush dev $parent_device label $parent_device:${DEVNUM}
-        do_netreport=yes
     fi
 done
-#
-# Notify of new device creation
-#
-
-if [ -n "$do_netreport" ]; then
-    do_netreport
-fi
 
 if [ -x /sbin/ifup-local ]; then
     for DEVICE in $ifuplocal_queue ; do

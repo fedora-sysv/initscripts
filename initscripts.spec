@@ -166,8 +166,6 @@ fi
 
 # NOTE: /etc/profile.d/ is owned by setup package.
 #       /etc/sysconfig/ is owned by filesystem package.
-%dir %{_sysconfdir}/NetworkManager
-%dir %{_sysconfdir}/NetworkManager/dispatcher.d
 %dir %{_sysconfdir}/rc.d
 %dir %{_sysconfdir}/rc.d/init.d
 %dir %{_sysconfdir}/rc.d/rc[0-6].d
@@ -181,7 +179,6 @@ fi
 %dir %{_sharedstatedir}/stateless
 %dir %{_sharedstatedir}/stateless/state
 %dir %{_sharedstatedir}/stateless/writable
-%dir /run/netreport
 
 # ---------------
 
@@ -193,7 +190,6 @@ fi
 
 %ghost %config(noreplace, missingok) %verify(not md5 size mtime) %{_sysconfdir}/rc.d/rc.local
 
-%{_sysconfdir}/NetworkManager/dispatcher.d/00-netreport
 %{_sysconfdir}/rc.d/init.d/functions
 %{_sysconfdir}/rc.d/init.d/netconsole
 %{_sysconfdir}/rc.d/init.d/network
@@ -212,7 +208,6 @@ fi
 %ghost %{_sbindir}/ifup
 %ghost %{_sbindir}/ifdown
 
-%attr(2755,root,root) %{_sbindir}/netreport
 %attr(4755,root,root) %{_sbindir}/usernetctl
 
 %{_prefix}/lib/systemd/fedora-*

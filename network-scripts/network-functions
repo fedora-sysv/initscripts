@@ -278,24 +278,6 @@ toggle_value ()
         echo ''
     fi
 }
- 
-do_netreport ()
-{
-    # Notify programs that have requested notification
-    (
-        cd /run/netreport || exit
-        for i in * ; do
-            if [ -f $i ]; then
-                if [ "$(id -u)" = "0" ]; then
-                    OWNER=$(stat -c %U $i)
-                    su -s /bin/bash $OWNER -c "kill -SIGIO $i >/dev/null 2>&1 || rm -f $i >/dev/null 2>&1" > /dev/null 2>&1
-                else
-                    kill -SIGIO $i >/dev/null 2>&1 || rm -f $i >/dev/null 2>&1
-                fi
-            fi
-        done
-    )
-}
 
 is_nm_running ()
 {
