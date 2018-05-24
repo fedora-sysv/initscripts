@@ -195,7 +195,6 @@ fi
 %ghost %config(noreplace, missingok) %verify(not md5 size mtime) %{_sysconfdir}/rc.d/rc.local
 
 %{_sysconfdir}/NetworkManager/dispatcher.d/00-netreport
-%{_sysconfdir}/profile.d/lang.*
 %{_sysconfdir}/rc.d/init.d/functions
 %{_sysconfdir}/rc.d/init.d/netconsole
 %{_sysconfdir}/rc.d/init.d/network
