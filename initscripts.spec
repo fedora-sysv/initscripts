@@ -25,8 +25,9 @@ Conflicts: ipsec-tools < 0.8.0-2
 Conflicts: NetworkManager < 0.9.9.0-37.git20140131.el7
 Conflicts: ppp < 2.4.6-4
 Requires(pre): /usr/sbin/groupadd
-Requires(post): /sbin/chkconfig, coreutils
-Requires(preun): /sbin/chkconfig
+Requires(post): /sbin/chkconfig, /sbin/update-alternatives, coreutils
+Requires(preun): /sbin/chkconfig, /sbin/update-alternatives
+
 %{?systemd_requires}
 BuildRequires: gcc glib2-devel popt-devel gettext pkgconfig systemd
 Provides: /sbin/service
@@ -55,11 +56,17 @@ rm -f %{buildroot}%{_sysconfdir}/rc.d/rc.local %{buildroot}%{_sysconfdir}/rc.loc
 touch %{buildroot}%{_sysconfdir}/rc.d/rc.local
 chmod 755 %{buildroot}%{_sysconfdir}/rc.d/rc.local
 
+touch %{buildroot}%{_sbindir}/ifup %{buildroot}%{_sbindir}/ifdown
+
 %post
 %systemd_post fedora-import-state.service fedora-loadmodules.service fedora-readonly.service
 
 /usr/sbin/chkconfig --add network > /dev/null 2>&1 || :
 /usr/sbin/chkconfig --add netconsole > /dev/null 2>&1 || :
+
+[ -L %{_sbindir}/ifup ] || rm %{_sbindir}/ifup %{_sbindir}/ifdown
+/sbin/update-alternatives --install %{_sbindir}/ifup ifup %{_sysconfdir}/sysconfig/network-scripts/ifup 90 \
+  --slave %{_sbindir}/ifdown ifdown %{_sysconfdir}/sysconfig/network-scripts/ifdown
 
 %preun
 %systemd_preun fedora-import-state.service fedora-loadmodules.service fedora-readonly.service
@@ -72,6 +79,10 @@ fi
 %postun
 %systemd_postun fedora-import-state.service fedora-loadmodules.service fedora-readonly.service
 
+if [ $1 -eq 0 ]; then
+  /sbin/update-alternatives --remove ifup %{_sysconfdir}/sysconfig/network-scripts/ifup
+fi
+
 %files -f %{name}.lang
 %defattr(-,root,root)
 %dir %{_sysconfdir}/sysconfig/network-scripts
@@ -79,10 +90,10 @@ fi
 %config(noreplace) %{_sysconfdir}/sysconfig/netconsole
 %config(noreplace) %{_sysconfdir}/sysconfig/readonly-root
 %{_sysconfdir}/sysconfig/network-scripts/ifdown
-%{_sbindir}/ifdown
+%ghost %{_sbindir}/ifdown
 %{_sysconfdir}/sysconfig/network-scripts/ifdown-post
 %{_sysconfdir}/sysconfig/network-scripts/ifup
-%{_sbindir}/ifup
+%ghost %{_sbindir}/ifup
 %dir %{_sysconfdir}/sysconfig/console
 %dir %{_sysconfdir}/sysconfig/modules
 %{_sysconfdir}/sysconfig/network-scripts/network-functions
