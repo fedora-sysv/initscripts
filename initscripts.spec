@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.49.41
+Version: 9.49.42
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -220,6 +220,16 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Fri May 25 2018 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.49.42-1
+- rhel-autorelabel: set UEFI boot order (BootNext) same as BootCurrent
+- network-functions: use tr to upper case strings rather than awk
+- sysconfig/readonly-root: Clarify the usage of readonly-root
+- network-functions: add error messages for bonding installation
+- sysctl.conf.s390: drop SHMALL and SHMMAX
+- network.service: 'reload' removed
+- rhel-readonly.service: target name for random seed fixed
+- init.d/functions: fix sourcing for ksh
+
 * Tue Jan 02 2018 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.49.41-1
 - ifdown-post: fix logical error in commit 5d61564
 - network-functions: use POSIX forwarding instead of bash-ism
