@@ -1,6 +1,6 @@
 Summary: Scripts to bring up network interfaces and legacy utilities
 Name: initscripts
-Version: 9.79
+Version: 9.80
 License: GPLv2
 Group: System Environment/Base
 Release: 1%{?dist}
@@ -152,6 +152,20 @@ fi
 %dir %{_libexecdir}/initscripts/legacy-actions
 
 %changelog
+* Fri May 25 2018 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.80-1
+- sysconfig/readonly-root: Clarify the usage of readonly-root
+- use proper shebang where appropriate
+- specfile: remove the systemctl call in the %postun phase
+- network-functions: use tr to upper case strings rather than awk
+- network-functions: add error messages for bonding installation
+- ifdown-eth: no longer needed 'pidof -x dhclient' condition removed
+- netconsole: LSB header added
+- po/xgettext_sh*: converted to use to python3
+- network.service: 'reload' removed
+- ifup-tunnel: Support 'external' tunnels
+- spec: add gcc to BuildRequires
+- init.d/functions: fix sourcing for ksh
+
 * Tue Jan 02 2018 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.79-1
 - ifdown-post: fix logical error in commit 5d61564
 - network: add knob to optionally keep interfaces up during shutdown
