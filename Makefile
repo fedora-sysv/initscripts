@@ -1,91 +1,111 @@
-ROOT=
-SUPERUSER=root
-SUPERGROUP=root
+# Basic Makefile for compiling & installing the files.
+#
+# Supports standard GNU Makefile variables for specifying the paths:
+# * prefix
+# * exec_prefix
+# * bindir
+# * sbindir
+# * libdir
+# * datarootdir
+# * datadir
+# * mandir
+# * sysconfdir
+# * localstatedir
+# * DESTDIR
+#
 
-VERSION := $(shell awk '/Version:/ { print $$2 }' initscripts.spec)
-TAG=$(VERSION)
+SHELL          = /bin/bash
 
-mandir=/usr/share/man
+# Normally /usr/local is used. However, it does not make sense for us to use it
+# here, as it just complicates things even further.
+prefix         = /usr
+exec_prefix    = $(prefix)
+bindir         = $(prefix)/bin
+sbindir        = $(prefix)/sbin
+libdir         = $(prefix)/lib
+libexecdir     = $(exec_prefix)/libexec
+datarootdir    = $(prefix)/share
+datadir        = $(datarootdir)
+mandir         = $(datadir)/man
+sysconfdir     = /etc
+localstatedir  = /var
+sharedstatedir = $(localstatedir)/lib
 
-all:
+VERSION       := $(shell gawk '/Version:/ { print $$2 }' initscripts.spec)
+TAG            = $(VERSION)
+
+
+all: make-binaries make-translations
+
+
+make-binaries:
 	make -C src
+
+make-translations:
 	make -C po
 
-install:
-	mkdir -p $(ROOT)/etc/profile.d $(ROOT)/usr/sbin
-	mkdir -p $(ROOT)$(mandir)/man{5,8}
-	mkdir -p $(ROOT)/etc/rwtab.d $(ROOT)/etc/statetab.d
-	mkdir -p $(ROOT)/var/lib/stateless/writable
-	mkdir -p $(ROOT)/var/lib/stateless/state
 
-	install -m644  adjtime $(ROOT)/etc
-	install -m644  rwtab statetab networks $(ROOT)/etc
-	install -m755  service $(ROOT)/usr/sbin
-	install -m644  lang.csh lang.sh $(ROOT)/etc/profile.d
-	install -m755  sys-unconfig $(ROOT)/usr/sbin
-	install -m644  service.8 sys-unconfig.8 $(ROOT)$(mandir)/man8
+# NOTE: We are no longer installing into /usr/sbin directory, because this is
+#       just a symlink to /usr/bin, thanks to UsrMove change. Instead, we just
+#       use virtual provides for /usr/sbin/<utility> in specfile (for backward
+#       compatibility).
+install: install-binaries install-translations install-etc install-usr install-network-scripts install-man install-post
 
-	install -m755 -d $(ROOT)/etc/rc.d $(ROOT)/etc/sysconfig
-	cp -af rc.d/init.d $(ROOT)/etc/rc.d/
-	install -m644 sysconfig/netconsole sysconfig/readonly-root $(ROOT)/etc/sysconfig/
-	cp -af sysconfig/network-scripts $(ROOT)/etc/sysconfig/
-	cp -af NetworkManager $(ROOT)/etc
-	mkdir -p $(ROOT)/usr/lib/systemd/
-	cp -af systemd/* $(ROOT)/usr/lib/systemd/
-	mkdir -p $(ROOT)/usr/lib
-	cp -af udev $(ROOT)/usr/lib
-	chmod 755 $(ROOT)/etc/rc.d/* $(ROOT)/etc/rc.d/init.d/*
-	chmod 644 $(ROOT)/etc/rc.d/init.d/functions
-	chmod 755 $(ROOT)/etc/sysconfig/network-scripts/ifup-*
-	chmod 755 $(ROOT)/etc/sysconfig/network-scripts/ifdown-*
-	chmod 755 $(ROOT)/etc/sysconfig/network-scripts/init*
-	chmod 755 $(ROOT)/etc/NetworkManager/dispatcher.d/00-netreport
-	mkdir -p $(ROOT)/etc/sysconfig/modules
-	mkdir -p $(ROOT)/etc/sysconfig/console
 
-	mv $(ROOT)/etc/sysconfig/network-scripts/ifup $(ROOT)/usr/sbin
-	mv $(ROOT)/etc/sysconfig/network-scripts/ifdown $(ROOT)/usr/sbin
-	(cd $(ROOT)/etc/sysconfig/network-scripts; \
-	  ln -sf ifup-ippp ifup-isdn ; \
-	  ln -sf ifdown-ippp ifdown-isdn ; \
-	  ln -sf ../../../usr/sbin/ifup . ; \
-	  ln -sf ../../../usr/sbin/ifdown . )
-	make install ROOT=$(ROOT) mandir=$(mandir) -C src
-	make install PREFIX=$(ROOT) -C po
+install-binaries:
+	make install -C src DESTDIR=$(DESTDIR) prefix=$(prefix) bindir=$(bindir) libdir=$(libdir)
 
-	mkdir -p $(ROOT)/run/netreport $(ROOT)/var/log
-	chown $(SUPERUSER):$(SUPERGROUP) $(ROOT)/run/netreport
-	chmod u=rwx,g=rwx,o=rx $(ROOT)/run/netreport
+install-translations:
+	make install -C po  DESTDIR=$(DESTDIR) prefix=$(prefix) bindir=$(bindir) libdir=$(libdir) \
+	                                       datarootdir=$(datarootdir) datadir=$(datadir) sysconfdir=$(sysconfdir)
 
-	for i in 0 1 2 3 4 5 6 ; do \
-		dir=$(ROOT)/etc/rc.d/rc$$i.d; \
-	  	mkdir $$dir; \
-		chmod u=rwx,g=rx,o=rx $$dir; \
+
+# NOTE: We are removing auxiliary symlink at the beginning.
+install-etc:
+	rm -f etc/sysconfig/network-scripts
+	install -m 0755 -d $(DESTDIR)$(sysconfdir)
+	cp -a        etc/* $(DESTDIR)$(sysconfdir)/
+
+install-usr:
+	install -m 0755 -d $(DESTDIR)$(prefix)
+	cp -a        usr/* $(DESTDIR)$(prefix)/
+
+install-network-scripts: install-usr install-etc
+	install -m 0755 -d      $(DESTDIR)$(sysconfdir)/sysconfig/network-scripts
+	cp -a network-scripts/* $(DESTDIR)$(sysconfdir)/sysconfig/network-scripts/
+	(cd $(DESTDIR)$(sysconfdir)/sysconfig/network-scripts; \
+	    mv ifup   $(DESTDIR)$(sbindir)/; \
+	    mv ifdown $(DESTDIR)$(sbindir)/; \
+	    ln -sf $(sbindir)/ifup . ; \
+	    ln -sf $(sbindir)/ifdown . ; \
+	    ln -sf ifup-ippp   ifup-isdn ; \
+	    ln -sf ifdown-ippp ifdown-isdn ; \
+	)
+
+install-man: install-usr
+	install -m 0755 -d      $(DESTDIR)$(mandir)/man1
+	install -m 0755 -d      $(DESTDIR)$(mandir)/man8
+	install -m 0644 man/*.1 $(DESTDIR)$(mandir)/man1
+	install -m 0644 man/*.8 $(DESTDIR)$(mandir)/man8
+
+# Initscripts still ship some empty directories necessary for system to function
+# correctly...
+install-post: install-etc
+	install -m 0755 -d $(DESTDIR)$(sysconfdir)/rwtab.d
+	install -m 0755 -d $(DESTDIR)$(sysconfdir)/statetab.d
+	install -m 0755 -d $(DESTDIR)$(sysconfdir)/sysconfig/console
+	install -m 0755 -d $(DESTDIR)$(sysconfdir)/sysconfig/modules
+	install -m 0755 -d $(DESTDIR)$(sharedstatedir)/stateless/state
+	install -m 0755 -d $(DESTDIR)$(sharedstatedir)/stateless/writable
+	install -m 0755 -d $(DESTDIR)$(libexecdir)/initscripts/legacy-actions
+	install -m 0775 -d $(DESTDIR)/run/netreport
+	for idx in {0..6}; do \
+	    dir=$(DESTDIR)$(sysconfdir)/rc.d/rc$$idx.d; \
+	    install -m 0755 -d $$dir; \
+	    ln -sf $(sysconfdir)/rc.d/rc$$idx.d $(DESTDIR)$(sysconfdir)/; \
 	done
-
-# Can't store symlinks in a CVS archive
-	mkdir -p $(ROOT)/usr/lib/tmpfiles.d
-	install -m 644 initscripts.tmpfiles.d $(ROOT)/usr/lib/tmpfiles.d/initscripts.conf
-
-# These are LSB compatibility symlinks.  At some point in the future
-# the actual files will be here instead of symlinks
-	for i in 0 1 2 3 4 5 6 ; do \
-		ln -s rc.d/rc$$i.d $(ROOT)/etc/rc$$i.d; \
-	done
-
-	mkdir -p -m 755 $(ROOT)/usr/libexec/initscripts/legacy-actions
-
-
-syntax-check:
-	for afile in `find . -type f -perm +111|grep -v \.csh | grep -v .git | grep -v po/ ` ; do \
-		if ! file $$afile | grep -s ELF  >/dev/null; then \
-		    bash -n $$afile || { echo $$afile ; exit 1 ; } ; \
-		fi  ;\
-	done
-
-check: syntax-check
-	make check -C src
-	make clean -C src
+	touch $(DESTDIR)$(sysconfdir)/rc.d/rc.local
+	chmod 0755 $(DESTDIR)$(sysconfdir)/rc.d/rc.local
 
 changelog:
 	@rm -f ChangeLog
