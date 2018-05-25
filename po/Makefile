@@ -1,17 +1,37 @@
-INSTALL= /usr/bin/install -c
-INSTALL_PROGRAM= ${INSTALL}
-INSTALL_DATA= ${INSTALL} -m 644
-INSTALLNLSDIR=/usr/share/locale
+# Basic Makefile for compiling & installing the translation files.
+#
+# Supports standard GNU Makefile variables for specifying the paths:
+# * prefix
+# * sbindir
+# * libdir
+# * datarootdir
+# * datadir
+# * sysconfdir
+# * DESTDIR
+#
 
-MSGMERGE = msgmerge
+SHELL       = /bin/bash
 
-NLSPACKAGE = initscripts
+# Normally /usr/local is used. However, it does not make sense for us to use it
+# here, as it just complicates things even further.
+prefix      = /usr
+sbindir     = $(prefix)/sbin
+libdir      = $(prefix)/lib
+datarootdir = $(prefix)/share
+datadir     = $(datarootdir)
+sysconfdir  = /etc
 
-CATALOGS = $(shell ls *.po)
+NLSDIR      = $(datadir)/locale
+NLSPACKAGE  = initscripts
+
+CATALOGS    = $(shell ls *.po)
 FMTCATALOGS = $(patsubst %.po,%.mo,$(CATALOGS))
 
-POTFILES = $(shell ls ../sysconfig/network-scripts/* | grep -v ifcfg-) \
-	../service ../sys-unconfig ../systemd/fedora-* ../rc.d/init.d/*
+POTFILES    = $(shell ls ../network-scripts/* | grep -v ifcfg-) \
+	..$(sbindir)/service ..$(sbindir)/sys-unconfig \
+	..$(libdir)/systemd/fedora-* \
+	..$(sysconfdir)/rc.d/init.d/*\
+
 
 all: $(NLSPACKAGE).pot $(FMTCATALOGS)
 
@@ -23,45 +43,18 @@ $(NLSPACKAGE).pot: $(POTFILES)
 	    mv $(NLSPACKAGE).po $(NLSPACKAGE).pot; \
 	fi
 
-refresh-po: Makefile
-	catalogs='$(CATALOGS)'; \
-	for cat in $$catalogs; do \
-		lang=`echo $$cat | sed 's/.po//'`; \
-		if $(MSGMERGE) $$lang.po $(NLSPACKAGE).pot > $$lang.pot ; then \
-			mv -f $$lang.pot $$lang.po ; \
-			echo "$(MSGMERGE) of $$lang succeeded" ; \
-		else \
-			echo "$(MSGMERGE) of $$lang failed" ; \
-			rm -f $$lang.pot ; \
-		fi \
-	done
+%.mo: %.po
+	msgfmt -o $@ $<
 
-update-po: $(NLSPACKAGE).pot Makefile refresh-po
-
-report:
-	@for cat in $(CATALOGS); do \
-		echo -n "$$cat: "; \
-		msgfmt -v --statistics -o /dev/null $$cat; \
+install: all
+	install -m 0755 -d $(DESTDIR)/$(NLSDIR)
+	for file in $(CATALOGS); do \
+	    lang=`basename $$file .po`; \
+	    mo_file=$$lang.mo; \
+	    install -m 0755 -d $(DESTDIR)$(NLSDIR)/$$lang; \
+	    install -m 0755 -d $(DESTDIR)$(NLSDIR)/$$lang/LC_MESSAGES; \
+	    install -m 0644 $$mo_file $(DESTDIR)/$(NLSDIR)/$$lang/LC_MESSAGES/$(NLSPACKAGE).mo; \
 	done
 
 clean:
-	rm -f *mo *.pyc
-
-distclean: clean
-	rm -f .depend Makefile
-
-depend:
-
-install:	all
-	mkdir -p $(PREFIX)/$(INSTALLNLSDIR)
-	for n in $(CATALOGS); do \
-	    l=`basename $$n .po`; \
-	    mo=$$l.mo; \
-	    $(INSTALL) -m 755 -d $(PREFIX)/$(INSTALLNLSDIR)/$$l; \
-	    $(INSTALL) -m 755 -d $(PREFIX)/$(INSTALLNLSDIR)/$$l/LC_MESSAGES; \
-	    $(INSTALL) -m 644 $$mo \
-		$(PREFIX)/$(INSTALLNLSDIR)/$$l/LC_MESSAGES/$(NLSPACKAGE).mo; \
-	done
-
-%.mo: %.po
-	msgfmt -o $@ $<
+	rm -f *.mo *.pyc
