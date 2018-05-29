@@ -11,7 +11,7 @@ HOSTNAME="$(hostname)"
 
 # Check SELinux status
 SELINUX_STATE=
-if [ -e "/sys/fs/selinux/enforce" ] && [ "$(cat /proc/self/attr/current)" != "kernel" ]; then
+if [ -e "/sys/fs/selinux/enforce" ] && [ "$(cat /proc/self/attr/current | tr -d '\000' )" != "kernel" ]; then
 	if [ -r "/sys/fs/selinux/enforce" ] ; then
 		SELINUX_STATE=$(cat "/sys/fs/selinux/enforce")
 	else
