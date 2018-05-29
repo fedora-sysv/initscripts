@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.49.42
+Version: 9.49.43
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -220,6 +220,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Tue May 29 2018 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.49.43-1
+- network: add knob to optionally keep interfaces up during shutdown
+
 * Fri May 25 2018 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.49.42-1
 - rhel-autorelabel: set UEFI boot order (BootNext) same as BootCurrent
 - network-functions: use tr to upper case strings rather than awk
