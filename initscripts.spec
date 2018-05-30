@@ -131,7 +131,7 @@ touch %{buildroot}%{_sbindir}/ifdown
 # ---------------
 
 %post
-%systemd_post fedora-domainname.service fedora-import-state.service fedora-loadmodules.service fedora-readonly.service
+%systemd_post nis-domainname.service import-state.service loadmodules.service readonly-root.service
 
 chkconfig --add network > /dev/null 2>&1 || :
 chkconfig --add netconsole > /dev/null 2>&1 || :
@@ -146,7 +146,7 @@ chkconfig --add netconsole > /dev/null 2>&1 || :
 # ---------------
 
 %preun
-%systemd_preun fedora-domainname.service fedora-import-state.service fedora-loadmodules.service fedora-readonly.service
+%systemd_preun nis-domainname.service import-state.service loadmodules.service readonly-root.service
 
 if [ $1 -eq 0 ]; then
   chkconfig --del network > /dev/null 2>&1 || :
@@ -157,7 +157,7 @@ fi
 # ---------------
 
 %postun
-%systemd_postun fedora-domainname.service fedora-import-state.service fedora-loadmodules.service fedora-readonly.service
+%systemd_postun nis-domainname.service import-state.service loadmodules.service readonly-root.service
 
 # === PACKAGING INSTRUCTIONS ==================================================
 
@@ -211,7 +211,10 @@ fi
 
 %attr(4755,root,root) %{_sbindir}/usernetctl
 
-%{_prefix}/lib/systemd/fedora-*
+%{_prefix}/lib/systemd/import-state
+%{_prefix}/lib/systemd/loadmodules
+%{_prefix}/lib/systemd/nis-domainname
+%{_prefix}/lib/systemd/readonly-root
 %{_prefix}/lib/systemd/system/*
 %{_prefix}/lib/udev/rename_device
 
