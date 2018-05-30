@@ -41,7 +41,10 @@ Requires:         util-linux          >= 2.16
 Requires(pre):    shadow-utils
 Requires(post):   chkconfig
 Requires(post):   coreutils
+Requires(post):   %{_sbindir}/update-alternatives
+
 Requires(preun):  chkconfig
+Requires(postun): %{_sbindir}/update-alternatives
 
 BuildRequires:    filesystem          >= 3
 BuildRequires:    gcc
@@ -121,6 +124,10 @@ network interfaces, some utilities, and other legacy files.
 
 ln -s %{_mandir}/man8/ifup.8 %{buildroot}%{_mandir}/man8/ifdown.8
 
+# We are now using alternatives approach to better co-exist with NetworkManager:
+touch %{buildroot}%{_sbindir}/ifup
+touch %{buildroot}%{_sbindir}/ifdown
+
 # ---------------
 
 %post
@@ -128,6 +135,12 @@ ln -s %{_mandir}/man8/ifup.8 %{buildroot}%{_mandir}/man8/ifdown.8
 
 chkconfig --add network > /dev/null 2>&1 || :
 chkconfig --add netconsole > /dev/null 2>&1 || :
+
+[ -L %{_sbindir}/ifup ]   || rm -f %{_sbindir}/ifup
+[ -L %{_sbindir}/ifdown ] || rm -f %{_sbindir}/ifdown
+
+%{_sbindir}/update-alternatives --install %{_sbindir}/ifup   ifup   %{_sysconfdir}/sysconfig/network-scripts/ifup 90 \
+                                --slave   %{_sbindir}/ifdown ifdown %{_sysconfdir}/sysconfig/network-scripts/ifdown
 
 # ---------------
 
@@ -137,6 +150,7 @@ chkconfig --add netconsole > /dev/null 2>&1 || :
 if [ $1 -eq 0 ]; then
   chkconfig --del network > /dev/null 2>&1 || :
   chkconfig --del netconsole > /dev/null 2>&1 || :
+  %{_sbindir}/update-alternatives --remove ifup %{_sysconfdir}/sysconfig/network-scripts/ifup
 fi
 
 # ---------------
@@ -193,13 +207,14 @@ fi
 # ---------------
 
 %{_bindir}/*
-%{_sbindir}/ifup
-%{_sbindir}/ifdown
 %{_sbindir}/consoletype
 %{_sbindir}/genhostid
 %{_sbindir}/service
 %{_sbindir}/sushell
 %{_sbindir}/sys-unconfig
+
+%ghost %{_sbindir}/ifup
+%ghost %{_sbindir}/ifdown
 
 %attr(2755,root,root) %{_sbindir}/netreport
 %attr(4755,root,root) %{_sbindir}/usernetctl
