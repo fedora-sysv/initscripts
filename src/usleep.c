@@ -28,13 +28,13 @@
 
 #include "popt.h"
 
-int main(int argc, char **argv) {
+int main(const int argc, const char **argv) {
   unsigned long count;
   poptContext optCon;
   int showVersion = 0;
   int showOot = 0;
   int rc;
-  char * countStr = NULL;
+  const char * countStr = NULL;
   struct poptOption options[] = {
             { "version", 'v', POPT_ARG_NONE, &showVersion, 0, 
 			"Display the version of this program, and exit" },
