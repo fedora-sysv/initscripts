@@ -12,7 +12,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- *         
+ *
  */
 
 #include <fcntl.h>
@@ -20,19 +20,28 @@
 #include <time.h>
 #include <unistd.h>
 #include <sys/stat.h>
-int
-main (void)
+
+int main (void)
 {
   struct stat st;
   long int n;
-  if (stat ("/etc/hostid", &st) == 0 && S_ISREG (st.st_mode)
-      && st.st_size >= sizeof (n))
+
+  /*
+   * NOTE: gethostid() always returns 32-bit identifier, and st_size field
+   *       of stat structure represents total size of file, in bytes.
+   */
+
+  if (stat ("/etc/hostid", &st) == 0 &&
+      S_ISREG (st.st_mode) && st.st_size == 4) {
     return 0;
+  }
+
   int fd = open ("/dev/random", O_RDONLY);
-  if (fd == -1 || read (fd, &n, sizeof (n)) != sizeof (n))
-    {
-      srand48 ((long int) time (NULL) ^ (long int) getpid ());
-      n = lrand48 ();
-    }
-  return sethostid ((int32_t)n);
+
+  if (fd == -1 || read (fd, &n, sizeof (n)) != sizeof (n)) {
+    srand48 ((long int) time (NULL) ^ (long int) getpid ());
+    n = lrand48 ();
+  }
+
+  return sethostid ((int32_t) n);
 }
