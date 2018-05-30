@@ -74,11 +74,7 @@ install-network-scripts: install-usr install-etc
 	install -m 0755 -d      $(DESTDIR)$(sysconfdir)/sysconfig/network-scripts
 	cp -a network-scripts/* $(DESTDIR)$(sysconfdir)/sysconfig/network-scripts/
 	(cd $(DESTDIR)$(sysconfdir)/sysconfig/network-scripts; \
-	    mv ifup   $(DESTDIR)$(sbindir)/; \
-	    mv ifdown $(DESTDIR)$(sbindir)/; \
-	    ln -sf $(sbindir)/ifup . ; \
-	    ln -sf $(sbindir)/ifdown . ; \
-	    ln -sf ifup-ippp   ifup-isdn ; \
+      ln -sf ifup-ippp   ifup-isdn ; \
 	    ln -sf ifdown-ippp ifdown-isdn ; \
 	)
 
