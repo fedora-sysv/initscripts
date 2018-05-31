@@ -30,7 +30,10 @@ int main(int argc, char **argv)
     char *type;
     int maj, min, ret = 0, fg = -1;
     struct stat sb;
-	
+
+    fprintf(stderr, "warning: consoletype is now deprecated, and will be removed in the near future!\n"
+                    "warning: use tty (1) instead! More info: 'man 1 tty'\n");
+
     fstat(0, &sb);
     maj = major(sb.st_rdev);
     min = minor(sb.st_rdev);
