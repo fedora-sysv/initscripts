@@ -20,11 +20,15 @@
 #include <time.h>
 #include <unistd.h>
 #include <sys/stat.h>
+#include <stdio.h>
 
 int main (void)
 {
   struct stat st;
   long int n;
+
+  fprintf(stderr, "warning: genhostid is now deprecated, and will be removed in the near future!\n"
+                  "warning: use systemd-machine-id-setup (1) instead! More info: 'man 5 machine-id'\n");
 
   /*
    * NOTE: gethostid() always returns 32-bit identifier, and st_size field
