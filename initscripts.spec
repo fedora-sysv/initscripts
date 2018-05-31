@@ -140,7 +140,8 @@ chkconfig --add netconsole > /dev/null 2>&1 || :
 [ -L %{_sbindir}/ifdown ] || rm -f %{_sbindir}/ifdown
 
 %{_sbindir}/update-alternatives --install %{_sbindir}/ifup   ifup   %{_sysconfdir}/sysconfig/network-scripts/ifup 90 \
-                                --slave   %{_sbindir}/ifdown ifdown %{_sysconfdir}/sysconfig/network-scripts/ifdown
+                                --slave   %{_sbindir}/ifdown ifdown %{_sysconfdir}/sysconfig/network-scripts/ifdown \
+                                --initscript network
 
 # ---------------
 
