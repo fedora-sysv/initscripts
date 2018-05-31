@@ -122,6 +122,27 @@ This packages provides a 'netconsole' service for loading of netconsole kernel
 module with the configured parameters. The netconsole kernel module itself then
 allows logging of kernel messages over the network.
 
+# ---------------
+
+%package -n readonly-root
+Summary:          Service for configuring read-only root support
+Requires:         %{name}%{?_isa} = %{version}-%{release}
+BuildArch:        noarch
+
+Requires:         bash
+Requires:         coreutils
+Requires:         cpio
+Requires:         findutils
+Requires:         gawk
+Requires:         hostname
+Requires:         iproute
+Requires:         ipcalc
+Requires:         util-linux
+
+%description -n readonly-root
+This package provides script & configuration file for setting up read-only root
+support. Additional configuration is required after installation.
+
 # === BUILD INSTRUCTIONS ======================================================
 
 %prep
@@ -150,10 +171,10 @@ ln -s %{_mandir}/man8/ifup.8 %{buildroot}%{_mandir}/man8/ifdown.8
 touch %{buildroot}%{_sbindir}/ifup
 touch %{buildroot}%{_sbindir}/ifdown
 
-# ---------------
+# =============================================================================
 
 %post
-%systemd_post import-state.service loadmodules.service readonly-root.service
+%systemd_post import-state.service loadmodules.service
 
 chkconfig --add network > /dev/null 2>&1 || :
 
@@ -167,7 +188,7 @@ chkconfig --add network > /dev/null 2>&1 || :
 # ---------------
 
 %preun
-%systemd_preun import-state.service loadmodules.service readonly-root.service
+%systemd_preun import-state.service loadmodules.service
 
 if [ $1 -eq 0 ]; then
   chkconfig --del network > /dev/null 2>&1 || :
@@ -177,7 +198,7 @@ fi
 # ---------------
 
 %postun
-%systemd_postun import-state.service loadmodules.service readonly-root.service
+%systemd_postun import-state.service loadmodules.service
 
 # =============================================================================
 
@@ -188,6 +209,17 @@ chkconfig --add netconsole > /dev/null 2>&1 || :
 if [ $1 -eq 0 ]; then
   chkconfig --del netconsole > /dev/null 2>&1 || :
 fi
+
+# ---------------
+
+%post -n readonly-root
+%systemd_post readonly-root.service
+
+%preun -n readonly-root
+%systemd_preun readonly-root.service
+
+%postun -n readonly-root
+%systemd_postun readonly-root.service
 
 # === PACKAGING INSTRUCTIONS ==================================================
 
@@ -200,22 +232,14 @@ fi
 %dir %{_sysconfdir}/rc.d
 %dir %{_sysconfdir}/rc.d/init.d
 %dir %{_sysconfdir}/rc.d/rc[0-6].d
-%dir %{_sysconfdir}/rwtab.d
-%dir %{_sysconfdir}/statetab.d
 %dir %{_sysconfdir}/sysconfig/console
 %dir %{_sysconfdir}/sysconfig/modules
 %dir %{_sysconfdir}/sysconfig/network-scripts
 %dir %{_libexecdir}/%{name}
 %dir %{_libexecdir}/%{name}/legacy-actions
-%dir %{_sharedstatedir}/stateless
-%dir %{_sharedstatedir}/stateless/state
-%dir %{_sharedstatedir}/stateless/writable
 
 # ---------------
 
-%config(noreplace) %{_sysconfdir}/rwtab
-%config(noreplace) %{_sysconfdir}/statetab
-%config(noreplace) %{_sysconfdir}/sysconfig/readonly-root
 %config(noreplace) %{_sysconfdir}/sysconfig/network-scripts/ifcfg-lo
 
 %ghost %config(noreplace, missingok) %verify(not md5 size mtime) %{_sysconfdir}/rc.d/rc.local
@@ -241,8 +265,8 @@ fi
 
 %{_prefix}/lib/systemd/import-state
 %{_prefix}/lib/systemd/loadmodules
-%{_prefix}/lib/systemd/readonly-root
-%{_prefix}/lib/systemd/system/*
+%{_prefix}/lib/systemd/system/import-state.service
+%{_prefix}/lib/systemd/system/loadmodules.service
 %{_prefix}/lib/udev/rename_device
 
 %{_udevrulesdir}/*
@@ -250,11 +274,27 @@ fi
 %{_mandir}/man1/*
 %{_mandir}/man8/*
 
-# ---------------
+# =============================================================================
 
 %files -n netconsole-service
 %{_sysconfdir}/rc.d/init.d/netconsole
 %config(noreplace) %{_sysconfdir}/sysconfig/netconsole
+
+# ---------------
+
+%files -n readonly-root
+%dir %{_sysconfdir}/rwtab.d
+%dir %{_sysconfdir}/statetab.d
+%dir %{_sharedstatedir}/stateless
+%dir %{_sharedstatedir}/stateless/state
+%dir %{_sharedstatedir}/stateless/writable
+
+%config(noreplace) %{_sysconfdir}/rwtab
+%config(noreplace) %{_sysconfdir}/statetab
+%config(noreplace) %{_sysconfdir}/sysconfig/readonly-root
+
+%{_prefix}/lib/systemd/readonly-root
+%{_prefix}/lib/systemd/system/readonly-root.service
 
 # =============================================================================
 
