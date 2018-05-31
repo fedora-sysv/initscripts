@@ -31,7 +31,6 @@ POTFILES    = $(shell ls ../network-scripts/* | grep -v ifcfg-) \
 	..$(sbindir)/service \
 	..$(libdir)/systemd/import-state \
 	..$(libdir)/systemd/loadmodules \
-	..$(libdir)/systemd/nis-domainname \
 	..$(libdir)/systemd/readonly-root \
 	..$(sysconfdir)/rc.d/init.d/*\
 
