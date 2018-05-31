@@ -12,7 +12,7 @@
 
 Name:             initscripts
 Summary:          Scripts to bring up network interfaces & legacy utilities
-Version:          9.80
+Version:          9.81
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -226,6 +226,36 @@ fi
 # ---------------
 
 %changelog
+* Thu May 31 2018 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.81-1
+- src/consoletype.c: deprecation warning added
+- src/genhostid.c: deprecation warning added
+- src/genhostid.c: fixed to not override /etc/hostid if it already exists
+- src/usleep.c: GCC warnings fixed
+- nis-domainname.service removed
+- fedora-* services renamed to more general names
+- specfile: missing fedora-domainname.service returned in systemd macros
+- COPYING updated to latest GNU version (GPLv2+)
+- network-scripts: control 'network' service with alternatives as well
+- netreport functionality dropped
+- networks moved into 'setup' package
+- lang.{sh,csh} moved into setup package
+- lang.{sh,csh} cleanup before moving to 'setup' package
+- src/sushell moved into 'policycoreutils' package
+- src/shvar.* removed
+- po/xgettext_sh removed
+- sys-unconfig removed
+- Outdated files from doc/ folder removed
+- make archive: ChangeLog generating removed
+- network-scripts: ifup & ifdown -- use alternatives system
+- adjtime moved into 'util-linux' package
+- specfile: simplified & updated to new repository layout
+- .gitignore files updated to new repository layout
+- Makefile simplified & updated to new repository layout
+- po/Makefile simplified & updated to new repository layout
+- src/Makefile simplified & updated to new repository layout
+- Repository scheme updated to new layout
+- fedora-readonly: command substitution warning fixed (null-byte input)
+
 * Fri May 25 2018 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.80-1
 - sysconfig/readonly-root: Clarify the usage of readonly-root
 - use proper shebang where appropriate
