@@ -100,6 +100,28 @@ Conflicts:        systemd            < 216-3
 This package contains the scripts that activates and deactivates most
 network interfaces, some utilities, and other legacy files.
 
+# === SUBPACKAGES =============================================================
+
+%package -n netconsole-service
+Summary:          Service for initializing of network console logging
+Requires:         %{name}%{?_isa} = %{version}-%{release}
+BuildArch:        noarch
+
+Requires:         bash
+Requires:         coreutils
+Requires:         gawk
+Requires:         glibc-common
+Requires:         iproute
+Requires:         iputils
+Requires:         kmod
+Requires:         sed
+Requires:         util-linux
+
+%description -n netconsole-service
+This packages provides a 'netconsole' service for loading of netconsole kernel
+module with the configured parameters. The netconsole kernel module itself then
+allows logging of kernel messages over the network.
+
 # === BUILD INSTRUCTIONS ======================================================
 
 %prep
@@ -134,7 +156,6 @@ touch %{buildroot}%{_sbindir}/ifdown
 %systemd_post import-state.service loadmodules.service readonly-root.service
 
 chkconfig --add network > /dev/null 2>&1 || :
-chkconfig --add netconsole > /dev/null 2>&1 || :
 
 [ -L %{_sbindir}/ifup ]   || rm -f %{_sbindir}/ifup
 [ -L %{_sbindir}/ifdown ] || rm -f %{_sbindir}/ifdown
@@ -150,7 +171,6 @@ chkconfig --add netconsole > /dev/null 2>&1 || :
 
 if [ $1 -eq 0 ]; then
   chkconfig --del network > /dev/null 2>&1 || :
-  chkconfig --del netconsole > /dev/null 2>&1 || :
   %{_sbindir}/update-alternatives --remove ifup %{_sysconfdir}/sysconfig/network-scripts/ifup
 fi
 
@@ -158,6 +178,16 @@ fi
 
 %postun
 %systemd_postun import-state.service loadmodules.service readonly-root.service
+
+# =============================================================================
+
+%post -n netconsole-service
+chkconfig --add netconsole > /dev/null 2>&1 || :
+
+%preun -n netconsole-service
+if [ $1 -eq 0 ]; then
+  chkconfig --del netconsole > /dev/null 2>&1 || :
+fi
 
 # === PACKAGING INSTRUCTIONS ==================================================
 
@@ -185,14 +215,12 @@ fi
 
 %config(noreplace) %{_sysconfdir}/rwtab
 %config(noreplace) %{_sysconfdir}/statetab
-%config(noreplace) %{_sysconfdir}/sysconfig/netconsole
 %config(noreplace) %{_sysconfdir}/sysconfig/readonly-root
 %config(noreplace) %{_sysconfdir}/sysconfig/network-scripts/ifcfg-lo
 
 %ghost %config(noreplace, missingok) %verify(not md5 size mtime) %{_sysconfdir}/rc.d/rc.local
 
 %{_sysconfdir}/rc.d/init.d/functions
-%{_sysconfdir}/rc.d/init.d/netconsole
 %{_sysconfdir}/rc.d/init.d/network
 %{_sysconfdir}/sysconfig/network-scripts/*
 
@@ -223,6 +251,12 @@ fi
 %{_mandir}/man8/*
 
 # ---------------
+
+%files -n netconsole-service
+%{_sysconfdir}/rc.d/init.d/netconsole
+%config(noreplace) %{_sysconfdir}/sysconfig/netconsole
+
+# =============================================================================
 
 %changelog
 * Mon Jun 04 2018 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.82-1
