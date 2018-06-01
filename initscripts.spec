@@ -218,7 +218,6 @@ fi
 %{_prefix}/lib/udev/rename_device
 
 %{_udevrulesdir}/*
-%{_tmpfilesdir}/%{name}.conf
 
 %{_mandir}/man1/*
 %{_mandir}/man8/*
