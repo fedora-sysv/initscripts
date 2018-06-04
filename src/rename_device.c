@@ -281,6 +281,7 @@ char *get_config_by_hwaddr(char *hwaddr, char *current) {
 void take_lock() {
 	int count = 0;
 	int lockfd;
+	ssize_t ignored_retval __attribute__((unused));
 	
 	while (1) {
 		lockfd = open(LOCKFILE, O_RDWR|O_CREAT|O_EXCL, 0644);
@@ -288,7 +289,7 @@ void take_lock() {
 			char buf[32];
 
 			snprintf(buf,32,"%d\n",getpid());
-			write(lockfd,buf,strlen(buf));
+			ignored_retval = write(lockfd,buf,strlen(buf));
 			close(lockfd);
 			break;
 		} else if (errno == EACCES)
@@ -304,7 +305,7 @@ void take_lock() {
 			fd = open(LOCKFILE, O_RDONLY);
 			if (fd == -1)
 				break;
-			read(fd,buf,32);
+			ignored_retval = read(fd,buf,32);
 			close(fd);
 			pid = atoi(buf);
 			if (pid && pid != 1) {
