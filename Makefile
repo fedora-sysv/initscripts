@@ -73,10 +73,8 @@ install-usr:
 install-network-scripts: install-usr install-etc
 	install -m 0755 -d      $(DESTDIR)$(sysconfdir)/sysconfig/network-scripts
 	cp -a network-scripts/* $(DESTDIR)$(sysconfdir)/sysconfig/network-scripts/
-	(cd $(DESTDIR)$(sysconfdir)/sysconfig/network-scripts; \
-	    ln -sf ifup-ippp   ifup-isdn ; \
-	    ln -sf ifdown-ippp ifdown-isdn ; \
-	)
+	ln -srf $(DESTDIR)$(sysconfdir)/sysconfig/network-scripts/{ifup-ippp,ifup-isdn}
+	ln -srf $(DESTDIR)$(sysconfdir)/sysconfig/network-scripts/{ifdown-ippp,ifdown-isdn}
 
 install-man: install-usr
 	install -m 0755 -d      $(DESTDIR)$(mandir)/man1
@@ -97,7 +95,7 @@ install-post: install-etc
 	for idx in {0..6}; do \
 	    dir=$(DESTDIR)$(sysconfdir)/rc.d/rc$$idx.d; \
 	    install -m 0755 -d $$dir; \
-	    ln -sf $(sysconfdir)/rc.d/rc$$idx.d $(DESTDIR)$(sysconfdir)/; \
+	    ln -srf $(DESTDIR)$(sysconfdir)/rc.d/rc$$idx.d $(DESTDIR)$(sysconfdir)/; \
 	done
 	touch $(DESTDIR)$(sysconfdir)/rc.d/rc.local
 	chmod 0755 $(DESTDIR)$(sysconfdir)/rc.d/rc.local
