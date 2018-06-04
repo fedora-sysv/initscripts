@@ -39,10 +39,10 @@ all: make-binaries make-translations
 
 
 make-binaries:
-	make -C src
+	$(MAKE) -C src
 
 make-translations:
-	make -C po
+	$(MAKE) -C po
 
 
 # NOTE: We are no longer installing into /usr/sbin directory, because this is
@@ -53,11 +53,11 @@ install: install-binaries install-translations install-etc install-usr install-n
 
 
 install-binaries:
-	make install -C src DESTDIR=$(DESTDIR) prefix=$(prefix) bindir=$(bindir) libdir=$(libdir)
+	$(MAKE) install -C src DESTDIR=$(DESTDIR) prefix=$(prefix) bindir=$(bindir) libdir=$(libdir)
 
 install-translations:
-	make install -C po  DESTDIR=$(DESTDIR) prefix=$(prefix) bindir=$(bindir) libdir=$(libdir) \
-	                                       datarootdir=$(datarootdir) datadir=$(datadir) sysconfdir=$(sysconfdir)
+	$(MAKE) install -C po  DESTDIR=$(DESTDIR) prefix=$(prefix) bindir=$(bindir) libdir=$(libdir) \
+	                                          datarootdir=$(datarootdir) datadir=$(datadir) sysconfdir=$(sysconfdir)
 
 
 # NOTE: We are removing auxiliary symlink at the beginning.
@@ -101,8 +101,8 @@ install-post: install-etc
 	chmod 0755 $(DESTDIR)$(sysconfdir)/rc.d/rc.local
 
 clean:
-	make clean -C src
-	make clean -C po
+	$(MAKE) clean -C src
+	$(MAKE) clean -C po
 	@find . -name "*~" -exec rm -v -f {} \;
 
 tag:
