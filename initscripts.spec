@@ -8,6 +8,12 @@
 # For more info: https://fedoraproject.org/wiki/Packaging:Guidelines#PIE
 %global _hardened_build 1
 
+%global shared_requirements \
+Requires:         bash                       \
+Requires:         filesystem          >= 3   \
+Requires:         coreutils                  \
+Requires:         gawk                       \
+
 # =============================================================================
 
 Name:             initscripts
@@ -20,23 +26,14 @@ License:          GPLv2
 URL:              https://github.com/fedora-sysv/initscripts
 Source:           https://github.com/fedora-sysv/initscripts/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
 
-Requires:         bash                >= 3.0
-Requires:         coreutils
-Requires:         cpio
-Requires:         filesystem          >= 3
+%shared_requirements
+
 Requires:         findutils
-Requires:         gawk
 Requires:         grep
-Requires:         hostname
-Requires:         ipcalc
-Requires:         iproute
-Requires:         iputils
-Requires:         module-init-tools
-Requires:         procps-ng           >= 3.3.8-16
-Requires:         sed
+Requires:         procps-ng
 Requires:         setup
 Requires:         systemd
-Requires:         util-linux          >= 2.16
+Requires:         util-linux
 
 Requires(pre):    shadow-utils
 Requires(post):   coreutils
@@ -103,8 +100,8 @@ network interfaces, some utilities, and other legacy files.
 Summary:          Legacy scripts for manipulating of network devices
 Requires:         %{name}%{?_isa} = %{version}-%{release}
 
-Requires:         bash
-Requires:         coreutils
+%shared_requirements
+
 Requires:         dbus
 Requires:         gawk
 Requires:         grep
@@ -147,9 +144,8 @@ Summary:          Service for initializing of network console logging
 Requires:         %{name}%{?_isa} = %{version}-%{release}
 BuildArch:        noarch
 
-Requires:         bash
-Requires:         coreutils
-Requires:         gawk
+%shared_requirements
+
 Requires:         glibc-common
 Requires:         iproute
 Requires:         iputils
@@ -171,11 +167,10 @@ Summary:          Service for configuring read-only root support
 Requires:         %{name}%{?_isa} = %{version}-%{release}
 BuildArch:        noarch
 
-Requires:         bash
-Requires:         coreutils
+%shared_requirements
+
 Requires:         cpio
 Requires:         findutils
-Requires:         gawk
 Requires:         hostname
 Requires:         iproute
 Requires:         ipcalc
