@@ -54,14 +54,6 @@ Provides:         /sbin/service
 
 Obsoletes:        %{name}            < 9.82-2
 
-Conflicts:        dmraid             < 1.0.0.rc16-18
-Conflicts:        ipsec-tools        < 0.8.0-2
-Conflicts:        lvm2               < 2.02.98-3
-Conflicts:        NetworkManager     < 0.9.9.0-37.git20140131.el7
-Conflicts:        policycoreutils    < 2.5-6
-Conflicts:        ppp                < 2.4.6-4
-Conflicts:        systemd            < 216-3
-
 # === PATCHES =================================================================
 
 # NOTE: 'autosetup' macro (below) uses 'git' for applying the patches:
