@@ -12,7 +12,7 @@
 
 Name:             initscripts
 Summary:          Scripts to bring up network interfaces & legacy utilities
-Version:          9.81
+Version:          9.82
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -225,6 +225,10 @@ fi
 # ---------------
 
 %changelog
+* Mon Jun 04 2018 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.82-1
+- Makefile: make the creation of symlinks relative to path again
+- specfile: trailing file of netreport removed
+
 * Thu May 31 2018 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.81-1
 - src/consoletype.c: deprecation warning added
 - src/genhostid.c: deprecation warning added
