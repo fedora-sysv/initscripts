@@ -39,12 +39,7 @@ Requires:         systemd
 Requires:         util-linux          >= 2.16
 
 Requires(pre):    shadow-utils
-Requires(post):   chkconfig
 Requires(post):   coreutils
-Requires(post):   %{_sbindir}/update-alternatives
-
-Requires(preun):  chkconfig
-Requires(postun): %{_sbindir}/update-alternatives
 
 BuildRequires:    filesystem          >= 3
 BuildRequires:    gcc
@@ -101,6 +96,47 @@ This package contains the scripts that activates and deactivates most
 network interfaces, some utilities, and other legacy files.
 
 # === SUBPACKAGES =============================================================
+
+%package -n network-scripts
+Summary:          Legacy scripts for manipulating of network devices
+Requires:         %{name}%{?_isa} = %{version}-%{release}
+
+Requires:         bash
+Requires:         coreutils
+Requires:         dbus
+Requires:         gawk
+Requires:         grep
+Requires:         hostname
+Requires:         iproute
+Requires:         ipcalc
+Requires:         kmod
+Requires:         procps-ng
+Requires:         sed
+Requires:         systemd
+
+Requires(post):   chkconfig
+Requires(preun):  chkconfig
+
+Requires(post):   %{_sbindir}/update-alternatives
+Requires(postun): %{_sbindir}/update-alternatives
+
+%description -n network-scripts
+This package contains the legacy scripts for activating & deactivating of most
+network interfaces. It also provides a legacy version of 'network' service.
+
+The 'network' service is enabled by default after installation of this package,
+and if the network-scripts are installed alongside NetworkManager, then the
+ifup/ifdown commands from network-scripts take precedence over the ones provided
+by NetworkManager.
+
+If user has both network-scripts & NetworkManager installed, and wishes to
+use ifup/ifdown from NetworkManager primarily, then they has to run command:
+ $ update-alternatives --config ifup
+
+Please note that running the command above will also disable the 'network'
+service.
+
+# ---------------
 
 %package -n netconsole-service
 Summary:          Service for initializing of network console logging
@@ -165,7 +201,11 @@ support. Additional configuration is required after installation.
   rm -f %{buildroot}%{_sysconfdir}/sysconfig/network-scripts/ifup-ctc
 %endif
 
-ln -s %{_mandir}/man8/ifup.8 %{buildroot}%{_mandir}/man8/ifdown.8
+# Additional ways to access documentation:
+install -m 0755 -d %{buildroot}%{_docdir}/network-scripts
+
+ln -s  %{_docdir}/%{name}/sysconfig.txt %{buildroot}%{_docdir}/network-scripts/
+ln -sr %{_mandir}/man8/ifup.8           %{buildroot}%{_mandir}/man8/ifdown.8
 
 # We are now using alternatives approach to better co-exist with NetworkManager:
 touch %{buildroot}%{_sbindir}/ifup
@@ -176,6 +216,15 @@ touch %{buildroot}%{_sbindir}/ifdown
 %post
 %systemd_post import-state.service loadmodules.service
 
+%preun
+%systemd_preun import-state.service loadmodules.service
+
+%postun
+%systemd_postun import-state.service loadmodules.service
+
+# ---------------
+
+%post -n network-scripts
 chkconfig --add network > /dev/null 2>&1 || :
 
 [ -L %{_sbindir}/ifup ]   || rm -f %{_sbindir}/ifup
@@ -185,22 +234,13 @@ chkconfig --add network > /dev/null 2>&1 || :
                                 --slave   %{_sbindir}/ifdown ifdown %{_sysconfdir}/sysconfig/network-scripts/ifdown \
                                 --initscript network
 
-# ---------------
-
-%preun
-%systemd_preun import-state.service loadmodules.service
-
+%preun -n network-scripts
 if [ $1 -eq 0 ]; then
   chkconfig --del network > /dev/null 2>&1 || :
   %{_sbindir}/update-alternatives --remove ifup %{_sysconfdir}/sysconfig/network-scripts/ifup
 fi
 
 # ---------------
-
-%postun
-%systemd_postun import-state.service loadmodules.service
-
-# =============================================================================
 
 %post -n netconsole-service
 chkconfig --add netconsole > /dev/null 2>&1 || :
@@ -225,7 +265,7 @@ fi
 
 %files -f %{name}.lang
 %license COPYING
-%doc doc/*
+%doc doc/sysconfig.txt
 
 # NOTE: /etc/profile.d/ is owned by setup package.
 #       /etc/sysconfig/ is owned by filesystem package.
@@ -234,19 +274,14 @@ fi
 %dir %{_sysconfdir}/rc.d/rc[0-6].d
 %dir %{_sysconfdir}/sysconfig/console
 %dir %{_sysconfdir}/sysconfig/modules
-%dir %{_sysconfdir}/sysconfig/network-scripts
 %dir %{_libexecdir}/%{name}
 %dir %{_libexecdir}/%{name}/legacy-actions
 
 # ---------------
 
-%config(noreplace) %{_sysconfdir}/sysconfig/network-scripts/ifcfg-lo
-
 %ghost %config(noreplace, missingok) %verify(not md5 size mtime) %{_sysconfdir}/rc.d/rc.local
 
 %{_sysconfdir}/rc.d/init.d/functions
-%{_sysconfdir}/rc.d/init.d/network
-%{_sysconfdir}/sysconfig/network-scripts/*
 
 # RC symlinks:
 %{_sysconfdir}/rc[0-6].d
@@ -258,11 +293,6 @@ fi
 %{_sbindir}/genhostid
 %{_sbindir}/service
 
-%ghost %{_sbindir}/ifup
-%ghost %{_sbindir}/ifdown
-
-%attr(4755,root,root) %{_sbindir}/usernetctl
-
 %{_prefix}/lib/systemd/import-state
 %{_prefix}/lib/systemd/loadmodules
 %{_prefix}/lib/systemd/system/import-state.service
@@ -272,9 +302,29 @@ fi
 %{_udevrulesdir}/*
 
 %{_mandir}/man1/*
-%{_mandir}/man8/*
+%{_mandir}/man8/service.*
 
 # =============================================================================
+
+%files -n network-scripts
+%doc doc/examples/
+%dir %{_sysconfdir}/sysconfig/network-scripts
+
+%{_sysconfdir}/rc.d/init.d/network
+%{_sysconfdir}/sysconfig/network-scripts/*
+
+%config(noreplace)    %{_sysconfdir}/sysconfig/network-scripts/ifcfg-lo
+
+%ghost                %{_sbindir}/ifup
+%ghost                %{_sbindir}/ifdown
+%attr(4755,root,root) %{_sbindir}/usernetctl
+
+%{_mandir}/man8/ifup.*
+%{_mandir}/man8/ifdown.*
+%{_mandir}/man8/usernetctl.*
+%{_docdir}/network-scripts/*
+
+# ---------------
 
 %files -n netconsole-service
 %{_sysconfdir}/rc.d/init.d/netconsole
