@@ -32,7 +32,7 @@ localstatedir  = /var
 sharedstatedir = $(localstatedir)/lib
 
 VERSION       := $(shell gawk '/Version:/ { print $$2 }' initscripts.spec)
-TAG            = $(VERSION)
+NEXT_VERSION  := $(shell gawk '/Version:/ { print $$2 + 0.01}' initscripts.spec)
 
 
 all: make-binaries make-translations
@@ -106,8 +106,18 @@ clean:
 	@find . -name "*~" -exec rm -v -f {} \;
 
 tag:
-	@git tag -a -f -m "Tag as $(TAG)" $(TAG)
-	@echo "Tagged as $(TAG)"
+	@git tag -a -f -m "Tag as $(VERSION)" $(VERSION)
+	@echo "Tagged as $(VERSION)"
+
+release-commit:
+	@git log --decorate=no --format="- %s" $(VERSION)..HEAD > .changelog.tmp
+	@rpmdev-bumpspec -n $(NEXT_VERSION) -f .changelog.tmp initscripts.spec
+	@rm -f .changelog.tmp
+	@git add initscripts.spec
+	@git commit --message="$(NEXT_VERSION)"
+	@git tag -a -f -m "Tag as $(NEXT_VERSION)" $(NEXT_VERSION)
+	@echo -e "\n       New release commit ($(NEXT_VERSION)) created:\n"
+	@git show
 
 archive: clean
 	@git archive --format=tar --prefix=initscripts-$(VERSION)/ HEAD > initscripts-$(VERSION).tar
