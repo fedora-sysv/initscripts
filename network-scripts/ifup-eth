@@ -339,7 +339,8 @@ fi
 /etc/sysconfig/network-scripts/ifup-ipv6 ${CONFIG}
 if is_true "${DHCPV6C}" && [ -x /sbin/dhclient ]; then
 
-    # Assign interface into a firewalld zone so we can obtain the IPv6 via DHCPv6:
+    # Assign interface into a firewalld zone so we can
+    # obtain the IPv6 via DHCPv6 (empty ZONE means default):
     if [ "${REALDEVICE}" != "lo" ]; then
         dbus-send --print-reply --system --dest=org.fedoraproject.FirewallD1 \
                   /org/fedoraproject/FirewallD1 \
