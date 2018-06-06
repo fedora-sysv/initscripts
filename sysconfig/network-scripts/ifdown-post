@@ -53,9 +53,9 @@ if ! check_default_route ; then
     fi
 fi
 
-# Reset firewall ZONE to "default":
+# Reset firewall zone (empty ZONE means default):
 if [ "${REALDEVICE}" != "lo" ]; then
-    dbus-send --system --dest=org.fedoraproject.FirewallD1 \
+    dbus-send --print-reply --system --dest=org.fedoraproject.FirewallD1 \
               /org/fedoraproject/FirewallD1 \
               org.fedoraproject.FirewallD1.zone.removeInterface \
               string: "" string:"${DEVICE}" \
