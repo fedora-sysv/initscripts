@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.49.43
+Version: 9.49.44
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -220,6 +220,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Thu Jun 07 2018 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.49.44-1
+- network-scripts: setting of firewall ZONE fixed (bug #1586284)
+
 * Tue May 29 2018 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.49.43-1
 - network: add knob to optionally keep interfaces up during shutdown
 
