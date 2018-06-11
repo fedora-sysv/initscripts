@@ -45,21 +45,24 @@ if [ -n "${HWADDR}" ]; then
     fi
 fi
 
-# If the device is a bridge, create it with brctl, if available.
+# If the device is a bridge, create it
 if [ "${TYPE}" = "Bridge" ]; then
-    if [ ! -x /usr/sbin/brctl ]; then
-        net_log $"Bridge support not available: brctl not found"
-        exit 1
+    bridge_opts=""
+    [ -n "${DELAY}" ] && bridge_opts+="forward_delay ${DELAY} "
+    if is_true "${STP}"; then
+	    bridge_opts+="stp_state 1 "
+    elif is_false "${STP}"; then
+	    bridge_opts+="stp_state 0 "
     fi
+    [ -n "${PRIO}" ] && bridge_opts+="priority ${PRIO} "
+    [ -n "${AGEING}" ] && bridge_opts+="ageing_time ${AGEING} "
 
     if [ ! -d /sys/class/net/${DEVICE}/bridge ]; then
-        /usr/sbin/brctl addbr -- ${DEVICE} || exit 1
+        ip link add ${DEVICE} type bridge $bridge_opts
+    elif [ -n "${OPTS}" ]; then
+        ip link set ${DEVICE} type bridge $bridge_opts
     fi
-
-    [ -n "${DELAY}" ] && /usr/sbin/brctl setfd -- ${DEVICE} ${DELAY}
-    [ -n "${STP}" ] && /usr/sbin/brctl stp -- ${DEVICE} ${STP}
-    [ -n "${PRIO}" ] && /usr/sbin/brctl setbridgeprio ${DEVICE} ${PRIO}
-    [ -n "${AGEING}" ] && /usr/sbin/brctl setageing ${DEVICE} ${AGEING}
+    unset bridge_opts
 
     # add the bits to setup driver parameters here
     for arg in $BRIDGING_OPTS ; do
@@ -173,15 +176,15 @@ if [ "$ISALIAS" = no ] && is_bonding_device ${DEVICE} ; then
 fi
 
 # If the device is part of a bridge, add the device to the bridge
-if [ -n "${BRIDGE}" ] && [ -x /usr/sbin/brctl ]; then
+if [ -n "${BRIDGE}" ]; then
     if [ ! -d /sys/class/net/${BRIDGE}/bridge ]; then
-        /usr/sbin/brctl addbr -- ${BRIDGE} 2>/dev/null
+        ip link add ${BRIDGE} type bridge 2>/dev/null
     fi
     /sbin/ip addr flush dev ${DEVICE} 2>/dev/null
     /sbin/ip link set dev ${DEVICE} up
     ethtool_set
     [ -n "${LINKDELAY}" ] && /bin/sleep ${LINKDELAY}
-    /usr/sbin/brctl addif -- ${BRIDGE} ${DEVICE}
+    ip link set ${DEVICE} master ${BRIDGE}
     # add the bits to setup driver parameters here
     for arg in $BRIDGING_OPTS ; do
         key=${arg%%=*};
