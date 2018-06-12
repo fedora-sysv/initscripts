@@ -85,3 +85,13 @@ SEREL                         8a26159ec668893c845d5dcbec48f509b2dacc6c
 unstable                      b5da33084c723b7a182d6724d9a8855a16c0b55d
 upstart-0.6.0-branch          5df584569b80bb8977f181e16b0de47fb4df08f1
 --->
+
+## Bugs reporting
+If you find a bug, we would like to hear about it -- although we can't guarantee
+we will be able to fix it... The best way to report bugs differs for each
+distribution:
+ * `RHEL | CentOS` - create a bug report in [bugzilla](https://bugzilla.redhat.com/enter_bug.cgi) for corresponding RHEL version
+ * `Fedora | Other` - create a [new issue](https://github.com/fedora-sysv/initscripts/issues/new) directly here on GitHub
+
+**NOTE:** Bug reports created for *Fedora* in [bugzilla](https://bugzilla.redhat.com/) usually take a lot of time to
+resolve. *We advise to use GitHub instead.*
