@@ -288,8 +288,9 @@ fi
 %{_sbindir}/genhostid
 %{_sbindir}/service
 
-%{_prefix}/lib/systemd/import-state
-%{_prefix}/lib/systemd/loadmodules
+%{_libexecdir}/import-state
+%{_libexecdir}/loadmodules
+
 %{_prefix}/lib/systemd/system/import-state.service
 %{_prefix}/lib/systemd/system/loadmodules.service
 %{_prefix}/lib/udev/rename_device
@@ -338,7 +339,7 @@ fi
 %config(noreplace) %{_sysconfdir}/statetab
 %config(noreplace) %{_sysconfdir}/sysconfig/readonly-root
 
-%{_prefix}/lib/systemd/readonly-root
+%{_libexecdir}/readonly-root
 %{_prefix}/lib/systemd/system/readonly-root.service
 
 # =============================================================================

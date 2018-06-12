@@ -3,7 +3,7 @@
 # Supports standard GNU Makefile variables for specifying the paths:
 # * prefix
 # * sbindir
-# * libdir
+# * libexecdir
 # * datarootdir
 # * datadir
 # * sysconfdir
@@ -16,7 +16,7 @@ SHELL       = /bin/bash
 # here, as it just complicates things even further.
 prefix      = /usr
 sbindir     = $(prefix)/sbin
-libdir      = $(prefix)/lib
+libexecdir  = $(prefix)/libexec
 datarootdir = $(prefix)/share
 datadir     = $(datarootdir)
 sysconfdir  = /etc
@@ -29,9 +29,9 @@ FMTCATALOGS = $(patsubst %.po,%.mo,$(CATALOGS))
 
 POTFILES    = $(shell ls ../network-scripts/* | grep -v ifcfg-) \
 	..$(sbindir)/service \
-	..$(libdir)/systemd/import-state \
-	..$(libdir)/systemd/loadmodules \
-	..$(libdir)/systemd/readonly-root \
+	..$(libexecdir)/import-state \
+	..$(libexecdir)/loadmodules \
+	..$(libexecdir)/readonly-root \
 	..$(sysconfdir)/rc.d/init.d/*\
 
 
