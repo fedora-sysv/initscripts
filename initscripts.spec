@@ -238,12 +238,13 @@ fi
 # ---------------
 
 %post -n netconsole-service
-chkconfig --add netconsole > /dev/null 2>&1 || :
+%systemd_post netconsole.service
 
 %preun -n netconsole-service
-if [ $1 -eq 0 ]; then
-  chkconfig --del netconsole > /dev/null 2>&1 || :
-fi
+%systemd_preun netconsole.service
+
+%postun -n netconsole-service
+%systemd_postun netconsole.service
 
 # ---------------
 
@@ -323,8 +324,10 @@ fi
 # ---------------
 
 %files -n netconsole-service
-%{_sysconfdir}/rc.d/init.d/netconsole
 %config(noreplace) %{_sysconfdir}/sysconfig/netconsole
+
+%{_libexecdir}/netconsole
+%{_prefix}/lib/systemd/system/netconsole.service
 
 # ---------------
 
