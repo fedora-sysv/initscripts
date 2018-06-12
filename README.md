@@ -26,6 +26,21 @@ For the *[RPM](https://en.wikipedia.org/wiki/Rpm_(software))* based distribution
 we also provide a [`specfile`](https://github.com/fedora-sysv/initscripts/blob/master/initscripts.spec)
 for easier packaging.
 
+## Future of initscripts
+As mentioned above, the *initscripts concept* is outdated nowadays, and de-facto
+obsolete. Most of the work on this repository is just a maintenance, and we do
+**not** plan on extending the support for initscripts in the future in any way.
+
+We intend to convert the rest of the remaining services into *systemd* units,
+and remove them eventually if possible.
+
+And we have also started our work on decomissioning of
+[`network-scripts`](https://github.com/fedora-sysv/initscripts/tree/master/network-scripts)
+as well. This means no new functionality will be added into them. In case you
+need some you should ask for it to be implemented
+in *[NetworkManager](https://en.wikipedia.org/wiki/NetworkManager)*, if it isn't
+already.
+
 ## No longer active branches
 Follow the steps in our wiki -
 [how to access inactive branches](https://github.com/fedora-sysv/initscripts/wiki/How-to-access-inactive-branches) -
