@@ -6,6 +6,26 @@ which are primarily used in *[Linux](https://en.wikipedia.org/wiki/Linux) distri
 * [CentOS](https://en.wikipedia.org/wiki/CentOS)
 * and some others as well...
 
+Since most of the major Linux distributions have already switched to
+*[systemd](https://en.wikipedia.org/wiki/Systemd)*, the *initscripts concept* is
+quite outdated nowadays. *As a result, this repository provides primarily only
+the support for other initscripts that might still exist out there.*
+
+The above mentioned support includes e.g. the
+[`/etc/rc.d/init.d/functions`](https://github.com/fedora-sysv/initscripts/blob/master/etc/rc.d/init.d/functions)
+or
+[`/usr/sbin/service`](https://github.com/fedora-sysv/initscripts/blob/master/usr/sbin/service)
+files.
+
+Another functionality this source code provides includes:
+ * [`network-scripts`](https://github.com/fedora-sysv/initscripts/tree/master/network-scripts) - **legacy** scripts for manipulating of network devices
+ * [`readonly-root`](https://github.com/fedora-sysv/initscripts/blob/master/usr/lib/systemd/readonly-root) - service for configuring the read-only root support
+ * [`netconsole`](https://github.com/fedora-sysv/initscripts/blob/master/etc/rc.d/init.d/netconsole) - service for initializing of network console logging
+
+For the *[RPM](https://en.wikipedia.org/wiki/Rpm_(software))* based distributions
+we also provide a [`specfile`](https://github.com/fedora-sysv/initscripts/blob/master/initscripts.spec)
+for easier packaging.
+
 ## No longer active branches
 Follow the steps in our wiki -
 [how to access inactive branches](https://github.com/fedora-sysv/initscripts/wiki/How-to-access-inactive-branches) -
