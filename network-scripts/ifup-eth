@@ -58,9 +58,9 @@ if [ "${TYPE}" = "Bridge" ]; then
     [ -n "${AGEING}" ] && bridge_opts+="ageing_time ${AGEING} "
 
     if [ ! -d /sys/class/net/${DEVICE}/bridge ]; then
-        ip link add ${DEVICE} type bridge $bridge_opts
+        ip link add ${DEVICE} type bridge $bridge_opts || exit 1
     elif [ -n "${OPTS}" ]; then
-        ip link set ${DEVICE} type bridge $bridge_opts
+        ip link set ${DEVICE} type bridge $bridge_opts || exit 1
     fi
     unset bridge_opts
 
