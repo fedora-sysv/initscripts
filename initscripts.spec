@@ -55,6 +55,8 @@ BuildRequires:    systemd
 
 Provides:         /sbin/service
 
+Obsoletes:        %{name}            < 9.82-2
+
 Conflicts:        dmraid             < 1.0.0.rc16-18
 Conflicts:        ipsec-tools        < 0.8.0-2
 Conflicts:        lvm2               < 2.02.98-3
@@ -120,6 +122,8 @@ Requires(preun):  chkconfig
 Requires(post):   %{_sbindir}/update-alternatives
 Requires(postun): %{_sbindir}/update-alternatives
 
+Obsoletes:        %{name}            < 9.82-2
+
 %description -n network-scripts
 This package contains the legacy scripts for activating & deactivating of most
 network interfaces. It also provides a legacy version of 'network' service.
@@ -153,6 +157,8 @@ Requires:         kmod
 Requires:         sed
 Requires:         util-linux
 
+Obsoletes:        %{name}            < 9.82-2
+
 %description -n netconsole-service
 This packages provides a 'netconsole' service for loading of netconsole kernel
 module with the configured parameters. The netconsole kernel module itself then
@@ -174,6 +180,8 @@ Requires:         hostname
 Requires:         iproute
 Requires:         ipcalc
 Requires:         util-linux
+
+Obsoletes:        %{name}            < 9.82-2
 
 %description -n readonly-root
 This package provides script & configuration file for setting up read-only root
