@@ -17,7 +17,7 @@ Requires:         gawk                       \
 # =============================================================================
 
 Name:             initscripts
-Summary:          Scripts to bring up network interfaces & legacy utilities
+Summary:          Basic support for legacy System V init scripts
 Version:          9.82
 Release:          1%{?dist}
 
@@ -83,8 +83,8 @@ Obsoletes:        %{name}            < 9.82-2
 
 
 %description
-This package contains the scripts that activates and deactivates most
-network interfaces, some utilities, and other legacy files.
+This package provides basic support for legacy System V init scripts, and some
+other legacy tools & utilities.
 
 # === SUBPACKAGES =============================================================
 
