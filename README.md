@@ -1,4 +1,4 @@
-# initscripts
+# initscripts | [![Build Status](https://travis-ci.org/fedora-sysv/initscripts.svg?branch=master)](https://travis-ci.org/fedora-sysv/initscripts)
 This repository contains source code for **legacy** *System V [initscripts](https://en.wikipedia.org/wiki/Init)*,
 which are primarily used in *[Linux](https://en.wikipedia.org/wiki/Linux) distributions like e.g.*:
 * [Fedora](https://en.wikipedia.org/wiki/Fedora_(operating_system))
