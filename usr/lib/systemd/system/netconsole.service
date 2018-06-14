@@ -1,0 +1,14 @@
+[Unit]
+Description=Initializes network console logging of kernel messages
+ConditionPathExists=/etc/sysconfig/netconsole
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart=/usr/libexec/netconsole start
+ExecStop=/usr/libexec/netconsole stop
+Type=oneshot
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

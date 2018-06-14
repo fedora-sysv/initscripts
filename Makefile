@@ -32,17 +32,17 @@ localstatedir  = /var
 sharedstatedir = $(localstatedir)/lib
 
 VERSION       := $(shell gawk '/Version:/ { print $$2 }' initscripts.spec)
-TAG            = $(VERSION)
+NEXT_VERSION  := $(shell gawk '/Version:/ { print $$2 + 0.01}' initscripts.spec)
 
 
 all: make-binaries make-translations
 
 
 make-binaries:
-	make -C src
+	$(MAKE) -C src
 
 make-translations:
-	make -C po
+	$(MAKE) -C po
 
 
 # NOTE: We are no longer installing into /usr/sbin directory, because this is
@@ -53,11 +53,11 @@ install: install-binaries install-translations install-etc install-usr install-n
 
 
 install-binaries:
-	make install -C src DESTDIR=$(DESTDIR) prefix=$(prefix) bindir=$(bindir) libdir=$(libdir)
+	$(MAKE) install -C src DESTDIR=$(DESTDIR) prefix=$(prefix) bindir=$(bindir) libdir=$(libdir)
 
 install-translations:
-	make install -C po  DESTDIR=$(DESTDIR) prefix=$(prefix) bindir=$(bindir) libdir=$(libdir) \
-	                                       datarootdir=$(datarootdir) datadir=$(datadir) sysconfdir=$(sysconfdir)
+	$(MAKE) install -C po  DESTDIR=$(DESTDIR) prefix=$(prefix) bindir=$(bindir) libdir=$(libdir) \
+	                                          datarootdir=$(datarootdir) datadir=$(datadir) sysconfdir=$(sysconfdir)
 
 
 # NOTE: We are removing auxiliary symlink at the beginning.
@@ -101,13 +101,23 @@ install-post: install-etc
 	chmod 0755 $(DESTDIR)$(sysconfdir)/rc.d/rc.local
 
 clean:
-	make clean -C src
-	make clean -C po
+	$(MAKE) clean -C src
+	$(MAKE) clean -C po
 	@find . -name "*~" -exec rm -v -f {} \;
 
 tag:
-	@git tag -a -f -m "Tag as $(TAG)" $(TAG)
-	@echo "Tagged as $(TAG)"
+	@git tag -a -f -m "Tag as $(VERSION)" $(VERSION)
+	@echo "Tagged as $(VERSION)"
+
+release-commit:
+	@git log --decorate=no --format="- %s" $(VERSION)..HEAD > .changelog.tmp
+	@rpmdev-bumpspec -n $(NEXT_VERSION) -f .changelog.tmp initscripts.spec
+	@rm -f .changelog.tmp
+	@git add initscripts.spec
+	@git commit --message="$(NEXT_VERSION)"
+	@git tag -a -f -m "Tag as $(NEXT_VERSION)" $(NEXT_VERSION)
+	@echo -e "\n       New release commit ($(NEXT_VERSION)) created:\n"
+	@git show
 
 archive: clean
 	@git archive --format=tar --prefix=initscripts-$(VERSION)/ HEAD > initscripts-$(VERSION).tar

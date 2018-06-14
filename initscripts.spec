@@ -8,10 +8,16 @@
 # For more info: https://fedoraproject.org/wiki/Packaging:Guidelines#PIE
 %global _hardened_build 1
 
+%global shared_requirements \
+Requires:         bash                       \
+Requires:         filesystem          >= 3   \
+Requires:         coreutils                  \
+Requires:         gawk                       \
+
 # =============================================================================
 
 Name:             initscripts
-Summary:          Scripts to bring up network interfaces & legacy utilities
+Summary:          Basic support for legacy System V init scripts
 Version:          9.82
 Release:          1%{?dist}
 
@@ -20,31 +26,17 @@ License:          GPLv2
 URL:              https://github.com/fedora-sysv/initscripts
 Source:           https://github.com/fedora-sysv/initscripts/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
 
-Requires:         bash                >= 3.0
-Requires:         coreutils
-Requires:         cpio
-Requires:         filesystem          >= 3
+%shared_requirements
+
 Requires:         findutils
-Requires:         gawk
 Requires:         grep
-Requires:         hostname
-Requires:         ipcalc
-Requires:         iproute
-Requires:         iputils
-Requires:         module-init-tools
-Requires:         procps-ng           >= 3.3.8-16
-Requires:         sed
+Requires:         procps-ng
 Requires:         setup
 Requires:         systemd
-Requires:         util-linux          >= 2.16
+Requires:         util-linux
 
 Requires(pre):    shadow-utils
-Requires(post):   chkconfig
 Requires(post):   coreutils
-Requires(post):   %{_sbindir}/update-alternatives
-
-Requires(preun):  chkconfig
-Requires(postun): %{_sbindir}/update-alternatives
 
 BuildRequires:    filesystem          >= 3
 BuildRequires:    gcc
@@ -60,13 +52,7 @@ BuildRequires:    systemd
 
 Provides:         /sbin/service
 
-Conflicts:        dmraid             < 1.0.0.rc16-18
-Conflicts:        ipsec-tools        < 0.8.0-2
-Conflicts:        lvm2               < 2.02.98-3
-Conflicts:        NetworkManager     < 0.9.9.0-37.git20140131.el7
-Conflicts:        policycoreutils    < 2.5-6
-Conflicts:        ppp                < 2.4.6-4
-Conflicts:        systemd            < 216-3
+Obsoletes:        %{name}            < 9.82-2
 
 # === PATCHES =================================================================
 
@@ -97,8 +83,96 @@ Conflicts:        systemd            < 216-3
 
 
 %description
-This package contains the scripts that activates and deactivates most
-network interfaces, some utilities, and other legacy files.
+This package provides basic support for legacy System V init scripts, and some
+other legacy tools & utilities.
+
+# === SUBPACKAGES =============================================================
+
+%package -n network-scripts
+Summary:          Legacy scripts for manipulating of network devices
+Requires:         %{name}%{?_isa} = %{version}-%{release}
+
+%shared_requirements
+
+Requires:         dbus
+Requires:         gawk
+Requires:         grep
+Requires:         hostname
+Requires:         iproute
+Requires:         ipcalc
+Requires:         kmod
+Requires:         procps-ng
+Requires:         sed
+Requires:         systemd
+
+Requires(post):   chkconfig
+Requires(preun):  chkconfig
+
+Requires(post):   %{_sbindir}/update-alternatives
+Requires(postun): %{_sbindir}/update-alternatives
+
+Obsoletes:        %{name}            < 9.82-2
+
+%description -n network-scripts
+This package contains the legacy scripts for activating & deactivating of most
+network interfaces. It also provides a legacy version of 'network' service.
+
+The 'network' service is enabled by default after installation of this package,
+and if the network-scripts are installed alongside NetworkManager, then the
+ifup/ifdown commands from network-scripts take precedence over the ones provided
+by NetworkManager.
+
+If user has both network-scripts & NetworkManager installed, and wishes to
+use ifup/ifdown from NetworkManager primarily, then they has to run command:
+ $ update-alternatives --config ifup
+
+Please note that running the command above will also disable the 'network'
+service.
+
+# ---------------
+
+%package -n netconsole-service
+Summary:          Service for initializing of network console logging
+Requires:         %{name}%{?_isa} = %{version}-%{release}
+BuildArch:        noarch
+
+%shared_requirements
+
+Requires:         glibc-common
+Requires:         iproute
+Requires:         iputils
+Requires:         kmod
+Requires:         sed
+Requires:         util-linux
+
+Obsoletes:        %{name}            < 9.82-2
+
+%description -n netconsole-service
+This packages provides a 'netconsole' service for loading of netconsole kernel
+module with the configured parameters. The netconsole kernel module itself then
+allows logging of kernel messages over the network.
+
+# ---------------
+
+%package -n readonly-root
+Summary:          Service for configuring read-only root support
+Requires:         %{name}%{?_isa} = %{version}-%{release}
+BuildArch:        noarch
+
+%shared_requirements
+
+Requires:         cpio
+Requires:         findutils
+Requires:         hostname
+Requires:         iproute
+Requires:         ipcalc
+Requires:         util-linux
+
+Obsoletes:        %{name}            < 9.82-2
+
+%description -n readonly-root
+This package provides script & configuration file for setting up read-only root
+support. Additional configuration is required after installation.
 
 # === BUILD INSTRUCTIONS ======================================================
 
@@ -122,19 +196,31 @@ network interfaces, some utilities, and other legacy files.
   rm -f %{buildroot}%{_sysconfdir}/sysconfig/network-scripts/ifup-ctc
 %endif
 
-ln -s %{_mandir}/man8/ifup.8 %{buildroot}%{_mandir}/man8/ifdown.8
+# Additional ways to access documentation:
+install -m 0755 -d %{buildroot}%{_docdir}/network-scripts
+
+ln -s  %{_docdir}/%{name}/sysconfig.txt %{buildroot}%{_docdir}/network-scripts/
+ln -sr %{_mandir}/man8/ifup.8           %{buildroot}%{_mandir}/man8/ifdown.8
 
 # We are now using alternatives approach to better co-exist with NetworkManager:
 touch %{buildroot}%{_sbindir}/ifup
 touch %{buildroot}%{_sbindir}/ifdown
 
-# ---------------
+# =============================================================================
 
 %post
-%systemd_post import-state.service loadmodules.service readonly-root.service
+%systemd_post import-state.service loadmodules.service
 
+%preun
+%systemd_preun import-state.service loadmodules.service
+
+%postun
+%systemd_postun import-state.service loadmodules.service
+
+# ---------------
+
+%post -n network-scripts
 chkconfig --add network > /dev/null 2>&1 || :
-chkconfig --add netconsole > /dev/null 2>&1 || :
 
 [ -L %{_sbindir}/ifup ]   || rm -f %{_sbindir}/ifup
 [ -L %{_sbindir}/ifdown ] || rm -f %{_sbindir}/ifdown
@@ -143,58 +229,55 @@ chkconfig --add netconsole > /dev/null 2>&1 || :
                                 --slave   %{_sbindir}/ifdown ifdown %{_sysconfdir}/sysconfig/network-scripts/ifdown \
                                 --initscript network
 
-# ---------------
-
-%preun
-%systemd_preun import-state.service loadmodules.service readonly-root.service
-
+%preun -n network-scripts
 if [ $1 -eq 0 ]; then
   chkconfig --del network > /dev/null 2>&1 || :
-  chkconfig --del netconsole > /dev/null 2>&1 || :
   %{_sbindir}/update-alternatives --remove ifup %{_sysconfdir}/sysconfig/network-scripts/ifup
 fi
 
 # ---------------
 
-%postun
-%systemd_postun import-state.service loadmodules.service readonly-root.service
+%post -n netconsole-service
+%systemd_post netconsole.service
+
+%preun -n netconsole-service
+%systemd_preun netconsole.service
+
+%postun -n netconsole-service
+%systemd_postun netconsole.service
+
+# ---------------
+
+%post -n readonly-root
+%systemd_post readonly-root.service
+
+%preun -n readonly-root
+%systemd_preun readonly-root.service
+
+%postun -n readonly-root
+%systemd_postun readonly-root.service
 
 # === PACKAGING INSTRUCTIONS ==================================================
 
 %files -f %{name}.lang
 %license COPYING
-%doc doc/*
+%doc doc/sysconfig.txt
 
 # NOTE: /etc/profile.d/ is owned by setup package.
 #       /etc/sysconfig/ is owned by filesystem package.
 %dir %{_sysconfdir}/rc.d
 %dir %{_sysconfdir}/rc.d/init.d
 %dir %{_sysconfdir}/rc.d/rc[0-6].d
-%dir %{_sysconfdir}/rwtab.d
-%dir %{_sysconfdir}/statetab.d
 %dir %{_sysconfdir}/sysconfig/console
 %dir %{_sysconfdir}/sysconfig/modules
-%dir %{_sysconfdir}/sysconfig/network-scripts
 %dir %{_libexecdir}/%{name}
 %dir %{_libexecdir}/%{name}/legacy-actions
-%dir %{_sharedstatedir}/stateless
-%dir %{_sharedstatedir}/stateless/state
-%dir %{_sharedstatedir}/stateless/writable
 
 # ---------------
-
-%config(noreplace) %{_sysconfdir}/rwtab
-%config(noreplace) %{_sysconfdir}/statetab
-%config(noreplace) %{_sysconfdir}/sysconfig/netconsole
-%config(noreplace) %{_sysconfdir}/sysconfig/readonly-root
-%config(noreplace) %{_sysconfdir}/sysconfig/network-scripts/ifcfg-lo
 
 %ghost %config(noreplace, missingok) %verify(not md5 size mtime) %{_sysconfdir}/rc.d/rc.local
 
 %{_sysconfdir}/rc.d/init.d/functions
-%{_sysconfdir}/rc.d/init.d/netconsole
-%{_sysconfdir}/rc.d/init.d/network
-%{_sysconfdir}/sysconfig/network-scripts/*
 
 # RC symlinks:
 %{_sysconfdir}/rc[0-6].d
@@ -206,23 +289,63 @@ fi
 %{_sbindir}/genhostid
 %{_sbindir}/service
 
-%ghost %{_sbindir}/ifup
-%ghost %{_sbindir}/ifdown
+%{_libexecdir}/import-state
+%{_libexecdir}/loadmodules
 
-%attr(4755,root,root) %{_sbindir}/usernetctl
-
-%{_prefix}/lib/systemd/import-state
-%{_prefix}/lib/systemd/loadmodules
-%{_prefix}/lib/systemd/readonly-root
-%{_prefix}/lib/systemd/system/*
+%{_prefix}/lib/systemd/system/import-state.service
+%{_prefix}/lib/systemd/system/loadmodules.service
 %{_prefix}/lib/udev/rename_device
 
 %{_udevrulesdir}/*
 
 %{_mandir}/man1/*
-%{_mandir}/man8/*
+%{_mandir}/man8/service.*
+
+# =============================================================================
+
+%files -n network-scripts
+%doc doc/examples/
+%dir %{_sysconfdir}/sysconfig/network-scripts
+
+%{_sysconfdir}/rc.d/init.d/network
+%{_sysconfdir}/sysconfig/network-scripts/*
+
+%config(noreplace)    %{_sysconfdir}/sysconfig/network-scripts/ifcfg-lo
+
+%ghost                %{_sbindir}/ifup
+%ghost                %{_sbindir}/ifdown
+%attr(4755,root,root) %{_sbindir}/usernetctl
+
+%{_mandir}/man8/ifup.*
+%{_mandir}/man8/ifdown.*
+%{_mandir}/man8/usernetctl.*
+%{_docdir}/network-scripts/*
 
 # ---------------
+
+%files -n netconsole-service
+%config(noreplace) %{_sysconfdir}/sysconfig/netconsole
+
+%{_libexecdir}/netconsole
+%{_prefix}/lib/systemd/system/netconsole.service
+
+# ---------------
+
+%files -n readonly-root
+%dir %{_sysconfdir}/rwtab.d
+%dir %{_sysconfdir}/statetab.d
+%dir %{_sharedstatedir}/stateless
+%dir %{_sharedstatedir}/stateless/state
+%dir %{_sharedstatedir}/stateless/writable
+
+%config(noreplace) %{_sysconfdir}/rwtab
+%config(noreplace) %{_sysconfdir}/statetab
+%config(noreplace) %{_sysconfdir}/sysconfig/readonly-root
+
+%{_libexecdir}/readonly-root
+%{_prefix}/lib/systemd/system/readonly-root.service
+
+# =============================================================================
 
 %changelog
 * Mon Jun 04 2018 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.82-1
