@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          9.82
+Version:          9.83
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -348,6 +348,35 @@ fi
 # =============================================================================
 
 %changelog
+* Thu Jun 14 2018 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.83-1
+- network-scripts: Add previously dropped error checking
+- network-scripts: Replace brctl with ip-link
+- Makefile: new release-commit rule added
+- src/rename_device.c: GCC warnings about unused return value suppressed
+- src/usernetctl.c: GCC warnings about unused return value suppressed
+- Makefile: allow sub-makefiles to run in parallel
+- specfile: netconsole service moved to /usr/libexec
+- specfile: services from /usr/lib/systemd moved to /usr/libexec
+- specfile: summary & description updated
+- specfile: no longer needed conflicts dropped
+- specfile: requirements cleanup
+- specfile: obsoletes on previous version of initscripts package added
+- specfile: network-scripts subpackage created
+- specfile: readonly-root subpackage created
+- specfile: netconsole-service subpackage created
+- README.md: Travis CI build icon added
+- .travis.yml: check the 'make install' proceeds as well
+- .travis.yml: initial commit
+- README.md: bug reporting described
+- README.dm: future of initscripts described
+- README.md: description added
+- README.md: references to old git branches added
+- README.md: initial commit
+- network-scripts: setting of firewall ZONE fixed
+- ifdown-post: artifact whitespace removed from the DBus call
+- l10n: drop .tx directory
+- l10n: add zanata.xml
+
 * Mon Jun 04 2018 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.82-1
 - Makefile: make the creation of symlinks relative to path again
 - specfile: trailing file of netreport removed
