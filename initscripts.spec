@@ -133,7 +133,7 @@ service.
 
 %package -n netconsole-service
 Summary:          Service for initializing of network console logging
-Requires:         %{name}%{?_isa} = %{version}-%{release}
+Requires:         %{name} = %{version}-%{release}
 BuildArch:        noarch
 
 %shared_requirements
@@ -156,7 +156,7 @@ allows logging of kernel messages over the network.
 
 %package -n readonly-root
 Summary:          Service for configuring read-only root support
-Requires:         %{name}%{?_isa} = %{version}-%{release}
+Requires:         %{name} = %{version}-%{release}
 BuildArch:        noarch
 
 %shared_requirements
