@@ -85,8 +85,6 @@ install-man: install-usr
 # Initscripts still ship some empty directories necessary for system to function
 # correctly...
 install-post: install-etc
-	install -m 0755 -d $(DESTDIR)$(sysconfdir)/rwtab.d
-	install -m 0755 -d $(DESTDIR)$(sysconfdir)/statetab.d
 	install -m 0755 -d $(DESTDIR)$(sysconfdir)/sysconfig/console
 	install -m 0755 -d $(DESTDIR)$(sysconfdir)/sysconfig/modules
 	install -m 0755 -d $(DESTDIR)$(sharedstatedir)/stateless/state

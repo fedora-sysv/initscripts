@@ -332,8 +332,6 @@ fi
 # ---------------
 
 %files -n readonly-root
-%dir %{_sysconfdir}/rwtab.d
-%dir %{_sysconfdir}/statetab.d
 %dir %{_sharedstatedir}/stateless
 %dir %{_sharedstatedir}/stateless/state
 %dir %{_sharedstatedir}/stateless/writable
