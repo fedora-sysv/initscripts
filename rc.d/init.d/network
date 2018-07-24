@@ -162,10 +162,15 @@ stop)
     [ "$EUID" != "0" ] && exit 4
     # Don't shut the network down if root or /usr is on NFS or a network
     # block device.
-    if systemctl show --property=RequiredBy -- -.mount usr.mount | grep -q 'remote-fs.target' ; then
+    root_fstype=$(gawk '{ if ($1 !~ /^[ \t]*#/ && $2 == "/"    && $3 != "rootfs") { print $3; }}' /proc/mounts)
+    usr_fstype=$(gawk  '{ if ($1 !~ /^[ \t]*#/ && $2 == "/usr" && $3 != "rootfs") { print $3; }}' /proc/mounts)
+
+    if [[ "${root_fstype}" == nfs* || "${usr_fstype}" == nfs* ]] || systemctl show --property=RequiredBy -- -.mount usr.mount | grep -q 'remote-fs.target' ; then
         net_log $"rootfs or /usr is on network filesystem, leaving network up"
         exit 1
     fi
+
+    unset root_fstype usr_fstype
 
     # Don't shut the network down when shutting down the system if configured
     # as such in sysconfig
