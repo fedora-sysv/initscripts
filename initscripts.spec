@@ -94,6 +94,7 @@ Requires:         %{name}%{?_isa} = %{version}-%{release}
 
 %shared_requirements
 
+Requires:         bc
 Requires:         dbus
 Requires:         gawk
 Requires:         grep
