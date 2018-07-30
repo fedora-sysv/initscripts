@@ -87,6 +87,7 @@ if [ "${TYPE}" = "Bridge" ]; then
           # to obtain an IP address from DHCP.
           forward_delay="$(cat /sys/devices/virtual/net/${DEVICE}/bridge/forward_delay)"
           forward_delay="$(convert2sec ${forward_delay} centi)"
+          forward_delay=$(awk "BEGIN {printf \"%.0f\", ${forward_delay} + 0.5}")
         fi
 
         forward_delay=$(expr ${forward_delay} \* 2 + 7)
