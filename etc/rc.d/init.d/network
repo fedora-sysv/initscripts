@@ -49,6 +49,13 @@ interfaces=$(ls ifcfg-* | \
         LC_ALL=C sed 's/ //')
 rc=0
 
+net_log $"You are using 'network' service provided by 'network-scripts', which are now deprecated." warning network
+net_log $"'network-scripts' will be removed in one of the next major releases of RHEL." warning network
+net_log $"It is advised to switch to 'NetworkManager' instead for network management." warning network
+
+# This disables additional warnings during the boot process:
+export DEPRECATION_WARNING_ISSUED='true'
+
 # See how we were called.
 case "$1" in
 start)
