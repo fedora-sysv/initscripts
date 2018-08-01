@@ -16,6 +16,12 @@ CONFIG=$1
     exit 1
 }
 
+if ! is_true ${DEPRECATION_WARNING_ISSUED}; then
+    net_log $"You are using 'ifdown' script provided by 'network-scripts', which are now deprecated." warning ifdown
+    net_log $"'network-scripts' will be removed from distribution in near future." warning ifdown
+    net_log $"It is advised to switch to 'NetworkManager' instead - it provides 'ifup/ifdown' scripts as well." warning ifdown
+fi
+
 need_config "${CONFIG}"
 
 [ -f "$CONFIG" ] || {
