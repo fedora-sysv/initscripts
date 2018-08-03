@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.00.0
+Version:          10.00.1
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -346,6 +346,11 @@ fi
 # =============================================================================
 
 %changelog
+* Fri Aug 03 2018 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 10.00.1-1
+- consoletype/genhostid/usleep: allow disabling of deprecation warnings
+- network/ifup/ifdown: allow disabling of deprecation warnings
+- network/ifup/ifdown: deprecation warnings for 'network-scripts' added
+
 * Thu Jun 21 2018 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 10.00.0-1
 - fork for next major RHEL release
 
