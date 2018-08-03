@@ -21,6 +21,7 @@
  */
 
 
+#include <errno.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
@@ -77,8 +78,19 @@ int main(const int argc, const char **argv) {
 
   else count = strtoul(countStr, NULL, 0); 
 
-  fprintf(stderr, "warning: usleep is deprecated, and will be removed in near future!\n"
-	          "warning: use \"sleep %.7g\" instead...\n", count / 1e6);
+  errno = 0;
+
+  /*
+   * access() returns -1 if the file does not exist or upon error.
+   * We should display the deprecation warning only when we are sure the
+   * file does not exist. In case of different error, silently ignore it
+   * and do not print anything - to not pollute users' scripts unnecessarily.
+   */
+  if (access("/etc/sysconfig/disable-deprecation-warnings", F_OK) == -1
+      && errno == ENOENT) {
+    fprintf(stderr, "warning: usleep is deprecated, and will be removed in near future!\n"
+                    "warning: use \"sleep %.7g\" instead...\n", count / 1e6);
+  }
 
   usleep(count);
   return 0;
