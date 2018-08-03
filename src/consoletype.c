@@ -16,6 +16,7 @@
  *
  */
 
+#include <errno.h>
 #include <fcntl.h>
 #include <stdio.h>
 #include <string.h>
@@ -31,8 +32,19 @@ int main(int argc, char **argv)
     int maj, min, ret = 0, fg = -1;
     struct stat sb;
 
-    fprintf(stderr, "warning: consoletype is now deprecated, and will be removed in the near future!\n"
-                    "warning: use tty (1) instead! More info: 'man 1 tty'\n");
+    errno = 0;
+
+    /*
+     * access() returns -1 if the file does not exist or upon error.
+     * We should display the deprecation warning only when we are sure the
+     * file does not exist. In case of different error, silently ignore it
+     * and do not print anything - to not pollute users' scripts unnecessarily.
+     */
+    if (access("/etc/sysconfig/disable-deprecation-warnings", F_OK) == -1
+        && errno == ENOENT) {
+        fprintf(stderr, "warning: consoletype is now deprecated, and will be removed in the near future!\n"
+                        "warning: use tty (1) instead! More info: 'man 1 tty'\n");
+    }
 
     fstat(0, &sb);
     maj = major(sb.st_rdev);
@@ -47,6 +59,7 @@ int main(int argc, char **argv)
 	    char buf[65536];
 	    
 	    fd = open("/proc/tty/drivers",O_RDONLY);
+
 	    read(fd, buf, 65535);
 	    if (strstr(buf,"vioconsole           /dev/tty")) {
 		    type = "vio";

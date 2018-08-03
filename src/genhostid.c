@@ -15,6 +15,7 @@
  *
  */
 
+#include <errno.h>
 #include <fcntl.h>
 #include <stdlib.h>
 #include <time.h>
@@ -27,8 +28,19 @@ int main (void)
   struct stat st;
   long int n;
 
-  fprintf(stderr, "warning: genhostid is now deprecated, and will be removed in the near future!\n"
-                  "warning: use systemd-machine-id-setup (1) instead! More info: 'man 5 machine-id'\n");
+  errno = 0;
+
+  /*
+   * access() returns -1 if the file does not exist or upon error.
+   * We should display the deprecation warning only when we are sure the
+   * file does not exist. In case of different error, silently ignore it
+   * and do not print anything - to not pollute users' scripts unnecessarily.
+   */
+  if (access("/etc/sysconfig/disable-deprecation-warnings", F_OK) == -1
+      && errno == ENOENT) {
+    fprintf(stderr, "warning: genhostid is now deprecated, and will be removed in the near future!\n"
+                    "warning: use systemd-machine-id-setup (1) instead! More info: 'man 5 machine-id'\n");
+  }
 
   /*
    * NOTE: gethostid() always returns 32-bit identifier, and st_size field
