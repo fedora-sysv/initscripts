@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.00
+Version:          10.01
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -347,6 +347,12 @@ fi
 # =============================================================================
 
 %changelog
+* Mon Aug 06 2018 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 10.01-1
+- network/ifup/ifdown: deprecations warnings redirected to stderr
+- ifup-eth: use 'bc' instead of 'expr' when computing $forward_delay
+- network/ifup/ifdown: deprecation warnings for 'network-scripts' added
+- network: parsing of /proc/mounts returned
+
 * Thu Jun 21 2018 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 10.00-1
 - Move the /etc/rwtab.d & /etc/statetab.d folders to 'filesystem'
 - specfile: fix failing build because of incorrect use of %{_isa}
