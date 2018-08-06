@@ -31,9 +31,10 @@ sysconfdir     = /etc
 localstatedir  = /var
 sharedstatedir = $(localstatedir)/lib
 
-VERSION       := $(shell gawk '/Version:/ { print $$2 }' initscripts.spec)
-NEXT_VERSION  := $(shell gawk '/Version:/ { print $$2 + 0.01}' initscripts.spec)
-
+VERSION         := $(shell gawk '/Version:/ { print $$2 }' initscripts.spec)
+NEXT_VERSION_XY := $(shell sed -re 's/([[:digit:]]+\.[[:digit:]]+)(.*)/\1/' <<< "$(VERSION)")
+NEXT_VERSION_Z  := $(shell sed -re 's/([[:digit:]]+\.[[:digit:]]+\.)(.*)/\2 + 1/' <<< "$(VERSION)" | bc)
+NEXT_VERSION    := $(NEXT_VERSION_XY).$(NEXT_VERSION_Z)
 
 all: make-binaries make-translations
 
