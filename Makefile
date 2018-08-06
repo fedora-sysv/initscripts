@@ -113,7 +113,6 @@ release-commit:
 	@rm -f .changelog.tmp
 	@git add initscripts.spec
 	@git commit --message="$(NEXT_VERSION)"
-	@git tag -a -f -m "Tag as $(NEXT_VERSION)" $(NEXT_VERSION)
 	@echo -e "\n       New release commit ($(NEXT_VERSION)) created:\n"
 	@git show
 
