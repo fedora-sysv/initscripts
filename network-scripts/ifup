@@ -32,9 +32,9 @@ CONFIG=${1}
 }
 
 if ! [ -f /etc/sysconfig/disable-deprecation-warnings ] && ! is_true ${DEPRECATION_WARNING_ISSUED}; then
-    net_log $"You are using 'ifup' script provided by 'network-scripts', which are now deprecated." warning ifup
-    net_log $"'network-scripts' will be removed in one of the next major releases of RHEL." warning ifup
-    net_log $"It is advised to switch to 'NetworkManager' instead - it provides 'ifup/ifdown' scripts as well." warning ifup
+    net_log $"You are using 'ifup' script provided by 'network-scripts', which are now deprecated." warning ifup >&2
+    net_log $"'network-scripts' will be removed in one of the next major releases of RHEL." warning ifup >&2
+    net_log $"It is advised to switch to 'NetworkManager' instead - it provides 'ifup/ifdown' scripts as well." warning ifup >&2
 fi
 
 need_config "${CONFIG}"
