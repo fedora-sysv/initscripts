@@ -104,7 +104,7 @@ clean:
 	@find . -name "*~" -exec rm -v -f {} \;
 
 tag:
-	@git tag -a -f -m "Tag as $(VERSION)" $(VERSION)
+	@git tag -a -f -m "$(VERSION) release" $(VERSION)
 	@echo "Tagged as $(VERSION)"
 
 release-commit:
