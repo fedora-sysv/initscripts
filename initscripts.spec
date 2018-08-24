@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.49.45
+Version: 9.49.46
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -220,6 +220,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Fri Aug 24 2018 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.49.46-1
+- ifup-post: fix incorrect condition for RESOLV_MODS (bug #1610411)
+
 * Tue Jul 24 2018 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.49.45-1
 - network: parsing of /proc/mounts returned (bug #1572659)
 - netconsole: LSB header added (bug #1508489)
