@@ -128,7 +128,7 @@ start)
             continue
         fi
 
-        if LANG=C grep -EL "^ONBOOT=['\"]?[Nn][Oo]['\"]?" ifcfg-$i > /dev/null ; then
+        if ( . ./ifcfg-"$i" ; is_false "$ONBOOT" ) ; then
             # this loads the module, to preserve ordering
             is_available $i
             continue
@@ -139,7 +139,7 @@ start)
 
     # Bring up xDSL and VPN interfaces
     for i in $vlaninterfaces $bridgeinterfaces $xdslinterfaces $vpninterfaces ; do
-        if ! LANG=C grep -EL "^ONBOOT=['\"]?[Nn][Oo]['\"]?" ifcfg-$i >/dev/null 2>&1 ; then
+        if ( . ./ifcfg-"$i" ; ! is_false "$ONBOOT" ) ; then
             action $"Bringing up interface $i: " ./ifup $i boot
             [ $? -ne 0 ] && rc=1
         fi
