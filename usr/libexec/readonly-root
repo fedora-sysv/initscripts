@@ -43,7 +43,7 @@ if strstr "$cmdline" noreadonlyroot ; then
 fi
 
 MOUNTS=()
-if [ "$READONLY" = "yes" -o "$TEMPORARY_STATE" = "yes" ]; then
+if is_true "$READONLY" || is_true "$TEMPORARY_STATE"; then
 
         add_mount() {
                 mnt=${1%/}
@@ -80,7 +80,7 @@ if [ "$READONLY" = "yes" -o "$TEMPORARY_STATE" = "yes" ]; then
 	rw_mount_dev=$(blkid -t LABEL="$RW_LABEL" -l -o device)
 
         bindmountopts=
-        [ "$SLAVE_MOUNTS" = "yes" ] && bindmountopts="--make-slave"
+        is_true "$SLAVE_MOUNTS" && bindmountopts="--make-slave"
 
 	# First try to mount scratch storage from /etc/fstab, then any
 	# partition with the proper label.  If either succeeds, be sure

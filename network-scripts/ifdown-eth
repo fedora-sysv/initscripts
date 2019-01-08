@@ -29,13 +29,13 @@ source_config
 . /etc/sysconfig/network
 
 # Check to make sure the device is actually up
-check_device_down ${DEVICE} && [ "$BOOTPROTO" != "dhcp" -a "$BOOTPROTO" != "bootp" ] && [ -n "$VLAN" -a "$VLAN" != "yes" ] && exit 0
+check_device_down ${DEVICE} && [ "$BOOTPROTO" != "dhcp" -a "$BOOTPROTO" != "bootp" ] && [ -n "$VLAN" ] && ! is_true "$VLAN" && exit 0
 
 if [ -n "${TEAM_MASTER}" ] && [ ! "${DEVICETYPE}" = "TeamPort" ] && [ -x ./ifdown-TeamPort ]; then
     ./ifdown-TeamPort ${CONFIG} $2
 fi
 
-if [ "${SLAVE}" != "yes" -o -z "${MASTER}" ]; then
+if ! is_true "${SLAVE}" || [ -z "${MASTER}" ]; then
     if [ -n "${HWADDR}" -a -z "${MACADDR}" ]; then
         FOUNDMACADDR=$(get_hwaddr ${REALDEVICE})
         if [ -n "${FOUNDMACADDR}" -a "${FOUNDMACADDR}" != "${HWADDR}" ]; then
@@ -125,7 +125,7 @@ if [ -d "/sys/class/net/${REALDEVICE}" ]; then
         ip -4 addr flush dev ${REALDEVICE} ${LABEL} scope host 2>/dev/null
     fi
 
-    if [ "${SLAVE}" = "yes" -a -n "${MASTER}" ]; then
+    if is_true "${SLAVE}" && [ -n "${MASTER}" ]; then
         echo "-${DEVICE}" > /sys/class/net/${MASTER}/bonding/slaves 2>/dev/null
     fi
 
@@ -167,7 +167,7 @@ if [ -n "${WIRELESS_ENC_KEY}" ] && [ -x /sbin/iwconfig ]; then
     /sbin/iwconfig ${DEVICE} enc 0 >/dev/null 2>&1
 fi
 
-if [ "$retcode" = 0 ] ; then
+if [ "$retcode" = "0" ]; then
     /etc/sysconfig/network-scripts/ifdown-post $CONFIG
     # do NOT use $? because ifdown should return whether or not
     # the interface went down.

@@ -106,16 +106,16 @@ function addprovider()
     [ -z "$GATEWAY" ] && GATEWAY="0.0.0.0"
 
     # set default route
-    [ "$DEFROUTE" = "yes" ] && options="$options defaultroute deldefaultroute"
+    is_true "$DEFROUTE" && options="$options defaultroute deldefaultroute"
 
     # set authentication
     _auth=$(echo "$AUTH" | sed 's/[a-z -]*//g')
     if [ -n "$_auth" ]; then
-        if [ -z "$USER" -a "$DIALIN" != "on" ]; then
+        if [ -z "$USER" ] && ! is_true "$DIALIN"; then
             log_echo " Error: $1 (syncppp) user is not set"
             return 1
         fi
-        if [ "$DIALIN" != "on" ]; then
+        if ! is_true "$DIALIN"; then
             # we should hide the user name, so i add user name to option file.
             if [ "$AUTH" = "-pap +chap" ]; then
                 create_option_file "name \"$USER\""
@@ -128,7 +128,7 @@ function addprovider()
         # authentication options:
         # +pap and/or +chap does not work correct by dialout - remove
         # them if it's configured as dialout
-        [ "$DIALIN" = "on" ] || AUTH=$(echo "$AUTH" | sed 's/+[a-z]*//g')
+        is_true "$DIALIN" || AUTH=$(echo "$AUTH" | sed 's/+[a-z]*//g')
     fi
 
     # add ISDN device 
@@ -187,7 +187,7 @@ function addprovider()
     if [ "$IPADDR" = "0.0.0.0" ]; then
         options="$options ipcp-accept-local"
     else
-        if [ "$DIALIN" != "on" ]; then
+        if ! is_true "$DIALIN"; then
             options="$options noipdefault"
         fi
     fi
@@ -195,7 +195,7 @@ function addprovider()
     options="$options /dev/$DEVICE"
 
     # set channel bundling
-    if [ "$BUNDLING" = "yes" -o "$BUNDLING" = "on" ] && [ -n "$SLAVE_DEVICE" ]; then
+    if is_true "$BUNDLING" && [ -n "$SLAVE_DEVICE" ]; then
         [ -z "$SLAVE_MSN" ] && SLAVE_MSN="$MSN"
         [ -z "$SLAVE_PHONE_OUT" ] && SLAVE_PHONE_OUT="$PHONE_OUT"
         [ -z "$SLAVE_PHONE_IN" ] && SLAVE_PHONE_IN="$PHONE_IN"
@@ -207,7 +207,7 @@ function addprovider()
         [ -z "$SLAVE_DIALMAX" ] && SLAVE_DIALMAX="$DIALMAX"
         [ -z "$SLAVE_CALLBACK" ] && SLAVE_CALLBACK="$CALLBACK"
         [ -z "$SLAVE_CBDELAY" ] && SLAVE_CBDELAY="$CBDELAY"
-        if [ "$DIALIN" != "on" ] ; then
+        if ! is_true "$DIALIN"; then
             [ -z "$SLAVE_DIALMODE" ] && SLAVE_DIALMODE="auto"
         else
             # Master should not dial by default on incoming MPPP
@@ -258,7 +258,7 @@ function addprovider()
     fi
 
     if [ "$GATEWAY" = "0.0.0.0" ]; then
-        if [ "$DIALIN" != "on" ]; then
+        if ! is_true "$DIALIN"; then
             options="$options ipcp-accept-remote"
         fi
         options="$IPADDR:$GATEWAY $options"
@@ -268,21 +268,21 @@ function addprovider()
 
     # Van Jacobson style TCP/IP header compression and
     # VJ connection-ID compression
-    [ "$VJ" = "off" ] && options="$options -vj"
-    [ "$VJCCOMP" = "off" ] && options="$options -vjccomp"
+    is_false "$VJ" && options="$options -vj"
+    is_false "$VJCCOMP" && options="$options -vjccomp"
 
     # Address/Control compression, protocol field compression,
-    [ "$AC" = "off" ] && options="$options -ac"
-    [ "$PC" = "off" ] && options="$options -pc"
+    is_false "$AC" && options="$options -ac"
+    is_false "$PC" && options="$options -pc"
 
     # BSD-Compression scheme
-    if [ "$BSDCOMP" = "on" ] ; then
+    if is_true "$BSDCOMP"; then
         options="$options bsdcomp 9,9"
     else
         options="$options -bsdcomp"
     fi
     # Stac compression
-    if [ "$LZS" = "on" ] ; then
+    if is_true "$LZS"; then
         # supports LZS check mode 3 and 4
         [ -n "$LZS_MODE" ] || LZS_MODE="4"
         [ "$LZS_MODE" = "3" ] && options="$options lzs 1"
@@ -294,7 +294,7 @@ function addprovider()
     [ -n "$MTU" ] && options="$options mtu $MTU"
 
     # set CBCP protocoll
-    if [ "$CBCP" = "on" ] ; then
+    if is_true "$CBCP"; then
         if [ -n "$CBCP_MSN" ] ; then
             # User managed callback
             options="$options callback $CBCP_MSN"
@@ -308,7 +308,7 @@ function addprovider()
     fi
 
     # set CCP protocoll
-    [ "$CCP" = "off" ] && options="$options noccp"
+    is_false "$CCP" && options="$options noccp"
 
     # set host name
     [ -n "$ISDN_HOSTNAME" ] && options="$options remotename $ISDN_HOSTNAME"
@@ -332,7 +332,7 @@ function addprovider()
     fi
 
     # set debug 
-    [ "$DEBUG" = "yes" ] && options="-d $options"
+    is_true "$DEBUG" && options="-d $options"
 
     # set netmask, if available
     [ -n "$NETMASK" ] && {
@@ -350,15 +350,15 @@ function addprovider()
         ipppd $options $netmask >/dev/null 2>&1
 
         # start ibod daemon
-        if [ "$DIALIN" != "on" ]; then
-            [ "$BUNDLING" = "yes" -o "$BUNDLING" = "on" ] && [ -n "$SLAVE_DEVICE" ] && start_ibod $DEVICE
+        if ! is_true "$DIALIN"; then
+            is_true "$BUNDLING" && [ -n "$SLAVE_DEVICE" ] && start_ibod $DEVICE
         fi
     fi
 
     # set default gateway for dial on demand
     if [ "$DIALMODE" = "auto" ] ; then
         echo 1 > /proc/sys/net/ipv4/ip_dynaddr
-        if  [ "$DEFROUTE" = "yes" ] ; then
+        if  is_true "$DEFROUTE" ; then
             if [ "$GATEWAY" = "0.0.0.0" ]; then
                 ip route replace default ${METRIC:+metric $METRIC} dev ${DEVICE} >/dev/null 2>&1
             else

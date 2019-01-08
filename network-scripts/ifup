@@ -58,11 +58,11 @@ fi
 
 source_config
 
-if [ "foo$2" = "fooboot" ] && [ "${ONBOOT}" = "no" -o "${ONBOOT}" = "NO" ]
+if [ "foo$2" = "fooboot" ] && is_false "${ONBOOT}"
 then
     exit 0
 fi
-if [ -n "$IN_HOTPLUG" ] && [ "${HOTPLUG}" = "no" -o "${HOTPLUG}" = "NO" ]
+if [ -n "$IN_HOTPLUG" ] && is_false "${HOTPLUG}"
 then
     exit 0
 fi
@@ -81,7 +81,7 @@ if [ "$_use_nm" = "true" -a -n "$UUID" -a "$REALDEVICE" != "lo" ]; then
 fi
 
 # Ethernet 802.1Q VLAN support
-if [ "${VLAN}" = "yes" ] && [ "$ISALIAS" = "no" ] && [ -n "$DEVICE" ]; then
+if is_true "${VLAN}" && is_false "$ISALIAS" && [ -n "$DEVICE" ]; then
     if [ -n "${VID}" ]; then
         if test -z "$PHYSDEV"; then
             net_log $"PHYSDEV should be set for device ${DEVICE}"
@@ -125,11 +125,11 @@ if [ "${VLAN}" = "yes" ] && [ "$ISALIAS" = "no" ] && [ -n "$DEVICE" ]; then
         check_device_down ${PHYSDEV} && { ip -o link set dev ${PHYSDEV} up; }
 
         if [ ! -f /proc/net/vlan/${DEVICE} ]; then
-            if [ "${REORDER_HDR}" = "no" -o "${REORDER_HDR}" = "0" ]; then
+            if is_false "${REORDER_HDR}"; then
                 FLAG_REORDER_HDR="reorder_hdr off"
             fi
 
-            if [ "${GVRP}" = "yes" -o "${GVRP}" = "1" ]; then
+            if is_true "${GVRP}"; then
                 FLAG_GVRP="gvrp on"
             fi
 

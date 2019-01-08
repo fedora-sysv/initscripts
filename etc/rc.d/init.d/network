@@ -28,7 +28,7 @@ fi
 
 
 # Check that networking is up.
-[ "${NETWORKING}" = "no" ] && exit 6
+is_false "${NETWORKING}" && exit 6
 
 # if the ip configuration utility isn't around we can't function.
 [ -x /sbin/ip ] || exit 1
@@ -76,13 +76,11 @@ start)
     # bring up loopback interface
     action $"Bringing up loopback interface: " ./ifup ifcfg-lo
 
-    case "$VLAN" in
-    yes)
+    if is_true "$VLAN" ; then
         if [ ! -d /proc/net/vlan ] && ! modprobe 8021q >/dev/null 2>&1 ; then
             net_log $"No 802.1Q VLAN support available in kernel."
         fi
-        ;;
-    esac
+    fi
 
     vlaninterfaces=""
     vpninterfaces=""
@@ -99,7 +97,7 @@ start)
 
         if [ -z "$DEVICE" ] ; then DEVICE="$i"; fi
 
-        if [ "$SLAVE" = "yes" ] && ( ! is_nm_running || is_false $NM_CONTROLLED ) ; then
+        if is_true "$SLAVE" && ( ! is_nm_running || is_false "$NM_CONTROLLED" ) ; then
             continue
         fi
 
