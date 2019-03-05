@@ -604,6 +604,15 @@ Files in /etc/sysconfig/network-scripts/
       By default network-scripts will set `accept_ra` only if $IPV6_AUTOCONF is
       set to `yes`. If you don't want SLAAC addresses but do want to accept RA,
       then set this to `yes`. Defaults to `no`.
+    PERSISTENT_DHCLIENT_IPV6=yes|no|1|0
+      Without this option, or if it is 'no'/'0', and DHCPV6C=yes,
+      'dhclient -6' is run for the interface in "one-shot" mode; if the 
+      DHCPv6 server does not respond for a configurable timeout, then
+      'dhclient -6' exits and the interface is not brought up - 
+      the '-1' option is given to 'dhclient -6'.
+      If PERSISTENT_DHCLIENT_IPV6=yes, then dhclient will keep on trying
+      to contact the DHCPv6 server when it does not respond - no '-1'
+      option is given to 'dhclienti -6'. 
 
   Special configuration options for multi-homed hosts etc.
 	IPV6_ROUTER=yes|no: Controls IPv6 autoconfiguration
