@@ -360,7 +360,7 @@ if is_true "${DHCPV6C}" && [ -x /sbin/dhclient ]; then
     echo -n $"Determining IPv6 information for ${DEVICE}..."
 
     # Initialize the dhclient args for IPv6 and obtain the hostname options if needed:
-    if is_true "${PERSISTENT_DHCLIENT}"; then
+    if is_true "${PERSISTENT_DHCLIENT_IPV6}"; then
         ONESHOT="";
     else
         ONESHOT="-1";
