@@ -111,18 +111,14 @@ __kill_pids_term_kill_checkpids() {
     local pid=
     local pids=$*
     local remaining=
-    local stat=
     local stime=
 
     for pid in $pids ; do
         [ ! -e  "/proc/$pid" ] && continue
-        read -r line < "/proc/$pid/stat" 2> /dev/null
-
-        stat=($line)
-        stime=${stat[21]}
+        stime=$(cut -d ' ' -f 22 2>/dev/null </proc/$pid/stat)
 
         [ -n "$stime" ] && [ "$base_stime" -lt "$stime" ] && continue
-        remaining+="$pid "
+        remaining="${remaining}$pid "
     done
 
     echo "$remaining"
@@ -135,13 +131,9 @@ __kill_pids_term_kill() {
     local try=0
     local delay=3;
     local pid=
-    local stat=
     local base_stime=
 
-    # We can't initialize stat & base_stime on the same line where 'local'
-    # keyword is, otherwise the sourcing of this file will fail for ksh...
-    stat=($(< /proc/self/stat))
-    base_stime=${stat[21]}
+    base_stime=$(cut -d ' ' -f 22 2>/dev/null </proc/$$/stat)
 
     if [ "$1" = "-d" ]; then
         delay=$2
@@ -163,7 +155,7 @@ __kill_pids_term_kill() {
             sleep 1
             kill_list=$(__kill_pids_term_kill_checkpids $base_stime $kill_list)
             [ -z "$kill_list" ] && break
-            let try+=1
+            try=$((try+1))
         done
         if [ -n "$kill_list" ] ; then
             kill -KILL $kill_list >/dev/null 2>&1
@@ -197,13 +189,16 @@ __pids_var_run() {
             read line
             [ -z "$line" ] && break
             for p in $line ; do
-                if [ -z "${p//[0-9]/}" ] && [ -d "/proc/$p" ] ; then
-                    if [ -n "$binary" ] ; then
-                        local b=$(readlink /proc/$p/exe | sed -e 's/\s*(deleted)$//')
-                        [ "$b" != "$binary" ] && continue
-                    fi
-                    pid="$pid $p"
-                fi
+                [ -d  "/proc/$p" ] || continue
+                case $p in
+                    [0-9][0-9]*)
+                        if [ -n "$binary" ] ; then
+                            local b=$(readlink /proc/$p/exe | sed -e 's/\s*(deleted)$//')
+                            [ "$b" != "$binary" ] && continue
+                        fi
+                        pid="$pid $p"
+                    ;;
+                esac
             done
         done < "$pid_file"
 
