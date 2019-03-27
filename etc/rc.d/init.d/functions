@@ -222,7 +222,7 @@ daemon() {
     # Test syntax.
     local gotbase= force= nicelevel corelimit
     local pid base= user= nice= bg= pid_file=
-    local cgroup=
+    local cgroup= shell=
     nicelevel=0
     while [ "$1" != "${1##[-+]}" ]; do
         case $1 in
@@ -282,6 +282,9 @@ daemon() {
     # make sure it doesn't core dump anywhere unless requested
     corelimit="ulimit -S -c ${DAEMON_COREFILE_LIMIT:-0}"
 
+    # if they set SERVICESHELL in /etc/sysconfig/foo, honor it
+    shell="${SERVICESHELL:-/bin/sh}"
+
     # if they set NICELEVEL in /etc/sysconfig/foo, honor it
     [ -n "${NICELEVEL:-}" ] && nice="nice -n $NICELEVEL"
 
@@ -303,9 +306,9 @@ daemon() {
 
     # And start it up.
     if [ -z "$user" ]; then
-       $cgroup $nice /bin/bash -c "$corelimit >/dev/null 2>&1 ; $*"
+       $cgroup $nice $shell -c "$corelimit >/dev/null 2>&1 ; $*"
     else
-       $cgroup $nice runuser -s /bin/bash $user -c "$corelimit >/dev/null 2>&1 ; $*"
+       $cgroup $nice runuser -s $shell $user -c "$corelimit >/dev/null 2>&1 ; $*"
     fi
 
     [ "$?" -eq 0 ] && success $"$base startup" || failure $"$base startup"
