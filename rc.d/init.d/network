@@ -176,8 +176,8 @@ stop)
     # as such in sysconfig
     if is_false "$IFDOWN_ON_SHUTDOWN"; then
       if systemctl is-system-running | grep -q 'stopping'; then
-        net_log $"system is shutting down, leaving interfaces up as requested"
-        exit 1
+        net_log $"system is shutting down, leaving interfaces up as requested" info
+        exit 0
       fi
     fi
 
