@@ -35,14 +35,17 @@ VERSION       := $(shell gawk '/Version:/ { print $$2 }' initscripts.spec)
 NEXT_VERSION  := $(shell gawk '/Version:/ { print $$2 + 0.01}' initscripts.spec)
 
 
-all: make-binaries make-translations
+all: make-binaries make-translations generate-doc
 
 
 make-binaries:
-	$(MAKE) -C src
+	$(MAKE) -C src 
 
 make-translations:
 	$(MAKE) -C po
+
+generate-doc:
+	rst2man doc/sysconfig.rst doc/sysconfig.8 
 
 
 # NOTE: We are no longer installing into /usr/sbin directory, because this is
@@ -81,6 +84,7 @@ install-man: install-usr
 	install -m 0755 -d      $(DESTDIR)$(mandir)/man8
 	install -m 0644 man/*.1 $(DESTDIR)$(mandir)/man1
 	install -m 0644 man/*.8 $(DESTDIR)$(mandir)/man8
+	install -m 0644 doc/sysconfig.8 $(DESTDIR)$(mandir)/man8
 
 # Initscripts still ship some empty directories necessary for system to function
 # correctly...
@@ -102,6 +106,7 @@ clean:
 	$(MAKE) clean -C src
 	$(MAKE) clean -C po
 	@find . -name "*~" -exec rm -v -f {} \;
+	rm -f doc/sysconfig.8
 
 tag:
 	@git tag -a -f -m "$(VERSION) release" $(VERSION)

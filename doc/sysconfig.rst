@@ -1,0 +1,1271 @@
+.. |_| unicode:: U+0009 .. CHARACTER TABULATION
+
+=========
+sysconfig
+=========
+
+-------------------------------------------
+Doucumentation for /etc/sysconfig/* scripts
+-------------------------------------------
+
+:Date:            2019-04-05
+:Manual section:  8
+
+DESCRIPTION
+===========
+
+Some description
+
+OPTIONS
+=======
+
+/etc/sysconfig/*
+----------------
+
+CGROUP_DAEMON=
+  List of control groups that the daemon will be run in. For example,
+  CGROUP_DAEMON="cpu:daemons cpuacct:/" will run it in the daemons group
+  for the CPU controller, and the '/' group for the CPU accounting controller.
+
+----------
+
+/etc/sysconfig/authconfig
+-------------------------
+
+used by authconfig to store information about the system's user
+information and authentication setup; changes made to this file
+have no effect until the next time authconfig is run
+
+USEHESIOD=no
+  Whether or not the hesiod naming service is in use. If not set,
+  authconfig examines the passwd setting in /etc/nsswitch.conf.
+    
+USELDAP=no
+  Whether or not LDAP is used as a naming service. If not set,
+  authconfig examines the passwd setting in /etc/nsswitch.conf.
+    
+USENIS=no
+  Whether or not NIS is in use. If not set, authconfig examines
+  the passwd setting in /etc/nsswitch.conf.
+
+USEKERBEROS=no
+  Whether or not Kerberos is in use. If not set, authconfig examines
+  the settings in /etc/pam.d/system-auth.
+    
+USELDAPAUTH=no
+  Whether or not LDAP is being used for authentication. If not set,
+  authconfig examines the settings in /etc/pam.d/system-auth.
+  Note that this option is separate from USELDAP, and that neither implies the other.
+    
+USEMD5=no
+  Whether or not MD5-based hashing should be used when setting passwords.
+  If not set, authconfig examines the settings in /etc/pam.d/system-auth.
+  This option affects authentication using both local files and LDAP.
+
+USESHADOW=no
+  Whether or not shadow passwords are in use. If not set,
+  authconfigchecks for the existence of /etc/shadow.
+
+USESMBAUTH=no
+  Whether or not SMB authentication is in use. If not set,
+  authconfig examines the settings in /etc/pam.d/system-auth.
+
+----------
+
+/etc/sysconfig/autofsck
+-----------------------
+
+does not normally exist; if it does, it can influence a choice whether or not to fsck after a crash
+
+AUTOFSCK_DEF_CHECK=no
+  If the user does not respond, choose whether or not to fsck
+
+----------
+
+/etc/sysconfig/init:
+--------------------
+
+BOOTUP=<some bootup mode>
+  BOOTUP=graphical means use X Windows graphical boot up BOOTUP=color means colorized
+  text mode boot display. BOOTUP=verbose means old style display Anything else means
+  simplified display, but without color or ANSI-formatting
+  
+LOGLEVEL=<a number>
+  Sets the initial console logging level for the kernel. The default is 7. 8 means
+  everything (including debugging); 1 means nothing except kernel panics. syslogd will override this once it starts.
+
+RES_COL=<a number>
+  Column of the screen to start status labels at. Defaults to 60
+
+MOVE_TO_COL=<a command>
+  A command to move the cursor to $RES_COL. Defaults to nasty ANSI sequences output by echo -e.
+
+SETCOLOR_SUCCESS=<a command>
+  A command to set the color to a color indicating success. Defaults to
+  nasty ANSI sequences output by echo -e setting the color to green.
+
+SETCOLOR_FAILURE=<a command>
+  A command to set the color to a color indicating failure. Defaults to
+  nasty ANSI sequences output by echo -e setting the color to red.
+
+SETCOLOR_WARNING=<a command>
+  A command to set the color to a color indicating warning. Defaults to
+  nasty ANSI sequences output by echo -e setting the color to yellow.
+
+SETCOLOR_NORMAL=<a command>
+  A command to set the color to 'normal'. Defaults to nasty ANSI sequences output by echo -e.
+
+PROMPT=yes|no
+  Set to 'yes' to enable the key check for interactive mode as well as asking
+  if a filesystem check should be done. Default is 'no' and the kernel command
+  line option "forcefsck" can be used to check the filesystems and "confirm"
+  can be used to enable interactive startup questions.
+
+----------
+
+/etc/sysconfig/keyboard:
+------------------------
+
+KEYTABLE=<keytable file>
+  for example: KEYTABLE="/usr/lib/kbd/keytables/us.map"
+    
+  If you dump a keymap (using 'dumpkeys') to
+	
+/etc/sysconfig/console/default.kmap
+  it will be loaded on bootup before filesystems are mounted/checked.
+  This could be useful if you need to emergency type the root password.
+  This has to be a dumped keymap, as opposed to copying the shipped
+  keymap files, as the shipped files include other maps from the
+  /usr/lib/kbd/keytables directory.
+     
+KEYBOARDTYPE=sun|pc
+  on SPARC only, sun means a sun keyboard is attached on /dev/kbd,
+  pc means a PS/2 keyboard is on ps/2 port.
+  
+----------
+
+/etc/sysconfig/mouse:
+---------------------
+
+MOUSETYPE=microsoft|mouseman|mousesystems|ps/2|msbm|logibm|atibm|logitech|mmseries|mmhittab
+  
+XEMU3=yes|no
+  Emulate three buttons with two buttons whenever necessary, most notably in X.
+  
+DEVICE=<a device node> (the device of the mouse)
+  In addition, /dev/mouse points to the mouse device.
+
+----------
+
+/etc/sysconfig/network:
+-----------------------
+
+**NETWORKING=yes|no**
+
+**GATEWAY=<gateway IP>**
+
+GATEWAYDEV=<device>
+  Gateway devace to use, when multiple devices have set GATEWAY option. (e.g. eth0)
+
+**NISDOMAIN=<nis domain name>**
+
+NOZEROCONF=
+  Set this to not set a route for dynamic link-local addresses.
+
+NETWORKDELAY=<delay in seconds>
+  Delay in seconds after all network interfaces are initialized. Useful if
+  network has spanning tree running and must wait for STP convergence.
+  
+  Default: 0 (no delay)
+
+WAIT_UNTIL_REACHABLE=<IP address|DNS name>
+  Network initscript will wait until specified target is reachable.
+  It starts to reaching passed IP address or DNS name every second
+  until it reach it sucessfully or until it reach preset delay NETWORKDELAY (default 30).
+  It works with both IPv4 and IPv6 adress and also with DNS name.
+  
+  Example: WAIT_UNTIL_REACHABLE=8.8.8.8
+  
+  Default: (not set)
+
+IPV6FORWARDING=yes|no
+  Enable or disable global forwarding of incoming IPv6 packets 
+  on all interfaces.
+  
+  Note: Actual packet forwarding cannot be controlled per-device, use netfilter6 for such issues
+  
+  Default: no
+
+IPV6_AUTOCONF=yes|no
+  Sets the default for device-based autoconfiguration.
+  
+  Default: yes if IPV6FORWARDING=no, no if IPV6FORWARDING=yes
+
+IPV6_ROUTER=yes|no
+  Sets the default for device-based Host/Router behaviour.
+  
+  Default: yes if IPV6FORWARDING=yes, no if IPV6FORWARDING=no
+
+IPV6_AUTOTUNNEL=yes|no
+  Controls automatic IPv6 tunneling.
+  
+  Default: no
+
+IPV6_DEFAULTGW=<IPv6 address[%interface]> (optional)
+  Add a default route through specified gateway
+  An interface can be specified: required for link-local addresses
+  
+  Examples:
+    IPV6_DEFAULTGW="3ffe:ffff:1233:5678::1"
+      Add default route through 3ffe:ffff:1233:5678::1
+  
+    IPV6_DEFAULTGW="3ffe:ffff:1233:5678::1%eth0"
+      Add default route through 3ffe:ffff:1233:5678::1 and device eth0
+    
+    IPV6_DEFAULTGW="fe80::1%eth0"
+      Add default route through fe80::1 and device eth0
+
+  Note: If IPV6_DEFAULTGW is specified with %interface scope and it doesn't match IPV6_DEFAULTDEV, IPV6_DEFAULTDEV is ignored.
+  
+  Note: It's preferred to use %interface for all addresses, not just link-local if you have multiple IPv6-enabled interfaces.
+
+IPV6_DEFAULTDEV=<interface> (optional)
+  Add a default route through specified interface without specifying next hop.
+  Type of interface will be tested whether this is allowed.
+  Examples:
+    IPV6_DEFAULTDEV="eth0" INVALID example!
+    
+    IPV6_DEFAULTDEV="ppp0"
+    
+    IPV6_DEFAULTDEV="sit1"
+    
+    IPV6_DEFAULTDEV="tun6to4"
+      Add default route through dedicated 6to4 tunnel device "tun6to4", if configured
+
+  Note: "tun6to4" does not support an additional IPV6_DEFAULTGW. Other interfaces prefer IPV6_DEFAULTGW, if specified.
+
+IPV6_RADVD_PIDFILE=<pid-file> (optional)
+  Location of PID file for controlling radvd, see IPV6_CONTROL_RADVD
+  
+  Default: "/run/radvd/radvd.pid"
+  
+  Example:
+    IPV6_RADVD_PIDFILE="/some/other/location/radvd.pid"
+    
+    IPV6TO4_RADVD_PIDFILE=<pid-file> (obsolete)
+      As above, still supported for a while for backward compatibility.
+    
+    IPV6_RADVD_TRIGGER_ACTION=startstop|reload|restart|SIGHUP (optional)
+    
+  How to trigger radvd in case of 6to4 or PPP action:
+    startstop: radvd starts if interface goes up and stops
+    if interface goes down using initscript call of radvd with related parameter
+  
+    reload|restart: initscript of radvd is called with this parameter
+    
+    SIGHUP: signal HUP is sent to radvd, pidfile must be specified, if not the default
+    
+    Default: SIGHUP
+
+  IPv6 options above can be overridden in interface-specific configuration.
+
+Obsoleted values from earlier releases:
+
+HOSTNAME=<fqdn by default, but whatever hostname you want>
+  This is now configured in /etc/hostname.
+
+----------
+
+/etc/sysconfig/static-routes-ipv6:
+----------------------------------
+
+<device> IPv6-network IPv6-gateway
+
+<tunneldevice> IPv6-network
+  
+<device>
+  must be a device name to have the route brought up and down
+  with the device
+
+  For example:
+    eth0 |_| fec0:0:0:2::/64 |_| fec0:0:0:1:0:0:0:20
+    adds a route for IPv6 network fec0:0:0:2::/64 through fec0:0:0:1:0:0:0:20
+
+    eth0 |_| 2000::/3 |_| 3ffe:ffff:0:1::1
+    so-called "default" routes for clients
+
+    sit1 |_| 2000::/3
+    adds routes through dedicated tunnel interface sit1
+
+    tun6to4 |_| 3ffe:ffff:1233::/56			
+    adds routes throuchgh hardwired 6to4 tunnel interface tun6to4
+
+    tun6to4 |_| 3ffe:ffff:5678::/56 |_| ::5.6.7.8
+    adds routes through hardwired 6to4 tunnel interface tun6to4, specifying next hop   
+
+  Notes:
+    default routes (such as the "2000::/3" shown above) should be set with
+    IPV6_DEFAULTGW and IPV6_DEFAULTDEV, see more above.
+
+    tunnel device "sit0" is not supported here, routes will never be applied
+
+----------
+
+/etc/sysconfig/pcmcia:
+----------------------
+
+PCMCIA=yes|no
+
+PCIC=i82365|tcic
+
+PCIC_OPTS=<socket driver (i82365 or tcic) timing parameters>
+
+CORE_OPTS=<pcmcia_core options>
+
+CARDMGR_OPTS=<cardmgr options>
+
+----------
+
+/etc/sysconfig/tape:
+--------------------
+
+DEV=/dev/nst0
+  Tape device.  Use the non-rewinding one for these scripts.
+  For SCSI tapes this is /dev/nst#, where # is the number of the
+  tape drive you want to use.  If you only have one then use nst0.
+  For IDE tapes you use /dev/ht#, where # is the number of the tape
+  drive you want to use (usually ht0).
+  For floppy tape drives use /dev/ftape.
+
+ADMIN=root
+  Person to mail to if the backup fails for any reason
+
+SLEEP=5
+  Time to sleep between tape operations.  Some drives need a bit
+  more than others, but 5 seems to work for 8mm, 4mm, and DLT
+
+BLOCKSIZE=32768
+  This worked fine for 8mm, then 4mm, and now DLT.  An optimal
+  setting is probably however much data your drive writes at one
+  time.
+
+SHORTDATE=$(date +%y:%m:%d:%H:%M)
+  A short date string, used in backup log filenames.
+
+DAY=$(date +log-%y:%m:%d)
+  This is used for the log file directory.
+
+DATE=$(date)
+  Regular date string, used in log files.
+
+LOGROOT=/var/log/backup
+  Root of the logging directory
+
+LIST=$LOGROOT/incremental-list
+  This is the file name the incremental backup will use to store
+  the incremental list.  It will be $LIST-{some number}.
+
+DOTCOUNT=$LOGROOT/.count
+  For counting as you go to know which incremental list to use
+
+COUNTER=$LOGROOT/counter-file
+  For rewinding when done...might not use.
+
+BACKUPTAB=/etc/backuptab
+  The file in which we keep our list of backup(s) we want to make.
+
+----------
+
+/etc/sysconfig/saslauthd:
+-------------------------
+
+used by the saslauthd init script (part of the cyrus-sasl package) to
+control which arguments are passed to saslauthd at startup time; changes
+made to this file have no effect until saslauthd is restarted
+
+MECH=shadow
+  controls which data source saslauthd will consult when checking user
+  passwords; run 'saslauthd -v' to get a full list of available
+  authentication mechanisms
+
+SOCKETDIR=/run/saslauthd
+  controls in which directory saslauthd will be directed to create its
+  listening socket; any change to this value will require a corresponding
+  change in client configuration files
+
+----------
+
+/etc/sysconfig/sendmail:
+------------------------
+DAEMON=yes|no
+  yes implies -bd (i.e., listen on port 25 for new mail)
+  
+QUEUE=1h
+  given to sendmail as -q$QUEUE
+  -q option is not given to sendmail if /etc/sysconfig/sendmail
+  exists and QUEUE is empty or undefined.
+
+Files in /etc/sysconfig/network-scripts/
+========================================
+
+/etc/sysconfig/network-scripts/ifup:
+------------------------------------
+/etc/sysconfig/network-scripts/ifdown:
+--------------------------------------
+
+Symlinks to /sbin/ifup and /sbin/ifdown, respectively.
+These are the only two scripts "in" this directory that should
+be called directly; these two scripts call all the other
+scripts as needed.  These symlinks are here for legacy purposes --
+only /sbin/ifup and /sbin/ifdown should currently be used
+at the user level.
+
+These scripts take one argument normally: the name of the device
+(e.g. eth0).  They are called with a second argument of "boot"
+during the boot sequence so that devices that are not meant to
+be brought up on boot (ONBOOT=no, see below) can be ignored at
+that time.
+
+Also, interfaces may be brought up via the hotplug scripts;
+in this case, HOTPLUG=no needs to be set to no to avoid this.
+This is useful e.g. to prevent bonding device activation by merely
+loading the bonding kernel module.
+
+----------
+
+/etc/sysconfig/network-scripts/init.ipv6-global:
+------------------------------------------------
+
+Not really a public file.  Contains different basic settings that
+are set from /etc/[rc.d]/init.d/network at different stages of
+network initialization.
+
+----------
+
+/etc/sysconfig/network-scripts/network-functions:
+-------------------------------------------------
+
+Not really a public file.  Contains functions which the scripts use
+for bringing interfaces up and down.  In particular, it contains
+most of the code for handling alternative interface configurations.
+
+----------
+
+/etc/sysconfig/network-scripts/network-functions-ipv6:
+------------------------------------------------------
+
+Not really a public file.  Contains functions which the scripts use
+for bringing IPv6 on interfaces up and down, like addresses, routes,
+forwarding handling and static or automatic tunneling.
+
+----------
+
+/etc/sysconfig/network-scripts/ifcfg-<interface-name> and
+---------------------------------------------------------
+/etc/sysconfig/network-scripts/ifcfg-<interface-name>:<alias-name>:
+-------------------------------------------------------------------
+
+The first defines an interface, and the second contains
+only the parts of the definition that are different in a
+"alias" (or alternative) interface.  For example, the
+network numbers might be different, but everything else
+might be the same, so only the network numbers would be
+in the alias file, but all the device information would
+be in the base ifcfg file.
+
+The items that can be defined in an ifcfg file depend on the
+interface type.  The really obvious ones I'm not going to
+bother to define; you can figure out what "IPADDR" is, I
+think...  :-)
+
+Base items:
+  
+NAME=<friendly name for users to see>
+  Most important for PPP.  Only used in front ends.
+  
+DEVICE=<name of physical device (except dynamically-allocated PPP
+devices where it is the "logical name")>
+    
+IPADDRn=
+  
+PREFIXn=
+  Network prefix.  It is used for all configurations except aliases
+  and ippp devices.  It takes precedence over NETMASK when both
+  PREFIX and NETMASK are set.
+  
+NETMASKn=
+  Subnet mask; just useful for aliases and ippp devices.  For all other
+  configurations, use PREFIX instead. The "n" is expected to be
+  consecutive positive integers starting from 0. It can be
+  omitted if there is only one address being configured.
+
+GATEWAY=
+  
+METRIC=
+  Metric for the default route using GATEWAY
+    
+ONBOOT=yes|no (not valid for alias devices; use ONPARENT)
+  
+HOTPLUG=yes|no
+  
+USERCTL=yes|no
+  
+BOOTPROTO=none|bootp|dhcp
+  'bootp' or 'dhcp' cause a DHCP client to run on the device. Any other
+  value causes any static configuration in the file to be applied.
+  
+VLAN=yes|no
+  
+MTU=
+  Default MTU for this device
+  
+WINDOW=
+  Default window for routes from this device
+  
+PEERDNS=yes|no
+  modify /etc/resolv.conf if peer uses msdns extension (PPP only) or
+  DNS{1,2} are set, or if using dhclient. default to "yes".
+  
+DNS{1,2}=<ip address>
+  provide DNS addresses that are dropped into the resolv.conf
+  file if PEERDNS is not set to "no".
+  
+SCOPE=
+  Set to "scope SCOPE-ID" to set a non-default scope for a statically
+  configured IP address.
+  
+SRCADDR=
+  use the specified source address for outgoing packets
+  
+HWADDR=
+  ethernet hardware address for this device
+  
+MACADDR=
+  Set the hardware address for this device to this.
+  Use of this in conjunction with HWADDR= may cause
+  unintended behavior.
+  
+NOZEROCONF=
+  Set this to not set a route for dynamic link-local addresses
+  over this device.
+  
+PERSISTENT_DHCLIENT=yes|no|1|0
+  Without this option, or if it is 'no'/'0', and BOOTPROTO=dhcp,
+  dhclient is run for the interface in "one-shot" mode; if the 
+  dhcp server does not respond for a configurable timeout, then
+  dhclient exits and the interface is not brought up - 
+  the '-1' option is given to dhclient.
+  If PERSISTENT_DHCLIENT=yes, then dhclient will keep on trying
+  to contact the dhcp server when it does not respond - no '-1'
+  option is given to dhclient. Note: this disables the automatic
+  checking for the presence of a link before starting dhclient.
+  
+DHCPRELEASE=yes|no|1|0
+  With this option set to 'yes' (1), when a dhcp configured
+  interface is brought down with 'ifdown', the lease will be
+  released. Otherwise, leases are not released.
+
+NO_DHCP_HOSTNAME=yes|no|1|0
+  Tells initscripts to not obtain hostname from DHCP server in the ifup-post
+  phase. This option might be useful especially with static configuration of
+  the interface.
+ 
+DHCP_SEND_HOSTNAME=yes|no|1|0
+  Tells initscripts whether the DHCP_HOSTNAME or DHCP_FQDN options (below)
+  should be sent to DHCP server.
+  
+DHCP_HOSTNAME=<hostname>
+  Sends the specified hostname to the DHCP server.
+  
+DHCP_FQDN=<fully.qualified.domain.name>
+  Sends the specified FQDN to the DHCP server.
+
+  Please note when both DHCP_HOSTNAME and DHCP_FQDN are specified,
+  only DHCP_FQDN will be used. (Same behaviour as with NetworkManager.)
+
+DHCLIENT_IGNORE_GATEWAY=yes|no|1|0
+  If set to 'yes', it will cause dhclient-script to ignore any $GATEWAY
+  setting that may be in the ifcfg file for this interface.
+  Otherwise, the dhclient session which obtains an ip-address
+  on the same subnet as $GATEWAY will set the default route
+  to be via $GATEWAY, and no other dhclient session will set
+  the default route.
+  
+DHCLIENTARGS=
+  Any additional arguments to dhclient.
+  
+NM_CONTROLLED=yes|no
+  If set to 'no', NetworkManager will ignore this connection/device.
+  
+  Defaults to 'yes'.
+  
+ZONE=
+  Network zone (trust level) of this connection.
+  If not set, default zone (specified in /etc/firewalld/firewalld.conf)
+  is used. To see all available zones, run 'firewall-cmd --get-zones'.
+  
+ARPCHECKn=yes|no
+  If set to 'no', ifup will not try to determine, if requested ip address
+  is used by other machine in network.
+  
+  Defaults to 'yes'.
+  
+ARPUPDATE=yes|no
+  If set to 'no' the neighbours in current network will not be updated with
+  ARP information about this NIC. This is especially handy using LVS Load
+  Balancing with Direct Routing enabled.
+
+  Defaults to 'yes'.
+  
+IPV4_FAILURE_FATAL=yes|no
+  If set to yes, ifup-eth will end immediately after ipv4 dhclient fails.
+
+  Defaults to 'no'.
+
+For dynamic addressing (BOOTPROTO=dhcp) only DEVICE needs to
+be set; all the rest will be determined by the boot protocol.
+
+IPV6_SET_SYSCTLS=yes|no
+  If set, network-scripts will attempt to set sysctls based on the setup
+  of the interface. For example, will try to set `accept_ra` for interfaces
+  where $IPV6_AUTOCONF is set to `yes`. Defaults to `yes`, set to `no` if you
+  want to manage these yourself.
+
+Base items being deprecated:
+  NETWORK=<will be calculated automatically with ipcalc>
+
+  BROADCAST=<will be calculated automatically with ipcalc>
+
+Alias specific items:
+  ONPARENT=yes|no
+    Whether to bring up the device when the parent device is brought
+    up.
+
+    Default: yes
+
+IPv6-only items for real interfaces:
+  IPV6INIT=yes|no
+    Enable or disable IPv6 static, DHCP, or autoconf configuration for this interface
+    
+    Default: yes
+  
+  IPV6FORWARDING=yes|no
+    Enable or disable global forwarding of incoming IPv6 packets
+    
+    Note: Obsolete in interface specification!
+      
+    Default: no
+    
+  IPV6ADDR=<IPv6 address>[/<prefix length>]
+    Specify a primary static IPv6 address here
+    Optional, if normal host and a router advertisement daemon is on local link
+    Required, if node is a router and interface should route packets
+  
+    Note: if prefix length is omitted, 64 is assumed
+    
+    Example:
+      IPV6ADDR="3ffe:ffff:0:5::1"
+    
+      IPV6ADDR="3ffe:ffff:0:1::1/128"
+      
+      IPV6ADDR_SECONDARIES="<IPv6 address>[/<prefix length>] ..." (optional)
+      
+    A list of secondary IPv6 addresses (e.g. useful for virtual hosting)
+      
+    Example:
+      IPV6ADDR_SECONDARIES="3ffe:ffff:0:1::10 3ffe:ffff:0:2::11/128"
+    
+      IPV6_MTU=<MTU of link> (optional)
+      
+      Optional, dedicated MTU of this link
+      
+      Note: Must be greater or equal to 1280.
+      
+      Example:
+        IPV6_MTU="1280"
+        
+        IPV6_PRIVACY=rfc3041
+        
+        Enables RFC 3041 IPv6 privacy support if set.
+      
+      Default: RFC 3041 support disabled
+        IPV6_FORCE_ACCEPT_RA=yes|no
+      
+By default network-scripts will set `accept_ra` only if $IPV6_AUTOCONF is
+set to `yes`. If you don't want SLAAC addresses but do want to accept RA,
+then set this to `yes`. Defaults to `no`.
+
+Special configuration options for multi-homed hosts etc.
+  PV6_ROUTER=yes|no: Controls IPv6 autoconfiguration
+	
+  IPV6_AUTOCONF=yes|no: Controls IPv6 autoconfiguration
+	 
+    Defaults:
+	    Global IPV6FORWARDING=yes: IPV6_AUTOCONF=no, IPV6_ROUTER=yes
+	  
+      Global IPV6FORWARDING=no: IPV6_AUTOCONF=yes
+
+Optional settings for a 6to4 tunnel
+  IPV6TO4INIT=yes|Note
+    Enable or disable 6to4 tunneling setup
+      Default: no
+    
+  IPV6TO4_RELAY=<IPv4 address> (optional)
+    IPv4 address of the remote 6to4 relay
+  
+    Note: if this is omitted, ::192.88.99.1 (the anycast relay address) is chosen
+    
+  IPV6TO4_IPV4ADDR=<IPv6 address>[/<prefix length>] (optional)
+    Overwrite local IPv4 address which is accessible from the Internet
+    (optional, in case of static IPv4-NAT behind a router or other special scenarios)
+
+  IPV6TO4_MTU=<MTU for IPv6> (optional)
+    Controls IPv6 MTU for the 6to4 tunnel
+  
+    Note: Must be greater or equal to 1280
+    
+    Example:
+      IPV6TO4_MTU="1280"
+    
+    Default: MTU of master device - 20
+    
+  IPV6TO4_ROUTING="<device>-<suffix>/<prefix length> ..." (optional)
+    A list of routing tokens to setup proper IPv6 interfaces on the LAN
+  
+    Example:
+      IPV6TO4_ROUTING="eth0-:0004::1/64 eth1-:0005::1/64"
+    
+      Will create one address per eth0 and eth1, taking given SLA
+
+Optional settings for a 6to4 tunnel or a ppp link
+  IPV6_CONTROL_RADVD=yes|no (optional)
+    Enable signaling radvd that the 6to4 prefix has been changed or a
+    preconfigured dynamic device is up or down
+  
+    Default: no
+
+IPv6-only items for static tunnel interface:
+  Interface name: sitX (X => 1)
+  
+  IPV6INIT=yes|no
+    Enable or disable IPv6 configuration for this interface
+  
+    Default: no
+    
+  IPV6TUNNELIPV4=<IPv4 address>
+    Specify IPv4 address of a foreign IPv6-in-IPv4 tunnel endpoint
+  
+    Example:
+      IPV6TUNNELIPV4="1.2.3.4"
+    
+  IPV6TUNNELIPV4LOCAL=<IPv4 address>
+    Specify local IPv4 address of tunnel, useful on interfaces with multiple IPv4 addresses
+  
+  IPV6ADDR=<IPv6 address>[/<prefix length>] (optional)
+    local IPv6 address of a numbered tunnel
+   
+  IPV6ADDR_SECONDARIES="<IPv6 address>[/<prefix length>] ..." (optional)
+    A list of secondary IPv6 addresses (example see above)
+  
+  IPV6_MTU=<MTU of tunnel> (optional)
+    Optional, dedicated MTU of this tunnel
+  
+    Note: Must be greater or equal to 1280
+    
+    Example:
+      IPV6_MTU="1280"
+
+IPv6-only option to enable DHCPv6 client:
+  DHCPV6C=yes|no
+    This will enable the DHCPv6 features of dhclient to be run for the interface.
+    See man dhclient(8) and dhclient.conf(5).
+    DHCPV6C_OPTIONS=...
+    This will pass given arguments to the DHCPv6 client.  For example,
+    "-S" option will request network information (e.g., DNS addresses)
+    only, not IPv6 addresses.
+
+Ethernet-only items:
+  ARP=yes|no (adds 'arp' flag to ip, for use with the ethertap device)
+    
+  LINKDELAY=<time in seconds>
+    Time that the system should pause after the specific interface is
+    enabled.  This may be useful if one interface is connected to a
+    switch which has spanning tree enabled and must wait for STP to
+    converge before the interface should be considered usable.
+  
+  BRIDGE=<br* device>
+    If set, the ethernet device is not assigned an address.  It is added to
+    the specified bridge device instead.
+
+  EXTRA_ROUTE_OPTS=<string of route options>
+    Extra options to add to the interface route. For example, let's say you
+    wanted an interface route to have an mtu of 1480, but wanted the
+    interface to still have a route of 1500, you could set "mtu 1480" here.
+    Anything here is appended to the `ip route add` or `ip route replace`
+    command.
+
+Deprecated, but supported:
+  ETHTOOL_OPTS=...
+    Any device-specific options supported by ethtool. For example,
+    if you wanted to force 100Mb full duplex:
+
+      ETHTOOL_OPTS="speed 100 duplex full autoneg off"
+        Note that changing speed or duplex settings almost always
+        requires disabling autonegotiation with 'autoneg off'.
+
+    Multiple options can also be set like so :
+    ETHTOOL_OPTS="-K ${DEVICE} tso on; -G ${DEVICE} rx 256 tx 256"
+
+    Long term, this should be done by sysadmin-written udev rules.
+
+No longer supported:
+  PROMISC=yes|no (enable or disable promiscuous mode)
+
+  ALLMULTI=yes|no (enable or disable all-multicast mode)
+     
+  To properly set these, use the packet socket interface.
+
+Ethernet 802.1q VLAN items:
+  DEVICE=eth0.42
+    Initscripts use the device name for VLAN devices.
+
+      Example: eth0.42 for vlan 42 on device eth0.
+       
+    Valid VLAN ID range is 0-4095. Most ethernet switches reserve
+    VLAN ID 1 to be used as management VLAN; starting from VLAN
+    ID 2 is recommended.
+     
+  REORDER_HDR=yes|no
+    When enabled the VLAN device will move the ethernet header
+    around to make it look exactly like a real ethernet device.
+    This may help programs such as ISC dhcpd which read the raw
+    ethernet packet and make assumptions about the location of
+    bytes. If you don't need it turn it off because there
+    is a small performance penalty. Default is on.
+  
+  GVRP=yes|no
+    When enabled, this will announce new vlan creation to a GVRP
+    enabled trunk port on a switch. Default is off.
+
+PPP/SLIP items:
+  PERSIST=yes|no
+
+  MODEMPORT=<device, say /dev/modem>
+  
+  LINESPEED=<speed, say 115200>
+  
+  DEFABORT=yes|no (tells netcfg whether or not to put default
+    abort strings in when creating/editing the chat script and/or
+    dip script for this interface)
+    (meaningless with WVDIALSECT)
+ 
+PPP-specific items
+  WVDIALSECT=<list of sections from wvdial.conf to use>
+    If this variable is set, then the chat script (if it
+    exists) is ignored, and wvdial is used to open the
+    PPP connection.
+
+  DEFROUTE=yes|no (set this interface as default route? yes is default)
+  
+  DEBUG=yes|no (defaults to yes)
+    turns on/off pppd and chat (if used) debugging.
+  
+  ESCAPECHARS=yes|no (simplified interface here doesn't let people
+    specify which characters to escape; almost everyone can use
+    asyncmap 00000000 anyway, and they can set PPPOPTIONS to
+    asyncmap foobar if they want to set options perfectly)
+  
+  HARDFLOWCTL=yes|no (yes implies "modem crtscts" options)
+  
+  PPPOPTIONS=<arbitrary option string; is placed last on the
+    command line, so it can override other options like asyncmap
+    that were specified differently>
+  
+  PPPOE_EXTRA = any extra arguments to pass to pppoe 
+  
+  PPPD_EXTRA =  any extra arguments to pass to pppd 
+  
+  PAPNAME=<"name $PAPNAME" on pppd command line> (note that
+    the "remotename" option is always specified as the logical
+    ppp device name, like "ppp0" (which might perhaps be the
+    physical device ppp1 if some other ppp device was brought
+    up earlier...), which makes it easy to manage pap/chap
+    files -- name/password pairs are associated with the
+    logical ppp device name so that they can be managed
+    together.
+  
+  REMIP=<remote ip address, normally unspecified>
+  
+  MTU=
+  
+  MRU=
+  
+  DISCONNECTTIMEOUT=<number of seconds, default currently 5>
+    (time to wait before re-establishing the connection after
+    a successfully-connected session terminates before attempting
+    to establish a new connection.)
+  
+  RETRYTIMEOUT=<number of seconds, default currently 60>
+    (time to wait before re-attempting to establish a connection
+    after a previous attempt fails.)
+  
+  RETRYCONNECT=yes|no (defaults to yes)
+    If this is yes, then we will re-run pppd if it exits with a 
+    "connect script failed" status.  Otherwise, only one attempt
+    is made to bring up the connection.  Note that some connect
+    scripts (for example, wvdial) might do their own retries (such
+    as BUSY or NO DIALTONE conditions).
+  
+  MAXFAIL=<number>
+    If this is set, this will cause ppp-watch to exit after
+    the specified number of attempts.
+  
+  DEMAND=yes|no
+    Switches on demand-dialing mode using pppd's "demand" option.
+  
+  IDLETIMEOUT=600
+    The amount of time the link needs to be inactive before pppd will
+    bring it down automatically.
+  
+  BOOTTIMEOUT=30
+    The amount of time to wait at boot before giving up on the
+    connection.
+
+IPPP-specific items (ISDN)
+  PROVIDER=<ProviderName>
+	
+  USER=<Login>
+  
+  PASSWORD=<Password>
+	
+  ENCAP=[syncppp|]
+  
+  DIALMODE=[manual|auto]
+  
+  SECURE=off|on
+	
+  MSN=<>
+	
+  PHONE_IN=<Callback.Number>
+	
+  AREACODE=<>
+	
+  REGIONCODE=<>
+	
+  PHONE_OUT=<PhoneNumber>
+  
+  BUNDLING=off|on
+  
+  HUPTIMEOUT=<number>
+  
+  DNS1=<PrimaryDNS>
+  
+  DNS2=<SecondaryDNS>
+  
+  DOMAIN=""
+  
+  LAYER=[HDLC|]
+  
+  CALLBACK=off|on
+  
+  CHARGEHUP=<number>
+  
+  CHARGEINT=<number>
+  
+  CBHUP=<number>
+  
+  CBDELAY=<number>
+  
+  DIALMAX=<number>
+  
+  AUTH=[+pap] [-chap]
+  
+  IHUP=<>
+  
+  DELDEFAULTROUTE=[enabled|disabled]
+  
+  CBCP=off|on
+  
+  VJ=off|on
+  
+  VJCCOMP=off|on
+  
+  AC=off|on
+  
+  PC=off|on
+  
+  BSDCOMP=off|on
+  
+  CCP=off|on
+  
+  SLAVE_DEVICE=ippp[0-9]
+
+ippp0 items being deprecated:
+  BOOT=[on|off] will be converted to ONBOOT=[yes|no] by netconf
+
+  LOCAL_IP=     will be converted to IPADDR by netconf
+  
+  REMOTE_IP=    will be converted to GATEWAY by netconf
+
+Wireless-specific items:
+  See iw(8) for additional information.
+
+  MODE=[Managed|Ad-Hoc|Monitor]
+  
+  ESSID=
+    Required.
+  
+  FREQ=
+    Required if MODE=Ad-Hoc.
+  
+  KEY=<default WEP key>
+
+  IPSEC specific items
+    SRC=source address. Not required.
+    DST=destination address
+    TYPE=IPSEC
+    SRCNET=source net (for tunneling)
+    DSTNET=destination network (for tunneling)
+
+Manual keying:
+  AH_PROTO{,_IN,_OUT}=protocol to use for AH (defaults to hmac-sha1)
+
+  ESP_PROTO{,_IN,_OUT}=protocol to use for ESP (defaults to 3des-cbc)
+  
+  AESP_PROTO{,_IN,_OUT}=protocol to use for ESP authentication (defaults to
+	hmac-sha1)
+  
+  KEY_AH{,_IN,_OUT}=AH key
+  
+  KEY_ESP{,_IN,_OUT}=ESP encryption key
+  
+  KEY_AESP{,_IN,_OUT}=ESP authentication key (optional)
+  
+  SPI_{ESP,AH}_{IN,OUT}=SPIs to use
+
+  _IN and _OUT specifiers are for using different keys or protocols for
+  incoming and outgoing packets.  If neither _IN or _OUT variants are set for
+  protocols or keys, the same will be used for both.  Hexadecimal keys need to
+  be prefixed with "0x".
+
+Automatic keying:
+
+  IKE_DHGROUP=<number> (defaults to 2)
+  
+  IKE_METHOD=PSK|X509|GSSAPI
+  
+  PSK=preshared keys (shared secret)
+  
+  X509=X.509 certificates
+  
+  GSSPI=GSSAPI authentication
+  
+  IKE_AUTH=protocol to use for Phase 1 of SA (defaults to sha1)
+  
+  IKE_ENC=protocol to use for Phase 1 of SA (defaults to 3des)
+  
+  IKE_PSK=preshared key for this connection
+  
+  IKE_CERTFILE=our certificate file name for X509 IKE
+  
+  IKE_PEER_CERTFILE=peer public cert filename for X509 IKE
+  
+  IKE_DNSSEC=retrieve peer public certs from DNS
+  (otherwise uses certificate information sent over IKE)
+
+  To manage the racoon configuration manually (e.g. when there is more than
+  one IPSEC configuration with the same DST), set KEYING=automatic and leave
+  all IKE_* parameters unspecified.
+
+To override the identifier to use with a preshared key:
+
+  MYID_TYPE=address|fqdn|user_fqdn
+  MYID_VALUE=fqdn or user_fqdn string for this connection
+
+  Usage of AH or ESP may be disabled by setting {AH,ESP}_PROTO to "none".
+
+Bonding-specific items
+  SLAVE=yes
+    Specifies device as a slave
+
+  MASTER=bondXX
+    Specifies master device to bind to
+  
+  BONDING_OPTS=
+    A space-separated list of options to the bonding driver for this
+    interface, such as:
+
+  "mode=active-backup arp_interval=60 arp_ip_target=192.168.1.1,192.168.1.2"
+
+Tunnel-specific items:
+  TYPE=GRE|IPIP|IPIP6|EXTERNAL
+    External is a mode for ip6_tunnel interfaces (that cannot be set on
+    the primary ip6tnl0 interface), which permits unwrapping encapsulated
+    packets regardless of their internal IP (v4 or v6) provided the inner
+    address is on the interface. Use $MY_INNER_IPADDR for v4 addresses. Use
+    $IPV6ADDR and $IPV6ADDR_SECONDARIES as usual for v6 addresses.
+
+  MY_INNER_IPADDR=local IP address of the tunnel interface
+  
+  PEER_OUTER_IPADDR=IP address of the remote tunnel endpoint
+  
+  MY_OUTER_IPADDR=IP address of the local tunnel endpoint
+    If unspecified, an IP address is selected automatically for outgoing
+    tunnel packets, and incoming tunnel packets are accepted on all local
+    IP addresses.
+  
+  PEER_INNER_IPADDR=IP address of the remote end of the tunnel interface
+    If this is specified, a route to PEER_INNER_IPADDR through the tunnel
+    is added automatically.
+  
+  TTL=TTL value for tunnel packets
+    Default is to use the TTL of the packet transported through the tunnel
+
+Bridge-specific items:
+  TYPE=Bridge
+
+  STP=off|on (see 'brctl stp')
+  
+  DELAY=forward delay time in seconds (see 'brctl setfd')
+  
+  BRIDGING_OPTS=
+    A space-separated list of bridging options for either the bridge
+    device, or the port device, such as:
+
+  
+  BRIDGING_OPTS="hello_time=200 priority=65535"
+    for bridge devices, or
+  
+  BRIDGING_OPTS="hairpin_mode=1"
+    for port devices.
+
+TUN/TAP-specific items:
+  OWNER=<owner of the device>
+
+----------
+
+/etc/sysconfig/network-scripts/chat-<interface-name>:
+-----------------------------------------------------
+
+chat script for PPP or SLIP connection intended to establish
+the connection.  For SLIP devices, a DIP script is written
+from the chat script; for PPP devices, the chat script is used
+directly.
+
+----------
+
+/etc/sysconfig/network-scripts/dip-<interface-name>
+---------------------------------------------------
+
+A write-only script created from the chat script by netcfg.
+Do not modify this.  In the future, this file may disappear
+by default and created on-the-fly from the chat script if
+it does not exist.
+
+----------
+
+/etc/sysconfig/network-scripts/ifup-post
+----------------------------------------
+
+Called when any network device EXCEPT a SLIP device comes up.
+Calls /etc/sysconfig/network-scripts/ifup-routes to bring up
+static routes that depend on that device. Calls
+/etc/sysconfig/network-scripts/ifup-aliases to bring up
+aliases for that device.  Sets the hostname if it is not
+already set and a hostname can be found for the IP for that
+device.  Sends SIGIO to any programs that have requested
+notification of network events.
+
+Could be extended to fix up nameservice configuration, call
+arbitrary scripts, etc, as needed.
+
+----------
+
+/etc/sysconfig/network-scripts/ifup-routes
+------------------------------------------
+
+Set up static routes for a device.
+
+----------
+
+/etc/sysconfig/network-scripts/ifup-aliases
+-------------------------------------------
+
+Bring up aliases for a device.
+
+----------
+
+/etc/sysconfig/network-scripts/route-<interface-name>
+-----------------------------------------------------
+
+Contains lines that specify additional routes that should
+be added when the associated interface is brought up.
+
+The files are processed by the ifup-routes script and uses the
+/sbin/ipcalc utility for all network masks and numbers. Routes
+are specified using the syntax:
+
+  ADDRESSn=<network>
+  NETMASKn=<network/prefix mask>
+  GATEWAYn=<next-hop router/gateway IP address>
+
+The "n" is expected to be consecutive positive integers starting from 0.
+
+For example:
+
+  ADDRESS0=192.168.2.0
+  NETMASK0=255.255.255.0
+  GATEWAY0=192.168.1.1
+
+adds a network route to the 192.168.2.0 network via the gateway
+at 192.168.1.1. Since you must already have a route to the network
+of the gateway, there is no need to specify a device.
+
+Note: The ifup-routes script also supports an older syntax designed
+to be used directly as an argument to "/sbin/ip route add".
+If no "ADDRESSn" lines are found the following will still work:
+  
+  192.168.2.0/24 dev ppp0
+  
+adds a network route to the 192.168.2.0 network through ppp0.
+
+----------
+
+/etc/sysconfig/network-scripts/route6-<interface-name>
+------------------------------------------------------
+
+Contains lines that are arguments to "/sbin/ip -6 route add"
+
+For example:
+
+  site-local route for network fec0:0:0:2::/64 via gateway fec0:0:0:1:0:0:0:20 (e.g. on eth0): 
+
+    fec0:0:0:2::/64 via fec0:0:0:1:0:0:0:20
+
+  additional prefix configured to be on-link on eth0:
+
+    3ffe:fffe:1:2::/64 dev eth0
+  
+  6to4 route for network 3ffe:ffff:1::/48, either:
+
+    3ffe:ffff:1::/48
+    3ffe:ffff:1::/48 via ::192.168.1.2
+
+Note the special case of 6to4 interface: 'via [relay]' is
+automatically added if explicit 'via' wasn't specified.
+
+----------
+
+/etc/sysconfig/network-scripts/rule-<interface-name>
+----------------------------------------------------
+/etc/sysconfig/network-scripts/rule6-<interface-name>
+-----------------------------------------------------
+
+Contains lines that specify additional routing rules
+that should be added when the associated interface is brought up.
+
+Each non-comment line is used directly as an argument
+to "/sbin/ip rule add" or "/sbin/ip -6 rule add" for rule6 files.
+
+SEE ALSO
+========
