@@ -3,14 +3,6 @@
 
 Generic options:
 
-/etc/sysconfig/*
-
-   CGROUP_DAEMON=
-     List of control groups that the daemon will be run in. For example,
-     CGROUP_DAEMON="cpu:daemons cpuacct:/" will run it in the daemons
-     group for the CPU controller, and the '/' group for the CPU accounting
-     controller.
-
 /etc/sysconfig/authconfig
 
   used by authconfig to store information about the system's user
@@ -151,6 +143,13 @@ Generic options:
     Delay in seconds after all network interfaces are initialized.  Useful if
     network has spanning tree running and must wait for STP convergence.
     Default: 0 (no delay)
+
+  WAIT_UNTIL_REACHABLE=<IP address|DNS name>
+    Network initscript will wait until specified target is reachable.
+    It starts to reaching passed IP address or DNS name every second until it reach it sucessfully or until it reach preset delay NETWORKDELAY (default 30).
+    It works with both IPv4 and IPv6 adress and also with DNS name.
+    Example: WAIT_UNTIL_REACHABLE=8.8.8.8
+    Default: (not set)
 
   IFDOWN_ON_SHUTDOWN=yes|no
     If yes, do bring interfaces down during system shutdown. If no, leave them

@@ -163,7 +163,22 @@ start)
 
     touch /var/lock/subsys/network
 
-    [ -n "${NETWORKDELAY}" ] && /bin/sleep ${NETWORKDELAY}
+    # Fixed delay
+    [ -n "${NETWORKDELAY}" ] && [ -z "${WAIT_UNTIL_REACHABLE}" ] && /bin/sleep "${NETWORKDELAY}"
+    
+    # Adaptive delay
+    # It tests if network connection is ready via ping
+    if [ -n "${WAIT_UNTIL_REACHABLE}" ] ; then
+      [ -z "${NETWORKDELAY}" ] && NETWORKDELAY=30
+      TIMEOUT=0
+      IPV=""
+      ipcalc -c -6 "${WAIT_UNTIL_REACHABLE}" &>/dev/null && IPV="-6"
+      while [ $TIMEOUT -le $NETWORKDELAY ] ; do
+        ping $IPV -q -c 1 -W 1 "${WAIT_UNTIL_REACHABLE}" >/dev/null && break
+        TIMEOUT=$(( TIMEOUT + 1 ))
+      done
+      [ $TIMEOUT -gt $NETWORKDELAY ] && net_log $"Target is not reachable, but timeout was already reached. Continuing anyway."
+    fi 
     ;;
 stop)
     [ "$EUID" != "0" ] && exit 4
