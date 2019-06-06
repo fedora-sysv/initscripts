@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.00.1
+Version:          10.00.2
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -346,6 +346,9 @@ fi
 # =============================================================================
 
 %changelog
+* Thu Jun 06 2019 Jan Macku <jamacku@redhat.com> - 10.00.2-1
+- ifup-post: fix incorrect condition for RESOLV_MODS
+
 * Fri Aug 03 2018 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 10.00.1-1
 - consoletype/genhostid/usleep: allow disabling of deprecation warnings
 - network/ifup/ifdown: allow disabling of deprecation warnings
