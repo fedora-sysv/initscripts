@@ -283,6 +283,8 @@ fi
 # RC symlinks:
 %{_sysconfdir}/rc[0-6].d
 
+%{_sysconfdir}/init.d
+
 # ---------------
 
 %{_bindir}/*
