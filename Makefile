@@ -32,7 +32,7 @@ localstatedir  = /var
 sharedstatedir = $(localstatedir)/lib
 
 VERSION       := $(shell gawk '/Version:/ { print $$2 }' initscripts.spec)
-NEXT_VERSION  := $(shell gawk '/Version:/ { print $$2 + 0.01}' initscripts.spec)
+NEXT_VERSION  := $(shell sed -nr 's/Version:[ ]*([0-9]*)\.([0-9]*)\.([0-9]*)/echo "\1\.\2\.$$((\3+1))"/gep' initscripts.spec)
 
 
 all: make-binaries make-translations
