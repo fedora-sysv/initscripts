@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.49.47
+Version: 9.49.48
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -220,7 +220,12 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
-* Fri Mar 29 2019 Jan Macku <jamacku@redhat.com> - 9.49.47-2
+* Tue Aug 06 2019 Jan Macku <jamacku@redhat.com> - 9.49.48-1
+- network: don't fail with IFDOWN_ON_SHUTDOWN (bug #1693977)
+- Configure autorelabel service to output to journal and to console if set (bug #1634661)
+- Fix changelog typo
+
+* Fri Mar 29 2019 Jan Macku <jamacku@redhat.com> - 9.49.47-1
 - Fix file permissions for /var/log/dmesg
 
 * Fri Aug 24 2018 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 9.49.46-1
