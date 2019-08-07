@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.00.2
+Version:          10.00.3
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -346,6 +346,10 @@ fi
 # =============================================================================
 
 %changelog
+* Wed Aug 07 2019 Jan Macku <jamacku@redhat.com> - 10.00.3-1
+- rc.d/functions: fix escape sequence being output under systemd service units
+- Replace not working awk command with sed
+
 * Thu Jun 06 2019 Jan Macku <jamacku@redhat.com> - 10.00.2-1
 - ifup-post: fix incorrect condition for RESOLV_MODS
 
