@@ -84,8 +84,9 @@ if [ -z "${BOOTUP:-}" ]; then
         LOGLEVEL=1
     fi
 
-    # NOTE: /dev/ttyS* is serial console.
-    if tty | grep --quiet -e '/dev/ttyS'; then
+    # NOTE: /dev/ttyS* is serial console. "not a tty" is such as
+    # /dev/null associated when executed under systemd service units.
+    if LANG=C tty | grep --quiet -e '\(/dev/ttyS\|not a tty\)'; then
         BOOTUP=serial
         MOVE_TO_COL=
         SETCOLOR_SUCCESS=
