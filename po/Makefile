@@ -38,7 +38,11 @@ POTFILES    = $(shell ls ../network-scripts/* | grep -v ifcfg-) \
 all: $(NLSPACKAGE).pot $(FMTCATALOGS)
 
 $(NLSPACKAGE).pot: $(POTFILES)
-	./xgettext_sh.py $(POTFILES) > $(NLSPACKAGE).po
+	if [ -z "$(PYTHON)" ]; then \
+		./xgettext_sh.py $(POTFILES) > $(NLSPACKAGE).po; \
+	else \
+		$(PYTHON) xgettext_sh.py $(POTFILES) > $(NLSPACKAGE).po; \
+	fi
 	if cmp -s $(NLSPACKAGE).po $(NLSPACKAGE).pot; then \
 	    rm -f $(NLSPACKAGE).po; \
 	else \
