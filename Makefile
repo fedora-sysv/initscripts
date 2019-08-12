@@ -42,7 +42,7 @@ make-binaries:
 	$(MAKE) -C src
 
 make-translations:
-	$(MAKE) -C po
+	$(MAKE) -C po PYTHON=$(PYTHON)
 
 
 # NOTE: We are no longer installing into /usr/sbin directory, because this is
