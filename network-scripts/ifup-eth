@@ -112,6 +112,11 @@ if [ -n "${TEAM_CONFIG}" ] && [ ! "${DEVICETYPE}" = "Team" ] && [ -x ./ifup-Team
     ./ifup-Team ${CONFIG} $2
 fi
 
+if [ -z "${REALDEVICE}" ]; then
+  net_log $"Device name does not seem to be present."
+  exit 1
+fi
+
 # now check the real state
 is_available_wait ${REALDEVICE} ${DEVTIMEOUT} || {
     if [ -n "$alias" ]; then
