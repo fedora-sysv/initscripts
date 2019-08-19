@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.49.48
+Version: 9.49.49
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -220,6 +220,10 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Mon Aug 19 2019 Jan Macku <jamacku@redhat.com> - 9.49.49-1
+- ifup-eth: Check that device name is set (bug #1741830)
+- Add option for IPv6 GRE tunnel (bug #1691552)
+
 * Tue Aug 06 2019 Jan Macku <jamacku@redhat.com> - 9.49.48-1
 - network: don't fail with IFDOWN_ON_SHUTDOWN (bug #1693977)
 - Configure autorelabel service to output to journal and to console if set (bug #1634661)
