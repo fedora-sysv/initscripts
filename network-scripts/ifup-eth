@@ -59,7 +59,7 @@ if [ "${TYPE}" = "Bridge" ]; then
 
     if [ ! -d /sys/class/net/${DEVICE}/bridge ]; then
         ip link add ${DEVICE} type bridge $bridge_opts || exit 1
-    elif [ -n "${OPTS}" ]; then
+    elif [ -n "${bridge_opts}" ]; then
         ip link set ${DEVICE} type bridge $bridge_opts || exit 1
     fi
     unset bridge_opts
