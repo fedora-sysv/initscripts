@@ -291,27 +291,14 @@ daemon() {
     # if they set NICELEVEL in /etc/sysconfig/foo, honor it
     [ -n "${NICELEVEL:-}" ] && nice="nice -n $NICELEVEL"
 
-    # if they set CGROUP_DAEMON in /etc/sysconfig/foo, honor it
-    if [ -n "${CGROUP_DAEMON}" ]; then
-        if [ ! -x /bin/cgexec ]; then
-            gettext 'Cgroups not installed'; warning
-            echo
-        else
-            cgroup="/bin/cgexec";
-            for i in $CGROUP_DAEMON; do
-                cgroup="$cgroup -g $i";
-            done
-        fi
-    fi
-
     # Echo daemon
     [ "${BOOTUP:-}" = "verbose" -a -z "${LSB:-}" ] && echo -n " $base"
 
     # And start it up.
     if [ -z "$user" ]; then
-       $cgroup $nice $shell -c "$corelimit >/dev/null 2>&1 ; $*"
+       $nice $shell -c "$corelimit >/dev/null 2>&1 ; $*"
     else
-       $cgroup $nice runuser -s $shell $user -c "$corelimit >/dev/null 2>&1 ; $*"
+       $nice runuser -s $shell $user -c "$corelimit >/dev/null 2>&1 ; $*"
     fi
 
     [ "$?" -eq 0 ] && success $(eval_gettext '$base startup') || failure $(eval_gettext '$base startup')
