@@ -59,7 +59,7 @@ if [ "${TYPE}" = "Bridge" ]; then
 
     if [ ! -d /sys/class/net/${DEVICE}/bridge ]; then
         ip link add ${DEVICE} type bridge $bridge_opts || exit 1
-    elif [ -n "${OPTS}" ]; then
+    elif [ -n "${bridge_opts}" ]; then
         ip link set ${DEVICE} type bridge $bridge_opts || exit 1
     fi
     unset bridge_opts
@@ -110,6 +110,11 @@ fi
 # Team master initialization.
 if [ -n "${TEAM_CONFIG}" ] && [ ! "${DEVICETYPE}" = "Team" ] && [ -x ./ifup-Team ]; then
     ./ifup-Team ${CONFIG} $2
+fi
+
+if [ -z "${REALDEVICE}" ]; then
+  net_log $"Device name does not seem to be present."
+  exit 1
 fi
 
 # now check the real state

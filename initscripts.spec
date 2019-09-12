@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.01
+Version:          10.02
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -183,7 +183,7 @@ support. Additional configuration is required after installation.
 # ---------------
 
 %build
-%make_build
+%make_build PYTHON=%{__python3}
 
 # ---------------
 
@@ -283,6 +283,8 @@ fi
 # RC symlinks:
 %{_sysconfdir}/rc[0-6].d
 
+%{_sysconfdir}/init.d
+
 # ---------------
 
 %{_bindir}/*
@@ -347,6 +349,16 @@ fi
 # =============================================================================
 
 %changelog
+* Fri Jun 28 2019 Jan Macku <jamacku@redhat.com> - 10.02-1
+- network: don't fail with IFDOWN_ON_SHUTDOWN
+- rc.d/functions: remove support cgroups
+- Create symlink (/etc/init.d) to /etc/rc.d/init.d
+- Add option to wait until target is reachable
+- ifup-eth: apply PERSISTENT_DHCLIENT to IPv6 dhclient daemon
+- ifup-post: fix incorrect condition for RESOLV_MODS
+- make tag: updated message
+- make release-commit: do not create tag automatically
+
 * Mon Aug 06 2018 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 10.01-1
 - network/ifup/ifdown: deprecations warnings redirected to stderr
 - ifup-eth: use 'bc' instead of 'expr' when computing $forward_delay

@@ -42,7 +42,7 @@ make-binaries:
 	$(MAKE) -C src
 
 make-translations:
-	$(MAKE) -C po
+	$(MAKE) -C po PYTHON=$(PYTHON)
 
 
 # NOTE: We are no longer installing into /usr/sbin directory, because this is
@@ -95,6 +95,7 @@ install-post: install-etc
 	    install -m 0755 -d $$dir; \
 	    ln -srf $(DESTDIR)$(sysconfdir)/rc.d/rc$$idx.d $(DESTDIR)$(sysconfdir)/; \
 	done
+	ln -srf $(DESTDIR)$(sysconfdir)/rc.d/init.d $(DESTDIR)$(sysconfdir)/init.d
 	touch $(DESTDIR)$(sysconfdir)/rc.d/rc.local
 	chmod 0755 $(DESTDIR)$(sysconfdir)/rc.d/rc.local
 
