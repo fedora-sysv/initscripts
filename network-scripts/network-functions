@@ -270,9 +270,9 @@ expand_config ()
 
 toggle_value ()
 {
-    if [ "$2" = "yes"    -o "$2" = "YES" ] ; then
+    if is_true "$2"; then
         echo "$1 on"
-    elif [ "$2" = "no"    -o "$2" = "NO" ] ; then
+    elif is_false "$2"; then
         echo "$1 off"
     else
         echo ''

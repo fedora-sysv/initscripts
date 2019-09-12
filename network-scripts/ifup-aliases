@@ -206,7 +206,7 @@ function new_interface ()
         eval $(/bin/ipcalc --broadcast ${IPADDR}/${PREFIX})
     fi
 
-    if [ "$no_devices_are_up" = "yes" ]; then
+    if is_true "$no_devices_are_up"; then
         setup_this=yes
     else
 
@@ -262,8 +262,8 @@ function new_interface ()
         /sbin/ip addr change ${IPADDR}/${PREFIX} brd ${BROADCAST}
     fi
 
-    if [ "$setup_this" = "yes" ] ; then
-        if [ "${parent_device}" != "lo" ] &&  [ "${ARPCHECK}" != "no" ] && \
+    if is_true "$setup_this"; then
+        if [ "${parent_device}" != "lo" ] &&  ! is_false "${ARPCHECK}" && \
                 is_available ${parent_device} && \
                 ( grep -qswi "up" /sys/class/net/${parent_device}/operstate ||  grep -qswi "1" /sys/class/net/${parent_device}/carrier ) ; then
             echo $"Determining if ip address ${IPADDR} is already in use for device ${parent_device}..."
@@ -287,7 +287,7 @@ function new_interface ()
         ! is_false "$IPV6INIT" && \
             /etc/sysconfig/network-scripts/ifup-ipv6 ${DEVICE}
 
-        if [ "$NO_ALIASROUTING" != yes ]; then
+        if ! is_true "$NO_ALIASROUTING"; then
 
             GATEWAYDEV=$network_GATEWAYDEV;
 
@@ -317,7 +317,7 @@ for FILE in ifcfg-${parent_device}:* ; do
     ini_env
     . ./$FILE
     [ -z "$DEVICE" ] && DEVICE=${FILE##ifcfg-}
-    [ "$ONPARENT" != "no" -a "$ONPARENT" != "NO" ] && new_interface
+    ! is_false "$ONPARENT" && new_interface
     unset DEVICE
 done
 
@@ -347,7 +347,7 @@ for FILE in ifcfg-${parent_device}-range* ; do
         IPADDR="$ipaddr_prefix.$ipaddr_num"
         DEVICE="$parent_device:$ipaddr_clonenum"
         IPV6INIT="no"
-        [ "$ONPARENT" != "no" -a "$ONPARENT" != "NO" ] && new_interface
+        ! is_false "$ONPARENT" && new_interface
         ipaddr_num=$(($ipaddr_num+1))
         ipaddr_clonenum=$(($ipaddr_clonenum+1))
     done
