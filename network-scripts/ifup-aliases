@@ -346,7 +346,7 @@ for FILE in ifcfg-${parent_device}-range* ; do
     while [ $ipaddr_num -le $ipaddr_endnum ]; do
         IPADDR="$ipaddr_prefix.$ipaddr_num"
         DEVICE="$parent_device:$ipaddr_clonenum"
-        IPV6INIT="no"
+        IPV6INIT="yes"
         ! is_false "$ONPARENT" && new_interface
         ipaddr_num=$(($ipaddr_num+1))
         ipaddr_clonenum=$(($ipaddr_clonenum+1))
