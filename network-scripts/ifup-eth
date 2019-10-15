@@ -149,7 +149,7 @@ if [ -n "${TEAM_MASTER}" ] && [ ! "${DEVICETYPE}" = "TeamPort" ] && [ -x ./ifup-
 fi
 
 # slave device?
-if [ "${SLAVE}" = yes -a "${ISALIAS}" = no -a "${MASTER}" != "" ]; then
+if is_true "${SLAVE}" && is_false "${ISALIAS}" && [ -n "${MASTER}" ]; then
     install_bonding_driver ${MASTER}
     grep -wq "${DEVICE}" /sys/class/net/${MASTER}/bonding/slaves 2>/dev/null || {
         /sbin/ip link set dev ${DEVICE} down
@@ -162,7 +162,7 @@ fi
 
 # Bonding initialization. For DHCP, we need to enslave the devices early,
 # so it can actually get an IP.
-if [ "$ISALIAS" = no ] && is_bonding_device ${DEVICE} ; then
+if is_false "$ISALIAS" && is_bonding_device ${DEVICE}; then
     install_bonding_driver ${DEVICE}
     /sbin/ip link set dev ${DEVICE} up
     for device in $(LANG=C grep -l "^[[:space:]]*MASTER=['\"]\?${DEVICE}['\"]\?\([[:space:]#]\|$\)" /etc/sysconfig/network-scripts/ifcfg-*) ; do
@@ -281,7 +281,7 @@ else
             fi
 
             if ! LC_ALL=C ip addr ls ${REALDEVICE} | LC_ALL=C grep -q "${ipaddr[$idx]}/${prefix[$idx]}" ; then
-                if [ "${REALDEVICE}" != "lo" ] && [ "${arpcheck[$idx]}" != "no" ] ; then
+                if [ "${REALDEVICE}" != "lo" ] && ! is_false "${arpcheck[$idx]}"; then
                     ARPING=$(/sbin/arping -c 2 -w ${ARPING_WAIT:-3} -D -I ${REALDEVICE} ${ipaddr[$idx]})
                     if [ $? = 1 ]; then
                         ARPINGMAC=$(echo $ARPING |  sed -ne 's/.*\[\(.*\)\].*/\1/p')
@@ -312,7 +312,7 @@ else
         done
 
         # Set a default route.
-        if [ "${DEFROUTE}" != "no" ] && [ -z "${GATEWAYDEV}" -o "${GATEWAYDEV}" = "${REALDEVICE}" ]; then
+        if ! is_false "${DEFROUTE}" && [ -z "${GATEWAYDEV}" -o "${GATEWAYDEV}" = "${REALDEVICE}" ]; then
             # set up default gateway. replace if one already exists
             if [ -n "${GATEWAY}" ] && [ "$(ipcalc --network ${GATEWAY} ${netmask[0]} 2>/dev/null)" = "NETWORK=${NETWORK}" ]; then
                 ip route replace default ${METRIC:+metric $METRIC} \
@@ -331,7 +331,7 @@ else
 fi
 
 # Add Zeroconf route.
-if [ -z "${NOZEROCONF}" -a "${ISALIAS}" = "no" -a "${REALDEVICE}" != "lo" ]; then
+if [ -z "${NOZEROCONF}" ] && is_false "${ISALIAS}" && [ "${REALDEVICE}" != "lo" ]; then
     ip route add 169.254.0.0/16 dev ${REALDEVICE} metric $((1000 + $(cat /sys/class/net/${REALDEVICE}/ifindex))) scope link
 fi
 

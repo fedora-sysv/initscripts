@@ -91,7 +91,7 @@ fi
 ipv6_global_forwarding_current="$(/sbin/sysctl -e -n net.ipv6.conf.all.forwarding)"
 
 # Set some proc switches depending on defines
-if [ "$IPV6FORWARDING" = "yes" ]; then
+if is_true "$IPV6FORWARDING"; then
     # Global forwarding should be enabled
 
     # Check, if global IPv6 forwarding was already set by global script
@@ -103,10 +103,10 @@ if [ "$IPV6FORWARDING" = "yes" ]; then
     ipv6_local_forwarding=1
     ipv6_local_auto=0
     ipv6_local_accept_ra=0
-    if [ "$IPV6_ROUTER" = "no" ]; then
+    if is_false "$IPV6_ROUTER"; then
         ipv6_local_forwarding=0
     fi
-    if [ "$IPV6_AUTOCONF" = "yes" ]; then
+    if is_true "$IPV6_AUTOCONF"; then
         ipv6_local_auto=1
         ipv6_local_accept_ra=2
     fi
@@ -122,15 +122,15 @@ else
     ipv6_local_forwarding=0
     ipv6_local_auto=1
     ipv6_local_accept_ra=1
-    if [ "$IPV6_AUTOCONF" = "no" ]; then
+    if is_false "$IPV6_AUTOCONF"; then
         ipv6_local_auto=0
-        if [ ! "$IPV6_FORCE_ACCEPT_RA" = "yes" ]; then
+        if ! is_true "$IPV6_FORCE_ACCEPT_RA"; then
             ipv6_local_accept_ra=0
         fi
     fi
 fi
 
-if [ ! "$IPV6_SET_SYSCTLS" = "no" ]; then
+if ! is_false "$IPV6_SET_SYSCTLS"; then
     /sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.forwarding=$ipv6_local_forwarding >/dev/null 2>&1
     /sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.accept_ra=$ipv6_local_accept_ra >/dev/null 2>&1
     /sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.accept_redirects=$ipv6_local_auto >/dev/null 2>&1
@@ -151,7 +151,7 @@ fi
 
 # Enable IPv6 RFC3041 privacy extensions if desired
 if [ "$IPV6_PRIVACY" = "rfc3041" ]; then
-    if [ ! "$IPV6_SET_SYSCTLS" = "no" ]; then
+    if ! is_false "$IPV6_SET_SYSCTLS"; then
         /sbin/sysctl -e -w net.ipv6.conf.$SYSCTLDEVICE.use_tempaddr=2 >/dev/null 2>&1
         if [ $? -ne 0 ]; then
             net_log $"Cannot enable IPv6 privacy method '$IPV6_PRIVACY', not supported by kernel"
@@ -172,7 +172,7 @@ if [ -f /etc/sysconfig/static-routes-ipv6 ]; then
 fi
 
 # Setup of 6to4, if configured
-if [ "$IPV6TO4INIT" = "yes" ]; then
+if is_true "$IPV6TO4INIT"; then
     valid6to4config="yes"
 
     # Test device status of 6to4 tunnel
@@ -224,7 +224,7 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
     fi
 
     # Setup 6to4 tunnel (hardwired name is "tun6to4"), if config is valid
-    if [ "$valid6to4config" = "yes" ]; then
+    if is_true "$valid6to4config"; then
         # Get MTU of master device
         ipv4mtu="$(/sbin/ip link show dev $DEVICE | awk '/\<mtu\>/ { print $5 }')"
         if [ -n "$ipv4mtu" ]; then
@@ -281,7 +281,7 @@ if [ "$IPV6TO4INIT" = "yes" ]; then
         /sbin/ip -6 route del ::/96 dev tun6to4
         /sbin/ip -6 addr del "::$ipv4addrlocal/128" dev tun6to4
 
-        if [ "$IPV6_CONTROL_RADVD" = "yes" ]; then
+        if is_true "$IPV6_CONTROL_RADVD"; then
             # RADVD is in use, so forwarding of IPv6 packets should be enabled, display warning
             if [ $ipv6_global_forwarding_current -ne 1 ]; then
                 net_log $"Using 6to4 and RADVD IPv6 forwarding usually should be enabled, but it isn't" warning

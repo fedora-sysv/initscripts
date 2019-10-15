@@ -48,19 +48,19 @@ start)
         # IPv6 test, module loaded, exit if system is not IPv6-ready
         ipv6_test || exit 1
 
-        if [ "$IPV6FORWARDING" = "yes" ]; then
+        if is_true "$IPV6FORWARDING"; then
             ipv6_global_forwarding=1
             ipv6_global_auto=0
         else
             ipv6_global_forwarding=0
-            if [ "$IPV6_AUTOCONF" = "no" ]; then
+            if is_false "$IPV6_AUTOCONF"; then
                 ipv6_global_auto=0
             else
                 ipv6_global_auto=1
             fi
         fi
 
-        if [ ! "$IPV6_SET_SYSCTLS" = "no" ]; then
+        if ! is_false "$IPV6_SET_SYSCTLS"; then
             # Reset IPv6 sysctl switches for "all", "default" and still existing devices
             for i in /proc/sys/net/ipv6/conf/* ; do
                 interface=${i##*/}
@@ -79,7 +79,7 @@ start)
         # IPv6 test, module loaded, exit if system is not IPv6-ready
         ipv6_test || exit 1
 
-        if [ "$IPV6_AUTOTUNNEL" = "yes" ]; then
+        if is_true "$IPV6_AUTOTUNNEL"; then
             ipv6_enable_autotunnel
             # autotunnel interface doesn't require a MTU setup
         fi
@@ -103,7 +103,7 @@ start)
         /sbin/ip route add unreach    3ffe:ffff::/32
 
         # Set default route for autotunnel, if specified
-        if [ "$IPV6_DEFAULTDEV" = "sit0" -a "$IPV6_AUTOTUNNEL" = "yes" ]; then
+        if [ "$IPV6_DEFAULTDEV" = "sit0" ] && is_true "$IPV6_AUTOTUNNEL"; then
             if [ -n "$IPV6_DEFAULTGW" ]; then
                 ipv6_set_default_route $IPV6_DEFAULTGW $IPV6_DEFAULTDEV sit0
             elif [ -n "$IPV6_DEFAULTDEV" ]; then
@@ -128,7 +128,7 @@ stop)
         # IPv6 test, no module loaded, exit if system is not IPv6-ready
         ipv6_test testonly || exit 0
 
-        if [ ! "$IPV6_SET_SYSCTLS" = "no" ]; then
+        if ! is_false "$IPV6_SET_SYSCTLS"; then
             for i in /proc/sys/net/ipv6/conf/* ; do
                 interface=${i##*/}
                 sinterface=${interface/.//}
