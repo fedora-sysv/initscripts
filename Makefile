@@ -95,8 +95,6 @@ install-post: install-etc
 	    install -m 0755 -d $$dir; \
 	    ln -srf $(DESTDIR)$(sysconfdir)/rc.d/rc$$idx.d $(DESTDIR)$(sysconfdir)/; \
 	done
-	touch $(DESTDIR)$(sysconfdir)/rc.d/rc.local
-	chmod 0755 $(DESTDIR)$(sysconfdir)/rc.d/rc.local
 
 clean:
 	$(MAKE) clean -C src

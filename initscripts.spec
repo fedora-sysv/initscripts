@@ -275,8 +275,6 @@ fi
 
 # ---------------
 
-%ghost %config(noreplace, missingok) %verify(not md5 size mtime) %{_sysconfdir}/rc.d/rc.local
-
 %{_sysconfdir}/rc.d/init.d/functions
 
 # RC symlinks:
