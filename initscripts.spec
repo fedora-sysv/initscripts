@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.00.4
+Version:          10.00.5
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -344,6 +344,13 @@ fi
 # =============================================================================
 
 %changelog
+* Wed Oct 30 2019 Jan Macku <jamacku@redhat.com> - 10.00.5-1
+- network-function: bridges are created by ifup-eth
+- network: don't fail with IFDOWN_ON_SHUTDOWN
+- Add ip6gre tunnel option
+- ifup-eth: Check that device name is set
+- Initscripts no longer care about rc.local
+
 * Fri Aug 23 2019 Lukas Nykryn <lnykryn@redhat.com> - 10.00.4-1
 - ifup-eth: Fix bridge setting stp option
 
