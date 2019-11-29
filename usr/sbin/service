@@ -36,7 +36,7 @@ while [ $# -gt 0 ]; do
         shift
         ;;
     *)
-        if [ -z "${SERVICE}" -a $# -eq 1 -a "${1}" = "--status-all" ]; then
+        if [ -z "${SERVICE}" ] && [ $# -eq 1 ] && [ "${1}" = "--status-all" ]; then
             cd ${SERVICEDIR}
             for SERVICE in * ; do
                 case "${SERVICE}" in
@@ -51,7 +51,7 @@ while [ $# -gt 0 ]; do
                 esac
             done
             exit 0
-        elif [ $# -eq 2 -a "${2}" = "--full-restart" ]; then
+        elif [ $# -eq 2 ] && [ "${2}" = "--full-restart" ]; then
             SERVICE="${1}"
             if [ -x "${SERVICEDIR}/${SERVICE}" ]; then
                 env -i PATH="$PATH" TERM="$TERM" "${SERVICEDIR}/${SERVICE}" stop
@@ -73,15 +73,24 @@ done
 if [ -f "${SERVICEDIR}/${SERVICE}" ]; then
     # LSB daemons that dies abnormally in systemd looks alive in systemd's eyes due to RemainAfterExit=yes
     # lets reap them before next start
-    if [ "${ACTION}" = "start" ] && \
-            systemctl show -p ActiveState ${SERVICE}.service | grep -q '=active$' && \
-            systemctl show -p SubState ${SERVICE}.service | grep -q '=exited$' ; then
+    if [ "${ACTION}" = 'start' ] && \
+            [ "$(systemctl show -p ActiveState ${SERVICE}.service --value)" = 'active' ] && \
+            [ "$(systemctl show -p SubState ${SERVICE}.service --value)" = 'exited' ]; then
         /bin/systemctl stop ${SERVICE}.service
     fi
+
+    # Workaround to be able to "stop" network.service when it's in inactive state using service instead of systemctl
+    # Useful for manual testing of network 
+    if [ "${SERVICE}" = 'network' ] && [ "${ACTION}" = 'stop' ] && \
+            [ "$(systemctl show -p ActiveState network.service --value)" = 'inactive' ] && \
+            [ "$(systemctl show -p SourcePath network.service --value)" = '/etc/rc.d/init.d/network' ]; then
+        export SYSTEMCTL_SKIP_REDIRECT=1
+    fi
+
     env -i PATH="$PATH" TERM="$TERM" SYSTEMCTL_IGNORE_DEPENDENCIES=${SYSTEMCTL_IGNORE_DEPENDENCIES} SYSTEMCTL_SKIP_REDIRECT=${SYSTEMCTL_SKIP_REDIRECT} "${SERVICEDIR}/${SERVICE}" ${ACTION} ${OPTIONS}
 elif [ -n "${ACTION}" ] && [ -x "${ACTIONDIR}/${SERVICE}/${ACTION}" ]; then
     env -i PATH="$PATH" TERM="$TERM" SYSTEMCTL_IGNORE_DEPENDENCIES=${SYSTEMCTL_IGNORE_DEPENDENCIES} SYSTEMCTL_SKIP_REDIRECT=${SYSTEMCTL_SKIP_REDIRECT} "${ACTIONDIR}/${SERVICE}/${ACTION}" ${OPTIONS}
-elif `echo $ACTION | grep -Eqw "start|stop|restart|try-restart|reload|force-reload|status|condrestart"` ; then
+elif [[ $ACTION =~ start|stop|restart|try-restart|reload|force-reload|status|condrestart ]]; then
     SERVICE_MANGLED=$(/usr/bin/systemd-escape --mangle ${SERVICE})
     echo $"Redirecting to /bin/systemctl ${ACTION}${OPTIONS:+ }${OPTIONS} ${SERVICE_MANGLED}" >&2
     exec /bin/systemctl ${ACTION} ${OPTIONS} ${SERVICE_MANGLED}
