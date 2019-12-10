@@ -78,6 +78,13 @@ if [ -f "${SERVICEDIR}/${SERVICE}" ]; then
    systemctl show -p SubState ${SERVICE}.service | grep -q '=exited$' ; then
        /bin/systemctl stop ${SERVICE}.service
    fi
+   # Workaround to be able to "stop" network.service when it's in inactive state using service instead of systemctl
+   # Useful for manual testing of network
+   if [ "${SERVICE}" = 'network' ] && [ "${ACTION}" = 'stop' ] && \
+   [ "$(systemctl show -p ActiveState network.service --value)" = 'inactive' ] && \
+   [ "$(systemctl show -p SourcePath network.service --value)" = '/etc/rc.d/init.d/network' ]; then
+       export SYSTEMCTL_SKIP_REDIRECT=1
+   fi
    env -i PATH="$PATH" TERM="$TERM" SYSTEMCTL_IGNORE_DEPENDENCIES=${SYSTEMCTL_IGNORE_DEPENDENCIES} SYSTEMCTL_SKIP_REDIRECT=${SYSTEMCTL_SKIP_REDIRECT} "${SERVICEDIR}/${SERVICE}" ${ACTION} ${OPTIONS}
 elif [ -n "${ACTION}" ] && [ -x "${ACTIONDIR}/${SERVICE}/${ACTION}" ]; then
    env -i PATH="$PATH" TERM="$TERM" SYSTEMCTL_IGNORE_DEPENDENCIES=${SYSTEMCTL_IGNORE_DEPENDENCIES} SYSTEMCTL_SKIP_REDIRECT=${SYSTEMCTL_SKIP_REDIRECT} "${ACTIONDIR}/${SERVICE}/${ACTION}" ${OPTIONS}
