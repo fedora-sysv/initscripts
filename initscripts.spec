@@ -182,7 +182,7 @@ support. Additional configuration is required after installation.
 # ---------------
 
 %build
-%make_build
+%make_build PYTHON=%{__python3}
 
 # ---------------
 
