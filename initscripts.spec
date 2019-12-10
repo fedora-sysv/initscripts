@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.00.5
+Version:          10.00.6
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -344,6 +344,10 @@ fi
 # =============================================================================
 
 %changelog
+* Tue Dec 10 2019 Jan Macku <jamacku@redhat.com> - 10.00.6-1
+- Fix service network stop cmd
+- Fix missing python3 during build phase
+
 * Wed Oct 30 2019 Jan Macku <jamacku@redhat.com> - 10.00.5-1
 - network-function: bridges are created by ifup-eth
 - network: don't fail with IFDOWN_ON_SHUTDOWN
