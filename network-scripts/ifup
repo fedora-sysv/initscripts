@@ -149,6 +149,29 @@ if is_true "${VLAN}" && is_false "$ISALIAS" && [ -n "$DEVICE" ]; then
         --prefix "/proc/sys/net/ipv6/conf/${DEVICE}"
 fi
 
+# IPoIB support
+if is_true "${PKEY}" && [ "${TYPE}" = "Infiniband" ] ; then
+    MATCH='^.+\.[0-9]{1,4}$'
+    if [[ "${DEVICE}" =~ $MATCH ]]; then
+        PHYSDEV=${DEVICE%.*}
+    fi
+    if ! modprobe ib_ipoib >/dev/null 2>&1 ; then
+        net_log $"No IPoIB support available in kernel for device ${DEVICE}"
+        exit 1
+    fi
+    if [ -d /sys/devices/virtual/net/${DEVICE} ]; then
+        check_device_down ${DEVICE} && { ip -o link set dev ${DEVICE} up; }
+    else
+        ip link add dev ${DEVICE} link ${PHYSDEV} type ipoib pkey ${PKEY_ID} || {
+            (/usr/bin/logger -p daemon.info -t ifup \$"ERROR: could not add
+            pkey ${PKEY_ID} as ${DEVICE} on dev ${PHYSDEV}" &) &
+            net_log $"ERROR: could not add pkey ${PKEY_ID} as ${DEVICE} on dev ${PHYSDEV}"
+        exit 1
+        }
+    fi
+    exit 0
+fi
+
 if [ "${BOOTPROTO}" = "bootp" -o "${BOOTPROTO}" = "dhcp" ]; then
     DYNCONFIG=true
 fi
