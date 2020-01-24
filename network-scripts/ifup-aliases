@@ -267,7 +267,7 @@ function new_interface ()
                 is_available ${parent_device} && \
                 ( grep -qswi "up" /sys/class/net/${parent_device}/operstate ||  grep -qswi "1" /sys/class/net/${parent_device}/carrier ) ; then
             echo $"Determining if ip address ${IPADDR} is already in use for device ${parent_device}..."
-            ARPING=$(/sbin/arping -c 2 -w ${ARPING_WAIT:-3} -D -I ${parent_device} ${IPADDR})
+            ARPING=$(/usr/bin/arping -c 2 -w ${ARPING_WAIT:-3} -D -I ${parent_device} ${IPADDR})
             if [ $? = 1 ]; then
                 ARPINGMAC=$(echo $ARPING | sed -ne 's/.*\[\(.*\)\].*/\1/p')
                 net_log $"Error, some other host ($ARPINGMAC) already uses address ${IPADDR}."
@@ -280,8 +280,8 @@ function new_interface ()
 
         # update ARP cache of neighboring computers:
         if ! is_false "${ARPUPDATE}" && [ "${REALDEVICE}" != "lo" ]; then
-            /sbin/arping -q -A -c 1 -I ${parent_device} ${IPADDR}
-            ( sleep 2; /sbin/arping -q -U -c 1 -I ${parent_device} ${IPADDR} ) > /dev/null 2>&1 < /dev/null &
+            /usr/bin/arping -q -A -c 1 -I ${parent_device} ${IPADDR}
+            ( sleep 2; /usr/bin/arping -q -U -c 1 -I ${parent_device} ${IPADDR} ) > /dev/null 2>&1 < /dev/null &
         fi
 
         ! is_false "$IPV6INIT" && \

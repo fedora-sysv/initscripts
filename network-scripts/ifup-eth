@@ -282,7 +282,7 @@ else
 
             if ! LC_ALL=C ip addr ls ${REALDEVICE} | LC_ALL=C grep -q "${ipaddr[$idx]}/${prefix[$idx]}" ; then
                 if [ "${REALDEVICE}" != "lo" ] && ! is_false "${arpcheck[$idx]}"; then
-                    ARPING=$(/sbin/arping -c 2 -w ${ARPING_WAIT:-3} -D -I ${REALDEVICE} ${ipaddr[$idx]})
+                    ARPING=$(/usr/bin/arping -c 2 -w ${ARPING_WAIT:-3} -D -I ${REALDEVICE} ${ipaddr[$idx]})
                     if [ $? = 1 ]; then
                         ARPINGMAC=$(echo $ARPING |  sed -ne 's/.*\[\(.*\)\].*/\1/p')
                         net_log $"Error, some other host ($ARPINGMAC) already uses address ${ipaddr[$idx]}."
@@ -302,9 +302,9 @@ else
 
             # update ARP cache of neighboring computers
             if ! is_false "${arpupdate[$idx]}" && [ "${REALDEVICE}" != "lo" ]; then
-                /sbin/arping -q -A -c 1 -I ${REALDEVICE} ${ipaddr[$idx]}
+                /usr/bin/arping -q -A -c 1 -I ${REALDEVICE} ${ipaddr[$idx]}
                 ( sleep 2;
-                /sbin/arping -q -U -c 1 -I ${REALDEVICE} ${ipaddr[$idx]} ) > /dev/null 2>&1 < /dev/null &
+                /usr/bin/arping -q -U -c 1 -I ${REALDEVICE} ${ipaddr[$idx]} ) > /dev/null 2>&1 < /dev/null &
             fi
 
             # set lifetime of address to forever
