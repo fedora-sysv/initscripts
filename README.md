@@ -19,7 +19,6 @@ files.
 
 Another functionality this source code provides includes:
  * [`network-scripts`](https://github.com/fedora-sysv/initscripts/tree/master/network-scripts) - **legacy** scripts for manipulating of network devices
- * [`readonly-root`](https://github.com/fedora-sysv/initscripts/blob/master/usr/lib/systemd/readonly-root) - service for configuring the read-only root support
  * [`netconsole`](https://github.com/fedora-sysv/initscripts/blob/master/etc/rc.d/init.d/netconsole) - service for initializing of network console logging
 
 For the *[RPM](https://en.wikipedia.org/wiki/Rpm_(software))* based distributions

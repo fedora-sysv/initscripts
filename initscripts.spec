@@ -153,28 +153,6 @@ This packages provides a 'netconsole' service for loading of netconsole kernel
 module with the configured parameters. The netconsole kernel module itself then
 allows logging of kernel messages over the network.
 
-# ---------------
-
-%package -n readonly-root
-Summary:          Service for configuring read-only root support
-Requires:         %{name} = %{version}-%{release}
-BuildArch:        noarch
-
-%shared_requirements
-
-Requires:         cpio
-Requires:         findutils
-Requires:         hostname
-Requires:         iproute
-Requires:         ipcalc
-Requires:         util-linux
-
-Obsoletes:        %{name}            < 9.82-2
-
-%description -n readonly-root
-This package provides script & configuration file for setting up read-only root
-support. Additional configuration is required after installation.
-
 # === BUILD INSTRUCTIONS ======================================================
 
 %prep
@@ -247,17 +225,6 @@ fi
 %postun -n netconsole-service
 %systemd_postun netconsole.service
 
-# ---------------
-
-%post -n readonly-root
-%systemd_post readonly-root.service
-
-%preun -n readonly-root
-%systemd_preun readonly-root.service
-
-%postun -n readonly-root
-%systemd_postun readonly-root.service
-
 # === PACKAGING INSTRUCTIONS ==================================================
 
 %files -f %{name}.lang
@@ -329,20 +296,6 @@ fi
 
 %{_libexecdir}/netconsole
 %{_prefix}/lib/systemd/system/netconsole.service
-
-# ---------------
-
-%files -n readonly-root
-%dir %{_sharedstatedir}/stateless
-%dir %{_sharedstatedir}/stateless/state
-%dir %{_sharedstatedir}/stateless/writable
-
-%config(noreplace) %{_sysconfdir}/rwtab
-%config(noreplace) %{_sysconfdir}/statetab
-%config(noreplace) %{_sysconfdir}/sysconfig/readonly-root
-
-%{_libexecdir}/readonly-root
-%{_prefix}/lib/systemd/system/readonly-root.service
 
 # =============================================================================
 
