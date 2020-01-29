@@ -1058,7 +1058,7 @@ ipv6_wait_tentative() {
     [ "$device" = lo ] && return 0
 
     while [ ${countdown} -gt 0 ]; do
-        ip_output="$(ip -6 addr show dev ${device} scope global tentative)"
+        ip_output="$(ip -6 addr show dev ${device} tentative)"
 
         if [ -z "$ip_output" ]; then
             return 0;
@@ -1073,11 +1073,11 @@ ipv6_wait_tentative() {
         countdown=$(($countdown - 1))
     done
 
-    ip_output="$(ip -6 addr show dev ${device} scope global tentative)"
+    ip_output="$(ip -6 addr show dev ${device} tentative)"
 
     if [ -n "$ip_output" ]; then
         net_log $"Some IPv6 address(es) of ${device} remain still in 'tentative' state" warning $fn
-        net_log $"Run 'ip -6 addr show dev ${device} scope global tentative' to see more" warning $fn
+        net_log $"Run 'ip -6 addr show dev ${device} tentative' to see more" warning $fn
     fi
 
     return 0
