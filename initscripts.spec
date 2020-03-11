@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.49.49
+Version: 9.49.50
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -220,6 +220,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Wed Mar 11 2020 Jan Macku <jamacku@redhat.com> - 9.49.50-1
+- Wait for scope link addresses as well as for scope global addresses - ipv6 (bug #1773798)
+
 * Mon Aug 19 2019 Jan Macku <jamacku@redhat.com> - 9.49.49-1
 - ifup-eth: Check that device name is set (bug #1741830)
 - Add option for IPv6 GRE tunnel (bug #1691552)
