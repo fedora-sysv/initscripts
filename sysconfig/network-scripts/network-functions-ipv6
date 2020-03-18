@@ -1077,7 +1077,7 @@ ipv6_wait_tentative() {
 
     if [ -n "$ip_output" ]; then
         net_log $"Some IPv6 address(es) of ${device} remain still in 'tentative' state" warning $fn
-        net_log $"Run 'ip -6 addr show dev ${device} scope global tentative' to see more" warning $fn
+        net_log $"Run 'ip -6 addr show dev ${device} tentative' to see more" warning $fn
     fi
 
     return 0
