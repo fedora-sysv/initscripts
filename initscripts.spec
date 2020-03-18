@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.49.50
+Version: 9.49.51
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -220,6 +220,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Wed Mar 18 2020 Jan Macku <jamacku@redhat.com> - 9.49.51-1
+- Fix inline comment - (bug #1773798)
+
 * Wed Mar 11 2020 Jan Macku <jamacku@redhat.com> - 9.49.50-1
 - Wait for scope link addresses as well as for scope global addresses - ipv6 (bug #1773798)
 
