@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.02
+Version:          10.03
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -347,6 +347,28 @@ fi
 # =============================================================================
 
 %changelog
+* Tue Mar 24 2020 Jan Macku <jamacku@redhat.com> - 10.03-1
+- Replace grep -EL with subshell since -L changed behaviour
+- Wait for scope link addresses as well as for scope global addresses
+- Remove deprecated option -m of pidof
+- Use function is_true for testing true conditions
+- Adding new travis job for testing shell-scripts
+- Remove zanata conf
+- pull latest translations
+- Update of translations and remove files with no translations
+- Fix service network stop cmd
+- Change spacing of service file to folow spacing of project
+- network-function: bridges are created by ifup-eth
+- Initscripts no longer care about rc.local
+- Repalace hardcoded tests for yes and no with testing functions
+- ifup-eth: Fix bridge setting stp option
+- Fix bug in service(8)
+- ifup-eth: Check that device name is set
+- Fix missing python3 during build phase
+- rc.d/functions: fix escape sequence being output under systemd service units
+- Add ip6gre tunnel option
+- ifup/ifdown: print DEPRECATION_WARNING_ISSUED waring info after source_config
+
 * Fri Jun 28 2019 Jan Macku <jamacku@redhat.com> - 10.02-1
 - network: don't fail with IFDOWN_ON_SHUTDOWN
 - rc.d/functions: remove support cgroups
