@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.00.6
+Version:          10.00.7
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -46,6 +46,7 @@ BuildRequires:    glib2-devel
 BuildRequires:    pkgconfig
 BuildRequires:    popt-devel
 BuildRequires:    setup
+BuildRequires:    python3-devel
 
 %{?systemd_requires}
 BuildRequires:    systemd
@@ -344,6 +345,10 @@ fi
 # =============================================================================
 
 %changelog
+* Wed Apr 15 2020 Jan Macku <jamacku@redhat.com> - 10.00.7-1
+- Wait for scope link addresses as well as for scope global addresses
+- Remove deprecated option -m of pidof
+
 * Tue Dec 10 2019 Jan Macku <jamacku@redhat.com> - 10.00.6-1
 - Fix service network stop cmd
 - Fix missing python3 during build phase
