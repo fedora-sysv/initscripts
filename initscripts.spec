@@ -27,6 +27,7 @@ Conflicts: redhat-release < 7.5-0.11
 Requires: udev >= 125-1
 Requires: cpio
 Requires: hostname
+Requires: bc
 Conflicts: ipsec-tools < 0.8.0-2
 Conflicts: NetworkManager < 0.9.9.0-37.git20140131.el7
 Requires(pre): /usr/sbin/groupadd
