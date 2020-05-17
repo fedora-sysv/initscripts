@@ -691,7 +691,7 @@ ng
 * Tue Jan 14 2014 Lukáš Nykrýn <lnykryn@redhat.com> 9.51-1
 - readonly-root: bind-mount only necessary subset of entries in rwtab
 - readonly-root: Add /var/log/audit/audit.log to rwtab
-- readonly-root: restore selinux context after bind mount
+- readonly-root: restore SELinux context after bind mount
 - rename_device: remove comments and trailing whitespaces
 - service: suggest using systemctl if unknown action is used
 - ifup-eth: fix typo in error message
