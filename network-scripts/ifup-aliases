@@ -266,7 +266,7 @@ function new_interface ()
         if [ "${parent_device}" != "lo" ] &&  ! is_false "${ARPCHECK}" && \
                 is_available ${parent_device} && \
                 ( grep -qswi "up" /sys/class/net/${parent_device}/operstate ||  grep -qswi "1" /sys/class/net/${parent_device}/carrier ) ; then
-            echo $"Determining if ip address ${IPADDR} is already in use for device ${parent_device}..."
+            echo $"Determining if IP address ${IPADDR} is already in use for device ${parent_device}…"
             ARPING=$(/sbin/arping -c 2 -w ${ARPING_WAIT:-3} -D -I ${parent_device} ${IPADDR})
             if [ $? = 1 ]; then
                 ARPINGMAC=$(echo $ARPING | sed -ne 's/.*\[\(.*\)\].*/\1/p')
