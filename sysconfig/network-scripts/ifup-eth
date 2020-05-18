@@ -86,9 +86,11 @@ if [ "${TYPE}" = "Bridge" ]; then
           forward_delay="$(convert2sec ${forward_delay} centi)"
         fi
 
-        forward_delay=$(expr ${forward_delay} \* 2 + 7)
+        forward_delay=$(bc -q <<< "${forward_delay} * 2 + 7")
 
-        [ 0$LINKDELAY -lt $forward_delay ] && LINKDELAY=$forward_delay
+        # It's possible we are comparing floating point numbers here, therefore
+        # we are using 'bc' for comparison. The [ ] and [[ ]] do not work.
+        (( $(bc -l <<< "${LINKDELAY:-0} < ${forward_delay}") )) && LINKDELAY=${forward_delay}
 
         unset forward_delay
     fi
