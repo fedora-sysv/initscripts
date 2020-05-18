@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.49.51
+Version: 9.49.52
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -221,6 +221,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Mon May 18 2020 Jan Macku <jamacku@redhat.con> - 9.49.52-1
+- ifup-eth: Switch to bc utility, which supports floating point computations (bug #1609687)
+
 * Wed Mar 18 2020 Jan Macku <jamacku@redhat.com> - 9.49.51-1
 - Fix inline comment - (bug #1773798)
 
