@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.00.7
+Version:          10.00.8
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -346,6 +346,11 @@ fi
 # =============================================================================
 
 %changelog
+* Tue Jun 16 2020 Jan Macku <jamacku@redhat.com> - 10.00.8-1
+- rwtab: Add support for chrony
+- ifup-eth: Switch to bc utility, which supports floating point computations.
+- Replace grep -EL with subshell since -L changed behaviour
+
 * Wed Apr 15 2020 Jan Macku <jamacku@redhat.com> - 10.00.7-1
 - Wait for scope link addresses as well as for scope global addresses
 - Remove deprecated option -m of pidof
