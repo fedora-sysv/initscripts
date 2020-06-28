@@ -659,7 +659,7 @@ change_resolv_conf ()
         /usr/bin/logger -p local7.notice -t "NET" -i "$0 : updated /etc/resolv.conf"
         [ -e /run/nscd/socket ] && /usr/sbin/nscd -i hosts # invalidate cache
     fi
-    umask $oldumask
+    umask "$oldumask"
     return $r
 }
 
