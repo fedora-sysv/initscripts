@@ -278,6 +278,46 @@ char *get_config_by_hwaddr(char *hwaddr, char *current) {
 	return first;
 }
 
+/* Let's check kernel cmdline and also process ifname= entries
+ * as they are documented in dracut.cmdline(7)
+ * Example: ifname=test:aa:bb:cc:dd:ee:ff
+ */
+char *get_cmdline_by_hwaddr(char *hwaddr) {
+	gchar *contents;
+	gchar **entries;
+	int i;
+	char *name = NULL;
+	g_file_get_contents("/proc/cmdline", &contents, NULL, NULL);
+	entries = g_strsplit(contents," ", 0);
+	for (i = 0; entries[i]; i++) {
+		char *c = (char *) entries[i];
+		char *n;
+
+		if (!g_str_has_prefix((gchar *)c,"ifname="))
+			continue;
+
+		c = strstr(c, "=");
+		if (c == NULL)
+			continue;
+		c++;
+		n=c;
+
+		c = strstr(c, ":");
+		if (c == NULL)
+			continue;
+		*c = '\0';
+		c++;
+
+		if (!strcasecmp(c, hwaddr)) {
+			name = strdup(n);
+			break;
+		}
+	}
+	g_free(contents);
+	g_strfreev(entries);
+	return name;
+}
+
 void take_lock() {
 	int count = 0;
 	int lockfd;
@@ -343,7 +383,9 @@ int main(int argc, char **argv) {
 	hw = get_hwaddr(src);
 	if (!hw)
 		goto out_unlock;
-	target = get_config_by_hwaddr(hw, src);
+	target = get_cmdline_by_hwaddr(hw);
+	if (!target)
+		target = get_config_by_hwaddr(hw, src);
 	if (!target)
 		goto out_unlock;
 
