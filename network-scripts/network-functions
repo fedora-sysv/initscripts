@@ -622,6 +622,8 @@ is_bonding_device ()
 # Invoke this when /etc/resolv.conf has changed:
 change_resolv_conf ()
 {
+    oldumask=$(umask)
+    umask 022
     s=$(/bin/grep '^[\ \       ]*option' /etc/resolv.conf 2>/dev/null)
     if [ $# -gt 1 ]; then
         if [ "x$s" != "x" ]; then
@@ -657,6 +659,7 @@ change_resolv_conf ()
         /usr/bin/logger -p local7.notice -t "NET" -i "$0 : updated /etc/resolv.conf"
         [ -e /run/nscd/socket ] && /usr/sbin/nscd -i hosts # invalidate cache
     fi
+    umask "$oldumask"
     return $r
 }
 
