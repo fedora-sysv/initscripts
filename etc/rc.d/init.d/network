@@ -59,6 +59,10 @@ export DEPRECATION_WARNING_ISSUED='true'
 # See how we were called.
 case "$1" in
 start)
+    if [ -x /usr/sbin/udevadm ]; then
+        /usr/sbin/udevadm settle
+    fi
+    
     [ "$EUID" != "0" ] && exit 4
     rc=0
     # IPv6 hook (pre IPv4 start)
