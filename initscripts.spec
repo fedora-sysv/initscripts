@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.03
+Version:          10.04
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -347,6 +347,14 @@ fi
 # =============================================================================
 
 %changelog
+* Tue Jul 14 2020 Jan Macku <jamacku@redhat.com> - 10.04-1
+- Maintain permisision to set umask
+- rwtab: Add support for chrony
+- Correct spelling, IP, …
+- Fix spelling, for more info
+- Fix spelling of SELinux
+- Translations update from Weblate
+
 * Tue Mar 24 2020 Jan Macku <jamacku@redhat.com> - 10.03-1
 - Replace grep -EL with subshell since -L changed behaviour
 - Wait for scope link addresses as well as for scope global addresses
