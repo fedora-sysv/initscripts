@@ -60,7 +60,7 @@ if [ "${TYPE}" = "Bridge" ]; then
     if [ ! -d /sys/class/net/${DEVICE}/bridge ]; then
         ip link add ${DEVICE} type bridge $bridge_opts || exit 1
     elif [ -n "${bridge_opts}" ]; then
-        ip link set ${DEVICE} type bridge $bridge_opts || exit 1
+        ip link set dev ${DEVICE} type bridge $bridge_opts || exit 1
     fi
     unset bridge_opts
 
@@ -191,7 +191,7 @@ if [ -n "${BRIDGE}" ]; then
     /sbin/ip link set dev ${DEVICE} up
     ethtool_set
     [ -n "${LINKDELAY}" ] && /bin/sleep ${LINKDELAY}
-    ip link set ${DEVICE} master ${BRIDGE}
+    ip link set dev ${DEVICE} master ${BRIDGE}
     # add the bits to setup driver parameters here
     for arg in $BRIDGING_OPTS ; do
         key=${arg%%=*};
