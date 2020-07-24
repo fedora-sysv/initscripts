@@ -140,7 +140,7 @@ if [ "${VLAN}" = "yes" ] && [ "$ISALIAS" = "no" ] && [ -n "$DEVICE" ]; then
                 exit 1
             }
 
-            [ -n "${VLAN_EGRESS_PRIORITY_MAP}" ] && ip link set ${DEVICE} type vlan egress ${VLAN_EGRESS_PRIORITY_MAP}
+            [ -n "${VLAN_EGRESS_PRIORITY_MAP}" ] && ip link set dev ${DEVICE} type vlan egress ${VLAN_EGRESS_PRIORITY_MAP}
         fi
     fi
 
