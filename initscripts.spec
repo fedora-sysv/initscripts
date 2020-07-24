@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.00.8
+Version:          10.00.9
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -346,6 +346,9 @@ fi
 # =============================================================================
 
 %changelog
+* Fri Jul 24 2020 Jan Macku <jamacku@redhat.com> - 10.00.9-1
+- Add optional 'dev' keyword
+
 * Tue Jun 16 2020 Jan Macku <jamacku@redhat.com> - 10.00.8-1
 - rwtab: Add support for chrony
 - ifup-eth: Switch to bc utility, which supports floating point computations.
