@@ -195,25 +195,29 @@ nm_con_load () {
         array:string:"/etc/sysconfig/network-scripts/${1}" >/dev/null 2>&1
 }
 
-ethtool_set()
+ethtool_set ()
 {
-    oldifs=$IFS;
-    IFS=';';
-    if [ -n "${ETHTOOL_DELAY}" ]; then
-      # Convert microseconds to seconds:
-      local ETHTOOL_DELAY_SEC=$(convert2sec ${ETHTOOL_DELAY} micro)
-      sleep ${ETHTOOL_DELAY_SEC}
-    fi
-    for opts in $ETHTOOL_OPTS ; do
-        IFS=$oldifs;
-        if [[ "${opts}" =~ [[:space:]]*- ]]; then
-            /sbin/ethtool $opts
-        else
-            /sbin/ethtool -s ${REALDEVICE} $opts
-        fi
+    if [ -n "${ETHTOOL_OPTS}" ] && [ ! -x /sbin/ethtool ] ; then
+        net_log "ethtool does not exist or is not executable." warning
+    else
+        oldifs=$IFS;
         IFS=';';
-    done
-    IFS=$oldifs;
+        if [ -n "${ETHTOOL_DELAY}" ] ; then
+            # Convert microseconds to seconds:
+            local ETHTOOL_DELAY_SEC=$(convert2sec ${ETHTOOL_DELAY} micro)
+            sleep ${ETHTOOL_DELAY_SEC}
+        fi
+        for opts in $ETHTOOL_OPTS ; do
+            IFS=$oldifs;
+            if [[ "${opts}" =~ [[:space:]]*- ]] ; then
+                /sbin/ethtool $opts
+            else
+                /sbin/ethtool -s ${REALDEVICE} $opts
+            fi
+            IFS=';';
+        done
+        IFS=$oldifs;
+    fi
 }
 
 expand_config ()
