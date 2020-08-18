@@ -86,7 +86,7 @@ if [ -z "${BOOTUP:-}" ]; then
 
     # NOTE: /dev/ttyS* is serial console. "not a tty" is such as
     # /dev/null associated when executed under systemd service units.
-    if LANG=C tty | grep --quiet -e '\(/dev/ttyS\|not a tty\)'; then
+    if LANG=C tty | grep -q -e '\(/dev/ttyS\|not a tty\)'; then
         BOOTUP=serial
         MOVE_TO_COL=
         SETCOLOR_SUCCESS=
