@@ -1,6 +1,6 @@
 Summary: The inittab file and the /etc/init.d scripts
 Name: initscripts
-Version: 9.49.53
+Version: 9.49.54
 # ppp-watch is GPLv2+, everything else is GPLv2
 License: GPLv2 and GPLv2+
 Group: System Environment/Base
@@ -221,6 +221,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/profile.d/debug*
 
 %changelog
+* Tue Oct 13 2020 Jan Macku <jamacku@redhat.com> - 9.49.54-1
+- rwtab: Allow updating mlocate.db (bug #1880095)
+
 * Fri May 22 2020 Jan Macku <jamacku@redhat.com> - 9.49.53-1
 - rwtab: Add support for chrony (bug #1838260)
 
