@@ -311,7 +311,7 @@ killproc() {
     RC=0; delay=3; try=0
     # Test syntax.
     if [ "$#" -eq 0 ]; then
-        echo $"Usage: killproc [-p pidfile] [ -d delay] {program} [-signal]"
+        echo $"Usage: killproc [-p {pidfile} [-b {binary}]] [-d {delay}] {program} [-signal]"
         return 1
     fi
     if [ "$1" = "-p" ]; then
@@ -321,7 +321,7 @@ killproc() {
     if [ "$1" = "-b" ]; then
         if [ -z $pid_file ]; then
             echo $"-b option can be used only with -p"
-            echo $"Usage: killproc -p pidfile -b binary program"
+            echo $"Usage: killproc [-p {pidfile} [-b {binary}]] [-d {delay}] {program} [-signal]"
             return 1
         fi
         binary=$2
@@ -330,7 +330,7 @@ killproc() {
     if [ "$1" = "-d" ]; then
         delay=$(echo $2 | awk -v RS=' ' -v IGNORECASE=1 '{if($1!~/^[0-9.]+[smhd]?$/) exit 1;d=$1~/s$|^[0-9.]*$/?1:$1~/m$/?60:$1~/h$/?60*60:$1~/d$/?24*60*60:-1;if(d==-1) exit 1;delay+=d*$1} END {printf("%d",delay+0.5)}')
         if [ "$?" -eq 1 ]; then
-            echo $"Usage: killproc [-p pidfile] [ -d delay] {program} [-signal]"
+            echo $"Usage: killproc [-p {pidfile} [-b {binary}]] [-d {delay}] {program} [-signal]"
             return 1
         fi
         shift 2
@@ -408,7 +408,7 @@ pidofproc() {
 
     # Test syntax.
     if [ "$#" = 0 ]; then
-        echo $"Usage: pidofproc [-p pidfile] {program}"
+        echo $"Usage: pidofproc [-p {pidfile}] {program}"
         return 1
     fi
     if [ "$1" = "-p" ]; then
@@ -434,7 +434,7 @@ status() {
 
     # Test syntax.
     if [ "$#" = 0 ] ; then
-        echo $"Usage: status [-p pidfile] {program}"
+        echo $"Usage: status [-p {pidfile}] [-l {lockfile}] [-b {binary}] {program}"
         return 1
     fi
     if [ "$1" = "-p" ]; then
@@ -448,7 +448,7 @@ status() {
     if [ "$1" = "-b" ]; then
         if [ -z $pid_file ]; then
             echo $"-b option can be used only with -p"
-            echo $"Usage: status -p pidfile -b binary program"
+            echo $"Usage: status [-p {pidfile}] [-l {lockfile}] [-b {binary}] {program}"
             return 1
         fi
         binary=$2
