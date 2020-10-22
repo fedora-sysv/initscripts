@@ -134,9 +134,7 @@ if is_true "${VLAN}" && is_false "$ISALIAS" && [ -n "$DEVICE" ]; then
             fi
 
             ip link add dev ${DEVICE} link ${PHYSDEV} type vlan id ${VID} ${FLAG_REORDER_HDR} ${FLAG_GVRP} || {
-                (/usr/bin/logger -p daemon.info -t ifup \
-                     $"ERROR: could not add vlan ${VID} as ${DEVICE} on dev ${PHYSDEV}" &) &
-                net_log $"ERROR: could not add vlan ${VID} as ${DEVICE} on dev ${PHYSDEV}"
+                net_log $"ERROR: could not add vlan ${VID} as ${DEVICE} on dev ${PHYSDEV}" info ifup 
                 exit 1
             }
 
