@@ -175,6 +175,9 @@ Obsoletes:        %{name}            < 9.82-2
 This package provides script & configuration file for setting up read-only root
 support. Additional configuration is required after installation.
 
+Please note that readonly-root package is considered deprecated with limited support.
+Please use systemd-volatile-root functionality instead, if possible.
+
 # === BUILD INSTRUCTIONS ======================================================
 
 %prep
