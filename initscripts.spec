@@ -346,7 +346,7 @@ fi
 # =============================================================================
 
 %changelog
-* Fri Nov  6 09:07:07 CET 2020 Jan Macku <jamacku@redhat.com> - 10.00.10-1
+* Fri Nov 06 2020 Jan Macku <jamacku@redhat.com> - 10.00.10-1
 - Allow updating rfkill switch status while in readonly root mode
 - service: Prevent variables from globbing
 - Allow updating mlocate.db while in readonly root mode
