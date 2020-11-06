@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.00.9
+Version:          10.00.10
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -346,6 +346,11 @@ fi
 # =============================================================================
 
 %changelog
+* Fri Nov  6 09:07:07 CET 2020 Jan Macku <jamacku@redhat.com> - 10.00.10-1
+- Allow updating rfkill switch status while in readonly root mode
+- service: Prevent variables from globbing
+- Allow updating mlocate.db while in readonly root mode
+
 * Fri Jul 24 2020 Jan Macku <jamacku@redhat.com> - 10.00.9-1
 - Add optional 'dev' keyword
 
