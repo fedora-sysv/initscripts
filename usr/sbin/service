@@ -74,9 +74,9 @@ if [ -f "${SERVICEDIR}/${SERVICE}" ]; then
     # LSB daemons that dies abnormally in systemd looks alive in systemd's eyes due to RemainAfterExit=yes
     # lets reap them before next start
     if [ "${ACTION}" = 'start' ] && \
-            [ "$(systemctl show -p ActiveState ${SERVICE}.service --value)" = 'active' ] && \
-            [ "$(systemctl show -p SubState ${SERVICE}.service --value)" = 'exited' ]; then
-        /bin/systemctl stop ${SERVICE}.service
+            [ "$(systemctl show -p ActiveState "${SERVICE}".service --value)" = 'active' ] && \
+            [ "$(systemctl show -p SubState "${SERVICE}".service --value)" = 'exited' ]; then
+        /bin/systemctl stop "${SERVICE}".service
     fi
 
     # Workaround to be able to "stop" network.service when it's in inactive state using service instead of systemctl
@@ -87,13 +87,13 @@ if [ -f "${SERVICEDIR}/${SERVICE}" ]; then
         export SYSTEMCTL_SKIP_REDIRECT=1
     fi
 
-    env -i PATH="$PATH" TERM="$TERM" SYSTEMCTL_IGNORE_DEPENDENCIES=${SYSTEMCTL_IGNORE_DEPENDENCIES} SYSTEMCTL_SKIP_REDIRECT=${SYSTEMCTL_SKIP_REDIRECT} "${SERVICEDIR}/${SERVICE}" ${ACTION} ${OPTIONS}
+    env -i PATH="$PATH" TERM="$TERM" SYSTEMCTL_IGNORE_DEPENDENCIES="${SYSTEMCTL_IGNORE_DEPENDENCIES}" SYSTEMCTL_SKIP_REDIRECT="${SYSTEMCTL_SKIP_REDIRECT}" "${SERVICEDIR}/${SERVICE}" "${ACTION}" ${OPTIONS}
 elif [ -n "${ACTION}" ] && [ -x "${ACTIONDIR}/${SERVICE}/${ACTION}" ]; then
-    env -i PATH="$PATH" TERM="$TERM" SYSTEMCTL_IGNORE_DEPENDENCIES=${SYSTEMCTL_IGNORE_DEPENDENCIES} SYSTEMCTL_SKIP_REDIRECT=${SYSTEMCTL_SKIP_REDIRECT} "${ACTIONDIR}/${SERVICE}/${ACTION}" ${OPTIONS}
+    env -i PATH="$PATH" TERM="$TERM" SYSTEMCTL_IGNORE_DEPENDENCIES="${SYSTEMCTL_IGNORE_DEPENDENCIES}" SYSTEMCTL_SKIP_REDIRECT="${SYSTEMCTL_SKIP_REDIRECT}" "${ACTIONDIR}/${SERVICE}/${ACTION}" ${OPTIONS}
 elif [[ $ACTION =~ start|stop|restart|try-restart|reload|force-reload|status|condrestart ]]; then
-    SERVICE_MANGLED=$(/usr/bin/systemd-escape --mangle ${SERVICE})
-    echo $"Redirecting to /bin/systemctl ${ACTION}${OPTIONS:+ }${OPTIONS} ${SERVICE_MANGLED}" >&2
-    exec /bin/systemctl ${ACTION} ${OPTIONS} ${SERVICE_MANGLED}
+    SERVICE_MANGLED=$(/usr/bin/systemd-escape --mangle "${SERVICE}")
+    echo $"Redirecting to /bin/systemctl ${ACTION} ${SERVICE_MANGLED}${OPTIONS:+ }${OPTIONS}" >&2
+    exec /bin/systemctl "${ACTION}" "${SERVICE_MANGLED}" ${OPTIONS}
 else
     echo $"The service command supports only basic LSB actions (start, stop, restart, try-restart, reload, force-reload, status). For other actions, please try to use systemctl." >&2
     exit 2
