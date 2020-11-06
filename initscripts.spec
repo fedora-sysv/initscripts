@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.04
+Version:          10.05
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -350,6 +350,18 @@ fi
 # =============================================================================
 
 %changelog
+* Fri Nov  6 09:25:48 CET 2020 Jan Macku <jamacku@redhat.com> - 10.05-1
+- service: Prevent variables from globbing
+- init.d/functions: Make usage msgs more clear
+- network-scripts: Use net_log() instead of logger
+- Allow updating rfkill switch status while in readonly root mode
+- Add info into specfile about readonly-root deprecation
+- Allow updating mlocate.db while in readonly root mode
+- rc.d/functions: replace grep's --quiet with -q
+- Add warning to warn user when ETHTOOL_OPTS is set and ethtool binary is missing - Olav Vitters
+- Fix spacing in Makefile
+- Add optional 'dev' keyword
+
 * Tue Jul 14 2020 Jan Macku <jamacku@redhat.com> - 10.04-1
 - Maintain permisision to set umask
 - rwtab: Add support for chrony
