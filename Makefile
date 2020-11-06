@@ -107,7 +107,7 @@ tag:
 
 release-commit:
 	@git log --decorate=no --format="- %s" $(VERSION)..HEAD > .changelog.tmp
-	@rpmdev-bumpspec -n $(NEXT_VERSION) -f .changelog.tmp initscripts.spec
+	@rpmdev-bumpspec -D -n $(NEXT_VERSION) -f .changelog.tmp initscripts.spec
 	@rm -f .changelog.tmp
 	@git add initscripts.spec
 	@git commit --message="$(NEXT_VERSION)"
