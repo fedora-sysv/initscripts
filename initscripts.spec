@@ -350,7 +350,7 @@ fi
 # =============================================================================
 
 %changelog
-* Fri Nov  6 09:25:48 CET 2020 Jan Macku <jamacku@redhat.com> - 10.05-1
+* Fri Nov 06 2020 Jan Macku <jamacku@redhat.com> - 10.05-1
 - service: Prevent variables from globbing
 - init.d/functions: Make usage msgs more clear
 - network-scripts: Use net_log() instead of logger
