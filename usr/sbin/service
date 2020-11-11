@@ -90,11 +90,11 @@ if [ -f "${SERVICEDIR}/${SERVICE}" ]; then
     env -i PATH="$PATH" TERM="$TERM" SYSTEMCTL_IGNORE_DEPENDENCIES="${SYSTEMCTL_IGNORE_DEPENDENCIES}" SYSTEMCTL_SKIP_REDIRECT="${SYSTEMCTL_SKIP_REDIRECT}" "${SERVICEDIR}/${SERVICE}" "${ACTION}" ${OPTIONS}
 elif [ -n "${ACTION}" ] && [ -x "${ACTIONDIR}/${SERVICE}/${ACTION}" ]; then
     env -i PATH="$PATH" TERM="$TERM" SYSTEMCTL_IGNORE_DEPENDENCIES="${SYSTEMCTL_IGNORE_DEPENDENCIES}" SYSTEMCTL_SKIP_REDIRECT="${SYSTEMCTL_SKIP_REDIRECT}" "${ACTIONDIR}/${SERVICE}/${ACTION}" ${OPTIONS}
-elif [[ $ACTION =~ start|stop|restart|try-restart|reload|force-reload|status|condrestart ]]; then
+elif [[ $ACTION =~ ^(start|stop|restart|try-restart|reload|reload-or-restart|try-reload-or-restart|force-reload|status|condrestart)$ ]]; then
     SERVICE_MANGLED=$(/usr/bin/systemd-escape --mangle "${SERVICE}")
     echo $"Redirecting to /bin/systemctl ${ACTION} ${SERVICE_MANGLED}${OPTIONS:+ }${OPTIONS}" >&2
     exec /bin/systemctl "${ACTION}" "${SERVICE_MANGLED}" ${OPTIONS}
 else
-    echo $"The service command supports only basic LSB actions (start, stop, restart, try-restart, reload, force-reload, status). For other actions, please try to use systemctl." >&2
+    echo $"The service command supports only basic LSB actions (start, stop, restart, try-restart, reload, reload-or-restart, try-reload-or-restart, force-reload, status, condrestart). For other actions, please try to use systemctl." >&2
     exit 2
 fi
