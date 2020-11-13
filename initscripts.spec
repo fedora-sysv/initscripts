@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.05
+Version:          10.06
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -350,6 +350,10 @@ fi
 # =============================================================================
 
 %changelog
+* Fri Nov 13 2020 Jan Macku <jamacku@redhat.com> - 10.06-1
+- service: catch unsupported action keywords
+- makefile: Use rpmdev-bumpspec's legacy date option
+
 * Fri Nov 06 2020 Jan Macku <jamacku@redhat.com> - 10.05-1
 - service: Prevent variables from globbing
 - init.d/functions: Make usage msgs more clear
