@@ -122,7 +122,7 @@ if is_true "${VLAN}" && is_false "$ISALIAS" && [ -n "$DEVICE" ]; then
         }
 
         # Link on Physical device needs to be up but no ip required
-        check_device_down ${PHYSDEV} && { ip -o link set dev ${PHYSDEV} up; }
+        check_device_down ${PHYSDEV} && set_link_up ${PHYSDEV}
 
         if [ ! -f /proc/net/vlan/${DEVICE} ]; then
             if is_false "${REORDER_HDR}"; then

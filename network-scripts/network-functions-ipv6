@@ -10,6 +10,8 @@
 #
 #
 
+# Source network-functions due to need of set_link_up()
+. ./network-functions
 
 ##### Test for IPv6 capabilities
 # $1: (optional) testflag: currently supported: "testonly" (do not load a module)
@@ -108,7 +110,7 @@ ipv6_enable_autotunnel() {
         true
     else
         # bring up basic tunnel device
-        /sbin/ip link set sit0 up
+        set_link_up sit0
 
             if ! ipv6_test_device_status sit0; then
                 net_log $"Tunnel device 'sit0' enabling didn't work" err $fn
@@ -159,7 +161,7 @@ ipv6_add_addr_on_device() {
         net_log $"Device '$device' doesn't exist" err $fn
         return 3
     else
-        /sbin/ip link set $device up
+        set_link_up $device
 
             if ! ipv6_test_device_status $device; then
                 net_log $"Device '$device' enabling didn't work" err $fn
@@ -604,7 +606,7 @@ ipv6_add_tunnel_device() {
             return 3
         fi
 
-        /sbin/ip link set $device up
+        set_link_up $device
 
         if ! ipv6_test_device_status $device; then
             net_log $"Tunnel device '$device' bringing up didn't work" err $fn
