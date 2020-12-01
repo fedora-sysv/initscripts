@@ -76,7 +76,7 @@ if [ "${TYPE}" = "Bridge" ]; then
     # set LINKDELAY (used as timeout when calling check_link_down())
     # to at least (${DELAY} * 2) + 7 if STP is enabled. This is the
     # minimum time required for /sys/class/net/$REALDEVICE/carrier to
-    # become 1 after "ip link set dev $DEVICE up" is called.
+    # become 1 after "set_link_up $DEVICE" is called.
     if is_true "${STP}"; then
         if [ -n "${DELAY}" ]; then
           forward_delay="${DELAY}"
@@ -164,7 +164,7 @@ fi
 # so it can actually get an IP.
 if [ "$ISALIAS" = no ] && is_bonding_device ${DEVICE} ; then
     install_bonding_driver ${DEVICE}
-    /sbin/ip link set dev ${DEVICE} up
+    set_link_up ${DEVICE}
     for device in $(LANG=C grep -l "^[[:space:]]*MASTER=['\"]\?${DEVICE}['\"]\?\([[:space:]#]\|$\)" /etc/sysconfig/network-scripts/ifcfg-*) ; do
         is_ignored_file "$device" && continue
         /sbin/ifup ${device##*/} || net_log "Unable to start slave device ${device##*/} for master ${DEVICE}." warning
@@ -188,7 +188,7 @@ if [ -n "${BRIDGE}" ]; then
         ip link add ${BRIDGE} type bridge 2>/dev/null
     fi
     /sbin/ip addr flush dev ${DEVICE} 2>/dev/null
-    /sbin/ip link set dev ${DEVICE} up
+    set_link_up ${DEVICE}
     ethtool_set
     [ -n "${LINKDELAY}" ] && /bin/sleep ${LINKDELAY}
     ip link set dev ${DEVICE} master ${BRIDGE}
@@ -243,7 +243,7 @@ if [ -n "${DYNCONFIG}" ] && [ -x /sbin/dhclient ]; then
 else 
     if [ -z "${IPADDR}" -a -z "${IPADDR0}" -a -z "${IPADDR1}" -a -z "${IPADDR2}" ]; then
         # enable device without IP, useful for e.g. PPPoE
-        ip link set dev ${REALDEVICE} up
+        set_link_up ${REALDEVICE}
         ethtool_set
         [ -n "${LINKDELAY}" ] && /bin/sleep ${LINKDELAY}
     else
@@ -253,7 +253,7 @@ else
         [ -n "${ARP}" ] && \
             ip link set dev ${REALDEVICE} $(toggle_value arp $ARP)
 
-        if ! ip link set dev ${REALDEVICE} up ; then
+        if ! set_link_up ${REALDEVICE} ; then
             net_log $"Failed to bring up ${DEVICE}."
             exit 1
         fi
