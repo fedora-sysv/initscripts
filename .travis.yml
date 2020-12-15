@@ -1,6 +1,6 @@
-# Run in fast container-based environment:
-sudo: false
+os: linux
 dist: trusty
+language: c
 
 git:
   depth: 2
@@ -23,7 +23,7 @@ addons:
     packages:
       libpopt-dev
 
-matrix:
+jobs:
   include:
     - language: shell
       script: 
@@ -33,4 +33,3 @@ matrix:
 
 notifications:
   email: false
-
