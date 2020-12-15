@@ -91,7 +91,7 @@ fi
 /sbin/ip addr add "$MY_INNER_IPADDR" dev "$DEVICE" \
     ${PEER_INNER_IPADDR:+peer "$PEER_INNER_IPADDR"}
 
-/sbin/ip link set dev "$DEVICE" up
+set_link_up "${DEVICE}"
 
 # IPv6 initialisation?
 /etc/sysconfig/network-scripts/ifup-ipv6 ${CONFIG}
