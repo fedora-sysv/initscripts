@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.00.10
+Version:          10.00.11
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -346,6 +346,10 @@ fi
 # =============================================================================
 
 %changelog
+* Tue Dec 15 2020 Jan Macku <jamacku@redhat.com> - 10.00.11-1
+- network: add option to keep the link down
+- makefile: Use rpmdev-bumpspec's legacy date option
+
 * Fri Nov 06 2020 Jan Macku <jamacku@redhat.com> - 10.00.10-1
 - Allow updating rfkill switch status while in readonly root mode
 - service: Prevent variables from globbing
