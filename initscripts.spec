@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.00.11
+Version:          10.00.12
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -346,6 +346,9 @@ fi
 # =============================================================================
 
 %changelog
+* Thu Dec 17 2020 Jan Macku <jamacku@redhat.com> - 10.00.12-1
+- network: fix set_link_up()
+
 * Tue Dec 15 2020 Jan Macku <jamacku@redhat.com> - 10.00.11-1
 - network: add option to keep the link down
 - makefile: Use rpmdev-bumpspec's legacy date option
