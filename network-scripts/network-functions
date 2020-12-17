@@ -459,10 +459,8 @@ check_device_down ()
 
 set_link_up ()
 {
-    if [ "$LINKSTATUS" = down ]; then
+    if [ "$LINKSTATUS" != up ]; then
         ip link set dev $1 up >/dev/null 2>&1
-    else
-        grep -qsx 1 /sys/class/net/$1/carrier
     fi
 }
 
