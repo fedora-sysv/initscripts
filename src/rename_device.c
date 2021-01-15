@@ -278,6 +278,14 @@ char *get_config_by_hwaddr(char *hwaddr, char *current) {
 	return first;
 }
 
+int pid_exist(int pid)
+{
+	char proc_dir[32];
+	sprintf(proc_dir, "/proc/%d/", pid);
+	return !access(proc_dir, F_OK);
+}
+
+
 void take_lock() {
 	int count = 0;
 	int lockfd;
@@ -309,7 +317,11 @@ void take_lock() {
 			close(fd);
 			pid = atoi(buf);
 			if (pid && pid != 1) {
-				kill(pid,SIGKILL);
+				if (pid_exist(pid))
+					kill(pid,SIGKILL);
+				else
+					if (unlink(LOCKFILE) != 0)
+						break;
 			}
 		}
 		usleep(100000);
