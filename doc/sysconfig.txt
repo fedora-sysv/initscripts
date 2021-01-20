@@ -151,6 +151,11 @@ Generic options:
     Example: WAIT_UNTIL_REACHABLE=8.8.8.8
     Default: (not set)
 
+  RES_OPTIONS=<list of resolv.conf options>
+    RES_OPTIONS contains space-separated list of resolver options as explained in resolv.conf(5).
+    Example: RES_OPTIONS="rotate timeout:1 retries:1" this will be presented in /etc/resolv.conf like
+    "options rotate timeout:1 retries:1"
+
   IFDOWN_ON_SHUTDOWN=yes|no
     If yes, do bring interfaces down during system shutdown. If no, leave them
     in their current state (this is only supported on hosts using systemd).
