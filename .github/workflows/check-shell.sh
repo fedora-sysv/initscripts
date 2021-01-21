@@ -1,21 +1,25 @@
 #!/bin/bash
 
-# Path is wrong because of travis
-. ./.ci/functions.sh
+SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
+
+. $SCRIPT_DIR/functions.sh
+
+git_base=$1
+git_head=$2
 
 # ------------ #
 #  FILE PATHS  #
 # ------------ #
 
-# https://medium.com/@joey_9999/how-to-only-lint-files-a-git-pull-request-modifies-3f02254ec5e0
+# https://github.com/actions/runner/issues/342
 # get names of files from PR (excluding deleted files)
-git diff --name-only --diff-filter=db "${TRAVIS_COMMIT_RANGE}" > ../pr-changes.txt
+git diff --name-only --diff-filter=db "$git_base".."$git_head" > ../pr-changes.txt
 
 # Find modified shell scripts
 list_of_changes=()
 file_to_array "../pr-changes.txt" "list_of_changes" 0
 list_of_scripts=()
-file_to_array "./.ci/script-list.txt" "list_of_scripts" 1
+file_to_array "$SCRIPT_DIR/script-list.txt" "list_of_scripts" 1
 
 # Create list of scripts for testing
 list_of_changed_scripts=()
@@ -27,7 +31,7 @@ done
 
 # Get list of exceptions
 list_of_exceptions=()
-file_to_array "./.ci/exception-list.txt" "list_of_exceptions" 1
+file_to_array "$SCRIPT_DIR/exception-list.txt" "list_of_exceptions" 1
 string_of_exceptions=$(join_by , "${list_of_exceptions[@]}")
 
 echo -e "\n"
@@ -50,7 +54,7 @@ echo -e "\n"
 shellcheck --format=gcc --exclude="${string_of_exceptions}" "${list_of_changed_scripts[@]}" 2> /dev/null | sed -e 's|$| <--[shellcheck]|' > ../pr-br-shellcheck.err
 
 # make destination branch
-[[ ${TRAVIS_COMMIT_RANGE} =~ ^([0-9|a-f]*?)\. ]] && git checkout -q -b ci_br_dest "${BASH_REMATCH[1]}"
+git checkout -q -b ci_br_dest "$git_base"
 
 shellcheck --format=gcc --exclude="${string_of_exceptions}" "${list_of_changed_scripts[@]}" 2> /dev/null | sed -e 's|$| <--[shellcheck]|' > ../dest-br-shellcheck.err
 

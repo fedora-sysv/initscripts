@@ -1,0 +1,23 @@
+# https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions
+name: Integration test
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+      - rhel*-branch
+  release:
+    types: [published, created]
+
+jobs:
+  buildCheck:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Repository checkout
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: sudo apt update && sudo apt install -y libpopt-dev gettext
+      - name: Build & install
+        run: make all && make install DESTDIR=/tmp/initscripts
