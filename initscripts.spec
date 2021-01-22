@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.06
+Version:          10.07
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -350,6 +350,16 @@ fi
 # =============================================================================
 
 %changelog
+* Fri Jan 22 2021 Jan Macku <jamacku@redhat.com> - 10.07-1
+- doc: Fix "Duplicated string found in the file."
+- doc: Documents RES_OPTIONS option
+- doc: Documents ifcfg option LINKSTATUS
+- ci: use up to date keywords and fix some warnings
+- network: fix set_link_up()
+- network: add option to keep the link down
+- Rework of shell ci
+- Translations update from Weblate
+
 * Fri Nov 13 2020 Jan Macku <jamacku@redhat.com> - 10.06-1
 - service: catch unsupported action keywords
 - makefile: Use rpmdev-bumpspec's legacy date option
