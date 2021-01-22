@@ -46,6 +46,7 @@ BuildRequires:    glib2-devel
 BuildRequires:    pkgconfig
 BuildRequires:    popt-devel
 BuildRequires:    setup
+BuildRequires:    make
 
 %{?systemd_requires}
 BuildRequires:    systemd
