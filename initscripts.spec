@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.00.12
+Version:          10.00.13
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -346,6 +346,9 @@ fi
 # =============================================================================
 
 %changelog
+* Fri Jan 22 2021 Jan Macku <jamacku@redhat.com> - 10.00.13-1
+- doc: Documents ifcfg option LINKSTATUS
+
 * Thu Dec 17 2020 Jan Macku <jamacku@redhat.com> - 10.00.12-1
 - network: fix set_link_up()
 
