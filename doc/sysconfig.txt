@@ -476,6 +476,10 @@ Files in /etc/sysconfig/network-scripts/
     NOZEROCONF=
       Set this to not set a route for dynamic link-local addresses
       over this device.
+    LINKSTATUS=up|down
+     Setting LINKSTATUS to down prevents network-scripts from bringing up interface.
+     This prevents issues with interfaces like Open vSwitch bridges which uses
+     userspace datapaths. If not set defaults to up.
     PERSISTENT_DHCLIENT=yes|no|1|0
       Without this option, or if it is 'no'/'0', and BOOTPROTO=dhcp,
       dhclient is run for the interface in "one-shot" mode; if the 
