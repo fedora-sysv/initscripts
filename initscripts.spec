@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.07
+Version:          10.08
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -351,6 +351,10 @@ fi
 # =============================================================================
 
 %changelog
+* Thu Feb  4 2021 Jan Macku <jamacku@redhat.com> - 10.08-1
+- network: fix condition in set_link_up()
+- spec: sync with Fedora
+
 * Fri Jan 22 2021 Jan Macku <jamacku@redhat.com> - 10.07-1
 - doc: Fix "Duplicated string found in the file."
 - doc: Documents RES_OPTIONS option
