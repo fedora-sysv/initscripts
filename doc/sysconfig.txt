@@ -530,11 +530,21 @@ Files in /etc/sysconfig/network-scripts/
       If set to 'no', ifup will not try to determine, if requested ip address
       is used by other machine in network.
       Defaults to 'yes'.
+    ARPING_WAIT=<number>
+      Number of seconds for which will be arping trying to determine, if requested ip
+      address is used in network. This option works with ARPCHECKn=yes
+      If not set default is 3 sec.  
+      example: ARPING_WAIT=1
     ARPUPDATE=yes|no
       If set to 'no' the neighbours in current network will not be updated with
       ARP information about this NIC. This is especially handy using LVS Load
       Balancing with Direct Routing enabled.
       Defaults to 'yes'.
+    ARPING_UPDATE_WAIT=<number>
+      Number of seconds for which will be arping trying to update arp cache
+      of neighbours with ARP informations about this NIC.
+      This option works with ARPUPDATE=yes. If not set default is 3 sec.  
+      example: ARPING_UPDATE_WAIT=1
     IPV4_FAILURE_FATAL=yes|no
       If set to yes, ifup-eth will end immediately after ipv4 dhclient fails.
       Defaults to 'no'.
