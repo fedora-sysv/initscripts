@@ -280,8 +280,9 @@ function new_interface ()
 
         # update ARP cache of neighboring computers:
         if ! is_false "${ARPUPDATE}" && [ "${REALDEVICE}" != "lo" ]; then
-            /sbin/arping -q -A -c 1 -I ${parent_device} ${IPADDR}
-            ( sleep 2; /sbin/arping -q -U -c 1 -I ${parent_device} ${IPADDR} ) > /dev/null 2>&1 < /dev/null &
+            /sbin/arping -q -A -c 1 -w ${ARPING_UPDATE_WAIT:-3} -I ${parent_device} ${IPADDR}
+            ( sleep 2;
+            /sbin/arping -q -U -c 1 -w ${ARPING_UPDATE_WAIT:-3} -I ${parent_device} ${IPADDR} ) > /dev/null 2>&1 < /dev/null &
         fi
 
         ! is_false "$IPV6INIT" && \

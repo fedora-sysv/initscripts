@@ -302,9 +302,9 @@ else
 
             # update ARP cache of neighboring computers
             if ! is_false "${arpupdate[$idx]}" && [ "${REALDEVICE}" != "lo" ]; then
-                /sbin/arping -q -A -c 1 -I ${REALDEVICE} ${ipaddr[$idx]}
+                /sbin/arping -q -A -c 1 -w ${ARPING_UPDATE_WAIT:-3} -I ${REALDEVICE} ${ipaddr[$idx]}
                 ( sleep 2;
-                /sbin/arping -q -U -c 1 -I ${REALDEVICE} ${ipaddr[$idx]} ) > /dev/null 2>&1 < /dev/null &
+                /sbin/arping -q -U -c 1 -w ${ARPING_UPDATE_WAIT:-3} -I ${REALDEVICE} ${ipaddr[$idx]} ) > /dev/null 2>&1 < /dev/null &
             fi
 
             # set lifetime of address to forever
