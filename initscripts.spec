@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.00.14
+Version:          10.00.15
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -346,6 +346,10 @@ fi
 # =============================================================================
 
 %changelog
+* Mon Feb 15 2021 Jan Macku <jamacku@redhat.com> - 10.00.15-1
+- doc: Document ARPING_WAIT and ARPING_UPDATE_WAIT
+- network scripts: Avoid infinite loop of arping
+
 * Thu Feb  4 2021 Jan Macku <jamacku@redhat.com> - 10.00.14-1
 - network: fix condition in set_link_up()
 
