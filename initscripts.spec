@@ -34,6 +34,7 @@ Requires:         procps-ng
 Requires:         setup
 Requires:         systemd
 Requires:         util-linux
+Recommends:       initscripts-service
 
 Requires(pre):    shadow-utils
 Requires(post):   coreutils
@@ -50,8 +51,6 @@ BuildRequires:    make
 
 %{?systemd_requires}
 BuildRequires:    systemd
-
-Provides:         /sbin/service
 
 Obsoletes:        %{name}            < 9.82-2
 
@@ -88,6 +87,23 @@ This package provides basic support for legacy System V init scripts, and some
 other legacy tools & utilities.
 
 # === SUBPACKAGES =============================================================
+
+%package -n initscripts-service
+Summary:          Support for service command
+BuildArch:        noarch
+
+%shared_requirements
+
+Requires:         systemd
+
+Provides:         /sbin/service
+
+Obsoletes:        %{name}            < 9.82-2
+
+%description -n initscripts-service
+This package provides service command.
+
+# ---------------
 
 %package -n network-scripts
 Summary:          Legacy scripts for manipulating of network devices
@@ -292,7 +308,6 @@ fi
 %{_bindir}/*
 %{_sbindir}/consoletype
 %{_sbindir}/genhostid
-%{_sbindir}/service
 
 %{_libexecdir}/import-state
 %{_libexecdir}/loadmodules
@@ -304,9 +319,19 @@ fi
 %{_udevrulesdir}/*
 
 %{_mandir}/man1/*
-%{_mandir}/man8/service.*
 
 # =============================================================================
+
+%files -n initscripts-service
+
+%dir %{_libexecdir}/%{name}
+%dir %{_libexecdir}/%{name}/legacy-actions
+
+%{_sbindir}/service
+
+%{_mandir}/man8/service.*
+
+# ---------------
 
 %files -n network-scripts
 %doc doc/examples/
