@@ -1,0 +1,13 @@
+# Packit config
+# doc: https://packit.dev/docs/
+---
+
+specfile_path: ./initscripts.spec
+
+jobs:
+- job: copr_build
+  trigger: pull_request
+  metadata:
+    targets:
+    - fedora-development
+    - centos-stream-x86_64
