@@ -34,6 +34,7 @@ Requires:         procps-ng
 Requires:         setup
 Requires:         systemd
 Requires:         util-linux
+Requires:         chkconfig
 Recommends:       initscripts-service
 
 Requires(pre):    shadow-utils
