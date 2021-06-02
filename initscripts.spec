@@ -132,6 +132,12 @@ Requires(postun): %{_sbindir}/update-alternatives
 
 Obsoletes:        %{name}            < 9.82-2
 
+# This is legacy and deprecated, so nobody should depend on this!
+# If ifcfg-style configuration is still desired, NetworkManager can do this.
+# Thus, mark this as deprecated to ensure people know to not depend on it.
+# Cf. https://docs.fedoraproject.org/en-US/packaging-guidelines/deprecating-packages/
+Provides:         deprecated()
+
 %description -n network-scripts
 This package contains the legacy scripts for activating & deactivating of most
 network interfaces. It also provides a legacy version of 'network' service.
