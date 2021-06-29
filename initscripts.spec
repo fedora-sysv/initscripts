@@ -321,9 +321,6 @@ fi
 
 %{_prefix}/lib/systemd/system/import-state.service
 %{_prefix}/lib/systemd/system/loadmodules.service
-%{_prefix}/lib/udev/rename_device
-
-%{_udevrulesdir}/*
 
 %{_mandir}/man1/*
 

@@ -21,19 +21,17 @@ CC          = gcc
 CFLAGS     += $(RPM_OPT_FLAGS) -Wall -D_GNU_SOURCE -fPIE
 LDFLAGS    += $(RPM_LD_FLAGS) -pie -z relro -z now
 
-PROGS       = consoletype genhostid rename_device usernetctl usleep
+PROGS       = consoletype genhostid usernetctl usleep
 
 all: $(PROGS)
 
 install: all
 	install -m 0755 -d $(DESTDIR)$(bindir)
 	install -m 0755 -d $(DESTDIR)$(sbindir)
-	install -m 0755 -d $(DESTDIR)$(libdir)/udev
 	install -m 0755 build/usleep         $(DESTDIR)$(bindir)
 	install -m 0755 build/consoletype    $(DESTDIR)$(sbindir)
 	install -m 0755 build/genhostid      $(DESTDIR)$(sbindir)
 	install -m 0755 build/usernetctl     $(DESTDIR)$(sbindir)
-	install -m 0755 build/rename_device  $(DESTDIR)$(libdir)/udev
 
 clean:
 	rm -f build/*
@@ -50,13 +48,6 @@ genhostid: build/genhostid.o
 
 build/genhostid.o: genhostid.c
 	$(CC) $(CFLAGS) -c -o $@ $^
-
-
-rename_device: build/rename_device.o
-	$(CC) $(LDFLAGS) -o build/$@ $^ `pkg-config glib-2.0 --libs`
-
-build/rename_device.o: rename_device.c
-	$(CC) $(CFLAGS) -c -o $@ $^ `pkg-config glib-2.0 --cflags`
 
 
 usernetctl: build/usernetctl.o
