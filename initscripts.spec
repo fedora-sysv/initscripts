@@ -99,7 +99,7 @@ Requires:         systemd
 
 Provides:         /sbin/service
 
-Obsoletes:        %{name}            < 9.82-2
+Obsoletes:        %{name}            < 10.10-1
 
 %description -n initscripts-service
 This package provides service command.
