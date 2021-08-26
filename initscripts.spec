@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.09
+Version:          10.10
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -383,6 +383,20 @@ fi
 # =============================================================================
 
 %changelog
+* Thu Aug 26 2021 Jan Macku <jamacku@redhat.com> - 10.10-1
+- Translated using Weblate (Friulian) (#381)
+- Translations update from Weblate (#378)
+- added veth support
+- ifup-eth: add a new PERSISTENT_DHCLIENT_IPV6 option for IPv6 dhclient daemon
+- ifdown removes veth pair if both peers are down
+- rename_device: also support dracut-style kernel cmdline configuration
+- spec: Mark network-scripts as deprecated
+- spec: Initscripts now requires chkconfig (#374)
+- Translations update from Weblate (#371)
+- spec: Move service script into subpackage
+- ci: Onboard initscripts to Packit
+- ci: Migrate from Travis to GH Actions
+
 * Mon Feb 15 2021 Jan Macku <jamacku@redhat.com> - 10.09-1
 - doc: Document ARPING_WAIT and ARPING_UPDATE_WAIT
 - network scripts: Avoid infinite loop of arping
