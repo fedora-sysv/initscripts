@@ -35,7 +35,7 @@ Requires:         setup
 Requires:         systemd
 Requires:         util-linux
 Requires:         chkconfig
-Recommends:       initscripts-service
+Requires:         initscripts-service
 
 Requires(pre):    shadow-utils
 Requires(post):   coreutils
@@ -53,7 +53,7 @@ BuildRequires:    make
 %{?systemd_requires}
 BuildRequires:    systemd
 
-Obsoletes:        %{name}            < 9.82-2
+Obsoletes:        %{name}            < 10.10-1
 
 # === PATCHES =================================================================
 
