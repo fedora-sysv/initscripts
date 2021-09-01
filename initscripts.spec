@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.11
+Version:          10.11.1
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -383,6 +383,11 @@ fi
 # =============================================================================
 
 %changelog
+* Wed Sep 01 2021 Jan Macku <jamacku@redhat.com> - 10.11.1-1
+- spec: Update relation between initscripts and initscripts-service
+- spec: Replace not working awk command with sed
+- use downstream version style
+
 * Fri Aug 27 2021 Jan Macku <jamacku@redhat.com> - 10.11-1
 - specfile: Update obsoletes to allow upgrades (#385)
 
