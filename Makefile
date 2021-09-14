@@ -32,7 +32,13 @@ localstatedir  = /var
 sharedstatedir = $(localstatedir)/lib
 
 VERSION       := $(shell gawk '/Version:/ { print $$2 }' initscripts.spec)
-NEXT_VERSION  := $(shell sed -nr 's/Version:[ ]*([0-9]*)\.([0-9]*)\.([0-9]*)/echo "\1\.\2\.$$((\3+1))"/gep' initscripts.spec)
+# NOTE: First check version type. We currently support two types:
+#        * upstream version ##.## (e.g. 10.01)
+#        * downstream version ##.##.## (e.g. 10.01.1)
+#       Then based on type of version, increment last number by one using sed - https://stackoverflow.com/a/14348899
+NEXT_VERSION  := $(shell grep -q "^Version:[ ]*[0-9]*\.[0-9]*$$" initscripts.spec && \
+                     sed -nr 's/Version:[ ]*([0-9]*)\.([0-9]*)/echo "\1\.$$((\2+1))"/gep' initscripts.spec || \
+                     sed -nr 's/Version:[ ]*([0-9]*)\.([0-9]*)\.([0-9]*)/echo "\1\.\2\.$$((\3+1))"/gep' initscripts.spec)
 
 
 all: make-binaries make-translations
