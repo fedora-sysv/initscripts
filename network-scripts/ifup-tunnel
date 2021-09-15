@@ -22,7 +22,7 @@
 
 . /etc/init.d/functions
 
-cd /etc/sysconfig/network-scripts
+cd /etc/sysconfig/network-scripts || exit 1
 . ./network-functions
 
 CONFIG=$1
@@ -64,7 +64,7 @@ IPIP6|EXTERNAL)
 esac
 
 # Generic tunnel devices are not supported here
-if [ "$DEVICE" = gre0 -o "$DEVICE" = tunl0 -o "$DEVICE" = ip6tnl0 ]; then
+if [ "$DEVICE" = gre0 ] || [ "$DEVICE" = tunl0 ] || [ "$DEVICE" = ip6tnl0 ]; then
     net_log $"Device '$DEVICE' isn't supported as a valid GRE device name."
     exit 1
 fi
