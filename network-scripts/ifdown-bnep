@@ -2,7 +2,7 @@
 
 . /etc/init.d/functions
 
-cd /etc/sysconfig/network-scripts
+cd /etc/sysconfig/network-scripts || exit 1
 . ./network-functions
 
 [ -f ../network ] && . ../network
@@ -18,12 +18,12 @@ fi
 
 stop_panu()
 {
-    kill -TERM $(cat /run/pand-${DEVICE}.pid)
+    kill -TERM "$(cat /run/pand-"${DEVICE}".pid)"
 }
 
 stop_nap()
 {
-    kill -TERM $(cat /run/pand-${DEVICE}.pid)
+    kill -TERM "$(cat /run/pand-"${DEVICE}".pid)"
     /usr/bin/pand -K
 }
 
