@@ -19,7 +19,7 @@ unset WINDOW # defined by screen, conflicts with our usage
 
 . /etc/init.d/functions
 
-cd /etc/sysconfig/network-scripts
+cd /etc/sysconfig/network-scripts || exit 1
 . ./network-functions
 
 [ -f ../network ] && . ../network
@@ -66,11 +66,13 @@ if [ -n "$IN_HOTPLUG" ] && is_false "${HOTPLUG}"
 then
     exit 0
 fi
-if [ -n "$IN_HOTPLUG" -a "${TYPE}" = "Bridge" ]; 
+if [ -n "$IN_HOTPLUG" ] && [ "${TYPE}" = "Bridge" ]; 
 then
     exit 0
 fi
 
+# NOTE: _use_nm is defined in network-scripts/network-functions
+# shellcheck disable=SC2154
 if is_true "$_use_nm" && [ -n "$UUID" ] && [ "$REALDEVICE" != "lo" ]; then
     if [ "foo$2" = "fooboot" ] && [ "${TYPE}" = "Wireless" ]; then
         exit 0
@@ -114,6 +116,8 @@ if is_true "${VLAN}" && is_false "$ISALIAS" && [ -n "$DEVICE" ]; then
 
         is_available_wait ${PHYSDEV} ${DEVTIMEOUT} || {
             if [ "$?" = "1" ] ; then
+                # NOTE: alias is defined in network-scripts/network-functions
+                # shellcheck disable=SC2154
                 net_log $"$alias device ${DEVICE} does not seem to be present, delaying initialization."
                 exit 1
             else
@@ -147,7 +151,9 @@ if is_true "${VLAN}" && is_false "$ISALIAS" && [ -n "$DEVICE" ]; then
         --prefix "/proc/sys/net/ipv6/conf/${DEVICE}"
 fi
 
-if [ "${BOOTPROTO}" = "bootp" -o "${BOOTPROTO}" = "dhcp" ]; then
+if [ "${BOOTPROTO}" = "bootp" ] || [ "${BOOTPROTO}" = "dhcp" ]; then
+    # NOTE: looks like unused variable, but Let's not break it.
+    # shellcheck disable=SC2034
     DYNCONFIG=true
 fi
 
