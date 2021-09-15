@@ -4,7 +4,7 @@ unset WINDOW # defined by screen, conflicts with our usage
 
 . /etc/init.d/functions
 
-cd /etc/sysconfig/network-scripts
+cd /etc/sysconfig/network-scripts || exit 1
 . ./network-functions
 
 [ -f ../network ] && . ../network
@@ -42,13 +42,15 @@ if ! is_true ${DEPRECATION_WARNING_ISSUED}; then
     net_log $"It is advised to switch to 'NetworkManager' instead - it provides 'ifup/ifdown' scripts as well." warning ifdown >&2
 fi
 
-if [ -n "$IN_HOTPLUG" ] && [ "${HOTPLUG}" = "no" -o "${HOTPLUG}" = "NO" ]
+if [ -n "$IN_HOTPLUG" ] && is_false "${HOTPLUG}"
 then
     exit 0
 fi
 
+# NOTE: _use_nm is defined in network-scripts/network-functions
+# shellcheck disable=SC2154
 if is_true "$_use_nm"; then
-    if [ -n "$UUID" -a -z "$DEVICE" ]; then
+    if [ -n "$UUID" ] && [ -z "$DEVICE" ]; then
         DEVICE=$(nmcli -t --fields uuid,device con show --active | awk -F ':' "\$1 == \"$UUID\" { print \$2 }")
     fi
     if [ -n "$DEVICE" ] && ! is_nm_device_unmanaged "$DEVICE" ; then
