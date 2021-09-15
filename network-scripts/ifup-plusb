@@ -11,18 +11,18 @@
 # alias plusb0 plusb
 #
 
-cd /etc/sysconfig/network-scripts
+cd /etc/sysconfig/network-scripts || exit 1
 . ./network-functions
 
+# shellcheck disable=SC2034
 CONFIG=$1
 source_config
 
-if [ "foo$2" = "fooboot" -a "${ONBOOT}" = "no" ]
-then
+if [ "foo$2" = "fooboot" ] && is_false "${ONBOOT}" = "no"; then
     exit
 fi
 
-[ -z "$PREFIX" ] && eval $(/bin/ipcalc --prefix ${IPADDR} ${NETMASK})
+[ -z "$PREFIX" ] && eval "$(/bin/ipcalc --prefix ${IPADDR} ${NETMASK})"
 
 if [ ${BROADCAST} != ""  ]  ; then
     ip addr add ${IPADDR} peer ${REMIP}/${PREFIX} broadcast ${BROADCAST} dev ${DEVICE}
@@ -34,7 +34,7 @@ set_link_up ${DEVICE}
 . /etc/sysconfig/network
 
 if [ "${GATEWAY}" != "" ]; then
-    if [ "${GATEWAYDEV}" = "" -o "${GATEWAYDEV}" = "${DEVICE}" ]; then
+    if [ "${GATEWAYDEV}" = "" ] || [ "${GATEWAYDEV}" = "${DEVICE}" ]; then
         # set up default gateway
         ip route replace default ${METRIC:+metric $METRIC} via ${GATEWAY}
     fi
