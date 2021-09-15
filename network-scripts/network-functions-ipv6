@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 # network-functions-ipv6
 #
 # Taken from: network-functions-ipv6
@@ -69,6 +70,7 @@ ipv6_add_route() {
     ipv6_test_ipv6_addr_valid $networkipv6 || return 2
     ipv6_test_ipv6_addr_valid $gatewayipv6 || return 2
 
+    # shellcheck disable=SC2155
     if [ -z "$device" ]; then
         local returntxt="$(/sbin/ip -6 route add $networkipv6 via $gatewayipv6 metric 1 2>&1)"
     else
@@ -170,6 +172,7 @@ ipv6_add_addr_on_device() {
     fi
 
     # Extract address parts
+    # shellcheck disable=SC2155
     local prefixlength_implicit="$(echo $address | awk -F/ '{ print $2 }')"
     local address_implicit="${address%%/*}"
 
@@ -243,6 +246,7 @@ ipv6_cleanup_6to4_device() {
     done
 
     # Get all IPv6 routes through given interface related to 6to4 and remove them
+    # shellcheck disable=SC2034
     /sbin/ip -6 route show dev $device | LC_ALL=C grep "^2002:" | while read ipv6net dummy; do
         /sbin/ip -6 route del $ipv6net dev $device
     done
@@ -336,6 +340,7 @@ ipv6_test_device_status() {
 #  $1: <IPv4 address>
 # stdout: <6to4address>
 # return code: 0=ok 1=argument error
+# shellcheck disable=SC2155
 ipv6_create_6to4_prefix() {
     local fn="ipv6_create_6to4_prefix"
 
@@ -350,7 +355,7 @@ ipv6_create_6to4_prefix() {
     local major2="$(echo $ipv4addr | awk -F. '{ print $3 }')"
     local minor2="$(echo $ipv4addr | awk -F. '{ print $4 }')"
 
-    if [ -z "$major1" -o -z "$minor1" -o -z "$major2" -o -z "$minor2" ]; then
+    if [ -z "$major1" ] || [ -z "$minor1" ] || [ -z "$major2" ] || [ -z "$minor2" ]; then
         return 1
     fi
 
@@ -449,8 +454,9 @@ ipv6_add_6to4_tunnel() {
     ipv6_test || return 2
 
     # Generate 6to4 address
-    local prefix6to4="$(ipv6_create_6to4_prefix $globalipv4)"
-    if [ $? -ne 0 -o -z "$prefix6to4" ]; then
+    local prefix6to4
+    prefix6to4="$(ipv6_create_6to4_prefix $globalipv4)"
+    if [ $? -ne 0 ] || [ -z "$prefix6to4" ]; then
         return 3
     fi
 
@@ -503,6 +509,7 @@ ipv6_cleanup_6to4_tunnels() {
         ipv6_del_tunnel_device tun6to4
 
         # Remove all unspecific unreachable routes for local 6to4 address space
+        # shellcheck disable=SC2034
         /sbin/ip -6 route | LC_ALL=C grep "^unreachable 2002:.*/48 dev lo" | while read token net rest; do
             /sbin/ip route del unreach $net
         done
@@ -580,13 +587,14 @@ ipv6_add_tunnel_device() {
     ipv6_test || return 2
 
     if ! ipv6_test_device_status $device; then
+        # shellcheck disable=SC2155
         local ttldefault="$(/sbin/sysctl -e net.ipv4.ip_default_ttl | awk '{ print $3 }')"
         if [ -z "$ttldefault" ]; then
             local ttldefault=64
         fi
 
         # Test whether remote IPv4 address was already applied to another tunnel
-        if [ "$addressipv4tunnel" != "0.0.0.0" -a "$addressipv4tunnel" != "any" ]; then
+        if [ "$addressipv4tunnel" != "0.0.0.0" ] && [ "$addressipv4tunnel" != "any" ]; then
             /sbin/ip tunnel show remote $addressipv4tunnel 2>/dev/null | LC_ALL=C grep -w "ipv6/ip" | while IFS=":" read devnew rest; do
                 if [ "$devnew" != "$device" ]; then
                     net_log $"Given remote address '$addressipv4tunnel' on tunnel device '$device' is already configured on device '$devnew'" err $fn
@@ -708,7 +716,7 @@ ipv6_get_ipv4addr_of_tunnel() {
         net_log $"Missing parameter 'selection' (arg 2)" err $fn
         return 1
     fi
-    if [ "$selection" != "local" -a "$selection" != "remote" ]; then
+    if [ "$selection" != "local" ] && [ "$selection" != "remote" ]; then
         net_log $"Unsupported selection '$selection' specified (arg 2)" err $fn
         return 1
     fi
@@ -717,16 +725,18 @@ ipv6_get_ipv4addr_of_tunnel() {
 
     ipv6_test_device_status $device
 
-    if [ $? != 0 -a $? != 11 ]; then
+    if [ $? != 0 ] && [ $? != 11 ]; then
         # Device doesn't exist
         return 3
     fi
 
     # Device exists, retrieve address
     if [ "$selection" = "local" ]; then
-        local tunnel_local_ipv4addr="$(/sbin/ip tunnel show $device | awk '{ print $6 }')"
+        local tunnel_local_ipv4addr
+        tunnel_local_ipv4addr="$(/sbin/ip tunnel show $device | awk '{ print $6 }')"
     elif [ "$selection" = "remote" ]; then
-        local tunnel_local_ipv4addr="$(/sbin/ip tunnel show $device | awk '{ print $4 }')"
+        local tunnel_local_ipv4addr
+        tunnel_local_ipv4addr="$(/sbin/ip tunnel show $device | awk '{ print $4 }')"
     fi
 
     if [ $? != 0 ]; then
@@ -759,13 +769,14 @@ ipv6_get_ipv4addr_of_device() {
 
     ipv6_test_device_status $device
 
-    if [ $? != 0 -a $? != 11 ]; then
+    if [ $? != 0 ] && [ $? != 11 ]; then
         # Device doesn't exist
         return 3
     fi
 
     # Device exists, retrieve the first address only
-    local ipv4addr="$(/sbin/ip -o -4 addr show dev $device | awk '{ print $4 }' | awk -F/ '{ print $1; exit }')"
+    local ipv4addr
+    ipv4addr="$(/sbin/ip -o -4 addr show dev $device | awk '{ print $4 }' | awk -F/ '{ print $1; exit }')"
 
     if [ $? != 0 ]; then
         return 3
@@ -802,7 +813,7 @@ ipv6_set_mtu() {
     fi
 
     # Check range
-    if [ $ipv6_mtu -lt 1280 -o $ipv6_mtu -gt 65535 ]; then
+    if [ $ipv6_mtu -lt 1280 ] || [ $ipv6_mtu -gt 65535 ]; then
         net_log $"Given IPv6 MTU '$ipv6_mtu' is out of range" err $fn
         return 1
     fi
@@ -837,6 +848,7 @@ ipv6_set_default_route() {
 
     if [ -n "$address" ]; then
         local addressgw=${address%%%*}
+        # shellcheck disable=SC2155
         local device_scope=$(echo $address | awk -F% '{ print $2 }')
 
         if [ -z "$addressgw" ]; then
@@ -845,7 +857,7 @@ ipv6_set_default_route() {
         fi
 
         # Scope device has precedence
-        if [ -n "$device_scope" -a -n "$device" -a "$device_scope" != "$device" ]; then
+        if [ -n "$device_scope" ] && [ -n "$device" ] && [ "$device_scope" != "$device" ]; then
             net_log $"Given IPv6 default gateway '$address' has scope '$device_scope' defined, given default gateway device '$device' will be not used" info $fn
             local device=""
         fi
@@ -863,10 +875,10 @@ ipv6_set_default_route() {
         # Check whether the route belongs to the specific given interface
         if [ -n "$device_check" ]; then
             # Check whether scope device matches given check device
-            if [ -n "$device_scope" -a "$device_check" != "$device_scope" ]; then
+            if [ -n "$device_scope" ] && [ "$device_check" != "$device_scope" ]; then
                 # scope device != specific given -> skip
                 return 0
-            elif [ -n "$device" -a "$device_check" != "$device" ]; then
+            elif [ -n "$device" ] && [ "$device_check" != "$device" ]; then
                 # gateway device != specific given -> skip
                 return 0
             fi
@@ -885,7 +897,7 @@ ipv6_set_default_route() {
         fi
     elif [ -n "$device" ]; then
         # Check whether the route belongs to the specific given interface
-        if [ -n "$device_check" -a "$device_check" != "$device" ]; then
+        if [ -n "$device_check" ] && [ "$device_check" != "$device" ]; then
             # gateway device != specific given -> skip
             return 0
         fi
@@ -962,7 +974,7 @@ ipv6_trigger_radvd() {
         return 1
     fi
 
-    if [ "$reason" != "up" -a "$reason" != "down" ]; then
+    if [ "$reason" != "up" ] && [ "$reason" != "down" ]; then
         net_log $"Unsupported reason '$reason' for sending trigger to radvd" err $fn
         return 1
     fi
@@ -1010,6 +1022,7 @@ ipv6_trigger_radvd() {
         fi
 
         # Get PID
+        # shellcheck disable=SC2155
         local pid="$(cat $pidfile)"
         if [ -z "$pid" ]; then
             # pidfile empty - strange
