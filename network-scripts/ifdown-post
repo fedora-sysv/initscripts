@@ -2,7 +2,7 @@
 # This should be called whenever an interface goes down, not just when
 # it is brought down explicitly.
 
-cd /etc/sysconfig/network-scripts
+cd /etc/sysconfig/network-scripts || exit 1
 . ./network-functions
 
 unset REALDEVICE
@@ -11,6 +11,8 @@ if [ "$1" = --realdevice ] ; then
     shift 2
 fi
 
+# NOTE: CONFIG is used by source_config function
+# shellcheck disable=SC2034
 CONFIG=$1
 source_config
 
@@ -23,13 +25,13 @@ source_config
 update_DNS_entries
 
 if ! is_false "${PEERDNS}" || is_true "${RESOLV_MODS}" && \
-    [ "${DEVICETYPE}" = "ppp" -o "${DEVICETYPE}" = "ippp" -o -n "${DNS1}" \
-    -o "${BOOTPROTO}" = "bootp" -o "${BOOTPROTO}" = "dhcp" ] ; then
+    [ "${DEVICETYPE}" = "ppp" ] || [ "${DEVICETYPE}" = "ippp" ] || [ -n "${DNS1}" ] || \
+    [ "${BOOTPROTO}" = "bootp" ] || [ "${BOOTPROTO}" = "dhcp" ] ; then
     if [ -f /etc/resolv.conf.save ]; then
         change_resolv_conf /etc/resolv.conf.save
         rm -f /etc/resolv.conf.save
     fi
-    if [ "${DEVICETYPE}" = "ppp" -o "${DEVICETYPE}" = "ippp" ]; then
+    if [ "${DEVICETYPE}" = "ppp" ] || [ "${DEVICETYPE}" = "ippp" ]; then
         if [ -f /etc/ppp/peers/$DEVICE ] ; then
             rm -f /etc/ppp/peers/$DEVICE
         fi
@@ -39,7 +41,7 @@ fi
 # Reset the default route if this interface had a special one
 if ! check_default_route ; then
     # ISDN device needs special handling dial on demand
-    if [ "${DEVICETYPE}" = "ippp" -o "${DEVICETYPE}" = "isdn" ] && \
+    if [ "${DEVICETYPE}" = "ippp" ] || [ "${DEVICETYPE}" = "isdn" ] && \
        [ "$DIALMODE" = "auto" ] ; then
         if [ -z "$GATEWAY" ] ; then
             /sbin/ip route add default ${METRIC:+metric} \
