@@ -2,7 +2,7 @@
 
 . /etc/init.d/functions
 
-cd /etc/sysconfig/network-scripts
+cd /etc/sysconfig/network-scripts || exit 1
 . ./network-functions
 
 [ -f ../network ] && . ../network
@@ -19,7 +19,7 @@ fi
 start_panu()
 {
     PANDARGS="--persist --pidfile=/run/pand-${DEVICE}.pid --ethernet=${DEVICE} --autozap"
-    [ "${CACHE}" != "no" -a "${CACHE}" != "NO" ] && PANDARGS="${PANDARGS} --cache"
+    [ "${CACHE}" != "no" ] && [ "${CACHE}" != "NO" ] && PANDARGS="${PANDARGS} --cache"
     if [ "${REMOTEBDADDR}" = "" ]; then
         PANDARGS="${PANDARGS} --search"
     else
