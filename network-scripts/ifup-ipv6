@@ -55,7 +55,7 @@
 
 . /etc/sysconfig/network
 
-cd /etc/sysconfig/network-scripts
+cd /etc/sysconfig/network-scripts || exit 1
 . ./network-functions
 
 CONFIG=$1
@@ -77,7 +77,7 @@ ipv6_test || exit 1
 
 # Test device status
 ipv6_test_device_status $DEVICE
-if [ $? != 0 -a $? != 11 ]; then
+if [ $? != 0 ] && [ $? != 11 ]; then
     # device doesn't exist or other problem occurs
     exit 1
 fi
@@ -160,7 +160,7 @@ if [ "$IPV6_PRIVACY" = "rfc3041" ]; then
 fi
 
 # Setup default IPv6 route, check are done by function
-if [ -n "$IPV6_DEFAULTDEV" -o -n "$IPV6_DEFAULTGW" ]; then
+if [ -n "$IPV6_DEFAULTDEV" ] || [ -n "$IPV6_DEFAULTGW" ]; then
     ipv6_set_default_route "$IPV6_DEFAULTGW" "$IPV6_DEFAULTDEV" "$DEVICE"
 fi
 
@@ -192,6 +192,7 @@ if is_true "$IPV6TO4INIT"; then
         ipv4addrlocal="$(ipv6_get_ipv4addr_of_device $DEVICE)"
         if [ -z "$ipv4addrlocal" ]; then
             # Take configured from config file
+            # shellcheck disable=SC2153
             ipv4addrlocal="$IPADDR"
         fi
     else
@@ -255,6 +256,7 @@ if is_true "$IPV6TO4INIT"; then
 
         # Add static routes
         if [ -f /etc/sysconfig/static-routes-ipv6 ]; then
+            # shellcheck disable=SC2034
             LC_ALL=C grep -w "^tun6to4" /etc/sysconfig/static-routes-ipv6 | while read device network gateway; do
                 if [ -z "$network" ]; then
                     continue
