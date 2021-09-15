@@ -59,6 +59,7 @@
 #
 #            modified by: Bill Nottingham <notting@redhat.com>
 
+# shellcheck disable=SC2034
 TEXTDOMAIN=initscripts
 TEXTDOMAINDIR=/etc/locale
 
@@ -71,7 +72,7 @@ fi
 PARENTCONFIG=${2:-ifcfg-$device}
 parent_device=$device
 
-cd /etc/sysconfig/network-scripts  
+cd /etc/sysconfig/network-scripts || exit 1
 . ./network-functions
 
 # Grab the current configuration of any running aliases, place device info
@@ -86,7 +87,7 @@ cd /etc/sysconfig/network-scripts
 #
 # A list of all the devices is created in rdev_LIST.
 
-eval $( ip addr show $device label $device:* | \
+eval "$( ip addr show $device label $device:* | \
     awk 'BEGIN { COUNT=0;LAST_DEV="" } /inet / {
         # Split IP address into address/prefix
         split($2,IPADDR,"/");
@@ -101,25 +102,27 @@ eval $( ip addr show $device label $device:* | \
         DEV[2],IPADDR[1],IP_ADDR,DEV[2],DEV[2],IPADDR[2],$4,LAST_DEV);
     } END {
         if(LAST_DEV == "") print "no_devices_are_up=yes"
-    }' );
+    }' )";
 
 #
 # Store configuration of the parent device and network
 #
 
 # read from the /etc/sysconfig/network
-eval ` (
+eval "$(
     . /etc/sysconfig/network;
     echo network_GATEWAY=$GATEWAY\;;
     echo network_GATEWAYDEV=$GATEWAYDEV\;;
-) `
+)"
 
 # read defaults from the parent config file
 [ -f $PARENTCONFIG ] || {
     net_log $"Missing config file $PARENTCONFIG."
     exit 1
 }
-eval ` (
+
+# shellcheck disable=SC1090
+eval "$(
     . ./$PARENTCONFIG;
     echo default_PREFIX=$PREFIX\;;
     echo default_NETMASK=$NETMASK\;;
@@ -128,9 +131,12 @@ eval ` (
     echo default_NO_ALIASROUTING=$NO_ALIASROUTING\;;
     echo default_ARPCHECK=$ARPCHECK\;;
     echo default_ARPUPDATE=$ARPUPDATE\;;
-) `
+)"
+
+# shellcheck disable=SC2154
 [ -z "$default_GATEWAY" ] && default_GATEWAY=$network_GATEWAY
 
+# shellcheck disable=SC2154
 function ini_env ()
 {
     DEVICE=""
@@ -185,8 +191,8 @@ function new_interface ()
         return 1
     fi
 
-    if [ -z "$DEVICE" -o -z "$IPADDR" ]; then
-        if [ -n "$IPV6ADDR" -a -n "$DEVICE" ] && ! is_false "$IPV6INIT"; then
+    if [ -z "$DEVICE" ] || [ -z "$IPADDR" ]; then
+        if [ -n "$IPV6ADDR" ] && [ -n "$DEVICE" ] && ! is_false "$IPV6INIT"; then
             /etc/sysconfig/network-scripts/ifup-ipv6 ${DEVICE}
             return $?
         fi
@@ -194,18 +200,20 @@ function new_interface ()
         return 1
     fi
 
-    if [ -z "$NETMASK" -a -z "$PREFIX" ]; then
+    if [ -z "$NETMASK" ] && [ -z "$PREFIX" ]; then
         net_log $"error iN $FILE: didn't specify netmask or prefix"
     fi
 
     if [ -z "$PREFIX" ]; then
-        eval $(/bin/ipcalc --prefix ${IPADDR} ${NETMASK})
+        eval "$(/bin/ipcalc --prefix ${IPADDR} ${NETMASK})"
     fi
 
-    if [ -z "$BROADCAST" -o "$BROADCAST" = "$default_BROADCAST" ]; then
-        eval $(/bin/ipcalc --broadcast ${IPADDR}/${PREFIX})
+    if [ -z "$BROADCAST" ] || [ "$BROADCAST" = "$default_BROADCAST" ]; then
+        eval "$(/bin/ipcalc --broadcast ${IPADDR}/${PREFIX})"
     fi
 
+    # NOTE: no_devices_are_up is set via eval at line 90
+    # shellcheck disable=SC2154
     if is_true "$no_devices_are_up"; then
         setup_this=yes
     else
@@ -234,7 +242,7 @@ function new_interface ()
                 newmark=remove
                 setup_this=yes
             fi
-            if [ -n "$rdev_mark" -a "$rdev_mark" != "$newmark" ]; then
+            if [ -n "$rdev_mark" ] && [ "$rdev_mark" != "$newmark" ]; then
                 net_log $"error in ifcfg-${parent_device}: files"
                 return 1
             fi
@@ -243,9 +251,9 @@ function new_interface ()
             setup_this=yes
         fi
 
-        if [ -n "$rdevip" -a "$rdevip" != "${DEVNUM}" ]; then
+        if [ -n "$rdevip" ] && [ "$rdevip" != "${DEVNUM}" ]; then
             eval " mark_remove=\$rdev_${rdevip}_mark ";
-            if [ -n "$mark_remove" -a "$mark_remove" != "remove" ]; then
+            if [ -n "$mark_remove" ] && [ "$mark_remove" != "remove" ]; then
                 net_log $"error in ifcfg-${parent_device}: files"
                 return 1
             fi
@@ -290,8 +298,11 @@ function new_interface ()
 
         if ! is_true "$NO_ALIASROUTING"; then
 
+            # shellcheck disable=SC2154
             GATEWAYDEV=$network_GATEWAYDEV;
 
+            # NOTE: Let's not break it.
+            # shellcheck disable=SC2166
             if [ -n "${GATEWAY}" -a \
                     \( -z "${GATEWAYDEV}" -o "${GATEWAYDEV}" = "${DEVICE}" \) ]; then
                 # set up default gateway, if it isn't already there
@@ -307,6 +318,7 @@ function new_interface ()
     fi
 }
 
+# shellcheck disable=SC2128
 if [ "$BASH_VERSINFO" ]; then
     shopt -s nullglob
 else
@@ -316,7 +328,10 @@ fi
 for FILE in ifcfg-${parent_device}:* ; do
     is_ignored_file "$FILE" && continue
     ini_env
+
+    # shellcheck disable=SC1090
     . ./$FILE
+
     [ -z "$DEVICE" ] && DEVICE=${FILE##ifcfg-}
     ! is_false "$ONPARENT" && new_interface
     unset DEVICE
@@ -325,6 +340,8 @@ done
 for FILE in ifcfg-${parent_device}-range* ; do
     is_ignored_file "$FILE" && continue
     ini_env
+
+    # shellcheck disable=SC1090
     . ./$FILE
 
     ipaddr_prefix=${IPADDR_START%.*}
@@ -354,9 +371,9 @@ for FILE in ifcfg-${parent_device}-range* ; do
     done
 done
 
-#
 # Remove any devices that should not be around
-#
+# NOTE: no_devices_are_up is set via eval at line 90
+# shellcheck disable=SC2154
 for DEVNUM in $rdev_LIST ; do
     eval " rdev_mark=\$rdev_${DEVNUM}_mark "
     if [ -z "$rdev_mark" ]; then
