@@ -32,7 +32,7 @@
 
 . /etc/sysconfig/network
 
-cd /etc/sysconfig/network-scripts
+cd /etc/sysconfig/network-scripts || exit 1
 . ./network-functions
 
 CONFIG=$1
@@ -40,6 +40,7 @@ CONFIG=$1
 source_config
 
 # IPv6 don't need aliases anymore, config is skipped
+# shellcheck disable=SC2153
 REALDEVICE=${DEVICE%%:*}
 [ "$DEVICE" != "$REALDEVICE" ] && exit 0
 
@@ -93,12 +94,13 @@ if [ -n "$IPV6ADDR_SECONDARIES" ]; then
 fi
 
 # Setup default IPv6 route, check are done by function
-if [ -n "$IPV6_DEFAULTDEV" -o -n "$IPV6_DEFAULTGW" ]; then
+if [ -n "$IPV6_DEFAULTDEV" ] || [ -n "$IPV6_DEFAULTGW" ]; then
     ipv6_set_default_route "$IPV6_DEFAULTGW" "$IPV6_DEFAULTDEV" "$DEVICE"
 fi
 
 # Setup additional static IPv6 routes on specified interface, if given
 if [ -f /etc/sysconfig/static-routes-ipv6 ]; then
+    # shellcheck disable=SC2034
     LC_ALL=C grep -w "^$DEVICE" /etc/sysconfig/static-routes-ipv6 | while read device ipv6route args; do
     ipv6_add_route $ipv6route :: $DEVICE
 done
