@@ -17,7 +17,7 @@
 
 . /etc/init.d/functions
 
-cd /etc/sysconfig/network-scripts
+cd /etc/sysconfig/network-scripts || exit 1
 . ./network-functions
 
 [ -f ../network ] && . ../network
@@ -28,7 +28,7 @@ need_config "${CONFIG}"
 
 source_config
 
-if [ "${BOOTPROTO}" = "bootp" -o "${BOOTPROTO}" = "dhcp" ]; then
+if [ "${BOOTPROTO}" = "bootp" ] || [ "${BOOTPROTO}" = "dhcp" ]; then
     DYNCONFIG=true
 fi
 
@@ -39,7 +39,8 @@ is_available ${REALDEVICE}
 # bail out, if the MAC does not fit
 if [ -n "${HWADDR}" ]; then
     FOUNDMACADDR=$(get_hwaddr ${REALDEVICE})
-    if [ "${FOUNDMACADDR}" != "${HWADDR}" -a "${FOUNDMACADDR}" != "${MACADDR}" ]; then
+    if [ "${FOUNDMACADDR}" != "${HWADDR}" ] && [ "${FOUNDMACADDR}" != "${MACADDR}" ]; then
+        # shellcheck disable=SC2153
         net_log $"Device ${DEVICE} has different MAC address than expected, ignoring."
         exit 1
     fi
@@ -79,7 +80,7 @@ if [ "${TYPE}" = "Bridge" ]; then
     for arg in $BRIDGING_OPTS ; do
         key=${arg%%=*};
         value=${arg##*=};
-        if [ "${key}" != "multicast_router" -a "${key}" != "hash_max" -a "${key}" != "multicast_snooping" ]; then
+        if [ "${key}" != "multicast_router" ] && [ "${key}" != "hash_max" ] && [ "${key}" != "multicast_snooping" ]; then
             echo $value > /sys/class/net/${DEVICE}/bridge/$key
         fi
     done
@@ -211,7 +212,7 @@ if [ -n "${BRIDGE}" ]; then
     done
     # Upon adding a device to a bridge,
     # it's necessary to make radvd reload its config
-    [ -r /run/radvd/radvd.pid ] && kill -HUP $(cat /run/radvd/radvd.pid)
+    [ -r /run/radvd/radvd.pid ] && kill -HUP "$(cat /run/radvd/radvd.pid)"
     exit 0
 fi
 
@@ -252,7 +253,7 @@ if [ -n "${DYNCONFIG}" ] && [ -x /sbin/dhclient ]; then
     fi
     # end dynamic device configuration
 else 
-    if [ -z "${IPADDR}" -a -z "${IPADDR0}" -a -z "${IPADDR1}" -a -z "${IPADDR2}" ]; then
+    if [ -z "${IPADDR}" ] && [ -z "${IPADDR0}" ] && [ -z "${IPADDR1}" ] && [ -z "${IPADDR2}" ]; then
         # enable device without IP, useful for e.g. PPPoE
         set_link_up ${REALDEVICE}
         ethtool_set
@@ -262,7 +263,7 @@ else
         expand_config
 
         [ -n "${ARP}" ] && \
-            ip link set dev ${REALDEVICE} $(toggle_value arp $ARP)
+            ip link set dev ${REALDEVICE} "$(toggle_value arp $ARP)"
 
         if ! set_link_up ${REALDEVICE} ; then
             net_log $"Failed to bring up ${DEVICE}."
@@ -291,6 +292,8 @@ else
                 break
             fi
 
+            # NOTE: ipaddr[@] should exist
+            # shellcheck disable=SC2154
             if ! LC_ALL=C ip addr ls ${REALDEVICE} | LC_ALL=C grep -q "${ipaddr[$idx]}/${prefix[$idx]}" ; then
                 if [ "${REALDEVICE}" != "lo" ] && ! is_false "${arpcheck[$idx]}"; then
                     ARPING=$(/sbin/arping -c 2 -w ${ARPING_WAIT:-3} -D -I ${REALDEVICE} ${ipaddr[$idx]})
@@ -312,6 +315,7 @@ else
             fi
 
             # update ARP cache of neighboring computers
+            # shellcheck disable=SC2154
             if ! is_false "${arpupdate[$idx]}" && [ "${REALDEVICE}" != "lo" ]; then
                 /sbin/arping -q -A -c 1 -w ${ARPING_UPDATE_WAIT:-3} -I ${REALDEVICE} ${ipaddr[$idx]}
                 ( sleep 2;
@@ -323,8 +327,11 @@ else
         done
 
         # Set a default route.
+        # NOTE: Let's not break it.
+        # shellcheck disable=SC2166
         if ! is_false "${DEFROUTE}" && [ -z "${GATEWAYDEV}" -o "${GATEWAYDEV}" = "${REALDEVICE}" ]; then
             # set up default gateway. replace if one already exists
+            # shellcheck disable=SC2154
             if [ -n "${GATEWAY}" ] && [ "$(ipcalc --network ${GATEWAY} ${netmask[0]} 2>/dev/null)" = "NETWORK=${NETWORK}" ]; then
                 ip route replace default ${METRIC:+metric $METRIC} \
                     ${EXTRA_ROUTE_OPTS} \
@@ -350,7 +357,7 @@ if [ "${TYPE}" = "Bridge" ]; then
     for arg in $BRIDGING_OPTS ; do
         key=${arg%%=*};
         value=${arg##*=};
-        if [ "${key}" = "multicast_router" -o "${key}" = "hash_max" -o "${key}" = "multicast_snooping" ]; then
+        if [ "${key}" = "multicast_router" ] || [ "${key}" = "hash_max" ] || [ "${key}" = "multicast_snooping" ]; then
             echo $value > /sys/class/net/${DEVICE}/bridge/$key
         fi
     done
@@ -389,7 +396,7 @@ if is_true "${DHCPV6C}" && [ -x /sbin/dhclient ]; then
         echo $" done."
     else
         echo $" failed."
-        if [ "${dhcpipv4}" = "good" -o -n "${IPADDR}" ]; then
+        if [ "${dhcpipv4}" = "good" ] || [ -n "${IPADDR}" ]; then
             net_log "Unable to obtain IPv6 DHCP address ${DEVICE}." warning
         else
             exit 1
