@@ -20,7 +20,7 @@
 
 . /etc/sysconfig/network
 
-cd /etc/sysconfig/network-scripts
+cd /etc/sysconfig/network-scripts || exit 1
 . ./network-functions
 
 CONFIG=$1
@@ -46,7 +46,7 @@ ipv6_test testonly || exit 0
 
 # Test device status
 ipv6_test_device_status $DEVICE
-if [ $? != 0 -a $? != 11 ]; then
+if [ $? != 0 ] && [ $? != 11 ]; then
     # device doesn't exist or other problem occurs
     exit 0
 fi
