@@ -26,7 +26,7 @@
 
 # Only meant to be called from ifup.
 
-cd /etc/sysconfig/network-scripts
+cd /etc/sysconfig/network-scripts || exit 1
 . ./network-functions
 
 IW=${IW:-iw}
@@ -43,7 +43,7 @@ managed)
     fi
     ;;
 ad-hoc)
-    if [ -n "$ESSID" -a -n "$FREQ" ]; then
+    if [ -n "$ESSID" ] && [ -n "$FREQ" ]; then
         $IW dev "$DEVICE" set type ibss
         $IW dev "$DEVICE" ibss join "$ESSID" "$FREQ" $KEYS
     fi
