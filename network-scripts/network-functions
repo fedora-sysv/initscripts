@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 # -*-Shell-script-*-
 #
 # This file is not a stand-alone shell script; it provides functions 
@@ -18,7 +19,7 @@ get_hwaddr ()
     if [ -f /sys/class/net/${1}/address ]; then
         tr '[a-z]' '[A-Z]' < /sys/class/net/${1}/address
     elif [ -d "/sys/class/net/${1}" ]; then
-        LC_ALL= LANG= ip -o link show ${1} 2>/dev/null | \
+        LC_ALL='' LANG='' ip -o link show ${1} 2>/dev/null | \
             awk '{ print toupper(gensub(/.*link\/[^ ]* ([[:alnum:]:]*).*/,
                                         "\\1", 1)); }'
     fi
@@ -75,6 +76,7 @@ generate_lease_file_name ()
 generate_config_file_name ()
 {
     local ver=$1
+    # shellcheck disable=SC2034
     if [ -s /etc/dhcp/dhclient$ver-${DEVICE}.conf ]; then
         DHCLIENTCONF="-cf /etc/dhcp/dhclient$ver-${DEVICE}.conf";
     elif [ -s /etc/dhclient$ver-${DEVICE}.conf ]; then
@@ -97,6 +99,8 @@ need_config ()
         CONFIG=${nconfig##*/}
         return
     fi
+
+    # shellcheck disable=SC2155
     local addr=$(get_hwaddr ${1})
     if [ -n "$addr" ]; then
         nconfig=$(get_config_by_hwaddr ${addr})
@@ -112,6 +116,7 @@ need_config ()
     fi
 }
 
+# shellcheck disable=SC1090,2166
 source_config ()
 {
     CONFIG=${CONFIG##*/}
@@ -176,12 +181,14 @@ source_config ()
     if [ "${DEVICE}" != "${REALDEVICE}" ]; then
         ISALIAS=yes
     else
+        # shellcheck disable=SC2034
         ISALIAS=no
     fi
     if is_nm_running && [ "$REALDEVICE" != "lo" ] ; then
         nm_con_load "$CONFIG"
         if ! is_false $NM_CONTROLLED; then
             UUID=$(get_uuid_by_config $CONFIG)
+            # shellcheck disable=SC2034
             [ -n "$UUID" ] && _use_nm=true
         fi
     fi
@@ -204,6 +211,7 @@ ethtool_set ()
         IFS=';';
         if [ -n "${ETHTOOL_DELAY}" ] ; then
             # Convert microseconds to seconds:
+            # shellcheck disable=SC2155
             local ETHTOOL_DELAY_SEC=$(convert2sec ${ETHTOOL_DELAY} micro)
             sleep ${ETHTOOL_DELAY_SEC}
         fi
@@ -271,7 +279,7 @@ expand_config ()
     [ -n "$DHCP_HOSTNAME" ] && DHCP_HOSTNAME=${DHCP_HOSTNAME%%.*}
 
     if [ -z "${NETWORK}" ]; then
-        eval $(/bin/ipcalc --network ${ipaddr[0]} ${netmask[0]})
+        eval "$(/bin/ipcalc --network ${ipaddr[0]} ${netmask[0]})"
     fi
 }
 
@@ -337,6 +345,7 @@ is_available ()
         return 1
     }
     if [ -n "$HWADDR" ]; then
+        # shellcheck disable=SC2155
         local curdev=$(get_device_by_hwaddr "$HWADDR")
         if [ -z "$curdev" ]; then
             return 1
@@ -489,7 +498,7 @@ check_default_route ()
 find_gateway_dev ()
 {
     . /etc/sysconfig/network
-    if [ -n "${GATEWAY}" -a "${GATEWAY}" != "none" ] ; then
+    if [ -n "${GATEWAY}" ] && [ "${GATEWAY}" != "none" ] ; then
         dev=$(LC_ALL=C /sbin/ip route get to "${GATEWAY}" 2>/dev/null | \
         sed -n 's/.* dev \([[:alnum:]]*\) .*/\1/p')
         if [ -n "$dev" ]; then
@@ -508,8 +517,7 @@ add_default_route ()
     . /etc/sysconfig/network
     check_default_route && return 0
     find_gateway_dev
-    if [ "$GATEWAYDEV" != "" -a -n "${GATEWAY}" -a \
-             "${GATEWAY}" != "none" ]; then
+    if [ "$GATEWAYDEV" != "" ] && [ -n "${GATEWAY}" ] && [ "${GATEWAY}" != "none" ]; then
         if ! check_device_down $1; then
             if [ "$GATEWAY" = "0.0.0.0" ]; then
                 /sbin/ip route add default dev ${GATEWAYDEV}
@@ -561,7 +569,7 @@ install_bonding_driver ()
         # Set config here
         need_config "$1"
         source_config
-        if [ -f /sys/class/net/${DEVICE}/bonding/slaves ] && [ $(wc -l < /sys/class/net/${DEVICE}/bonding/slaves) -eq 0 ]; then
+        if [ -f /sys/class/net/${DEVICE}/bonding/slaves ] && [ "$(wc -l < /sys/class/net/${DEVICE}/bonding/slaves)" -eq 0 ]; then
             /sbin/ip link set dev ${DEVICE} down
 
             # parse options and put them to arrays
@@ -598,7 +606,7 @@ install_bonding_driver ()
                 # option already set; take next
                 [[ -z "$key" ]] && continue
 
-                if [ "${key}" = "arp_ip_target" -a "${value:0:1}" != "+" ]; then
+                if [ "${key}" = "arp_ip_target" ] && [ "${value:0:1}" != "+" ]; then
                     OLDIFS=$IFS;
                     IFS=',';
                     for arp_ip in $value; do
