@@ -7,11 +7,12 @@ PATH=/sbin:/usr/sbin:/bin:/usr/bin
 
 CONFIG=$1
 
+# shellcheck disable=SC1090
 . ./$CONFIG
 
 # stopping ibod daemon for channel bundling
 if [ -f /var/lock/subsys/ibod ] ; then
-    kill -9  $(pidof ibod) >/dev/null 2>&1
+    kill -9  "$(pidof ibod)" >/dev/null 2>&1
     rm -f /var/lock/subsys/ibod
 fi
 
