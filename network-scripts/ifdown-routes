@@ -14,7 +14,7 @@ MATCH='^[[:space:]]*(\#.*)?$'
 
 # Routing rules
 FILES="/etc/sysconfig/network-scripts/rule-$1 /etc/sysconfig/network-scripts/rule6-$1"
-if [ -n "$2" -a "$2" != "$1" ]; then
+if [ -n "$2" ] && [ "$2" != "$1" ]; then
     FILES="$FILES /etc/sysconfig/network-scripts/rule-$2 /etc/sysconfig/network-scripts/rule6-$2"
 fi
 
