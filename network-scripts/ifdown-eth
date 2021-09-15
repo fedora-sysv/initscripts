@@ -17,7 +17,7 @@
 
 . /etc/init.d/functions
 
-cd /etc/sysconfig/network-scripts
+cd /etc/sysconfig/network-scripts || exit 1
 . ./network-functions
 
 [ -f ../network ] && . ../network
@@ -29,6 +29,8 @@ source_config
 . /etc/sysconfig/network
 
 # Check to make sure the device is actually up
+# NOTE: Let's not break it
+# shellcheck disable=SC2153,2166
 check_device_down ${DEVICE} && [ "$BOOTPROTO" != "dhcp" -a "$BOOTPROTO" != "bootp" ] && [ -n "$VLAN" ] && ! is_true "$VLAN" && exit 0
 
 if [ -n "${TEAM_MASTER}" ] && [ ! "${DEVICETYPE}" = "TeamPort" ] && [ -x ./ifdown-TeamPort ]; then
@@ -36,17 +38,17 @@ if [ -n "${TEAM_MASTER}" ] && [ ! "${DEVICETYPE}" = "TeamPort" ] && [ -x ./ifdow
 fi
 
 if ! is_true "${SLAVE}" || [ -z "${MASTER}" ]; then
-    if [ -n "${HWADDR}" -a -z "${MACADDR}" ]; then
+    if [ -n "${HWADDR}" ] && [ -z "${MACADDR}" ]; then
         FOUNDMACADDR=$(get_hwaddr ${REALDEVICE})
-        if [ -n "${FOUNDMACADDR}" -a "${FOUNDMACADDR}" != "${HWADDR}" ]; then
+        if [ -n "${FOUNDMACADDR}" ] && [ "${FOUNDMACADDR}" != "${HWADDR}" ]; then
             NEWCONFIG=$(get_config_by_hwaddr ${FOUNDMACADDR})
             if [ -n "${NEWCONFIG}" ]; then
-                eval $(LANG=C grep -F "DEVICE=" $NEWCONFIG)
+                eval "$(LANG=C grep -F "DEVICE=" "$NEWCONFIG")"
             else
                 net_log $"Device ${DEVICE} has MAC address ${FOUNDMACADDR}, instead of configured address ${HWADDR}. Ignoring."
                 exit 1
             fi
-            if [ -n "${NEWCONFIG}" -a "${NEWCONFIG##*/}" != "${CONFIG##*/}" -a "${DEVICE}" = "${REALDEVICE}" ]; then
+            if [ -n "${NEWCONFIG}" ] && [ "${NEWCONFIG##*/}" != "${CONFIG##*/}" ] && [ "${DEVICE}" = "${REALDEVICE}" ]; then
                 exec /sbin/ifdown ${NEWCONFIG}
             else
                 net_log $"Device ${DEVICE} has MAC address ${FOUNDMACADDR}, instead of configured address ${HWADDR}. Ignoring."
@@ -139,8 +141,8 @@ if [ -n "${BRIDGE}" ]; then
     ip link set dev ${DEVICE} nomaster down
     # Upon removing a device from a bridge,
     # it's necessary to make radvd reload its config
-    [ -r /run/radvd/radvd.pid ] && kill -HUP $(cat /run/radvd/radvd.pid)
-    if [ -d /sys/class/net/${BRIDGE}/brif ] && [ $(ls -1 /sys/class/net/${BRIDGE}/brif | wc -l) -eq 0 ]; then
+    [ -r /run/radvd/radvd.pid ] && kill -HUP "$(cat /run/radvd/radvd.pid)"
+    if [ -d /sys/class/net/${BRIDGE}/brif ] && [ "$(ls -1 /sys/class/net/${BRIDGE}/brif | wc -l)" -eq 0 ]; then
         ip link del ${BRIDGE}
     fi
 fi
@@ -181,7 +183,7 @@ if [ -n "$VLAN" ]; then
 fi
 
 if [ "${TYPE}" = "Veth" ]; then
-    if [ $(ip link show ${PEER} up | wc -l) -eq 0 ]; then
+    if [ "$(ip link show ${PEER} up | wc -l)" -eq 0 ]; then
         ip link delete ${DEVICE}
     fi
 fi
