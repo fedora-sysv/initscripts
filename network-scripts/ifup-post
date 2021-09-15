@@ -3,7 +3,7 @@
 # Source the general functions for is_true() and is_false():
 . /etc/init.d/functions
 
-cd /etc/sysconfig/network-scripts
+cd /etc/sysconfig/network-scripts || exit 1
 . ./network-functions
 
 [ -f ../network ] && . ../network
@@ -73,6 +73,7 @@ if ! is_false "${PEERDNS}" || is_true "${RESOLV_MODS}"; then
 
                     domain* | search*)
                         if [ -n "${DOMAIN}" ]; then
+                            # shellcheck disable=SC2034
                             read search value < <(echo ${line})
                             search_str+=" ${value}"
                         else
@@ -119,13 +120,14 @@ if ! is_false "${PEERDNS}" || is_true "${RESOLV_MODS}"; then
 fi
 
 # don't set hostname on ppp/slip connections
-if [ "$2" = "boot" -a \
-        "${DEVICE}" != lo -a \
-        "${DEVICETYPE}" != "ppp" -a \
-        "${DEVICETYPE}" != "slip" ]; then
+if [ "$2" = "boot" ] && \
+        [ "${DEVICE}" != lo ] && \
+        [ "${DEVICETYPE}" != "ppp" ] && \
+        [ "${DEVICETYPE}" != "slip" ]; then
     if need_hostname; then
         IPADDR=$(LANG=C ip -o -4 addr ls dev ${DEVICE} | awk '{ print $4 ; exit }')
-        eval $(/bin/ipcalc --silent --hostname ${IPADDR} ; echo "status=$?")
+        eval "$(/bin/ipcalc --silent --hostname ${IPADDR} ; echo "status=$?")"
+        # shellcheck disable=SC2154
         if [ "$status" = "0" ]; then
             set_hostname $HOSTNAME
         fi
