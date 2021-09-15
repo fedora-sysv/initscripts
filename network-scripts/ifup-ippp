@@ -6,7 +6,7 @@
 
 . /etc/init.d/functions
 
-cd /etc/sysconfig/network-scripts
+cd /etc/sysconfig/network-scripts || exit 1
 . ./network-functions
 
 # Get global network configuration
@@ -19,7 +19,7 @@ CONFIG=$1
 [ -f "${CONFIG}" ] || CONFIG=ifcfg-${1}
 source_config
 
-if [ "${2}" = "boot" -a "${ONBOOT}" = "no" ]; then
+if [ "${2}" = "boot" ] && [ "${ONBOOT}" = "no" ]; then
     exit
 fi
 
@@ -48,6 +48,7 @@ if ! isdnctrl list all >/dev/null 2>&1 ; then
 fi
 
 # check if device already is configured
+# shellcheck disable=SC2153
 isdnctrl list $DEVICE >/dev/null 2>&1 && exit 0
 
 function log_echo()
@@ -58,6 +59,7 @@ function log_echo()
 function log_isdnctrl()
 {
     net_log $"$*" info ifup-ippp
+    # shellcheck disable=SC2048
     isdnctrl $* >/dev/null 2>&1 || exit 1
 }
 
@@ -95,7 +97,7 @@ function addprovider()
     # set the dial mode
     [ -z "$DIALMODE" ] && DIALMODE="off"
 
-    [ "$AUTH" = "none" -o "$AUTH" = "noauth" -o -z "$AUTH" ] && AUTH="-pap -chap"
+    [ "$AUTH" = "none" ] || [ "$AUTH" = "noauth" ] || [ -z "$AUTH" ] && AUTH="-pap -chap"
 
     # set layer-2/3 protocol 
     [ -z "$L2_PROT" ] && L2_PROT="hdlc"
@@ -172,7 +174,7 @@ function addprovider()
     [ -n "$DIALMAX" ] && log_isdnctrl dialmax $DEVICE $DIALMAX
 
     # set callback
-    if [ "$CALLBACK" = "out" -o "$CALLBACK" = "in" ] ; then
+    if [ "$CALLBACK" = "out" ] || [ "$CALLBACK" = "in" ] ; then
         log_isdnctrl callback $DEVICE $CALLBACK
     else
         log_isdnctrl callback $DEVICE off
@@ -324,7 +326,7 @@ function addprovider()
     done
 
     # check dns entry
-    if [ -z "$DNS1" -a -z "$DNS2" ]; then
+    if [ -z "$DNS1" ] && [ -z "$DNS2" ]; then
         options="$options ms-get-dns"
     else
         [ -n "$DNS1" ] && options="$options ms-dns $DNS1"
@@ -346,6 +348,7 @@ function addprovider()
 
     if [ "$ENCAP" = "syncppp" ]; then
         # start ipppd daemon
+        # shellcheck disable=SC2154
         net_log $"ipppd $options $netmask" info ifup-ippp
         ipppd $options $netmask >/dev/null 2>&1
 
@@ -379,6 +382,6 @@ function addprovider()
     /etc/sysconfig/network-scripts/ifup-ipv6 $CONFIG
 }
 
-addprovider || exit 1
+addprovider "$@" || exit 1
 
 exit 0
