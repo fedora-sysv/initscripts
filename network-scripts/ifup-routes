@@ -12,10 +12,11 @@ fi
 MATCH='^[[:space:]]*(\#.*)?$'
 
 handle_file () {
+    # shellcheck disable=SC1090
     . $1
     routenum=0
     while [ "x$(eval echo '$'ADDRESS$routenum)x" != "xx" ]; do
-        eval $(ipcalc -p $(eval echo '$'ADDRESS$routenum) $(eval echo '$'NETMASK$routenum))
+        eval "$(ipcalc -p "$(eval echo '$'ADDRESS$routenum) $(eval echo '$'NETMASK$routenum)")"
         line="$(eval echo '$'ADDRESS$routenum)/$PREFIX"
         if [ "x$(eval echo '$'GATEWAY$routenum)x" != "xx" ]; then
             line="$line via $(eval echo '$'GATEWAY$routenum)"
@@ -32,7 +33,7 @@ handle_file () {
 }
 
 handle_ip_file() {
-    local f t type= file=$1 proto="-4"
+    local f t type file=$1 proto="-4"
     f=${file##*/}
     t=${f%%-*}
     type=${t%%6}
@@ -52,7 +53,7 @@ handle_ip_file() {
 }
 
 FILES="/etc/sysconfig/network-scripts/route-$1 /etc/sysconfig/network-scripts/route6-$1"
-if [ -n "$2" -a "$2" != "$1" ]; then
+if [ -n "$2" ] && [ "$2" != "$1" ]; then
     FILES="$FILES /etc/sysconfig/network-scripts/route-$2 /etc/sysconfig/network-scripts/route6-$2"
 fi
 
@@ -77,7 +78,7 @@ CONFIG="/etc/sysconfig/network-scripts/$NICK.route"
 
 # Routing rules
 FILES="/etc/sysconfig/network-scripts/rule-$1 /etc/sysconfig/network-scripts/rule6-$1"
-if [ -n "$2" -a "$2" != "$1" ]; then
+if [ -n "$2" ] && [ "$2" != "$1" ]; then
     FILES="$FILES /etc/sysconfig/network-scripts/rule-$2 /etc/sysconfig/network-scripts/rule6-$2"
 fi
 
