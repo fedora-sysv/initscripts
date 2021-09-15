@@ -1,9 +1,11 @@
+# shellcheck shell=bash
 # -*-Shell-script-*-
 #
 # functions This file contains functions to be used by most or all
 #       shell scripts in the /etc/init.d directory.
 #
 
+# shellcheck disable=SC2034
 TEXTDOMAIN=initscripts
 
 # Make sure umask is sane
@@ -13,8 +15,7 @@ umask 022
 PATH="/sbin:/usr/sbin:/bin:/usr/bin"
 export PATH
 
-if [ $PPID -ne 1 -a -z "$SYSTEMCTL_SKIP_REDIRECT" ] && \
-        [ -d /run/systemd/system ] ; then
+if [ $PPID -ne 1 ] && [ -z "$SYSTEMCTL_SKIP_REDIRECT" ] && [ -d /run/systemd/system ] ; then
     case "$0" in
     /etc/init.d/*|/etc/rc.d/init.d/*)
         _use_systemctl=1
@@ -81,6 +82,7 @@ if [ -z "${BOOTUP:-}" ]; then
         SETCOLOR_NORMAL="echo -en \\033[0;39m"
 
         # Verbosity of logging:
+        # shellcheck disable=SC2034
         LOGLEVEL=1
     fi
 
@@ -100,6 +102,8 @@ fi
 checkpid() {
     local i
 
+    # NOTE: Let's not break it.
+    # shellcheck disable=SC2048
     for i in $* ; do
         [ -d "/proc/$i" ] && return 0
     done
@@ -119,6 +123,8 @@ __kill_pids_term_kill_checkpids() {
         [ ! -e  "/proc/$pid" ] && continue
         read -r line < "/proc/$pid/stat" 2> /dev/null
 
+        # NOTE: Let's not break it.
+        # shellcheck disable=SC2206
         stat=($line)
         stime=${stat[21]}
 
@@ -136,11 +142,13 @@ __kill_pids_term_kill() {
     local try=0
     local delay=3;
     local pid=
-    local stat=
+    local stat
     local base_stime=
 
     # We can't initialize stat & base_stime on the same line where 'local'
     # keyword is, otherwise the sourcing of this file will fail for ksh...
+    # NOTE: Let's not break it.
+    # shellcheck disable=SC2207
     stat=($(< /proc/self/stat))
     base_stime=${stat[21]}
 
@@ -184,6 +192,7 @@ __kill_pids_term_kill() {
 __pids_var_run() {
     local base=${1##*/}
     local pid_file=${2:-/run/$base.pid}
+    # shellcheck disable=SC2155
     local pid_dir=$(/usr/bin/dirname $pid_file > /dev/null)
     local binary=$3
 
@@ -200,6 +209,7 @@ __pids_var_run() {
             for p in $line ; do
                 if [ -z "${p//[0-9]/}" ] && [ -d "/proc/$p" ] ; then
                     if [ -n "$binary" ] ; then
+                        # shellcheck disable=SC2155
                         local b=$(readlink /proc/$p/exe | sed -e 's/\s*(deleted)$//')
                         [ "$b" != "$binary" ] && continue
                     fi
@@ -224,11 +234,12 @@ __pids_pidof() {
 
 
 # A function to start a program.
+# shellcheck disable=SC2034
 daemon() {
     # Test syntax.
-    local gotbase= force= nicelevel corelimit
-    local pid base= user= nice= bg= pid_file=
-    local cgroup=
+    local gotbase force nicelevel corelimit
+    local pid base user nice bg pid_file
+    local cgroup
     nicelevel=0
     while [ "$1" != "${1##[-+]}" ]; do
         case $1 in
@@ -283,7 +294,7 @@ daemon() {
     # See if it's already running. Look *only* at the pid file.
     __pids_var_run "$base" "$pid_file"
 
-    [ -n "$pid" -a -z "$force" ] && return
+    [ -n "$pid" ] && [ -z "$force" ] && return
 
     # make sure it doesn't core dump anywhere unless requested
     corelimit="ulimit -S -c ${DAEMON_COREFILE_LIMIT:-0}"
@@ -292,7 +303,7 @@ daemon() {
     [ -n "${NICELEVEL:-}" ] && nice="nice -n $NICELEVEL"
 
     # Echo daemon
-    [ "${BOOTUP:-}" = "verbose" -a -z "${LSB:-}" ] && echo -n " $base"
+    [ "${BOOTUP:-}" = "verbose" ] && [ -z "${LSB:-}" ] && echo -n " $base"
 
     # And start it up.
     if [ -z "$user" ]; then
@@ -306,7 +317,7 @@ daemon() {
 
 # A function to stop a program.
 killproc() {
-    local RC killlevel= base pid pid_file= delay try binary=
+    local RC killlevel='' base pid pid_file='' delay try binary=''
 
     RC=0; delay=3; try=0
     # Test syntax.
@@ -356,7 +367,7 @@ killproc() {
 
     # Kill it.
     if [ -n "$pid" ] ; then
-        [ "$BOOTUP" = "verbose" -a -z "${LSB:-}" ] && echo -n "$base "
+        [ "$BOOTUP" = "verbose" ] && [ -z "${LSB:-}" ] && echo -n "$base "
         if [ -z "$killlevel" ] ; then
             __kill_pids_term_kill -d $delay $pid
             RC=$?
@@ -372,7 +383,7 @@ killproc() {
             fi
         fi
     else
-        if [ -n "${LSB:-}" -a -n "$killlevel" ]; then
+        if [ -n "${LSB:-}" ] && [ -n "$killlevel" ]; then
             RC=7 # Program is not running
         else
             failure $"$base shutdown"
@@ -415,6 +426,7 @@ pidofproc() {
         pid_file=$2
         shift 2
     fi
+    # shellcheck disable=SC2034
     fail_code=3 # "Program is not running"
 
     # First try "/run/*.pid" files
@@ -430,7 +442,7 @@ pidofproc() {
 }
 
 status() {
-    local base pid lock_file= pid_file= binary=
+    local base pid lock_file='' pid_file='' binary=''
 
     # Test syntax.
     if [ "$#" = 0 ] ; then
@@ -471,7 +483,7 @@ status() {
     # First try "pidof"
     __pids_var_run "$1" "$pid_file" "$binary"
     RC=$?
-    if [ -z "$pid_file" -a -z "$pid" ]; then
+    if [ -z "$pid_file" ] && [ -z "$pid" ]; then
         pid="$(__pids_pidof "$1")"
     fi
     if [ -n "$pid" ]; then
@@ -559,14 +571,14 @@ update_boot_stage() {
 
 # Log that something succeeded
 success() {
-    [ "$BOOTUP" != "verbose" -a -z "${LSB:-}" ] && echo_success
+    [ "$BOOTUP" != "verbose" ] && [ -z "${LSB:-}" ] && echo_success
     return 0
 }
 
 # Log that something failed
 failure() {
     local rc=$?
-    [ "$BOOTUP" != "verbose" -a -z "${LSB:-}" ] && echo_failure
+    [ "$BOOTUP" != "verbose" ] && [ -z "${LSB:-}" ] && echo_failure
     [ -x /bin/plymouth ] && /bin/plymouth --details
     return $rc
 }
@@ -574,14 +586,14 @@ failure() {
 # Log that something passed, but may have had errors. Useful for fsck
 passed() {
     local rc=$?
-    [ "$BOOTUP" != "verbose" -a -z "${LSB:-}" ] && echo_passed
+    [ "$BOOTUP" != "verbose" ] && [ -z "${LSB:-}" ] && echo_passed
     return $rc
 }
 
 # Log a warning
 warning() {
     local rc=$?
-    [ "$BOOTUP" != "verbose" -a -z "${LSB:-}" ] && echo_warning
+    [ "$BOOTUP" != "verbose" ] && [ -z "${LSB:-}" ] && echo_warning
     return $rc
 }
 
@@ -676,16 +688,17 @@ apply_sysctl() {
 }
 
 # A sed expression to filter out the files that is_ignored_file recognizes
+# shellcheck disable=SC2034
 __sed_discard_ignored_files='/\(~\|\.bak\|\.old\|\.orig\|\.rpmnew\|\.rpmorig\|\.rpmsave\)$/d'
 
 if [ "$_use_systemctl" = "1" ]; then
-        if  [ "x$1" = xstart -o \
-              "x$1" = xstop -o \
-              "x$1" = xrestart -o \
-              "x$1" = xreload -o \
-              "x$1" = xtry-restart -o \
-              "x$1" = xforce-reload -o \
-              "x$1" = xcondrestart ] ; then
+        if  [ "x$1" = xstart ] || \
+            [ "x$1" = xstop ] || \
+            [ "x$1" = xrestart ] || \
+            [ "x$1" = xreload ] || \
+            [ "x$1" = xtry-restart ] || \
+            [ "x$1" = xforce-reload ] || \
+            [ "x$1" = xcondrestart ] ; then
 
         systemctl_redirect $0 $1
         exit $?
