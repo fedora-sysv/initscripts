@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 # Function to check whether input param is on list of shell scripts
 # $1 - <string> absolute path to file
 # $@ - <array of strings> list of strings to compare with
@@ -83,10 +84,10 @@ clean_array () {
 }
 
 # Color aliases use echo -e to use them
-NOCOLOR='\033[0m'
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-ORANGE='\033[0;33m'
-BLUE='\033[0;34m'
-YELLOW='\033[1;33m'
-WHITE='\033[1;37m'
+export NOCOLOR='\033[0m'
+export RED='\033[0;31m'
+export GREEN='\033[0;32m'
+export ORANGE='\033[0;33m'
+export BLUE='\033[0;34m'
+export YELLOW='\033[1;33m'
+export WHITE='\033[1;37m'
