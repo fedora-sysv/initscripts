@@ -1,0 +1,14 @@
+pull_request_rules:
+  - name: Automatic merge on approval & CI pass
+    # Don't merge when the title does contain “WIP” (ignoring case) or when label dont-merge is set
+    conditions:
+      - "#approved-reviews-by>=1"
+      - check-success=buildCheck
+      - check-success=shellCheck
+      - -draft
+      - label!=dont-merge
+      - -title~=(?i)wip
+      - base=master
+    actions:
+      merge:
+        method: merge
