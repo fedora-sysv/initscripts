@@ -21,8 +21,8 @@ jobs:
         # Run this step even if previous failed
         if: always()
         uses: actions/github-script@v5
-        github-token: ${{ secrets.GA_WORKFLOW_TOKEN }}
         with:
+          github-token: ${{ secrets.GA_WORKFLOW_TOKEN }}
           # Colored GH comments: https://stackoverflow.com/a/39413824
           script: |
             github.rest.issues.createComment({
