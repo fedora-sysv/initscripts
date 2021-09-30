@@ -13,8 +13,15 @@ jobs:
         with:
           fetch-depth: 0 
       
-      - name: Differential ShellCheck
-        uses: redhat-plumbers-in-action/differential-shellcheck@v2
+      - name: Run shell-check test
+        run: |
+          bash ./.github/workflows/check-shell.sh ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }}
+
+      - name: Output test results
+        # Run this step even if previous failed
+        if: always()
+        uses: actions/github-script@v5
+        github-token: ${{ secrets.GA_WORKFLOW_TOKEN }}
         with:
           # Colored GH comments: https://stackoverflow.com/a/39413824
           script: |
