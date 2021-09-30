@@ -40,7 +40,7 @@ jobs:
         if: always()
         uses: actions/github-script@v5
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GA_WORKFLOW_TOKEN }}
           # Colored GH comments: https://stackoverflow.com/a/39413824
           script: |
             github.rest.issues.createComment({
