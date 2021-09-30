@@ -16,6 +16,14 @@ jobs:
       - name: Differential ShellCheck
         uses: redhat-plumbers-in-action/differential-shellcheck@v2
         with:
-          ignored-codes: .github/.diff-shellcheck-exceptions.txt
-          shell-scripts: .github/.diff.shellcheck-scripts.txt
-          token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GA_WORKFLOW_TOKEN }}
+          # Colored GH comments: https://stackoverflow.com/a/39413824
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '```diff\n@@ Shellcheck test summary @@\n- added issues: ${{ env.NUMBER_OF_ADDED_ISSUES }}\n+ solved issues: ${{ env.NUMBER_OF_SOLVED_ISSUES }}\n\n# list of edited shell scripts:\n${{ env.LIST_OF_SCRIPTS }}\n```'
+            })
+
+      # TODO: Set labels based on env.NUMBER_OF_ADDED_ISSUES and env.NUMBER_OF_SOLVED_ISSUES
