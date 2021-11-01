@@ -163,10 +163,10 @@ source_config ()
         ;;
     esac
     if [ -n "$HWADDR" ]; then
-        HWADDR=$(tr '[a-z]' '[A-Z]' <<<"$HWADDR")
+        HWADDR=$(echo "$HWADDR" | tr '[a-z]' '[A-Z]')
     fi
     if [ -n "$MACADDR" ]; then
-        MACADDR=$(tr '[a-z]' '[A-Z]' <<<"$MACADDR")
+        MACADDR=$(echo "$MACADDR" | tr '[a-z]' '[A-Z]')
     fi
     [ -z "$DEVICE" -a -n "$HWADDR" ] && DEVICE=$(get_device_by_hwaddr $HWADDR)
     [ -z "$DEVICETYPE" ] && DEVICETYPE=$(echo ${DEVICE} | sed "s/[0-9]*$//")
