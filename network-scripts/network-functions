@@ -572,7 +572,7 @@ install_bonding_driver ()
 
             # add the bits to setup driver parameters here
             # first set mode, miimon
-            for (( idx=0; idx < ${#bopts_keys[*]}; idx++ )) ; do
+            for idx in $(seq 0 $(( ${#bopts_keys[*]} - 1 ))) ; do
                 key=${bopts_keys[$idx]}
                 value=${bopts_vals[$idx]}
 
@@ -591,7 +591,7 @@ install_bonding_driver ()
             done
 
             # set all other remaining options
-            for (( idx=0; idx < ${#bopts_keys[*]}; idx++ )) ; do
+            for idx in $(seq 0 $(( ${#bopts_keys[*]} - 1 ))) ; do
                 key=${bopts_keys[$idx]}
                 value=${bopts_vals[$idx]}
 
