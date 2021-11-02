@@ -35,18 +35,20 @@ jobs:
         run: |
           bash ./.github/workflows/check-shell.sh ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }}
 
-      - name: Output test results
-        # Run this step even if previous failed
-        if: always()
-        uses: actions/github-script@v5
-        with:
-          # Colored GH comments: https://stackoverflow.com/a/39413824
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: '```diff\n@@ Shellcheck test summary @@\n- added issues: ${{ env.NUMBER_OF_ADDED_ISSUES }}\n+ solved issues: ${{ env.NUMBER_OF_SOLVED_ISSUES }}\n\n# list of edited shell scripts:\n${{ env.LIST_OF_SCRIPTS }}\n```'
-            })
-
+      # ! Disable Output, since there is a problem with permissions and GITHUB_TOKEN
+      # ! https://github.blog/changelog/2021-04-20-github-actions-control-permissions-for-github_token/
+      # TODO: possible solution is to use probot framework to build github app/action
       # TODO: Set labels based on env.NUMBER_OF_ADDED_ISSUES and env.NUMBER_OF_SOLVED_ISSUES
+      # - name: Output test results
+      #   # Run this step even if previous failed
+      #   if: always()
+      #   uses: actions/github-script@v5
+      #   with:
+      #     # Colored GH comments: https://stackoverflow.com/a/39413824
+      #     script: |
+      #       github.rest.issues.createComment({
+      #         issue_number: context.issue.number,
+      #         owner: context.repo.owner,
+      #         repo: context.repo.repo,
+      #         body: '```diff\n@@ Shellcheck test summary @@\n- added issues: ${{ env.NUMBER_OF_ADDED_ISSUES }}\n+ solved issues: ${{ env.NUMBER_OF_SOLVED_ISSUES }}\n\n# list of edited shell scripts:\n${{ env.LIST_OF_SCRIPTS }}\n```'
+      #       })
