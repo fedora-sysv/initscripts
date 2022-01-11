@@ -19,7 +19,7 @@ handle_file () {
             line="$line via $(eval echo '$'GATEWAY$routenum)"
         fi
         line="$line dev $2"
-        /sbin/ip route add $line
+        /sbin/ip route replace $line
         routenum=$(($routenum+1))
     done
 }
@@ -34,7 +34,7 @@ handle_ip_file() {
     fi
     { cat "$file" ; echo ; } | while read line; do
         if [[ ! "$line" =~ $MATCH ]]; then
-            /sbin/ip $proto $type add $line
+            /sbin/ip $proto $type replace $line
         fi
     done
 }
