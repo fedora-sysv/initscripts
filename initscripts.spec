@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.12
+Version:          10.13
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -383,6 +383,25 @@ fi
 # =============================================================================
 
 %changelog
+* Thu Jan 13 2022 Jan Macku <jamacku@redhat.com> - 10.13-1
+- ifup-routes: Log when using `ip $type replace`
+- ifup-routes: Use `ip route repace` to avoid race
+- Translated using Weblate (German)
+- Add LGTM badges to README
+- ci: set default merge method to rebase
+- ci: disable comments under opened PR in order to fix CI
+- network scripts: do not use c-style for-loop
+- network scripts: replace "<<<" with pipe
+- rc.d/functions: do not use "+=" to concatenate string
+- ci: Use default github-token (#395)
+- ci(Mergify): configuration update (#394)
+- ci: Output shellcheck results using PR comments (#393)
+- ci: Update path to csdiff repository (#391)
+- spec: Fix issue with $NEXT_VERSION (#390)
+- Translated using Weblate (Indonesian)
+- Translated using Weblate (Spanish)
+- Translated using Weblate (Czech)
+
 * Fri Sep 03 2021 Jan Macku <jamacku@redhat.com> - 10.12-1
 - spec: Update relation between initscripts and initscripts-service (#386)
 
