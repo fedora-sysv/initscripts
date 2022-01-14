@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.00.15
+Version:          10.00.16
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -346,6 +346,11 @@ fi
 # =============================================================================
 
 %changelog
+* Fri Jan 14 2022 Jan Macku <jamacku@redhat.com> - 10.00.16-1
+- rename_device: also support dracut-style kernel cmdline configuration
+- ifup-routes: Log when using `ip $type replace`
+- ifup-routes: Use `ip route repace` to avoid race
+
 * Mon Feb 15 2021 Jan Macku <jamacku@redhat.com> - 10.00.15-1
 - doc: Document ARPING_WAIT and ARPING_UPDATE_WAIT
 - network scripts: Avoid infinite loop of arping
