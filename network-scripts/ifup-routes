@@ -41,10 +41,12 @@ handle_ip_file() {
     fi
     { cat "$file" ; echo ; } | while read line; do
         if [[ ! "$line" =~ $MATCH ]]; then
-            /sbin/ip $proto "$type" add "$line" || { 
-                net_log $"Failed to add ${type} ${line}, using ip ${type} replace instead." warning
-                /sbin/ip $proto "$type" replace "$line"
-            }
+            /sbin/ip $proto "$type" add "$line"
+
+            if [ $? != 0 ] && [ "$type" == "route" ] ; then
+                net_log $"Failed to add route ${line}, using ip route replace instead." warning
+                /sbin/ip $proto route replace "$line"
+            fi
         fi
     done
 }
