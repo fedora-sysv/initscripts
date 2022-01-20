@@ -1,4 +1,8 @@
+# doc: https://docs.mergify.com
+---
+
 pull_request_rules:
+  
   - name: Automatic merge on approval & CI pass
     # Don't merge when the title does contain “WIP” (ignoring case) or when label dont-merge is set
     conditions:
@@ -13,3 +17,127 @@ pull_request_rules:
       merge:
         method: rebase
         rebase_fallback: none
+
+  # --- --- Labels --- --- #
+
+  - name: Add Fedora label
+    conditions:
+      - base=master
+    actions:
+      label:
+        add:
+          - Fedora
+          
+  - name: Remove Fedora label
+    conditions:
+      - base!=master
+    actions:
+      label:
+        remove:
+          - Fedora
+          
+  # --- #
+  
+  - name: Add RHEL8 label
+    conditions:
+      - base=rhel8-branch
+    actions:
+      label:
+        add:
+          - RHEL8
+          
+  - name: Remove RHEL8 label
+    conditions:
+      - base!=rhel8-branch
+    actions:
+      label:
+        remove:
+          - RHEL8
+          
+  # --- #
+  
+  - name: Add RHEL9 label
+    conditions:
+      - base=rhel9-branch
+    actions:
+      label:
+        add:
+          - RHEL9
+          
+  - name: Remove RHEL9 label
+    conditions:
+      - base!=rhel9-branch
+    actions:
+      label:
+        remove:
+          - RHEL9
+          
+    # --- #
+  
+  - name: Add network-scripts label
+    conditions:
+      - files~=^network-scripts/
+    actions:
+      label:
+        add:
+          - network-scripts
+
+  - name: Remove network-scripts label
+    conditions:
+      - -files~=^network-scripts/
+    actions:
+      label:
+        remove:
+          - network-scripts
+          
+  # --- #         
+
+  - name: Add documentation label
+    conditions:
+      - or: 
+        - files~=^doc/
+        - files~=^po/
+        - files~=^man/
+        - files=README.md
+    actions:
+      label:
+        add:
+          - documentation
+
+  - name: Remove documentation label
+    conditions:
+      - and:
+        - -files~=^doc/
+        - -files~=^po/
+        - -files~=^man/
+        - -files=README.md
+    actions:
+      label:
+        remove:
+          - documentation
+          
+  # --- #
+
+  - name: Add CI label
+    conditions:
+      - or:
+          - files~=^.github/
+          - files~=.mergify.yml
+          - files~=.packit.yml 
+    actions:
+      label:
+        add:
+          - CI
+
+  - name: Remove CI label
+    conditions:
+      - and:
+          - -files~=^.github/
+          - -files~=.mergify.yml
+          - -files~=.packit.yml
+    actions:
+      label:
+        remove:
+          - CI
+          
+  # --- #
