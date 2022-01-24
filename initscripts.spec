@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.00.16
+Version:          10.00.17
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -346,6 +346,13 @@ fi
 # =============================================================================
 
 %changelog
+* Mon Jan 24 2022 Jan Macku <jamacku@redhat.com> - 10.00.17-1
+- ifup-routes: Revert quotes
+- ifup-routes: Use `ip replace` only on type `route`
+- ci: introduce GA ci from master to rhel8-branch
+- ci: Setup packit for RHEL8 branch
+- ci: Get rid of old ci files (travis and zanata)
+
 * Fri Jan 14 2022 Jan Macku <jamacku@redhat.com> - 10.00.16-1
 - rename_device: also support dracut-style kernel cmdline configuration
 - ifup-routes: Log when using `ip $type replace`
