@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.13
+Version:          10.14
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -383,6 +383,12 @@ fi
 # =============================================================================
 
 %changelog
+* Mon Jan 24 2022 Jan Macku <jamacku@redhat.com> - 10.14-1
+- ifup-routes: Revert quotes
+- ifup-routes: Use `ip replace` only on type `route`
+- ci(Mergify): configuration update
+- ci: remove testing branch from `shellcheck_test.yml`
+
 * Thu Jan 13 2022 Jan Macku <jamacku@redhat.com> - 10.13-1
 - ifup-routes: Log when using `ip $type replace`
 - ifup-routes: Use `ip route repace` to avoid race
