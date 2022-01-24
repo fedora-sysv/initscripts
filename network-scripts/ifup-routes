@@ -22,9 +22,9 @@ handle_file () {
         fi
         line="$line dev $2"
 
-        /sbin/ip route add "$line" || { 
+        /sbin/ip route add $line || {
             net_log $"Failed to add route ${line}, using ip route replace instead." warning
-            /sbin/ip route replace "$line"
+            /sbin/ip route replace $line
         }
 
         routenum=$(($routenum+1))
@@ -41,11 +41,11 @@ handle_ip_file() {
     fi
     { cat "$file" ; echo ; } | while read line; do
         if [[ ! "$line" =~ $MATCH ]]; then
-            /sbin/ip $proto "$type" add "$line"
+            /sbin/ip $proto $type add $line
 
             if [ $? != 0 ] && [ "$type" == "route" ] ; then
                 net_log $"Failed to add route ${line}, using ip route replace instead." warning
-                /sbin/ip $proto route replace "$line"
+                /sbin/ip $proto route replace $line
             fi
         fi
     done
