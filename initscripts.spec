@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.11.1
+Version:          10.11.2
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -383,6 +383,13 @@ fi
 # =============================================================================
 
 %changelog
+* Wed Jan 26 2022 Jan Macku <jamacku@redhat.com> - 10.11.2-1
+- ifup-routes: Revert quotes
+- ifup-routes: Use `ip replace` only on type `route`
+- ifup-routes: Log when using `ip $type replace`
+- ifup-routes: Use `ip route repace` to avoid race
+- ci: Update path to csdiff repository (#391)
+
 * Wed Sep 01 2021 Jan Macku <jamacku@redhat.com> - 10.11.1-1
 - spec: Update relation between initscripts and initscripts-service
 - spec: Replace not working awk command with sed
