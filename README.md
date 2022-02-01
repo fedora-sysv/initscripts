@@ -1,4 +1,10 @@
-# initscripts | [![Build Status](https://github.com/fedora-sysv/initscripts/workflows/Integration%20test/badge.svg)](https://github.com/fedora-sysv/initscripts/actions?query=workflow%3AIntegration+test) [![Shellcheck Status](https://github.com/fedora-sysv/initscripts/workflows/Shellcheck%20test/badge.svg)](https://github.com/fedora-sysv/initscripts/actions?query=workflow%3AShellcheck+test)
+# initscripts
+
+[![Build Status](https://github.com/fedora-sysv/initscripts/workflows/Integration%20test/badge.svg)](https://github.com/fedora-sysv/initscripts/actions?query=workflow%3AIntegration+test) [![Differential ShellCheck](https://github.com/fedora-sysv/initscripts/actions/workflows/shellcheck_test.yml/badge.svg)](https://github.com/fedora-sysv/initscripts/actions/workflows/shellcheck_test.yml) [![Total alerts](https://img.shields.io/lgtm/alerts/g/fedora-sysv/initscripts.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/fedora-sysv/initscripts/alerts/) [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/fedora-sysv/initscripts.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/fedora-sysv/initscripts/context:python) [![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/fedora-sysv/initscripts.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/fedora-sysv/initscripts/context:cpp) [![Mergify Status][mergify-status]][mergify]
+
+[mergify]: https://mergify.io
+[mergify-status]: https://img.shields.io/endpoint.svg?url=https://dashboard.mergify.io/badges/fedora-sysv/initscripts&style=flat
+
 This repository contains source code for **legacy** *System V [initscripts](https://en.wikipedia.org/wiki/Init)*,
 which are primarily used in *[Linux](https://en.wikipedia.org/wiki/Linux) distributions like e.g.*:
 * [Fedora](https://en.wikipedia.org/wiki/Fedora_(operating_system))
