@@ -1,4 +1,4 @@
-# initscripts
+# initscripts <3
 
 [![Build Status](https://github.com/fedora-sysv/initscripts/workflows/Integration%20test/badge.svg)](https://github.com/fedora-sysv/initscripts/actions?query=workflow%3AIntegration+test) [![Differential ShellCheck](https://github.com/fedora-sysv/initscripts/actions/workflows/shellcheck_test.yml/badge.svg)](https://github.com/fedora-sysv/initscripts/actions/workflows/shellcheck_test.yml) [![Total alerts](https://img.shields.io/lgtm/alerts/g/fedora-sysv/initscripts.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/fedora-sysv/initscripts/alerts/) [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/fedora-sysv/initscripts.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/fedora-sysv/initscripts/context:python) [![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/fedora-sysv/initscripts.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/fedora-sysv/initscripts/context:cpp) [![Mergify Status][mergify-status]][mergify]
 
