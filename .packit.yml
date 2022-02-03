@@ -4,10 +4,18 @@
 specfile_path: ./initscripts.spec
 
 jobs:
-- job: copr_build
-  trigger: pull_request
-  metadata:
-    targets:
-    - fedora-rawhide-x86_64
-    - centos-stream-8-x86_64
-    - centos-stream-9-x86_64
+  - job: copr_build
+    trigger: pull_request
+    metadata:
+      targets:
+        - fedora-rawhide-x86_64
+        - centos-stream-8-x86_64
+        - centos-stream-9-x86_64
+
+  - job: copr_build
+    trigger: release
+    metadata:
+      targets:
+        - fedora-rawhide-x86_64
+        - centos-stream-8-x86_64
+        - centos-stream-9-x86_64
