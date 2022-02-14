@@ -114,6 +114,7 @@ Requires:         %{name}%{?_isa} = %{version}-%{release}
 
 Requires:         bc
 Requires:         dbus
+Requires:         dbus-tools
 Requires:         gawk
 Requires:         grep
 Requires:         hostname
