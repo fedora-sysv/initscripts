@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.14
+Version:          10.15
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -384,6 +384,14 @@ fi
 # =============================================================================
 
 %changelog
+* Tue Feb 15 2022 Jan Macku <jamacku@redhat.com> - 10.15-1
+- spec: network-scripts needs to depend on dbus-tools for NetworkManager detection
+- packit: Run copr builds on release as well
+- ci: Update `.packit.yml` to run on `c8s` `c9s` and `rawhide`
+- Translated using Weblate (Finnish)
+- ci: Use Differential ShellCheck action
+- ci(Mergify): configuration update
+
 * Mon Jan 24 2022 Jan Macku <jamacku@redhat.com> - 10.14-1
 - ifup-routes: Revert quotes
 - ifup-routes: Use `ip replace` only on type `route`
