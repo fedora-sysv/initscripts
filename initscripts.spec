@@ -36,6 +36,7 @@ Requires:         systemd
 Requires:         util-linux
 Requires:         chkconfig
 Requires:         initscripts-service
+Requires:         initscripts-rename-device
 
 Requires(pre):    shadow-utils
 Requires(post):   coreutils
@@ -88,6 +89,18 @@ This package provides basic support for legacy System V init scripts, and some
 other legacy tools & utilities.
 
 # === SUBPACKAGES =============================================================
+
+%package -n initscripts-rename-device
+Summary:          Udev helper utility that provides network interface naming
+
+%shared_requirements
+
+Obsoletes:        %{name}            < 10.16-1
+
+%description -n initscripts-rename-device
+Udev helper utility that provides network interface naming
+
+# ---------------
 
 %package -n initscripts-service
 Summary:          Support for service command
@@ -322,13 +335,18 @@ fi
 
 %{_prefix}/lib/systemd/system/import-state.service
 %{_prefix}/lib/systemd/system/loadmodules.service
-%{_prefix}/lib/udev/rename_device
-
-%{_udevrulesdir}/*
 
 %{_mandir}/man1/*
 
 # =============================================================================
+
+%files -n initscripts-rename-device
+
+%{_prefix}/lib/udev/rename_device
+
+%{_udevrulesdir}/*
+
+# ---------------
 
 %files -n initscripts-service
 
