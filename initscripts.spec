@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.15
+Version:          10.16
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -402,6 +402,9 @@ fi
 # =============================================================================
 
 %changelog
+* Wed Feb 23 2022 Jan Macku <jamacku@redhat.com> - 10.16-1
+- spec: Move rename_device to subpackage `initscripts-rename-device`
+
 * Tue Feb 15 2022 Jan Macku <jamacku@redhat.com> - 10.15-1
 - spec: network-scripts needs to depend on dbus-tools for NetworkManager detection
 - packit: Run copr builds on release as well
