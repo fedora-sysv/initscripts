@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.11.2
+Version:          10.11.3
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -397,6 +397,12 @@ fi
 # =============================================================================
 
 %changelog
+* Thu Feb 24 2022 Jan Macku <jamacku@redhat.com> - 10.11.3-1
+- Drop unnecessary obsoletes
+- spec: Move rename_device to subpackage `initscripts-rename-device`
+- ci: Update `.packit.yml` to run on `c9s`
+- ci: Use Differential ShellCheck action
+
 * Wed Jan 26 2022 Jan Macku <jamacku@redhat.com> - 10.11.2-1
 - ifup-routes: Revert quotes
 - ifup-routes: Use `ip replace` only on type `route`
