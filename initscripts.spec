@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.11.3
+Version:          10.11.4
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -397,6 +397,9 @@ fi
 # =============================================================================
 
 %changelog
+* Thu Feb 24 2022 Jan Macku <jamacku@redhat.com> - 10.11.4-1
+- spec: Update initscripts Obsoletes
+
 * Thu Feb 24 2022 Jan Macku <jamacku@redhat.com> - 10.11.3-1
 - Drop unnecessary obsoletes
 - spec: Move rename_device to subpackage `initscripts-rename-device`
