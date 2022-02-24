@@ -54,7 +54,7 @@ BuildRequires:    make
 %{?systemd_requires}
 BuildRequires:    systemd
 
-Obsoletes:        %{name}            < 10.10-1
+Obsoletes:        %{name}            < 10.16-1
 
 # === PATCHES =================================================================
 
@@ -95,8 +95,6 @@ Summary:          Udev helper utility that provides network interface naming
 
 %shared_requirements
 
-Obsoletes:        %{name}            < 10.16-1
-
 %description -n initscripts-rename-device
 Udev helper utility that provides network interface naming
 
@@ -111,8 +109,6 @@ BuildArch:        noarch
 Requires:         systemd
 
 Provides:         /sbin/service
-
-Obsoletes:        %{name}            < 10.10-1
 
 %description -n initscripts-service
 This package provides service command.
