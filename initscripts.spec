@@ -54,7 +54,7 @@ BuildRequires:    make
 %{?systemd_requires}
 BuildRequires:    systemd
 
-Obsoletes:        %{name}            < 10.16-1
+Obsoletes:        %{name}            < 10.11.3-1
 
 # === PATCHES =================================================================
 
