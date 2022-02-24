@@ -19,7 +19,7 @@ Requires:         gawk                       \
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
 Version:          10.16
-Release:          1%{?dist}
+Release:          2%{?dist}
 
 License:          GPLv2
 
@@ -54,7 +54,7 @@ BuildRequires:    make
 %{?systemd_requires}
 BuildRequires:    systemd
 
-Obsoletes:        %{name}            < 10.10-1
+Obsoletes:        %{name}            < 10.16-1
 
 # === PATCHES =================================================================
 
@@ -95,8 +95,6 @@ Summary:          Udev helper utility that provides network interface naming
 
 %shared_requirements
 
-Obsoletes:        %{name}            < 10.16-1
-
 %description -n initscripts-rename-device
 Udev helper utility that provides network interface naming
 
@@ -111,8 +109,6 @@ BuildArch:        noarch
 Requires:         systemd
 
 Provides:         /sbin/service
-
-Obsoletes:        %{name}            < 10.10-1
 
 %description -n initscripts-service
 This package provides service command.
@@ -402,6 +398,9 @@ fi
 # =============================================================================
 
 %changelog
+* Wed Feb 23 2022 Adam Williamson <awilliam@redhat.com> - 10.16-2
+- Drop unnecessary obsoletes
+
 * Wed Feb 23 2022 Jan Macku <jamacku@redhat.com> - 10.16-1
 - spec: Move rename_device to subpackage `initscripts-rename-device`
 
