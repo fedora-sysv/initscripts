@@ -36,6 +36,7 @@ Requires:         systemd
 Requires:         util-linux
 Requires:         chkconfig
 Requires:         initscripts-service
+Requires:         rust-ifcfg-devname
 
 Requires(pre):    shadow-utils
 Requires(post):   coreutils
