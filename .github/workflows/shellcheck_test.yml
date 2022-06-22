@@ -1,9 +1,7 @@
 name: Differential ShellCheck
 on:
-  push:
-    branches: [master, rhel*-branch]
   pull_request:
-    branches: [master, rhel*-branch]
+    branches: [ master, rhel*-branch ]
 
 jobs:
   shellCheck:
@@ -11,13 +9,13 @@ jobs:
 
     steps:    
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
-          fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.sha }}  
+          fetch-depth: 0 
       
       - name: Differential ShellCheck
-        uses: redhat-plumbers-in-action/differential-shellcheck@v1
+        uses: redhat-plumbers-in-action/differential-shellcheck@v2
         with:
           ignored-codes: .github/.diff-shellcheck-exceptions.txt
           shell-scripts: .github/.diff.shellcheck-scripts.txt
+          token: ${{ secrets.GITHUB_TOKEN }}
