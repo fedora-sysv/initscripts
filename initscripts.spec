@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.00.17
+Version:          10.00.18
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -346,6 +346,10 @@ fi
 # =============================================================================
 
 %changelog
+* Wed Aug 10 2022 Jan Macku <jamacku@redhat.com> - 10.00.18-1
+- ci: Update `.packit.yml` to run on `c8s`
+- ci: Use Differential ShellCheck action
+
 * Mon Jan 24 2022 Jan Macku <jamacku@redhat.com> - 10.00.17-1
 - ifup-routes: Revert quotes
 - ifup-routes: Use `ip replace` only on type `route`
