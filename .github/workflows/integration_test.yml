@@ -1,15 +1,15 @@
 name: Integration test
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master, rhel*-branch ]
+    branches: [ main, rhel*-branch ]
   release:
     types: [ published, created ]
 
 jobs:
   buildCheck:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: Repository checkout
         uses: actions/checkout@v3

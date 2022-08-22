@@ -1,11 +1,11 @@
 name: Differential ShellCheck
 on:
   pull_request:
-    branches: [ master, rhel*-branch ]
+    branches: [ main, rhel*-branch ]
 
 jobs:
   shellCheck:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:    
       - name: Checkout
@@ -16,6 +16,4 @@ jobs:
       - name: Differential ShellCheck
         uses: redhat-plumbers-in-action/differential-shellcheck@v2
         with:
-          ignored-codes: .github/.diff-shellcheck-exceptions.txt
-          shell-scripts: .github/.diff.shellcheck-scripts.txt
           token: ${{ secrets.GITHUB_TOKEN }}
