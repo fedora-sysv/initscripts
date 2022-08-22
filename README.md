@@ -19,18 +19,18 @@ quite outdated nowadays. *As a result, this repository provides primarily only
 the support for other initscripts that might still exist out there.*
 
 The above mentioned support includes e.g. the
-[`/etc/rc.d/init.d/functions`](https://github.com/fedora-sysv/initscripts/blob/master/etc/rc.d/init.d/functions)
+[`/etc/rc.d/init.d/functions`](https://github.com/fedora-sysv/initscripts/blob/main/etc/rc.d/init.d/functions)
 or
-[`/usr/sbin/service`](https://github.com/fedora-sysv/initscripts/blob/master/usr/sbin/service)
+[`/usr/sbin/service`](https://github.com/fedora-sysv/initscripts/blob/main/usr/sbin/service)
 files.
 
 Another functionality this source code provides includes:
- * [`network-scripts`](https://github.com/fedora-sysv/initscripts/tree/master/network-scripts) - **legacy** scripts for manipulating of network devices
- * [`readonly-root`](https://github.com/fedora-sysv/initscripts/blob/master/usr/lib/systemd/readonly-root) - service for configuring the read-only root support
- * [`netconsole`](https://github.com/fedora-sysv/initscripts/blob/master/etc/rc.d/init.d/netconsole) - service for initializing of network console logging
+ * [`network-scripts`](https://github.com/fedora-sysv/initscripts/tree/main/network-scripts) - **legacy** scripts for manipulating of network devices
+ * [`readonly-root`](https://github.com/fedora-sysv/initscripts/blob/main/usr/lib/systemd/readonly-root) - service for configuring the read-only root support
+ * [`netconsole`](https://github.com/fedora-sysv/initscripts/blob/main/etc/rc.d/init.d/netconsole) - service for initializing of network console logging
 
 For the *[RPM](https://en.wikipedia.org/wiki/Rpm_(software))* based distributions
-we also provide a [`specfile`](https://github.com/fedora-sysv/initscripts/blob/master/initscripts.spec)
+we also provide a [`specfile`](https://github.com/fedora-sysv/initscripts/blob/main/initscripts.spec)
 for easier packaging.
 
 ## Future of initscripts
@@ -42,7 +42,7 @@ We intend to convert the rest of the remaining services into *systemd* units,
 and remove them eventually if possible.
 
 And we have also started our work on decomissioning of
-[`network-scripts`](https://github.com/fedora-sysv/initscripts/tree/master/network-scripts)
+[`network-scripts`](https://github.com/fedora-sysv/initscripts/tree/main/network-scripts)
 as well. This means no new functionality will be added into them. In case you
 need some you should ask for it to be implemented
 in *[NetworkManager](https://en.wikipedia.org/wiki/NetworkManager)*, if it isn't
