@@ -46,7 +46,8 @@ while [ $# -gt 0 ]; do
         ;;
     *)
         if [ -z "${SERVICE}" ] && [ $# -eq 1 ] && [ "${1}" = "--status-all" ]; then
-            cd ${SERVICEDIR}
+            # symlink /etc/init.d -> rc.d/init.d is provided by initscripts package
+            cd ${SERVICEDIR} || { echo $"Support for initscripts isn't installed" >&2 ; exit 4 ; }
             for SERVICE in * ; do
                 case "${SERVICE}" in
                 functions | halt | killall | single| linuxconf| kudzu)
@@ -61,6 +62,9 @@ while [ $# -gt 0 ]; do
             done
             exit 0
         elif [ $# -eq 2 ] && [ "${2}" = "--full-restart" ]; then
+            # symlink /etc/init.d -> rc.d/init.d is provided by initscripts package
+            [ -L "${SERVICEDIR}" ] || { echo $"Support for initscripts isn't installed" >&2 ; exit 4 ; }
+
             SERVICE="${1}"
             if [ -x "${SERVICEDIR}/${SERVICE}" ]; then
                 env -i PATH="$PATH" TERM="$TERM" "${SERVICEDIR}/${SERVICE}" stop
