@@ -18,8 +18,8 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.16
-Release:          2%{?dist}
+Version:          10.17
+Release:          1%{?dist}
 
 License:          GPLv2
 
@@ -398,6 +398,23 @@ fi
 # =============================================================================
 
 %changelog
+* Wed Aug 24 2022 Jan Macku <jamacku@redhat.com> - 10.17-1
+- service: Exit when `/etc/init.d` is missing
+- ci: Update workflows to run on main branch
+- ci: remove differential-shellcheck configs
+- doc: Use main branch in links
+- dependabot: Monthly updates
+- ci(Mergify): configuration update
+- Translated using Weblate (Georgian)
+- Translated using Weblate (Georgian)
+- ci: Update `packit.yml`
+- ci: Update Github workflows & add Dependabot
+- Translated using Weblate (Estonian)
+- Translated using Weblate (Georgian)
+- Translated using Weblate (Georgian)
+- Translated using Weblate (Czech)
+- Drop unnecessary obsoletes
+
 * Wed Feb 23 2022 Adam Williamson <awilliam@redhat.com> - 10.16-2
 - Drop unnecessary obsoletes
 
