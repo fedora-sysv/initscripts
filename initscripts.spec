@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.11.4
+Version:          10.11.5
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -397,6 +397,9 @@ fi
 # =============================================================================
 
 %changelog
+* Wed Aug 24 2022 Jan Macku <jamacku@redhat.com> - 10.11.5-1
+- service: Exit when `/etc/init.d` is missing
+
 * Thu Feb 24 2022 Jan Macku <jamacku@redhat.com> - 10.11.4-1
 - spec: Update initscripts Obsoletes
 
