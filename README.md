@@ -2,12 +2,12 @@
 
 [![Build Status](https://github.com/fedora-sysv/initscripts/workflows/Integration%20test/badge.svg)](https://github.com/fedora-sysv/initscripts/actions?query=workflow%3AIntegration+test) [![Differential ShellCheck](https://github.com/fedora-sysv/initscripts/actions/workflows/shellcheck_test.yml/badge.svg)](https://github.com/fedora-sysv/initscripts/actions/workflows/shellcheck_test.yml) [![CodeQL](https://github.com/fedora-sysv/initscripts/actions/workflows/codeql.yml/badge.svg)](https://github.com/fedora-sysv/initscripts/actions/workflows/codeql.yml) [![Mergify Status][mergify-status]][mergify]
 
-[mergify]: https://mergify.io
-[mergify-status]: https://img.shields.io/endpoint.svg?url=https://dashboard.mergify.io/badges/fedora-sysv/initscripts&style=flat
-
+[mergify]: https://mergify.com
+[mergify-status]: https://img.shields.io/endpoint.svg?url=https://api.mergify.com/v1/badges/fedora-sysv/initscripts&style=flat
 
 This repository contains source code for **legacy** *System V [initscripts](https://en.wikipedia.org/wiki/Init)*,
 which are primarily used in *[Linux](https://en.wikipedia.org/wiki/Linux) distributions like e.g.*:
+
 * [Fedora](https://en.wikipedia.org/wiki/Fedora_(operating_system))
 * [Red Hat Enterprise Linux](https://en.wikipedia.org/wiki/Red_Hat_Enterprise_Linux)
 * [CentOS](https://en.wikipedia.org/wiki/CentOS)
@@ -25,15 +25,17 @@ or
 files.
 
 Another functionality this source code provides includes:
- * [`network-scripts`](https://github.com/fedora-sysv/initscripts/tree/main/network-scripts) - **legacy** scripts for manipulating of network devices
- * [`readonly-root`](https://github.com/fedora-sysv/initscripts/blob/main/usr/lib/systemd/readonly-root) - service for configuring the read-only root support
- * [`netconsole`](https://github.com/fedora-sysv/initscripts/blob/main/etc/rc.d/init.d/netconsole) - service for initializing of network console logging
+
+* [`network-scripts`](https://github.com/fedora-sysv/initscripts/tree/main/network-scripts) - **legacy** scripts for manipulating of network devices
+* [`readonly-root`](https://github.com/fedora-sysv/initscripts/blob/main/usr/lib/systemd/readonly-root) - service for configuring the read-only root support
+* [`netconsole`](https://github.com/fedora-sysv/initscripts/blob/main/etc/rc.d/init.d/netconsole) - service for initializing of network console logging
 
 For the *[RPM](https://en.wikipedia.org/wiki/Rpm_(software))* based distributions
 we also provide a [`specfile`](https://github.com/fedora-sysv/initscripts/blob/main/initscripts.spec)
 for easier packaging.
 
 ## Future of initscripts
+
 As mentioned above, the *initscripts concept* is outdated nowadays, and de-facto
 obsolete. Most of the work on this repository is just a maintenance, and we do
 **not** plan on extending the support for initscripts in the future in any way.
@@ -49,6 +51,7 @@ in *[NetworkManager](https://en.wikipedia.org/wiki/NetworkManager)*, if it isn't
 already.
 
 ## No longer active branches
+
 Follow the steps in our wiki -
 [how to access inactive branches](https://github.com/fedora-sysv/initscripts/wiki/How-to-access-inactive-branches) -
 in case you need to check out old git branches for any reason.
@@ -94,11 +97,13 @@ upstart-0.6.0-branch          5df584569b80bb8977f181e16b0de47fb4df08f1
 --->
 
 ## Bugs reporting
+
 If you find a bug, we would like to hear about it -- although we can't guarantee
 we will be able to fix it... The best way to report bugs differs for each
 distribution:
- * `RHEL | CentOS` - create a bug report in [bugzilla](https://bugzilla.redhat.com/enter_bug.cgi) for corresponding RHEL version
- * `Fedora | Other` - create a [new issue](https://github.com/fedora-sysv/initscripts/issues/new) directly here on GitHub
+
+* `RHEL | CentOS` - create a bug report in [bugzilla](https://bugzilla.redhat.com/enter_bug.cgi) for corresponding RHEL version
+* `Fedora | Other` - create a [new issue](https://github.com/fedora-sysv/initscripts/issues/new) directly here on GitHub
 
 **NOTE:** Bug reports created for *Fedora* in [bugzilla](https://bugzilla.redhat.com/) usually take a lot of time to
 resolve. *We advise to use GitHub instead.*
