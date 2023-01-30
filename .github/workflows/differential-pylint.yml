@@ -1,0 +1,40 @@
+---
+
+name: Differential PyLint
+
+on:
+  pull_request:
+    branches: [ main, rhel*-branch ]
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    permissions:
+      security-events: write
+
+    steps:
+      - name: Repository checkout
+        uses: actions/checkout@v3
+
+      - id: PyLint
+        name: Differential PyLint
+        uses: fedora-copr/vcs-diff-lint-action@v1
+
+      - if: ${{ always() }}
+        name: Upload artifact with detected PyLint defects in SARIF format
+        uses: actions/upload-artifact@v3
+        with:
+          name: Differential PyLint SARIF
+          path: ${{ steps.PyLint.outputs.sarif }}
+
+      - if: ${{ failure() }}
+        name: Upload SARIF to GitHub using github/codeql-action/upload-sarif
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: ${{ steps.PyLint.outputs.sarif }}
+
+...
