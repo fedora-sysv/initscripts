@@ -21,7 +21,7 @@ Summary:          Basic support for legacy System V init scripts
 Version:          10.17
 Release:          %autorelease
 
-License:          GPLv2
+License:          GPL-2.0-only
 
 URL:              https://github.com/fedora-sysv/initscripts
 Source:           https://github.com/fedora-sysv/initscripts/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
