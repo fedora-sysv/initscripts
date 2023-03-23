@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.17
+Version:          10.18
 Release:          %autorelease
 
 License:          GPL-2.0-only
