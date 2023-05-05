@@ -398,6 +398,22 @@ fi
 # =============================================================================
 
 %changelog
+* Thu Mar 23 2023 Jan Macku <jamacku@redhat.com> - 10.18-1
+- Translated using Weblate (English (United Kingdom))
+- migrate to SPDX license
+- ci(Mergify): configuration update
+- Translated using Weblate (German)
+- Translated using Weblate (English (United Kingdom))
+- doc: update badges
+- ci(lint): Add Differential PyLint GitHub Action
+- ci(lint): Add permission `security-events: write`
+- ci: Update Differential ShellCheck to `@v4`
+- doc: fix markdown warnings and update badge
+- ci: Setup CodeQL to replace deprecated LGTM
+- releng: Enable Packit to handle Fedora updates
+- releng: Convert to rpmautospec
+- build(deps): bump redhat-plumbers-in-action/differential-shellcheck
+
 * Wed Aug 24 2022 Jan Macku <jamacku@redhat.com> - 10.17-1
 - service: Exit when `/etc/init.d` is missing
 - ci: Update workflows to run on main branch
