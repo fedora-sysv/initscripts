@@ -1,41 +1,16 @@
 # doc: https://packit.dev/docs/
-# config: https://packit.dev/docs/configuration/
 ---
 
-specfile_path: initscripts.spec
-
-files_to_sync:
-  - initscripts.spec
-  - .packit.yaml
-
-upstream_package_name: initscripts
-downstream_package_name: initscripts
+specfile_path: ./initscripts.spec
 
 jobs:
   - &copr
     job: copr_build
     trigger: pull_request
     targets:
-      - fedora-all
+      - fedora-rawhide-x86_64
+      - centos-stream-8-x86_64
       - centos-stream-9-x86_64
 
   - <<: *copr
-    trigger: commit
-    branch: main
-    owner: "@initscripts" # copr repo namespace
-    project: initscripts  # copr repo name so you can consume the builds
-
-  - job: propose_downstream
     trigger: release
-    dist_git_branches:
-      - fedora-all
-
-  - job: koji_build
-    trigger: commit
-    dist_git_branches:
-      - fedora-all
-
-  - job: bodhi_update
-    trigger: commit
-    dist_git_branches:
-      - fedora-branched   # rawhide updates are created automatically
