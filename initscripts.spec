@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.18
+Version:          10.19
 Release:          1%{?dist}
 
 License:          GPL-2.0-only
@@ -398,6 +398,14 @@ fi
 # =============================================================================
 
 %changelog
+* Fri May 05 2023 Jan Macku <jamacku@redhat.com> - 10.19-1
+- ci: update Packit configuration
+- spec: add missing changelog entry
+- Revert "releng: Enable Packit to handle Fedora updates"
+- Revert "releng: Convert to rpmautospec"
+- doc: update translations
+- spec: remove changelog
+
 * Thu Mar 23 2023 Jan Macku <jamacku@redhat.com> - 10.18-1
 - Translated using Weblate (English (United Kingdom))
 - migrate to SPDX license
