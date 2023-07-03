@@ -15,8 +15,8 @@ msgstr ""
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2023-07-03 05:20+0000\n"
 "Last-Translator: 김인수 <simmon@nplob.com>\n"
-"Language-Team: Korean <https://translate.fedoraproject.org/projects/"
-"fedora-sysv/initscripts/ko/>\n"
+"Language-Team: Korean <https://translate.fedoraproject.org/projects/fedora-"
+"sysv/initscripts/ko/>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -36,7 +36,9 @@ msgstr "사용자가 이 장치를 제어할수 없습니다."
 msgid ""
 "You are using 'ifdown' script provided by 'network-scripts', which are now "
 "deprecated."
-msgstr "누락 되어져 있는, 'network-scripts'에 의해 사용되어진 스크립트 'ifdown'을 사용합니다."
+msgstr ""
+"누락 되어져 있는, 'network-scripts'에 의해 사용되어진 스크립트 'ifdown'을 사"
+"용합니다."
 
 #: ../network-scripts/ifdown:41 ../network-scripts/ifup:57
 #: ../etc/rc.d/init.d/network:53
@@ -47,7 +49,9 @@ msgstr "'network-scripts'는 가까운 미래에 배포판에서 제거될 것�
 msgid ""
 "It is advised to switch to 'NetworkManager' instead - it provides 'ifup/"
 "ifdown' scripts as well."
-msgstr "대신에 'NetworkManager'로 전환하는 것을 조언합니다. - 'ifup/down' 스크립트도 제공합니다."
+msgstr ""
+"대신에 'NetworkManager'로 전환하는 것을 조언합니다. - 'ifup/down' 스크립트도 "
+"제공합니다."
 
 #: ../network-scripts/ifdown-eth:46 ../network-scripts/ifdown-eth:52
 msgid ""
@@ -66,7 +70,8 @@ msgid ""
 "Device '$DEVICE' isn't supported here, use IPV6_AUTOTUNNEL setting and "
 "restart (IPv6) networking"
 msgstr ""
-"여기는 장치 '$DEVICE'를 지원하지 않습니다, IPV6_AUTOTUNNEL 설정을 사용하고 (IPv6) 네크워크를 다시 시작하십시오"
+"여기는 장치 '$DEVICE'를 지원하지 않습니다, IPV6_AUTOTUNNEL 설정을 사용하고 "
+"(IPv6) 네크워크를 다시 시작하십시오"
 
 #: ../network-scripts/ifdown-tunnel:36 ../network-scripts/ifup-tunnel:68
 msgid "Device '$DEVICE' isn't supported as a valid GRE device name."
@@ -84,7 +89,9 @@ msgstr "$0: $(1)의 설정을 찾을 수 없습니다."
 msgid ""
 "You are using 'ifup' script provided by 'network-scripts', which are now "
 "deprecated."
-msgstr "이제 더 이상 제공되지 않는, 'network-scripts'에 의해 제공되는 'ifup' 스크립트를 사용합니다."
+msgstr ""
+"이제 더 이상 제공되지 않는, 'network-scripts'에 의해 제공되는 'ifup' 스크립트"
+"를 사용합니다."
 
 #: ../network-scripts/ifup:87 ../network-scripts/ifup:102
 msgid "PHYSDEV should be set for device ${DEVICE}"
@@ -94,12 +101,12 @@ msgstr "장치 ${DEVICE}를 위해 PHYSDEV가 설정되어야 합니다"
 msgid "No 802.1Q VLAN support available in kernel for device ${DEVICE}"
 msgstr "${DEVICE} 장치에 사용되는 커널에서 802.1Q VLAN을 지원하지 않습니다"
 
-#: ../network-scripts/ifup:117 ../network-scripts/ifup-eth:123
+#: ../network-scripts/ifup:117 ../network-scripts/ifup-eth:134
 msgid ""
 "$alias device ${DEVICE} does not seem to be present, delaying initialization."
 msgstr "$alias 장치 ${DEVICE}가 없는것 같습니다. 초기화를 연기합니다."
 
-#: ../network-scripts/ifup:138 ../network-scripts/ifup:139
+#: ../network-scripts/ifup:137
 msgid "ERROR: could not add vlan ${VID} as ${DEVICE} on dev ${PHYSDEV}"
 msgstr "오류: ${PHYSDEV} 장치에 vlan ${VID}를 ${DEVICE}로 추가하지 못했습니다"
 
@@ -137,20 +144,25 @@ msgid "error in ifcfg-${parent_device}: files"
 msgstr "ifcfg-${parent_device}에 에러 발생: 파일들"
 
 #: ../network-scripts/ifup-aliases:269
+#, fuzzy
+#| msgid ""
+#| "Determining if ip address ${IPADDR} is already in use for device "
+#| "${parent_device}..."
 msgid ""
-"Determining if ip address ${IPADDR} is already in use for device "
-"${parent_device}..."
-msgstr "ip 주소 ${IPADDR}는 이미 장치 ${parent_device}를 위해 사용 중인지 확인하기..."
+"Determining if IP address ${IPADDR} is already in use for device "
+"${parent_device}…"
+msgstr ""
+"ip 주소 ${IPADDR}는 이미 장치 ${parent_device}를 위해 사용 중인지 확인하기..."
 
 #: ../network-scripts/ifup-aliases:273
 msgid "Error, some other host ($ARPINGMAC) already uses address ${IPADDR}."
 msgstr "오류, 몇몇 다른 호스트($ARPINGMAC)는 이미 주소 ${IPADDR}를 사용합니다."
 
-#: ../network-scripts/ifup-aliases:334
+#: ../network-scripts/ifup-aliases:335
 msgid "error in $FILE: IPADDR_START and IPADDR_END don't agree"
 msgstr "$FILE에 오류 발생: IPADDR_START 와 IPADDR_END가 일치하지 않습니다"
 
-#: ../network-scripts/ifup-aliases:339
+#: ../network-scripts/ifup-aliases:340
 msgid "error in $FILE: IPADDR_START greater than IPADDR_END"
 msgstr "$FILE에 오류 발생: IPADDR_START가 IPADDR_END보다 큽니다"
 
@@ -162,58 +174,83 @@ msgstr "오류: ${DEVICE} 나타나지 않음!"
 msgid "Device ${DEVICE} has different MAC address than expected, ignoring."
 msgstr "${DEVICE} 장치가 예기치 않은 MAC주소를 가지고 있습니다, 무시합니다."
 
-#: ../network-scripts/ifup-eth:116
+#: ../network-scripts/ifup-eth:51
+msgid "cannot create veth without peer"
+msgstr ""
+
+#: ../network-scripts/ifup-eth:127
 msgid "Device name does not seem to be present."
 msgstr "장치가 없는것 같습니다."
 
-#: ../network-scripts/ifup-eth:125
+#: ../network-scripts/ifup-eth:136
 msgid "Device ${DEVICE} does not seem to be present, delaying initialization."
 msgstr "장치 ${DEVICE}가 없는것 같습니다. 초기화를 지연합니다."
 
-#: ../network-scripts/ifup-eth:221
+#: ../network-scripts/ifup-eth:232
 msgid "Determining IP information for ${DEVICE}..."
 msgstr "${DEVICE}를 위한 IP 정보 확인 중..."
 
-#: ../network-scripts/ifup-eth:223
+#: ../network-scripts/ifup-eth:234
 msgid " failed; no link present.  Check cable?"
 msgstr " 실패; 연결이 존재하지 않습니다.  케이블을 확인하시겠습니까?"
 
-#: ../network-scripts/ifup-eth:230 ../network-scripts/ifup-eth:378
+#: ../network-scripts/ifup-eth:241 ../network-scripts/ifup-eth:389
 msgid " done."
 msgstr " 완료."
 
-#: ../network-scripts/ifup-eth:233 ../network-scripts/ifup-eth:380
+#: ../network-scripts/ifup-eth:244 ../network-scripts/ifup-eth:391
 msgid " failed."
 msgstr " 실패."
 
-#: ../network-scripts/ifup-eth:257
+#: ../network-scripts/ifup-eth:268
 msgid "Failed to bring up ${DEVICE}."
 msgstr "${DEVICE} 활성화에 실패했습니다."
 
-#: ../network-scripts/ifup-eth:288
+#: ../network-scripts/ifup-eth:299
 msgid ""
 "Error, some other host ($ARPINGMAC) already uses address ${ipaddr[$idx]}."
-msgstr "오류, 몇몇 다른 호스트($ARPINGMAC)는 이미 주소 ${ipaddr[$idx]}를 사용합니다."
+msgstr ""
+"오류, 몇몇 다른 호스트($ARPINGMAC)는 이미 주소 ${ipaddr[$idx]}를 사용합니다."
 
-#: ../network-scripts/ifup-eth:295
+#: ../network-scripts/ifup-eth:306
 msgid "Error adding address ${ipaddr[$idx]} for ${DEVICE}."
 msgstr "${DEVICE}를 위한 주소 ${ipaddr[$idx]}를 추가 중 오류."
 
-#: ../network-scripts/ifup-eth:322
+#: ../network-scripts/ifup-eth:333
 msgid "Error adding default gateway ${GATEWAY} for ${DEVICE}."
 msgstr "${DEVICE}를 위한 기본 게이트웨이 ${GATEWAY} 추가 중 오류."
 
-#: ../network-scripts/ifup-eth:327
+#: ../network-scripts/ifup-eth:338
 msgid "Error adding default gateway for ${REALDEVICE}."
 msgstr "${REALDEVICE}를 위한 기본 게이트웨이 추가 오류."
 
-#: ../network-scripts/ifup-eth:365
+#: ../network-scripts/ifup-eth:376
 msgid "Determining IPv6 information for ${DEVICE}..."
 msgstr "${DEVICE}를 위한 IPv6 정보를 확인 중..."
 
-#: ../network-scripts/ifup-ippp:55
+#: ../network-scripts/ifup-ippp:33
+msgid "ipppd does not exist or is not executable"
+msgstr ""
+
+#: ../network-scripts/ifup-ippp:40
+msgid "isdnctrl does not exist or is not executable"
+msgstr ""
+
+#: ../network-scripts/ifup-ippp:46
+msgid "cannot list ISDN devices"
+msgstr ""
+
+#: ../network-scripts/ifup-ippp:55 ../network-scripts/ifup-ippp:60
 msgid "$*"
 msgstr "$*"
+
+#: ../network-scripts/ifup-ippp:343
+msgid "ip addr add $IPADDR peer $GATEWAY${pfx:/$pfx} dev $DEVICE"
+msgstr ""
+
+#: ../network-scripts/ifup-ippp:349
+msgid "ipppd $options $netmask"
+msgstr ""
 
 #: ../network-scripts/ifup-ippp:374
 msgid ""
@@ -256,7 +293,8 @@ msgstr ""
 
 #: ../network-scripts/ifup-ipv6:182
 msgid "Device 'tun6to4' (from '$DEVICE') is already up, shutdown first"
-msgstr "'$DEVICE'로 부터 'tun6to4' 장치가 이미 켜져 있습니다. 먼저 종료하십시오"
+msgstr ""
+"'$DEVICE'로 부터 'tun6to4' 장치가 이미 켜져 있습니다. 먼저 종료하십시오"
 
 #: ../network-scripts/ifup-ipv6:209
 msgid "Given IPv4 address '$ipv4addr' is not globally usable"
@@ -266,13 +304,17 @@ msgstr "지정된 IPv4 주소 '$ipv4addr'는 시스템 전역적으로 사용할
 msgid ""
 "IPv6to4 configuration needs an IPv4 address on related interface or "
 "otherwise specified"
-msgstr "IPv6to4 설정에서 특별히 다르게 지정되지 않은 한 관련 인터페이스에 IPv4 주소가 필요합니다"
+msgstr ""
+"IPv6to4 설정에서 특별히 다르게 지정되지 않은 한 관련 인터페이스에 IPv4 주소"
+"가 필요합니다"
 
 #: ../network-scripts/ifup-ipv6:237
 msgid ""
 "Warning: configured MTU '$IPV6TO4_MTU' for 6to4 exceeds maximum limit of "
 "'$tunnelmtu', ignored"
-msgstr "주의: 6to4에 설정된 MTU '$IPV6TO4_MTU'이 '$tunnelmtu'의 최대 한계를 초과합니다. 무시합니다"
+msgstr ""
+"주의: 6to4에 설정된 MTU '$IPV6TO4_MTU'이 '$tunnelmtu'의 최대 한계를 초과합니"
+"다. 무시합니다"
 
 #: ../network-scripts/ifup-ipv6:251
 msgid "Warning: interface 'tun6to4' does not support 'IPV6_DEFAULTGW', ignored"
@@ -283,7 +325,8 @@ msgstr ""
 #: ../network-scripts/ifup-ipv6:287
 msgid ""
 "Using 6to4 and RADVD IPv6 forwarding usually should be enabled, but it isn't"
-msgstr "6to4 와 RADVD IPv6 포워딩이 보통 활성화 되어 있어야 하는데, 그렇지 않습니다"
+msgstr ""
+"6to4 와 RADVD IPv6 포워딩이 보통 활성화 되어 있어야 하는데, 그렇지 않습니다"
 
 #: ../network-scripts/ifup-ipv6:300
 msgid "Error occurred while calculating the IPv6to4 prefix"
@@ -299,11 +342,16 @@ msgstr "6to4 설정을 찾을수 없습니다"
 
 #: ../network-scripts/ifup-post:114
 msgid "/etc/resolv.conf was not updated: failed to create temporary file"
-msgstr "/etc/resolv.conf는 최신화 되지 않았습니다: 임시 파일 생성에 실패하였습니다"
+msgstr ""
+"/etc/resolv.conf는 최신화 되지 않았습니다: 임시 파일 생성에 실패하였습니다"
 
-#: ../network-scripts/ifup-routes:6
+#: ../network-scripts/ifup-routes:8
 msgid "usage: ifup-routes <net-device> [<nickname>]"
 msgstr "사용법: ifup-routes <net-device> [<nickname>]"
+
+#: ../network-scripts/ifup-routes:26 ../network-scripts/ifup-routes:47
+msgid "Failed to add route ${line}, using ip route replace instead."
+msgstr ""
 
 #: ../network-scripts/ifup-sit:63
 msgid "Missing remote IPv4 address of tunnel, configuration is not valid"
@@ -321,61 +369,63 @@ msgstr "잘못된 터널 유형 $TYPE"
 msgid "Usage: $0 {start|stop|reload|restart|showsysctl}"
 msgstr "사용법: $0 {start|stop|reload|restart|showsysctl}"
 
-#: ../network-scripts/network-functions:401
+#: ../network-scripts/network-functions:405
 msgid ""
 "Both 'DHCP_HOSTNAME=${DHCP_HOSTNAME}' and 'DHCP_FQDN=${DHCP_FQDN}' are "
 "configured... Using DHCP_FQDN."
 msgstr ""
-"'DHCP_HOSTNAME=${DHCP_HOSTNAME}' 와 'DHCP_FQDN=${DHCP_FQDN}' 둘 다 설정되었습니다... "
-"DHCP_FQDN 사용하기."
+"'DHCP_HOSTNAME=${DHCP_HOSTNAME}' 와 'DHCP_FQDN=${DHCP_FQDN}' 둘 다 설정되었습"
+"니다... DHCP_FQDN 사용하기."
 
-#: ../network-scripts/network-functions:569
+#: ../network-scripts/network-functions:581
 msgid "Failed to set value '$value' [mode] to ${DEVICE} bonding device"
 msgstr "값 '$value' [mode]을 본딩 장치 ${DEVICE} 설정에 실패하였습니다"
 
-#: ../network-scripts/network-functions:575
+#: ../network-scripts/network-functions:587
 msgid "Failed to set value '$value' [miimon] to ${DEVICE} bonding device"
 msgstr "'$value' [miimon]을 본딩 장치 ${DEVICE}에 설정을 실패하였습니다"
 
-#: ../network-scripts/network-functions:595
+#: ../network-scripts/network-functions:607
 msgid ""
 "Failed to set '$arp_ip' value [arp_ip_target] to ${DEVICE} bonding device"
-msgstr "'$arp_ip' value [arp_ip_target]을 본딩 장치 ${DEVICE} 설정을 실패하였습니다"
+msgstr ""
+"'$arp_ip' value [arp_ip_target]을 본딩 장치 ${DEVICE} 설정을 실패하였습니다"
 
-#: ../network-scripts/network-functions:603
+#: ../network-scripts/network-functions:615
 msgid ""
 "Failed to set '$value' value [arp_ip_target] to ${DEVICE} bonding device"
-msgstr "'$value' value [arp_ip_target]을 본딩 장치 ${DEVICE} 설정을 실패하였습니다"
+msgstr ""
+"'$value' value [arp_ip_target]을 본딩 장치 ${DEVICE} 설정을 실패하였습니다"
 
-#: ../network-scripts/network-functions:608
+#: ../network-scripts/network-functions:620
 msgid "Failed to set '$value' value [$key] to ${DEVICE} bonding device"
 msgstr "'$value' value [$key] 을 본딩 장치 ${DEVICE} 설정을 실패하였습니다"
 
-#: ../network-scripts/network-functions:681
+#: ../network-scripts/network-functions:696
 msgid "DEBUG     "
 msgstr "디버그     "
 
-#: ../network-scripts/network-functions:684
+#: ../network-scripts/network-functions:699
 msgid "ERROR     "
 msgstr "오류     "
 
-#: ../network-scripts/network-functions:687
+#: ../network-scripts/network-functions:702
 msgid "WARN      "
 msgstr "경고      "
 
-#: ../network-scripts/network-functions:690
+#: ../network-scripts/network-functions:705
 msgid "INFO      "
 msgstr "정보      "
 
-#: ../network-scripts/network-functions-ipv6:56
+#: ../network-scripts/network-functions-ipv6:58
 msgid "Missing parameter 'IPv6-network' (arg 1)"
 msgstr "'IPv6-network' (arg 1) 변수가 없습니다"
 
-#: ../network-scripts/network-functions-ipv6:61
+#: ../network-scripts/network-functions-ipv6:63
 msgid "Missing parameter 'IPv6-gateway' (arg 2)"
 msgstr "'IPv6-gateway' (arg 2) 변수가 없음"
 
-#: ../network-scripts/network-functions-ipv6:86
+#: ../network-scripts/network-functions-ipv6:88
 msgid ""
 "'No route to host' adding route '$networkipv6' via gateway '$gatewayipv6' "
 "through device '$device'"
@@ -383,119 +433,120 @@ msgstr ""
 "'No route to host' '$gatewayipv6' 게이트웨이를 통과하는'$networkipv6' 라우트"
 "를 '$device' 장치를 이용하여 추가"
 
-#: ../network-scripts/network-functions-ipv6:89
+#: ../network-scripts/network-functions-ipv6:91
 msgid "Unknown error"
 msgstr "알 수 없는 오류"
 
-#: ../network-scripts/network-functions-ipv6:114
+#: ../network-scripts/network-functions-ipv6:116
 msgid "Tunnel device 'sit0' enabling didn't work"
 msgstr "터널 장치 'sit0'를 활성화하지 못했습니다"
 
-#: ../network-scripts/network-functions-ipv6:140
-#: ../network-scripts/network-functions-ipv6:203
-#: ../network-scripts/network-functions-ipv6:232
-#: ../network-scripts/network-functions-ipv6:312
-#: ../network-scripts/network-functions-ipv6:427
-#: ../network-scripts/network-functions-ipv6:489
-#: ../network-scripts/network-functions-ipv6:523
-#: ../network-scripts/network-functions-ipv6:565
-#: ../network-scripts/network-functions-ipv6:643
-#: ../network-scripts/network-functions-ipv6:701
-#: ../network-scripts/network-functions-ipv6:754
-#: ../network-scripts/network-functions-ipv6:793
-#: ../network-scripts/network-functions-ipv6:921
-#: ../network-scripts/network-functions-ipv6:1054
+#: ../network-scripts/network-functions-ipv6:142
+#: ../network-scripts/network-functions-ipv6:205
+#: ../network-scripts/network-functions-ipv6:234
+#: ../network-scripts/network-functions-ipv6:314
+#: ../network-scripts/network-functions-ipv6:429
+#: ../network-scripts/network-functions-ipv6:491
+#: ../network-scripts/network-functions-ipv6:525
+#: ../network-scripts/network-functions-ipv6:567
+#: ../network-scripts/network-functions-ipv6:645
+#: ../network-scripts/network-functions-ipv6:703
+#: ../network-scripts/network-functions-ipv6:756
+#: ../network-scripts/network-functions-ipv6:795
+#: ../network-scripts/network-functions-ipv6:923
+#: ../network-scripts/network-functions-ipv6:1056
 msgid "Missing parameter 'device' (arg 1)"
 msgstr "'device' (arg 1) 변수가 없습니다"
 
-#: ../network-scripts/network-functions-ipv6:145
+#: ../network-scripts/network-functions-ipv6:147
 msgid "Missing parameter 'IPv6-address' (arg 2)"
 msgstr "'IPv6-address' (arg 2) 변수가 없습니다"
 
-#: ../network-scripts/network-functions-ipv6:159
+#: ../network-scripts/network-functions-ipv6:161
 msgid "Device '$device' doesn't exist"
 msgstr "'$device' 장치가 존재하지 않습니다"
 
-#: ../network-scripts/network-functions-ipv6:165
+#: ../network-scripts/network-functions-ipv6:167
 msgid "Device '$device' enabling didn't work"
 msgstr "'$device' 장치를 활성화하지 못했습니다"
 
-#: ../network-scripts/network-functions-ipv6:186
+#: ../network-scripts/network-functions-ipv6:188
 msgid "Cannot add IPv6 address '$address' on dev '$device'"
 msgstr "IPv6 주소인 '$address'를 dev '$device'에 추가할 수 없습니다"
 
-#: ../network-scripts/network-functions-ipv6:343
+#: ../network-scripts/network-functions-ipv6:345
 msgid "Missing parameter 'IPv4 address' (arg 1)"
 msgstr "'IPv4 address' (arg 1) 변수가 없습니다"
 
-#: ../network-scripts/network-functions-ipv6:383
+#: ../network-scripts/network-functions-ipv6:385
 msgid "Missing parameter 'address' (arg 1)"
 msgstr "'address' (arg 1) 변수가 주어지지 않았습니다"
 
-#: ../network-scripts/network-functions-ipv6:394
+#: ../network-scripts/network-functions-ipv6:396
 msgid "Given address '$addr' is not a global IPv4 one (arg 1)"
 msgstr ""
 "지정된 주소 '$addr'는 시스템 전역적으로 사용가능한 IPv4 주소가 아닙니다 (arg "
 "1)"
 
-#: ../network-scripts/network-functions-ipv6:398
+#: ../network-scripts/network-functions-ipv6:400
 msgid "Given address '$addr' is not a valid IPv4 one (arg 1)"
 msgstr "지정된 '$addr' 주소는 올바른 IPv4 주소 (arg 1)가 아닙니다"
 
-#: ../network-scripts/network-functions-ipv6:432
+#: ../network-scripts/network-functions-ipv6:434
 msgid "Missing parameter 'global IPv4 address' (arg 2)"
 msgstr "'global IPv4 address' (arg 2) 변수가 없음"
 
-#: ../network-scripts/network-functions-ipv6:438
-#: ../network-scripts/network-functions-ipv6:495
-#: ../network-scripts/network-functions-ipv6:534
+#: ../network-scripts/network-functions-ipv6:440
+#: ../network-scripts/network-functions-ipv6:497
+#: ../network-scripts/network-functions-ipv6:536
 msgid "Given device '$device' is not supported (arg 1)"
 msgstr "지정된 장치 '$device'는 지원되지 않습니다 (arg 1)"
 
-#: ../network-scripts/network-functions-ipv6:528
+#: ../network-scripts/network-functions-ipv6:530
 msgid "Missing parameter 'local IPv4 address' (arg 2)"
 msgstr "'local IPv4 address' (arg 2) 변수가 없습니다"
 
-#: ../network-scripts/network-functions-ipv6:570
+#: ../network-scripts/network-functions-ipv6:572
 msgid "Missing parameter 'IPv4-tunnel address' (arg 2)"
 msgstr "'IPv4-tunnel address' (arg 2) 변수가 없습니다"
 
-#: ../network-scripts/network-functions-ipv6:590
+#: ../network-scripts/network-functions-ipv6:592
 msgid ""
 "Given remote address '$addressipv4tunnel' on tunnel device '$device' is "
 "already configured on device '$devnew'"
 msgstr ""
-"터널 장치 '$device'에 입력하신 원격 주소 '$addressipv4tunnel'는 이미 '$devnew' 장치에 사용되었습니다"
+"터널 장치 '$device'에 입력하신 원격 주소 '$addressipv4tunnel'는 이미 "
+"'$devnew' 장치에 사용되었습니다"
 
-#: ../network-scripts/network-functions-ipv6:603
+#: ../network-scripts/network-functions-ipv6:605
 msgid "Tunnel device '$device' creation didn't work"
 msgstr "터널 장치 '$device'를 만드는데 실패했습니다"
 
-#: ../network-scripts/network-functions-ipv6:610
+#: ../network-scripts/network-functions-ipv6:612
 msgid "Tunnel device '$device' bringing up didn't work"
 msgstr "터널 장치인 '$device'를 시작할 수 없습니다"
 
-#: ../network-scripts/network-functions-ipv6:706
+#: ../network-scripts/network-functions-ipv6:708
 msgid "Missing parameter 'selection' (arg 2)"
 msgstr "'selection' (arg 2) 변수가 없습니다"
 
-#: ../network-scripts/network-functions-ipv6:710
+#: ../network-scripts/network-functions-ipv6:712
 msgid "Unsupported selection '$selection' specified (arg 2)"
 msgstr "선택하신 '$selection'은 지원되지 않습니다 (arg 2)"
 
-#: ../network-scripts/network-functions-ipv6:798
+#: ../network-scripts/network-functions-ipv6:800
 msgid "Missing parameter 'IPv6 MTU' (arg 2)"
 msgstr "'IPv6 MTU' (arg 2) 변수가 없습니다"
 
-#: ../network-scripts/network-functions-ipv6:804
+#: ../network-scripts/network-functions-ipv6:806
 msgid "Given IPv6 MTU '$ipv6_mtu' is out of range"
 msgstr "지정하신 IPv6 MTU '$ipv6_mtu'가 범위에서 벗어납니다"
 
-#: ../network-scripts/network-functions-ipv6:841
+#: ../network-scripts/network-functions-ipv6:843
 msgid "Given IPv6 default gateway '$address' is not in proper format"
 msgstr "입력하신 IPv6 기본 게이트웨이 '$address'의 형식이 올바르지 않습니다"
 
-#: ../network-scripts/network-functions-ipv6:847
+#: ../network-scripts/network-functions-ipv6:849
 msgid ""
 "Given IPv6 default gateway '$address' has scope '$device_scope' defined, "
 "given default gateway device '$device' will be not used"
@@ -503,7 +554,7 @@ msgstr ""
 "지정된 IPv6 기본 게이트웨이 '$address'는 범위 '$device_scope'가 지정되어 있으"
 "므로 입력하신 기본 게이트웨이 장치 '$device'는 사용되지 않을 것입니다"
 
-#: ../network-scripts/network-functions-ipv6:855
+#: ../network-scripts/network-functions-ipv6:857
 msgid ""
 "Given IPv6 default gateway '$address' is link-local, but no scope or gateway "
 "device is specified"
@@ -511,81 +562,102 @@ msgstr ""
 "지정된 IPv6 기본 게이트웨이 '$address'는 링크-로컬 주소이지만 범위나 게이트웨"
 "이 주소를 지정하지 않으셨습니다"
 
-#: ../network-scripts/network-functions-ipv6:895
+#: ../network-scripts/network-functions-ipv6:897
 msgid "Given IPv6 default device '$device' requires an explicit nexthop"
 msgstr ""
 "지정된 IPv6 기본 장치 '$device'에 nexthop가 명확하게 지정되지 않았습니다"
 
-#: ../network-scripts/network-functions-ipv6:898
+#: ../network-scripts/network-functions-ipv6:900
 msgid "Given IPv6 default device '$device' doesn't exist or isn't up"
 msgstr "지정된 IPv6 기본 장치 '$device'는 존재하지 않거나 작동 중이지 않습니다"
 
-#: ../network-scripts/network-functions-ipv6:904
+#: ../network-scripts/network-functions-ipv6:906
 msgid "No parameters given to setup a default route"
 msgstr "기본 라우트를 설정할 변수가 주어지지 않았습니다"
 
-#: ../network-scripts/network-functions-ipv6:959
+#: ../network-scripts/network-functions-ipv6:961
 msgid "No reason given for sending trigger to radvd"
 msgstr "radvd에 트리거를 보내는 이유가 명시되지 않았습니다"
 
-#: ../network-scripts/network-functions-ipv6:964
+#: ../network-scripts/network-functions-ipv6:966
 msgid "Unsupported reason '$reason' for sending trigger to radvd"
 msgstr "'$reason' 이유는 지원되지 않으므로 radvd에 트리거를 보낼 수 없습니다"
 
-#: ../network-scripts/network-functions-ipv6:993
+#: ../network-scripts/network-functions-ipv6:995
 msgid "Unsupported mechanism '$mechanism' for sending trigger to radvd"
 msgstr ""
 "'$mechanism' 메커니즘은 지원되지 않으므로 radvd에 트리거를 보낼 수 없습니다"
 
-#: ../network-scripts/network-functions-ipv6:1005
+#: ../network-scripts/network-functions-ipv6:1007
 msgid "Given pidfile '$pidfile' doesn't exist, cannot send trigger to radvd"
-msgstr "지정된 pidfile '$pidfile'이 존재하지 않아서 radvd에 트리거를 보낼 수 없습니다"
+msgstr ""
+"지정된 pidfile '$pidfile'이 존재하지 않아서 radvd에 트리거를 보낼 수 없습니다"
 
-#: ../network-scripts/network-functions-ipv6:1014
+#: ../network-scripts/network-functions-ipv6:1016
 msgid "Pidfile '$pidfile' is empty, cannot send trigger to radvd"
 msgstr "Pidfile '$pidfile'이 비어있어서 radvd에 트리거를 보낼 수 없습니다"
 
-#: ../network-scripts/network-functions-ipv6:1031
+#: ../network-scripts/network-functions-ipv6:1033
 msgid "radvd not (properly) installed, triggering failed"
 msgstr "radvd가 (적절히) 설치되지 않았습니다, 트리거 작업 실패"
 
-#: ../network-scripts/network-functions-ipv6:1066
+#: ../network-scripts/network-functions-ipv6:1068
 msgid "Duplicate Address Detection: Duplicate addresses detected"
 msgstr "중복 주소가 탐지됨: 중복 주소가 탐지되었습니다"
 
-#: ../network-scripts/network-functions-ipv6:1067
+#: ../network-scripts/network-functions-ipv6:1069
 msgid "Duplicate Address Detection: Please, fix your network configuration"
 msgstr "중복 주소 탐지: 네트웍크 환경설정을 고쳐주시기 바랍니다"
 
-#: ../network-scripts/network-functions-ipv6:1071
+#: ../network-scripts/network-functions-ipv6:1073
 msgid ""
 "Waiting for interface ${device} IPv6 address(es) to leave the 'tentative' "
 "state"
-msgstr "interface ${device} IPv6 address(es)에서 '미정' 상태 떠나기까지 기다리기"
+msgstr ""
+"interface ${device} IPv6 address(es)에서 '미정' 상태 떠나기까지 기다리기"
 
-#: ../network-scripts/network-functions-ipv6:1079
+#: ../network-scripts/network-functions-ipv6:1081
 msgid "Some IPv6 address(es) of ${device} remain still in 'tentative' state"
 msgstr "${device} 의 몇몇 IPv6 address(es)는 아직 '미정' 상태로 남아 있습니다"
 
-#: ../network-scripts/network-functions-ipv6:1080
-msgid "Run 'ip -6 addr show dev ${device} scope global tentative' to see more"
-msgstr "더 많이 보려면 'ip -6 addr show dev ${device} scope global tentative'를 실행하세요"
+#: ../network-scripts/network-functions-ipv6:1082
+#, fuzzy
+#| msgid ""
+#| "Run 'ip -6 addr show dev ${device} scope global tentative' to see more"
+msgid "Run 'ip -6 addr show dev ${device} tentative' for more info"
+msgstr ""
+"더 많이 보려면 'ip -6 addr show dev ${device} scope global tentative'를 실행"
+"하세요"
 
-#: ../usr/sbin/service:95
+#: ../usr/sbin/service:50 ../usr/sbin/service:66
+msgid "Support for initscripts isn't installed"
+msgstr ""
+
+#: ../usr/sbin/service:108
+#, fuzzy
+#| msgid ""
+#| "Redirecting to /bin/systemctl ${ACTION}${OPTIONS:+ }${OPTIONS} "
+#| "${SERVICE_MANGLED}"
 msgid ""
-"Redirecting to /bin/systemctl ${ACTION}${OPTIONS:+ }${OPTIONS} "
-"${SERVICE_MANGLED}"
+"Redirecting to /bin/systemctl ${ACTION} ${SERVICE_MANGLED}${OPTIONS:"
+"+ }${OPTIONS}"
 msgstr ""
 "/bin/systemctl ${ACTION}${OPTIONS:+ }${OPTIONS} ${SERVICE_MANGLED}에 넘겨주기"
 
-#: ../usr/sbin/service:98
+#: ../usr/sbin/service:111
+#, fuzzy
+#| msgid ""
+#| "The service command supports only basic LSB actions (start, stop, "
+#| "restart, try-restart, reload, force-reload, status). For other actions, "
+#| "please try to use systemctl."
 msgid ""
 "The service command supports only basic LSB actions (start, stop, restart, "
-"try-restart, reload, force-reload, status). For other actions, please try to "
-"use systemctl."
+"try-restart, reload, reload-or-restart, try-reload-or-restart, force-reload, "
+"status, condrestart). For other actions, please try to use systemctl."
 msgstr ""
-"서비스 명령은 기본적인 LSB 실행만 지원합니다 (시작, 멈춤, 재시작, 시도-재시작, 적재, 강제-적재, 상태). 다른 실행을 위하여, "
-"systemctl 이용해 시도해주기 바랍니다."
+"서비스 명령은 기본적인 LSB 실행만 지원합니다 (시작, 멈춤, 재시작, 시도-재시"
+"작, 적재, 강제-적재, 상태). 다른 실행을 위하여, systemctl 이용해 시도해주기 "
+"바랍니다."
 
 #: ../etc/rc.d/init.d/functions:33
 msgid "Starting $prog (via systemctl): "
@@ -615,17 +687,17 @@ msgstr "$0: 사용법: daemon [+/-nicelevel] {program}"
 msgid "$base startup"
 msgstr "$base 시작"
 
-#: ../etc/rc.d/init.d/functions:314 ../etc/rc.d/init.d/functions:333
-msgid "Usage: killproc [-p pidfile] [ -d delay] {program} [-signal]"
+#: ../etc/rc.d/init.d/functions:314 ../etc/rc.d/init.d/functions:324
+#: ../etc/rc.d/init.d/functions:333
+#, fuzzy
+#| msgid "Usage: killproc [-p pidfile] [ -d delay] {program} [-signal]"
+msgid ""
+"Usage: killproc [-p {pidfile} [-b {binary}]] [-d {delay}] {program} [-signal]"
 msgstr "사용법: killproc [-p pidfile] [ -d delay] {program} [-signal]"
 
 #: ../etc/rc.d/init.d/functions:323 ../etc/rc.d/init.d/functions:450
 msgid "-b option can be used only with -p"
 msgstr "-b 선택은 -p와 함께만 사용 될 수 있습니다"
-
-#: ../etc/rc.d/init.d/functions:324
-msgid "Usage: killproc -p pidfile -b binary program"
-msgstr "사용법: killproc -p pidfile -b binary program"
 
 #: ../etc/rc.d/init.d/functions:353 ../etc/rc.d/init.d/functions:363
 #: ../etc/rc.d/init.d/functions:378
@@ -641,15 +713,15 @@ msgid "Usage: pidfileofproc {program}"
 msgstr "사용법: pidfileofproc {program}"
 
 #: ../etc/rc.d/init.d/functions:411
-msgid "Usage: pidofproc [-p pidfile] {program}"
+#, fuzzy
+#| msgid "Usage: pidofproc [-p pidfile] {program}"
+msgid "Usage: pidofproc [-p {pidfile}] {program}"
 msgstr "사용법: pidofproc [-p pidfile] {program}"
 
-#: ../etc/rc.d/init.d/functions:437
-msgid "Usage: status [-p pidfile] {program}"
-msgstr "사용법: status [-p pidfile] {program}"
-
-#: ../etc/rc.d/init.d/functions:451
-msgid "Usage: status -p pidfile -b binary program"
+#: ../etc/rc.d/init.d/functions:437 ../etc/rc.d/init.d/functions:451
+#, fuzzy
+#| msgid "Usage: status -p pidfile -b binary program"
+msgid "Usage: status [-p {pidfile}] [-l {lockfile}] [-b {binary}] {program}"
 msgstr "사용법: status -p pidfile -b binary program"
 
 #: ../etc/rc.d/init.d/functions:478 ../etc/rc.d/init.d/functions:484
@@ -696,7 +768,9 @@ msgstr "$STRING"
 msgid ""
 "You are using 'network' service provided by 'network-scripts', which are now "
 "deprecated."
-msgstr "지금 더 이상 사용하지 않는, 'network-scripts'에 의해 제공된 'network' 서비스를 사용합니다."
+msgstr ""
+"지금 더 이상 사용하지 않는, 'network-scripts'에 의해 제공된 'network' 서비스"
+"를 사용합니다."
 
 #: ../etc/rc.d/init.d/network:54
 msgid ""
@@ -722,11 +796,13 @@ msgstr "기존 static-route 지원하지 않습니다: /sbin/route 찾을 수 �
 #: ../etc/rc.d/init.d/network:178
 msgid ""
 "Target is not reachable, but timeout was already reached. Continuing anyway."
-msgstr "대상이 도달하지 않았으며, 시간 초과가 이미 도달하였습니다. 아뭏튼 진행합니다."
+msgstr ""
+"대상이 도달하지 않았으며, 시간 초과가 이미 도달하였습니다. 아뭏튼 진행합니다."
 
 #: ../etc/rc.d/init.d/network:189
 msgid "rootfs or /usr is on network filesystem, leaving network up"
-msgstr "rootfs 또는 /usr는 네트워크 파일 시스템에 있으며, 네트워크를 유지합니다"
+msgstr ""
+"rootfs 또는 /usr는 네트워크 파일 시스템에 있으며, 네트워크를 유지합니다"
 
 #: ../etc/rc.d/init.d/network:199
 msgid "system is shutting down, leaving interfaces up as requested"
@@ -751,6 +827,12 @@ msgstr "현재 사용 중인 장치:"
 #: ../etc/rc.d/init.d/network:280
 msgid "Usage: $0 {start|stop|status|restart|force-reload}"
 msgstr "사용법: $0 {start|stop|status|restart|force-reload}"
+
+#~ msgid "Usage: killproc -p pidfile -b binary program"
+#~ msgstr "사용법: killproc -p pidfile -b binary program"
+
+#~ msgid "Usage: status [-p pidfile] {program}"
+#~ msgstr "사용법: status [-p pidfile] {program}"
 
 #~ msgid "Server address not specified in /etc/sysconfig/netconsole"
 #~ msgstr "/etc/sysconfig/netconsole에 서버 주소가 명시되어 있지 않음 "
