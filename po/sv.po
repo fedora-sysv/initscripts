@@ -14,8 +14,8 @@ msgstr ""
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "PO-Revision-Date: 2021-07-02 01:04+0000\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
-"Language-Team: Swedish <https://translate.fedoraproject.org/projects/"
-"fedora-sysv/initscripts/sv/>\n"
+"Language-Team: Swedish <https://translate.fedoraproject.org/projects/fedora-"
+"sysv/initscripts/sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -101,12 +101,12 @@ msgstr "PHYSDEV borde ställas in för enheten ${DEVICE}"
 msgid "No 802.1Q VLAN support available in kernel for device ${DEVICE}"
 msgstr "Inget stöd för 802.1Q-VLAN tillgängligt i kärnan för enheten ${DEVICE}"
 
-#: ../network-scripts/ifup:117 ../network-scripts/ifup-eth:123
+#: ../network-scripts/ifup:117 ../network-scripts/ifup-eth:134
 msgid ""
 "$alias device ${DEVICE} does not seem to be present, delaying initialization."
 msgstr "$alias-enheten ${DEVICE} verkar inte finnas, fördröjer initiering."
 
-#: ../network-scripts/ifup:138 ../network-scripts/ifup:139
+#: ../network-scripts/ifup:137
 msgid "ERROR: could not add vlan ${VID} as ${DEVICE} on dev ${PHYSDEV}"
 msgstr ""
 "FEL: kunde inte lägga till vlan ${VID} som ${DEVICE} på enhet ${PHYSDEV}"
@@ -144,9 +144,13 @@ msgid "error in ifcfg-${parent_device}: files"
 msgstr "fel i ifcfg-${parent_device}:-filer"
 
 #: ../network-scripts/ifup-aliases:269
+#, fuzzy
+#| msgid ""
+#| "Determining if ip address ${IPADDR} is already in use for device "
+#| "${parent_device}..."
 msgid ""
-"Determining if ip address ${IPADDR} is already in use for device "
-"${parent_device}..."
+"Determining if IP address ${IPADDR} is already in use for device "
+"${parent_device}…"
 msgstr ""
 "Avgör om ip-adressen ${IPADDR} används redan för enhetn ${parent_device}…"
 
@@ -154,11 +158,11 @@ msgstr ""
 msgid "Error, some other host ($ARPINGMAC) already uses address ${IPADDR}."
 msgstr "Fel, någon annan värd ($ARPINGMAC) använder redan adressen ${IPADDR}."
 
-#: ../network-scripts/ifup-aliases:334
+#: ../network-scripts/ifup-aliases:335
 msgid "error in $FILE: IPADDR_START and IPADDR_END don't agree"
 msgstr "fel i $FILE: IPADDR_START och IPADDR_END stämmer inte överens"
 
-#: ../network-scripts/ifup-aliases:339
+#: ../network-scripts/ifup-aliases:340
 msgid "error in $FILE: IPADDR_START greater than IPADDR_END"
 msgstr "fel i $FILE: IPADDR_START är större än IPADDR_END"
 
@@ -171,59 +175,83 @@ msgid "Device ${DEVICE} has different MAC address than expected, ignoring."
 msgstr ""
 "Enheten ${DEVICE} har annan MAC-adress än den som förväntades, ignorerar."
 
-#: ../network-scripts/ifup-eth:116
+#: ../network-scripts/ifup-eth:51
+msgid "cannot create veth without peer"
+msgstr ""
+
+#: ../network-scripts/ifup-eth:127
 msgid "Device name does not seem to be present."
 msgstr "Enhetsnamnet verkar inte finnas."
 
-#: ../network-scripts/ifup-eth:125
+#: ../network-scripts/ifup-eth:136
 msgid "Device ${DEVICE} does not seem to be present, delaying initialization."
 msgstr "Enheten ${DEVICE} verkar inte finnas, fördröjer initiering."
 
-#: ../network-scripts/ifup-eth:221
+#: ../network-scripts/ifup-eth:232
 msgid "Determining IP information for ${DEVICE}..."
 msgstr "Bestämmer IP-information för ${DEVICE}..."
 
-#: ../network-scripts/ifup-eth:223
+#: ../network-scripts/ifup-eth:234
 msgid " failed; no link present.  Check cable?"
 msgstr " misslyckades; det finns inte någon länk. Kontrollera kabeln?"
 
-#: ../network-scripts/ifup-eth:230 ../network-scripts/ifup-eth:378
+#: ../network-scripts/ifup-eth:241 ../network-scripts/ifup-eth:389
 msgid " done."
 msgstr " färdig."
 
-#: ../network-scripts/ifup-eth:233 ../network-scripts/ifup-eth:380
+#: ../network-scripts/ifup-eth:244 ../network-scripts/ifup-eth:391
 msgid " failed."
 msgstr " misslyckades."
 
-#: ../network-scripts/ifup-eth:257
+#: ../network-scripts/ifup-eth:268
 msgid "Failed to bring up ${DEVICE}."
 msgstr "Misslyckades med att sätta igång ${DEVICE}."
 
-#: ../network-scripts/ifup-eth:288
+#: ../network-scripts/ifup-eth:299
 msgid ""
 "Error, some other host ($ARPINGMAC) already uses address ${ipaddr[$idx]}."
 msgstr ""
 "Fel, någon annan värd ($ARPINGMAC) använder redan adressen ${ipaddr[$idx]}."
 
-#: ../network-scripts/ifup-eth:295
+#: ../network-scripts/ifup-eth:306
 msgid "Error adding address ${ipaddr[$idx]} for ${DEVICE}."
 msgstr "Fel när adressen ${ipaddr[$idx]} lades till för ${DEVICE}."
 
-#: ../network-scripts/ifup-eth:322
+#: ../network-scripts/ifup-eth:333
 msgid "Error adding default gateway ${GATEWAY} for ${DEVICE}."
 msgstr "Fel när standard-gateway:en ${GATEWAY} lades till för ${DEVICE}."
 
-#: ../network-scripts/ifup-eth:327
+#: ../network-scripts/ifup-eth:338
 msgid "Error adding default gateway for ${REALDEVICE}."
 msgstr "Fel när standard-gateway lades till för ${REALDEVICE}."
 
-#: ../network-scripts/ifup-eth:365
+#: ../network-scripts/ifup-eth:376
 msgid "Determining IPv6 information for ${DEVICE}..."
 msgstr "Bestämmer IPv6-information för ${DEVICE}…"
 
-#: ../network-scripts/ifup-ippp:55
+#: ../network-scripts/ifup-ippp:33
+msgid "ipppd does not exist or is not executable"
+msgstr ""
+
+#: ../network-scripts/ifup-ippp:40
+msgid "isdnctrl does not exist or is not executable"
+msgstr ""
+
+#: ../network-scripts/ifup-ippp:46
+msgid "cannot list ISDN devices"
+msgstr ""
+
+#: ../network-scripts/ifup-ippp:55 ../network-scripts/ifup-ippp:60
 msgid "$*"
 msgstr "$*"
+
+#: ../network-scripts/ifup-ippp:343
+msgid "ip addr add $IPADDR peer $GATEWAY${pfx:/$pfx} dev $DEVICE"
+msgstr ""
+
+#: ../network-scripts/ifup-ippp:349
+msgid "ipppd $options $netmask"
+msgstr ""
 
 #: ../network-scripts/ifup-ippp:374
 msgid ""
@@ -316,9 +344,13 @@ msgid "/etc/resolv.conf was not updated: failed to create temporary file"
 msgstr ""
 "/etc/resolv.conf uppdaterades inte: misslyckades att skapa en temporärfil"
 
-#: ../network-scripts/ifup-routes:6
+#: ../network-scripts/ifup-routes:8
 msgid "usage: ifup-routes <net-device> [<nickname>]"
 msgstr "användning: ifup-routes <nätverksenhet> [<smeknamn>]"
+
+#: ../network-scripts/ifup-routes:26 ../network-scripts/ifup-routes:47
+msgid "Failed to add route ${line}, using ip route replace instead."
+msgstr ""
 
 #: ../network-scripts/ifup-sit:63
 msgid "Missing remote IPv4 address of tunnel, configuration is not valid"
@@ -336,7 +368,7 @@ msgstr "Ogiltig tunneltyp $TYPE"
 msgid "Usage: $0 {start|stop|reload|restart|showsysctl}"
 msgstr "Användning: $0 {start|stop|reload|restart|showsysctl}"
 
-#: ../network-scripts/network-functions:401
+#: ../network-scripts/network-functions:405
 msgid ""
 "Both 'DHCP_HOSTNAME=${DHCP_HOSTNAME}' and 'DHCP_FQDN=${DHCP_FQDN}' are "
 "configured... Using DHCP_FQDN."
@@ -344,61 +376,61 @@ msgstr ""
 "Både ”DHCP_HOSTNAME=${DHCP_HOSTNAME}” och ”DHCP_FQDN=${DHCP_FQDN}” är "
 "konfigurerade … Använder DHCP_FQDN."
 
-#: ../network-scripts/network-functions:569
+#: ../network-scripts/network-functions:581
 msgid "Failed to set value '$value' [mode] to ${DEVICE} bonding device"
 msgstr ""
 "Misslyckades att sätta värdet ”$value” [mode] till bindningsenheten ${DEVICE}"
 
-#: ../network-scripts/network-functions:575
+#: ../network-scripts/network-functions:587
 msgid "Failed to set value '$value' [miimon] to ${DEVICE} bonding device"
 msgstr ""
 "Misslyckades att sätta värdet ”$value” [miimon] till bindningsenheten "
 "${DEVICE}"
 
-#: ../network-scripts/network-functions:595
+#: ../network-scripts/network-functions:607
 msgid ""
 "Failed to set '$arp_ip' value [arp_ip_target] to ${DEVICE} bonding device"
 msgstr ""
 "Misslyckades att sätta värdet ”$arp_ip” [arp_ip_target] till "
 "bindningsenheten ${DEVICE}"
 
-#: ../network-scripts/network-functions:603
+#: ../network-scripts/network-functions:615
 msgid ""
 "Failed to set '$value' value [arp_ip_target] to ${DEVICE} bonding device"
 msgstr ""
 "Misslyckades att sätta värdet ”$value” [arp_ip_target] till bindningsenheten "
 "${DEVICE}"
 
-#: ../network-scripts/network-functions:608
+#: ../network-scripts/network-functions:620
 msgid "Failed to set '$value' value [$key] to ${DEVICE} bonding device"
 msgstr ""
 "Misslyckades att sätta värdet ”$value” [$key] till bindningsenheten ${DEVICE}"
 
-#: ../network-scripts/network-functions:681
+#: ../network-scripts/network-functions:696
 msgid "DEBUG     "
 msgstr "FELSÖK     "
 
-#: ../network-scripts/network-functions:684
+#: ../network-scripts/network-functions:699
 msgid "ERROR     "
 msgstr "FEL     "
 
-#: ../network-scripts/network-functions:687
+#: ../network-scripts/network-functions:702
 msgid "WARN      "
 msgstr "VARNING      "
 
-#: ../network-scripts/network-functions:690
+#: ../network-scripts/network-functions:705
 msgid "INFO      "
 msgstr "INFO      "
 
-#: ../network-scripts/network-functions-ipv6:56
+#: ../network-scripts/network-functions-ipv6:58
 msgid "Missing parameter 'IPv6-network' (arg 1)"
 msgstr "Parametern \"IPv6-nätverk\" (arg 1) saknas"
 
-#: ../network-scripts/network-functions-ipv6:61
+#: ../network-scripts/network-functions-ipv6:63
 msgid "Missing parameter 'IPv6-gateway' (arg 2)"
 msgstr "Parametern \"IPv6-gateway\" (arg 2) saknas"
 
-#: ../network-scripts/network-functions-ipv6:86
+#: ../network-scripts/network-functions-ipv6:88
 msgid ""
 "'No route to host' adding route '$networkipv6' via gateway '$gatewayipv6' "
 "through device '$device'"
@@ -406,82 +438,82 @@ msgstr ""
 "\"Ingen rutt till värd\" vid tillägg av rutten \"$networkipv6\" via "
 "gatewayen \"$gatewayipv6\" genom enheten \"$device\""
 
-#: ../network-scripts/network-functions-ipv6:89
+#: ../network-scripts/network-functions-ipv6:91
 msgid "Unknown error"
 msgstr "Okänt fel"
 
-#: ../network-scripts/network-functions-ipv6:114
+#: ../network-scripts/network-functions-ipv6:116
 msgid "Tunnel device 'sit0' enabling didn't work"
 msgstr "Aktivering av tunnelenheten \"sit0\" fungerade inte"
 
-#: ../network-scripts/network-functions-ipv6:140
-#: ../network-scripts/network-functions-ipv6:203
-#: ../network-scripts/network-functions-ipv6:232
-#: ../network-scripts/network-functions-ipv6:312
-#: ../network-scripts/network-functions-ipv6:427
-#: ../network-scripts/network-functions-ipv6:489
-#: ../network-scripts/network-functions-ipv6:523
-#: ../network-scripts/network-functions-ipv6:565
-#: ../network-scripts/network-functions-ipv6:643
-#: ../network-scripts/network-functions-ipv6:701
-#: ../network-scripts/network-functions-ipv6:754
-#: ../network-scripts/network-functions-ipv6:793
-#: ../network-scripts/network-functions-ipv6:921
-#: ../network-scripts/network-functions-ipv6:1054
+#: ../network-scripts/network-functions-ipv6:142
+#: ../network-scripts/network-functions-ipv6:205
+#: ../network-scripts/network-functions-ipv6:234
+#: ../network-scripts/network-functions-ipv6:314
+#: ../network-scripts/network-functions-ipv6:429
+#: ../network-scripts/network-functions-ipv6:491
+#: ../network-scripts/network-functions-ipv6:525
+#: ../network-scripts/network-functions-ipv6:567
+#: ../network-scripts/network-functions-ipv6:645
+#: ../network-scripts/network-functions-ipv6:703
+#: ../network-scripts/network-functions-ipv6:756
+#: ../network-scripts/network-functions-ipv6:795
+#: ../network-scripts/network-functions-ipv6:923
+#: ../network-scripts/network-functions-ipv6:1056
 msgid "Missing parameter 'device' (arg 1)"
 msgstr "Parametern \"enhet\" saknas (arg 1)"
 
-#: ../network-scripts/network-functions-ipv6:145
+#: ../network-scripts/network-functions-ipv6:147
 msgid "Missing parameter 'IPv6-address' (arg 2)"
 msgstr "Parametern \"IPv6-adress\" (arg 2) saknas"
 
-#: ../network-scripts/network-functions-ipv6:159
+#: ../network-scripts/network-functions-ipv6:161
 msgid "Device '$device' doesn't exist"
 msgstr "Enheten \"$device\" finns inte"
 
-#: ../network-scripts/network-functions-ipv6:165
+#: ../network-scripts/network-functions-ipv6:167
 msgid "Device '$device' enabling didn't work"
 msgstr "Aktivering av enheten \"$device\" fungerade inte"
 
-#: ../network-scripts/network-functions-ipv6:186
+#: ../network-scripts/network-functions-ipv6:188
 msgid "Cannot add IPv6 address '$address' on dev '$device'"
 msgstr "Kan inte lägga till IPv6-adressen \"$address\" på enheten \"$device\""
 
-#: ../network-scripts/network-functions-ipv6:343
+#: ../network-scripts/network-functions-ipv6:345
 msgid "Missing parameter 'IPv4 address' (arg 1)"
 msgstr "Parametern \"IPv4-adress\" (arg 1) saknas"
 
-#: ../network-scripts/network-functions-ipv6:383
+#: ../network-scripts/network-functions-ipv6:385
 msgid "Missing parameter 'address' (arg 1)"
 msgstr "Parametern \"adress\" (arg 1) saknas"
 
-#: ../network-scripts/network-functions-ipv6:394
+#: ../network-scripts/network-functions-ipv6:396
 msgid "Given address '$addr' is not a global IPv4 one (arg 1)"
 msgstr "Angivna adressen \"$addr\" är inte en global IPv4-adress (arg 1)"
 
-#: ../network-scripts/network-functions-ipv6:398
+#: ../network-scripts/network-functions-ipv6:400
 msgid "Given address '$addr' is not a valid IPv4 one (arg 1)"
 msgstr "Angivna adressen \"$addr\" är inte en giltig IPv4-adress (arg 1)"
 
-#: ../network-scripts/network-functions-ipv6:432
+#: ../network-scripts/network-functions-ipv6:434
 msgid "Missing parameter 'global IPv4 address' (arg 2)"
 msgstr "Parametern \"global IPv4-adress\" (arg 2) saknas"
 
-#: ../network-scripts/network-functions-ipv6:438
-#: ../network-scripts/network-functions-ipv6:495
-#: ../network-scripts/network-functions-ipv6:534
+#: ../network-scripts/network-functions-ipv6:440
+#: ../network-scripts/network-functions-ipv6:497
+#: ../network-scripts/network-functions-ipv6:536
 msgid "Given device '$device' is not supported (arg 1)"
 msgstr "Angivna enheten \"$device\" stöds inte (arg 1)"
 
-#: ../network-scripts/network-functions-ipv6:528
+#: ../network-scripts/network-functions-ipv6:530
 msgid "Missing parameter 'local IPv4 address' (arg 2)"
 msgstr "Parametern \"lokal IPv4-adress\" (arg 2) saknas"
 
-#: ../network-scripts/network-functions-ipv6:570
+#: ../network-scripts/network-functions-ipv6:572
 msgid "Missing parameter 'IPv4-tunnel address' (arg 2)"
 msgstr "Parametern \"IPv4-tunneladress\" (arg 2) saknas"
 
-#: ../network-scripts/network-functions-ipv6:590
+#: ../network-scripts/network-functions-ipv6:592
 msgid ""
 "Given remote address '$addressipv4tunnel' on tunnel device '$device' is "
 "already configured on device '$devnew'"
@@ -489,44 +521,44 @@ msgstr ""
 "Angivna fjärradressen \"$addressipv4tunnel\" på tunnlingsenheten \"$device\" "
 "är redan konfigurerad på enheten \"$devnew\""
 
-#: ../network-scripts/network-functions-ipv6:603
+#: ../network-scripts/network-functions-ipv6:605
 msgid "Tunnel device '$device' creation didn't work"
 msgstr "Skapande av tunnlingsenheten \"$device\" lyckades inte"
 
-#: ../network-scripts/network-functions-ipv6:610
+#: ../network-scripts/network-functions-ipv6:612
 msgid "Tunnel device '$device' bringing up didn't work"
 msgstr "Uppsättning av tunnlingsenheten \"$device\" fungerade inte"
 
-#: ../network-scripts/network-functions-ipv6:706
+#: ../network-scripts/network-functions-ipv6:708
 msgid "Missing parameter 'selection' (arg 2)"
 msgstr "Parametern \"urval\" saknas (arg 2)"
 
-#: ../network-scripts/network-functions-ipv6:710
+#: ../network-scripts/network-functions-ipv6:712
 msgid "Unsupported selection '$selection' specified (arg 2)"
 msgstr "Urvalet \"$selection\" stöds inte (arg 2)"
 
-#: ../network-scripts/network-functions-ipv6:798
+#: ../network-scripts/network-functions-ipv6:800
 msgid "Missing parameter 'IPv6 MTU' (arg 2)"
 msgstr "Parametern \"IPv6-MTU\" (arg 2) saknas"
 
-#: ../network-scripts/network-functions-ipv6:804
+#: ../network-scripts/network-functions-ipv6:806
 msgid "Given IPv6 MTU '$ipv6_mtu' is out of range"
 msgstr "Angiven IPv6-MTU \"$ipv6_mtu\" är utanför intervallet"
 
-#: ../network-scripts/network-functions-ipv6:841
+#: ../network-scripts/network-functions-ipv6:843
 msgid "Given IPv6 default gateway '$address' is not in proper format"
 msgstr "Angivna IPv6-standardgatewayen \"$address\" är inte i korrekt format"
 
-#: ../network-scripts/network-functions-ipv6:847
+#: ../network-scripts/network-functions-ipv6:849
 msgid ""
 "Given IPv6 default gateway '$address' has scope '$device_scope' defined, "
 "given default gateway device '$device' will be not used"
 msgstr ""
-"Angivna IPv6-standardgatewayen \"$address\" har omfattningen \"$device_scope"
-"\" angiven, angivna standardgatewayenheten \"$device\" kommer inte att "
-"användas"
+"Angivna IPv6-standardgatewayen \"$address\" har omfattningen "
+"\"$device_scope\" angiven, angivna standardgatewayenheten \"$device\" kommer "
+"inte att användas"
 
-#: ../network-scripts/network-functions-ipv6:855
+#: ../network-scripts/network-functions-ipv6:857
 msgid ""
 "Given IPv6 default gateway '$address' is link-local, but no scope or gateway "
 "device is specified"
@@ -534,53 +566,53 @@ msgstr ""
 "Angivna IPv6-standardgatewayen \"$address\" är lokal för länken, men ingen "
 "omfattning eller gatewayenhet är angiven"
 
-#: ../network-scripts/network-functions-ipv6:895
+#: ../network-scripts/network-functions-ipv6:897
 msgid "Given IPv6 default device '$device' requires an explicit nexthop"
 msgstr "Angivna IPv6-standardenheten \"$device\" kräver en explicit nexthop"
 
-#: ../network-scripts/network-functions-ipv6:898
+#: ../network-scripts/network-functions-ipv6:900
 msgid "Given IPv6 default device '$device' doesn't exist or isn't up"
 msgstr "Angivna IPv6-standardenheten \"$device\" finns inte eller är inte uppe"
 
-#: ../network-scripts/network-functions-ipv6:904
+#: ../network-scripts/network-functions-ipv6:906
 msgid "No parameters given to setup a default route"
 msgstr "Inga parametrar angivna för att konfigurera en standardrutt"
 
-#: ../network-scripts/network-functions-ipv6:959
+#: ../network-scripts/network-functions-ipv6:961
 msgid "No reason given for sending trigger to radvd"
 msgstr "Ingen orsak angiven för att skicka trigger till radvd"
 
-#: ../network-scripts/network-functions-ipv6:964
+#: ../network-scripts/network-functions-ipv6:966
 msgid "Unsupported reason '$reason' for sending trigger to radvd"
 msgstr "Orsaken \"$reason\" stöds inte vid skickande av trigger till radvd"
 
-#: ../network-scripts/network-functions-ipv6:993
+#: ../network-scripts/network-functions-ipv6:995
 msgid "Unsupported mechanism '$mechanism' for sending trigger to radvd"
 msgstr ""
 "Mekanismen \"$mechanism\" stöds inte vid skickande av trigger till radvd"
 
-#: ../network-scripts/network-functions-ipv6:1005
+#: ../network-scripts/network-functions-ipv6:1007
 msgid "Given pidfile '$pidfile' doesn't exist, cannot send trigger to radvd"
 msgstr ""
 "Angivna pidfilen \"$pidfile\" finns inte, kan inte skicka trigger till radvd"
 
-#: ../network-scripts/network-functions-ipv6:1014
+#: ../network-scripts/network-functions-ipv6:1016
 msgid "Pidfile '$pidfile' is empty, cannot send trigger to radvd"
 msgstr "Pidfilen \"$pidfile\" är tom, kan inte skicka trigger till radvd"
 
-#: ../network-scripts/network-functions-ipv6:1031
+#: ../network-scripts/network-functions-ipv6:1033
 msgid "radvd not (properly) installed, triggering failed"
 msgstr "radvd är inte (korrekt) installerat, triggande misslyckades"
 
-#: ../network-scripts/network-functions-ipv6:1066
+#: ../network-scripts/network-functions-ipv6:1068
 msgid "Duplicate Address Detection: Duplicate addresses detected"
 msgstr "Detektering av dubblettadresser: dubblerade adresser upptäckta"
 
-#: ../network-scripts/network-functions-ipv6:1067
+#: ../network-scripts/network-functions-ipv6:1069
 msgid "Duplicate Address Detection: Please, fix your network configuration"
 msgstr "Detektering av dubblettadresser: rätta din nätverkskonfiguration"
 
-#: ../network-scripts/network-functions-ipv6:1071
+#: ../network-scripts/network-functions-ipv6:1073
 msgid ""
 "Waiting for interface ${device} IPv6 address(es) to leave the 'tentative' "
 "state"
@@ -588,29 +620,45 @@ msgstr ""
 "Väntar på att IPv6-adresser till gränssnittet ${device} skall lämna "
 "tillståndet ”tentative”"
 
-#: ../network-scripts/network-functions-ipv6:1079
+#: ../network-scripts/network-functions-ipv6:1081
 msgid "Some IPv6 address(es) of ${device} remain still in 'tentative' state"
 msgstr ""
 "Några IPv6-adresser till ${device} finns kvar i tillståndet ”tentative”"
 
-#: ../network-scripts/network-functions-ipv6:1080
-msgid "Run 'ip -6 addr show dev ${device} scope global tentative' to see more"
+#: ../network-scripts/network-functions-ipv6:1082
+#, fuzzy
+#| msgid ""
+#| "Run 'ip -6 addr show dev ${device} scope global tentative' to see more"
+msgid "Run 'ip -6 addr show dev ${device} tentative' for more info"
 msgstr ""
 "Kör 'ip -6 addr show dev ${device} scope global tentative' för att se mer"
 
-#: ../usr/sbin/service:95
+#: ../usr/sbin/service:50 ../usr/sbin/service:66
+msgid "Support for initscripts isn't installed"
+msgstr ""
+
+#: ../usr/sbin/service:108
+#, fuzzy
+#| msgid ""
+#| "Redirecting to /bin/systemctl ${ACTION}${OPTIONS:+ }${OPTIONS} "
+#| "${SERVICE_MANGLED}"
 msgid ""
-"Redirecting to /bin/systemctl ${ACTION}${OPTIONS:+ }${OPTIONS} "
-"${SERVICE_MANGLED}"
+"Redirecting to /bin/systemctl ${ACTION} ${SERVICE_MANGLED}${OPTIONS:"
+"+ }${OPTIONS}"
 msgstr ""
 "Dirigerar om till /bin/systemctl ${ACTION}${OPTIONS:+ }${OPTIONS} "
 "${SERVICE_MANGLED}"
 
-#: ../usr/sbin/service:98
+#: ../usr/sbin/service:111
+#, fuzzy
+#| msgid ""
+#| "The service command supports only basic LSB actions (start, stop, "
+#| "restart, try-restart, reload, force-reload, status). For other actions, "
+#| "please try to use systemctl."
 msgid ""
 "The service command supports only basic LSB actions (start, stop, restart, "
-"try-restart, reload, force-reload, status). For other actions, please try to "
-"use systemctl."
+"try-restart, reload, reload-or-restart, try-reload-or-restart, force-reload, "
+"status, condrestart). For other actions, please try to use systemctl."
 msgstr ""
 "Kommandot service stödjer bara grundläggande LSB-åtgärder (start, stop, "
 "restart, try-restart, reload, force-reload, status). För andra åtgärder, "
@@ -644,17 +692,17 @@ msgstr "$0: Användning: daemon [+/-nicenivå] {program}"
 msgid "$base startup"
 msgstr "uppstart av $base"
 
-#: ../etc/rc.d/init.d/functions:314 ../etc/rc.d/init.d/functions:333
-msgid "Usage: killproc [-p pidfile] [ -d delay] {program} [-signal]"
+#: ../etc/rc.d/init.d/functions:314 ../etc/rc.d/init.d/functions:324
+#: ../etc/rc.d/init.d/functions:333
+#, fuzzy
+#| msgid "Usage: killproc [-p pidfile] [ -d delay] {program} [-signal]"
+msgid ""
+"Usage: killproc [-p {pidfile} [-b {binary}]] [-d {delay}] {program} [-signal]"
 msgstr "Användning: killproc [-p pidfil] [ -d fördröjning] {program} [-signal]"
 
 #: ../etc/rc.d/init.d/functions:323 ../etc/rc.d/init.d/functions:450
 msgid "-b option can be used only with -p"
 msgstr "flaggan -b kan bara användas med -p"
-
-#: ../etc/rc.d/init.d/functions:324
-msgid "Usage: killproc -p pidfile -b binary program"
-msgstr "Användning: killproc -p pidfil -b binärprogram"
 
 #: ../etc/rc.d/init.d/functions:353 ../etc/rc.d/init.d/functions:363
 #: ../etc/rc.d/init.d/functions:378
@@ -670,15 +718,15 @@ msgid "Usage: pidfileofproc {program}"
 msgstr "Användning: pidfileofproc {program}"
 
 #: ../etc/rc.d/init.d/functions:411
-msgid "Usage: pidofproc [-p pidfile] {program}"
+#, fuzzy
+#| msgid "Usage: pidofproc [-p pidfile] {program}"
+msgid "Usage: pidofproc [-p {pidfile}] {program}"
 msgstr "Användning: pidofproc [-p pidfil] {program}"
 
-#: ../etc/rc.d/init.d/functions:437
-msgid "Usage: status [-p pidfile] {program}"
-msgstr "Användning: status [-p pidfil] {program}"
-
-#: ../etc/rc.d/init.d/functions:451
-msgid "Usage: status -p pidfile -b binary program"
+#: ../etc/rc.d/init.d/functions:437 ../etc/rc.d/init.d/functions:451
+#, fuzzy
+#| msgid "Usage: status -p pidfile -b binary program"
+msgid "Usage: status [-p {pidfile}] [-l {lockfile}] [-b {binary}] {program}"
 msgstr "Användning: status -p pidfil -b binärprogram"
 
 #: ../etc/rc.d/init.d/functions:478 ../etc/rc.d/init.d/functions:484
@@ -756,7 +804,8 @@ msgstr ""
 #: ../etc/rc.d/init.d/network:178
 msgid ""
 "Target is not reachable, but timeout was already reached. Continuing anyway."
-msgstr "Målet kan inte nås, men tidsgränsen var redan uppnådd. Fortsätter ändå."
+msgstr ""
+"Målet kan inte nås, men tidsgränsen var redan uppnådd. Fortsätter ändå."
 
 #: ../etc/rc.d/init.d/network:189
 msgid "rootfs or /usr is on network filesystem, leaving network up"
@@ -785,6 +834,12 @@ msgstr "Aktiva enheter:"
 #: ../etc/rc.d/init.d/network:280
 msgid "Usage: $0 {start|stop|status|restart|force-reload}"
 msgstr "Användning: $0 {start|stop|status|restart|force-reload}"
+
+#~ msgid "Usage: killproc -p pidfile -b binary program"
+#~ msgstr "Användning: killproc -p pidfil -b binärprogram"
+
+#~ msgid "Usage: status [-p pidfile] {program}"
+#~ msgstr "Användning: status [-p pidfil] {program}"
 
 #~ msgid "Server address not specified in /etc/sysconfig/netconsole"
 #~ msgstr "Serveradress ej angiven i /etc/sysconfig/netconsole"
