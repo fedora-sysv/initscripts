@@ -7,21 +7,22 @@
 # Göran Uddeborg <goeran@uddeborg.se>, 2015. #zanata, 2020.
 # Göran Uddeborg <goeran@uddeborg.se>, 2017. #zanata, 2020.
 # Anders Jonsson <anders.jonsson@norsjovallen.se>, 2021.
+# Luna Jernberg <bittin@reimu.nl>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2021-07-02 01:04+0000\n"
-"Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
-"Language-Team: Swedish <https://translate.fedoraproject.org/projects/fedora-"
-"sysv/initscripts/sv/>\n"
+"PO-Revision-Date: 2023-07-03 11:47+0000\n"
+"Last-Translator: Luna Jernberg <bittin@reimu.nl>\n"
+"Language-Team: Swedish <https://translate.fedoraproject.org/projects/"
+"fedora-sysv/initscripts/sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.7.1\n"
+"X-Generator: Weblate 4.18.2\n"
 
 #: ../network-scripts/ifdown:15 ../network-scripts/ifdown:22
 msgid "usage: ifdown <configuration>"
@@ -144,15 +145,11 @@ msgid "error in ifcfg-${parent_device}: files"
 msgstr "fel i ifcfg-${parent_device}:-filer"
 
 #: ../network-scripts/ifup-aliases:269
-#, fuzzy
-#| msgid ""
-#| "Determining if ip address ${IPADDR} is already in use for device "
-#| "${parent_device}..."
 msgid ""
 "Determining if IP address ${IPADDR} is already in use for device "
 "${parent_device}…"
 msgstr ""
-"Avgör om ip-adressen ${IPADDR} används redan för enhetn ${parent_device}…"
+"Avgör om IP-adressen ${IPADDR} redan används för enheten ${parent_device}…"
 
 #: ../network-scripts/ifup-aliases:273
 msgid "Error, some other host ($ARPINGMAC) already uses address ${IPADDR}."
@@ -177,7 +174,7 @@ msgstr ""
 
 #: ../network-scripts/ifup-eth:51
 msgid "cannot create veth without peer"
-msgstr ""
+msgstr "kan inte skapa veth utan peer"
 
 #: ../network-scripts/ifup-eth:127
 msgid "Device name does not seem to be present."
@@ -231,15 +228,15 @@ msgstr "Bestämmer IPv6-information för ${DEVICE}…"
 
 #: ../network-scripts/ifup-ippp:33
 msgid "ipppd does not exist or is not executable"
-msgstr ""
+msgstr "ipppd finns inte eller är inte körbar"
 
 #: ../network-scripts/ifup-ippp:40
 msgid "isdnctrl does not exist or is not executable"
-msgstr ""
+msgstr "isdnctrl finns inte eller är inte körbar"
 
 #: ../network-scripts/ifup-ippp:46
 msgid "cannot list ISDN devices"
-msgstr ""
+msgstr "kan inte lista ISDN enheter"
 
 #: ../network-scripts/ifup-ippp:55 ../network-scripts/ifup-ippp:60
 msgid "$*"
@@ -247,11 +244,11 @@ msgstr "$*"
 
 #: ../network-scripts/ifup-ippp:343
 msgid "ip addr add $IPADDR peer $GATEWAY${pfx:/$pfx} dev $DEVICE"
-msgstr ""
+msgstr "ip addr add $IPADDR peer $GATEWAY${pfx:/$pfx} dev $DEVICE"
 
 #: ../network-scripts/ifup-ippp:349
 msgid "ipppd $options $netmask"
-msgstr ""
+msgstr "ipppd $options $netmask"
 
 #: ../network-scripts/ifup-ippp:374
 msgid ""
@@ -351,6 +348,7 @@ msgstr "användning: ifup-routes <nätverksenhet> [<smeknamn>]"
 #: ../network-scripts/ifup-routes:26 ../network-scripts/ifup-routes:47
 msgid "Failed to add route ${line}, using ip route replace instead."
 msgstr ""
+"Misslyckades tt lägga till rutt ${line}, använd ip route replace istället."
 
 #: ../network-scripts/ifup-sit:63
 msgid "Missing remote IPv4 address of tunnel, configuration is not valid"
@@ -626,43 +624,31 @@ msgstr ""
 "Några IPv6-adresser till ${device} finns kvar i tillståndet ”tentative”"
 
 #: ../network-scripts/network-functions-ipv6:1082
-#, fuzzy
-#| msgid ""
-#| "Run 'ip -6 addr show dev ${device} scope global tentative' to see more"
 msgid "Run 'ip -6 addr show dev ${device} tentative' for more info"
-msgstr ""
-"Kör 'ip -6 addr show dev ${device} scope global tentative' för att se mer"
+msgstr "Kör 'ip -6 addr show dev ${device} tentative' för mer information"
 
 #: ../usr/sbin/service:50 ../usr/sbin/service:66
 msgid "Support for initscripts isn't installed"
-msgstr ""
+msgstr "Stöd för initscripts är inte installerat"
 
 #: ../usr/sbin/service:108
-#, fuzzy
-#| msgid ""
-#| "Redirecting to /bin/systemctl ${ACTION}${OPTIONS:+ }${OPTIONS} "
-#| "${SERVICE_MANGLED}"
 msgid ""
 "Redirecting to /bin/systemctl ${ACTION} ${SERVICE_MANGLED}${OPTIONS:"
 "+ }${OPTIONS}"
 msgstr ""
-"Dirigerar om till /bin/systemctl ${ACTION}${OPTIONS:+ }${OPTIONS} "
-"${SERVICE_MANGLED}"
+"Dirigerar till /bin/systemctl ${ACTION} ${SERVICE_MANGLED}${OPTIONS:+ "
+"}${OPTIONS}"
 
 #: ../usr/sbin/service:111
-#, fuzzy
-#| msgid ""
-#| "The service command supports only basic LSB actions (start, stop, "
-#| "restart, try-restart, reload, force-reload, status). For other actions, "
-#| "please try to use systemctl."
 msgid ""
 "The service command supports only basic LSB actions (start, stop, restart, "
 "try-restart, reload, reload-or-restart, try-reload-or-restart, force-reload, "
 "status, condrestart). For other actions, please try to use systemctl."
 msgstr ""
 "Kommandot service stödjer bara grundläggande LSB-åtgärder (start, stop, "
-"restart, try-restart, reload, force-reload, status). För andra åtgärder, "
-"prova att använda systemctl."
+"restart, try-restart, reload, reload-or-restart, try-reload-or-restart,force-"
+"reload, status, condrestart). För andra åtgärder, prova att använda "
+"systemctl."
 
 #: ../etc/rc.d/init.d/functions:33
 msgid "Starting $prog (via systemctl): "
@@ -694,11 +680,11 @@ msgstr "uppstart av $base"
 
 #: ../etc/rc.d/init.d/functions:314 ../etc/rc.d/init.d/functions:324
 #: ../etc/rc.d/init.d/functions:333
-#, fuzzy
-#| msgid "Usage: killproc [-p pidfile] [ -d delay] {program} [-signal]"
 msgid ""
 "Usage: killproc [-p {pidfile} [-b {binary}]] [-d {delay}] {program} [-signal]"
-msgstr "Användning: killproc [-p pidfil] [ -d fördröjning] {program} [-signal]"
+msgstr ""
+"Användning: killproc [-p {pidfile} [-b {binary}]] [-d {delay}] {program} "
+"[-signal]"
 
 #: ../etc/rc.d/init.d/functions:323 ../etc/rc.d/init.d/functions:450
 msgid "-b option can be used only with -p"
@@ -718,16 +704,13 @@ msgid "Usage: pidfileofproc {program}"
 msgstr "Användning: pidfileofproc {program}"
 
 #: ../etc/rc.d/init.d/functions:411
-#, fuzzy
-#| msgid "Usage: pidofproc [-p pidfile] {program}"
 msgid "Usage: pidofproc [-p {pidfile}] {program}"
-msgstr "Användning: pidofproc [-p pidfil] {program}"
+msgstr "Användning: pidofproc [-p {pidfile}] {program}"
 
 #: ../etc/rc.d/init.d/functions:437 ../etc/rc.d/init.d/functions:451
-#, fuzzy
-#| msgid "Usage: status -p pidfile -b binary program"
 msgid "Usage: status [-p {pidfile}] [-l {lockfile}] [-b {binary}] {program}"
-msgstr "Användning: status -p pidfil -b binärprogram"
+msgstr ""
+"Användning: status [-p {pidfile}] [-l {lockfile}] [-b {binary}] {program}"
 
 #: ../etc/rc.d/init.d/functions:478 ../etc/rc.d/init.d/functions:484
 msgid "${base} (pid $pid) is running..."
