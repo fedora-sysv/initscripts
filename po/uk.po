@@ -1,15 +1,15 @@
 # Translators:
 # Dimitris Glezos <glezos@indifex.com>, 2011
 # Maxim Dziumanenko <dziumanenko@gmail.com>, 2003
-# Yuri Chornoivan <yurchor@ukr.net>, 2011, 2012, 2020.
-# Yuri Chornoivan <yurchor@ukr.net>, 2015. #zanata, 2020.
-# Yuri Chornoivan <yurchor@ukr.net>, 2017. #zanata, 2020.
+# Yuri Chornoivan <yurchor@ukr.net>, 2011, 2012, 2020, 2023.
+# Yuri Chornoivan <yurchor@ukr.net>, 2015. #zanata, 2020, 2023.
+# Yuri Chornoivan <yurchor@ukr.net>, 2017. #zanata, 2020, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2020-03-25 15:36+0000\n"
+"PO-Revision-Date: 2023-07-03 11:47+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://translate.fedoraproject.org/projects/"
 "fedora-sysv/initscripts/uk/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 3.11.3\n"
+"X-Generator: Weblate 4.18.2\n"
 
 #: ../network-scripts/ifdown:15 ../network-scripts/ifdown:22
 msgid "usage: ifdown <configuration>"
@@ -143,16 +143,12 @@ msgid "error in ifcfg-${parent_device}: files"
 msgstr "помилка в ifcfg-${parent_device}: файли"
 
 #: ../network-scripts/ifup-aliases:269
-#, fuzzy
-#| msgid ""
-#| "Determining if ip address ${IPADDR} is already in use for device "
-#| "${parent_device}..."
 msgid ""
 "Determining if IP address ${IPADDR} is already in use for device "
 "${parent_device}…"
 msgstr ""
 "Визначаємо, чи використовується вже IP-адреса ${IPADDR} для пристрою "
-"${parent_device}..."
+"${parent_device}…"
 
 #: ../network-scripts/ifup-aliases:273
 msgid "Error, some other host ($ARPINGMAC) already uses address ${IPADDR}."
@@ -177,7 +173,7 @@ msgstr "Пристрій ${DEVICE} має іншу MAC адресу, ніж оч
 
 #: ../network-scripts/ifup-eth:51
 msgid "cannot create veth without peer"
-msgstr ""
+msgstr "неможливо створити veth без вузла"
 
 #: ../network-scripts/ifup-eth:127
 msgid "Device name does not seem to be present."
@@ -232,15 +228,15 @@ msgstr "Визначаємо інформацію IPv6 для ${DEVICE}..."
 
 #: ../network-scripts/ifup-ippp:33
 msgid "ipppd does not exist or is not executable"
-msgstr ""
+msgstr "ipppd не існує або файл не є виконуваним"
 
 #: ../network-scripts/ifup-ippp:40
 msgid "isdnctrl does not exist or is not executable"
-msgstr ""
+msgstr "isdnctrl не існує або файл не є виконуваним"
 
 #: ../network-scripts/ifup-ippp:46
 msgid "cannot list ISDN devices"
-msgstr ""
+msgstr "не вдалося побудувати список пристроїв ISDN"
 
 #: ../network-scripts/ifup-ippp:55 ../network-scripts/ifup-ippp:60
 msgid "$*"
@@ -248,11 +244,11 @@ msgstr "$*"
 
 #: ../network-scripts/ifup-ippp:343
 msgid "ip addr add $IPADDR peer $GATEWAY${pfx:/$pfx} dev $DEVICE"
-msgstr ""
+msgstr "додавання ip-адреси $IPADDR вузла $GATEWAY${pfx:/$pfx} пристрій $DEVICE"
 
 #: ../network-scripts/ifup-ippp:349
 msgid "ipppd $options $netmask"
-msgstr ""
+msgstr "ipppd $options $netmask"
 
 #: ../network-scripts/ifup-ippp:374
 msgid ""
@@ -349,6 +345,8 @@ msgstr "використання: ifup-routes <мережний-пристрій
 #: ../network-scripts/ifup-routes:26 ../network-scripts/ifup-routes:47
 msgid "Failed to add route ${line}, using ip route replace instead."
 msgstr ""
+"Не вдалося додати маршрут ${line}, використовуємо замість нього замінник, "
+"ip-маршрут."
 
 #: ../network-scripts/ifup-sit:63
 msgid "Missing remote IPv4 address of tunnel, configuration is not valid"
@@ -631,44 +629,32 @@ msgid "Some IPv6 address(es) of ${device} remain still in 'tentative' state"
 msgstr "Деякі з адрес IPv6 ${device} лишаються у стані «tentative»"
 
 #: ../network-scripts/network-functions-ipv6:1082
-#, fuzzy
-#| msgid ""
-#| "Run 'ip -6 addr show dev ${device} scope global tentative' to see more"
 msgid "Run 'ip -6 addr show dev ${device} tentative' for more info"
 msgstr ""
-"Віддайте команду 'ip -6 addr show dev ${device} scope global tentative', щоб "
-"переглянути докладніші відомості"
+"Віддайте команду 'ip -6 addr show dev ${device} tentative', щоб переглянути "
+"докладніші відомості"
 
 #: ../usr/sbin/service:50 ../usr/sbin/service:66
 msgid "Support for initscripts isn't installed"
-msgstr ""
+msgstr "Підтримку initscripts не встановлено"
 
 #: ../usr/sbin/service:108
-#, fuzzy
-#| msgid ""
-#| "Redirecting to /bin/systemctl ${ACTION}${OPTIONS:+ }${OPTIONS} "
-#| "${SERVICE_MANGLED}"
 msgid ""
 "Redirecting to /bin/systemctl ${ACTION} ${SERVICE_MANGLED}${OPTIONS:"
 "+ }${OPTIONS}"
 msgstr ""
-"Переспрямовуємо до /bin/systemctl ${ACTION}${OPTIONS:+ }${OPTIONS} "
-"${SERVICE_MANGLED}"
+"Переспрямовуємо до /bin/systemctl ${ACTION} ${SERVICE_MANGLED}${OPTIONS:+ "
+"}${OPTIONS}"
 
 #: ../usr/sbin/service:111
-#, fuzzy
-#| msgid ""
-#| "The service command supports only basic LSB actions (start, stop, "
-#| "restart, try-restart, reload, force-reload, status). For other actions, "
-#| "please try to use systemctl."
 msgid ""
 "The service command supports only basic LSB actions (start, stop, restart, "
 "try-restart, reload, reload-or-restart, try-reload-or-restart, force-reload, "
 "status, condrestart). For other actions, please try to use systemctl."
 msgstr ""
 "У команді служби передбачено лише базові дії LSB (start, stop, restart, try-"
-"restart, reload, force-reload, status). Інші дії можна виконати за допомогою "
-"systemctl."
+"restart, reload, reload-or-restart, try-reload-or-restart, force-reload, "
+"status, condrestart)). Інші дії можна виконати за допомогою systemctl."
 
 #: ../etc/rc.d/init.d/functions:33
 msgid "Starting $prog (via systemctl): "
@@ -700,12 +686,11 @@ msgstr "Запускається $base"
 
 #: ../etc/rc.d/init.d/functions:314 ../etc/rc.d/init.d/functions:324
 #: ../etc/rc.d/init.d/functions:333
-#, fuzzy
-#| msgid "Usage: killproc [-p pidfile] [ -d delay] {program} [-signal]"
 msgid ""
 "Usage: killproc [-p {pidfile} [-b {binary}]] [-d {delay}] {program} [-signal]"
 msgstr ""
-"Використання: killproc [-p pid-файл] [ -d затримка] {програма} [-signal]"
+"Користування: killproc [-p pid-файл] [-b {виконуваний файл}]] [-d {затримка}]"
+" {програма} [-сигнал]"
 
 #: ../etc/rc.d/init.d/functions:323 ../etc/rc.d/init.d/functions:450
 msgid "-b option can be used only with -p"
@@ -725,16 +710,14 @@ msgid "Usage: pidfileofproc {program}"
 msgstr "Використання: pidfileofproc {програма}"
 
 #: ../etc/rc.d/init.d/functions:411
-#, fuzzy
-#| msgid "Usage: pidofproc [-p pidfile] {program}"
 msgid "Usage: pidofproc [-p {pidfile}] {program}"
-msgstr "Використання: pidofproc [-p pid-файл] {програма}"
+msgstr "Використання: pidofproc [-p {pid-файл}] {програма}"
 
 #: ../etc/rc.d/init.d/functions:437 ../etc/rc.d/init.d/functions:451
-#, fuzzy
-#| msgid "Usage: status -p pidfile -b binary program"
 msgid "Usage: status [-p {pidfile}] [-l {lockfile}] [-b {binary}] {program}"
-msgstr "Користування: status -p файл-pid -b виконуваний-файл-програми"
+msgstr ""
+"Користування: status [-p {pid-файл}] [-l {lock-файл}] [-b {виконуваний файл}]"
+" {програма}"
 
 #: ../etc/rc.d/init.d/functions:478 ../etc/rc.d/init.d/functions:484
 msgid "${base} (pid $pid) is running..."
