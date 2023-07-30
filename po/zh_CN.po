@@ -8,13 +8,14 @@
 # Wei Liu <LLIU@REDHAT.COM>, 2012
 # Leah Liu <lliu@redhat.com>, 2016. #zanata
 # Charles Lee <lchopn@gmail.com>, 2020.
+# yangyangdaji <1504305527@qq.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2020-07-05 11:27+0000\n"
-"Last-Translator: Charles Lee <lchopn@gmail.com>\n"
+"PO-Revision-Date: 2023-07-30 10:21+0000\n"
+"Last-Translator: yangyangdaji <1504305527@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://translate.fedoraproject.org/"
 "projects/fedora-sysv/initscripts/zh_CN/>\n"
 "Language: zh_CN\n"
@@ -22,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.1.1\n"
+"X-Generator: Weblate 4.18.2\n"
 
 #: ../network-scripts/ifdown:15 ../network-scripts/ifdown:22
 msgid "usage: ifdown <configuration>"
@@ -138,14 +139,10 @@ msgid "error in ifcfg-${parent_device}: files"
 msgstr "ifcfg-${parent_device} 中: 文件出错"
 
 #: ../network-scripts/ifup-aliases:269
-#, fuzzy
-#| msgid ""
-#| "Determining if ip address ${IPADDR} is already in use for device "
-#| "${parent_device}..."
 msgid ""
 "Determining if IP address ${IPADDR} is already in use for device "
 "${parent_device}…"
-msgstr "正在为 ${parent_device} 检测 IP 地址 ${IPADDR} 是否正在被使用……"
+msgstr "正在为 ${parent_device} 检测 IP 地址 ${IPADDR} 是否正在被使用…"
 
 #: ../network-scripts/ifup-aliases:273
 msgid "Error, some other host ($ARPINGMAC) already uses address ${IPADDR}."
@@ -169,7 +166,7 @@ msgstr "设备 ${DEVICE} 的 MAC 地址与预期不符，忽略。"
 
 #: ../network-scripts/ifup-eth:51
 msgid "cannot create veth without peer"
-msgstr ""
+msgstr "没有 peer 就无法创建 veth"
 
 #: ../network-scripts/ifup-eth:127
 msgid "Device name does not seem to be present."
@@ -222,15 +219,15 @@ msgstr "正在确定 ${DEVICE} 的 IPv6 信息......"
 
 #: ../network-scripts/ifup-ippp:33
 msgid "ipppd does not exist or is not executable"
-msgstr ""
+msgstr "ipppd 不存在或无法执行"
 
 #: ../network-scripts/ifup-ippp:40
 msgid "isdnctrl does not exist or is not executable"
-msgstr ""
+msgstr "isdnctrl 不存在或无法执行"
 
 #: ../network-scripts/ifup-ippp:46
 msgid "cannot list ISDN devices"
-msgstr ""
+msgstr "无法列出 ISDN 设备"
 
 #: ../network-scripts/ifup-ippp:55 ../network-scripts/ifup-ippp:60
 msgid "$*"
@@ -238,11 +235,11 @@ msgstr "$*"
 
 #: ../network-scripts/ifup-ippp:343
 msgid "ip addr add $IPADDR peer $GATEWAY${pfx:/$pfx} dev $DEVICE"
-msgstr ""
+msgstr "ip addr 添加 $IPADDR peer $GATEWAY${pfx:/$pfx} dev $DEVICE"
 
 #: ../network-scripts/ifup-ippp:349
 msgid "ipppd $options $netmask"
-msgstr ""
+msgstr "ipppd $options $netmask"
 
 #: ../network-scripts/ifup-ippp:374
 msgid ""
@@ -328,7 +325,7 @@ msgstr "用法： ifup-routes <net-device> [<nickname>]"
 
 #: ../network-scripts/ifup-routes:26 ../network-scripts/ifup-routes:47
 msgid "Failed to add route ${line}, using ip route replace instead."
-msgstr ""
+msgstr "无法添加路由 ${line}，请改用 ip 路由替换。"
 
 #: ../network-scripts/ifup-sit:63
 msgid "Missing remote IPv4 address of tunnel, configuration is not valid"
@@ -589,40 +586,28 @@ msgid "Some IPv6 address(es) of ${device} remain still in 'tentative' state"
 msgstr "设备 ${device} 上的一些 IPv6 地址仍然处于 ‘tentative’ 状态"
 
 #: ../network-scripts/network-functions-ipv6:1082
-#, fuzzy
-#| msgid ""
-#| "Run 'ip -6 addr show dev ${device} scope global tentative' to see more"
 msgid "Run 'ip -6 addr show dev ${device} tentative' for more info"
-msgstr "运行 ‘ip -6 addr show dev ${device} scope global tentative’ 查看更多"
+msgstr "运行“ip -6 addr show dev ${device} tentative”以获取更多信息"
 
 #: ../usr/sbin/service:50 ../usr/sbin/service:66
 msgid "Support for initscripts isn't installed"
-msgstr ""
+msgstr "未安装对 initscripts 的支持"
 
 #: ../usr/sbin/service:108
-#, fuzzy
-#| msgid ""
-#| "Redirecting to /bin/systemctl ${ACTION}${OPTIONS:+ }${OPTIONS} "
-#| "${SERVICE_MANGLED}"
 msgid ""
 "Redirecting to /bin/systemctl ${ACTION} ${SERVICE_MANGLED}${OPTIONS:"
 "+ }${OPTIONS}"
-msgstr ""
-"重定向至 /bin/systemctl ${ACTION}${OPTIONS:+ }${OPTIONS} ${SERVICE_MANGLED}"
+msgstr "重定向至 /bin/systemctl ${ACTION} ${SERVICE_MANGLED}${OPTIONS:+ }${OPTIONS}"
 
 #: ../usr/sbin/service:111
-#, fuzzy
-#| msgid ""
-#| "The service command supports only basic LSB actions (start, stop, "
-#| "restart, try-restart, reload, force-reload, status). For other actions, "
-#| "please try to use systemctl."
 msgid ""
 "The service command supports only basic LSB actions (start, stop, restart, "
 "try-restart, reload, reload-or-restart, try-reload-or-restart, force-reload, "
 "status, condrestart). For other actions, please try to use systemctl."
 msgstr ""
-"service 命令只支持基础 LSB 动作（即 start、stop、restart、try-restart、"
-"reload、force-reload、status）。其他动作请使用 systemctl。"
+"service 命令只支持基础 LSB 动作（即 start, stop, restart, try-restart, "
+"reload, reload-or-restart, try-reload-or-restart, force-reload, status, "
+"condrestart）。其他动作请使用 systemctl。"
 
 #: ../etc/rc.d/init.d/functions:33
 msgid "Starting $prog (via systemctl): "
@@ -654,11 +639,10 @@ msgstr "$base 启动"
 
 #: ../etc/rc.d/init.d/functions:314 ../etc/rc.d/init.d/functions:324
 #: ../etc/rc.d/init.d/functions:333
-#, fuzzy
-#| msgid "Usage: killproc [-p pidfile] [ -d delay] {program} [-signal]"
 msgid ""
 "Usage: killproc [-p {pidfile} [-b {binary}]] [-d {delay}] {program} [-signal]"
-msgstr "用法：killproc [-p pidfile] [ -d delay] {program} [-signal]"
+msgstr ""
+"用法：killproc [-p {pidfile} [-b {binary}]] [-d {delay}] {program} [-signal]"
 
 #: ../etc/rc.d/init.d/functions:323 ../etc/rc.d/init.d/functions:450
 msgid "-b option can be used only with -p"
@@ -678,16 +662,12 @@ msgid "Usage: pidfileofproc {program}"
 msgstr "用法：pidfileofproc {program}"
 
 #: ../etc/rc.d/init.d/functions:411
-#, fuzzy
-#| msgid "Usage: pidofproc [-p pidfile] {program}"
 msgid "Usage: pidofproc [-p {pidfile}] {program}"
-msgstr "用法：pidofproc [-p pidfile] {program}"
+msgstr "用法：pidofproc [-p {pidfile}] {program}"
 
 #: ../etc/rc.d/init.d/functions:437 ../etc/rc.d/init.d/functions:451
-#, fuzzy
-#| msgid "Usage: status -p pidfile -b binary program"
 msgid "Usage: status [-p {pidfile}] [-l {lockfile}] [-b {binary}] {program}"
-msgstr "用法：status -p pidfile -b binary program"
+msgstr "用法：status [-p {pidfile}] [-l {lockfile}] [-b {binary}] {program}"
 
 #: ../etc/rc.d/init.d/functions:478 ../etc/rc.d/init.d/functions:484
 msgid "${base} (pid $pid) is running..."
