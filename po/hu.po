@@ -9,13 +9,14 @@
 # Meskó Balázs <meskobalazs@gmail.com>, 2018. #zanata
 # Meskó Balázs <meskobalazs@gmail.com>, 2019. #zanata
 # Balázs Meskó <meskobalazs@mailbox.org>, 2020.
+# Hoppár Zoltán <hopparz@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2020-07-21 14:29+0000\n"
-"Last-Translator: Balázs Meskó <meskobalazs@mailbox.org>\n"
+"PO-Revision-Date: 2023-10-08 16:36+0000\n"
+"Last-Translator: Hoppár Zoltán <hopparz@gmail.com>\n"
 "Language-Team: Hungarian <https://translate.fedoraproject.org/projects/"
 "fedora-sysv/initscripts/hu/>\n"
 "Language: hu\n"
@@ -23,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.1.1\n"
+"X-Generator: Weblate 5.0.2\n"
 
 #: ../network-scripts/ifdown:15 ../network-scripts/ifdown:22
 msgid "usage: ifdown <configuration>"
@@ -150,10 +151,6 @@ msgid "error in ifcfg-${parent_device}: files"
 msgstr "hiba a(z) ifcfg-${parent_device} fájlban: fájlok"
 
 #: ../network-scripts/ifup-aliases:269
-#, fuzzy
-#| msgid ""
-#| "Determining if ip address ${IPADDR} is already in use for device "
-#| "${parent_device}..."
 msgid ""
 "Determining if IP address ${IPADDR} is already in use for device "
 "${parent_device}…"
@@ -186,7 +183,7 @@ msgstr ""
 
 #: ../network-scripts/ifup-eth:51
 msgid "cannot create veth without peer"
-msgstr ""
+msgstr "nem hozhat létre veth-et peer nélkül"
 
 #: ../network-scripts/ifup-eth:127
 msgid "Device name does not seem to be present."
@@ -244,15 +241,15 @@ msgstr "Az IPv6 információk meghatározása a(z) ${DEVICE} eszközhöz…"
 
 #: ../network-scripts/ifup-ippp:33
 msgid "ipppd does not exist or is not executable"
-msgstr ""
+msgstr "Az ipppd nem létezik, vagy nem futtatható"
 
 #: ../network-scripts/ifup-ippp:40
 msgid "isdnctrl does not exist or is not executable"
-msgstr ""
+msgstr "Az isdnctrl nem létezik, vagy nem futtatható"
 
 #: ../network-scripts/ifup-ippp:46
 msgid "cannot list ISDN devices"
-msgstr ""
+msgstr "nem lehet kilistázni az ISDN-eszközöket"
 
 #: ../network-scripts/ifup-ippp:55 ../network-scripts/ifup-ippp:60
 msgid "$*"
@@ -260,11 +257,11 @@ msgstr "$*"
 
 #: ../network-scripts/ifup-ippp:343
 msgid "ip addr add $IPADDR peer $GATEWAY${pfx:/$pfx} dev $DEVICE"
-msgstr ""
+msgstr "ip-cím hozzáadása $IPADDR peer $GATEWAY${pfx:/$pfx} dev $DEVICE"
 
 #: ../network-scripts/ifup-ippp:349
 msgid "ipppd $options $netmask"
-msgstr ""
+msgstr "ipppd $options $netmask"
 
 #: ../network-scripts/ifup-ippp:374
 msgid ""
@@ -368,6 +365,8 @@ msgstr "használat: ifup-routes <hálózati eszköz> [<álnév>]"
 #: ../network-scripts/ifup-routes:26 ../network-scripts/ifup-routes:47
 msgid "Failed to add route ${line}, using ip route replace instead."
 msgstr ""
+"Nem sikerült hozzáadni a ${line} útvonalat, helyette az ip route replace "
+"parancsot kerül alkalmazásra."
 
 #: ../network-scripts/ifup-sit:63
 msgid "Missing remote IPv4 address of tunnel, configuration is not valid"
@@ -653,44 +652,31 @@ msgstr ""
 "marad"
 
 #: ../network-scripts/network-functions-ipv6:1082
-#, fuzzy
-#| msgid ""
-#| "Run 'ip -6 addr show dev ${device} scope global tentative' to see more"
 msgid "Run 'ip -6 addr show dev ${device} tentative' for more info"
 msgstr ""
-"További részletekért futtassa ezt: „ip -6 addr show dev ${device} scope "
-"global tentative”"
+"További részletekért futtassa ezt: „ip -6 addr show dev ${device} tentative”"
 
 #: ../usr/sbin/service:50 ../usr/sbin/service:66
 msgid "Support for initscripts isn't installed"
-msgstr ""
+msgstr "Az initscriptek támogatása nincs telepítve"
 
 #: ../usr/sbin/service:108
-#, fuzzy
-#| msgid ""
-#| "Redirecting to /bin/systemctl ${ACTION}${OPTIONS:+ }${OPTIONS} "
-#| "${SERVICE_MANGLED}"
 msgid ""
 "Redirecting to /bin/systemctl ${ACTION} ${SERVICE_MANGLED}${OPTIONS:"
 "+ }${OPTIONS}"
 msgstr ""
-"Átirányítás erre: /bin/systemctl ${ACTION}${OPTIONS:+ }${OPTIONS} "
-"${SERVICE_MANGLED}"
+"Átirányítás erre: /bin/systemctl ${ACTION} ${SERVICE_MANGLED}${OPTIONS:+ "
+"}${OPTIONS}"
 
 #: ../usr/sbin/service:111
-#, fuzzy
-#| msgid ""
-#| "The service command supports only basic LSB actions (start, stop, "
-#| "restart, try-restart, reload, force-reload, status). For other actions, "
-#| "please try to use systemctl."
 msgid ""
 "The service command supports only basic LSB actions (start, stop, restart, "
 "try-restart, reload, reload-or-restart, try-reload-or-restart, force-reload, "
 "status, condrestart). For other actions, please try to use systemctl."
 msgstr ""
 "A service parancs csak alapvető LSB műveleteket támogat (start, stop, "
-"restart, try-restart, reload, force-reload, status). Más műveletekhez "
-"használja a systemctl-t."
+"restart, try-restart, reload, reload-or-restart, try-reload-or-restart, "
+"force-reload, status, condrestart). Más műveletekhez használja a systemctl-t."
 
 #: ../etc/rc.d/init.d/functions:33
 msgid "Starting $prog (via systemctl): "
@@ -722,12 +708,11 @@ msgstr "A(z) $base indítása"
 
 #: ../etc/rc.d/init.d/functions:314 ../etc/rc.d/init.d/functions:324
 #: ../etc/rc.d/init.d/functions:333
-#, fuzzy
-#| msgid "Usage: killproc [-p pidfile] [ -d delay] {program} [-signal]"
 msgid ""
 "Usage: killproc [-p {pidfile} [-b {binary}]] [-d {delay}] {program} [-signal]"
 msgstr ""
-"Használat: killproc [-p PID-fájl] [-d késleltetés] {program} [-szignál]"
+"Használat: killproc [-p {pidfile} [-b {binary}]] [-d {késleltetés}] {program}"
+" [-szignál]"
 
 #: ../etc/rc.d/init.d/functions:323 ../etc/rc.d/init.d/functions:450
 msgid "-b option can be used only with -p"
@@ -747,16 +732,13 @@ msgid "Usage: pidfileofproc {program}"
 msgstr "Használat: pidfileofproc {program}"
 
 #: ../etc/rc.d/init.d/functions:411
-#, fuzzy
-#| msgid "Usage: pidofproc [-p pidfile] {program}"
 msgid "Usage: pidofproc [-p {pidfile}] {program}"
-msgstr "Használat: pidofproc [-p PID-fájl] {program}"
+msgstr "Használat: pidofproc [-p {PID-fájl}] {program}"
 
 #: ../etc/rc.d/init.d/functions:437 ../etc/rc.d/init.d/functions:451
-#, fuzzy
-#| msgid "Usage: status -p pidfile -b binary program"
 msgid "Usage: status [-p {pidfile}] [-l {lockfile}] [-b {binary}] {program}"
-msgstr "Használat: status -p PID-fájl -b bináris program"
+msgstr ""
+"Használat: status [-p {pidfile}] [-l {lockfile}] [-b {binary}] {program}"
 
 #: ../etc/rc.d/init.d/functions:478 ../etc/rc.d/init.d/functions:484
 msgid "${base} (pid $pid) is running..."
