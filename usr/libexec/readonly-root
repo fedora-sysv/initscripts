@@ -184,17 +184,17 @@ if is_true "$READONLY" || is_true "$TEMPORARY_STATE"; then
 				mount -n --bind $bindmountopts "$STATE_MOUNT/$file" "$file"
 			fi
 
-			for path in $(grep -v "^#" "$file" 2>/dev/null); do
+			while read path ; do
 				mount_state "$path"
 				selinux_fixup "$path"
-			done
+			done < <(grep -v "^#" "$file" 2>/dev/null)
 		done
 
 		if [ -f "$STATE_MOUNT/files" ] ; then
-			for path in $(grep -v "^#" "$STATE_MOUNT/files" 2>/dev/null); do
+			while read path ; do
 				mount_state "$path"
 				selinux_fixup "$path"
-			done
+			done < <(grep -v "^#" "$STATE_MOUNT/files" 2>/dev/null)
 		fi
 	fi
 
