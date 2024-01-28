@@ -96,7 +96,7 @@ if is_true "$READONLY" || is_true "$TEMPORARY_STATE"; then
 
 	for file in /etc/rwtab /etc/rwtab.d/* /run/initramfs/rwtab ; do
 		is_ignored_file "$file" && continue
-	[ -f $file ] && while read type path ; do
+	[ -f $file ] && while read -r type path ; do
 			case "$type" in
 				empty)
 					cp_empty $path
@@ -184,14 +184,14 @@ if is_true "$READONLY" || is_true "$TEMPORARY_STATE"; then
 				mount -n --bind $bindmountopts "$STATE_MOUNT/$file" "$file"
 			fi
 
-			while read path ; do
+			while read -r path ; do
 				mount_state "$path"
 				selinux_fixup "$path"
 			done < <(grep -v "^#" "$file" 2>/dev/null)
 		done
 
 		if [ -f "$STATE_MOUNT/files" ] ; then
-			while read path ; do
+			while read -r path ; do
 				mount_state "$path"
 				selinux_fixup "$path"
 			done < <(grep -v "^#" "$STATE_MOUNT/files" 2>/dev/null)
