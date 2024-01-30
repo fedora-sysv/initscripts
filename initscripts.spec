@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.19
+Version:          10.20
 Release:          1%{?dist}
 
 License:          GPL-2.0-only
@@ -398,6 +398,30 @@ fi
 # =============================================================================
 
 %changelog
+* Tue Jan 30 2024 Jan Macku <jamacku@redhat.com> - 10.20-1
+- Translated using Weblate (Georgian)
+- Add -r to while read as per shellcheck
+- Fix splitting spaces in paths from statetab files
+- build(deps): bump actions/upload-artifact from 3 to 4
+- build(deps): bump github/codeql-action from 2 to 3
+- Translated using Weblate (Georgian)
+- Translated using Weblate (Czech)
+- Translated using Weblate (Punjabi)
+- Translated using Weblate (Portuguese (Brazil))
+- build(deps): bump redhat-plumbers-in-action/differential-shellcheck
+- build(deps): bump actions/checkout from 3 to 4
+- Translated using Weblate (Hungarian)
+- Translated using Weblate (Finnish)
+- Translated using Weblate (Georgian)
+- Translated using Weblate (Chinese (Simplified) (zh_CN))
+- Translated using Weblate (English (United Kingdom))
+- Translated using Weblate (Korean)
+- Translated using Weblate (Ukrainian)
+- Translated using Weblate (Swedish)
+- Translated using Weblate (Polish)
+- Update translation files
+- Translated using Weblate (Korean)
+
 * Fri May 05 2023 Jan Macku <jamacku@redhat.com> - 10.19-1
 - ci: update Packit configuration
 - spec: add missing changelog entry
