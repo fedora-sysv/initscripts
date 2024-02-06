@@ -21,19 +21,28 @@ CC          = gcc
 CFLAGS     += $(RPM_OPT_FLAGS) -Wall -D_GNU_SOURCE -fPIE
 LDFLAGS    += $(RPM_LD_FLAGS) -pie -z relro -z now
 
-PROGS       = consoletype genhostid rename_device usernetctl usleep
+PROGS          = consoletype genhostid rename_device usleep
+INSTALL_PROGS  = install-progs
+ifndef NO_NETWORK_SCRIPTS
+PROGS         += usernetctl
+INSTALL_PROGS += install-network-scripts
+endif
 
 all: $(PROGS)
 
-install: all
+install: $(INSTALL_PROGS)
+
+install-progs:
 	install -m 0755 -d $(DESTDIR)$(bindir)
 	install -m 0755 -d $(DESTDIR)$(sbindir)
 	install -m 0755 -d $(DESTDIR)$(libdir)/udev
 	install -m 0755 build/usleep         $(DESTDIR)$(bindir)
 	install -m 0755 build/consoletype    $(DESTDIR)$(sbindir)
 	install -m 0755 build/genhostid      $(DESTDIR)$(sbindir)
-	install -m 0755 build/usernetctl     $(DESTDIR)$(sbindir)
 	install -m 0755 build/rename_device  $(DESTDIR)$(libdir)/udev
+
+install-network-scripts:
+	install -m 0755 build/usernetctl     $(DESTDIR)$(sbindir)
 
 clean:
 	rm -f build/*
