@@ -55,7 +55,7 @@ BuildRequires:    make
 BuildRequires:    systemd
 
 Obsoletes:        %{name}            < 10.16-1
-Obsoletes:        network-scripts    <= 10.20-1
+Obsoletes:        network-scripts    < 10.21-1
 
 # === PATCHES =================================================================
 

@@ -58,7 +58,7 @@ make-translations:
 ifdef NO_NETWORK_SCRIPTS
 install: install-binaries install-translations install-etc install-usr install-man install-post
 else
-install: install-binaries install-translations install-etc install-usr install-network-scripts install-man-all install-post
+install: install-binaries install-translations install-etc-all install-usr install-network-scripts install-man-all install-post
 endif
 
 
@@ -69,12 +69,21 @@ install-translations:
 	$(MAKE) install -C po  DESTDIR=$(DESTDIR) prefix=$(prefix) bindir=$(bindir) libdir=$(libdir) \
 	                                          datarootdir=$(datarootdir) datadir=$(datadir) sysconfdir=$(sysconfdir)
 
+install-etc-all: install-etc install-etc-network
 
 # NOTE: We are removing auxiliary symlink at the beginning.
 install-etc:
 	rm -f etc/sysconfig/network-scripts
-	install -m 0755 -d $(DESTDIR)$(sysconfdir)
-	cp -a        etc/* $(DESTDIR)$(sysconfdir)/
+	install -m 0755 -d      $(DESTDIR)$(sysconfdir)
+	install -m 0755 -d      $(DESTDIR)$(sysconfdir)/rc.d/init.d
+	install -m 0755 -d      $(DESTDIR)$(sysconfdir)/sysconfig
+	install -m 0644 etc/rwtab                  $(DESTDIR)$(sysconfdir)/
+	install -m 0644 etc/statetab               $(DESTDIR)$(sysconfdir)/
+	install -m 0644 etc/rc.d/init.d/functions  $(DESTDIR)$(sysconfdir)/rc.d/init.d/
+	install -m 0644 etc/sysconfig/*            $(DESTDIR)$(sysconfdir)/sysconfig/
+
+install-etc-network:
+	install -m 0755 -D etc/rc.d/init.d/network $(DESTDIR)$(sysconfdir)/rc.d/init.d/
 
 install-usr:
 	install -m 0755 -d $(DESTDIR)$(prefix)
