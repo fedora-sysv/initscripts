@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.20
+Version:          10.21
 Release:          1%{?dist}
 
 License:          GPL-2.0-only
@@ -296,6 +296,12 @@ Please use systemd-volatile-root functionality instead, if possible.
 # =============================================================================
 
 %changelog
+* Wed Feb 07 2024 Jan Macku <jamacku@redhat.com> - 10.21-1
+- fedora: don't build network-scripts rpm in f40+ (2/2)
+- ci: trigger copr build on every push to main branch
+- ifup-routes: print warning when ADDRESS0 entry is missing
+- fedora: don't build network-scripts rpm in f40+
+
 * Tue Jan 30 2024 Jan Macku <jamacku@redhat.com> - 10.20-1
 - Translated using Weblate (Georgian)
 - Add -r to while read as per shellcheck
