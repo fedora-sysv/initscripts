@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.11.5
+Version:          10.11.6
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -397,6 +397,10 @@ fi
 # =============================================================================
 
 %changelog
+* Thu Feb 08 2024 Jan Macku <jamacku@redhat.com> - 10.11.6-1
+- Add -r to while read as per shellcheck
+- Fix splitting spaces in paths from statetab files
+
 * Wed Aug 24 2022 Jan Macku <jamacku@redhat.com> - 10.11.5-1
 - service: Exit when `/etc/init.d` is missing
 
