@@ -180,7 +180,7 @@ struct netdev *get_configs() {
 		return ret;
 	}
 	for (x = 0; x < ncfgs; x++ ) {
-		char *path;
+		char *path = NULL;
 		char *devname, *hwaddr;
 		int vlan;
 		gchar *contents, **lines;
@@ -193,6 +193,7 @@ struct netdev *get_configs() {
 			     cfgs[x]->d_name) == -1)
 			continue;
 		g_file_get_contents(path, &contents, NULL, NULL);
+		free(path);
 		if (!contents)
 			continue;
 		lines = g_strsplit(contents,"\n", 0);
