@@ -1,5 +1,5 @@
 
-/* 
+/*
  * rename_device.c: udev helper to rename ethernet devices.
  *
  * Copyright (C) 2006-2009 Red Hat, Inc. All rights reserved.
@@ -9,8 +9,8 @@
  * GNU General Public License v.2.
  *
  * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
- * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for 
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
  * more details.
  *
  * You should have received a copy of the GNU General Public License along
@@ -64,7 +64,7 @@ struct tmp *tmplist = NULL;
 #if defined(__s390__) || defined(__s390x__)
 static int is_cdev(const struct dirent *dent) {
         char *end = NULL;
-        
+
         if (strncmp(dent->d_name,"cdev",4))
                 return 0;
         strtoul(dent->d_name+4,&end, 10);
@@ -75,7 +75,7 @@ static int is_cdev(const struct dirent *dent) {
 
 static inline char *getdev(char *path, char *ent) {
         char *a, *b, *ret;
-        
+
         asprintf(&a,"%s/%s",path,ent);
         b = canonicalize_file_name(a);
         ret = strdup(basename(b));
@@ -88,13 +88,13 @@ char *read_subchannels(char *path) {
 	char *tmp, *ret;
 	int n, x;
 	struct dirent **cdevs;
-		
+
 	if ((n = scandir(path, &cdevs, is_cdev, alphasort)) <= 0)
 		return NULL;
-		
+
 	ret = getdev(path,cdevs[0]->d_name);
-	for (x = 1 ; x < n ; x++ ) { 
-		if (asprintf(&tmp, "%s,%s", ret, getdev(path, cdevs[x]->d_name)) == -1) 
+	for (x = 1 ; x < n ; x++ ) {
+		if (asprintf(&tmp, "%s,%s", ret, getdev(path, cdevs[x]->d_name)) == -1)
 			return NULL;
 		free(ret);
 		ret = tmp;
@@ -172,9 +172,9 @@ struct netdev *get_configs() {
 	struct netdev *ret, *tmpdev;
 	struct dirent **cfgs;
 	int x;
-	
+
 	ret = NULL;
-	
+
 	if ((ncfgs = scandir("/etc/sysconfig/network-scripts",&cfgs,
 			     isCfg, alphasort)) == -1) {
 		return ret;
@@ -185,7 +185,7 @@ struct netdev *get_configs() {
 		int vlan;
 		gchar *contents, **lines;
 		int i;
-		
+
 		devname = hwaddr = contents = NULL;
 		lines = NULL;
 		vlan = 0;
@@ -235,7 +235,7 @@ struct netdev *get_configs() {
 	free(cfgs);
 	return ret;
 }
-		
+
 char *get_hwaddr(char *device) {
 	char *path = NULL;
 	char *contents = NULL;
@@ -260,13 +260,13 @@ char *get_hwaddr(char *device) {
 
 	return g_strstrip(contents);
 }
-		
+
 char *get_config_by_hwaddr(char *hwaddr, char *current) {
 	struct netdev *config;
 	char *first = NULL;
-	
+
 	if (!hwaddr) return NULL;
-	
+
 	for (config = configs; config; config = config->next) {
 		if (strcasecmp(config->hwaddr, hwaddr) != 0)
 			continue;
@@ -322,7 +322,7 @@ void take_lock() {
 	int count = 0;
 	int lockfd;
 	ssize_t ignored_retval __attribute__((unused));
-	
+
 	while (1) {
 		lockfd = open(LOCKFILE, O_RDWR|O_CREAT|O_EXCL, 0644);
 		if (lockfd != -1) {
@@ -341,7 +341,7 @@ void take_lock() {
 			int fd;
 			char buf[32];
 			int pid;
-				
+
 			fd = open(LOCKFILE, O_RDONLY);
 			if (fd == -1)
 				break;
@@ -364,16 +364,16 @@ int main(int argc, char **argv) {
 	struct timeval tv;
 
 	gettimeofday(&tv, NULL);
-	srand(tv.tv_usec);	
+	srand(tv.tv_usec);
 	take_lock();
-	
+
 	signal(SIGSEGV,sighandler);
 	signal(SIGKILL,sighandler);
 	signal(SIGTERM,sighandler);
 	signal(SIGSEGV,sighandler);
 	signal(SIGALRM,sighandler);
 	alarm(10);
-	
+
 	src = getenv("INTERFACE");
 	if (!src)
 		goto out_unlock;
@@ -390,7 +390,7 @@ int main(int argc, char **argv) {
 		goto out_unlock;
 
 	printf("%s", target);
-	
+
 out_unlock:
 	unlink(LOCKFILE);
 	exit(0);
