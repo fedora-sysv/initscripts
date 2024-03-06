@@ -446,6 +446,12 @@ fi
 - ci: Onboard initscripts to Packit
 - ci: Migrate from Travis to GH Actions
 
+* Mon Aug 09 2021 Mohan Boddu <mboddu@redhat.com> - 10.09-3
+- Rebuilt for IMA sigs, glibc 2.34, aarch64 flags Related: rhbz#1991688
+
+* Fri Apr 16 2021 Mohan Boddu <mboddu@redhat.com> - 10.09-2
+- Rebuilt for RHEL 9 BETA on Apr 15th 2021. Related: rhbz#1947937
+
 * Mon Feb 15 2021 Jan Macku <jamacku@redhat.com> - 10.09-1
 - doc: Document ARPING_WAIT and ARPING_UPDATE_WAIT
 - network scripts: Avoid infinite loop of arping
