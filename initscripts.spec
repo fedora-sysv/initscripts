@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.11.6
+Version:          10.11.7
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -397,6 +397,10 @@ fi
 # =============================================================================
 
 %changelog
+* Wed Mar 06 2024 Jan Macku <jamacku@redhat.com> - 10.11.7-1
+- rename_device: free path after it is used
+- rename_device: remove trailing whitespaces
+
 * Thu Feb 08 2024 Jan Macku <jamacku@redhat.com> - 10.11.6-1
 - Add -r to while read as per shellcheck
 - Fix splitting spaces in paths from statetab files
