@@ -244,6 +244,11 @@ ln -sr %{_mandir}/man8/ifup.8           %{buildroot}%{_mandir}/man8/ifdown.8
 touch %{buildroot}%{_sbindir}/ifup
 touch %{buildroot}%{_sbindir}/ifdown
 
+%if "%{_sbindir}" == "%{_bindir}"
+# Some files get installed wrong, but if $(sbindir) is overriden, the build fails :(
+mv -v %{buildroot}/usr/sbin/* %{buildroot}%{_bindir}/
+%endif
+
 # =============================================================================
 
 %post
@@ -322,7 +327,7 @@ fi
 
 # ---------------
 
-%{_bindir}/*
+%{_bindir}/usleep
 %{_sbindir}/consoletype
 %{_sbindir}/genhostid
 
