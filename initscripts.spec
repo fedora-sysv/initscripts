@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.23
+Version:          10.24
 Release:          1%{?dist}
 
 License:          GPL-2.0-only
@@ -403,6 +403,9 @@ fi
 # =============================================================================
 
 %changelog
+* Wed May 29 2024 Jan Macku <jamacku@redhat.com> - 10.24-1
+- Fix build when %_bindir==%_sbindir
+
 * Tue Apr 16 2024 Jan Macku <jamacku@redhat.com> - 10.23-1
 - fix: return support for network-scripts for Fedora 40
 
