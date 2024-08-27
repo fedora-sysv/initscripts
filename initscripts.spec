@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.25
+Version:          10.26
 Release:          1%{?dist}
 
 License:          GPL-2.0-only
@@ -301,6 +301,14 @@ mv -v %{buildroot}/usr/sbin/* %{buildroot}%{_bindir}/
 # =============================================================================
 
 %changelog
+* Tue Aug 27 2024 Jan Macku <jamacku@redhat.com> - 10.26-1
+- Translated using Weblate (Turkish)
+- netconsole: var/lock -> run/lock
+- netconsole: source sysconfig/network only if it exists
+- netconsole: remove unused variables
+- netconsole: remove trailing whitespaces
+- Translated using Weblate (Turkish)
+
 * Tue Jun 25 2024 Jan Macku <jamacku@redhat.com> - 10.25-1
 - Revert "fix: return support for network-scripts for Fedora 40"
 
