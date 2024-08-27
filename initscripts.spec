@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.11.7
+Version:          10.11.8
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -397,6 +397,13 @@ fi
 # =============================================================================
 
 %changelog
+* Tue Aug 27 2024 Jan Macku <jamacku@redhat.com> - 10.11.8-1
+- netconsole: var/lock -> run/lock
+- netconsole: source sysconfig/network only if it exists
+- netconsole: remove unused variables
+- netconsole: remove trailing whitespaces
+- sync spec with c9s
+
 * Wed Mar 06 2024 Jan Macku <jamacku@redhat.com> - 10.11.7-1
 - rename_device: free path after it is used
 - rename_device: remove trailing whitespaces
