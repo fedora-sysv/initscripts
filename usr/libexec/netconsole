@@ -1,5 +1,5 @@
 #!/bin/bash
-# 
+#
 # netconsole 	This loads the netconsole module with the configured parameters.
 #
 # chkconfig: - 50 50
@@ -50,7 +50,7 @@ print_address_info ()
 	local route via target
 
 	route=$(LANG=C ip -o route get to $host/32)
-	
+
 	[ -z "$DEV" ] && DEV=$(echo $route | sed "s|.* dev \([^ ]*\).*|\1|")
 	echo "DEV=$DEV"
 	echo "LOCALADDR=$(echo $route | sed "s|.* src \([^ ]*\).*|\1|")"
@@ -63,9 +63,9 @@ print_address_info ()
 	if [ -z "$SYSLOGMACADDR" ]; then
 		arp=$(LANG=C /sbin/arping -f -c 1 -I $DEV $target 2>/dev/null | awk '/ reply from .*[.*]/ { print gensub(".* reply from .* \\[(.*)\\].*","\\1","G"); exit }')
 		[ -n "$arp" ] && echo "SYSLOGMACADDR=$arp"
-	fi	
-}	
-	
+	fi
+}
+
 start ()
 {
 	[ -f /etc/sysconfig/netconsole ] || exit 6
@@ -101,7 +101,7 @@ start ()
 		exit 6
 	fi
 	eval $(print_address_info $SYSLOGADDR)
-	
+
 	if [ -z "$SYSLOGMACADDR" ]; then
 		echo $"netconsole: can't resolve MAC address of $SYSLOGADDR" 1>&2
 		exit 1
@@ -140,7 +140,6 @@ status ()
 	fi
 }
 
-
 restart ()
 {
 	stop
@@ -151,7 +150,6 @@ condrestart ()
 {
 	[ -e /var/lock/subsys/netconsole ] && restart
 }
-
 
 case "$1" in
     stop) stop ;;
