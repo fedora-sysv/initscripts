@@ -21,8 +21,7 @@
 PATH=/sbin:/usr/sbin:$PATH
 RETVAL=0
 
-# Check that networking is up.
-. /etc/sysconfig/network
+[ -f /etc/sysconfig/network ] && . /etc/sysconfig/network
 
 # Source function library.
 . /etc/rc.d/init.d/functions
