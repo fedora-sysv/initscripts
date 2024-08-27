@@ -112,7 +112,7 @@ start ()
 			$SYSLOGOPTS
 		[ "$?" != "0" ] && RETVAL=1
 	fi
-	touch /var/lock/subsys/netconsole
+	touch /run/lock/subsys/netconsole
 }
 
 stop ()
@@ -122,7 +122,7 @@ stop ()
 	    [ "$?" != "0" ] && RETVAL=1
 	fi
 
-	rm -f /var/lock/subsys/netconsole
+	rm -f /run/lock/subsys/netconsole
 }
 
 status ()
@@ -144,7 +144,7 @@ restart ()
 
 condrestart ()
 {
-	[ -e /var/lock/subsys/netconsole ] && restart
+	[ -e /run/lock/subsys/netconsole ] && restart
 }
 
 case "$1" in
