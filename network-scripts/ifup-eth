@@ -296,7 +296,7 @@ else
                     ARPING=$(/sbin/arping -c 2 -w ${ARPING_WAIT:-3} -D -I ${REALDEVICE} ${ipaddr[$idx]})
                     if [ $? = 1 ]; then
                         ARPINGMAC=$(echo $ARPING |  sed -ne 's/.*\[\(.*\)\].*/\1/p')
-                        if [ -n "{$ARPINGMAC}" ]; then
+                        if [ -n "${ARPINGMAC}" ]; then
                             net_log $"Error, some other host ($ARPINGMAC) already uses address ${ipaddr[$idx]}."
                             exit 1
                         else
