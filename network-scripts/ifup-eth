@@ -293,14 +293,14 @@ else
 
             if ! LC_ALL=C ip addr ls ${REALDEVICE} | LC_ALL=C grep -q "${ipaddr[$idx]}/${prefix[$idx]}" ; then
                 if [ "${REALDEVICE}" != "lo" ] && ! is_false "${arpcheck[$idx]}"; then
-                    while [ $tries -lt $ARPING_TRIES ]
+                    while [ $tries -le $ARPING_TRIES ]
                     do
                         ARPING=$(/sbin/arping -c 2 -w ${ARPING_WAIT:-3} -D -I ${REALDEVICE} ${ipaddr[$idx]})
                         if [ $? = 1 ]; then
                             ARPINGMAC=$(echo $ARPING |  sed -ne 's/.*\[\(.*\)\].*/\1/p')
                             net_log $"Error, some other host ($ARPINGMAC) already uses address ${ipaddr[$idx]}
                             tries=$((tries+1))
-                            if [ $tries -eq $ARPING_TRIES ]
+                            if [ $tries -gt $ARPING_TRIES ]
                             then
                                 echo "arping failed after $tries tries"
                                 exit 1
