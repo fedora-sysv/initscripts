@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install dependencies
-        run: sudo apt update && sudo apt install -y libpopt-dev gettext
+        run: sudo apt update && sudo apt install -y libpopt-dev gettext libglib2.0-dev
 
       - name: Build & install
         run: make all && make install DESTDIR=/tmp/initscripts
