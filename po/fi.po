@@ -6,14 +6,14 @@
 # Raimo Koski <rk@raimokoski.com>, 2003
 # Juhani Numminen <juhaninumminen0@gmail.com>, 2016. #zanata
 # Jan Kuparinen <copper_fin@hotmail.com>, 2021, 2023.
-# Ricky Tigg <ricky.tigg@gmail.com>, 2021, 2022.
+# Ricky Tigg <ricky.tigg@gmail.com>, 2021, 2022, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"PO-Revision-Date: 2023-09-15 16:35+0000\n"
-"Last-Translator: Jan Kuparinen <copper_fin@hotmail.com>\n"
+"PO-Revision-Date: 2025-03-20 18:13+0000\n"
+"Last-Translator: Ricky Tigg <ricky.tigg@gmail.com>\n"
 "Language-Team: Finnish <https://translate.fedoraproject.org/projects/"
 "fedora-sysv/initscripts/fi/>\n"
 "Language: fi\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.0.1\n"
+"X-Generator: Weblate 5.10.4\n"
 
 #: ../network-scripts/ifdown:15 ../network-scripts/ifdown:22
 msgid "usage: ifdown <configuration>"
@@ -73,7 +73,7 @@ msgstr ""
 
 #: ../network-scripts/ifdown-tunnel:36 ../network-scripts/ifup-tunnel:68
 msgid "Device '$DEVICE' isn't supported as a valid GRE device name."
-msgstr "Laite ”$DEVICE” on virheellinen GRE-laitenimi."
+msgstr "Laitetta '$DEVICE' ei tueta kelvollisena GRE-laitteen nimenä."
 
 #: ../network-scripts/ifup:30 ../network-scripts/ifup:38
 msgid "Usage: ifup <configuration>"
@@ -81,7 +81,7 @@ msgstr "Käyttö: ifup <kokoonpano>"
 
 #: ../network-scripts/ifup:37
 msgid "$0: configuration for ${1} not found."
-msgstr "$0: ${1}:n asetuksia ei löytynyt."
+msgstr "$0: kokoonpanoa ${1}:lle ei löydy."
 
 #: ../network-scripts/ifup:56
 msgid ""
@@ -91,16 +91,17 @@ msgstr "Käytät 'network-scripts':in 'ifup' skriptiä, joka on nyt vanhentunut.
 
 #: ../network-scripts/ifup:87 ../network-scripts/ifup:102
 msgid "PHYSDEV should be set for device ${DEVICE}"
-msgstr "PHYSDEV pitäisi olla asetettuna laitteelle ${DEVICE}"
+msgstr "PHYSDEV on asetettava laitteelle ${DEVICE}"
 
 #: ../network-scripts/ifup:110
 msgid "No 802.1Q VLAN support available in kernel for device ${DEVICE}"
-msgstr "Ytimessä ei ole 802.1Q VLAN -tukea laitteelle ${DEVICE}"
+msgstr "Ei 802.1Q VLAN -tukea saatavilla ytimessä laitteelle ${DEVICE}"
 
 #: ../network-scripts/ifup:117 ../network-scripts/ifup-eth:134
 msgid ""
 "$alias device ${DEVICE} does not seem to be present, delaying initialization."
-msgstr "$alias-laitetta ${DEVICE} ei löydy, viivästetään alustusta."
+msgstr ""
+"$alias-laitetta ${DEVICE} ei näytä olevan läsnä, mikä viivästyttää alustusta."
 
 #: ../network-scripts/ifup:137
 msgid "ERROR: could not add vlan ${VID} as ${DEVICE} on dev ${PHYSDEV}"
@@ -114,29 +115,27 @@ msgstr "käyttö: ifup-aliases <verkkolaite> [<vanhempi-kokoonpano>]\n"
 
 #: ../network-scripts/ifup-aliases:119
 msgid "Missing config file $PARENTCONFIG."
-msgstr "Puuttuva asetustiedosto $PARENTCONFIG."
+msgstr "Puuttuva kokoonpanotiedosto $PARENTCONFIG."
 
 #: ../network-scripts/ifup-aliases:169
 msgid "error in $FILE: invalid alias number"
-msgstr "virhe tiedostossa $FILE: alias-numero ei kelpaa"
+msgstr "virhe $FILE:ssa: epäkelvollinen aliasnumero"
 
 #: ../network-scripts/ifup-aliases:179
 msgid "error in $FILE: already seen ipaddr $IPADDR in $ipseen"
-msgstr ""
-"virhe tiedostossa $FILE: jo käytetty IP-osoite $IPADDR muuttujassa $ipseen"
+msgstr "virhe $FILE:ssa: jo nähty IP-osoite $IPADDR $ipseenissa"
 
 #: ../network-scripts/ifup-aliases:184
 msgid "error in $FILE: already seen device $parent_device:$DEVNUM in $devseen"
-msgstr ""
-"virhe tiedostossa $FILE: laite $parent_device:$DEVNUM on jo nähty: $devseen"
+msgstr "virhe $FILE:ssa: laite $parent_device:$DEVNUM jo nähty $devseenissa"
 
 #: ../network-scripts/ifup-aliases:193
 msgid "error in $FILE: didn't specify device or ipaddr"
-msgstr "virhe tiedostossa $FILE: laite tai IP-osoite puuttuu"
+msgstr "virhe $FILE:ssa: ei määritetty laitetta tai IP-osoitetta"
 
 #: ../network-scripts/ifup-aliases:198
 msgid "error iN $FILE: didn't specify netmask or prefix"
-msgstr "virhe tiedostossa $FILE: verkkopeite tai etuliite puuttuu"
+msgstr "virhe $FILE:ssa: ei määritetty verkkopeitettä tai etuliitettä"
 
 #: ../network-scripts/ifup-aliases:238 ../network-scripts/ifup-aliases:249
 msgid "error in ifcfg-${parent_device}: files"
@@ -147,28 +146,30 @@ msgid ""
 "Determining if IP address ${IPADDR} is already in use for device "
 "${parent_device}…"
 msgstr ""
-"Tarkistetaan onko ip-osoite ${IPADDR} on jo käytössä laitteelle "
-"${parent_device}…"
+"Selvitetään, onko IP-osoite ${IPADDR} jo käytössä laitteen ${parent_device} "
+"suhteen…"
 
 #: ../network-scripts/ifup-aliases:273
 msgid "Error, some other host ($ARPINGMAC) already uses address ${IPADDR}."
-msgstr "Virhe, toinen isäntä ($ARPINGMAC) käyttää osoitetta ${IPADDR}."
+msgstr "Virhe, jokin muu isäntä ($ARPINGMAC) käyttää jo osoitetta ${IPADDR}."
 
 #: ../network-scripts/ifup-aliases:335
 msgid "error in $FILE: IPADDR_START and IPADDR_END don't agree"
-msgstr "virhe tiedostossa $FILE: IPADDR_START ja IPADDR_END eivät sovi yhteen"
+msgstr "virhe $FILE:ssa: IPADDR_START ja IPADDR_END eivät sovi yhteen"
 
 #: ../network-scripts/ifup-aliases:340
 msgid "error in $FILE: IPADDR_START greater than IPADDR_END"
-msgstr "virhe tiedostossa $FILE: IPADDR_START suurempi kuin IPADDR_END"
+msgstr "virhe $FILE:ssa: IPADDR_START suurempi kuin IPADDR_END"
 
 #: ../network-scripts/ifup-ctc:36
 msgid "ERROR: ${DEVICE} did not come up!"
-msgstr "VIRHE: Laitetta ${DEVICE} ei voitu ottaa käyttöön!"
+msgstr "VIRHE: ${DEVICE} ei ilmestynyt!"
 
 #: ../network-scripts/ifup-eth:43
 msgid "Device ${DEVICE} has different MAC address than expected, ignoring."
-msgstr "Laitteen ${DEVICE} MAC-osoite odottamaton, ohitetaan."
+msgstr ""
+"Laitteessa ${DEVICE} on eri MAC-osoite kuin odotettiin; jätetään "
+"huomioimatta."
 
 #: ../network-scripts/ifup-eth:51
 msgid "cannot create veth without peer"
@@ -180,11 +181,11 @@ msgstr "Laitenimi ei ole näyttäisi olevan olemassa."
 
 #: ../network-scripts/ifup-eth:136
 msgid "Device ${DEVICE} does not seem to be present, delaying initialization."
-msgstr "Laite ${DEVICE} ei ole käytettävissä, viivästetään alustusta."
+msgstr "Laitetta ${DEVICE} ei näytä olevan läsnä, mikä viivästyttää alustusta."
 
 #: ../network-scripts/ifup-eth:232
 msgid "Determining IP information for ${DEVICE}..."
-msgstr "Selvitetään IP-tiedot laitteelle ${DEVICE}..."
+msgstr "Selvitetään ${DEVICE}:n IP-tiedot..."
 
 #: ../network-scripts/ifup-eth:234
 msgid " failed; no link present.  Check cable?"
@@ -200,28 +201,29 @@ msgstr " epäonnistui."
 
 #: ../network-scripts/ifup-eth:268
 msgid "Failed to bring up ${DEVICE}."
-msgstr "Laitteen ${DEVICE} käynnistys ei onnistunut."
+msgstr "${DEVICE}:n esiin tuominen epäonnistui."
 
 #: ../network-scripts/ifup-eth:299
 msgid ""
 "Error, some other host ($ARPINGMAC) already uses address ${ipaddr[$idx]}."
-msgstr "Virhe, toinen isäntä ($ARPINGMAC) käyttää osoitetta ${ipaddr[$idx]}."
+msgstr ""
+"Virhe, jokin muu isäntä ($ARPINGMAC) käyttää jo osoitetta ${ipaddr[$idx]}."
 
 #: ../network-scripts/ifup-eth:306
 msgid "Error adding address ${ipaddr[$idx]} for ${DEVICE}."
-msgstr "Virhe lisättäessä osoitetta ${ipaddr[$idx]} laitteelle ${DEVICE}."
+msgstr "Virhe lisättäessä osoitetta ${ipaddr[$idx]} ${DEVICE}:lle."
 
 #: ../network-scripts/ifup-eth:333
 msgid "Error adding default gateway ${GATEWAY} for ${DEVICE}."
-msgstr "Virhe lisättäessä oletusyhdyskäytävää ${GATEWAY} laitteelle ${DEVICE}."
+msgstr "Virhe lisättäessä oletusyhdyskäytävää ${GATEWAY} ${DEVICE}:lle."
 
 #: ../network-scripts/ifup-eth:338
 msgid "Error adding default gateway for ${REALDEVICE}."
-msgstr "Virhe lisättäessä oletusyhdyskäytävää laitteelle ${REALDEVICE}."
+msgstr "Virhe lisättäessä oletusyhdyskäytävää ${REALDEVICE}:lle."
 
 #: ../network-scripts/ifup-eth:376
 msgid "Determining IPv6 information for ${DEVICE}..."
-msgstr "Selvitetään IPv6-tiedot laitteelle ${DEVICE}..."
+msgstr "Selvitetään ${DEVICE}:n IPv6-tiedot..."
 
 #: ../network-scripts/ifup-ippp:33
 msgid "ipppd does not exist or is not executable"
@@ -285,7 +287,7 @@ msgstr ""
 
 #: ../network-scripts/ifup-ipv6:182
 msgid "Device 'tun6to4' (from '$DEVICE') is already up, shutdown first"
-msgstr "Laite \"tun6to4\" (\"$DEVICE\":sta) on jo käytössä, sulje se ensin"
+msgstr "Laite \"tun6to4\" (\"$DEVICE\":sta) on jo päällä; sulje se ensin"
 
 #: ../network-scripts/ifup-ipv6:209
 msgid "Given IPv4 address '$ipv4addr' is not globally usable"
@@ -303,7 +305,7 @@ msgid ""
 "'$tunnelmtu', ignored"
 msgstr ""
 "Varoitus: asetettu MTU-arvo \"$IPV6TO4_MTU\" 6to4:lle ylittää enimmäisarvon "
-"\"$tunnelmtu\", ohitetaan"
+"\"$tunnelmtu\"; jätetään huomiomatta"
 
 #: ../network-scripts/ifup-ipv6:251
 msgid "Warning: interface 'tun6to4' does not support 'IPV6_DEFAULTGW', ignored"
@@ -349,11 +351,11 @@ msgstr "Tunnelin toisen pään IPv4-osoite puuttuu, asetukset väärin"
 
 #: ../network-scripts/ifup-sit:71
 msgid "Device '$DEVICE' is already up, please shutdown first"
-msgstr "Laite '$DEVICE' on jo käytössä, sulje se ensin"
+msgstr "Laite '$DEVICE' on jo päällä; sulje se ensin"
 
 #: ../network-scripts/ifup-tunnel:61
 msgid "Invalid tunnel type $TYPE"
-msgstr "Virheellinen tunnelityyppi $TYPE"
+msgstr "Epäkelvollinen tunnelityyppi $TYPE"
 
 #: ../network-scripts/init.ipv6-global:161
 msgid "Usage: $0 {start|stop|reload|restart|showsysctl}"
@@ -370,31 +372,31 @@ msgstr ""
 #: ../network-scripts/network-functions:581
 msgid "Failed to set value '$value' [mode] to ${DEVICE} bonding device"
 msgstr ""
-"Arvoa '$value' [mode] ei pystytty asettamaan liitoslaitteelle ${DEVICE}"
+"Arvon '$value' [mode] asettaminen ${DEVICE}-sidoslaitteeseen epäonnistui"
 
 #: ../network-scripts/network-functions:587
 msgid "Failed to set value '$value' [miimon] to ${DEVICE} bonding device"
 msgstr ""
-"Arvoa '$value' [miimon] ei pystytty asettamaan liitoslaitteelle ${DEVICE}"
+"Arvon '$value' [miimon] asettaminen ${DEVICE}-sidoslaitteeseen epäonnistui"
 
 #: ../network-scripts/network-functions:607
 msgid ""
 "Failed to set '$arp_ip' value [arp_ip_target] to ${DEVICE} bonding device"
 msgstr ""
-"'$arp_ip' arvoa [arp_ip_target] ei pystytty asettamaan liitoslaitteelle "
-"${DEVICE}"
+"'$arp_ip':n arvon [arp_ip_target] asettaminen ${DEVICE}-sidoslaitteelle "
+"epäonnistui"
 
 #: ../network-scripts/network-functions:615
 msgid ""
 "Failed to set '$value' value [arp_ip_target] to ${DEVICE} bonding device"
 msgstr ""
-"'$value' arvoa [arp_ip_target] ei pystytty asettamaan liitoslaitteelle "
-"${DEVICE}"
+"'$value':n arvon [arp_ip_target] asettaminen ${DEVICE}-sidoslaitteelle "
+"epäonnistui"
 
 #: ../network-scripts/network-functions:620
 msgid "Failed to set '$value' value [$key] to ${DEVICE} bonding device"
 msgstr ""
-"'$value' arvoa [$key] ei pystytty asettamaan liitoslaitteelle ${DEVICE}"
+"'$value':n arvon [$key] asettaminen ${DEVICE}-sidoslaitteelle epäonnistui"
 
 #: ../network-scripts/network-functions:696
 msgid "DEBUG     "
@@ -425,8 +427,8 @@ msgid ""
 "'No route to host' adding route '$networkipv6' via gateway '$gatewayipv6' "
 "through device '$device'"
 msgstr ""
-"Virhe \"Ei reititystä isäntään\" lisättäessä reittiä \"$networkipv6\" "
-"laitteelle \"$device\" yhdyskäytävän \"$gatewayipv6\" kautta"
+"\"Ei reittiä isäntään\", lisätään reitti \"$networkipv6\" yhdyskäytävän "
+"\"$gatewayipv6\" kautta, laitteen \"$device\" kautta"
 
 #: ../network-scripts/network-functions-ipv6:91
 msgid "Unknown error"
@@ -483,7 +485,7 @@ msgstr "Annettu osoite '$ipv4addr' ei ole yleinen IPv4-osoite (argumentti 1)"
 
 #: ../network-scripts/network-functions-ipv6:400
 msgid "Given address '$addr' is not a valid IPv4 one (arg 1)"
-msgstr "Annettu IPv4-osoite '$ipv4addr' on virheellinen (argumentti 1)"
+msgstr "Annettu osoite '$addr' ei ole kelvollinen IPv4 (argumentti 1)"
 
 #: ../network-scripts/network-functions-ipv6:434
 msgid "Missing parameter 'global IPv4 address' (arg 2)"
