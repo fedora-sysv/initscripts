@@ -117,10 +117,7 @@ __kill_pids_term_kill_checkpids() {
 
     for pid in $pids ; do
         [ ! -e  "/proc/$pid" ] && continue
-        read -r line < "/proc/$pid/stat" 2> /dev/null
-
-        stat=($line)
-        stime=${stat[21]}
+        stime=$(cat /proc/$pid/stat 2> /dev/null | cut -d" " -f22)
 
         [ -n "$stime" ] && [ "$base_stime" -lt "$stime" ] && continue
         remaining="$remaining$pid "
@@ -141,8 +138,7 @@ __kill_pids_term_kill() {
 
     # We can't initialize stat & base_stime on the same line where 'local'
     # keyword is, otherwise the sourcing of this file will fail for ksh...
-    stat=($(< /proc/self/stat))
-    base_stime=${stat[21]}
+    base_stime=$(cat /proc/$$/stat | cut -d" " -f22)
 
     if [ "$1" = "-d" ]; then
         delay=$2
