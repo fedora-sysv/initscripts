@@ -138,7 +138,7 @@ __kill_pids_term_kill() {
 
     # We can't initialize stat & base_stime on the same line where 'local'
     # keyword is, otherwise the sourcing of this file will fail for ksh...
-    base_stime=$(cat /proc/$$/stat | cut -d" " -f22)
+    base_stime=$(cut -d" " -f22 /proc/$$/stat)
 
     if [ "$1" = "-d" ]; then
         delay=$2
