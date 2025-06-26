@@ -117,7 +117,7 @@ __kill_pids_term_kill_checkpids() {
 
     for pid in $pids ; do
         [ ! -e  "/proc/$pid" ] && continue
-        stime=$(cat /proc/$pid/stat 2> /dev/null | cut -d" " -f22)
+        stime=$(cut -d" " -f22 /proc/$pid/stat 2> /dev/null)
 
         [ -n "$stime" ] && [ "$base_stime" -lt "$stime" ] && continue
         remaining="$remaining$pid "
