@@ -202,7 +202,6 @@ support. Additional configuration is required after installation.
 install -m 0755 -d %{buildroot}%{_docdir}/network-scripts
 
 ln -s  %{_docdir}/%{name}/sysconfig.txt %{buildroot}%{_docdir}/network-scripts/
-ln -sr %{_mandir}/man8/ifup.8           %{buildroot}%{_mandir}/man8/ifdown.8
 
 # We are now using alternatives approach to better co-exist with NetworkManager:
 touch %{buildroot}%{_sbindir}/ifup
