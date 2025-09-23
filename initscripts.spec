@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.00.18
+Version:          10.00.19
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -345,6 +345,9 @@ fi
 # =============================================================================
 
 %changelog
+* Tue Sep 23 2025 Jan Macku <jamacku@redhat.com> - 10.00.19-1
+- man: add ifdown.8
+
 * Wed Aug 10 2022 Jan Macku <jamacku@redhat.com> - 10.00.18-1
 - ci: Update `.packit.yml` to run on `c8s`
 - ci: Use Differential ShellCheck action
