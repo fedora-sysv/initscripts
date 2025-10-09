@@ -270,7 +270,17 @@ function new_interface ()
             ARPING=$(/sbin/arping -c 2 -w ${ARPING_WAIT:-3} -D -I ${parent_device} ${IPADDR})
             if [ $? = 1 ]; then
                 ARPINGMAC=$(echo $ARPING | sed -ne 's/.*\[\(.*\)\].*/\1/p')
-                net_log $"Error, some other host ($ARPINGMAC) already uses address ${IPADDR}."
+                if [ -n "${ARPINGMAC}" ]; then
+                    net_log $"Error, some other host ($ARPINGMAC) already uses address ${IPADDR}."
+                    return 1
+                fi
+                # Check if arping failed because interface is not ready (no packets sent)
+                if echo "$ARPING" | grep -q "Sent 0 probes"; then
+                    net_log $"Failed to bring up ${DEVICE}: interface not ready (no packets sent). Try increasing ARPING_WAIT or LINKDELAY, or check interface status."
+                    return 1
+                fi
+                # Some other arping failure
+                net_log $"Error, some other host already uses address ${IPADDR}."
                 return 1
             fi
         fi
