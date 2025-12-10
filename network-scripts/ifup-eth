@@ -301,9 +301,19 @@ else
                             net_log $"Error, some other host ($ARPINGMAC) already uses address ${ipaddr[$idx]}."
                             exit 1
                         fi
+                        # Check if arping failed because interface is not ready (no packets sent)
+                        if echo "$ARPING" | grep -q "Sent 0 probes"; then
+                            # Interface not ready, continue retrying
+                            continue
+                        fi
                     done
                     if [ "${tries}" -eq "${ARPING_TRIES}" ]; then
-                        net_log $"arping failed after $tries tries"
+                        # Check if the failure was due to interface not being ready
+                        if echo "$ARPING" | grep -q "Sent 0 probes"; then
+                            net_log $"Failed to bring up ${DEVICE}: interface not ready (no packets sent). Try increasing ARPING_WAIT or LINKDELAY, or check interface status."
+                        else
+                            net_log $"arping failed after $tries tries"
+                        fi
                         exit 1
                     fi
                 fi
