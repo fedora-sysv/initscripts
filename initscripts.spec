@@ -260,6 +260,7 @@ mv -v %{buildroot}/usr/sbin/* %{buildroot}%{_bindir}/
 # =============================================================================
 
 %files -n initscripts-rename-device
+%license COPYING
 
 %{_prefix}/lib/udev/rename_device
 
@@ -268,6 +269,7 @@ mv -v %{buildroot}/usr/sbin/* %{buildroot}%{_bindir}/
 # ---------------
 
 %files -n initscripts-service
+%license COPYING
 
 %dir %{_libexecdir}/%{name}
 %dir %{_libexecdir}/%{name}/legacy-actions
@@ -279,6 +281,7 @@ mv -v %{buildroot}/usr/sbin/* %{buildroot}%{_bindir}/
 # ---------------
 
 %files -n netconsole-service
+%license COPYING
 %config(noreplace) %{_sysconfdir}/sysconfig/netconsole
 
 %{_libexecdir}/netconsole
@@ -287,6 +290,8 @@ mv -v %{buildroot}/usr/sbin/* %{buildroot}%{_bindir}/
 # ---------------
 
 %files -n readonly-root
+%license COPYING
+
 %dir %{_sharedstatedir}/stateless
 %dir %{_sharedstatedir}/stateless/state
 %dir %{_sharedstatedir}/stateless/writable
