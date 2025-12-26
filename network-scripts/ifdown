@@ -71,7 +71,11 @@ if [ ! -x ${OTHERSCRIPT} ]; then
 fi
 
 if [ ! -x ${OTHERSCRIPT} ]; then
-    OTHERSCRIPT="/etc/sysconfig/network-scripts/ifdown-eth"
+    if is_true "${PKEY}" && [ "${TYPE}" = "Infiniband" ] ; then
+        OTHERSCRIPT="/etc/sysconfig/network-scripts/ifdown-ib"
+    else
+        OTHERSCRIPT="/etc/sysconfig/network-scripts/ifdown-eth"
+    fi
 fi
 
 exec ${OTHERSCRIPT} ${CONFIG} $2
