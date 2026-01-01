@@ -26,7 +26,7 @@ jobs:
 
       - if: ${{ always() }}
         name: Upload artifact with detected PyLint defects in SARIF format
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: Differential PyLint SARIF
           path: ${{ steps.PyLint.outputs.sarif }}
