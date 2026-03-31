@@ -18,7 +18,7 @@ Requires:         gawk                       \
 
 Name:             initscripts
 Summary:          Basic support for legacy System V init scripts
-Version:          10.11.8
+Version:          10.11.9
 Release:          1%{?dist}
 
 License:          GPLv2
@@ -398,6 +398,9 @@ fi
 # =============================================================================
 
 %changelog
+* Tue Mar 31 2026 Jan Macku <jamacku@redhat.com> - 10.11.9-1
+- spec(network-scripts): add dependency on dbus-tools
+
 * Tue Aug 27 2024 Jan Macku <jamacku@redhat.com> - 10.11.8-1
 - netconsole: var/lock -> run/lock
 - netconsole: source sysconfig/network only if it exists
