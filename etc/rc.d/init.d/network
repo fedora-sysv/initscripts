@@ -240,6 +240,7 @@ stop)
         remaining="$remaining $i"
     done
 
+    bondlist=$(cat /proc/net/bonding/* 2> /dev/null | grep "Slave Inter" | awk '{print $3}')
     for i in $vpninterfaces $xdslinterfaces $bridgeinterfaces $vlaninterfaces $remaining; do
         unset DEVICE TYPE
         (. ./ifcfg-$i
@@ -248,6 +249,11 @@ stop)
         if ! check_device_down $DEVICE; then
             action $"Shutting down interface $i: " ./ifdown $i boot
             [ $? -ne 0 ] && rc=1
+        else
+	        if ! echo "$bondlist" | grep -qw "$DEVICE" ; then
+                action $"Shutting down non-UP interface $i: " ./ifdown $i boot
+                logger $"Running ifdown on non-UP interface $i"
+	        fi
         fi
         )
     done
