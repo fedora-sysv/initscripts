@@ -1,0 +1,14 @@
+#!/bin/bash
+
+cd /etc/sysconfig/network-scripts
+. ./network-functions
+CONFIG=${1}
+source_config
+
+if is_true "${PKEY}" && [ "${TYPE}" = "Infiniband" ] ; then
+    # IPoIB support
+    if [ -d /sys/devices/virtual/net/${DEVICE} ]; then
+        ip link del "${DEVICE}"
+    fi
+fi
+exit 0
