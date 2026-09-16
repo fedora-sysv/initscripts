@@ -140,6 +140,16 @@ int isCfg(const struct dirent *dent) {
 		return 1;
 }
 
+/* Evaluate shvar-style booleans, see is_true() in /etc/init.d/functions */
+static int is_true(const char *value) {
+	return !g_ascii_strcasecmp(value, "yes") ||
+	       !g_ascii_strcasecmp(value, "y") ||
+	       !g_ascii_strcasecmp(value, "true") ||
+	       !g_ascii_strcasecmp(value, "t") ||
+	       !g_ascii_strcasecmp(value, "on") ||
+	       !strcmp(value, "1");
+}
+
 static inline char *dequote(char *start, char *end) {
 	char *c;
 	//remove comments and trailing whitespace
@@ -215,8 +225,8 @@ struct netdev *get_configs() {
 				hwaddr = dequote(lines[i] + 7, NULL);
 			}
 #endif
-			if (g_str_has_prefix(lines[i],"VLAN=yes")) {
-				vlan=1;
+			if (g_str_has_prefix(lines[i],"VLAN=")) {
+				vlan = is_true(dequote(lines[i] + 5, NULL));
 			}
 		}
 		if (!devname || !hwaddr || vlan) {
