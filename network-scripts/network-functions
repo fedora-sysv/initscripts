@@ -423,7 +423,7 @@ set_hostname_options ()
     fi
 
     # Append the hostname options to the content of passed variable name:
-    eval "$1='${!1} ${hostname_options}'"
+    printf -v "$1" '%s %s' "${!1}" "${hostname_options}"
 
     return
 }
