@@ -42,7 +42,7 @@ if ! is_true ${DEPRECATION_WARNING_ISSUED}; then
     net_log $"It is advised to switch to 'NetworkManager' instead - it provides 'ifup/ifdown' scripts as well." warning ifdown >&2
 fi
 
-if [ -n "$IN_HOTPLUG" ] && [ "${HOTPLUG}" = "no" -o "${HOTPLUG}" = "NO" ]
+if [ -n "$IN_HOTPLUG" ] && is_false "${HOTPLUG}"
 then
     exit 0
 fi
