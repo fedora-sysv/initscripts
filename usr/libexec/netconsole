@@ -43,9 +43,10 @@ usage ()
 print_address_info ()
 {
 	local host=$1
-	local route via target
+	local route via target arp
 
-	route=$(LANG=C ip -o route get to $host/32)
+	# no prefix length: /32 is not valid for IPv6 addresses
+	route=$(LANG=C ip -o route get to $host)
 
 	[ -z "$DEV" ] && DEV=$(echo $route | sed "s|.* dev \([^ ]*\).*|\1|")
 	echo "DEV=$DEV"
@@ -57,7 +58,7 @@ print_address_info ()
 		target=$host
 	fi
 	if [ -z "$SYSLOGMACADDR" ]; then
-		arp=$(LANG=C /sbin/arping -f -c 1 -I $DEV $target 2>/dev/null | awk '/ reply from .*[.*]/ { print gensub(".* reply from .* \\[(.*)\\].*","\\1","G"); exit }')
+		arp=$(LANG=C /sbin/arping -f -c 1 -I $DEV $target 2>/dev/null | awk '/ reply from .*\[.*\]/ { print gensub(".* reply from .* \\[(.*)\\].*","\\1","G"); exit }')
 		[ -n "$arp" ] && echo "SYSLOGMACADDR=$arp"
 	fi
 }
@@ -77,19 +78,21 @@ start ()
 		IPv6_regex="^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$"
 		if ! [[ "$SYSLOGADDR" =~ $IPv4_regex ]] && ! [[ "$SYSLOGADDR" =~ $IPv6_regex ]]; then
 			# Use IPv4 by default:
-			SYSLOGADDR="$(LANG=C getent ahostsv4 $SYSLOGADDR 2> /dev/null)"
+			addr="$(LANG=C getent ahostsv4 "$SYSLOGADDR" 2> /dev/null)"
+			ret=$?
 
 			# Try IPv6 in case IPv4 resolution has failed:
-			if [[ $? -eq 2 ]]; then
-				SYSLOGADDR="$(LANG=C getent ahostsv6 $SYSLOGADDR 2> /dev/null)"
+			if [[ $ret -eq 2 ]]; then
+				addr="$(LANG=C getent ahostsv6 "$SYSLOGADDR" 2> /dev/null)"
+				ret=$?
 			fi
 
-			if [[ $? -ne 0 ]]; then
+			if [[ $ret -ne 0 ]]; then
 				echo $"Unable to resolve IP address specified in /etc/sysconfig/netconsole" 1>&2
 				exit 6
 			fi
 
-			SYSLOGADDR="$(echo "$SYSLOGADDR" | head -1 | cut --delimiter=' ' --fields=1)"
+			SYSLOGADDR="$(echo "$addr" | head -1 | cut --delimiter=' ' --fields=1)"
 		fi
 	fi
 	if [ -z "$SYSLOGADDR" ] ; then
