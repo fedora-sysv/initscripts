@@ -28,15 +28,16 @@ int main(int argc, char **argv)
 {
     unsigned char twelve = 12;
     char *type;
-    int maj, min, ret = 0, fg = -1;
+    int maj = 0, min = 0, ret = 0, fg = -1;
     struct stat sb;
 
     fprintf(stderr, "warning: consoletype is now deprecated, and will be removed in the near future!\n"
                     "warning: use tty (1) instead! More info: 'man 1 tty'\n");
 
-    fstat(0, &sb);
-    maj = major(sb.st_rdev);
-    min = minor(sb.st_rdev);
+    if (fstat(0, &sb) == 0) {
+	maj = major(sb.st_rdev);
+	min = minor(sb.st_rdev);
+    }
     if (maj != 3 && (maj < 136 || maj > 143)) {
 	if ((fg = ioctl (0, TIOCLINUX, &twelve)) < 0) {
 	    type = "serial";
@@ -44,10 +45,15 @@ int main(int argc, char **argv)
 	} else {
 #ifdef __powerpc__
 	    int fd;
+	    ssize_t len = -1;
 	    char buf[65536];
-	    
+
 	    fd = open("/proc/tty/drivers",O_RDONLY);
-	    read(fd, buf, 65535);
+	    if (fd != -1) {
+		len = read(fd, buf, sizeof(buf) - 1);
+		close(fd);
+	    }
+	    buf[len > 0 ? len : 0] = '\0';
 	    if (strstr(buf,"vioconsole           /dev/tty")) {
 		    type = "vio";
 		    ret = 3;
