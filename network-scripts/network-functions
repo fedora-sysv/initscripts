@@ -602,7 +602,7 @@ install_bonding_driver ()
                     OLDIFS=$IFS;
                     IFS=',';
                     for arp_ip in $value; do
-                        if ! grep -q $arp_ip /sys/class/net/${DEVICE}/bonding/$key; then
+                        if ! grep -qwF -- "$arp_ip" /sys/class/net/${DEVICE}/bonding/$key; then
                             echo +$arp_ip > /sys/class/net/${DEVICE}/bonding/$key || {
                                 net_log $"Failed to set '$arp_ip' value [arp_ip_target] to ${DEVICE} bonding device" err $fn
                             }
@@ -610,7 +610,7 @@ install_bonding_driver ()
                     done
                     IFS=$OLDIFS;
                 elif [ "${key}" = "arp_ip_target" ]; then
-                    if ! grep -q ${value#+} /sys/class/net/${DEVICE}/bonding/$key; then
+                    if ! grep -qwF -- "${value#+}" /sys/class/net/${DEVICE}/bonding/$key; then
                         echo "$value" > /sys/class/net/${DEVICE}/bonding/$key || {
                             net_log $"Failed to set '$value' value [arp_ip_target] to ${DEVICE} bonding device" err $fn
                         }
