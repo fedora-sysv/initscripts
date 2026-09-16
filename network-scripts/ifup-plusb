@@ -24,7 +24,7 @@ fi
 
 [ -z "$PREFIX" ] && eval $(/bin/ipcalc --prefix ${IPADDR} ${NETMASK})
 
-if [ ${BROADCAST} != ""  ]  ; then
+if [ -n "${BROADCAST}" ] ; then
     ip addr add ${IPADDR} peer ${REMIP}/${PREFIX} broadcast ${BROADCAST} dev ${DEVICE}
 else
     ip addr add ${IPADDR} peer ${REMIP}/${PREFIX} dev ${DEVICE}
