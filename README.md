@@ -34,6 +34,12 @@ For the *[RPM](https://en.wikipedia.org/wiki/Rpm_(software))* based distribution
 we also provide a [`specfile`](https://github.com/fedora-sysv/initscripts/blob/main/initscripts.spec)
 for easier packaging.
 
+## Contributing
+
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting changes. It covers
+compatibility, validation, and contributor responsibility, including AI-assisted
+contributions.
+
 ## Future of initscripts
 
 As mentioned above, the *initscripts concept* is outdated nowadays, and de-facto
