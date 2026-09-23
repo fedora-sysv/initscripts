@@ -96,12 +96,28 @@ if [ -z "${BOOTUP:-}" ]; then
     fi
 fi
 
+# Check if $1 is a PID of a running process. /proc/<tid> exists (but is not
+# listed) for every thread too, so we have to make sure it is not just a thread
+# of an unrelated process that happens to have the same ID.
+__checkonepid() {
+    local key value
+
+    [ -d "/proc/$1" ] || return 1
+    while read -r key value ; do
+        if [ "$key" = "Tgid:" ] ; then
+            [ "$value" = "$1" ]
+            return
+        fi
+    done 2> /dev/null < "/proc/$1/status"
+    return 1
+}
+
 # Check if any of $pid (could be plural) are running
 checkpid() {
     local i
 
     for i in $* ; do
-        [ -d "/proc/$i" ] && return 0
+        __checkonepid "$i" && return 0
     done
     return 1
 }
@@ -198,7 +214,7 @@ __pids_var_run() {
             read line
             [ -z "$line" ] && break
             for p in $line ; do
-                if [ -z "${p//[0-9]/}" ] && [ -d "/proc/$p" ] ; then
+                if [ -z "${p//[0-9]/}" ] && __checkonepid "$p" ; then
                     if [ -n "$binary" ] ; then
                         local b=$(readlink /proc/$p/exe | sed -e 's/\s*(deleted)$//')
                         [ "$b" != "$binary" ] && continue
