@@ -208,7 +208,7 @@ main(int argc, char ** argv) {
 	case NOT_FOUND:
 	    /* a `-' will be found at least in "ifcfg-" */
 	    dash = strrchr(ifaceConfig, '-');
-	    if (*(dash-1) != 'g') {
+	    if (dash != ifaceConfig + strlen("ifcfg-") - 1) {
 		/* This was a clone configuration; ask the parent config */
 		tmp = *dash;
 		*dash = '\0';
