@@ -432,7 +432,7 @@ set_hostname ()
 {
     hostname $1
     if ! grep search /etc/resolv.conf >/dev/null 2>&1; then
-        domain=$(echo $1 | sed 's/^[^\.]*\.//')
+        domain=$(echo $1 | sed -n 's/^[^\.]*\.//p')
         if [ -n "$domain" ]; then
             rsctmp=$(mktemp /tmp/XXXXXX);
             cat /etc/resolv.conf > $rsctmp
