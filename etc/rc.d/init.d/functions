@@ -184,7 +184,7 @@ __kill_pids_term_kill() {
 __pids_var_run() {
     local base=${1##*/}
     local pid_file=${2:-/run/$base.pid}
-    local pid_dir=$(/usr/bin/dirname $pid_file > /dev/null)
+    local pid_dir=$(/usr/bin/dirname "$pid_file")
     local binary=$3
 
     [ -d "$pid_dir" ] && [ ! -r "$pid_dir" ] && return 4
