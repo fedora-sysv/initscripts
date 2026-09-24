@@ -250,7 +250,7 @@ function addprovider()
         [ -n "$SLAVE_CBHUP" ] && log_isdnctrl cbhup $slave $SLAVE_CBHUP
         [ -n "$SLAVE_CALLBACK" ] || SLAVE_CALLBACK="off"
         log_isdnctrl callback $slave $SLAVE_CALLBACK
-        [ -n "$SLAVE_CBDELAY" ] && log_isdnctrl cbdelay $DEVICE $SLAVE_CBDELAY
+        [ -n "$SLAVE_CBDELAY" ] && log_isdnctrl cbdelay $slave $SLAVE_CBDELAY
 
         # options for master device
         [ -n "$SLAVE_DELAY" ] && log_isdnctrl sdelay $DEVICE $SLAVE_DELAY
@@ -340,8 +340,8 @@ function addprovider()
         pfx=${val##PREFIX=}
     }
     # activate ISDN device
-    net_log $"ip addr add $IPADDR peer $GATEWAY${pfx:/$pfx} dev $DEVICE" info ifup-ippp
-    ip addr add $IPADDR peer $GATEWAY${pfx:/$pfx} dev $DEVICE
+    net_log $"ip addr add $IPADDR peer $GATEWAY${pfx:+/$pfx} dev $DEVICE" info ifup-ippp
+    ip addr add $IPADDR peer $GATEWAY${pfx:+/$pfx} dev $DEVICE
     set_link_up ${DEVICE}
 
     if [ "$ENCAP" = "syncppp" ]; then
