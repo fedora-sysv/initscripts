@@ -42,10 +42,10 @@ if ! check_default_route ; then
     if [ "${DEVICETYPE}" = "ippp" -o "${DEVICETYPE}" = "isdn" ] && \
        [ "$DIALMODE" = "auto" ] ; then
         if [ -z "$GATEWAY" ] ; then
-            /sbin/ip route add default ${METRIC:+metric} \
+            /sbin/ip route add default ${METRIC:+metric $METRIC} \
                 ${WINDOW:+window $WINDOW} dev ${DEVICE}
         else
-            /sbin/ip route add default ${METRIC:+metric} \
+            /sbin/ip route add default ${METRIC:+metric $METRIC} \
                 ${WINDOW:+window $WINDOW} via ${GATEWAY}
         fi
     else
