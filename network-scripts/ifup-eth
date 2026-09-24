@@ -291,7 +291,7 @@ else
                 break
             fi
 
-            if ! LC_ALL=C ip addr ls ${REALDEVICE} | LC_ALL=C grep -q "${ipaddr[$idx]}/${prefix[$idx]}" ; then
+            if ! LC_ALL=C ip addr ls ${REALDEVICE} | LC_ALL=C grep -qF " ${ipaddr[$idx]}/${prefix[$idx]} " ; then
                 if [ "${REALDEVICE}" != "lo" ] && ! is_false "${arpcheck[$idx]}"; then
                     for (( tries=0; tries<${ARPING_TRIES:=1}; tries++ )); do
                         ARPING=$(/sbin/arping -c 2 -w ${ARPING_WAIT:-3} -D -I ${REALDEVICE} ${ipaddr[$idx]})
