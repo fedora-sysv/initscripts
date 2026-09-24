@@ -140,7 +140,7 @@ if is_true "$READONLY" || is_true "$TEMPORARY_STATE"; then
 		ipaddr=$(ip addr show to 0.0.0.0/0 scope global | awk '/[[:space:]]inet / { print gensub("/.*","","g",$2) }')
 		for ip in $ipaddr ; do
 			HOSTNAME=
-			eval $(ipcalc -h $ipaddr 2>/dev/null)
+			eval $(ipcalc -h $ip 2>/dev/null)
 			[ -n "$HOSTNAME" ] && { hostname ${HOSTNAME} ; break; }
 		done
 	fi
