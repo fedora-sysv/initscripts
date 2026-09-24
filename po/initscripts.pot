@@ -111,15 +111,23 @@ msgstr ""
 msgid "Determining if IP address ${IPADDR} is already in use for device ${parent_device}…"
 msgstr ""
 
-#: ../network-scripts/ifup-aliases:273 
+#: ../network-scripts/ifup-aliases:274 
 msgid "Error, some other host ($ARPINGMAC) already uses address ${IPADDR}."
 msgstr ""
 
-#: ../network-scripts/ifup-aliases:335 
+#: ../network-scripts/ifup-aliases:279 ../network-scripts/ifup-eth:313 
+msgid "Failed to bring up ${DEVICE}: interface not ready (no packets sent). Try increasing ARPING_WAIT or LINKDELAY, or check interface status."
+msgstr ""
+
+#: ../network-scripts/ifup-aliases:283 
+msgid "Error, some other host already uses address ${IPADDR}."
+msgstr ""
+
+#: ../network-scripts/ifup-aliases:345 
 msgid "error in $FILE: IPADDR_START and IPADDR_END don't agree"
 msgstr ""
 
-#: ../network-scripts/ifup-aliases:340 
+#: ../network-scripts/ifup-aliases:350 
 msgid "error in $FILE: IPADDR_START greater than IPADDR_END"
 msgstr ""
 
@@ -151,11 +159,11 @@ msgstr ""
 msgid " failed; no link present.  Check cable?"
 msgstr ""
 
-#: ../network-scripts/ifup-eth:241 ../network-scripts/ifup-eth:389 
+#: ../network-scripts/ifup-eth:241 ../network-scripts/ifup-eth:406 
 msgid " done."
 msgstr ""
 
-#: ../network-scripts/ifup-eth:244 ../network-scripts/ifup-eth:391 
+#: ../network-scripts/ifup-eth:244 ../network-scripts/ifup-eth:408 
 msgid " failed."
 msgstr ""
 
@@ -163,23 +171,27 @@ msgstr ""
 msgid "Failed to bring up ${DEVICE}."
 msgstr ""
 
-#: ../network-scripts/ifup-eth:299 
+#: ../network-scripts/ifup-eth:301 
 msgid "Error, some other host ($ARPINGMAC) already uses address ${ipaddr[$idx]}."
 msgstr ""
 
-#: ../network-scripts/ifup-eth:306 
+#: ../network-scripts/ifup-eth:315 
+msgid "arping failed after $tries tries"
+msgstr ""
+
+#: ../network-scripts/ifup-eth:323 
 msgid "Error adding address ${ipaddr[$idx]} for ${DEVICE}."
 msgstr ""
 
-#: ../network-scripts/ifup-eth:333 
+#: ../network-scripts/ifup-eth:350 
 msgid "Error adding default gateway ${GATEWAY} for ${DEVICE}."
 msgstr ""
 
-#: ../network-scripts/ifup-eth:338 
+#: ../network-scripts/ifup-eth:355 
 msgid "Error adding default gateway for ${REALDEVICE}."
 msgstr ""
 
-#: ../network-scripts/ifup-eth:376 
+#: ../network-scripts/ifup-eth:393 
 msgid "Determining IPv6 information for ${DEVICE}..."
 msgstr ""
 
@@ -275,7 +287,11 @@ msgstr ""
 msgid "usage: ifup-routes <net-device> [<nickname>]"
 msgstr ""
 
-#: ../network-scripts/ifup-routes:26 ../network-scripts/ifup-routes:47 
+#: ../network-scripts/ifup-routes:20 
+msgid "Route entries are not sequentially ordered. Skipping $1 file"
+msgstr ""
+
+#: ../network-scripts/ifup-routes:33 ../network-scripts/ifup-routes:54 
 msgid "Failed to add route ${line}, using ip route replace instead."
 msgstr ""
 
