@@ -64,7 +64,7 @@ start)
             # Reset IPv6 sysctl switches for "all", "default" and still existing devices
             for i in /proc/sys/net/ipv6/conf/* ; do
                 interface=${i##*/}
-                sinterface=${interface/.//}
+                sinterface=${interface//.//}
                 # Host/Router behaviour for the interface
                 /sbin/sysctl -e -w net.ipv6.conf.$sinterface.forwarding=$ipv6_global_forwarding >/dev/null 2>&1
 
@@ -131,7 +131,7 @@ stop)
         if ! is_false "$IPV6_SET_SYSCTLS"; then
             for i in /proc/sys/net/ipv6/conf/* ; do
                 interface=${i##*/}
-                sinterface=${interface/.//}
+                sinterface=${interface//.//}
                 # Assume Host behaviour
                 /sbin/sysctl -e -w net.ipv6.conf.$sinterface.forwarding=0 >/dev/null 2>&1
 
