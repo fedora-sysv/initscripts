@@ -69,14 +69,14 @@ if is_bonding_device ${DEVICE} ; then
             OLDIFS=$IFS;
             IFS=',';
             for arp_ip in $value; do
-                if grep -q $arp_ip /sys/class/net/${DEVICE}/bonding/arp_ip_target; then
+                if grep -qwF -- "$arp_ip" /sys/class/net/${DEVICE}/bonding/arp_ip_target; then
                     echo "-$arp_ip" > /sys/class/net/${DEVICE}/bonding/arp_ip_target
                 fi
             done
             IFS=$OLDIFS;
         else
             value=${value#+};
-            if grep -q $value /sys/class/net/${DEVICE}/bonding/arp_ip_target; then
+            if grep -qwF -- "$value" /sys/class/net/${DEVICE}/bonding/arp_ip_target; then
                 echo "-$value" > /sys/class/net/${DEVICE}/bonding/arp_ip_target
             fi
         fi
